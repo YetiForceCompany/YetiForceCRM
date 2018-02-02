@@ -16,9 +16,9 @@
 						<td>{$USER['name']}</td>
 						<td class="text-center">
 							{if $STATUS}
-								<span class="fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check"></span>
 							{else}
-								<span class="fas fa-times" aria-hidden="true"></span>
+								<span class="fas fa-times"></span>
 							{/if}
 						</td>
 						<td class="text-center">

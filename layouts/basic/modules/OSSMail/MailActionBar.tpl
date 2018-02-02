@@ -41,12 +41,12 @@
 											{/foreach}
 										</select>
 										<button class="addRecord" title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus" aria-hidden="true"></span>
+											<span class="fas fa-plus"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search" aria-hidden="true"></span>
+											<span class="fas fa-search"></span>
 										</button>
 									{/if}
 								</div>
@@ -85,12 +85,12 @@
 											{/foreach}
 										</select>
 										<button class="addRecord" title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus" aria-hidden="true"></span>
+											<span class="fas fa-plus"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(3,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search" aria-hidden="true"></span>
+											<span class="fas fa-search"></span>
 										</button>
 									{/if}
 								</div>
@@ -129,12 +129,12 @@
 											{/foreach}
 										</select>
 										<button class="addRecord" title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus" aria-hidden="true"></span>
+											<span class="fas fa-plus"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search" aria-hidden="true"></span>
+											<span class="fas fa-search"></span>
 										</button>
 									{/if}
 								</div>
@@ -180,12 +180,12 @@
 											{/foreach}
 										</select>
 										<button class="addRecord" title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus" aria-hidden="true"></span>
+											<span class="fas fa-plus"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search" aria-hidden="true"></span>
+											<span class="fas fa-search"></span>
 										</button>
 									{/if}
 								</div>
@@ -211,7 +211,7 @@
 		{if $RELATED_RECORDS}
 			<div class="chevronBtnCube">
 				<button class="hideBtn" data-type="0" title="{\App\Language::translate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
-					<span class="fas fa-chevron-up" aria-hidden="true"></span>
+					<span class="fas fa-chevron-up"></span>
 				</button>
 			</div>
 		{/if}
