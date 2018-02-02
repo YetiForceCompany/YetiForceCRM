@@ -564,8 +564,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
 			if (\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
-				$moduleObject = \vtlib\Module::getInstance($this->module);
-				$fieldObject = \vtlib\Field::getInstance($fieldName, $moduleObject);
+				$fieldObject = \vtlib\Field::getInstance($fieldName, $this->module);
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
 				\App\Cache::delete('getPickListValues', $fieldName);

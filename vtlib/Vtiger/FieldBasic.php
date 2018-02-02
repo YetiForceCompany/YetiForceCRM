@@ -49,10 +49,10 @@ class FieldBasic
 	/**
 	 * Initialize this instance
 	 * @param array $valuemap
-	 * @param \vtlib\Module $moduleInstance Module Instance of module to which this field belongs
+	 * @param mixed $module Mixed id or name of the module
 	 * @param \vtlib\Block $blockInstance Instance of block to which this field belongs
 	 */
-	public function initialize($valuemap, $moduleInstance = false, $blockInstance = false)
+	public function initialize($valuemap, $module = false, $blockInstance = false)
 	{
 		$this->id = (int) $valuemap['fieldid'];
 		$this->tabid = (int) $valuemap['tabid'];
@@ -77,7 +77,7 @@ class FieldBasic
 		$this->quicksequence = (int) $valuemap['quickcreatesequence'];
 		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
-		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $moduleInstance ? $moduleInstance->id : false);
+		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
