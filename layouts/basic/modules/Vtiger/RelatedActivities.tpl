@@ -49,7 +49,7 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="fas fa-pencil-alt summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
@@ -101,7 +101,7 @@
 						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
 							<span class="editDescription cursorPointer">
-								<span class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+								<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
 						{if $RECORD->get('location')}

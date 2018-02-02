@@ -33,7 +33,7 @@
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="fas fa-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
@@ -65,14 +65,14 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
-									<span class="fas fa-pencil-alt bgDarkBlue"></span>
+									<span class="fas fa-edit bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="fas fa-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
@@ -133,7 +133,7 @@
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="fas fa-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
@@ -181,7 +181,7 @@
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="fas fa-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
@@ -202,7 +202,7 @@
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="fas fa-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
@@ -222,7 +222,7 @@
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="fas fa-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">

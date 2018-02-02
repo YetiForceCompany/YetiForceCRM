@@ -22,14 +22,14 @@
 				<span class="btn-toolbar float-right margin0px">
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
-							<span class="fas fa-desktop" aria-hidden="true"></span>&nbsp;&nbsp;
+							<span class="fas fa-desktop"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
 					{if \AppConfig::main('systemMode') !== 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
-								<span class="fas fa-download" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-download"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</span>
@@ -68,17 +68,17 @@
 								{if $LIBRARY['status'] == 1}
 									<span class="label label-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="far fa-check-circle" aria-hidden="true"></span>
+										<span class="far fa-check-circle"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fas fa-info-circle" aria-hidden="true"></span>
+										<span class="fas fa-info-circle"></span>
 									</span>
 								{else}
 									<span class="label label-danger bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fas fa-ban" aria-hidden="true"></span>
+										<span class="fas fa-ban"></span>
 									</span>
 								{/if}
 							</td>
@@ -86,12 +86,12 @@
 								<span class="btn-group">
 									{if $LIBRARY['status'] === 0}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
-											<span class="fas fa-download" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fas fa-download"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{else}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-											<span class="fas fa-redo-alt" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fas fa-redo-alt"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{/if}

@@ -30,7 +30,7 @@
 					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 					<div class="modal-body">
 						<div class="alert alert-info" role="alert">
-							<span class="fas fa-info-circle" aria-hidden="true"></span>&nbsp;&nbsp;
+							<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 							{\App\Language::translate('LBL_MASS_SEND_SMS_INFO', $MODULE)}
 						</div>
 						<div class="col-xs-12">

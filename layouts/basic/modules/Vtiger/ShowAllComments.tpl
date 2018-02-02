@@ -37,7 +37,7 @@
 		<div class="col-md-4">
 			<div class="input-group">
 			  <span class="input-group-addon" id="commentSearchAddon">
-				  <span class="fas fa-search" aria-hidden="true"></span> 
+				  <span class="fas fa-search"></span> 
 			  </span>
 			  <input type="text" class="form-control commentSearch" placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}" aria-describedby="commentSearchAddon">
 			</div>

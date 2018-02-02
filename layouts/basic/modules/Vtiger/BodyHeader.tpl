@@ -6,7 +6,7 @@
 			<div class="searchMenuBtn d-xl-none">
 				<div class="quickAction">
 					<a class="btn btn-light p-1" href="#">
-						<span aria-hidden="true" class="fas fa-search fa-fw fa-lg"></span>
+						<span class="fas fa-search fa-fw fa-lg"></span>
 					</a>
 				</div>
 			</div>
@@ -81,14 +81,14 @@
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
 					<a class="btn btn-light btn p-1" href="#">
-						<span aria-hidden="true" class="fas fa-bars fa-fw fa-lg"></span>
+						<span class="fas fa-bars fa-fw fa-lg"></span>
 					</a>
 				</div>
 			</div>
 			<div class="actionMenuBtn">
 				<div class="quickAction">
 					<a class="btn btn-light btn p-1" href="#">
-						<span aria-hidden="true" class="fas fa-certificate fa-fw fa-lg"></span>
+						<span class="fas fa-certificate fa-fw fa-lg"></span>
 					</a>
 				</div>
 			</div>
@@ -97,7 +97,7 @@
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 						<a class="btn-light p-1 btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="fas fa-plus fa-fw fa-lg" aria-hidden="true"></span>
+							<span class="fas fa-plus fa-fw fa-lg"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 							<li class="quickCreateModules">
@@ -136,20 +136,23 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<a class="btn btn-light p-1 btn isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
-							<span class="fas fa-bell fa-fw fa-lg" aria-hidden="true"></span>
+							<span class="fas fa-bell fa-fw fa-lg"></span>
 							<span hidden class="badge">0</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
 						<a class="btn btn-light p-1 btn headerLinkChat popoverTooltip d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fas fa-comments fa-fw fa-lg" aria-hidden="true"></span>
+							<span class="fas fa-comments fa-fw fa-lg"></span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 							<div class="modal-dialog modalRightSiteBar" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel"><span class="fas fa-comments fa-fw fa-lg" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_CHAT')}</h4>
+										<h4 class="modal-title" id="myModalLabel">
+											<span class="fas fa-comments fa-fw fa-lg"></span>&nbsp;&nbsp;
+											{\App\Language::translate('LBL_CHAT')}
+										</h4>
 									</div>
 									<div class="modal-body">
 										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
@@ -164,13 +167,13 @@
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<a class="btn btn-light p-1 btn isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
-							<span class="fas fa-calendar fa-fw fa-lg" aria-hidden="true"></span>
+							<span class="fas fa-calendar fa-fw fa-lg"></span>
 							<span hidden class="badge bgDanger">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<a class="btn btn-light p-1 btn showHistoryBtn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-							<i class="fas fa-history fa-fw fa-lg" aria-hidden="true"></i>
+							<i class="fas fa-history fa-fw fa-lg"></i>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					{/if}
@@ -192,7 +195,7 @@
 								   {/foreach}
 							   {/if}>
 								{if $GLYPHICON}
-									<span class="{$GLYPHICON}" aria-hidden="true"></span>
+									<span class="{$GLYPHICON}"></span>
 								{/if}
 								{if $ICON_PATH}
 									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />

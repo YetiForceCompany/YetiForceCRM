@@ -14,7 +14,7 @@
 						<span class="fas fa-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
 					</button>&nbsp;
 					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}">
-						<span class="fab fa-gitter" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
+						<span class="fas fa-signal" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
 						<a class="float-left hide" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
 							<span class="count badge float-left"></span>
 						</a>

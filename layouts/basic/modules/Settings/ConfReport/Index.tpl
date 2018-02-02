@@ -9,7 +9,7 @@
 		<div class="col-xs-2">
 			{*<!--
 			<button class="btn btn-primary testSpeed pull-right">
-			<span class="fab fa-cloudscale" aria-hidden="true"></span>&nbsp;&nbsp;
+			<span class="fab fa-cloudscale"></span>&nbsp;&nbsp;
 			{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
 			</button>
 			-->*}

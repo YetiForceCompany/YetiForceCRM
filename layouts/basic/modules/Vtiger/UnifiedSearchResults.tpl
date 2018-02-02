@@ -70,7 +70,7 @@
 								<li id="{$ID}">
 									<a class="cursorDefault">
 										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({$recordObject->getDisplayValue('smownerid',$ID,true)}){/if}</span>&nbsp;
-										<span class="fas fa-exclamation-circle" aria-hidden="true"></span>
+										<span class="fas fa-exclamation-circle"></span>
 										<span id="{$ID}_time" class="float-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
 									</a>
 								</li>

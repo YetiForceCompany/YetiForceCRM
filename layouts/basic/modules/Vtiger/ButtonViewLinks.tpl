@@ -14,9 +14,9 @@
 		{if isset($BTN_GROUP) && !$BTN_GROUP}<div class="btn-group buttonTextHolder {if isset($CLASS)}{$CLASS}{/if}">{/if} 
 			<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
 				{if $BTN_ICON}
-					<span class="{$BTN_ICON}" aria-hidden="true"></span>
+					<span class="{$BTN_ICON}"></span>
 				{else}	
-					<span class="fas fa-list" aria-hidden="true"></span>
+					<span class="fas fa-list"></span>
 				{/if}
 				&nbsp;
 				<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>

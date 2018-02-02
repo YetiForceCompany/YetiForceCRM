@@ -48,11 +48,11 @@
 		</div><br />
 		<div class="float-right">
 			<button type="button" class="btn btn-success ajaxBtn">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<span class="fas fa-check"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_SEND','Settings:SystemWarnings')}
 			</button>&nbsp;&nbsp;
 			<button type="button" class="btn btn-danger cancel">
-				<span class="fas fa-ban" aria-hidden="true"></span>
+				<span class="fas fa-ban"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 			</button>
 		</div>

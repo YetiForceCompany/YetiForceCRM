@@ -10,7 +10,7 @@
 							{if $ICON['type'] == 'image'}
 								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
 							{else}
-								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
+								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}"></span>
 							{/if}&nbsp;&nbsp;
 						</div>
 					{/if}

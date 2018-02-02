@@ -18,7 +18,7 @@
 			<div class="inner-container">
 				<div class="pull-right">
 					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
-						<span class="fas fa-info-circle" aria-hidden="true"></span>
+						<span class="fas fa-info-circle"></span>
 					</a>
 				</div>
 				<h4>{App\Language::translate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
