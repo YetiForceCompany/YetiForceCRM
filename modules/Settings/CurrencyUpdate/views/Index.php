@@ -34,7 +34,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 		// take currency rates for yesterday
 		if (strcmp(date('Y-m-d'), $dateCur) == 0) {
-			$dateCur = strtotime("-1 day", strtotime($dateCur));
+			$dateCur = strtotime('-1 day', strtotime($dateCur));
 			$dateCur = date('Y-m-d', $dateCur);
 		}
 

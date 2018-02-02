@@ -9,7 +9,7 @@
 /**
  * Class for connection to Central Bank of Russia currency exchange rates
  */
-class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name

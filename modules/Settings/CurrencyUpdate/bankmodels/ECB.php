@@ -9,7 +9,7 @@
 /**
  * Class for connection to European Central Bank currency exchange rates
  */
-class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
