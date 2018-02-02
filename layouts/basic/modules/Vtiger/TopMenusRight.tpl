@@ -43,7 +43,7 @@
 					{if !empty($SRC)}
 						<img src="{$SRC}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 					{elseif !empty($ICON)}
-						<span class="fas fa-exchange-alt" aria-hidden="true"></span>
+						<span class="fas fa-exchange-alt"></span>
 					{else}
 						<strong>{$TITLE}</strong>
 					{/if}
@@ -79,7 +79,7 @@
 	<ul class="headerLinksContainer nav navbar-nav navbar-right">
 		<li>
 			<div class="remindersNotice">
-				<span class="fas fa-bell" aria-hidden="true"></span>
+				<span class="fas fa-bell"></span>
 				<span class="badge hide">0</span>
 			</div>
 		</li>
