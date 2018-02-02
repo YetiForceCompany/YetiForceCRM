@@ -12,8 +12,17 @@
 require_once('include/database/PearDatabase.php');
 require_once("modules/Users/Users.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/utils.php';
-require_once 'include/utils/UserInfoUtil.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'include/Webservices/Utils.php';
+require_once 'include/runtime/Globals.php';
 require_once 'include/utils/VtlibUtils.php';
 
 class WebservicesUtils

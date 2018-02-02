@@ -23,7 +23,7 @@ class Vtiger_CRMEntity extends CRMEntity
 
 	public function __construct()
 	{
-		$this->column_fields = getColumnFields(get_class($this));
+		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 	}
 }

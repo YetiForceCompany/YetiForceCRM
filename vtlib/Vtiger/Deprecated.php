@@ -184,9 +184,9 @@ class Deprecated
 
 	public static function getRelationTables($module, $secmodule)
 	{
-		$adb = PearDatabase::getInstance();
-		$primary_obj = CRMEntity::getInstance($module);
-		$secondary_obj = CRMEntity::getInstance($secmodule);
+		$adb = \PearDatabase::getInstance();
+		$primary_obj = \CRMEntity::getInstance($module);
+		$secondary_obj = \CRMEntity::getInstance($secmodule);
 
 		$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", [$module, $secmodule, $secmodule, $module]);
 		if ($adb->numRows($ui10_query) > 0) {
@@ -229,7 +229,7 @@ class Deprecated
 	{
 		\App\Log::trace("Entering deleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
-			$eventHandler = new App\EventHandler();
+			$eventHandler = new \App\EventHandler();
 			$eventHandler->setModuleName($sourceModule);
 			$eventHandler->setParams([
 				'CRMEntity' => $focus,
@@ -245,7 +245,7 @@ class Deprecated
 
 			$eventHandler->trigger('EntityAfterUnLink');
 		} else {
-			$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
 				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
@@ -269,16 +269,95 @@ class Deprecated
 			'sourceRecordId' => $sourceRecordId,
 			'destinationModule' => $destinationModule,
 		];
-		$eventHandler = new App\EventHandler();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($sourceModule);
 		foreach ($destinationRecordIds as &$destinationRecordId) {
 			$data['destinationRecordId'] = $destinationRecordId;
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeLink');
 			$focus->saveRelatedModule($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
-			CRMEntity::trackLinkedInfo($sourceRecordId);
+			\CRMEntity::trackLinkedInfo($sourceRecordId);
 			$eventHandler->trigger('EntityAfterLink');
 		}
 		\App\Log::trace("Exiting relateEntities method ...");
+	}
+
+	public static function getColumnFields($module)
+	{
+		\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
+
+		// Lookup in cache for information
+		$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
+
+		if ($cachedModuleFields === false) {
+			$fieldsInfo = Functions::getModuleFieldInfos($module);
+			if (!empty($fieldsInfo)) {
+				foreach ($fieldsInfo as $resultrow) {
+					// Update information to cache for re-use
+					\VTCacheUtils::updateFieldInfo(
+						$resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'], $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'], $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
+					);
+				}
+			}
+// For consistency get information from cache
+			$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
+		}
+
+		if ($module == 'Calendar') {
+			$cachedEventsFields = \VTCacheUtils::lookupFieldInfoModule('Events');
+			if (!$cachedEventsFields) {
+				static::getColumnFields('Events');
+				$cachedEventsFields = \VTCacheUtils::lookupFieldInfoModule('Events');
+			}
+
+			if (!$cachedModuleFields) {
+				$cachedModuleFields = $cachedEventsFields;
+			} else {
+				$cachedModuleFields = array_merge($cachedModuleFields, $cachedEventsFields);
+			}
+		}
+
+		$column_fld = [];
+		if ($cachedModuleFields) {
+			foreach ($cachedModuleFields as $fieldinfo) {
+				$column_fld[$fieldinfo['fieldname']] = '';
+			}
+		}
+
+		\App\Log::trace('Exiting getColumnFields method ...');
+		return $column_fld;
+	}
+
+	/**
+	 * Function to get the permitted module id Array with presence as 0
+	 * @global Users $current_user
+	 * @return Array Array of accessible tabids.
+	 */
+	public static function getPermittedModuleIdList()
+	{
+		$current_user = vglobal('current_user');
+		$permittedModules = [];
+		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		include('user_privileges/tabdata.php');
+
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 &&
+			$profileGlobalPermission[2] == 1) {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
+					$permittedModules[] = ($tabid);
+				}
+			}
+		} else {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0) {
+					$permittedModules[] = ($tabid);
+				}
+			}
+		}
+		$homeTabid = \App\Module::getModuleId('Home');
+		if (!in_array($homeTabid, $permittedModules)) {
+			$permittedModules[] = $homeTabid;
+		}
+		return $permittedModules;
 	}
 }

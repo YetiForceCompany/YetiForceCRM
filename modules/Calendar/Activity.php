@@ -98,7 +98,7 @@ class Activity extends CRMEntity
 	public function __construct()
 	{
 		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Calendar');
+		$this->column_fields = vtlib\Deprecated::getColumnFields('Calendar');
 	}
 
 	/**

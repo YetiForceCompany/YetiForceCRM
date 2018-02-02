@@ -104,8 +104,6 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
-
 		if ($eventType === 'module.postinstall') {
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Mark the module as Standard module

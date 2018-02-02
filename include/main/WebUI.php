@@ -10,8 +10,18 @@
  * ********************************************************************************** */
 require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
-require_once 'include/utils/utils.php';
+require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 require_once 'include/Loader.php';
 Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
 App\Debuger::init();
@@ -26,13 +36,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Base user instance
-	 * @var Users 
+	 * @var Users
 	 */
 	protected $userModel;
 
 	/**
 	 * User privileges model instance
-	 * @var Users_Privileges_Model 
+	 * @var Users_Privileges_Model
 	 */
 	protected $userPrivilegesModel;
 

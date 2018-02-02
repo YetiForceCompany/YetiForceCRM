@@ -8,7 +8,19 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/utils/UserInfoUtil.php');
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
+require_once 'include/runtime/Globals.php';
 require_once 'modules/Reports/ReportUtils.php';
 
 $oldRelatedModules = ['Accounts' => ['Contacts', 'Products'],
@@ -134,7 +146,7 @@ class Reports extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		if (!isset($module))
 			return;
-		require_once('include/utils/utils.php');
+
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
@@ -332,8 +344,6 @@ class Reports extends CRMEntity
 
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
-
-		require_once('include/utils/UserInfoUtil.php');
 
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
 		$sql .= " inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
