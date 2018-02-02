@@ -12,7 +12,7 @@
 	</div>
 	<hr class="widgetHr" />
 	<div class="row" >
-		<div class="col-sm-6">
+		<div class="col">
 			<div class="input-group input-group-sm">
 				<span class=" input-group-prepend">
 					<span class="input-group-text">
@@ -22,7 +22,7 @@
 				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',', $DTIME)}" />
 			</div>
 		</div>
-		<div class="col-sm-6">
+		<div class="col">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>

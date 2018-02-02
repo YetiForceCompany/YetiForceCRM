@@ -16,7 +16,7 @@ and open the template in the editor.
 }
 .select2-selection {
 	@extend .py-2;
-	height: 38px !important;
+	//height: 38px !important;
 }
 .headerLinksMails .select2-selection:hover {
 	background: $darkblue !important;
@@ -24,4 +24,18 @@ and open the template in the editor.
 		color: $white !important;
 	}
 
+}
+.dashboardWidgetHeader .select2-container--bootstrap4 {
+	font-size: 16px !important;
+	
+}
+.select2-container--bootstrap4 {
+	.select2-selection__rendered {
+		@extend .pb-1;
+	}
+	.select2-results__option,  .select2-results__option .select2-results__option, select2-results__group {
+		@extend .p-1;
+		font-size: inherit;
+	}
+	
 }
