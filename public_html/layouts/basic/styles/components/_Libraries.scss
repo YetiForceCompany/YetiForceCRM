@@ -16,18 +16,15 @@ and open the template in the editor.
 }
 .select2-selection {
 	@extend .py-2;
-	//height: 38px !important;
 }
 .headerLinksMails .select2-selection:hover {
 	background: $darkblue !important;
 	.select2-selection__rendered {
 		color: $white !important;
 	}
-
 }
 .dashboardWidgetHeader .select2-container--bootstrap4 {
-	font-size: 16px !important;
-	
+	font-size: $font16 !important;
 }
 .select2-container--bootstrap4 {
 	.select2-selection__rendered {
@@ -37,5 +34,4 @@ and open the template in the editor.
 		@extend .p-1;
 		font-size: inherit;
 	}
-	
 }
