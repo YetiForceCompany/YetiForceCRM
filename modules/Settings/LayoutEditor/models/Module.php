@@ -220,7 +220,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
-		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
+		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
 		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
 			$pickListValues = $params['pickListValues'];

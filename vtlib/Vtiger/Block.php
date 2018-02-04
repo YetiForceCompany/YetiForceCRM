@@ -165,7 +165,7 @@ class Block
 	 */
 	public static function getInstance($value, $module = false)
 	{
-		$tabId - is_numeric($module) ? $module : \App\Module::getModuleId($module);
+		$tabId = is_numeric($module) ? $module : \App\Module::getModuleId($module);
 		$cacheName = $value . '|' . $tabId;
 		if (\App\Cache::has('BlockInstance', $cacheName)) {
 			$data = \App\Cache::get('BlockInstance', $cacheName);

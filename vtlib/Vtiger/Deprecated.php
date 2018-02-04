@@ -225,7 +225,7 @@ class Deprecated
 	 * This function returns no value but handles the delete functionality of each entity.
 	 * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
 	 */
-	public static function deleteEntity($destinationModule, $sourceModule, CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
+	public static function deleteEntity($destinationModule, $sourceModule, \CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 	{
 		\App\Log::trace("Entering deleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
