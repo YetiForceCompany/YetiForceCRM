@@ -71,7 +71,7 @@ class LayoutImport extends LayoutExport
 		self::log("Importing $name ... STARTED");
 		$vtiger6format = false;
 
-		$zip = new \App\Zip($zipfile, ['illegalExtensions' => array_diff(vglobal('upload_badext'), ['js'])]);
+		$zip = new \App\Zip($zipfile, ['illegalExtensions' => array_diff(\AppConfig::main('upload_badext'), ['js'])]);
 		for ($i = 0; $i < $zip->numFiles; $i++) {
 			$fileName = $zip->getNameIndex($i);
 			if (!$zip->isdir($fileName)) {

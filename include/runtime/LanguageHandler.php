@@ -175,7 +175,7 @@ class Vtiger_Language_Handler
 	public static function export($module, $type = 'languageStrings')
 	{
 		$userSelectedLanguage = \App\Language::getLanguage();
-		$defaultLanguage = vglobal('default_language');
+		$defaultLanguage = \AppConfig::main('default_language');
 		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $defaultLanguage) {

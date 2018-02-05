@@ -241,7 +241,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 	public function getNextTriggerTime()
 	{
 		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
-		$default_timezone = vglobal('default_timezine');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);

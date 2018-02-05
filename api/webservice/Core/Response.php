@@ -2,7 +2,7 @@
 namespace Api\Core;
 
 /**
- * Web service response class 
+ * Web service response class
  * @package YetiForce.Webservice
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -92,7 +92,7 @@ class Response
 
 	public function encryptData($data)
 	{
-		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('publicKey'));
+		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PUBLIC_KEY'));
 		return $encrypted;
 	}
 

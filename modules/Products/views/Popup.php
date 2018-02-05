@@ -50,9 +50,6 @@ class Products_Popup_View extends Vtiger_Popup_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		if (vglobal('popupAjax'))
-			$pagingModel->set('noLimit', true);
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 

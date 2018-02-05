@@ -2,7 +2,7 @@
 namespace Api\Core;
 
 /**
- * Web service request class 
+ * Web service request class
  * @package YetiForce.Webservice
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -63,7 +63,7 @@ class Request extends \App\Request
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('privateKey');
+		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PRIVATE_KEY');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
 			throw new \App\Exceptions\AppException('Private Key failed');
 		}

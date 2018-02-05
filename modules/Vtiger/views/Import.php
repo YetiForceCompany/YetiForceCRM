@@ -182,7 +182,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	public function undoImport(\App\Request $request)
 	{
-		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 		$viewer = new Vtiger_Viewer();
 		$moduleName = $request->getModule();
 		$ownerId = $request->getInteger('foruser');
@@ -193,13 +192,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (empty($type)) {
-			vglobal('VTIGER_BULK_SAVE_MODE', true);
-		} else {
-			vglobal('VTIGER_BULK_SAVE_MODE', false);
-		}
 		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($type, $moduleName);
-		vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
