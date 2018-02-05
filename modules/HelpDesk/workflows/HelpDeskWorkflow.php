@@ -37,9 +37,9 @@ class HelpDeskWorkflow
 	 * Function to send mail to contacts. Function invoke by workflow
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public static function HelpDeskChangeNotifyContacts(Vtiger_Record_Model $recordModel)
+	public static function helpDeskChangeNotifyContacts(Vtiger_Record_Model $recordModel)
 	{
-		\App\Log::trace('Entering HelpDeskChangeNotifyContacts');
+		\App\Log::trace('Entering helpDeskChangeNotifyContacts');
 		$recordId = $recordModel->getId();
 		$mails = static::getContactsMailsFromTicket($recordId);
 		if (count($mails) > 0) {
@@ -50,16 +50,16 @@ class HelpDeskWorkflow
 				'to' => $mails,
 			]);
 		}
-		\App\Log::trace('HelpDeskChangeNotifyContacts');
+		\App\Log::trace('helpDeskChangeNotifyContacts');
 	}
 
 	/**
 	 * Function to send mail to contacts. Function invoke by workflow
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public static function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
+	public static function helpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
 	{
-		\App\Log::trace('Entering HelpDeskClosedNotifyContacts');
+		\App\Log::trace('Entering helpDeskClosedNotifyContacts');
 		$recordId = $recordModel->getId();
 		$mails = static::getContactsMailsFromTicket($recordId);
 		if (count($mails) > 0) {
@@ -70,16 +70,16 @@ class HelpDeskWorkflow
 				'to' => $mails,
 			]);
 		}
-		\App\Log::trace('HelpDeskClosedNotifyContacts');
+		\App\Log::trace('helpDeskClosedNotifyContacts');
 	}
 
 	/**
 	 * Function to send mail to accounts. Function invoke by workflow
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public static function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
+	public static function helpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 	{
-		\App\Log::trace('Entering HelpDeskNewCommentAccount');
+		\App\Log::trace('Entering helpDeskNewCommentAccount');
 		$relatedToId = $recordModel->get('related_to');
 		$moduleName = \App\Record::getType($relatedToId);
 		$mail = false;
@@ -94,16 +94,16 @@ class HelpDeskWorkflow
 				'to' => $mail,
 			]);
 		}
-		\App\Log::trace('HelpDeskNewCommentAccount');
+		\App\Log::trace('helpDeskNewCommentAccount');
 	}
 
 	/**
 	 * Function to send mail to contacts. Function invoke by workflow
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public static function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
+	public static function helpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 	{
-		\App\Log::trace('Entering HelpDeskNewCommentContacts');
+		\App\Log::trace('Entering helpDeskNewCommentContacts');
 		$mails = static::getContactsMailsFromTicket($recordModel->get('related_to'));
 		if (count($mails) > 0) {
 			\App\Mailer::sendFromTemplate([
@@ -113,16 +113,16 @@ class HelpDeskWorkflow
 				'to' => $mails,
 			]);
 		}
-		\App\Log::trace('HelpDeskNewCommentContacts');
+		\App\Log::trace('helpDeskNewCommentContacts');
 	}
 
 	/**
 	 * Function to send mail to users. Function invoke by workflow
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public static function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
+	public static function helpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 	{
-		\App\Log::trace('Entering HelpDeskNewCommentOwner');
+		\App\Log::trace('Entering helpDeskNewCommentOwner');
 		$relatedToId = $recordModel->get('related_to');
 		$mails = [];
 		$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
@@ -152,6 +152,6 @@ class HelpDeskWorkflow
 				'to' => $mails,
 			]);
 		}
-		\App\Log::trace('HelpDeskNewCommentOwner');
+		\App\Log::trace('helpDeskNewCommentOwner');
 	}
 }
