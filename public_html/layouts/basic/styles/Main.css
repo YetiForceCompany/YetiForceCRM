@@ -5171,7 +5171,7 @@ button.bg-dark:focus {
 .py-0 {
   padding-top: 0 !important; }
 
-.pr-0, .col-sm-6:nth-child(1), .col-md-6:nth-child(1),
+.pr-0, .dashboardWidgetHeader .col-sm-6:nth-child(1), .col-md-6:nth-child(1),
 .px-0 {
   padding-right: 0 !important; }
 
@@ -5200,7 +5200,7 @@ button.bg-dark:focus {
 .headerRightWrapper .btn {
   padding-bottom: 0.25rem !important; }
 
-.pl-1, .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
+.pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1 {
   padding-left: 0.25rem !important; }
 
@@ -5236,7 +5236,7 @@ button.bg-dark:focus {
 
 .pr-3,
 .px-3,
-.col-sm-6:only-child,
+.dashboardWidgetHeader .col-sm-6:only-child,
 .col-md-6:only-child {
   padding-right: 1rem !important; }
 
@@ -5246,7 +5246,7 @@ button.bg-dark:focus {
 
 .pl-3,
 .px-3,
-.col-sm-6:only-child,
+.dashboardWidgetHeader .col-sm-6:only-child,
 .col-md-6:only-child {
   padding-left: 1rem !important; }
 
