@@ -33,13 +33,12 @@ class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 		}
 		$errorConfig = [];
 		foreach ($configuration as $key => $value) {
-			if ($value['status']) {
+			if ($value['incorrect']) {
 				$errorConfig[$key] = $value;
 			}
 		}
-		$phpVersion = PHP_VERSION;
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
-		$viewer->assign('PHP_VERSION', $phpVersion);
+		$viewer->assign('PHP_VERSION', PHP_VERSION);
 		$viewer->assign('ERROR_CONFIGURATION', $errorConfig);
 		$viewer->assign('ERROR_LIBRARIES', $errorLibraries);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
