@@ -12,10 +12,8 @@
 </div>
 <hr class="widgetHr" />
 <div class="row" >
-	<div class="col-md-12">
-		<div class="float-right">
+	<div class="col-md-12 select2FullWidthContainer">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
-		</div>
 	</div>
 </div>
 {/strip}

@@ -75,8 +75,8 @@
 				<span class=" input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-calendar-alt iconMiddle "></span></span>
-					</span>
-				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{implode(',',$DTIME)}" />
+				</span>
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control" value="{implode(',',$DTIME)}" />
 			</div>	
 		</div>
 		<div class="col-md-6">
@@ -86,25 +86,27 @@
 			{else}
 				{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{/if}
-			<div class="input-group input-group-sm">
-				<span class="input-group-append">
+			<div class="input-group input-group-sm flex-nowrap">
+				<span class="input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-user iconMiddle"></span></span>
-					</span>
-				<select class="widgetFilter width90 form-control select2" title="{\App\Language::translate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
-					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-					{/if}>
-					{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-						<optgroup label="{\App\Language::translate('LBL_USERS')}">
-							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
-								<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
-									{$OWNER_NAME}
-								</option>
-							{/foreach}
-						</optgroup>
-					{/if}
-				</select>
+				</span>
+				<div class="select2Wrapper">
+					<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" title="{\App\Language::translate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
+							{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+								data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+							{/if}>
+						{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+							<optgroup label="{\App\Language::translate('LBL_USERS')}">
+								{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
+									<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
+										{$OWNER_NAME}
+									</option>
+								{/foreach}
+							</optgroup>
+						{/if}
+					</select>
+				</div>
 			</div>
 		</div>
 	</div>

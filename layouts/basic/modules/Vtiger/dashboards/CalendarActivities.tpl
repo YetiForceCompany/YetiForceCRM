@@ -41,18 +41,20 @@
 		<hr class="widgetHr" />
 		<div class="row" >
 			<div class="col-md-6">
-				<div class="input-group input-group-sm">
+				<div class="input-group input-group-sm flex-nowrap">
 					<span class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
 						</span>
 					</span>
-					<select class="widgetFilter select2 width90 form-control input-sm" name="activitytype" title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
-						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
-						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
-							<option value="{$TYPE}">{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>
-						{/foreach}
-					</select>
+					<div class="select2Wrapper">
+						<select class="widgetFilter select2 form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="activitytype" title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
+							<option value="all">{\App\Language::translate('LBL_ALL')}</option>
+							{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
+								<option value="{$TYPE}">{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>
+							{/foreach}
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
