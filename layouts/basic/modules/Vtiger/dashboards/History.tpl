@@ -35,6 +35,7 @@
 						<option title="{\App\Language::translate('LBL_COMMENTS')}" value="comments" {if $DATA['type'] eq 'comments'}selected{/if}>{\App\Language::translate('LBL_COMMENTS')}</option>{/if}
 						<option value="updates" title="{\App\Language::translate('LBL_UPDATES')}" {if $DATA['type'] eq 'updates'}selected{/if}>{\App\Language::translate('LBL_UPDATES')}</option>
 					</select>
+				</div>
 			</div>
 		</div>
 		<div class="dashboardWidgetContent">
