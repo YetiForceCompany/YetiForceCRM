@@ -176,7 +176,7 @@ class Link
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$permittedTabIdList = getPermittedModuleIdList();
+					$permittedTabIdList = \vtlib\Deprecated::getPermittedModuleIdList();
 					if (!empty($permittedTabIdList)) {
 						$permittedTabIdList [] = 0;  // Added to support one link for all modules
 						foreach ($permittedTabIdList as $moduleId) {

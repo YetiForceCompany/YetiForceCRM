@@ -164,7 +164,6 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
@@ -211,32 +210,23 @@ class ServiceContracts extends CRMEntity
 		}
 	}
 
-	// Function to Update the parent_id of HelpDesk with sc_related_to of ServiceContracts if the parent_id is not set.
+	/**
+	 * Function to Update the parent_id of HelpDesk with sc_related_to of ServiceContracts if the parent_id is not set.
+	 * @param int $focusId
+	 * @param int $entityIds
+	 */
 	public function updateHelpDeskRelatedTo($focusId, $entityIds)
 	{
-
-		if (!is_array($entityIds))
-			$entityIds = [$entityIds];
-		$selectTicketsQuery = sprintf('SELECT ticketid FROM vtiger_troubletickets
-								WHERE (parent_id IS NULL || parent_id = 0)
-									AND ticketid IN (%s)', generateQuestionMarks($entityIds));
-		$selectTicketsResult = $this->db->pquery($selectTicketsQuery, [$entityIds]);
-		$noOfTickets = $this->db->numRows($selectTicketsResult);
-		for ($i = 0; $i < $noOfTickets; ++$i) {
-			$ticketId = $this->db->queryResult($selectTicketsResult, $i, 'ticketid');
-			$serviceContractsRelateToTypeResult = $this->db->pquery('SELECT setype FROM vtiger_crmentity WHERE crmid =
-				(SELECT sc_related_to FROM vtiger_servicecontracts WHERE servicecontractsid = ?)', [$focusId]);
-			$serviceContractsRelateToType = $this->db->queryResult($serviceContractsRelateToTypeResult, 0, 'setype');
-			if ($serviceContractsRelateToType == 'Accounts') {
-				$updateQuery = "UPDATE vtiger_troubletickets, vtiger_servicecontracts SET parent_id=vtiger_servicecontracts.sc_related_to" .
-					" WHERE vtiger_servicecontracts.sc_related_to IS NOT NULL && vtiger_servicecontracts.sc_related_to != 0" .
-					" && vtiger_servicecontracts.servicecontractsid = ? && vtiger_troubletickets.ticketid = ?";
-				$this->db->pquery($updateQuery, [$focusId, $ticketId]);
-			} elseif ($serviceContractsRelateToType == 'Contacts') {
-				$updateQuery = "UPDATE vtiger_troubletickets, vtiger_servicecontracts SET contact_id=vtiger_servicecontracts.sc_related_to" .
-					" WHERE vtiger_servicecontracts.sc_related_to IS NOT NULL && vtiger_servicecontracts.sc_related_to != 0" .
-					" && vtiger_servicecontracts.servicecontractsid = ? && vtiger_troubletickets.ticketid = ?";
-				$this->db->pquery($updateQuery, [$focusId, $ticketId]);
+		$dataReader = (new \App\Db\Query())->select(['ticketid'])->from('vtiger_troubletickets')
+				->where(['and', ['or', ['parent_id' => null], ['parent_id' => 0]], ['ticketid' => $entityIds]])
+				->createCommand()->query();
+		while ($ticketId = $dataReader->readColumn(0)) {
+			$serviceContractsInfo = (new \App\Db\Query())->select(['vtiger_crmentity.setype', 'vtiger_servicecontracts.sc_related_to'])
+					->from('vtiger_servicecontracts')
+					->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_servicecontracts.sc_related_to')
+					->where(['vtiger_servicecontracts.servicecontractsid' => $focusId])->one();
+			if ($serviceContractsInfo['setype'] === 'Accounts') {
+				App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['parent_id' => $serviceContractsInfo['sc_related_to']], ['ticketid' => $ticketId])->execute();
 			}
 		}
 	}

@@ -181,7 +181,7 @@ class VTCreateTodoTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 
-		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
 			App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [

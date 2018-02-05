@@ -65,7 +65,7 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 				return false;
 			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
-			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+			vtlib\Deprecated::deleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;
 		}

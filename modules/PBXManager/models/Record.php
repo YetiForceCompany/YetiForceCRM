@@ -227,7 +227,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields === false) {
-			getColumnFields($module); // This API will initialize the cache as well
+			vtlib\Deprecated::getColumnFields($module); // This API will initialize the cache as well
 			// We will succeed now due to above function call
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		}

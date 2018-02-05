@@ -271,7 +271,6 @@ class Services extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
@@ -318,8 +317,8 @@ class Services extends CRMEntity
 		} else {
 			App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
 				'or',
-					['and', ['relcrmid' => $id], ['module' => $returnModules], ['crmid' => $entityIds]],
-					['and', ['crmid' => $id], ['relmodule' => $returnModules], ['relcrmid' => $entityIds]]
+				['and', ['relcrmid' => $id], ['module' => $returnModules], ['crmid' => $entityIds]],
+				['and', ['crmid' => $id], ['relmodule' => $returnModules], ['relcrmid' => $entityIds]]
 			])->execute();
 		}
 	}

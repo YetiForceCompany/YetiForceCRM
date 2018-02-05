@@ -80,7 +80,7 @@ class ModCommentsCore extends CRMEntity
 
 	public function __construct()
 	{
-		$this->column_fields = getColumnFields('ModComments');
+		$this->column_fields = vtlib\Deprecated::getColumnFields('ModComments');
 		$this->db = PearDatabase::getInstance();
 	}
 

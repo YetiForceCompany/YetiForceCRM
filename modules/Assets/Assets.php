@@ -110,7 +110,6 @@ class Assets extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
 		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();

@@ -22,7 +22,7 @@ class ReportUtils
 			return $cacheLabel;
 
 		// this is required so the internal cache is populated or reused.
-		getColumnFields($module);
+		vtlib\Deprecated::getColumnFields($module);
 		//lookup all the accessible fields
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		$label = \App\Purifier::decodeHtml($label);

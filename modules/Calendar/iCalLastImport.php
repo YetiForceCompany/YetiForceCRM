@@ -77,7 +77,7 @@ class IcalLastImport
 
 		$fieldNames = array_keys($this->fieldData);
 		$fieldValues = array_values($this->fieldData);
-		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
+		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . $adb->generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
 	}
 
 	/**

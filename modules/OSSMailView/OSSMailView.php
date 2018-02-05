@@ -116,7 +116,6 @@ class OSSMailView extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
 		$dbCommand = App\Db::getInstance()->createCommand();
 		if ($eventType === 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);

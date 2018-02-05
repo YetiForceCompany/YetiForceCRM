@@ -3829,11 +3829,11 @@ class Base1 extends \App\Db\Importers\Base
 			'com_vtiger_workflowtasks_entitymethod' => [
 				'columns' => ['workflowtasks_entitymethod_id', 'module_name', 'method_name', 'function_path', 'function_name'],
 				'values' => [
-					[8, 'ModComments', 'HelpDeskNewCommentAccount', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskNewCommentAccount'],
-					[9, 'ModComments', 'HelpDeskNewCommentContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskNewCommentContacts'],
-					[15, 'HelpDesk', 'HelpDeskChangeNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskChangeNotifyContacts'],
-					[16, 'HelpDesk', 'HelpDeskClosedNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskClosedNotifyContacts'],
-					[17, 'ModComments', 'HelpDeskNewCommentOwner', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskNewCommentOwner'],
+					[8, 'ModComments', 'HelpDeskNewCommentAccount', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[9, 'ModComments', 'HelpDeskNewCommentContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[15, 'HelpDesk', 'HelpDeskChangeNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[16, 'HelpDesk', 'HelpDeskClosedNotifyContacts', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
+					[17, 'ModComments', 'HelpDeskNewCommentOwner', 'modules/HelpDesk/workflows/HelpDeskWorkflow.php', 'HelpDeskWorkflow'],
 				]
 			],
 			'com_vtiger_workflowtasks_entitymethod_seq' => [
@@ -4245,7 +4245,7 @@ Created for your account in the customer portal, below sending data access<br />
 						Login: $(record : email)$<br />
 						Password:
 						</td>
-			
+
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">

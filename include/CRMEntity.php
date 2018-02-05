@@ -19,8 +19,18 @@
  * be overloaded with module-specific methods and variables particular to the
  * module's base entity class.
  * ****************************************************************************** */
-require_once('include/utils/utils.php');
-require_once('include/utils/UserInfoUtil.php');
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
+require_once 'include/runtime/Globals.php';
 
 class CRMEntity
 {
@@ -33,7 +43,7 @@ class CRMEntity
 	public function __construct()
 	{
 		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields(get_class($this));
+		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
 	}
 
 	public static function getInstance($module)
@@ -133,7 +143,7 @@ class CRMEntity
 
 		// Lookup module field cache
 		if ($module == 'Calendar' || $module == 'Events') {
-			getColumnFields('Calendar');
+			vtlib\Deprecated::getColumnFields('Calendar');
 			if (VTCacheUtils::lookupFieldInfoModule('Events'))
 				$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 			else
@@ -309,12 +319,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -769,7 +779,7 @@ class CRMEntity
 	 */
 	public function getRelationQuery($module, $secmodule, $table_name, $column_name, ReportRunQueryPlanner $queryPlanner)
 	{
-		$tab = getRelationTables($module, $secmodule);
+		$tab = vtlib\Deprecated::getRelationTables($module, $secmodule);
 
 		foreach ($tab as $key => $value) {
 			$tables[] = $key;
@@ -842,7 +852,7 @@ class CRMEntity
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
 		if ($cachedModuleFields === false) {
 			// Initialize the fields calling suitable API
-			getColumnFields($module);
+			vtlib\Deprecated::getColumnFields($module);
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
 		}
 
