@@ -42,13 +42,18 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (!IS_PUBLIC_DIR) {
 			$basePath = 'public_html/';
 		}
-		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
+		$imageFilePath = 'layouts/' . self::getLayoutName() . '/images/' . $imageFileName;
 		$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . 'public_html/' . $imageFilePath);
 		if (file_exists($completeImageFilePath)) {
 			return $basePath . $imageFilePath;
 		}
-		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;
-		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . 'public_html/' . $fallbackPath);
+		$imageFilePath = self::getThemePath() . '/images/' . $imageFileName;
+		$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath);
+		if (file_exists($completeImageFilePath)) {
+			return $basePath . $imageFilePath;
+		}
+		$fallbackPath = self::getBaseThemePath() . '/images/' . $imageFileName;
+		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
 		if (file_exists($completeFallBackThemePath)) {
 			return $basePath . $fallbackPath;
 		}
