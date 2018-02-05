@@ -5171,7 +5171,7 @@ button.bg-dark:focus {
 .py-0 {
   padding-top: 0 !important; }
 
-.pr-0,
+.pr-0, .col-sm-6:nth-child(1), .col-md-6:nth-child(1),
 .px-0 {
   padding-right: 0 !important; }
 
@@ -5198,7 +5198,7 @@ button.bg-dark:focus {
 .py-1 {
   padding-bottom: 0.25rem !important; }
 
-.pl-1,
+.pl-1, .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1 {
   padding-left: 0.25rem !important; }
 
@@ -5231,7 +5231,9 @@ button.bg-dark:focus {
   padding-top: 1rem !important; }
 
 .pr-3,
-.px-3 {
+.px-3,
+.col-sm-6:only-child,
+.col-md-6:only-child {
   padding-right: 1rem !important; }
 
 .pb-3,
@@ -5239,7 +5241,9 @@ button.bg-dark:focus {
   padding-bottom: 1rem !important; }
 
 .pl-3,
-.px-3 {
+.px-3,
+.col-sm-6:only-child,
+.col-md-6:only-child {
   padding-left: 1rem !important; }
 
 .p-4 {
@@ -11051,6 +11055,9 @@ border1px {
   z-index: 10000; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+:root {
+  --yf-darkblue: #4A5364; }
+
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -11078,7 +11085,7 @@ and open the template in the editor.
   font-size: inherit; }
 
 .select2Wrapper {
-  width: 88%; }
+  width: 100%; }
 
 .select2FullWidthContainer .select2Wrapper {
   width: 100%; }
@@ -11095,7 +11102,7 @@ and open the template in the editor.
   width: 40px; }
 
 .bodyHeader {
-  background-color: #404952;
+  background-color: var(--yf-darkblue);
   height: 50px;
   top: 0;
   right: 0;
