@@ -14,6 +14,8 @@
 class Reports_ListAjax_View extends Reports_List_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -24,7 +26,7 @@ class Reports_ListAjax_View extends Reports_List_View
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		
+
 	}
 
 	public function process(\App\Request $request)

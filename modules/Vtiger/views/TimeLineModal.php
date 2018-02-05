@@ -48,7 +48,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	 * The final process
 	 * @param \App\Request $request
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		parent::postProcess($request);
 		echo '</div>';

@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
+class OSSPasswords_GetPass_Action extends \App\Controller\Action
 {
 
 	public function checkPermission(\App\Request $request)

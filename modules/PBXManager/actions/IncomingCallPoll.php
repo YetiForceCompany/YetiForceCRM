@@ -21,8 +21,10 @@ require_once 'modules/PickList/DependentPickListUtils.php';
 require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 
-class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
+class PBXManager_IncomingCallPoll_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -31,15 +33,6 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('getCallStatus');
 		$this->exposeMethod('checkModuleViewPermission');
 		$this->exposeMethod('checkPermissionForPolling');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

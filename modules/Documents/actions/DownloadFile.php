@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Documents_DownloadFile_Action extends Vtiger_Action_Controller
+class Documents_DownloadFile_Action extends \App\Controller\Action
 {
 
 	/**

@@ -10,6 +10,8 @@
 class Settings_Notifications_Members_View extends Settings_Vtiger_BasicModal_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Constructor
 	 */

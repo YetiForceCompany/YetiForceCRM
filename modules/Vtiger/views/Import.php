@@ -12,6 +12,8 @@
 class Vtiger_Import_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();

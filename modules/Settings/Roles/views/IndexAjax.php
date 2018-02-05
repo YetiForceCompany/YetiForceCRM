@@ -11,13 +11,5 @@
 class Settings_Roles_IndexAjax_View extends Settings_Roles_Index_View
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return;
-	}
+	use App\Controller\ClearProcess;
 }

@@ -1,14 +1,16 @@
 <?php
 
 /**
- * Class to show hierarchy 
+ * Class to show hierarchy
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class SSalesProcesses_Hierarchy_View extends Vtiger_View_Controller
+class SSalesProcesses_Hierarchy_View extends \App\Controller\View
 {
+
+	use App\Controller\ClearProcess;
 
 	/**
 	 * Function to check permission
@@ -26,11 +28,6 @@ class SSalesProcesses_Hierarchy_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
-
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -43,10 +40,5 @@ class SSalesProcesses_Hierarchy_View extends Vtiger_View_Controller
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('HIERARCHY', $hierarchy);
 		$viewer->view('Hierarchy.tpl', $moduleName);
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		
 	}
 }

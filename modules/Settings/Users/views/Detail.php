@@ -65,7 +65,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	/**
 	 * {@inheritDoc}
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);

@@ -10,19 +10,13 @@
 class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('step1');
 		$this->exposeMethod('step2');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	/**

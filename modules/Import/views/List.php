@@ -12,6 +12,8 @@
 class Import_List_View extends Vtiger_Popup_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 

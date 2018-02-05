@@ -11,7 +11,7 @@
 /**
  * Import lock action
  */
-class Import_Lock_Action extends Vtiger_Action_Controller
+class Import_Lock_Action extends \App\Controller\Action
 {
 
 	/**

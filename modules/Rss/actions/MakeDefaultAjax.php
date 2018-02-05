@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Rss_MakeDefaultAjax_Action extends Vtiger_Action_Controller
+class Rss_MakeDefaultAjax_Action extends \App\Controller\Action
 {
 	/**
 	 * {@inheritDoc}

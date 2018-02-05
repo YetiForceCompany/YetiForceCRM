@@ -12,6 +12,8 @@
 class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Page title
 	 * @var type
@@ -47,7 +49,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->preProcessSettings($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
@@ -182,7 +184,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		try {
 			$viewer->assign('SENSIOLABS', $checker->check(ROOT_DIRECTORY));
 		} catch (RuntimeException $exc) {
-			
+
 		}
 		$viewer->view('Security.tpl', $qualifiedModuleName);
 	}

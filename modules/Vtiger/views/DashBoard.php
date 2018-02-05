@@ -102,7 +102,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		parent::postProcess($request);
 	}

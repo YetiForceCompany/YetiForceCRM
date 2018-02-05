@@ -59,7 +59,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);

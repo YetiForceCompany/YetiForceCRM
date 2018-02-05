@@ -6,22 +6,16 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
+class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getEvent');
 		$this->exposeMethod('updateEvent');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function checkPermission(\App\Request $request)

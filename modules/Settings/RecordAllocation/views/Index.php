@@ -10,6 +10,8 @@
 class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();

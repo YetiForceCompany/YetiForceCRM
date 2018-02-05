@@ -11,19 +11,12 @@
 Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('exportModule');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	protected function exportModule(\App\Request $request)

@@ -13,6 +13,8 @@
 class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Constructor
 	 */
@@ -20,18 +22,6 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('getPickListView');
-	}
-
-	/**
-	 * Process client request
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	/**

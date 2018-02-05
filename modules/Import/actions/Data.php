@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Data_Action extends Vtiger_Action_Controller
+class Import_Data_Action extends \App\Controller\Action
 {
 
 	public $id;

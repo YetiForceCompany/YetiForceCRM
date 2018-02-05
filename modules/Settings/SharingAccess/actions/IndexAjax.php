@@ -9,21 +9,14 @@
 Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('saveRule');
 		$this->exposeMethod('deleteRule');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function saveRule(\App\Request $request)

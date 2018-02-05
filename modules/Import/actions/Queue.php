@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Queue_Action extends Vtiger_Action_Controller
+class Import_Queue_Action extends \App\Controller\Action
 {
 
 	public static $IMPORT_STATUS_NONE = 0;

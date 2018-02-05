@@ -12,6 +12,8 @@
 Class Calendar_Edit_View extends Vtiger_Edit_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Constructor
 	 */
@@ -75,7 +77,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
-			$sourceModule = $request->getByType('sourceModule',2);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$sourceRecord = $request->getInteger('sourceRecord');
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);

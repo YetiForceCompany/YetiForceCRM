@@ -9,8 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Accounts_AccountHierarchy_View extends Vtiger_View_Controller
+class Accounts_AccountHierarchy_View extends \App\Controller\View
 {
+
+	use App\Controller\ClearProcess;
 
 	/**
 	 * Function to check permission
@@ -25,11 +27,6 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
 	}
 
 	private function getLastModified($id)
@@ -60,10 +57,5 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ACCOUNT_HIERARCHY', $hierarchy);
 		$viewer->view('AccountHierarchy.tpl', $moduleName);
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		
 	}
 }

@@ -7,8 +7,10 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Chat_Entries_Action extends Vtiger_Action_Controller
+class Chat_Entries_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -24,22 +26,12 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Constructor with a list of allowed methods 
+	 * Constructor with a list of allowed methods
 	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('add');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE');
 	}
 
 	/**

@@ -11,19 +11,12 @@
 Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('checkDuplicate');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function checkDuplicate(\App\Request $request)

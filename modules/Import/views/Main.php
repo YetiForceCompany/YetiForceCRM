@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Main_View extends Vtiger_View_Controller
+class Import_Main_View extends \App\Controller\View
 {
 
 	public $request;

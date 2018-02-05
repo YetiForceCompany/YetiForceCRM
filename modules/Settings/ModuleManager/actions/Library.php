@@ -10,20 +10,13 @@
 class Settings_ModuleManager_Library_Action extends Settings_Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('download');
 		$this->exposeMethod('update');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

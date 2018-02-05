@@ -12,6 +12,8 @@
 class Reports_Detail_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	protected $reportData;
 	protected $calculationFields;
 	protected $count;

@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
+class ModTracker_LastRelation_Action extends \App\Controller\Action
 {
 
 	/**

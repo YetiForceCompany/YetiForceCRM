@@ -9,7 +9,6 @@
  * ********************************************************************************** */
 Vtiger_Loader::includeOnce('include.http.Response');
 Vtiger_Loader::includeOnce('include.runtime.Globals');
-Vtiger_Loader::includeOnce('include.runtime.Controller');
 Vtiger_Loader::includeOnce('include.runtime.Viewer');
 Vtiger_Loader::includeOnce('include.runtime.Theme');
 Vtiger_Loader::includeOnce('include.runtime.JavaScript');

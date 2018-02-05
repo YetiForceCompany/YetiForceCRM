@@ -9,8 +9,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Vtiger_PDF_Action extends Vtiger_Action_Controller
+class Vtiger_PDF_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -31,15 +33,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('hasValidTemplate');
 		$this->exposeMethod('validateRecords');
 		$this->exposeMethod('generate');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function validateRecords(\App\Request $request)

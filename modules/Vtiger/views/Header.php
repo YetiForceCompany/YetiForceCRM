@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-abstract class Vtiger_Header_View extends Vtiger_View_Controller
+abstract class Vtiger_Header_View extends \App\Controller\View
 {
 
 	public function __construct()

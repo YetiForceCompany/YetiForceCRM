@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Users_Logout_Action extends Vtiger_Action_Controller
+class Users_Logout_Action extends \App\Controller\Action
 {
 
 	/**

@@ -9,6 +9,8 @@
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
@@ -25,15 +27,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	public function __construct()
 	{
 		$this->exposeMethod('exportToExcel');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-
-		if ($mode) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function exportToExcel(\App\Request $request)

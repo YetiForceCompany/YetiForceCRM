@@ -12,11 +12,6 @@
 class Vtiger_Index_View extends Vtiger_Basic_View
 {
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
@@ -51,7 +46,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		return 'IndexViewPreProcess.tpl';
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

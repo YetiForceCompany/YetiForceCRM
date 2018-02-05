@@ -15,7 +15,7 @@ Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_parameters.php');
 Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
 Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
-class Calendar_ImportICS_Action extends Vtiger_Action_Controller
+class Calendar_ImportICS_Action extends \App\Controller\Action
 {
 
 	/**

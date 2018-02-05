@@ -9,8 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller
+class Calendar_ActivityReminder_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -29,15 +31,6 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 

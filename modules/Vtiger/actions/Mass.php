@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
+abstract class Vtiger_Mass_Action extends \App\Controller\Action
 {
 
 	/**

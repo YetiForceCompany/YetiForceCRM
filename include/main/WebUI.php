@@ -233,13 +233,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Trigger check permission
-	 * @param Vtiger_Action_Controller $handler
+	 * @param \App\Controller\Base $handler
 	 * @param \App\Request $request
 	 * @return boolean
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	protected function triggerCheckPermission(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerCheckPermission(\App\Controller\Base $handler, \App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -258,11 +258,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Trigger pre process
-	 * @param Vtiger_Action_Controller $handler
+	 * @param \App\Controller\Base $handler
 	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	protected function triggerPreProcess(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerPreProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
@@ -273,11 +273,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Trigger post process
-	 * @param Vtiger_Action_Controller $handler
+	 * @param \App\Controller\Base $handler
 	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	protected function triggerPostProcess(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerPostProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			return true;

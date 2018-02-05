@@ -9,8 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
+class Vtiger_RelationAjax_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	/**
 	 * {@inheritDoc}
@@ -54,34 +57,6 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function preProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

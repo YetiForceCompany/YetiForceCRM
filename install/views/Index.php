@@ -9,8 +9,10 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_View extends Vtiger_View_Controller
+class Install_Index_View extends \App\Controller\View
 {
+
+	use \App\Controller\ExposeMethod;
 
 	protected $debug = false;
 	protected $viewer;
@@ -109,7 +111,7 @@ class Install_Index_View extends Vtiger_View_Controller
 		$this->step1($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		echo $this->viewer->fetch('InstallPostProcess.tpl');

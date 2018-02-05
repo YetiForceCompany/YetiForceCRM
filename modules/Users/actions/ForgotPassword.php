@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_ForgotPassword_Action extends Vtiger_Action_Controller
+class Users_ForgotPassword_Action extends \App\Controller\Action
 {
 
 	/**
