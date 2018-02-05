@@ -5183,11 +5183,12 @@ button.bg-dark:focus {
 .px-0 {
   padding-left: 0 !important; }
 
-.p-1, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
+.p-1, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group, .bodyHeader .globalSearchInput .btn {
   padding: 0.25rem !important; }
 
 .pt-1,
-.py-1 {
+.py-1,
+.headerRightWrapper .btn {
   padding-top: 0.25rem !important; }
 
 .pr-1,
@@ -5195,7 +5196,8 @@ button.bg-dark:focus {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
-.py-1 {
+.py-1,
+.headerRightWrapper .btn {
   padding-bottom: 0.25rem !important; }
 
 .pl-1, .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
@@ -5211,7 +5213,8 @@ button.bg-dark:focus {
   padding-top: 0.5rem !important; }
 
 .pr-2,
-.px-2 {
+.px-2,
+.headerRightWrapper .btn {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5220,7 +5223,8 @@ button.bg-dark:focus {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
-.px-2 {
+.px-2,
+.headerRightWrapper .btn {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -8699,10 +8703,6 @@ span[name=existingImages] img {
 .widgetHr {
   margin-top: 0; }
 
-.globalSearchInput {
-  width: 450px;
-  margin-top: 8px; }
-
 #groupsDetailContainer strong {
   line-height: 21px; }
 
@@ -9167,9 +9167,6 @@ html, body, .baseContainer {
   width: 100%;
   position: relative; }
 
-.globalSearchInput .chosen-container-single .chosen-single span {
-  min-width: 130px; }
-
 .vakata-context {
   z-index: 1031; }
   .vakata-context ul {
@@ -9480,9 +9477,6 @@ html, body, .baseContainer {
 
 #rssFeedHeading h3 {
   margin-top: 0; }
-
-.globalSearchResults .nav li a {
-  padding: 10px 0; }
 
 .bootbox .btn-warning {
   margin-left: 5px; }
@@ -11090,17 +11084,10 @@ and open the template in the editor.
 .select2FullWidthContainer .select2Wrapper {
   width: 100%; }
 
+.headerLinksMails .select2-selection.select2-selection--single {
+  height: 40px !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.searchMenu .chosen-container {
-  width: 35px; }
-
-.bodyHeader .basicSearchModulesList {
-  width: 35px; }
-.bodyHeader .dropdown-toggle::after {
-  display: none; }
-.bodyHeader .globalSearchInput .btn {
-  width: 40px; }
-
 .bodyHeader {
   background-color: var(--yf-darkblue);
   height: 50px;
@@ -11110,13 +11097,21 @@ and open the template in the editor.
   -webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
   transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
   transition-delay: 0.5s; }
-
-.bodyHeader .moduleIcon {
-  width: 34px;
-  margin: 5px; }
-
-.bodyHeader.menuOpen {
-  left: 230px; }
+  .bodyHeader .basicSearchModulesList {
+    width: 35px; }
+  .bodyHeader .dropdown-toggle::after {
+    display: none; }
+  .bodyHeader .globalSearchInput {
+    width: 450px; }
+    .bodyHeader .globalSearchInput .btn {
+      width: 40px; }
+    .bodyHeader .globalSearchInput .select2HeaderWidth {
+      min-width: 130px; }
+  .bodyHeader .moduleIcon {
+    width: 34px;
+    margin: 5px; }
+  .bodyHeader.menuOpen {
+    left: 230px; }
 
 .headerLinksMails {
   height: fit-content; }
@@ -11127,8 +11122,14 @@ and open the template in the editor.
     left: auto;
     right: 0; }
 
+.headerRightWrapper .btn {
+  font-size: 17px;
+  height: 35px; }
 .headerRightWrapper .headerLinksMails .btn {
   font-size: 14px; }
+
+.globalSearchResults .nav li a {
+  padding: 10px 0; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
