@@ -17,7 +17,7 @@
 	}
 }
 .bodyHeader {
-	background-color: $darkblue;
+	background-color: var(--yf-darkblue);
 	//color: #fff;
 	height: 50px;
 	top: 0;
@@ -54,3 +54,4 @@
 		font-size: $font14;
 	}
 }
+

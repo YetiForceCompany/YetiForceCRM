@@ -22,8 +22,9 @@
 			</div>
 		</div>
 		<hr class="widgetHr" />
-		<div class="row justify-content-end">
-			<div class="col-md-6 input-group input-group-sm">
+		<div class="row">
+			<div class="col-md-12">
+			<div  class="input-group input-group-sm flex-nowrap">
 				<div class="input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-envelope"></span>
@@ -40,6 +41,7 @@
 						{/if}
 					</select>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>
