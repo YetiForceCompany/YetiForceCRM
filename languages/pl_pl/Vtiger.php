@@ -1306,6 +1306,7 @@ $languageStrings = [
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Rekord został usunięty',
 	'LBL_SHOW_INVENTORY_ROW' => 'Pokaż dodatkowe informacje',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Oblicz sumę dla tego pola',
+	'LBL_RELATED_RECORDS_LIST' => 'Lista rekordów powiązanych',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
