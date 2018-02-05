@@ -65,7 +65,7 @@
 										<span class="fas fa-inbox fa-fw fa-lg"></span>
 									</div>
 								</a>
-							{elseif $CONFIG['showMailAccounts']=='true'}*}
+							{elseif $CONFIG['showMailAccounts']=='true'}
 								<select class="form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 									{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 										<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
