@@ -9,7 +9,7 @@
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
 							<button class="btn btn-outline-secondary addButton dropdown-toggle" style="padding:7px 8px;" data-toggle="dropdown">
-								<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
+								<strong class="d-none d-sm-none d-md-inline">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
@@ -43,7 +43,7 @@
 							</ul>
 						{else if $MODULE_PERMISSION}
 							<button class="btn btn-outline-secondary addButton dropdown-toggle" data-toggle="dropdown">
-								<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
+								<strong class="d-none d-sm-none d-md-inline">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
