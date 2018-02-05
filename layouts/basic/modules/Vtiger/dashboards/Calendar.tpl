@@ -56,11 +56,11 @@
 	<div class="row marginTop2">
 		<div class="col-sm-12">
 			<div class="headerCalendar pinUnpinShortCut row" >
-				<div class="col-xs-2">
+				<div class="col-2">
 					<button class="btn btn-light btn-sm" data-type="fc-prev-button"><span class="fas fa-chevron-left"></span></button>
 				</div>
-				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
-				<div class="col-xs-2">
+				<div class="col-8 month textAlignCenter paddingRightZero"> </div>
+				<div class="col-2">
 					<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button"><span class="fas fa-chevron-right"></span></button>
 				</div>
 			</div>
