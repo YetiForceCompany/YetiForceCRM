@@ -18,7 +18,7 @@
 		<div class="row" >
 			<div class="col-md-6 input-group input-group-sm">
 				<div class="input-group-prepend">
-					<span class="input-group-text" id="inputGroup-sizing-sm">
+					<span class="input-group-text">
 						<span class="fas fa-filter"></span>
 					</span>
 			</div>

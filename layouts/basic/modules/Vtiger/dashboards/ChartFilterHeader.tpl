@@ -38,11 +38,17 @@
 			{/if}
 			{if $WIDGET_DATA['showOwnerFilter']}
 				<div class="col-md-6 ownersFilter">
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon"><span class="fas fa-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span></span>
-						<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
-							<option value="0">{\App\Language::translate('LBL_ALL_OWNERS','Home')}</option>
-						</select>
+					<div class="input-group input-group-sm flex-nowrap">
+						<div class="input-group-prepend">
+							<span class="input-group-text">
+								<span class="fas fa-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span>
+							</span>
+							<div class="select2Wrapper">
+								<select class="widgetFilter select2 owner form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
+									<option value="0">{\App\Language::translate('LBL_ALL_OWNERS','Home')}</option>
+								</select>
+							</div>
+						</div>
 					</div>
 				</div>
 			{/if}

@@ -77,7 +77,7 @@
 						<span class="fas fa-calendar-alt iconMiddle "></span>
 					</div>
 				</span>
-				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{implode(',',$DTIME)}" />
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control" value="{implode(',',$DTIME)}" />
 			</div>
 		</div>
 		<div class="col-md-6">

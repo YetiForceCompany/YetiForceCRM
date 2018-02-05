@@ -25,7 +25,7 @@
 					<div class="form-group margin0px padding1per">
 						<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_REPORT', $MODULE)}<span class="redColor">*</span></label>
 						<div class="col-sm-8 controls">
-							<select class="select2 widgetFilter width90 form-control" title="{\App\Language::translate('LBL_REPORT', $MODULE)}" name="reportId" data-validation-engine="validate[required]">
+							<select class="select2 widgetFilter form-control" title="{\App\Language::translate('LBL_REPORT', $MODULE)}" name="reportId" data-validation-engine="validate[required]">
 								{foreach item=REPORT_NAME key=REPORT_ID from=$LIST_REPORTS}
 									<option value="{$REPORT_ID}">{$REPORT_NAME}</option>
 								{/foreach}

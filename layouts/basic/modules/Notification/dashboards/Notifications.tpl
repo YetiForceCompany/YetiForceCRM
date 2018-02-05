@@ -13,19 +13,23 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row justify-content-end">
-		<div class="col-md-6 input-group input-group-sm py-1">
-			<div class="input-group-prepend">
-					<span class="input-group-text" id="inputGroup-sizing-sm">
-						<span class="fas fa-bell"></span>
-					</span>
+			<div class="col-md-6">
+				<div class="input-group input-group-sm flex-nowrap">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<span class="fas fa-bell fa-fw"></span>
+						</span>
+					</div>
+					<div class="select2Wrapper">
+						<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
+							{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
+								<option value="{$KEY}">{$TYPE}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
 			</div>
-				<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
-					{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
-						<option value="{$KEY}">{$TYPE}</option>
-					{/foreach}
-				</select>
-			</div>
-			<div class="col-6">
+			<div class="col-md-6">
 				<div class="btn-toolbar float-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()">

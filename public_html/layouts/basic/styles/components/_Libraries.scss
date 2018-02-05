@@ -35,3 +35,9 @@ and open the template in the editor.
 		font-size: inherit;
 	}
 }
+.select2Wrapper {
+	width: 88%;
+}
+.select2FullWidthContainer .select2Wrapper {
+	width: 100%;
+}

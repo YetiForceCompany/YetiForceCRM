@@ -31,7 +31,7 @@
 					</div>
 				{/if}
 			</div>
-			<div class="col-sm-6 float-right">
+			<div class="col-sm-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>
