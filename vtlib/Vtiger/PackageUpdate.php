@@ -216,7 +216,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($modulenode->blocks->block as $blocknode) {
 			$this->listBlocks[] = strval($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance);
+			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -269,7 +269,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($blocknode->fields->field as $fieldnode) {
 			$this->listFields[] = strval($fieldnode->fieldname);
-			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance->id);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
@@ -374,7 +374,7 @@ class PackageUpdate extends PackageImport
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance);
+			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance->id);
 			if (!$filterInstance) {
 				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {

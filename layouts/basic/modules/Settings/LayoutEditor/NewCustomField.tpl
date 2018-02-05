@@ -29,7 +29,7 @@
 						</button>
 						{if $IS_SORTABLE}
 							<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
-								<span class="fas fa-pencil-alt" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+								<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 							</button>
 						{/if}
 						<button type="button" class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="">

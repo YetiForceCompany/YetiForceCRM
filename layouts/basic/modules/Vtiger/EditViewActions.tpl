@@ -13,7 +13,7 @@
 	<div class="formActionsPanel">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		<button class="btn btn-success margin-right5px" type="submit">
-			<span class="fas fa-check margin-right5px" aria-hidden="true"></span>
+			<span class="fas fa-check margin-right5px"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 		</button>
 		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">

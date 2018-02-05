@@ -5,8 +5,8 @@
 		{if AppConfig::performance('GLOBAL_SEARCH')}
 			<div class="searchMenuBtn d-xl-none">
 				<div class="quickAction">
-					<a class="btn btn-light" href="#">
-						<span aria-hidden="true" class="fas fa-search"></span>
+					<a class="btn btn-light p-1" href="#">
+						<span class="fas fa-search fa-fw fa-lg"></span>
 					</a>
 				</div>
 			</div>
@@ -25,13 +25,13 @@
 				</div>
 				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
 				<div class="input-group-append bg-white rounded-right">
-					<button class="btn btn-outline-dark border-0 searchIcon" type="button">
-						<span class="fas fa-search"></span>
+					<button class="btn btn-outline-dark p-1 border-0 searchIcon" type="button">
+						<span class="fas fa-search fa-fw fa-lg"></span>
 					</button>
 					{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
 						<div class="btn-group">
-							<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="fas fa-crosshairs"></span>
+							<button type="button" class="btn btn-outline-dark p-1 border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="fas fa-crosshairs fa-fw fa-lg"></span>
 							</button>
 							<ul class="dropdown-menu globalSearchOperator">
 								<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
@@ -40,8 +40,8 @@
 							</ul>
 						</div>
 					{/if}
-					<button class="btn btn-outline-dark border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-						<span class="fas fa-th-large"></span>
+					<button class="btn btn-outline-dark p-1 border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+						<span class="fa fa-th-large fa-fw fa-lg"></span>
 					</button>
 				</div>
 			</div>
@@ -54,15 +54,15 @@
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
 						<div class="headerLinksMails bg-white rounded" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
-{*							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="btn btn-outline-dark border-0 m-0 py-2" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
+							{if count($AUTOLOGINUSERS) eq 1}
+								<a class="btn btn-outline-dark p-1 border-0 m-0 py-2" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-sm-none d-md-block">
 										{$ITEM.username}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
 									<div class="d-none d-block d-sm-block d-md-none">
-										<span class="fas fa-inbox"></span>
+										<span class="fas fa-inbox fa-fw fa-lg"></span>
 									</div>
 								</a>
 							{elseif $CONFIG['showMailAccounts']=='true'}*}
@@ -73,22 +73,22 @@
 										</option>
 									{/foreach}
 								</select>
-							{*{/if}*}
+							{/if}
 						</div>
 					{/if}
 				{/if}
 			{/if}
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
-					<a class="btn btn-light btn" href="#">
-						<span aria-hidden="true" class="fas fa-bars"></span>
+					<a class="btn btn-light btn p-1" href="#">
+						<span class="fas fa-bars fa-fw fa-lg"></span>
 					</a>
 				</div>
 			</div>
 			<div class="actionMenuBtn">
 				<div class="quickAction">
-					<a class="btn btn-light btn" href="#">
-						<span aria-hidden="true" class="fas fa-certificate"></span>
+					<a class="btn btn-light btn p-1" href="#">
+						<span class="fas fa-certificate fa-fw fa-lg"></span>
 					</a>
 				</div>
 			</div>
@@ -96,60 +96,65 @@
 				<div class="rightHeader">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn-light btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="fas fa-plus" aria-hidden="true"></span>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-							<li class="quickCreateModules">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
-									</div>
-									<div class="card-body paddingLRZero">
-										{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
-											{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-											{if $singularLabel == 'SINGLE_Calendar'}
-												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}
-											{if $quickCreateModule == '1'}
-												{if $count % 3 == 0}
-													<div class="">
-													{/if}
-													<div class="col-sm-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-															<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
-														</a>
-													</div>
-													{if $count % 3 == 2}
-													</div>
-												{/if}
-												{assign var='count' value=$count+1}
-											{/if}
-										{/foreach}
-										{if $count % 3 >= 1}
+						<span class="commonActionsContainer">
+							<a class="btn-light p-1 btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+								<span class="fas fa-plus fa-fw fa-lg"></span>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
+								<li class="quickCreateModules">
+									<div class="card">
+										<div class="card-header">
+											<span class="card-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></span>
 										</div>
-									{/if}
-								</div>
-							</li>
-						</ul>
+										<div class="card-body paddingLRZero">
+											{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
+												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
+												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
+												{if $singularLabel == 'SINGLE_Calendar'}
+													{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+												{/if}
+												{if $quickCreateModule == '1'}
+													{if $count % 3 == 0}
+														<div class="row small">
+														{/if}
+														<div class="col-4{if $count % 3 != 2} paddingRightZero{/if}">
+															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
+																<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
+															</a>
+														</div>
+														{if $count % 3 == 2}
+														</div>
+													{/if}
+													{assign var='count' value=$count+1}
+												{/if}
+											{/foreach}
+											{if $count % 3 >= 1}
+											</div>
+										{/if}
+									</div>
+								</li>
+							</ul>
+						</span>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-light btn isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
-							<span class="fas fa-bell" aria-hidden="true"></span>
+						<a class="btn btn-light p-1 btn isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+							<span class="fas fa-bell fa-fw fa-lg"></span>
 							<span hidden class="badge">0</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
-						<a class="btn btn-light btn headerLinkChat popoverTooltip d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fas fa-comments" aria-hidden="true"></span>
+						<a class="btn btn-light p-1 btn headerLinkChat popoverTooltip d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+							<span class="fas fa-comments fa-fw fa-lg"></span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 							<div class="modal-dialog modalRightSiteBar" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel"><span class="fas fa-comments" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_CHAT')}</h4>
+										<h4 class="modal-title" id="myModalLabel">
+											<span class="fas fa-comments fa-fw fa-lg"></span>&nbsp;&nbsp;
+											{\App\Language::translate('LBL_CHAT')}
+										</h4>
 									</div>
 									<div class="modal-body">
 										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
@@ -163,14 +168,14 @@
 						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
-						<a class="btn btn-light btn isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
-							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+						<a class="btn btn-light p-1 btn isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+							<span class="fas fa-calendar fa-fw fa-lg"></span>
 							<span hidden class="badge bgDanger">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-light btn showHistoryBtn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-							<i class="fas fa-history" aria-hidden="true"></i>
+						<a class="btn btn-light p-1 btn showHistoryBtn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
+							<i class="fas fa-history fa-fw fa-lg"></i>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					{/if}
@@ -185,14 +190,14 @@
 							{if !empty($LINK)}
 								{assign var="HREF" value=$LINK}
 							{/if}
-							<a class="btn btn popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							<a class="btn btn popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light p-1 {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
 							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 									   data-{$DATA_NAME}="{$DATA_VALUE}"
 								   {/foreach}
 							   {/if}>
 								{if $GLYPHICON}
-									<span class="{$GLYPHICON}" aria-hidden="true"></span>
+									<span class="{$GLYPHICON}"></span>
 								{/if}
 								{if $ICON_PATH}
 									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />

@@ -33,14 +33,13 @@ class Filter
 
 	/**
 	 * Initialize this filter instance
-	 * @param Module Instance of the module to which this filter is associated.
-	 * @access private
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $module = false)
 	{
 		$this->id = $valuemap['cvid'];
 		$this->name = $valuemap['viewname'];
-		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($valuemap['tabid']);
+		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
 	}
 
 	/**
@@ -159,7 +158,7 @@ class Filter
 	/**
 	 * Add rule to this filter instance
 	 * @param FieldBasic $fieldInstance
-	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
+	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN,
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
 	 * @param String Value to use for comparision
 	 * @param Integer Index count to use
@@ -257,20 +256,21 @@ class Filter
 	/**
 	 * Get instance by filterid or filtername
 	 * @param mixed filterid or filtername
-	 * @param Module Instance of the module to use when filtername is used
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $module = false)
 	{
 		$instance = false;
+		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
 			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $value]);
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleInstance->name]);
+			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName]);
 		}
 		$result = $query->one();
 		if ($result) {
 			$instance = new self();
-			$instance->initialize($result, $moduleInstance);
+			$instance->initialize($result, $module);
 		}
 		return $instance;
 	}
@@ -288,7 +288,7 @@ class Filter
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
 		return $instances;

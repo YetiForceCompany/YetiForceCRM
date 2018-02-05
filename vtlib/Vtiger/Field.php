@@ -194,14 +194,14 @@ class Field extends FieldBasic
 	public static function getInstance($value, $moduleInstance = false)
 	{
 		$instance = false;
-		$moduleid = null;
+		$moduleId = false;
 		if ($moduleInstance) {
-			$moduleid = $moduleInstance->id;
+			$moduleId = $moduleInstance->id;
 		}
-		$data = \App\Field::getFieldInfo($value, $moduleid);
+		$data = \App\Field::getFieldInfo($value, $moduleId);
 		if ($data) {
 			$instance = new self();
-			$instance->initialize($data, $moduleInstance);
+			$instance->initialize($data, $moduleId);
 		}
 		return $instance;
 	}
@@ -227,7 +227,7 @@ class Field extends FieldBasic
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$instance = new self();
-				$instance->initialize($row, $moduleInstance, $blockInstance);
+				$instance->initialize($row, $moduleInstance->id, $blockInstance);
 				$instances[] = $instance;
 			}
 			$cache->setBlockFields($blockInstance->id, $moduleInstance->id, $instances);
@@ -255,7 +255,7 @@ class Field extends FieldBasic
 		$instances = false;
 		foreach ($rows as $row) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleId);
 			$instances[] = $instance;
 		}
 		return $instances;
@@ -303,7 +303,7 @@ class Field extends FieldBasic
 		while ($fieldId = $dataReader->readColumn(0)) {
 			$count = (new \App\Db\Query)->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId])->count();
 			if ((int) $count === 1) {
-				$field = Field::getInstance($fieldId);
+				$field = Field::getInstance($fieldId, $moduleInstance->id);
 				$field->delete();
 			}
 		}

@@ -118,7 +118,7 @@
 										<div class="actionImages flexWrapper">
 											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="fas fa-retweet alignMiddle"></span></a>&nbsp;
 												{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;
+												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle"></span></a>&nbsp;
 												{/if}
 												{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
 													{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
@@ -142,7 +142,7 @@
 							<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}" >
 								{if !empty($LISTVIEW_HEADER->isCalculateField())}
 									<button class="btn btn-sm btn-light popoverTooltip" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-										<span class="fab fa-gitter" aria-hidden="true"></span>
+										<span class="fas fa-signal"></span>
 									</button>
 									<span class="calculateValue"></span>
 								{/if}

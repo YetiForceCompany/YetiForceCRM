@@ -45,11 +45,4 @@ class DigestAuth
 		$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $this->realm . '"');
 		$this->api->response->setStatus(401);
 	}
-
-	public function getDigestHash($realm, $username)
-	{
-		$stmt = $this->pdo->prepare(sprintf('SELECT digesta1 FROM %s WHERE username = ?', $this->tableName));
-		$stmt->execute([$username]);
-		return $stmt->fetchColumn() ?: null;
-	}
 }

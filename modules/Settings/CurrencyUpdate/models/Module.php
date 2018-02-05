@@ -55,11 +55,11 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		$dataReader = (new \App\Db\Query())->select(['id', 'currency_code'])
 				->from('vtiger_currency_info')
 				->where(['currency_status' => 'Active', 'deleted' => 0])
-				->andWhere(['!=', 'defaultid', -11])->createCommand()->query();
+				->andWhere(['<>', 'defaultid', -11])->createCommand()->query();
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$activeBankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
 			while ($row = $dataReader->read()) {
@@ -94,23 +94,21 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$id = $row['id'];
-			$bankName = $row['bank_name'];
-			$bankPath = __DIR__ . '/bankmodels/' . $bankName . '.php';
+			$bankPath = ROOT_DIRECTORY . "/modules/Settings/CurrencyUpdate/bankmodels/{$row['bank_name']} .php";
 			if (!file_exists($bankPath)) { // delete bank from database
 				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
 		$dataReader->close();
-		foreach (new DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
-			$fileName = $fileInfo->getFilename();
-			$extension = end(explode('.', $fileName));
-			$bankClassName = basename($fileName, '.' . $extension);
-			if ($fileInfo->isDot() || $extension !== 'php') {
+		foreach (new DirectoryIterator(ROOT_DIRECTORY . '/modules/Settings/CurrencyUpdate/bankmodels/') as $fileInfo) {
+			if ($fileInfo->isDot() || $fileInfo->getExtension() !== 'php') {
 				continue;
 			}
-			$isExists = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')
-				->where(['bank_name' => $bankClassName])
-				->exists();
+			$bankClassName = $fileInfo->getBasename('.php');
+			if ($fileInfo->isDot() || $fileInfo->getExtension() !== 'php') {
+				continue;
+			}
+			$isExists = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')->where(['bank_name' => $bankClassName])->exists();
 			if (!$isExists) {
 				$db->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
 			}
@@ -201,10 +199,9 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
-
 		return $bank->getSupportedCurrencies();
 	}
 	/*
@@ -216,7 +213,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);

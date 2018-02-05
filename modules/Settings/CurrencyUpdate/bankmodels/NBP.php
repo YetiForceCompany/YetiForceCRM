@@ -9,7 +9,7 @@
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
-class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name

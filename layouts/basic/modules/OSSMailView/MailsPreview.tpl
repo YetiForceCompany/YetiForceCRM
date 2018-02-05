@@ -92,11 +92,11 @@
 											{/if}
 											<span class="float-right">
 												{if $ROW['type'] eq 0}
-													<span class="fas fa-arrow-up text-success" aria-hidden="true"></span>
+													<span class="fas fa-arrow-up text-success"></span>
 												{elseif $ROW['type'] eq 1}
-													<span class="fas fa-arrow-down text-danger" aria-hidden="true"></span>
+													<span class="fas fa-arrow-down text-danger"></span>
 												{elseif $ROW['type'] eq 2}
-													<span class="fas fa-retweet text-primary" aria-hidden="true"></span>
+													<span class="fas fa-retweet text-primary"></span>
 												{/if}
 											</span>
 											<span class="float-right smalSeparator"></span>

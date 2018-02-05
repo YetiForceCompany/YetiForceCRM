@@ -26,7 +26,7 @@
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
 								<div class="float-right">
-									<span class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+									<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</div>
                             </div>
                         {/if}

@@ -26,7 +26,7 @@
 							<div class="float-right actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
-										<span class="fas fa-pencil-alt alignMiddle" title="{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
+										<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
 									</a>&nbsp;&nbsp;
 									<a class="deleteTask" data-deleteurl="{$TASK->getDeleteActionUrl()}">
 										<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE',$QUALIFIED_MODULE)}"></span>

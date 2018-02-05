@@ -43,7 +43,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_ChangeType',
 				'linkurl' => 'javascript:OSSMailView_List_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
-				'linkicon' => 'fas fa-pencil-alt'
+				'linkicon' => 'fas fa-edit'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {

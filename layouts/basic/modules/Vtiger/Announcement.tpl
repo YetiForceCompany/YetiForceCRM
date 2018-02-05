@@ -16,12 +16,12 @@
 							<div class="modal-footer">
 								{if !$ANNOUNCEMENT->get('is_mandatory')}
 									<button type="button" class="btn btn-danger" data-type="0">
-										<span class="far fa-clock" aria-hidden="true"></span>&nbsp;
+										<span class="far fa-clock"></span>&nbsp;
 										{\App\Language::translate('LBL_REMIND_ME_LATER',$AMODULE)}
 									</button>
 								{/if}
 								<button type="button" class="btn btn-success" data-type="1">
-									<span class="fas fa-check" aria-hidden="true"></span>&nbsp;
+									<span class="fas fa-check"></span>&nbsp;
 									{\App\Language::translate('LBL_MARK_AS_READ',$AMODULE)}
 								</button>
 							</div>

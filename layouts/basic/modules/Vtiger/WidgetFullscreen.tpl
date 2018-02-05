@@ -2,7 +2,7 @@
 {strip}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm float-right" data-dismiss="modal" aria-hidden="true">
-			<span class="fas fa-times" aria-hidden="true"></span>
+			<span class="fas fa-times"></span>
 		</button>
 		<h4 class="modal-title">&nbsp;</h4>
 	</div>

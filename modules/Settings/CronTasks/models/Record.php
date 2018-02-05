@@ -243,7 +243,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => "javascript:Settings_CronTasks_List_Js.triggerEditEvent('" . $this->getEditViewUrl() . "')",
-				'linkicon' => 'fas fa-pencil-alt'
+				'linkicon' => 'fas fa-edit'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

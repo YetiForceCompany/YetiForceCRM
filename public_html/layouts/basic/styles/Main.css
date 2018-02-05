@@ -6767,9 +6767,9 @@ hr {
 .commonActionsContainer .actionsContainer {
   background: #f3f3f3; }
 .commonActionsContainer .dropdown-menu.commonActionsButtonDropDown {
-  min-width: 715px;
+  min-width: 40%;
   top: 50px;
-  margin: 0;
+  margin: 0 0 0 60%;
   padding-top: 0; }
   .commonActionsContainer .dropdown-menu.commonActionsButtonDropDown a {
     padding: 2px;

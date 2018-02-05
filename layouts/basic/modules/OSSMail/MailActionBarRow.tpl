@@ -15,7 +15,7 @@
 			{/if}
 			{if \App\Privilege::isPermitted('ModComments','CreateView')}
 				<button class="addRelatedRecord" data-module="ModComments" title="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
-					<span class="fas fa-comments" aria-hidden="true"></span>
+					<span class="fas fa-comments"></span>
 				</button>
 			{/if}
 			{if in_array($RELATED['module'], ['HelpDesk','Project']) &&  \App\Privilege::isPermitted('HelpDesk','CreateView')}
@@ -34,7 +34,7 @@
 				</button>
 			{/if}
 			<button class="removeRecord " title="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)} {$RELATED['label']}">
-				<span class="fas fa-times" aria-hidden="true"></span>
+				<span class="fas fa-times"></span>
 			</button>
 		</div>
 	</div>
