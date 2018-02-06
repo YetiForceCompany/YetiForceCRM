@@ -17,9 +17,9 @@ jQuery.Class("Settings_SalesProcesses_Index_Js", {}, {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				if (target.attr('type') == 'checkbox') {
 					if (params['val']) {
-						target.parent().removeClass('btn-default').addClass('btn-success').find('.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+						target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
 					} else {
-						target.parent().removeClass('btn-success').addClass('btn-default').find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+						target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
 					}
 				}
 
