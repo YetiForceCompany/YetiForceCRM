@@ -1,17 +1,5 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 2018-01-30, 14:23:39
-    Author     : rafan
-*/
-//chosen corrections for bootstrap 4
-.chosen-single {
-	height: $inputHeight !important;
-}
-.chzn-selectWithButtonWidth {
+//select2 corrections for bootstrap 4
+.select2WithButtonWidth {
 	width: calc(100% - #{$iconButtonWidth});
 }
 .select2-selection {
