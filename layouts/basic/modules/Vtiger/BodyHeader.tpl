@@ -10,7 +10,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="input-group d-none d-xl-flex globalSearchInput">
+			<div class="input-group input-group-sm d-none d-xl-flex globalSearchInput">
 				<div class="input-group-prepend select2HeaderWidth">
 					<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
 						<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>

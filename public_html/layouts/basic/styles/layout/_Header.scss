@@ -48,10 +48,15 @@
 .headerRightWrapper {
 	.btn {
 		@extend .ml-2;
-		@extend .px-2;
-		@extend .py-1;
+		@extend .px-1;
 		font-size: 17px;
-		height: 35px;
+		height: 32px;
+		[data-fa-i2svg] {
+			margin-bottom: 4px;
+			&.fa-power-off {
+				margin-bottom: 1px;
+			}
+		}
 	}
 	.headerLinksMails .btn {
 		@extend .m-0;
