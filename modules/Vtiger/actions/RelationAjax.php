@@ -156,10 +156,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->getByType('related_module', 2);
 		$relatedRecordIdList = $request->get('related_record_list');
-
-		//Setting related module as current module to delete the relation
-		vglobal('currentModule', $relatedModule);
-
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
@@ -347,12 +343,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$recordsToAdd = $request->get('recordsToAdd');
 		$categoryToAdd = $request->get('categoryToAdd');
 		$categoryToRemove = $request->get('categoryToRemove');
-		vglobal('currentModule', $sourceModule);
-
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-
 		if (!empty($recordsToAdd)) {
 			foreach ($recordsToAdd as $relatedRecordId) {
 				if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {

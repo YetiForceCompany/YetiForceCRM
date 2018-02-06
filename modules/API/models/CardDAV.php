@@ -55,9 +55,6 @@ class API_CardDAV_Model
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = App\User::getCurrentUserId();
 				App\User::setCurrentUserId($user->get('id'));
-				$currentUser = vglobal('current_user');
-				vglobal('current_user', $user);
-
 				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
 					$card = $this->getCardDetail($record['crmid']);
 					if ($card === false) {
@@ -70,7 +67,6 @@ class API_CardDAV_Model
 						$updates++;
 					}
 				}
-				vglobal('current_user', $currentUser);
 				App\User::setCurrentUserId($orgUserId);
 			}
 			$this->markComplete($moduleName, $record['crmid']);

@@ -207,11 +207,9 @@ class CurrencyField
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')
 	{
-		$current_user = vglobal('current_user');
-		if (empty($currencySymbolPlacement)) {
-			$currencySymbolPlacement = $current_user->currency_symbol_placement;
+		if ($currencySymbolPlacement) {
+			$currencySymbolPlacement = \App\User::getCurrentUserModel()->getDetail('currency_symbol_placement');
 		}
-
 		switch ($currencySymbolPlacement) {
 			case '1.0$' : $returnValue = $currencyValue . ' ' . $currencySymbol;
 				break;

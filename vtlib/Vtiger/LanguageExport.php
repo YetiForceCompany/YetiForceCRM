@@ -112,32 +112,10 @@ class LanguageExport extends Package
 	}
 
 	/**
-	 * Initialize Language Schema
-	 * @access private
-	 */
-	public static function __initSchema()
-	{
-		$hastable = Utils::checkTable(self::TABLENAME);
-		if (!$hastable) {
-			Utils::createTable(
-				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
-				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
-			);
-			$adb = \PearDatabase::getInstance();
-			foreach (vglobal('languages') as $langkey => $langlabel) {
-				$uniqueid = self::__getUniqueId();
-				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', [$uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1]);
-			}
-		}
-	}
-
-	/**
 	 * Register language pack information.
 	 */
 	public static function register($prefix, $label, $name = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
-		self::__initSchema();
-
 		$prefix = trim($prefix);
 		// We will not allow registering core language unless forced
 		if (strtolower($prefix) == 'en_us' && $overrideCore === false)
@@ -182,8 +160,6 @@ class LanguageExport extends Package
 		// We will not allow deregistering core language
 		if (strtolower($prefix) == 'en_us')
 			return;
-
-		self::__initSchema();
 
 		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);

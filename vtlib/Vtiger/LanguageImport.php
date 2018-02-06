@@ -36,10 +36,7 @@ class LanguageImport extends LanguageExport
 	 */
 	public function initImport($zipfile, $overwrite = true)
 	{
-		$this->__initSchema();
-
-		$name = $this->getModuleNameFromZip($zipfile);
-		return $name;
+		return $this->getModuleNameFromZip($zipfile);
 	}
 
 	/**

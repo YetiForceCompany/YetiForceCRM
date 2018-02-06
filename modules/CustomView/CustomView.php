@@ -44,11 +44,10 @@ class CustomView extends CRMEntity
 	 */
 	public function __construct($module = '')
 	{
-		$currentUser = vglobal('current_user');
 		$this->customviewmodule = $module;
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
-		$this->smownerid = $currentUser->id;
+		$this->smownerid = \App\User::getCurrentUserId();
 	}
 
 	/** to get the standard filter for the given customview Id

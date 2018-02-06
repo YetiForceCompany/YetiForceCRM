@@ -34,6 +34,7 @@ class User
 	public static function setCurrentUserId($userId)
 	{
 		static::$currentUserId = $userId;
+		static::$currentUserCache = false;
 	}
 
 	/**

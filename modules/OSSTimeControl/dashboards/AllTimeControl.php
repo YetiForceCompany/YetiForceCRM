@@ -117,8 +117,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
-				$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
+				$time['start'] = App\Fields\Date::formatToDisplay(null);
+				$time['end'] = App\Fields\Date::formatToDisplay(null);
 			} else {
 				$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
 				$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);

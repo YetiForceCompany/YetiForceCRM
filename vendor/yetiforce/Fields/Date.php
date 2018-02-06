@@ -53,7 +53,7 @@ class Date
 	 */
 	public static function formatToDisplay($value)
 	{
-		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if ($value === '' || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
 			return '';
 		}
 		return (new \DateTimeField($value))->getDisplayDate();

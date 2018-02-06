@@ -93,8 +93,6 @@ class ReportRun extends CRMEntity
 		}
 
 		$adb = PearDatabase::getInstance();
-
-		$current_user = vglobal('current_user');
 		$ssql = 'select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid';
 		$ssql .= ' left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid';
 		$ssql .= ' where vtiger_report.reportid = ?';
@@ -107,7 +105,7 @@ class ReportRun extends CRMEntity
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			list($module) = explode('__', $module_field, 2);
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+			require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 			if (sizeof($permitted_fields[$module]) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 				$permitted_fields[$module] = $this->getaccesfield($module);
 			}
@@ -1452,31 +1450,24 @@ class ReportRun extends CRMEntity
 	 */
 	public function getRelatedModulesQuery($module, $secmodule)
 	{
-
-		$current_user = vglobal('current_user');
 		$query = '';
 		if ($secmodule != '') {
 			$secondarymodule = explode(':', $secmodule);
 			foreach ($secondarymodule as $key => $value) {
 				$foc = CRMEntity::getInstance($value);
-
 				// Case handling: Force table requirement ahead of time.
 				$this->queryPlanner->addTable('vtiger_crmentity' . $value);
-
 				$focQuery = $foc->generateReportsSecQuery($module, $value, $this->queryPlanner);
-
 				if ($focQuery) {
 					if (count($secondarymodule) > 1) {
-						$query .= $focQuery . $this->getReportsNonAdminAccessControlQuery($value, $current_user, $value);
+						$query .= $focQuery . $this->getReportsNonAdminAccessControlQuery($value, $value);
 					} else {
-						$query .= $focQuery . CRMEntity::getInstance($value)->getNonAdminAccessControlQuery($value, $current_user, $value);
-						;
+						$query .= $focQuery . CRMEntity::getInstance($value)->getNonAdminAccessControlQuery($value, $value);
 					}
 				}
 			}
 		}
 		\App\Log::trace('ReportRun :: Successfully returned getRelatedModulesQuery' . $secmodule);
-
 		return $query;
 	}
 
@@ -1490,10 +1481,10 @@ class ReportRun extends CRMEntity
 	 * @param type $scope
 	 * @return $query
 	 */
-	public function getReportsNonAdminAccessControlQuery($module, $user, $scope = '')
+	public function getReportsNonAdminAccessControlQuery($module, $scope = '')
 	{
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
+		require('user_privileges/sharing_privileges_' . \App\User::getCurrentUserId() . '.php');
 		$query = ' ';
 		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
@@ -1503,7 +1494,7 @@ class ReportRun extends CRMEntity
 
 			if ($module == 'Calendar') {
 				$sharedTabId = $tabId;
-				$tableName = 'vt_tmp_u' . $user->id . '_t' . $tabId;
+				$tableName = 'vt_tmp_u' . \App\User::getCurrentUserId() . '_t' . $tabId;
 			} else if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
 				count($sharingRuleInfo['GROUP']) > 0)) {
 				$sharedTabId = $tabId;
@@ -1514,9 +1505,9 @@ class ReportRun extends CRMEntity
 				if ($module == 'Calendar') {
 					// For calendar we have some special case to check like, calendar shared type
 					$moduleInstance = CRMEntity::getInstance($module);
-					$query = $moduleInstance->getReportsNonAdminAccessControlQuery($tableName, $tabId, $user, $current_user_parent_role_seq, $current_user_groups);
+					$query = $moduleInstance->getReportsNonAdminAccessControlQuery($tableName, $tabId, $current_user_parent_role_seq, $current_user_groups);
 				} else {
-					$query = $this->getNonAdminAccessQuery($module, $user, $current_user_parent_role_seq, $current_user_groups);
+					$query = $this->getNonAdminAccessQuery($module, $current_user_parent_role_seq, $current_user_groups);
 				}
 
 				$db = PearDatabase::getInstance();
@@ -1539,8 +1530,6 @@ class ReportRun extends CRMEntity
 	 */
 	public function getReportsQuery($module, $type = '')
 	{
-
-		$current_user = vglobal('current_user');
 		$secondary_module = "'";
 		$secondary_module .= str_replace(":", "','", $this->secondarymodule);
 		$secondary_module .= "'";
@@ -1587,7 +1576,7 @@ class ReportRun extends CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0';
 		} else if ($module == 'Accounts') {
 			$query = 'from vtiger_account
@@ -1631,7 +1620,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Contacts') {
 			$query = 'from vtiger_contactdetails
@@ -1683,7 +1672,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0';
 		}
 
@@ -1724,14 +1713,14 @@ class ReportRun extends CRMEntity
 						FROM vtiger_products
 						LEFT JOIN vtiger_currency_info ON vtiger_products.currency_id = vtiger_currency_info.id
 						LEFT JOIN vtiger_productcurrencyrel ON vtiger_products.productid = vtiger_productcurrencyrel.productid
-						AND vtiger_productcurrencyrel.currencyid = ' . $current_user->currency_id . '
+						AND vtiger_productcurrencyrel.currencyid = ' . \App\User::getCurrentUserModel()->getDetail('currency_id') . '
 				) AS innerProduct ON innerProduct.productid = vtiger_products.productid';
 			}
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0';
 		} else if ($module == 'HelpDesk') {
 			$matrix = $this->queryPlanner->newDependencyMatrix();
@@ -1787,7 +1776,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Calendar') {
 
@@ -1842,7 +1831,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Campaigns') {
 			$query = 'from vtiger_campaign
@@ -1882,7 +1871,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 				' WHERE vtiger_crmentity.deleted=0';
 		} else if ($module == 'OSSTimeControl') {
 			$query = 'FROM vtiger_osstimecontrol
@@ -1908,7 +1897,7 @@ class ReportRun extends CRMEntity
 
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
-					CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+					CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule) .
 					' WHERE vtiger_crmentity.deleted=0';
 			}
 		}
@@ -2064,10 +2053,7 @@ class ReportRun extends CRMEntity
 	public function generateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$modules = vglobal('modules');
-		$mod_strings = vglobal('mod_strings');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 		$modules_selected = [];
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
@@ -2103,7 +2089,7 @@ class ReportRun extends CRMEntity
 			if (!$result && $error_msg != '') {
 				// Performance Optimization: If direct output is requried
 				if ($directOutput) {
-					echo \App\Language::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br />" . $error_msg;
+					echo \App\Language::translate('LBL_REPORT_GENERATION_FAILED', 'Reports') . "<br />" . $error_msg;
 					$error_msg = false;
 				}
 				// END
@@ -2127,7 +2113,6 @@ class ReportRun extends CRMEntity
 						$headerLabel = str_replace("__", " ", $fld->name);
 						$arrayHeaders[] = $headerLabel;
 					} else {
-						$headerLabel = str_replace($modules, " ", $this->getLstringforReportHeaders($fld->name));
 						$headerLabel = str_replace("__", " ", $this->getLstringforReportHeaders($fld->name));
 						$arrayHeaders[] = $headerLabel;
 					}
@@ -2396,12 +2381,12 @@ class ReportRun extends CRMEntity
 
 					$rowcount = 0;
 					foreach ($totclmnflds as $key => $value) {
-						$col_header = trim(str_replace($modules, " ", $value));
+						$col_header = trim($value);
 						$fld_name_1 = $this->primarymodule . "__" . trim($value);
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . \App\User::getCurrentUserModel()->getDetail('currency_symbol') . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2455,135 +2440,6 @@ class ReportRun extends CRMEntity
 				}
 			}
 			return $totalpdf;
-		} elseif ($outputformat == "TOTALHTML") {
-			$escapedchars = ['__SUM', '__AVG', '__MIN', '__MAX'];
-			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, "COLUMNSTOTOTAL");
-
-			static $modulename_cache = [];
-
-			if (isset($this->totallist)) {
-				if ($sSQL != "") {
-					$result = $adb->query($sSQL);
-					$y = $adb->getFieldsCount($result);
-					$custom_field_values = $adb->fetchArray($result);
-					$coltotalhtml .= "<table align='center' width='60%' cellpadding='3' cellspacing='0' border='0' class='rptTable'><tr><td class='rptCellLabel'>" . $mod_strings[Totals] . "</td><td class='rptCellLabel'>" . $mod_strings[SUM] . "</td><td class='rptCellLabel'>" . $mod_strings[AVG] . "</td><td class='rptCellLabel'>" . $mod_strings[MIN] . "</td><td class='rptCellLabel'>" . $mod_strings[MAX] . "</td></tr>";
-
-					// Performation Optimization: If Direct output is desired
-					if ($directOutput) {
-						echo $coltotalhtml;
-						$coltotalhtml = '';
-					}
-					// END
-
-					foreach ($this->totallist as $key => $value) {
-						$fieldlist = explode(":", $key);
-
-						$module_name = NULL;
-						$cachekey = $fieldlist[1] . ":" . $fieldlist[2];
-						if (!isset($modulename_cache[$cachekey])) {
-							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", [$fieldlist[1], $fieldlist[2]]);
-							if ($adb->numRows($mod_query) > 0) {
-								$module_name = \App\Module::getModuleName($adb->queryResult($mod_query, 0, 'tabid'));
-								$modulename_cache[$cachekey] = $module_name;
-							}
-						} else {
-							$module_name = $modulename_cache[$cachekey];
-						}
-						if ($module_name) {
-							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
-							$fieldlabel = str_replace("__", " ", $fieldlabel);
-							$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
-						} else {
-							$field = \App\Language::translate($fieldlabel);
-						}
-
-						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->queryResult($mod_query, 0, "uitype");
-						$totclmnflds[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $field;
-					}
-					for ($i = 0; $i < $y; $i++) {
-						$fld = $adb->columnMeta($result, $i);
-						$keyhdr[$fld->name] = $custom_field_values[$i];
-					}
-
-					foreach ($totclmnflds as $key => $value) {
-						$coltotalhtml .= '<tr class="rptGrpHead" valign=top>';
-						$col_header = trim(str_replace($modules, " ", $value));
-						$fld_name_1 = $this->primarymodule . "__" . trim($value);
-						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
-						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
-							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
-							$convert_price = true;
-						} else {
-							$convert_price = false;
-						}
-						$coltotalhtml .= '<td class="rptData">' . $col_header . '</td>';
-						$value = trim($key);
-						$arraykey = $value . '__SUM';
-						if (isset($keyhdr[$arraykey])) {
-							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
-							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
-							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
-						}else {
-							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
-						}
-
-						$arraykey = $value . '__AVG';
-						if (isset($keyhdr[$arraykey])) {
-							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
-							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
-							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
-						}else {
-							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
-						}
-
-						$arraykey = $value . '__MIN';
-						if (isset($keyhdr[$arraykey])) {
-							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
-							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
-							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
-						}else {
-							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
-						}
-
-						$arraykey = $value . '__MAX';
-						if (isset($keyhdr[$arraykey])) {
-							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
-							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
-							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
-						}else {
-							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
-						}
-
-						$coltotalhtml .= '<tr>';
-
-						// Performation Optimization: If Direct output is desired
-						if ($directOutput) {
-							echo $coltotalhtml;
-							$coltotalhtml = '';
-						}
-						// END
-					}
-
-					$coltotalhtml .= "</table>";
-
-					// Performation Optimization: If Direct output is desired
-					if ($directOutput) {
-						echo $coltotalhtml;
-						$coltotalhtml = '';
-					}
-					// END
-				}
-			}
-			return $coltotalhtml;
 		} elseif ($outputformat == "PRINT") {
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, $outputformat);
 			$result = $adb->query($sSQL);
@@ -2677,7 +2533,7 @@ class ReportRun extends CRMEntity
 					$y = $adb->getFieldsCount($result);
 					$custom_field_values = $adb->fetchArray($result);
 
-					$coltotalhtml .= "<br /><table align='center' width='60%' cellpadding='3' cellspacing='0' border='1' class='printReport'><tr><td class='rptCellLabel'>" . $mod_strings['Totals'] . "</td><td><b>" . $mod_strings['SUM'] . "</b></td><td><b>" . $mod_strings['AVG'] . "</b></td><td><b>" . $mod_strings['MIN'] . "</b></td><td><b>" . $mod_strings['MAX'] . "</b></td></tr>";
+					$coltotalhtml .= "<br /><table align='center' width='60%' cellpadding='3' cellspacing='0' border='1' class='printReport'><tr><td class='rptCellLabel'></td><td><b>" . App\Language::translate('LBL_SUM', 'Reports') . "</b></td><td><b>" . App\Language::translate('LBL_AVG', 'Reports') . "</b></td><td><b>" . App\Language::translate('LBL_MIN', 'Reports') . "</b></td><td><b>" . App\Language::translate('LBL_MAX', 'Reports') . "</b></td></tr>";
 
 					// Performation Optimization: If Direct output is desired
 					if ($directOutput) {
@@ -2709,12 +2565,12 @@ class ReportRun extends CRMEntity
 					}
 					foreach ($totclmnflds as $key => $value) {
 						$coltotalhtml .= '<tr class="rptGrpHead">';
-						$col_header = \App\Language::translate(trim(str_replace($modules, " ", $value)));
+						$col_header = $value;
 						$fld_name_1 = $this->primarymodule . "__" . trim($value);
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . \App\User::getCurrentUserModel()->getDetail('currency_symbol') . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2971,7 +2827,6 @@ class ReportRun extends CRMEntity
 	 * */
 	public function getLstringforReportHeaders($fldname)
 	{
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$rep_header = ltrim($fldname);
 		$rep_header = App\Purifier::decodeHtml($rep_header);
 		$labelInfo = explode('__', $rep_header);
@@ -2990,7 +2845,7 @@ class ReportRun extends CRMEntity
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
 		$fieldInfo = ReportUtils::getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
-			$curr_symb = " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+			$curr_symb = " (" . \App\Language::translate('LBL_IN') . " " . \App\User::getCurrentUserModel()->getDetail('currency_symbol') . ")";
 		}
 		$rep_header .= $curr_symb;
 
@@ -3003,14 +2858,13 @@ class ReportRun extends CRMEntity
 	public function getAccessPickListValues()
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
 		$id = [\App\Module::getModuleId($this->primarymodule)];
 		if ($this->secondarymodule != '')
 			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', $adb->generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
-		$roleid = $current_user->roleid;
+		$roleid = \App\User::getCurrentUserModel()->getRole();
 		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
 		if (count($subrole) > 0) {
 			$roleids = $subrole;

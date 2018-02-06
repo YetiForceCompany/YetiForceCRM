@@ -26,7 +26,7 @@ class LinkData
 	{
 		$this->link = $link;
 		$this->user = $user;
-		$this->module = vglobal('currentModule');
+		$this->module = \App\Request::_getModule();
 	}
 
 	public function getInputParameter($name)
@@ -45,7 +45,7 @@ class LinkData
 
 	/**
 	 *
-	 * @return Users 
+	 * @return Users
 	 */
 	public function getUser()
 	{

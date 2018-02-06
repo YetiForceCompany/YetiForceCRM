@@ -510,10 +510,9 @@ class Request
 	 */
 	public function validateReadAccess()
 	{
-		$user = vglobal('current_user');
 		// Referer check if present - to over come
-		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
-			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId()) {//Check for user post authentication.
+			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
 				throw new \App\Exceptions\Csrf('Illegal request');
 			}
 		}

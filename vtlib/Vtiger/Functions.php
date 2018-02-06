@@ -13,13 +13,6 @@ namespace vtlib;
 class Functions
 {
 
-	public static function currentUserDisplayDateNew()
-	{
-		$current_user = vglobal('current_user');
-		$date = new \DateTimeField(null);
-		return $date->getDisplayDate($current_user);
-	}
-
 	// i18n
 	public static function getTranslatedString($str, $module = '')
 	{

@@ -322,9 +322,8 @@ class Deprecated
 	 */
 	public static function getPermittedModuleIdList()
 	{
-		$current_user = vglobal('current_user');
 		$permittedModules = [];
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 		include('user_privileges/tabdata.php');
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 &&

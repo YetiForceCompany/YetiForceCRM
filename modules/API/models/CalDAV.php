@@ -102,9 +102,6 @@ class API_CalDAV_Model
 				if ($sync) {
 					$orgUserId = App\User::getCurrentUserId();
 					App\User::setCurrentUserId($user->get('id'));
-					$currentUser = vglobal('current_user');
-					vglobal('current_user', $user);
-
 					$vcalendar = $this->getDavDetail();
 					if ($vcalendar === false) {// Creating
 						$this->davCreate();
@@ -112,7 +109,6 @@ class API_CalDAV_Model
 					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 						$this->davUpdate($vcalendar);
 					}
-					vglobal('current_user', $currentUser);
 					App\User::setCurrentUserId($orgUserId);
 				}
 			}

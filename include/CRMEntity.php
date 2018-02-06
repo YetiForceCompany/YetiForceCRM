@@ -900,11 +900,11 @@ class CRMEntity
 	 * @param <type> $parentRole
 	 * @param <type> $userGroups
 	 */
-	public function getNonAdminAccessQuery($module, $user, $parentRole, $userGroups)
+	public function getNonAdminAccessQuery($module, $parentRole, $userGroups)
 	{
-		$query = $this->getNonAdminUserAccessQuery($user, $parentRole, $userGroups);
+		$query = $this->getNonAdminUserAccessQuery($parentRole, $userGroups);
 		if (!empty($module)) {
-			$moduleAccessQuery = $this->getNonAdminModuleAccessQuery($module, $user);
+			$moduleAccessQuery = $this->getNonAdminModuleAccessQuery($module);
 			if (!empty($moduleAccessQuery)) {
 				$query .= " UNION $moduleAccessQuery";
 			}
@@ -919,9 +919,10 @@ class CRMEntity
 	 * @param array $userGroups
 	 * @return string
 	 */
-	public function getNonAdminUserAccessQuery(Users $user, $parentRole, $userGroups)
+	public function getNonAdminUserAccessQuery($parentRole, $userGroups)
 	{
-		$query = "(SELECT $user->id as id) UNION (SELECT vtiger_user2role.userid AS userid FROM " .
+		$userId = \App\User::getCurrentUserId();
+		$query = "(SELECT $userId as id) UNION (SELECT vtiger_user2role.userid AS userid FROM " .
 			'vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid ' .
 			'INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE ' .
 			"vtiger_role.parentrole like '$parentRole::%')";
@@ -938,9 +939,10 @@ class CRMEntity
 	 * @param Users $user
 	 * @return string
 	 */
-	public function getNonAdminModuleAccessQuery($module, Users $user)
+	public function getNonAdminModuleAccessQuery($module)
 	{
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		$userId = \App\User::getCurrentUserId();
+		require('user_privileges/sharing_privileges_' . $userId . '.php');
 		$tabId = \App\Module::getModuleId($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
@@ -948,9 +950,9 @@ class CRMEntity
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
 			count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = " (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per " .
-				"WHERE userid=$user->id && tabid=$tabId) UNION (SELECT " .
+				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				"vtiger_tmp_read_group_sharing_per.sharedgroupid FROM " .
-				"vtiger_tmp_read_group_sharing_per WHERE userid=$user->id && tabid=$tabId)";
+				"vtiger_tmp_read_group_sharing_per WHERE userid=$userId && tabid=$tabId)";
 		}
 		return $query;
 	}
@@ -962,13 +964,13 @@ class CRMEntity
 	 * @param <type> $parentRole
 	 * @param <type> $userGroups
 	 */
-	protected function setupTemporaryTable($tableName, $tabId, $user, $parentRole, $userGroups)
+	protected function setupTemporaryTable($tableName, $tabId, $parentRole, $userGroups)
 	{
 		$module = null;
 		if (!empty($tabId)) {
 			$module = \App\Module::getModuleName($tabId);
 		}
-		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
+		$query = $this->getNonAdminAccessQuery($module, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
 			$query;
 		$db = PearDatabase::getInstance();
@@ -986,14 +988,14 @@ class CRMEntity
 	 * @param string $scope
 	 * @return string - access control query for the user.
 	 */
-	public function getNonAdminAccessControlQuery($module, Users $user, $scope = '')
+	public function getNonAdminAccessControlQuery($module, $scope = '')
 	{
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
+		require('user_privileges/sharing_privileges_' . \App\User::getCurrentUserId() . '.php');
 		$query = ' ';
 		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
-			$tableName = 'vt_tmp_u' . $user->id;
+			$tableName = 'vt_tmp_u' . \App\User::getCurrentUserId();
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;
 			$sharedTabId = null;
@@ -1004,7 +1006,7 @@ class CRMEntity
 			} elseif ($module == 'Calendar' || !empty($scope)) {
 				$tableName .= '_t' . $tabId;
 			}
-			$this->setupTemporaryTable($tableName, $sharedTabId, $user, $current_user_parent_role_seq, $current_user_groups);
+			$this->setupTemporaryTable($tableName, $sharedTabId, $current_user_parent_role_seq, $current_user_groups);
 			// for secondary module we should join the records even if record is not there(primary module without related record)
 			if ($scope == '') {
 				$query = " INNER JOIN $tableName $tableName$scope ON $tableName$scope.id = " .
@@ -1063,9 +1065,8 @@ class CRMEntity
 	 */
 	public static function trackLinkedInfo($crmId)
 	{
-		$current_user = vglobal('current_user');
 		$currentTime = date('Y-m-d H:i:s');
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
 	}
 
 	/**
@@ -1074,9 +1075,8 @@ class CRMEntity
 	 */
 	public function trackUnLinkedInfo($crmId)
 	{
-		$current_user = vglobal('current_user');
 		$currentTime = date('Y-m-d H:i:s');
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
 	}
 
 	public function getLockFields()
