@@ -49,19 +49,6 @@ class Deprecated
 		return '';
 	}
 
-	public static function getModuleTranslationStrings($language, $module)
-	{
-		static $cachedModuleStrings = [];
-
-		if (!empty($cachedModuleStrings[$module])) {
-			return $cachedModuleStrings[$module];
-		}
-		$newStrings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
-		$cachedModuleStrings[$module] = $newStrings['languageStrings'];
-
-		return $cachedModuleStrings[$module];
-	}
-
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
 	{

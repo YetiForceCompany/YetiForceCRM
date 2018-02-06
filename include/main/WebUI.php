@@ -113,23 +113,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				require_once('libraries/csrf-magic/csrf-magic.php');
 			}
 			// common utils api called, depend on this variable right now
-			$currentUser = $this->getLogin();
-			$currentLanguage = \App\Language::getLanguage();
-			vglobal('current_language', $currentLanguage);
+			$this->getLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
-			if ($currentUser) {
-				if ($qualifiedModuleName) {
-					$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
-					if (isset($moduleLanguageStrings['languageStrings'])) {
-						vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
-					}
-				}
-				$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
-				if (isset($moduleLanguageStrings['languageStrings'])) {
-					vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
-				}
-			}
 			$view = $request->getByType('view', 2);
 			$action = $request->getByType('action', 2);
 			$response = false;
@@ -179,8 +165,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-
-			vglobal('currentModule', $moduleName);
 			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}

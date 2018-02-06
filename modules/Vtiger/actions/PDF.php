@@ -108,7 +108,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$footers = '';
 				$classes = '';
 				$body = '';
-				$origLanguage = \AppConfig::main('default_language');
 				foreach ($recordId as $index => $record) {
 					if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
 						throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -121,7 +120,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
-					vglobal('default_language', $template->get('language'));
+					App\Language::setTemporaryLanguage($template->get('language'));
 					$template->getParameters();
 
 					$styles .= " @page template_{$record}_{$firstTemplate} {
@@ -144,8 +143,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
-						vglobal('default_language', $template->get('language'));
-
+						App\Language::setTemporaryLanguage($template->get('language'));
 						$styles .= " @page template_{$record}_{$id} {
 							sheet-size: {$template->getFormat()};
 							margin-top: {$template->get('margin_top')}mm;
@@ -163,7 +161,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$body .= '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
 					}
 				}
-				vglobal('default_language', $origLanguage);
 				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
 				$pdf->loadHTML($html);
 				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
@@ -173,7 +170,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$postfix = time() . '_' . mt_rand(0, 1000);
 
 				$pdfFiles = [];
-				$origLanguage = \AppConfig::main('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
@@ -188,18 +184,12 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
+						App\Language::setTemporaryLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
-						vglobal('default_language', $template->get('language'));
-
 						$pdf->parseParams($template->getParameters());
-
-						$html = '';
-
 						$pdf->setHeader('Header', $template->getHeader());
 						$pdf->setFooter('Footer', $template->getFooter());
-						$html = $template->getBody();
-
-						$pdf->loadHTML($html);
+						$pdf->loadHTML($template->getBody());
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output($pdfFileName, 'F');
 
@@ -209,8 +199,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						unset($pdf, $template);
 					}
 				}
-				vglobal('default_language', $origLanguage);
-
 				if (!empty($pdfFiles)) {
 					if (!empty($emailPdf)) {
 						Vtiger_PDF_Model::attachToEmail($postfix);
@@ -220,6 +208,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				}
 			}
 		}
+		App\Language::clearTemporaryLanguage();
 	}
 
 	/**

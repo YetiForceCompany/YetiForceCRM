@@ -37,7 +37,7 @@ class LanguageFiles extends \Tests\Base
 	 */
 	public function testTranslate()
 	{
-		\App\Language::setLanguage('pl_pl');
+		\App\Language::setTemporaryLanguage('pl_pl');
 		$this->assertTrue(\App\Language::translate('LBL_MONTH') === 'miesiąc');
 		$this->assertTrue(\App\Language::translateArgs('LBL_VALID_RECORDS', 'Vtiger', 'aaa', 'bbb') === 'aaa z bbb są poprawne dla wybranego szablonu.');
 		$this->assertTrue(\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', 'Settings::Vtiger', 1) === 'Ostrzeżenie systemowe');

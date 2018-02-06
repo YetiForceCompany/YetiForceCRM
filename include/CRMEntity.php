@@ -264,31 +264,29 @@ class CRMEntity
 	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$currentModule = vglobal('currentModule');
-
 		switch ($relatedName) {
 			case 'getManyToMany':
-				$this->deleteRelatedM2M($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedM2M($id, $returnModule, $returnId);
 				break;
 			case 'getDependentsList':
-				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedDependent($id, $returnModule, $returnId);
 				break;
 			case 'getRelatedList':
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
 			default:
-				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedDependent($id, $returnModule, $returnId);
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
 		}
 	}
 
-	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)
 	{
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			App\Db::getInstance()->createCommand()
@@ -304,9 +302,9 @@ class CRMEntity
 	 * @param string $withModule
 	 * @param integer $withCrmid
 	 */
-	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedM2M($crmid, $withModule, $withCrmid)
 	{
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->moduleName, $withModule);
 		\App\Db::getInstance()->createCommand()->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
 	}
 

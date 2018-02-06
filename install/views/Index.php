@@ -82,7 +82,7 @@ class Install_Index_View extends \App\Controller\View
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
-		vglobal('default_language', $defaultLanguage);
+		App\Language::setTemporaryLanguage($defaultLanguage);
 
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');

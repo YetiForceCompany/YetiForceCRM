@@ -91,7 +91,7 @@ class BaseAction
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\App\Language::setLanguage($language);
+			\App\Language::setTemporaryLanguage($language);
 		}
 	}
 

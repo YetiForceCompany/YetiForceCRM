@@ -181,17 +181,13 @@ class Vtiger_Language_Handler
 		if ($userSelectedLanguage != $defaultLanguage) {
 			array_push($languages, $defaultLanguage);
 		}
-
-
 		$resultantLanguageString = [];
 		foreach ($languages as $currentLanguage) {
 			$exportLangString = [];
-
 			$moduleStrings = self::getModuleStringsFromFile($currentLanguage, $module);
 			if (!empty($moduleStrings[$type])) {
 				$exportLangString = $moduleStrings[$type];
 			}
-
 			// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
 			if (strpos($module, '.') > 0) {
 				$baseModule = substr($module, 0, strpos($module, '.'));
@@ -203,20 +199,12 @@ class Vtiger_Language_Handler
 					$exportLangString += $commonStrings[$type];
 				}
 			}
-
 			$commonStrings = self::getModuleStringsFromFile($currentLanguage);
 			if (!empty($commonStrings[$type])) {
 				$exportLangString += $commonStrings[$type];
 			}
 			$resultantLanguageString += $exportLangString;
 		}
-
 		return $resultantLanguageString;
-		;
-	}
-
-	public static function getTranslateSingularModuleName($moduleName)
-	{
-		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);
 	}
 }

@@ -86,7 +86,6 @@ class PearDatabase
 			$db->checkError('Error connecting to the database');
 			return false;
 		} else {
-			vglobal('adb', $db);
 			self::$dbCache = $db;
 		}
 		return $db;
@@ -130,7 +129,6 @@ class PearDatabase
 	public function setDBCache()
 	{
 		self::$dbCache = $this;
-		vglobal('adb', $this);
 	}
 
 	public function getDatabaseName()
