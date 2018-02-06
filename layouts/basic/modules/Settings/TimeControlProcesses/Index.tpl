@@ -20,7 +20,7 @@
 		<li><a href="#timeControlWidget" data-toggle="tab">{\App\Language::translate('LBL_TIME_CONTROL_WIDGET', $QUALIFIED_MODULE)}</a></li>
 	</ul>
 	<br />
-	<div class="tab-content btn-group-toggle">
+	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="general" data-type="general">
 			{assign var=GENERAL_FIELDS value=$MODULE_MODEL->get('general')}
 			<div class="btn-group-toggle" data-toggle="buttons">
