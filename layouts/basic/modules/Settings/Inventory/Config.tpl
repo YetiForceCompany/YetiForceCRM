@@ -15,10 +15,11 @@
 				{assign var=LABEL_CHECKBOX value='LBL_NO'}
 			{/if}
 			<label class="col-md-3 col-form-label form-control-plaintext">{\App\Language::translate('LBL_ARE_ACTIVE', $QUALIFIED_MODULE)}</label>
-			<div class="col-md-6" data-toggle="buttons">
+			<div class="col-md-6 btn-group-toggle" data-toggle="buttons">
 				<label class="btn {if $CONFIG.active}btn-success active{else}btn-light{/if}">
 					<input autocomplete="off" type="checkbox" name="active" {if $CONFIG.active}checked{/if}><span class="text">&nbsp;&nbsp;{\App\Language::translate($LABEL_CHECKBOX, $QUALIFIED_MODULE)}</span>
-					<span class="glyphicon {if $CONFIG.active}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
+					<span class="far {if $CONFIG.active}fa-check-square{else}fa-square{/if} float-left"></span>
+{*					{var_dump($CONFIG)}*}
 				</label>	
 			</div>
 		</div>
