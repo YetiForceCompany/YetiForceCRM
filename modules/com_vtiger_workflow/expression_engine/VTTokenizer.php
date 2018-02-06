@@ -71,6 +71,12 @@ class VTExpressionTokenizer
 		}
 	}
 
+	public function tests($token)
+	{
+		$this->processTokenId($token);
+		$this->processTokenSymbol($token);
+	}
+
 	private function processTokenId($token)
 	{
 		return $token;

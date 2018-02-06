@@ -18,26 +18,15 @@ class Access
 {
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
-	}
-
-	/**
 	 * Recalculate sharing access rules.
 	 * @internal This function could take up lot of resource while execution
 	 * @access private
 	 */
 	public static function syncSharingAccess()
 	{
-		self::log("Recalculating sharing rules ... ", false);
+		\App\Log::trace('Recalculating sharing rules ... ', __METHOD__);
 		\App\UserPrivilegesFile::recalculateAll();
-		self::log("DONE");
+		\App\Log::trace('DONE', __METHOD__);
 	}
 
 	/**
@@ -50,7 +39,7 @@ class Access
 	{
 		$ownedBy = $enable ? 0 : 1;
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['ownedby' => $ownedBy], ['tabid' => $moduleInstance->id])->execute();
-		self::log(($enable ? 'Enabled' : 'Disabled') . ' sharing access control ... DONE');
+		\App\Log::trace(($enable ? 'Enabled' : 'Disabled') . ' sharing access control ... DONE', __METHOD__);
 	}
 
 	/**
@@ -71,7 +60,7 @@ class Access
 		\App\Db::getInstance()->createCommand()
 			->batchInsert('vtiger_org_share_action2tab', ['share_action_id', 'tabid'], $insertedData)
 			->execute();
-		self::log('Setting up sharing access options ... DONE');
+		\App\Log::trace('Setting up sharing access options ... DONE', __METHOD__);
 	}
 
 	/**
@@ -83,7 +72,7 @@ class Access
 	public static function deleteSharing(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_org_share_action2tab', ['tabid' => $moduleInstance->id])->execute();
-		self::log('Deleting sharing access ... DONE');
+		\App\Log::trace('Deleting sharing access ... DONE', __METHOD__);
 	}
 
 	/**
@@ -140,7 +129,7 @@ class Access
 				$profileids = Profile::getAllIds();
 			}
 
-			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
+			\App\Log::trace(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", __METHOD__);
 			$db = \App\Db::getInstance();
 			foreach ($profileids as &$useProfileId) {
 				$isExists = (new \App\Db\Query)->from('vtiger_profile2utility')
@@ -151,10 +140,9 @@ class Access
 				} else {
 					$db->createCommand()->insert('vtiger_profile2utility', ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId, 'permission' => $permission])->execute();
 				}
-
-				self::log("$useProfileId,", false);
+				\App\Log::trace("$useProfileId,", __METHOD__);
 			}
-			self::log("] ... DONE");
+			\App\Log::trace("] ... DONE", __METHOD__);
 		}
 	}
 
@@ -165,6 +153,6 @@ class Access
 	public static function deleteTools(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_profile2utility', ['tabid' => $moduleInstance->id])->execute();
-		self::log('Deleting tools ... DONE');
+		\App\Log::trace('Deleting tools ... DONE', __METHOD__);
 	}
 }

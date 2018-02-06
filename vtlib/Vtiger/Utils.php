@@ -16,8 +16,6 @@ namespace vtlib;
 class Utils
 {
 
-	protected static $logFileName = 'module.log';
-
 	/**
 	 * Check if given value is a number or not
 	 * @param mixed String or Integer
@@ -107,16 +105,6 @@ class Utils
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * Log the debug message
-	 * @param String Log message
-	 * @param Boolean true to append end-of-line, false otherwise
-	 */
-	public static function log($message, $delimit = true)
-	{
-		\App\Log::trace($message);
 	}
 
 	/**
@@ -228,46 +216,5 @@ class Utils
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * funtion to log the exception messge to module.log file
-	 * @global type $site_URL
-	 * @param string $module name of the log file and It should be a alphanumeric string
-	 * @param <Exception>/string $exception Massage show in the log ,It should be a string or Exception object
-	 * @param <array> $extra extra massages need to be displayed
-	 * @param <boolean> $backtrace flag to enable or disable backtrace in log
-	 * @param <boolean> $request flag to enable or disable request in log
-	 */
-	public static function moduleLog($module, $mixed, $extra = [])
-	{
-		if (ALLOW_MODULE_LOGGING) {
-			$date = date('Y-m-d H:i:s');
-			$log = [\AppConfig::main('site_URL'), $module, $date];
-			if ($mixed instanceof \Exception) {
-				array_push($log, $mixed->getMessage());
-				array_push($log, $mixed->getTraceAsString());
-			} else {
-				array_push($log, $mixed);
-				array_push($log, "");
-			}
-			if (isset($_REQUEST)) {
-				array_push($log, json_encode($_REQUEST));
-			} else {
-				array_push($log, "");
-			};
-
-			if ($extra) {
-				if (is_array($extra))
-					$extra = json_encode($extra);
-				array_push($log, $extra);
-			} else {
-				array_push($log, "");
-			}
-			$fileName = self::$logFileName;
-			$fp = fopen("cache/logs/$fileName", 'a+');
-			fputcsv($fp, $log);
-			fclose($fp);
-		}
 	}
 }

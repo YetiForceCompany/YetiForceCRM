@@ -190,7 +190,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 	public function sendEmail()
 	{
 		$recipientEmails = $this->getRecipientEmails();
-		vtlib\Utils::moduleLog('ScheduleReprots', $recipientEmails);
+		\App\Log::trace('ScheduleReprots ' . var_export($recipientEmails, true), __METHOD__);
 		$to = [];
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
@@ -198,9 +198,9 @@ class Reports_ScheduleReports_Model extends \App\Base
 		Vtiger_Loader::includeOnce('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
-		vtlib\Utils::moduleLog('ScheduleReprots Send Mail Start ::', $currentTime);
+		\App\Log::trace('ScheduleReprots Send Mail Start ::' . $currentTime, __METHOD__);
 		$reportname = \App\Purifier::decodeHtml($reportRecordModel->getName());
-		vtlib\Utils::moduleLog('ScheduleReprot Name ::', $reportname);
+		\App\Log::trace('ScheduleReprots Send Mail Start ::' . $reportname, __METHOD__);
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
 
@@ -276,9 +276,9 @@ class Reports_ScheduleReports_Model extends \App\Base
 	{
 		$adb = PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
-		vtlib\Utils::moduleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
+		\App\Log::trace('ScheduleReprot Next Trigger Time >> ' . $nextTriggerTime, __METHOD__);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', [$nextTriggerTime, $this->get('reportid')]);
-		vtlib\Utils::moduleLog('ScheduleReprot', 'Next Trigger Time updated');
+		\App\Log::trace('Next Trigger Time updated', __METHOD__);
 	}
 
 	public static function getScheduledReports()
@@ -319,7 +319,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
-			vtlib\Utils::moduleLog('ScheduleReprot Send Mail Status ', $status);
+			\App\Log::trace('ScheduleReprot Send Mail Status ' . $status, __METHOD__);
 			if ($status)
 				$scheduledReport->updateNextTriggerTime();
 		}

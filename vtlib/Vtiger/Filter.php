@@ -79,12 +79,12 @@ class Filter
 			'sort' => $this->sort,
 		])->execute();
 		$this->id = $db->getLastInsertID('vtiger_customview_cvid_seq');
-		self::log("Creating Filter $this->name ... DONE");
+		\App\Log::trace("Creating Filter $this->name ... DONE", __METHOD__);
 	}
 
 	public function __update()
 	{
-		self::log("Updating Filter $this->name ... DONE");
+		\App\Log::trace("Updating Filter $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Filter
 			'columnindex' => $index,
 			'columnname' => $cvcolvalue
 		])->execute();
-		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE");
+		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE", __METHOD__);
 		return $this;
 	}
 
@@ -183,7 +183,7 @@ class Filter
 			'groupid' => $group,
 			'column_condition' => $condition
 		])->execute();
-		Utils::log('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
+		\App\Log::trace('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE", __METHOD__);
 		return $this;
 	}
 
@@ -240,17 +240,6 @@ class Filter
 				$comparator = 'h';
 		}
 		return $comparator;
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
 	}
 
 	/**

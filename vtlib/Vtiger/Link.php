@@ -99,7 +99,7 @@ class Link
 				$params['params'] = $linkParams;
 			}
 			$db->createCommand()->insert('vtiger_links', $params)->execute();
-			self::log("Adding Link ($type - $label) ... DONE");
+			\App\Log::trace("Adding Link ($type - $label) ... DONE");
 		}
 	}
 
@@ -120,14 +120,14 @@ class Link
 				'linklabel' => $label,
 				'linkurl' => $url
 			])->execute();
-			self::log("Deleting Link ($type - $label - $url) ... DONE");
+			\App\Log::trace("Deleting Link ($type - $label - $url) ... DONE");
 		} else {
 			$db->createCommand()->delete('vtiger_links', [
 				'tabid' => $tabid,
 				'linktype' => $type,
 				'linklabel' => $label,
 			])->execute();
-			self::log("Deleting Link ($type - $label) ... DONE");
+			\App\Log::trace("Deleting Link ($type - $label) ... DONE");
 		}
 	}
 
@@ -138,7 +138,7 @@ class Link
 	public static function deleteAll($tabid)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_links', ['tabid' => $tabid])->execute();
-		self::log("Deleting Links ... DONE");
+		\App\Log::trace('Deleting Links ... DONE');
 	}
 
 	/**
@@ -253,7 +253,7 @@ class Link
 				$linkData = new LinkData($instance, vglobal('current_user'));
 				$ignore = call_user_func([$row['handler_class'], $row['handler']], $linkData);
 				if (!$ignore) {
-					self::log('Ignoring Link ... ' . var_export($row, true));
+					\App\Log::trace('Ignoring Link ... ' . var_export($row, true));
 					continue;
 				}
 			}
@@ -285,17 +285,6 @@ class Link
 			$links[] = $instance;
 		}
 		return $links;
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delimit = true)
-	{
-		Utils::log($message, $delimit);
 	}
 
 	/**

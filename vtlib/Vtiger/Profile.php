@@ -69,23 +69,12 @@ class Profile
 				'permissions' => 0,
 			])->execute();
 		}
-		self::log("Initializing profile permissions ... DONE");
+		\App\Log::trace('Initializing profile permissions ... DONE', __METHOD__);
 	}
 
 	private function update()
 	{
 		throw new \Exception('Not implemented');
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delimit = true)
-	{
-		Utils::log($message, $delimit);
 	}
 
 	/**
@@ -166,7 +155,7 @@ class Profile
 				}
 			}
 		}
-		self::log('Initializing module permissions ... DONE');
+		\App\Log::trace('Initializing module permissions ... DONE', __METHOD__);
 	}
 
 	/**

@@ -24,7 +24,7 @@ class Menu
 
 	/**
 	 * Initialize this instance
-	 * @param Array Map 
+	 * @param Array Map
 	 * @access private
 	 */
 	public function initialize($valuemap)
@@ -42,17 +42,6 @@ class Menu
 	public static function getInstance($value)
 	{
 		return false;
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
 	}
 
 	/**
