@@ -5187,21 +5187,21 @@ button.bg-dark:focus {
   padding: 0.25rem !important; }
 
 .pt-1,
-.py-1,
-.headerRightWrapper .btn {
+.py-1 {
   padding-top: 0.25rem !important; }
 
 .pr-1,
-.px-1 {
+.px-1,
+.headerRightWrapper .btn {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
-.py-1,
-.headerRightWrapper .btn {
+.py-1 {
   padding-bottom: 0.25rem !important; }
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
-.px-1 {
+.px-1,
+.headerRightWrapper .btn {
   padding-left: 0.25rem !important; }
 
 .p-2 {
@@ -5213,8 +5213,7 @@ button.bg-dark:focus {
   padding-top: 0.5rem !important; }
 
 .pr-2,
-.px-2,
-.headerRightWrapper .btn {
+.px-2 {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5223,8 +5222,7 @@ button.bg-dark:focus {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
-.px-2,
-.headerRightWrapper .btn {
+.px-2 {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -11422,6 +11420,9 @@ and open the template in the editor.
 .headerLinksMails .select2-selection.select2-selection--single {
   height: 40px !important; }
 
+.select2-selection.select2-selection--single {
+  font-size: inherit !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
   background-color: var(--yf-darkblue);
@@ -11459,7 +11460,11 @@ and open the template in the editor.
 
 .headerRightWrapper .btn {
   font-size: 17px;
-  height: 35px; }
+  height: 32px; }
+  .headerRightWrapper .btn [data-fa-i2svg] {
+    margin-bottom: 4px; }
+    .headerRightWrapper .btn [data-fa-i2svg].fa-power-off {
+      margin-bottom: 1px; }
 .headerRightWrapper .headerLinksMails .btn {
   font-size: 14px; }
 
