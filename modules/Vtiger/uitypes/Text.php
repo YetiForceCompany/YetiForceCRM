@@ -75,6 +75,14 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/Text.tpl';
