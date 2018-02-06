@@ -173,9 +173,9 @@
 	{if AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="searchMenu globalSearchInput">
 			<div class="input-group mb-1">
-				<div class ="chzn-selectWithButtonWidth">
-				<select class="chzn-select basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
-					<option value="" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
+				<div class ="select2WithButtonWidth">
+				<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+					<option value="-" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 					{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
 							<option value="{$MODULE_NAME}" selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
