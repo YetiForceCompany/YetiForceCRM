@@ -19,7 +19,6 @@
 				<label class="btn {if $CONFIG.active}btn-success active{else}btn-light{/if}">
 					<input autocomplete="off" type="checkbox" name="active" {if $CONFIG.active}checked{/if}><span class="text">&nbsp;&nbsp;{\App\Language::translate($LABEL_CHECKBOX, $QUALIFIED_MODULE)}</span>
 					<span class="far {if $CONFIG.active}fa-check-square{else}fa-square{/if} float-left"></span>
-{*					{var_dump($CONFIG)}*}
 				</label>	
 			</div>
 		</div>
