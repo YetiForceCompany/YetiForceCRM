@@ -692,28 +692,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
-	registerScrollForMenu: function (container) {
-		if (!container.length) return;
-		var menuContainer = container.find('.leftPanel .menuContainer');
-		var menuScrollInit = new PerfectScrollbar(menuContainer[0], {
-			suppressScrollX: true,
-			wheelPropagation: true
-		});
-		var subMenuScrollInit = new PerfectScrollbar(menuContainer.find('.subMenu').last()[0], {
-			suppressScrollX: true,
-		});
-		var mobileMenuScrollInit = new PerfectScrollbar(container.find('.mobileLeftPanel .menuContainer')[0], {
-			suppressScrollX: true,
-		});
-		menuContainer.find('.ps__rail-y').css({
-			left: 0,
-			right: 'auto'
-		})
-		menuContainer.find('.ps__thumb-y').css({
-			left: 2,
-			right: 'auto'
-		})
-	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu li a").click(function () {
 			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
@@ -740,9 +718,13 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
+		const container = thisInstance.getContentsContainer();
+		const menuContainer = container.find('.leftPanel .menuContainer');
+		app.showLeftPerfectScrollbar(menuContainer, {suppressScrollX: true});
+		app.showPerfectScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
+		app.showPerfectScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
-		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerScrollForMenu(thisInstance.getContentsContainer());
+		thisInstance.registerFooTable(); //Enable footable	
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);

@@ -92,7 +92,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			adjustedHeight -= footer.outerHeight();
 		}
 		content.css('height', adjustedHeight + 'px');
-		var scrollbarInit = new PerfectScrollbar(content[0]);
+		app.showPerfectScrollbar(content, {wheelPropagation: true });
 	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {

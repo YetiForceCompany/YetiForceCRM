@@ -838,39 +838,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			thisInstance.registerListPreviewScroll(this.content);
 		}
 	},
-	registerScrollbar: function (container) {
-		var scrollbarXContainer = container.find('.fixedListContent');
-		var scrollbarYContainer = container.find('.fixedListInitial');
-		var scrollbarTopInit = new PerfectScrollbar(scrollbarXContainer[0], {
-			wheelPropagation: true,
-			suppressScrollY: true
-		});
-		var scrollbarBottomInit = new PerfectScrollbar(scrollbarXContainer[0], {
-			wheelPropagation: true,
-			suppressScrollY: true
-		});
-		var scrollbarLeftInit = new PerfectScrollbar(scrollbarYContainer[0], {
-			wheelPropagation: true,
-		});
-		var scrollbarTopElement = scrollbarXContainer.find('.ps__rail-x').first();
-		scrollbarTopElement.css({
-			top: 0,
-			bottom: 'auto'
-		})
-		scrollbarTopElement.find('.ps__thumb-x').css({
-			top: 2,
-			bottom: 'auto'
-		});
-		var scrollbarLeftElement = scrollbarYContainer.children('.ps__rail-y').first();
-		scrollbarLeftElement.css({
-			left: 0,
-			right: 'auto'
-		})
-		scrollbarLeftElement.find('.ps__thumb-y').css({
-			left: 2,
-			right: 'auto'
-		})
-	},
 	registerListPreviewScroll: function (container) {
 		if (container.find('.fixedListInitial').length) {
 			var thisInstance = this;
@@ -881,7 +848,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var listViewEntriesDiv = container.find('.listViewEntriesDiv');
 			var commActHeight = $('.commonActionsContainer').height();
 			var paddingTop = 6;
-			var offset = fixedList.offset().top - commActHeight - paddingTop;
+			var offset = fixedList.offset().top - commActHeight - paddingTop;			
+			app.showBottomTopPerfectScrollbar(container.find('.fixedListContent'));
+			app.showLeftPerfectScrollbar(fixedList);
 			$(window).resize(function () {
 				if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
 					container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -1057,7 +1026,5 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
-		this.registerScrollbar(relatedContainer);
-		this.registerListPreviewScroll(relatedContainer);
 	},
 })

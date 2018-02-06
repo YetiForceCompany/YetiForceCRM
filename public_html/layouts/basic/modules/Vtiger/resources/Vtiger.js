@@ -413,7 +413,7 @@ var Vtiger_Index_Js = {
 			var modalHeader = modal.find('.modal-header');
 			var height = app.getScreenHeight() - modalFooter.outerHeight(true) - modalHeader.outerHeight(true);
 			modalBody.css('max-height', height + 'px');
-			var scrollbarInit = new PerfectScrollbar(modalBody[0]);
+			app.showPerfectScrollbar(modalBody, {wheelPropagation: true});
 		});
 		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
