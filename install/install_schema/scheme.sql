@@ -1735,7 +1735,6 @@ CREATE TABLE `u_yf_finvoiceproformacf` (
 
 CREATE TABLE `u_yf_github` (
   `github_id` int(10) NOT NULL AUTO_INCREMENT,
-  `client_id` varchar(20) DEFAULT NULL,
   `token` varchar(100) DEFAULT NULL,
   `username` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`github_id`)

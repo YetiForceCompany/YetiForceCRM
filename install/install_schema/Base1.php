@@ -1605,7 +1605,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__github' => [
 				'columns' => [
 					'github_id' => $this->primaryKey(10),
-					'client_id' => $this->stringType(20),
 					'token' => $this->stringType(100),
 					'username' => $this->stringType(32),
 				],
@@ -4694,9 +4693,9 @@ Created for your account in the customer portal, below sending data access<br />
 				]
 			],
 			'u_#__github' => [
-				'columns' => ['github_id', 'client_id', 'token', 'username'],
+				'columns' => ['github_id', 'token', 'username'],
 				'values' => [
-					[1, '', '', ''],
+					[1, '', ''],
 				]
 			],
 			'u_#__igdn_invfield' => [
