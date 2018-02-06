@@ -88,12 +88,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var header = widget.find('.dashboardWidgetHeader');
 		var headerHeight = header.outerHeight();
 		var adjustedHeight = widget.height() - headerHeight;
-		if (footer.length) adjustedHeight -= footer.outerHeight();
-		if (!content.length) return;
+		if (footer.length) {
+			adjustedHeight -= footer.outerHeight();
+		}
 		content.css('height', adjustedHeight + 'px');
-		var scrollbarInit = new PerfectScrollbar(content[0], {
-			wheelPropagation: true
-		});
+		app.showNewScrollbar(content, {wheelPropagation: true });
 	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
@@ -1827,7 +1826,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 			this.getPlotContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				animate: !$.jqplot.use_excanvas,
-				seriesColors: data['colors'] != false ? data['colors'] : "",
+				seriesColors: data['colors'],
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
