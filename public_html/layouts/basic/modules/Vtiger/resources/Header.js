@@ -720,9 +720,9 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		const container = thisInstance.getContentsContainer();
 		const menuContainer = container.find('.leftPanel .menuContainer');
-		app.showLeftPerfectScrollbar(menuContainer, {suppressScrollX: true});
-		app.showPerfectScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
-		app.showPerfectScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
+		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
+		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
+		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable	
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));

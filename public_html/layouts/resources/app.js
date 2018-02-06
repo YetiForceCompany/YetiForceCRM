@@ -1075,7 +1075,7 @@ window.app = {
 			jQuery(element).width(parentWidth);
 		});
 	},
-	showPerfectScrollbar: function (element, options) {
+	showNewScrollbar: function (element, options) {
 		if (typeof element === 'undefined' || !element.length)
 			return;
 		if (typeof options === 'undefined')
@@ -1083,7 +1083,7 @@ window.app = {
 
 		return new PerfectScrollbar(element[0], options);
 	},
-	showBottomTopPerfectScrollbar: function (element) {
+	showNewBottomTopScrollbar: function (element) {
 		if (typeof element === 'undefined' || !element.length)
 			return;
 		var scrollbarTopInit = new PerfectScrollbar(element[0], {
@@ -1104,7 +1104,7 @@ window.app = {
 			bottom: 'auto'
 		});
 	},
-	showLeftPerfectScrollbar: function (element, options) {
+	showNewLeftScrollbar: function (element, options) {
 		if (typeof element === 'undefined' || !element.length)
 			return;
 		if (typeof options === 'undefined')

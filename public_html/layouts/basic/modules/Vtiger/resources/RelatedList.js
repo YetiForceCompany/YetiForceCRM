@@ -849,8 +849,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var commActHeight = $('.commonActionsContainer').height();
 			var paddingTop = 6;
 			var offset = fixedList.offset().top - commActHeight - paddingTop;			
-			app.showBottomTopPerfectScrollbar(container.find('.fixedListContent'));
-			app.showLeftPerfectScrollbar(fixedList);
+			app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
+			app.showNewLeftScrollbar(fixedList);
 			$(window).resize(function () {
 				if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
 					container.find('.gutter').css('left', listPreview.offset().left - 8);
