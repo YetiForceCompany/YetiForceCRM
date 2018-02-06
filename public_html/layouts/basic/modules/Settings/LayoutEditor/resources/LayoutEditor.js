@@ -989,10 +989,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var currentTarget = jQuery(e.currentTarget);
 			var oldDisplayStatus = currentTarget.data('visible');
 			if (oldDisplayStatus == '0') {
-				currentTarget.find('.glyphicon-ok').removeClass('hide');
+				currentTarget.find('.fa-check').removeClass('hide');
 				currentTarget.data('visible', '1');
 			} else {
-				currentTarget.find('.glyphicon-ok').addClass('hide');
+				currentTarget.find('.fa-check').addClass('hide');
 				currentTarget.data('visible', '0');
 			}
 			thisInstance.updateBlockStatus(currentTarget);
@@ -1514,11 +1514,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	registerVaribleToParsers: function (container) {
 		var thisInstance = this;
 		container.find('.configButton').on('click', function (e) {
-			container.find('.defaultValueUi .input-group').each(function (n,e) {
+			container.find('.defaultValueUi .input-group').each(function (n, e) {
 				var currentElement = $(e);
-				if(currentElement.hasClass('hide')){
+				if (currentElement.hasClass('hide')) {
 					currentElement.find('input,select').prop('disabled', false);
-				}else{
+				} else {
 					currentElement.find('input,select').prop('disabled', true);
 				}
 				currentElement.toggleClass('hide');
