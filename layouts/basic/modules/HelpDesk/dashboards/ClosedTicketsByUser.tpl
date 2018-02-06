@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<hr class="widgetHr" />
-		<div class="row" >
+		<div class="row">
 			<div class="col-sm-6">
 				<div class="input-group input-group-sm">
 					<span class=" input-group-prepend">
@@ -20,7 +20,7 @@
 							<span class="fas fa-calendar-alt iconMiddle margintop3"></span>
 						</span>
 					</span>
-					<input type="text" name="time" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',',$DTIME)}" />
+					<input type="text" name="time" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter" value="{implode(',',$DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 				</div>
 			</div>
 		</div>

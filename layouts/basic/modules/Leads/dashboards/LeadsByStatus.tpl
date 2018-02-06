@@ -58,7 +58,7 @@
 				<span class="input-group-text">
 					<span class="fas fa-calendar-alt iconMiddle margintop3"></span></span>
 				</span>
-			<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField widgetFilter form-control width90" value="{implode(',', $DTIME)}" />
+			<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField widgetFilter form-control" value="{implode(',', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 		</div>
 	</div>
 	<div class="col-sm-6">

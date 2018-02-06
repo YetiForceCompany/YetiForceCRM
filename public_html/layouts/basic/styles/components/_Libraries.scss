@@ -34,6 +34,9 @@ and open the template in the editor.
 		@extend .p-1;
 		font-size: inherit;
 	}
+	.select2-results__group {
+		font-size: inherit;
+	}
 }
 .select2Wrapper {
 	width: 100%;
