@@ -304,9 +304,6 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 	public static function runScheduledReports()
 	{
-		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
-		$util = new VTWorkflowUtils();
-		$util->adminUser();
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
@@ -314,7 +311,6 @@ class Reports_ScheduleReports_Model extends \App\Base
 			if ($status)
 				$scheduledReport->updateNextTriggerTime();
 		}
-		$util->revertUser();
 		return $status;
 	}
 

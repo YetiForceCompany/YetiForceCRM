@@ -265,14 +265,10 @@ class VTScheduledReport extends Reports
 
 	public static function runScheduledReports()
 	{
-		require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
-		$util = new VTWorkflowUtils();
-		$adminUser = $util->adminUser();
 		$scheduledReports = self::getScheduledReports($adminUser);
 		foreach ($scheduledReports as $scheduledReport) {
 			$scheduledReport->sendEmail();
 			$scheduledReport->updateNextTriggerTime();
 		}
-		$util->revertUser();
 	}
 }

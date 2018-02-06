@@ -29,9 +29,7 @@ class WorkFlowScheduler
 	 */
 	public function __construct()
 	{
-		$util = new VTWorkflowUtils();
-		$adminUser = $util->adminUser();
-		$this->user = $adminUser;
+		$this->user = Users::getActiveAdminUser();
 	}
 
 	/**
