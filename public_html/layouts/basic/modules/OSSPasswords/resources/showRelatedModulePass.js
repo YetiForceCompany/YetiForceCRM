@@ -42,7 +42,7 @@ function showRelatedListPassword(record) {
 						})
 						// change icon
 						iconElement.removeClass('adminIcon-passwords-encryption');
-						iconElement.addClass('glyphicon-lock');
+						iconElement.addClass('fas fa-lock');
 						// show copy to clipboard button
 						copybtn.removeClass('hide');
 					}
@@ -60,7 +60,7 @@ function showRelatedListPassword(record) {
 		})
 		app.showPopoverElementView(element);
 		// change icon
-		iconElement.removeClass('glyphicon-lock');
+		iconElement.removeClass('fas fa-lock');
 		iconElement.addClass('adminIcon-passwords-encryption');
 		// hide copy to clipboard button
 		copybtn.addClass('hide');
