@@ -24,11 +24,18 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Sets initial iframe's height and fills the preview with first record's content.
 	 */
 	registerPreviewEvent: function () {
-		var thisInstance = this;
-		var iframe = $(".listPreviewframe");
+		const thisInstance = this;
+		const iframe = $(".listPreviewframe");
 		$(".listPreviewframe").load(function () {
+			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height($(this).contents().find(".bodyContents").height() - 20);
+			window.console.log(container);
+			thisInstance.toggleSplit(container);
+			if ($(window).width() > 993) {
+				thisInstance.registerScrollbar(container);
+				thisInstance.registerListEvents(container);
+			}
 		});
 		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
 	},
@@ -109,7 +116,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			right: 'auto'
 		})
 	},
-	registerListEvents: function (container) {	
+	registerListEvents: function (container) {
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
@@ -311,13 +318,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Registers ListPreview's events.
 	 */
 	registerEvents: function () {
-		var listViewContainer = this.getListViewContentContainer();
 		this._super();
 		this.registerPreviewEvent();
-		this.toggleSplit(listViewContainer);
-		if ($(window).width() > 993) {
-			this.registerScrollbar(listViewContainer);
-			this.registerListEvents(listViewContainer);
-		}
 	},
 });
