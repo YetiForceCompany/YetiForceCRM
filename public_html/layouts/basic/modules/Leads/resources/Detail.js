@@ -127,7 +127,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		}
 	},
 	/*
-	 * function to check which module is selected 
+	 * function to check which module is selected
 	 * to disable or enable all the elements with in the block
 	 */
 	checkingModuleSelection: function (element) {
@@ -154,13 +154,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		var container = this.getConvertLeadContainer();
 		var instance = this;
 
-		//Trigger Event to change the icon while shown and hidden the accordion body 
+		//Trigger Event to change the icon while shown and hidden the accordion body
 		container.on('hidden.bs.collapse', '.accordion-body', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+			console.log(currentTarget);
+			currentTarget.closest('.convertLeadModules').find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
 		}).on('shown.bs.collapse', '.accordion-body', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+			currentTarget.closest('.convertLeadModules').find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 		});
 
 		//Trigger Event on click of Transfer related records modules
@@ -175,7 +176,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			}
 		});
 
-		//Trigger Event on click of the Modules selection to convert the lead 
+		//Trigger Event on click of the Modules selection to convert the lead
 		container.on('click', '.convertLeadModuleSelection', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var currentModuleName = currentTarget.val();
@@ -211,7 +212,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 
 		formElement.on('jqv.form.validating', function (e) {
 			var jQv = jQuery(e.currentTarget).data('jqv');
-			//Remove the earlier validated fields from history so that it wont count disabled fields 
+			//Remove the earlier validated fields from history so that it wont count disabled fields
 			jQv.InvalidFields = [];
 		});
 
