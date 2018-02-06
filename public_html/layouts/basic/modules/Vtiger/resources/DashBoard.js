@@ -122,11 +122,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
 				}
 				var widgetContent = widgetContainer.find('.dashboardWidgetContent');
-				if (!widgetContent.length) return;
 				widgetContent.css('max-height', adjustedHeight + 'px');
-				var scrollbarInit = new PerfectScrollbar(widgetContent[0], {
-					wheelPropagation: true
-				});
+				app.showNewScrollbar(widgetContent, {wheelPropagation: true });
 			});
 		} else {
 		}
