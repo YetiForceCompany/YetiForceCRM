@@ -376,7 +376,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
 			'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
-			'~libraries/select2-bootstrap4-theme/dist/select2-bootstrap4.css',
 			'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/pnotify/dist/pnotify.css',
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
