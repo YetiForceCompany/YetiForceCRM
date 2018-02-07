@@ -1,45 +1,47 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <style>
-	td{
-		padding-left:10px;
+	td {
+		padding-left: 10px;
 	}
-	label{
+	label {
 		display: inline;
 	}
-	.weekend{ background: #f4f7f4 !important;}
+	.weekend {
+		background: #f4f7f4 !important;
+	}
 </style>
-<div class="gantt_task_scale" style="width: 100%; padding:5px 0px 5px 0px;">
+<div class="gantt_task_scale" style="width:100%;padding:5px 0px 5px 0px;">
 	<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/gantt/dhtmlxgantt.js')}"></script>
 	<table>
 		<tr style="run-in">
 		<fieldset>
 			<legend class="hide">{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
-			<td><strong> {\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}: &nbsp; </strong></td>
+			<td><strong>&nbsp;{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
 			<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{\App\Language::translate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 			<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{\App\Language::translate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 			<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{\App\Language::translate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 		</fieldset>
 		<fieldset>
 			<legend class="hide">{\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
-			<td><strong><span>| &nbsp;</span> {\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}: </strong></td>
+			<td><strong><span>|&nbsp;&nbsp;</span> {\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
 			<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{\App\Language::translate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
 			<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{\App\Language::translate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>
 		</fieldset>
 		</tr>
 	</table>
 </div>
-<div id="gantt_here" style='width:100%; height:500px;'></div>
+<div id="gantt_here" style="width:100%;height:600px;"></div>
 <script>
 
 	$(document).ready(function () {
 		// filtering
-		gantt.attachEvent("onBeforeTaskDisplay", function (id, task) {
+		gantt.attachEvent('onBeforeTaskDisplay', function (id, task) {
 			if (gantt_filter) {
 				value = task.priority;
-				if (typeof value == 'undefined')
+				if (typeof value !== 'string')
 					return false;
 				var priorityOption = [value.toUpperCase(), 'PLL_' + value.toUpperCase()];
-				if (jQuery.inArray(gantt_filter, priorityOption) == -1)
+				if (jQuery.inArray(gantt_filter, priorityOption) === -1)
 					return false;
 			}
 			return true;
@@ -47,26 +49,26 @@
 		jQuery('.zoom').on('click', function () {
 			value = jQuery(this).val();
 			switch (value) {
-				case "trplweek":
-					gantt.config.scale_unit = "month";
-					gantt.config.date_scale = "%F, %Y";
+				case 'trplweek':
+					gantt.config.scale_unit = 'month';
+					gantt.config.date_scale = '%F, %Y';
 					gantt.config.scale_height = 50;
 					gantt.config.subscales = [
 						{
-							unit: "day",
+							unit: 'day',
 							step: 1,
-							date: "%j, %D"}
+							date: '%j, %D'}
 					];
 					break;
-				case "year":
-					gantt.config.scale_unit = "month";
-					gantt.config.date_scale = "%F";
+				case 'year':
+					gantt.config.scale_unit = 'month';
+					gantt.config.date_scale = '%F';
 					gantt.config.scale_height = 50;
 					gantt.config.subscales = [
 						{
-							unit: "week",
+							unit: 'week',
 							step: 1,
-							date: "#%W"
+							date: '#%W'
 						}
 					];
 					break;
@@ -81,8 +83,8 @@
 
 		// cell painting
 		gantt.templates.task_cell_class = function (item, date) {
-			if (date.getDay() == 0 || date.getDay() == 6) {
-				return "weekend";
+			if (date.getDay() === 0 || date.getDay() === 6) {
+				return 'weekend';
 			}
 		};
 
@@ -104,62 +106,62 @@
 		};
 
 		gantt.templates.grid_file = function (item) {
-			return "<div class='gantt_tree_icon gantt_file " + "userIcon-" + item.module + "'></div>";
+			return '<div class="gantt_tree_icon gantt_file ' + 'userIcon-' + item.module + '"></div>';
 		},
-				gantt.templates.grid_folder = function (item) {
-					return "<div class='gantt_tree_icon gantt_folder_" + (item.$open ? "open" : "closed") + " " + "userIcon-" + item.module + "'></div>";
-				},
-				gantt.templates.rightside_text = function (start, end, task) {
-					if (task.type == gantt.config.types.milestone) {
-						return task.text;
-					}
-					return "";
-				};
+		gantt.templates.grid_folder = function (item) {
+			return '<div class="gantt_tree_icon gantt_folder_' + (item.$open ? 'open' : 'closed') + ' ' + 'userIcon-' + item.module + '"></div>';
+		},
+		gantt.templates.rightside_text = function (start, end, task) {
+			if (task.type === gantt.config.types.milestone) {
+				return task.text;
+			}
+			return '';
+		};
 
 		gantt.config.columns = [{
-				name: "text",
+				name: 'text',
 				label: app.vtranslate('JS_NAME'),
-				width: "*",
+				width: '*',
 				tree: true
 			}, {
-				name: "progress",
+				name: 'progress',
 				label: app.vtranslate('JS_PROGRESS'),
 				template: function (obj) {
-					if (typeof obj.progress != 'undefined') {
-						return Math.round(obj.progress * 100) + "%";
+					if (typeof obj.progress !== 'undefined') {
+						return Math.round(obj.progress * 100) + '%';
 					}
 					return '';
 				},
-				align: "center",
+				align: 'center',
 			}, {
-				name: "priority",
+				name: 'priority',
 				label: app.vtranslate('JS_PRIORITY'),
 				template: function (obj) {
-					if (typeof obj.priority != 'undefined') {
+					if (typeof obj.priority !== 'undefined') {
 						return obj.priority_label;
 					}
 					return '';
 				},
-				align: "center",
+				align: 'center',
 			}];
 
-		gantt.config.scale_unit = "month";
-		gantt.config.date_scale = "%F, %Y";
+		gantt.config.scale_unit = 'month';
+		gantt.config.date_scale = '%F, %Y';
 		gantt.config.scale_height = 50;
 
 		gantt.config.subscales = [
 			{
-				unit: "day",
+				unit: 'day',
 				step: 1,
-				date: "%j, %D"}
+				date: '%j, %D'}
 		];
 		gantt._get_safe_type = function (type) {
-			if (type == gantt.config.types.milestone) {
+			if (type === gantt.config.types.milestone) {
 				return gantt.config.types.milestone;
-			} else if (type == gantt.config.types.project) {
+			} else if (type === gantt.config.types.project) {
 				return gantt.config.types.project;
 			}
-			return "task";
+			return 'task';
 		};
 		gantt._on_dblclick = function (){};
 		gantt.config.drag_links = false;
@@ -170,6 +172,5 @@
 		gantt.init('gantt_here');
 		gantt.parse({$DATA});
 	});
-
 
 </script>
