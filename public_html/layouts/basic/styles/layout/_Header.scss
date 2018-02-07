@@ -34,17 +34,7 @@
 		left: 230px;
 	}
 }
-.headerLinksMails {
-	height: fit-content;
-	> .btn + .dropdown-toggle {
-		padding-top: 7px;
-		padding-bottom: 7px;
-	}
-	.dropdown-menu {
-		left: auto;
-		right: 0;
-	}
-}
+
 .headerRightWrapper {
 	.btn {
 		@extend .ml-2;
@@ -58,9 +48,20 @@
 			}
 		}
 	}
-	.headerLinksMails .btn {
-		@extend .m-0;
-		font-size: $font14;
+	.headerLinksMails {
+		height: fit-content;
+		> .btn + .dropdown-toggle {
+			padding-top: 7px;
+			padding-bottom: 7px;
+		}
+		.dropdown-menu {
+			left: auto;
+			right: 0;
+		}
+		.btn {
+			@extend .m-0;
+			font-size: $font14;
+		}
 	}
 }
 .globalSearchResults .nav li a {
