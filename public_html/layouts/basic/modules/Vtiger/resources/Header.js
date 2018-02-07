@@ -31,7 +31,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	contentContainer: false,
 	quickCreateCallBacks: [],
 	init: function () {
-		this.setContentsContainer('.bodyContent');
+		this.setContentsContainer('.baseContainer');
 	},
 	setContentsContainer: function (element) {
 		if (element instanceof jQuery) {
@@ -692,24 +692,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
-	registerScrollForMenu: function () {
-		$(".slimScrollMenu").perfectScrollbar({
-			useBothWheelAxes: true,
-		});
-		app.showScrollBar($(".slimScrollMenu"), {
-			height: '100%',
-			width: '100%',
-			position: 'left',
-			railVisible: true,
-			railOpacity: 0.5,
-		});
-		app.showScrollBar($(".slimScrollSubMenu"), {
-			height: '100%',
-		});
-		$(".slimScrollSubMenu .slimScrollDiv").each(function () {
-			$(this).closest(' .slimScrollSubMenu').css('overflow', 'initial');
-		});
-	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu li a").click(function () {
 			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
@@ -736,9 +718,13 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
+		const container = thisInstance.getContentsContainer();
+		const menuContainer = container.find('.leftPanel .menuContainer');
+		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
+		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
+		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
-		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerScrollForMenu();
+		thisInstance.registerFooTable(); //Enable footable	
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);

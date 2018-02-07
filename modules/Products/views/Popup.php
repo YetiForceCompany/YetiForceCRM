@@ -9,10 +9,12 @@
  */
 class Products_Popup_View extends Vtiger_Popup_View
 {
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
 
+	/**
+	 * Function to initialize the required data in smarty to display the List View Contents
+	 * @param \App\Request $request
+	 * @param Vtiger_Viewer $viewer
+	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
@@ -48,9 +50,6 @@ class Products_Popup_View extends Vtiger_Popup_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		if (vglobal('popupAjax'))
-			$pagingModel->set('noLimit', true);
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
@@ -101,10 +100,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
-			$salesProcessId = $request->getInteger('salesprocessid');
-			if (empty($salesProcessId))
-				$salesProcessId = -1;
-			$listViewModel->set('salesprocessid', $salesProcessId);
+			$listViewModel->set('salesprocessid', $request->isEmpty('salesprocessid') ? 0 : $request->getInteger('salesprocessid'));
 			$viewer->assign('INVENTORY_LIMITED_FROM_POTENTIALS', true);
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {

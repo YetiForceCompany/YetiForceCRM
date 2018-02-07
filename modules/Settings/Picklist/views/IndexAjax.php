@@ -12,6 +12,8 @@
 class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,14 +23,6 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('getPickListValueForField');
 		$this->exposeMethod('getPickListValueByRole');
 		$this->exposeMethod('showAssignValueToRoleView');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function showEditView(\App\Request $request)

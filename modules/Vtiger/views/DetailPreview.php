@@ -64,7 +64,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 		$scripts = $detailModel->getFooterScripts($request);
 		unset($scripts['modules.Vtiger.resources.DetailPreview']);
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
-				'~libraries/splitjs/split.js',
+				'~libraries/split.js/split.js',
 				'~libraries/css-element-queries/src/ResizeSensor.js',
 				'~libraries/css-element-queries/src/ElementQueries.js',
 				'modules.Vtiger.resources.Detail',

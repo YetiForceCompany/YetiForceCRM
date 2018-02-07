@@ -38,6 +38,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 			$globalPermissions[$profileid]['profilename'] = $profilename;
 			$globalPermissions[$profileid]['description'] = $description;
 		}
+		$dataReader->close();
 		return $globalPermissions;
 	}
 
@@ -58,7 +59,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 
 	public static function recalculate()
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
+		$php_max_execution_time = \AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		$userIdsList = Settings_Profiles_Record_Model::getUsersList();
 		if ($userIdsList) {

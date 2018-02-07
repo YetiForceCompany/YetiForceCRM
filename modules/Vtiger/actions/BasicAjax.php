@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
+class Vtiger_BasicAjax_Action extends \App\Controller\Action
 {
 
 	/**

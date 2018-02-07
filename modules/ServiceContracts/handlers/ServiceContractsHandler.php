@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @package YetiForce.Handler
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -59,10 +59,11 @@ class ServiceContracts_ServiceContractsHandler_Handler
 						$scFocus->updateUsedUnits($totalUnits);
 						$scFocus->calculateProgress();
 					}
+					$dataReader->close();
 				}
 			}
 		}
-		// Update the Planned Duration, Actual Duration, End Date and Progress based on other field values.			
+		// Update the Planned Duration, Actual Duration, End Date and Progress based on other field values.
 		if ($moduleName === 'ServiceContracts') {
 			$recordModel = $eventHandler->getRecordModel();
 			$contractId = $recordModel->getId();

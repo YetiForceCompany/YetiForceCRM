@@ -10,6 +10,8 @@
 class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 {
 
+	use App\Controller\ClearProcess;
+
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
@@ -21,16 +23,6 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-	}
-
-	public function preProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
 	}
 
 	public function process(\App\Request $request)

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Widget showing ticket which have closed. We can filter by users or date 
+ * Widget showing ticket which have closed. We can filter by users or date
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -80,6 +80,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 				'url' => $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner),
 			];
 		}
+		$dataReader->close();
 		return $response;
 	}
 

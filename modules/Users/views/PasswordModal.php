@@ -10,6 +10,8 @@
 class Users_PasswordModal_View extends Vtiger_BasicModal_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -41,18 +43,6 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 				break;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

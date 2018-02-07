@@ -31,7 +31,7 @@ class UserPrivilegesFile
 					if ($field === 'currency_symbol') {
 						$userInfo[$field] = $userFocus->$field;
 					} else {
-						$userInfo[$field] = \App\Purifier::encodeHtml($userFocus->$field);
+						$userInfo[$field] = is_numeric($userFocus->$field) ? $userFocus->$field : \App\Purifier::encodeHtml($userFocus->$field);
 					}
 				}
 			}
@@ -47,7 +47,10 @@ class UserPrivilegesFile
 				$userRoleInfo = PrivilegeUtil::getRoleDetail($userRole);
 				$userRoleParent = $userRoleInfo['parentrole'];
 				$subRoles = PrivilegeUtil::getRoleSubordinates($userRole);
-				$subRoleAndUsers = getSubordinateRoleAndUsers($userRole);
+				$subRoleAndUsers = [];
+				foreach ($subRoles as $subRoleId) {
+					$subRoleAndUsers[$subRoleId] = \App\PrivilegeUtil::getUsersNameByRole($subRoleId);
+				}
 				$parentRoles = PrivilegeUtil::getParentRole($userRole);
 				$newBuf .= "\$current_user_roles='" . $userRole . "';\n";
 				$newBuf .= "\$current_user_parent_role_seq='" . $userRoleParent . "';\n";
@@ -460,6 +463,19 @@ class UserPrivilegesFile
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * Function to recalculate the Sharing Rules for all the vtiger_users
+	 * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat vtiger_files
+	 */
+	public static function recalculateAll()
+	{
+		$userIds = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();
+		foreach ($userIds as $id) {
+			static::createUserPrivilegesfile($id);
+			static::createUserSharingPrivilegesfile($id);
 		}
 	}
 }

@@ -29,14 +29,8 @@ class Settings_Github_Client_Model
 	const URL = 'https://api.github.com';
 
 	/**
-	 * Id client
+	 * Token
 	 * @var string
-	 */
-	private $clientId;
-
-	/**
-	 *
-	 * @var type
 	 */
 	private $clientToken;
 
@@ -53,15 +47,6 @@ class Settings_Github_Client_Model
 	public function setUsername($name)
 	{
 		$this->username = $name;
-	}
-
-	/**
-	 * Function to set client id
-	 * @param string $id
-	 */
-	public function setClientId($id)
-	{
-		$this->clientId = $id;
 	}
 
 	/**
@@ -109,11 +94,10 @@ class Settings_Github_Client_Model
 	 */
 	public function createIssue($body, $title)
 	{
-		$path = '/repos/' . self::OWNER_REPOSITORY . '/' . self::REPOSITORY . '/issues';
+		$path = '/repos/' . static::OWNER_REPOSITORY . '/' . static::REPOSITORY . '/issues';
 		$data['title'] = $title;
 		$data['body'] = $body;
-		$data = json_encode($data);
-		return $this->doRequest($path, 'POST', $data, '201 OK');
+		return $this->doRequest($path, 'POST', App\Json::encode($data), '201 OK');
 	}
 
 	/**
@@ -122,7 +106,7 @@ class Settings_Github_Client_Model
 	 */
 	public function isAuthorized()
 	{
-		if ((empty($this->clientId) || empty($this->clientToken))) {
+		if ((empty($this->username) || empty($this->clientToken))) {
 			return false;
 		}
 		return true;
@@ -136,11 +120,10 @@ class Settings_Github_Client_Model
 	{
 		$instance = new self();
 		$row = (new App\Db\Query())
-				->select(['client_id', 'token', 'username'])
+				->select(['token', 'username'])
 				->from('u_#__github')
 				->createCommand()->queryOne();
 		if (!empty($row)) {
-			$instance->setClientId($row['client_id']);
 			$instance->setToken(base64_decode($row['token']));
 			$instance->setUsername($row['username']);
 		}
@@ -153,11 +136,10 @@ class Settings_Github_Client_Model
 	 */
 	public function saveKeys()
 	{
-		$clientToken = base64_encode($this->clientToken);
-		$params = ['client_id' => $this->clientId,
-			'token' => $clientToken,
-			'username' => $this->username];
-		return App\Db::getInstance()->createCommand()->update('u_#__github', $params)->execute();
+		return App\Db::getInstance()->createCommand()->update('u_#__github', [
+				'token' => base64_encode($this->clientToken),
+				'username' => $this->username
+			])->execute();
 	}
 
 	/**
@@ -168,7 +150,7 @@ class Settings_Github_Client_Model
 	{
 		$data['access_token'] = $this->clientToken;
 		$userInfo = $this->doRequest('/user', 'GET', $data, '200');
-		if (!(empty($userInfo->login) || empty($this->username))) {
+		if (!empty($userInfo->login)) {
 			if ($userInfo->login == $this->username) {
 				return true;
 			}
@@ -189,7 +171,7 @@ class Settings_Github_Client_Model
 		$url = self::URL . $url;
 		$options = [];
 		if ($this->isAuthorized()) {
-			$options['auth'] = [$this->clientId, $this->clientToken];
+			$options['auth'] = [$this->username, $this->clientToken];
 		}
 		switch ($method) {
 			case 'GET':

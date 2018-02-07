@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class CustomView_Deny_Action extends Vtiger_Action_Controller
+class CustomView_Deny_Action extends \App\Controller\Action
 {
 
 	/**

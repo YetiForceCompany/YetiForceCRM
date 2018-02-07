@@ -74,6 +74,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 				$listView . $this->getSearchParams($row, $time)
 			];
 		}
+		$dataReader->close();
 		return $data;
 	}
 

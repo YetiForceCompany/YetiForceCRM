@@ -51,7 +51,7 @@ class Products_Detail_View extends Vtiger_Detail_View
 		unset($headerScriptInstances[$moduleRelatedListFile]);
 
 		$jsFileNames = [
-			'~libraries/jquery/jquery.cycle.min.js',
+			'~libraries/jquery-cycle/index.js',
 			'modules.PriceBooks.resources.RelatedList',
 		];
 

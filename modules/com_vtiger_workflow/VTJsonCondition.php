@@ -172,7 +172,7 @@ class VTJsonCondition
 				case 'date':
 					if ($condition !== 'between' && strtotime($value)) {
 						//strtotime condition is added for days before, days after where we give integer values, so strtotime will return 0 for such cases.
-						$value = getValidDBInsertDateValue($value);
+						$value = \App\Fields\Date::formatToDb($value, true);
 					}
 					break;
 				case 'time':
@@ -299,7 +299,7 @@ class VTJsonCondition
 					return false;
 				}
 				$values = explode(',', $value);
-				$values = array_map('getValidDBInsertDateValue', $values);
+				$values = array_map('\App\Fields\Date::formatToDb', $values);
 				if ($fieldValue > $values[0] && $fieldValue < $values[1]) {
 					return true;
 				}

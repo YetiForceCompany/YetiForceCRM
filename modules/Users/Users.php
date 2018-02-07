@@ -24,8 +24,18 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/utils/UserInfoUtil.php');
+
+require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');
 
@@ -102,47 +112,11 @@ class Users extends CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->column_fields = getColumnFields('Users');
+		$this->column_fields = vtlib\Deprecated::getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
 		$this->column_fields['currency_symbol'] = '';
 		$this->column_fields['conv_rate'] = '';
-	}
-
-	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
-	/**
-	 * Function to get sort order
-	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
-	 */
-	public function getSortOrder()
-	{
-
-		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Request::_has('sorder')) {
-			$sorder = \App\Request::_getForSql('sorder');
-		} else {
-			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
-		}
-		\App\Log::trace("Exiting getSortOrder method ...");
-		return $sorder;
-	}
-
-	/**
-	 * Function to get order by
-	 * return string  $order_by    - fieldname(eg: 'subject')
-	 */
-	public function getOrderBy()
-	{
-		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
-			$use_default_order_by = $this->default_order_by;
-		}
-		if (\App\Request::_has('order_by')) {
-			$orderBy = \App\Request::_getForSql('order_by');
-		} else {
-			$orderBy = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
-		}
-		return $orderBy;
 	}
 
 	/**
@@ -152,27 +126,6 @@ class Users extends CRMEntity
 	public function isAdminUser()
 	{
 		return (isset($this->is_admin) && $this->is_admin === 'on');
-	}
-
-	/** gives the user id for the specified user name
-	 * @param $user_name -- user name:: Type varchar
-	 * @returns user id
-	 */
-	public function retrieveUserId($userName)
-	{
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \App\PrivilegeFile::getUser('userName');
-			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
-				return $users[$userName]['id'];
-			}
-		}
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', [$userName]);
-		$row = $adb->getRow($result);
-		if ($row && $row['deleted'] == '0') {
-			return $row['id'];
-		}
-		return false;
 	}
 
 	/** Function to get the current user information from the user_privileges file
@@ -241,7 +194,7 @@ class Users extends CRMEntity
 		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
 		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
 		if ($this->column_fields['no_of_currency_decimals'] === '') {
-			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
+			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = App\User::getCurrentUserId() ? App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals') : 2;
 		}
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
@@ -314,7 +267,7 @@ class Users extends CRMEntity
 
 	public function filterInactiveFields($module)
 	{
-		
+
 	}
 
 	public function deleteImage()

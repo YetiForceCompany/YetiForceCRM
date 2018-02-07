@@ -14,4 +14,5 @@ $dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_cr
 while ($row = $dataReader->read()) {
 	Calendar_Record_Model::setCrmActivity(array_flip([$row['crmid']]), $row['setype']);
 }
+$dataReader->close();
 

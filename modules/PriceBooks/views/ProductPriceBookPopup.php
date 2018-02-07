@@ -82,11 +82,15 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 			$listViewModel->set('sortorder', $sortOrder);
 		}
 
+		$productPriceDetails = [];
 		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $request->get('src_field'));
 			$listViewModel->set('src_record', $sourceRecord);
 			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			//get the unit prices for the pricebooks based on the product currency
+			$productUnitPrice = $sourceRecordModel->get('unit_price');
+			$productPriceDetails = $sourceRecordModel->getPriceDetailsForProduct($sourceRecord, $productUnitPrice, 'available', $sourceModule);
 		}
 		if ((!empty($searchKey)) && (!empty($searchValue))) {
 			$listViewModel->set('search_key', $searchKey);
@@ -99,20 +103,12 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-
-		//get the unit prices for the pricebooks based on the product currency
-		$productUnitPrice = vtlib\Functions::getUnitPrice($sourceRecord, $sourceModule);
-		$productPriceDetails = getPriceDetailsForProduct($sourceRecord, $productUnitPrice, 'available', $sourceModule);
-
 		$productCurrencyPrice = [];
 		foreach ($productPriceDetails as $priceDetails) {
 			$productCurrencyPrice[$priceDetails['curid']] = $priceDetails['curvalue'];
 		}
-
-		foreach ($this->listViewEntries as $recordId => $recordModel) {
-			$recordDetails = $recordModel->getRawData();
-			$priceBookCurrencyId = $recordDetails['currency_id'];
-			$recordModel->set('unit_price', $productCurrencyPrice[$priceBookCurrencyId]);
+		foreach ($this->listViewEntries as $recordModel) {
+			$recordModel->set('unit_price', isset($productCurrencyPrice[$recordModel->get('currency_id')]) ? $productCurrencyPrice[$recordModel->get('currency_id')] : null);
 		}
 
 		$noOfEntries = count($this->listViewEntries);

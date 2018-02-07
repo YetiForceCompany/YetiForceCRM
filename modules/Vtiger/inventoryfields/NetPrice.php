@@ -22,7 +22,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param type $value
 	 * @return type
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}

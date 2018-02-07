@@ -28,7 +28,7 @@ class PackageUpdate extends PackageImport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if (!$moduleInstance || $moduleInstance->name != $module) {
-			self::log('Module name mismatch!');
+			\App\Log::trace('Module name mismatch!', __METHOD__);
 			return false;
 		}
 		if ($module !== null) {
@@ -104,7 +104,7 @@ class PackageUpdate extends PackageImport
 				}
 			} else {
 				if (!$moduleInstance || $moduleInstance->name != $module) {
-					self::log('Module name mismatch!');
+					\App\Log::trace('Module name mismatch!', __METHOD__);
 					return false;
 				}
 				$module = $this->initUpdate($moduleInstance, $zipfile, $overwrite);
@@ -123,14 +123,6 @@ class PackageUpdate extends PackageImport
 	{
 		$tablabel = $this->_modulexml->label;
 		$tabversion = $this->_modulexml->version;
-
-		$isextension = false;
-		if (!empty($this->_modulexml->type)) {
-			$type = strtolower($this->_modulexml->type);
-			if ($type == 'extension' || $type == 'language')
-				$isextension = true;
-		}
-
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_PREUPDATE);
 		$moduleInstance->label = $tablabel;
 		$moduleInstance->save();
@@ -184,22 +176,22 @@ class PackageUpdate extends PackageImport
 		foreach ($this->_migrations as $migversion => $migrationnode) {
 			// Perform migration only for higher version than current
 			if (version_compare($cur_version, $migversion, '<')) {
-				self::log("Migrating to $migversion ... STARTED");
+				\App\Log::trace("Migrating to $migversion ... STARTED", __METHOD__);
 				if (!empty($migrationnode->tables) && !empty($migrationnode->tables->table)) {
 					foreach ($migrationnode->tables->table as $tablenode) {
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
 						if (Utils::isDestructiveSql($tablesql)) {
-							self::log("SQL: $tablesql ... SKIPPED");
+							\App\Log::trace("SQL: $tablesql ... SKIPPED", __METHOD__);
 						} else {
 							// Supress any SQL query failures
-							self::log("SQL: $tablesql ... ", false);
+							\App\Log::trace("SQL: $tablesql ... ", __METHOD__);
 							Utils::executeQuery($tablesql, true);
-							self::log('DONE');
+							\App\Log::trace('DONE', __METHOD__);
 						}
 					}
 				}
-				self::log("Migrating to $migversion ... DONE");
+				\App\Log::trace("Migrating to $migversion ... DONE", __METHOD__);
 			}
 		}
 	}
@@ -224,7 +216,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($modulenode->blocks->block as $blocknode) {
 			$this->listBlocks[] = strval($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance);
+			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -277,7 +269,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($blocknode->fields->field as $fieldnode) {
 			$this->listFields[] = strval($fieldnode->fieldname);
-			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance->id);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
@@ -301,7 +293,7 @@ class PackageUpdate extends PackageImport
 	public function updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
 	{
 
-		// strval used because in $fieldnode there is a SimpleXMLElement object 
+		// strval used because in $fieldnode there is a SimpleXMLElement object
 		$fieldInstance->name = strval($fieldnode->fieldname);
 		$fieldInstance->label = strval($fieldnode->fieldlabel);
 		$fieldInstance->table = strval($fieldnode->tablename);
@@ -382,7 +374,7 @@ class PackageUpdate extends PackageImport
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance);
+			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance->id);
 			if (!$filterInstance) {
 				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
@@ -447,7 +439,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateAction($modulenode, $moduleInstance, $actionnode)
 	{
-		
+
 	}
 
 	/**

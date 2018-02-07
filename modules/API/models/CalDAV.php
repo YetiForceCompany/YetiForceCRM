@@ -77,6 +77,7 @@ class API_CalDAV_Model
 			$this->record = $row;
 			$this->davSync();
 		}
+		$dataReader->close();
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
@@ -101,9 +102,6 @@ class API_CalDAV_Model
 				if ($sync) {
 					$orgUserId = App\User::getCurrentUserId();
 					App\User::setCurrentUserId($user->get('id'));
-					$currentUser = vglobal('current_user');
-					vglobal('current_user', $user);
-
 					$vcalendar = $this->getDavDetail();
 					if ($vcalendar === false) {// Creating
 						$this->davCreate();
@@ -111,7 +109,6 @@ class API_CalDAV_Model
 					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 						$this->davUpdate($vcalendar);
 					}
-					vglobal('current_user', $currentUser);
 					App\User::setCurrentUserId($orgUserId);
 				}
 			}
@@ -341,6 +338,7 @@ class API_CalDAV_Model
 				}
 			}
 		}
+		$dataReader->close();
 		\App\Log::trace("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -935,6 +933,7 @@ class API_CalDAV_Model
 				$invities[$row['email']] = $row;
 			}
 		}
+		$dataReader->close();
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
 		$db = \App\Db::getInstance();
@@ -1001,6 +1000,7 @@ class API_CalDAV_Model
 				$invities[$row['email']] = $row;
 			}
 		}
+		$dataReader->close();
 		$attendees = $component->select('ATTENDEE');
 		if (empty($attendees)) {
 			if (!empty($invities)) {

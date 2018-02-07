@@ -25,7 +25,7 @@ class ConfReport extends \App\SystemWarnings\Template
 			$this->status = 0;
 		}
 		if ($this->status) {
-			$library = \Settings_ConfReport_Module_Model::getConfigurationLibrary();
+			$library = \Settings_ConfReport_Module_Model::getLibrary();
 			foreach ($library as $key => $value) {
 				if ($value['status'] === 'LBL_NO' && $value['mandatory']) {
 					$this->status = 0;

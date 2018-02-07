@@ -282,7 +282,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				}
 				app.changeSelectElementView(data);
 				app.registerEventForDatePickerFields(data);
-				app.registerEventForTimeFields(data);
+				app.registerEventForClockPicker(data);
 				thisInstance.postShowModalAction(data, valueType);
 				thisInstance.registerChangeFieldEvent(data);
 				thisInstance.registerSelectOptionEvent(data);

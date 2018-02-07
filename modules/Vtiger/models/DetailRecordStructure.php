@@ -14,15 +14,24 @@
 class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
 
-	private $fieldsInHeader = false;
-
 	/**
 	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getFieldInHeader()
 	{
-		return $this->fieldsInHeader;
+		$moduleModel = $this->getModule();
+		$recordModel = $this->getRecord();
+		$fieldsInHeader = [];
+		foreach ($moduleModel->getFields() as $fieldModel) {
+			if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView()) {
+				$fieldsInHeader [$fieldModel->get('label')] = [
+					'value' => $recordModel->getDisplayValue($fieldModel->getName()),
+					'class' => $fieldModel->get('header_field')
+				];
+			}
+		}
+		return $fieldsInHeader;
 	}
 
 	public function getStructure()
@@ -43,12 +52,6 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 					if ($fieldModel->isViewableInDetailView()) {
 						if ($recordExists) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-							if ($fieldModel->isHeaderField()) {
-								$this->fieldsInHeader[$fieldModel->get('label')] = [
-									'value' => $recordModel->getDisplayValue($fieldName),
-									'class' => $fieldModel->get('header_field')
-								];
-							}
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 					}

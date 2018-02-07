@@ -19,7 +19,7 @@ class EmailTemplates_Edit_View extends Vtiger_Edit_View
 	{
 		$parentScript = parent::getFooterScripts($request);
 		$fileNames = [
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 		];
 		$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
 		return array_merge($parentScript, $scriptInstances);

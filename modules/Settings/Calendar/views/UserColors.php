@@ -23,27 +23,26 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 		$viewer->view('UserColors.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.UserColors",
-			'~libraries/jquery/colorpicker/js/colorpicker.js'
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js'
 		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+				'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'
+		]));
 	}
 }

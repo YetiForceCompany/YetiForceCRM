@@ -11,7 +11,7 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 {
 
 	/**
-	 * Checking permission 
+	 * Checking permission
 	 * @param \App\Request $request
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
@@ -42,6 +42,7 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 				$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
 			}
 		}
+		$dataReader->close();
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();

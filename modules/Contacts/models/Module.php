@@ -85,9 +85,4 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 			$queryGenerator->addNativeCondition($condition);
 		}
 	}
-
-	public function getDefaultSearchField()
-	{
-		return "lastname";
-	}
 }

@@ -52,7 +52,7 @@ class Field extends FieldBasic
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
 			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
-			self::log("Creating table $picklistTable ... DONE");
+			\App\Log::trace("Creating table $picklistTable ... DONE", __METHOD__);
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
 		}
@@ -121,7 +121,7 @@ class Field extends FieldBasic
 				'presence' => $importer->boolean()->defaultValue(true),
 				'sortorderid' => $importer->smallInteger()->defaultValue(0)
 			]);
-			self::log("Creating table $picklistTable ... DONE");
+			\App\Log::trace("Creating table $picklistTable ... DONE", __METHOD__);
 		}
 		// Add value to picklist now
 		$picklistValues = $this->getPicklistValues();
@@ -152,7 +152,7 @@ class Field extends FieldBasic
 	public function setRelatedModules($moduleNames)
 	{
 		if (count($moduleNames) == 0) {
-			self::log("Setting $this->name relation with $relmodule ... ERROR: No module names");
+			\App\Log::trace("Setting $this->name relation with $relmodule ... ERROR: No module names", __METHOD__);
 			return false;
 		}
 		$db = \App\Db::getInstance();
@@ -166,7 +166,7 @@ class Field extends FieldBasic
 			}
 
 			$db->createCommand()->insert('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
-			self::log("Setting $this->name relation with $checkRes ... DONE");
+			\App\Log::trace("Setting $this->name relation with $checkRes ... DONE", __METHOD__);
 		}
 		return true;
 	}
@@ -180,7 +180,7 @@ class Field extends FieldBasic
 		$db = \App\Db::getInstance();
 		foreach ($moduleNames as &$relmodule) {
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
-			Utils::log("Unsetting $this->name relation with $relmodule ... DONE");
+			\App\Log::trace("Unsetting $this->name relation with $relmodule ... DONE", __METHOD__);
 		}
 		return true;
 	}
@@ -194,14 +194,14 @@ class Field extends FieldBasic
 	public static function getInstance($value, $moduleInstance = false)
 	{
 		$instance = false;
-		$moduleid = null;
+		$moduleId = false;
 		if ($moduleInstance) {
-			$moduleid = $moduleInstance->id;
+			$moduleId = $moduleInstance->id;
 		}
-		$data = \App\Field::getFieldInfo($value, $moduleid);
+		$data = \App\Field::getFieldInfo($value, $moduleId);
 		if ($data) {
 			$instance = new self();
-			$instance->initialize($data, $moduleInstance);
+			$instance->initialize($data, $moduleId);
 		}
 		return $instance;
 	}
@@ -227,7 +227,7 @@ class Field extends FieldBasic
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$instance = new self();
-				$instance->initialize($row, $moduleInstance, $blockInstance);
+				$instance->initialize($row, $moduleInstance->id, $blockInstance);
 				$instances[] = $instance;
 			}
 			$cache->setBlockFields($blockInstance->id, $moduleInstance->id, $instances);
@@ -255,7 +255,7 @@ class Field extends FieldBasic
 		$instances = false;
 		foreach ($rows as $row) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleId);
 			$instances[] = $instance;
 		}
 		return $instances;
@@ -273,7 +273,7 @@ class Field extends FieldBasic
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_field', ['tabid' => $moduleInstance->id])->execute();
 		$db->createCommand()->delete('vtiger_fieldmodulerel', ['or', "module = '$moduleInstance->name'", "relmodule = '$moduleInstance->name'"])->execute();
-		self::log('Deleting fields of the module ... DONE');
+		\App\Log::trace("Deleting fields of the module ... DONE", __METHOD__);
 	}
 
 	public function setTreeTemplate($tree, $moduleInstance)
@@ -287,7 +287,7 @@ class Field extends FieldBasic
 				'parenttrre' => $treeValue->parenttrre, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state
 			])->execute();
 		}
-		self::log("Add tree template $tree->name ... DONE");
+		\App\Log::trace("Add tree template $tree->name ... DONE", __METHOD__);
 		return $templateId;
 	}
 
@@ -297,17 +297,17 @@ class Field extends FieldBasic
 	 */
 	public static function deleteUiType10Fields($moduleInstance)
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		$query = (new \App\Db\Query)->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['relmodule' => $moduleInstance->name]);
 		$dataReader = $query->createCommand()->query();
 		while ($fieldId = $dataReader->readColumn(0)) {
 			$count = (new \App\Db\Query)->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId])->count();
 			if ((int) $count === 1) {
-				$field = Field::getInstance($fieldId);
+				$field = Field::getInstance($fieldId, $moduleInstance->id);
 				$field->delete();
 			}
 		}
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -316,7 +316,7 @@ class Field extends FieldBasic
 	 */
 	public static function deletePickLists($moduleInstance)
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		$db = \App\Db::getInstance();
 		$query = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleInstance->getId(), 'uitype' => [15, 16, 33]]);
 		$modulePicklists = $query->column();
@@ -337,6 +337,6 @@ class Field extends FieldBasic
 			$db->createCommand()->delete('vtiger_role2picklist', ['picklistid' => $picklistId])->execute();
 			$db->createCommand()->delete('vtiger_picklist', ['name' => $picklistName])->execute();
 		}
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 }

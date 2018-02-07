@@ -22,15 +22,6 @@ class VTCreateTodoTask extends VTTask
 		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates'];
 	}
 
-	public function getAdmin()
-	{
-		$user = Users::getActiveAdminUser();
-		$currentUser = vglobal('current_user');
-		$this->originalUser = $currentUser;
-		$currentUser = $user;
-		return $user;
-	}
-
 	/**
 	 * Execute task
 	 * @param Vtiger_Record_Model $recordModel
@@ -41,10 +32,9 @@ class VTCreateTodoTask extends VTTask
 			return;
 		}
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
-		$adminUser = $this->getAdmin();
 		$userId = $recordModel->get('assigned_user_id');
 		if ($userId === null) {
-			$userId = $adminUser;
+			$userId = Users::getActiveAdminUser();
 		}
 		$moduleName = $recordModel->getModuleName();
 
@@ -181,7 +171,7 @@ class VTCreateTodoTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 
-		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
 			App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [

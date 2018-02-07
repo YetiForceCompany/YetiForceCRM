@@ -67,6 +67,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		while ($row = $dataReader->read()) {
 			$fieldlist[$row['fieldname']] = $row['fieldlabel'];
 		}
+		$dataReader->close();
 		return $fieldlist;
 	}
 
@@ -145,6 +146,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				$this->set('targetlabel', $row['fieldlabel']);
 			}
 		}
+		$dataReader->close();
 	}
 
 	public function getSourceFieldLabel()

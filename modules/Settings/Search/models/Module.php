@@ -34,6 +34,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['tabid']] = $row;
 		}
+		$dataReader->close();
 		return $moduleEntity;
 	}
 
@@ -48,6 +49,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$fields[$row['tabid']][$row['columnname']] = $row;
 		}
+		$dataReader->close();
 		return $fields;
 	}
 

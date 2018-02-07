@@ -70,7 +70,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -78,10 +78,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
-			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
-			'~libraries/jquery/inputmask/jquery.inputmask.js',
-			'~libraries/jquery/mousetrap/mousetrap.min.js',
+			'~libraries/js/timepicker/jquery.timepicker.min.js',
+			'~libraries/clockpicker/dist/jquery-clockpicker.js',
+			'~libraries//inputmask/dist/jquery.inputmask.bundle.js',
+			'~libraries/mousetrap/mousetrap.js',
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
@@ -93,7 +93,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.jquery.jquery_windowmsg',
+			'libraries.js.jquery_windowmsg',
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',
@@ -107,10 +107,5 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function getGuiderModels(\App\Request $request)
-	{
-		return [];
 	}
 }

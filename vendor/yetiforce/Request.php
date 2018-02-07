@@ -16,19 +16,19 @@ class Request
 
 	/**
 	 * Raw request data
-	 * @var array 
+	 * @var array
 	 */
 	protected $rawValues = [];
 
 	/**
 	 * Headers request
-	 * @var array 
+	 * @var array
 	 */
 	protected $headers;
 
 	/**
 	 * Self instance
-	 * @var Request 
+	 * @var Request
 	 */
 	protected static $request;
 
@@ -117,7 +117,7 @@ class Request
 
 	/**
 	 * Purify by data type
-	 * 
+	 *
 	 * Type list:
 	 * Standard - only words
 	 * 1 - only words
@@ -243,7 +243,7 @@ class Request
 			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
 				return [];
 			}
-			$value = Purifier::purify(explode(', ', $this->rawValues[$key]));
+			$value = Purifier::purify(explode(',', $this->rawValues[$key]));
 			return $this->purifiedValuesByDateRange[$key] = ['start' => $value[0], 'end' => $value[1]];
 		}
 		return $value;
@@ -281,7 +281,7 @@ class Request
 	}
 
 	/**
-	 * Function to get the request mode 
+	 * Function to get the request mode
 	 * @return string
 	 */
 	public function getMode()
@@ -450,7 +450,7 @@ class Request
 	}
 
 	/**
-	 * Function to remove the value for a given key 
+	 * Function to remove the value for a given key
 	 * @param string $key
 	 */
 	public function delete($key)
@@ -510,10 +510,9 @@ class Request
 	 */
 	public function validateReadAccess()
 	{
-		$user = vglobal('current_user');
-		// Referer check if present - to over come 
-		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
-			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
+		// Referer check if present - to over come
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId()) {//Check for user post authentication.
+			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
 				throw new \App\Exceptions\Csrf('Illegal request');
 			}
 		}

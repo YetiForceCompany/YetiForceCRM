@@ -12,11 +12,11 @@ class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Settings_Vtiger_B
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$name = 'Settings_CurrencyUpdate_Models_' . $request->get('name') . '_BankModel';
+		$name = 'Settings_CurrencyUpdate_' . $request->getByType('name') . '_BankModel';
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 
-		if ($mode == 'supported') {
+		if ($mode === 'supported') {
 			$supported = $moduleModel->getSupportedCurrencies($name);
 			$response->setResult($supported);
 		} else {

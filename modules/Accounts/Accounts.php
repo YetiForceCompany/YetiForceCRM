@@ -83,49 +83,6 @@ class Accounts extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'accountname';
 
-	/** Function to export the account records in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Accounts Query.
-	 */
-	public function createExportQuery($where)
-	{
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Accounts", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then vtiger_users.user_name else vtiger_groups.groupname end as user_name
-	       			FROM " . $this->entity_table . "
-				INNER JOIN vtiger_account
-					ON vtiger_account.accountid = vtiger_crmentity.crmid
-				LEFT JOIN vtiger_accountaddress
-					ON vtiger_accountaddress.accountaddressid = vtiger_account.accountid
-				LEFT JOIN vtiger_accountscf
-					ON vtiger_accountscf.accountid = vtiger_account.accountid
-	                        LEFT JOIN vtiger_groups
-                        	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users
-					ON vtiger_users.id = vtiger_crmentity.smownerid and vtiger_users.status = 'Active'
-				LEFT JOIN vtiger_account vtiger_account2
-					ON vtiger_account2.accountid = vtiger_account.parentid
-				"; //vtiger_account2 is added to get the Member of account
-
-		$query .= $this->getNonAdminAccessControlQuery('Accounts', $current_user);
-		$where_auto = " vtiger_crmentity.deleted = 0 ";
-
-		if ($where != '')
-			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
-		else
-			$query .= sprintf(' where %s', $where_auto);
-
-		\App\Log::trace('Exiting createExportQuery method ...');
-		return $query;
-	}
-
 	/**
 	 * Function to get the relation tables for related modules
 	 * @param boolean|string $secModule secondary module name
@@ -277,7 +234,7 @@ class Accounts extends CRMEntity
 					$account_depth = str_repeat(' .. ', $accountInfoBase['depth']);
 					$data = $account_depth . $data;
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
-					
+
 				} else {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
@@ -462,51 +419,6 @@ class Accounts extends CRMEntity
 				}
 			}
 		}
-	}
-
-	public function createDependentQuery($other, $row, $id)
-	{
-		$dependentColumn = $row['columnname'];
-		$joinTables = [];
-		$join = '';
-		$tables = '';
-		foreach ($other->tab_name_index as $table => $index) {
-			if ($table == $other->table_name) {
-				continue;
-			}
-			$joinTables[] = $table;
-			$join .= ' INNER JOIN ' . $table . ' ON ' . $table . '.' . $index . ' = ' . $other->table_name . '.' . $other->table_index;
-		}
-
-		if (!empty($other->related_tables)) {
-			foreach ($other->related_tables as $tname => $relmap) {
-				$tables .= ", $tname.*";
-				if (in_array($tname, $joinTables)) {
-					continue;
-				}
-				// Setup the default JOIN conditions if not specified
-				if (empty($relmap[1]))
-					$relmap[1] = $other->table_name;
-				if (empty($relmap[2]))
-					$relmap[2] = $relmap[0];
-				$join .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
-			}
-		}
-		$entityIds = $this->getRelatedContactsIds();
-		$entityIds[] = $id;
-		$entityIds = implode(',', $entityIds);
-
-		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
-				'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query .= $tables;
-		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-		$query .= sprintf(' FROM %s', $other->table_name);
-		$query .= $join;
-		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
-		return $query;
 	}
 	/* Function to get related contact ids for an account record */
 

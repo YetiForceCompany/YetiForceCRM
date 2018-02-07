@@ -175,7 +175,7 @@ class MultiCompany extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Function to Recursively get all the upper sales of a given 
+	 * Function to Recursively get all the upper sales of a given
 	 * @param integer $id - multicompanyid
 	 * @param array $parent - Array of all the parent sales
 	 * returns All the parent  f the given multicompanyid in array format
@@ -277,6 +277,7 @@ class MultiCompany extends Vtiger_CRMEntity
 				$childRow[$childAccId] = $childSalesProcessesInfo;
 				$this->getChild($childAccId, $childRow[$childAccId], $depth);
 			}
+			$dataReader->close();
 		}
 		\App\Log::trace('Exiting getChild method ...');
 		return $childRow;

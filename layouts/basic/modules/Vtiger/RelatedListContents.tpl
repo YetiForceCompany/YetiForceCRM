@@ -44,7 +44,12 @@
 				{if $RELATED_MODULE->isQuickSearchEnabled()}
 					<tr>
 						<td class="listViewSearchTd">
+							<div class="flexWrapper">
 							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+							<button type="button" class="btn btn-default removeSearchConditions">
+								<span class="glyphicon glyphicon-remove">
+							</button>
+							</div>
 						</td>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<td>
@@ -58,11 +63,7 @@
 				FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
 							</td>
 						{/foreach}
-						<td>
-							<button type="button" class="btn btn-default removeSearchConditions">
-								<span class="glyphicon glyphicon-remove">
-							</button>
-						</td>
+						<td class="reducePadding"></td>
 					</tr>
 				{/if}
 				{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}

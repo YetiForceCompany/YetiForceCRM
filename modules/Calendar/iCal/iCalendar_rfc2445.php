@@ -40,734 +40,738 @@ define('RFC2445_TYPE_TIME', 11);
 define('RFC2445_TYPE_URI', 12); // CAL_ADDRESS === URI
 define('RFC2445_TYPE_UTC_OFFSET', 13);
 
-function rfc2445_fold($string)
-{
-	if (strlen($string) <= RFC2445_FOLDED_LINE_LENGTH) {
-		return $string;
-	}
-
-	$retval = '';
-
-	while (strlen($string) > RFC2445_FOLDED_LINE_LENGTH) {
-		$retval .= substr($string, 0, RFC2445_FOLDED_LINE_LENGTH - 1) . RFC2445_CRLF . ' ';
-		$string = substr($string, RFC2445_FOLDED_LINE_LENGTH - 1);
-	}
-
-	$retval .= $string;
-
-	return $retval;
-}
-
-function rfc2445_is_xname($name)
+class ICalendarRfc
 {
 
-	// If it's less than 3 chars, it cannot be legal
-	if (strlen($name) < 3) {
-		return false;
+	public static function rfc2445Fold($string)
+	{
+		if (strlen($string) <= RFC2445_FOLDED_LINE_LENGTH) {
+			return $string;
+		}
+
+		$retval = '';
+
+		while (strlen($string) > RFC2445_FOLDED_LINE_LENGTH) {
+			$retval .= substr($string, 0, RFC2445_FOLDED_LINE_LENGTH - 1) . RFC2445_CRLF . ' ';
+			$string = substr($string, RFC2445_FOLDED_LINE_LENGTH - 1);
+		}
+
+		$retval .= $string;
+
+		return $retval;
 	}
 
-	// If it contains an illegal char anywhere, reject it
-	if (strspn($name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-') != strlen($name)) {
-		return false;
+	public static function rfc2445IsXname($name)
+	{
+
+		// If it's less than 3 chars, it cannot be legal
+		if (strlen($name) < 3) {
+			return false;
+		}
+
+		// If it contains an illegal char anywhere, reject it
+		if (strspn($name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-') != strlen($name)) {
+			return false;
+		}
+
+		// To be legal, it must still start with "X-"
+		return substr($name, 0, 2) === 'X-';
 	}
 
-	// To be legal, it must still start with "X-"
-	return substr($name, 0, 2) === 'X-';
-}
+	public static function rfc2445IsValidValue($value, $type)
+	{
 
-function rfc2445_is_valid_value($value, $type)
-{
+		// This branch should only be taken with xname values
+		if ($type === NULL) {
+			return true;
+		}
 
-	// This branch should only be taken with xname values
-	if ($type === NULL) {
-		return true;
-	}
+		switch ($type) {
+			case RFC2445_TYPE_CAL_ADDRESS:
+			case RFC2445_TYPE_URI:
+				if (!is_string($value)) {
+					return false;
+				}
+				$valid_schemes = ['ftp', 'http', 'ldap', 'gopher', 'mailto', 'news', 'nntp', 'telnet', 'wais', 'file', 'prospero'];
 
-	switch ($type) {
-		case RFC2445_TYPE_CAL_ADDRESS:
-		case RFC2445_TYPE_URI:
-			if (!is_string($value)) {
+				$pos = strpos($value, ':');
+				if (!$pos) {
+					return false;
+				}
+
+				$scheme = strtolower(substr($value, 0, $pos));
+				$remain = substr($value, $pos + 1);
+
+				if (!in_array($scheme, $valid_schemes)) {
+					return false;
+				}
+
+				if ($scheme === 'mailto') {
+					$regexp = '/^[a-zA-Z0-9]+[_a-zA-Z0-9\-]*(\.[_a-z0-9\-]+)*@(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.){3}[0-9]{1,3})$/';
+				} else {
+					$regexp = '/^//(.+(:.*)?@)?(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.){3}[0-9]{1,3})(:[0-9]{1,5})?(/.*)?$/';
+				}
+
+				return preg_match($regexp, $remain);
+				break;
+
+			case RFC2445_TYPE_BINARY:
+				if (!is_string($value)) {
+					return false;
+				}
+
+				$len = strlen($value);
+
+				if ($len % 4 != 0) {
+					return false;
+				}
+
+				for ($i = 0; $i < $len; ++$i) {
+					$ch = $value{$i};
+					if (!($ch >= 'a' && $ch <= 'z' || $ch >= 'A' && $ch <= 'Z' || $ch >= '0' && $ch <= '9' || $ch == '-' || $ch == '+')) {
+						if ($ch == '=' && $len - $i <= 2) {
+							continue;
+						}
+						return false;
+					}
+				}
+				return true;
+				break;
+
+			case RFC2445_TYPE_BOOLEAN:
+				if (is_bool($value)) {
+					return true;
+				}
+				if (is_string($value)) {
+					$value = strtoupper($value);
+					return ($value == 'true' || $value == 'false');
+				}
 				return false;
-			}
-			$valid_schemes = ['ftp', 'http', 'ldap', 'gopher', 'mailto', 'news', 'nntp', 'telnet', 'wais', 'file', 'prospero'];
+				break;
 
-			$pos = strpos($value, ':');
-			if (!$pos) {
-				return false;
-			}
+			case RFC2445_TYPE_DATE:
+				if (is_int($value)) {
+					if ($value < 0) {
+						return false;
+					}
+					$value = "$value";
+				} else if (!is_string($value)) {
+					return false;
+				}
 
-			$scheme = strtolower(substr($value, 0, $pos));
-			$remain = substr($value, $pos + 1);
+				if (strlen($value) != 8) {
+					return false;
+				}
 
-			if (!in_array($scheme, $valid_schemes)) {
-				return false;
-			}
+				$y = intval(substr($value, 0, 4));
+				$m = intval(substr($value, 4, 2));
+				$d = intval(substr($value, 6, 2));
 
-			if ($scheme === 'mailto') {
-				$regexp = '/^[a-zA-Z0-9]+[_a-zA-Z0-9\-]*(\.[_a-z0-9\-]+)*@(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.){3}[0-9]{1,3})$/';
-			} else {
-				$regexp = '/^//(.+(:.*)?@)?(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.){3}[0-9]{1,3})(:[0-9]{1,5})?(/.*)?$/';
-			}
+				return checkdate($m, $d, $y);
+				break;
 
-			return preg_match($regexp, $remain);
-			break;
+			case RFC2445_TYPE_DATE_TIME:
+				if (!is_string($value) || strlen($value) < 15) {
+					return false;
+				}
 
-		case RFC2445_TYPE_BINARY:
-			if (!is_string($value)) {
-				return false;
-			}
+				return($value{8} == 'T' &&
+					static::rfc2445IsValidValue(substr($value, 0, 8), RFC2445_TYPE_DATE) &&
+					static::rfc2445IsValidValue(substr($value, 9), RFC2445_TYPE_TIME));
+				break;
 
-			$len = strlen($value);
+			case RFC2445_TYPE_DURATION:
+				if (!is_string($value)) {
+					return false;
+				}
 
-			if ($len % 4 != 0) {
-				return false;
-			}
+				$len = strlen($value);
 
-			for ($i = 0; $i < $len; ++$i) {
-				$ch = $value{$i};
-				if (!($ch >= 'a' && $ch <= 'z' || $ch >= 'A' && $ch <= 'Z' || $ch >= '0' && $ch <= '9' || $ch == '-' || $ch == '+')) {
-					if ($ch == '=' && $len - $i <= 2) {
+				if ($len < 3) {
+					// Minimum conformant length: "P1W"
+					return false;
+				}
+
+				if ($value{0} == '+' || $value{0} == '-') {
+					$value = substr($value, 1);
+					--$len; // Don't forget to update this!
+				}
+
+				if ($value{0} != 'P') {
+					return false;
+				}
+
+				// OK, now break it up
+				$num = '';
+				$allowed = 'WDT';
+
+				for ($i = 1; $i < $len; ++$i) {
+					$ch = $value{$i};
+					if ($ch >= '0' && $ch <= '9') {
+						$num .= $ch;
 						continue;
 					}
+					if (strpos($allowed, $ch) === false) {
+						// Non-numeric character which shouldn't be here
+						return false;
+					}
+					if ($num === '' && $ch != 'T') {
+						// Allowed non-numeric character, but no digits came before it
+						return false;
+					}
+
+					// OK, $ch now holds a character which tells us what $num is
+					switch ($ch) {
+						case 'W':
+							// If duration in weeks is specified, this must end the string
+							return ($i == $len - 1);
+							break;
+
+						case 'D':
+							// Days specified, now if anything comes after it must be a 'T'
+							$allowed = 'T';
+							break;
+
+						case 'T':
+							// Starting to specify time, H M S are now valid delimiters
+							$allowed = 'HMS';
+							break;
+
+						case 'H':
+							$allowed = 'M';
+							break;
+
+						case 'M':
+							$allowed = 'S';
+							break;
+
+						case 'S':
+							return ($i == $len - 1);
+							break;
+					}
+
+					// If we 're going to continue, reset $num
+					$num = '';
+				}
+
+				// $num is kept for this reason: if we 're here, we ran out of chars
+				// therefore $num must be empty for the period to be legal
+				return ($num === '' && $ch != 'T');
+
+				break;
+
+			case RFC2445_TYPE_FLOAT:
+				if (is_float($value)) {
+					return true;
+				}
+				if (!is_string($value) || $value === '') {
 					return false;
 				}
-			}
-			return true;
-			break;
 
-		case RFC2445_TYPE_BOOLEAN:
-			if (is_bool($value)) {
+				$dot = false;
+				$int = false;
+				$len = strlen($value);
+				for ($i = 0; $i < $len; ++$i) {
+					switch ($value{$i}) {
+						case '-': case '+':
+							// A sign can only be seen at position 0 and cannot be the only char
+							if ($i != 0 || $len == 1) {
+								return false;
+							}
+							break;
+						case '.':
+							// A second dot is an error
+							// Make sure we had at least one int before the dot
+							if ($dot || !$int) {
+								return false;
+							}
+							$dot = true;
+							// Make also sure that the float doesn't end with a dot
+							if ($i == $len - 1) {
+								return false;
+							}
+							break;
+						case '0': case '1': case '2': case '3': case '4':
+						case '5': case '6': case '7': case '8': case '9':
+							$int = true;
+							break;
+						default:
+							// Any other char is a no-no
+							return false;
+							break;
+					}
+				}
 				return true;
-			}
-			if (is_string($value)) {
-				$value = strtoupper($value);
-				return ($value == 'true' || $value == 'false');
-			}
-			return false;
-			break;
+				break;
 
-		case RFC2445_TYPE_DATE:
-			if (is_int($value)) {
-				if ($value < 0) {
-					return false;
+			case RFC2445_TYPE_INTEGER:
+				if (is_int($value)) {
+					return true;
 				}
-				$value = "$value";
-			} else if (!is_string($value)) {
-				return false;
-			}
-
-			if (strlen($value) != 8) {
-				return false;
-			}
-
-			$y = intval(substr($value, 0, 4));
-			$m = intval(substr($value, 4, 2));
-			$d = intval(substr($value, 6, 2));
-
-			return checkdate($m, $d, $y);
-			break;
-
-		case RFC2445_TYPE_DATE_TIME:
-			if (!is_string($value) || strlen($value) < 15) {
-				return false;
-			}
-
-			return($value{8} == 'T' &&
-				rfc2445_is_valid_value(substr($value, 0, 8), RFC2445_TYPE_DATE) &&
-				rfc2445_is_valid_value(substr($value, 9), RFC2445_TYPE_TIME));
-			break;
-
-		case RFC2445_TYPE_DURATION:
-			if (!is_string($value)) {
-				return false;
-			}
-
-			$len = strlen($value);
-
-			if ($len < 3) {
-				// Minimum conformant length: "P1W"
-				return false;
-			}
-
-			if ($value{0} == '+' || $value{0} == '-') {
-				$value = substr($value, 1);
-				--$len; // Don't forget to update this!
-			}
-
-			if ($value{0} != 'P') {
-				return false;
-			}
-
-			// OK, now break it up
-			$num = '';
-			$allowed = 'WDT';
-
-			for ($i = 1; $i < $len; ++$i) {
-				$ch = $value{$i};
-				if ($ch >= '0' && $ch <= '9') {
-					$num .= $ch;
-					continue;
-				}
-				if (strpos($allowed, $ch) === false) {
-					// Non-numeric character which shouldn't be here
-					return false;
-				}
-				if ($num === '' && $ch != 'T') {
-					// Allowed non-numeric character, but no digits came before it
+				if (!is_string($value) || $value === '') {
 					return false;
 				}
 
-				// OK, $ch now holds a character which tells us what $num is
-				switch ($ch) {
-					case 'W':
-						// If duration in weeks is specified, this must end the string
-						return ($i == $len - 1);
-						break;
-
-					case 'D':
-						// Days specified, now if anything comes after it must be a 'T'
-						$allowed = 'T';
-						break;
-
-					case 'T':
-						// Starting to specify time, H M S are now valid delimiters
-						$allowed = 'HMS';
-						break;
-
-					case 'H':
-						$allowed = 'M';
-						break;
-
-					case 'M':
-						$allowed = 'S';
-						break;
-
-					case 'S':
-						return ($i == $len - 1);
-						break;
+				if ($value{0} == '+' || $value{0} == '-') {
+					if (strlen($value) == 1) {
+						return false;
+					}
+					$value = substr($value, 1);
 				}
 
-				// If we 're going to continue, reset $num
-				$num = '';
-			}
+				if (strspn($value, '0123456789') != strlen($value)) {
+					return false;
+				}
 
-			// $num is kept for this reason: if we 're here, we ran out of chars
-			// therefore $num must be empty for the period to be legal
-			return ($num === '' && $ch != 'T');
+				return ($value >= -2147483648 && $value <= 2147483647);
+				break;
 
-			break;
+			case RFC2445_TYPE_PERIOD:
+				if (!is_string($value) || empty($value)) {
+					return false;
+				}
 
-		case RFC2445_TYPE_FLOAT:
-			if (is_float($value)) {
+				$parts = explode('/', $value);
+				if (count($parts) != 2) {
+					return false;
+				}
+
+				if (!static::rfc2445IsValidValue($parts[0], RFC2445_TYPE_DATE_TIME)) {
+					return false;
+				}
+
+				// Two legal cases for the second part:
+				if (static::rfc2445IsValidValue($parts[1], RFC2445_TYPE_DATE_TIME)) {
+					// It has to be after the start time, so
+					return ($parts[1] > $parts[0]);
+				} else if (static::rfc2445IsValidValue($parts[1], RFC2445_TYPE_DURATION)) {
+					// The period MUST NOT be negative
+					return ($parts[1]{0} != '-');
+				}
+
+				// It seems to be illegal
+				return false;
+				break;
+
+			case RFC2445_TYPE_RECUR:
+				if (!is_string($value)) {
+					return false;
+				}
+
+				$parts = explode(';', strtoupper($value));
+
+				// First of all, we need at least a FREQ and a UNTIL or COUNT part, so...
+				if (count($parts) < 2) {
+					return false;
+				}
+
+				// Let's get that into a more easily comprehensible format
+				$vars = [];
+				foreach ($parts as $part) {
+
+					$pieces = explode('=', $part);
+					// There must be exactly 2 pieces, e.g. FREQ=WEEKLY
+					if (count($pieces) != 2) {
+						return false;
+					}
+
+					// It's illegal for a variable to appear twice
+					if (isset($vars[$pieces[0]])) {
+						return false;
+					}
+
+					// Sounds good
+					$vars[$pieces[0]] = $pieces[1];
+				}
+
+				// OK... now to test everything else
+				// FREQ must be the first thing appearing
+				reset($vars);
+				if (key($vars) != 'FREQ') {
+					return false;
+				}
+
+				// It's illegal to have both UNTIL and COUNT appear
+				if (isset($vars['UNTIL']) && isset($vars['COUNT'])) {
+					return false;
+				}
+
+				// Special case: BYWEEKNO is only valid for FREQ=YEARLY
+				if (isset($vars['BYWEEKNO']) && $vars['FREQ'] != 'YEARLY') {
+					return false;
+				}
+
+				// Special case: BYSETPOS is only valid if another BY option is specified
+				if (isset($vars['BYSETPOS'])) {
+					$options = ['BYSECOND', 'BYMINUTE', 'BYHOUR', 'BYDAY', 'BYMONTHDAY', 'BYYEARDAY', 'BYWEEKNO', 'BYMONTH'];
+					$defined = array_keys($vars);
+					$common = array_intersect($options, $defined);
+					if (empty($common)) {
+						return false;
+					}
+				}
+
+				// OK, now simply check if each element has a valid value,
+				// unsetting them on the way. If at the end the array still
+				// has some elements, they are illegal.
+
+				if ($vars['FREQ'] != 'SECONDLY' && $vars['FREQ'] != 'MINUTELY' && $vars['FREQ'] != 'HOURLY' &&
+					$vars['FREQ'] != 'DAILY' && $vars['FREQ'] != 'WEEKLY' &&
+					$vars['FREQ'] != 'MONTHLY' && $vars['FREQ'] != 'YEARLY') {
+					return false;
+				}
+				unset($vars['FREQ']);
+
+				// Set this, we may need it later
+				$weekdays = explode(',', RFC2445_WEEKDAYS);
+
+				if (isset($vars['UNTIL'])) {
+					if (static::rfc2445IsValidValue($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
+						// The time MUST be in UTC format
+						if (!(substr($vars['UNTIL'], -1) == 'Z')) {
+							return false;
+						}
+					} else if (!static::rfc2445IsValidValue($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
+						return false;
+					}
+				}
+				unset($vars['UNTIL']);
+
+
+				if (isset($vars['COUNT'])) {
+					if (empty($vars['COUNT'])) {
+						// This also catches the string '0', which makes no sense
+						return false;
+					}
+					if (strspn($vars['COUNT'], '0123456789') != strlen($vars['COUNT'])) {
+						return false;
+					}
+				}
+				unset($vars['COUNT']);
+
+
+				if (isset($vars['INTERVAL'])) {
+					if (empty($vars['INTERVAL'])) {
+						// This also catches the string '0', which makes no sense
+						return false;
+					}
+					if (strspn($vars['INTERVAL'], '0123456789') != strlen($vars['INTERVAL'])) {
+						return false;
+					}
+				}
+				unset($vars['INTERVAL']);
+
+
+				if (isset($vars['BYSECOND'])) {
+					if ($vars['BYSECOND'] == '') {
+						return false;
+					}
+					// Comma also allowed
+					if (strspn($vars['BYSECOND'], '0123456789,') != strlen($vars['BYSECOND'])) {
+						return false;
+					}
+					$secs = explode(',', $vars['BYSECOND']);
+					foreach ($secs as $sec) {
+						if ($sec == '' || $sec < 0 || $sec > 59) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYSECOND']);
+
+
+				if (isset($vars['BYMINUTE'])) {
+					if ($vars['BYMINUTE'] == '') {
+						return false;
+					}
+					// Comma also allowed
+					if (strspn($vars['BYMINUTE'], '0123456789,') != strlen($vars['BYMINUTE'])) {
+						return false;
+					}
+					$mins = explode(',', $vars['BYMINUTE']);
+					foreach ($mins as $min) {
+						if ($min == '' || $min < 0 || $min > 59) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYMINUTE']);
+
+
+				if (isset($vars['BYHOUR'])) {
+					if ($vars['BYHOUR'] == '') {
+						return false;
+					}
+					// Comma also allowed
+					if (strspn($vars['BYHOUR'], '0123456789,') != strlen($vars['BYHOUR'])) {
+						return false;
+					}
+					$hours = explode(',', $vars['BYHOUR']);
+					foreach ($hours as $hour) {
+						if ($hour == '' || $hour < 0 || $hour > 23) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYHOUR']);
+
+
+				if (isset($vars['BYDAY'])) {
+					if (empty($vars['BYDAY'])) {
+						return false;
+					}
+
+					// First off, split up all values we may have
+					$days = explode(',', $vars['BYDAY']);
+
+					foreach ($days as $day) {
+						$daypart = substr($day, -2);
+						if (!in_array($daypart, $weekdays)) {
+							return false;
+						}
+
+						if (strlen($day) > 2) {
+							$intpart = substr($day, 0, strlen($day) - 2);
+							if (!static::rfc2445IsValidValue($intpart, RFC2445_TYPE_INTEGER)) {
+								return false;
+							}
+							if (intval($intpart) == 0) {
+								return false;
+							}
+						}
+					}
+				}
+				unset($vars['BYDAY']);
+
+
+				if (isset($vars['BYMONTHDAY'])) {
+					if (empty($vars['BYMONTHDAY'])) {
+						return false;
+					}
+					$mdays = explode(',', $vars['BYMONTHDAY']);
+					foreach ($mdays as $mday) {
+						if (!static::rfc2445IsValidValue($mday, RFC2445_TYPE_INTEGER)) {
+							return false;
+						}
+						$mday = abs(intval($mday));
+						if ($mday == 0 || $mday > 31) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYMONTHDAY']);
+
+
+				if (isset($vars['BYYEARDAY'])) {
+					if (empty($vars['BYYEARDAY'])) {
+						return false;
+					}
+					$ydays = explode(',', $vars['BYYEARDAY']);
+					foreach ($ydays as $yday) {
+						if (!static::rfc2445IsValidValue($yday, RFC2445_TYPE_INTEGER)) {
+							return false;
+						}
+						$yday = abs(intval($yday));
+						if ($yday == 0 || $yday > 366) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYYEARDAY']);
+
+
+				if (isset($vars['BYWEEKNO'])) {
+					if (empty($vars['BYWEEKNO'])) {
+						return false;
+					}
+					$weeknos = explode(',', $vars['BYWEEKNO']);
+					foreach ($weeknos as $weekno) {
+						if (!static::rfc2445IsValidValue($weekno, RFC2445_TYPE_INTEGER)) {
+							return false;
+						}
+						$weekno = abs(intval($weekno));
+						if ($weekno == 0 || $weekno > 53) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYWEEKNO']);
+
+
+				if (isset($vars['BYMONTH'])) {
+					if (empty($vars['BYMONTH'])) {
+						return false;
+					}
+					// Comma also allowed
+					if (strspn($vars['BYMONTH'], '0123456789,') != strlen($vars['BYMONTH'])) {
+						return false;
+					}
+					$months = explode(',', $vars['BYMONTH']);
+					foreach ($months as $month) {
+						if ($month == '' || $month < 1 || $month > 12) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYMONTH']);
+
+
+				if (isset($vars['BYSETPOS'])) {
+					if (empty($vars['BYSETPOS'])) {
+						return false;
+					}
+					$sets = explode(',', $vars['BYSETPOS']);
+					foreach ($sets as $set) {
+						if (!static::rfc2445IsValidValue($set, RFC2445_TYPE_INTEGER)) {
+							return false;
+						}
+						$set = abs(intval($set));
+						if ($set == 0 || $set > 366) {
+							return false;
+						}
+					}
+				}
+				unset($vars['BYSETPOS']);
+
+
+				if (isset($vars['WKST'])) {
+					if (!in_array($vars['WKST'], $weekdays)) {
+						return false;
+					}
+				}
+				unset($vars['WKST']);
+
+
+				// Any remaining vars must be x-names
+				if (empty($vars)) {
+					return true;
+				}
+
+				foreach ($vars as $name => $var) {
+					if (!static::rfc2445IsXname($name)) {
+						return false;
+					}
+				}
+
+				// At last, all is OK!
 				return true;
-			}
-			if (!is_string($value) || $value === '') {
-				return false;
-			}
 
-			$dot = false;
-			$int = false;
-			$len = strlen($value);
-			for ($i = 0; $i < $len; ++$i) {
-				switch ($value{$i}) {
-					case '-': case '+':
-						// A sign can only be seen at position 0 and cannot be the only char
-						if ($i != 0 || $len == 1) {
-							return false;
-						}
-						break;
-					case '.':
-						// A second dot is an error
-						// Make sure we had at least one int before the dot
-						if ($dot || !$int) {
-							return false;
-						}
-						$dot = true;
-						// Make also sure that the float doesn't end with a dot
-						if ($i == $len - 1) {
-							return false;
-						}
-						break;
-					case '0': case '1': case '2': case '3': case '4':
-					case '5': case '6': case '7': case '8': case '9':
-						$int = true;
-						break;
-					default:
-						// Any other char is a no-no
-						return false;
-						break;
-				}
-			}
-			return true;
-			break;
+				break;
 
-		case RFC2445_TYPE_INTEGER:
-			if (is_int($value)) {
+			case RFC2445_TYPE_TEXT:
 				return true;
-			}
-			if (!is_string($value) || $value === '') {
-				return false;
-			}
+				break;
 
-			if ($value{0} == '+' || $value{0} == '-') {
-				if (strlen($value) == 1) {
-					return false;
-				}
-				$value = substr($value, 1);
-			}
-
-			if (strspn($value, '0123456789') != strlen($value)) {
-				return false;
-			}
-
-			return ($value >= -2147483648 && $value <= 2147483647);
-			break;
-
-		case RFC2445_TYPE_PERIOD:
-			if (!is_string($value) || empty($value)) {
-				return false;
-			}
-
-			$parts = explode('/', $value);
-			if (count($parts) != 2) {
-				return false;
-			}
-
-			if (!rfc2445_is_valid_value($parts[0], RFC2445_TYPE_DATE_TIME)) {
-				return false;
-			}
-
-			// Two legal cases for the second part:
-			if (rfc2445_is_valid_value($parts[1], RFC2445_TYPE_DATE_TIME)) {
-				// It has to be after the start time, so
-				return ($parts[1] > $parts[0]);
-			} else if (rfc2445_is_valid_value($parts[1], RFC2445_TYPE_DURATION)) {
-				// The period MUST NOT be negative
-				return ($parts[1]{0} != '-');
-			}
-
-			// It seems to be illegal
-			return false;
-			break;
-
-		case RFC2445_TYPE_RECUR:
-			if (!is_string($value)) {
-				return false;
-			}
-
-			$parts = explode(';', strtoupper($value));
-
-			// First of all, we need at least a FREQ and a UNTIL or COUNT part, so...
-			if (count($parts) < 2) {
-				return false;
-			}
-
-			// Let's get that into a more easily comprehensible format
-			$vars = [];
-			foreach ($parts as $part) {
-
-				$pieces = explode('=', $part);
-				// There must be exactly 2 pieces, e.g. FREQ=WEEKLY
-				if (count($pieces) != 2) {
-					return false;
-				}
-
-				// It's illegal for a variable to appear twice
-				if (isset($vars[$pieces[0]])) {
-					return false;
-				}
-
-				// Sounds good
-				$vars[$pieces[0]] = $pieces[1];
-			}
-
-			// OK... now to test everything else
-			// FREQ must be the first thing appearing
-			reset($vars);
-			if (key($vars) != 'FREQ') {
-				return false;
-			}
-
-			// It's illegal to have both UNTIL and COUNT appear
-			if (isset($vars['UNTIL']) && isset($vars['COUNT'])) {
-				return false;
-			}
-
-			// Special case: BYWEEKNO is only valid for FREQ=YEARLY
-			if (isset($vars['BYWEEKNO']) && $vars['FREQ'] != 'YEARLY') {
-				return false;
-			}
-
-			// Special case: BYSETPOS is only valid if another BY option is specified
-			if (isset($vars['BYSETPOS'])) {
-				$options = ['BYSECOND', 'BYMINUTE', 'BYHOUR', 'BYDAY', 'BYMONTHDAY', 'BYYEARDAY', 'BYWEEKNO', 'BYMONTH'];
-				$defined = array_keys($vars);
-				$common = array_intersect($options, $defined);
-				if (empty($common)) {
-					return false;
-				}
-			}
-
-			// OK, now simply check if each element has a valid value,
-			// unsetting them on the way. If at the end the array still
-			// has some elements, they are illegal.
-
-			if ($vars['FREQ'] != 'SECONDLY' && $vars['FREQ'] != 'MINUTELY' && $vars['FREQ'] != 'HOURLY' &&
-				$vars['FREQ'] != 'DAILY' && $vars['FREQ'] != 'WEEKLY' &&
-				$vars['FREQ'] != 'MONTHLY' && $vars['FREQ'] != 'YEARLY') {
-				return false;
-			}
-			unset($vars['FREQ']);
-
-			// Set this, we may need it later
-			$weekdays = explode(',', RFC2445_WEEKDAYS);
-
-			if (isset($vars['UNTIL'])) {
-				if (rfc2445_is_valid_value($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
-					// The time MUST be in UTC format
-					if (!(substr($vars['UNTIL'], -1) == 'Z')) {
+			case RFC2445_TYPE_TIME:
+				if (is_int($value)) {
+					if ($value < 0) {
 						return false;
 					}
-				} else if (!rfc2445_is_valid_value($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
-					return false;
-				}
-			}
-			unset($vars['UNTIL']);
-
-
-			if (isset($vars['COUNT'])) {
-				if (empty($vars['COUNT'])) {
-					// This also catches the string '0', which makes no sense
-					return false;
-				}
-				if (strspn($vars['COUNT'], '0123456789') != strlen($vars['COUNT'])) {
-					return false;
-				}
-			}
-			unset($vars['COUNT']);
-
-
-			if (isset($vars['INTERVAL'])) {
-				if (empty($vars['INTERVAL'])) {
-					// This also catches the string '0', which makes no sense
-					return false;
-				}
-				if (strspn($vars['INTERVAL'], '0123456789') != strlen($vars['INTERVAL'])) {
-					return false;
-				}
-			}
-			unset($vars['INTERVAL']);
-
-
-			if (isset($vars['BYSECOND'])) {
-				if ($vars['BYSECOND'] == '') {
-					return false;
-				}
-				// Comma also allowed
-				if (strspn($vars['BYSECOND'], '0123456789,') != strlen($vars['BYSECOND'])) {
-					return false;
-				}
-				$secs = explode(',', $vars['BYSECOND']);
-				foreach ($secs as $sec) {
-					if ($sec == '' || $sec < 0 || $sec > 59) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYSECOND']);
-
-
-			if (isset($vars['BYMINUTE'])) {
-				if ($vars['BYMINUTE'] == '') {
-					return false;
-				}
-				// Comma also allowed
-				if (strspn($vars['BYMINUTE'], '0123456789,') != strlen($vars['BYMINUTE'])) {
-					return false;
-				}
-				$mins = explode(',', $vars['BYMINUTE']);
-				foreach ($mins as $min) {
-					if ($min == '' || $min < 0 || $min > 59) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYMINUTE']);
-
-
-			if (isset($vars['BYHOUR'])) {
-				if ($vars['BYHOUR'] == '') {
-					return false;
-				}
-				// Comma also allowed
-				if (strspn($vars['BYHOUR'], '0123456789,') != strlen($vars['BYHOUR'])) {
-					return false;
-				}
-				$hours = explode(',', $vars['BYHOUR']);
-				foreach ($hours as $hour) {
-					if ($hour == '' || $hour < 0 || $hour > 23) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYHOUR']);
-
-
-			if (isset($vars['BYDAY'])) {
-				if (empty($vars['BYDAY'])) {
-					return false;
-				}
-
-				// First off, split up all values we may have
-				$days = explode(',', $vars['BYDAY']);
-
-				foreach ($days as $day) {
-					$daypart = substr($day, -2);
-					if (!in_array($daypart, $weekdays)) {
-						return false;
-					}
-
-					if (strlen($day) > 2) {
-						$intpart = substr($day, 0, strlen($day) - 2);
-						if (!rfc2445_is_valid_value($intpart, RFC2445_TYPE_INTEGER)) {
-							return false;
-						}
-						if (intval($intpart) == 0) {
-							return false;
-						}
-					}
-				}
-			}
-			unset($vars['BYDAY']);
-
-
-			if (isset($vars['BYMONTHDAY'])) {
-				if (empty($vars['BYMONTHDAY'])) {
-					return false;
-				}
-				$mdays = explode(',', $vars['BYMONTHDAY']);
-				foreach ($mdays as $mday) {
-					if (!rfc2445_is_valid_value($mday, RFC2445_TYPE_INTEGER)) {
-						return false;
-					}
-					$mday = abs(intval($mday));
-					if ($mday == 0 || $mday > 31) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYMONTHDAY']);
-
-
-			if (isset($vars['BYYEARDAY'])) {
-				if (empty($vars['BYYEARDAY'])) {
-					return false;
-				}
-				$ydays = explode(',', $vars['BYYEARDAY']);
-				foreach ($ydays as $yday) {
-					if (!rfc2445_is_valid_value($yday, RFC2445_TYPE_INTEGER)) {
-						return false;
-					}
-					$yday = abs(intval($yday));
-					if ($yday == 0 || $yday > 366) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYYEARDAY']);
-
-
-			if (isset($vars['BYWEEKNO'])) {
-				if (empty($vars['BYWEEKNO'])) {
-					return false;
-				}
-				$weeknos = explode(',', $vars['BYWEEKNO']);
-				foreach ($weeknos as $weekno) {
-					if (!rfc2445_is_valid_value($weekno, RFC2445_TYPE_INTEGER)) {
-						return false;
-					}
-					$weekno = abs(intval($weekno));
-					if ($weekno == 0 || $weekno > 53) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYWEEKNO']);
-
-
-			if (isset($vars['BYMONTH'])) {
-				if (empty($vars['BYMONTH'])) {
-					return false;
-				}
-				// Comma also allowed
-				if (strspn($vars['BYMONTH'], '0123456789,') != strlen($vars['BYMONTH'])) {
-					return false;
-				}
-				$months = explode(',', $vars['BYMONTH']);
-				foreach ($months as $month) {
-					if ($month == '' || $month < 1 || $month > 12) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYMONTH']);
-
-
-			if (isset($vars['BYSETPOS'])) {
-				if (empty($vars['BYSETPOS'])) {
-					return false;
-				}
-				$sets = explode(',', $vars['BYSETPOS']);
-				foreach ($sets as $set) {
-					if (!rfc2445_is_valid_value($set, RFC2445_TYPE_INTEGER)) {
-						return false;
-					}
-					$set = abs(intval($set));
-					if ($set == 0 || $set > 366) {
-						return false;
-					}
-				}
-			}
-			unset($vars['BYSETPOS']);
-
-
-			if (isset($vars['WKST'])) {
-				if (!in_array($vars['WKST'], $weekdays)) {
-					return false;
-				}
-			}
-			unset($vars['WKST']);
-
-
-			// Any remaining vars must be x-names
-			if (empty($vars)) {
-				return true;
-			}
-
-			foreach ($vars as $name => $var) {
-				if (!rfc2445_is_xname($name)) {
-					return false;
-				}
-			}
-
-			// At last, all is OK!
-			return true;
-
-			break;
-
-		case RFC2445_TYPE_TEXT:
-			return true;
-			break;
-
-		case RFC2445_TYPE_TIME:
-			if (is_int($value)) {
-				if ($value < 0) {
-					return false;
-				}
-				$value = "$value";
-			} else if (!is_string($value)) {
-				return false;
-			}
-
-			if (strlen($value) == 7) {
-				if (strtoupper(substr($value, -1)) != 'Z') {
-					return false;
-				}
-				$value = substr($value, 0, 6);
-			}
-			if (strlen($value) != 6) {
-				return false;
-			}
-
-			$h = intval(substr($value, 0, 2));
-			$m = intval(substr($value, 2, 2));
-			$s = intval(substr($value, 4, 2));
-
-			return ($h <= 23 && $m <= 59 && $s <= 60);
-			break;
-
-		case RFC2445_TYPE_UTC_OFFSET:
-			if (is_int($value)) {
-				if ($value >= 0) {
-					$value = "+$value";
-				} else {
 					$value = "$value";
+				} else if (!is_string($value)) {
+					return false;
 				}
-			} else if (!is_string($value)) {
-				return false;
-			}
 
-			if (strlen($value) == 7) {
-				$s = intval(substr($value, 5, 2));
-				$value = substr($value, 0, 5);
-			}
-			if (strlen($value) != 5 || $value == "-0000") {
-				return false;
-			}
+				if (strlen($value) == 7) {
+					if (strtoupper(substr($value, -1)) != 'Z') {
+						return false;
+					}
+					$value = substr($value, 0, 6);
+				}
+				if (strlen($value) != 6) {
+					return false;
+				}
 
-			if ($value{0} != '+' && $value{0} != '-') {
-				return false;
-			}
+				$h = intval(substr($value, 0, 2));
+				$m = intval(substr($value, 2, 2));
+				$s = intval(substr($value, 4, 2));
 
-			$h = intval(substr($value, 1, 2));
-			$m = intval(substr($value, 3, 2));
+				return ($h <= 23 && $m <= 59 && $s <= 60);
+				break;
 
-			return ($h <= 23 && $m <= 59 && $s <= 59);
-			break;
+			case RFC2445_TYPE_UTC_OFFSET:
+				if (is_int($value)) {
+					if ($value >= 0) {
+						$value = "+$value";
+					} else {
+						$value = "$value";
+					}
+				} else if (!is_string($value)) {
+					return false;
+				}
+
+				if (strlen($value) == 7) {
+					$s = intval(substr($value, 5, 2));
+					$value = substr($value, 0, 5);
+				}
+				if (strlen($value) != 5 || $value == "-0000") {
+					return false;
+				}
+
+				if ($value{0} != '+' && $value{0} != '-') {
+					return false;
+				}
+
+				$h = intval(substr($value, 1, 2));
+				$m = intval(substr($value, 3, 2));
+
+				return ($h <= 23 && $m <= 59 && $s <= 59);
+				break;
+		}
+
+		trigger_error('bad code path', E_USER_WARNING);
+		return false;
 	}
 
-	trigger_error('bad code path', E_USER_WARNING);
-	return false;
-}
-
-function rfc2445_do_value_formatting($value, $type)
-{
-	// Note: this does not only do formatting; it also does conversion to string!
-	switch ($type) {
-		case RFC2445_TYPE_CAL_ADDRESS:
-		case RFC2445_TYPE_URI:
-			// Enclose in double quotes
-			$value = '"' . $value . '"';
-			break;
-		case RFC2445_TYPE_TEXT:
-			// Escape entities
-			$value = strtr($value, ["\n" => '\\n', '\\' => '\\\\', ',' => '\\,', ';' => '\\;']);
-			break;
+	public static function rfc2445DoValueFormatting($value, $type)
+	{
+		// Note: this does not only do formatting; it also does conversion to string!
+		switch ($type) {
+			case RFC2445_TYPE_CAL_ADDRESS:
+			case RFC2445_TYPE_URI:
+				// Enclose in double quotes
+				$value = '"' . $value . '"';
+				break;
+			case RFC2445_TYPE_TEXT:
+				// Escape entities
+				$value = strtr($value, ["\n" => '\\n', '\\' => '\\\\', ',' => '\\,', ';' => '\\;']);
+				break;
+		}
+		return $value;
 	}
-	return $value;
-}
 
 // This is cheating: GUIDs have nothing to do with RFC 2445
 
-function rfc2445_guid()
-{
-	// Implemented as per the Network Working Group draft on UUIDs and GUIDs
-	// These two octets get special treatment
-	$time_hi_and_version = sprintf('%02x', (1 << 6) + mt_rand(0, 15)); // 0100 plus 4 random bits
-	$clock_seq_hi_and_reserved = sprintf('%02x', (1 << 7) + mt_rand(0, 63)); // 10 plus 6 random bits
-	// Need another 14 random octects
-	$pool = '';
-	for ($i = 0; $i < 7; ++$i) {
-		$pool .= sprintf('%04x', mt_rand(0, 65535));
+	public static function rfc2445Guid()
+	{
+		// Implemented as per the Network Working Group draft on UUIDs and GUIDs
+		// These two octets get special treatment
+		$time_hi_and_version = sprintf('%02x', (1 << 6) + mt_rand(0, 15)); // 0100 plus 4 random bits
+		$clock_seq_hi_and_reserved = sprintf('%02x', (1 << 7) + mt_rand(0, 63)); // 10 plus 6 random bits
+		// Need another 14 random octects
+		$pool = '';
+		for ($i = 0; $i < 7; ++$i) {
+			$pool .= sprintf('%04x', mt_rand(0, 65535));
+		}
+
+		// time_low = 4 octets
+		$random = substr($pool, 0, 8) . '-';
+
+		// time_mid = 2 octets
+		$random .= substr($pool, 8, 4) . '-';
+
+		// time_high_and_version = 2 octets
+		$random .= $time_hi_and_version . substr($pool, 12, 2) . '-';
+
+		// clock_seq_high_and_reserved = 1 octet
+		$random .= $clock_seq_hi_and_reserved;
+
+		// clock_seq_low = 1 octet
+		$random .= substr($pool, 13, 2) . '-';
+
+		// node = 6 octets
+		$random .= substr($pool, 14, 12);
+
+		return $random;
 	}
-
-	// time_low = 4 octets
-	$random = substr($pool, 0, 8) . '-';
-
-	// time_mid = 2 octets
-	$random .= substr($pool, 8, 4) . '-';
-
-	// time_high_and_version = 2 octets
-	$random .= $time_hi_and_version . substr($pool, 12, 2) . '-';
-
-	// clock_seq_high_and_reserved = 1 octet
-	$random .= $clock_seq_hi_and_reserved;
-
-	// clock_seq_low = 1 octet
-	$random .= substr($pool, 13, 2) . '-';
-
-	// node = 6 octets
-	$random .= substr($pool, 14, 12);
-
-	return $random;
 }

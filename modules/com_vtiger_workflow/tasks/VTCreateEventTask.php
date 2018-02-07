@@ -24,15 +24,6 @@ class VTCreateEventTask extends VTTask
 			'status', 'priority', 'assigned_user_id'];
 	}
 
-	public function getAdmin()
-	{
-		$user = Users::getActiveAdminUser();
-		$currentUser = vglobal('current_user');
-		$this->originalUser = $currentUser;
-		$currentUser = $user;
-		return $user;
-	}
-
 	/**
 	 * Execute task
 	 * @param Vtiger_Record_Model $recordModel
@@ -43,9 +34,8 @@ class VTCreateEventTask extends VTTask
 			return;
 		}
 		$userId = $recordModel->get('assigned_user_id');
-		$adminUser = $this->getAdmin();
 		if ($userId === null) {
-			$userId = $adminUser;
+			$userId = Users::getActiveAdminUser();
 		}
 		$moduleName = $recordModel->getModuleName();
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
@@ -109,7 +99,7 @@ class VTCreateEventTask extends VTTask
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
-		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 	}
 
 	private function calculateDate($recordModel, $days, $direction, $datefield)

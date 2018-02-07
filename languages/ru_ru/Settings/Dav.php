@@ -31,7 +31,7 @@ $languageStrings = [
 	'LBL_VIEW_KEYS' => 'Синхронизация',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Ключ для этого приложения уже существует.',
 	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Информация о конфигурации',
-	'LBL_ALERT_DAV_CONFIG_DESC' => 'Примеры конфигурации подключения к серверу DAV для различных приложений и систем:<br /><b>DAVdroid</b><br />ссылка: https://gitdeveloper.yetiforce.com/api/dav.php<br />Отключение привентивной авторизации<br /><b>Thunderbird CalDAV</b><br />ссылка: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />ссылка: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/ <br />С поддержкой SSL: <br /> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
+	'LBL_ALERT_DAV_CONFIG_DESC' => 'Примеры конфигурации подключения к серверу DAV для различных приложений и систем:<br /><b>DAVdroid</b><br />ссылка: https://gitdeveloper.yetiforce.com/dav.php<br />Отключение привентивной авторизации<br /><b>Thunderbird CalDAV</b><br />ссылка: https://gitdeveloper.yetiforce.com/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />ссылка: http://gitdeveloper.yetiforce.com/dav.php/principals/demo/ <br />С поддержкой SSL: <br /> http://gitdeveloper.yetiforce.com:443/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Добавление ключа',

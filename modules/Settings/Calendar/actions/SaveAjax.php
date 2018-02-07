@@ -18,8 +18,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function updateCalendarConfig(\App\Request $request)
 	{
-		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		Settings_Calendar_Module_Model::updateCalendarConfig($request->getArray('params', 'Alnum'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
@@ -30,8 +29,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function updateNotWorkingDays(\App\Request $request)
 	{
-		$params = $request->get('param');
-		Settings_Calendar_Module_Model::updateNotWorkingDays($params);
+		Settings_Calendar_Module_Model::updateNotWorkingDays($request->getArray('param', 'Alnum'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

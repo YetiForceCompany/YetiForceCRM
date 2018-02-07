@@ -12,6 +12,8 @@
 class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,15 +23,6 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
 		$this->exposeMethod('deleteModule');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function updateModuleStatus(\App\Request $request)

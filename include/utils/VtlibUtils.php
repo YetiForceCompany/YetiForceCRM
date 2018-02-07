@@ -11,37 +11,6 @@
 
 class VtlibUtils
 {
-	/*
-	 * Check for image existence in themes orelse
-	 * use the common one.
-	 */
-
-	/**
-	 * Fetch module active information at one shot, but return all the information fetched.
-	 * @param boolen $force
-	 * @return array
-	 */
-	public static function vtlibPrefetchModuleActiveInfo($force = true)
-	{
-		// Look up if cache has information
-		$tabrows = VTCacheUtils::lookupAllTabsInfo();
-
-		// Initialize from DB if cache information is not available or force flag is set
-		if ($tabrows === false || $force) {
-			$adb = PearDatabase::getInstance();
-			$tabres = $adb->query("SELECT * FROM vtiger_tab");
-			$tabrows = [];
-			if ($tabres) {
-				while ($tabresrow = $adb->fetchArray($tabres)) {
-					$tabrows[] = $tabresrow;
-				}
-				// Update cache for further re-use
-				VTCacheUtils::updateAllTabsInfo($tabrows);
-			}
-		}
-
-		return $tabrows;
-	}
 
 	/**
 	 * Setup mandatory (requried) module variable values in the module class.

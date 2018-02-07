@@ -24,15 +24,11 @@ class VTUpdateRelatedFieldTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$util = new VTWorkflowUtils();
-		$util->adminUser();
-
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping)) {
-			$util->loggedInUser();
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldValue = trim($fieldInfo['value']);
 				switch ($fieldInfo['valuetype']) {
@@ -66,15 +62,20 @@ class VTUpdateRelatedFieldTask extends VTTask
 				} else {
 					$recordId = $recordModel->get($relatedData[0]);
 					if ($recordId) {
-						$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedData[1]);
-						$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
-						$recordModel->set($relatedData[2], $fieldValue);
-						$recordModel->save();
+						$relRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedData[1]);
+						$fieldModel = $relRecordModel->getField($relatedData[2]);
+						if ($fieldModel->isEditable()) {
+							$fieldModel->getUITypeModel()->validate($fieldValue);
+							$relRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+							$relRecordModel->set($relatedData[2], $fieldValue);
+							$relRecordModel->save();
+						} else {
+							\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
+						}
 					}
 				}
 			}
 		}
-		$util->revertUser();
 	}
 
 	/**
@@ -89,16 +90,22 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$relatedModuleName = $relatedData[0];
 		$relatedFieldName = $relatedData[1];
 		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModuleName);
-		if (!$targetModel->getRelationModel()) {
+		if (!$targetModel || !$targetModel->getRelationModel()) {
 			return false;
 		}
 		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedModuleName);
-			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
-			$recordModel->set($relatedFieldName, $fieldValue);
-			$recordModel->save();
+			$fieldModel = $recordModel->getField($relatedFieldName);
+			if ($fieldModel->isEditable()) {
+				$fieldModel->getUITypeModel()->validate($fieldValue);
+				$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+				$recordModel->set($relatedFieldName, $fieldValue);
+				$recordModel->save();
+			} else {
+				\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
+			}
 		}
 	}
 

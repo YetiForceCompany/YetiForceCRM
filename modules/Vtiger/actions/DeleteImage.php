@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_DeleteImage_Action extends Vtiger_Action_Controller
+class Vtiger_DeleteImage_Action extends \App\Controller\Action
 {
 
 	public function checkPermission(\App\Request $request)

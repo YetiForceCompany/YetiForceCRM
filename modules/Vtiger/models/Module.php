@@ -883,31 +883,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function returns export query - deprecated
-	 * @param string $where
-	 * @return string export query
-	 */
-	public function getExportQuery($focus, $where)
-	{
-		return $this->getEntityInstance()->createExportQuery($where);
-	}
-
-	/**
-	 * Function returns the default custom filter for the module
-	 * @return <Int> custom filter id
-	 */
-	public function getDefaultCustomFilter()
-	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", [$this->getName()]);
-		if ($db->numRows($result)) {
-			return $db->queryResult($result, 0, 'cvid');
-		}
-		return false;
-	}
-
-	/**
 	 * Function returns latest comments for the module
 	 * @param <Vtiger_Paging_Model> $pagingModel
 	 * @return <Array>
@@ -918,23 +893,26 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$this->isCommentEnabled()) {
 			return $comments;
 		}
-		$db = PearDatabase::getInstance();
-		$accessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
-		$query = sprintf('SELECT vtiger_crmentity.*, vtiger_modcomments.* FROM vtiger_modcomments
-			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
-			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
-			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 && crmentity2.setype = ? %s
-			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $accessConditions);
-		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
-		$numRowsCount = $db->numRows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$row = $db->queryResultRowData($result, $i);
-			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
-			$commentModel->setData($row);
-			$time = $commentModel->get('createdtime');
-			$comments[$time] = $commentModel;
+		$query = (new \App\Db\Query())->select(['vtiger_crmentity.setype', 'vtiger_modcomments.related_to', 'vtiger_modcomments.commentcontent', 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
+				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype'])
+			->from('vtiger_modcomments')
+			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.setype' => $this->getName(), 'crmentity2.deleted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, 'ModComments');
+		$dataReader = $query->orderBy(['vtiger_modcomments.modcommentsid' => SORT_DESC])
+				->limit($pagingModel->getPageLimit())
+				->offset($pagingModel->getStartIndex())
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (\App\Privilege::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
+				$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
+				$commentModel->setData($row);
+				$time = $commentModel->get('createdtime');
+				$comments[$time] = $commentModel;
+			}
 		}
-
+		$dataReader->close();
 		return $comments;
 	}
 
@@ -959,18 +937,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 				return $comments;
 			}
 		}
-
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT vtiger_modtracker_basic.*
-								FROM vtiger_modtracker_basic
-								INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-									AND deleted = 0 && module = ?
-								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
-
-		$activites = [];
-		$numRowsCount = $db->numRows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$row = $db->queryResultRowData($result, $i);
+		$dataReader = (new App\Db\Query())->select(['vtiger_modtracker_basic.*'])
+				->from('vtiger_modtracker_basic')
+				->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_modtracker_basic.module' => $this->getName()])
+				->orderBy(['vtiger_modtracker_basic.id' => SORT_DESC])
+				->offset($pagingModel->getStartIndex())
+				->limit($pagingModel->getPageLimit())
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (\App\Privilege::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();
 				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);
@@ -978,9 +953,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$activites[$time] = $modTrackerRecorModel;
 			}
 		}
-
+		$dataReader->close();
 		$history = array_merge($activites, $comments);
-
 		$dateTime = [];
 		foreach ($history as $time => $model) {
 			$dateTime[] = $time;
@@ -1321,13 +1295,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$orderByField = $this->getFieldByColumn($orderBy);
 		return $orderByField->get('table') . '.' . $orderBy;
-	}
-
-	public function getDefaultSearchField()
-	{
-		$nameFields = $this->getNameFields();
-		//To make the first field as the name field
-		return $nameFields[0];
 	}
 
 	/**

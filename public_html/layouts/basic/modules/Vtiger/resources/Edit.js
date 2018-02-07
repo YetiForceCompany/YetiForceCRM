@@ -899,7 +899,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerMaskFields: function (container) {
 		var thisInstance = this;
-		container.find(":input").inputmask();
+		container.find("[data-inputmask]").inputmask();
 	},
 	/**
 	 * Function to register event for image delete

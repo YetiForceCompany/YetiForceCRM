@@ -33,6 +33,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$row['data'] = \App\Json::decode($row['data']);
 			$widgets[$row['wcol']][$row['id']] = $row;
 		}
+		$dataReader->close();
 		App\Cache::save('ModuleWidgets', $module, $widgets);
 		return $widgets;
 	}
@@ -130,6 +131,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				while ($row = $dataReader->read()) {
 					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 				}
+				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
 			}
 		}
@@ -155,6 +157,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				while ($row = $dataReader->read()) {
 					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 				}
+				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
 			}
 		}
@@ -182,6 +185,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 			$fieldsList[$tabid][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 		}
+		$dataReader->close();
 		return ['labels' => $fieldlabel, 'table' => $fieldsList];
 	}
 
@@ -304,6 +308,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
 		}
+		$dataReader->close();
 		return $field;
 	}
 
@@ -333,7 +338,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get buttons which visible in header widget 
+	 * Function to get buttons which visible in header widget
 	 * @param integer $moduleId Number id module
 	 * @return Vtiger_Link_Model[]
 	 */

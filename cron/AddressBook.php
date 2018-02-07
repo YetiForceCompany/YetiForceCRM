@@ -96,6 +96,7 @@ foreach ($workflows as $row) {
 			break;
 		}
 	}
+	$dataReaderRows->close();
 	if (!$break && $last !== false) {
 		OSSMail_AddressBook_Model::clearLastRecord();
 	}

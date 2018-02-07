@@ -94,6 +94,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 				$picklistValue = $row[$this->getFieldName()];
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
+			$dataReader->close();
 			return $fieldPickListValues;
 		}
 		return parent::getPicklistValues($skipCheckingRole);
@@ -141,8 +142,10 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		$isEditable = $this->get('editable');
-		if (!$isEditable) {
+		if (($this->get('uitype') === 115 && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId')))) {
+			return false;
+		}
+		if (!$this->get('editable')) {
 			$this->set('editable', parent::isEditable());
 		}
 		return $this->get('editable');

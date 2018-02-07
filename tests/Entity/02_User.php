@@ -38,9 +38,6 @@ class User extends \Tests\Base
 		$user->set('is_admin', 'on');
 		$user->save();
 		define('TESTS_USER_ID', $user->getId());
-		$userForus = CRMEntity::getInstance('Users');
-		$currentUser = $userForus->retrieveCurrentUserInfoFromFile(TESTS_USER_ID);
-		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId(TESTS_USER_ID);
 		$this->assertInternalType('int', TESTS_USER_ID);
 	}

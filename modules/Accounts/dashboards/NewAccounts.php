@@ -33,6 +33,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['assigned_user_id']);
 			$newAccounts[$row['id']] = $row;
 		}
+		$dataReader->close();
 		return $newAccounts;
 	}
 
@@ -44,8 +45,8 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$user = $request->getByType('owner', 2);
 		$time = $request->getArray('time');
 		if (empty($time)) {
-			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
-			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
+			$time['start'] = App\Fields\Date::formatToDisplay('now');
+			$time['end'] = App\Fields\Date::formatToDisplay('now');
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {

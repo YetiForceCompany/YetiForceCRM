@@ -1,18 +1,23 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.find('.configField').change(function (e) {
 			var target = $(e.currentTarget);
-			var params = {};
-			params['type'] = target.data('type');
-			params['param'] = target.attr('name');
-			if (target.attr('type') == 'checkbox') {
-				params['val'] = this.checked;
+			var val;
+			if (target.attr('type') === 'checkbox') {
+				val = this.checked;
 			} else {
-				params['val'] = target.val() != null ? target.val() : '';
+				val = target.val() != null ? target.val() : '';
 			}
-			app.saveAjax('updateConfig', params).then(function (data) {
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SaveAjax',
+				mode: 'updateConfig',
+				type: target.data('type'),
+				param: target.attr('name'),
+				value: val
+			}).then(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});
@@ -47,7 +52,6 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 		return true;
 	},
 	registerEventToDeleteMapping: function (content) {
-		var thisInstance = this;
 		content.find('.deleteMapping').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
 			var trContainer = element.closest('tr');
@@ -55,7 +59,6 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 		});
 	},
 	registerMapping: function (content) {
-		var thisInstance = this;
 		content.find('[name="create_always"]').on('change', function (e) {
 			var mappingTable = jQuery('.mappingTable');
 			if (this.checked) {

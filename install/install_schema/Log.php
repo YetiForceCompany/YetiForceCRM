@@ -24,7 +24,7 @@ class Log extends \App\Db\Importers\Base
 					'log_time' => $this->stringType(20)->notNull(),
 					'trace' => $this->text(),
 					'level' => $this->stringType(),
-					'duration' => $this->decimal('3,3')->notNull(),
+					'duration' => $this->decimal('7,3')->notNull(),
 				],
 				'index' => [
 					['id', 'id'],

@@ -18,7 +18,7 @@
 			<div class="input-group paddingBottom10">
 				<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)} ..." >
 				<span class="input-group-btn">
-					<button id="btnSearchTree" class="btn btn-danger" type="button">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</button>
+					<button id="btnSearchTree" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-search"></span></button>
 				</span>
 			</div>
 			<div id="treeContent">

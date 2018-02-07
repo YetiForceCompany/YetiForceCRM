@@ -11,15 +11,7 @@
 class Settings_Groups_DeleteAjax_View extends Settings_Vtiger_Index_View
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return;
-	}
+	use App\Controller\ClearProcess;
 
 	public function process(\App\Request $request)
 	{

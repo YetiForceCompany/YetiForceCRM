@@ -75,6 +75,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$milestoneTime += $projecttask['task_time'];
 			$progressInHours += $projecttask['task_time'] * $projectmilestone['progress'];
 		}
+		$dataReader->close();
 		if ($milestoneTime) {
 			$response['progress'] = round($progressInHours / $milestoneTime, 1);
 		}
@@ -128,6 +129,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$response['data'][] = $projecttask;
 			$response['links'][] = $link;
 		}
+		$dataReader->close();
 		$response['task_time'] = $taskTime;
 		return $response;
 	}

@@ -34,7 +34,7 @@ class Block
 
 	/**
 	 * Basic table name
-	 * @var string 
+	 * @var string
 	 */
 	public static $baseTable = 'vtiger_blocks';
 
@@ -50,17 +50,16 @@ class Block
 	/**
 	 * Initialize this block instance
 	 * @param array Map of column name and value
-	 * @param \Module Module Instance of module to which this block is associated
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $module = false)
 	{
 		$this->id = isset($valuemap['blockid']) ? $valuemap['blockid'] : null;
 		$this->label = isset($valuemap['blocklabel']) ? $valuemap['blocklabel'] : null;
 		$this->display_status = isset($valuemap['display_status']) ? $valuemap['display_status'] : null;
 		$this->sequence = isset($valuemap['sequence']) ? $valuemap['sequence'] : null;
 		$this->iscustom = isset($valuemap['iscustom']) ? $valuemap['iscustom'] : null;
-		$tabid = isset($valuemap['tabid']) ? $valuemap['tabid'] : null;
-		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($tabid);
+		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
 	}
 
 	/**
@@ -90,13 +89,13 @@ class Block
 			'iscustom' => $this->iscustom
 		])->execute();
 		$this->id = $db->getLastInsertID(self::$baseTable . '_blockid_seq');
-		self::log("Creating Block $this->label ... DONE");
-		self::log("Module language entry for $this->label ... CHECK");
+		\App\Log::trace("Creating Block $this->label ... DONE", __METHOD__);
+		\App\Log::trace("Module language entry for $this->label ... CHECK", __METHOD__);
 	}
 
 	public function __update()
 	{
-		self::log("Updating Block $this->label ... DONE");
+		\App\Log::trace("Updating Block $this->label ... DONE", __METHOD__);
 	}
 
 	/**
@@ -104,9 +103,9 @@ class Block
 	 */
 	public function __delete()
 	{
-		self::log("Deleting Block $this->label ... ", false);
+		\App\Log::trace("Deleting Block $this->label ... ", __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['blockid' => $this->id])->execute();
-		self::log("DONE");
+		\App\Log::trace("DONE", __METHOD__);
 	}
 
 	/**
@@ -148,25 +147,15 @@ class Block
 	}
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
-	}
-
-	/**
 	 * Get instance of block
 	 * @param int|string block id or block label
-	 * @param \Module Module Instance of the module if block label is passed
+	 * @param mixed $module Mixed id or name of the module
 	 * @return \self
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $module = false)
 	{
-		$cacheName = $value . '|' . ($moduleInstance ? $moduleInstance->id : '');
+		$tabId = is_numeric($module) ? $module : \App\Module::getModuleId($module);
+		$cacheName = $value . '|' . $tabId;
 		if (\App\Cache::has('BlockInstance', $cacheName)) {
 			$data = \App\Cache::get('BlockInstance', $cacheName);
 		} else {
@@ -174,7 +163,7 @@ class Block
 			if (Utils::isNumber($value)) {
 				$query->where(['blockid' => $value]);
 			} else {
-				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
+				$query->where(['blocklabel' => $value, 'tabid' => $tabId]);
 			}
 			$data = $query->one();
 			\App\Cache::save('BlockInstance', $cacheName, $data);
@@ -182,7 +171,7 @@ class Block
 		$instance = false;
 		if ($data) {
 			$instance = new self();
-			$instance->initialize($data, $moduleInstance);
+			$instance->initialize($data, $tabId);
 		}
 		return $instance;
 	}
@@ -206,7 +195,7 @@ class Block
 		$instances = false;
 		foreach ($blocks as $row) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
 		return $instances;
@@ -228,6 +217,6 @@ class Block
 		$query = (new \App\Db\Query())->select(['blockid'])->from(self::$baseTable)->where(['tabid' => $tabId]);
 		$db->createCommand()->delete('vtiger_blocks_hide', ['blockid' => $query])->execute();
 		$db->createCommand()->delete(self::$baseTable, ['tabid' => $tabId])->execute();
-		self::log("Deleting blocks for module ... DONE");
+		\App\Log::trace('Deleting blocks for module ... DONE', __METHOD__);
 	}
 }

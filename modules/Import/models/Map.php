@@ -13,15 +13,13 @@ class Import_Map_Model extends \App\Base
 
 	public static $tableName = 'vtiger_import_maps';
 	public $map;
-	public $user;
 
-	public function __construct($map, $user)
+	public function __construct($map)
 	{
 		$this->map = $map;
-		$this->user = $user;
 	}
 
-	public static function getInstanceFromDb($row, $user)
+	public static function getInstanceFromDb($row)
 	{
 		$map = [];
 		foreach ($row as $key => $value) {
@@ -39,7 +37,7 @@ class Import_Map_Model extends \App\Base
 				$map[$key] = $value;
 			}
 		}
-		return new Import_Map_Model($map, $user);
+		return new Import_Map_Model($map);
 	}
 
 	public static function markAsDeleted($mapId)
@@ -84,36 +82,27 @@ class Import_Map_Model extends \App\Base
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-
 		$map = $this->getAllValues();
-		$map['content'] = "" . $db->getEmptyBlob() . "";
+		$map['content'] = null;
 		$map['date_entered'] = date('Y-m-d H:i:s');
-		$columnNames = array_keys($map);
-		$columnValues = array_values($map);
 		if (count($map) > 0) {
-			$sql = 'INSERT INTO ' . self::$tableName . ' (' . implode(',', $columnNames) . ') VALUES (' . generateQuestionMarks($columnValues) . ')';
-			$db->pquery($sql, [$columnValues]);
-
-			$table = self::$tableName;
-			$column = 'content';
-			$val = $this->getStringifiedContent();
-			$where = 'name=' . $db->sqlEscapeString($this->getValue('name')) . ' && module=' . $db->sqlEscapeString($this->getValue('module'));
-			$db->updateBlob($table, $column, $val, $where);
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->insert(self::$tableName, $map)->execute();
+			$dbCommand->update(self::$tableName, ['content' => $this->getStringifiedContent()], ['name' => $this->getValue('name'), 'module' => $this->getValue('module')])->execute();
 		}
 	}
 
 	public static function getAllByModule($moduleName)
 	{
-		$current_user = vglobal('current_user');
 		$dataReader = (new App\Db\Query())->from(self::$tableName)
 				->where(['deleted' => 0, 'module' => $moduleName])
 				->createCommand()->query();
 		$savedMaps = [];
 		while ($row = $dataReader->read()) {
-			$importMap = Import_Map_Model::getInstanceFromDb($row, $current_user);
+			$importMap = Import_Map_Model::getInstanceFromDb($row);
 			$savedMaps[$importMap->getId()] = $importMap;
 		}
+		$dataReader->close();
 		return $savedMaps;
 	}
 }

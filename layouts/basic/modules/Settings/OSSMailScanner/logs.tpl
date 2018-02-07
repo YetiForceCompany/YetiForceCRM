@@ -1,5 +1,4 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 <style>
     .table tbody tr.error > td {
         background-color: #f2dede;

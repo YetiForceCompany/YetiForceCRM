@@ -51,6 +51,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 				$row['color']
 			];
 		}
+		$dataReader->close();
 		return $chartData;
 	}
 

@@ -48,6 +48,7 @@ class CustomView
 		'om' => 'LBL_CURRENTLY_LOGGED_USER',
 		'wr' => 'LBL_IS_WATCHING_RECORD',
 		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
+		'd' => 'LBL_DUPLICATES',
 	];
 
 	/**

@@ -13,7 +13,7 @@ class Settings_Currency_EditAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		if (!empty($record)) {
 			$recordModel = Settings_Currency_Record_Model::getInstance($record);
 		} else {

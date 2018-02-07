@@ -85,6 +85,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$response[$i][2] = $leadStatusVal;
 			$i++;
 		}
+		$dataReader->close();
 		return $response;
 	}
 
@@ -145,37 +146,47 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function getDefaultSearchField()
+	/**
+	 * Function to search accounts
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return boolean
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function searchAccountsToConvert(Vtiger_Record_Model $recordModel)
 	{
-		return "company";
-	}
-
-	public function searchAccountsToConvert($recordModel)
-	{
-
 		\App\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
-			$params = [];
-			$db = PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
-			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
-				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "
-				. "INNER JOIN `vtiger_accountaddress` ON vtiger_accountaddress.accountaddressid=vtiger_account.accountid "
-				. "INNER JOIN `vtiger_accountscf` ON vtiger_accountscf.accountid=vtiger_account.accountid "
-				. "WHERE vtiger_crmentity.deleted=0";
-			foreach ($mappingFields as $fields) {
-				$sql .= ' && `' . current($fields) . '` = ?';
-				$params[] = $recordModel->get(key($fields));
+			$query = (new App\Db\Query())->select(['vtiger_account.accountid'])
+				->from('vtiger_account')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_account.accountid')
+				->where(['vtiger_crmentity.deleted' => 0]);
+			$joinTable = ['vtiger_account', 'vtiger_crmentity'];
+			$moduleModel = Vtiger_Module_Model::getInstance('Accounts');
+			$focus = $moduleModel->getEntityInstance();
+			foreach ($mappingFields as $leadFieldName => $accountFieldName) {
+				$fieldModel = $moduleModel->getField($accountFieldName);
+				if (!$fieldModel) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
+				$tableName = $fieldModel->get('table');
+				if (!in_array($tableName, $joinTable)) {
+					$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
+					$joinTable[] = $tableName;
+				}
+				$query->andWhere(["{$tableName}.{$fieldModel->getColumnName()}" => $recordModel->get($leadFieldName)]);
 			}
-			$result = $db->pquery($sql, $params);
-			$num = $db->numRows($result);
-			if ($num > 1) {
+			$query->limit(2);
+			$dataReader = $query->createCommand()->query();
+			$numberRows = $dataReader->count();
+			if ($numberRows > 1) {
+				$dataReader->close();
 				\App\Log::trace('End ' . __METHOD__);
 				return false;
-			} elseif ($num == 1) {
+			} elseif ($numberRows === 1) {
 				\App\Log::trace('End ' . __METHOD__);
-				return (int) $db->queryResult($result, 0, 'accountid');
+				return (int) $dataReader->readColumn(0);
 			}
 		}
 		\App\Log::trace('End ' . __METHOD__);

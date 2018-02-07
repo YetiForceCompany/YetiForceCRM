@@ -43,10 +43,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$request->has('color')) {
 			$color = \App\Colors::getRandomColor();
 		} else {
-			$color = $request->get('color');
-			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $color, 406);
-			}
+			$color = $request->getByType('color', 'Color');
 		}
 		\App\Colors::updateUserColor($recordId, $color);
 		$response = new Vtiger_Response();
@@ -83,10 +80,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$request->has('color')) {
 			$color = \App\Colors::getRandomColor();
 		} else {
-			$color = $request->get('color');
-			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $color, 406);
-			}
+			$color = $request->getByType('color', 'Color');
 		}
 		\App\Colors::updateGroupColor($request->getInteger('record'), $color);
 		$response = new Vtiger_Response();
@@ -124,10 +118,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$request->has('color')) {
 			$color = \App\Colors::getRandomColor();
 		} else {
-			$color = $request->get('color');
-			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $color, 406);
-			}
+			$color = $request->getByType('color', 'Color');
 		}
 		\App\Colors::updateModuleColor($recordId, $color);
 		$response = new Vtiger_Response();
@@ -161,11 +152,10 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function activeModuleColor(\App\Request $request)
 	{
-		$color = \App\Colors::activeModuleColor($request->getInteger('record'), $request->get('status'), $request->get('color'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => $color,
+			'color' => \App\Colors::activeModuleColor($request->getInteger('record'), $request->getByType('status', 'Text'), ($request->isEmpty('color') || $request->get('color') === '#' ) ? '' : $request->getByType('color', 'Color')),
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
@@ -184,10 +174,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$request->has('color')) {
 			$color = \App\Colors::getRandomColor();
 		} else {
-			$color = $request->get('color');
-			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $color, 406);
-			}
+			$color = $request->getByType('color', 'Color');
 		}
 		\App\Colors::updatePicklistValueColor($request->getInteger('fieldId'), $request->getInteger('fieldValueId'), $color);
 		$response = new Vtiger_Response();
@@ -246,12 +233,10 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function updateCalendarColor(\App\Request $request)
 	{
 		$params = [];
-		$params['id'] = $request->get('id');
-		$params['color'] = $request->get('color');
+		$params['id'] = $request->getByType('id', 'Text');
+		$params['color'] = $request->getByType('color', 'Color');
 		if (!$params['color']) {
 			$params['color'] = \App\Colors::getRandomColor();
-		} else if (!\App\Colors::checkFormatValue($params['color'])) {
-			throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $params['color'], 406);
 		}
 		if (!is_numeric($params['id'])) {
 			Settings_Calendar_Module_Model::updateCalendarConfig($params);
@@ -276,7 +261,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function removeCalendarColor(\App\Request $request)
 	{
 		$params = [];
-		$params['id'] = $request->get('id');
+		$params['id'] = $request->getByType('id', 'Alnum');
 		$params['color'] = '';
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);
 		$response = new Vtiger_Response();

@@ -190,7 +190,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 	public function sendEmail()
 	{
 		$recipientEmails = $this->getRecipientEmails();
-		vtlib\Utils::moduleLog('ScheduleReprots', $recipientEmails);
+		\App\Log::trace('ScheduleReprots ' . var_export($recipientEmails, true), __METHOD__);
 		$to = [];
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
@@ -198,9 +198,9 @@ class Reports_ScheduleReports_Model extends \App\Base
 		Vtiger_Loader::includeOnce('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
-		vtlib\Utils::moduleLog('ScheduleReprots Send Mail Start ::', $currentTime);
+		\App\Log::trace('ScheduleReprots Send Mail Start ::' . $currentTime, __METHOD__);
 		$reportname = \App\Purifier::decodeHtml($reportRecordModel->getName());
-		vtlib\Utils::moduleLog('ScheduleReprot Name ::', $reportname);
+		\App\Log::trace('ScheduleReprots Send Mail Start ::' . $reportname, __METHOD__);
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
 
@@ -241,7 +241,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 	public function getNextTriggerTime()
 	{
 		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
-		$default_timezone = vglobal('default_timezine');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
@@ -276,14 +276,14 @@ class Reports_ScheduleReports_Model extends \App\Base
 	{
 		$adb = PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
-		vtlib\Utils::moduleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
+		\App\Log::trace('ScheduleReprot Next Trigger Time >> ' . $nextTriggerTime, __METHOD__);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', [$nextTriggerTime, $this->get('reportid')]);
-		vtlib\Utils::moduleLog('ScheduleReprot', 'Next Trigger Time updated');
+		\App\Log::trace('Next Trigger Time updated', __METHOD__);
 	}
 
 	public static function getScheduledReports()
 	{
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		// set the time zone to the admin's time zone, this is needed so that the scheduled reprots will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
 		$admin = Users::getActiveAdminUser();
@@ -298,41 +298,26 @@ class Reports_ScheduleReports_Model extends \App\Base
 		while ($recordId = $dataReader->readColumn(0)) {
 			$scheduledReports[] = self::getInstanceById($recordId);
 		}
+		$dataReader->close();
 		return $scheduledReports;
 	}
 
 	public static function runScheduledReports()
 	{
-		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
-		$util = new VTWorkflowUtils();
-		$util->adminUser();
-
-		$currentModule = vglobal('currentModule');
-		$current_language = vglobal('current_language');
-		if (empty($currentModule)) {
-			vglobal('currentModule', 'Reports');
-		}
-		if (empty($current_language))
-			vglobal('current_language', 'en_us');
-
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
-			vtlib\Utils::moduleLog('ScheduleReprot Send Mail Status ', $status);
+			\App\Log::trace('ScheduleReprot Send Mail Status ' . $status, __METHOD__);
 			if ($status)
 				$scheduledReport->updateNextTriggerTime();
 		}
-		$util->revertUser();
 		return $status;
 	}
 
 	public function getEmailContent($reportRecordModel)
 	{
-		$site_URL = vglobal('site_URL');
-		$currentModule = vglobal('currentModule');
-
+		$site_URL = \AppConfig::main('site_URL');
 		$logo = \App\Company::getInstanceById()->getLogo()->get('imageUrl', true);
-
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>
 				<td> </td>
@@ -362,16 +347,16 @@ class Reports_ScheduleReports_Model extends \App\Base
 													<td> </td>
 												</tr>
 												<tr>
-													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
+													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', 'Reports') . '</td>
 												</tr>
 												<tr>
 													<td align="center">
 													<table width="75%" cellspacing="0" cellpadding="10" border="0" style="border: 2px solid rgb(180, 180, 179); background-color: rgb(226, 226, 225); font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal;">
 															<tr>
-																<td><b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
+																<td><b>' . \App\Language::translate('LBL_REPORT_NAME', 'Reports') . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
 															</tr>
 															<tr>
-																<td><b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
+																<td><b>' . \App\Language::translate('LBL_DESCRIPTION', 'Reports') . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
 															</tr>
 													</table>
 													</td>

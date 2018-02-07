@@ -25,15 +25,4 @@ class Contacts_Detail_View extends Vtiger_Detail_View
 
 		return parent::showModuleDetailView($request);
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		$cssFileNames = [
-			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
-		];
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
-	}
 }

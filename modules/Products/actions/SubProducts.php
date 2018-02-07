@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Products_SubProducts_Action extends Vtiger_Action_Controller
+class Products_SubProducts_Action extends \App\Controller\Action
 {
 
 	/**

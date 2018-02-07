@@ -6,6 +6,8 @@ $baseDir = dirname($vendorDir);
 
 return [
 	'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
+	'Feed' => $vendorDir . '/dg/rss-php/src/Feed.php',
+	'FeedException' => $vendorDir . '/dg/rss-php/src/Feed.php',
 	'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
 	'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',
 	'PHPMailerOAuthGoogle' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',

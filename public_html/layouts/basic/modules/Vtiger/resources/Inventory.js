@@ -10,7 +10,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	taxModalFields: ['aggregationType', 'globalTax', 'groupCheckbox', 'groupTax', 'individualTax'],
 	/**
 	 * Function that is used to get the line item container
-	 * @return : jQuery object 
+	 * @return : jQuery object
 	 */
 	getInventoryItemsContainer: function () {
 		if (this.inventoryContainer === false) {
@@ -749,7 +749,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			if (editorInstance) {
 				editorInstance.setData(description);
 			} else {
-				commentElement.html(description);
+				commentElement.val(description);
 			}
 			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
 				switch (recordData['autoFields']['unit']) {
@@ -1374,7 +1374,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var element = $(e.currentTarget);
 			var parentRow = element.closest(thisInstance.rowClass);
 			var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency() + '&fieldname=' + element.data('columnname');
+			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + '&fieldname=' + element.data('columnname');
+			if (thisInstance.getCurrency()) {
+				dataUrl += "&currency_id=" + thisInstance.getCurrency();
+			}
 			AppConnector.request(dataUrl).then(function (data) {
 				for (var id in data) {
 					if (typeof data[id] == "object") {

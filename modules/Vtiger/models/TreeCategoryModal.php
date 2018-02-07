@@ -143,16 +143,11 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 
 	private function getSelectedRecords($onlyKeys = true)
 	{
-		$currentModule = vglobal('currentModule');
-		vglobal('currentModule', $this->get('srcModule'));
-
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$entries = $relationListView->getEntries($pagingModel);
-
-		vglobal('currentModule', $currentModule);
 		if ($onlyKeys) {
 			return array_keys($entries);
 		} else {

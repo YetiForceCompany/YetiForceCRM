@@ -56,11 +56,45 @@ class Date
 		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
 			return '';
 		}
+		if ($value === 'now') {
+			$value = null;
+		}
 		return (new \DateTimeField($value))->getDisplayDate();
 	}
 
 	/**
-	 * Convert date to single items 
+	 * Function to get date value for db format
+	 * @param string $value Date
+	 * @param bool $leadingZeros
+	 * @return string
+	 */
+	public static function formatToDb($value, $leadingZeros = false)
+	{
+		if ($leadingZeros) {
+			$delim = ['/', '.'];
+			foreach ($delim as $delimiter) {
+				$x = strpos($value, $delimiter);
+				if ($x === false)
+					continue;
+				else {
+					$value = str_replace($delimiter, '-', $value);
+					break;
+				}
+			}
+			list($y, $m, $d) = explode('-', $value);
+			if (strlen($y) == 1)
+				$y = '0' . $y;
+			if (strlen($m) == 1)
+				$m = '0' . $m;
+			if (strlen($d) == 1)
+				$d = '0' . $d;
+			$value = implode('-', [$y, $m, $d]);
+		}
+		return (new \DateTimeField($value))->getDBInsertDateValue();
+	}
+
+	/**
+	 * Convert date to single items
 	 * @param string $date
 	 * @param string|bool $format Date format
 	 * @return array Array date list($y, $m, $d)
@@ -156,5 +190,16 @@ class Date
 				return $seconds;
 		}
 		return $interval->format($format);
+	}
+
+	/**
+	 * Get day from date or datetime
+	 * @param string $date
+	 * @param bool $shortName
+	 * @return string
+	 */
+	public static function getDayFromDate($date, $shortName = false)
+	{
+		return date($shortName ? 'D' : 'l', strtotime($date));
 	}
 }

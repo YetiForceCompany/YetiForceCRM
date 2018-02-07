@@ -92,13 +92,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($modulename, $eventType)
 	{
-		$registerLink = false;
-		$displayLabel = 'Time Control';
-
 		if ($eventType === 'module.postinstall') {
-
-			$tabid = \App\Module::getModuleId($modulename);
-			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => $tabid, 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time', 'platnosc']])->execute();
+			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => \App\Module::getModuleId($modulename), 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time']])->execute();
 			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -127,23 +122,22 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$currentModule = vglobal('currentModule');
 		$results = [];
 		parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
 				->createCommand()->query();
 		if ($dataReader->count()) {
 			$results = $dataReader->readAll();
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($this->moduleName)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $this->moduleName);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -154,41 +148,11 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		foreach ($results as $row) {
 			App\Db::getInstance()->createCommand()
 				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
-		}
-	}
-
-	public function deleteRelatedDependent($module, $crmId, $withModule, $withCrmId)
-	{
-		$fieldResultSubQuery = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule]);
-		$results = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])->from('vtiger_field')->leftJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['fieldid' => $fieldResultSubQuery])->all();
-		if (!$results) {
-			$results = [];
-			$query = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])->from('vtiger_field')->where(['uitype' => [66, 67, 68], 'tabid' => \App\Module::getModuleId($module)]);
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
-				$fieldModel = new $className();
-				foreach ($row as $properName => $propertyValue) {
-					$fieldModel->$properName = $propertyValue;
-				}
-				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (!empty($moduleList) && in_array($withModule, $moduleList)) {
-					$row['name'] = $module;
-					$results[] = $row;
-					break;
-				}
-			}
-		}
-		foreach ($results as $result) {
-			$focusObj = CRMEntity::getInstance($row['name']);
-			$columnName = $row['columnname'];
-			$columns = [$columnName => null];
-			$where = "$columnName = ? && $focusObj->table_index = ?";
-			$this->db->update($row['tablename'], $columns, $where, [$withCrmId, $crmId]);
 		}
 	}
 }

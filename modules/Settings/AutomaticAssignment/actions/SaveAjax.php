@@ -29,11 +29,10 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	public function save(\App\Request $request)
 	{
 		$data = $request->get('param');
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
-		} else {
+		if ($request->isEmpty('record')) {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
+		} else {
+			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
 		}
 
 		$dataFull = array_merge($recordModel->getData(), $data);

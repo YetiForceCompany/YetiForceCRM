@@ -34,6 +34,7 @@ class User
 	public static function setCurrentUserId($userId)
 	{
 		static::$currentUserId = $userId;
+		static::$currentUserCache = false;
 	}
 
 	/**
@@ -79,12 +80,13 @@ class User
 		if (isset(static::$userModelCache[$userId])) {
 			return static::$userModelCache[$userId];
 		}
-		$privileges = static::getPrivilegesFile($userId);
-		$privileges = $privileges['_privileges'];
-
 		$userModel = new self();
-		$userModel->privileges = $privileges;
-		static::$userModelCache[$userId] = $userModel;
+		if ($userId) {
+			$privileges = static::getPrivilegesFile($userId);
+			$privileges = $privileges['_privileges'];
+			$userModel->privileges = $privileges;
+			static::$userModelCache[$userId] = $userModel;
+		}
 		return $userModel;
 	}
 
@@ -185,13 +187,23 @@ class User
 	}
 
 	/**
-	 * Get user details
+	 * Get user detail
 	 * @param string $fieldName
 	 * @return mixed
 	 */
 	public function getDetail($fieldName)
 	{
 		return $this->privileges['details'][$fieldName];
+	}
+
+	/**
+	 * Get user all details
+	 * @param string $fieldName
+	 * @return mixed
+	 */
+	public function getDetails()
+	{
+		return $this->privileges['details'];
 	}
 
 	/**
@@ -346,10 +358,7 @@ class User
 		if (Cache::has(__METHOD__, $name)) {
 			return Cache::get(__METHOD__, $name);
 		}
-		$userId = (new Db\Query())->select('id')
-				->from('vtiger_users')
-				->where(['user_name' => $name])
-				->limit(1)->scalar();
+		$userId = (new Db\Query())->select('id')->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
 		Cache::save(__METHOD__, $name, $userId, Cache::LONG);
 		return $userId;
 	}

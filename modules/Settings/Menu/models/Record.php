@@ -43,6 +43,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type'])
 			];
 		}
+		$dataReader->close();
 		return $menu;
 	}
 
@@ -162,6 +163,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			while ($childId = $dataReader->readColumn(0)) {
 				$this->removeMenu($childId);
 			}
+			$dataReader->close();
 			$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
 			$this->generateFileMenu($recordModel->get('role'));
 		}
@@ -197,6 +199,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'childs' => $this->getChildMenu($roleId, $row['id'])
 			];
 		}
+		$dataReader->close();
 		return $menu;
 	}
 

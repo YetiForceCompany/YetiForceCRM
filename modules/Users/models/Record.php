@@ -114,8 +114,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function isAdminUser()
 	{
-		$adminStatus = $this->get('is_admin');
-		if ($adminStatus === 'on') {
+		if ($this->get('is_admin') === 'on' || $this->get('is_admin') == 1) {
 			return true;
 		}
 		return false;
@@ -166,11 +165,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			throw $e;
 		}
 		$eventHandler->trigger('UserAfterSave');
-		if ($this->isNew()) {
-			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
-		} else {
-			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
-		}
 		\App\Cache::clearOpcache();
 	}
 
@@ -217,6 +211,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
 		}
+		if ($this->has('changeUserPassword') || $this->isNew()) {
+			$saveFields[] = 'user_password';
+		}
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
@@ -258,7 +255,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				return \App\Language::getLanguage();
 				break;
 			case 'time_zone':
-				return DateTimeField::getDBTimeZone();
+				return App\Fields\DateTime::getTimeZone();
 				break;
 			case 'theme':
 				return Vtiger_Viewer::DEFAULTTHEME;
@@ -349,21 +346,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public static function getCurrentUserModel()
 	{
-		$currentUser = vglobal('current_user');
-		if (!empty($currentUser)) {
-
+		$currentUser = \App\User::getCurrentUserModel();
+		if ($currentUser->getId()) {
 			// Optimization to avoid object creation every-time
 			// Caching is per-id as current_user can get swapped at runtime (ex. workflow)
 			$currentUserModel = NULL;
-			if (isset(self::$currentUserModels[$currentUser->id])) {
-				$currentUserModel = self::$currentUserModels[$currentUser->id];
-				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] !== $currentUserModel->get('modifiedtime')) {
-					$currentUserModel = NULL;
-				}
+			if (isset(static::$currentUserModels[$currentUser->getId()])) {
+				$currentUserModel = static::$currentUserModels[$currentUser->getId()];
 			}
 			if (!$currentUserModel) {
-				$currentUserModel = self::getInstanceFromUserObject($currentUser);
-				self::$currentUserModels[$currentUser->id] = $currentUserModel;
+				static::$currentUserModels[$currentUser->getId()] = $currentUserModel = static::getInstanceFromUserObject($currentUser);
 			}
 			return $currentUserModel;
 		}
@@ -374,15 +366,14 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Static Function to get the instance of the User Record model from the given Users object
 	 * @return Users_Record_Model instance
 	 */
-	public static function getInstanceFromUserObject($userObject)
+	public static function getInstanceFromUserObject($currentUser)
 	{
-		$objectProperties = get_object_vars($userObject);
+		$userDetails = array_map('\App\Purifier::decodeHtml', $currentUser->getDetails());
 		$userModel = new self();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$userModel->$properName = $propertyValue;
+		foreach ($userDetails as $key => $value) {
+			$userModel->$key = $value;
 		}
-		$userObject->column_fields = array_map('\App\Purifier::decodeHtml', $userObject->column_fields);
-		return $userModel->setData($userObject->column_fields)->setModule('Users')->setEntity($userObject);
+		return $userModel->setData($userDetails)->setModule('Users')->setId($currentUser->getId());
 	}
 
 	/**
@@ -398,14 +389,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$query->where(['status' => 'Active']);
 		}
 		$users = [];
-		$focus = new Users();
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
-			$focus->id = $userId;
-			$focus->retrieveEntityInfo($userId, 'Users');
-			$userModel = self::getInstanceFromUserObject($focus);
+			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
 			$users[$userModel->getId()] = $userModel;
 		}
+		$dataReader->close();
 		return $users;
 	}
 
@@ -432,22 +421,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $subordinateUsers;
-	}
-
-	/**
-	 * Function returns the Users Parent Role
-	 * @return string
-	 */
-	public function getParentRoleSequence()
-	{
-		$privilegesModel = $this->get('privileges');
-
-		if (empty($privilegesModel)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
-			$this->set('privileges', $privilegesModel);
-		}
-
-		return $privilegesModel->get('parent_role_seq');
 	}
 
 	/**
@@ -598,18 +571,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to delete corresponding image
-	 * @param <type> $imageId
+	 * @param int $imageId
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
-		$smId = $db->queryResult($checkResult, 0, 'smid');
-
+		$smId = (int) (new App\Db\Query())->select(['smid'])
+				->from('vtiger_salesmanattachmentsrel')
+				->where(['attachmentsid' => $imageId])
+				->scalar();
 		if ($this->getId() === $smId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $imageId])->execute();
+			$dbCommand->delete('vtiger_salesmanattachmentsrel', ['attachmentsid' => $imageId])->execute();
 			return true;
 		}
 		return false;
@@ -760,17 +733,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function isAccountOwner()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
-		$isOwner = $db->getSingleValue($result);
-		if ($isOwner == 1) {
-			return true;
-		}
-		return false;
-	}
-
 	public function getActiveAdminUsers()
 	{
 		$db = PearDatabase::getInstance();
@@ -781,13 +743,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$noOfUsers = $db->numRows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
-			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userId = $db->queryResult($result, $i, 'id');
-				$focus->id = $userId;
-				$focus->retrieveEntityInfo($userId, 'Users');
-
-				$userModel = self::getInstanceFromUserObject($focus);
+				$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
 				$users[$userModel->getId()] = $userModel;
 			}
 		}
@@ -811,7 +769,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		//update comments details in vtiger_modcomments
 		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
 		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
-		deleteUserRelatedSharingRules($userId);
+		\App\PrivilegeUtil::deleteRelatedSharingRules($userId, 'Users');
 		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
 		if (file_exists($fileName)) {
 			unlink($fileName);
@@ -984,6 +942,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		\App\Cache::save('getAuthMethods', 'config', $auth);
 		return $auth;
 	}

@@ -34,8 +34,6 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 	// NOTE: Move this function to appropriate model.
 	protected function getKeyMetricsWithCount()
 	{
-		$current_user = Users_Record_Model::getCurrentUserModel();
-		vglobal('current_user', $current_user);
 		$metriclists = $this->getMetricList();
 		foreach ($metriclists as &$metriclist) {
 			$queryGenerator = new \App\QueryGenerator($metriclist['module']);
@@ -48,7 +46,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * To get the details of a customview entries
 	 * @returns  $metriclists Array in the following format
-	 * $customviewlist []= Array('id'=>custom view id, 
+	 * $customviewlist []= Array('id'=>custom view id,
 	 * 							'name'=>custom view name,
 	 * 							'module'=>modulename,
 	 * 							'count'=>''
@@ -85,6 +83,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 				];
 			}
 		}
+		$dataReader->close();
 		return $metriclists;
 	}
 }

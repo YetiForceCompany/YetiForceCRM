@@ -1,5 +1,9 @@
+sudo wget https://phar.phpunit.de/phpunit-6.2.phar
+sudo chmod +x phpunit-6.2.phar
+sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
 /usr/local/bin/phpunit --version
 composer install
+yarn install --force --modules-folder "./public_html/libraries"
 sudo wget https://scrutinizer-ci.com/ocular.phar
 sudo chmod +x ocular.phar
 sudo mv ocular.phar /usr/local/bin/ocular

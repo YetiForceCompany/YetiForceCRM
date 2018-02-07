@@ -23,7 +23,7 @@ class Permissions extends \Tests\Base
 	 */
 	public function testRecalculateSharingRules()
 	{
-		RecalculateSharingRules();
+		\App\UserPrivilegesFile::recalculateAll();
 		$this->assertTrue(true);
 	}
 

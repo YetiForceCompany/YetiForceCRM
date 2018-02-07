@@ -61,6 +61,7 @@ class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
 		return $listViewRecordModels;
 	}
 

@@ -12,6 +12,8 @@
 class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		$this->exposeMethod('showFieldLayout');
@@ -103,7 +105,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = ['libraries.jquery.clipboardjs.clipboard'];
+		$jsFileNames = ['libraries.clipboard.dist.clipboard'];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

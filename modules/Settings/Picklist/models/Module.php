@@ -110,6 +110,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName, 'tabid' => $row['tabid']])->execute();
 				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
 			}
+			$dataReader->close();
 			$eventHandler = new App\EventHandler();
 			$eventHandler->setParams([
 				'fieldname' => $pickListFieldName,
@@ -159,6 +160,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$dbCommand->update($tableName, [$columnName => $replaceValue], [$columnName => $pickListValues])
 				->execute();
 		}
+		$dataReader->close();
 		$dbCommand->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
 			->execute();
 		$eventHandler = new App\EventHandler();
@@ -187,6 +189,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$pickListValueDetails[App\Purifier::decodeHtml($row[$primaryKey])] = $row['picklist_valueid'];
 		}
+		$dataReader->close();
 		$insertValueList = [];
 		$deleteValueList = ['or'];
 		foreach ($roleIdList as $roleId) {
@@ -256,6 +259,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$instance->label = $moduleLabel;
 			$modulesModelsList[] = $instance;
 		}
+		$dataReader->close();
 		return $modulesModelsList;
 	}
 

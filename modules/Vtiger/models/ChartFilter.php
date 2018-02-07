@@ -255,6 +255,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 			}
 		}
+		$dataReader->close();
 		return $groupData;
 	}
 
@@ -358,6 +359,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 		}
+		$dataReader->close();
 		return $groupData;
 	}
 
@@ -402,6 +404,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 			}
 		}
+		$dataReader->close();
 		return ['data' => $data, 'group' => $groupFields, 'divided' => $dividedFields];
 	}
 
@@ -420,24 +423,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->has('owner') && !empty($this->extraData['showOwnerFilter']) && $this->get('owner') !== 0) {
 			$queryGenerator->addCondition('assigned_user_id', $this->get('owner'), 'e');
 		}
-		$query = $queryGenerator->createQuery();
 		if ($this->has('time') && !empty($this->extraData['timeRange']) && $this->extraData['timeRange'] !== '-') {
 			$time = $this->get('time');
 			$timeFieldModel = Vtiger_Field_Model::getInstance($this->extraData['timeRange'], $this->getTargetModuleModel());
 			if ($timeFieldModel) {
-				$tableAndColumnName = $timeFieldModel->getTableName() . '.' . $timeFieldModel->getColumnName();
-				$query->andWhere([
-					'and',
-					['>=', $tableAndColumnName, Vtiger_Date_UIType::getDBInsertedValue($time['start'])],
-					['<=', $tableAndColumnName, Vtiger_Date_UIType::getDBInsertedValue($time['end'])]
-				]);
+				$queryGenerator->addCondition($timeFieldModel->getName(), $time['start'] . ',' . $time['end'], 'bw');
 				$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', $time['start'] . ',' . $time['end']];
 			}
 		}
 		if (!empty($this->extraData['showOwnerFilter'])) {
 			$queryGenerator->setField('assigned_user_id');
 		}
-		return $query;
+		return $queryGenerator->createQuery();
 	}
 
 	/**

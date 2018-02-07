@@ -27,13 +27,19 @@ class BaseAction
 		}
 		$this->checkPermission();
 		$this->checkPermissionToModule();
-		/*
-		  $acceptableUrl = $this->controller->app['acceptable_url'];
-		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
-		  throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
-		  }
-		 */
 		return true;
+	}
+
+	/**
+	 * Unfinished
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkAction2()
+	{
+		$acceptableUrl = $this->controller->app['acceptable_url'];
+		if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
+			throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
+		}
 	}
 
 	/**
@@ -71,8 +77,6 @@ class BaseAction
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
-		$currentUser = (new \Users())->retrieveCurrentUserInfoFromFile($this->session->get('user_id'));
-		vglobal('current_user', $currentUser);
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
@@ -85,7 +89,7 @@ class BaseAction
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\App\Language::setLanguage($language);
+			\App\Language::setTemporaryLanguage($language);
 		}
 	}
 

@@ -20,15 +20,4 @@ class Leads_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(Leads_Module_Model::getConversionAvaibleStatuses()));
 		parent::preProcess($request);
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		$cssFileNames = [
-			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
-		];
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
-	}
 }

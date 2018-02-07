@@ -29,9 +29,7 @@ class WorkFlowScheduler
 	 */
 	public function __construct()
 	{
-		$util = new VTWorkflowUtils();
-		$adminUser = $util->adminUser();
-		$this->user = $adminUser;
+		$this->user = Users::getActiveAdminUser();
 	}
 
 	/**
@@ -219,7 +217,7 @@ class WorkFlowScheduler
 		$operation = $condition['operation'];
 
 		// based on the admin users time zone, since query generator expects datetime at user timezone
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);

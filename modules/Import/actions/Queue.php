@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Queue_Action extends Vtiger_Action_Controller
+class Import_Queue_Action extends \App\Controller\Action
 {
 
 	public static $IMPORT_STATUS_NONE = 0;
@@ -67,29 +67,23 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 
 	public static function remove($importId)
 	{
-		$db = PearDatabase::getInstance();
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', [$importId]);
+			App\Db::getInstance()->createCommand()->delete('vtiger_import_queue', ['importid' => $importId])->execute();
 		}
 	}
 
 	public static function removeForUser($user)
 	{
-		$db = PearDatabase::getInstance();
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', [$user->id]);
+			App\Db::getInstance()->createCommand()->delete('vtiger_import_queue', ['userid' => $user->id])->execute();
 		}
 	}
 
 	public static function getUserCurrentImportInfo($user)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', [$user->id]);
-
-			if ($queueResult && $db->numRows($queueResult) > 0) {
-				$rowData = $db->rawQueryResultRowData($queueResult, 0);
+			$rowData = (new App\Db\Query())->from('vtiger_import_queue')->where(['userid' => $user->id])->one();
+			if ($rowData) {
 				return self::getImportInfoFromResult($rowData);
 			}
 		}
@@ -113,37 +107,27 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 
 	public static function getImportInfoById($importId)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', [$importId]);
-
-			if ($queueResult && $db->numRows($queueResult) > 0) {
-				$rowData = $db->rawQueryResultRowData($queueResult, 0);
+			$rowData = (new App\Db\Query())->from('vtiger_import_queue')->where(['importid' => $importId])->one();
+			if ($rowData) {
 				return self::getImportInfoFromResult($rowData);
 			}
 		}
 		return null;
 	}
 
-	public static function getAll($temp_status = false)
+	public static function getAll($tempStatus = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT * FROM vtiger_import_queue';
-		$params = [];
-		if ($temp_status !== false) {
-			$query .= ' WHERE temp_status = ?';
-			array_push($params, $temp_status);
+		$query = (new App\Db\Query)->from('vtiger_import_queue');
+		if ($tempStatus !== false) {
+			$query->where(['temp_status' => $tempStatus]);
 		}
-		$result = $db->pquery($query, $params);
-
-		$noOfImports = $db->numRows($result);
+		$dataReader = $query->createCommand()->query();
 		$scheduledImports = [];
-		for ($i = 0; $i < $noOfImports; ++$i) {
-			$rowData = $db->rawQueryResultRowData($result, $i);
-			$scheduledImports[$rowData['importid']] = self::getImportInfoFromResult($rowData);
+		while ($row = $dataReader->read()) {
+			$scheduledImports[$row['importid']] = self::getImportInfoFromResult($row);
 		}
+		$dataReader->close();
 		return $scheduledImports;
 	}
 
@@ -166,9 +150,8 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		];
 	}
 
-	public static function updateStatus($importId, $temp_status)
+	public static function updateStatus($importId, $tempStatus)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_import_queue SET temp_status=? WHERE importid=?', [$temp_status, $importId]);
+		App\Db::getInstance()->createCommand()->update('vtiger_import_queue', ['temp_status' => $tempStatus], ['importid' => $importId])->execute();
 	}
 }

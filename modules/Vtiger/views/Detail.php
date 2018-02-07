@@ -12,6 +12,8 @@
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Record model instance
 	 * @var Vtiger_DetailView_Model
@@ -165,7 +167,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		echo $this->$defaultMode($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -182,10 +184,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/leaflet/leaflet.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
+			'~libraries/leaflet/dist/leaflet.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.Default.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.css',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
 		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
@@ -199,15 +201,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/splitjs/split.js',
+			'~libraries/split.js/split.js',
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
-			'~libraries/leaflet/leaflet.js',
-			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
+			'~libraries/leaflet/dist/leaflet.js',
+			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			"modules.OpenStreetMap.resources.Map",
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));

@@ -22,7 +22,7 @@ class ReportUtils
 			return $cacheLabel;
 
 		// this is required so the internal cache is populated or reused.
-		getColumnFields($module);
+		vtlib\Deprecated::getColumnFields($module);
 		//lookup all the accessible fields
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		$label = \App\Purifier::decodeHtml($label);
@@ -99,7 +99,7 @@ class ReportUtils
 	 */
 	public static function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $valueArray, $fieldName)
 	{
-		$defaultCharset = vglobal('default_charset');
+		$defaultCharset = \AppConfig::main('default_charset');
 
 		$value = $valueArray[$fieldName];
 		$fld_type = $dbField->type;

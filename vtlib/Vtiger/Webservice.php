@@ -17,17 +17,6 @@ class Webservice
 {
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
-	}
-
-	/**
 	 * Initialize webservice for the given module
 	 * @param \vtlib\ModuleBasic $moduleInstance
 	 */
@@ -36,7 +25,7 @@ class Webservice
 		if ($moduleInstance->isentitytype) {
 			if (function_exists('vtws_addDefaultModuleTypeEntity')) {
 				vtws_addDefaultModuleTypeEntity($moduleInstance->name);
-				self::log("Initializing webservices support ...DONE");
+				\App\Log::trace('Initializing webservices support ...DONE', __METHOD__);
 			}
 		}
 	}

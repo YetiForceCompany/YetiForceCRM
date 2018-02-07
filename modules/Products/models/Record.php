@@ -32,6 +32,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$listpriceValues[$row['currencyid']] = CurrencyField::convertToUserFormat($row['actual_price'], null, true);
 		}
+		$dataReader->close();
 		return $listpriceValues;
 	}
 
@@ -121,6 +122,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				//urlencode - added to handle special characters like #, %, etc.,
 				$imageNamesList[] = $imageName;
 			}
+			$dataReader->close();
 
 			if (is_array($imageOriginalNamesList)) {
 				$countOfImages = count($imageOriginalNamesList);
@@ -229,19 +231,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get acive status of record
-	 */
-	public function getActiveStatusOfRecord()
-	{
-		$activeStatus = $this->get('discontinued');
-		if ($activeStatus) {
-			return $activeStatus;
-		}
-		$recordId = $this->getId();
-		return (new \App\Db\Query())->select(['discontinued'])->from('vtiger_products')->where(['productid' => $recordId])->scalar();
-	}
-
-	/**
 	 * Function updates ListPrice for Product/Service-PriceBook relation
 	 * @param <Integer> $relatedRecordId - PriceBook Id
 	 * @param <Integer> $price - listprice
@@ -270,7 +259,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('Entering into function getPriceDetailsForProduct(' . $productId . ')');
 		if ($productId) {
 			$productCurrencyId = \App\Fields\Currency::getCurrencyByModule($productId, $itemType);
-			$productBaseConvRate = $this->getBaseConversionRateForProduct($productId, 'edit', $itemType);
+			$productBaseConvRate = self::getBaseConversionRateForProduct($productId, 'edit', $itemType);
 			// Detail View
 			if ($available == 'available_associated') {
 				$query = (new App\Db\Query())->select(['vtiger_currency_info.*', 'vtiger_productcurrencyrel.converted_price', 'vtiger_productcurrencyrel.actual_price'])->from('vtiger_currency_info')->innerJoin('vtiger_productcurrencyrel', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')->where(['vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0, 'vtiger_productcurrencyrel.productid' => $productId])->andWhere(['<>', 'vtiger_currency_info.id', $productCurrencyId]);
@@ -315,6 +304,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
 				$i++;
 			}
+			$dataReader->close();
 		} else {
 			if ($available === 'available') { // Create View
 				$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
@@ -348,6 +338,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
 					$i++;
 				}
+				$dataReader->close();
 			} else {
 				\App\Log::trace('Product id is empty. we cannot retrieve the associated prices.');
 			}
@@ -357,8 +348,19 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return $priceDetails;
 	}
 
-	public function getBaseConversionRateForProduct($productId, $mode = 'edit', $module = 'Products')
+	/**
+	 * nction used to get the conversion rate for the product base currency with respect to the CRM base currency
+	 * @param int $productId product id for which we want to get the conversion rate of the base currency
+	 * @param string $mode Mode in which the function is called
+	 * @param string $module
+	 * @return int conversion rate of the base currency for the given product based on the CRM base currency
+	 */
+	public static function getBaseConversionRateForProduct($productId, $mode = 'edit', $module = 'Products')
 	{
+		$nameCache = $productId . $mode . $module;
+		if (\App\Cache::has('getBaseConversionRateForProduct', $nameCache)) {
+			return \App\Cache::get('getBaseConversionRateForProduct', $nameCache);
+		}
 		$query = (new \App\Db\Query());
 		if ($mode === 'edit') {
 			if ($module === 'Services') {
@@ -369,8 +371,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 		} else {
 			$convRate = $query->select(['conversion_rate'])->from('vtiger_currency_info')->where(['id' => \App\User::getCurrentUserModel()->getDetail('currency_id')])->scalar();
 		}
-
-		return 1 / $convRate;
+		if ($convRate) {
+			$convRate = 1 / $convRate;
+		}
+		\App\Cache::save('getBaseConversionRateForProduct', $nameCache, $convRate);
+		return $convRate;
 	}
 
 	/**
@@ -419,7 +424,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
-		$productBaseConvRate = getBaseConversionRateForProduct($this->getId(), $this->mode);
+		$productBaseConvRate = self::getBaseConversionRateForProduct($this->getId(), $this->mode);
 		$currencySet = false;
 		$currencyDetails = vtlib\Functions::getAllCurrency(true);
 		if (!$this->isNew()) {
@@ -492,6 +497,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		while ($imageName = $dataReader->readColumn(0)) {
 			$productImageMap [] = App\Purifier::decodeHtml($imageName);
 		}
+		$dataReader->close();
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();
 		//Remove the deleted vtiger_attachments from db - Products

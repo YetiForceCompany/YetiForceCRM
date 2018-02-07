@@ -116,7 +116,7 @@ class PBXManager extends CRMEntity
 		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
-			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module);
+			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module->id);
 			if ($blockInstance) {
 				$fieldInstance = new vtlib\Field();
 				$fieldInstance->name = 'phone_crm_extension';

@@ -8,7 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
+class Vtiger_Watchdog_Action extends \App\Controller\Action
 {
 
 	/**

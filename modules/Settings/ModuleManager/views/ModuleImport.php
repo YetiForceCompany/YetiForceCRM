@@ -12,6 +12,8 @@
 class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -23,7 +25,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 	public function process(\App\Request $request)
 	{
-		$systemMode = vglobal('systemMode');
+		$systemMode = \AppConfig::main('systemMode');
 		if ($systemMode == 'demo') {
 			throw new \App\Exceptions\AppException('LBL_ERROR_IMPORT_IN_DEMO');
 		}

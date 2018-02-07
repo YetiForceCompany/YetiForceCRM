@@ -17,8 +17,6 @@ class Settings_MarketingProcesses_Module_Model extends \App\Base
 
 	public static function getConfig($type)
 	{
-
-		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('MarketingProcesses', $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
@@ -40,21 +38,17 @@ class Settings_MarketingProcesses_Module_Model extends \App\Base
 				$config[$param] = $value;
 			}
 		}
+		$dataReader->close();
 		Vtiger_Cache::set('MarketingProcesses', $type, $config);
-		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}
 
-	public static function setConfig($param)
+	public static function setConfig($param, $type, $value)
 	{
-
-		\App\Log::trace('Start ' . __METHOD__);
-		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		\App\Db::getInstance()->createCommand()->update('yetiforce_proc_marketing', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])->execute();
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Db::getInstance()->createCommand()->update('yetiforce_proc_marketing', ['value' => $value], ['type' => $type, 'param' => $param])->execute();
 		return true;
 	}
 }

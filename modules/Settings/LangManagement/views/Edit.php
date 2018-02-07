@@ -9,15 +9,7 @@
 class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		
-	}
+	use App\Controller\ClearProcess;
 
 	/**
 	 * Process function

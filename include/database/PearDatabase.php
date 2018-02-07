@@ -12,7 +12,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once 'include/runtime/Globals.php';
 
 class PearDatabase
 {
@@ -86,7 +85,6 @@ class PearDatabase
 			$db->checkError('Error connecting to the database');
 			return false;
 		} else {
-			vglobal('adb', $db);
 			self::$dbCache = $db;
 		}
 		return $db;
@@ -130,7 +128,6 @@ class PearDatabase
 	public function setDBCache()
 	{
 		self::$dbCache = $this;
-		vglobal('adb', $this);
 	}
 
 	public function getDatabaseName()
@@ -702,11 +699,9 @@ class PearDatabase
 	public function generateQuestionMarks($items)
 	{
 		// array_map will call the function specified in the first parameter for every element of the list in second parameter
-		if (is_array($items)) {
-			return implode(',', array_map('_questionify', $items));
-		} else {
-			return implode(',', array_map('_questionify', explode(',', $items)));
-		}
+		return implode(',', array_map(function($a) {
+				return '?';
+			}, is_array($items) ? $items : explode(',', $items)));
 	}
 
 	public function concat($columns, $space = '" "')

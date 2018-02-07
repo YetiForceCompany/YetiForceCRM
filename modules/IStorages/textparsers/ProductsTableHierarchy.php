@@ -14,7 +14,7 @@ class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 {
 
 	/** @var string Class name */
-	public $name = 'LBL_PRODUCTS_TABLE';
+	public $name = 'LBL_PRODUCTS_TABLE_HIERARCHY';
 
 	/** @var mixed Parser type */
 	public $type = 'pdf';
@@ -83,6 +83,7 @@ class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 			$storegeSubjectArray[$storageId]['products'][$productId] += floatval($qty);
 			$productsQty[$productId] += floatval($qty);
 		}
+		$dataReader->close();
 		$html .= '<style>' .
 			'.productTable {color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .

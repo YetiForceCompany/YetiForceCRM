@@ -10,6 +10,8 @@
 class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,15 +37,6 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		}
 		if (!$request->isEmpty('srcModuleName') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('srcModuleName'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 

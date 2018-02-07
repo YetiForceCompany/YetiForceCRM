@@ -12,6 +12,8 @@
 class Reports_ChartDetail_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
@@ -146,14 +148,14 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetailView",
 			"modules.$moduleName.resources.TypeCharts",
-			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.highlighter.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js'
+			'~libraries/updated-jqplot/dist/jquery.updated-jqplot.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.barRenderer.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasTextRenderer.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasAxisTickRenderer.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.categoryAxisRenderer.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.pointLabels.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.highlighter.js',
+			'~libraries/updated-jqplot/dist/plugins/jqplot.pieRenderer.js'
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -171,7 +173,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = [
-			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
+			'~libraries/js/jqplot/jquery.jqplot.min.css',
 		];
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);

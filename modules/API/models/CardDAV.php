@@ -44,17 +44,17 @@ class API_CardDAV_Model
 
 	public function syncCrmRecord($moduleName)
 	{
-		$db = PearDatabase::getInstance();
 		$create = $deletes = $updates = 0;
-		$result = $this->getCrmRecordsToSync($moduleName);
-		while ($record = $db->getRow($result)) {
+		$query = $this->getCrmRecordsToSync($moduleName);
+		if (!$query) {
+			return;
+		}
+		$dataReader = $query->createCommand()->query();
+		while ($record = $dataReader->read()) {
 			foreach ($this->davUsers as $key => $user) {
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = App\User::getCurrentUserId();
 				App\User::setCurrentUserId($user->get('id'));
-				$currentUser = vglobal('current_user');
-				vglobal('current_user', $user);
-
 				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
 					$card = $this->getCardDetail($record['crmid']);
 					if ($card === false) {
@@ -67,11 +67,11 @@ class API_CardDAV_Model
 						$updates++;
 					}
 				}
-				vglobal('current_user', $currentUser);
 				App\User::setCurrentUserId($orgUserId);
 			}
 			$this->markComplete($moduleName, $record['crmid']);
 		}
+		$dataReader->close();
 		\App\Log::trace("syncCrmRecord $moduleName | create: $create | deletes: $deletes | updates: $updates");
 	}
 
@@ -89,10 +89,9 @@ class API_CardDAV_Model
 	public function syncAddressBooks()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
-		$result = $this->getDavCardsToSync();
+		$dataReader = $this->getDavCardsToSync()->createCommand()->query();
 		$create = $deletes = $updates = 0;
-		while ($card = $db->getRow($result)) {
+		while ($card = $dataReader->read()) {
 			if (!$card['crmid']) {
 				//Creating
 				$this->createRecord('Contacts', $card);
@@ -112,6 +111,7 @@ class API_CardDAV_Model
 				}
 			}
 		}
+		$dataReader->close();
 		\App\Log::trace("cardDavDav2Crm | create: $create | deletes: $deletes | updates: $updates");
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -338,37 +338,39 @@ class API_CardDAV_Model
 
 	public function getCrmRecordsToSync($moduleName)
 	{
-		$db = PearDatabase::getInstance();
 		if ($moduleName == 'Contacts') {
-			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email, jobtitle, vtiger_crmentity.modifiedtime,vtiger_contactaddress.* '
-				. 'FROM vtiger_contactdetails '
-				. 'INNER JOIN vtiger_crmentity ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid '
-				. 'INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid '
-				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_contactdetails.contactid > 0 && vtiger_contactdetails.dav_status = 1;';
+			return (new App\Db\Query())->select([
+						'vtiger_crmentity.crmid', 'vtiger_contactdetails.parentid', 'vtiger_contactdetails.firstname',
+						'vtiger_contactdetails.lastname', 'vtiger_contactdetails.phone', 'vtiger_contactdetails.mobile', 'vtiger_contactdetails.email',
+						'vtiger_contactdetails.secondary_email', 'vtiger_contactdetails.jobtitle',
+						'vtiger_crmentity.modifiedtime', 'vtiger_contactaddress.*',
+					])->from('vtiger_contactdetails')
+					->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
+					->innerJoin('vtiger_contactaddress', 'vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid')
+					->where(['vtiger_contactdetails.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
 		} elseif ($moduleName == 'OSSEmployees') {
-			$query = 'SELECT crmid, name, last_name, business_phone, private_phone, business_mail, private_mail, vtiger_crmentity.modifiedtime '
-				. 'FROM vtiger_ossemployees '
-				. 'INNER JOIN vtiger_crmentity ON vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid '
-				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_ossemployees.ossemployeesid > 0 && vtiger_ossemployees.dav_status = 1;';
+			return (new App\Db\Query())->select([
+						'vtiger_crmentity.crmid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
+						'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
+						'vtiger_ossemployees.private_mail', 'vtiger_crmentity.modifiedtime'
+					])->from('vtiger_ossemployees')
+					->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
+					->where(['vtiger_ossemployees.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
 		}
-		$result = $db->query($query);
-		return $result;
+		return;
 	}
 
 	public function getCardDetail($crmid)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? && crmid = ?;';
-		$result = $db->pquery($sql, [$this->addressBookId, $crmid]);
-		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
+		return (new App\Db\Query())->from('dav_cards')->where(['addressbookid' => $this->addressBookId, 'crmid' => $crmid])->one();
 	}
 
 	public function getDavCardsToSync()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT dav_cards.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype FROM dav_cards LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_cards.crmid WHERE addressbookid = ?';
-		$result = $db->pquery($query, [$this->addressBookId]);
-		return $result;
+		return (new App\Db\Query())->select(['dav_cards.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype'])
+				->from('dav_cards')
+				->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_cards.crmid')
+				->where(['dav_cards.addressbookid' => $this->addressBookId]);
 	}
 
 	/**

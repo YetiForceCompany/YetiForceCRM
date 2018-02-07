@@ -9,15 +9,17 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_View extends Vtiger_View_Controller
+class Install_Index_View extends \App\Controller\View
 {
+
+	use \App\Controller\ExposeMethod;
 
 	protected $debug = false;
 	protected $viewer;
 
 	public function checkPermission(\App\Request $request)
 	{
-		
+
 	}
 
 	public function loginRequired()
@@ -74,13 +76,13 @@ class Install_Index_View extends Vtiger_View_Controller
 
 		$configFileName = 'config/config.inc.php';
 		if ($request->getMode() !== 'step7' && is_file($configFileName) && filesize($configFileName) > 10) {
-			$defaultModule = vglobal('default_module');
+			$defaultModule = \AppConfig::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
-		vglobal('default_language', $defaultLanguage);
+		App\Language::setTemporaryLanguage($defaultLanguage);
 
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
@@ -109,7 +111,7 @@ class Install_Index_View extends Vtiger_View_Controller
 		$this->step1($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		echo $this->viewer->fetch('InstallPostProcess.tpl');
@@ -217,9 +219,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function step7(\App\Request $request)
 	{
-		AppConfig::iniSet('display_errors', 'On');
-		AppConfig::iniSet('max_execution_time', 0);
-		AppConfig::iniSet('max_input_time', 0);
+		set_time_limit(0);
 		$dbconfig = AppConfig::main('dbconfig');
 		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
@@ -260,7 +260,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-		
+
 	}
 
 	public function validateRequest(\App\Request $request)

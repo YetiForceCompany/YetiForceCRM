@@ -13,13 +13,6 @@ namespace vtlib;
 class Functions
 {
 
-	public static function currentUserDisplayDateNew()
-	{
-		$current_user = vglobal('current_user');
-		$date = new \DateTimeField(null);
-		return $date->getDisplayDate($current_user);
-	}
-
 	// i18n
 	public static function getTranslatedString($str, $module = '')
 	{
@@ -397,63 +390,6 @@ class Functions
 		return $type_of_data;
 	}
 
-	public static function getActivityType($id)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select activitytype from vtiger_activity where activityid=?";
-		$res = $adb->pquery($query, [$id]);
-		$activity_type = $adb->queryResult($res, 0, "activitytype");
-		return $activity_type;
-	}
-
-	public static function mkCountQuery($query)
-	{
-		// Remove all the \n, \r and white spaces to keep the space between the words consistent.
-		// This is required for proper pattern matching for words like ' FROM ', 'ORDER BY', 'GROUP BY' as they depend on the spaces between the words.
-		$query = preg_replace("/[\n\r\s]+/", " ", $query);
-
-		//Strip of the current SELECT fields and replace them by "select count(*) as count"
-		// Space across FROM has to be retained here so that we do not have a clash with string "from" found in select clause
-		$query = sprintf('SELECT count(*) AS count %s', substr($query, stripos($query, ' FROM '), strlen($query)));
-
-		//Strip of any "GROUP BY" clause
-		if (stripos($query, 'GROUP BY') > 0)
-			$query = substr($query, 0, stripos($query, 'GROUP BY'));
-
-		//Strip of any "ORDER BY" clause
-		if (stripos($query, 'ORDER BY') > 0)
-			$query = substr($query, 0, stripos($query, 'ORDER BY'));
-
-		return $query;
-	}
-
-	/** Function to get unitprice for a given product id
-	 * @param $productid -- product id :: Type integer
-	 * @returns $up -- up :: Type string
-	 */
-	public static function getUnitPrice($productid, $module = 'Products')
-	{
-		$adb = \PearDatabase::getInstance();
-		if ($module == 'Services') {
-			$query = "select unit_price from vtiger_service where serviceid=?";
-		} else {
-			$query = "select unit_price from vtiger_products where productid=?";
-		}
-		$result = $adb->pquery($query, [$productid]);
-		$unitpice = $adb->queryResult($result, 0, 'unit_price');
-		return $unitpice;
-	}
-
-	public static function decimalTimeFormat($decTime)
-	{
-		$hour = floor($decTime);
-		$min = round(60 * ($decTime - $hour));
-		return [
-			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
-			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
-		];
-	}
-
 	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
 	{
 		$short = [];
@@ -581,19 +517,6 @@ class Functions
 			$content = nl2br($content);
 		}
 		return $content;
-	}
-
-	/**
-	 * Function to fetch the list of vtiger_groups from group vtiger_table
-	 * Takes no value as input
-	 * returns the query result set object
-	 */
-	public static function getGroupOptions()
-	{
-		$adb = \PearDatabase::getInstance();
-		$sql = 'select groupname,groupid from vtiger_groups';
-		$result = $adb->pquery($sql, []);
-		return $result;
 	}
 
 	public static function recurseDelete($src)

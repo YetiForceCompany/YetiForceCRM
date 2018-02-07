@@ -62,10 +62,9 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 	{
 		$db = \App\Db::getInstance();
 		$oldOwners = \vtlib\Functions::getCRMRecordMetadata($relatedModuleRecordIds);
-		$currentUser = vglobal('current_user');
 		$db->createCommand()->update('vtiger_crmentity', [
 			'smownerid' => $transferOwnerId,
-			'modifiedby' => $currentUser->id,
+			'modifiedby' => \App\User::getCurrentUserId(),
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			], ['crmid' => $relatedModuleRecordIds]
 		)->execute();
@@ -77,7 +76,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 					$db->createCommand()->insert('vtiger_modtracker_basic', [
 						'crmid' => $record,
 						'module' => $module,
-						'whodid' => $currentUser->id,
+						'whodid' => \App\User::getCurrentUserId(),
 						'changedon' => date('Y-m-d H:i:s', time())
 					])->execute();
 					$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');

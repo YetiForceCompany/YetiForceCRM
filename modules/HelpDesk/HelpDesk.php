@@ -106,54 +106,6 @@ class HelpDesk extends CRMEntity
 		}
 	}
 
-	// Function to create, export query for helpdesk module
-	/** Function to export the ticket records in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Tickets Query.
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-                       FROM " . $this->entity_table . "
-				INNER JOIN vtiger_troubletickets
-					ON vtiger_troubletickets.ticketid =vtiger_crmentity.crmid
-				LEFT JOIN vtiger_account
-					ON vtiger_account.accountid = vtiger_troubletickets.parent_id
-				LEFT JOIN vtiger_contactdetails
-					ON vtiger_contactdetails.contactid = vtiger_troubletickets.contact_id
-				LEFT JOIN vtiger_ticketcf
-					ON vtiger_ticketcf.ticketid=vtiger_troubletickets.ticketid
-				LEFT JOIN vtiger_groups
-					ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users
-					ON vtiger_users.id=vtiger_crmentity.smownerid and vtiger_users.status='Active'
-				LEFT JOIN vtiger_products
-					ON vtiger_products.productid=vtiger_troubletickets.product_id";
-		//end
-		$query .= $this->getNonAdminAccessControlQuery('HelpDesk', $current_user);
-		$where_auto = " vtiger_crmentity.deleted = 0 ";
-
-		if ($where != '')
-			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
-		else
-			$query .= sprintf(' where %s', $where_auto);
-
-		\App\Log::trace("Exiting create_export_query method ...");
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name
@@ -268,34 +220,21 @@ class HelpDesk extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId)) {
 			return;
-
-		if ($return_module == 'Accounts') {
-			$sql = 'UPDATE vtiger_troubletickets SET parent_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, [null, $id]);
-			$se_sql = 'DELETE FROM vtiger_seticketsrel WHERE ticketid=?';
-			$this->db->pquery($se_sql, [$id]);
-		} elseif ($return_module == 'Contacts') {
-			$sql = 'UPDATE vtiger_troubletickets SET contact_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, [null, $id]);
-			$se_sql = 'DELETE FROM vtiger_seticketsrel WHERE ticketid=?';
-			$this->db->pquery($se_sql, [$id]);
-		} elseif ($return_module == 'Products') {
-			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, [null, $id]);
-		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'getManyToMany') {
-			parent::unlinkRelationship($id, $return_module, $return_id);
-		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
-	}
-
-	public function clearSingletonSaveFields()
-	{
-		$this->column_fields['comments'] = '';
+		if ($returnModule === 'Accounts' || $returnModule === 'Vendors') {
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->update('vtiger_troubletickets', ['parent_id' => null], ['ticketid' => $id])->execute();
+			$dbCommand->delete('vtiger_seticketsrel', ['ticketid' => $id])->execute();
+		} elseif ($returnModule === 'Products') {
+			App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['product_id' => null], ['ticketid' => $id])->execute();
+		} elseif ($returnModule === 'ServiceContracts' && $relatedName !== 'getManyToMany') {
+			parent::unlinkRelationship($id, $returnModule, $returnId);
+		} else {
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
+		}
 	}
 }

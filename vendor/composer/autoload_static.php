@@ -51,7 +51,9 @@ class ComposerStaticInitYT
 		],
 		'P' =>
 		[
+			'Psr\\SimpleCache\\' => 16,
 			'Psr\\Log\\' => 8,
+			'PhpOffice\\PhpSpreadsheet\\' => 25,
 		],
 		'G' =>
 		[
@@ -145,9 +147,17 @@ class ComposerStaticInitYT
 		[
 			0 => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV',
 		],
+		'Psr\\SimpleCache\\' =>
+		[
+			0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+		],
 		'Psr\\Log\\' =>
 		[
 			0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+		],
+		'PhpOffice\\PhpSpreadsheet\\' =>
+		[
+			0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
 		],
 		'Giggsey\\Locale\\' =>
 		[
@@ -211,16 +221,11 @@ class ComposerStaticInitYT
 				0 => __DIR__ . '/..' . '/doctrine/collections/lib',
 			],
 		],
-		'C' =>
-		[
-			'Composer\\CustomDirectoryInstaller' =>
-			[
-				0 => __DIR__ . '/..' . '/mnsami/composer-custom-directory-installer/src',
-			],
-		],
 	];
 	public static $classMap = [
 		'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
+		'Feed' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
+		'FeedException' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
 		'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
 		'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
 		'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',

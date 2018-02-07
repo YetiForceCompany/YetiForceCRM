@@ -36,7 +36,6 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		}
-		//$this->listViewModel->getQueryGenerator()->setFields(array_merge(['id'], $this->listViewModel->getModule()->getNameFields()));
 		parent::initializeListViewContents($request, $viewer);
 	}
 
@@ -49,7 +48,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 		$scripts = parent::getFooterScripts($request);
 		unset($scripts['modules.Vtiger.resources.ListPreview']);
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
-				'~libraries/splitjs/split.js',
+				'~libraries/split.js/split.js',
 				'modules.Vtiger.resources.ListPreview',
 				"modules.$moduleName.resources.ListPreview"
 		]));
@@ -61,7 +60,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/jquery/splitjs/split.css'
+				'~libraries/js/splitjs/split.css'
 		]));
 	}
 }

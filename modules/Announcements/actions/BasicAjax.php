@@ -7,8 +7,10 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Announcements_BasicAjax_Action extends Vtiger_Action_Controller
+class Announcements_BasicAjax_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -31,18 +33,6 @@ class Announcements_BasicAjax_Action extends Vtiger_Action_Controller
 	public function __construct()
 	{
 		$this->exposeMethod('mark');
-	}
-
-	/**
-	 * Main process
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($mode) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	/**

@@ -8,8 +8,10 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
+class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -26,15 +28,6 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 	{
 		if (!Users_Record_Model::getCurrentUserModel()->isAdminUser()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 

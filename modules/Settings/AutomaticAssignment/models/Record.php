@@ -12,13 +12,13 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 
 	/**
 	 * Raw data
-	 * @var type 
+	 * @var array
 	 */
 	private $rawData = [];
 
 	/**
 	 * Variable determines the possibility of creating value duplicates
-	 * @var type 
+	 * @var bool
 	 */
 	public $checkDuplicate = false;
 
@@ -618,6 +618,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				} else {
 					unset($this->availableUsers[$userId]);
 				}
+				$dataReader->close();
 			}
 		} else {
 			$dataReader = $query->createCommand()->query();
@@ -627,6 +628,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					$this->availableUsers[$userId] = $row['c'];
 				}
 			}
+			$dataReader->close();
 		}
 		return $this->availableUsers;
 	}

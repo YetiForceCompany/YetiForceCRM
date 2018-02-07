@@ -166,14 +166,14 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-			'~libraries/jquery/ckeditor/ckeditor.js',
+			'~libraries/ckeditor/ckeditor.js',
 			'modules.Vtiger.resources.CkEditor',
 		];
 

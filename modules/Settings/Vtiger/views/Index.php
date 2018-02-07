@@ -12,6 +12,8 @@
 class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Page title
 	 * @var type
@@ -47,7 +49,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->preProcessSettings($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
@@ -228,9 +230,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -239,11 +239,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 		$jsFileNames = [
 			'modules.Vtiger.resources.Vtiger',
-			'libraries.jquery.ckeditor.ckeditor',
-			'libraries.jquery.ckeditor.adapters.jquery',
-			'libraries.jquery.jstree.jstree',
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
+			'libraries.ckeditor.ckeditor',
+			'libraries.ckeditor.adapters.jquery',
+			'libraries.js.jstree.jstree',
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
 			'modules.Vtiger.resources.CkEditor',
 			'modules.Settings.Vtiger.resources.Vtiger',
 			'modules.Settings.Vtiger.resources.Edit',
@@ -257,17 +257,14 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page
-	 * @param \App\Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
+	 * {@inheritDoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'libraries.jquery.jstree.themes.proton.style',
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+			'libraries.js.jstree.themes.proton.style',
+			'~libraries/datatables.net-bs/css/dataTables.bootstrap.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($cssInstances, $headerCssInstances);

@@ -79,7 +79,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
+			'~libraries/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -92,7 +92,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = [
-			'~libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
+			'~libraries/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

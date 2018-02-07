@@ -140,6 +140,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 			$recordModel->setData($row)->setType($type);
 			$recordList[] = $recordModel;
 		}
+		$dataReader->close();
 		return $recordList;
 	}
 

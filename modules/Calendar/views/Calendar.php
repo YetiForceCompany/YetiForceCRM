@@ -46,7 +46,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'modules.Calendar.resources.CalendarView',
 		];
 
@@ -55,14 +55,16 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 
 
 		$cssFileNames = [
-			'~libraries/fullcalendar/fullcalendar.min.css',
-			'~libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/dist/fullcalendar.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
@@ -85,7 +87,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

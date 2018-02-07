@@ -155,6 +155,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$return[$row['conf_type']][$row['parameter']] = $row['value'];
 			}
 		}
+		$dataReader->close();
 		return $return;
 	}
 
@@ -278,7 +279,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail = $mailModel->getMail($mbox, $params['uid']);
 		if (!$mail) {
 			return [];
@@ -377,6 +378,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				'fieldname' => $row['fieldname']
 			];
 		}
+		$dataReader->close();
 		return $return;
 	}
 
@@ -466,7 +468,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			\App\Log::info(\App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return \App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = 0;
@@ -483,7 +484,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$folder = $folderRow['folder'];
 				\App\Log::trace('Start checking folder: ' . $folder);
 
-				$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
+				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
 				if (is_resource($mbox)) {
 					$countEmails = $scannerModel->mailScan($mbox, $account, $folder, $scanId, $countEmails);
 					imap_close($mbox);
@@ -548,6 +549,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				'info' => $row['info'],
 			];
 		}
+		$dataReader->close();
 		return $output;
 	}
 

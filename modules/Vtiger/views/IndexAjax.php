@@ -11,29 +11,8 @@
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	public function getRecordsListFromRequest(\App\Request $request)
 	{

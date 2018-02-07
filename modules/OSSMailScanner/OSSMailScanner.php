@@ -62,7 +62,7 @@ class OSSMailScanner
 	 */
 	public function turnOn()
 	{
-		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL_TOOLS', [
 			'name' => 'Mail Scanner',
 			'iconpath' => 'adminIcon-mail-scanner',
 			'description' => 'LBL_MAIL_SCANNER_DESCRIPTION',

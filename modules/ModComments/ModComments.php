@@ -82,7 +82,7 @@ class ModComments extends ModCommentsCore
 		if (count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');
 			$modCommentsModule->addLink('HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'modules/ModComments/ModCommentsCommon.js');
-			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
+			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule->id);
 			$modCommentsRelatedToField->setRelatedModules($commentWidgetModules);
 		}
 	}
@@ -112,7 +112,7 @@ class ModComments extends ModCommentsCore
 		}
 		if (count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');
-			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
+			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule->id);
 			$modCommentsRelatedToField->unsetRelatedModules($commentWidgetModules);
 		}
 	}

@@ -16,4 +16,5 @@ if (SMSNotifier_Module_Model::checkServer()) {
 		SMSNotifier_Record_Model::sendSMS($rowQueue['message'], $rowQueue['tonumbers'], explode(',', $rowQueue['records']), $rowQueue['module']);
 		$db->createCommand()->delete('s_#__smsnotifier_queue', ['id' => $rowQueue['id']])->execute();
 	}
+	$dataReader->close();
 }

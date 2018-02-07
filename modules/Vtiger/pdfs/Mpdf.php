@@ -334,19 +334,12 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$pdf->setWaterMark($template);
 		$pdf->setLanguage($template->get('language'));
 		$pdf->setFileName($template->get('filename'));
-
-		$origLanguage = vglobal('default_language');
-		vglobal('default_language', $template->get('language'));
-
+		App\Language::setTemporaryLanguage($template->get('language'));
 		$pdf->parseParams($template->getParameters());
 		$pdf->setHeader('Header', $template->getHeader());
 		$pdf->setFooter('Footer', $template->getFooter());
-		$html = $template->getBody();
-
-		$pdf->loadHTML($html);
-
-		vglobal('default_language', $origLanguage);
-
+		$pdf->loadHTML($template->getBody());
 		$pdf->output($filePath, $saveFlag);
+		App\Language::clearTemporaryLanguage();
 	}
 }

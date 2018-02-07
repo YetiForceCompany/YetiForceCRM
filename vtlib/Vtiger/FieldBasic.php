@@ -49,10 +49,10 @@ class FieldBasic
 	/**
 	 * Initialize this instance
 	 * @param array $valuemap
-	 * @param \vtlib\Module $moduleInstance Module Instance of module to which this field belongs
+	 * @param mixed $module Mixed id or name of the module
 	 * @param \vtlib\Block $blockInstance Instance of block to which this field belongs
 	 */
-	public function initialize($valuemap, $moduleInstance = false, $blockInstance = false)
+	public function initialize($valuemap, $module = false, $blockInstance = false)
 	{
 		$this->id = (int) $valuemap['fieldid'];
 		$this->tabid = (int) $valuemap['tabid'];
@@ -77,7 +77,7 @@ class FieldBasic
 		$this->quicksequence = (int) $valuemap['quickcreatesequence'];
 		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
-		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $moduleInstance);
+		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
@@ -190,7 +190,7 @@ class FieldBasic
 			}
 		}
 		$this->createAdditionalField();
-		self::log("Creating field $this->name ... DONE");
+		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -213,7 +213,7 @@ class FieldBasic
 
 	public function __update()
 	{
-		self::log("Updating Field $this->name ... DONE");
+		\App\Log::trace("Updating Field $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -233,7 +233,7 @@ class FieldBasic
 			}
 			\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
-		self::log("Deleteing Field $this->name ... DONE");
+		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -308,7 +308,7 @@ class FieldBasic
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['helpinfo' => $helptext], ['fieldid' => $this->id])
 			->execute();
-		self::log("Updated help information of $this->name ... DONE");
+		\App\Log::trace("Updated help information of $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -320,7 +320,7 @@ class FieldBasic
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['masseditable' => $value], ['fieldid' => $this->id])
 			->execute();
-		self::log("Updated masseditable information of $this->name ... DONE");
+		\App\Log::trace("Updated masseditable information of $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -332,18 +332,7 @@ class FieldBasic
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['summaryfield' => $value], ['fieldid' => $this->id])
 			->execute();
-		self::log("Updated summaryfield information of $this->name ... DONE");
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
+		\App\Log::trace("Updated summaryfield information of $this->name ... DONE", __METHOD__);
 	}
 
 	/**

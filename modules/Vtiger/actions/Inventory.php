@@ -8,8 +8,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Inventory_Action extends Vtiger_Action_Controller
+class Vtiger_Inventory_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -23,14 +25,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($mode) {
-			$this->invokeExposedMethod($mode, $request);
 		}
 	}
 

@@ -47,7 +47,7 @@ class Import_Utils_Helper
 
 	public static function getMaxUploadSize()
 	{
-		return vglobal('upload_maxsize');
+		return \AppConfig::main('upload_maxsize');
 	}
 
 	/**
@@ -99,12 +99,11 @@ class Import_Utils_Helper
 	public static function getAssignedToUserList($module)
 	{
 		$cache = Vtiger_Cache::getInstance();
-		$current_user = Users_Record_Model::getCurrentUserModel();
-		if ($cache->getUserList($module, $current_user->id)) {
-			return $cache->getUserList($module, $current_user->id);
+		if ($cache->getUserList($module, \App\User::getCurrentUserId())) {
+			return $cache->getUserList($module, \App\User::getCurrentUserId());
 		} else {
-			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $current_user->id);
-			$cache->setUserList($module, $userList, $current_user->id);
+			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', \App\User::getCurrentUserId());
+			$cache->setUserList($module, $userList, \App\User::getCurrentUserId());
 			return $userList;
 		}
 	}
@@ -112,12 +111,11 @@ class Import_Utils_Helper
 	public static function getAssignedToGroupList($module)
 	{
 		$cache = Vtiger_Cache::getInstance();
-		$current_user = Users_Record_Model::getCurrentUserModel();
-		if ($cache->getGroupList($module, $current_user->id)) {
-			return $cache->getGroupList($module, $current_user->id);
+		if ($cache->getGroupList($module, \App\User::getCurrentUserId())) {
+			return $cache->getGroupList($module, \App\User::getCurrentUserId());
 		} else {
 			$groupList = \App\Fields\Owner::getInstance()->getGroups(false);
-			$cache->setGroupList($module, $groupList, $current_user->id);
+			$cache->setGroupList($module, $groupList, \App\User::getCurrentUserId());
 			return $groupList;
 		}
 	}

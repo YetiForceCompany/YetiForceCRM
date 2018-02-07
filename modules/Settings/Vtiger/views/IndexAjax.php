@@ -11,31 +11,14 @@
 class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getSettingsShortCutBlock');
 		$this->exposeMethod('realignSettingsShortCutBlock');
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-
-		if ($mode) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function getSettingsShortCutBlock(\App\Request $request)

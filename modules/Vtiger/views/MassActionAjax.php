@@ -12,6 +12,8 @@
 class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,15 +22,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showSendSMSForm');
 		$this->exposeMethod('showDuplicatesSearchForm');
 		$this->exposeMethod('transferOwnership');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

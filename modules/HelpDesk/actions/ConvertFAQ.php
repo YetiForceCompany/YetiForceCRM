@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
+class HelpDesk_ConvertFAQ_Action extends \App\Controller\Action
 {
 
 	/**

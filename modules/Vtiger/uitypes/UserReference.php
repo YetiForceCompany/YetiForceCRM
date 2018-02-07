@@ -20,7 +20,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (!is_numeric($value) || \App\User::isExists($value)) {
+		if (!is_numeric($value) || !\App\User::isExists($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;

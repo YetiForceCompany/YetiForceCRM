@@ -138,6 +138,7 @@ class Calendar_Calendar_Model extends App\Base
 				$ids[] = $record['linkextend'];
 			}
 		}
+		$dataReader->close();
 		$labels = \App\Record::getLabel($ids);
 
 		foreach ($records as &$record) {
@@ -234,7 +235,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
 			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
-			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
+			$item['hours'] = \App\Fields\DateTime::formatToHourText($hours, 'short');
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
@@ -284,6 +285,7 @@ class Calendar_Calendar_Model extends App\Base
 				}
 			}
 		}
+		$dataReader->close();
 		return array_values($return);
 	}
 

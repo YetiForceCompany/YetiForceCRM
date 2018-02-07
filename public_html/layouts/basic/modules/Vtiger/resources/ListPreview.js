@@ -24,11 +24,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Sets initial iframe's height and fills the preview with first record's content.
 	 */
 	registerPreviewEvent: function () {
-		var thisInstance = this;
-		var iframe = $(".listPreviewframe");
+		const thisInstance = this;
+		const iframe = $(".listPreviewframe");
 		$(".listPreviewframe").load(function () {
+			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height($(this).contents().find(".bodyContents").height() - 20);
+			thisInstance.toggleSplit(container);
+			if ($(window).width() > 993) {
+				thisInstance.registerListEvents(container);
+			}
 		});
 		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
 	},
@@ -76,7 +81,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Registers list events.
 	 * @param {jQuery} container - current container for reference.
 	 */
-	registerListEvents: function (container) {
+	registerListEvents: function (container) {	
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
@@ -84,9 +89,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listViewEntriesDiv = container.find('.listViewEntriesDiv');
 		var commActHeight = $('.commonActionsContainer').height();
 		var paddingTop = 6;
-		var offset = fixedList.offset().top - commActHeight - paddingTop;
-		fixedList.find('.fixedListContent').perfectScrollbar();
-		listViewEntriesDiv.perfectScrollbar();
+		var offset = fixedList.offset().top - commActHeight - paddingTop;	
+		app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
+		app.showNewLeftScrollbar(fixedList);	
 		$(window).resize(function () {
 			if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -94,9 +99,10 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		mainBody.scroll(function () {
 			var gutter = container.find('.gutter');
-			var gutterHeight = {height: $(window).height() - (gutter.offset().top + 33)};
-			gutter.css(gutterHeight);
-			wrappedPanels.css(gutterHeight);
+			var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
+			gutter.css(mainWindowHeightCss);
+			fixedList.css(mainWindowHeightCss);
+			wrappedPanels.css(mainWindowHeightCss);
 			if ($(this).scrollTop() >= (fixedList.offset().top + commActHeight - paddingTop)) {
 				if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
 					fixedList.css('top', $(this).scrollTop() - offset);
@@ -161,10 +167,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 		var gutter = container.find('.gutter');
-		var gutterHeight = {height: $(window).height() - (gutter.offset().top + 33)};
+		var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
 		var rotatedText = container.find('.rotatedText');
-		gutter.css(gutterHeight);
-		wrappedPanel.css(gutterHeight);
+		gutter.css(mainWindowHeightCss);
+		fixedList.css(mainWindowHeightCss)
+		wrappedPanel.css(mainWindowHeightCss);
 		thisInstance.registerSplitEvents(container, split);
 		rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
 		rotatedText.css({
@@ -278,12 +285,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Registers ListPreview's events.
 	 */
 	registerEvents: function () {
-		var listViewContainer = this.getListViewContentContainer();
 		this._super();
 		this.registerPreviewEvent();
-		this.toggleSplit(listViewContainer);
-		if ($(window).width() > 993) {
-			this.registerListEvents(listViewContainer);
-		}
-	},
+	}
 });

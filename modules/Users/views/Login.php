@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_Login_View extends Vtiger_View_Controller
+class Users_Login_View extends \App\Controller\View
 {
 
 	/**
@@ -50,7 +50,7 @@ class Users_Login_View extends Vtiger_View_Controller
 	/**
 	 * {@inheritDoc}
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		
 	}

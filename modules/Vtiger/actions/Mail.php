@@ -7,8 +7,10 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Mail_Action extends Vtiger_Action_Controller
+class Vtiger_Mail_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -31,18 +33,6 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('checkSmtp');
 		$this->exposeMethod('sendMails');
-	}
-
-	/**
-	 * Process function
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	/**
@@ -69,7 +59,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$field = $request->getByType('field');
 		$template = $request->getInteger('template');
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$result = false;
 		if (!empty($template) && !empty($field)) {
@@ -98,6 +88,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -112,7 +103,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($sourceModule) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
 			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);

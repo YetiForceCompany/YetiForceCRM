@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailView_Relation_Action extends Vtiger_Action_Controller
+class OSSMailView_Relation_Action extends \App\Controller\Action
 {
 
 	/**

@@ -117,8 +117,6 @@ class VTScheduledReport extends Reports
 
 	public function sendEmail()
 	{
-		$currentModule = vglobal('currentModule');
-
 		$recipientEmails = $this->getRecipientEmails();
 		$to = [];
 		foreach ($recipientEmails as $name => $email) {
@@ -126,11 +124,11 @@ class VTScheduledReport extends Reports
 		}
 
 		$currentTime = date('Y-m-d H:i:s');
-		$subject = $this->reportname . ' - ' . $currentTime . ' (' . DateTimeField::getDBTimeZone() . ')';
+		$subject = $this->reportname . ' - ' . $currentTime . ' (' . App\Fields\DateTime::getTimeZone() . ')';
 
-		$contents = \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br /><br />';
-		$contents .= '<b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br />';
-		$contents .= '<b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br />' . $this->reportdescription . '<br /><br />';
+		$contents = \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', 'Reports') . '<br /><br />';
+		$contents .= '<b>' . \App\Language::translate('LBL_REPORT_NAME', 'Reports') . ' :</b> ' . $this->reportname . '<br />';
+		$contents .= '<b>' . \App\Language::translate('LBL_DESCRIPTION', 'Reports') . ' :</b><br />' . $this->reportdescription . '<br /><br />';
 
 		$baseFileName = preg_replace('/[^a-zA-Z0-9_-\s]/', '', $this->reportname) . '__' . preg_replace('/[^a-zA-Z0-9_-\s]/', '', $currentTime);
 
@@ -238,9 +236,9 @@ class VTScheduledReport extends Reports
 		$adb->pquery('UPDATE vtiger_scheduled_reports SET next_trigger_time=? WHERE reportid=?', [$nextTriggerTime, $this->id]);
 	}
 
-	public static function getScheduledReports($adb, $user)
+	public static function getScheduledReports($user)
 	{
-
+		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 		$result = $adb->pquery("SELECT * FROM vtiger_scheduled_reports
 									WHERE next_trigger_time = '' || next_trigger_time <= ?", [$currentTime]);
@@ -265,24 +263,12 @@ class VTScheduledReport extends Reports
 		return $scheduledReports;
 	}
 
-	public static function runScheduledReports($adb)
+	public static function runScheduledReports()
 	{
-		require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
-		$util = new VTWorkflowUtils();
-		$adminUser = $util->adminUser();
-
-		$currentModule = vglobal('currentModule');
-		$current_language = vglobal('current_language');
-		if (empty($currentModule))
-			$currentModule = 'Reports';
-		if (empty($current_language))
-			vglobal('current_language', 'en_us');
-
-		$scheduledReports = self::getScheduledReports($adb, $adminUser);
+		$scheduledReports = self::getScheduledReports($adminUser);
 		foreach ($scheduledReports as $scheduledReport) {
 			$scheduledReport->sendEmail();
 			$scheduledReport->updateNextTriggerTime();
 		}
-		$util->revertUser();
 	}
 }

@@ -57,6 +57,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$response[] = [$row['ossmailview_sendtype'], $row['count'], \App\Language::translate($row['ossmailview_sendtype'], $this->getName())];
 		}
+		$dataReader->close();
 		return $response;
 	}
 

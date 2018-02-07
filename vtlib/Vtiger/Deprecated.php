@@ -16,20 +16,6 @@ namespace vtlib;
 class Deprecated
 {
 
-	public static function getFullNameFromQResult($result, $row_count, $module)
-	{
-		$adb = \PearDatabase::getInstance();
-		$rowdata = $adb->queryResultRowData($result, $row_count);
-		$entity_field_info = \App\Module::getEntityInfo($module);
-		$fieldsName = $entity_field_info['fieldname'];
-		$name = '';
-		if ($rowdata != '' && count($rowdata) > 0) {
-			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
-		}
-		$name = Functions::textLength($name);
-		return $name;
-	}
-
 	public static function getFullNameFromArray($module, $fieldValues)
 	{
 		$entityInfo = \App\Module::getEntityInfo($module);
@@ -61,50 +47,6 @@ class Deprecated
 			}
 		}
 		return '';
-	}
-
-	public static function getBlockId($tabId, $label)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
-		$result = $adb->pquery($query, [$tabId, $label]);
-		$noOfRows = $adb->numRows($result);
-
-		$blockId = '';
-		if ($noOfRows == 1) {
-			$blockId = $adb->queryResult($result, 0, "blockid");
-		}
-		return $blockId;
-	}
-
-	public static function getModuleTranslationStrings($language, $module)
-	{
-		static $cachedModuleStrings = [];
-
-		if (!empty($cachedModuleStrings[$module])) {
-			return $cachedModuleStrings[$module];
-		}
-		$newStrings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
-		$cachedModuleStrings[$module] = $newStrings['languageStrings'];
-
-		return $cachedModuleStrings[$module];
-	}
-
-	/**
-	 * This function is used to get cvid of default "all" view for any module.
-	 * @return a cvid of a module
-	 */
-	public static function getIdOfCustomViewByNameAll($module)
-	{
-		$adb = \PearDatabase::getInstance();
-
-		static $cvidCache = [];
-		if (!isset($cvidCache[$module])) {
-			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", [$module]);
-			$cvid = $adb->queryResult($qry_res, 0, "cvid");
-			$cvidCache[$module] = $cvid;
-		}
-		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
@@ -189,19 +131,20 @@ class Deprecated
 
 	/**
 	 * This function is used to get the blockid of the settings block for a given label.
-	 * @param string $label - settings label
-	 * @return string type value
+	 * @param string $label
+	 * @return int
 	 */
 	public static function getSettingsBlockId($label)
 	{
-		$adb = \PearDatabase::getInstance();
-		$blockId = '';
-		$query = "select blockid from vtiger_settings_blocks where label = ?";
-		$result = $adb->pquery($query, [$label]);
-		$noOfRows = $adb->numRows($result);
-		if ($noOfRows == 1) {
-			$blockId = $adb->queryResult($result, 0, "blockid");
+		$blockId = 0;
+		$dataReader = (new \App\Db\Query())->select(['blockid'])
+				->from('vtiger_settings_blocks')
+				->where(['label' => $label])
+				->createCommand()->query();
+		if ($dataReader->count() === 1) {
+			$blockId = $dataReader->readColumn(0);
 		}
+		$dataReader->close();
 		return $blockId;
 	}
 
@@ -219,5 +162,188 @@ class Deprecated
 		}
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
+	}
+	/* Function to get the related tables data
+	 * @param - $module - Primary module name
+	 * @param - $secmodule - Secondary module name
+	 * return Array $rel_array tables and fields to be compared are sent
+	 * */
+
+	public static function getRelationTables($module, $secmodule)
+	{
+		$adb = \PearDatabase::getInstance();
+		$primary_obj = \CRMEntity::getInstance($module);
+		$secondary_obj = \CRMEntity::getInstance($secmodule);
+
+		$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", [$module, $secmodule, $secmodule, $module]);
+		if ($adb->numRows($ui10_query) > 0) {
+			$ui10_tablename = $adb->queryResult($ui10_query, 0, 'tablename');
+			$ui10_columnname = $adb->queryResult($ui10_query, 0, 'columnname');
+
+			if ($primary_obj->table_name == $ui10_tablename) {
+				$reltables = [$ui10_tablename => ["" . $primary_obj->table_index . "", "$ui10_columnname"]];
+			} else if ($secondary_obj->table_name == $ui10_tablename) {
+				$reltables = [$ui10_tablename => ["$ui10_columnname", "" . $secondary_obj->table_index . ""], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+			} else {
+				if (isset($secondary_obj->tab_name_index[$ui10_tablename])) {
+					$rel_field = $secondary_obj->tab_name_index[$ui10_tablename];
+					$reltables = [$ui10_tablename => ["$ui10_columnname", "$rel_field"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+				} else {
+					$rel_field = $primary_obj->tab_name_index[$ui10_tablename];
+					$reltables = [$ui10_tablename => ["$rel_field", "$ui10_columnname"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+				}
+			}
+		} else {
+			if (method_exists($primary_obj, setRelationTables)) {
+				$reltables = $primary_obj->setRelationTables($secmodule);
+			} else {
+				$reltables = '';
+			}
+		}
+		if (is_array($reltables) && !empty($reltables)) {
+			$rel_array = $reltables;
+		} else {
+			$rel_array = ["vtiger_crmentityrel" => ["crmid", "relcrmid"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+		}
+		return $rel_array;
+	}
+
+	/**
+	 * This function returns no value but handles the delete functionality of each entity.
+	 * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
+	 */
+	public static function deleteEntity($destinationModule, $sourceModule, \CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
+	{
+		\App\Log::trace("Entering deleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
+		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
+			$eventHandler = new \App\EventHandler();
+			$eventHandler->setModuleName($sourceModule);
+			$eventHandler->setParams([
+				'CRMEntity' => $focus,
+				'sourceModule' => $sourceModule,
+				'sourceRecordId' => $sourceRecordId,
+				'destinationModule' => $destinationModule,
+				'destinationRecordId' => $destinationRecordId,
+			]);
+			$eventHandler->trigger('EntityBeforeUnLink');
+
+			$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
+			$focus->trackUnLinkedInfo($sourceRecordId);
+
+			$eventHandler->trigger('EntityAfterUnLink');
+		} else {
+			$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			}
+			$focus->trash($destinationModule, $destinationRecordId);
+		}
+		\App\Log::trace('Exiting deleteEntity method ...');
+	}
+
+	/**
+	 * Function to related two records of different entity types
+	 */
+	public static function relateEntities(\CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
+	{
+		\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
+		if (!is_array($destinationRecordIds))
+			$destinationRecordIds = [$destinationRecordIds];
+
+		$data = [
+			'CRMEntity' => $focus,
+			'sourceModule' => $sourceModule,
+			'sourceRecordId' => $sourceRecordId,
+			'destinationModule' => $destinationModule,
+		];
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setModuleName($sourceModule);
+		foreach ($destinationRecordIds as &$destinationRecordId) {
+			$data['destinationRecordId'] = $destinationRecordId;
+			$eventHandler->setParams($data);
+			$eventHandler->trigger('EntityBeforeLink');
+			$focus->saveRelatedModule($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
+			\CRMEntity::trackLinkedInfo($sourceRecordId);
+			$eventHandler->trigger('EntityAfterLink');
+		}
+		\App\Log::trace("Exiting relateEntities method ...");
+	}
+
+	public static function getColumnFields($module)
+	{
+		\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
+
+		// Lookup in cache for information
+		$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
+
+		if ($cachedModuleFields === false) {
+			$fieldsInfo = Functions::getModuleFieldInfos($module);
+			if (!empty($fieldsInfo)) {
+				foreach ($fieldsInfo as $resultrow) {
+					// Update information to cache for re-use
+					\VTCacheUtils::updateFieldInfo(
+						$resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'], $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'], $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
+					);
+				}
+			}
+// For consistency get information from cache
+			$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
+		}
+
+		if ($module == 'Calendar') {
+			$cachedEventsFields = \VTCacheUtils::lookupFieldInfoModule('Events');
+			if (!$cachedEventsFields) {
+				static::getColumnFields('Events');
+				$cachedEventsFields = \VTCacheUtils::lookupFieldInfoModule('Events');
+			}
+
+			if (!$cachedModuleFields) {
+				$cachedModuleFields = $cachedEventsFields;
+			} else {
+				$cachedModuleFields = array_merge($cachedModuleFields, $cachedEventsFields);
+			}
+		}
+
+		$column_fld = [];
+		if ($cachedModuleFields) {
+			foreach ($cachedModuleFields as $fieldinfo) {
+				$column_fld[$fieldinfo['fieldname']] = '';
+			}
+		}
+
+		\App\Log::trace('Exiting getColumnFields method ...');
+		return $column_fld;
+	}
+
+	/**
+	 * Function to get the permitted module id Array with presence as 0
+	 * @global Users $current_user
+	 * @return Array Array of accessible tabids.
+	 */
+	public static function getPermittedModuleIdList()
+	{
+		$permittedModules = [];
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
+		include('user_privileges/tabdata.php');
+
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 &&
+			$profileGlobalPermission[2] == 1) {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
+					$permittedModules[] = ($tabid);
+				}
+			}
+		} else {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0) {
+					$permittedModules[] = ($tabid);
+				}
+			}
+		}
+		$homeTabid = \App\Module::getModuleId('Home');
+		if (!in_array($homeTabid, $permittedModules)) {
+			$permittedModules[] = $homeTabid;
+		}
+		return $permittedModules;
 	}
 }

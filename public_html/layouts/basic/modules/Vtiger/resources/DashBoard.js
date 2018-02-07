@@ -123,8 +123,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				}
 				var widgetContent = widgetContainer.find('.dashboardWidgetContent');
 				widgetContent.css('max-height', adjustedHeight + 'px');
-				widgetContent.css('overflow', 'auto');
-				widgetContent.perfectScrollbar();
+				app.showNewScrollbar(widgetContent, {wheelPropagation: true });
 			});
 		} else {
 		}

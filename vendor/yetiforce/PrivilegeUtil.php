@@ -1235,4 +1235,107 @@ class PrivilegeUtil
 		}
 		return $groups;
 	}
+
+	/**
+	 * Tables to sharing rules
+	 * @var array 
+	 */
+	private static $shareRulesTables = [
+		'US::GRP' => 'vtiger_datashare_us2grp',
+		'US::ROLE' => 'vtiger_datashare_us2role',
+		'US::RS' => 'vtiger_datashare_us2rs',
+		'US::US' => 'vtiger_datashare_us2us',
+		'GRP::GRP' => 'vtiger_datashare_grp2grp',
+		'GRP::ROLE' => 'vtiger_datashare_grp2role',
+		'GRP::RS' => 'vtiger_datashare_grp2rs',
+		'GRP::US' => 'vtiger_datashare_grp2us',
+		'ROLE::GRP' => 'vtiger_datashare_role2group',
+		'ROLE::ROLE' => 'vtiger_datashare_role2role',
+		'ROLE::RS' => 'vtiger_datashare_role2rs',
+		'ROLE::US' => 'vtiger_datashare_role2us',
+		'RS::GRP' => 'vtiger_datashare_rs2grp',
+		'RS::ROLE' => 'vtiger_datashare_rs2role',
+		'RS::RS' => 'vtiger_datashare_rs2rs',
+		'RS::US' => 'vtiger_datashare_rs2us'
+	];
+
+	/**
+	 * List tables where sharing rules are save for users, groups and roles
+	 * @var array 
+	 */
+	private static $shareRulesTablesIndex = [
+		'Users' => [
+			'vtiger_datashare_us2us' => 'share_userid::to_userid',
+			'vtiger_datashare_us2grp' => 'share_userid',
+			'vtiger_datashare_us2role' => 'share_userid',
+			'vtiger_datashare_us2rs' => 'share_userid',
+			'vtiger_datashare_grp2us' => 'to_userid',
+			'vtiger_datashare_rs2us' => 'to_userid',
+			'vtiger_datashare_role2us' => 'to_userid'
+		],
+		'Roles' => [
+			'vtiger_datashare_us2role' => 'to_roleid',
+			'vtiger_datashare_us2rs' => 'to_roleandsubid',
+			'vtiger_datashare_grp2role' => 'to_roleid',
+			'vtiger_datashare_grp2rs' => 'to_roleandsubid',
+			'vtiger_datashare_role2group' => 'share_roleid',
+			'vtiger_datashare_role2us' => 'share_roleid',
+			'vtiger_datashare_role2role' => 'share_roleid::to_roleid',
+			'vtiger_datashare_role2rs' => 'share_roleid::to_roleandsubid',
+			'vtiger_datashare_rs2grp' => 'share_roleandsubid',
+			'vtiger_datashare_rs2us' => 'share_roleandsubid',
+			'vtiger_datashare_rs2role' => 'share_roleandsubid::to_roleid',
+			'vtiger_datashare_rs2rs' => 'share_roleandsubid::to_roleandsubid'
+		],
+		'Groups' => [
+			'vtiger_datashare_grp2grp' => 'share_groupid::to_groupid',
+			'vtiger_datashare_grp2role' => 'share_groupid',
+			'vtiger_datashare_grp2rs' => 'share_groupid',
+			'vtiger_datashare_grp2us' => 'share_groupid',
+			'vtiger_datashare_role2group' => 'to_groupid',
+			'vtiger_datashare_rs2grp' => 'to_groupid',
+			'vtiger_datashare_us2grp' => 'to_groupid',
+		]
+	];
+
+	/**
+	 * This function is to delete the organisation level sharing rule
+	 * It takes the following input parameters:
+	 * @param int $shareid Id of the Sharing Rule to be updated
+	 */
+	private static function deleteSharingRule($shareid)
+	{
+		Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
+		$dbCommand = Db::getInstance()->createCommand();
+		$typestr = (new Db\Query())->select(['relationtype'])->from('vtiger_datashare_module_rel')->where(['shareid' => $shareid])->scalar();
+		$dbCommand->delete(static::$shareRulesTables[$typestr], ['shareid' => $shareid])->execute();
+		$dbCommand->delete('vtiger_datashare_module_rel', ['shareid' => $shareid])->execute();
+		$dbCommand->delete('vtiger_datashare_relatedmodule_permission', ['shareid' => $shareid])->execute();
+		Log::trace("Exiting deleteSharingRule method ...");
+	}
+
+	/**
+	 * Function to remove sharing rules from tables
+	 * @param int|string $id
+	 * @param string $type
+	 */
+	public static function deleteRelatedSharingRules($id, $type)
+	{
+		Log::trace("Entering deleteRelatedSharingRules(" . $id . ") method ...");
+		foreach (static::$shareRulesTablesIndex[$type] as $tablename => $colname) {
+			$colNameArr = explode('::', $colname);
+			$query = (new Db\Query())->select('shareid')
+				->from($tablename)
+				->where([$colNameArr[0] => $id]);
+			if (isset($colNameArr[1])) {
+				$query->orWhere([$colNameArr[1] => $id]);
+			}
+			$dataReader = $query->createCommand()->query();
+			while ($shareid = $dataReader->readColumn(0)) {
+				static::deleteSharingRule($shareid);
+			}
+			$dataReader->close();
+		}
+		Log::trace('Exiting deleteRelatedSharingRules method ...');
+	}
 }

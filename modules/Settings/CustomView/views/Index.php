@@ -19,7 +19,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$supportedModule = $request->getByType('sourceModule', 2);
-		if(empty($supportedModule)) {
+		if (empty($supportedModule)) {
 			$supportedModules = Settings_CustomView_Module_Model::getSupportedModules();
 			$supportedModule = reset($supportedModules);
 		}
@@ -34,7 +34,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 		if ($request->isAjax()) {
 			$viewer->view('IndexContents.tpl', $qualifiedModuleName);
 		} else {
-			if(!isset($supportedModules)) {
+			if (!isset($supportedModules)) {
 				$supportedModules = Settings_CustomView_Module_Model::getSupportedModules();
 			}
 			$viewer->assign('SUPPORTED_MODULE_MODELS', $supportedModules);
@@ -50,7 +50,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView'
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -66,7 +66,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($headerCssInstances, $cssInstances);

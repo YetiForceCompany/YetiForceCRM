@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
+class Reports_CheckDuplicate_Action extends \App\Controller\Action
 {
 
 	/**

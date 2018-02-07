@@ -82,7 +82,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			$fileName = $fileDetails['name'];
 
 			if ($this->get('filelocationtype') == 'I') {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, vglobal('default_charset'));
+				$fileName = html_entity_decode($fileName, ENT_QUOTES, \AppConfig::main('default_charset'));
 				if (file_exists($filePath . $fileDetails['attachmentsid'])) {
 					$savedFile = $fileDetails['attachmentsid'];
 				} else {
@@ -255,6 +255,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					unlink($fileName);
 				}
 			}
+			$dataReader->close();
 			$dbCommand->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
 			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
 			$dbCommand->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();

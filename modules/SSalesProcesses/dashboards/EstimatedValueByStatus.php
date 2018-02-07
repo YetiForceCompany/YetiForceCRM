@@ -59,6 +59,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 				$moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status'])
 			];
 		}
+		$dataReader->close();
 		return $data;
 	}
 

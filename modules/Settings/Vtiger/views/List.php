@@ -58,15 +58,15 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$searchParams = $request->get('searchParams');
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
 
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder === 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;

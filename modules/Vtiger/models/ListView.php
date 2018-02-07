@@ -171,7 +171,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'glyphicon glyphicon-duplicate'
 			];
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -263,7 +263,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
-				'linkurl' => 'index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassAction("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm")',
 				'linkicon' => 'glyphicon glyphicon-comment'
 			];
 		}

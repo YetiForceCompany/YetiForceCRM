@@ -64,6 +64,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 				$listView . $this->getSearchParams($row['smownerid'], $time)
 			];
 		}
+		$dataReader->close();
 		return $data;
 	}
 

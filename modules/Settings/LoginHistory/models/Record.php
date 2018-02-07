@@ -41,6 +41,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 		while ($userName = $dataReader->readColumn(0)) {
 			$usersListArray[$userName] = $userName;
 		}
+		$dataReader->close();
 		return $usersListArray;
 	}
 

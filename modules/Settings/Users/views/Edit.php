@@ -72,7 +72,7 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);

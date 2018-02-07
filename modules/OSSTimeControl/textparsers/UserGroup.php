@@ -39,8 +39,7 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 			$html .= '<tr>';
 			$html .= '<td>' . $user . '</td>';
 			$html .= '<td class="center">' . $data['role'] . '</td>';
-			$time = vtlib\Functions::decimalTimeFormat($data['time']);
-			$html .= '<td class="center">' . $time['short'] . '</td>';
+			$html .= '<td class="center">' . \App\Fields\DateTime::formatToHourText($data['time'], 'short') . '</td>';
 			$html .= '</tr>';
 		}
 		$html .= '</tbody></table>';

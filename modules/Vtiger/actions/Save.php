@@ -8,12 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_Save_Action extends Vtiger_Action_Controller
+class Vtiger_Save_Action extends \App\Controller\Action
 {
 
 	/**
 	 * Record model instance
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record = false;
 
@@ -45,15 +45,11 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function preProcess(\App\Request $request)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		if (App\Session::has('baseUserId') && !empty(App\Session::get('baseUserId'))) {
-			$baseUserId = App\Session::get('baseUserId');
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($baseUserId);
+			App\User::setCurrentUserId(App\Session::get('baseUserId'));
 		}
 	}
 
@@ -61,11 +57,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	{
 		parent::preProcessAjax($request);
 		if (App\Session::has('baseUserId') && !empty(App\Session::get('baseUserId'))) {
-			$baseUserId = App\Session::get('baseUserId');
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($baseUserId);
+			App\User::setCurrentUserId(App\Session::get('baseUserId'));
 		}
 	}
 
@@ -73,7 +65,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->getBoolean('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule',2));
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->getBoolean('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
@@ -93,7 +85,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule',2));
+			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2));
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);

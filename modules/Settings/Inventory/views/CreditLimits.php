@@ -10,6 +10,8 @@
 class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function getView()
 	{
 		return 'CreditLimits';

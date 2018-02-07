@@ -35,7 +35,7 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'
 		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
@@ -48,8 +48,8 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'modules.Settings.'.$request->getModule().'.resources.Colors',
-			'~libraries/jquery/colorpicker/js/colorpicker.js'
+			'modules.Settings.' . $request->getModule() . '.resources.Colors',
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js'
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}

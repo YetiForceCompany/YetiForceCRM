@@ -12,6 +12,8 @@
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -108,8 +110,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel->set('status', 'Active');
 		$recordModel->save();
 
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", [0, $record]);
+		App\Db::getInstance()->createCommand()->update('vtiger_users', ['deleted' => 0], ['id' => $record])->execute();
 
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();

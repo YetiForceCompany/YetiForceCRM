@@ -6,8 +6,10 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSEmployees_EmployeeHierarchy_View extends Vtiger_View_Controller
+class OSSEmployees_EmployeeHierarchy_View extends \App\Controller\View
 {
+
+	use App\Controller\ClearProcess;
 
 	/**
 	 * Function to check permission
@@ -25,11 +27,6 @@ class OSSEmployees_EmployeeHierarchy_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
-
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -40,10 +37,5 @@ class OSSEmployees_EmployeeHierarchy_View extends Vtiger_View_Controller
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('EMPLOYEES_HIERARCHY', $hierarchy);
 		$viewer->view('EmployeeHierarchy.tpl', $moduleName);
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		
 	}
 }

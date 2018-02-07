@@ -5,7 +5,7 @@
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+	<input type="hidden" id="listMaxEntriesMassEdit" value="{\AppConfig::main('listMaxEntriesMassEdit')}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber' />
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
@@ -20,7 +20,6 @@
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="listViewEntriesDiv">
-		<div data-simplebar>
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
@@ -115,6 +114,5 @@
 					</tbody>
 				</table>
 			{/if}
-		</div>
 	</div>
 {/strip}
