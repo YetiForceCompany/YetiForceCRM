@@ -348,7 +348,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 			if (currentTarget.hasClass('selectedCell')) {
 				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('[data-fa-i2svg]').remove();
 			} else {
-				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fas fa-check pull-left"></i>');
+				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fas fa-check float-left"></i>');
 			}
 		});
 	},
