@@ -158,7 +158,7 @@ class LayoutExport extends Package
 				'active' => $useisactive,
 			]);
 		}
-		self::log("Registering Layout $name ... DONE");
+		\App\Log::trace("Registering Layout $name ... DONE", __METHOD__);
 	}
 
 	public static function deregister($name)
@@ -169,6 +169,6 @@ class LayoutExport extends Package
 		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
 		Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
-		self::log("Deregistering Layout $name ... DONE");
+		\App\Log::trace("Deregistering Layout $name ... DONE", __METHOD__);
 	}
 }

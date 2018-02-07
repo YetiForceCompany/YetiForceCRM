@@ -50,7 +50,7 @@ class Module extends ModuleBasic
 			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
 			->exists();
 		if ($isExists) {
-			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
+			\App\Log::trace("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists", __METHOD__);
 			return;
 		}
 
@@ -94,7 +94,7 @@ class Module extends ModuleBasic
 			}
 		}
 		\App\Cache::clear();
-		self::log("Setting relation with $moduleInstance->name  ... DONE");
+		\App\Log::trace("Setting relation with $moduleInstance->name  ... DONE", __METHOD__);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Module extends ModuleBasic
 			$label = $moduleInstance->name;
 
 		\App\Db::getInstance()->createCommand()->delete('vtiger_relatedlists', ['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $function_name, 'label' => $label])->execute();
-		self::log("Unsetting relation with $moduleInstance->name ... DONE");
+		\App\Log::trace("Unsetting relation with $moduleInstance->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -245,12 +245,12 @@ class Module extends ModuleBasic
 		$instance = self::getClassInstance((string) $modulename);
 		if ($instance) {
 			if (method_exists($instance, 'moduleHandler')) {
-				self::log("Invoking moduleHandler for $eventType ...START");
+				\App\Log::trace("Invoking moduleHandler for $eventType ...START", __METHOD__);
 				$fire = $instance->moduleHandler((string) $modulename, (string) $eventType);
 				if ($fire !== null && $fire !== true) {
 					$return = false;
 				}
-				self::log("Invoking moduleHandler for $eventType ...DONE");
+				\App\Log::trace("Invoking moduleHandler for $eventType ...DONE", __METHOD__);
 			}
 		}
 		return $return;
