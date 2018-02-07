@@ -101,7 +101,6 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 	registerEventForModifyCondition: function () {
 		jQuery('button[name=modify_condition]').on('click', function () {
 			var filter = jQuery('#filterContainer');
-			console.log(filter);
 			var icon = jQuery(this).find('[data-fa-i2svg]');
 			var classValue = icon.attr('class');
 			if (classValue.indexOf('fa-chevron-right') != -1) {

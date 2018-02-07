@@ -21,7 +21,6 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 				if (value) {
 					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
-					console.log(target.parent());
 					target.next().html('&nbsp;&nbsp;' + app.vtranslate('JS_YES'));
 				} else {
 					target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
