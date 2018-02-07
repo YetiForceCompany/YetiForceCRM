@@ -24,6 +24,10 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 		return $title;
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
@@ -38,8 +42,6 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
 		$viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 }

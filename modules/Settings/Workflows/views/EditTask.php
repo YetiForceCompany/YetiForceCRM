@@ -99,9 +99,9 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$userModel = Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('dateFormat', $userModel->get('date_format'));
-		$viewer->assign('timeFormat', $userModel->get('hour_format'));
+		$userModel = \App\User::getCurrentUserModel();
+		$viewer->assign('dateFormat', $userModel->getDetail('date_format'));
+		$viewer->assign('timeFormat', $userModel->getDetail('hour_format'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$emailFieldoptions = [];

@@ -29,7 +29,7 @@ class Settings_Vtiger_Tracker_Model
 			return true;
 		}
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
-				'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
+				'user_id' => \App\User::getCurrentUserId(),
 				'type' => self::$types[$type],
 				'module_name' => \App\Request::_get('module'),
 				'record_id' => self::$recordId ? self::$recordId : 0,

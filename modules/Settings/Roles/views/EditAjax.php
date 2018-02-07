@@ -11,17 +11,21 @@
 Class Settings_Roles_EditAjax_View extends Settings_Roles_IndexAjax_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
-		$parentRoleId = $request->get('parent_roleid');
+		$record = $request->getByType('record', 'Alnum');
 
 		if (!empty($record)) {
 			$recordModel = Settings_Roles_Record_Model::getInstanceById($record);
 		} else {
+			$parentRoleId = $request->getByType('parent_roleid', 'Alnum');
 			$recordModel = new Settings_Roles_Record_Model();
 			$recordModel->setParent(Settings_Roles_Record_Model::getInstanceById($parentRoleId));
 		}
@@ -31,8 +35,6 @@ Class Settings_Roles_EditAjax_View extends Settings_Roles_IndexAjax_View
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }
