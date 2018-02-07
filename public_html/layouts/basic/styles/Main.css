@@ -1,3 +1,4 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -6833,6 +6834,7 @@ a.text-dark:hover, a.text-dark:focus {
   .form-inline .select2-container--bootstrap4 {
     display: inline-block; } }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
   .noprint {
     display: none; } }
@@ -9711,9 +9713,6 @@ html, body, .baseContainer {
   padding: 2px 2px;
   border: 0 solid #fff; }
 
-.contentsDiv, .centerPanel {
-  padding: 0 10px; }
-
 .widget_header {
   background: #eee;
   padding-top: 5px;
@@ -11385,10 +11384,18 @@ border1px {
 :root {
   --yf-darkblue: #4A5364; }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
   font-size: inherit; }
+
+.select2Wrapper {
+  width: 100%; }
+
+.select2-selection.select2-selection--single {
+  font-size: 0.875rem !important;
+  height: 32px !important; }
 
 .select2WithButtonWidth {
   width: calc(100% - 42px); }
@@ -11398,12 +11405,9 @@ border1px {
   .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
 
-.select2Wrapper {
-  width: 100%; }
-
-.select2-selection.select2-selection--single {
-  font-size: 0.875rem !important;
-  height: 32px !important; }
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.contentsDiv, .centerPanel {
+  padding: 0 10px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
@@ -11452,7 +11456,6 @@ border1px {
 .globalSearchResults .nav li a {
   padding: 10px 0; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .baseContainer .leftPanel {
   position: fixed;
@@ -11541,5 +11544,10 @@ border1px {
     .footerContainer .page-link {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.calendarViewContainer .widget_header {
+  margin-right: -20px;
+  margin-left: -25px; }
 
 /*# sourceMappingURL=Main.css.map */

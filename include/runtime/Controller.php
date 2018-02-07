@@ -370,6 +370,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
 			'~libraries/chosen-js/chosen.css',
+			'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
 			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/selectize/dist/css/selectize.bootstrap3.css',
