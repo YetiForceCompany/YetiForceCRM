@@ -222,7 +222,7 @@ abstract class View extends Base
 				'~layouts/resources/colors/modules.css',
 				'~layouts/resources/colors/picklists.css',
 				'~layouts/resources/styleTemplate.css',
-				'~' . Vtiger_Theme::getBaseStylePath()
+				'~' . \Vtiger_Theme::getBaseStylePath()
 		]);
 	}
 
