@@ -389,12 +389,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$query->where(['status' => 'Active']);
 		}
 		$users = [];
-		$focus = new Users();
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
-			$focus->id = $userId;
-			$focus->retrieveEntityInfo($userId, 'Users');
-			$userModel = self::getInstanceFromUserObject($focus);
+			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
 			$users[$userModel->getId()] = $userModel;
 		}
 		$dataReader->close();
@@ -746,13 +743,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$noOfUsers = $db->numRows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
-			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userId = $db->queryResult($result, $i, 'id');
-				$focus->id = $userId;
-				$focus->retrieveEntityInfo($userId, 'Users');
-
-				$userModel = self::getInstanceFromUserObject($focus);
+				$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
 				$users[$userModel->getId()] = $userModel;
 			}
 		}
