@@ -30,7 +30,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height($(this).contents().find(".bodyContents").height() - 20);
-			window.console.log(container);
 			thisInstance.toggleSplit(container);
 			if ($(window).width() > 993) {
 				thisInstance.registerScrollbar(container);
