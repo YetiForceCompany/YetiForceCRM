@@ -45,7 +45,7 @@ class OSSMailView_Sview_View extends Vtiger_Index_View
 		$viewer->assign('URL', "index.php?module=$moduleName&view=Mbody&record=$record");
 		$viewer->assign('OWNER', $recordModel->get('assigned_user_id'));
 		$viewer->assign('SENT', $recordModel->get('createdtime'));
-		$viewer->assign('ATTACHMENTS', $recordModel->getAtachments());
+		$viewer->assign('ATTACHMENTS', $recordModel->getAttachments());
 		$viewer->assign('RECORD', $record);
 		$viewer->view('sview.tpl', 'OSSMailView');
 	}
