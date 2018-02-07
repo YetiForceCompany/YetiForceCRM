@@ -157,7 +157,6 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		//Trigger Event to change the icon while shown and hidden the accordion body
 		container.on('hidden.bs.collapse', '.accordion-body', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			console.log(currentTarget);
 			currentTarget.closest('.convertLeadModules').find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
 		}).on('shown.bs.collapse', '.accordion-body', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
