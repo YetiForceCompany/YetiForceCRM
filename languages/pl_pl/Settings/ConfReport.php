@@ -133,6 +133,7 @@ $languageStrings = [
 	'LBL_PUBLIC_DIR' => 'Ścieżka do katalogu',
 	'LBL_DENY_PUBLIC_DIR_STATUS' => 'Czy zablokowany dostęp?',
 	'LBL_DENY_PUBLIC_DIR_HELP_TEXT' => 'Zalecamy zabronić dostęp do tego katalogu. Obecnie katalog jest dostępny publicznie i zawartość jego nie jest chroniona.',
+	'LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT' => 'Zalecamy włączenie sprawdzania kodowania podczas importu plików',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
