@@ -346,7 +346,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				thisInstance.updatedSourceValues.push(sourceValue);
 			}
 			if (currentTarget.hasClass('selectedCell')) {
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon-ok').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('[data-fa-i2svg]').remove();
 			} else {
 				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fas fa-check pull-left"></i>');
 			}
