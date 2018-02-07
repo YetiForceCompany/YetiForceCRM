@@ -48,5 +48,6 @@ and open the template in the editor.
 	height: 40px !important;
 }
 .select2-selection.select2-selection--single {
-	font-size: inherit !important;
+	font-size: $select2InputFont !important;
+	height: $menuItemsHeight !important;;
 }

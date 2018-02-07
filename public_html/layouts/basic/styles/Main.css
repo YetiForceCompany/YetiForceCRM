@@ -11421,7 +11421,8 @@ and open the template in the editor.
   height: 40px !important; }
 
 .select2-selection.select2-selection--single {
-  font-size: inherit !important; }
+  font-size: 0.875rem !important;
+  height: 32px !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
@@ -11449,15 +11450,6 @@ and open the template in the editor.
   .bodyHeader.menuOpen {
     left: 230px; }
 
-.headerLinksMails {
-  height: fit-content; }
-  .headerLinksMails > .btn + .dropdown-toggle {
-    padding-top: 7px;
-    padding-bottom: 7px; }
-  .headerLinksMails .dropdown-menu {
-    left: auto;
-    right: 0; }
-
 .headerRightWrapper .btn {
   font-size: 17px;
   height: 32px; }
@@ -11465,8 +11457,16 @@ and open the template in the editor.
     margin-bottom: 4px; }
     .headerRightWrapper .btn [data-fa-i2svg].fa-power-off {
       margin-bottom: 1px; }
-.headerRightWrapper .headerLinksMails .btn {
-  font-size: 14px; }
+.headerRightWrapper .headerLinksMails {
+  height: fit-content; }
+  .headerRightWrapper .headerLinksMails > .btn + .dropdown-toggle {
+    padding-top: 7px;
+    padding-bottom: 7px; }
+  .headerRightWrapper .headerLinksMails .dropdown-menu {
+    left: auto;
+    right: 0; }
+  .headerRightWrapper .headerLinksMails .btn {
+    font-size: 14px; }
 
 .globalSearchResults .nav li a {
   padding: 10px 0; }
