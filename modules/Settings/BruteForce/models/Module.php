@@ -167,7 +167,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function adds unsuccessful login attempt to database 
+	 * Function adds unsuccessful login attempt to database
 	 * @param string $ip - User IP
 	 * @return int - Created records ID
 	 */
@@ -194,8 +194,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
-			['blocked' => self::UNBLOCKED],
-			['ip' => $ip]])->execute();
+				['blocked' => self::UNBLOCKED],
+				['ip' => $ip]])->execute();
 	}
 
 	/**
@@ -204,11 +204,10 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function unBlock($id)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		return \App\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'blocked' => self::UNBLOCKED_BY_USER,
-					'userid' => $currentUser->getRealId()
+					'userid' => \App\User::getCurrentUserRealId()
 					], ['id' => $id])
 				->execute();
 	}
@@ -223,7 +222,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function updates module configuration 
+	 * Function updates module configuration
 	 * @param array $data - Configuration data
 	 */
 	public static function updateConfig($data)

@@ -47,7 +47,6 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SD', $showDifferences);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($tpl === 'editLang') {
 			$viewer->view('Edit.tpl', $qualifiedModuleName);
 		} else {

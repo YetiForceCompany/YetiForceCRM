@@ -22,7 +22,6 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
@@ -49,7 +48,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$id = $recordModel->save();
 			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
-			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
+			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => \App\User::getCurrentUserModel()->getDetail('rowheight')], $recordModel->getData()));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
