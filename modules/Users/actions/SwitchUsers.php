@@ -43,15 +43,13 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$baseUserId = $currentUserModel->getId();
+		$currentUser = \App\User::getCurrentUserModel();
+		$baseUserId = $currentUser->getId();
 		$userId = $request->getInteger('id');
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-		$name = $currentUserModel->getName();
-		$userName = $currentUser->column_fields['user_name'];
+		$newUser = \App\User::getUserModel($userId);
+		$name = $newUser->getName();
 		App\Session::set('authenticated_user_id', $userId);
-		App\Session::set('user_name', $userName);
+		App\Session::set('user_name', $newUser->getDetail('user_name'));
 		App\Session::set('full_user_name', $name);
 
 		$status = 'Switched';
@@ -70,7 +68,7 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 		$db->createCommand()->insert('l_#__switch_users', [
 			'baseid' => $baseUserId,
 			'destid' => $userId,
-			'busername' => $currentUserModel->getName(),
+			'busername' => $currentUser->getName(),
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),

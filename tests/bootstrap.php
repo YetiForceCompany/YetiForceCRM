@@ -40,8 +40,5 @@ AppConfig::iniSet('xdebug.enable', 'On');
 App\Session::init();
 
 if (IS_WINDOWS) {
-	$userForus = CRMEntity::getInstance('Users');
-	$currentUser = $userForus->retrieveCurrentUserInfoFromFile(1);
-	vglobal('current_user', $currentUser);
 	App\User::setCurrentUserId(1);
 }

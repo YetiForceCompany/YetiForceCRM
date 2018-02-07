@@ -347,7 +347,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public static function getCurrentUserModel()
 	{
 		$currentUser = \App\User::getCurrentUserModel();
-		if ($currentUser) {
+		if ($currentUser->getId()) {
 			// Optimization to avoid object creation every-time
 			// Caching is per-id as current_user can get swapped at runtime (ex. workflow)
 			$currentUserModel = NULL;

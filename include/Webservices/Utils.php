@@ -22,7 +22,6 @@ require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 require_once 'modules/PickList/DependentPickListUtils.php';
 require_once 'include/Webservices/Utils.php';
-require_once 'include/runtime/Globals.php';
 require_once 'include/utils/VtlibUtils.php';
 
 class WebservicesUtils
