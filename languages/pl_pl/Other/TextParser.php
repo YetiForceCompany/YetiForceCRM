@@ -47,7 +47,7 @@ $languageStrings = [
 	// PDF variable
 	'LBL_PRODUCTS_TABLE' => 'Tabelka z blokiem zaawansowanym',
 	'LBL_PRODUCTS_TABLE_DESCRIPTION' => 'Tabelka z blokiem zaawansowanym i opisem',
-	'LBL_PRODUCTS_TABLE_NEW' => 'Ulepszonoa tabelka z blokiem zaawansowanym',
+	'LBL_PRODUCTS_TABLE_NEW' => 'Ulepszona tabelka z blokiem zaawansowanym',
 	'LBL_PRODUCTS_TABLE_RELATED_MODULE' => 'Tabelka z blokiem zaawansowanym dla modułów powiązanych',
 	'LBL_GROSS_AMOUNT_IN_WORDS' => 'Kwota brutto słownie',
 	'LBL_TABLE_DISCOUNT_SUMMARY' => 'Podsumowanie rabatu dla bloku zaawansowanego',
