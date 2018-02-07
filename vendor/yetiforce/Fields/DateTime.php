@@ -21,8 +21,11 @@ class DateTime
 	 */
 	public static function formatToDisplay($value)
 	{
-		if ($value === '' || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
 			return '';
+		}
+		if ($value === 'now') {
+			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDateTimeValue();
 	}
@@ -101,7 +104,7 @@ class DateTime
 			$meridiem = '';
 		}
 		$formatedDate = $dateInUserFormat;
-		$dateDay = \App\Language::translate(\DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		$dateDay = \App\Language::translate(Date::getDayFromDate($dateTime), 'Calendar');
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
 			if (count($timeInUserFormat) === 3) {
@@ -137,5 +140,27 @@ class DateTime
 			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
 			'full' => $hour . ' ' . \App\Language::translate('LBL_HOURS') . ' ' . $min . ' ' . \App\Language::translate('LBL_MINUTES'),
 		];
+	}
+
+	/**
+	 * Time zone cache
+	 * @var string
+	 */
+	static protected $databaseTimeZone = false;
+
+	/**
+	 * Get system time zone
+	 * @return string
+	 */
+	public static function getTimeZone()
+	{
+		if (!static::$databaseTimeZone) {
+			$defaultTimeZone = date_default_timezone_get();
+			if (empty($defaultTimeZone)) {
+				$defaultTimeZone = AppConfig::main('default_timezone');
+			}
+			static::$databaseTimeZone = $defaultTimeZone;
+		}
+		return static::$databaseTimeZone;
 	}
 }

@@ -197,6 +197,6 @@ class ThemeExport extends Package
 				'active' => $useisactive,
 			]);
 		}
-		self::log("Registering Language $label [$prefix] ... DONE");
+		\App\Log::trace("Registering Language $label [$prefix] ... DONE", __METHOD__);
 	}
 }

@@ -155,11 +155,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			return self::$users[$id];
 		}
 		$entityData = \App\Module::getEntityInfo('Users');
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
+		$userPrivileges = App\User::getPrivilegesFile($id);
 		$colums = [];
-		foreach ($entityData['fieldnameArr'] as &$fieldname) {
-			$colums[] = $currentUser->column_fields[$fieldname];
+		foreach ($entityData['fieldnameArr'] as $fieldname) {
+			$colums[] = $userPrivileges['user_info'][$fieldname];
 		}
 		$name = implode(' ', $colums);
 		self::$users[$id] = $name;

@@ -94,6 +94,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'mbstring.func_overload' => ['recommended' => 'Off', 'help' => 'LBL_MBSTRING_FUNC_OVERLOAD_HELP_TEXT', 'fn' => 'validateOnOff'], //Roundcube
 			'date.timezone' => ['recommended' => false, 'fn' => 'validateTimezone'], //Roundcube
 			'allow_url_fopen' => ['recommended' => 'On', 'help' => 'LBL_ALLOW_URL_FOPEN_HELP_TEXT', 'fn' => 'validateOnOff'], //Roundcube
+			'auto_detect_line_endings' => ['recommended' => 'On', 'help' => 'LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT', 'fn' => 'validateOnOff'], //CSVReader
 		];
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = ['recommended' => 'Off', 'fn' => 'validateOnOff']; //Roundcube

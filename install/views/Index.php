@@ -219,9 +219,7 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step7(\App\Request $request)
 	{
-		AppConfig::iniSet('display_errors', 'On');
-		AppConfig::iniSet('max_execution_time', 0);
-		AppConfig::iniSet('max_input_time', 0);
+		set_time_limit(0);
 		$dbconfig = AppConfig::main('dbconfig');
 		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {

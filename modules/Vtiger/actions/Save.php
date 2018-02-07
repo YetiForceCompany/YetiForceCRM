@@ -49,11 +49,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	{
 		parent::preProcess($request);
 		if (App\Session::has('baseUserId') && !empty(App\Session::get('baseUserId'))) {
-			$baseUserId = App\Session::get('baseUserId');
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($baseUserId);
+			App\User::setCurrentUserId(App\Session::get('baseUserId'));
 		}
 	}
 
@@ -61,11 +57,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	{
 		parent::preProcessAjax($request);
 		if (App\Session::has('baseUserId') && !empty(App\Session::get('baseUserId'))) {
-			$baseUserId = App\Session::get('baseUserId');
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($baseUserId);
+			App\User::setCurrentUserId(App\Session::get('baseUserId'));
 		}
 	}
 

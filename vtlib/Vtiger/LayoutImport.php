@@ -67,8 +67,7 @@ class LayoutImport extends LayoutExport
 	{
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;
-
-		self::log("Importing $name ... STARTED");
+		\App\Log::trace("Importing $name ... STARTED", __METHOD__);
 		$vtiger6format = false;
 
 		$zip = new \App\Zip($zipfile, ['illegalExtensions' => array_diff(\AppConfig::main('upload_badext'), ['js'])]);
@@ -104,15 +103,15 @@ class LayoutImport extends LayoutExport
 					}
 					if (!$zip->checkFile($fileName)) {
 						if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
-							self::log("Copying file $fileName ... DONE");
+							\App\Log::trace("Copying file $fileName ... DONE", __METHOD__);
 						} else {
-							self::log("Copying file $fileName ... FAILED");
+							\App\Log::trace("Copying file $fileName ... FAILED", __METHOD__);
 						}
 					} else {
-						self::log("Incorrect file $fileName ... SKIPPED");
+						\App\Log::trace("Incorrect file $fileName ... SKIPPED", __METHOD__);
 					}
 				} else {
-					self::log("Copying file $fileName ... SKIPPED");
+					\App\Log::trace("Copying file $fileName ... SKIPPED", __METHOD__);
 				}
 			}
 		}
@@ -120,7 +119,7 @@ class LayoutImport extends LayoutExport
 			$zip->close();
 		}
 		self::register($name, $label);
-		self::log("Importing $name($label) ... DONE");
+		\App\Log::trace("Importing $name($label) ... DONE", __METHOD__);
 		return;
 	}
 }

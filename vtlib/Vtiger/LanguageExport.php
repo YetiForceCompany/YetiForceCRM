@@ -147,7 +147,7 @@ class LanguageExport extends Package
 				'active' => $useisactive,
 			]);
 		}
-		self::log("Registering Language $label [$prefix] ... DONE");
+		\App\Log::trace("Registering Language $label [$prefix] ... DONE", __METHOD__);
 	}
 
 	/**
@@ -163,7 +163,7 @@ class LanguageExport extends Package
 
 		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
-		self::log("Deregistering Language $prefix ... DONE");
+		\App\Log::trace("Deregistering Language $prefix ... DONE", __METHOD__);
 	}
 
 	/**

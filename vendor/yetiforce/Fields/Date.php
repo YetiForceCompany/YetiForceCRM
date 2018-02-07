@@ -53,8 +53,11 @@ class Date
 	 */
 	public static function formatToDisplay($value)
 	{
-		if ($value === '' || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
 			return '';
+		}
+		if ($value === 'now') {
+			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDate();
 	}
@@ -187,5 +190,16 @@ class Date
 				return $seconds;
 		}
 		return $interval->format($format);
+	}
+
+	/**
+	 * Get day from date or datetime
+	 * @param string $date
+	 * @param bool $shortName
+	 * @return string
+	 */
+	public static function getDayFromDate($date, $shortName = false)
+	{
+		return date($shortName ? 'D' : 'l', strtotime($date));
 	}
 }

@@ -5,7 +5,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require_once 'include/main/WebUI.php';
-AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
 \App\Config::$requestMode = 'API';
 try {
 	if (!in_array('webservice', $enabledServices)) {

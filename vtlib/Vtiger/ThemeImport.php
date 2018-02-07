@@ -69,8 +69,7 @@ class ThemeImport extends ThemeExport
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;
 		$parent = $this->_modulexml->parent;
-
-		self::log("Importing $label ... STARTED");
+		\App\Log::trace("Importing $label ... STARTED", __METHOD__);
 		$vtiger6format = false;
 
 		$zip = new \App\Zip($zipfile);
@@ -95,12 +94,12 @@ class ThemeImport extends ThemeExport
 						@mkdir($targetdir, 0777, true);
 					}
 					if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
-						self::log("Copying file $fileName ... DONE");
+						\App\Log::trace("Copying file $fileName ... DONE", __METHOD__);
 					} else {
-						self::log("Copying file $fileName ... FAILED");
+						\App\Log::trace("Copying file $fileName ... FAILED", __METHOD__);
 					}
 				} else {
-					self::log("Copying file $fileName ... SKIPPED");
+					\App\Log::trace("Copying file $fileName ... SKIPPED", __METHOD__);
 				}
 			}
 		}
@@ -108,7 +107,7 @@ class ThemeImport extends ThemeExport
 			$zip->close();
 		}
 		self::register($label, $name, $parent);
-		self::log("Importing $label [$prefix] ... DONE");
+		\App\Log::trace("Importing $label [$prefix] ... DONE", __METHOD__);
 		return;
 	}
 }

@@ -35,12 +35,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 {
 
 	/**
-	 * Base user instance
-	 * @var Users
-	 */
-	protected $userModel;
-
-	/**
 	 * User privileges model instance
 	 * @var Users_Privileges_Model
 	 */
@@ -75,12 +69,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
-			$userid = App\Session::get('authenticated_user_id');
-			if ($userid && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
-				$this->userModel = CRMEntity::getInstance('Users');
-				$this->userModel->retrieveCurrentUserInfoFromFile($userid);
-				vglobal('current_user', $this->userModel);
-				\App\User::getCurrentUserModel();
+			$userId = App\Session::get('authenticated_user_id');
+			if ($userId && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
+				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}
 		}
@@ -155,7 +146,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
-			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($this->userModel)) {
+			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
 

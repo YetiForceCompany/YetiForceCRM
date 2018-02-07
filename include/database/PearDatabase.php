@@ -12,7 +12,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once 'include/runtime/Globals.php';
 
 class PearDatabase
 {

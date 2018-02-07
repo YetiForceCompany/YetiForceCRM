@@ -20,17 +20,7 @@ require_once 'modules/Vtiger/helpers/Util.php';
 require_once 'modules/PickList/DependentPickListUtils.php';
 require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
-require_once 'include/runtime/Globals.php';
 require_once 'modules/Reports/ReportUtils.php';
-
-$oldRelatedModules = ['Accounts' => ['Contacts', 'Products'],
-	'Contacts' => ['Accounts'],
-	'Calendar' => ['Leads', 'Accounts', 'Contacts'],
-	'Products' => ['Accounts', 'Contacts'],
-	'HelpDesk' => ['Products'],
-	'Campaigns' => ['Products']
-];
-vglobal('old_related_modules', $oldRelatedModules);
 
 class Reports extends CRMEntity
 {
@@ -67,6 +57,14 @@ class Reports extends CRMEntity
 	public $advft_criteria;
 	public $adv_rel_fields = [];
 	public $module_list = [];
+	public static $oldRelatedModules = [
+		'Accounts' => ['Contacts', 'Products'],
+		'Contacts' => ['Accounts'],
+		'Calendar' => ['Leads', 'Accounts', 'Contacts'],
+		'Products' => ['Accounts', 'Contacts'],
+		'HelpDesk' => ['Products'],
+		'Campaigns' => ['Products']
+	];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
 	 *  This function accepts the vtiger_reportid as argument
@@ -167,7 +165,7 @@ class Reports extends CRMEntity
 	// Initializes the module list for listing columns for report creation.
 	public function initListOfModules()
 	{
-		$oldRelatedModules = vglobal('old_related_modules');
+		$oldRelatedModules = static::$oldRelatedModules;
 
 		$adb = PearDatabase::getInstance();
 		$restricted_modules = ['Events'];

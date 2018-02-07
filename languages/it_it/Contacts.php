@@ -56,7 +56,7 @@ $languageStrings = [
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Fornitore',
 	'Decision maker' => 'Persona decisionale',
-	'LBL_SWITCH_OFF_DECISION_MAKER' => 'All',
+	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Tutti',
 ];
 
 $jsLanguageStrings = [
