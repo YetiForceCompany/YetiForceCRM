@@ -73,8 +73,8 @@
 										</option>
 									{/foreach}
 								</select>
-{*							{/if}
-*}						</div>
+							{/if}
+						</div>
 					{/if}
 				{/if}
 			{/if}
