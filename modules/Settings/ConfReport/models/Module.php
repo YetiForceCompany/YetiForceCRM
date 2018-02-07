@@ -352,6 +352,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['innodb_io_capacity_max']['current'] = $conf['innodb_io_capacity_max'];
 			$directiveValues['innodb_file_per_table']['current'] = $conf['innodb_file_per_table'];
 			$directiveValues['innodb_stats_on_metadata']['current'] = $conf['innodb_stats_on_metadata'];
+			if (isset($conf['tx_isolation'])) {
+				$directiveValues['tx_isolation'] = ['current' => $conf['tx_isolation'], 'recommended' => false];
+			}
+			if (isset($conf['transaction_isolation'])) {
+				$directiveValues['transaction_isolation'] = ['current' => $conf['transaction_isolation'], 'recommended' => false];
+			}
 			if ($conf['max_allowed_packet'] < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
 			}
