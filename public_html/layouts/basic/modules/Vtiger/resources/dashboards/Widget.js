@@ -88,8 +88,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var header = widget.find('.dashboardWidgetHeader');
 		var headerHeight = header.outerHeight();
 		var adjustedHeight = widget.height() - headerHeight;
-		if (footer.length) adjustedHeight -= footer.outerHeight();
-		if (!content.length) return;
+		if (footer.length)
+			adjustedHeight -= footer.outerHeight();
+		if (!content.length)
+			return;
 		content.css('height', adjustedHeight + 'px');
 		var scrollbarInit = new PerfectScrollbar(content[0], {
 			wheelPropagation: true
@@ -193,17 +195,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 			url += '&sortorder=';
 			var sort = currentElement.data('sort');
 			var sortorder = 'desc';
-			var icon = 'glyphicon-sort-by-attributes-alt';
+			var icon = 'fa-sort-amount-down';
 			if (sort == 'desc') {
 				sortorder = 'asc';
-				icon = 'glyphicon-sort-by-attributes';
+				icon = 'fa-sort-amount-up';
 			}
 			currentElement.data('sort', sortorder);
 			currentElement.attr('title', currentElement.data(sortorder));
 			currentElement.attr('alt', currentElement.data(sortorder));
 			url += sortorder;
-			var glyphicon = currentElement.find('.glyphicon');
-			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
+			var glyphicon = currentElement.find('[data-fa-i2svg]');
+			glyphicon.removeClass().addClass('[data-fa-i2svg]').addClass(icon);
 			drefresh.data('url', url);
 		}
 	},
@@ -1475,7 +1477,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
-		
+
 		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
 			if (state)
 				container.find('.widgetFilterSwitch').val('current');
