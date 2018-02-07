@@ -12,6 +12,8 @@
 Class Reports_ChartEdit_View extends Vtiger_Edit_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();

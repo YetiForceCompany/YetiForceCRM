@@ -24,10 +24,10 @@ class Reservations_Calendar_Model extends \App\Base
 			->where(['vtiger_crmentity.deleted' => 0]);
 
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), $currentUser, false);
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query->andWhere([

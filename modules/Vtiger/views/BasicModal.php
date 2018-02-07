@@ -32,7 +32,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';

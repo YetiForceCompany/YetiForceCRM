@@ -9,8 +9,10 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
+class Vtiger_NoteBook_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -28,13 +30,6 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 	public function __construct()
 	{
 		$this->exposeMethod('noteBookCreate');
-	}
-
-	public function process(\App\Request $request)
-	{
-		if ($mode = $request->getMode()) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function noteBookCreate(\App\Request $request)

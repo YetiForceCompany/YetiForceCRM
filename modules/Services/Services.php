@@ -146,7 +146,6 @@ class Services extends CRMEntity
 
 	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
 	{
-		$current_user = vglobal('current_user');
 
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_seproductsrel', ['vtiger_crmentityRelServices', 'vtiger_accountRelServices', 'vtiger_leaddetailsRelServices', 'vtiger_servicecf']);
@@ -191,7 +190,7 @@ class Services extends CRMEntity
 					FROM vtiger_service
 					LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
 					LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-					AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . "
+					AND vtiger_productcurrencyrel.currencyid = " . \App\User::getCurrentUserModel()->getDetail('currency_id') . "
 				) AS innerService ON innerService.serviceid = vtiger_service.serviceid";
 		}
 		return $query;
@@ -206,7 +205,7 @@ class Services extends CRMEntity
 	 */
 	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
 	{
-		$current_user = vglobal('current_user');
+
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_service', ['actual_unit_price', 'vtiger_currency_info', 'vtiger_productcurrencyrel', 'vtiger_servicecf', 'vtiger_crmentityServices']);
 		$matrix->setDependency('vtiger_crmentityServices', ['vtiger_usersServices', 'vtiger_groupsServices', 'vtiger_lastModifiedByServices']);
@@ -217,13 +216,13 @@ class Services extends CRMEntity
 		if ($queryPlanner->requireTable('innerService')) {
 			$query .= ' LEFT JOIN (
 			SELECT vtiger_service.serviceid,
-			(CASE WHEN (vtiger_service.currency_id = ' . $current_user->currency_id . ' ) THEN vtiger_service.unit_price
+			(CASE WHEN (vtiger_service.currency_id = ' . \App\User::getCurrentUserModel()->getDetail('currency_id') . ' ) THEN vtiger_service.unit_price
 			WHEN (vtiger_productcurrencyrel.actual_price IS NOT NULL) THEN vtiger_productcurrencyrel.actual_price
-			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * ' . $current_user->conv_rate . ' END
+			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * ' . \App\User::getCurrentUserModel()->getDetail('conv_rate') . ' END
 			) AS actual_unit_price FROM vtiger_service
             LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
             LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-			AND vtiger_productcurrencyrel.currencyid = ' . $current_user->currency_id . ')
+			AND vtiger_productcurrencyrel.currencyid = ' . \App\User::getCurrentUserModel()->getDetail('currency_id') . ')
             AS innerService ON innerService.serviceid = vtiger_service.serviceid';
 		}
 		if ($queryPlanner->requireTable('vtiger_crmentityServices', $matrix)) {

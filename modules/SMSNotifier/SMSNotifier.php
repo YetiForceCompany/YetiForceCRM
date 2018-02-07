@@ -82,7 +82,7 @@ class SMSNotifier extends Vtiger_CRMEntity
 
 	public function __construct()
 	{
-		$this->column_fields = vtlib\Deprecated::getColumnFields(vglobal('currentModule'));
+		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 	}
 

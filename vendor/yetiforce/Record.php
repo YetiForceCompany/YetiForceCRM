@@ -178,8 +178,11 @@ class Record
 	public static function updateLabel($moduleName, $id, $insertMode = false, $updater = false)
 	{
 		$labelInfo = static::computeLabels($moduleName, $id, true);
-		if (!empty($labelInfo)) {
-			$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if (empty($labelInfo)) {
+			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $id])->execute();
+			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $id])->execute();
+		} else {
 			$label = \vtlib\Functions::textLength(Purifier::decodeHtml($labelInfo[$id]['name']), 254, false);
 			$search = \vtlib\Functions::textLength(Purifier::decodeHtml($labelInfo[$id]['search']), 254, false);
 			if (!is_numeric($label) && empty($label)) {
@@ -189,24 +192,20 @@ class Record
 				$search = '';
 			}
 			if (!$insertMode) {
-				$labelRowCount = $db->createCommand()
-					->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])
-					->execute();
+				$labelRowCount = $dbCommand->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])->execute();
 				if (!$labelRowCount) {
 					$labelRowCount = (new Db\Query())->from('u_#__crmentity_label')->where(['crmid' => $id])->count();
 				}
-				$searchRowCount = $db->createCommand()
-					->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])
-					->execute();
+				$searchRowCount = $dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])->execute();
 				if (!$searchRowCount) {
 					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
 				}
 			}
 			if (($insertMode || !$labelRowCount) && $updater !== 'searchlabel') {
-				$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
+				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
 			}
 			if (($insertMode || !$searchRowCount) && $updater !== 'label') {
-				$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
+				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 			}
 			Cache::save('recordLabel', $id, $labelInfo[$id]['name']);
 		}

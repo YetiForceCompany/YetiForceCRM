@@ -64,7 +64,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);

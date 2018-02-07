@@ -51,7 +51,7 @@ Class OSSMailView_Preview_View extends Vtiger_Index_View
 		$viewer->assign('URL', "index.php?module=$moduleName&view=Mbody&record=$record");
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('SENT', $sent);
-		$viewer->assign('ATTACHMENTS', $recordModel->getAtachments());
+		$viewer->assign('ATTACHMENTS', $recordModel->getAttachments());
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ISMODAL', $request->isAjax());

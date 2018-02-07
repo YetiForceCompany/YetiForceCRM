@@ -9,8 +9,11 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Reports_ExportReport_View extends Vtiger_View_Controller
+class Reports_ExportReport_View extends \App\Controller\View
 {
+
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -29,30 +32,6 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($request->getModule(), 'Export')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
-
-	/**
-	 * Preprocess
-	 * @param \App\Request $request
-	 * @param boolean $display
-	 * @return boolean
-	 */
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return false;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return false;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
 		}
 	}
 

@@ -11,6 +11,8 @@
 class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();

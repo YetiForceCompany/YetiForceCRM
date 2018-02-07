@@ -12,6 +12,8 @@
 class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
@@ -28,15 +30,6 @@ class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getRecordsCount');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

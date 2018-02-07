@@ -8,8 +8,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Fields_Action extends Vtiger_Action_Controller
+class Vtiger_Fields_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Field model instance
@@ -44,15 +46,6 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('getReference');
 		$this->exposeMethod('getUserRole');
 		$this->exposeMethod('verifyPhoneNumber');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

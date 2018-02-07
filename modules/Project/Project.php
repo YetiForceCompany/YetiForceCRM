@@ -160,6 +160,7 @@ class Project extends CRMEntity
 	{
 
 	}
+
 	/**
 	 * Function to unlink an entity with given Id from another entity
 	 * @param int $id
@@ -175,7 +176,7 @@ class Project extends CRMEntity
 			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
 					->from('vtiger_field')
-					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => vglobal('currentModule'), 'relmodule' => $returnModule])])
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()

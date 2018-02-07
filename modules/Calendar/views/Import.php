@@ -18,6 +18,8 @@ Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 class Calendar_Import_View extends Vtiger_Import_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();

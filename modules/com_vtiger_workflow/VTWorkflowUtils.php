@@ -24,12 +24,6 @@ class VTWorkflowUtils
 	public static $userStack;
 
 	/**
-	 * Logged in user id
-	 * @var int
-	 */
-	public static $loggedInUser;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -50,83 +44,6 @@ class VTWorkflowUtils
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Push the admin user on to the user stack
-	 * and make it the $current_user
-	 *
-	 */
-	public function adminUser()
-	{
-		$user = Users::getActiveAdminUser();
-		$current_user = vglobal('current_user');
-		if (empty(self::$userStack) || count(self::$userStack) == 0) {
-			self::$loggedInUser = $current_user;
-		}
-		array_push(self::$userStack, $current_user);
-		$current_user = $user;
-		return $user;
-	}
-
-	/**
-	 * Push the logged in user on the user stack
-	 * and make it the $current_user
-	 */
-	public function loggedInUser()
-	{
-		$user = self::$loggedInUser;
-		$current_user = vglobal('current_user');
-		array_push(self::$userStack, $current_user);
-		$current_user = $user;
-		return $user;
-	}
-
-	/**
-	 * Revert to the previous use on the user stack
-	 */
-	public function revertUser()
-	{
-		$current_user = vglobal('current_user');
-		if (count(self::$userStack) != 0) {
-			$current_user = array_pop(self::$userStack);
-		} else {
-			$current_user = null;
-		}
-		return $current_user;
-	}
-
-	/**
-	 * Get the current user
-	 */
-	public function currentUser()
-	{
-		return $current_user;
-	}
-
-	/**
-	 * Insert redirection script
-	 * @param string $to
-	 * @param string $message
-	 */
-	public function redirectTo($to, $message)
-	{
-
-		?>
-		<script type="text/javascript" charset="utf-8">
-			window.location = "<?php echo $to ?>";
-		</script>
-		<a href="<?php echo $to ?>"><?php echo $message ?></a>
-		<?php
-	}
-
-	/**
-	 * Check if the current user is admin
-	 */
-	public function checkAdminAccess()
-	{
-		$current_user = vglobal('current_user');
-		return strtolower($current_user->is_admin) === 'on';
 	}
 
 	/** function to check if the module has workflow

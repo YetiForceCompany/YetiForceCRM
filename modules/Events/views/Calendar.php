@@ -11,15 +11,7 @@
 class Events_Calendar_View extends Vtiger_Index_View
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		
-	}
+	use App\Controller\ClearProcess;
 
 	public function process(\App\Request $request)
 	{

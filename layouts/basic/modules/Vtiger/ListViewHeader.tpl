@@ -14,67 +14,15 @@
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
-					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK']}
-					<div class="btn-group listViewMassActions">
-						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-							<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-								<span class="fas fa-share-square"></span>&nbsp;&nbsp;
-								<strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
-									<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
-										<a href="javascript:void(0);" 
-										   {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if}
-										   {if $LISTVIEW_MASSACTION->get('dataUrl')}
-											   data-url="{$LISTVIEW_MASSACTION->get('dataUrl')}"
-										   {/if}
-										   {if count($LISTVIEW_MASSACTION->get('linkdata')) gt 0}
-											   {foreach from=$LISTVIEW_MASSACTION->get('linkdata') key=NAME item=DATA}
-												   data-{$NAME}="{$DATA}" 
-											   {/foreach}
-										   {/if}
-										   {if $LISTVIEW_MASSACTION->get('linkclass') neq ''}
-											   class="{$LISTVIEW_MASSACTION->get('linkclass')}"
-										   {/if}
-										   >
-											{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
-												<span class="{$LISTVIEW_MASSACTION->get('linkicon')}"></span>&nbsp;&nbsp;
-											{/if}
-											{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}
-										</a>
-									</li>
-									{if $smarty.foreach.actionCount.last eq true}
-										<li class="divider"></li>
-										{/if}
-									{/foreach}
-									{if $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-										{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
-										<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
-											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
-												href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
-												{else} 
-													href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
-													{/if}
-														{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
-															class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
-														{/if}
-														{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
-															{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
-																data-{$NAME}="{$DATA}" 
-															{/foreach}
-														{/if}
-														>
-														{if $LISTVIEW_ADVANCEDACTIONS->get('linkicon') neq ''}
-															<span class="{$LISTVIEW_ADVANCEDACTIONS->get('linkicon')}"></span>&nbsp;&nbsp;
-														{/if}
-														{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
-												</li>
-												{/foreach}
-													{/if}
-													</ul>
-													{/if}
-													</div>
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
+					{assign var=LINKS value=[]}
+					{if $LISTVIEW_MASSACTIONS}
+						{assign var=LINKS value=$LISTVIEW_MASSACTIONS}
+					{/if}
+					{if isset($LISTVIEW_LINKS['LISTVIEW'])}
+						{assign var=LINKS value=array_merge($LINKS,$LISTVIEW_LINKS['LISTVIEW'])}
+					{/if}
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS BTN_GROUP=false TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS=listViewMassActions}
 													{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView'}
 													{/foreach}
@@ -124,7 +72,7 @@
 													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="fas fa-exclamation-circle alignMiddle denyFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="fas fa-check alignMiddle approveFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>
-													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-edit alignMiddle editFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-pencil-alt alignMiddle editFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="fas fa-retweet alignMiddle duplicateFilter filterActionImage float-right"></span>
 												</span>
 											</div>

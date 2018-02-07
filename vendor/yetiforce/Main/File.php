@@ -53,10 +53,7 @@ class File
 		if (\App\Session::has('authenticated_user_id')) {
 			$userid = \App\Session::get('authenticated_user_id');
 			if ($userid && \AppConfig::main('application_unique_key') === \App\Session::get('app_unique_key')) {
-				\App\User::getCurrentUserModel();
-				$user = \CRMEntity::getInstance('Users');
-				$user->retrieveCurrentUserInfoFromFile($userid);
-				return $user;
+				return \App\User::getCurrentUserModel();
 			}
 		}
 		throw new \App\Exceptions\NoPermitted('Unauthorized', 401);

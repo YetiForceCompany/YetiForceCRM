@@ -157,15 +157,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		return self::getInstanceById(App\User::getCurrentUserId());
 	}
 
-	/**
-	 * Gets the last access to the registry
-	 * @return string
-	 */
-	public static function getLastPermittedAccessLog()
-	{
-		return vglobal('isPermittedLog');
-	}
-
 	protected static $lockEditCache = [];
 
 	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)

@@ -24,14 +24,11 @@ class VTUpdateRelatedFieldTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$util = new VTWorkflowUtils();
-		$util->adminUser();
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping)) {
-			$util->loggedInUser();
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldValue = trim($fieldInfo['value']);
 				switch ($fieldInfo['valuetype']) {
@@ -79,7 +76,6 @@ class VTUpdateRelatedFieldTask extends VTTask
 				}
 			}
 		}
-		$util->revertUser();
 	}
 
 	/**

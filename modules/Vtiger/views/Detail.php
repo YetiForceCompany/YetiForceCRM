@@ -12,6 +12,8 @@
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Record model instance
 	 * @var Vtiger_DetailView_Model
@@ -165,7 +167,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		echo $this->$defaultMode($request);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

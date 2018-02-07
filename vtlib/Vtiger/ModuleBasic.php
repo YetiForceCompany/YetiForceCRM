@@ -77,7 +77,7 @@ class ModuleBasic
 	 */
 	public function __create()
 	{
-		self::log("Creating Module $this->name ... STARTED");
+		\App\Log::trace("Creating Module $this->name ... STARTED", __METHOD__);
 		$db = \App\Db::getInstance();
 
 		$this->id = $db->getUniqueID('vtiger_tab', 'tabid', false);
@@ -135,7 +135,7 @@ class ModuleBasic
 		if ($this->isentitytype) {
 			Access::initSharing($this);
 		}
-		self::log("Creating Module $this->name ... DONE");
+		\App\Log::trace("Creating Module $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -144,7 +144,7 @@ class ModuleBasic
 	 */
 	public function __update()
 	{
-		self::log("Updating Module $this->name ... DONE");
+		\App\Log::trace("Updating Module $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -158,7 +158,7 @@ class ModuleBasic
 			$this->unsetEntityIdentifier();
 		}
 		\App\Db::getInstance()->createCommand()->delete('vtiger_tab', ['tabid' => $this->id])->execute();
-		self::log("Deleting Module $this->name ... DONE");
+		\App\Log::trace("Deleting Module $this->name ... DONE", __METHOD__);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class ModuleBasic
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['version' => $newVersion], ['tabid' => $this->id])->execute();
 		$this->version = $newVersion;
-		self::log("Updating version to $newVersion ... DONE");
+		\App\Log::trace("Updating version to $newVersion ... DONE", __METHOD__);
 	}
 
 	/**
@@ -318,10 +318,10 @@ class ModuleBasic
 					'entityidcolumn' => $this->entityidcolumn,
 					'searchcolumn' => $fieldInstance->name
 				])->execute();
-				self::log('Setting entity identifier ... DONE');
+				\App\Log::trace('Setting entity identifier ... DONE', __METHOD__);
 			} else {
 				$db->createCommand()->update('vtiger_entityname', ['fieldname' => $fieldInstance->name, 'entityidfield' => $this->entityidfield, 'entityidcolumn' => $this->name,], ['tabid' => $this->id, 'tablename' => $fieldInstance->table])->execute();
-				self::log('Updating entity identifier ... DONE');
+				\App\Log::trace('Updating entity identifier ... DONE', __METHOD__);
 			}
 		}
 	}
@@ -332,7 +332,7 @@ class ModuleBasic
 	public function unsetEntityIdentifier()
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_entityname', ['tabid' => $this->id])->execute();
-		self::log('Unsetting entity identifier ... DONE');
+		\App\Log::trace('Unsetting entity identifier ... DONE', __METHOD__);
 	}
 
 	/**
@@ -443,25 +443,14 @@ class ModuleBasic
 	}
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delimit = true)
-	{
-		Utils::log($message, $delimit);
-	}
-
-	/**
 	 * Synchronize the menu information to flat file
 	 * @access private
 	 */
 	public static function syncfile()
 	{
-		self::log('Updating tabdata file ... ', false);
+		\App\Log::trace('Updating tabdata file ... ', __METHOD__);
 		\App\Module::createModuleMetaFile();
-		self::log('DONE');
+		\App\Log::trace('DONE', __METHOD__);
 	}
 
 	/**
@@ -469,7 +458,7 @@ class ModuleBasic
 	 */
 	public function unsetAllRelatedList()
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		$db = \App\Db::getInstance();
 		$ids = (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->where(['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->column();
 		$db->createCommand()->delete('vtiger_relatedlists', ['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->execute();
@@ -477,7 +466,7 @@ class ModuleBasic
 			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $ids])->execute();
 			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
 		}
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -485,9 +474,9 @@ class ModuleBasic
 	 */
 	public function deleteGroup2Modules()
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_group2modules', ['tabid' => $this->id])->execute();
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -503,14 +492,14 @@ class ModuleBasic
 	 */
 	public function deleteFromCRMEntity()
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name]);
 		$dataReader = $query->createCommand()->query();
 		while ($id = $dataReader->readColumn(0)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -518,9 +507,9 @@ class ModuleBasic
 	 */
 	public function deleteFromModentityNum()
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_modentity_num', ['tabid' => $this->id])->execute();
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -528,7 +517,7 @@ class ModuleBasic
 	 */
 	public function deleteModuleTables()
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->checkIntegrity(false)->execute();
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
@@ -549,7 +538,7 @@ class ModuleBasic
 			}
 		}
 		$db->createCommand()->checkIntegrity(true)->execute();
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -558,7 +547,7 @@ class ModuleBasic
 	 */
 	public function deleteDir(ModuleBasic $moduleInstance)
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		Functions::recurseDelete("config/modules/{$moduleInstance->name}.php");
 		Functions::recurseDelete('modules/' . $moduleInstance->name);
 		Functions::recurseDelete('modules/Settings/' . $moduleInstance->name);
@@ -568,7 +557,7 @@ class ModuleBasic
 			Functions::recurseDelete("public_html/layouts/$name/modules/{$moduleInstance->name}");
 			Functions::recurseDelete("public_html/layouts/$name/modules/Settings/{$moduleInstance->name}");
 		}
-		self::log(__METHOD__ . ' | END');
+		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -576,7 +565,7 @@ class ModuleBasic
 	 */
 	public function deleteIcons()
 	{
-		self::log(__METHOD__ . ' | Start');
+		\App\Log::trace('Start', __METHOD__);
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
 			foreach (\App\Layout::getAllLayouts() as $name => $label) {
@@ -586,6 +575,6 @@ class ModuleBasic
 				}
 			}
 		}
-		self::log(__METHOD__ . ' | End');
+		\App\Log::trace('End', __METHOD__);
 	}
 }

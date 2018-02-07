@@ -625,17 +625,17 @@ class PackageImport extends PackageExport
 			// Avoid executing SQL that will DELETE or DROP table data
 			if (Utils::isCreateSql($sql)) {
 				if (!Utils::checkTable($tableName)) {
-					self::log("SQL: $sql ... ", false);
+					\App\Log::trace("SQL: $sql ... ", __METHOD__);
 					Utils::executeQuery($sql);
-					self::log('DONE');
+					\App\Log::trace('DONE', __METHOD__);
 				}
 			} else {
 				if (Utils::isDestructiveSql($sql)) {
-					self::log("SQL: $sql ... SKIPPED");
+					\App\Log::trace("SQL: $sql ... SKIPPED", __METHOD__);
 				} else {
-					self::log("SQL: $sql ... ", false);
+					\App\Log::trace("SQL: $sql ... ", __METHOD__);
 					Utils::executeQuery($sql);
-					self::log('DONE');
+					\App\Log::trace('DONE', __METHOD__);
 				}
 			}
 		}

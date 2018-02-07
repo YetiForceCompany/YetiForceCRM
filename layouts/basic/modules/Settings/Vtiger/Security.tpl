@@ -122,7 +122,7 @@
 							<span>{App\Language::translate('LBL_USER')}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_RECORD_ID')}</span>
+							<span>{App\Language::translate('LBL_RECORD_ID','Other.TextParser')}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
 							<span>{App\Language::translate('LBL_MODULE_NAME')}</span>

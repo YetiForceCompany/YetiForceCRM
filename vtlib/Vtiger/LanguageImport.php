@@ -36,10 +36,7 @@ class LanguageImport extends LanguageExport
 	 */
 	public function initImport($zipfile, $overwrite = true)
 	{
-		$this->__initSchema();
-
-		$name = $this->getModuleNameFromZip($zipfile);
-		return $name;
+		return $this->getModuleNameFromZip($zipfile);
 	}
 
 	/**
@@ -75,8 +72,7 @@ class LanguageImport extends LanguageExport
 		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;
 		$label = $this->_modulexml->label;
-
-		self::log("Importing $label [$prefix] ... STARTED");
+		\App\Log::trace("Importing $label [$prefix] ... STARTED", __METHOD__);
 		if (strpos($prefix, '/') !== false) {
 			\App\Log::error("Importing $label ... Wrong prefix - [$prefix]");
 			return;
@@ -128,19 +124,19 @@ class LanguageImport extends LanguageExport
 					@mkdir($targetdir, 0777, true);
 				}
 				if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
-					self::log("Copying file $fileName ... DONE");
+					\App\Log::trace("Copying file $fileName ... DONE", __METHOD__);
 				} else {
-					self::log("Copying file $fileName ... FAILED");
+					\App\Log::trace("Copying file $fileName ... FAILED", __METHOD__);
 				}
 			} else {
-				self::log("Copying file $fileName ... SKIPPED");
+				\App\Log::trace("Copying file $fileName ... SKIPPED", __METHOD__);
 			}
 		}
 		if ($zip) {
 			$zip->close();
 		}
 		self::register($prefix, $label, $name);
-		self::log("Importing $label [$prefix] ... DONE");
+		\App\Log::trace("Importing $label [$prefix] ... DONE", __METHOD__);
 		return;
 	}
 }

@@ -94,6 +94,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'mbstring.func_overload' => ['recommended' => 'Off', 'help' => 'LBL_MBSTRING_FUNC_OVERLOAD_HELP_TEXT', 'fn' => 'validateOnOff'], //Roundcube
 			'date.timezone' => ['recommended' => false, 'fn' => 'validateTimezone'], //Roundcube
 			'allow_url_fopen' => ['recommended' => 'On', 'help' => 'LBL_ALLOW_URL_FOPEN_HELP_TEXT', 'fn' => 'validateOnOff'], //Roundcube
+			'auto_detect_line_endings' => ['recommended' => 'On', 'help' => 'LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT', 'fn' => 'validateOnOff'], //CSVReader
 		];
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = ['recommended' => 'Off', 'fn' => 'validateOnOff']; //Roundcube
@@ -351,6 +352,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['innodb_io_capacity_max']['current'] = $conf['innodb_io_capacity_max'];
 			$directiveValues['innodb_file_per_table']['current'] = $conf['innodb_file_per_table'];
 			$directiveValues['innodb_stats_on_metadata']['current'] = $conf['innodb_stats_on_metadata'];
+			if (isset($conf['tx_isolation'])) {
+				$directiveValues['tx_isolation'] = ['current' => $conf['tx_isolation'], 'recommended' => false];
+			}
+			if (isset($conf['transaction_isolation'])) {
+				$directiveValues['transaction_isolation'] = ['current' => $conf['transaction_isolation'], 'recommended' => false];
+			}
 			if ($conf['max_allowed_packet'] < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
 			}

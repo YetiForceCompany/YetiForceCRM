@@ -14,7 +14,7 @@ class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 {
 
 	/** @var string Class name */
-	public $name = 'LBL_PRODUCTS_TABLE';
+	public $name = 'LBL_PRODUCTS_TABLE_HIERARCHY';
 
 	/** @var mixed Parser type */
 	public $type = 'pdf';

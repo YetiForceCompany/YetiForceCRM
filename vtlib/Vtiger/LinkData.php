@@ -22,11 +22,10 @@ class LinkData
 	protected $user;
 	protected $module;
 
-	public function __construct($link, $user)
+	public function __construct($link)
 	{
 		$this->link = $link;
-		$this->user = $user;
-		$this->module = vglobal('currentModule');
+		$this->module = \App\Request::_getModule();
 	}
 
 	public function getInputParameter($name)
@@ -41,15 +40,6 @@ class LinkData
 	public function getLink()
 	{
 		return $this->link;
-	}
-
-	/**
-	 *
-	 * @return Users 
-	 */
-	public function getUser()
-	{
-		return $this->user;
 	}
 
 	public function getModule()

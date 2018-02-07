@@ -9,15 +9,7 @@
 Class OSSMailView_Mbody_View extends Vtiger_Index_View
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
-
-	public function postProcess(\App\Request $request, $display = true)
-	{
-		
-	}
+	use App\Controller\ClearProcess;
 
 	public function checkPermission(\App\Request $request)
 	{

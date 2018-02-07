@@ -13,7 +13,6 @@ require_once 'config/debug.php';
 require_once 'config/performance.php';
 require_once 'include/Loader.php';
 require_once('include/ConfigUtils.php');
-Vtiger_Loader::includeOnce('include.runtime.Globals');
 
 class WebservicesConvertLead
 {

@@ -1075,20 +1075,62 @@ window.app = {
 			jQuery(element).width(parentWidth);
 		});
 	},
-	showScrollBar: function (element, options) {
-		if (typeof options == 'undefined') {
+	showNewScrollbar: function (element, options) {
+		if (typeof element === 'undefined' || !element.length)
+			return;
+		if (typeof options === 'undefined')
 			options = {};
-		}
-		if (typeof options.height == 'undefined') {
-			options.height = element.css('height');
-		}
 
+		return new PerfectScrollbar(element[0], options);
+	},
+	showNewBottomTopScrollbar: function (element) {
+		if (typeof element === 'undefined' || !element.length)
+			return;
+		var scrollbarTopInit = new PerfectScrollbar(element[0], {
+			wheelPropagation: true,
+			suppressScrollY: true
+		});
+		var scrollbarBottomInit = new PerfectScrollbar(element[0], {
+			wheelPropagation: true,
+			suppressScrollY: true
+		});
+		var scrollbarTopElement = element.find('.ps__rail-x').first();
+		scrollbarTopElement.css({
+			top: 0,
+			bottom: 'auto'
+		});
+		scrollbarTopElement.find('.ps__thumb-x').css({
+			top: 2,
+			bottom: 'auto'
+		});
+	},
+	showNewLeftScrollbar: function (element, options) {
+		if (typeof element === 'undefined' || !element.length)
+			return;
+		if (typeof options === 'undefined')
+			options = {};
+		options.wheelPropagation = true;
+		var scrollbarLeftInit = new PerfectScrollbar(element[0], options);
+		var scrollbarLeftElement = element.children('.ps__rail-y').first();
+		scrollbarLeftElement.css({
+			left: 0,
+			right: 'auto'
+		});
+		scrollbarLeftElement.find('.ps__thumb-y').css({
+			left: 2,
+			right: 'auto'
+		});
+	},
+	showScrollBar: function (element, options) {
+		if (typeof options === 'undefined')
+			options = {};
+		if (typeof options.height === 'undefined')
+			options.height = element.css('height');
 		return element.slimScroll(options);
 	},
 	showHorizontalScrollBar: function (element, options) {
-		if (typeof options == 'undefined') {
+		if (typeof options === 'undefined')
 			options = {};
-		}
 		var params = {
 			horizontalScroll: true,
 			theme: "dark-thick",
@@ -1096,9 +1138,8 @@ window.app = {
 				autoExpandHorizontalScroll: true
 			}
 		}
-		if (typeof options != 'undefined') {
+		if (typeof options !== 'undefined')
 			var params = jQuery.extend(params, options);
-		}
 		return element.mCustomScrollbar(params);
 	},
 	/**

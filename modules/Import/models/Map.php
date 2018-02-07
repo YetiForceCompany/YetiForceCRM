@@ -13,15 +13,13 @@ class Import_Map_Model extends \App\Base
 
 	public static $tableName = 'vtiger_import_maps';
 	public $map;
-	public $user;
 
-	public function __construct($map, $user)
+	public function __construct($map)
 	{
 		$this->map = $map;
-		$this->user = $user;
 	}
 
-	public static function getInstanceFromDb($row, $user)
+	public static function getInstanceFromDb($row)
 	{
 		$map = [];
 		foreach ($row as $key => $value) {
@@ -39,7 +37,7 @@ class Import_Map_Model extends \App\Base
 				$map[$key] = $value;
 			}
 		}
-		return new Import_Map_Model($map, $user);
+		return new Import_Map_Model($map);
 	}
 
 	public static function markAsDeleted($mapId)
@@ -96,13 +94,12 @@ class Import_Map_Model extends \App\Base
 
 	public static function getAllByModule($moduleName)
 	{
-		$current_user = vglobal('current_user');
 		$dataReader = (new App\Db\Query())->from(self::$tableName)
 				->where(['deleted' => 0, 'module' => $moduleName])
 				->createCommand()->query();
 		$savedMaps = [];
 		while ($row = $dataReader->read()) {
-			$importMap = Import_Map_Model::getInstanceFromDb($row, $current_user);
+			$importMap = Import_Map_Model::getInstanceFromDb($row);
 			$savedMaps[$importMap->getId()] = $importMap;
 		}
 		$dataReader->close();

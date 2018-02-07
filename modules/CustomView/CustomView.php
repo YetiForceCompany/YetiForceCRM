@@ -44,11 +44,10 @@ class CustomView extends CRMEntity
 	 */
 	public function __construct($module = '')
 	{
-		$currentUser = vglobal('current_user');
 		$this->customviewmodule = $module;
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
-		$this->smownerid = $currentUser->id;
+		$this->smownerid = \App\User::getCurrentUserId();
 	}
 
 	/** to get the standard filter for the given customview Id
@@ -102,28 +101,5 @@ class CustomView extends CRMEntity
 	public function getCustomActionDetails($cvid)
 	{
 		return (new App\Db\Query())->select(['subject' => 'vtiger_customaction.subject', 'module' => 'vtiger_customaction.module', 'content' => 'vtiger_customaction.content', 'cvid' => 'vtiger_customaction.cvid'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
-	}
-
-	public function isPermittedChangeStatus($status)
-	{
-		$currentLanguage = vglobal('current_language');
-		$currentUser = vglobal('current_user');
-		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, "CustomView");
-
-		\App\Log::trace("Entering isPermittedChangeStatus($status) method..............");
-		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
-		$status_details = [];
-		if ($is_admin) {
-			if ($status == App\CustomView::CV_STATUS_PENDING) {
-				$changed_status = App\CustomView::CV_STATUS_PUBLIC;
-				$status_label = $custom_strings['LBL_STATUS_PUBLIC_APPROVE'];
-			} elseif ($status == App\CustomView::CV_STATUS_PUBLIC) {
-				$changed_status = App\CustomView::CV_STATUS_PENDING;
-				$status_label = $custom_strings['LBL_STATUS_PUBLIC_DENY'];
-			}
-			$status_details = ['Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label];
-		}
-		\App\Log::trace("Exiting isPermittedChangeStatus($status) method..............");
-		return $status_details;
 	}
 }

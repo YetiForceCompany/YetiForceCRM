@@ -12,6 +12,8 @@
 class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Constructor
 	 */
@@ -23,16 +25,6 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('assignValueToRole');
 		$this->exposeMethod('saveOrder');
 		$this->exposeMethod('enableOrDisable');
-	}
-
-	/**
-	 * Process request
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		$this->invokeExposedMethod($mode, $request);
 	}
 	/*
 	 * @function updates user tables with new picklist value for default event and status fields

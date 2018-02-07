@@ -9,8 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Reports_Folder_Action extends Vtiger_Action_Controller
+class Reports_Folder_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -28,15 +30,6 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 

@@ -28,7 +28,7 @@ class PackageUpdate extends PackageImport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if (!$moduleInstance || $moduleInstance->name != $module) {
-			self::log('Module name mismatch!');
+			\App\Log::trace('Module name mismatch!', __METHOD__);
 			return false;
 		}
 		if ($module !== null) {
@@ -104,7 +104,7 @@ class PackageUpdate extends PackageImport
 				}
 			} else {
 				if (!$moduleInstance || $moduleInstance->name != $module) {
-					self::log('Module name mismatch!');
+					\App\Log::trace('Module name mismatch!', __METHOD__);
 					return false;
 				}
 				$module = $this->initUpdate($moduleInstance, $zipfile, $overwrite);
@@ -176,22 +176,22 @@ class PackageUpdate extends PackageImport
 		foreach ($this->_migrations as $migversion => $migrationnode) {
 			// Perform migration only for higher version than current
 			if (version_compare($cur_version, $migversion, '<')) {
-				self::log("Migrating to $migversion ... STARTED");
+				\App\Log::trace("Migrating to $migversion ... STARTED", __METHOD__);
 				if (!empty($migrationnode->tables) && !empty($migrationnode->tables->table)) {
 					foreach ($migrationnode->tables->table as $tablenode) {
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
 						if (Utils::isDestructiveSql($tablesql)) {
-							self::log("SQL: $tablesql ... SKIPPED");
+							\App\Log::trace("SQL: $tablesql ... SKIPPED", __METHOD__);
 						} else {
 							// Supress any SQL query failures
-							self::log("SQL: $tablesql ... ", false);
+							\App\Log::trace("SQL: $tablesql ... ", __METHOD__);
 							Utils::executeQuery($tablesql, true);
-							self::log('DONE');
+							\App\Log::trace('DONE', __METHOD__);
 						}
 					}
 				}
-				self::log("Migrating to $migversion ... DONE");
+				\App\Log::trace("Migrating to $migversion ... DONE", __METHOD__);
 			}
 		}
 	}

@@ -89,13 +89,13 @@ class Block
 			'iscustom' => $this->iscustom
 		])->execute();
 		$this->id = $db->getLastInsertID(self::$baseTable . '_blockid_seq');
-		self::log("Creating Block $this->label ... DONE");
-		self::log("Module language entry for $this->label ... CHECK");
+		\App\Log::trace("Creating Block $this->label ... DONE", __METHOD__);
+		\App\Log::trace("Module language entry for $this->label ... CHECK", __METHOD__);
 	}
 
 	public function __update()
 	{
-		self::log("Updating Block $this->label ... DONE");
+		\App\Log::trace("Updating Block $this->label ... DONE", __METHOD__);
 	}
 
 	/**
@@ -103,9 +103,9 @@ class Block
 	 */
 	public function __delete()
 	{
-		self::log("Deleting Block $this->label ... ", false);
+		\App\Log::trace("Deleting Block $this->label ... ", __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['blockid' => $this->id])->execute();
-		self::log("DONE");
+		\App\Log::trace("DONE", __METHOD__);
 	}
 
 	/**
@@ -144,17 +144,6 @@ class Block
 	{
 		$fieldInstance->save($this);
 		return $this;
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
 	}
 
 	/**
@@ -228,6 +217,6 @@ class Block
 		$query = (new \App\Db\Query())->select(['blockid'])->from(self::$baseTable)->where(['tabid' => $tabId]);
 		$db->createCommand()->delete('vtiger_blocks_hide', ['blockid' => $query])->execute();
 		$db->createCommand()->delete(self::$baseTable, ['tabid' => $tabId])->execute();
-		self::log("Deleting blocks for module ... DONE");
+		\App\Log::trace('Deleting blocks for module ... DONE', __METHOD__);
 	}
 }

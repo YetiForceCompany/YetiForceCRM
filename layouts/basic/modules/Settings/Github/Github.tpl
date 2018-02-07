@@ -24,7 +24,6 @@
 								<div class="alert alert-warning">
 									<ul>
 										<li>{\App\Language::translate('LBL_USERNAME_DESCRIPTION', $QUALIFIED_MODULE)}</li>
-										<li>{\App\Language::translate('LBL_ID_CLIENT_DESCRIPTION', $QUALIFIED_MODULE)}</li>
 										<li>{\App\Language::translate('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE)}</li>
 									</ul>
 								</div>
@@ -36,11 +35,6 @@
 								<span class="redColor">*</span>
 								{\App\Language::translate('LBL_USER_NAME', $QUALIFIED_MODULE)}
 								<input class="form-control" name="username" data-validation-engine="validate[required]" value="" type="text">
-							</div>
-							<div class="col-xs-12 marginBottom10px">
-								<span class="redColor">*</span>
-								{\App\Language::translate('LBL_ID_CLIENT', $QUALIFIED_MODULE)}
-								<input class="form-control" data-validation-engine="validate[required]" name="client_id" value="" type="text">
 							</div>
 							<div class="col-xs-12">
 								<span class="redColor">*</span>

@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-AppConfig::iniSet("auto_detect_line_endings", true);
 
 class Import_CSVReader_Reader extends Import_FileReader_Reader
 {

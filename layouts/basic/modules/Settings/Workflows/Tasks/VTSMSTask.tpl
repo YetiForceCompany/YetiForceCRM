@@ -20,10 +20,10 @@
 				<select class="chzn-select task-fields form-control">
 					<option value="none"></option>
 					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('phone')}
-						<optgroup label="{\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
+						<optgroup label="{$BLOCK_NAME}">
 							{foreach item=ITEM from=$FIELDS}
 								<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
-									{\App\Language::translate($ITEM['label'], $SOURCE_MODULE)}
+									{$ITEM['label']}
 								</option>
 							{/foreach}
 						</optgroup>

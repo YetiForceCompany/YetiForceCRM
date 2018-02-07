@@ -9,6 +9,8 @@
 class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
@@ -30,14 +32,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		parent::__construct();
 		$this->exposeMethod('getEvents');
 		$this->exposeMethod('updateEvent');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function getEvents(\App\Request $request)

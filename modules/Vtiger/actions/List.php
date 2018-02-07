@@ -10,6 +10,8 @@
 class Vtiger_List_Action extends Vtiger_Mass_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -26,18 +28,6 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
 		}
 	}
 

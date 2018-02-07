@@ -9,7 +9,7 @@
 /**
  * OSSMailScanner SaveCRMuser action class
  */
-class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
+class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 {
 
 	/**

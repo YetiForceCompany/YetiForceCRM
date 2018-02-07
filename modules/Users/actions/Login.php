@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_Login_Action extends Vtiger_Action_Controller
+class Users_Login_Action extends \App\Controller\Action
 {
 
 	/**

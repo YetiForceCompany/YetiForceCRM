@@ -6,8 +6,10 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Calendar_Invitees_Action extends Vtiger_Action_Controller
+class Calendar_Invitees_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -27,14 +29,6 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 	{
 		parent::__construct();
 		$this->exposeMethod('find');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($mode) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function find(\App\Request $request)

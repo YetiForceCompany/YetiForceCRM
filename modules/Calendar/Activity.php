@@ -235,18 +235,18 @@ class Activity extends CRMEntity
 		return $query;
 	}
 
-	public function getNonAdminAccessControlQuery($module, Users $user, $scope = '')
+	public function getNonAdminAccessControlQuery($module, $scope = '')
 	{
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
+		require('user_privileges/sharing_privileges_' . \App\User::getCurrentUserId() . '.php');
 		$query = ' ';
 		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
-			$tableName = 'vt_tmp_u' . $user->id . '_t' . $tabId;
+			$tableName = 'vt_tmp_u' . \App\User::getCurrentUserId() . '_t' . $tabId;
 			$sharedTabId = null;
-			$this->setupTemporaryTable($tableName, $sharedTabId, $user, $current_user_parent_role_seq, $current_user_groups);
+			$this->setupTemporaryTable($tableName, $sharedTabId, $current_user_parent_role_seq, $current_user_groups);
 
-			$sharedUsers = $this->getListViewAccessibleUsers($user->id);
+			$sharedUsers = $this->getListViewAccessibleUsers(\App\User::getCurrentUserId());
 			// we need to include group id's in $sharedUsers list to get the current user's group records
 			if ($current_user_groups) {
 				$sharedUsers = $sharedUsers . ',' . implode(',', $current_user_groups);
@@ -266,28 +266,28 @@ class Activity extends CRMEntity
 	 * @param type $groups
 	 * @return $query
 	 */
-	public function getReportsNonAdminAccessControlQuery($tableName, $tabId, $user, $parent_roles, $groups)
+	public function getReportsNonAdminAccessControlQuery($tableName, $tabId, $parent_roles, $groups)
 	{
-		$sharedUsers = $this->getListViewAccessibleUsers($user->id);
-		$this->setupTemporaryTable($tableName, $tabId, $user, $parent_roles, $groups);
+		$sharedUsers = $this->getListViewAccessibleUsers(\App\User::getCurrentUserId());
+		$this->setupTemporaryTable($tableName, $tabId, $parent_roles, $groups);
 		$query = "SELECT id FROM $tableName WHERE $tableName.shared=0 && $tableName.id IN ($sharedUsers)";
 		return $query;
 	}
 
-	protected function setupTemporaryTable($tableName, $tabId, $user, $parentRole, $userGroups)
+	protected function setupTemporaryTable($tableName, $tabId, $parentRole, $userGroups)
 	{
 		$module = null;
 		if (!empty($tabId)) {
 			$module = \App\Module::getModuleName($tabId);
 		}
-		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
+		$query = $this->getNonAdminAccessQuery($module, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
 			"int(1) default 0) ignore " . $query;
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
-			$result = $db->pquery($query, [$user->id]);
+			$result = $db->pquery($query, [\App\User::getCurrentUserId()]);
 			if (is_object($result)) {
 				return true;
 			}
@@ -314,12 +314,12 @@ class Activity extends CRMEntity
 		return $sharedIds;
 	}
 
-	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)
 	{
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
 				->createCommand()->query();
 
 		if ($dataReader->count()) {
@@ -327,17 +327,17 @@ class Activity extends CRMEntity
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($module)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($this->moduleName)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $this->moduleName);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
 				}
 				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
 				if (!empty($moduleList) && in_array($withModule, $moduleList)) {
-					$row['name'] = $module;
+					$row['name'] = $this->moduleName;
 					$results[] = $row;
 					break;
 				}

@@ -81,10 +81,7 @@ class ReportRunQueryPlanner
 	public function registerTempTable($query, $keyColumns)
 	{
 		if ($this->allowTempTables && !$this->disablePlanner) {
-			$current_user = vglobal('current_user');
-
 			$keyColumns = is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns];
-
 			// Minor optimization to avoid re-creating similar temporary table.
 			$uniqueName = NULL;
 			foreach ($this->tempTables as $tmpUniqueName => $tmpTableInfo) {
@@ -98,7 +95,7 @@ class ReportRunQueryPlanner
 
 			if ($uniqueName === NULL) {
 				$uniqueName = $this->tempTablePrefix .
-					str_replace('.', '', uniqid($current_user->id, true)) . (self::$tempTableCounter++);
+					str_replace('.', '', uniqid(\App\User::getCurrentUserId(), true)) . (self::$tempTableCounter++);
 
 				$this->tempTables[$uniqueName] = [
 					'query' => $query,

@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
+class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 {
 
 	/**

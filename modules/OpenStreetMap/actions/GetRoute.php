@@ -57,13 +57,12 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 			'endLat' => $tlat,
 			'endLon' => $tlon
 		];
-		$language = \AppConfig::main('default_language');
 		$coordinates = [];
 		$travel = 0;
 		$description = '';
 		$urlToRoute = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		foreach ($tracks as $track) {
-			$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . $language . '&instructions=1';
+			$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . App\Language::getLanguage() . '&instructions=1';
 			$response = Requests::get($url);
 			$json = \App\Json::decode($response->body);
 			$coordinates = array_merge($coordinates, $json['coordinates']);

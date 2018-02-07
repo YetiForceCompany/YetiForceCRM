@@ -93,9 +93,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (!content.length)
 			return;
 		content.css('height', adjustedHeight + 'px');
-		var scrollbarInit = new PerfectScrollbar(content[0], {
-			wheelPropagation: true
-		});
+		app.showNewScrollbar(content, {wheelPropagation: true});
 	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {

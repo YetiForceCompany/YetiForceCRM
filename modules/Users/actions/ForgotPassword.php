@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_ForgotPassword_Action extends Vtiger_Action_Controller
+class Users_ForgotPassword_Action extends \App\Controller\Action
 {
 
 	/**
@@ -46,9 +46,7 @@ class Users_ForgotPassword_Action extends Vtiger_Action_Controller
 		if ($isExists) {
 			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = Users_Record_Model::getInstanceByName($userName);
-			vglobal('current_user', $userRecordModel->getEntity());
 			\App\User::setCurrentUserId($userRecordModel->getId());
-			\App\User::getCurrentUserModel();
 
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->save();

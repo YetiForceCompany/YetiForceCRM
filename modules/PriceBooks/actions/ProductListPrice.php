@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
+class PriceBooks_ProductListPrice_Action extends \App\Controller\Action
 {
 
 	public function checkPermission(\App\Request $request)

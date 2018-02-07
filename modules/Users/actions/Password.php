@@ -7,8 +7,10 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_Password_Action extends Vtiger_Action_Controller
+class Users_Password_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * {@inheritDoc}
@@ -46,18 +48,6 @@ class Users_Password_Action extends Vtiger_Action_Controller
 				break;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	/**

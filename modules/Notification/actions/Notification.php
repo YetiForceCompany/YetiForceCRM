@@ -8,8 +8,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Notification_Notification_Action extends Vtiger_Action_Controller
+class Notification_Notification_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -45,16 +47,6 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('saveWatchingModules');
 		$this->exposeMethod('createMail');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	public function setMark(\App\Request $request)

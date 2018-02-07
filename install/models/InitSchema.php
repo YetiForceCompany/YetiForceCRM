@@ -41,7 +41,6 @@ class Install_InitSchema_Model
 		require_once 'modules/PickList/DependentPickListUtils.php';
 		require_once 'modules/Users/Users.php';
 		require_once 'include/Webservices/Utils.php';
-		require_once 'include/runtime/Globals.php';
 		\App\UserPrivilegesFile::recalculateAll();
 	}
 

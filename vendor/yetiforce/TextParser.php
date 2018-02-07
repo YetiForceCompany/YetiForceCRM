@@ -52,7 +52,7 @@ class TextParser
 
 	/**
 	 * Variables for entity modules
-	 * @var array 
+	 * @var array
 	 */
 	public static $variableGeneral = [
 		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
@@ -66,7 +66,7 @@ class TextParser
 
 	/**
 	 * Variables for entity modules
-	 * @var array 
+	 * @var array
 	 */
 	public static $variableEntity = [
 		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
@@ -80,13 +80,13 @@ class TextParser
 
 	/**
 	 * List of available functions
-	 * @var string[] 
+	 * @var string[]
 	 */
 	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date'];
 
 	/**
 	 * List of source modules
-	 * @var string[] 
+	 * @var string[]
 	 */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
@@ -96,19 +96,19 @@ class TextParser
 
 	/**
 	 * Record id
-	 * @var int 
+	 * @var int
 	 */
 	public $record;
 
 	/**
 	 * Module name
-	 * @var string 
+	 * @var string
 	 */
 	public $moduleName;
 
 	/**
 	 * Record model
-	 * @var \Vtiger_Record_Model 
+	 * @var \Vtiger_Record_Model
 	 */
 	public $recordModel;
 
@@ -121,7 +121,7 @@ class TextParser
 	/**
 	 * Source record model
 	 * @var \Vtiger_Record_Model
-	 * 
+	 *
 	 */
 	protected $sourceRecordModel;
 
@@ -139,7 +139,7 @@ class TextParser
 
 	/**
 	 * without translations
-	 * @var bool 
+	 * @var bool
 	 */
 	protected $withoutTranslations = false;
 
@@ -157,7 +157,7 @@ class TextParser
 
 	/**
 	 * Separator to display data when there are several values
-	 * @var string 
+	 * @var string
 	 */
 	public $relatedRecordSeparator = ',';
 
@@ -291,7 +291,7 @@ class TextParser
 	}
 
 	/**
-	 * Get content 
+	 * Get content
 	 */
 	public function getContent($trim = false)
 	{
@@ -308,8 +308,7 @@ class TextParser
 			return $this;
 		}
 		if (isset($this->language)) {
-			$currentLanguage = \App\Language::getLanguage();
-			\App\Language::setLanguage($this->language);
+			Language::setTemporaryLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = array_pad($matches, 3, '');
@@ -318,9 +317,7 @@ class TextParser
 			}
 			return '';
 		}, $this->content);
-		if (!empty($currentLanguage)) {
-			\App\Language::setLanguage($currentLanguage);
-		}
+		Language::clearTemporaryLanguage();
 		return $this;
 	}
 
@@ -342,16 +339,13 @@ class TextParser
 	public function parseTranslations()
 	{
 		if (isset($this->language)) {
-			$currentLanguage = \App\Language::getLanguage();
-			\App\Language::setLanguage($this->language);
+			Language::setTemporaryLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
-		if (!empty($currentLanguage)) {
-			\App\Language::setLanguage($currentLanguage);
-		}
+		Language::clearTemporaryLanguage();
 		return $this;
 	}
 
@@ -450,7 +444,7 @@ class TextParser
 			case 'CurrentTime' : return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \AppConfig::main('site_URL');
 			case 'PortalUrl' : return \AppConfig::main('PORTAL_URL');
-			case 'BaseTimeZone' : return \DateTimeField::getDBTimeZone();
+			case 'BaseTimeZone' : return Fields\DateTime::getTimeZone();
 		}
 		return $key;
 	}
@@ -919,10 +913,10 @@ class TextParser
 		$variables = [];
 		if (!$fieldType) {
 			foreach (static::$variableEntity as $key => $name) {
-				$variables['LBL_ENTITY_VARIABLES'][] = [
+				$variables[Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser')][] = [
 					'var_value' => "$(record : $key)$",
-					'var_label' => "$(translate : $name)$",
-					'label' => $name
+					'var_label' => "$(translate : Other.TextParser|$name)$",
+					'label' => Language::translate($name, 'Other.TextParser')
 				];
 			}
 		}
@@ -930,10 +924,10 @@ class TextParser
 		foreach ($moduleModel->getBlocks() as $blockModel) {
 			foreach ($blockModel->getFields() as $fieldModel) {
 				if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
-					$variables[$blockModel->get('label')][] = [
+					$variables[Language::translate($blockModel->get('label'), $this->moduleName)][] = [
 						'var_value' => "$(record : {$fieldModel->getName()})$",
 						'var_label' => "$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})$",
-						'label' => $fieldModel->getFieldLabel()
+						'label' => Language::translate($fieldModel->getFieldLabel(), $this->moduleName)
 					];
 				}
 			}
@@ -955,8 +949,8 @@ class TextParser
 		foreach (static::$variableEntity as $key => $name) {
 			$variables['LBL_ENTITY_VARIABLES'][] = [
 				'var_value' => "$(sourceRecord : $key)$",
-				'var_label' => "$(translate : $name)$",
-				'label' => Language::translate($name)
+				'var_label' => "$(translate : Other.TextParser|$name)$",
+				'label' => Language::translate($name, 'Other.TextParser')
 			];
 		}
 		foreach (\App\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
@@ -989,7 +983,7 @@ class TextParser
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
-		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES');
+		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser');
 		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
 			if ($field->getFieldDataType() === 'owner') {
 				$relatedModules = ['Users'];
@@ -1001,8 +995,8 @@ class TextParser
 				foreach (static::$variableEntity as $key => $name) {
 					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
 						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
-						'var_label' => "$(translate : $key)$",
-						'label' => $parentFieldNameLabel . ': ' . Language::translate($name)
+						'var_label' => "$(translate : Other.TextParser|$key)$",
+						'label' => $parentFieldNameLabel . ': ' . Language::translate($name, 'Other.TextParser')
 					];
 				}
 			}
@@ -1035,7 +1029,7 @@ class TextParser
 	{
 		$variables = [
 			'LBL_ENTITY_VARIABLES' => array_map(function($value) {
-					return Language::translate($value);
+					return Language::translate($value, 'Other.TextParser');
 				}, array_flip(static::$variableGeneral))
 		];
 		$companyDetails = Company::getInstanceById()->getData();
@@ -1073,7 +1067,7 @@ class TextParser
 				if (isset($this->type) && $this->type !== $instance->type) {
 					continue;
 				}
-				$variables["$(custom : $fileName)$"] = Language::translate($instance->name);
+				$variables["$(custom : $fileName)$"] = Language::translate($instance->name, 'Other.TextParser');
 			}
 		}
 		return $variables;

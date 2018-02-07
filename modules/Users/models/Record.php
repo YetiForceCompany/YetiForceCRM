@@ -114,8 +114,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function isAdminUser()
 	{
-		$adminStatus = $this->get('is_admin');
-		if ($adminStatus === 'on') {
+		if ($this->get('is_admin') === 'on' || $this->get('is_admin') == 1) {
 			return true;
 		}
 		return false;
@@ -256,7 +255,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				return \App\Language::getLanguage();
 				break;
 			case 'time_zone':
-				return DateTimeField::getDBTimeZone();
+				return App\Fields\DateTime::getTimeZone();
 				break;
 			case 'theme':
 				return Vtiger_Viewer::DEFAULTTHEME;
@@ -347,21 +346,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public static function getCurrentUserModel()
 	{
-		$currentUser = vglobal('current_user');
-		if (!empty($currentUser)) {
-
+		$currentUser = \App\User::getCurrentUserModel();
+		if ($currentUser->getId()) {
 			// Optimization to avoid object creation every-time
 			// Caching is per-id as current_user can get swapped at runtime (ex. workflow)
 			$currentUserModel = NULL;
-			if (isset(self::$currentUserModels[$currentUser->id])) {
-				$currentUserModel = self::$currentUserModels[$currentUser->id];
-				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] !== $currentUserModel->get('modifiedtime')) {
-					$currentUserModel = NULL;
-				}
+			if (isset(static::$currentUserModels[$currentUser->getId()])) {
+				$currentUserModel = static::$currentUserModels[$currentUser->getId()];
 			}
 			if (!$currentUserModel) {
-				$currentUserModel = self::getInstanceFromUserObject($currentUser);
-				self::$currentUserModels[$currentUser->id] = $currentUserModel;
+				static::$currentUserModels[$currentUser->getId()] = $currentUserModel = static::getInstanceFromUserObject($currentUser);
 			}
 			return $currentUserModel;
 		}
@@ -372,15 +366,14 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Static Function to get the instance of the User Record model from the given Users object
 	 * @return Users_Record_Model instance
 	 */
-	public static function getInstanceFromUserObject($userObject)
+	public static function getInstanceFromUserObject($currentUser)
 	{
-		$objectProperties = get_object_vars($userObject);
+		$userDetails = array_map('\App\Purifier::decodeHtml', $currentUser->getDetails());
 		$userModel = new self();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$userModel->$properName = $propertyValue;
+		foreach ($userDetails as $key => $value) {
+			$userModel->$key = $value;
 		}
-		$userObject->column_fields = array_map('\App\Purifier::decodeHtml', $userObject->column_fields);
-		return $userModel->setData($userObject->column_fields)->setModule('Users')->setEntity($userObject);
+		return $userModel->setData($userDetails)->setModule('Users')->setId($currentUser->getId());
 	}
 
 	/**
@@ -396,12 +389,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$query->where(['status' => 'Active']);
 		}
 		$users = [];
-		$focus = new Users();
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
-			$focus->id = $userId;
-			$focus->retrieveEntityInfo($userId, 'Users');
-			$userModel = self::getInstanceFromUserObject($focus);
+			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
 			$users[$userModel->getId()] = $userModel;
 		}
 		$dataReader->close();
@@ -431,22 +421,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $subordinateUsers;
-	}
-
-	/**
-	 * Function returns the Users Parent Role
-	 * @return string
-	 */
-	public function getParentRoleSequence()
-	{
-		$privilegesModel = $this->get('privileges');
-
-		if (empty($privilegesModel)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
-			$this->set('privileges', $privilegesModel);
-		}
-
-		return $privilegesModel->get('parent_role_seq');
 	}
 
 	/**
@@ -769,13 +743,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$noOfUsers = $db->numRows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
-			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userId = $db->queryResult($result, $i, 'id');
-				$focus->id = $userId;
-				$focus->retrieveEntityInfo($userId, 'Users');
-
-				$userModel = self::getInstanceFromUserObject($focus);
+				$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($userId));
 				$users[$userModel->getId()] = $userModel;
 			}
 		}

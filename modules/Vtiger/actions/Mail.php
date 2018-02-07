@@ -7,8 +7,10 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Mail_Action extends Vtiger_Action_Controller
+class Vtiger_Mail_Action extends \App\Controller\Action
 {
+
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * Function to check permission
@@ -31,18 +33,6 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('checkSmtp');
 		$this->exposeMethod('sendMails');
-	}
-
-	/**
-	 * Process function
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	/**

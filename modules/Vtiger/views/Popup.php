@@ -59,7 +59,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -117,9 +117,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', empty($pageNumber) ? 1 : $pageNumber);
-		if (vglobal('popupAjax')) {
-			$pagingModel->set('noLimit', true);
-		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		if (!$request->isEmpty('process', true) || !$request->isEmpty('link', true)) {

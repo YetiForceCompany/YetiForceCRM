@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
-class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
+class KnowledgeBase_ImageUploadAjax_Action extends \App\Controller\Action
 {
 
 	/**

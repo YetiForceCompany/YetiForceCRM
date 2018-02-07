@@ -9,19 +9,12 @@
 class Products_Widget_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showProductsServices');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function showProductsServices(\App\Request $request)

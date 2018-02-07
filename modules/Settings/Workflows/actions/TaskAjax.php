@@ -12,6 +12,8 @@
 class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,15 +21,6 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('changeStatus');
 		$this->exposeMethod('changeStatusAllTasks');
 		$this->exposeMethod('save');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function delete(\App\Request $request)

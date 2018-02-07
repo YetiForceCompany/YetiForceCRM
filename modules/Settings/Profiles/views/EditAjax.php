@@ -11,15 +11,7 @@
 Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
+	use App\Controller\ClearProcess;
 
 	public function process(\App\Request $request)
 	{

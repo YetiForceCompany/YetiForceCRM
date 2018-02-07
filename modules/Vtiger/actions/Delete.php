@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_Delete_Action extends Vtiger_Action_Controller
+class Vtiger_Delete_Action extends \App\Controller\Action
 {
 
 	/**

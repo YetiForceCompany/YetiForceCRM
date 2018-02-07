@@ -11,22 +11,15 @@
 class PriceBooks_PopupAjax_View extends PriceBooks_Popup_View
 {
 
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getListViewCount');
 		$this->exposeMethod('getRecordsCount');
 		$this->exposeMethod('getPageCount');
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
 	}
 
 	public function process(\App\Request $request)

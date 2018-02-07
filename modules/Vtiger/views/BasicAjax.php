@@ -12,6 +12,9 @@
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
 
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,25 +34,6 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
-		return;
 	}
 
 	/**

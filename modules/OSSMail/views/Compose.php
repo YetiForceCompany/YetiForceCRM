@@ -50,7 +50,7 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	 * Post process
 	 * @param \App\Request $request
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 
 	}

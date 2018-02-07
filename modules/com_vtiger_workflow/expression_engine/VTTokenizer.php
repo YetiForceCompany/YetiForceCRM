@@ -13,21 +13,20 @@ class VTExpressionTokenizer
 
 	public function __construct($expr)
 	{
-		$expr = App\Purifier::decodeHtml($expr);
 		$tokenTypes = [
-			'SPACE' => ['\s+', '_vt_processtoken_id'],
-			'SYMBOL' => ['[a-zA-Z][\w]*', '_vt_processtoken_symbol'],
-			'ESCAPED_SYMBOL' => ['?:`([^`]+)`', '_vt_processtoken_symbol'],
+			'SPACE' => ['\s+', 'processTokenId'],
+			'SYMBOL' => ['[a-zA-Z][\w]*', 'processTokenSymbol'],
+			'ESCAPED_SYMBOL' => ['?:`([^`]+)`', 'processTokenSymbol'],
 			//"STRING" => array('?:(?:"((?:\\\\"|[^"])+)"|'."'((?:\\\\'|[^'])+)')", 'stripcslashes'),
 			//"STRING" => array('?:"((?:\\\\"|[^"])+)"', 'stripcslashes'),
 			'STRING' => ["?:'((?:\\\\'|[^'])+)'", 'stripcslashes'],
 			'FLOAT' => ['\d+[.]\d+', 'floatval'],
 			'INTEGER' => ['\d+', 'intval'],
-			'OPERATOR' => ['[+]|[-]|[*]|>=|<=|[<]|[>]|==|\/', '_vt_processtoken_symbol'],
+			'OPERATOR' => ['[+]|[-]|[*]|>=|<=|[<]|[>]|==|\/', 'processTokenSymbol'],
 			// NOTE: Any new Operator added should be updated in VTParser.inc::$precedence and operation at VTExpressionEvaluater
-			'OPEN_BRACKET' => ['[(]', '_vt_processtoken_symbol'],
-			'CLOSE_BRACKET' => ['[)]', '_vt_processtoken_symbol'],
-			'COMMA' => ['[,]', '_vt_processtoken_symbol']
+			'OPEN_BRACKET' => ['[(]', 'processTokenSymbol'],
+			'CLOSE_BRACKET' => ['[)]', 'processTokenSymbol'],
+			'COMMA' => ['[,]', 'processTokenSymbol']
 		];
 		$tokenReArr = [];
 		$tokenNames = [];
@@ -43,7 +42,7 @@ class VTExpressionTokenizer
 		$this->EOF = new VTExpressionToken('EOF');
 
 		$matches = [];
-		preg_match_all($tokenRe, $expr, $matches, PREG_SET_ORDER);
+		preg_match_all($tokenRe, App\Purifier::decodeHtml($expr), $matches, PREG_SET_ORDER);
 		$this->matches = $matches;
 		$this->idx = 0;
 	}
@@ -72,12 +71,18 @@ class VTExpressionTokenizer
 		}
 	}
 
-	private function _vt_processtoken_id($token)
+	public function tests($token)
+	{
+		$this->processTokenId($token);
+		$this->processTokenSymbol($token);
+	}
+
+	private function processTokenId($token)
 	{
 		return $token;
 	}
 
-	private function _vt_processtoken_symbol($token)
+	private function processTokenSymbol($token)
 	{
 		return new VTEXpressionSymbol($token);
 	}

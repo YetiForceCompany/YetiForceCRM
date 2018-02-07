@@ -35,12 +35,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 {
 
 	/**
-	 * Base user instance
-	 * @var Users
-	 */
-	protected $userModel;
-
-	/**
 	 * User privileges model instance
 	 * @var Users_Privileges_Model
 	 */
@@ -75,12 +69,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
-			$userid = App\Session::get('authenticated_user_id');
-			if ($userid && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
-				$this->userModel = CRMEntity::getInstance('Users');
-				$this->userModel->retrieveCurrentUserInfoFromFile($userid);
-				vglobal('current_user', $this->userModel);
-				\App\User::getCurrentUserModel();
+			$userId = App\Session::get('authenticated_user_id');
+			if ($userId && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
+				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}
 		}
@@ -113,23 +104,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				require_once('libraries/csrf-magic/csrf-magic.php');
 			}
 			// common utils api called, depend on this variable right now
-			$currentUser = $this->getLogin();
-			$currentLanguage = \App\Language::getLanguage();
-			vglobal('current_language', $currentLanguage);
+			$this->getLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
-			if ($currentUser) {
-				if ($qualifiedModuleName) {
-					$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
-					if (isset($moduleLanguageStrings['languageStrings'])) {
-						vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
-					}
-				}
-				$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
-				if (isset($moduleLanguageStrings['languageStrings'])) {
-					vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
-				}
-			}
 			$view = $request->getByType('view', 2);
 			$action = $request->getByType('action', 2);
 			$response = false;
@@ -169,7 +146,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
-			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($this->userModel)) {
+			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
 
@@ -179,8 +156,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-
-			vglobal('currentModule', $moduleName);
 			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
@@ -233,13 +208,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Trigger check permission
-	 * @param Vtiger_Action_Controller $handler
+	 * @param \App\Controller\Base $handler
 	 * @param \App\Request $request
 	 * @return boolean
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	protected function triggerCheckPermission(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerCheckPermission(\App\Controller\Base $handler, \App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -258,11 +233,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Trigger pre process
-	 * @param Vtiger_Action_Controller $handler
+	 * @param \App\Controller\Base $handler
 	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	protected function triggerPreProcess(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerPreProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
@@ -273,11 +248,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Trigger post process
-	 * @param Vtiger_Action_Controller $handler
+	 * @param \App\Controller\Base $handler
 	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	protected function triggerPostProcess(Vtiger_Action_Controller $handler, \App\Request $request)
+	protected function triggerPostProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			return true;

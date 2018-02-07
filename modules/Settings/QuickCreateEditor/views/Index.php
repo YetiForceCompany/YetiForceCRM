@@ -9,6 +9,8 @@
 class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function __construct()
 	{
 		$this->exposeMethod('showFieldLayout');

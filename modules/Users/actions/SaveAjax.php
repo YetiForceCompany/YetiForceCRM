@@ -12,6 +12,8 @@
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritDoc}
 	 */

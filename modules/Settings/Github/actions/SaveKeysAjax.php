@@ -10,18 +10,17 @@
 class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$clientId = $request->get('client_id');
-		$token = $request->get('token');
-		$username = $request->get('username');
 		$clientModel = Settings_Github_Client_Model::getInstance();
-		$clientModel->setToken($token);
-		$clientModel->setClientId($clientId);
-		$clientModel->setUsername($username);
+		$clientModel->setToken($request->getByType('token', 'Alnum'));
+		$clientModel->setUsername($request->get('username'));
 		if ($clientModel->checkToken()) {
-			$success = $clientModel->saveKeys();
-			$success = $success ? true : false;
+			$success = $clientModel->saveKeys() ? true : false;
 		} else {
 			$success = false;
 		}
@@ -30,6 +29,9 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 		$responce->emit();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();

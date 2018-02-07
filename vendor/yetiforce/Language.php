@@ -6,6 +6,7 @@ namespace App;
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Language
@@ -13,13 +14,19 @@ class Language
 
 	/**
 	 * Current language
-	 * @var string
+	 * @var string|bool
 	 */
 	private static $language = false;
 
 	/**
+	 * Temporary language
+	 * @var string|bool
+	 */
+	private static $temporaryLanguage = false;
+
+	/**
 	 * Short current language
-	 * @var string
+	 * @var string|bool
 	 */
 	private static $shortLanguage = false;
 
@@ -35,27 +42,36 @@ class Language
 	 */
 	public static function getLanguage()
 	{
+		if (static::$temporaryLanguage) {
+			return static::$temporaryLanguage;
+		}
 		if (static::$language) {
 			return static::$language;
 		}
-		if (vglobal('translated_language')) {
-			$language = vglobal('translated_language');
-		} elseif (!empty(\App\Session::get('language'))) {
+		if (!empty(\App\Session::get('language'))) {
 			$language = \App\Session::get('language');
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
-		$language = empty($language) ? vglobal('default_language') : strtolower($language);
-		return static::$language = $language;
+		return static::$language = empty($language) ? \AppConfig::main('default_language') : strtolower($language);
 	}
 
 	/**
-	 * Set current language
+	 * Set temporary language
 	 * @param string $language
 	 */
-	public static function setLanguage($language)
+	public static function setTemporaryLanguage($language)
 	{
-		static::$language = $language;
+		static::$temporaryLanguage = strtolower($language);
+	}
+
+	/**
+	 * Clear temporary language
+	 * @return string
+	 */
+	public static function clearTemporaryLanguage()
+	{
+		static::$temporaryLanguage = false;
 	}
 
 	/**
@@ -148,7 +164,7 @@ class Language
 		$translatedString = \Vtiger_Language_Handler::getLanguageTranslatedString($currentLanguage, $key . $postfix, $moduleName);
 		// label not found in users language pack, then check in the default language pack(config.inc.php)
 		if ($translatedString === null) {
-			$defaultLanguage = vglobal('default_language');
+			$defaultLanguage = \AppConfig::main('default_language');
 			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
 				$translatedString = \Vtiger_Language_Handler::getLanguageTranslatedString($defaultLanguage, $key . $postfix, $moduleName);
 			}

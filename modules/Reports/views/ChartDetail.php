@@ -12,6 +12,8 @@
 class Reports_ChartDetail_View extends Vtiger_Index_View
 {
 
+	use \App\Controller\ExposeMethod;
+
 	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->getInteger('record');

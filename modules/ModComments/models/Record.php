@@ -120,8 +120,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			if ($commentedBy) {
 				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
-					$activeAdmin = Users::getActiveAdminUser();
-					$commentedByModel = Vtiger_Record_Model::getInstanceById($activeAdmin->id, 'Users');
+					$commentedByModel = Vtiger_Record_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
 				}
 				return $commentedByModel;
 			}
