@@ -362,7 +362,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				if (jQuery.inArray(sourceValue, thisInstance.updatedSourceValues) == -1) {
 					thisInstance.updatedSourceValues.push(sourceValue);
 				}
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon-ok').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('[data-fa-i2svg]').remove();
 			});
 		});
 	},
