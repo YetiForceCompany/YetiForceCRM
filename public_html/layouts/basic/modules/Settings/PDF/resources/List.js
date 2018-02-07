@@ -32,7 +32,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	registerRowClickEvent: function () {
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click', '.listViewEntries', function (e) {
-			var editUrl = jQuery(e.currentTarget).find('.glyphicon-pencil').closest('a').attr('href');
+			var editUrl = jQuery(e.currentTarget).find('[data-fa-i2svg]').closest('a').attr('href');
 			window.location.href = editUrl;
 		});
 	},
@@ -56,7 +56,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			if (selectedModule.length) {
 				url += '&source_module=' + selectedModule;
 			}
-			window.location.href = url ;
+			window.location.href = url;
 		});
 	},
 	registerImportTemplate: function (container) {
