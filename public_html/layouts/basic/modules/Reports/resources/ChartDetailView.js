@@ -101,13 +101,14 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 	registerEventForModifyCondition: function () {
 		jQuery('button[name=modify_condition]').on('click', function () {
 			var filter = jQuery('#filterContainer');
-			var icon = jQuery(this).find('span');
+			console.log(filter);
+			var icon = jQuery(this).find('[data-fa-i2svg]');
 			var classValue = icon.attr('class');
-			if (classValue.indexOf('glyphicon-chevron-right') != -1) {
-				icon.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+			if (classValue.indexOf('fa-chevron-right') != -1) {
+				icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
 				filter.removeClass('hide').show('slow');
 			} else {
-				icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+				icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
 				filter.hide('slow');
 			}
 			return false;
@@ -122,6 +123,6 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 		jQuery('#chartDetailForm').validationEngine(app.validationEngineOptions);
 	}
 });
-$( document ).ready(function() {
+$(document).ready(function () {
 	(new Reports_ChartDetailView_Js()).registerEvents();
 });
