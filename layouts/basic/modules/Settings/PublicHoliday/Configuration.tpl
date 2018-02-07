@@ -28,7 +28,7 @@
 												<strong>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 											</div>
 											<div class="col-xs-8 col-xs-pull-1">
-												<input type="text" class="dateRangeField dateFilter marginbottomZero form-control" data-date-format="{$CURRENTUSER->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
+												<input type="text" class="dateRangeField dateFilter marginbottomZero form-control" data-date-format="{$USER_MODEL->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
 											</div>
 										</div>
 									</div>
@@ -94,7 +94,7 @@
 										<span class="redColor">*</span>
 									</div>
 									<div class="col-sm-6 controls">
-										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{\App\Fields\Date::formatToDisplay(date('Y-m-d'))}" required >
+										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$USER_MODEL->get('date_format')}" value="{\App\Fields\Date::formatToDisplay(date('Y-m-d'))}" required >
 
 									</div>
 								</div>

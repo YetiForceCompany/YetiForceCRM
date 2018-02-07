@@ -17,9 +17,8 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$record = $request->get('record');
-		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && AppConfig::security('SHOW_MY_PREFERENCES'))) {
+		$currentUserModel = \App\User::getCurrentUserModel();
+		if ($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		} else {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
@@ -77,8 +76,6 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('UserViewHeader.tpl', $request->getModule());
 		parent::process($request);
 	}

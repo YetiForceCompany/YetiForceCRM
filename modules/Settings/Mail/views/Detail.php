@@ -12,12 +12,12 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Page title
-	 * @var type 
+	 * @var type
 	 */
 	protected $pageTitle = 'LBL_MAIL_QUEUE_PAGE_TITLE';
 
 	/**
-	 * Checking permission 
+	 * Checking permission
 	 * @param \App\Request $request
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
@@ -45,7 +45,6 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 
