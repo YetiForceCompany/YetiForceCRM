@@ -10,6 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'SINGLE_Calendar' => 'calendario',
+		'MEN_ORGANIZATION' => 'Segretaria',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Record cancellato',
 		'LBL_MOVE_TO_TRASH' => 'Sposta nel cestino',
 	'LBL_MOVE_TO_TRASH_DESC' => 'Lo spostamento di un record nel Cestino cambia solo lo stato del record senza modificare il resto delle informazioni. Sei sicuro di voler spostare il record?',
