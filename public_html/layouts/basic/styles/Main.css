@@ -5209,20 +5209,22 @@ button.bg-dark:focus {
 
 .pt-2,
 .py-2,
-.select2-selection {
+.select2-selection.select2-selection--single {
   padding-top: 0.5rem !important; }
 
 .pr-2,
-.px-2 {
+.px-2,
+.headerRightWrapper .headerLinksMails .btn {
   padding-right: 0.5rem !important; }
 
 .pb-2,
 .py-2,
-.select2-selection {
+.select2-selection.select2-selection--single {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
-.px-2 {
+.px-2,
+.headerRightWrapper .headerLinksMails .btn {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -11383,19 +11385,12 @@ border1px {
 :root {
   --yf-darkblue: #4A5364; }
 
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 2018-01-30, 14:23:39
-    Author     : rafan
-*/
-.chosen-single {
-  height: 37px !important; }
+.select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
+  font-size: inherit; }
+.select2-container--bootstrap4 .select2-results__group {
+  font-size: inherit; }
 
-.chzn-selectWithButtonWidth {
+.select2WithButtonWidth {
   width: calc(100% - 42px); }
 
 .headerLinksMails .select2-selection:hover {
@@ -11403,22 +11398,8 @@ and open the template in the editor.
   .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
 
-.dashboardWidgetHeader .select2-container--bootstrap4 {
-  font-size: 16px !important; }
-
-.select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
-  font-size: inherit; }
-.select2-container--bootstrap4 .select2-results__group {
-  font-size: inherit; }
-
 .select2Wrapper {
   width: 100%; }
-
-.select2FullWidthContainer .select2Wrapper {
-  width: 100%; }
-
-.headerLinksMails .select2-selection.select2-selection--single {
-  height: 40px !important; }
 
 .select2-selection.select2-selection--single {
   font-size: 0.875rem !important;
@@ -11439,11 +11420,11 @@ and open the template in the editor.
   .bodyHeader .dropdown-toggle::after {
     display: none; }
   .bodyHeader .globalSearchInput {
-    width: 450px; }
+    width: 500px; }
     .bodyHeader .globalSearchInput .btn {
       width: 40px; }
     .bodyHeader .globalSearchInput .select2HeaderWidth {
-      min-width: 130px; }
+      min-width: 150px; }
   .bodyHeader .moduleIcon {
     width: 34px;
     margin: 5px; }
@@ -11466,7 +11447,7 @@ and open the template in the editor.
     left: auto;
     right: 0; }
   .headerRightWrapper .headerLinksMails .btn {
-    font-size: 14px; }
+    font-size: 0.875rem; }
 
 .globalSearchResults .nav li a {
   padding: 10px 0; }
@@ -11560,3 +11541,5 @@ and open the template in the editor.
     .footerContainer .page-link {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
+
+/*# sourceMappingURL=Main.css.map */
