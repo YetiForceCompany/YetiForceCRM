@@ -186,13 +186,23 @@ class User
 	}
 
 	/**
-	 * Get user details
+	 * Get user detail
 	 * @param string $fieldName
 	 * @return mixed
 	 */
 	public function getDetail($fieldName)
 	{
 		return $this->privileges['details'][$fieldName];
+	}
+
+	/**
+	 * Get user all details
+	 * @param string $fieldName
+	 * @return mixed
+	 */
+	public function getDetails()
+	{
+		return $this->privileges['details'];
 	}
 
 	/**

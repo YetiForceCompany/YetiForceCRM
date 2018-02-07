@@ -444,7 +444,7 @@ class TextParser
 			case 'CurrentTime' : return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \AppConfig::main('site_URL');
 			case 'PortalUrl' : return \AppConfig::main('PORTAL_URL');
-			case 'BaseTimeZone' : return \DateTimeField::getDBTimeZone();
+			case 'BaseTimeZone' : return Fields\DateTime::getTimeZone();
 		}
 		return $key;
 	}

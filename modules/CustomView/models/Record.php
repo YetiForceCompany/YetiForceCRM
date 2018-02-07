@@ -192,21 +192,13 @@ class CustomView_Record_Model extends \App\Base
 
 	public function checkPermissionToFeatured($editView = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$query = (new \App\Db\Query())->from('u_#__featured_filter');
-		if ($currentUser->isAdminUser()) {
-			$userGroups = $currentUser->getUserGroups($currentUser->getId());
-			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
-			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
-		} else {
-			$parentRoles = $currentUser->getParentRoleSequence();
-			$userGroups = $currentUser->get('privileges')->get('groups');
-		}
 		$where = ['or', ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
-		foreach ($userGroups as $groupId) {
+		foreach ($currentUser->getGroups() as $groupId) {
 			$where [] = ['user' => "Groups:$groupId"];
 		}
-		foreach (explode('::', $parentRoles) as $role) {
+		foreach (explode('::', $currentUser->getParentRolesSeq()) as $role) {
 			$where [] = ['user' => "RoleAndSubordinates:$role"];
 		}
 		$query->where(['cvid' => $this->getId()]);
@@ -219,11 +211,9 @@ class CustomView_Record_Model extends \App\Base
 		if ($this->get('privileges') == 0) {
 			return false;
 		}
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if ($currentUser->isAdminUser()) {
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
-
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
 		if (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
@@ -813,9 +803,8 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public static function getAll($moduleName = '')
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$cacheName = $moduleName . $currentUser->getId();
 		if (App\Cache::has('getAllFilters', $cacheName)) {
 			return App\Cache::get('getAllFilters', $cacheName);
@@ -824,8 +813,8 @@ class CustomView_Record_Model extends \App\Base
 		if (!empty($moduleName)) {
 			$query->where(['entitytype' => $moduleName]);
 		}
-		if (!$currentUser->isAdminUser()) {
-			$userParentRoleSeq = $currentUser->getParentRoleSequence();
+		if (!$currentUser->isAdmin()) {
+			$userParentRoleSeq = $currentUser->getParentRolesSeq();
 			$query->andWhere([
 				'or',
 				['userid' => $currentUser->getId()],
