@@ -367,7 +367,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 * Returns basic information about atachments for this mail
 	 * @return array
 	 */
-	public function getAtachments()
+	public function getAttachments()
 	{
 		return (new App\Db\Query())->select(['name' => 'vtiger_notes.title', 'file' => 'vtiger_notes.filename', 'id' => 'vtiger_notes.notesid'])
 				->from('vtiger_notes')
