@@ -15,7 +15,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public function __construct()
 	{
@@ -87,7 +87,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	{
 		$data = $request->get('form');
 		$moduleName = $request->getByType('sourceModule', 2);
-		$addToUser = $request->get('addToUser');
+		$addToUser = $request->getBoolean('addToUser');
 		$linkId = $request->getInteger('linkid');
 		if (!is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
