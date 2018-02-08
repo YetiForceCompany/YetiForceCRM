@@ -150,18 +150,18 @@
 							<div class="modal-dialog modalRightSiteBar" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
 										<h4 class="modal-title" id="myModalLabel">
 											<span class="fas fa-comments fa-fw"></span>&nbsp;&nbsp;
 											{\App\Language::translate('LBL_CHAT')}
 										</h4>
+										<button type="button" class="btn btn-warning p-0 float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
 									</div>
 									<div class="modal-body">
 										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
 									</div>
-									<div class="modal-footer pinToDown">
-                                        <input type="text" class="form-control message" /><br />
-										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
+									<div class="modal-footer pinToDown row mx-0 d-block">
+										<input type="text" class="form-control message" />
+										<button type="button" class="btn btn-primary addMsg float-right mt-2">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
 									</div>
 								</div>
 							</div>
