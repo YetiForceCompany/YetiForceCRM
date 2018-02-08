@@ -123,7 +123,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				}
 				var widgetContent = widgetContainer.find('.dashboardWidgetContent');
 				widgetContent.css('max-height', adjustedHeight + 'px');
-				app.showNewScrollbar(widgetContent, {wheelPropagation: true });
+				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
 			});
 		} else {
 		}
@@ -252,10 +252,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
 			if (mailBody.css("display") == 'none') {
 				mailBody.show();
-				bodyIcon.removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+				bodyIcon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
 			} else {
 				mailBody.hide();
-				bodyIcon.removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+				bodyIcon.removeClass("fa-chevron-up").addClass("fa-chevron-down");
 			}
 		});
 	},
