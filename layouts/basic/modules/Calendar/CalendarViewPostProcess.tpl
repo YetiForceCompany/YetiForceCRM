@@ -38,20 +38,20 @@
 				</div>
 			{/if}
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
-				<div class="panel panel-primary quickWidget">
-					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
-						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+				<div class="card border-info mb-3 quickWidget">
+					<div class="card-header quickWidgetHeader calendarRightPanel clearfix bg-info">
+						<div class="card-title h6 text-white col-lg-6 col-md-12 col-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 							{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
-						</h4>
-						<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero float-right">
-							<button class="selectAllBtn btn btn-light btn-sm pull-left-md pull-right-lg pull-right-sm">
+						</div>
+						<div class="col-lg-6 col-md-12 col-5 paddingTop10-md paddingLRZero float-right">
+							<button class="selectAllBtn btn btn-light btn-sm float-md-left float-lg-right float-sm-right">
 								<div class="selectAll hide">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
 								<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
 							</button>
 						</div>
 					</div>
 					<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
-						<div class="panel-body"></div>
+						<div class="card-body"></div>
 					</div>
 				</div>
 			{/foreach}
