@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if AppConfig::main('breadcrumbs') eq  'true'}
-		<div class="breadCrumbs" >
 			{if isset($BREADCRUMB_TITLE)}
 				{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
 			{else}
@@ -9,28 +8,27 @@
 			{/if}
 			{assign var=HOMEICON value='userIcon-Home'}
 			{if $BREADCRUMBS}
-				<div class="breadcrumbsContainer">
-					<h2 class="breadcrumbsLinks textOverflowEllipsis">
+				<ol  class="breadcrumb breadcrumbsContainer pb-0" aria-label="breadcrumb">
+					<li class="breadcrumb-item" aria-current="page">
 						<a href="{AppConfig::main('site_URL')}">
 							<span class="{$HOMEICON}"></span>
 						</a>
-						&nbsp;|&nbsp;
-						{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
-							{if $key != 0 && $ITEM_PREV}
-								<span class="separator">&nbsp;{\AppConfig::main('breadcrumbs_separator')}&nbsp;</span>
-							{/if}
-							{if isset($item['url'])}
+					</li>
+					{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
+						{if isset($item['url'])}
+							<li class="breadcrumb-item">
 								<a href="{$item['url']}">
-									<span>{$item['name']}</span>
+									{$item['name']}
 								</a>
-							{else}
-								<span>{$item['name']}</span>
+							</li>
+						{elseif $item@last}
+							<li class="breadcrumb-item active" aria-current="page">{$item['name']}</li>
+						{else}
+						<li class="breadcrumb-item"><a href="#">{$item['name']}</a></li>
 							{/if}
 							{assign var="ITEM_PREV" value=$item['name']}
 						{/foreach}
-					</h2>
-				</div>
+				</ol>
 			{/if}
-		</div>
 	{/if}
 {/strip}

@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .bodyHeader {
-	background-color: var(--yf-darkblue);
+	background-color: $primary;
 	height: 50px;
 	top: 0;
 	right: 0;
@@ -35,7 +35,7 @@
 	}
 }
 
-.headerRightWrapper {
+.headerRightWrapper :not(.chatModal) {
 	.btn {
 		@extend .ml-2;
 		@extend .px-1;
@@ -67,4 +67,11 @@
 }
 .globalSearchResults .nav li a {
 	padding: 10px 0;
+}
+.widget_header {
+  background: $gray-200;
+}
+.summaryWidgetContainer .widget_header {
+  background: #fff;
+  margin-bottom: 0px;
 }

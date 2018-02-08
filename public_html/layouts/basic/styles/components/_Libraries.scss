@@ -28,7 +28,7 @@
 	width: calc(100% - #{$iconButtonWidth});
 }
 .headerLinksMails .select2-selection:hover {
-	background: $darkblue !important;
+	background: $dark !important;
 	.select2-selection__rendered {
 		color: $white !important;
 	}
