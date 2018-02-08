@@ -1,13 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.dashboardWidgetHeader .col-sm-6, .col-md-6 {
-	&:nth-child(1) {
-		@extend .pr-0;
-	}
-	&:nth-child(2) {
-		@extend .pl-1;
-	}
-	&:only-child {
-		@extend .px-3;
-	}
+.contentsDiv,.centerPanel {
+	padding: 0 10px;
 }

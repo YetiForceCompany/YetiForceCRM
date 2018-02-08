@@ -1,19 +1,8 @@
-//select2 corrections for bootstrap 4
-.select2WithButtonWidth {
-	width: calc(100% - #{$iconButtonWidth});
-}
-.select2-selection {
-	@extend .py-2;
-}
-.headerLinksMails .select2-selection:hover {
-	background: $darkblue !important;
-	.select2-selection__rendered {
-		color: $white !important;
-	}
-}
-.dashboardWidgetHeader .select2-container--bootstrap4 {
-	font-size: $font16 !important;
-}
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//-------- general --------//
+
+//-------- select2 --------//
 .select2-container--bootstrap4 {
 	.select2-selection__rendered {
 		@extend .pb-1;
@@ -29,13 +18,19 @@
 .select2Wrapper {
 	width: 100%;
 }
-.select2FullWidthContainer .select2Wrapper {
-	width: 100%;
-}
-.headerLinksMails .select2-selection.select2-selection--single {
-	height: 40px !important;
-}
 .select2-selection.select2-selection--single {
-	font-size: $select2InputFont !important;
-	height: $menuItemsHeight !important;;
+	font-size: $font-size-sm !important;
+	height: $menuItemsHeight !important;
+	@extend .py-2;
 }
+//-------- header --------//
+.select2WithButtonWidth {
+	width: calc(100% - #{$iconButtonWidth});
+}
+.headerLinksMails .select2-selection:hover {
+	background: $darkblue !important;
+	.select2-selection__rendered {
+		color: $white !important;
+	}
+}
+

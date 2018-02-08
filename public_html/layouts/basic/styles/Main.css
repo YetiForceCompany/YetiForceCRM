@@ -1,3 +1,4 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -5209,20 +5210,22 @@ button.bg-dark:focus {
 
 .pt-2,
 .py-2,
-.select2-selection {
+.select2-selection.select2-selection--single {
   padding-top: 0.5rem !important; }
 
 .pr-2,
-.px-2 {
+.px-2,
+.headerRightWrapper .headerLinksMails .btn {
   padding-right: 0.5rem !important; }
 
 .pb-2,
 .py-2,
-.select2-selection {
+.select2-selection.select2-selection--single {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
-.px-2 {
+.px-2,
+.headerRightWrapper .headerLinksMails .btn {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -6831,6 +6834,7 @@ a.text-dark:hover, a.text-dark:focus {
   .form-inline .select2-container--bootstrap4 {
     display: inline-block; } }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
   .noprint {
     display: none; } }
@@ -9709,9 +9713,6 @@ html, body, .baseContainer {
   padding: 2px 2px;
   border: 0 solid #fff; }
 
-.contentsDiv, .centerPanel {
-  padding: 0 10px; }
-
 .widget_header {
   background: #eee;
   padding-top: 5px;
@@ -11383,29 +11384,7 @@ border1px {
 :root {
   --yf-darkblue: #4A5364; }
 
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 2018-01-30, 14:23:39
-    Author     : rafan
-*/
-.chosen-single {
-  height: 37px !important; }
-
-.chzn-selectWithButtonWidth {
-  width: calc(100% - 42px); }
-
-.headerLinksMails .select2-selection:hover {
-  background: #404952 !important; }
-  .headerLinksMails .select2-selection:hover .select2-selection__rendered {
-    color: #fff !important; }
-
-.dashboardWidgetHeader .select2-container--bootstrap4 {
-  font-size: 16px !important; }
-
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
@@ -11414,15 +11393,21 @@ and open the template in the editor.
 .select2Wrapper {
   width: 100%; }
 
-.select2FullWidthContainer .select2Wrapper {
-  width: 100%; }
-
-.headerLinksMails .select2-selection.select2-selection--single {
-  height: 40px !important; }
-
 .select2-selection.select2-selection--single {
   font-size: 0.875rem !important;
   height: 32px !important; }
+
+.select2WithButtonWidth {
+  width: calc(100% - 42px); }
+
+.headerLinksMails .select2-selection:hover {
+  background: #404952 !important; }
+  .headerLinksMails .select2-selection:hover .select2-selection__rendered {
+    color: #fff !important; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.contentsDiv, .centerPanel {
+  padding: 0 10px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
@@ -11439,11 +11424,11 @@ and open the template in the editor.
   .bodyHeader .dropdown-toggle::after {
     display: none; }
   .bodyHeader .globalSearchInput {
-    width: 450px; }
+    width: 500px; }
     .bodyHeader .globalSearchInput .btn {
       width: 40px; }
     .bodyHeader .globalSearchInput .select2HeaderWidth {
-      min-width: 130px; }
+      min-width: 150px; }
   .bodyHeader .moduleIcon {
     width: 34px;
     margin: 5px; }
@@ -11466,12 +11451,11 @@ and open the template in the editor.
     left: auto;
     right: 0; }
   .headerRightWrapper .headerLinksMails .btn {
-    font-size: 14px; }
+    font-size: 0.875rem; }
 
 .globalSearchResults .nav li a {
   padding: 10px 0; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .baseContainer .leftPanel {
   position: fixed;
@@ -11560,3 +11544,10 @@ and open the template in the editor.
     .footerContainer .page-link {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.calendarViewContainer .widget_header {
+  margin-right: -20px;
+  margin-left: -25px; }
+
+/*# sourceMappingURL=Main.css.map */

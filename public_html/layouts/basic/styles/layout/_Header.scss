@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 .bodyHeader {
 	background-color: var(--yf-darkblue);
-	//color: #fff;
 	height: 50px;
 	top: 0;
 	right: 0;
@@ -17,13 +17,13 @@
 		display: none;
 	}
 	.globalSearchInput {
-		width: 450px;
+		width: 500px;
 		.btn {
 			width: 40px;
 			@extend .p-1;
 		}
 		.select2HeaderWidth {
-			min-width: 130px;
+			min-width: 150px;
 		}
 	}
 	.moduleIcon {
@@ -60,7 +60,8 @@
 		}
 		.btn {
 			@extend .m-0;
-			font-size: $font14;
+			@extend .px-2;
+			font-size: $font-size-sm;
 		}
 	}
 }
