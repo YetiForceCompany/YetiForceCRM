@@ -308,7 +308,7 @@ class Link
 		if (\App\Cache::has('Link', $linkId)) {
 			return \App\Cache::get('Link', $linkId);
 		}
-		$linkData = (new \App\Db\Query())->from('vtiger_links')->where(['linkId' => $linkId])->one();
+		$linkData = (new \App\Db\Query())->from('vtiger_links')->where(['linkid' => $linkId])->one();
 		\App\Cache::save('Link', $linkId, $linkData);
 		return $linkData;
 	}
