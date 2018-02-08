@@ -65,7 +65,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] === 'Mini List') {
-				if (!$row['isdefault']) {
+				if (!$row['isdefault'] && \App\Privilege::isPermitted($moduleModel->getName(), 'CreateDashboardFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
@@ -74,8 +74,9 @@ class Vtiger_DashBoard_Model extends \App\Base
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
 			} elseif ($row['linklabel'] === 'ChartFilter') {
-				if (!$row['isdefault'])
+				if (!$row['isdefault'] && \App\Privilege::isPermitted($moduleModel->getName(), 'CreateDashboardChartFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
+				}
 				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);
