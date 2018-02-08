@@ -297,4 +297,19 @@ class Link
 		$user = $linkData->getUser();
 		return $user->is_admin == 'on' || $user->column_fields['is_admin'] == 'on';
 	}
+
+	/**
+	 * Link data
+	 * @param int $linkId
+	 * @return array
+	 */
+	public static function getLinkData($linkId)
+	{
+		if (\App\Cache::has('Link', $linkId)) {
+			return App\Cache::get('Link', $linkId);
+		}
+		$linkData = (new \App\Db\Query())->from('vtiger_links')->where(['linkId' => $linkId])->one();
+		\App\Cache::save('Link', $linkId, $linkData);
+		return $linkData;
+	}
 }

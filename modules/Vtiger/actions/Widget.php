@@ -33,14 +33,22 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
+		$mode = $request->getMode();
 		if ($request->has('widgetid')) {
 			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), \App\User::getCurrentUserId());
+			$label = $widget->get('linklabel');
 		} else {
-			$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
+			if ($mode === 'add') {
+				$linkDdata = \vtlib\Link::getLinkData($request->getInteger('linkid'));
+				$label = $linkDdata['linklabel'];
+			} else {
+				$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
+				$label = $widget->get('linklabel');
+			}
 		}
-		if (($request->getMode() === 'remove' && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
-			($widget->get('linklabel') === 'Mini List' && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
-			($widget->get('linklabel') === 'ChartFilter' && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
+		if (($mode === 'remove' && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
+			($label === 'Mini List' && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
+			($label === 'ChartFilter' && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
 			return true;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -81,10 +89,10 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$moduleName = $request->getByType('sourceModule', 2);
 		$addToUser = $request->get('addToUser');
 		$linkId = $request->getInteger('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
+			$data['linkid'] = $linkId;
 			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
 			$result = $widgetsManagementModel->addWidget($data, $moduleName, $addToUser);
 		}
