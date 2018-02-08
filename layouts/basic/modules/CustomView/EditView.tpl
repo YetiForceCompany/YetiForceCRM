@@ -38,7 +38,7 @@
 				<div class="btn-group filterActions float-right">
 					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 				</div>
-				<div class="btn-group float-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
+				<div class="btn-group float-right float-sm-left iconPreferences marginRight10 btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
 						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
 						<span class="far fa-heart" data-check="fas fa-heart" data-unchecked="far fa-heart"></span>
@@ -49,11 +49,11 @@
 					</label>
 					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
 						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1" />
-						<span class="fal fa-star" data-check="fas fa-star" data-unchecked="fal fa-star"></span>
+						<span class="far fa-star" data-check="fas fa-star" data-unchecked="far fa-star"></span>
 					</label>
 					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
 						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1" />
-						<span class="fas fa-desktop" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
+						<span class="fas fa-desktop" data-check="fas fa-desktop" data-unchecked="fas fa-desktop"></span>
 					</label>
 				</div>
 			</div>
