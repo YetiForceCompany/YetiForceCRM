@@ -37,7 +37,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 	},
 	registerButtonEvents: function (container) {
 		var thisInstance = this;
-		container.find('.delete,.lock').on('click', function (e) {
+		container.find('.wrapperTrash, .wrapperLock').on('click', '[data-fa-i2svg]', function (e) {
 			var progress = thisInstance.progress();
 			var element = jQuery(e.currentTarget);
 			var mode = element.data('mode');
@@ -54,7 +54,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 				thisInstance.refreshView();
 			});
 		});
-		container.find('.addUser,.exceptions').on('click', function (e) {
+		container.find('.addUser, .wrapperExceptions').on('click', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
 			var reload = true;
@@ -64,7 +64,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 					'&parent=' + app.getParentModuleName() +
 					'&srcModule=' + container.find('#supportedModule').val() +
 					'&view=Members';
-			if (element.hasClass('exceptions')) {
+			if (element.hasClass('wrapperExceptions')) {
 				url += '&mode=' + element.data('mode') + '&member=' + element.closest('tr').data('value');
 				reload = false
 			}
@@ -83,7 +83,8 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 					});
 				});
 			});
-		});
+		}
+		);
 	},
 	refreshView: function () {
 		this.getContainer().find('#supportedModule').trigger('change');
