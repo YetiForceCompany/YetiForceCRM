@@ -223,7 +223,7 @@ abstract class View extends Base
 				'~layouts/resources/colors/modules.css',
 				'~layouts/resources/colors/picklists.css',
 				'~layouts/resources/styleTemplate.css',
-				'~' . Vtiger_Theme::getBaseStylePath()
+				'~' . \Vtiger_Theme::getBaseStylePath()
 		]);
 	}
 
@@ -282,7 +282,7 @@ abstract class View extends Base
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
-		if (!file_exists(Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
+		if (!file_exists(\Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
 			$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
 		}
 		$jsFileNames[] = $fileName;
