@@ -16,11 +16,11 @@
 		return;
 	}
 	$.jstree.defaults.category = {
-		checkClass: ' glyphicon-check',
-		uncheckClass: ' glyphicon-unchecked'
+		checkClass: ' fa-check-square',
+		uncheckClass: ' fa-square'
 	};
 	var _i = document.createElement('I');
-	_i.className = 'jstree-category glyphicon';
+	_i.className = 'jstree-category far';
 	_i.setAttribute('role', 'presentation');
 	$.jstree.plugins.category = function (options, parent) {
 		this.bind = function () {
