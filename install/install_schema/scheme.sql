@@ -491,7 +491,7 @@ CREATE TABLE `l_yf_profile` (
 
 CREATE TABLE `l_yf_settings_tracker_basic` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
   `type` tinyint(1) NOT NULL,
   `action` varchar(50) NOT NULL,
   `record_id` int(10) DEFAULT NULL,
