@@ -212,6 +212,7 @@ abstract class View extends Base
 				'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
 				'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
 				'~libraries/pnotify/dist/pnotify.css',
+				'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
 				'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 				'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 				'~libraries/footable/css/footable.core.css',

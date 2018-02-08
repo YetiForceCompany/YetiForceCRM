@@ -1,15 +1,21 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 @charset 'UTF-8';
 @import '../../../libraries/bootstrap/scss/bootstrap';
 @import	'../../../libraries/select2-bootstrap4-theme/src/select2-bootstrap4';
 
 @import '_Style';
 
-//base
+//-------- base --------//
 @import 'components/_Variables';
 @import 'components/_Libraries';
 
-//layout
+//-------- layout --------//
+@import 'layout/_Base';
 @import 'layout/_Header';
 @import 'layout/_Nav';
 @import 'layout/_Footer';
+
+//-------- pages --------//
 @import 'pages/_Dashboard';
+@import 'pages/_Calendar';
