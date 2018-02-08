@@ -44,9 +44,13 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		return $accounts;
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$user = $request->getByType('owner', 2);
@@ -72,7 +76,6 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCOUNTS', $accounts);
 		$viewer->assign('OWNER', $user);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
