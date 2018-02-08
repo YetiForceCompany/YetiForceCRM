@@ -108,7 +108,7 @@ hr {
 }
 .message {
   font-weight: bold;
-  color: #4a5364;
+  color: $primary;
 }
 .modal .imageHolder .message {
   font-size: 16px;
@@ -147,7 +147,7 @@ hr {
   .sk-cube {
     width: 33%;
     height: 33%;
-    background-color: #4a5364;
+    background-color: $primary;
     float: left;
     -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
     animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
@@ -400,141 +400,6 @@ hr {
 }
 .blockUI form, #globalmodal form {
   margin: 0 0 0;
-}
-.contentsDiv .gridster {
-  padding: 0;
-}
-.dashboardContainer {
-  padding: 0;
-  .dashboardHeading hr {
-    border-bottom: 1px solid #dddddd;
-  }
-}
-.widgetsList {
-  min-width: 150px;
-  max-height: 450px;
-  text-align: left;
-  overflow-y: auto;
-  overflow-x: hidden;
-  li {
-    display: block;
-    a {
-      white-space: nowrap;
-      word-wrap: break-word;
-    }
-  }
-}
-.dashboard_notebookWidget_view .row {
-  margin-bottom: 5px;
-}
-.gridster {
-  margin-left: 0;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  > ul {
-    width: auto;
-    display: block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    min-height: 460px;
-    list-style: none;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    margin-top: 0 !important;
-    li.dashboardWidget {
-      background: #ffffff;
-      border-radius: 1px;
-      border: 1px solid #dddddd;
-      -webkit-box-shadow: 0 0 3px -1px #dddddd;
-      -moz-box-shadow: 0 0 3px -1px #dddddd;
-      box-shadow: 0 0 3px -1px #dddddd;
-      .dashboardWidgetHeader {
-        background-color: #f5f5f5;
-        background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
-        background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
-        background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
-        background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-        background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
-        background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-        border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        text-shadow: 0px 1px #ffffff;
-        border-top: 1px solid #ffffff;
-        border-bottom: 1px solid #dddddd;
-        color: #444444;
-        cursor: move;
-        padding: 5px;
-        table {
-          height: 28px;
-        }
-      }
-      .widgetFooterContent .row:first-child {
-        position: relative;
-        background-color: #f5f5f5;
-        padding-top: 3px;
-        padding-bottom: 2px;
-      }
-      .dashboardWidgetHeader {
-        .dashboardTitle {
-          text-align: left;
-          padding-left: 10px;
-        }
-        .widgeticons {
-          opacity: 0.5;
-          padding-right: 6px;
-        }
-        .box {
-          position: relative;
-          top: -2px;
-        }
-      }
-      .filterContainer {
-        position: absolute;
-        border: 1px solid #dddddd;
-        background: #ffffff;
-        margin-left: -7px;
-        margin-right: 3px;
-        margin-top: 4px;
-        padding: 8px 0;
-        border-radius: 0 0 5px 5px;
-        box-shadow: 0 5px 8px -5px #888888;
-        div span {
-          margin-top: 6px;
-        }
-        .col-md-5 {
-          margin-top: 3px;
-        }
-      }
-      .dashboardWidgetContent {
-        &:not(.dashboardWidgetCalendar) {
-          padding: 5px;
-          line-height: 20px;
-        }
-        .dashboard_notebookWidget_viewarea {
-          height: 200px;
-        }
-      }
-      .widgeticons {
-        min-width: 50px;
-        height: 30px;
-        margin-right: 30px;
-        a {
-          cursor: pointer;
-          text-decoration: none;
-        }
-      }
-    }
-    .widgetChartContainer {
-      height: 100% !important;
-    }
-  }
 }
 .listViewPageDiv {
   margin: 0px 0;
@@ -1648,28 +1513,6 @@ td.fieldValue {
   word-wrap: break-word;
   min-height: 400px;
 }
-.massEditTable {
-  th + th, td + td, th + td, td + th {
-    border-left: 0;
-  }
-}
-.nav.massEditTabs {
-  margin-bottom: 0;
-  border-bottom: 0;
-  li {
-    &.active a {
-      background: #404952;
-      color: #ffffff;
-      margin-left: 10px;
-    }
-    a:hover {
-      border-bottom: 1px solid #404952;
-    }
-  }
-}
-.massEditContent {
-  border-top: 3px solid #404952;
-}
 .fc-state-default .fc-button-effect {
   top: 100% !important;
 }
@@ -1808,7 +1651,7 @@ td.fieldValue {
     padding: 4px 0px !important;
   }
   color: #666;
-  background: #eee;
+  background: $light;
   border-color: #ccc;
 }
 .fc-content {
@@ -2099,7 +1942,7 @@ textarea.col-md-11 {
   background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png");
 }
 .ui-autocomplete-loading {
-  background: #eee url('./images/load.gif') no-repeat right center;
+  background: $light url('./images/load.gif') no-repeat right center;
 }
 .ui-autocomplete {
   height: auto !important;
@@ -2111,17 +1954,6 @@ textarea.col-md-11 {
     left: auto;
     top: -5px;
     border-bottom-width: 6px;
-  }
-}
-a {
-  color: #353c44;
-  &:hover {
-    color: #1e2327;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  &:active, &:focus {
-    outline: 0;
   }
 }
 .well {
@@ -2846,204 +2678,6 @@ span[name=existingImages] img {
 .checkboxForm {
   padding-top: 7px;
 }
-.baseContainer .leftPanel {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 33px;
-  width: 230px;
-  color: #fff;
-  z-index: 1030;
-  background: #444853;
-  a {
-    color: #fff;
-  }
-  .menuContainer {
-    a {
-      border-radius: 0;
-      vertical-align: text-top;
-      padding: 6px 15px 6px 55px;
-      word-wrap: break-word;
-      font-size: 16px;
-      &:hover, &:focus {
-        color: #4a5364;
-      }
-      &.hasIcon {
-        padding: 5px 12px;
-        display: inline-flex;
-        width: 100%;
-      }
-      .menuName {
-        top: -1px;
-        position: relative;
-        word-wrap: break-word;
-      }
-    }
-    .subMenu {
-      a {
-        font-size: 16px;
-      }
-      button {
-        border-width: 0;
-        border-radius: 0;
-        background: #f0f1f1;
-        text-align: left;
-        padding-left: 50px;
-      }
-      a {
-        &:hover, &:focus {
-          color: #fff;
-          background: #4a5364;
-        }
-      }
-      button {
-        &:hover, &:focus {
-          color: #fff;
-          background: #4a5364;
-        }
-      }
-      a {
-        color: #4a5364;
-        &.hasIcon {
-          padding: 8px 10px;
-        }
-      }
-      button .hasIcon {
-        padding: 8px 10px;
-      }
-      a .menuName, button .menuName {
-        top: 2px;
-      }
-    }
-    a {
-      &.hasIcon img {
-        height: 20px;
-      }
-      .glyphicon, .fa, &.hasIcon img {
-        margin-right: 12px;
-        font-size: 20px;
-        padding-right: 7px;
-        padding-left: 3px;
-      }
-      .fa {
-        position: relative;
-        top: 2px;
-      }
-    }
-  }
-}
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  ::i-block-chrome, .baseContainer .leftPanel .menuContainer .subMenu a .menuName, ::i-block-chrome, .baseContainer .leftPanel .menuContainer .subMenu button .menuName {
-    top: -4px;
-  }
-}
-.subMenu .menuLabel a {
-  padding: 0 !important;
-}
-.baseContainer {
-  .leftPanel:after {
-    content: "";
-    position: fixed;
-    bottom: 33px;
-    z-index: -2;
-    width: 230px;
-    height: 100%;
-    background: #4a5364;
-  }
-  &:not(.leftPanelOpen) {
-    margin-left: 50px;
-  }
-  .basePanel {
-    width: 100%;
-    position: relative;
-    left: 0;
-    z-index: 1030;
-    -webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
-    transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
-    background: #ffffff;
-    min-height: 100%;
-    transition-delay: 0.5s;
-    &:after {
-      content: "";
-      display: block;
-      position: fixed;
-      top: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-    }
-  }
-  &:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader {
-    left: 230px;
-    -webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-    transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-    + .basePanel {
-      left: 180px;
-      z-index: 0;
-      -webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-      transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-    }
-  }
-}
-.bodyHeader.open, .footerContainer.open {
-  left: 210px;
-  -webkit-transition: left ease-in-out 0.3s;
-  transition: left ease-in-out 0.3s;
-}
-.baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown {
-  -webkit-transition: left ease-in-out 0.35s;
-  transition: left ease-in-out 0.35s;
-  &:before {
-    -webkit-transition: left ease-in-out 0.35s;
-    transition: left ease-in-out 0.35s;
-  }
-}
-.subMenu {
-  display: none;
-}
-.nav li {
-  position: static;
-  &:hover {
-    > .subMenu {
-      display: block;
-      position: fixed;
-      left: 230px;
-      top: 50px;
-      height: calc(100% - 50px);
-    }
-    .subMenu a {
-      color: #000;
-    }
-  }
-}
-.leftPanel {
-  .nav .subMenu {
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 33px;
-      top: 0;
-      z-index: -1;
-      width: 300px;
-      min-height: 830px;
-      background: #f0f1f1;
-      border-right: 1px solid #dddddd;
-    }
-    li {
-      width: 300px;
-      &.menuLabel > a {
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-    }
-  }
-  .menuContainer .modulesList .menuIcon {
-    padding-right: 18px;
-    font-size: 24px;
-    height: 100%;
-  }
-}
 .ui-draggable-menuShortcut .menuIcon {
   padding-right: 18px;
   font-size: 24px;
@@ -3069,9 +2703,10 @@ html, body, .baseContainer {
   padding: 0;
   margin: 0;
 }
-.leftPanel .row {
-  padding: 0;
-  margin: 0;
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+	::i-block-chrome, .baseContainer .leftPanel .menuContainer .subMenu a .menuName, ::i-block-chrome, .baseContainer .leftPanel .menuContainer .subMenu button .menuName {
+		top: -4px;
+	}
 }
 .basePanel, .bodyContents, .mainContainer, .contentsDiv {
   min-height: 100%;
@@ -3293,12 +2928,12 @@ html, body, .baseContainer {
         }
       }
       a {
-        color: #eee;
+        color: $light;
         font-size: 14px;
       }
     }
     .menuPanel button {
-      color: #eee;
+      color: $light;
       background: #3f3f3f;
       text-align: left;
       padding-left: 85px;
@@ -3378,17 +3013,6 @@ html, body, .baseContainer {
   padding: 2px 2px;
   border: 0 solid #fff;
 }
-.widget_header {
-  background: #eee;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-  position: relative;
-}
-.summaryWidgetContainer .widget_header {
-  background: #fff;
-  margin-bottom: 0px;
-}
 .sortTableUl {
   list-style-type: none;
   float: left;
@@ -3405,9 +3029,6 @@ html, body, .baseContainer {
   h2 {
     margin-bottom: 7px;
   }
-}
-.widget_header h2 {
-  margin-bottom: 7px;
 }
 .modal-body .fieldLabel {
   font-weight: 900;
@@ -3721,7 +3342,7 @@ html, body, .baseContainer {
       padding-top: 15px;
       padding-bottom: 15px;
     }
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid $light;
   }
   .siteBarRight {
     width: 100%;
@@ -3832,7 +3453,7 @@ html, body, .baseContainer {
     width: 25%;
     padding: 0 15px;
     border-left: 1px solid #ccc;
-    background: #eee;
+    background: $light;
     position: fixed;
     right: 0;
     top: 50px;
@@ -4080,7 +3701,7 @@ html, body, .baseContainer {
   max-height: 500px;
 }
 .toggleSiteBarRightButton {
-  background: #eee;
+  background: $light;
   font-weight: bold;
   padding: 15px 0px !important;
   position: fixed;
@@ -4222,7 +3843,7 @@ html, body, .baseContainer {
   position: relative;
   top: 0px;
   left: 0;
-  background: #eee;
+  background: $light;
   padding-bottom: 8px;
 }
 .fieldLabel .HelpInfoPopover {
@@ -4414,7 +4035,7 @@ select.form-control {
   float: left;
 }
 .panelTree {
-  border-right: 1px solid #eee;
+  border-right: 1px solid $light;
 }
 .customViewList {
   table td {
@@ -4688,11 +4309,6 @@ select.form-control {
     margin-bottom: 2px;
   }
 }
-.selectDashboard::after, .selectDashboradView::after {
-  height: 3px;
-  width: 100%;
-  background: #404952;
-}
 .dashboardViewContainer .dashboardHeading {
   position: absolute;
   top: 3px;
@@ -4866,7 +4482,7 @@ select.form-control {
     float: left;
   }
   .quickDetailWidget h4 {
-    background-color: #eee;
+    background-color: $light;
     padding: 4px 10px;
   }
   .listViewEntriesTable thead > tr > th {
@@ -5106,7 +4722,7 @@ border1px {
   bottom: 33px;
   height: 45px;
   width: calc(100% - 50px);
-  background: #EEEEEE;
+  background: $light;
   margin-left: -10px;
   text-align: center;
   border-top: 1px solid #ddd;
@@ -5191,7 +4807,7 @@ border1px {
   width: 20px;
   position: absolute;
   top: 2px;
-  background: #eeeeee;
+  background: $light;
 }
 .wrappedPanelLeft {
   display: block;
@@ -5200,7 +4816,7 @@ border1px {
 .wrappedPanelRight {
   display: block;
   right: -10px;
-  background: #4a5364;
+  background: $primary;
 }
 .rotatedText {
   transform: rotate(0.75turn);

@@ -17,7 +17,7 @@
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
-						<ul class="nav nav-tabs massEditTabs selectDashboard">
+						<ul class="nav nav-tabs massEditTabs selectDashboard m-2">
 							{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 								<li class="nav-item {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-id="{$DASHBOARD['dashboard_id']}">
 									<a class="nav-link" data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
