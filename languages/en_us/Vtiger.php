@@ -1298,6 +1298,7 @@ $languageStrings = [
 	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calculate sum for this field',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
+	'BTN_PERMISSION_INSPECTOR' => 'Permission Inspector',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

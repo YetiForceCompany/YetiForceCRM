@@ -20,9 +20,7 @@ class Settings_LayoutEditor_VaribleToParsers_View extends Settings_Vtiger_BasicM
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'));
-		if (!$currentUserModel->isAdminUser() || !$fieldModel->isEditable()) {
+		if (!\App\User::getCurrentUserModel()->isAdmin() || !Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'))->isEditable()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}

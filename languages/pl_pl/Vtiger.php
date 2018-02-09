@@ -1307,6 +1307,12 @@ $languageStrings = [
 	'LBL_SHOW_INVENTORY_ROW' => 'Pokaż dodatkowe informacje',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Oblicz sumę dla tego pola',
 	'LBL_RELATED_RECORDS_LIST' => 'Lista rekordów powiązanych',
+	'BTN_PERMISSION_INSPECTOR' => 'Inspektor uprawnień',
+	'LBL_FULLTEXT_BEGIN' => 'Słowo zaczyna się od',
+	'LBL_FULLTEXT_WORD' => 'Słowo',
+	'LBL_CONTAINS' => 'Zawiera',
+	'LBL_STARTS_WITH' => 'Rozpoczyna się od',
+	'LBL_ENDS_WITH' => 'Kończy się na',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

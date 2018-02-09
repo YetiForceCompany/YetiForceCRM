@@ -23,7 +23,7 @@
 						{/foreach}
 					</select>
 				</div>
-				<input type="text" class="form-control form-control-sm globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
+				<input type="text" class="form-control form-control-sm globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="FulltextBegin" />
 				<div class="input-group-append bg-white rounded-right">
 					<button class="btn btn-outline-dark border-0 searchIcon" type="button">
 						<span class="fas fa-search fa-fw"></span>
@@ -34,9 +34,11 @@
 								<span class="fas fa-crosshairs fa-fw"></span>
 							</button>
 							<ul class="dropdown-menu globalSearchOperator">
-								<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
-								<li><a href="#" data-operator="begin">{\App\Language::translate('starts with')}</a></li>
-								<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
+								<li class="active"><a href="#" data-operator="FulltextBegin">{\App\Language::translate('LBL_FULLTEXT_BEGIN')}</a></li>
+								<li><a href="#" data-operator="FulltextWord">{\App\Language::translate('LBL_FULLTEXT_WORD')}</a></li>
+								<li><a href="#" data-operator="Contain">{\App\Language::translate('LBL_CONTAINS')}</a></li>
+								<li><a href="#" data-operator="Begin">{\App\Language::translate('LBL_STARTS_WITH')}</a></li>
+								<li><a href="#" data-operator="End">{\App\Language::translate('LBL_ENDS_WITH')}</a></li>
 							</ul>
 						</div>
 					{/if}

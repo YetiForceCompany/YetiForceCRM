@@ -22,7 +22,6 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
@@ -49,7 +48,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$taxId = $taxRecordModel->save();
 			$recordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
-			$response->setResult(array_merge(['_editurl' => $recordModel->getEditTaxUrl(), 'type' => $recordModel->getType(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
+			$response->setResult(array_merge(['_editurl' => $recordModel->getEditTaxUrl(), 'type' => $recordModel->getType(), 'row_type' => \App\User::getCurrentUserModel()->getDetail('rowheight')], $recordModel->getData()));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

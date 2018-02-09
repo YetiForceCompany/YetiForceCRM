@@ -11,6 +11,10 @@
 Class Settings_ModuleManager_List_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -22,8 +26,6 @@ Class Settings_ModuleManager_List_View extends Settings_Vtiger_Index_View
 		$viewer->assign('IMPORT_MODULE_URL', Settings_ModuleManager_Module_Model::getNewModuleImportUrl());
 		$viewer->assign('IMPORT_USER_MODULE_URL', Settings_ModuleManager_Module_Model::getUserModuleImportUrl());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}
 }

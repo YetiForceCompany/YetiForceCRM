@@ -14,20 +14,21 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		return 'DiscountConfiguration';
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
 		$config = Settings_Inventory_Module_Model::getConfig($view);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('CONFIG', $config);
 		$viewer->view('Config.tpl', $qualifiedModule);
 		\App\Log::trace('End ' . __METHOD__);

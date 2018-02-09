@@ -374,7 +374,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$active = 1;
 			}
 			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
-				'linkid' => $data['linkid'], 'userid' => Users_Record_Model::getCurrentUserModel()->getId(), 'templateid' => $templateId,
+				'linkid' => $data['linkid'], 'userid' => \App\User::getCurrentUserId(), 'templateid' => $templateId,
 				'filterid' => $data['filterid'],
 				'title' => $data['title'],
 				'data' => $data['data'],

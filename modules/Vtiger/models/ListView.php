@@ -117,6 +117,15 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-globe'
 			];
 		}
+		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
+				'linkdata' => ['url' => 'index.php?module=PermissionInspector&view=UserListModal&srcModule=' . $moduleModel->getName()],
+				'linkicon' => 'glyphicon glyphicon-lock',
+				'modalView' => true
+			];
+		}
 		foreach ($headerLinks as $headerLink) {
 			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}

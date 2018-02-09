@@ -150,7 +150,7 @@ class Vtiger_Widget_Model extends \App\Base
 		$self = new self();
 		if ($row) {
 			if ($row['linklabel'] === 'Mini List') {
-				if (!$row['isdefault']) {
+				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
@@ -158,7 +158,7 @@ class Vtiger_Widget_Model extends \App\Base
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
 			} else if ($row['linklabel'] === 'ChartFilter') {
-				if (!$row['isdefault']) {
+				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardChartFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
@@ -207,7 +207,7 @@ class Vtiger_Widget_Model extends \App\Base
 	 */
 	public function getDeleteUrl()
 	{
-		$url = 'index.php?module=' . App\Module::getModuleName($this->get('module')) . '&action=RemoveWidget&linkid=' . $this->get('linkid');
+		$url = 'index.php?module=' . App\Module::getModuleName($this->get('module')) . '&action=Widget&mode=remove&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
 		if ($widgetid) {
 			$url .= '&widgetid=' . $widgetid;

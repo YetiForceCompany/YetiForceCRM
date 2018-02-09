@@ -18,7 +18,7 @@ class RecordSearch
 	public $useCache = true;
 	public $entityName = true;
 	public $table = 'searchLabel'; //searchLabel, label
-	public $operator = 'contains'; // contains,starts,ends,fulltext 
+	public $operator = 'contains'; // contains,starts,ends,fulltext
 	public $checkPermissions = true;
 	private $moduleConditions = ['Leads' => ['where' => ['vtiger_leaddetails.converted' => 0], 'innerJoin' => ['vtiger_leaddetails' => 'csl.crmid = vtiger_leaddetails.leadid']]];
 
@@ -79,23 +79,6 @@ class RecordSearch
 		$query = (new Db\Query())->select(['csl.crmid', 'csl.setype', 'csl.searchlabel'])
 				->from('u_#__crmentity_search_label csl')->innerJoin('vtiger_tab', 'csl.setype = vtiger_tab.name');
 		$where = ['and', ['vtiger_tab.presence' => 0]];
-		if ($this->checkPermissions) {
-			$where[] = ['like', 'csl.userid', ",$this->userId,"];
-		}
-		switch ($this->operator) {
-			case 'begin': $where[] = ['like', 'csl.searchlabel', "$this->searchValue%", false];
-				break;
-			case 'ends': $where[] = ['like', 'csl.searchlabel', "%$this->searchValue", false];
-				break;
-			default:
-			case 'contains':
-				if (strpos($this->searchValue, '*') !== false || strpos($this->searchValue, '_') !== false) {
-					$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
-				} else {
-					$where[] = ['like', 'csl.searchlabel', $this->searchValue];
-				}
-				break;
-		}
 		if ($this->moduleName) {
 			$where[] = ['csl.setype' => $this->moduleName];
 			if (is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
@@ -113,7 +96,32 @@ class RecordSearch
 				$query->orderBy('vtiger_entityname.sequence');
 			}
 		}
-		return $query->where($where);
+		if ($this->checkPermissions) {
+			$where[] = ['like', 'csl.userid', ",$this->userId,"];
+		}
+		switch ($this->operator) {
+			case 'Begin':
+				$where[] = ['like', 'csl.searchlabel', "$this->searchValue%", false];
+				break;
+			case 'End':
+				$where[] = ['like', 'csl.searchlabel', "%$this->searchValue", false];
+				break;
+			default:
+			case 'Contain':
+				if (strpos($this->searchValue, '*') !== false || strpos($this->searchValue, '_') !== false) {
+					$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
+				} else {
+					$where[] = ['like', 'csl.searchlabel', $this->searchValue];
+				}
+				break;
+			case 'FulltextBegin':
+				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
+				break;
+			case 'FulltextWord':
+				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
+				break;
+		}
+		return $query->andWhere($where);
 	}
 
 	/**
@@ -124,20 +132,30 @@ class RecordSearch
 	{
 		$query = (new \App\Db\Query())->select(['cl.crmid', 'cl.label'])
 				->from('u_#__crmentity_label cl')->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid');
-		switch ($this->operator) {
-			case 'contains': $where[] = ['like', 'cl.label', $this->searchValue];
-				break;
-			case 'begin': $where[] = ['like', 'cl.label', "$this->searchValue%", false];
-				break;
-			case 'ends': $where[] = ['like', 'cl.label', "%$this->searchValue", false];
-				break;
-		}
 		if ($this->moduleName) {
 			$where[] = ['vtiger_crmentity.setype' => $this->moduleName];
+		}
+		switch ($this->operator) {
+			case 'Begin':
+				$where[] = ['like', 'cl.label', "$this->searchValue%", false];
+				break;
+			case 'End':
+				$where[] = ['like', 'cl.label', "%$this->searchValue", false];
+				break;
+			default:
+			case 'Contain':
+				$where[] = ['like', 'cl.label', $this->searchValue];
+				break;
+			case 'FulltextBegin':
+				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
+				break;
+			case 'FulltextWord':
+				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
+				break;
 		}
 		if ($this->checkPermissions) {
 			$where[] = ['like', 'vtiger_crmentity.users', ",$this->userId,"];
 		}
-		return $query->where($where);
+		return $query->andWhere($where);
 	}
 }
