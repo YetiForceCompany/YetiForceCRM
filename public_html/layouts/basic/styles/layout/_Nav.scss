@@ -49,7 +49,6 @@
 		}
 	}
 	a {
-		color: #353c44;
 		&:hover {
 			text-decoration: none;
 			cursor: pointer;
@@ -114,7 +113,7 @@
 				text-align: left;
 				padding-left: 50px;
 			}
-			a {
+			a, .menuLabel {
 				color: $primary;
 				&:hover, &:focus {
 					color: $light;
@@ -159,3 +158,15 @@
 	}
 }
 
+@media only screen and (max-width: 768px) {
+	.baseContainer:not(.leftPanelOpen) {
+		margin-left: 0px;
+	}
+    .leftPanel {
+		display: none;
+	}
+	.mobileLeftPanel {
+		display: block;
+	}
+
+}

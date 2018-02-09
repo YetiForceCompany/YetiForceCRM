@@ -3613,20 +3613,12 @@ html, body, .baseContainer {
     margin-bottom: 0px;
     margin-right: 25px;
   }
-  .baseContainer:not(.leftPanelOpen) {
-    margin-left: 0px;
-  }
+ 
   .rightHeaderBtnMenu {
     display: block;
   }
   .bodyHeader {
     left: 0px;
-  }
-  .leftPanel {
-    display: none;
-  }
-  .mobileLeftPanel {
-    display: block;
   }
   .commonActionsContainer .row {
     .col-md-5 {

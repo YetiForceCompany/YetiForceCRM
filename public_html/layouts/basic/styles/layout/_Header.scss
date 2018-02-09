@@ -35,7 +35,7 @@
 	}
 }
 
-.headerRightWrapper :not(.chatModal) {
+.headerRightWrapper {
 	.btn {
 		@extend .ml-2;
 		@extend .px-1;
