@@ -14,7 +14,7 @@
 			<div class="panel headingColor{$RECORD->get('notification_type')}" data-record="{$RECORD->getId()}">
 				<div class="panel-body padding0">
 					<div class="col-xs-2 notificationIcon">
-						<span class="glyphicon {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}glyphicon-hdd{else}glyphicon-user{/if}" aria-hidden="true"></span>
+						<span class="fas {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}fa-hdd{else}fa-user{/if}" aria-hidden="true"></span>
 					</div>
 					<div class="col-xs-10 paddingLR5 notiContent">
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
