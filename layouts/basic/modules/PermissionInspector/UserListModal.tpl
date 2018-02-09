@@ -82,7 +82,8 @@
 	<div class="modal-footer">
 		<div class="pull-right">
 			<button class="btn btn-primary" type="reset" data-dismiss="modal">
-				<strong>{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</strong>
+				<span class="glyphicon glyphicon-remove margin-right5px"></span>
+				<strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
 			</button>
 		</div>
 	</div>
