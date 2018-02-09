@@ -38,8 +38,8 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
-		$fromRecord = $request->get('from_record');
+		$record = $request->getInteger('record');
+		$fromRecord = $request->getInteger('from_record');
 
 		if (!empty($record)) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($record);
@@ -62,7 +62,6 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 	}
 
 	/**

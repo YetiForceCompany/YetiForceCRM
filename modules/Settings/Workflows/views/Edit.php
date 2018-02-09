@@ -38,7 +38,6 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 
 	public function step1(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -66,10 +65,9 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
 		$admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
-		$viewer->assign('WEEK_START_ID', $weekDays[$currentUser->get('dayoftheweek')]);
+		$viewer->assign('WEEK_START_ID', $weekDays[\App\User::getCurrentUserModel()->getDetail('dayoftheweek')]);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 

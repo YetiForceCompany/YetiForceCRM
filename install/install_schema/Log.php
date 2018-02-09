@@ -36,7 +36,7 @@ class Log extends \App\Db\Importers\Base
 			'l_#__settings_tracker_basic' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
-					'user_id' => $this->integer(10)->unsigned()->notNull(),
+					'user_id' => $this->integer(10)->unsigned(),
 					'type' => $this->smallInteger(1)->notNull(),
 					'action' => $this->stringType(50)->notNull(),
 					'record_id' => $this->integer(10),

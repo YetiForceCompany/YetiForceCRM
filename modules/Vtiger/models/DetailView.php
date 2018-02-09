@@ -129,6 +129,15 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkhint' => 'LBL_SEND_NOTIFICATION'
 			];
 		}
+		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
+			$detailViewLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
+				'linkdata' => ['url' => "index.php?module=PermissionInspector&view=UserListModal&srcModule=$moduleName&srcRecord=$recordId"],
+				'linkicon' => 'glyphicon glyphicon-lock',
+				'modalView' => true
+			];
+		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
