@@ -1354,7 +1354,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var filter = element.data('filter');
 				value = {};
 				if (selectedFilter != fieldlable) {
-					value = [[filter , 'e', selectedFilter]];
+					value = [[filter, 'e', selectedFilter]];
 				} else {
 					return;
 				}
@@ -2066,15 +2066,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var row = $(e.currentTarget).closest('.row');
 			var mailBody = row.find('.mailBody');
 			var mailTeaser = row.find('.mailTeaser');
-			var glyphicon = $(e.currentTarget).find('.glyphicon');
+			var glyphicon = $(e.currentTarget).find('[data-fa-i2svg]');
 			if (mailBody.hasClass('hide')) {
 				mailBody.removeClass('hide');
 				mailTeaser.addClass('hide');
-				glyphicon.removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
+				glyphicon.removeClass("fa-caret-down").addClass("fa-caret-up");
 			} else {
 				mailBody.addClass('hide');
 				mailTeaser.removeClass('hide');
-				glyphicon.removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+				glyphicon.removeClass("fa-caret-up").addClass("fa-caret-down");
 			}
 		});
 		container.find('[name="mail-type"]').change(function (e) {
@@ -2100,12 +2100,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		container.find('.expandAllMails').click(function (e) {
 			container.find('.mailBody').removeClass('hide');
 			container.find('.mailTeaser').addClass('hide');
-			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
+			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-down").addClass("fa-caret-up");
 		});
 		container.find('.collapseAllMails').click(function (e) {
 			container.find('.mailBody').addClass('hide');
 			container.find('.mailTeaser').removeClass('hide');
-			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-up").addClass("fa-caret-down");
 		});
 	},
 	loadMailPreviewWidget: function (widgetContent) {
