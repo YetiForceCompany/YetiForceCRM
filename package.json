@@ -20,6 +20,7 @@
 	"license": "YetiForce Public License v3",
 	"dependencies": {
 		"Flot": "https://github.com/flot/flot.git",
+		"Font-Awesome": "https://github.com/FortAwesome/Font-Awesome",
 		"add": "^2.0.6",
 		"block-ui": "^2.70.1",
 		"bootbox": "^4.4.0",

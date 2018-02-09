@@ -237,7 +237,7 @@ abstract class View extends Base
 		return $this->checkAndConvertJsScripts([
 				'libraries.js.jquery',
 				'libraries.jquery-migrate.dist.jquery-migrate',
-				'~libraries/font-awesome/js/fontawesome-all.js',
+				'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
 		]);
 	}
 

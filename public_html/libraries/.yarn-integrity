@@ -7,6 +7,7 @@
   "linkedModules": [],
   "topLevelPatterns": [
     "Flot@https://github.com/flot/flot.git",
+    "Font-Awesome@https://github.com/FortAwesome/Font-Awesome",
     "add@^2.0.6",
     "block-ui@^2.70.1",
     "bootbox@^4.4.0",
@@ -51,7 +52,6 @@
     "pnotify@^3.2.1",
     "popper.js@^1.12.9",
     "respond.js@^1.4.2",
-    "select2-bootstrap-theme@^0.1.0-beta.10",
     "select2-bootstrap4-theme@^1.0.0",
     "select2@^4.0.6-rc.1",
     "selectize@^0.12.4",
@@ -61,6 +61,7 @@
   ],
   "lockfileEntries": {
     "Flot@https://github.com/flot/flot.git": "https://github.com/flot/flot.git#958e5fd43c6dff4bab3e1fd5cb6109df5c1e8003",
+    "Font-Awesome@https://github.com/FortAwesome/Font-Awesome": "https://github.com/FortAwesome/Font-Awesome#159d220a7446ceb7cde0b0096674f60f51129bf7",
     "add@^2.0.6": "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235",
     "almond@~0.3.1": "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20",
     "ansicolors@~0.2.1": "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.2.1.tgz#be089599097b74a5c9c4a84a0cdbcdb62bd87aef",
@@ -134,7 +135,6 @@
     "popper.js@^1.12.9": "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.9.tgz#0dfbc2dff96c451bb332edcfcfaaf566d331d5b3",
     "redeyed@~1.0.0": "https://registry.yarnpkg.com/redeyed/-/redeyed-1.0.1.tgz#e96c193b40c0816b00aec842698e61185e55498a",
     "respond.js@^1.4.2": "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b",
-    "select2-bootstrap-theme@^0.1.0-beta.10": "https://registry.yarnpkg.com/select2-bootstrap-theme/-/select2-bootstrap-theme-0.1.0-beta.10.tgz#b9426ecfc03bf4a235e76a132377574310469ac0",
     "select2-bootstrap4-theme@^1.0.0": "https://registry.yarnpkg.com/select2-bootstrap4-theme/-/select2-bootstrap4-theme-1.0.0.tgz#d637ff18e7fdade8d723ad4c567ef2ba48b73094",
     "select2@^4.0.6-rc.1": "https://registry.yarnpkg.com/select2/-/select2-4.0.6-rc.1.tgz#aa6c3038a7f0f2e91ffade38f0a21c15e1813276",
     "select@^1.1.2": "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d",

@@ -7,7 +7,9 @@ powered-test
 # asset directories
 docs
 doc
-
+Font-Awesome/advanced-options
+Font-Awesome/use-on-desktop
+Font-Awesome/web-fonts-with-css
 # examples
 example
 examples
