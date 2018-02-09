@@ -33,11 +33,11 @@
 							<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="fas fa-crosshairs fa-fw"></span>
 							</button>
-							<ul class="dropdown-menu globalSearchOperator">
-								<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
-								<li><a href="#" data-operator="begin">{\App\Language::translate('starts with')}</a></li>
-								<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
-							</ul>
+							<div class="dropdown-menu globalSearchOperator">
+								<a class="active dropdown-item" href="#" data-operator="contains">{\App\Language::translate('contains')}</a>
+								<a class="dropdown-item" href="#" data-operator="begin">{\App\Language::translate('starts with')}</a>
+								<a class="dropdown-item" href="#" data-operator="ends">{\App\Language::translate('ends with')}</a>
+							</div>
 						</div>
 					{/if}
 					<button class="btn btn-outline-dark border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">

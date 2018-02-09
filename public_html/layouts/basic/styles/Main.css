@@ -5104,7 +5104,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .headerRightWrapper .btn,
+.ml-2, .headerRightWrapper .btn:not(.addMsg),
 .mx-2 {
   margin-left: 0.5rem !important; }
 
@@ -5193,7 +5193,7 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
-.headerRightWrapper .btn {
+.headerRightWrapper .btn:not(.addMsg) {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
@@ -5202,7 +5202,7 @@ button.bg-dark:focus {
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
-.headerRightWrapper .btn {
+.headerRightWrapper .btn:not(.addMsg) {
   padding-left: 0.25rem !important; }
 
 .p-2 {
@@ -11156,12 +11156,12 @@ border1px {
   .bodyHeader.menuOpen {
     left: 230px; }
 
-.headerRightWrapper .btn {
+.headerRightWrapper .btn:not(.addMsg) {
   font-size: 17px;
   height: 32px; }
-  .headerRightWrapper .btn [data-fa-i2svg] {
+  .headerRightWrapper .btn:not(.addMsg) [data-fa-i2svg] {
     margin-bottom: 4px; }
-    .headerRightWrapper .btn [data-fa-i2svg].fa-power-off {
+    .headerRightWrapper .btn:not(.addMsg) [data-fa-i2svg].fa-power-off {
       margin-bottom: 1px; }
 .headerRightWrapper .headerLinksMails {
   height: fit-content; }

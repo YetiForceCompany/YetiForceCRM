@@ -420,8 +420,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			var currentTarget = jQuery(e.target);
 			var block = currentTarget.closest('.globalSearchInput');
 			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
-			block.find('.globalSearchOperator li').removeClass('active');
-			currentTarget.closest('li').addClass('active');
+			block.find('.globalSearchOperator .dropdown-item').removeClass('active');
+			currentTarget.closest('.dropdown-item').addClass('active');
 		});
 		if (jQuery('#gsAutocomplete').val() == 1) {
 			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
