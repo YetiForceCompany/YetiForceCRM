@@ -53,14 +53,14 @@
 				</button>
 			</div>
 			{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
-			{if $USER_MODEL->is_admin == 'on'}
+			{if $USER_MODEL->isAdminUser()}
 				{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 				{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 				{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
-				<p class="hidden-xs">{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
-				<p class="visible-xs-block">{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
+				<p class="hidden-xs">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVR ,$FOOTOSP)}</p>
+				<p class="visible-xs-block">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</p>
 			{else}
-				<p>{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
+				<p>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project')}</p>
 			{/if}
 		</div>
 	</footer>
@@ -69,7 +69,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">YetiForceCRM {if $USER_MODEL->is_admin == 'on'}v{$YETIFORCE_VERSION}{/if} - The best open system in the world</h4>
+					<h4 class="modal-title" id="myModalLabel">YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open system in the world</h4>
 				</div>
 				<div class="modal-body">
 					<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;" /></p>
