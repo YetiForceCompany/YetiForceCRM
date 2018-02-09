@@ -18,19 +18,26 @@
 .select2Wrapper {
 	width: 100%;
 }
-.select2-selection.select2-selection--single {
-	font-size: $font-size-sm !important;
-	height: $menuItemsHeight !important;
-	@extend .py-2;
-}
-//-------- header --------//
-.select2WithButtonWidth {
-	width: calc(100% - #{$iconButtonWidth});
-}
-.headerLinksMails .select2-selection:hover {
-	background: $dark !important;
-	.select2-selection__rendered {
-		color: $white !important;
+.dashboardViewContainer, header {
+	.select2-selection.select2-selection--single {
+		font-size: $font-size-sm !important;
+		height: $menuItemsHeight !important;
+		@extend .py-2;
 	}
 }
+header {
+	.select2WithButtonWidth {
+		width: calc(100% - #{$iconButtonWidth});
+	}
+	.headerLinksMails .select2-selection:hover {
+		background: $dark !important;
+		.select2-selection__rendered {
+			color: $white !important;
+		}
+	}
+}
+//--- modal ---//
 
+.conditionRow .select2-container--bootstrap4 {
+	@extend .mb-2;
+}

@@ -155,13 +155,12 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : current instance
 	 */
 	addNewCondition: function (conditionGroupElement) {
-		var basicElement = jQuery('.basic', conditionGroupElement);
-		var newRowElement = basicElement.find('.conditionRow').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
-		var conditionList = jQuery('.conditionList', conditionGroupElement);
+		let basicElement = $('.basic', conditionGroupElement);
+		let newRowElement = basicElement.find('.conditionRow').clone(true, true);
+		let selectElement = newRowElement.find('select').addClass('select2');
+		let conditionList = $('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
-		//change in to chosen elements
-		app.changeSelectElementView(newRowElement);
+		app.changeSelectElementView(selectElement, 'select2');
 		return this;
 	},
 	/**

@@ -5100,7 +5100,7 @@ button.bg-dark:focus {
 .mx-2 {
   margin-right: 0.5rem !important; }
 
-.mb-2,
+.mb-2, .conditionRow .select2-container--bootstrap4,
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
@@ -5210,7 +5210,8 @@ button.bg-dark:focus {
 
 .pt-2,
 .py-2,
-.select2-selection.select2-selection--single {
+.dashboardViewContainer .select2-selection.select2-selection--single,
+header .select2-selection.select2-selection--single {
   padding-top: 0.5rem !important; }
 
 .pr-2,
@@ -5220,7 +5221,8 @@ button.bg-dark:focus {
 
 .pb-2,
 .py-2,
-.select2-selection.select2-selection--single {
+.dashboardViewContainer .select2-selection.select2-selection--single,
+header .select2-selection.select2-selection--single {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
@@ -11073,16 +11075,15 @@ border1px {
 .select2Wrapper {
   width: 100%; }
 
-.select2-selection.select2-selection--single {
+.dashboardViewContainer .select2-selection.select2-selection--single, header .select2-selection.select2-selection--single {
   font-size: 0.875rem !important;
   height: 32px !important; }
 
-.select2WithButtonWidth {
+header .select2WithButtonWidth {
   width: calc(100% - 42px); }
-
-.headerLinksMails .select2-selection:hover {
+header .headerLinksMails .select2-selection:hover {
   background: #343a40 !important; }
-  .headerLinksMails .select2-selection:hover .select2-selection__rendered {
+  header .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -11337,6 +11338,7 @@ border1px {
     .footerContainer .page-link {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
   padding: 0; }
