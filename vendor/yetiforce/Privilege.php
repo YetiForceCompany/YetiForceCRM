@@ -61,7 +61,7 @@ class Privilege
 		$actionId = Module::getActionId($actionName);
 		//Checking whether the user is admin
 		if ($userPrivileges['is_admin']) {
-			if ($record !== false && $moduleName !== 'Users') {
+			if ($record && $moduleName !== 'Users') {
 				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 				if (empty($recordMetaData)) {
 					static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
