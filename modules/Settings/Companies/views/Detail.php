@@ -24,7 +24,6 @@ class Settings_Companies_Detail_View extends Settings_Vtiger_Index_View
 		$viewer->assign('COMPANY_COLUMNS', Settings_Companies_Module_Model::getColumnNames());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 }

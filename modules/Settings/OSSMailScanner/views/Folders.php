@@ -10,10 +10,14 @@
 class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * Check permission to view
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser() || !$request->has('record')) {
+		if (!\App\User::getCurrentUserModel()->isAdmin() || !$request->has('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -23,11 +27,15 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		return 'modal-lg';
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
 		$mailModuleActive = \App\Module::getModuleId('OSSMail');
 		$folders = [];

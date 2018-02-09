@@ -491,7 +491,7 @@ CREATE TABLE `l_yf_profile` (
 
 CREATE TABLE `l_yf_settings_tracker_basic` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
   `type` tinyint(1) NOT NULL,
   `action` varchar(50) NOT NULL,
   `record_id` int(10) DEFAULT NULL,
@@ -1203,7 +1203,9 @@ CREATE TABLE `u_yf_countries` (
 CREATE TABLE `u_yf_crmentity_label` (
   `crmid` int(10) unsigned NOT NULL,
   `label` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`crmid`)
+  PRIMARY KEY (`crmid`),
+  KEY `crmentity_label` (`label`),
+  FULLTEXT KEY `crmentity_label_fulltext` (`label`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_last_changes` */
@@ -1237,8 +1239,8 @@ CREATE TABLE `u_yf_crmentity_search_label` (
   `setype` varchar(30) NOT NULL,
   `userid` text DEFAULT NULL,
   PRIMARY KEY (`crmid`),
-  KEY `searchlabel` (`searchlabel`),
-  KEY `searchlabel_2` (`searchlabel`,`setype`)
+  KEY `crmentity_searchlabel_setype` (`searchlabel`,`setype`),
+  FULLTEXT KEY `crmentity_searchlabel_fulltext` (`searchlabel`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */

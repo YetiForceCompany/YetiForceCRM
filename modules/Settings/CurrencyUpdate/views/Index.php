@@ -9,11 +9,14 @@
 class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		// synchronise bank list
 		$moduleModel->refreshBanks();
@@ -69,7 +72,6 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULENAME', 'CurrencyUpdate');
 		$viewer->assign('DATE', ($request->has('duedate') ? (new Vtiger_Date_UIType())->getDisplayValue($dateCur) : ''));

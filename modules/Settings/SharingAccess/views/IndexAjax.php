@@ -20,13 +20,16 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 		$this->exposeMethod('editRule');
 	}
 
+	/**
+	 * Show rules
+	 * @param \App\Request $request
+	 */
 	public function showRules(\App\Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$forModule = $request->get('for_module');
+		$forModule = $request->getByType('for_module', 'Alnum');
 
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		$ruleModelList = Settings_SharingAccess_Rule_Model::getAllByModule($moduleModel);
@@ -36,19 +39,20 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FOR_MODULE', $forModule);
 		$viewer->assign('RULE_MODEL_LIST', $ruleModelList);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
 	}
 
+	/**
+	 * Edit rule
+	 * @param \App\Request $request
+	 */
 	public function editRule(\App\Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$forModule = $request->get('for_module');
-		$ruleId = $request->get('record');
+		$forModule = $request->getByType('for_module', 'Alnum');
+		$ruleId = $request->getInteger('record');
 
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		if ($ruleId) {
@@ -64,15 +68,13 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 		$viewer->assign('RULE_MODEL', $ruleModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		echo $viewer->view('EditRule.tpl', $qualifiedModuleName, true);
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return \Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{

@@ -263,7 +263,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		AppConnector.request(params).then(
 				function (data) {
 					currentTarget.data('state', status);
-					currentTarget.find('.glyphicon').each(function () {
+					currentTarget.find('[data-fa-i2svg]').each(function () {
 						if (jQuery(this).hasClass('hide')) {
 							jQuery(this).removeClass('hide');
 						} else {

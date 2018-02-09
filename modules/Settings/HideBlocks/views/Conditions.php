@@ -9,15 +9,18 @@
 Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$blockId = $request->get('blockid');
+		$recordId = $request->getInteger('record');
+		$blockId = $request->getInteger('blockid');
 		$views = $request->get('views');
 		$qualifiedModuleName = $request->getModule(false);
 		$mode = '';
 		$viewer = $this->getViewer($request);
-
 
 		if ($views != '')
 			$views = implode($views, ',');
@@ -59,7 +62,6 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$viewer->assign('BLOCKID', $blockId);
 		$viewer->assign('ENABLED', $request->get('enabled'));
 		$viewer->assign('VIEWS', $views);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('Conditions.tpl', $qualifiedModuleName);
 	}
 

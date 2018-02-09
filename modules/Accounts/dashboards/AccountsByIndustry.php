@@ -75,9 +75,13 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		return $response;
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
@@ -116,7 +120,6 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('DTIME', $dates);
 
 		$accessibleUsers = \App\Fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleUsersForModule();
