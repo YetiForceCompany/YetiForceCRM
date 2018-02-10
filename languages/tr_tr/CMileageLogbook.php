@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
  */		
 $languageStrings =	 [	
-	'CMileageLogbook' => 'Kilometre logosu kitabı'
-	'SINGLE_CMileageLogbook' => 'Kilometre logosu kitabı'
+	'CMileageLogbook' => 'Kilometre logosu kitabı',
+	'SINGLE_CMileageLogbook' => 'Kilometre logosu kitabı',
 	//BLOCKS	
 	'LBL_ADDITIONAL_INFORMATION' => 'Ek bilgi',
 	'LBL_BASIC_INFORMATION' => 'Temel bilgiler',
@@ -19,7 +19,7 @@ $languageStrings =	 [
 	'FL_NUMBER_KILOMETERS' => 'Kilometre sayısı',
 	//PickList	
 	'PLL_DRAFT' => 'Taslak',
-	'PLL_FOR_APPROVAL' => 'Onay için'
-	'PLL_ACCEPTED' => 'Kabul Edildi'
+	'PLL_FOR_APPROVAL' => 'Onay için',
+	'PLL_ACCEPTED' => 'Kabul Edildi',
 	'PLL_CANCELLED' => 'İptal edildi',
 ];		
