@@ -8,7 +8,7 @@
  * All Rights Reserved.		
  * Contributor(s): YetiForce.com		
  * ********************************************************************************** */		
-$languageStrings 	 [	
+$languageStrings =	 [	
 	// Basic Strings	
 	'Assets' => 'Varlıklar',
 	'SINGLE_Assets' => 'Varlık',
