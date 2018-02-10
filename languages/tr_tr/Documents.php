@@ -57,7 +57,7 @@ $languageStrings =	 [
 ];		
 		
 $jsLanguageStrings =	 [	
-	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Dosya (ları)' ya taşımak istediğinize emin misiniz? ',
+	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Dosya (ları) ya taşımak istediğinize emin misiniz? ',
 	'JS_FOLDER' => 'klasör'
 	'JS_FOLDER_IS_NOT_EMPTY' => 'Klasör boş değil',
 	'JS_MOVE_DOCUMENTS' => 'Belgeleri taşı',
