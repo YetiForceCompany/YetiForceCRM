@@ -101,7 +101,7 @@ $languageStrings =	 [
 	'LBL_NUMBER_OF_ACTIVE_CONTRACTS'  => 'Etkin SLA sayısı',
 	'LBL_VIEW_ACCOUNTSLISTTREE'  => 'Ürünler ve hizmetler',
 ];		
-$jsLanguageStrings 	 [	
+$jsLanguageStrings =	 [	
 	'LBL_APPROVE'  => 'onayla',
 	'JS_DUPLICTAE_CREATION_CONFIRMATION'  => 'Hesap adı zaten var. Yinelenen bir kayıt oluşturmak istiyor musunuz? ',
 	'LBL_DELETE_CONFIRMATION'  => 'Bu Hesabı silmek ilgili İmkânları ve Tırnakları kaldırır. Bu Hesabı silmek istediğinizden emin misiniz? ',
