@@ -9,11 +9,11 @@
  * Contributor(s): YetiForce.com		
  * ********************************************************************************** */		
 $languageStrings =	 [	
-	'Member Of' => 'Üye'
+	'Member Of' => 'Üye',
 	'Birthdate' => 'Doğum tarihi',
 	'Contact Id' => 'Kontak kimliği',
 	'Contact Image' => 'Temas imajı',
-	'Contacts' => 'Kişiler'
+	'Contacts' => 'Kişiler',
 	'Do Not Call' => 'Ara verme',
 	'Email' => 'Birincil e-posta',
 	'LBL_CONTACT_INFORMATION' => 'Temel bilgiler',
@@ -33,7 +33,7 @@ $languageStrings =	 [
 	'User List' => 'Kullanıcı listesi',
 	'Job title' => 'İş unvanı',
 	//Added for Picklist Values	
-	'Dr.' => 'Dr.'
+	'Dr.' => 'Dr.',
 	'Mr.' => 'Bay',
 	'Mrs.' => 'Bayan',
 	'Ms.' => 'Bayan',
@@ -46,7 +46,7 @@ $languageStrings =	 [
 	'LBL_CONTACT_INFO' => 'İletişim bilgileri',
 	'Approval for phone calls' => 'Çağrı izni',
 	'Approval for email' => 'E-posta gönderme izni',
-	'LBL_LANGUAGE_NOTIFICATIONS' => 'Dil bildirimleri'
+	'LBL_LANGUAGE_NOTIFICATIONS' => 'Dil bildirimleri',
 	'Decision maker' => 'Karar verici',
 	//Activity Types	
 	'End of support for contact' => 'Temas desteğinin sonu',
