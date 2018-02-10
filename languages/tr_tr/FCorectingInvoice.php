@@ -20,7 +20,7 @@ $languageStrings =	 [
 	'FL_BANK_ACCOUNT' => 'Banka hesap numarası',
 	'FL_NUMBER' => 'Fatura numarası',
 	'FL_ACCOUNT' => 'Hesap',
-	'FL_TOTAL' => 'Net'
+	'FL_TOTAL' => 'Net',
 	'FL_GROSS' => 'Brüt',
 	'FL_STATUS' => 'Durum',
 	//PICKLIST VALUES	
