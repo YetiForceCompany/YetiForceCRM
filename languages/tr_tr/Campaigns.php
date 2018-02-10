@@ -43,7 +43,7 @@ $languageStrings =	 [
 	'Good' => 'İyi',
 	'Inactive' => 'Etkin değil',
 	'Active' => 'Aktif',
-	'--None--' => "Hiçkimse--"
+	'--None--' => "--Yok--"
 	'Num Sent' => 'Numara gönderildi',
 	'Others' => 'Diğerleri',
 	'Planning' => 'Planlama',
@@ -61,6 +61,6 @@ $languageStrings =	 [
 	'LBL_LOAD_RECORDS_INFO' => 'Filtrede belirtilen şartları sağlayan tüm kayıtları yüklemek için kullanılan düğme',
 	'LBL_COUNT_RECORDS_WIDGET' => 'İlgili modül kayıtlarının sayısı',
 ];		
-$jsLanguageStrings 	 [	
+$jsLanguageStrings =	 [	
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Filtreden tüm kayıtları eklemek istiyor musunuz?',
 ];		
