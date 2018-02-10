@@ -48,12 +48,12 @@ $languageStrings =	 [
 	// Picklist	
 	'PLL_UNAVAILABLE' => 'Kullanılamıyor',
 	'PLL_AVAILABLE' => 'Uygun',
-	'PLL_DEMAGED' => 'Hasar görmüş'
+	'PLL_DEMAGED' => 'Hasar görmüş',
 	'PLL_IN_USE' => 'Kullanımda',
 	'PLL_UNDER_REPAIR' => 'Tamir altında',
 	'PLL_PENDING_FOR_REPROCESSING' => 'Yeniden işleme tabi tutulması bekleniyor',
 	'PLL_PENDING_FOR_SALE' => 'Satışa hazır',
-	'PLL_REPROCESSED' => 'Yeniden İşlenmiş'
+	'PLL_REPROCESSED' => 'Yeniden İşlenmiş',
 	'PLL_SOLD' => 'Satıldı',
 	'PLL_DEVICE' => 'Cihaz',
 	'PLL_MACHINE' => 'Makine',
