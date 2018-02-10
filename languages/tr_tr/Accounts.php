@@ -56,7 +56,7 @@ $languageStrings =	 [
 	'PLL_CLOSED_CLIENT'  => 'Kapatılan müşteri',
 	'PLL_BLACKLISTED_CLIENT'  => 'Kara listeye alınmış müşteri',
 	'PLL_NATURAL_PERSON'  => 'Özel şahıs',
-	'PLL_BUSINESS_ACTIVITY'  => 'Şöhret sahibi mülkiyet'
+	'PLL_BUSINESS_ACTIVITY'  => 'Şöhret sahibi mülkiyet',
 	'PLL_GENERAL_PARTNERSHIP'  => 'Kayıtlı ortaklık',
 	'PLL_PROFESSIONAL_PARTNERSHIP'  => 'Profesyonel ortaklık',
 	'PLL_LIMITED_PARTNERSHIP'  => 'Sınırlı ortaklık',
@@ -94,7 +94,7 @@ $languageStrings =	 [
 	'LBL_LEGAL_FORM'  => 'Hukuk formu',
 	'LBL_INVENTORY_BALANCE'  => 'denge',
 	'LBL_DISCOUNT'  => 'İndirim',
-	'LBL_CREDIT_LIMIT'  => 'Tüccar limiti'
+	'LBL_CREDIT_LIMIT'  => 'Tüccar limiti',
 	// OTHERS	
 	'LBL_DEACTIVATED_BY'  => 'Hesap devre dışı bırakıldı',
 	'SINGLE_Vendors'  => 'Satıcı',
