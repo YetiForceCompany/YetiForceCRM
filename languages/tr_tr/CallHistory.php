@@ -28,7 +28,7 @@ $languageStrings =	 [
 	'LBL_IPADDRESS' => 'Kimlik adresi',
 	'LBL_SIMSERIAL' => 'SIM numarası',
 	'LBL_SUBSCRIBERID' => 'Abone numarası',
-	'LBL_DESTINATION' => 'Nereden çağrıldı'
+	'LBL_DESTINATION' => 'Nereden çağrıldı',
 	'LBL_SOURCE' => 'Çağrı kaynağı',
 	'Record Id' => 'Kayıt Kimliği',
 	//pick list values	
