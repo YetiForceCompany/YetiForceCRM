@@ -24,7 +24,7 @@ $languageStrings =	 [
 	'PLL_FOR_PROCESSING' => 'Gerçekleştirme için',
 	'PLL_IN_PROGRESSING' => 'Devam ediyor',
 	'PLL_SUBMITTED_COMMENTS' => 'Sunulan yorumlar',
-	'PLL_FOR_APPROVAL' => 'Onay için'
+	'PLL_FOR_APPROVAL' => 'Onay için',
 	'PLL_CANCELLED' => 'İptal edildi',
-	'PLL_ACCEPTED' => 'Kabul Edildi'
+	'PLL_ACCEPTED' => 'Kabul Edildi',
 ];		
