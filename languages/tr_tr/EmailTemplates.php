@@ -7,7 +7,7 @@
  */		
 $languageStrings =	 [	
 	'EmailTemplates' => 'E-posta şablonları',
-	'SINGLE_EmailTemplates' => 'E-posta şablonu'
+	'SINGLE_EmailTemplates' => 'E-posta şablonu',
 	//BLOCKS	
 	'LBL_CONTENT_MAIL' => 'E-posta içeriği',
 	'LBL_BASIC_DETAILS' => 'Temel bilgiler',
