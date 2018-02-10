@@ -14,7 +14,7 @@ $languageStrings =	 [
 	'Campaigns' => 'Kampanyalar',
 	'SINGLE_Campaigns' => 'Pazarlama kampanyası',
 	//FIELDS	
-	'Budget Cost' => 'Kampanya bütçesi'
+	'Budget Cost' => 'Kampanya bütçesi',
 	'Campaign Type' => 'Kampanya türü',
 	//BLOCKS	
 	'LBL_CAMPAIGN_INFORMATION' => 'Kampanya ayrıntıları',
@@ -32,7 +32,7 @@ $languageStrings =	 [
 	'Cancelled' => 'İptal edildi',
 	'Contacted - Never Contact Again' => 'Temas kuruldu - bir daha asla iletişime geçme',
 	'Contacted - Successful' => 'Temaslı - başarılı',
-	'Contacted - Unsuccessful' => 'Temaslı - başarısız'
+	'Contacted - Unsuccessful' => 'Temaslı - başarısız',
 	'Direct Mail' => 'Doğrudan posta',
 	'Excellent' => 'Mükemmel',
 	'Expected Response Count' => 'Beklenen yanıt sayısı',
