@@ -35,7 +35,7 @@ $languageStrings =	 [
 	'Outgoing missed' => 'Cevap Yok',
 	'Outgoing received' => 'Alındı',
 	'Incoming' => 'Gelen',
-	'Missed' => 'Cevapsız'
+	'Missed' => 'Cevapsız',
 	'Voicemail' => 'Sesli mesaj',
 	'Call history' => 'Çağrı Geçmişi',
 ];		
