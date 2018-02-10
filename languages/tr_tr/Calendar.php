@@ -8,7 +8,7 @@
  * All Rights Reserved.		
  * Contributor(s): YetiForce.com		
  * ********************************************************************************** */		
-$languageStrings 	 [	
+$languageStrings =	 [	
 	'Status' => 'Durum',
 	'Activity Type' => 'Etkinlik türü',
 	'Call' => 'Ara',
@@ -146,7 +146,7 @@ $languageStrings 	 [
 	'FL_REAPEAT' => 'Tekrarla',
 ];		
 		
-$jsLanguageStrings 	 [	
+$jsLanguageStrings =	 [	
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Kablolardan iletişim seçemiyorum',
 	'JS Activity Type' => 'Etkinlik türü',
 	'JS_SATATUS' => 'Durum',
