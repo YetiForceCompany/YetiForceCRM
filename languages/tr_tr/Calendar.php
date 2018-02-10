@@ -147,7 +147,7 @@ $languageStrings =	 [
 ];		
 		
 $jsLanguageStrings =	 [	
-	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Kablolardan iletişim seçemiyorum',
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'İlanlardan iletişim seçemiyorum',
 	'JS Activity Type' => 'Etkinlik türü',
 	'JS_SATATUS' => 'Durum',
 	'JS_End Date' => 'Bitiş tarihi',
