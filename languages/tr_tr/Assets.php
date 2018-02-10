@@ -30,13 +30,13 @@ $languageStrings =	 [
 	'FL_CONTACT' => 'İletişim',
 	/* picklist values */	
 	'PLL_DRAFT' => 'Taslak',
-	'PLL_ACCEPTED' => 'Kabul Edildi'
+	'PLL_ACCEPTED' => 'Kabul Edildi',
 	'PLL_CANCELLED' => 'İptal edildi',
 	'PLL_PLANNED' => 'Planlı',
 	'PLL_WAITING_FOR_RENEWAL' => 'Yenileme için bekleniyor',
 	'PLL_WAITING_FOR_VERIFICATION' => 'Doğrulamayı bekliyor',
 	'PLL_WAITING_FOR_ACCEPTANCE' => 'Kabul bekliyor',
-	'PLL_RENEWED' => 'Yenilendi'
+	'PLL_RENEWED' => 'Yenilendi',
 	'PLL_NOT_RENEWED' => 'Yenilenmedi'
 	'PLL_NOT_APPLICABLE' => 'Geçerli değil',
 	'PLL_RENEWED_VERIFICATION' => 'Yenilendi (doğrulama)',
