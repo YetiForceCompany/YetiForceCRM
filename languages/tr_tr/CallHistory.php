@@ -32,10 +32,10 @@ $languageStrings =	 [
 	'LBL_SOURCE' => 'Çağrı kaynağı',
 	'Record Id' => 'Kayıt Kimliği',
 	//pick list values	
-	'Outgoing missed' => 'Giden cevapsız',
-	'Outgoing received' => 'Giden alındı',
-	'Incoming' => 'Gelen alındı',
-	'Missed' => 'Cevapsız' mesajı
-	'Voicemail' => 'Sesli mesaj gelme',
+	'Outgoing missed' => 'Cevap Yok',
+	'Outgoing received' => 'Alındı',
+	'Incoming' => 'Gelen',
+	'Missed' => 'Cevapsız'
+	'Voicemail' => 'Sesli mesaj',
 	'Call history' => 'Çağrı Geçmişi',
 ];		
