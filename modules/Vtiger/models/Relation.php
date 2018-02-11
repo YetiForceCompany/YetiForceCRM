@@ -659,7 +659,7 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->set('relatedModuleName', $row['modulename']);
-			$relationModels[] = $relationModel;
+			$relationModels[$row['related_tabid']] = $relationModel;
 		}
 		return $relationModels;
 	}
