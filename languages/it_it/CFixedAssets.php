@@ -11,7 +11,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_VEHICLE' => 'Vehicle',
 	'LBL_BASIC_INFORMATION' => 'Basic information',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_DESCRIPTION_BLOCK' => 'Descrizione',
 	'LBL_ATTENTION_BLOCK' => 'Notes',
 	//FIELDS
 	'FL_SUBJECT' => 'Name',
@@ -20,12 +20,12 @@ $languageStrings = [
 	'FL_PRODUCENT_DESIGNATION' => 'Manufacturer\’s marking',
 	'FL_ADDITIONAL_DESIGNATION' => 'Additional marking',
 	'FL_INTERNAL_DESIGNATION' => 'Internal marking',
-	'FL_DATE_PRODUCTION' => 'Production data',
+	'FL_DATE_PRODUCTION' => 'Data di Produzione',
 	'FL_DATE_ACQUISITION' => 'Purchase date',
 	'FL_PURCHASE_PRICE' => 'Purchase price',
 	'FL_ACTUAL_PRICE' => 'Actual price',
 	'FL_RESERVATION' => 'Reservation available',
-	'FL_CATEGORY' => 'Category',
+	'FL_CATEGORY' => 'Categoria',
 	'FL_FUEL_TYPE' => 'Fuel type',
 	'FL_TIMING_CHANGE' => 'Camshaft replacement period',
 	'FL_OIL_TYPE' => 'Oil replacement period',

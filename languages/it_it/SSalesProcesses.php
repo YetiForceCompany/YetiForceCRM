@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'SSalesProcesses' => 'Opportunities',
-	'SINGLE_SSalesProcesses' => 'Opportunity',
+	'SSalesProcesses' => 'Opportunità',
+	'SINGLE_SSalesProcesses' => 'Opportunità',
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'System information',
@@ -27,7 +27,7 @@ $languageStrings = [
 	'FL_TYPE' => 'Type',
 	'FL_STATUS' => 'Status',
 	'FL_CAMPAIGN' => 'Marketing campaign',
-	'FL_MEMBER_OF' => 'Parent Sales Opportunity',
+	'FL_MEMBER_OF' => 'Opportunità di Vendita Originaria',
 	'FL_START_DATE' => 'Start date',
 	//Picklist
 	'PLL_WEBSITE' => 'Website',
@@ -45,10 +45,10 @@ $languageStrings = [
 	'PLL_TENDER' => 'Tender',
 	'PLL_DRAFT' => 'Draft',
 	'PLL_FOR_REALIZATION' => 'For realization',
-	'PLL_QUOTE_ENQUIRY' => 'Quote enquiry',
+	'PLL_QUOTE_ENQUIRY' => 'Richiesta di Preventivo',
 	'PLL_REQUIREMENTS_CARD' => 'Requirements Card',
 	'PLL_CALCULATION' => 'Calculation',
-	'PLL_QUOTE' => 'Quote',
+	'PLL_QUOTE' => 'Preventivo',
 	'PLL_NEGOTIATIONS' => 'Negotiations',
 	'PLL_AWAITING_DECISION' => 'Awaiting decision',
 	'PLL_AWAITING_SIGNATURES' => 'Awaiting signatures',

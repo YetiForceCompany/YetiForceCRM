@@ -10,7 +10,7 @@ $languageStrings = [
 	'OSSMailView' => 'Email aziendale',
 	'SINGLE_OSSMailView' => 'Email aziendale',
 	'LBL_ADD_RECORD' => 'Aggiungi',
-	'LBL_RECORDS_LIST' => 'Lista delle email',
+	'LBL_RECORDS_LIST' => 'Elenco email',
 	// Blocks
 	'LBL_INFORMATION' => 'General Information',
 	'LBL_ORIGN_MESSAGE' => 'Original message',

@@ -8,7 +8,7 @@
 $languageStrings = [
 	'IPreOrder' => 'Pre-ordine',
 	'SINGLE_IPreOrder' => 'Pre-order',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_DESCRIPTION_BLOCK' => 'Descrizione',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
 	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
 	'FL_ACCOUNT' => 'Account',

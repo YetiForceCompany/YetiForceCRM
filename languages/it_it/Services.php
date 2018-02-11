@@ -9,7 +9,7 @@ $languageStrings = [
 	// Basic Strings
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Aggiungi Elemento',
 	'LBL_RECORDS_LIST' => 'Services list',
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Service details',
@@ -23,9 +23,9 @@ $languageStrings = [
 	//Field Labels
 	'Service Name' => 'Service name',
 	'Service Active' => 'Active',
-	'Service Category' => 'Category',
+	'Service Category' => 'Categoria',
 	'Service No' => 'Service number',
-	'Owner' => 'Assigned To',
+	'Owner' => 'Assegnato a',
 	'Share with users' => 'Shared with',
 	'No of Units' => 'Number of units',
 	'Commission Rate' => 'Commission rate',

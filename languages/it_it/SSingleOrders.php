@@ -11,7 +11,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_SSINGLEORDERS_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_DESCRIPTION_INFORMATION' => 'Dettagli Descrizione',
 	'LBL_STATISTICS' => 'Statistics',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Actual completion date',
 	'LBL_COMPANY_NAME' => 'Company name',
 	'SINGLE_SSalesProcesses' => 'Opportunity',
-	'FL_TOTAL_PRICE' => 'Net total',
+	'FL_TOTAL_PRICE' => 'Totale Netto',
 	'FL_MARGINP' => 'Total margin percentage',
 	'FL_MARGIN' => 'Total margin',
 	'FL_SUM_GROSS' => 'Gross amount',
@@ -32,7 +32,7 @@ $languageStrings = [
 	'FL_POS' => 'POS',
 	'FL_NUMBER_TABLE' => 'Table number',
 	'FL_NUMBER_SEAT' => 'Seat number',
-	'FL_STORAGE' => 'Storage',
+	'FL_STORAGE' => 'Magazzino',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',
 	'PLL_IN_REALIZATION' => 'In realization',

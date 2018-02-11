@@ -13,8 +13,8 @@ $languageStrings = [
 	//Fields
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_STATUS' => 'Status',
-	'Description' => 'Basic description',
-	'LBL_EXTENT_DESCRIPTION' => 'Detailed description',
+	'Description' => 'Descrizione Base',
+	'LBL_EXTENT_DESCRIPTION' => 'Descrizione Dettagliata',
 	'Attention' => 'Comments',
 	'LBL_NO' => 'Number',
 	//pick list values

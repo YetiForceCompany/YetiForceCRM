@@ -10,10 +10,10 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'LBL_PROJECTS_LIST' => 'List of projects',
-	'LBL_SUMMARY' => 'Work time summary',
+	'LBL_SUMMARY' => 'Riepilogo Orari di Lavoro',
 	// Basic Strings
 	'SINGLE_Project' => 'Project',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Aggiungi Elemento',
 	'LBL_RECORDS_LIST' => 'Projects list',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Project details',
@@ -32,9 +32,9 @@ $languageStrings = [
 	'LBL_TASKS_LOW' => 'Low priority',
 	'LBL_TASKS_OTHER' => 'Other priorities',
 	'LBL_SELECT_PROGRESS' => 'Select progress',
-	'description' => 'Description',
+	'description' => 'Descrizione',
 	'Related to' => 'Related to',
-	'FL_MEMBER_OF' => 'Parent Project',
+	'FL_MEMBER_OF' => 'Progetto Originario',
 	//Summary Information
 	'LBL_TASKS_OPEN' => 'Tasks opened',
 	'LBL_TASKS_DUE' => 'Tasks due',

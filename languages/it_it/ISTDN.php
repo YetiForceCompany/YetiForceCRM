@@ -6,15 +6,15 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'ISTDN' => 'Storage Transfer Dispatched Notes',
-	'SINGLE_ISTDN' => 'Storage Transfer Dispatched Note',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'ISTDN' => 'Spedizione Trasferimento Magazzino',
+	'SINGLE_ISTDN' => 'Spedizione Trasferimento Magazzino',
+	'LBL_DESCRIPTION_BLOCK' => 'Descrizione',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
 	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
 	'FL_ACCOUNT' => 'Account',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
-	'FL_STORAGE' => 'Storage',
+	'FL_STORAGE' => 'Magazzino',
 	'FL_STATUS' => 'Status',
 	'PLL_DRAFT' => 'Draft',
 	'PLL_IN_REALIZATION' => 'In realization',

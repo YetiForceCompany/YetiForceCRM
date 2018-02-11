@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'MultiCompany' => 'Departments',
-	'SINGLE_MultiCompany' => 'Department',
+	'MultiCompany' => 'Aree',
+	'SINGLE_MultiCompany' => 'Area',
 	//BLOCKS
 	'LBL_BASIC_INFORMATION' => 'Company details',
 	'LBL_CONTACT_INFORMATION' => 'Contact info',
@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_INFORMATION' => 'Additional info',
 	//FIELDS
 	'FL_COMPANY_NAME' => 'Company name',
-	'FL_PARENT' => 'Parent department',
+	'FL_PARENT' => 'Collegata all\'Area',
 	'FL_STATUS' => 'Status',
 	'FL_EMAIL_1' => 'Primary email',
 	'FL_EMAIL_2' => 'Secondary email',

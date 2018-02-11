@@ -54,5 +54,5 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'No permissions to move',
-	'JS_PERMISSION_DENIED' => 'Permissions denied',
+	'JS_PERMISSION_DENIED' => 'Permesso negato',
 ];

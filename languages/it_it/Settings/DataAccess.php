@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_CONDITION_OPTION' => 'Any condition',
 	'LBL_CONDITION_OPTION_DSC' => 'At least one condition within this section must be fulfilled.',
 	'LBL_ACTION' => 'Action',
-	'LBL_ACTIONDESC' => 'Description',
+	'LBL_ACTIONDESC' => 'Descrizione',
 	'LBL_NEW_ACTION' => 'Add action',
 	'LBL_CREATION_ACTION' => 'Create new action',
 	'LBL_CREATION_DESC' => 'Select action to add',
@@ -80,7 +80,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'DES_REQUIRED' => 'Description is required',
+	'DES_REQUIRED' => 'La Descrizione è richiesta',
 	//comparators
 	'starts with' => 'starts with',
 	'is' => 'is',

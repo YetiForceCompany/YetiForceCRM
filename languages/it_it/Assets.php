@@ -13,7 +13,7 @@ $languageStrings = [
 	'Assets' => 'Beni',
 	'SINGLE_Assets' => 'Bene',
 	'LBL_ADD_RECORD' => 'Aggiungi',
-	'LBL_RECORDS_LIST' => 'Lista beni',
+	'LBL_RECORDS_LIST' => 'Elenco beni',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Dettagli',
 	//Field Labels
@@ -44,7 +44,7 @@ $languageStrings = [
 	'PLL_NOT_RENEWED_VERIFICATION' => 'Not renewed (verification)',
 	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Not applicable (verification)',
 	//YetiForce
-	'description' => 'Description',
+	'description' => 'Descrizione',
 	'attentions' => 'Comments',
 	'BLOCK_INFORMATION_TIME' => 'Time information',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',

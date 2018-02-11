@@ -13,7 +13,7 @@ $languageStrings = [
 	'Campaign No' => 'Campaign no.',
 	'Campaigns' => 'Campaigns',
 	'SINGLE_Campaigns' => 'Marketing campaign',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Aggiungi Elemento',
 	'LBL_RECORDS_LIST' => 'Campaigns list',
 	//FIELDS
 	'Budget Cost' => 'Campaign budget',
@@ -51,7 +51,7 @@ $languageStrings = [
 	'Planning' => 'Planning',
 	'Completed' => 'Completed',
 	'Poor' => 'Poor',
-	'Product' => 'Product',
+	'Product' => 'Prodotto',
 	'Referral Program' => 'Referral program',
 	'Sponsor' => 'Sponsor',
 	'Target Audience' => 'Target audience',

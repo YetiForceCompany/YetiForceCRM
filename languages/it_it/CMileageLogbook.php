@@ -11,7 +11,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_ADDITIONAL_INFORMATION' => 'Additional information',
 	'LBL_BASIC_INFORMATION' => 'Basic information',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_DESCRIPTION_BLOCK' => 'Descrizione',
 	'LBL_ATTENTION_BLOCK' => 'Notes',
 	//FIELDS
 	'FL_SUBJECT' => 'Subject',

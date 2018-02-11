@@ -11,7 +11,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_DESCRIPTION_INFORMATION' => 'Dettagli Descrizione',
 	'LBL_STATISTICS' => 'Statistics',
 	'LBL_PERIODIC_GENERATION' => 'Periodic generation',
 	//FIELDS

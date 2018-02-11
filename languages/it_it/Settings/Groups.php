@@ -19,7 +19,7 @@ $languageStrings = [
 	'SINGLE_Groups' => 'Group',
 	'Users' => 'Users',
 	'Name' => 'Group name',
-	'Description' => 'Description',
+	'Description' => 'Descrizione',
 ];
 
 $jsLanguageStrings = [

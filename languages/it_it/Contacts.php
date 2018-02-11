@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_COPY_OTHER_ADDRESS' => 'Copy other address',
 	'LBL_CUSTOMER_PORTAL_INFORMATION' => 'Dettagli portale',
 	'LBL_IMAGE_INFORMATION' => 'Foto',
-	'LBL_RECORDS_LIST' => 'Lista contatti',
+	'LBL_RECORDS_LIST' => 'Elenco contatti',
 	'Office Phone' => 'Telefono ufficio',
 	'Portal User' => 'Utente portale',
 	'Reference' => 'Referenza',
@@ -32,7 +32,7 @@ $languageStrings = [
 	'Support End Date' => 'Data fine supporto',
 	'Support Start Date' => 'Data inizio supporto',
 	'Title' => 'Titolo',
-	'User List' => 'Lista utente',
+	'User List' => 'Elenco utente',
 	'Job title' => 'Impiego',
 	//Added for Picklist Values
 	'Dr.' => 'Dr.',
