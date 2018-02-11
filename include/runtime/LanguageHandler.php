@@ -20,11 +20,12 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Functions that gets translated string
-	 * @param string $key - string which need to be translated
-	 * @param string $module - module scope in which the translation need to be check
-	 * @return string - translated string
+	 * @param string $key string which need to be translated
+	 * @param string $module module scope in which the translation need to be check
+	 * @param string $currentLanguage
+	 * @return string translated string
 	 */
-	public static function getTranslatedString($key, $module = 'Vtiger', $currentLanguage = false)
+	public static function getTranslatedString($key, $module = 'Vtiger', $currentLanguage = '')
 	{
 		if (!$currentLanguage) {
 			$currentLanguage = \App\Language::getLanguage();

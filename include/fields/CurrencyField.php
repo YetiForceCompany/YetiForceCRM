@@ -362,7 +362,7 @@ class CurrencyField
 			$number = implode($decimalSeparator, $numericParts);
 			return $sign . $number;
 		}
-		return $number;
+		return $value;
 	}
 
 	/**

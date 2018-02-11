@@ -267,7 +267,7 @@ class DateTimeRange
 	 * @param DateTime $dateObject
 	 * @return date range of present quarter
 	 */
-	public static function getPresentQuarterRange($month = null, &$dateObject = null)
+	public static function getPresentQuarterRange($month = 0, &$dateObject = null)
 	{
 		$quarter = [];
 		if (!$month) {
@@ -300,7 +300,7 @@ class DateTimeRange
 	 * @param DateTime $dateObject
 	 * @return date range of present quarter
 	 */
-	public static function getPreviousQuarterRange($month = null, &$dateObject = null)
+	public static function getPreviousQuarterRange($month = 0, &$dateObject = null)
 	{
 		$quarter = [];
 		if (!$month) {
@@ -334,7 +334,7 @@ class DateTimeRange
 	 * @param DateTime $dateObject
 	 * @return date range of present quarter
 	 */
-	public static function getNextQuarterRange($month = null, $dateObject = null)
+	public static function getNextQuarterRange($month = 0, $dateObject = null)
 	{
 		$quarter = [];
 		if (!$month) {
