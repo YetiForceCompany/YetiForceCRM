@@ -6,12 +6,12 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'SRequirementsCards' => 'Sales requirements',
-	'SINGLE_SRequirementsCards' => 'Sales requirement',
+	'SRequirementsCards' => 'Requisiti Vendita',
+	'SINGLE_SRequirementsCards' => 'Requisito Vendita',
 	//BLOCKS
 	'LBL_SREQUIREMENTSCARDS_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_DESCRIPTION_INFORMATION' => 'Dettagli Descrizione',
 	'LBL_STATISTICS' => 'Statistics',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',

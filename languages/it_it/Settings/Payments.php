@@ -9,7 +9,7 @@
  * ********************************************************************************** */
 
 $languageStrings = [
-	'Payments' => 'Payments',
+	'Payments' => 'Pagamenti',
 	'LBL_RIGHT_CLICK_COPY' => 'Right click and copy',
 ];
 

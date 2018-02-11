@@ -8,7 +8,7 @@
 $languageStrings = [
 	'CallHistory' => 'Call history',
 	'SINGLE_CallHistory' => 'Call history',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Aggiungi Elemento',
 	'LBL_RECORDS_LIST' => 'Record list',
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Call history information',

@@ -6,12 +6,12 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_SUMMARY' => 'Work time summary',
+	'LBL_SUMMARY' => 'Riepilogo Orari di Lavoro',
 	// Basic Strings
 	'ServiceContracts' => 'Service Contracts',
 	'Service Contracts' => 'Service Contracts',
 	'SINGLE_ServiceContracts' => 'Service Contract',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Aggiungi Elemento',
 	'LBL_RECORDS_LIST' => 'Service Contracts list',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Service Contract details',

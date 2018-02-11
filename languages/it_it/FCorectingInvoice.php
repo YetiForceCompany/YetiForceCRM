@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'FCorectingInvoice' => 'Correcting Invoices',
-	'SINGLE_FCorectingInvoice' => 'Correcting Invoice',
+	'FCorectingInvoice' => 'Rettifica Fatture',
+	'SINGLE_FCorectingInvoice' => 'Rettifica Fattura',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'System information',
 	'LBL_INVOICE_ADDRESS' => 'Invoice address',
@@ -16,12 +16,12 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Subject',
 	'FL_PAYMENT_DATE' => 'Due date',
 	'FL_SALE_DATE' => 'Sale date',
-	'FL_FORM_PAYMENT' => 'Payment method',
+	'FL_FORM_PAYMENT' => 'Metodo di Pagamento',
 	'FL_BANK_ACCOUNT' => 'Bank account number',
 	'FL_NUMBER' => 'Invoice number',
 	'FL_ACCOUNT' => 'Account',
-	'FL_TOTAL' => 'Net',
-	'FL_GROSS' => 'Gross',
+	'FL_TOTAL' => 'Netto',
+	'FL_GROSS' => 'Lordo',
 	'FL_STATUS' => 'Status',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'transfer',

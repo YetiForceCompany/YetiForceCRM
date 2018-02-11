@@ -19,7 +19,7 @@ $languageStrings = [
 	'LBL_ADD_TO_TREES' => 'Add',
 	'LBL_SAVE' => 'Save',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Change tree item to:',
-	'Category' => 'Category',
+	'Category' => 'Categoria',
 	'Reservations' => 'Reservations',
 	'LBL_SHARE_WITH' => 'Share with',
 ];

@@ -47,7 +47,7 @@ $languageStrings = [
 	'LBL_ROW_1' => 'Row 1',
 	'LBL_CRM_FIELDS' => 'CRM fields',
 	'LBL_DEFAULT_VALUE' => 'Default value',
-	'LBL_SAVE_AS_CUSTOM_MAPPING' => 'Save as custom mapping ',
+	'LBL_SAVE_AS_CUSTOM_MAPPING' => 'Salva come mapping personalizzato ',
 	'LBL_IMPORT_BUTTON_LABEL' => 'Import',
 	'LBL_RESULT' => 'Result',
 	'LBL_TOTAL_RECORDS_IMPORTED' => 'Records successfully imported',
@@ -82,7 +82,7 @@ $languageStrings = [
 	'LBL_NO_ROWS_FOUND' => 'No rows found',
 	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Your import has been scheduled and will start within 15 minutes. You will receive an email after import is completed.  <br /> <br />
 										Please make sure that the outgoing server and your email address is configured to receive email notification',
-	'LBL_DETAILS' => 'Details',
+	'LBL_DETAILS' => 'DEttagli',
 	'skipped' => 'Skipped records',
 	'failed' => 'Failed records',
 	'LBL_SELECT_FILE' => 'Select file to import',

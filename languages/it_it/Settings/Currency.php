@@ -8,21 +8,21 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'Conversion Rate' => 'Conversion rate',
-	'Currency' => 'Currency',
-	'Symbol' => 'Symbol',
-	'Currency Code' => 'Currency code',
-	'Currency Name' => 'Currency name',
-	'LBL_ADD_NEW_CURRENCY' => 'Add new currency',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_CURRENCY_CODE' => 'Currency code',
-	'LBL_CURRENCY_NAME' => 'Currency name',
-	'LBL_CURRENCY_STATUS_DESC' => 'Enable checkbox to make currency active',
-	'LBL_CURRENCY_SYMBOL' => 'Symbol',
-	'LBL_CURRENT_CURRENCY' => 'Current currency',
-	'LBL_EDIT_CURRENCY' => 'Edit currency',
-	'LBL_ENTER_CONVERSION_RATE' => 'Enter conversion rate',
-	'LBL_TRANSFER_CURRENCY' => 'Transfer currency',
+	'Conversion Rate' => 'Tasso di Conversione',
+	'Currency' => 'Valuta',
+	'Symbol' => 'Simbolo',
+	'Currency Code' => 'Codice Valuta',
+	'Currency Name' => 'Nome Valuta',
+	'LBL_ADD_NEW_CURRENCY' => 'Aggiungi Nuova Valuta',
+	'LBL_ADD_RECORD' => 'Aggiungi Elemento',
+	'LBL_CURRENCY_CODE' => 'Codice Valuta',
+	'LBL_CURRENCY_NAME' => 'Nome Valuta',
+	'LBL_CURRENCY_STATUS_DESC' => 'Abilita la casella di selezione per rendere la valuta attiva',
+	'LBL_CURRENCY_SYMBOL' => 'Simbolo',
+	'LBL_CURRENT_CURRENCY' => 'Valuta Corrente',
+	'LBL_EDIT_CURRENCY' => 'Modifica Valuta',
+	'LBL_ENTER_CONVERSION_RATE' => 'Inserisci il Tasso di Conversione',
+	'LBL_TRANSFER_CURRENCY' => 'Trasferisci Valuta',
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
 	'Albania, Leke' => 'Albania, Leke',
@@ -154,11 +154,11 @@ $languageStrings = [
 	'Yemen, Rials' => 'Yemen, Rials',
 	'Zambia, Kwacha' => 'Zambia, Kwacha',
 	'Zimbabwe Dollars' => 'Zimbabwe Dollars',
-	'Active' => 'Active',
-	'Inactive' => 'Inactive',
+	'Active' => 'Attivo',
+	'Inactive' => 'Inattivo',
 ];
 
 $jsLanguageStrings = [
-	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency deleted successfully.',
-	'JS_CURRENCY_DETAILS_SAVED' => 'Currency details saved.',
+	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Valuta eliminata con successo.',
+	'JS_CURRENCY_DETAILS_SAVED' => 'Dettagli Valuta salvati.',
 ];

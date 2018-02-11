@@ -20,8 +20,8 @@ $languageStrings = [
 	'FL_BANK_ACCOUNT' => 'Bank account number',
 	'FL_NUMBER' => 'Invoice number',
 	'FL_ACCOUNT' => 'Azienda',
-	'FL_TOTAL' => 'Net',
-	'FL_GROSS' => 'Gross',
+	'FL_TOTAL' => 'Netto',
+	'FL_GROSS' => 'Lordo',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'transfer',
 	'PLL_CASH' => 'cash',

@@ -6,14 +6,14 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'IIDN' => 'Internal Delivery Notes',
-	'SINGLE_IIDN' => 'Internal Delivery Notes',
+	'IIDN' => 'Nota di Consegna Interna',
+	'SINGLE_IIDN' => 'Nota di Consegna Interna',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
 	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
-	'FL_STORAGE' => 'Storage',
+	'FL_STORAGE' => 'Magazzino',
 	'FL_STATUS' => 'Status',
 	'PLL_DRAFT' => 'Draft',
 	'PLL_IN_REALIZATION' => 'In realization',

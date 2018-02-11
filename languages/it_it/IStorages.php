@@ -6,16 +6,16 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'IStorages' => 'Storages',
-	'SINGLE_IStorages' => 'Storage',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
-	'LBL_ATTENTION_BLOCK' => 'Comments',
-	'FL_PARENT_STORAGE' => 'Parent storage',
-	'FL_SUBJECT' => 'Subject',
+	'IStorages' => 'Magazzini',
+	'SINGLE_IStorages' => 'Magazzino',
+	'LBL_DESCRIPTION_BLOCK' => 'Descrizione',
+	'LBL_ATTENTION_BLOCK' => 'Commenti',
+	'FL_PARENT_STORAGE' => 'Magazzino Originario',
+	'FL_SUBJECT' => 'Soggetto',
 	'FL_STATUS' => 'Status',
 	'FL_TYPE' => 'Type',
 	'FL_NUMBER' => 'Number',
-	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
+	'FL_QTY_IN_STOCK' => 'Quantità di prodotto in magazzino',
 	'PLL_ACTIVE' => 'Active',
 	'PLL_INACTIVE' => 'Inactive',
 	'PLL_INTERNAL' => 'Internal',

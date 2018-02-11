@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_CORRESPONDANCE_ADDRESS' => 'Forwarding address',
 //fields
 	'No.' => 'Number',
-	'Assigned To' => 'Assigned to',
+	'Assigned To' => 'Assegnato a',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_NAME' => 'First name',
 	'LBL_LASTNAME' => 'Last name',

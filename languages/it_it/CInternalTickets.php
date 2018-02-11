@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_BASIC_INFORMATION' => 'Basic information',
 	'LBL_TICKET_RESOLUTION' => 'Solution',
 	'LBL_ATTENTION_BLOCK' => 'Notes',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_DESCRIPTION_BLOCK' => 'Descrizione',
 	//FIELDS
 	'FL_SUBJECT' => 'Subject',
 	'FL_STATUS' => 'Status',
