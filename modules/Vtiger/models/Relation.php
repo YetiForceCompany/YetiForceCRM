@@ -624,6 +624,52 @@ class Vtiger_Relation_Model extends \App\Base
 			->execute();
 	}
 
+	/**
+	 * Query tree category relation
+	 * @return \App\Db\Query
+	 */
+	public function getRelTreeQuery()
+	{
+		$template = [];
+		foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
+			if ($field->isActiveField()) {
+				$template[] = $field->getFieldParams();
+			}
+		}
+		return (new \App\Db\Query())
+				->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])
+				->from('vtiger_trees_templates_data ttd')
+				->innerJoin('u_#__crmentity_rel_tree rel', 'rel.tree = ttd.tree')
+				->where(['ttd.templateid' => $template, 'rel.crmid' => $this->get('parentRecord')->getId(), 'rel.relmodule' => $this->getRelationModuleModel()->getId()]);
+	}
+
+	/**
+	 * Tree category relation
+	 * @return array
+	 */
+	public function getRelTree()
+	{
+		return $this->getRelTreeQuery()->all();
+	}
+
+	/**
+	 * Is the tree type relation available
+	 * @return bool
+	 */
+	public function isTreeRelation()
+	{
+		$result = false;
+		if (in_array($this->getRelationModuleModel()->getName(), ['OutsourcedProducts', 'Products', 'Services', 'OSSOutsourcedServices'])) {
+			foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
+				if ($field->isActiveField()) {
+					$result = true;
+					break;
+				}
+			}
+		}
+		return $result;
+	}
+
 	public function isDirectRelation()
 	{
 		return ($this->getRelationType() == self::RELATION_O2M);

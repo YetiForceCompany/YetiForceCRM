@@ -13,4 +13,6 @@ return[
 	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
 	'DEFAULT_VIEW_RECORD' => 'LBL_RECORD_PREVIEW',
 	'CONTACTS_CHECK_EMAIL_OPTOUT' => true,
+	// Hide summary products services bookmark
+	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
 ];

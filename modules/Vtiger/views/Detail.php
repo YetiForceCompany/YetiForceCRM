@@ -765,7 +765,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
@@ -777,6 +776,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
+		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false));
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);

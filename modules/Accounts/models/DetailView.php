@@ -62,22 +62,24 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'linkicon' => '',
 			'related' => 'Details'
 		];
-		if ($moduleName === 'Leads') {
-			$showPSTab = (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices'));
-		}
-		if ($moduleName === 'Accounts') {
-			$showPSTab = (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
-		}
-		if ('Contacts' != $moduleName && $showPSTab) {
-			$relatedLinks[] = [
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
-				'linkicon' => '',
-				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices',
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
-			];
+		if (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) {
+			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false);
+			if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
+				isset($relations[\App\Module::getModuleId('Products')]) ||
+				isset($relations[\App\Module::getModuleId('Services')]) ||
+				isset($relations[\App\Module::getModuleId('OSSOutsourcedServices')]) ||
+				isset($relations[\App\Module::getModuleId('Assets')]) ||
+				isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
+				$relatedLinks[] = [
+					'linktype' => 'DETAILVIEWTAB',
+					'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
+					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
+					'linkicon' => '',
+					'linkKey' => 'LBL_RECORD_SUMMARY',
+					'related' => 'ProductsAndServices',
+					'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
+				];
+			}
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {

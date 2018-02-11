@@ -53,17 +53,22 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Charts'
 			];
 		}
-		$showPSTab = (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
-		if ($showPSTab) {
-			$relatedLinks[] = [
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
-				'linkicon' => '',
-				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices',
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
-			];
+		if (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) {
+			$relations = \Vtiger_Relation_Model::getAllRelations($this->getModule(), false);
+			if (isset($relations[\App\Module::getModuleId('Products')]) ||
+				isset($relations[\App\Module::getModuleId('Services')]) ||
+				isset($relations[\App\Module::getModuleId('Assets')]) ||
+				isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
+				$relatedLinks[] = [
+					'linktype' => 'DETAILVIEWTAB',
+					'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
+					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
+					'linkicon' => '',
+					'linkKey' => 'LBL_RECORD_SUMMARY',
+					'related' => 'ProductsAndServices',
+					'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
+				];
+			}
 		}
 		return $relatedLinks;
 	}
