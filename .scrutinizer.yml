@@ -2,7 +2,26 @@ build:
     environment:
         php:
             version: 7.1
-            
+    tests:
+        stop_on_failure: false
+        override:
+            - true
+    nodes:
+        tests: false
+        analysis:
+            tests:
+                override:
+                    -
+                        command: phpcs-run
+                        use_website_config: true
+                        
+build:
+    tests:          # This needs to be the section name like "tests", "dependencies", or "project_setup"
+        override:
+            - ./overridden-command.sh --with-different-option
+
+            # if you just want to disable inferred commands, you can use the shell built-in "true"
+            - true 
 filter: 
     excluded_paths:
         - tests/*
@@ -70,17 +89,3 @@ coding_style:
                 
 tools:
     sensiolabs_security_checker: true
-    
-build:
-    tests:
-        stop_on_failure: false
-        override:
-            command: "php -v"
-    nodes:
-        tests: false
-        analysis:
-            tests:
-                override:
-                    -
-                        command: phpcs-run
-                        use_website_config: true
