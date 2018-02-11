@@ -166,28 +166,34 @@ class QueryGenerator
 	/**
 	 * Set query fields
 	 * @param string[] $fields
+	 * @return \self
 	 */
 	public function setFields($fields)
 	{
 		$this->fields = $fields;
+		return $this;
 	}
 
 	/**
 	 * Set query offset
 	 * @param int $offset
+	 * @return \self
 	 */
 	public function setOffset($offset)
 	{
 		$this->offset = $offset;
+		return $this;
 	}
 
 	/**
 	 * Set query limit
 	 * @param int $limit
+	 * @return \self
 	 */
 	public function setLimit($limit)
 	{
 		$this->limit = $limit;
+		return $this;
 	}
 
 	/**
@@ -201,6 +207,7 @@ class QueryGenerator
 	/**
 	 * Set query field
 	 * @param string|string[] $fields
+	 * @return \self
 	 */
 	public function setField($fields)
 	{
@@ -211,6 +218,7 @@ class QueryGenerator
 		} else {
 			$this->fields[] = $fields;
 		}
+		return $this;
 	}
 
 	/**
@@ -226,6 +234,7 @@ class QueryGenerator
 	/**
 	 * Set custom column
 	 * @param type $columns
+	 * @return \self
 	 */
 	public function setCustomColumn($columns)
 	{
@@ -240,15 +249,18 @@ class QueryGenerator
 		} else {
 			$this->customColumns[] = $columns;
 		}
+		return $this;
 	}
 
 	/**
 	 * Set concat column
 	 * @param type $columns
+	 * @return \self
 	 */
 	public function setConcatColumn($fieldName, $concat)
 	{
 		$this->concatColumn[$fieldName] = $concat;
+		return $this;
 	}
 
 	/**
@@ -287,11 +299,13 @@ class QueryGenerator
 	/**
 	 * Set related field
 	 * @param string[] $field
+	 * @return \self
 	 */
 	public function addRelatedField($field)
 	{
 		$relatedFieldModel = $this->addRelatedJoin($field);
 		$this->relatedFields["{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
+		return $this;
 	}
 
 	/**
@@ -346,26 +360,31 @@ class QueryGenerator
 	 * Set order
 	 * @param string $fieldName
 	 * @param string $order ASC/DESC
+	 * @return \self
 	 */
 	public function setOrder($fieldName, $order = false)
 	{
 		$queryField = $this->getQueryField($fieldName);
 		$this->order = array_merge($this->order, $queryField->getOrderBy($order));
+		return $this;
 	}
 
 	/**
 	 * Set group
 	 * @param string $fieldName
+	 * @return \self
 	 */
 	public function setGroup($fieldName)
 	{
 		$queryField = $this->getQueryField($fieldName);
 		$this->group[] = $queryField->getColumnName();
+		return $this;
 	}
 
 	/**
 	 * Set custom group
 	 * @param string|array $groups
+	 * @return \self
 	 */
 	public function setCustomGroup($groups)
 	{
@@ -380,6 +399,7 @@ class QueryGenerator
 		} else {
 			$this->group[] = $groups;
 		}
+		return $this;
 	}
 
 	/**
