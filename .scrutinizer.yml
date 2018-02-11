@@ -4,8 +4,12 @@ build:
             version: 7.1
     tests:
         stop_on_failure: false
-        override:
-            - true
+        before:
+            -
+                command:
+                stop_on_failure: true # If true, tests execution will stop when this command failed.
+        override: []
+        after: []
     nodes:
         tests: false
         analysis:
