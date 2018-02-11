@@ -388,8 +388,9 @@ class CRMEntity
 	 */
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
-		if (!is_array($withCrmid))
+		if (!is_array($withCrmid)) {
 			$withCrmid = [$withCrmid];
+		}
 		switch ($relatedName) {
 			case 'getManyToMany':
 				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
@@ -407,7 +408,7 @@ class CRMEntity
 	 * @param string $module
 	 * @param integer $crmid
 	 * @param string $withModule
-	 * @param integer $withCrmid
+	 * @param array $withCrmid
 	 */
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
@@ -431,7 +432,7 @@ class CRMEntity
 	 * @param string $module
 	 * @param int $crmid
 	 * @param string $withModule
-	 * @param int $withCrmid
+	 * @param array $withCrmid
 	 */
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{

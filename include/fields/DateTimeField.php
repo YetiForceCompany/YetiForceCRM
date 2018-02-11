@@ -87,10 +87,9 @@ class DateTimeField
 
 	/**
 	 *
-	 * @global Users $current_user
-	 * @param type $date
+	 * @param string $date
 	 * @param Users $user
-	 * @return type
+	 * @return string
 	 */
 	public static function convertToDBFormat($date, $user = null)
 	{
@@ -112,7 +111,7 @@ class DateTimeField
 
 	/**
 	 *
-	 * @param type $date
+	 * @param string $date
 	 * @param string $format
 	 * @return string
 	 */
@@ -156,10 +155,9 @@ class DateTimeField
 
 	/**
 	 *
-	 * @global Users $current_user
-	 * @param type $date
+	 * @param string $date
 	 * @param Users $user
-	 * @return type
+	 * @return string
 	 */
 	public static function convertToUserFormat($date)
 	{
@@ -172,9 +170,9 @@ class DateTimeField
 
 	/**
 	 *
-	 * @param type $date
-	 * @param type $format
-	 * @return type
+	 * @param string $date
+	 * @param string $format
+	 * @return string
 	 */
 	public static function __convertToUserFormat($date, $format)
 	{
@@ -225,8 +223,7 @@ class DateTimeField
 
 	/**
 	 *
-	 * @global Users $current_user
-	 * @param type $value
+	 * @param string $value
 	 * @param Users $user
 	 */
 	public static function convertToUserTimeZone($value, $user = null)
@@ -245,8 +242,7 @@ class DateTimeField
 
 	/**
 	 *
-	 * @global Users $current_user
-	 * @param type $value
+	 * @param string $value
 	 * @param Users $user
 	 */
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)

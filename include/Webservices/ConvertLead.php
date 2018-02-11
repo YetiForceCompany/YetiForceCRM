@@ -132,7 +132,7 @@ class WebservicesConvertLead
 	/**
 	 * Populate the entity fields with the lead info.
 	 * If mandatory field is not provided populate with '????'
-	 * @param string $entityvalue
+	 * @param array $entityvalue
 	 * @param string $entity
 	 * @param Vtiger_Record_Model $recordModel
 	 * @param string $leadinfo

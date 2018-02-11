@@ -21,6 +21,12 @@ class AppConfig
 	protected static $sounds = [];
 	protected static $search = [];
 
+	/**
+	 * Function to get main configuration of system. 
+	 * @param string $key
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	public static function main($key, $value = false)
 	{
 		if (isset(self::$main[$key])) {
@@ -35,9 +41,8 @@ class AppConfig
 				return $$key;
 			}
 			App\Log::warning("Parameter does not exist: $key");
-			return null;
+			return $value;
 		}
-		return $value;
 	}
 
 	public static function module()

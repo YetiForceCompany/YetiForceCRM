@@ -41,7 +41,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$records = $request->getArray('records');
 		$templates = $request->get('templates');
 		$allRecords = count($records);
-		$output = ['valid_records' => [], 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
+		$output = ['valid_records' => [], 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
 
 		if (!empty($templates) && count($templates) > 0) {
 			foreach ($templates as $templateId) {
@@ -55,7 +55,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				}
 			}
 			$selectedRecords = count($records);
-			$output = ['valid_records' => $records, 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
+			$output = ['valid_records' => $records, 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($output);
