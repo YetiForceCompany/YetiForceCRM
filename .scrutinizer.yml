@@ -11,7 +11,7 @@ build:
         override: []
         after: []
     nodes:
-        tests: false
+        tests: []
         analysis:
             tests:
                 override:
