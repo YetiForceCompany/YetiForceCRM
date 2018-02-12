@@ -20,7 +20,6 @@ build:
     nodes:
         tests: []
 
-
 build:
     tests:
         override:
@@ -28,6 +27,8 @@ build:
     nodes:
         tests: true
         analysis:
+            project_setup:
+                override: true
             tests:
                 override:
                     -
@@ -39,7 +40,7 @@ build:
                     -
                         command: phpcs-run
                         use_website_config: true
-                    - php-scrutinizer-run
+                    - php-scrutinizer-run --enable-security-analysis
 
 filter: 
     excluded_paths:
