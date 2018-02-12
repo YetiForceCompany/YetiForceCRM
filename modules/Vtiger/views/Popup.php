@@ -84,8 +84,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 			'~layouts/resources/BaseList.js',
 			'modules.Vtiger.resources.Popup',
 			"modules.$moduleName.resources.Popup",
-			'~layouts/resources/BaseValidator.js',
-			'~layouts/resources/FieldValidator.js',
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

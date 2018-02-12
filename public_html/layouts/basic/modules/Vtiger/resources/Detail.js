@@ -980,7 +980,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (editElement.is(':visible')) {
 				return;
 			}
-			if (!fieldElement.attr('data-inputmask')) {
+			if (fieldElement.attr('data-inputmask')) {
 				fieldElement.inputmask();
 			}
 			detailViewValue.addClass('hide');
@@ -1021,10 +1021,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 					fieldElement = fieldElement.filter('[type="checkbox"]');
 				}
-				var errorExists = fieldElement.validationEngine('validate');
 				//If validation fails
-				if (errorExists) {
-					if (hasMaskedValue) {
+				if (!fieldElement.validationEngine('validate')) {
+					if (fieldElement.attr('data-inputmask')) {
 						fieldElement.inputmask();
 					}
 					return;

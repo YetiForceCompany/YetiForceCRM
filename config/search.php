@@ -20,8 +20,10 @@ $CONFIG = [
 	'GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT' => 15,
 	// Global search - The minimum number of characters a user must type before a search is performed. The parameter impacts system efficiency
 	'GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH' => 3,
-	// Global search - Show operator
-	'GLOBAL_SEARCH_OPERATOR' => true,
+	// Global search - Show operator list.
+	'GLOBAL_SEARCH_OPERATOR_SELECT' => true,
+	// Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)
+	'GLOBAL_SEARCH_DEFAULT_OPERATOR' => 'FulltextBegin',
 	// Colors for record state will be displayed in list view, history, and preview.
 	'LIST_ENTITY_STATE_COLOR' => [
 		'Archived' => '#0032a2',

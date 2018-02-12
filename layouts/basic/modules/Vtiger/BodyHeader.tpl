@@ -23,22 +23,32 @@
 						{/foreach}
 					</select>
 				</div>
-				<input type="text" class="form-control form-control-sm globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="FulltextBegin" />
+				<input type="text" class="form-control form-control-sm globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}" />
 				<div class="input-group-append bg-white rounded-right">
 					<button class="btn btn-outline-dark border-0 searchIcon" type="button">
 						<span class="fas fa-search fa-fw"></span>
 					</button>
-					{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
+					{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 						<div class="btn-group">
 							<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="fas fa-crosshairs fa-fw"></span>
 							</button>
 							<div class="dropdown-menu globalSearchOperator">
-								<a class="active dropdown-item" href="#" data-operator="FulltextBegin">{\App\Language::translate('LBL_FULLTEXT_BEGIN')}</a>
-								<a class="dropdown-item" href="#" data-operator="FulltextWord">{\App\Language::translate('LBL_FULLTEXT_WORD')}</a>
-								<a class="dropdown-item" href="#" data-operator="Contain">{\App\Language::translate('LBL_CONTAINS')}</a>
-								<a class="dropdown-item" href="#" data-operator="Begin">{\App\Language::translate('LBL_STARTS_WITH')}</a>
-								<a class="dropdown-item" href="#" data-operator="End">{\App\Language::translate('LBL_ENDS_WITH')}</a>
+								<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item" href="#" data-operator="FulltextBegin">
+									{\App\Language::translate('LBL_FULLTEXT_BEGIN')}
+								</a>
+								<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item" href="#" data-operator="FulltextWord">
+									{\App\Language::translate('LBL_FULLTEXT_WORD')}
+								</a>
+								<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item" href="#" data-operator="Contain">
+									{\App\Language::translate('LBL_CONTAINS')}
+								</a>
+								<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item" href="#" data-operator="Begin">
+									{\App\Language::translate('LBL_STARTS_WITH')}
+								</a>
+								<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item" href="#" data-operator="End">
+									{\App\Language::translate('LBL_ENDS_WITH')}
+								</a>
 							</div>
 						</div>
 					{/if}
