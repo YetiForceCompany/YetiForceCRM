@@ -1,6 +1,6 @@
 <?php
 /**
- * PermissionInspector language
+ * PermissionInspector english translation
  * @package YetiForce.Language
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -26,6 +26,7 @@ $languageStrings = [
 	'SEC_RECORD_OWNER_CURRENT_USER' => 'Access based on owner %s',
 	'SEC_RECORD_OWNER_CURRENT_GROUP' => 'Access based on group %s',
 	'SEC_RECORD_OWNER_SUBORDINATE_USER' => 'Access based on company\'s hierarchy (roles), user is higher in hierarchy than record owner',
+	'SEC_RECORD_HIERARCHY_USER' => 'Access based on permission\'s hierarchy',
 	// No access rights
 	'SEC_NO_ACTION_MODULE_PERMISSIONS_NO' => 'No permissions to module, user has no access to the module',
 	'SEC_MODULE_PERMISSIONS_NO' => 'No permissions to module, user has no access to the module',
