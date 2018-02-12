@@ -5,7 +5,7 @@
 			<div class="widget_header">
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
 				<div class="row">
-					<div class="col-xs-9 col-md-5 col-sm-6">
+					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
@@ -17,11 +17,11 @@
 						</div>
 					</div>
 					{if isset($WIDGET['switchHeader'])}
-						<div class="col-xs-8 col-md-4 col-sm-3 paddingBottom10">
+						<div class="col-8 col-md-4 col-sm-3 paddingBottom10">
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
 						</div>
 					{/if}
-					<div class="col-md-3 col-sm-3 float-right paddingBottom10">
+					<div class="col float-right paddingBottom10">
 						<div class="float-right">
 							<div class="btn-group">
 								{if $WIDGET['data']['viewtype'] eq 'Summary'}
@@ -63,9 +63,9 @@
 				<hr class="widgetHr" />
 				<div class="row">
 					{if (isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-') AND (isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-')}
-						{assign var=span value='col-xs-6'}
+						{assign var=span value='col-6'}
 					{else}
-						{assign var=span value='col-xs-12'}
+						{assign var=span value='col-12'}
 					{/if}
 					{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 						<div class="{$span} form-group-sm">
