@@ -1312,6 +1312,7 @@ $languageStrings = [
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Summe für dieses Feld kalkulieren',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
 	'FL_RELATION_EXTEND' => 'Ansprechpartner',
+	'LBL_ADVANCED_SEARCH' => 'Advanced search',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
