@@ -9,11 +9,6 @@ build:
         after: []
     nodes:
         tests: []
-        analysis:
-            tests:
-                override:
-                        command: phpcs-run
-                        use_website_config: true
 build:
     tests:
         override:
