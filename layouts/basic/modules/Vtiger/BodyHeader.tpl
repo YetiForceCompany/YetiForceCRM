@@ -97,11 +97,11 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
-							    {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-								    {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-									    data-{$DATA_NAME}="{$DATA_VALUE}"
-								    {/foreach}
-							    {/if}>
+							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+									   data-{$DATA_NAME}="{$DATA_VALUE}"
+								   {/foreach}
+							   {/if}>
 								{if $GLYPHICON}
 									<span class="{$GLYPHICON}" aria-hidden="true"></span>
 								{/if}
@@ -114,22 +114,22 @@
 									{foreach key=index item=obj from=$CHILD_LINKS}
 										{if $obj->getLabel() eq NULL}
 											<li class="divider"></li>
-										{else}
-											{assign var="id" value=$obj->getId()}
-											{assign var="href" value=$obj->getUrl()}
-											{assign var="label" value=$obj->getLabel()}
-											{assign var="onclick" value=""}
-											{if stripos($obj->getUrl(), 'javascript:') === 0}
-												{assign var="onclick" value="onclick="|cat:$href}
-												{assign var="href" value="javascript:;"}
-											{/if}
+											{else}
+												{assign var="id" value=$obj->getId()}
+												{assign var="href" value=$obj->getUrl()}
+												{assign var="label" value=$obj->getLabel()}
+												{assign var="onclick" value=""}
+												{if stripos($obj->getUrl(), 'javascript:') === 0}
+													{assign var="onclick" value="onclick="|cat:$href}
+													{assign var="href" value="javascript:;"}
+												{/if}
 											<li>
 												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
-												{if $obj->linkdata && is_array($obj->linkdata)}
-													{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-														data-{$DATA_NAME}="{$DATA_VALUE}"
-													{/foreach}
-												{/if}>{\App\Language::translate($label,$MODULE)}</a>
+												   {if $obj->linkdata && is_array($obj->linkdata)}
+													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+														   data-{$DATA_NAME}="{$DATA_VALUE}"
+													   {/foreach}
+												   {/if}>{\App\Language::translate($label,$MODULE)}</a>
 											</li>
 										{/if}
 									{/foreach}
@@ -153,22 +153,32 @@
 									{/foreach}
 								</select>
 							</span>
-							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="FulltextBegin" />
+							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}" />
 							<span class="input-group-btn">
 								<button class="btn btn-default searchIcon" type="button">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
-								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
+								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 									<div class="btn-group">
 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon-screenshot"></span>
 										</button>
 										<ul class="dropdown-menu globalSearchOperator">
-											<li class="active"><a href="#" data-operator="FulltextBegin">{\App\Language::translate('LBL_FULLTEXT_BEGIN')}</a></li>
-											<li><a href="#" data-operator="FulltextWord">{\App\Language::translate('LBL_FULLTEXT_WORD')}</a></li>
-											<li><a href="#" data-operator="Contain">{\App\Language::translate('LBL_CONTAINS')}</a></li>
-											<li><a href="#" data-operator="Begin">{\App\Language::translate('LBL_STARTS_WITH')}</a></li>
-											<li><a href="#" data-operator="End">{\App\Language::translate('LBL_ENDS_WITH')}</a></li>
+											<li {if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}class="active"{/if}>
+												<a href="#" data-operator="FulltextBegin">{\App\Language::translate('LBL_FULLTEXT_BEGIN')}</a>
+											</li>
+											<li {if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}class="active"{/if}>
+												<a href="#" data-operator="FulltextWord">{\App\Language::translate('LBL_FULLTEXT_WORD')}</a>
+											</li>
+											<li {if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}class="active"{/if}>
+												<a href="#" data-operator="Contain">{\App\Language::translate('LBL_CONTAINS')}</a>
+											</li>
+											<li {if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}class="active"{/if}>
+												<a href="#" data-operator="Begin">{\App\Language::translate('LBL_STARTS_WITH')}</a>
+											</li>
+											<li {if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}class="active"{/if}>
+												<a href="#" data-operator="End">{\App\Language::translate('LBL_ENDS_WITH')}</a>
+											</li>
 										</ul>
 									</div>
 								{/if}
