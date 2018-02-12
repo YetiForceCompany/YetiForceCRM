@@ -5,7 +5,6 @@ build:
     tests:
         stop_on_failure: false
         before:
-            -
                 command:
                 stop_on_failure: true # If true, tests execution will stop when this command failed.
         override: []
@@ -15,16 +14,11 @@ build:
         analysis:
             tests:
                 override:
-                    -
                         command: phpcs-run
                         use_website_config: true
-                        
 build:
-    tests:          # This needs to be the section name like "tests", "dependencies", or "project_setup"
+    tests:
         override:
-            - ./overridden-command.sh --with-different-option
-
-            # if you just want to disable inferred commands, you can use the shell built-in "true"
             - true 
 filter: 
     excluded_paths:
