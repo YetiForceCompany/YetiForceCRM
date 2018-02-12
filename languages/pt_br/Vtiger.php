@@ -1290,6 +1290,7 @@ $languageStrings = [
 	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calculate sum for this field',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
+	'LBL_ADVANCED_SEARCH' => 'Advanced search',
 ];
 $jsLanguageStrings = [
 	'JS_RECORDS_TRANSFERRED_SUCCESSFULLY' => 'A responsabilidade dos registros foi transferida com sucesso.',
