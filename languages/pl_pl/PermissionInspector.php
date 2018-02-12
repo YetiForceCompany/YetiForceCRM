@@ -1,6 +1,6 @@
 <?php
 /**
- * PermissionInspector language
+ * PermissionInspector polish translation
  * @package YetiForce.Language
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -26,7 +26,7 @@ $languageStrings = [
 	'SEC_RECORD_OWNER_CURRENT_USER' => 'Dostęp na podstawie właściciela %s',
 	'SEC_RECORD_OWNER_CURRENT_GROUP' => 'Dostęp na podstawie grupy %s',
 	'SEC_RECORD_OWNER_SUBORDINATE_USER' => 'Dostęp na podstawie hierarchii firmy (role), użytkownik jest wyżej w hierarchii niż właściciel rekordu',
-	'SEC_RECORD_HIERARCHY_USER' => 'Dostęp na podstawie hierarchi uprawnień',
+	'SEC_RECORD_HIERARCHY_USER' => 'Dostęp na podstawie hierarchii uprawnień',
 	// No access rights
 	'SEC_NO_ACTION_MODULE_PERMISSIONS_NO' => 'Brak uprawnień do modułu, użytkownik nie ma dostępu do tego modułu',
 	'SEC_MODULE_PERMISSIONS_NO' => 'Brak uprawnień do modułu, użytkownik nie ma dostępu do tego modułu',
