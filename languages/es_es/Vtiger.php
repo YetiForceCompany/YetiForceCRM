@@ -1323,6 +1323,7 @@ $languageStrings = [
 	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calcular SUM para este campo',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
+	'LBL_ADVANCED_SEARCH' => 'Advanced search',
 ];
 $jsLanguageStrings = [
 	'JS_VIEWNAME_ALERT' => 'Nombre del filtro demasiado largo',
