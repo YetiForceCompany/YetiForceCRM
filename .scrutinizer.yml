@@ -20,6 +20,12 @@ build:
             tests:
                 override:
                     -
+                        command: scss-lint-run
+                        use_website_config: true
+                    -
+                        command: csslint-run
+                        use_website_config: true
+                    -
                         command: phpcs-run
                         use_website_config: true
                     - php-scrutinizer-run
