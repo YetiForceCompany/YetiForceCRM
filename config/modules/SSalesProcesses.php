@@ -12,6 +12,6 @@ return [
 	'MAX_HIERARCHY_DEPTH' => 50,
 	// Count Sales in hierarchy
 	'COUNT_IN_HIERARCHY' => true,
-	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
+	'SHOW_SUMMARY_PRODUCTS_SERVICES' => true,
 	'DEFAULT_VIEW_RECORD' => 'LBL_RECORD_PREVIEW',
 ];

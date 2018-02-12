@@ -12,8 +12,8 @@ return [
 	'MAX_HIERARCHY_DEPTH' => 50,
 	// Count Accounts in hierarchy
 	'COUNT_IN_HIERARCHY' => true,
-	// Hide summary products services bookmark
-	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
+	// Show summary products services bookmark
+	'SHOW_SUMMARY_PRODUCTS_SERVICES' => true,
 	// Default view for record detail view. Values: LBL_RECORD_DETAILS or LBL_RECORD_SUMMARY
 	'DEFAULT_VIEW_RECORD' => 'LBL_RECORD_PREVIEW',
 	// Default module view. Values: List, ListPreview or DashBoard

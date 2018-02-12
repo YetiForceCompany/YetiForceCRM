@@ -540,7 +540,13 @@ class Vtiger_Relation_Model extends \App\Base
 		return $url;
 	}
 
-	public function addRelation($sourceRecordId, $destinationRecordId)
+	/**
+	 * Add relation
+	 * @param int $sourceRecordId
+	 * @param int|int[] $destinationRecordId
+	 * @param mixed $params
+	 */
+	public function addRelation($sourceRecordId, $destinationRecordId, $params = false)
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
@@ -605,7 +611,12 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 	}
 
-	public function addRelTree($crmid, $tree)
+	/**
+	 * Function to add tree type relation
+	 * @param int $crmid
+	 * @param string $tree
+	 */
+	public function addRelationTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
 			'crmid' => $crmid,
@@ -617,11 +628,60 @@ class Vtiger_Relation_Model extends \App\Base
 		])->execute();
 	}
 
-	public function deleteRelTree($crmid, $tree)
+	/**
+	 * Function to delete tree type relation
+	 * @param int $crmid
+	 * @param string $tree
+	 */
+	public function deleteRelationTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()
 			->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
 			->execute();
+	}
+
+	/**
+	 * Query tree category relation
+	 * @return \App\Db\Query
+	 */
+	public function getRelationTreeQuery()
+	{
+		$template = [];
+		foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
+			if ($field->isActiveField()) {
+				$template[] = $field->getFieldParams();
+			}
+		}
+		return (new \App\Db\Query())
+				->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])
+				->from('vtiger_trees_templates_data ttd')
+				->innerJoin('u_#__crmentity_rel_tree rel', 'rel.tree = ttd.tree')
+				->where(['ttd.templateid' => $template, 'rel.crmid' => $this->get('parentRecord')->getId(), 'rel.relmodule' => $this->getRelationModuleModel()->getId()]);
+	}
+
+	/**
+	 * Tree category relation
+	 * @return array
+	 */
+	public function getRelationTree()
+	{
+		return $this->getRelationTreeQuery()->all();
+	}
+
+	/**
+	 * Is the tree type relation available
+	 * @return bool
+	 */
+	public function isTreeRelation()
+	{
+		if (in_array($this->getRelationModuleModel()->getName(), ['OutsourcedProducts', 'Products', 'Services', 'OSSOutsourcedServices'])) {
+			foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
+				if ($field->isActiveField()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public function isDirectRelation()
@@ -659,7 +719,7 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->set('relatedModuleName', $row['modulename']);
-			$relationModels[] = $relationModel;
+			$relationModels[$row['related_tabid']] = $relationModel;
 		}
 		return $relationModels;
 	}
