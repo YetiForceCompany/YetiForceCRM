@@ -1280,6 +1280,7 @@ $languageStrings = [
 	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
 	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
+	'LBL_ADVANCED_SEARCH' => 'Advanced search',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
