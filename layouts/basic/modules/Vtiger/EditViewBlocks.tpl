@@ -48,7 +48,7 @@
 				{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 					<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}" />
 				{/foreach}
-				<div class='widget_header row'>
+				<div class='widget_header row mb-1'>
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
@@ -59,8 +59,8 @@
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
-					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">					
-						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+					<div class="panel panel-default row blockContainer mx-1 border rounded mb-2" data-label="{$BLOCK_LABEL}">					
+						<div class="blockHeader panel-heading bg-light border border-top-0 border-bottom-0 rounded">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
@@ -72,7 +72,7 @@
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
-						<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
+						<div class="col-md-12 panel-body blockContent border-top pt-2 {if $IS_HIDDEN}hide{/if}">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="col-md-12 adressAction">
 									{if $APIADDRESFIELD}
@@ -85,41 +85,35 @@
 									</div>
 								</div>
 							{/if}
-							<div class="col-md-12 paddingLRZero">
+							<div class="row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 									{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 										{if $COUNTER eq '1'}
 										</div>
-										<div class="col-md-12 paddingLRZero">
+										<div class="row">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
 									</div>
-									<div class="col-md-12 paddingLRZero">
+									<div class="row">
 										{assign var=COUNTER value=1}
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
-										<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
+									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow row form-group">
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-											<label class="muted">
+											<label class="col-md-3 fieldLabel">
 												{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 													<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
 													{/if}
 													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 											</label>
-										</div>
 										<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											<div class="row">
-												<div class="">						    
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-												</div>
-											</div>
 										</div>
 									</div>
 								{/foreach}
