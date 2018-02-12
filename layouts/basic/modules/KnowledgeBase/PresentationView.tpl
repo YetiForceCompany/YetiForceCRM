@@ -7,16 +7,16 @@
 				<div class="knowledgePresentationInner">
 					<div class="carousel-inner">
 						{foreach from=$CONTENT item=SLIDE name=carousel}
-						<div class="item{if $smarty.foreach.carousel.first} active{/if}">
-							<div class="carousel-content knowledgePresentationContent">
-								<div class="col-xs-12 text-center">
-									<h5>{$smarty.foreach.carousel.iteration}/{$smarty.foreach.carousel.total}</h5>
-								</div>
-								<div class="knowledgePresentationText col-xs-12">
-									{\App\Purifier::encodeHtml($SLIDE)}
+							<div class="item{if $smarty.foreach.carousel.first} active{/if}">
+								<div class="carousel-content knowledgePresentationContent">
+									<div class="col-xs-12 text-center">
+										<h5>{$smarty.foreach.carousel.iteration}/{$smarty.foreach.carousel.total}</h5>
+									</div>
+									<div class="knowledgePresentationText col-xs-12">
+										{\App\Purifier::encodeHtml($SLIDE)}
+									</div>
 								</div>
 							</div>
-						</div>
 						{/foreach}
 					</div>
 				</div>

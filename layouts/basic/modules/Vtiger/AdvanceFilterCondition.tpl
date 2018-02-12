@@ -128,9 +128,9 @@
 		<div class="fieldUiHolder mr-auto">
 			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control mr-auto" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
-			<div class="btn btn-light deleteCondition">
-				<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-			</div>
+		<div class="btn btn-light deleteCondition">
+			<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+		</div>
 		<span class="hide">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}

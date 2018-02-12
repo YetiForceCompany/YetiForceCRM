@@ -10,7 +10,6 @@
 class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	
 	/**
 	 * {@inheritDoc}
 	 */

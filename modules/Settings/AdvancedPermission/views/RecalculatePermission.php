@@ -18,7 +18,7 @@ class Settings_AdvancedPermission_RecalculatePermission_View extends Settings_Vt
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $request->getModule(true));
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('LIST_MODULES' , $modules);
+		$viewer->assign('LIST_MODULES', $modules);
 		$viewer->view('RecalculatePermission.tpl', $qualifiedModuleName);
 		parent::postProcess($request);
 	}

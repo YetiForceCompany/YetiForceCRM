@@ -47,8 +47,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			}
 			if (in_array($moduleName, ['Products', 'Services'])) {
 				$queryGenerator->addNativeCondition(['or',
-						['vtiger_crmentityrel.crmid' => $this->get('salesprocessid'), 'module' => 'SSalesProcesses'],
-						['vtiger_crmentityrel.relcrmid' => $this->get('salesprocessid'), 'relmodule' => 'SSalesProcesses']
+					['vtiger_crmentityrel.crmid' => $this->get('salesprocessid'), 'module' => 'SSalesProcesses'],
+					['vtiger_crmentityrel.relcrmid' => $this->get('salesprocessid'), 'relmodule' => 'SSalesProcesses']
 				]);
 			}
 		}

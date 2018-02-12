@@ -35,8 +35,8 @@ $languageStrings = [
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Anzahl Benachrichtigungen nach Empfänger',
 	//Widgets
 	'LBL_MINI_LIST' => 'Auswahlliste',
-	'LBL_FILTERING_BY_DATE' => 'Nach Datum filtern',		
- 	'LBL_TIMELINE_BY_DATE' => 'Zeitlinie nach Datum',
+	'LBL_FILTERING_BY_DATE' => 'Nach Datum filtern',
+	'LBL_TIMELINE_BY_DATE' => 'Zeitlinie nach Datum',
 	'LBL_WIDGET_NAME' => 'Widget Name',
 	'LBL_SELECT_CHART' => 'Diagramm wählen',
 	'LBL_VALUE_TYPE' => 'Art (Wert)',

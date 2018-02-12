@@ -19,17 +19,17 @@
 					ticks: [],
 					autoscaleMargin: .05
 				},
-				{if $PARAM['showUsers']}
+	{if $PARAM['showUsers']}
 				grid: {
 					hoverable: true
 				},
-				{/if}
+	{/if}
 				legend: {
 					show: false
 				}
 			};
 			thisInstance.plotInstance = $.plot(chartArea, chartData['chartData'], options);
-			{if $PARAM['showUsers']}
+	{if $PARAM['showUsers']}
 			chartArea.bind('plothover', function (event, pos, item) {
 				if (item) {
 					var html = '';
@@ -51,7 +51,7 @@
 					$("#tooltip").fadeOut();
 				}
 			});
-			{/if}
+	{/if}
 		}
 	});
 </script>

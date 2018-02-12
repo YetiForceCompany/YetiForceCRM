@@ -21,6 +21,7 @@ class Rss_DeleteAjax_Action extends Vtiger_Delete_Action
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */

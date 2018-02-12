@@ -68,11 +68,11 @@
 									<li>
 										<div>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}</span>
-											
-											
+
+
 											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
-										
-											
+
+
 										</div>
 										{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 											{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -123,7 +123,7 @@
 											</span>
 										</div>
 									</li>
-									
+
 								{else}	
 									<li>
 										<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 

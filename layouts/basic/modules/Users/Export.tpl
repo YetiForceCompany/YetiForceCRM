@@ -28,30 +28,30 @@
                 <div class="span">&nbsp;</div>
                 <div class="col-md-10">
                     <h4>{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}</h4>
-			<div class="alert alert-warning">
-				<a href="#" class="close" data-dismiss="alert">&times;</a>
-				{\App\Language::translate('LBL_INFO_USER_EXPORT_RECORDS',$MODULE)}
-			</div>
+					<div class="alert alert-warning">
+						<a href="#" class="close" data-dismiss="alert">&times;</a>
+						{\App\Language::translate('LBL_INFO_USER_EXPORT_RECORDS',$MODULE)}
+					</div>
                     <div class="well exportContents marginLeftZero">
                         <fieldset>
                             <legend class="hide">{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}</legend>
 							<div class="row">
-                                    <div class="col-md-6 textAlignRight row">
-                                        <div class="col-md-8">{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>
-										<div class="col-md-3">
-											<input type="radio" name="mode" title="{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS')}" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}/>
-										</div>
-                                    </div>
-					<div class="col-md-6">
-					{if empty($SELECTED_IDS)}&nbsp; <span class="redColor">{\App\Language::translate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 textAlignRight row">
-					<div class="col-md-8">{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
-					<div class="col-md-3"><input type="radio"  name="mode" value="ExportAllData" title="{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}" {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
-					</div>
-				</div>
+								<div class="col-md-6 textAlignRight row">
+									<div class="col-md-8">{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>
+									<div class="col-md-3">
+										<input type="radio" name="mode" title="{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS')}" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									{if empty($SELECTED_IDS)}&nbsp; <span class="redColor">{\App\Language::translate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 textAlignRight row">
+									<div class="col-md-8">{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
+									<div class="col-md-3"><input type="radio"  name="mode" value="ExportAllData" title="{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}" {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
+								</div>
+							</div>
                         </fieldset>
                     </div>
                     <br />

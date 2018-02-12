@@ -91,73 +91,73 @@
 												<textarea rows="10" readonly class='form-control'>{$MODULEIMPORT_LICENSE}</textarea><br />
 												{if $MODULEIMPORT_EXISTS neq 'true'}
 													{literal}<input type="checkbox" id="license_agreement" onclick="if (this.form.saveButton) {
-															if (this.checked) {
-																this.form.saveButton.disabled = false;
-															} else {
-																this.form.saveButton.disabled = true;
-															}
-														}">{/literal}
-													<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {\App\Language::translate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
+																if (this.checked) {
+																	this.form.saveButton.disabled = false;
+																} else {
+																	this.form.saveButton.disabled = true;
+																}
+															}">{/literal}
+														<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {\App\Language::translate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
+														{/if}
+														</td>
+													</tr>
+													{/if}
+														{foreach item=PARAMETER from=$MODULEIMPORT_PARAMETERS}
+															<tr>
+																<td colspan="2">
+																	{if $PARAMETER->type == 'checkbox'}
+																		<label>
+																			<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
+																			{\App\Language::translate($PARAMETER->lable, $QUALIFIED_MODULE)}
+																		</label>
+																	{/if}
+																</td>
+															</tr>
+														{/foreach}
+													</tbody>
+												</table>
+												{if $MODULEIMPORT_DIR_EXISTS eq 'true'}
+													<br />
+													<div class="alert alert-danger" role="alert">{\App\Language::translate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
 												{/if}
-											</td>
-										</tr>
-									{/if}
-									{foreach item=PARAMETER from=$MODULEIMPORT_PARAMETERS}
-										<tr>
-											<td colspan="2">
-												{if $PARAMETER->type == 'checkbox'}
-													<label>
-														<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
-														{\App\Language::translate($PARAMETER->lable, $QUALIFIED_MODULE)}
-													</label>
-												{/if}
-											</td>
-										</tr>
-									{/foreach}
-								</tbody>
-							</table>
-							{if $MODULEIMPORT_DIR_EXISTS eq 'true'}
-								<br />
-								<div class="alert alert-danger" role="alert">{\App\Language::translate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
-							{/if}
-							<div class="modal-footer">
-								{if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
-									<input type="hidden" name="view" value="List">
-									<button class="btn btn-success" class="crmbutton small delete"
-											onclick="this.form.mode.value = '';">
-										<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
-									</button>
-									{if $MODULEIMPORT_EXISTS eq 'true'}
-										<input type="hidden" name="view" value="ModuleImport">
-										<input type="hidden" name="module_import_file" value="{$MODULEIMPORT_FILE}">
-										<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
-										<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
-										<input type="hidden" name="mode" value="importUserModuleStep3">
+												<div class="modal-footer">
+													{if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
+														<input type="hidden" name="view" value="List">
+														<button class="btn btn-success" class="crmbutton small delete"
+																onclick="this.form.mode.value = '';">
+															<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+														</button>
+														{if $MODULEIMPORT_EXISTS eq 'true'}
+															<input type="hidden" name="view" value="ModuleImport">
+															<input type="hidden" name="module_import_file" value="{$MODULEIMPORT_FILE}">
+															<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
+															<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
+															<input type="hidden" name="mode" value="importUserModuleStep3">
 
-										<input type="checkbox" class="float-right" onclick="this.form.mode.value = 'updateUserModuleStep3';
-											this.form.submit();" >
-										<span class="float-right">I would like to update now.&nbsp;</span>
-									{/if}
-								{else}
-									<input type="hidden" name="view" value="ModuleImport">
-									<input type="hidden" name="module_import_file" value="{$MODULEIMPORT_FILE}">
-									<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
-									<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
-									<input type="hidden" name="mode" value="importUserModuleStep3">
-									<span class="col-md-6 float-right">
-										{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<div class="float-right cancelLinkContainer">
-											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_NO', $MODULE)}</a>
+															<input type="checkbox" class="float-right" onclick="this.form.mode.value = 'updateUserModuleStep3';
+																	this.form.submit();" >
+															<span class="float-right">I would like to update now.&nbsp;</span>
+														{/if}
+													{else}
+														<input type="hidden" name="view" value="ModuleImport">
+														<input type="hidden" name="module_import_file" value="{$MODULEIMPORT_FILE}">
+														<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
+														<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
+														<input type="hidden" name="mode" value="importUserModuleStep3">
+														<span class="col-md-6 float-right">
+															{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+															<div class="float-right cancelLinkContainer">
+																<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_NO', $MODULE)}</a>
+															</div>
+															<button  class="btn btn-success" type="submit" name="saveButton"
+																	 {if $need_license_agreement eq 'true'} disabled {/if}><strong>{\App\Language::translate('LBL_YES')}</strong></button>
+														</span>
+													{/if}
+												</div>
+												{/if}
+												</form>
+											</div>
 										</div>
-										<button  class="btn btn-success" type="submit" name="saveButton"
-												 {if $need_license_agreement eq 'true'} disabled {/if}><strong>{\App\Language::translate('LBL_YES')}</strong></button>
-									</span>
-								{/if}
-							</div>
-						{/if}
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-{/strip}
+									</div>
+								</div>
+								{/strip}

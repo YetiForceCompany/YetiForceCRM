@@ -7,7 +7,8 @@
 		<div class="col-md-4">
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
-					<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
+					<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts');
+							return false;">
 						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}

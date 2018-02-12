@@ -108,7 +108,7 @@ $jsLanguageStrings = [
 	'JS_START_DATE' => 'Data Inicial',
 	'JS_END_DATE' => 'Data Final',
 	'JS_TOTAL_TIME' => 'Total time',
- 	'JS_ASSIGNED_TO' => 'Assigned to',
+	'JS_ASSIGNED_TO' => 'Assigned to',
 	'JS_TYPE' => 'Type',
 	'JS_NUMBER' => 'Number',
 ];

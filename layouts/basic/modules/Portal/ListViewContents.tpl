@@ -31,73 +31,73 @@
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 		<div class="listViewEntriesDiv">
-				<input type="hidden" value="{$COLUMN_NAME}" id="orderBy" />
-				<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
-				<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-					<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
-					<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
-				</span>
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-				<table class="table table-bordered listViewEntriesTable">
-					<thead>
-						<tr class="listViewHeaders">
-							<th width="5%">
-								<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
-							</th>
-							<th nowrap>
-								<a href="javascript:void(0);" id="portalname" class="portalListViewHeader"
-								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalname'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_NAME', $MODULE)}
-									&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalname'}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
-							</th>
-							<th nowrap>
-								<a href="javascript:void(0);" id="portalurl" class="portalListViewHeader"
-								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalurl'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_URL', $MODULE)}
-									&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalurl'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
-							</th>
-							<th nowrap>
-								<a href="javascript:void(0);" id="createdtime" class="portalListViewHeader"
-								   data-nextsortorderval="{if $COLUMN_NAME eq 'createdtime'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}
-									&nbsp;&nbsp;{if $COLUMN_NAME eq 'createdtime'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
-							</th>
-							<th nowrap class="{$WIDTHTYPE}"></th>
+			<input type="hidden" value="{$COLUMN_NAME}" id="orderBy" />
+			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
+			<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
+				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
+				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
+			</span>
+			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+			<table class="table table-bordered listViewEntriesTable">
+				<thead>
+					<tr class="listViewHeaders">
+						<th width="5%">
+							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
+						</th>
+						<th nowrap>
+							<a href="javascript:void(0);" id="portalname" class="portalListViewHeader"
+							   data-nextsortorderval="{if $COLUMN_NAME eq 'portalname'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_NAME', $MODULE)}
+								&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalname'}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
+						</th>
+						<th nowrap>
+							<a href="javascript:void(0);" id="portalurl" class="portalListViewHeader"
+							   data-nextsortorderval="{if $COLUMN_NAME eq 'portalurl'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_URL', $MODULE)}
+								&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalurl'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
+						</th>
+						<th nowrap>
+							<a href="javascript:void(0);" id="createdtime" class="portalListViewHeader"
+							   data-nextsortorderval="{if $COLUMN_NAME eq 'createdtime'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}
+								&nbsp;&nbsp;{if $COLUMN_NAME eq 'createdtime'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
+						</th>
+						<th nowrap class="{$WIDTHTYPE}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach item=LISTVIEW_ENTRY key=RECORD_ID from=$LISTVIEW_ENTRIES}
+						<tr class="listViewEntries" data-id="{$RECORD_ID}" data-recordurl="index.php?module=Portal&view=Detail&record={$RECORD_ID}">
+							<td width="5%" class="{$WIDTHTYPE}">
+								<input type="checkbox" value="{$RECORD_ID}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
+							</td>
+							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
+								<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
+							</td>
+							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
+								<a class="urlField cursorPointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" rel="noreferrer" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
+							</td>
+							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
+							<td nowrap class="{$WIDTHTYPE}">
+								<div class="actions float-right">
+									<span class="actionImages">
+										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle editRecord"></span>&nbsp;
+										<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteRecord"></span>
+									</span>
+								</div>
+							</td>
 						</tr>
-					</thead>
+					{/foreach}
+				</tbody>
+			</table>
+			{if $PAGING_INFO['recordCount'] eq '0'}
+				<table class="emptyRecordsDiv">
 					<tbody>
-						{foreach item=LISTVIEW_ENTRY key=RECORD_ID from=$LISTVIEW_ENTRIES}
-							<tr class="listViewEntries" data-id="{$RECORD_ID}" data-recordurl="index.php?module=Portal&view=Detail&record={$RECORD_ID}">
-								<td width="5%" class="{$WIDTHTYPE}">
-									<input type="checkbox" value="{$RECORD_ID}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
-								</td>
-								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
-									<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
-								</td>
-								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
-									<a class="urlField cursorPointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" rel="noreferrer" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
-								</td>
-								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
-								<td nowrap class="{$WIDTHTYPE}">
-									<div class="actions float-right">
-										<span class="actionImages">
-											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle editRecord"></span>&nbsp;
-											<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteRecord"></span>
-										</span>
-									</div>
-								</td>
-							</tr>
-						{/foreach}
+						<tr>
+							<td>
+								<button class="addBookmark btn btn-link tdUnderline"> {\App\Language::translate('LBL_NO')} {\App\Language::translate('LBL_FOUND')} {\App\Language::translate('LBL_BOOKMARKS', $MODULE)}. {\App\Language::translate('LBL_BOOKMARK', $MODULE)}</button>
+							</td>
+						</tr>
 					</tbody>
 				</table>
-				{if $PAGING_INFO['recordCount'] eq '0'}
-					<table class="emptyRecordsDiv">
-						<tbody>
-							<tr>
-								<td>
-									<button class="addBookmark btn btn-link tdUnderline"> {\App\Language::translate('LBL_NO')} {\App\Language::translate('LBL_FOUND')} {\App\Language::translate('LBL_BOOKMARKS', $MODULE)}. {\App\Language::translate('LBL_BOOKMARK', $MODULE)}</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				{/if}
+			{/if}
 		</div>
 	</div>
 </div>

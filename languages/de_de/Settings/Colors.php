@@ -5,7 +5,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
- * @author skavenkf (K.Fink) 
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_COLORS' => 'Farben',
@@ -23,8 +23,8 @@ $languageStrings = [
 	'LBL_CALENDAR_TYPE' => 'Art Aktivität',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 	'Call' => 'Anruf',
- 	'Task' => 'Aufgabe',
- 	'Meeting' => 'Meeting',
+	'Task' => 'Aufgabe',
+	'Meeting' => 'Meeting',
 	'LBL_GROUPS_COLORS' => 'Farben gruppieren',
 	'LBL_USERS_COLORS' => 'Benutzer Farben',
 	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Farbfunktion wurde für diese Auswahlliste noch nicht aktiviert',

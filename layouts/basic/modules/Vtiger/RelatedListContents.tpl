@@ -45,10 +45,10 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-							<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
-							<button type="button" class="btn btn-light removeSearchConditions">
-								<span class="fas fa-times">
-							</button>
+								<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+								<button type="button" class="btn btn-light removeSearchConditions">
+									<span class="fas fa-times">
+								</button>
 							</div>
 						</td>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}

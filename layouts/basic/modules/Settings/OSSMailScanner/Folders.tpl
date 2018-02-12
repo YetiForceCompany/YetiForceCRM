@@ -11,7 +11,7 @@
 				<ul>
 					{foreach from=$MISSING_FOLDERS item=$FOLDER_NAME}
 						<li>{$FOLDER_NAME}</li>
-					{/foreach}
+						{/foreach}
 				</ul>
 			</div>
 		{/if}

@@ -24,7 +24,7 @@ class Settings_MailSmtp_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
-	
+
 	/**
 	 * Validate Request
 	 * @param \App\Request $request

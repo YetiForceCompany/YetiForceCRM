@@ -19,7 +19,7 @@
             <ul class="dropdown-menu">
                 {foreach from=$TASK_TYPES item=TASK_TYPE}
                     <li><a class="cursorPointer" data-url="{$TASK_TYPE->getEditViewUrl()}&for_workflow={$RECORD}">{\App\Language::translate($TASK_TYPE->get('label'),$QUALIFIED_MODULE)}</a></li>
-                {/foreach}
+					{/foreach}
             </ul>
         </div>
         <div id="taskListContainer">

@@ -10,17 +10,17 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><strong>{\App\Language::translate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</strong></div>
 			<div class="panel-body">
-			{foreach from=$TEMPLATES item=TEMPLATE}
-				<div class="form-group row form-horizontal">
-					<label class="col-sm-6 col-form-label" for="pdfTpl{$TEMPLATE->getId()}">
-						{$TEMPLATE->get('primary_name')}<br />
-						<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>
-					</label>
-					<div class="col-sm-6 control-group">
-						 <input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+				{foreach from=$TEMPLATES item=TEMPLATE}
+					<div class="form-group row form-horizontal">
+						<label class="col-sm-6 col-form-label" for="pdfTpl{$TEMPLATE->getId()}">
+							{$TEMPLATE->get('primary_name')}<br />
+							<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>
+						</label>
+						<div class="col-sm-6 control-group">
+							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+						</div>
 					</div>
-				</div>
-			{/foreach}
+				{/foreach}
 			</div>
 		</div>
 	</div>

@@ -17,7 +17,7 @@ class Settings_MappedFields_Import_View extends Settings_Vtiger_BasicModal_View
 
 	public function process(\App\Request $request)
 	{
-		
+
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 
 		$qualifiedModule = $request->getModule(false);

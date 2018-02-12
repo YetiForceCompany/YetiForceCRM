@@ -18,7 +18,7 @@
 				<h4 class="alert-heading">{\App\Language::translate('ERR_INACTIVE_ALERT_TITLE', $QUALIFIED_MODULE)}</h4>
 				<p>{\App\Language::translate('ERR_INACTIVE_CACHING_PERM_ALERT_DESC', $QUALIFIED_MODULE)}</p>
 			</div>
-		
+
 		{/if}
 		<div class="listViewActionsDiv row">
 			<div class="col-md-8 btn-toolbar">
@@ -30,12 +30,12 @@
 										<strong>{\App\Language::translate($LISTVIEW_BASICACTION->getLabel(), $QUALIFIED_MODULE)}</strong>
 									</button>
 									{/foreach}
-								{/if}
-								</div>
-								<div class="col-md-4">
-									{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
-								</div>
-							</div>
-							<div class="clearfix"></div>
-							<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
-								{/strip}
+										{/if}
+										</div>
+										<div class="col-md-4">
+											{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
+										{/strip}

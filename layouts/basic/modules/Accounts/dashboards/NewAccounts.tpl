@@ -7,7 +7,8 @@
 		<div class="col-md-4">
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
-					<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
+					<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts');
+							return false;">
 						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
@@ -29,7 +30,7 @@
 				<span class=" input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-calendar-alt iconMiddle "></span></span>
-					</span>
+				</span>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control" value="{implode(',',$DTIME)}" />
 			</div>	
 		</div>

@@ -15,42 +15,42 @@
 	<div class="detailViewContainer">
 		<div class="row detailViewTitle p-0">
 			{if $SHOW_BREAD_CRUMBS}
-						<div class="widget_header col-12 p-0">
-							<div class="row">
-								<div class="col-lg">
-									{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-								</div>
-								<div class="col-lg">
-									<div class="col-xs-12 detailViewToolbar py-1 pr-2">
-										<div class="pull-right-md pull-left-sm pull-right-lg">
-											<div class="btn-toolbar detailViewActionsBtn">
-												{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
-													<span class="btn-group ">
-														{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}	
-															{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewAdditional'}
-														{/foreach}
-													</span>
-												{/if}
-												{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-													<span class="btn-group">
-														{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-															{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
-														{/foreach}
-													</span>
-												{/if}
-												{if $DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
-													<span class="btn-group">
-														{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
-															{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewExtended'}
-														{/foreach}
-													</span>
-												{/if}
-											</div>
-										</div>
+				<div class="widget_header col-12 p-0">
+					<div class="row">
+						<div class="col-lg">
+							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+						</div>
+						<div class="col-lg">
+							<div class="col-xs-12 detailViewToolbar py-1 pr-2">
+								<div class="pull-right-md pull-left-sm pull-right-lg">
+									<div class="btn-toolbar detailViewActionsBtn">
+										{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
+											<span class="btn-group ">
+												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}	
+													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewAdditional'}
+												{/foreach}
+											</span>
+										{/if}
+										{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
+											<span class="btn-group">
+												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
+													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
+												{/foreach}
+											</span>
+										{/if}
+										{if $DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
+											<span class="btn-group">
+												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
+													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewExtended'}
+												{/foreach}
+											</span>
+										{/if}
 									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
 			{/if}					
 			{if !empty($DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET'])}
 				{foreach item=WIDGET from=$DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET']}

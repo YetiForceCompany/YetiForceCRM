@@ -37,7 +37,7 @@
 
 			<div id="modulePickListValuesContainer">
                 {if empty($NO_PICKLIST_FIELDS)}
-				{include file=\App\Layout::getTemplatePath('PickListValueDetail.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('PickListValueDetail.tpl', $QUALIFIED_MODULE)}
                 {/if}
             </div>
 		</div>

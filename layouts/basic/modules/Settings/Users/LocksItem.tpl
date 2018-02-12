@@ -21,11 +21,11 @@
 		</td>
 		<td>
 			<select class="form-control locks {if $SELECT}select2{/if}" multiple="">
-					{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
-						<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
-							{\App\Language::translate($LOCKT, $QUALIFIED_MODULE)}
-						</option>
-					{/foreach}
+				{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
+					<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
+						{\App\Language::translate($LOCKT, $QUALIFIED_MODULE)}
+					</option>
+				{/foreach}
 			</select>
 		</td>
 		<td class="textAlignCenter">

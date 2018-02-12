@@ -50,8 +50,8 @@ $languageStrings = [
 	'LBL_PRODUCTS_TABLE_DESCRIPTION' => 'Table with advanced block and description',
 	'LBL_PRODUCTS_TABLE_NEW' => 'Improved table with advanced block',
 	'LBL_PRODUCTS_TABLE_RELATED_MODULE' => 'Table with advanced block for related modules',
-  	'LBL_GROSS_AMOUNT_IN_WORDS' => 'Gross amount in words',
-  	'LBL_TABLE_DISCOUNT_SUMMARY' => 'Discount summary for advanced block',
-  	'LBL_OVERDUE_DEADLINES' => 'Overdue events',
-  	'LBL_TABLE_TAX_SUMMARY' => 'Tax summary for advanced block',
+	'LBL_GROSS_AMOUNT_IN_WORDS' => 'Gross amount in words',
+	'LBL_TABLE_DISCOUNT_SUMMARY' => 'Discount summary for advanced block',
+	'LBL_OVERDUE_DEADLINES' => 'Overdue events',
+	'LBL_TABLE_TAX_SUMMARY' => 'Tax summary for advanced block',
 ];

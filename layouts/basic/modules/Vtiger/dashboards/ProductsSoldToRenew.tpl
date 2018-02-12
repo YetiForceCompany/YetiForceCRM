@@ -21,7 +21,7 @@
 					<span class="input-group-text">
 						<span class="fas fa-filter"></span>
 					</span>
-			</div>
+				</div>
 				<select class="widgetFilter form-control orderby" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="orderby" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 					{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 						{assign var="FIELD_VALUE" value=$FIELD->get('name')}

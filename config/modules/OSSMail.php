@@ -7,7 +7,7 @@
  */
 $config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
-$config['default_host'] = ['ssl://imap.gmail.com'=>'ssl://imap.gmail.com'];
+$config['default_host'] = ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'];
 $config['validate_cert'] = false;
 $config['default_port'] = 993;
 $config['smtp_server'] = 'ssl://smtp.gmail.com';
@@ -21,7 +21,7 @@ $config['product_name'] = 'YetiForce';
 $config['plugins'] = array('identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status');
 $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
-$config['skin_logo'] = ['*'=>'/images/null.png'];
+$config['skin_logo'] = ['*' => '/images/null.png'];
 $config['ip_check'] = false;
 $config['enable_spellcheck'] = true;
 $config['identities_level'] = '0';

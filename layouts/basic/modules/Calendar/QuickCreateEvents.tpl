@@ -27,22 +27,22 @@
 									<span class="paddingLR5"><strong>{$EVENT['hour_start']}</strong></span>
 									<span>{vtlib\Functions::textLength($EVENT['title'], 16)}</span>
 									<span class="HelpInfoPopover" title="" data-placement="top" data-content="
-											<div><label class='paddingLR5'>{App\Language::translate('Start Time', $MODULE_NAME)}:</label>{$EVENT['start_display']}</div>
-											<div><label class='paddingLR5'>{App\Language::translate('End Time', $MODULE_NAME)}:</label>{$EVENT['end_display']}</div>
-											<div><label class='paddingLR5'>{App\Language::translate('Subject', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['title'])}</div>
-											<div><label class='paddingLR5'>{App\Language::translate('LBL_STATE', $MODULE_NAME)}:</label>{$EVENT['labels']['state']}</div>
-											<div><label class='paddingLR5'>{App\Language::translate('LBL_STATUS', $MODULE_NAME)}:</label>{$EVENT['labels']['sta']}</div>
-											<div><label class='paddingLR5'>{App\Language::translate('Priority', $MODULE_NAME)}:</label>{$EVENT['labels']['pri']}</div>
-											{if $EVENT['link'] neq 0}
-												<div><label class='paddingLR5'>{App\Language::translate('FL_RELATION', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['linkl'])}</div>
-											{/if}
-											{if $EVENT['process'] neq 0}
-												<div><label class='paddingLR5'>{App\Language::translate('FL_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['procl'])}</div>
-											{/if}
-											{if $EVENT['subprocess'] neq 0}
-												<div><label class='paddingLR5'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
-											{/if}
-										">
+										  <div><label class='paddingLR5'>{App\Language::translate('Start Time', $MODULE_NAME)}:</label>{$EVENT['start_display']}</div>
+										  <div><label class='paddingLR5'>{App\Language::translate('End Time', $MODULE_NAME)}:</label>{$EVENT['end_display']}</div>
+										  <div><label class='paddingLR5'>{App\Language::translate('Subject', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['title'])}</div>
+										  <div><label class='paddingLR5'>{App\Language::translate('LBL_STATE', $MODULE_NAME)}:</label>{$EVENT['labels']['state']}</div>
+										  <div><label class='paddingLR5'>{App\Language::translate('LBL_STATUS', $MODULE_NAME)}:</label>{$EVENT['labels']['sta']}</div>
+										  <div><label class='paddingLR5'>{App\Language::translate('Priority', $MODULE_NAME)}:</label>{$EVENT['labels']['pri']}</div>
+										  {if $EVENT['link'] neq 0}
+											  <div><label class='paddingLR5'>{App\Language::translate('FL_RELATION', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['linkl'])}</div>
+										  {/if}
+										  {if $EVENT['process'] neq 0}
+											  <div><label class='paddingLR5'>{App\Language::translate('FL_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['procl'])}</div>
+										  {/if}
+										  {if $EVENT['subprocess'] neq 0}
+											  <div><label class='paddingLR5'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
+										  {/if}
+										  ">
 										<i class="float-right fas fa-info-circle"></i>
 									</span>
 								</div>

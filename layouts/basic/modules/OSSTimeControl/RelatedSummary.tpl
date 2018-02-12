@@ -7,17 +7,17 @@
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/flot-valuelabels/jquery.flot.valuelabels.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
 		<style type="text/css">
-		.legendContainer{
-			position: absolute;
-			right: 30px;
-			top: 15px;
-			background-color: #F2F2F2;
-			border: 1px solid #dddddd;
-			padding: 3px;
-		}
-		.switchChartContainer{
-			margin-right: 5px;
-		}
+			.legendContainer{
+				position: absolute;
+				right: 30px;
+				top: 15px;
+				background-color: #F2F2F2;
+				border: 1px solid #dddddd;
+				padding: 3px;
+			}
+			.switchChartContainer{
+				margin-right: 5px;
+			}
 		</style>
 		{if count($RELATED_SUMMARY['userTime']) gt 0 }
 			<div class="row">

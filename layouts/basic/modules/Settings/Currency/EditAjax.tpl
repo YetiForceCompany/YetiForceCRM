@@ -73,27 +73,27 @@
 									<label class="checkbox">
 										<input type="hidden" name="currency_status" value="Inactive" />
 										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 
-								{if !$CURRENCY_MODEL_EXISTS} checked {else}{$RECORD_MODEL->get('currency_status')}{if $RECORD_MODEL->get('currency_status') == 'Active'} checked {/if}{/if} />
-							<span>&nbsp;{\App\Language::translate('LBL_CURRENCY_STATUS_DESC', $QUALIFIED_MODULE)}</span>
-						</label>
-					</div>	
-				</div>
-				<div class="form-group transferCurrency hide">
-					<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;
-						{\App\Language::translate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}</label>
-					<div class="col-md-6 controls row">
-						<select class="select2 form-control" name="transform_to_id">
-							{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$OTHER_EXISTING_CURRENCIES}
-								<option value="{$CURRENCY_ID}">{\App\Language::translate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
-							{/foreach}
-						</select>
-					</div>	
-				</div>
-			</div>
+										{if !$CURRENCY_MODEL_EXISTS} checked {else}{$RECORD_MODEL->get('currency_status')}{if $RECORD_MODEL->get('currency_status') == 'Active'} checked {/if}{/if} />
+									<span>&nbsp;{\App\Language::translate('LBL_CURRENCY_STATUS_DESC', $QUALIFIED_MODULE)}</span>
+								</label>
+							</div>	
+						</div>
+						<div class="form-group transferCurrency hide">
+							<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;
+								{\App\Language::translate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}</label>
+							<div class="col-md-6 controls row">
+								<select class="select2 form-control" name="transform_to_id">
+									{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$OTHER_EXISTING_CURRENCIES}
+										<option value="{$CURRENCY_ID}">{\App\Language::translate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
+									{/foreach}
+								</select>
+							</div>	
+						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
-				</form>
-			</div>
+				</div>
+				{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+			</form>
 		</div>
 	</div>
+</div>
 {/strip}

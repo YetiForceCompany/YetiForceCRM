@@ -3,7 +3,7 @@
 	<div class="col-md-2 form-group float-left">
 		{if $MULTI_SELECT}
 			{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-light"><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong></button>&nbsp;{/if}
-		{/if}
+				{/if}
 	</div>
 	{if $SWITCH && !empty($LISTVIEW_ENTRIES)}
 		<div class="col-md-4 form-group float-left">

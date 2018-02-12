@@ -66,20 +66,20 @@
 									&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{/if}
 								{if $LAST_COLUMN}
-									</td>
-									<td nowrap class="{$WIDTHTYPE}">
-										{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
-										{if count($LINKS) > 0}
-											<div class="actions">
-												<div class="float-right">
-													{foreach from=$LINKS item=LINK}
-														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
-													{/foreach}
-												</div>
+								</td>
+								<td nowrap class="{$WIDTHTYPE}">
+									{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+									{if count($LINKS) > 0}
+										<div class="actions">
+											<div class="float-right">
+												{foreach from=$LINKS item=LINK}
+													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+												{/foreach}
 											</div>
-										{/if}
-									</td>
-								{/if}
+										</div>
+									{/if}
+								</td>
+							{/if}
 							</td>
 						{/foreach}
 					</tr>

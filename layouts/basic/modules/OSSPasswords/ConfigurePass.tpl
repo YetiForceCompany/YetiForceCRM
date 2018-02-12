@@ -152,7 +152,7 @@
 				<div class="contentHeader row">
 					<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
-				
+
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 						<h5>&nbsp;{\App\Language::translate('Password Length', $MODULENAME)}</h5>
@@ -205,7 +205,7 @@
 							<div align="center" class="fieldValue col-xs-7 col-sm-10">
 								<div class="row float-left">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
-										{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
+									{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
 								</div>
 							</div>
 						</div>

@@ -48,9 +48,9 @@
 			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
 					<optgroup label="{\App\Language::translate($SRC_MODULE, $SRC_MODULE)}">
-					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
-						<option value="{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
-					{/foreach}
+						{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
+							<option value="{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
+						{/foreach}
 					</optgroup>
 				</select>
 				<span class="input-group-addon">

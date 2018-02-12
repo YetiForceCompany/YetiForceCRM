@@ -29,7 +29,7 @@
 		</div>
 		<div class="alert alert-info hide d-flex mt-2" id="moduleCacheAlert" role="alert">
 			<div class="mr-auto align-self-center">
-			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
+				{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
 			</div>
 			<button type="button" class="btn btn-warning btn-sm cacheClear px-2">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
 			<button type="button" class="close px-2 pb-1" data-dismiss="alert" aria-label="Close">

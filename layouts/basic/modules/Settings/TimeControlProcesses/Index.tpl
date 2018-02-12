@@ -51,7 +51,7 @@
 					<span class="far {if $TCW_FIELDS.workingTime eq 'true'}fa-check-square{else}fa-square{/if} float-left"></span>
 				</label>
 			</div>
-		
+
 		</div>
 	</div>
 </div>

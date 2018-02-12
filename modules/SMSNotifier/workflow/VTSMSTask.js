@@ -64,7 +64,7 @@ function SMSTask($) {
 			var endPos = element.selectionEnd;
 			var scrollTop = element.scrollTop;
 			element.value = element.value.substring(0, startPos) + value + element.value.substring(endPos,
-							element.value.length);
+					element.value.length);
 			element.focus();
 			element.selectionStart = startPos + value.length;
 			element.selectionEnd = startPos + value.length;

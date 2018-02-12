@@ -47,13 +47,13 @@
 													<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 												{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
 													<a href="{$RECORD_LINK_URL}"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
-												{else}
+													{else}
 													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
-														{$RECORD_LINK_URL|substr:strlen("javascript:")};
+																										 {$RECORD_LINK_URL|substr:strlen("javascript:")};
 															if (event.stopPropagation){ldelim}
-																event.stopPropagation();{rdelim} else{ldelim}
-																event.cancelBubble = true;{rdelim}
-														" {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
+																		event.stopPropagation();{rdelim} else{ldelim}
+																					event.cancelBubble = true;{rdelim}
+																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
 														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
 												{/if}

@@ -10,6 +10,7 @@
 
 class Rss_MakeDefaultAjax_Action extends \App\Controller\Action
 {
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -20,6 +21,7 @@ class Rss_MakeDefaultAjax_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */

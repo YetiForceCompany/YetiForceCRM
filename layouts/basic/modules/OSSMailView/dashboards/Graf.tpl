@@ -45,7 +45,7 @@
 				//animate: !$.jqplot.use_excanvas,
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
-					pointLabels: { show: true, formatString : '%d' }
+					pointLabels: {show: true, formatString: '%d'}
 
 				},
 				axes: {
@@ -62,7 +62,7 @@
 						pad: 1.2
 					}
 				},
-				highlighter: { show : true }
+				highlighter: {show: true}
 			});
 		},
 		registerSectionClick: function () {

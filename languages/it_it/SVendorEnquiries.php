@@ -11,7 +11,7 @@ $languageStrings = [
 	'SINGLE_SQuoteEnquiries' => 'Sales enquiry',
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informazioni',
-		'LBL_SCALCULATIONS_INFORMATION' => 'Informazioni',
+	'LBL_SCALCULATIONS_INFORMATION' => 'Informazioni',
 	'LBL_CUSTOM_INFORMATION' => 'Info sistema',
 	'LBL_DESCRIPTION_INFORMATION' => 'Dettagli',
 	'LBL_STATISTICS' => 'Statistiche',

@@ -14,53 +14,53 @@
 			{/foreach}
 		{/if}
 		{if isset($BTN_GROUP) && !$BTN_GROUP}<div class="btn-group {if isset($CLASS)}{$CLASS}{/if}">{/if} 
-		<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-			{if $BTN_ICON}
-				<span class="{$BTN_ICON}"></span>
-			{else}	
-				<span class="fas fa-list"></span>
-			{/if}
-			&nbsp;
-			<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
-			&nbsp;<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu">
-			{foreach item=LINK from=$LINKS}
-				{if $LINK_TYPE && $LINK_TYPE neq $LINK->getType()}
-					<li class="divider"></li>
+			<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+				{if $BTN_ICON}
+					<span class="{$BTN_ICON}"></span>
+				{else}	
+					<span class="fas fa-list"></span>
 				{/if}
-				{assign var="LINK_TYPE" value=$LINK->getType()}
-				{assign var="LINK_URL" value=$LINK->getUrl()}
-				<li>
-					<a class="quickLinks {$LINK->getClassName()}" 
-						{if $LINK->get('linkdata') neq ''}
-							{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
-								{/strip} {strip}
-								data-{$NAME}="{$DATA}" 
-							{/foreach}
+				&nbsp;
+				<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
+				&nbsp;<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				{foreach item=LINK from=$LINKS}
+					{if $LINK_TYPE && $LINK_TYPE neq $LINK->getType()}
+						<li class="divider"></li>
 						{/if}
-						{/strip} {strip}
-						{if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
-							href="{$LINK_URL}"
-						{elseif $LINK_URL}
-							onclick='{$LINK_URL|substr:strlen("javascript:")}'
-						{/if}
-						{/strip} {strip}
-						{if $LINK->get('dataUrl')}
-							data-url="{$LINK->get('dataUrl')}"
-						{/if}
-						{/strip} {strip}
-						{if $LINK->get('style')}
-							style="{$LINK->get('style')}"
-						{/if}>
-						{if $LINK->get('linkicon') neq ''}
-							<span class="{$LINK->get('linkicon')}"></span>&nbsp;&nbsp;
-						{/if}
-						{\App\Language::translate($LINK->getLabel(), $MODULE_NAME)}
-					</a>
-				</li>
-			{/foreach}
-		</ul>
-		{if isset($BTN_GROUP) && !$BTN_GROUP}</div>{/if} 
-	{/if} 
-{/strip}
+						{assign var="LINK_TYPE" value=$LINK->getType()}
+						{assign var="LINK_URL" value=$LINK->getUrl()}
+					<li>
+						<a class="quickLinks {$LINK->getClassName()}" 
+						   {if $LINK->get('linkdata') neq ''}
+							   {foreach from=$LINK->get('linkdata') key=NAME item=DATA}
+								   {/strip} {strip}
+										   data-{$NAME}="{$DATA}" 
+										   {/foreach}
+											   {/if}
+												   {/strip} {strip}
+														   {if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
+															   href="{$LINK_URL}"
+														   {elseif $LINK_URL}
+															   onclick='{$LINK_URL|substr:strlen("javascript:")}'
+														   {/if}
+													   {/strip} {strip}
+														   {if $LINK->get('dataUrl')}
+															   data-url="{$LINK->get('dataUrl')}"
+														   {/if}
+													   {/strip} {strip}
+														   {if $LINK->get('style')}
+															   style="{$LINK->get('style')}"
+														   {/if}>
+														   {if $LINK->get('linkicon') neq ''}
+															   <span class="{$LINK->get('linkicon')}"></span>&nbsp;&nbsp;
+														   {/if}
+														   {\App\Language::translate($LINK->getLabel(), $MODULE_NAME)}
+													   </a>
+												   </li>
+												   {/foreach}
+												   </ul>
+												   {if isset($BTN_GROUP) && !$BTN_GROUP}</div>{/if} 
+												   {/if} 
+													   {/strip}

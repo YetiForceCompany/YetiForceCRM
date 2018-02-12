@@ -22,7 +22,7 @@
 	<hr>
 	{if !$DATA}
 		<button class="btn btn-success copyMenu"><strong>{\App\Language::translate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</strong></button>
-	{/if}
+			{/if}
 	<div class="treeMenuContainer">
 		<input type="hidden" id="treeLastID" value="{$LASTID}" />
 		<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />

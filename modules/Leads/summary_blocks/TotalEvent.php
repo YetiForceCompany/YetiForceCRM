@@ -22,13 +22,13 @@ class TotalEvent
 	{
 		\App\Log::trace('Entering TotalEvent::process() method ...');
 		$count = (new App\Db\Query())->from('vtiger_activity')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
-			->where([
-				'and',
-				['vtiger_activity.link' => $recordModel->getId()],
-				['vtiger_crmentity.deleted' => 0],
-				['<>', 'vtiger_activity.activitytype', 'Task']
-			])->count('vtiger_activity.activityid');
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+				->where([
+					'and',
+					['vtiger_activity.link' => $recordModel->getId()],
+					['vtiger_crmentity.deleted' => 0],
+					['<>', 'vtiger_activity.activitytype', 'Task']
+				])->count('vtiger_activity.activityid');
 		\App\Log::trace('Exiting TotalEvent::process() method ...');
 		return $count;
 	}

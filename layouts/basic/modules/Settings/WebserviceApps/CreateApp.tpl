@@ -96,7 +96,7 @@
 									</button>
 									<button class="btn btn-light relatedPopup" type="button">
 										<span class="fas fa-search" 
-											title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
+											  title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
 									</button>
 								</span>
 							</div>

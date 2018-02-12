@@ -108,15 +108,15 @@
 		gantt.templates.grid_file = function (item) {
 			return '<div class="gantt_tree_icon gantt_file ' + 'userIcon-' + item.module + '"></div>';
 		},
-		gantt.templates.grid_folder = function (item) {
-			return '<div class="gantt_tree_icon gantt_folder_' + (item.$open ? 'open' : 'closed') + ' ' + 'userIcon-' + item.module + '"></div>';
-		},
-		gantt.templates.rightside_text = function (start, end, task) {
-			if (task.type === gantt.config.types.milestone) {
-				return task.text;
-			}
-			return '';
-		};
+				gantt.templates.grid_folder = function (item) {
+					return '<div class="gantt_tree_icon gantt_folder_' + (item.$open ? 'open' : 'closed') + ' ' + 'userIcon-' + item.module + '"></div>';
+				},
+				gantt.templates.rightside_text = function (start, end, task) {
+					if (task.type === gantt.config.types.milestone) {
+						return task.text;
+					}
+					return '';
+				};
 
 		gantt.config.columns = [{
 				name: 'text',

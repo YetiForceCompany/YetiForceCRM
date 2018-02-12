@@ -18,7 +18,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-		$sourceModule = $request->getByType('src_module',2);
+		$sourceModule = $request->getByType('src_module', 2);
 		$relParentModule = 'Accounts';
 		if (!$request->isEmpty('src_record') && $moduleName === 'Contacts' && \App\Record::isExists($request->getInteger('src_record'))) {
 			$sourceRecord = $request->getInteger('src_record');

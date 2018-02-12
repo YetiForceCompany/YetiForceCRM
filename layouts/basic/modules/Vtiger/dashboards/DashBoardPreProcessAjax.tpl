@@ -14,10 +14,10 @@
 			<ul class="nav nav-tabs massEditTabs selectDashboradView">
 				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
 					<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
-				{/foreach}
+						{/foreach}
 			</ul>
 		{/if}
 	</div>
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
 	<div class="col-xs-12 paddingLRZero">
-{/strip}
+	{/strip}

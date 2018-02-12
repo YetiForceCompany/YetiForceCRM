@@ -51,8 +51,8 @@
 					<div class="pull-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
- 					<div class="pull-right">
- 						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
+					<div class="pull-right">
+						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
 							<span class="fas fa-bell"></span>
 							<span class="badge hide">0</span>
 						</a>
@@ -126,11 +126,11 @@
 						</div>
 						<div class="pull-right">
 							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
-								{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-										data-{$DATA_NAME}="{$DATA_VALUE}"
-									{/foreach}
-								{/if}>
+							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+									   data-{$DATA_NAME}="{$DATA_VALUE}"
+								   {/foreach}
+							   {/if}>
 								{if $GLYPHICON}
 									<span class="{$GLYPHICON}" style="width:18px;height:20px;font-size:18px"></span>
 								{/if}
@@ -146,22 +146,22 @@
 						{foreach key=index item=obj from=$CHILD_LINKS}
 							{if $obj->getLabel() eq NULL}
 								<li class="divider"></li>
-							{else}
-								{assign var="id" value=$obj->getId()}
-								{assign var="href" value=$obj->getUrl()}
-								{assign var="label" value=$obj->getLabel()}
-								{assign var="onclick" value=""}
-								{if stripos($obj->getUrl(), 'javascript:') === 0}
-									{assign var="onclick" value="onclick="|cat:$href}
-									{assign var="href" value="javascript:;"}
-								{/if}
+								{else}
+									{assign var="id" value=$obj->getId()}
+									{assign var="href" value=$obj->getUrl()}
+									{assign var="label" value=$obj->getLabel()}
+									{assign var="onclick" value=""}
+									{if stripos($obj->getUrl(), 'javascript:') === 0}
+										{assign var="onclick" value="onclick="|cat:$href}
+										{assign var="href" value="javascript:;"}
+									{/if}
 								<li>
 									<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
-									{if $obj->linkdata && is_array($obj->linkdata)}
-										{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-											data-{$DATA_NAME}="{$DATA_VALUE}"
-										{/foreach}
-									{/if}>{\App\Language::translate($label,$MODULE)}</a>
+									   {if $obj->linkdata && is_array($obj->linkdata)}
+										   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+											   data-{$DATA_NAME}="{$DATA_VALUE}"
+										   {/foreach}
+									   {/if}>{\App\Language::translate($label,$MODULE)}</a>
 								</li>
 							{/if}
 						{/foreach}
@@ -174,16 +174,16 @@
 		<div class="searchMenu globalSearchInput">
 			<div class="input-group mb-1">
 				<div class ="select2WithButtonWidth">
-				<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
-					<option value="-" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
-					{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
-						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
-							<option value="{$MODULE_NAME}" selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
-						{else}
-							<option value="{$MODULE_NAME}" >{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
-						{/if}
-					{/foreach}
-				</select>
+					<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+						<option value="-" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
+						{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
+							{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
+								<option value="{$MODULE_NAME}" selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
+							{else}
+								<option value="{$MODULE_NAME}" >{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
+							{/if}
+						{/foreach}
+					</select>
 				</div>
 				<div class="input-group-append">
 					<div class="">

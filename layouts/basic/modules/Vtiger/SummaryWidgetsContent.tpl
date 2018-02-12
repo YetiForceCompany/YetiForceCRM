@@ -7,8 +7,8 @@
 					<tr class="">
 						{if !$IS_READ_ONLY}
 							<th class="noWrap listViewSearchTd">&nbsp;</th>
-						{/if}
-						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							{/if}
+							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
@@ -16,10 +16,10 @@
 						{if $SHOW_CREATOR_DETAIL}
 							<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
 							<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-						{/if}
-						{if $SHOW_COMMENT}
+							{/if}
+							{if $SHOW_COMMENT}
 							<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-						{/if}
+							{/if}
 					</tr>
 				</thead>
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}

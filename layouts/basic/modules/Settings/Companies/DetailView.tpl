@@ -47,7 +47,7 @@
 											{$RECORD_MODEL->getDisplayValue($COLUMN)}
 										</td>
 									</tr>
-									
+
 								{/if}
 							{/foreach}
 						</tbody>

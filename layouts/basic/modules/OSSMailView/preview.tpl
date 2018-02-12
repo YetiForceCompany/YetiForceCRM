@@ -128,7 +128,7 @@
 												<a class="btn btn-sm btn-primary" title="{$ATTACHMENT['name']}" 
 												   href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
 													<span class="fas fa-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
-											{/foreach}
+												{/foreach}
 										</span>
 									</span>
 								</div>

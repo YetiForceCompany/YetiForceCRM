@@ -28,7 +28,7 @@
 			   {if $RECORD->getId() neq ''}
 				   <button class="btn btn-warning btn-sm" 
 						   onclick="showPassword('{$RECORD->getId()}');
-						return false;" id="show-btn">
+								   return false;" id="show-btn">
 					   {\App\Language::translate('LBL_ShowPassword', $MODULE)}
 				   </button>
 				   &nbsp;

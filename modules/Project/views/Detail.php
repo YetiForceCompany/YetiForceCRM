@@ -69,5 +69,4 @@ class Project_Detail_View extends Vtiger_Detail_View
 				'~libraries/gantt/dhtmlxgantt.js',
 		]));
 	}
-
 }

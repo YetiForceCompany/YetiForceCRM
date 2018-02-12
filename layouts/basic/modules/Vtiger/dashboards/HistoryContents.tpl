@@ -41,9 +41,9 @@
 								<p class="float-right muted" style="padding-right:5px;">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
-									{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
-									{if $HISTORY->isUpdate()}
-										{assign var=FIELDS value=$HISTORY->getFieldInstances()}
+								{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
+								{if $HISTORY->isUpdate()}
+									{assign var=FIELDS value=$HISTORY->getFieldInstances()}
 									<div class="">
 										<div>
 											<strong>{$USER->getName()}&nbsp;</strong>

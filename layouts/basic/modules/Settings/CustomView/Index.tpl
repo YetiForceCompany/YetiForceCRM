@@ -23,7 +23,7 @@
 					<div class="col-md-8 col-sm-8 col-xs-6">
 						<button class="btn btn-success float-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="fas fa-plus"></span> {App\Language::translate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
 					</div>
-					
+
 				</div>
 			</div>
 			<div class="panel-body padding5">

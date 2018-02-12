@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
 	<form class="form-horizontal recordEditView" id="report_step2" method="post" action="index.php">
@@ -45,18 +45,18 @@
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
 								<optgroup label='{\App\Language::translate($PRIMARY_MODULE_NAME,$MODULE)}-{\App\Language::translate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
-								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('App\Purifier::decodeHtml',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($PRIMARY_MODULE_NAME, $PRIMARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
-								{/foreach}
+									{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
+										<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('App\Purifier::decodeHtml',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($PRIMARY_MODULE_NAME, $PRIMARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
+									{/foreach}
 								</optgroup>
 							{/foreach}
 						{/foreach}
 						{foreach key=SECONDARY_MODULE_NAME item=SECONDARY_MODULE from=$SECONDARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
 								<optgroup label='{\App\Language::translate($SECONDARY_MODULE_NAME,$MODULE)}-{\App\Language::translate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
-								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}"{if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('App\Purifier::decodeHtml',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
-								{/foreach}
+									{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
+										<option value="{$FIELD_KEY}"{if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('App\Purifier::decodeHtml',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
+									{/foreach}
 								</optgroup>
 							{/foreach}
 						{/foreach}
@@ -130,7 +130,7 @@
 			<button type="button" class="btn btn-danger backStep"><strong>{\App\Language::translate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{\App\Language::translate('LBL_CANCEL',$MODULE)}</a>
-		<br />
+				<br />
 		</div>
 		<br /><br />
 	</form>

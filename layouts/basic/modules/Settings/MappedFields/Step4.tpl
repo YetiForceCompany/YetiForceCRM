@@ -17,9 +17,9 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
-								<label class="col-md-3 col-form-label">
-									{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
-								</label>
+							<label class="col-md-3 col-form-label">
+								{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+							</label>
 							<div class="col-md-8">
 								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}

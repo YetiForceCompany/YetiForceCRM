@@ -14,28 +14,28 @@
 			<div class="col-xs-12"><hr></div>
 			{/if}
 			{foreach from=$ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
-				<div class="col-xs-12 paddingLRZero">
-					<div class="col-xs-4 textOverflowEllipsis">
-						{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
-							<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
-								<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
-							</a>
-						{else}
-							{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
-						{/if}
-					</div>
-					<div class="col-xs-4 textOverflowEllipsis">
-						{$ACCOUNTS_MODEL['userModel']->getName()}
-					</div>
-					<div class="col-xs-4 textOverflowEllipsis">
-						{if is_null($ACCOUNTS_MODEL['crmactivity'])}
-							-
-						{else}
-							{$ACCOUNTS_MODEL['crmactivity']}
-						{/if}
-					</div>
+			<div class="col-xs-12 paddingLRZero">
+				<div class="col-xs-4 textOverflowEllipsis">
+					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
+						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
+							<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
+						</a>
+					{else}
+						{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
+					{/if}
 				</div>
-			{/foreach}
+				<div class="col-xs-4 textOverflowEllipsis">
+					{$ACCOUNTS_MODEL['userModel']->getName()}
+				</div>
+				<div class="col-xs-4 textOverflowEllipsis">
+					{if is_null($ACCOUNTS_MODEL['crmactivity'])}
+						-
+					{else}
+						{$ACCOUNTS_MODEL['crmactivity']}
+					{/if}
+				</div>
+			</div>
+		{/foreach}
 		{if count($ACCOUNTS) eq $PAGING_MODEL->getPageLimit()}
 			<div class="float-right padding5">
 				<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</button>

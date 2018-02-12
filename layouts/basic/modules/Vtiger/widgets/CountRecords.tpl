@@ -15,7 +15,7 @@
 		<hr class="widgetHr">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 			<div class="widget_contents">
-				
+
 			</div>
 		</div>
 	</div>

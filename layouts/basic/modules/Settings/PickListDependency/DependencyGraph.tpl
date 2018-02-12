@@ -46,15 +46,15 @@
                 </thead>
                 <tbody>
                     {foreach item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
-				{if $smarty.foreach.targetValuesLoop.index eq 0}
-					<tr>
-						<td class="tableHeading">
-							{$RECORD_MODEL->getTargetFieldLabel()}
-						</td>
-					</tr>
-				{/if}
-		    {/foreach}
-		</tbody>
+						{if $smarty.foreach.targetValuesLoop.index eq 0}
+							<tr>
+								<td class="tableHeading">
+									{$RECORD_MODEL->getTargetFieldLabel()}
+								</td>
+							</tr>
+						{/if}
+					{/foreach}
+				</tbody>
             </table>
         </div>
         <div class="col-md-10 col-sm-10 col-xs-10 paddingLRZero marginLeftZero dependencyMapping">

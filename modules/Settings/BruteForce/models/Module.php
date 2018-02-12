@@ -194,8 +194,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
-				['blocked' => self::UNBLOCKED],
-				['ip' => $ip]])->execute();
+			['blocked' => self::UNBLOCKED],
+			['ip' => $ip]])->execute();
 	}
 
 	/**

@@ -1,19 +1,19 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 
 {strip}
-<div class="template-contents">
-    <table border=1 style="font-size:11px; width:100%; table-layout: fixed; border-collapse: collapse;">
-        <thead>
+	<div class="template-contents">
+		<table border=1 style="font-size:11px; width:100%; table-layout: fixed; border-collapse: collapse;">
+			<thead>
                 <tr bgcolor=#c0c0c0>
                     <td style="text-align: center">
                         <strong>Item Code</strong>
@@ -43,8 +43,8 @@
                         <strong>Total</strong>
                     </td>
                 </tr>
-              </thead>
-              <tbody>
+			</thead>
+			<tbody>
                 <!-- foreach item=LINEITEM from=$RECORD.LINEITEMS -->
                 <tr>
                     <td align=right style="text-align: center; vertical-align : top; word-wrap: break-word;">
@@ -66,7 +66,7 @@
                         {literal}{$LINEITEM.discount_amount}{/literal}&nbsp;&nbsp;
                         ({literal}{$LINEITEM.discount_percent}{/literal} %)
                     </td>
-                     <td align=left style="text-align: right; vertical-align : top; word-wrap: break-word;">
+					<td align=left style="text-align: right; vertical-align : top; word-wrap: break-word;">
                         {literal} {$LINEITEM.totalAfterDiscount} {/literal}
                     </td>
                     <td align=right style="text-align: right; vertical-align : top; word-wrap: break-word;">
@@ -76,8 +76,8 @@
                     <td align=right style="text-align: right; vertical-align : top; word-wrap: break-word;">
                         {literal} {$LINEITEM.netPrice} {/literal}
                     </td>
-            </tr>
-              <!-- /foreach -->
+				</tr>
+				<!-- /foreach -->
                 <tr>
                     <td colspan=8 style="word-wrap: break-word; text-align: right;">Items Total</td>
                     <td style="text-align: right; word-wrap: break-word;">
@@ -93,7 +93,7 @@
                 <tr>
                     <td colspan=8 style="word-wrap: break-word; text-align: right;">Pre Tax Total</td>
                     <td style="text-align: right; word-wrap:  break-word;">
-                         {literal}{$RECORD.pre_tax_total}{/literal}
+						{literal}{$RECORD.pre_tax_total}{/literal}
                     </td>
                 </tr>
                 <tr>
@@ -106,8 +106,8 @@
                     <td style="text-align: right; word-wrap: break-word;">
                         <strong style=" word-wrap: break-word;">{literal}{$RECORD.hdnGrandTotal}{/literal}</strong>
                     </td>
-               </tr>
-        </tbody>
-    </table>
-</div>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 {/strip}               

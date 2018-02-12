@@ -12,6 +12,7 @@
  */
 class Users_String_UIType extends Vtiger_Base_UIType
 {
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -48,12 +48,12 @@
 				<!--
 				<div class="form-group">
 					<label class="col-sm-3 col-form-label">
-						{\App\Language::translate('LBL_FOLDER_NAME', $QUALIFIED_MODULE)}
-					</label>
-					<div class="col-sm-6 controls">
-						todo: browse folders for templates
-					</div>
-				</div>
+				{\App\Language::translate('LBL_FOLDER_NAME', $QUALIFIED_MODULE)}
+			</label>
+			<div class="col-sm-6 controls">
+				todo: browse folders for templates
+			</div>
+		</div>
 				-->
 				<div class="form-group">
 					<label class="col-sm-3 col-form-label">

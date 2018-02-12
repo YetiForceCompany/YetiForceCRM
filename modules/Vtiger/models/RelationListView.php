@@ -462,7 +462,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 
 		$selectLinkList = [
-				[
+			[
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',

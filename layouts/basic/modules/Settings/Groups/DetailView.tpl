@@ -13,9 +13,9 @@
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
+			{if isset($SELECTED_PAGE)}
+				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+			{/if}
 		</div>
 		<div class="col-md-4 ">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 col-form-label">
-						 <span class="redColor">*</span>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)} 
+						<span class="redColor">*</span>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
 						<div class="row">
@@ -89,4 +89,4 @@
 			</form>
 		</div>
 	</div>
-{strip}
+	{strip}

@@ -74,7 +74,7 @@ $languageStrings = [
 	'LBL_ERROR_LOGIN' => 'Error de autorización, los datos ingresados son incorrectos.',
 	'LBL_BACK' => 'Atrás',
 	'LBL_READ_LICENSE' => 'Leer licencia',
-    'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Introduzca los datos de la empresa',
+	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Introduzca los datos de la empresa',
 	//Migration
 	'LBL_MIGRATION' => 'Migración',
 	'LBL_START_MIGRATION' => 'Iniciar la migración',

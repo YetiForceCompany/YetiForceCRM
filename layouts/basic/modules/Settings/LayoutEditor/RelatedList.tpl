@@ -67,7 +67,7 @@
 										<div class="btn-toolbar btn-group-xs float-right">
 											{if AppConfig::developer('CHANGE_RELATIONS')}
 												<button type="button" class="btn btn-danger removeRelation float-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
-												<span class="fas fa-times"></span>
+													<span class="fas fa-times"></span>
 												</button>
 											{/if}
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}

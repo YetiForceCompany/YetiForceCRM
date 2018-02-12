@@ -15,4 +15,4 @@
 		</ul>
 	</div>
 	<div class="tab-content listViewContent">
-{/strip}
+	{/strip}

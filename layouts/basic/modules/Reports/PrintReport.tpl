@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
 *
- ********************************************************************************/ -->*}
+********************************************************************************/ -->*}
 
 <!DOCTYPE>
 <html>
@@ -16,21 +16,21 @@
 		<title>{\App\Language::translate('LBL_PRINT_REPORT', $MODULE)}</title>
         <style>
             {literal}
-            .printReport{
-                width:100%;
-                border:1px solid #000000;
-                border-collapse:collapse;
-            }
-            .printReport tr td{
-                border:1px dotted #000000;
-                text-align:left;
-            }
-            .printReport tr th{
-                border-bottom:2px solid #000000;
-                border-left:1px solid #000000;
-                border-top:1px solid #000000;
-                border-right:1px solid #000000;
-            }
+				.printReport{
+					width:100%;
+					border:1px solid #000000;
+					border-collapse:collapse;
+				}
+				.printReport tr td{
+					border:1px dotted #000000;
+					text-align:left;
+				}
+				.printReport tr th{
+					border-bottom:2px solid #000000;
+					border-left:1px solid #000000;
+					border-top:1px solid #000000;
+					border-right:1px solid #000000;
+				}
             {/literal}
         </style>
 	</head>

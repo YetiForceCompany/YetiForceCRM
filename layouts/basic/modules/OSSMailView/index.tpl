@@ -26,53 +26,53 @@
 	</div>
 </div>
 {literal}
-<script>
-    jQuery(function(){
-		$(".treeView form").validationEngine(app.validationEngineOptions);
-        var saveWidgetConfig = function(name, value, type) {
-            var params = {
-                'module': 'OSSMailScanner',
-                'action': "SaveWidgetConfig",
-                'conf_type': type,
-                'name': name,
-                'value': value
-            }
-			if($(".treeView form").validationEngine('validate')) {
-				AppConnector.request(params).then(
-					function(data) {
-						var response = data['result'];
-						if (response['success']) {
-							var params = {
-								text: response['data'],
-								type: 'info',
-								animation: 'show'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						} else {
-							var params = {
-								text: response['data'],
-								animation: 'show'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						}
-					},
-					function(data, err) {
+	<script>
+		jQuery(function () {
+			$(".treeView form").validationEngine(app.validationEngineOptions);
+			var saveWidgetConfig = function (name, value, type) {
+				var params = {
+					'module': 'OSSMailScanner',
+					'action': "SaveWidgetConfig",
+					'conf_type': type,
+					'name': name,
+					'value': value
+				}
+				if ($(".treeView form").validationEngine('validate')) {
+					AppConnector.request(params).then(
+							function (data) {
+								var response = data['result'];
+								if (response['success']) {
+									var params = {
+										text: response['data'],
+										type: 'info',
+										animation: 'show'
+									};
+									Vtiger_Helper_Js.showPnotify(params);
+								} else {
+									var params = {
+										text: response['data'],
+										animation: 'show'
+									};
+									Vtiger_Helper_Js.showPnotify(params);
+								}
+							},
+							function (data, err) {
 
-					}
-				);
+							}
+					);
+				}
 			}
-        }
-        jQuery('#tab_email_view_widget_limit').on('blur', function() {
-            saveWidgetConfig('widget_limit', jQuery(this).val(), 'email_list');
-        });
-        jQuery('#tab_email_view_open_window').on('change', function() {
-            saveWidgetConfig('target', jQuery(this).val(), 'email_list');
-        });
-        
-        jQuery('#email_permissions').select2();
-        jQuery('#email_permissions').on('change', function() {
-            saveWidgetConfig('permissions', jQuery(this).val(), 'email_list');
-        });
-    });
-</script>
+			jQuery('#tab_email_view_widget_limit').on('blur', function () {
+				saveWidgetConfig('widget_limit', jQuery(this).val(), 'email_list');
+			});
+			jQuery('#tab_email_view_open_window').on('change', function () {
+				saveWidgetConfig('target', jQuery(this).val(), 'email_list');
+			});
+
+			jQuery('#email_permissions').select2();
+			jQuery('#email_permissions').on('change', function () {
+				saveWidgetConfig('permissions', jQuery(this).val(), 'email_list');
+			});
+		});
+	</script>
 {/literal}

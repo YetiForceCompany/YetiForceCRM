@@ -67,8 +67,8 @@
 					{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 					{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
 					<p class="text-center">
-					<span class="d-none d-sm-inline ">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVR ,$FOOTOSP)}</span>
-					<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
+						<span class="d-none d-sm-inline ">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVR ,$FOOTOSP)}</span>
+						<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
 					</p>
 				{else}
 					<p class="text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project')}</p>

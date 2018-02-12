@@ -24,7 +24,7 @@
 				<thead>
 					<tr>
 						<th style="width: 40%;"></th>
-						{foreach item=FIELD from=$FIELDS[0]}
+							{foreach item=FIELD from=$FIELDS[0]}
 							<th>
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}

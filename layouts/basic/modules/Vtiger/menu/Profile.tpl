@@ -18,14 +18,14 @@
 			</a>
 			{if $DEVICE == 'Desktop'}
 				<ul class="slimScrollSubMenu nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
-			{/if}
-			<li class="menuPanel">
-				<button name="changePass" data-url="index.php?module=Users&view=PasswordModal&mode=change&record={$USER_MODEL->getRealId()}" 
-						class=" btn btn-block btn-light showModal" type="button">
-					{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}
-				</button>
-			</li>
-			{if $DEVICE == 'Desktop'}
+				{/if}
+				<li class="menuPanel">
+					<button name="changePass" data-url="index.php?module=Users&view=PasswordModal&mode=change&record={$USER_MODEL->getRealId()}" 
+							class=" btn btn-block btn-light showModal" type="button">
+						{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}
+					</button>
+				</li>
+				{if $DEVICE == 'Desktop'}
 				</ul>
 			{/if}
 		</li>

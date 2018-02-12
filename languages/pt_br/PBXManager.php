@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-
 	//Blocks
 	'LBL_PBXMANAGER_INFORMATION' => 'Detalhes de Chamada',
 	'LBL_CUSTOM_INFORMATION' => 'Informação Personalizada',
@@ -18,7 +17,7 @@ $languageStrings = [
 	//Detail view header title
 	'LBL_CALL_FROM' => 'Chamada de',
 	'LBL_CALL_TO' => 'Chamada para',
-	//Incoming call pop-up 
+	//Incoming call pop-up
 	'LBL_HIDDEN' => '(OCULTO)',
 	// Fields
 	'Total Duration' => 'Duração (seg)',

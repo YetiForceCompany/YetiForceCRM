@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_ASSIGN_INFO' => 'Set default Assigned To. The value set here will be assigned to the record when the user, who was assigned, can not be found.',
 	'LBL_CONDITIONS_INFO' => 'Set record search conditions. In order to select one user from the available user list, the system counts the number of records assigned to the user in the module. The user with the lowest number of records is assigned to the record.',
 	'LBL_ROLEID_INFO' => 'Set one of the following modes: SYSTEM - user by such mechanisms as workflows tasks and handlers; NON-SYSTEM –  allows to assign a record manually by the user.',
-
 ];
 $jsLanguageStrings = [
 	'JS_STATE_CONFIRMATION' => 'Sind Sie sicher, dass Sie den Datensatz Status ändern wollen?',
