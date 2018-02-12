@@ -6,6 +6,10 @@
   version "0.8.3"
   resolved "https://github.com/flot/flot.git#958e5fd43c6dff4bab3e1fd5cb6109df5c1e8003"
 
+"Font-Awesome@https://github.com/FortAwesome/Font-Awesome":
+  version "0.0.0"
+  resolved "https://github.com/FortAwesome/Font-Awesome#159d220a7446ceb7cde0b0096674f60f51129bf7"
+
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -300,10 +304,6 @@ redeyed@~1.0.0:
 respond.js@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
-
-select2-bootstrap-theme@^0.1.0-beta.10:
-  version "0.1.0-beta.10"
-  resolved "https://registry.yarnpkg.com/select2-bootstrap-theme/-/select2-bootstrap-theme-0.1.0-beta.10.tgz#b9426ecfc03bf4a235e76a132377574310469ac0"
 
 select2-bootstrap4-theme@^1.0.0:
   version "1.0.0"

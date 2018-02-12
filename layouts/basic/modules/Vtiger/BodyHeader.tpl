@@ -33,13 +33,13 @@
 							<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="fas fa-crosshairs fa-fw"></span>
 							</button>
-							<ul class="dropdown-menu globalSearchOperator">
-								<li class="active"><a href="#" data-operator="FulltextBegin">{\App\Language::translate('LBL_FULLTEXT_BEGIN')}</a></li>
-								<li><a href="#" data-operator="FulltextWord">{\App\Language::translate('LBL_FULLTEXT_WORD')}</a></li>
-								<li><a href="#" data-operator="Contain">{\App\Language::translate('LBL_CONTAINS')}</a></li>
-								<li><a href="#" data-operator="Begin">{\App\Language::translate('LBL_STARTS_WITH')}</a></li>
-								<li><a href="#" data-operator="End">{\App\Language::translate('LBL_ENDS_WITH')}</a></li>
-							</ul>
+							<div class="dropdown-menu globalSearchOperator">
+								<a class="active dropdown-item" href="#" data-operator="FulltextBegin">{\App\Language::translate('LBL_FULLTEXT_BEGIN')}</a>
+								<a class="dropdown-item" href="#" data-operator="FulltextWord">{\App\Language::translate('LBL_FULLTEXT_WORD')}</a>
+								<a class="dropdown-item" href="#" data-operator="Contain">{\App\Language::translate('LBL_CONTAINS')}</a>
+								<a class="dropdown-item" href="#" data-operator="Begin">{\App\Language::translate('LBL_STARTS_WITH')}</a>
+								<a class="dropdown-item" href="#" data-operator="End">{\App\Language::translate('LBL_ENDS_WITH')}</a>
+							</div>
 						</div>
 					{/if}
 					<button class="btn btn-outline-dark border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">

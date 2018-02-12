@@ -37,14 +37,16 @@
 
 .headerRightWrapper {
 	.btn {
-		@extend .ml-2;
-		@extend .px-1;
-		font-size: 17px;
-		height: 32px;
-		[data-fa-i2svg] {
-			margin-bottom: 4px;
-			&.fa-power-off {
-				margin-bottom: 1px;
+		&:not(.addMsg) {
+			@extend .ml-2;
+			@extend .px-1;
+			font-size: 17px;
+			height: $menuItemsHeight;
+			[data-fa-i2svg] {
+				margin-bottom: 4px;
+				&.fa-power-off {
+					margin-bottom: 1px;
+				}
 			}
 		}
 	}
@@ -69,9 +71,9 @@
 	padding: 10px 0;
 }
 .widget_header {
-  background: $gray-200;
+	background: $gray-200;
 }
 .summaryWidgetContainer .widget_header {
-  background: #fff;
-  margin-bottom: 0px;
+	background: #fff;
+	margin-bottom: 0px;
 }

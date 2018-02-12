@@ -944,23 +944,6 @@ td.fieldValue {
     margin-bottom: 20px;
     font-size: 1.2em;
   }
-  .contents .conditionRow {
-    margin-bottom: 10px;
-    &:after {
-      clear: both;
-      display: table;
-      content: " ";
-    }
-    select {
-      width: 100%;
-    }
-    .chzn-results li {
-      line-height: 20px;
-    }
-  }
-  .deleteCondition {
-    vertical-align: bottom;
-  }
 }
 .searchUIBasic {
   border-collapse: separate !important;

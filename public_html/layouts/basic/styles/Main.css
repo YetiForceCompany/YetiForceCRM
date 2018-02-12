@@ -5021,7 +5021,7 @@ button.bg-dark:focus {
   white-space: normal;
   clip-path: none; }
 
-.w-25 {
+.w-25, .conditionRow .select2-container--bootstrap4 {
   width: 25% !important; }
 
 .w-50 {
@@ -5104,7 +5104,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .headerRightWrapper .btn,
+.ml-2, .headerRightWrapper .btn:not(.addMsg),
 .mx-2 {
   margin-left: 0.5rem !important; }
 
@@ -5193,7 +5193,7 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
-.headerRightWrapper .btn {
+.headerRightWrapper .btn:not(.addMsg) {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
@@ -5202,7 +5202,7 @@ button.bg-dark:focus {
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
-.headerRightWrapper .btn {
+.headerRightWrapper .btn:not(.addMsg) {
   padding-left: 0.25rem !important; }
 
 .p-2 {
@@ -5210,7 +5210,8 @@ button.bg-dark:focus {
 
 .pt-2,
 .py-2,
-.select2-selection.select2-selection--single {
+.dashboardViewContainer .select2-selection.select2-selection--single,
+header .select2-selection.select2-selection--single {
   padding-top: 0.5rem !important; }
 
 .pr-2,
@@ -5220,7 +5221,8 @@ button.bg-dark:focus {
 
 .pb-2,
 .py-2,
-.select2-selection.select2-selection--single {
+.dashboardViewContainer .select2-selection.select2-selection--single,
+header .select2-selection.select2-selection--single {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
@@ -5354,7 +5356,7 @@ button.bg-dark:focus {
   .my-sm-2 {
     margin-top: 0.5rem !important; }
 
-  .mr-sm-2,
+  .mr-sm-2, .conditionRow .select2-container--bootstrap4,
   .mx-sm-2 {
     margin-right: 0.5rem !important; }
 
@@ -7628,18 +7630,6 @@ td.fieldValue input, td.fieldValue .input-group {
 .conditionGroup .header {
   margin-bottom: 20px;
   font-size: 1.2em; }
-.conditionGroup .contents .conditionRow {
-  margin-bottom: 10px; }
-  .conditionGroup .contents .conditionRow:after {
-    clear: both;
-    display: table;
-    content: " "; }
-  .conditionGroup .contents .conditionRow select {
-    width: 100%; }
-  .conditionGroup .contents .conditionRow .chzn-results li {
-    line-height: 20px; }
-.conditionGroup .deleteCondition {
-  vertical-align: bottom; }
 
 .searchUIBasic {
   border-collapse: separate !important;
@@ -11073,17 +11063,20 @@ border1px {
 .select2Wrapper {
   width: 100%; }
 
-.select2-selection.select2-selection--single {
+.dashboardViewContainer .select2-selection.select2-selection--single, header .select2-selection.select2-selection--single {
   font-size: 0.875rem !important;
   height: 32px !important; }
 
-.select2WithButtonWidth {
+header .select2WithButtonWidth {
   width: calc(100% - 42px); }
-
-.headerLinksMails .select2-selection:hover {
+header .headerLinksMails .select2-selection:hover {
   background: #343a40 !important; }
-  .headerLinksMails .select2-selection:hover .select2-selection__rendered {
+  header .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
+
+.conditionRow .select2-container--bootstrap4 {
+  display: inline-block;
+  vertical-align: middle; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
@@ -11156,12 +11149,12 @@ border1px {
   .bodyHeader.menuOpen {
     left: 230px; }
 
-.headerRightWrapper .btn {
+.headerRightWrapper .btn:not(.addMsg) {
   font-size: 17px;
   height: 32px; }
-  .headerRightWrapper .btn [data-fa-i2svg] {
+  .headerRightWrapper .btn:not(.addMsg) [data-fa-i2svg] {
     margin-bottom: 4px; }
-    .headerRightWrapper .btn [data-fa-i2svg].fa-power-off {
+    .headerRightWrapper .btn:not(.addMsg) [data-fa-i2svg].fa-power-off {
       margin-bottom: 1px; }
 .headerRightWrapper .headerLinksMails {
   height: fit-content; }
@@ -11337,6 +11330,7 @@ border1px {
     .footerContainer .page-link {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
   padding: 0; }

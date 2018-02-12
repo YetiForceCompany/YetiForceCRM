@@ -15,6 +15,5 @@
 			<div class="btn-group listViewMassActions modOn_{$MODULE} float-left paddingRight10">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}
 			</div>
-
 	</nav>
 {/strip}
