@@ -420,8 +420,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			var currentTarget = jQuery(e.target);
 			var block = currentTarget.closest('.globalSearchInput');
 			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
-			block.find('.globalSearchOperator li').removeClass('active');
-			currentTarget.closest('li').addClass('active');
+			block.find('.globalSearchOperator .dropdown-item').removeClass('active');
+			currentTarget.closest('.dropdown-item').addClass('active');
 		});
 		if (jQuery('#gsAutocomplete').val() == 1) {
 			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
@@ -674,22 +674,22 @@ jQuery.Class("Vtiger_Header_Js", {
 		var key, toogleButton, siteBarRight, content, buttonImage;
 		siteBarRight = toogleButton.closest('.siteBarRight');
 		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('.glyphicon');
+		buttonImage = toogleButton.find('[data-fa-i2svg]');
 
 		siteBarRight.addClass('hideSiteBar');
 		content.removeClass('col-md-9').addClass('col-md-12');
-		buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
 		toogleButton.addClass('hideToggleSiteBarRightButton');
 	},
 	showSiteBar: function (container, toogleButton) {
 		var key, toogleButton, siteBarRight, content, buttonImage;
 		siteBarRight = toogleButton.closest('.siteBarRight');
 		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('.glyphicon');
+		buttonImage = toogleButton.find('[data-fa-i2svg]');
 
 		siteBarRight.removeClass('hideSiteBar');
 		content.removeClass('col-md-12').addClass('col-md-9');
-		buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
@@ -724,7 +724,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
-		thisInstance.registerFooTable(); //Enable footable	
+		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);

@@ -5,16 +5,16 @@
 			<table class="table">
 				<tr>
 					{if $smarty.foreach.iteration.first}
-						<th class="padding5 hidden-xs">
-							<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
+						<th class="padding5 d-none d-sm-none d-md-block">
+							<button type="button" class="btn btn-sm btn-primary previousDayBtn"><</button>
 						</th>
 					{/if}
 					<th class="text-center taskPrevTwoDaysAgo">
 						<span class="cursorPointer dateBtn" data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)})</span>
 					</th>
 					{if $smarty.foreach.iteration.last}
-						<th class="padding5 hidden-xs">
-							<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
+						<th class="padding5 d-none d-sm-none d-md-block">
+							<button type="button" class="btn btn-sm btn-primary nextDayBtn">></button>
 						</th>
 					{/if}
 				</tr>
@@ -23,7 +23,7 @@
 						<td colspan="{if $smarty.foreach.iteration.last || $smarty.foreach.iteration.first}2{else}{/if}">
 							<a target="_blank" href="{$EVENT['url']}">
 								<div class="cut-string">
-									<span class="glyphicon glyphicon-calendar"></span>
+									<span class="fas fa-calendar-alt"></span>
 									<span class="paddingLR5"><strong>{$EVENT['hour_start']}</strong></span>
 									<span>{vtlib\Functions::textLength($EVENT['title'], 16)}</span>
 									<span class="HelpInfoPopover" title="" data-placement="top" data-content="
@@ -43,7 +43,7 @@
 												<div><label class='paddingLR5'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
 											{/if}
 										">
-										<i class="pull-right glyphicon glyphicon-info-sign"></i>
+										<i class="float-right fas fa-info-circle"></i>
 									</span>
 								</div>
 							</a>

@@ -52,7 +52,7 @@ class PackageUpdate extends PackageImport
 				// Settings templates folder
 				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/images/$module",
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
 			]);
@@ -439,7 +439,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateAction($modulenode, $moduleInstance, $actionnode)
 	{
-
+		
 	}
 
 	/**

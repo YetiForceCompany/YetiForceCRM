@@ -23,7 +23,7 @@
                 </label>
                 <br />
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
+                    <label class="col-sm-3 col-form-label">
                         {\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
                     </label>
                     <div class="col-sm-6 controls">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
+                    <label class="col-sm-3 col-form-label">
                         {\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}<span class="redColor">*</span>
                     </label>
                     <div class="col-sm-6 controls">
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
+                    <label class="col-sm-3 col-form-label">
                         {\App\Language::translate('LBL_SPECIFY_WHEN_TO_EXECUTE', $QUALIFIED_MODULE)}
                     </label>
                     <div class="col-sm-6 controls">
@@ -126,7 +126,7 @@
                                                 {assign var=specificDate value=\App\Json::decode($WORKFLOW_MODEL_OBJ->schannualdates)}
 												{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 												<input type="text" class="dateField form-control" name="schdate" value="{$specificDate1}" data-date-format="{$USER_MODEL->get('date_format')}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-												<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+												<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
 											</div>
 										</div>
 									</div>
@@ -167,7 +167,7 @@
 									<div class="col-md-6" id="schtime">
 										<div class="input-group time">
 											<input type='text' class="clockPicker form-control" data-format='24' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-											<span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span>
+											<span class="input-group-addon cursorPointer"><i class="far fa-clock"></i></span>
 										</div>
 									</div>
 								</div>
@@ -189,7 +189,7 @@
 
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success" type="submit" disabled="disabled">
 					<strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong>
 				</button>&nbsp;&nbsp;

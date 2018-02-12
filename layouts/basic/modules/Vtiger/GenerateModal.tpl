@@ -15,7 +15,7 @@
 					</label>
 					<span class="popoverTooltip delay0"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_AUTOGENERATE_INFO',$BASE_MODULE_NAME)}">
-						<span class="glyphicon glyphicon-info-sign"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</div>
 				<div class="radio-inline">
@@ -25,7 +25,7 @@
 					</label>
 					<span class="popoverTooltip delay0"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_OPEN_NEW_WINDOWS_INFO',$BASE_MODULE_NAME)}">
-						<span class="glyphicon glyphicon-info-sign"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 		<div class="btn-elements text-center">
 			{foreach item=TEMPLATE from=$TEMPLATES}
 				{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}
-				<button class="btn btn-default genetateButton" data-id="{$TEMPLATE->getId()}" data-name="{$RELATED_MODEL->getName()}" data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}">
+				<button class="btn btn-light genetateButton" data-id="{$TEMPLATE->getId()}" data-name="{$RELATED_MODEL->getName()}" data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}">
 					<span class="userIcon-{$TEMPLATE->getRelatedName()}"></span>
 					&nbsp;{\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
 				</button>
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<div class="pull-right">
+		<div class="float-right">
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</div>

@@ -174,7 +174,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 												data += 'class="removeWidgetFromList btn btn-xs btn-danger pull-left" '
 												data += 'style="width:25px;height:25px;margin:2px;" '
 												data += '>'
-												data += '<span class="glyphicon glyphicon-trash"></span>';
+												data += '<span class="fas fa-trash-alt"></span>';
 												data += '</button>';
 											}
 											data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
@@ -252,10 +252,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
 			if (mailBody.css("display") == 'none') {
 				mailBody.show();
-				bodyIcon.removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+				bodyIcon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
 			} else {
 				mailBody.hide();
-				bodyIcon.removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+				bodyIcon.removeClass("fa-chevron-up").addClass("fa-chevron-down");
 			}
 		});
 	},

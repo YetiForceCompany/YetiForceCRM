@@ -318,7 +318,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 	{
 		$site_URL = \AppConfig::main('site_URL');
 		$logo = \App\Company::getInstanceById()->getLogo()->get('imageUrl', true);
-		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
+		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>
 				<td> </td>
 			</tr>
@@ -336,22 +336,22 @@ class Reports_ScheduleReports_Model extends \App\Base
 						</tr>
 						<tr>
 							<td>
-							<table width="100%" cellspacing="0" cellpadding="0" border="0" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+							<table width="100%" cellspacing="0" cellpadding="0" border="0" style="font-size: 12px; font-weight: normal; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
 									<tr>
 										<td valign="top">
 										<table width="100%" cellspacing="0" cellpadding="5" border="0">
 												<tr>
-													<td align="right" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bolder; text-decoration: none; color: rgb(66, 66, 253);"> </td>
+													<td align="right" style="font-size: 12px; font-weight: bolder; text-decoration: none; color: rgb(66, 66, 253);"> </td>
 												</tr>
 												<tr>
 													<td> </td>
 												</tr>
 												<tr>
-													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', 'Reports') . '</td>
+													<td style="font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', 'Reports') . '</td>
 												</tr>
 												<tr>
 													<td align="center">
-													<table width="75%" cellspacing="0" cellpadding="10" border="0" style="border: 2px solid rgb(180, 180, 179); background-color: rgb(226, 226, 225); font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal;">
+													<table width="75%" cellspacing="0" cellpadding="10" border="0" style="border: 2px solid rgb(180, 180, 179); background-color: rgb(226, 226, 225); font-size: 12px; color: rgb(0, 0, 0); font-weight: normal;">
 															<tr>
 																<td><b>' . \App\Language::translate('LBL_REPORT_NAME', 'Reports') . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
 															</tr>

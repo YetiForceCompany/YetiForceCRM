@@ -16,7 +16,7 @@
 			{/if}
 		{/if}
 		<span class="input-group-addon popoverTooltip qtyParamInfo {if $ITEM_DATA['unit'] !== 'pack'}hidden{/if}" data-content="{$QTY_PARAM}" title="{\App\Language::translate('Qty/Unit','Products')}">
-			<i class="glyphicon glyphicon-info-sign"></i>
+			<i class="fas fa-info-circle"></i>
 		</span>
 	</div>
 {/strip}

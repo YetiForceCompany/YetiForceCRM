@@ -11,7 +11,7 @@
 			<input type="hidden" name="action" value="SaveAjax" />
 			<input type="hidden" name="mode" value="import" />
 			<div class="form-group">
-				<label class="col-sm-3 control-label">
+				<label class="col-sm-3 col-form-label">
 					{\App\Language::translate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-8 controls">
@@ -21,7 +21,7 @@
 
 		</div>
 		<div class="modal-footer">
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 			</div>

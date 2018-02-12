@@ -28,7 +28,7 @@
 			<div class="col-sm-7"><input type="text" name="time_to_notify" title="{\App\Language::translate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 		</div>
 	</div>
-	<div class="pull-right">
+	<div class="float-right">
 		<select class="col-md-1 form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 			{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}

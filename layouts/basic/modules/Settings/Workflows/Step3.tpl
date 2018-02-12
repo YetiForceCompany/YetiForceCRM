@@ -12,7 +12,7 @@
         <input type="hidden" name="record" value="{$RECORD}" />
         <input type="hidden" class="step" value="3" />
         <div class="btn-group">
-            <a class="btn dropdown-toggle btn-default addButton" data-toggle="dropdown" href="#">
+            <a class="btn dropdown-toggle btn-light addButton" data-toggle="dropdown" href="#">
                 <strong>{\App\Language::translate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
                 <span><img class="imageElement" src="{\App\Layout::getImagePath('downArrowWhite.png')}" /></span>
             </a>
@@ -26,7 +26,7 @@
 			{include file=\App\Layout::getTemplatePath('TasksList.tpl', $QUALIFIED_MODULE)}
         </div>
         <br />
-        <div class="pull-right">
+        <div class="float-right">
             <button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
             <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
         </div>

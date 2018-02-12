@@ -13,17 +13,17 @@
 					<div class="modal-body">
 						<div class="form-container-sm">
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}:</label>
-								<div class="col-md-7 form-control-static">
+								<label class="col-md-4 col-form-label">{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}:</label>
+								<div class="col-md-7 form-control-plaintext">
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label>
+								<label class="col-md-4 col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label>
 								<div class="col-md-7 controls"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{\App\Language::translate('Related module', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 col-form-label">{\App\Language::translate('Related module', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<select multiple name="relatedModules" class="select2 form-control marginLeftZero" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
@@ -33,7 +33,7 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 col-form-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 								</div>

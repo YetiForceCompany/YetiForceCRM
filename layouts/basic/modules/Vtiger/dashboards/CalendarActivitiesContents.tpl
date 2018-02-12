@@ -20,7 +20,7 @@ font-size: 75%;
 		<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
 			<div class="rowActivities">
 			<div>
-				<div class="pull-left marginLeft5 marginTop5">
+				<div class="float-left marginLeft5 marginTop5">
 					{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
 					<image src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" alt="{\App\Language::translate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
@@ -30,7 +30,7 @@ font-size: 75%;
 				
 				{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
 				{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
-				<p class="pull-right muted paddingLR10 marginTop5">
+				<p class="float-right muted paddingLR10 marginTop5">
 					<small>
 						{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
 					</small>
@@ -56,7 +56,7 @@ font-size: 75%;
 				</div>
 			</div>
 			{if $ACTIVITY->get('location') neq '' }
-				<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="pull-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
+				<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
 					<span class="icon-map-marker"></span>&nbsp
 				</a>
 			{/if}
@@ -70,8 +70,8 @@ font-size: 75%;
 		</span>
 	{/foreach}
 	{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
-		<div class="pull-right padding5">
-			<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
+		<div class="float-right padding5">
+			<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
 				{\App\Language::translate('LBL_MORE')}
 			</button>
 		</div>

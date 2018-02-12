@@ -20,7 +20,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_CREATEMAIL',
 				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=Compose'",
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 			];
 		}
@@ -37,13 +37,13 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_BindMails',
 				'linkurl' => 'javascript:OSSMailView_List_Js.bindMails("index.php?module=' . $moduleModel->get('name') . '&action=BindMails")',
-				'linkicon' => 'glyphicon glyphicon-repeat'
+				'linkicon' => 'fas fa-redo-alt'
 			];
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_ChangeType',
 				'linkurl' => 'javascript:OSSMailView_List_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-edit'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -53,7 +53,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -63,7 +63,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'linkicon' => 'fas fa-archive'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -73,7 +73,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fas fa-trash-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -83,7 +83,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'linkicon' => 'fas fa-eraser'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

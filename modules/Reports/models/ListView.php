@@ -83,7 +83,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Reports_List_Js.massDelete("index.php?module=' . $this->getModule()->get('name') . '&action=MassDelete");',
-				'linkicon' => 'glyphicon glyphicon-envelope'
+				'linkicon' => 'fas fa-envelope'
 			];
 
 			$massActionLinks[] = [

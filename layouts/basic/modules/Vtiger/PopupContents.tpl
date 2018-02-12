@@ -49,7 +49,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="listSearchTd"><button class="btn btn-default" data-trigger="listSearch"><span class="glyphicon glyphicon-search"></span></button></td>
+						<td class="listSearchTd"><button class="btn btn-light" data-trigger="listSearch"><span class="fas fa-search"></span></button></td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}

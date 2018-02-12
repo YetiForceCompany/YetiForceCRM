@@ -257,7 +257,7 @@ Vtiger_Field_Js('Vtiger_Date_Field_Js', {}, {
 	getUi: function () {
 		var html = '<div class="date input-group">' +
 				'<input class="dateField form-control" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-				'<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>' +
+				'<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>' +
 				'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -351,7 +351,7 @@ Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	getUi: function () {
 		var html = '<div class="input-group time">' +
 				'<input class="timepicker-default form-control" type="text" data-format="' + this.getTimeFormat() + '" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
-				'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +
+				'<span class="input-group-addon"><i class="far fa-clock"></i></span>' +
 				'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);

@@ -239,7 +239,7 @@ window.app = {
 			params = jQuery.extend(data, params);
 		}
 		params.language = {};
-		params.theme = "bootstrap";
+		params.theme = "bootstrap4";
 		params.width = "100%";
 		params.language.noResults = function (msn) {
 			return app.vtranslate('JS_NO_RESULTS_FOUND');
@@ -424,7 +424,7 @@ window.app = {
 				trigger: 'manual',
 				placement: 'auto',
 				html: true,
-				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
 		params.container = 'body';
@@ -437,7 +437,7 @@ window.app = {
 				sparams.placement = element.data('placement');
 			}
 			if (element.data('class')) {
-				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			}
 			if (element.hasClass('delay0')) {
 				sparams.delay = {show: 0, hide: 0}
@@ -1165,7 +1165,7 @@ window.app = {
 	 * @return <string>
 	 */
 	vimage_path: function (img) {
-		return app.getLayoutPath() + '/skins/images/' + img;
+		return app.getLayoutPath() + '/images/' + img;
 	},
 	/*
 	 * Cache API on client-side

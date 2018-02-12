@@ -133,7 +133,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'btn-success addButton',
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1
 			];
 

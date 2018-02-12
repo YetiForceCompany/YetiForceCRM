@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="col-sm-4 col-xs-12">
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success addRecord">{\App\Language::translate('LBL_ADD', $MODULE_NAME)}</button>
 			</div>
 		</div>
@@ -18,7 +18,7 @@
 			<div class="input-group paddingBottom10">
 				<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)} ..." >
 				<span class="input-group-btn">
-					<button id="btnSearchTree" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-search"></span></button>
+					<button id="btnSearchTree" class="btn btn-danger" type="button"><span class="fas fa-search"></span></button>
 				</span>
 			</div>
 			<div id="treeContent">

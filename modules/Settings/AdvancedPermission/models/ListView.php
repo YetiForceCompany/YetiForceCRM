@@ -30,7 +30,7 @@ class Settings_AdvancedPermission_ListView_Model extends Settings_Vtiger_ListVie
 			'linktype' => 'LISTVIEWBASIC',
 			'linklabel' => 'LBL_RECALCULATE_PERMISSION_BTN',
 			'linkurl' => 'javascript:app.showModalWindow(null, \'index.php?module=AdvancedPermission&parent=Settings&view=RecalculatePermission\')',
-			'linkicon' => 'glyphicon glyphicon-cog',
+			'linkicon' => 'fas fa-cog',
 		];
 
 		return $basicLinks;

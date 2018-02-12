@@ -32,10 +32,10 @@
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
 				<div class="row">
 					<span class="col-md-6">
-						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 					</span>
 					<span class="col-md-6 rightText">
-						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="far fa-clock"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 					</span>
 				</div>
 				<div class="summaryViewEntries">
@@ -49,12 +49,12 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="glyphicon glyphicon-pencil summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span>
 						</a>
 					{/if}
 				</div>
@@ -67,11 +67,11 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span>
+										<span class="fas fa-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-ok"></span>
+										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
+											<span class="fas fa-check"></span>
 										</span>
 									{/if}
 								</div>
@@ -81,9 +81,9 @@
 							<input type="hidden" class="activityModule" value="Events" />
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
+									<strong><span class="fas fa-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check"></span></span>
 										{/if}
 								</div>
 							{/if}
@@ -92,7 +92,7 @@
 				</div>
 				<div class="activityDescription">
 					<div>
-						<span class="value"><span class="glyphicon glyphicon-align-justify"></span>&nbsp;&nbsp;
+						<span class="value"><span class="fas fa-align-justify"></span>&nbsp;&nbsp;
 							{if $RECORD->get('description') neq ''}
 								{$RECORD->getDisplayValue('description')|truncate:120:'...'}
 							{else}
@@ -101,15 +101,15 @@
 						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
 							<span class="editDescription cursorPointer">
-								<span class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+								<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
 						{if $RECORD->get('location')}
-							<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->getDisplayValue('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->getDisplayValue('location')}">
-								<span class="glyphicon glyphicon-map-marker"></span>&nbsp
+							<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->getDisplayValue('location'))}" class="float-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->getDisplayValue('location')}">
+								<span class="fas fa-map-marker-alt"></span>&nbsp
 							</a>
 						{/if}
-						<span class="pull-right popoverTooltip delay0" data-placement="left" data-class="activities" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
+						<span class="float-right popoverTooltip delay0" data-placement="left" data-class="activities" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
 							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('status',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
 							  {if $RECORD->get('linkextend')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('linkextend',false,false,40))}{/if}
 							  {if $RECORD->get('link')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link',false,false,40))}{/if}
@@ -135,7 +135,7 @@
 								  {/foreach}
 							  {/if}
 						{/if}">
-						<span class="glyphicon glyphicon-info-sign"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<span class="2 edit hide row">
@@ -163,8 +163,8 @@
 {/if}
 {if $PAGING_MODEL->isNextPageExists()}
 	<div class="row">
-		<div class="pull-right">
-			<button type="button" class="btn btn-primary btn-xs moreRecentActivities marginTop10 marginRight10">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+		<div class="float-right">
+			<button type="button" class="btn btn-primary btn-sm moreRecentActivities marginTop10 marginRight10">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 		</div>
 	</div>
 {/if}

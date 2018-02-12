@@ -32,7 +32,7 @@
 								<strong>{\App\Language::translate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}</strong>
 							</th>
 							<th width="70%" class="{$WIDTHTYPE}" style="border-left: none">
-							<span class="pull-right">
+							<span class="float-right">
 								<button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><b>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
 							</span>
 							</th>
@@ -42,7 +42,7 @@
 					<tbody>
 					<tr>
 						<td class="{$WIDTHTYPE}">
-							<label class="pull-right marginRight10px"><b>{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
+							<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 							<select class="chzn-select form-control" name="sourceModule">
@@ -57,7 +57,7 @@
 					</tr>
 					<tr>
 						<td class="{$WIDTHTYPE}">
-							<label class="pull-right marginRight10px"><b>{\App\Language::translate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b></label>
+							<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b></label>
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}" placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]" />
@@ -65,7 +65,7 @@
 					</tr>
 					<tr>
 						<td class="{$WIDTHTYPE}">
-							<label class="pull-right marginRight10px">
+							<label class="float-right marginRight10px">
 								<b>{\App\Language::translate('LBL_START_SEQUENCE', $QUALIFIED_MODULE)}</b><span class="redColor">*</span>
 							</label>
 						</td>
@@ -77,7 +77,7 @@
 					</tr>
 					<tr>
 						<td class="{$WIDTHTYPE}">
-							<label class="pull-right marginRight10px"><b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b></label>
+							<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b></label>
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]" />
@@ -101,7 +101,7 @@
 					<tbody>
 					<tr>
 						<td class="{$WIDTHTYPE}">
-							<label class="pull-right marginRight10px"><b>{\App\Language::translate('LBL_CUSTOME_VARIABLES', $QUALIFIED_MODULE)}</b></label>
+							<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_CUSTOME_VARIABLES', $QUALIFIED_MODULE)}</b></label>
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 							<div class="row">
@@ -117,8 +117,8 @@
 								</div>
 								<div class="col-md-1">
 									<input type="hidden" value="" id="customVariable" />
-									<button class="btn btn-sm btn-info pull-right" id="customVariableCopy" title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
-										<span class="glyphicon glyphicon-copy"></span>
+									<button class="btn btn-sm btn-info float-right" id="customVariableCopy" title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
+										<span class="fas fa-copy"></span>
 									</button>
 								</div>
 							</div>
@@ -130,8 +130,8 @@
 		</div>
 		<br />
 		<div class="row">
-			<div class="col-md-12 pull-right">
-				<div class="pull-right">
+			<div class="col-md-12 float-right">
+				<div class="float-right">
 					<button class="btn btn-success saveButton" type="submit" disabled="disabled"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 					<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 				</div>

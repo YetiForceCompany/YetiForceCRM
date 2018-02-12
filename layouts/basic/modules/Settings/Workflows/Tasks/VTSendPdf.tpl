@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div id="VtVTEmailTemplateTaskContainer">
 		<div class="row">
-			<span class="col-md-4 control-label">{\App\Language::translate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</span>
+			<span class="col-md-4 col-form-label">{\App\Language::translate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4 padding-bottom1per">
 				<select class="chzn-select form-control" name="pdfTemplate" data-validation-engine="validate[required]">
 					<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-4 control-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+			<span class="col-md-4 col-form-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 					<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-4 control-label">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
+			<span class="col-md-4 col-form-label">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<select class="chzn-select form-control" name="mailTemplate" data-validation-engine='validate[required]'>
 					<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
@@ -41,7 +41,7 @@
 			</span>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-4 control-label">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
+			<span class="col-md-4 col-form-label">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<select class="chzn-select form-control" name="email" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" multiple  data-validation-engine="validate[required]">
 					<option value="none"></option>

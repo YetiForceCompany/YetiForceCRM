@@ -7,19 +7,19 @@
 		</div>
 		<div class="col-md-4 marginbottomZero">
 			{if $RECORD_MODEL}
-				<div class="pull-right btn-toolbar"><span class="actionImages">
+				<div class="float-right btn-toolbar"><span class="actionImages">
 						<button class="btn btn-info sendManually">
-							<span class="glyphicon glyphicon-send"></span>
+							<span class="fas fa-paper-plane"></span>
 							<strong class="marginLeft5">{App\Language::translate('LBL_MANUAL_SENDING', $QUALIFIED_MODULE)}</strong>
 						</button>
 						{if $RECORD_MODEL->get('status') eq 0}
 							<button class="btn btn-success acceptanceRecord marginLeft5">
-								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
+								<span class="fas fa-check"></span>&nbsp;
 								<strong>{App\Language::translate('LBL_ACCEPTANCE_RECORD', $QUALIFIED_MODULE)}</strong>
 							</button>
 						{/if}
 						<a class="btn btn-danger marginLeft5 deleteButton" href="{$RECORD_MODEL->getDeleteActionUrl()}">
-							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;
+							<span class="fas fa-trash-alt"></span>&nbsp;
 							<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
 						</a>
 				</div>
@@ -38,38 +38,38 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_SMTP_NAME', $QUALIFIED_MODULE)} </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_SMTP_NAME', $QUALIFIED_MODULE)} </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('smtp_id')}
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}  </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}  </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('date')}
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_CREATED_BY', $QUALIFIED_MODULE)}  </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_CREATED_BY', $QUALIFIED_MODULE)}  </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('owner')}
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_PRIORITY', $QUALIFIED_MODULE)}  </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_PRIORITY', $QUALIFIED_MODULE)}  </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{App\Language::translate($RECORD_MODEL->getDisplayValue('priority'))}
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}  </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}  </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('status')}
 					</td>
 				</tr>
 				{if !empty($RECORD_MODEL->getDisplayValue('from'))}
 					<tr>
-						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_FROM', $QUALIFIED_MODULE)}  </label></td>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_FROM', $QUALIFIED_MODULE)}  </label></td>
 						<td class="{$WIDTHTYPE} col-md-8">
 							{$RECORD_MODEL->getDisplayValue('from')}
 						</td>
@@ -77,7 +77,7 @@
 				{/if}
 				{if !empty($RECORD_MODEL->getDisplayValue('to'))}
 					<tr>
-						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}  </label></td>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}  </label></td>
 						<td class="{$WIDTHTYPE} col-md-8">
 							{$RECORD_MODEL->getDisplayValue('to')}
 						</td>
@@ -85,7 +85,7 @@
 				{/if}
 				{if !empty($RECORD_MODEL->getDisplayValue('cc'))}
 					<tr>
-						<td class="{$WIDTHTYPE} col-md-3 "><label class="pull-right">{App\Language::translate('LBL_CC', $QUALIFIED_MODULE)}  </label></td>
+						<td class="{$WIDTHTYPE} col-md-3 "><label class="float-right">{App\Language::translate('LBL_CC', $QUALIFIED_MODULE)}  </label></td>
 						<td class="{$WIDTHTYPE} col-md-8">
 							{$RECORD_MODEL->getDisplayValue('cc')}
 						</td>
@@ -93,28 +93,28 @@
 				{/if}
 				{if !empty($RECORD_MODEL->getDisplayValue('bcc'))}
 					<tr>
-						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_BCC', $QUALIFIED_MODULE)}  </label></td>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_BCC', $QUALIFIED_MODULE)}  </label></td>
 						<td class="{$WIDTHTYPE} col-md-8">
 							{$RECORD_MODEL->getDisplayValue('bcc')}
 						</td>
 					</tr>
 				{/if}
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_SUBJECT', $QUALIFIED_MODULE)}  </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_SUBJECT', $QUALIFIED_MODULE)}  </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('subject')}
 					</td>
 				</tr>
 				{if !empty($RECORD_MODEL->getDisplayValue('attachments'))}
 					<tr>
-						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_ATTACHMENTS', $QUALIFIED_MODULE)}  </label></td>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_ATTACHMENTS', $QUALIFIED_MODULE)}  </label></td>
 						<td class="{$WIDTHTYPE} col-md-8">
 							{$RECORD_MODEL->getDisplayValue('attachments')}
 						</td>
 					</tr>
 				{/if}
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_CONTENT', $QUALIFIED_MODULE)}  </label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="float-right">{App\Language::translate('LBL_CONTENT', $QUALIFIED_MODULE)}  </label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('content')}
 					</td>

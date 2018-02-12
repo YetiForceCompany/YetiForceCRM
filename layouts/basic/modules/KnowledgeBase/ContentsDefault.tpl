@@ -26,9 +26,9 @@
 							</td>
 						{/foreach}
 						<td>
-							<div class="actions pull-right">
+							<div class="actions float-right">
 								<a href="{$ENTRY->getDetailViewUrl()}">
-									<span class="glyphicon glyphicon-th-list alignMiddle" title="{\App\Language::translate('LBL_RECORD_DETAILS', $MODULE_NAME)}"></span>
+									<span class="fas fa-th-list alignMiddle" title="{\App\Language::translate('LBL_RECORD_DETAILS', $MODULE_NAME)}"></span>
 								</a>
 							</div>
 						</td>

@@ -17,7 +17,7 @@
 		<div class="tab-pane active" id="configuration">
 			{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
 			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
+				<div class="float-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>
 				</div>
 				<div class="col-md-11 col-sm-10 col-xs-10">
@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
+				<div class="float-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailAccounts" id="showMailAccounts" data-type="mailIcon" value="1" {if $CONFIG['showMailAccounts']=='true'}checked=""{/if}>
 				</div>
 				<div class="col-md-11 col-sm-10 col-xs-10">
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
+				<div class="float-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
 				</div>
 				<div class="col-md-11 col-sm-10 col-xs-10">
@@ -56,7 +56,7 @@
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<button class="btn btn-success pull-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success float-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>

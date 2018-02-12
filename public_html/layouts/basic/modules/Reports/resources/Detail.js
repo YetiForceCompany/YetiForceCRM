@@ -61,7 +61,7 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 								jQuery('#countValue').text(count);
 								jQuery('#moreRecordsText').hide();
 							} else {
-								jQuery('#countValue').html('<img src="layouts/basic/skins/images/loading.gif">');
+								jQuery('#countValue').html('<img src="layouts/basic/images/loading.gif">');
 								var params = {
 									'module': app.getModuleName(),
 									'advanced_filter': advFilterCondition,

@@ -24,7 +24,7 @@
 					<div class="modal-body">
 						<div class="">
 							<div class="form-group">
-								<label class="col-md-4 control-label">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
+								<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
 									<input class="form-control" type="text" name="name" placeholder="{\App\Language::translate('LBL_ENTER_NAME', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
 								</div>	
@@ -35,7 +35,7 @@
 								{assign var=VALIDATOR value='Vtiger_Percentage_Validator_Js.invokeValidation'}
 							{/if}	
 							<div class="form-group">
-								<label class="col-md-4 control-label">{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</label>
+								<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
 									<div class="input-group">
 										<input class="form-control" type="text" name="value" placeholder="{\App\Language::translate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getValue()}" data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]' />
@@ -45,7 +45,7 @@
 							</div>
 							{if $EDIT_VIEW}
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
 									<div class="col-md-6 controls checkboxForm">
 										<input type="hidden" name="status" value="1" />
 										<input type="checkbox" name="status" value="0" class="status alignBottom" {if !$RECORD_MODEL->getStatus()} checked {/if} />

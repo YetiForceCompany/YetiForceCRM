@@ -15,7 +15,7 @@
 			<strong>{\App\Language::translate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
-					<strong> [ <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ]</strong>
+					<strong> [ <span class="fas fa-search"></span> ]</strong>
 				</a>
 			</span>
 		</div>
@@ -23,10 +23,10 @@
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
 		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts marginBottom10px" role="alert">
 			{if $SERVICE_CONTRACTS}
-				<ul class="nav nav-pills pull-right relative top10" role="tablist">
+				<ul class="nav nav-pills float-right relative top10" role="tablist">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
-						<li role="presentation" class="btn btn-default popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
-							<span class="glyphicon glyphicon-link" aria-hidden="true"></span> {$ROW['subject']} {if $ROW['due_date']}({$ROW['due_date']}){/if}
+						<li role="presentation" class="btn btn-light popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
+							<span class="fas fa-link"></span> {$ROW['subject']} {if $ROW['due_date']}({$ROW['due_date']}){/if}
 						</li>
 					{/foreach}
 				</ul>

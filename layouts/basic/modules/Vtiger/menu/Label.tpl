@@ -8,7 +8,7 @@
 					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>{$ICON}</div>
 				</div>
 			{/if}
-			<div {if $DEVICE == 'Desktop'}class='labelConstainer'{/if}>
+			<div {if $DEVICE == 'Desktop'}class='labelConstainer pl-2'{/if}>
 				<div {if $DEVICE == 'Desktop'}class="labelValue" {/if}>
 				    	<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 				</div>

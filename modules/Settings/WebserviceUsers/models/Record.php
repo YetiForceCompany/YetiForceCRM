@@ -245,7 +245,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true
 			],
@@ -253,7 +253,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_WebserviceUsers_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-sm btn-danger'
 			]
 		];

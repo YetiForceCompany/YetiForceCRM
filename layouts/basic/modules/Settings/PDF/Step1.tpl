@@ -15,7 +15,7 @@
 				</label>
 				<br />
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_PRIMARY_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
@@ -47,7 +47,7 @@
 				</div>
 				<!--
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_FOLDER_NAME', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -56,7 +56,7 @@
 				</div>
 				-->
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
@@ -74,7 +74,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_METATAGS', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_TITLE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -90,7 +90,7 @@
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -106,7 +106,7 @@
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -122,7 +122,7 @@
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_SUBJECT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -130,7 +130,7 @@
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_KEYWORDS', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -144,7 +144,7 @@
 				</div>
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success" type="submit" disabled="disabled"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 			</div>

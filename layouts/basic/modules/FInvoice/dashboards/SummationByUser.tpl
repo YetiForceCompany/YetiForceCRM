@@ -63,7 +63,7 @@
 			</div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
@@ -72,8 +72,12 @@
 	<div class="row" >
 		<div class="col-md-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{implode(',',$DTIME)}" />
+				<span class="input-group-prepend">
+					<div class="input-group-text">
+						<span class="fas fa-calendar-alt iconMiddle "></span>
+					</div>
+				</span>
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control" value="{implode(',',$DTIME)}" />
 			</div>
 		</div>
 		<div class="col-md-6">

@@ -30,21 +30,21 @@
 								<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
 								<div class="input-group">
 									<span class="input-group-addon cursorPointer" id="clearRole">
-										<i class="glyphicon glyphicon-remove-sign"></i>
+										<i class="fas fa-times-circle"></i>
 									</span>
 									<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium form-control" required value="">
 									<span class="input-group-addon cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
-										<i class="glyphicon glyphicon-search"></i>
+										<i class="fas fa-search"></i>
 									</span>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class=" pull-right cancelLinkContainer">
+						<div class="float-right cancelLinkContainer">
 							<a class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
-						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success float-right" type="submit">{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
 					</div>
 				</form>
 			</div>

@@ -1237,7 +1237,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	breadCrumbsFilter: function (text) {
-		var breadCrumbs = jQuery('.breadcrumbsContainer .breadcrumbsLinks');
+		var breadCrumbs = jQuery('.breadcrumbsContainer');
 		var breadCrumbsLastSpan = breadCrumbs.last('span');
 		var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
 		if (filterExist.length && text != undefined) {
@@ -1247,7 +1247,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
 				breadCrumbsLastSpan.text(': ' + text);
 			} else {
-				breadCrumbs.append('<span class="font-small breadCrumbsFilter hideToHistory"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
+				breadCrumbs.append('<span class="breadCrumbsFilter hideToHistory pl-1"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
 			}
 		}
 	},

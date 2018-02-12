@@ -18,8 +18,8 @@
 					</div>
 					<div class="panel-body">
 						<div class="btn-toolbar">
-							<button id="addMapping" class="btn btn-default addButton marginBottom10px" type="button">
-								<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
+							<button id="addMapping" class="btn btn-light addButton marginBottom10px" type="button">
+								<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
 							</button>
 							<div class="checkbox col-md-8">
 								<label>
@@ -27,7 +27,7 @@
 								</label>
 								<span class="popoverTooltip delay0"  data-placement="top"
 									  data-content="{\App\Language::translate('LBL_AUTOFILL_INFO',$QUALIFIED_MODULE)}">
-									<span class="glyphicon glyphicon-info-sign"></span>
+									<span class="fas fa-info-circle"></span>
 								</span>
 							</div>
 						</div>
@@ -81,8 +81,8 @@
 													{/if}
 												</td>
 												<td class="textAlignCenter">
-													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-														<i class="glyphicon glyphicon-trash"></i>
+													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light deleteMapping">
+														<i class="fas fa-trash-alt"></i>
 													</button>
 												</td>
 											</tr>
@@ -120,8 +120,8 @@
 											<td class="">
 											</td>
 											<td class="textAlignCenter">
-												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-													<i class="glyphicon glyphicon-trash"></i>
+												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light deleteMapping">
+													<i class="fas fa-trash-alt"></i>
 												</button>
 											</td>
 										</tr>
@@ -131,7 +131,7 @@
 						</div>
 					</div>
 					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
+						<div class="btn-toolbar float-right">
 							<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
 							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
 							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

@@ -19,7 +19,7 @@
 					<div class="col-xs-3"><label class="">{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
 					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
 					<div class="col-xs-8">
-						<span class="alert alert-info pull-right no-margin">
+						<span class="alert alert-info float-right no-margin">
 							{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
 						</span>
 					</div>
@@ -30,7 +30,7 @@
 					<div class="col-xs-3"><label class="">{\App\Language::translate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
 					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
 					<div class="col-xs-8">
-						<span class="alert alert-info pull-right no-margin">
+						<span class="alert alert-info float-right no-margin">
 							{\App\Language::translate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
 						</span>
 					</div>
@@ -40,9 +40,9 @@
 					<input class="configField" type="hidden" data-type="conversion" name="mapping" value="">
 					<div class="paddingBottom10">
 						<button id="addMapping" class="btn btn-success addButton" type="button">
-							<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_CONDITION', $QUALIFIED_MODULE)}</strong>
+							<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_CONDITION', $QUALIFIED_MODULE)}</strong>
 						</button>
-						<button id="addMapping" class="pull-right btn btn-success saveMapping" type="button">
+						<button id="addMapping" class="float-right btn btn-success saveMapping" type="button">
 							{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</div>
@@ -78,7 +78,7 @@
 												</select>
 											</div>
 											<div class="actionImages">
-												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
+												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
 											</div>
 										</div>	
 									</td>
@@ -106,7 +106,7 @@
 											</select>
 										</div>
 										<div class="actionImages">
-											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
+											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
 										</div>
 									</div>	
 								</td>

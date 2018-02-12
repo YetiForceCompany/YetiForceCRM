@@ -103,9 +103,6 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			thisInstance.filterValidationRegistered = false;
 			thisInstance.registerEvents();
 			thisInstance.advanceFilter = new Vtiger_SearchAdvanceFilter_Js(jQuery('.filterContainer', uiData));
-			if (jQuery('#searchContainer').height() > 200) {
-				app.showScrollBar(jQuery('#searchContainer'), {'height': '400px', 'railVisible': 'true'});
-			}
 			aDeferred.resolve();
 		};
 		thisInstance.getAdvanceSearch().then(

@@ -48,7 +48,7 @@
 					</div>
 					<div class="col-md-5">
 						<br />
-						<div><i class="glyphicon glyphicon-info-sign"></i>&nbsp;<span>{\App\Language::translate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
+						<div><i class="fas fa-info-circle"></i>&nbsp;<span>{\App\Language::translate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
 						<br /><div>&nbsp;&nbsp;{\App\Language::translate('LBL_SELECT_AN_ITEM_TO_RENAME_OR_DELETE',$QUALIFIED_MODULE)}</div> 
 						<br /><div>&nbsp;&nbsp;{\App\Language::translate('LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY',$QUALIFIED_MODULE)}</div>
 					</div>	

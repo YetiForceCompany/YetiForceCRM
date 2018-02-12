@@ -19,7 +19,7 @@
 							<div class="col-xs-8 paddingLRZero">
 								<h4>{App\Language::translate('LBL_TITLE_TYPE_SAVING', $MODULE)}</h4>
 							</div>
-							<div class="pull-right">
+							<div class="float-right">
 								<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 							</div>
 						</div>
@@ -69,7 +69,7 @@
 		{assign var="RECURRING_INFORMATION" value=Vtiger_Recurrence_UIType::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
 		<div class="clearfix">
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>
+				<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<select class="select2 form-control recurringType" title="{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)} {$MODULE}">
@@ -80,7 +80,7 @@
 				</select>
 			</div>
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
+				<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<select class="select2 form-control repeatFrequency" title="{\App\Language::translate('LBL_REPEAT_FOR', $MODULE)}">
@@ -147,7 +147,7 @@
 				</span>
 			</div>
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
+				<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<div class="input-group marginBottom10px">
@@ -171,7 +171,7 @@
 					<input type="text" class="dateField form-control calendarUntil" {if isset($RECURRING_INFORMATION['UNTIL'])} value="{$RECURRING_INFORMATION['UNTIL']}"  {else} disabled="disabled"{/if}name="calendarUntil" data-date-format="{$USER_MODEL->get('date_format')}" 
 						   title="{\App\Language::translate('LBL_UNTIL', $MODULE)}"
 						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]' data-validator='{\App\Json::encode([['name' => 'greaterThanDependentField', 'params' => ['date_start']]])}'/>
-					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					<span class="input-group-addon"><span class="fas fa-calendar-alt"></span></span>
 				</div>
 			</div>
 		</div>

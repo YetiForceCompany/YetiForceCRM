@@ -125,7 +125,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_BACK','Install')}" onclick="window.history.back()"/>
+								<input type="button" class="btn btn-sm btn-light" value="{\App\Language::translate('LBL_BACK','Install')}" onclick="window.history.back()"/>
 								<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step7"/>
 							</div>
 						</div>
@@ -140,7 +140,7 @@
 				<div class="row">
 					<div class="span12 welcome-div alignCenter">
 						<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br />
-						<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
+						<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}" alt="Install loading"/>
 						<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
 					</div>
 				</div>

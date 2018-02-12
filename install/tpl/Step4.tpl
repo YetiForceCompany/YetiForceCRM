@@ -141,7 +141,7 @@
 							</tbody>
 						</table>
 						<div class="button-container">
-							<a class="btn btn-sm btn-default" href="Install.php" >{\App\Language::translate('LBL_BACK', 'Install')}</a>
+							<a class="btn btn-sm btn-light" href="Install.php" >{\App\Language::translate('LBL_BACK', 'Install')}</a>
 							<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step5"/>
 						</div>
 					</div>

@@ -26,7 +26,7 @@
 					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}" />
 					<div class="modal-body tabbable">
 						<div class="form-group">
-							<div class="col-md-3 control-label">{\App\Language::translate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
 								<select class="select2 form-control" multiple="" id="deleteValue" name="delete_value[]">
 									{foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">{\App\Language::translate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_REPLACE_IT_WITH',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
 								<select id="replaceValue" name="replace_value" class="chzn-select form-control" data-validation-engine="validate[required]">
 									{foreach from=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
@@ -55,7 +55,7 @@
 						</div>
 						{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
 							<div class="form-group">
-								<div class="col-md-3 control-label">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
+								<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-9 controls nonEditableValuesDiv">
 									<ul class="nonEditablePicklistValues list-unstyled">
 										{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}
@@ -67,7 +67,7 @@
 						{/if}
 					</div>	
 					<div class="modal-footer">
-						<div class=" pull-right cancelLinkContainer">
+						<div class="float-right cancelLinkContainer">
 							<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 						</div>
 						<button class="btn btn-danger" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_DELETE', $MODULE)}</strong></button>

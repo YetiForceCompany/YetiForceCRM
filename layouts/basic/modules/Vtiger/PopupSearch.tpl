@@ -19,7 +19,7 @@
 	<input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}" />
 	<input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}" />
 	<div class="popupContainer row">
-		<div class="paddingLeftMd form-group pull-left">
+		<div class="paddingLeftMd form-group float-left">
 			<h3 class="popupModuleName">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h3>
 			<form class="popupSearchContainer form-inline" onsubmit="return false;" method="POST">
 				<input class="col-md-2" type="hidden" id="searchfield" />
@@ -27,23 +27,23 @@
 			</form>
 		</div>
 		{include file=\App\Layout::getTemplatePath('PopupSearchActions.tpl', $MODULE_NAME)}
-		<div class="col-md-4 form-group pull-right">
+		<div class="col-md-4 form-group float-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 				<div class="popupPaging">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="pull-right">
+							<div class="float-right">
 								<div class="pageNumbers">
 									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
 									<span class="alignBottom">
-										<span class="glyphicon glyphicon-refresh totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} hide{/if}" style="margin-left:5px"></span>
+										<span class="fas fa-sync-alt totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} hide{/if}" style="margin-left:5px"></span>
 									</span>
 								</div>
 								<div class="btn-group alignTop margin0px">
-									<span class="pull-right">
+									<span class="float-right">
 										<span class="btn-group" role="group">
-											<button class="btn btn-default" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
-											<button class="btn btn-default dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
+											<button class="btn btn-light" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="fas fa-chevron-left"></span></button>
+											<button class="btn btn-light dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
 												<span class="vtGlyph vticon-pageJump" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
 											</button>
 											<ul class="listViewBasicAction dropdown-menu" id="listViewPageJumpDropDown">
@@ -60,7 +60,7 @@
 													</div>
 												</li>
 											</ul>
-											<button class="btn btn-default" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+											<button class="btn btn-light" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="fas fa-chevron-right"></span></button>
 										</span>
 									</span>	
 								</div>

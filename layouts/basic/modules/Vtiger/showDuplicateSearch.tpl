@@ -22,7 +22,7 @@
 				<input type='hidden' name='view' value='FindDuplicates' />
 				<br />
 				<div class="form-group">
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
 					</div>
 					<div class="col-sm-6 controls">
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class="pull-right cancelLinkContainer">
+					<div class="float-right cancelLinkContainer">
 						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 					</div>
 					<button class="btn btn-success" type="submit" disabled="true">

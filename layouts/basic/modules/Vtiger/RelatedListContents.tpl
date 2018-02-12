@@ -45,9 +45,9 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
-							<button type="button" class="btn btn-default removeSearchConditions">
-								<span class="glyphicon glyphicon-remove">
+							<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+							<button type="button" class="btn btn-light removeSearchConditions">
+								<span class="fas fa-times">
 							</button>
 							</div>
 						</td>
@@ -108,7 +108,7 @@
 						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
 							<td class="medium" nowrap>
-								<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="glyphicon glyphicon-resize-vertical"></span></button>
+								<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="fas fa-arrows-alt-v"></span></button>
 							</td>
 						{/if}
 					</tr>
@@ -156,8 +156,8 @@
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}" >
 							{if !empty($HEADER_FIELD->isCalculateField())}
-								<button class="btn btn-xs btn-default popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-									<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+								<button class="btn btn-sm btn-light popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+									<span class="fas fa-signal"></span>
 								</button>
 								<span class="calculateValue"></span>
 							{/if}

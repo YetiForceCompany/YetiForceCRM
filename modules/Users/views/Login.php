@@ -83,7 +83,7 @@ class Users_Login_View extends \App\Controller\View
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = [
-			'skins.login',
+			'modules.Users.Login',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

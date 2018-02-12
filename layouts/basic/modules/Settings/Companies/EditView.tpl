@@ -18,7 +18,7 @@
 					<div class="form-group">
 						{if $COLUMN eq 'default'}
 							{if $RECORD_MODEL->get($COLUMN) eq 0}
-								<label class="col-sm-2 control-label">
+								<label class="col-sm-2 col-form-label">
 									{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-10">
@@ -26,7 +26,7 @@
 								</div>
 							{/if}
 						{elseif $COLUMN eq 'industry'}
-							<label class="col-sm-2 control-label">
+							<label class="col-sm-2 col-form-label">
 								{App\Language::translate('LBL_INDUSTRY', $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
@@ -37,7 +37,7 @@
 								</select>
 							</div>
 						{elseif $COLUMN eq 'country'}
-							<label class="col-sm-2 control-label">
+							<label class="col-sm-2 col-form-label">
 								{App\Language::translate('LBL_COUNTRY', $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
@@ -48,7 +48,7 @@
 								</select>
 							</div>
 						{elseif $COLUMN neq 'logo_login' && $COLUMN neq 'logo_main' && $COLUMN neq 'logo_mail'}
-							<label class="col-sm-2 control-label">
+							<label class="col-sm-2 col-form-label">
 								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
@@ -63,7 +63,7 @@
 									<div class=''>
 										<input type="file" name="{$COLUMN}" id="{$COLUMN}" {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>&nbsp;&nbsp;
 									</div>
-									<div class=" col-xs-12 alert alert-info pull-right">
+									<div class=" col-xs-12 alert alert-info float-right">
 										{App\Language::translate('LBL_PANELLOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 									</div>
 								</div>
@@ -73,8 +73,8 @@
 				{/foreach}
 			{/if}
 			<div class="row">
-				<div class="col-md-5 pull-right">
-					<span class="pull-right">
+				<div class="col-md-5 float-right">
+					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

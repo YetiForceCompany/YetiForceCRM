@@ -9,8 +9,8 @@
 								<div class="col-md-7 col-xs-10">
 									<h3 class="modal-title">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>
 								</div>
-								<div class="pull-right">
-									<div class="pull-right">
+								<div class="float-right">
+									<div class="float-right">
 										<button class="btn btn-success paddingRight15 saveKeys" type="button" aria-hidden="true">
 											{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 										</button>
@@ -60,22 +60,22 @@
 	{/if}
 	{if $GITHUB_ISSUES !== false}
 		{if $GITHUB_CLIENT_MODEL->isAuthorized()}
-			<div class="pull-left">
+			<div class="float-left">
 				<button class="btn btn-primary addIssuesBtn marginRight10">
 					{\App\Language::translate('LBL_ADD_ISSUES', $QUALIFIED_MODULE)}
 				</button>
 			</div>
 		{/if}
-		<div class="listViewActions pull-right paginationDiv paddingLeft5px">
+		<div class="listViewActions float-right paginationDiv paddingLeft5px">
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl')}
 		</div>
-		<div class="col-sm-4 pull-right">
+		<div class="col-sm-4 float-right">
 			{if $GITHUB_CLIENT_MODEL->isAuthorized()}
-				<div class="bootstrap-switch-container pull-right marginLeft10">
+				<div class="bootstrap-switch-container float-right marginLeft10">
 					<input class="switchBtn switchAuthor" {if $IS_AUTHOR} checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}" data-on-text="{\App\Language::translate('LBL_ME', $QUALIFIED_MODULE)}">
 				</div>
 			{/if}
-			<div class="bootstrap-switch-container pull-right">
+			<div class="bootstrap-switch-container float-right">
 				<input class="switchBtn switchState" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{\App\Language::translate('LBL_OPEN', $QUALIFIED_MODULE)}" data-on-text="{\App\Language::translate('LBL_CLOSED', $QUALIFIED_MODULE)}">
 			</div>
 		</div>
@@ -103,10 +103,10 @@
 							{\App\Language::translate($ISSUE->get('state'), $QUALIFIED_MODULE)}
 						</td>
 						<td>
-							<div class="pull-right actions">
+							<div class="float-right actions">
 								<span class="actionImages">
 									<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
-										<span title="" class="glyphicon glyphicon-th-list alignMiddle"></span>
+										<span title="" class="fas fa-th-list alignMiddle"></span>
 									</a>
 								</span>
 							</div>

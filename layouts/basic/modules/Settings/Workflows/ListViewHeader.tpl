@@ -17,7 +17,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
             </div>
             <div class="col-md-6">
-                <b class="pull-right paddingTop10">
+                <b class="float-right paddingTop10">
                 {if $CRON_RECORD_MODEL->isDisabled() }{\App\Language::translate('LBL_DISABLED',$QUALIFIED_MODULE)}{/if}
                     {if $CRON_RECORD_MODEL->isRunning() }{\App\Language::translate('LBL_RUNNING',$QUALIFIED_MODULE)}{/if}
                     {if $CRON_RECORD_MODEL->isEnabled()}
@@ -41,11 +41,11 @@
 			<div class="col-md-4 btn-toolbar">
 				<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
                         {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
-					<i class="glyphicon glyphicon-plus"></i>&nbsp;
+					<i class="fas fa-plus"></i>&nbsp;
 					<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-default importButton" id="importButton" data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
-					<i class="glyphicon glyphicon-import"></i>
+				<button class="btn btn-light importButton" id="importButton" data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+					<i class="fas fa-download"></i>
 				</button>
 			</div>
 			<div class="col-md-3 btn-toolbar marginLeftZero">

@@ -11,7 +11,7 @@
 			{assign var="displayId" value=$ITEM_VALUE}
 			{if $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon clearReferenceSelection cursorPointer popoverTooltip" data-content="{\App\Language::translate('LBL_CLEAR',$MODULE)}">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="glyphicon glyphicon-remove-sign"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle"></span>
 				</span>
 			{/if}
 			<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text" title="{$FIELD->getEditValue($ITEM_VALUE)}" class="marginLeftZero input-sm form-control autoComplete recordLabel" {if !empty($ITEM_VALUE)}readonly="true"{/if}
@@ -21,18 +21,18 @@
 
 			{if $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon relatedPopup cursorPointer popoverTooltip" data-content="{\App\Language::translate('LBL_SELECT',$MODULE)}">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search"></span>
 				</span>
 			{/if}
 			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}
 			{if $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon cursorPointer createReferenceRecord popoverTooltip" data-content="{\App\Language::translate('LBL_CREATE',$MODULE)}">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus"></span>
 				</span>
 			{/if}
 		</div>
 		<div class="subProductsContainer">
-			<ul class="pull-left">
+			<ul class="float-left">
 			</ul>
 		</div>
 	</div>

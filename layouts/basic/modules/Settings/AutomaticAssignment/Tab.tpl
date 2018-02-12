@@ -14,7 +14,7 @@
 		{if $FIELD_NAME eq 'value'}
 			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 			<form id="formValue" class="">
-				<label class="col-sm-2 col-md-2 col-lg-1 control-label">
+				<label class="col-sm-2 col-md-2 col-lg-1 col-form-label">
 					{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 				</label>
 				<div class="col-sm-5 col-md-4 controls">
@@ -63,7 +63,7 @@
 			<div class="form-horizontal">
 				<div class="form-group">
 					<div class="row col-md-5">
-						<label class="pull-left-lg control-label paddingLeftMd">{\App\Language::translate('LBL_INCLUDE_USERS_RECORD_LIMIT', $QUALIFIED_MODULE)}</label>
+						<label class="pull-left-lg col-form-label paddingLeftMd">{\App\Language::translate('LBL_INCLUDE_USERS_RECORD_LIMIT', $QUALIFIED_MODULE)}</label>
 						<div class="col-md-6">
 							&nbsp;<input name="user_limit" class="switchBtn saveValue" type="checkbox" {if $RECORD_MODEL->get('user_limit')}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 						</div>
@@ -84,7 +84,7 @@
 							</div>
 						</div>
 						<div class="panel-footer clearfix">
-							<div class="btn-toolbar pull-right">
+							<div class="btn-toolbar float-right">
 								<button class="btn btn-success saveValue" type="button">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
 							</div>
 						</div>
@@ -99,12 +99,12 @@
 							<tr>
 								<th>
 									<strong>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</strong>
-									<div class="col-xs-8 pull-right controls">
+									<div class="col-xs-8 float-right controls">
 										<div class="input-group col-xs-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
-													<span class="glyphicon glyphicon-plus"></span>
+													<span class="fas fa-plus"></span>
 												</button>
 											</div>
 										</div>
@@ -116,9 +116,9 @@
 							{foreach from=$RECORD_MODEL->getEditValue($FIELD_NAME) key=KEY item=MEMBER}
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.id}" data-name="{$FIELD_NAME}">
 									<td><strong>{$MEMBER.name}</strong>
-										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
+										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
 										{if $FIELD_NAME eq 'roles'}
-											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-transfer pull-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
+											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fas fa-exchange-alt float-right marginIcon marginTop2 changeRoleType cursorPointer"></span>
 										{/if}
 									</td>
 								</tr>

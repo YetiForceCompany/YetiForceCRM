@@ -20,7 +20,7 @@
 				<form class="form-horizontal addCustomBlockForm">
 					<div class="modal-body">
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>
 								<span>{App\Language::translate('LBL_BLOCK_NAME', $QUALIFIED_MODULE)}</span>
 							</div>
@@ -29,7 +29,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_ADD_AFTER', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">

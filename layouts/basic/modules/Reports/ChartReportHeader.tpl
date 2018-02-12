@@ -17,12 +17,12 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-4">
-				<div class="btn-toolbar pull-right">
+				<div class="btn-toolbar float-right">
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">
 								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-								<span class="glyphicon glyphicon-pencil"></span>
+								<span class="fas fa-edit"></span>
 							</button>
 						</div>
 					{/if}
@@ -97,9 +97,9 @@
 						<div class="clearfix">
 							<div class='h3'>
 								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
-								<button type="button" class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
+								<button type="button" class="btn btn-light" name="modify_condition" data-val="{$filterConditionNotExists}">
 									<strong>{\App\Language::translate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
-									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
+									<span class="{if $filterConditionNotExists eq true} fas fa-chevron-right {else} fas fa-chevron-down {/if}"></span>
 								</button>
 							</div>
 							<div id='filterContainer' class='form-group '{if $filterConditionNotExists eq true} style="display: none"{/if}>

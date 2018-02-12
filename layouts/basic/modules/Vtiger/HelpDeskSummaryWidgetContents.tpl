@@ -36,7 +36,7 @@
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
 	{if $NUMBER_OF_RECORDS eq 5}
 		<div class="row">
-			<div class="pull-right">
+			<div class="float-right">
 				<a class="moreRecentTickets cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>
 		</div>

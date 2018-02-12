@@ -200,11 +200,9 @@ abstract class View extends Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
-				'~libraries/bootstrap/dist/css/bootstrap.css',
-				'~libraries/font-awesome/css/font-awesome.css',
-				'skins.icons.userIcons',
-				'skins.icons.adminIcons',
-				'skins.icons.additionalIcons',
+				'~layouts/resources/icons/userIcons.css',
+				'~layouts/resources/icons/adminIcons.css',
+				'~layouts/resources/icons/additionalIcons.css',
 				'~libraries/chosen-js/chosen.css',
 				'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 				'~libraries/jquery-ui-dist/jquery-ui.css',
@@ -212,9 +210,9 @@ abstract class View extends Base
 				'~libraries/select2/dist/css/select2.css',
 				'~libraries/simplebar/dist/simplebar.css',
 				'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
-				'~libraries/select2-bootstrap-theme/dist/select2-bootstrap.css',
 				'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
 				'~libraries/pnotify/dist/pnotify.css',
+				'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
 				'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 				'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 				'~libraries/footable/css/footable.core.css',
@@ -225,6 +223,7 @@ abstract class View extends Base
 				'~layouts/resources/colors/modules.css',
 				'~layouts/resources/colors/picklists.css',
 				'~layouts/resources/styleTemplate.css',
+				'~' . \Vtiger_Theme::getBaseStylePath()
 		]);
 	}
 
@@ -237,7 +236,8 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 				'libraries.js.jquery',
-				'libraries.jquery-migrate.dist.jquery-migrate'
+				'libraries.jquery-migrate.dist.jquery-migrate',
+				'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
 		]);
 	}
 
@@ -259,6 +259,7 @@ abstract class View extends Base
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
 			'~libraries/pnotify/dist/pnotify.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
+			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
 			'~libraries/bootbox/bootbox.js',

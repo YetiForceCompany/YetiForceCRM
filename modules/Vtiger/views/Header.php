@@ -51,7 +51,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'glyphicon' => 'glyphicon glyphicon-transfer',
+				'glyphicon' => 'fas fa-exchange-alt fa-fw',
 				'nocaret' => true,
 				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
 				'linkclass' => 'showModal',
@@ -62,7 +62,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'glyphicon' => 'glyphicon glyphicon-tasks',
+				'glyphicon' => 'fas fa-tasks fa-fw',
 			];
 		}
 		if ($userModel->isAdminUser()) {
@@ -71,14 +71,14 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
-					'glyphicon' => 'glyphicon glyphicon-cog',
+					'glyphicon' => 'fas fa-cog fa-fw',
 				];
 			} else {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'glyphicon' => 'glyphicon glyphicon-user',
+					'glyphicon' => 'fas fa-user fa-fw',
 				];
 			}
 		}
@@ -86,8 +86,8 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'glyphicon' => 'glyphicon glyphicon-off',
-			'linkclass' => 'btn-danger'
+			'glyphicon' => 'fas fa-power-off fa-fw',
+			'linkclass' => 'btn-danger p-1'
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
@@ -137,7 +137,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles(['~' . Vtiger_Theme::getBaseStylePath()]));
+		$headerCssInstances = parent::getHeaderCss($request);
 		$headerCss = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();

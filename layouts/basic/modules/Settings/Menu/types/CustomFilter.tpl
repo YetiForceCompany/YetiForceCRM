@@ -2,7 +2,7 @@
 
 <input type="hidden" name="module" value="">
 <div class="form-group">
-	<label class="col-md-4 control-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<select name="dataurl" class="select2 form-control type">
 			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
@@ -14,12 +14,12 @@
 {include file=\App\Layout::getTemplatePath('fields/Newwindow.tpl', $QUALIFIED_MODULE)}
 {include file=\App\Layout::getTemplatePath('fields/Hotkey.tpl', $QUALIFIED_MODULE)}
 <div class="form-group">
-	<label class="col-md-4 control-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<div class="input-group">
 			<input name="icon" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('icon')}{/if}" />
 			<span class="input-group-btn">
-				<button id="selectIconButton" class="btn btn-default" title="{\App\Language::translate('LBL_SELECT_ICON',$QUALIFIED_MODULE)}" type="button"><span class="glyphicon glyphicon-info-sign"></span></button>
+				<button id="selectIconButton" class="btn btn-light" title="{\App\Language::translate('LBL_SELECT_ICON',$QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
 			</span>
 		</div>
 	</div>

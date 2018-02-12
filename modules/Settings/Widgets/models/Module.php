@@ -350,7 +350,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$linkList[] = [
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fas fa-plus',
 				'linkclass' => 'btn-sm btn-primary'
 			];
 		}

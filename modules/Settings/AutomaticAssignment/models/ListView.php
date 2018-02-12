@@ -23,7 +23,7 @@ class Settings_AutomaticAssignment_ListView_Model extends Settings_Vtiger_ListVi
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkdata' => ['url' => $moduleModel->getCreateRecordUrl()],
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fas fa-plus',
 				'linkclass' => 'btn-success addRecord',
 				'showLabel' => '1'
 			];

@@ -12,14 +12,14 @@
 				<form class="form-horizontal">
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 					<div class="form-group">
-						<label class="col-md-4 control-label">{\App\Language::translate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
-						<div class="col-md-7 form-control-static">{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
+						<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
+						<div class="col-md-7 form-control-plaintext">{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
 					</div>
 					{include file=\App\Layout::getTemplatePath('types/'|cat:$MENU_TYPE|cat:'.tpl', $QUALIFIED_MODULE)}
 				</form>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
+				<div class="float-right cancelLinkContainer" style="margin-top:0px;">
 					<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					<button class="btn btn-success saveButton"><strong>{\App\Language::translate('LBL_ADD_NEW_MENU', $QUALIFIED_MODULE)}</strong></button>
 				</div>

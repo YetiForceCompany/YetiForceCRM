@@ -122,9 +122,9 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 					<td class="textAlignCenter ' + details.row_type + '"><input class="status" checked type="checkbox">\n\
 						<div class="pull-right actions">\n\
 							<a class="editInventory cursorPointer" data-url="' + details._editurl + '">\n\
-								<span class="glyphicon glyphicon-pencil alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></span>\n\
+								<span class="fas fa-edit alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></span>\n\
 							</a>\n\
-							<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="glyphicon glyphicon-trash alignBottom"></span>\n\
+							<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="fas fa-trash-alt alignBottom"></span>\n\
 						</div>\n\
 					</td></tr>');
 		table.append(trElement);

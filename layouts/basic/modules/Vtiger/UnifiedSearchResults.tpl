@@ -24,7 +24,7 @@
 						<span class="col-md-6"><strong>{\App\Language::translate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
 						{if $IS_ADVANCE_SEARCH }
 						<span class="col-md-5">
-							<span class="pull-right">
+							<span class="float-right">
 								<a href="javascript:void(0);" id="showFilter">{\App\Language::translate('LBL_SAVE_MODIFY_FILTER',$MODULE)}</a>
 							</span>
 						</span>
@@ -48,10 +48,10 @@
 					<form method="POST" action="index.php?module={$module}&view=List" name="form_{$module}"  enctype="multipart/form-data">
 						<input type="hidden" id="recordList" name="searchResult" value="{\App\Json::encode(array_keys($searchRecords))}" />
 						<div class="clearfix">
-							<span onclick="form_{$module}.submit()"><i class="glyphicon glyphicon-list" style="margin-top: 2px;"></i> <strong>{\App\Language::translate($module)}&nbsp;({$modulesCount})</strong></span>
-							<!-- &nbsp;&nbsp;<i title="" class="glyphicon glyphicon-th-list alignMiddle"></i> -->
+							<span onclick="form_{$module}.submit()"><i class="fas fa-list" style="margin-top: 2px;"></i> <strong>{\App\Language::translate($module)}&nbsp;({$modulesCount})</strong></span>
+							<!-- &nbsp;&nbsp;<i title="" class="fas fa-th-list alignMiddle"></i> -->
 							{if {$smarty.foreach.matchingRecords.index+1} eq 1}
-								<div class="pull-right"><p class="muted">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}</small></p></div>
+								<div class="float-right"><p class="muted">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}</small></p></div>
 							{/if}
 						</div>
 						<ul class="nav">
@@ -63,15 +63,15 @@
 									<a target="_blank" id="{$ID}_link" class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} 
 											onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({$recordObject->getDisplayValue('smownerid',$ID,true)}){/if}</span>
-										<span id="{$ID}_time" class="pull-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
+										<span id="{$ID}_time" class="float-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
 									</a>
 								</li>
 							{else}
 								<li id="{$ID}">
 									<a class="cursorDefault">
 										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({$recordObject->getDisplayValue('smownerid',$ID,true)}){/if}</span>&nbsp;
-										<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-										<span id="{$ID}_time" class="pull-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
+										<span class="fas fa-exclamation-circle"></span>
+										<span id="{$ID}_time" class="float-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
 									</a>
 								</li>
 							{/if}

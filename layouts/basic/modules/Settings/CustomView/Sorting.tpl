@@ -11,7 +11,7 @@
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 		<input type="hidden" id="sortOrder" name="sortOrder" value="{$SORT_ORDER}" />
 		<div class="modal-header">
-			<div class="pull-left">
+			<div class="float-left">
 				<h3 class="modal-title">{\App\Language::translate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h3>
 			</div>
 			<div class="clearfix"></div>
@@ -25,14 +25,14 @@
 					</div>
 				</div>
 				<div class="col-xs-12 form-group">
-					<label class="col-xs-12 control-label">
+					<label class="col-xs-12 col-form-label">
 						{\App\Language::translate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
 					</label>
 					<div class="col-md-9 col-sm-10 col-xs-12">
 						<div class="input-group">
 							<div class="input-group-btn" id="basic-addon1">
 								<button type="button" class="btn btn-danger clear" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
-									<span class="glyphicon glyphicon-remove-sign"></span>
+									<span class="fas fa-times-circle"></span>
 								</button>
 							</div>
 							<select class="select2 form-control" name="defaultOrderBy" id="defaultOrderBy">
@@ -63,8 +63,8 @@
 							</select>
 							<div class="input-group-btn" id="basic-addon2">
 								<button type="button" class="btn btn-primary sortOrderButton" id="sortOrderButton">
-									<span class="glyphicon glyphicon-sort-by-attributes{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
-									<span class="glyphicon glyphicon-sort-by-attributes-alt{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
+									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
+									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
 								</button>
 							</div>
 						</div>

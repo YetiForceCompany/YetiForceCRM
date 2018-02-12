@@ -282,7 +282,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
 						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
 					],
-					'linkicon' => 'fa fa-archive',
+					'linkicon' => 'fas fa-archive',
 					'linkclass' => 'btn-xs entityStateBtn',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 					'showLabel' => true,
@@ -297,7 +297,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
 						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
 					],
-					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'btn-xs entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 					'showLabel' => true,

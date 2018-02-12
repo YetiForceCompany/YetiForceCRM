@@ -569,7 +569,7 @@ class ModuleBasic
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
 			foreach (\App\Layout::getAllLayouts() as $name => $label) {
-				$fileName = "layouts/$name/skins/images/{$this->name}{$value}.png";
+				$fileName = "layouts/$name/images/{$this->name}{$value}.png";
 				if (file_exists($fileName)) {
 					@unlink($fileName);
 				}

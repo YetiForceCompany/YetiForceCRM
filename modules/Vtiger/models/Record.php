@@ -1206,7 +1206,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_ASSIGN_TO_ME',
 				'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
-				'linkicon' => 'glyphicon glyphicon-user',
+				'linkicon' => 'fas fa-user',
 				'linkclass' => 'btn-sm btn-success',
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId()],
 			];
@@ -1216,7 +1216,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_ASSIGN_TO',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=AutoAssignRecord&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-random',
+				'linkicon' => 'fas fa-random',
 				'linkclass' => 'btn-sm btn-primary',
 				'modalView' => true
 			];
@@ -1240,7 +1240,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-expand',
+				'linkicon' => 'far fa-caret-square-right',
 				'linkclass' => 'btn-sm btn-default',
 				'modalView' => true
 			];
@@ -1248,7 +1248,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 				'linkurl' => $this->getFullDetailViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-th-list',
+				'linkicon' => 'fas fa-th-list',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true
 			];
@@ -1258,7 +1258,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true
 			];
@@ -1269,9 +1269,9 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'BTN_WATCHING_RECORD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-				'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
+				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
 				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			];
 		}
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
@@ -1280,7 +1280,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_ACTIVATE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
-				'linkicon' => 'fa fa-undo',
+				'linkicon' => 'fas fa-undo-alt',
 				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
@@ -1291,7 +1291,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_ARCHIVE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
-				'linkicon' => 'fa fa-archive',
+				'linkicon' => 'fas fa-archive',
 				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
@@ -1302,7 +1302,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
-				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkicon' => 'fas fa-trash-alt',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
@@ -1312,7 +1312,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'linkicon' => 'glyphicon glyphicon-erase',
+				'linkicon' => 'fas fa-eraser',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'btn-sm btn-black recordEvent'
@@ -1338,7 +1338,7 @@ class Vtiger_Record_Model extends \App\Base
 						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 						'linkhref' => true,
 						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-						'linkicon' => 'glyphicon glyphicon-expand',
+						'linkicon' => 'far fa-caret-square-right',
 						'linkclass' => 'btn-xs btn-default',
 						'modalView' => true
 				]);
@@ -1347,7 +1347,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 					'linkurl' => $this->getFullDetailViewUrl(),
 					'linkhref' => true,
-					'linkicon' => 'glyphicon glyphicon-th-list',
+					'linkicon' => 'fas fa-th-list',
 					'linkclass' => 'btn-xs btn-default',
 			]);
 		}
@@ -1357,7 +1357,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'LBL_EDIT',
 					'linkhref' => true,
 					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'glyphicon glyphicon-pencil',
+					'linkicon' => 'fas fa-edit',
 					'linkclass' => 'btn-xs btn-default',
 			]);
 		}
@@ -1366,15 +1366,15 @@ class Vtiger_Record_Model extends \App\Base
 			$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'BTN_WATCHING_RECORD',
 					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-					'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
+					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
 					'linkclass' => 'btn-xs ' . ($watching ? 'btn-info' : 'btn-default'),
-					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
+					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
 			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_DELETE',
-					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'btn-xs btn-default relationDelete entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
 			]);

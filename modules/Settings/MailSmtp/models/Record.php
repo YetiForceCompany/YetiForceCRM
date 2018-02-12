@@ -76,14 +76,14 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-xs btn-info'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-xs btn-danger'
 			]
 		];

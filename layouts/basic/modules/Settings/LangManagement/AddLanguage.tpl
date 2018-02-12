@@ -8,15 +8,15 @@
 			</div>
 			<div class="modal-body form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-md-3">{\App\Language::translate('LBL_Lang_label', $QUALIFIED_MODULE)}:</label>
+					<label class="col-form-label col-md-3">{\App\Language::translate('LBL_Lang_label', $QUALIFIED_MODULE)}:</label>
 					<div class="col-md-7"><input name="label" class="form-control" type="text" /></div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">{\App\Language::translate('LBL_Lang_name', $QUALIFIED_MODULE)}:</label>
+					<label class="col-form-label col-md-3">{\App\Language::translate('LBL_Lang_name', $QUALIFIED_MODULE)}:</label>
 					<div class="col-md-7"><input name="name" class="form-control" type="text" /></div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">{\App\Language::translate('LBL_Lang_prefix', $QUALIFIED_MODULE)}:</label>
+					<label class="col-form-label col-md-3">{\App\Language::translate('LBL_Lang_prefix', $QUALIFIED_MODULE)}:</label>
 					<div class="col-md-7"><input name="prefix" class="form-control" type="text" /></div>
 				</div>
 			</div>

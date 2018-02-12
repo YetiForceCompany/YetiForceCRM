@@ -83,7 +83,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
-					'linkicon' => 'glyphicon glyphicon-plus-sign',
+					'linkicon' => 'fas fa-plus-circle',
 					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
 					'linkclass' => 'btn-warning',
 				];
@@ -97,7 +97,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
-					'linkicon' => 'glyphicon glyphicon-new-window',
+					'linkicon' => 'fas fa-external-link-alt',
 					'linkclass' => 'btn showModal',
 					'linkhint' => 'BTN_GENERATE_RECORD',
 				];
@@ -113,7 +113,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkicon' => 'fas fa-eye',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
@@ -125,7 +125,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'glyphicon glyphicon-send',
+				'linkicon' => 'fas fa-paper-plane',
 				'linkhint' => 'LBL_SEND_NOTIFICATION'
 			];
 		}
@@ -146,7 +146,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'BTN_RECORD_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
-					'linkicon' => 'glyphicon glyphicon-pencil',
+					'linkicon' => 'fas fa-edit',
 					'linkclass' => 'btn',
 					'linkhint' => 'BTN_RECORD_EDIT',
 			]);
@@ -162,7 +162,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')
 					],
-					'linkicon' => 'fa fa-undo',
+					'linkicon' => 'fas fa-undo-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};"
 			]);
@@ -177,7 +177,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
 					],
-					'linkicon' => 'fa fa-archive',
+					'linkicon' => 'fas fa-archive',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};"
 			]);
@@ -192,7 +192,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
 					],
-					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
 			]);
@@ -207,7 +207,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')
 					],
-					'linkicon' => 'glyphicon glyphicon-erase',
+					'linkicon' => 'fas fa-eraser',
 					'linkclass' => 'btn-black'
 			]);
 		}
@@ -216,7 +216,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'LBL_DUPLICATE',
 					'linkurl' => $recordModel->getDuplicateRecordUrl(),
-					'linkicon' => 'glyphicon glyphicon-duplicate',
+					'linkicon' => 'fas fa-clone',
 					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
 			]);
 		}
@@ -228,7 +228,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 						'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 						'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
-						'linkicon' => 'glyphicon glyphicon-save-file',
+						'linkicon' => 'fas fa-file-excel',
 						'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				]);
 			}

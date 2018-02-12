@@ -6,15 +6,15 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					{if $ICON}
-						<div class="pull-left">
+						<div class="float-left">
 							{if $ICON['type'] == 'image'}
 								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
 							{else}
-								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
+								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}"></span>
 							{/if}&nbsp;&nbsp;
 						</div>
 					{/if}
-					<div class="pull-right">
+					<div class="float-right">
 						<small>
 							{\App\Fields\DateTime::formatToViewDate($ROW->get('createdtime'))}
 						</small>
@@ -29,12 +29,12 @@
 					{/if}
 					<div class="text-right ">
 						<b>{\App\Language::translate('Created By')}:</b>&nbsp;{$ROW->getCreatorUser()}&nbsp;
-						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{\App\Language::translate('LBL_MARK_AS_READ', $MODULE_NAME)}">
-							<span class="glyphicon glyphicon-ok"></span>
+						<button type="button" class="btn btn-success btn-sm" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{\App\Language::translate('LBL_MARK_AS_READ', $MODULE_NAME)}">
+							<span class="fas fa-check"></span>
 						</button>&nbsp;&nbsp;
 						{assign var=RELATED_RECORD value=$ROW->getRelatedRecord()}
 						{if $RELATED_RECORD['id'] && \App\Record::isExists($RELATED_RECORD['id'])}
-							<a class="btn btn-info btn-xs glyphicon glyphicon-th-list" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}"></a>
+							<a class="btn btn-info btn-sm fas fa-th-list" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}"></a>
 						{/if}
 					</div>
 				</div>

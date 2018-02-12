@@ -32,13 +32,13 @@
 				<div class="modal-body">
 					<div class="">
 						<div class="form-group">
-							<label class="col-md-4 control-label">{\App\Language::translate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls ">
 								<input class="form-control" type="text" name="taxlabel" placeholder="{\App\Language::translate('LBL_ENTER_TAX_NAME', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
 							</div>	
 						</div>
 						<div class="form-group">
-							<label class="col-md-4 control-label">{\App\Language::translate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls input-group" style='margin:0px 15px;'>
 								<input class="form-control" type="text" name="percentage" class="input-medium" placeholder="{\App\Language::translate('LBL_ENTER_TAX_VALUE', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getTax()}" data-validation-engine='validate[required, funcCall[Vtiger_Percentage_Validator_Js.invokeValidation]]' />
 								<span class="input-group-addon">%</span>
@@ -47,7 +47,7 @@
 						{if $TAX_MODEL_EXISTS}
 						{assign var=TAX_DELETED value=$TAX_RECORD_MODEL->isDeleted()}
 						<div class="form-group">
-							<label class="col-md-4 control-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls">
 								<input type="hidden" name="deleted" value="1" />
 								<input type="checkbox" name="deleted" value="0" class="taxStatus alignBottom" {if !$TAX_DELETED} checked {/if} />

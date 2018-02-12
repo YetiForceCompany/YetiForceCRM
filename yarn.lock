@@ -6,6 +6,10 @@
   version "0.8.3"
   resolved "https://github.com/flot/flot.git#958e5fd43c6dff4bab3e1fd5cb6109df5c1e8003"
 
+"Font-Awesome@https://github.com/FortAwesome/Font-Awesome":
+  version "0.0.0"
+  resolved "https://github.com/FortAwesome/Font-Awesome#159d220a7446ceb7cde0b0096674f60f51129bf7"
+
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -61,9 +65,9 @@ bootstrap-switch@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/bootstrap-switch/-/bootstrap-switch-3.3.4.tgz#70e0aeb2a877c0dc766991de108e2170fc29a2ff"
 
-bootstrap@<4.0.0:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+bootstrap@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0.tgz#ceb03842c145fcc1b9b4e15da2a05656ba68469a"
 
 cardinal@^1.0.0:
   version "1.0.0"
@@ -128,10 +132,6 @@ esprima@~3.0.0:
 "flot-valuelabels@https://github.com/winne27/flot-valuelabels.git":
   version "0.0.0"
   resolved "https://github.com/winne27/flot-valuelabels.git#b326995a2988643f52c5ac688f0389e22c9bcd04"
-
-font-awesome@>=4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
 
 footable@^2.0.6:
   version "2.0.6"
@@ -291,6 +291,10 @@ pnotify@^3.2.1:
   dependencies:
     jquery ">=1.6.0"
 
+popper.js@^1.12.9:
+  version "1.12.9"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.9.tgz#0dfbc2dff96c451bb332edcfcfaaf566d331d5b3"
+
 redeyed@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/redeyed/-/redeyed-1.0.1.tgz#e96c193b40c0816b00aec842698e61185e55498a"
@@ -301,9 +305,9 @@ respond.js@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
 
-select2-bootstrap-theme@^0.1.0-beta.10:
-  version "0.1.0-beta.10"
-  resolved "https://registry.yarnpkg.com/select2-bootstrap-theme/-/select2-bootstrap-theme-0.1.0-beta.10.tgz#b9426ecfc03bf4a235e76a132377574310469ac0"
+select2-bootstrap4-theme@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/select2-bootstrap4-theme/-/select2-bootstrap4-theme-1.0.0.tgz#d637ff18e7fdade8d723ad4c567ef2ba48b73094"
 
 select2@^4.0.6-rc.1:
   version "4.0.6-rc.1"

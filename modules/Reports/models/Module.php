@@ -49,7 +49,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_REPORTS',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-list',
+				'linkicon' => 'fas fa-list',
 		]);
 		return $links;
 	}
