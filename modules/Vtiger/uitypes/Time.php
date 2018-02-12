@@ -80,7 +80,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 	public static function getDBTimeFromUserValue($value)
 	{
-		return DateTimeField::convertToDBTimeZone(date('Y-m-d') . ' ' . $value);
+		return DateTimeField::convertToDBTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 	}
 
 	/**

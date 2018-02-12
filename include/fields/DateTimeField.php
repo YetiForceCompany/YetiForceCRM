@@ -299,7 +299,7 @@ class DateTimeField
 	public function getDBInsertTimeValue()
 	{
 		$date = self::convertToDBTimeZone($this->datetime);
-		return $date->format("H:i:s");
+		return $date->format('H:i:s');
 	}
 
 	/**
