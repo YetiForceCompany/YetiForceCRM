@@ -5021,7 +5021,7 @@ button.bg-dark:focus {
   white-space: normal;
   clip-path: none; }
 
-.w-25 {
+.w-25, .conditionRow .select2-container--bootstrap4 {
   width: 25% !important; }
 
 .w-50 {
@@ -5100,7 +5100,7 @@ button.bg-dark:focus {
 .mx-2 {
   margin-right: 0.5rem !important; }
 
-.mb-2, .conditionRow .select2-container--bootstrap4,
+.mb-2,
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
@@ -5356,7 +5356,7 @@ header .select2-selection.select2-selection--single {
   .my-sm-2 {
     margin-top: 0.5rem !important; }
 
-  .mr-sm-2,
+  .mr-sm-2, .conditionRow .select2-container--bootstrap4,
   .mx-sm-2 {
     margin-right: 0.5rem !important; }
 
@@ -7630,18 +7630,6 @@ td.fieldValue input, td.fieldValue .input-group {
 .conditionGroup .header {
   margin-bottom: 20px;
   font-size: 1.2em; }
-.conditionGroup .contents .conditionRow {
-  margin-bottom: 10px; }
-  .conditionGroup .contents .conditionRow:after {
-    clear: both;
-    display: table;
-    content: " "; }
-  .conditionGroup .contents .conditionRow select {
-    width: 100%; }
-  .conditionGroup .contents .conditionRow .chzn-results li {
-    line-height: 20px; }
-.conditionGroup .deleteCondition {
-  vertical-align: bottom; }
 
 .searchUIBasic {
   border-collapse: separate !important;
@@ -11085,6 +11073,10 @@ header .headerLinksMails .select2-selection:hover {
   background: #343a40 !important; }
   header .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
+
+.conditionRow .select2-container--bootstrap4 {
+  display: inline-block;
+  vertical-align: middle; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {

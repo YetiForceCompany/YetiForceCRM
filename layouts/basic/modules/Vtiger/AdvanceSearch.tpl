@@ -49,15 +49,15 @@
 						</div>
 						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
-								<span class="fas fa-check"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
+								<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
 						{/if}
 						<button class="btn hide btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
-							<span class="fas fa-check"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
+							<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
 					{/if}
 					<button class="btn btn-info" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="fas fa-search mr-1"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
-					<button class="cancelLink btn btn-danger" role="button" id="advanceSearchCancel" data-dismiss="modal"><span class="fas fa-times margin-right5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+					<button class="cancelLink btn btn-danger" role="button" id="advanceSearchCancel" data-dismiss="modal"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 				</div>
 			</div>
 		</div>

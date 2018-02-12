@@ -13,8 +13,9 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
-	<div class="conditionRow form bg-light p-3 rounded">
-		<select class="{if empty($NOCHOSEN)}select2{/if}  form-control" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
+	<div class="conditionRow form-inline bg-light p-3 rounded mb-2">
+		<label class="sr-only" for="selectField1">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</label>
+		<select class="{if empty($NOCHOSEN)}select2{/if} form-control mr-sm-2 w-25" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}" id="selectField1">
 			<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
@@ -124,12 +125,12 @@
 				<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 			{/foreach}
 		</select>
-		<div class="fieldUiHolder d-flex no-wrap">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control w-75 mr-auto" type="text" value="{$CONDITION_INFO['value']|escape}" />
-			<div class="btn btn-light">
-				<span class="deleteCondition fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-			</div>
+		<div class="fieldUiHolder mr-auto">
+			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control mr-auto" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
+			<div class="btn btn-light deleteCondition">
+				<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+			</div>
 		<span class="hide">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}

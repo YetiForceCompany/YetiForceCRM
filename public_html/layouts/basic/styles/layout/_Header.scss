@@ -41,7 +41,7 @@
 			@extend .ml-2;
 			@extend .px-1;
 			font-size: 17px;
-			height: 32px;
+			height: $menuItemsHeight;
 			[data-fa-i2svg] {
 				margin-bottom: 4px;
 				&.fa-power-off {

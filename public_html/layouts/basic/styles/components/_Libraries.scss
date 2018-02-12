@@ -39,5 +39,8 @@ header {
 //--- modal ---//
 
 .conditionRow .select2-container--bootstrap4 {
-	@extend .mb-2;
+	display: inline-block;
+    vertical-align: middle;
+	@extend .w-25;
+	@extend .mr-sm-2;
 }
