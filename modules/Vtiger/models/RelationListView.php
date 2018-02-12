@@ -296,8 +296,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getTreeEntries()
 	{
-		$recordId = $this->getParentRecordModel()->getId();
-		$relModuleId = $this->getRelatedModuleModel()->getId();
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$relationModel = $this->getRelationModel();
 		$template = $this->getTreeViewModel()->getTemplate();
