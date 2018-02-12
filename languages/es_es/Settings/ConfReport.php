@@ -133,6 +133,7 @@ $languageStrings = [
 	'LBL_PUBLIC_DIR' => 'Directory path',
 	'LBL_DENY_PUBLIC_DIR_STATUS' => 'Is access denied?',
 	'LBL_DENY_PUBLIC_DIR_HELP_TEXT' => 'It is recommended to deny access to this directory. Currently, the directory is publicly accessible and its content is not protected.',
+	'LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT' => 'It is recommended to enable coding checks when importing files.',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Comprobando la velocidad...',
