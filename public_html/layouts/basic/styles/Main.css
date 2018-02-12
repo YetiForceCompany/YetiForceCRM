@@ -4206,7 +4206,7 @@ button.bg-dark:focus {
 .border {
   border: 1px solid #dee2e6 !important; }
 
-.border-top {
+.border-top, .detailViewTable .fieldRow {
   border-top: 1px solid #dee2e6 !important; }
 
 .border-right {
@@ -7306,11 +7306,6 @@ li.ui-timepicker-selected {
       border-radius: 1px;
       margin-top: 0; }
 
-.fieldLabel {
-  background: #fff; }
-  .fieldLabel label.marginRight10px {
-    text-align: right; }
-
 .summaryView {
   border: 1px solid #eaeaea;
   -webkit-box-shadow: 1px 1px 3px #dddddd;
@@ -9509,8 +9504,6 @@ html, body, .baseContainer {
 .quickCreateContent .fieldLabel label {
   padding-top: 8px; }
 
-.blockContainer .blockContent .fieldLabel label {
-  padding-top: 8px; }
 .blockContainer .blockContent .adressAction {
   border-bottom: 1px #ddd solid;
   margin-bottom: 10px;
@@ -9519,8 +9512,6 @@ html, body, .baseContainer {
   text-align: center; }
   .blockContainer .blockContent .adressAction button {
     margin: 0 10px; }
-.blockContainer .blockContent .fieldRow {
-  padding: 5px; }
 
 .chosen-container {
   min-height: 32px;
@@ -9541,9 +9532,6 @@ html, body, .baseContainer {
 
 .chosen-container-single .chosen-single {
   background: #fff; }
-
-.blockHeader.panel-heading, .blockContainer .panel-body.blockContent {
-  padding: 0; }
 
 .modal-backdrop {
   z-index: 1031; }
@@ -9774,15 +9762,6 @@ html, body, .baseContainer {
 
   .blockContainer .blockContent .fieldLabel {
     text-align: right; }
-
-  .detailViewTable .fieldsLabelValue {
-    vertical-align: top;
-    border-right: 1px solid #ddd;
-    display: table-cell;
-    float: none; }
-  .detailViewTable .fieldRow {
-    display: table;
-    border-top: 1px solid #ddd; }
 
   .quickCreateContent .fieldRow {
     border-top: 1px solid #ddd;
@@ -10217,24 +10196,6 @@ html, body, .baseContainer {
 .blockHeader .iconCollapse h4 {
   display: inline-block;
   margin: 0 5px; }
-
-.detailViewTable .fieldLabel.medium, .detailViewTable .fieldValue.medium {
-  padding: 10px;
-  min-height: 40px; }
-.detailViewTable .fieldLabel.narrow, .detailViewTable .fieldValue.narrow {
-  padding: 5px;
-  min-height: 25px; }
-.detailViewTable .fieldLabel.wide, .detailViewTable .fieldValue.wide {
-  padding: 15px;
-  min-height: 50px; }
-.detailViewTable .fieldsLabelValue::before {
-  content: "";
-  float: left;
-  position: absolute;
-  top: 0;
-  left: 0px;
-  height: 100%;
-  border-right: 1px solid #ddd; }
 
 select.form-control {
   padding-right: 0;
@@ -11440,5 +11401,24 @@ header .headerLinksMails .select2-selection:hover {
 .calendarViewContainer .widget_header {
   margin-right: -20px;
   margin-left: -25px; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.detailViewTable .fieldLabel.medium, .detailViewTable .fieldValue.medium {
+  padding: 10px;
+  min-height: 40px; }
+.detailViewTable .fieldLabel.narrow, .detailViewTable .fieldValue.narrow {
+  padding: 5px;
+  min-height: 25px; }
+.detailViewTable .fieldLabel.wide, .detailViewTable .fieldValue.wide {
+  padding: 15px;
+  min-height: 50px; }
+.detailViewTable .fieldsLabelValue:last-child::after {
+  content: "";
+  float: left;
+  position: absolute;
+  top: 0;
+  left: 0px;
+  height: 100%;
+  border-right: 1px solid #ddd; }
 
 /*# sourceMappingURL=Main.css.map */
