@@ -62,7 +62,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'linkicon' => '',
 			'related' => 'Details'
 		];
-		if (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) {
+		if (AppConfig::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
 			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false);
 			if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
 				isset($relations[\App\Module::getModuleId('Products')]) ||

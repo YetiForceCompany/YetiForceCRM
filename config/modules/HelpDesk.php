@@ -10,9 +10,7 @@ return[
 	'CHECK_ACCOUNT_EXISTS' => true,
 	// Check if service contracts exists
 	'CHECK_SERVICE_CONTRACTS_EXISTS' => true,
-	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
+	'SHOW_SUMMARY_PRODUCTS_SERVICES' => true,
 	'DEFAULT_VIEW_RECORD' => 'LBL_RECORD_PREVIEW',
 	'CONTACTS_CHECK_EMAIL_OPTOUT' => true,
-	// Hide summary products services bookmark
-	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
 ];
