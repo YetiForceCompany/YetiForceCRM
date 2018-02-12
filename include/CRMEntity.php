@@ -408,7 +408,7 @@ class CRMEntity
 	 * @param string $module
 	 * @param integer $crmid
 	 * @param string $withModule
-	 * @param array $withCrmid
+	 * @param int[] $withCrmid
 	 */
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
@@ -432,7 +432,7 @@ class CRMEntity
 	 * @param string $module
 	 * @param int $crmid
 	 * @param string $withModule
-	 * @param array $withCrmid
+	 * @param int[] $withCrmid
 	 */
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
