@@ -316,12 +316,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -396,6 +396,8 @@ class CRMEntity
 				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
 				break;
 			case 'getDependentsList':
+				break;
+			case 'getActivities':
 				break;
 			default:
 				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);

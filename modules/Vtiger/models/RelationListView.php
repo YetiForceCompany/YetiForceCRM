@@ -304,11 +304,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$showCreatorDetail = $relationModel->get('creator_detail');
 		$showComment = $relationModel->get('relation_comment');
 
-		$rows = (new \App\Db\Query())
-				->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])
-				->from('vtiger_trees_templates_data ttd')
-				->innerJoin('u_#__crmentity_rel_tree rel', 'rel.tree = ttd.tree')
-				->where(['ttd.templateid' => $template, 'rel.crmid' => $recordId, 'rel.relmodule' => $relModuleId])->all();
+		$rows = $relationModel->getRelationTree();
 		$trees = [];
 		foreach ($rows as &$row) {
 			$pieces = explode('::', $row['parenttrre']);
@@ -466,7 +462,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 
 		$selectLinkList = [
-			[
+				[
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',

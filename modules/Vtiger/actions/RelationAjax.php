@@ -362,15 +362,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-		if (!empty($categoryToAdd)) {
+		if (!empty($categoryToAdd) && $relationModel->isTreeRelation()) {
 			foreach ($categoryToAdd as $category) {
-				$relationModel->addRelTree($sourceRecordId, $category);
+				$relationModel->addRelationTree($sourceRecordId, $category);
 			}
 		}
-		if (!empty($categoryToRemove)) {
+		if (!empty($categoryToRemove) && $relationModel->isTreeRelation()) {
 			if ($relationModel->privilegeToDelete()) {
 				foreach ($categoryToRemove as $category) {
-					$relationModel->deleteRelTree($sourceRecordId, $category);
+					$relationModel->deleteRelationTree($sourceRecordId, $category);
 				}
 			} else {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
