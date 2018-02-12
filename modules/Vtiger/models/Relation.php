@@ -540,7 +540,13 @@ class Vtiger_Relation_Model extends \App\Base
 		return $url;
 	}
 
-	public function addRelation($sourceRecordId, $destinationRecordId)
+	/**
+	 * Add relation
+	 * @param int $sourceRecordId
+	 * @param int|int[] $destinationRecordId
+	 * @param mixed $params
+	 */
+	public function addRelation($sourceRecordId, $destinationRecordId, $params = false)
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
@@ -605,7 +611,12 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 	}
 
-	public function addRelTree($crmid, $tree)
+	/**
+	 * Function to add tree type relation
+	 * @param int $crmid
+	 * @param string $tree
+	 */
+	public function addRelationTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
 			'crmid' => $crmid,
@@ -617,7 +628,12 @@ class Vtiger_Relation_Model extends \App\Base
 		])->execute();
 	}
 
-	public function deleteRelTree($crmid, $tree)
+	/**
+	 * Function to delete tree type relation
+	 * @param int $crmid
+	 * @param string $tree
+	 */
+	public function deleteRelationTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()
 			->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
@@ -628,7 +644,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Query tree category relation
 	 * @return \App\Db\Query
 	 */
-	public function getRelTreeQuery()
+	public function getRelationTreeQuery()
 	{
 		$template = [];
 		foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
@@ -647,9 +663,9 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Tree category relation
 	 * @return array
 	 */
-	public function getRelTree()
+	public function getRelationTree()
 	{
-		return $this->getRelTreeQuery()->all();
+		return $this->getRelationTreeQuery()->all();
 	}
 
 	/**
@@ -658,16 +674,14 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function isTreeRelation()
 	{
-		$result = false;
 		if (in_array($this->getRelationModuleModel()->getName(), ['OutsourcedProducts', 'Products', 'Services', 'OSSOutsourcedServices'])) {
 			foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
 				if ($field->isActiveField()) {
-					$result = true;
-					break;
+					return true;
 				}
 			}
 		}
-		return $result;
+		return false;
 	}
 
 	public function isDirectRelation()

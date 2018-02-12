@@ -304,7 +304,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$showCreatorDetail = $relationModel->get('creator_detail');
 		$showComment = $relationModel->get('relation_comment');
 
-		$rows = $relationModel->getRelTree();
+		$rows = $relationModel->getRelationTree();
 		$trees = [];
 		foreach ($rows as &$row) {
 			$pieces = explode('::', $row['parenttrre']);

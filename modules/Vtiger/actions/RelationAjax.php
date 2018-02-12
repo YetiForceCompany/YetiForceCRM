@@ -364,13 +364,13 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		if (!empty($categoryToAdd) && $relationModel->isTreeRelation()) {
 			foreach ($categoryToAdd as $category) {
-				$relationModel->addRelTree($sourceRecordId, $category);
+				$relationModel->addRelationTree($sourceRecordId, $category);
 			}
 		}
 		if (!empty($categoryToRemove) && $relationModel->isTreeRelation()) {
 			if ($relationModel->privilegeToDelete()) {
 				foreach ($categoryToRemove as $category) {
-					$relationModel->deleteRelTree($sourceRecordId, $category);
+					$relationModel->deleteRelationTree($sourceRecordId, $category);
 				}
 			} else {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
