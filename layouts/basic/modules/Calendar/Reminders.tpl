@@ -7,17 +7,17 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
-			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
-				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
-					 <button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-						<span class="fas fa-check"></span>
-					</button>
+			<div class="card mb-2 picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
+				<div class="card-header pb-1 picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
 					<img class="activityTypeIcon" src="{\App\Layout::getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
 					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
 						{$RECORD->getDisplayValue('subject')}
 					</a>
+					<button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+						<span class="fas fa-check"></span>
+					</button>
 				</div>
-				<div class="panel-body">
+				<div class="card-body pt-1 pb-2">
 					<div>
 						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
@@ -94,13 +94,13 @@
 					{/if}
 					<hr />
 					<div class="actionRow text-center">
-						<a class="btn btn-light btn-sm btn-success showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="fas fa-check"></span></a>
-						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="15m">15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="30m">30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="1h">1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="2h">2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="6h">6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="1d">1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
+						<a class="btn btn-success text-white btn-sm showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="fas fa-check"></span></a>
+						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="15m">15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
+						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="30m">30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
+						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="1h">1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="2h">2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="6h">6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="1d">1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
 					</div>
 				</div>
 			</div>
