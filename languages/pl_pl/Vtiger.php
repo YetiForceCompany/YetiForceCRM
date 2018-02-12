@@ -1313,6 +1313,7 @@ $languageStrings = [
 	'LBL_CONTAINS' => 'Zawiera',
 	'LBL_STARTS_WITH' => 'Rozpoczyna się od',
 	'LBL_ENDS_WITH' => 'Kończy się na',
+	'LBL_ADVANCED_SEARCH' => 'Wyszukiwanie zaawansowane',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
