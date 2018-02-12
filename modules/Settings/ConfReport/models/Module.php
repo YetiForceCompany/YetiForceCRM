@@ -244,6 +244,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = static::getFlag(false);
+			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') === false) {
+				$directiveValues['session.cookie_secure']['current'] = static::getFlag(true);
+				$directiveValues['session.cookie_secure']['recommended'] = static::getFlag(false);
+				$directiveValues['session.cookie_secure']['status'] = true;
+			}
 		}
 		stream_context_set_default([
 			'ssl' => [
