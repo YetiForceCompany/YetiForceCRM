@@ -4,9 +4,7 @@ build:
             version: 7.1
     tests:
         stop_on_failure: false
-        before:
-                command: "php -v"
-                stop_on_failure: true # If true, tests execution will stop when this command failed.
+        before: []
         override: []
         after: []
     nodes:
