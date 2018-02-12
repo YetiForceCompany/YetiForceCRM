@@ -13,17 +13,15 @@
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
-		<div class="row detailViewTitle">
+		<div class="row detailViewTitle p-0">
 			{if $SHOW_BREAD_CRUMBS}
-				<div class="">
-					<div class="row">
-						<div class="col-md-12 marginBottom5px widget_header row no-margin">
-							<div class="">
-								<div class="col-md-6 paddingLRZero">
+						<div class="widget_header col-12 p-0">
+							<div class="row">
+								<div class="col-lg">
 									{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 								</div>
-								<div class="col-md-6 col-xs-12 paddingLRZero">
-									<div class="col-xs-12 detailViewToolbar paddingLRZero" style="text-align: right;">
+								<div class="col-lg">
+									<div class="col-xs-12 detailViewToolbar py-1 pr-2">
 										<div class="pull-right-md pull-left-sm pull-right-lg">
 											<div class="btn-toolbar detailViewActionsBtn">
 												{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
@@ -53,8 +51,6 @@
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
 			{/if}					
 			{if !empty($DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET'])}
 				{foreach item=WIDGET from=$DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET']}
