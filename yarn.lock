@@ -101,8 +101,8 @@ css-element-queries@^1.0.1:
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.1.tgz#dd14970dd66a7634ec59028fee3820f2a7eff8a8"
 
 csv-parse@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.0.tgz#4ea22c973233987f07688c601a2d460234ff56d1"
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.2.tgz#9bb08dd84bb41008a03cde988c07afe0768362f3"
 
 datatables.net-bs@^1.10.16:
   version "1.10.16"
@@ -249,8 +249,8 @@ leaflet@^1.3.1:
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.1.tgz#86f336d2fb0e2d0ff446677049a5dc34cf0ea60e"
 
 lodash@^4.14.0:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
 malihu-custom-scrollbar-plugin@^3.1.5:
   version "3.1.5"
