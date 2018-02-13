@@ -113,7 +113,7 @@
 									</div>
 								</div>
 								{if empty($FOLDERS)}
-									<span class="badge label-danger">{\App\Language::translate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
+									<span class="badge badge-danger">{\App\Language::translate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
 								{/if}
 							</td>
 						</tr>

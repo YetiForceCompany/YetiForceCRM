@@ -76,7 +76,7 @@
 										<span class="fas fa-info-circle"></span>
 									</span>
 								{else}
-									<span class="badge label-danger bigLabel">
+									<span class="badge badge-danger bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="fas fa-ban"></span>
 									</span>
