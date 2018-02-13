@@ -4,7 +4,7 @@
 	background: $dark;
 	height: $footerHeight;
 	color: $white;
-	font-size: 0.9em;
+	font-size: $fontSmall;
 	a {
 		color: inherit;
 	}
@@ -17,6 +17,7 @@
 		}
 	}
 	.page-link {
+		@extend .p-1;
 		color: inherit;
 		background: inherit;
 		padding: 0.4rem 0.3rem;

@@ -60,7 +60,7 @@
 					<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM" />
 				</a>
 			</div>
-			<div class="mx-auto w-75 pt-1">
+			<div class="mx-auto w-75">
 				{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
 				{if $USER_MODEL->isAdminUser()}
 					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
