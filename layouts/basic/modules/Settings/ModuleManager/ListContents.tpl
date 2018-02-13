@@ -71,7 +71,7 @@
 										<span class="far fa-check-circle"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
-									<span class="badge label-warning bigLabel">
+									<span class="badge badge-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="fas fa-info-circle"></span>
 									</span>
