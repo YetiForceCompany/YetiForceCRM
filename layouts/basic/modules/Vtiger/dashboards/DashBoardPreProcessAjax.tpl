@@ -1,23 +1,22 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-xs-12 paddingLRZero">
 		{if count($DASHBOARD_TYPES) > 1}
-			<ul class="nav nav-tabs massEditTabs selectDashboard">
+			<ul class="nav nav-tabs massEditTabs selectDashboard m-2">
 				{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-					<li class="nav-item{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-id="{$DASHBOARD['dashboard_id']}">
-						<a class="nav-link" data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
+					<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
+						<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" href="#" data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
 					</li>
 				{/foreach}
 			</ul>
 		{/if}
 		{if count($MODULES_WITH_WIDGET) > 1 && ($MODULE_NAME eq 'Home' || $SRC_MODULE_NAME eq 'Home')}
-			<ul class="nav nav-tabs massEditTabs selectDashboradView">
+			<ul class="nav nav-tabs massEditTabs selectDashboradView m-2">
 				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
-					<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
+					<li class="nav-item" data-module="{$MODULE_WIDGET}">
+						<a class="nav-link{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" href="#" data-toggle="tab">{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
 						{/foreach}
 			</ul>
 		{/if}
-	</div>
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
 	<div class="col-xs-12 paddingLRZero">
 	{/strip}
