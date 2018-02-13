@@ -32,7 +32,7 @@
 									</a>
 								</li>
 								{if $smarty.foreach.actionCount.last eq true}
-									<li class="divider"></li>
+									<li class="dropdown-divider"></li>
 									{/if}
 								{/foreach}
 								{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}

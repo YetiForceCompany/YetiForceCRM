@@ -219,7 +219,7 @@
 								<ul class="dropdown-menu">
 									{foreach key=index item=obj from=$CHILD_LINKS}
 										{if $obj->getLabel() eq NULL}
-											<li class="divider"></li>
+											<li class="dropdown-divider"></li>
 											{else}
 												{assign var="id" value=$obj->getId()}
 												{assign var="href" value=$obj->getUrl()}
