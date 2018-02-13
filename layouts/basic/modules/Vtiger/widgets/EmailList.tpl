@@ -40,7 +40,7 @@
 				<hr class="rowHr" />
 				<div class="row">
 					<div class="col-6 paddingRightZero">
-						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control input-sm">
+						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control form-control-sm">
 							<option value="All" {if $TYPE eq 'all'} selected="selected"{/if}>
 								{\App\Language::translate('LBL_ALL', 'OSSMailView')}
 							</option>
@@ -57,7 +57,7 @@
 					</div>
 					<div class="col-6">
 						{if $MODULE_NAME == 'Accounts'}
-							<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}" class="form-control input-sm">
+							<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}" class="form-control form-control-sm">
 								<option value="All">{\App\Language::translate('LBL_FILTER_ALL', 'OSSMailView')}</option>
 								<option value="Accounts">{\App\Language::translate('LBL_FILTER_ACCOUNTS', 'OSSMailView')}</option>
 								<option value="Contacts">{\App\Language::translate('LBL_FILTER_CONTACTS', 'OSSMailView')}</option>

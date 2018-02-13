@@ -2,7 +2,7 @@
 {strip}
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
-		<input name="marginp{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" type="text" class="marginp form-control input-sm" readonly="readonly" />
+		<input name="marginp{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" type="text" class="marginp form-control form-control-sm" readonly="readonly" />
 		<span class="input-group-addon">%</span>
 	</div>
 {/strip}
