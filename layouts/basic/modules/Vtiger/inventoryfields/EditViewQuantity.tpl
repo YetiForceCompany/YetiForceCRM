@@ -7,7 +7,7 @@
 		{assign var=VALIDATION_ENGINE value='validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]'}
 	{/if}
 	<div class="input-group input-group-sm">
-		<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="text" class="qty smallInputBox form-control input-sm" data-validation-engine="{$VALIDATION_ENGINE}" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+		<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="text" class="qty smallInputBox form-control form-control-sm" data-validation-engine="{$VALIDATION_ENGINE}" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 		{assign var=QTY_PARAM value=''}
 		{if $ITEM_DATA['unit'] === 'pack' && ($REFERENCE_MODULE === 'Products' ||  $REFERENCE_MODULE === 'Services') && $ITEM_DATA['name']}
 			{assign var=REFERENCE_RECORD value=Vtiger_Record_Model::getInstanceById($ITEM_DATA['name'], $REFERENCE_MODULE)}
