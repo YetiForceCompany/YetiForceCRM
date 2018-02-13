@@ -6,7 +6,7 @@
 	</div>
 	<div class="modal-body form-horizontal">
 		<div class="table-responsive">
-			<table class="table table-bordered table-condensed tableMiddle">
+			<table class="table table-bordered table-sm tableMiddle">
 				{foreach from=$DATA item=TRANSLATIONS_BY_TYPE key=TYPE name=dataType}
 					{foreach from=$TRANSLATIONS_BY_TYPE item=TRANSLATIONS key=LABEL name=data}
 						{if $smarty.foreach.dataType.first && $smarty.foreach.data.first}

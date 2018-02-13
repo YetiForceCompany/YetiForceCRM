@@ -29,7 +29,7 @@
 			<input type="hidden" name="field_mapping" id="field_mapping" value="" />
 			<input type="hidden" name="inventory_field_mapping" id="inventory_field_mapping" value="" />
 			<input type="hidden" name="default_values" id="default_values" value="" />
-			<table width="100%" cellspacing="0" cellpadding="2" class="listRow table table-bordered table-condensed listViewEntriesTable">
+			<table width="100%" cellspacing="0" cellpadding="2" class="listRow table table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
 						{if $HAS_HEADER eq true}

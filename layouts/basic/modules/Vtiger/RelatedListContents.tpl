@@ -119,7 +119,7 @@
 								{$COUNT = $COUNT+1}
 							{/if}
 							<td colspan="{$COUNT+1}" class="backgroundWhiteSmoke">
-								<table class="table table-condensed no-margin">
+								<table class="table table-sm no-margin">
 									<thead>
 										<tr>
 											{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}

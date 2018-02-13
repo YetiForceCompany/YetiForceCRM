@@ -35,7 +35,7 @@
 												'href_max_length' => ['name' => 'NumberRange100'],
  												'listview_max_textlength' => ['name' => 'NumberRange100'],
 												'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
-				<table class="table table-bordered table-condensed themeTableColor">
+				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</th></tr>
 					</thead>

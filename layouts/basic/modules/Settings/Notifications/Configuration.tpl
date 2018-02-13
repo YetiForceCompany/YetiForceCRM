@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="table-responsive padding10">
 				<div class="col-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-					<table class="table table-bordered table-condensed dataTable" data-mode="base">
+					<table class="table table-bordered table-sm dataTable" data-mode="base">
 						<thead>
 							<tr>
 								<th>

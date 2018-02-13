@@ -25,7 +25,7 @@
 		</div>
 		<div class='clearfix'></div>
 		<div class="contents">
-			<table class="table table-bordered table-condensed themeTableColor">
+			<table class="table table-bordered table-sm themeTableColor">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="mediumWidthType">

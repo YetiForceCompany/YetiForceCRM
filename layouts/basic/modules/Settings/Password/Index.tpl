@@ -8,7 +8,7 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						&nbsp;{\App\Language::translate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 				</div>
-				<table class="table table-bordered table-condensed themeTableColor">
+				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="mediumWidthType">{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}</th></tr>
 					</thead>

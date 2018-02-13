@@ -40,7 +40,7 @@
 
     <div class="row depandencyTable no-margin">
         <div class="col-md-2 col-sm-2 col-2 paddingRightZero">
-            <table class="table-condensed themeTableColor" width="100%">
+            <table class="table-sm themeTableColor" width="100%">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
                 </thead>
@@ -58,7 +58,7 @@
             </table>
         </div>
         <div class="col-md-10 col-sm-10 col-10 paddingLRZero marginLeftZero dependencyMapping">
-            <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
+            <table class="table-bordered table-sm themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
                             <th data-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" style="

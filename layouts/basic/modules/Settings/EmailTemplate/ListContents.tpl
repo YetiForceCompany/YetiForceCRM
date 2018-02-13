@@ -5,7 +5,7 @@
 			<h3>{\App\Language::translate($MODULE,$QUALIFIED_MODULE)}</h3>
 			<hr>
 			<div style="padding:0 10px">
-				<table class="table table-bordered table-condensed">
+				<table class="table table-bordered table-sm">
 					<thead>
 						<tr class="listViewHeaders">
 							<th>

@@ -14,7 +14,7 @@
 
 	<div class="listViewEntriesDiv overflowXAuto">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="1%" class="{$WIDTHTYPE}"></th>

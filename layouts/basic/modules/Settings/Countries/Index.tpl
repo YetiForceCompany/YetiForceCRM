@@ -9,7 +9,7 @@
 		</div>
 		<div class="contents">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
+			<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
 						<th width="1%" class="{$WIDTHTYPE}"></th>

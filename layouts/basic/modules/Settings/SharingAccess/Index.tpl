@@ -16,7 +16,7 @@
 						<button class="btn btn-success float-right hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
-				<table class="table tableRWD table-bordered table-condensed sharingAccessDetails">
+				<table class="table tableRWD table-bordered table-sm sharingAccessDetails">
 					<colgroup>
 						<col width="20%">
 						<col width="15%">

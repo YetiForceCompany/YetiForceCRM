@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable footable-loaded footable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable footable-loaded footable">
 				<thead>
 					<tr class="blockHeader">
 						<th>
