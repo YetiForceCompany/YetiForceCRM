@@ -2,14 +2,16 @@
 
 //-------- sizes --------//
 
-$footerHeight: 33px;
 $iconButtonWidth: 42px;
+
+$footerHeight: 33px;
 $inputHeight: 37px;
 $menuItemsHeight: 32px;
-$select2InputFont: 0.875rem;
 $headerHeight: 50px;
 $mainViewportHeight: calc(100vh - #{$footerHeight + $headerHeight});
 
+$select2InputFont: 0.875rem;
+$fontSmall: 0.8rem;
 //-------- colors --------//
 
 $primary: #4A5364;

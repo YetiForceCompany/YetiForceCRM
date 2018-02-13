@@ -33,7 +33,7 @@
 							<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 									<optgroup label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
-										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}" data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {/strip} {strip}
 													data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->privilegeToDelete()}" {/strip} {strip}
 													data-pending="{$CUSTOM_VIEW->isPending()}" {/strip} {strip}
@@ -80,16 +80,14 @@
 				<div class="row">
 					<div class="col-12 btn-toolbar">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 								{if $CUSTOM_VIEW->isFeatured()}
-									<h5 class="btn-group resetButton cursorPointer">
-										<span class="badge badge-secondary btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
-											{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
-											{if $CUSTOM_VIEW->get('description')}
-												&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
-											{/if}
-										</span>
-									</h5>
+									<a class="badge badge-secondary btn-success featuredLabel" href="#" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
+										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+										{if $CUSTOM_VIEW->get('description')}
+											&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+										{/if}
+									</a>
 								{/if}
 							{/foreach}
 						{/foreach}
