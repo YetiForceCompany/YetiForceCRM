@@ -5051,7 +5051,7 @@ button.bg-dark:focus {
 .mh-100 {
   max-height: 100% !important; }
 
-.m-0, .headerRightWrapper .headerLinksMails .btn {
+.m-0, .headerLinksMails .btn {
   margin: 0 !important; }
 
 .mt-0,
@@ -5104,7 +5104,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .headerRightWrapper .btn:not(.addMsg),
+.ml-2, .headerRightWrapper .btn, .modal :not(.chatModal) .btn,
 .mx-2 {
   margin-left: 0.5rem !important; }
 
@@ -5193,7 +5193,8 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
-.headerRightWrapper .btn:not(.addMsg) {
+.headerRightWrapper .btn,
+.modal :not(.chatModal) .btn {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
@@ -5202,7 +5203,8 @@ button.bg-dark:focus {
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
-.headerRightWrapper .btn:not(.addMsg) {
+.headerRightWrapper .btn,
+.modal :not(.chatModal) .btn {
   padding-left: 0.25rem !important; }
 
 .p-2 {
@@ -5216,7 +5218,7 @@ header .select2-selection.select2-selection--single {
 
 .pr-2,
 .px-2,
-.headerRightWrapper .headerLinksMails .btn {
+.headerLinksMails .btn {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5227,7 +5229,7 @@ header .select2-selection.select2-selection--single {
 
 .pl-2,
 .px-2,
-.headerRightWrapper .headerLinksMails .btn {
+.headerLinksMails .btn {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -8476,12 +8478,6 @@ textarea.col-md-11 {
   height: auto !important;
   border-radius: 1px !important; }
 
-.dropdown-menu.pull-right:after, .dropdown-menu.pull-right:before {
-  right: 3px;
-  left: auto;
-  top: -5px;
-  border-bottom-width: 6px; }
-
 .well {
   border-radius: 2px;
   padding: 15px; }
@@ -8815,44 +8811,6 @@ span[name=existingImages] img {
 .cursorDefault {
   cursor: default !important; }
 
-.remindersNoticeContainer, .remindersNotificationContainer {
-  position: fixed;
-  right: -380px;
-  top: 109px;
-  z-index: 1035;
-  width: 380px;
-  height: 100%;
-  bottom: 30px;
-  overflow-y: auto;
-  background: rgba(0, 0, 0, 0.4);
-  border-left: 1px solid #797979;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow-y: auto; }
-
-.remindersNoticeContainer.toggled, .remindersNotificationContainer.toggled {
-  right: 0px; }
-
-.remindersContent {
-  margin: 5px 8px 0 8px; }
-
-.remindersNoticeContainer .panel-heading {
-  padding: 5px 10px;
-  background: #F1F1F1; }
-
-.activityTypeIcon {
-  height: 20px; }
-
-.remindersNoticeContainer .panel, .remindersNotificationContainer .panel {
-  margin-bottom: 10px; }
-
-.remindersNoticeContainer .panel-body {
-  padding: 5px 10px 10px 10px; }
-.remindersNoticeContainer .actionRow a.btn {
-  margin-right: 1%; }
-
 .cancelLink.btn[type='reset'], .cancel.btn[type='reset'], .cancelLink.btn[type='button'] {
   margin-left: 5px;
   margin-bottom: 0; }
@@ -8969,10 +8927,6 @@ span[name=existingImages] img {
   margin: 5px; }
 #widgetsManagementEditorContainer .fieldDetailsForm .modal-footer {
   padding: 0; }
-
-.dashboardContainer .dashboardHeading .dropdown-menu {
-  left: auto;
-  right: 0; }
 
 .summaryWidgetContainer .container-fluid {
   padding: 0 5px 0 5px; }
@@ -11110,22 +11064,25 @@ header .headerLinksMails .select2-selection:hover {
   .bodyHeader.menuOpen {
     left: 230px; }
 
-.headerRightWrapper .btn:not(.addMsg) {
-  font-size: 17px;
-  height: 32px; }
-  .headerRightWrapper .btn:not(.addMsg) [data-fa-i2svg] {
+.headerRightWrapper .rightHeader, .modal :not(.chatModal) .rightHeader {
+  position: relative; }
+.headerRightWrapper .btn, .modal :not(.chatModal) .btn {
+  height: 32px;
+  font-size: 17px; }
+  .headerRightWrapper .btn [data-fa-i2svg], .modal :not(.chatModal) .btn [data-fa-i2svg] {
     margin-bottom: 4px; }
-    .headerRightWrapper .btn:not(.addMsg) [data-fa-i2svg].fa-power-off {
+    .headerRightWrapper .btn [data-fa-i2svg].fa-power-off, .modal :not(.chatModal) .btn [data-fa-i2svg].fa-power-off {
       margin-bottom: 1px; }
-.headerRightWrapper .headerLinksMails {
+
+.headerLinksMails {
   height: fit-content; }
-  .headerRightWrapper .headerLinksMails > .btn + .dropdown-toggle {
+  .headerLinksMails > .btn + .dropdown-toggle {
     padding-top: 7px;
     padding-bottom: 7px; }
-  .headerRightWrapper .headerLinksMails .dropdown-menu {
+  .headerLinksMails .dropdown-menu {
     left: auto;
     right: 0; }
-  .headerRightWrapper .headerLinksMails .btn {
+  .headerLinksMails .btn {
     font-size: 0.875rem; }
 
 .globalSearchResults .nav li a {
@@ -11137,6 +11094,47 @@ header .headerLinksMails .select2-selection:hover {
 .summaryWidgetContainer .widget_header {
   background: #fff;
   margin-bottom: 0px; }
+
+.remindersNoticeContainer, .remindersNotificationContainer {
+  position: fixed;
+  right: -380px;
+  top: 50px;
+  z-index: 1035;
+  width: 380px;
+  height: calc(100vh - 83px);
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 1px solid #797979;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow-y: auto; }
+
+.remindersNoticeContainer.toggled, .remindersNotificationContainer.toggled {
+  right: 0px; }
+
+.remindersContent {
+  margin: 5px 8px 0 8px; }
+
+.remindersNoticeContainer .panel-heading {
+  padding: 5px 10px;
+  background: #F1F1F1; }
+
+.activityTypeIcon {
+  height: 20px; }
+
+.remindersNoticeContainer .panel, .remindersNotificationContainer .panel {
+  margin-bottom: 10px; }
+
+.remindersNoticeContainer .panel-body {
+  padding: 5px 10px 10px 10px; }
+.remindersNoticeContainer .actionRow a.btn {
+  margin-right: 1%; }
+
+.dropdown-menu.historyList {
+  left: auto;
+  right: 9px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .leftPanel {

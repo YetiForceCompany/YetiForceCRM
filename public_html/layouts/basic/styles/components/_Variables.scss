@@ -7,6 +7,8 @@ $iconButtonWidth: 42px;
 $inputHeight: 37px;
 $menuItemsHeight: 32px;
 $select2InputFont: 0.875rem;
+$headerHeight: 50px;
+$mainViewportHeight: calc(100vh - #{$footerHeight + $headerHeight});
 
 //-------- colors --------//
 
