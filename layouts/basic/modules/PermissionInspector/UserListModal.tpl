@@ -27,20 +27,19 @@
 									{if $WATCHDOG}
 										{if $ITEM['watchdog']['active']}
 											<button type="button" class="btn btn-info btn-xs"
-													data-off="btn-sm btn-default" data-on="btn-sm btn-info"
+													data-off="btn-sm btn-light" data-on="btn-sm btn-info"
 													data-value="0" data-user="{$USER_ID}"
 													data-record="{$SRC_RECORD_ID}"
 													onclick="Vtiger_Index_Js.changeWatching(this);">
-												<span class="glyphicon glyphicon-eye-open"></span>
+												<span class="fas fa-eye"></span>
 											</button>
 										{else}
-											<button type="button" class="btn btn-default btn-xs"
-													data-off="btn-sm btn-default" data-on="btn-sm btn-info"
+											<button type="button" class="btn btn-light btn-xs"
+													data-off="btn-sm btn-light" data-on="btn-sm btn-info"
 													data-value="1" data-user="{$USER_ID}"
 													data-record="{$SRC_RECORD_ID}"
 													onclick="Vtiger_Index_Js.changeWatching(this);">
-												<span class="glyphicon glyphicon-eye-close"></span>
-
+												<span class="far fa-eye-slash"></span>
 											</button>
 										{/if}
 									{/if}
@@ -64,10 +63,10 @@
 								<td class="text-center {$ACTION['text']}">
 									<span class="cursorPointer popoverTooltip" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
 										{if $ACTION['isPermitted']}
-											<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+											<span class="fas fa-check text-success" aria-hidden="true"></span>
 											<span class="hide" aria-hidden="true">1</span>
 										{else}	
-											<span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+											<span class="fas fa-times text-danger" aria-hidden="true"></span>
 											<span class="hide" aria-hidden="true">0</span>
 										{/if}
 									</span>
@@ -82,7 +81,7 @@
 	<div class="modal-footer">
 		<div class="pull-right">
 			<button class="btn btn-primary" type="reset" data-dismiss="modal">
-				<span class="glyphicon glyphicon-remove margin-right5px"></span>
+				<span class="fas fa-times margin-right5px"></span>
 				<strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
 			</button>
 		</div>
