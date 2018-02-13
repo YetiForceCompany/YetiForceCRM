@@ -13,14 +13,14 @@
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-									<li class="d-none d-block d-sm-block d-md-none">
+									<li class="dropdown-item d-none d-block d-sm-block d-md-none">
 										<a href="#" class="addFilter float-left" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_FILTER')}
 										</a>
 									</li>
 								{/if}
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
-									<li class="d-none d-block d-sm-block d-md-none">
+									<li class="dropdown-item d-none d-block d-sm-block d-md-none">
 										<a class="addChartFilter float-left" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_CHART_FILTER')}
 										</a>
@@ -28,7 +28,7 @@
 								{/if}
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
-									<li>
+									<li class="dropdown-item">
 										{if $WIDGET->get('deleteFromList')}
 											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-sm btn-danger float-left" style="height:25px;margin:2px;">
 												<span class='fas fa-trash-alt'></span>
@@ -47,14 +47,14 @@
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-									<li class="d-none d-block d-sm-block d-md-none">
+									<li class="dropdown-item d-none d-block d-sm-block d-md-none">
 										<a href="#" class="addFilter float-left" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_FILTER')}
 										</a>
 									</li>
 								{/if}
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
-									<li class="d-none d-block d-sm-block d-md-none">
+									<li class="dropdown-item d-none d-block d-sm-block d-md-none">
 										<a class="addChartFilter float-left" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_CHART_FILTER')}
 										</a>
@@ -62,7 +62,7 @@
 								{/if}
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
-									<li>
+									<li class="dropdown-item">
 										{if $WIDGET->get('deleteFromList')}
 											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-sm btn-danger float-left" style="height:25px;margin:2px;">
 												<span class='fas fa-trash-alt'></span>
@@ -74,7 +74,7 @@
 										</a>
 									</li>
 								{/foreach}
-								<li class="d-none d-sm-none d-md-block">
+								<li class="dropdown-item d-none d-sm-none d-md-block">
 									<a href="#">
 										{\App\Language::translate('LBL_NONE')}
 									</a>

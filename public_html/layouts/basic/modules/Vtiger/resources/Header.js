@@ -553,8 +553,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideMobileMenu();
 			thisInstance.hideSearchMenu();
 		});
-		block.css('top', $('.commonActionsContainer').height());
-		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
 	},
 	registerReminderNotification: function () {
 		var thisInstance = this;
@@ -571,8 +569,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideMobileMenu();
 			thisInstance.hideSearchMenu();
 		});
-		block.css('top', $('.commonActionsContainer').height());
-		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
 	},
 	registerMobileEvents: function () {
 		var thisInstance = this;
@@ -755,7 +751,7 @@ jQuery.Class("Vtiger_Header_Js", {
 
 		thisInstance.basicSearch();
 		$('.bodyHeader .dropdownMenu').on("click", function (e) {
-			$(this).next('ul').toggle();
+			$(this).next('.dropdown-menu').toggle();
 		});
 		jQuery('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = jQuery(e.currentTarget).data('name');
