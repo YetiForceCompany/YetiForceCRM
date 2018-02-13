@@ -34,9 +34,9 @@
 					<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}" />
 				{/foreach}
 				<div class="widget_header row">
-					<div class="col-xs-12">
+					<div class="col-12">
 						{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-						<span class="pull-left">
+						<span class="float-left">
 							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						</span>
 					</div>
@@ -56,8 +56,8 @@
 								{assign var=APIADDRESFIELD value=FALSE}
 							{/if}
 							<div class="iconCollapse">
-								<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 								<h4>{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h4>
 							</div>
 						</div>
@@ -81,7 +81,7 @@
 									{/if}
 									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
 										<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-											<label class="muted pull-right marginRight10px">
+											<label class="muted float-right marginRight10px">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>

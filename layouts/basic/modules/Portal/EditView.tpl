@@ -28,8 +28,8 @@
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
 					<div class="modal-body tabbable">
-						
-						<div class="control-label col-md-4">
+
+						<div class="col-form-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}
 							</label>
@@ -37,9 +37,9 @@
 						<div class="controls col-md-8">
 							<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
 						</div>
-				
+
 						<br />
-						<div class="control-label col-md-4">
+						<div class="col-form-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}
 							</label>
@@ -48,7 +48,7 @@
 							<input type="text" name="bookmarkUrl" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_URL', $MODULE)}" />
 						</div>
 					</div>
-						<div class="clearfix pushDown"></div>
+					<div class="clearfix pushDown"></div>
 					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>

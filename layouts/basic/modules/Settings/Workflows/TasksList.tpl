@@ -1,11 +1,11 @@
 {*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- *************************************************************************************}
+* The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*************************************************************************************}
 {strip}
 	<br />
 	<div>
@@ -23,19 +23,19 @@
 						<td><input type="checkbox" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" {/if} /></td>
 						<td>{\App\Language::translate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
 						<td>{$TASK->getName()}
-							<div class="pull-right actions">
+							<div class="float-right actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
-										<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
+										<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
 									</a>&nbsp;&nbsp;
 									<a class="deleteTask" data-deleteurl="{$TASK->getDeleteActionUrl()}">
-										<span class="glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE',$QUALIFIED_MODULE)}"></span>
+										<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE',$QUALIFIED_MODULE)}"></span>
 									</a>
 								</span>
 							</div>
 						</td>
 					<tr>
-				{/foreach}
+					{/foreach}
 			</tbody>
 		</table>
 		{if empty($TASK_LIST)}

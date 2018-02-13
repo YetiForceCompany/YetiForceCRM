@@ -26,15 +26,15 @@
 		   {if $FIELD_NAME eq 'password' && ($VIEW eq 'Edit'  || $VIEW eq 'QuickCreateAjax')} 
 			   &nbsp;
 			   {if $RECORD->getId() neq ''}
-				   <button class="btn btn-warning btn-xs" 
+				   <button class="btn btn-warning btn-sm" 
 						   onclick="showPassword('{$RECORD->getId()}');
-						return false;" id="show-btn">
+								   return false;" id="show-btn">
 					   {\App\Language::translate('LBL_ShowPassword', $MODULE)}
 				   </button>
 				   &nbsp;
 				   {* button for copying password to clipboard *}
-				   <button type="button" class="btn btn-success btn-xs hide" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
-					   <span class="glyphicon glyphicon-download-alt"></span>
+				   <button type="button" class="btn btn-success btn-sm hide" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
+					   <span class="fas fa-download"></span>
 				   </button>
 			   {/if}
 			   <p>

@@ -80,7 +80,7 @@
 								<div class='row alert-info well' style="position: relative; top: 50px;width:95%">
 									<span class='span alert-info'>
 										<div>
-											<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;
+											<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 											{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD', $MODULE)}
 										</div>
 										<br />
@@ -97,11 +97,11 @@
 			</div>
 		</div>
 		<br />
-		<div class="pull-right block padding20px">
+		<div class="float-right block padding20px">
 			<button type="button" class="btn btn-danger backStep"><strong>{\App\Language::translate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success" id="generateReport"><strong>{\App\Language::translate('LBL_GENERATE_CHART',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{\App\Language::translate('LBL_CANCEL',$MODULE)}</a>&nbsp;&nbsp;
-			<br />
+				<br />
 		</div>
 	</form>
 {/strip}

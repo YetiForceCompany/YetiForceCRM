@@ -31,45 +31,56 @@
 			)
 		</div>
 	{/if}
-	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
-		<div class="vtFooter">
-			<div class="pull-left">
-				<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
-					<span class="AdditionalIcon-Linkedin" title="Linkendin"></span>
-				</a>
-				<a class="iconsInFooter" href="https://twitter.com/YetiForceEN" rel="noreferrer">
-					<span class="AdditionalIcon-Twitter" title="Twitter"></span>
-				</a>
-				<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/" rel="noreferrer">
-					<span class="AdditionalIcon-Facebook" title="Facebook"></span>
-				</a>
-				<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
-					<span class="AdditionalIcon-Github" title="Github"></span>
-				</a>
-			</div>
-			<div class="pull-right">
-				<button type="button" class="btn-link" data-toggle="modal" data-target="#yetiforceDetails">
+	<footer class="footerContainer fixed-bottom">
+		<div class="container-fluid px-1">
+			<ul class="float-left pagination border-0">
+				<li class="page-item">
+					<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
+						<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
+					</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer">
+						<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
+					</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/" rel="noreferrer">
+						<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
+					</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
+						<span class="fab fa-github-square fa-2x" title="Github"></span>
+					</a>
+				</li>
+			</ul>
+			<div class="float-right p-1">
+				<a data-toggle="modal" data-target="#yetiforceDetails">
 					<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM" />
-				</button>
+				</a>
 			</div>
-			{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
-			{if $USER_MODEL->is_admin == 'on'}
-				{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
-				{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
-				{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
-				<p class="hidden-xs">{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
-				<p class="visible-xs-block">{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
-			{else}
-				<p>{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
-			{/if}
-		</div>
+			<div class="mx-auto w-75 pt-1">
+				{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
+				{if $USER_MODEL->isAdminUser()}
+					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
+					{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
+					{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
+					<p class="text-center">
+						<span class="d-none d-sm-inline ">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVR ,$FOOTOSP)}</span>
+						<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
+					</p>
+				{else}
+					<p class="text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project')}</p>
+				{/if}
+			</div>
 	</footer>
 	<div class="modal fade" id="yetiforceDetails" tabindex="-1" role="dialog" aria-labelledby="yetiforceDetails">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">YetiForceCRM {if $USER_MODEL->is_admin == 'on'}v{$YETIFORCE_VERSION}{/if} - The best open system in the world</h4>
+					<h4 class="modal-title" id="myModalLabel">YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open system in the world</h4>
 				</div>
 				<div class="modal-body">
 					<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;" /></p>
@@ -83,16 +94,16 @@
 					<p><span class="label label-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
 					<p class="text-center">
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.linkedin.com/groups/8177576">
-							<span class="fa fa-linkedin-square" title="LinkendIn"></span>
+							<span class="fab fa-linkedin" title="LinkendIn"></span>
 						</a>
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://twitter.com/YetiForceEN">
-							<span class="fa fa-twitter-square" title="Twitter"></span>
+							<span class="fab fa-twitter-square" title="Twitter"></span>
 						</a>
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-							<span class="fa fa-facebook-square" title="Facebook"></span>
+							<span class="fab fa-facebook-square" title="Facebook"></span>
 						</a>
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM">
-							<span class="fa fa-github-square" title="Github"></span>
+							<span class="fab fa-github-square" title="Github"></span>
 						</a>
 					</p>
 				</div>

@@ -19,15 +19,15 @@
 					{App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
 			</div>
-			<div class="pull-right col-md-6 form-inline">
-				<div class="form-group pull-right col-md-6">
+			<div class="float-right col-md-6 form-inline">
+				<div class="form-group float-right col-md-6">
 					<select class="select2 form-control" name="layoutEditorModules">
 						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
 						{/foreach}
 					</select>
 				</div>
-				<div class="form-group pull-right">
+				<div class="form-group float-right">
 					<input id="inventorySwitch" title="{App\Language::translate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-handle-width="100" data-on-text="{App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
 				</div>
 			</div>
@@ -36,9 +36,9 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{App\Language::translate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
-				{if $IS_INVENTORY}
+							{if $IS_INVENTORY}
 					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
-				{/if}
+							{/if}
             </ul>
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
@@ -49,10 +49,10 @@
                     {if $IS_SORTABLE}
                         <div class="btn-toolbar" id="layoutEditorButtons">
                             <button class="btn btn-success addButton addCustomBlock" type="button">
-                                <span class="glyphicon glyphicon-plus"></span>&nbsp;
+                                <span class="fas fa-plus"></span>&nbsp;
                                 <strong>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
-                            <span class="pull-right">
+                            <span class="float-right">
                                 <button class="btn btn-success saveFieldSequence hide" type="button">
                                     <strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
                                 </button>
@@ -73,7 +73,7 @@
                                         <strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
                                     <div class="col-md-6 col-sm-6 marginLeftZero">
-										<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+										<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
                                                     <button class="btn btn-success addCustomField" type="button">
@@ -86,10 +86,10 @@
                                                         <strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                                                         <span class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu pull-right">
+                                                    <ul class="dropdown-menu float-right">
                                                         <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
                                                             <a href="javascript:void(0)">
-                                                                <span class="glyphicon glyphicon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
+                                                                <span class="fas fa-check {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
                                                                 {App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                                                             </a>
                                                         </li>
@@ -115,32 +115,32 @@
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <div class="col-xs-2 col-sm-2">&nbsp;
+                                                            <div class="col-2 col-sm-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
                                                                     </a>
                                                                 {/if}
                                                             </div>
-                                                            <div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+                                                            <div class="col-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
 																</span>
-																<span class="pull-right actions">
+																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
-																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+																	<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
-																			<span class="glyphicon glyphicon-pencil" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+																		<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
+																			<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
-																			<span class="glyphicon glyphicon-trash" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+																		<button class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
+																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																</span>
@@ -158,32 +158,32 @@
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-xs-2 col-sm-2">&nbsp;
+															<div class="col-2 col-sm-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 																	</a>
 																{/if}
 															</div>
-															<div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+															<div class="col-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
 																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
 																</span>
-																<span class="pull-right actions">
-																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+																<span class="float-right actions">
+																	<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
-																			<span class="glyphicon glyphicon-pencil" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+																		<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
+																			<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
-																			<span class="glyphicon glyphicon-trash" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+																		<button class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
+																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																</span>

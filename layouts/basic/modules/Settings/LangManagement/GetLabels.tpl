@@ -25,7 +25,7 @@
 								<td>{$LABEL}</td>
 								{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY}
 									{if $LANG eq $LANG_KEY}
-										<td class="col-xs-4">
+										<td class="col-4">
 											<input 	data-lang="{$LANG}"
 													data-type="{$TYPE}"
 													name="{$LABEL}" 
@@ -36,7 +36,7 @@
 										</td>
 										<td>
 											<button type="button" class="btn btn-success" title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}">
-												<span class="glyphicon glyphicon-ok"></span>
+												<span class="fas fa-check"></span>
 											</button>
 										</td>
 									{else}

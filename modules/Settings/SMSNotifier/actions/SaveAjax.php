@@ -11,43 +11,43 @@
 
 class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
+    /**
+     * Process.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        $recordId = $request->get('record');
+        $qualifiedModuleName = $request->getModule(false);
 
-	/**
-	 * Process
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$recordId = $request->get('record');
-		$qualifiedModuleName = $request->getModule(false);
+        if ($recordId) {
+            $recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+        } else {
+            $recordModel = Settings_SMSNotifier_Record_Model::getCleanInstance($qualifiedModuleName);
+        }
+        foreach ($recordModel->getEditFields() as $fieldName => $fieldLabel) {
+            $recordModel->set($fieldName, $request->get($fieldName));
+        }
+        $parameters = [];
+        $provider = SMSNotifier_Module_Model::getProviderInstance($recordModel->get('providertype'));
+        foreach ($provider->getSettingsEditFieldsModel() as $fieldModel) {
+            $parameters[$fieldModel->getName()] = $request->get($fieldModel->getName());
+        }
+        $recordModel->set('parameters', \App\Json::encode($parameters));
 
-		if ($recordId) {
-			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
-		} else {
-			$recordModel = Settings_SMSNotifier_Record_Model::getCleanInstance($qualifiedModuleName);
-		}
-		foreach ($recordModel->getEditFields() as $fieldName => $fieldLabel) {
-			$recordModel->set($fieldName, $request->get($fieldName));
-		}
-		$parameters = [];
-		$provider = SMSNotifier_Module_Model::getProviderInstance($recordModel->get('providertype'));
-		foreach ($provider->getSettingsEditFieldsModel() as $fieldModel) {
-			$parameters[$fieldModel->getName()] = $request->get($fieldModel->getName());
-		}
-		$recordModel->set('parameters', \App\Json::encode($parameters));
+        $response = new Vtiger_Response();
+        try {
+            $result = $recordModel->save();
+            $response->setResult([$result]);
+        } catch (Exception $e) {
+            $response->setError($e->getMessage());
+        }
+        $response->emit();
+    }
 
-		$response = new Vtiger_Response();
-		try {
-			$result = $recordModel->save();
-			$response->setResult([$result]);
-		} catch (Exception $e) {
-			$response->setError($e->getMessage());
-		}
-		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

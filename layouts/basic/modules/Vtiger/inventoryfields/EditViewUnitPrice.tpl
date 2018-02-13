@@ -10,7 +10,7 @@
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
 			<span class="input-group-addon priceBookPopup cursorPointer popoverTooltip" data-content="{\App\Language::translate('PriceBooks',$MODULE)}">
 				<span class="userIcon-PriceBooks"  data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}"/></span>
-			</span>
-		{/if}
-	</div>
+		</span>
+	{/if}
+</div>
 {/strip}

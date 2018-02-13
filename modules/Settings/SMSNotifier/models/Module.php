@@ -11,59 +11,62 @@
 
 class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 {
+    /**
+     * @var string
+     */
+    public $baseTable = 'a_#__smsnotifier_servers';
 
-	/**
-	 * @var string 
-	 */
-	public $baseTable = 'a_#__smsnotifier_servers';
+    /**
+     * @var string
+     */
+    public $baseIndex = 'id';
 
-	/**
-	 * @var string 
-	 */
-	public $baseIndex = 'id';
+    /**
+     * @var string[]
+     */
+    public $nameFields = [];
 
-	/**
-	 * @var string[] 
-	 */
-	public $nameFields = [];
+    /**
+     * @var string[]
+     */
+    public $listFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS'];
 
-	/**
-	 * @var string[]
-	 */
-	public $listFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS'];
+    /**
+     * @var string
+     */
+    public $name = 'SMSNotifier';
 
-	/**
-	 * @var string 
-	 */
-	public $name = 'SMSNotifier';
+    /**
+     * Function to get Create view url.
+     *
+     * @return string Url
+     */
+    public function getCreateRecordUrl()
+    {
+        return 'index.php?module='.$this->getName().'&parent='.$this->getParentName().'&view=Edit';
+    }
 
-	/**
-	 * Function to get Create view url
-	 * @return string Url
-	 */
-	public function getCreateRecordUrl()
-	{
-		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Edit';
-	}
+    /**
+     * Function to get List view url.
+     *
+     * @return string Url
+     */
+    public function getListViewUrl()
+    {
+        return 'index.php?module='.$this->getName().'&parent='.$this->getParentName().'&view=List';
+    }
 
-	/**
-	 * Function to get List view url
-	 * @return string Url
-	 */
-	public function getListViewUrl()
-	{
-		return "index.php?module=" . $this->getName() . "&parent=" . $this->getParentName() . "&view=List";
-	}
+    /**
+     * Function to get list of all providers.
+     *
+     * @return mixed
+     */
+    public function getAllProviders()
+    {
+        if (!$this->allProviders) {
+            $this->allProviders = SMSNotifier_Module_Model::getProviders();
+        }
 
-	/**
-	 * Function to get list of all providers
-	 * @return mixed
-	 */
-	public function getAllProviders()
-	{
-		if (!$this->allProviders) {
-			$this->allProviders = SMSNotifier_Module_Model::getProviders();
-		}
-		return $this->allProviders;
-	}
+        return $this->allProviders;
+    }
 }

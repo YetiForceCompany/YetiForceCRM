@@ -24,7 +24,7 @@
 						</li>
 					{foreachelse}
 						<li class="text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
-					{/foreach}
+						{/foreach}
 				</ul>
 			</div>
 		</div>

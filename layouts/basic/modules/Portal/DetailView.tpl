@@ -1,37 +1,37 @@
 ﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
 *
- ********************************************************************************/
+********************************************************************************/
 -->*}
 {strip}
 	<div class='widget_header row '>
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<div class="listViewPageDiv">
 		<div class="btn-toolbar col-md-4">
 			<span class="btn-group">
-				<button id="addBookmark" class="btn btn-default addButton"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
+				<button id="addBookmark" class="btn btn-light addButton"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
 			</span>
 		</div>
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-6">
-			<div class="controls col-sm2 col-md-4 pull-right">
-				<select class="select2-container select2 pull-right customFilterMainSpan" id="bookmarksDropdown" name="bookmarksList">
+			<div class="controls col-sm2 col-md-4 float-right">
+				<select class="select2-container select2 float-right customFilterMainSpan" id="bookmarksDropdown" name="bookmarksList">
 					{foreach item=RECORD from=$RECORDS_LIST}
 						<option value="{$RECORD['id']}" {if $RECORD['id'] eq $RECORD_ID}selected{/if}>{$RECORD['portalname']}</option>
 					{/foreach}
 				</select>
 			</div>
-			<div class="control-label col-md-8">
-				<label class="textAlignRight pull-right" style="padding-top: 14px;">
+			<div class="col-form-label col-md-8">
+				<label class="textAlignRight float-right" style="padding-top: 14px;">
 					{\App\Language::translate('LBL_BOOKMARKS_LIST', $MODULE)}
 				</label>
 			</div>

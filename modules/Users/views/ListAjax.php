@@ -10,43 +10,17 @@
 
 class Users_ListAjax_View extends Users_List_View
 {
+    use \App\Controller\ExposeMethod,
+     App\Controller\ClearProcess;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getListViewCount');
-		$this->exposeMethod('getRecordsCount');
-		$this->exposeMethod('getPageCount');
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('getListViewCount');
+        $this->exposeMethod('getRecordsCount');
+        $this->exposeMethod('getPageCount');
+    }
 }

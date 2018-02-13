@@ -24,8 +24,8 @@
 		{/if}
 	</div>
 	<div class="modal-footer">
-		<div class="pull-left paddingTop10 counterSelected"></div>
-		<div class="pull-right">
+		<div class="float-left paddingTop10 counterSelected"></div>
+		<div class="float-right">
 			<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 		</div>

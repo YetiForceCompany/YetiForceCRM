@@ -11,9 +11,9 @@
 -->*}
 {strip}
 	<div class="col-md-12 paddingLRZero row">
-		<div class="col-xs-12 col-sm-12 col-md-8">
+		<div class="col-12 col-sm-12 col-md-8">
 			<div>
-				<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 					<span class="moduleIcon">
 						{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}

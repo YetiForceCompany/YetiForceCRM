@@ -11,19 +11,21 @@
 	</style>
 	<div class="remindersContent">
 		{foreach item=RECORD from=$RECORDS}
-			<div class="panel headingColor{$RECORD->get('notification_type')}" data-record="{$RECORD->getId()}">
-				<div class="panel-body padding0">
-					<div class="col-xs-2 notificationIcon">
-						<span class="glyphicon {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}glyphicon-hdd{else}glyphicon-user{/if}" aria-hidden="true"></span>
+			<div class="card ml-0 mr-3 mt-2 headingColor{$RECORD->get('notification_type')}" data-record="{$RECORD->getId()}">
+				<div class="card-body row p-0">
+					<div class="col-2 notificationIcon pl-3">
+						<span class="fas {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}fa-hdd{else}fa-user{/if}" aria-hidden="true"></span>
 					</div>
-					<div class="col-xs-10 paddingLR5 notiContent">
-						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
+					<div class="col-10 notiContent pb-1">
+						<div class="d-flex justify-content-between py-1">
+							<div class="paddingLRZero font-larger">
+								<strong>{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
+							</div>
+							<div class="paddingLRZero font-larger">
+								<strong>{$RECORD->getDisplayValue('createdtime')}</strong>
+							</div>
 						</div>
-						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-right">{$RECORD->getDisplayValue('createdtime')}</strong>
-						</div>
-						<div class="col-xs-12 paddingLRZero marginBottom5">
+						<div class="d-flex">
 							{$RECORD->getTitle()}
 							<div class="moreContent">
 								{assign var=FULL_TEXT value=$RECORD->getMessage()}
@@ -40,33 +42,31 @@
 									<span class="fullContent hide">
 										{$FULL_TEXT}
 									</span>
-									&nbsp;<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+									&nbsp;<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 								{/if}
 							</div>
 						</div>
-						<div class="col-xs-12 paddingLRZero marginBottom5 ">
-							<div class="col-xs-12 paddingLRZero textOverflowEllipsis">
-								{if $RECORD->get('link')}
-									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {$RECORD->getDisplayValue('link')}<br />
-								{/if}
-								{if $RECORD->get('linkextend')}
-									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {$RECORD->getDisplayValue('linkextend')}<br />
-								{/if}
-								{if $RECORD->get('process')}
-									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {$RECORD->getDisplayValue('process')}<br />
-								{/if}
-								{if $RECORD->get('subprocess')}
-									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {$RECORD->getDisplayValue('subprocess')}
-								{/if}
-							</div>
+						<div class="d-flex">
+							{if $RECORD->get('link')}
+								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}:&nbsp;{$RECORD->getDisplayValue('link')}<br />
+							{/if}
+							{if $RECORD->get('linkextend')}
+								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}:&nbsp;{$RECORD->getDisplayValue('linkextend')}<br />
+							{/if}
+							{if $RECORD->get('process')}
+								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}:&nbsp;{$RECORD->getDisplayValue('process')}<br />
+							{/if}
+							{if $RECORD->get('subprocess')}
+								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}:&nbsp;{$RECORD->getDisplayValue('subprocess')}
+							{/if}
 						</div>
-						<div class="col-xs-12 paddingLRZero marginBottom5 ">
-							<div class="col-xs-10 paddingLRZero textOverflowEllipsis">
+						<div class="d-flex justify-content-between">
+							<div>
 								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
-							<div class="col-xs-2 paddingLRZero">
-								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
-									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<div>
+								<button type="button" class="btn btn-success btn-sm" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+									<span class="fas fa-check" aria-hidden="true"></span>
 								</button>
 							</div>
 						</div>

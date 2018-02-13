@@ -1,34 +1,34 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
-<div class='modelContainer modal fade' tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header contentsBackground">
-				<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-				<h3 class="modal-title">{\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</h3>
-			</div>
-			<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
-				<input type='hidden' name='module' value='{$MODULE}' />
-				<input type='hidden' name='view' value='FindDuplicates' />
-				<br />
-				<div class="form-group">
-					<div class="col-sm-3 control-label">
-						{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
-					</div>
-					<div class="col-sm-6 controls">
+	<div class='modelContainer modal fade' tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header contentsBackground">
+					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+					<h3 class="modal-title">{\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</h3>
+				</div>
+				<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
+					<input type='hidden' name='module' value='{$MODULE}' />
+					<input type='hidden' name='view' value='FindDuplicates' />
+					<br />
+					<div class="form-group">
+						<div class="col-sm-3 col-form-label">
+							{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
+						</div>
+						<div class="col-sm-6 controls">
 							<div class="col-md-10">
 								<select id="fieldList" class="select2 form-control" multiple="true" title="{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
-									data-validation-engine="validate[required]">
+										data-validation-engine="validate[required]">
 									{foreach from=$FIELDS item=FIELD}
 										{if $FIELD->isViewableInDetailView()}
 											<option value="{$FIELD->getName()}">{\App\Language::translate($FIELD->get('label'), $MODULE)}</option>
@@ -39,19 +39,19 @@
 							<div class="col-md-10">
 								<label><input type="checkbox" name="ignoreEmpty" title="{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
 							</div>
-						<br />
+							<br />
+						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="pull-right cancelLinkContainer">
-						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+					<div class="modal-footer">
+						<div class="float-right cancelLinkContainer">
+							<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+						</div>
+						<button class="btn btn-success" type="submit" disabled="true">
+							<strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
+						</button>
 					</div>
-					<button class="btn btn-success" type="submit" disabled="true">
-						<strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
-					</button>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 {/strip}

@@ -420,8 +420,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			var currentTarget = jQuery(e.target);
 			var block = currentTarget.closest('.globalSearchInput');
 			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
-			block.find('.globalSearchOperator li').removeClass('active');
-			currentTarget.closest('li').addClass('active');
+			block.find('.globalSearchOperator .dropdown-item').removeClass('active');
+			currentTarget.closest('.dropdown-item').addClass('active');
 		});
 		if (jQuery('#gsAutocomplete').val() == 1) {
 			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
@@ -674,45 +674,23 @@ jQuery.Class("Vtiger_Header_Js", {
 		var key, toogleButton, siteBarRight, content, buttonImage;
 		siteBarRight = toogleButton.closest('.siteBarRight');
 		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('.glyphicon');
+		buttonImage = toogleButton.find('[data-fa-i2svg]');
 
 		siteBarRight.addClass('hideSiteBar');
 		content.removeClass('col-md-9').addClass('col-md-12');
-		buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
 		toogleButton.addClass('hideToggleSiteBarRightButton');
 	},
 	showSiteBar: function (container, toogleButton) {
 		var key, toogleButton, siteBarRight, content, buttonImage;
 		siteBarRight = toogleButton.closest('.siteBarRight');
 		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('.glyphicon');
+		buttonImage = toogleButton.find('[data-fa-i2svg]');
 
 		siteBarRight.removeClass('hideSiteBar');
 		content.removeClass('col-md-12').addClass('col-md-9');
-		buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
-	},
-	registerScrollForMenu: function (container) {
-		if (!container.length) return;
-		var menuContainer = container.find('.leftPanel .menuContainer');
-		var menuScrollInit = new PerfectScrollbar(menuContainer[0], {
-			suppressScrollX: true,
-			wheelPropagation: true
-		});
-		var subMenuScrollInit = new PerfectScrollbar(menuContainer.find('.subMenu').last()[0], {
-			suppressScrollX: true,
-		});
-		var mobileMenuScrollInit = new PerfectScrollbar(container.find('.mobileLeftPanel .menuContainer')[0], {
-			suppressScrollX: true,
-		});
-		menuContainer.find('.ps__rail-y').css({
-			left: 0,
-			right: 'auto'
-		})
-		menuContainer.find('.ps__thumb-y').css({
-			left: 2,
-			right: 'auto'
-		})
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu li a").click(function () {
@@ -740,9 +718,13 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
+		const container = thisInstance.getContentsContainer();
+		const menuContainer = container.find('.leftPanel .menuContainer');
+		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
+		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
+		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerScrollForMenu(thisInstance.getContentsContainer());
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);

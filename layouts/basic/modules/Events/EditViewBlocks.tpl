@@ -16,8 +16,8 @@
 		<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 			<div class="col-md-8 fieldRow paddingLRZero">
 				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide"></span>
-					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show"></span>
+					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide"></span>
+					<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show"></span>
 					<h4>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE)}</h4>
 				</div>
 			</div>

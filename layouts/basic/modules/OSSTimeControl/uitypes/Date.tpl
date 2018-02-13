@@ -9,10 +9,10 @@
 	{/if}
 	{if $TIME_FIELD}
 		<div class="dateTimeField">
-			<div class="col-xs-7 paddingLRZero">
+			<div class="col-7 paddingLRZero">
 				{include file=\App\Layout::getTemplatePath('uitypes/Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 			</div>
-			<div class="col-xs-5 paddingLRZero">
+			<div class="col-5 paddingLRZero">
 				{include file=\App\Layout::getTemplatePath('uitypes/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
 			</div>
 		</div>

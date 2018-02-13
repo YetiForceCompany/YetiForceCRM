@@ -21,16 +21,16 @@
 		</td>
 		<td>
 			<select class="form-control locks {if $SELECT}select2{/if}" multiple="">
-					{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
-						<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
-							{\App\Language::translate($LOCKT, $QUALIFIED_MODULE)}
-						</option>
-					{/foreach}
+				{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
+					<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
+						{\App\Language::translate($LOCKT, $QUALIFIED_MODULE)}
+					</option>
+				{/foreach}
 			</select>
 		</td>
 		<td class="textAlignCenter">
-			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default delate">
-				<i class="glyphicon glyphicon-trash"></i>
+			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light delate">
+				<i class="fas fa-trash-alt"></i>
 			</button>
 		</td>
 	</tr>

@@ -53,7 +53,7 @@
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
 				<li class="popoverTooltip" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
-					<a><span class="glyphicon glyphicon-equalizer"></span></a>
+					<a><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}
 			{if $LISTVIEW_COUNT}

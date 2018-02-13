@@ -13,9 +13,9 @@
 							<div class="col-md-4">{\App\Language::translate('LBL_WIDGET_TYPE', $QUALIFIED_MODULE)}:</div>
 							<div class="col-md-8">
 								<select name="type" class="select2 col-md-3 marginLeftZero form-control">
-								{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
-									<option value="{$key}" >{\App\Language::translate($item, $QUALIFIED_MODULE)}</option>
-								{/foreach}
+									{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
+										<option value="{$key}" >{\App\Language::translate($item, $QUALIFIED_MODULE)}</option>
+									{/foreach}
 								</select>
 							</div>
 						</div>

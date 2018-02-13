@@ -374,7 +374,7 @@ abstract class Schema extends Object
 	 */
 	public function createSavepoint($name)
 	{
-		$this->db->createCommand("SAVEPOINT $name")->execute();
+		$this->db->pdo->exec("SAVEPOINT $name");
 	}
 
 	/**
@@ -383,7 +383,7 @@ abstract class Schema extends Object
 	 */
 	public function releaseSavepoint($name)
 	{
-		$this->db->createCommand("RELEASE SAVEPOINT $name")->execute();
+		$this->db->pdo->exec("RELEASE SAVEPOINT $name");
 	}
 
 	/**
@@ -392,7 +392,7 @@ abstract class Schema extends Object
 	 */
 	public function rollBackSavepoint($name)
 	{
-		$this->db->createCommand("ROLLBACK TO SAVEPOINT $name")->execute();
+		$this->db->pdo->exec("ROLLBACK TO SAVEPOINT $name");
 	}
 
 	/**

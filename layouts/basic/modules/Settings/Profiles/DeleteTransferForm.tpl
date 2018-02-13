@@ -41,10 +41,10 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class=" pull-right cancelLinkContainer">
+						<div class="float-right cancelLinkContainer">
 							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
-						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
+						<button class="btn btn-success float-right" type="submit">{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
 					</div>
 				</form>
 			</div>				

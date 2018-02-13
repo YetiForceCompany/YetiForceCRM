@@ -17,7 +17,7 @@
 				{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4">
-				<div class="pull-right">
+				<div class="float-right">
 					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
@@ -38,25 +38,25 @@
 						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;" class="{$WIDTHTYPE}">
 								<span>{if $FIELD_NAME == 'default_module'}
-										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+									{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 										{if \App\Language::translate($FIELD_DATA[$FIELD_NAME]) == 'true'}
 											{\App\Language::translate(LBL_YES)}
 										{else}
 											{\App\Language::translate(LBL_NO)}
 										{/if}
-									{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
-										{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
-										{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
-									{else}
-										{$FIELD_DATA[$FIELD_NAME]}
-									{/if}
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
-							</td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
-	</div>
-{/strip}
+										{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
+											{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
+											{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
+											{else}
+												{$FIELD_DATA[$FIELD_NAME]}
+												{/if}
+													{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
+											</td>
+										</tr>
+										{/foreach}
+										</tbody>
+									</table>
+								</div>
+							</div>
+							{/strip}

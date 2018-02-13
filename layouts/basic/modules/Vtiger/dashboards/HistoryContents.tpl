@@ -34,16 +34,16 @@
 								{if \App\Layout::getImagePath($MOD_NAME|cat:'.png')}
 									<img width='24px' src="{\App\Layout::getImagePath($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 								{else}
-									<span class="glyphicon glyphicon-menu-hamburger icon-in-history-widget" title="{$TRANSLATED_MODULE_NAME}"></span>
+									<span class="fas fa-bars icon-in-history-widget" title="{$TRANSLATED_MODULE_NAME}"></span>
 								{/if}
 							</div>
 							<div class="col-md-11">
-								<p class="pull-right muted" style="padding-right:5px;">
+								<p class="float-right muted" style="padding-right:5px;">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
-									{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
-									{if $HISTORY->isUpdate()}
-										{assign var=FIELDS value=$HISTORY->getFieldInstances()}
+								{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
+								{if $HISTORY->isUpdate()}
+									{assign var=FIELDS value=$HISTORY->getFieldInstances()}
 									<div class="">
 										<div>
 											<strong>{$USER->getName()}&nbsp;</strong>
@@ -70,7 +70,7 @@
 													</div>
 												{/if}
 											{else}
-												<a class="btn btn-info btn-xs moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
+												<a class="btn btn-info btn-sm moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
 												{break}
 											{/if}
 										{/foreach}
@@ -120,7 +120,7 @@
 						</div>
 						<div class="col-md-11">
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
-							<p class="pull-right muted" style="padding-right:5px;"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
+							<p class="float-right muted" style="padding-right:5px;"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
 								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 							</div>
@@ -132,7 +132,7 @@
 							{if $NEXTPAGE}
 								<div class="row">
 									<div class="col-md-12">
-										<button class="load-more btn btn-xs btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
+										<button class="load-more btn btn-sm btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
 									</div>
 								</div>
 							{/if}

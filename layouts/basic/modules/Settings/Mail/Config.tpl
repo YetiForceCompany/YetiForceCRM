@@ -2,7 +2,7 @@
 
 <div class=" configContainer">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			&nbsp;{\App\Language::translate('LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -16,27 +16,27 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="configuration">
 			{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
-			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
+			<div class="col-12">
+				<div class="float-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>
 				</div>
-				<div class="col-md-11 col-sm-10 col-xs-10">
+				<div class="col-md-11 col-sm-10 col-10">
 					<label for="showMailIcon">{\App\Language::translate('LBL_SHOW_MAIL_ICON', $QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
+			<div class="col-12">
+				<div class="float-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailAccounts" id="showMailAccounts" data-type="mailIcon" value="1" {if $CONFIG['showMailAccounts']=='true'}checked=""{/if}>
 				</div>
-				<div class="col-md-11 col-sm-10 col-xs-10">
+				<div class="col-md-11 col-sm-10 col-10">
 					<label for="showMailAccounts">{\App\Language::translate('LBL_SHOW_MAIL_ACCOUNTS', $QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
+			<div class="col-12">
+				<div class="float-left pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
 				</div>
-				<div class="col-md-11 col-sm-10 col-xs-10">
+				<div class="col-md-11 col-sm-10 col-10">
 					<label for="showNumberUnreadEmails">{\App\Language::translate('LBL_NUMBER_UNREAD_EMAILS', $QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<button class="btn btn-success pull-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success float-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>

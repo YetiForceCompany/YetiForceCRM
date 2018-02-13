@@ -123,7 +123,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				}
 				var widgetContent = widgetContainer.find('.dashboardWidgetContent');
 				widgetContent.css('max-height', adjustedHeight + 'px');
-				var scrollbarInit = new PerfectScrollbar(widgetContent[0]);
+				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
 			});
 		} else {
 		}
@@ -174,7 +174,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 												data += 'class="removeWidgetFromList btn btn-xs btn-danger pull-left" '
 												data += 'style="width:25px;height:25px;margin:2px;" '
 												data += '>'
-												data += '<span class="glyphicon glyphicon-trash"></span>';
+												data += '<span class="fas fa-trash-alt"></span>';
 												data += '</button>';
 											}
 											data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
@@ -252,10 +252,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
 			if (mailBody.css("display") == 'none') {
 				mailBody.show();
-				bodyIcon.removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+				bodyIcon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
 			} else {
 				mailBody.hide();
-				bodyIcon.removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+				bodyIcon.removeClass("fa-chevron-up").addClass("fa-chevron-down");
 			}
 		});
 	},
@@ -414,7 +414,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		var paramsForm = {
 			data: JSON.stringify(data),
-			action: 'addWidget',
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
 			label: moduleNameLabel + ' - ' + filterLabel + ' - ' + groupFieldName,
@@ -429,7 +428,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			dashboardId: thisInstance.getCurrentDashboard()
 		};
 		var sourceModule = $('[name="selectedModuleName"]').val();
-		thisInstance.saveWidget(paramsForm, 'save', sourceModule).then(
+		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).then(
 				function (data) {
 					var result = data['result'];
 					var params = {};
@@ -552,7 +551,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		var paramsForm = {
 			data: JSON.stringify(data),
-			action: 'addWidget',
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
 			label: moduleNameLabel + ' - ' + filterLabel,
@@ -567,7 +565,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			dashboardId: thisInstance.getCurrentDashboard()
 		};
 		var sourceModule = $('[name="selectedModuleName"]').val();
-		thisInstance.saveWidget(paramsForm, 'save', sourceModule).then(
+		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).then(
 				function (data) {
 					var result = data['result'];
 					var params = {};
@@ -594,7 +592,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				}
 		);
 	},
-	saveWidget: function (form, mode, sourceModule) {
+	saveWidget: function (form, mode, sourceModule, linkid) {
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -607,12 +605,12 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		}
 		var params = {
 			form: form,
-			module: 'WidgetsManagement',
-			parent: 'Settings',
+			module: app.getModuleName(),
 			sourceModule: sourceModule,
-			action: 'SaveAjax',
+			action: 'Widget',
 			mode: mode,
 			addToUser: true,
+			linkid: linkid,
 		};
 		AppConnector.request(params).then(
 				function (data) {
@@ -645,14 +643,18 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			});
 		});
 	},
+	/**
+	 * Remove widget from list
+	 */
 	removeWidgetFromList: function () {
 		$('.dashboardHeading').on('click', '.removeWidgetFromList', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var id = currentTarget.data('widget-id');
 			var params = {
 				module: app.getModuleName(),
-				action: "RemoveWidgetFromList",
-				id: id
+				action: 'Widget',
+				mode: 'removeWidgetFromList',
+				widgetid: id
 			};
 			AppConnector.request(params).then(function (data) {
 				var params = {

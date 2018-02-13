@@ -17,9 +17,9 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
-								<label class="col-md-3 control-label">
-									{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
-								</label>
+							<label class="col-md-3 col-form-label">
+								{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+							</label>
 							<div class="col-md-8">
 								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
@@ -35,7 +35,7 @@
 						</div>
 					</div>
 					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
+						<div class="btn-toolbar float-right">
 							<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
 							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 						</div>

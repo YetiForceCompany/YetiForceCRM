@@ -14,7 +14,7 @@
 		<div class="widget_header row">
 			<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}</div>
 			<div class="col-md-2">
-				<button class="btn btn-info pull-right" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+				<button class="btn btn-info float-right" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -41,7 +41,7 @@
 							&nbsp;{\App\Language::translate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
 						</div>
 						<div class="col-md-9 row">
-							<i class="glyphicon glyphicon-info-sign"></i>
+							<i class="fas fa-info-circle"></i>
 							<span style="margin-left:2px">{\App\Language::translate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>
@@ -51,7 +51,7 @@
 							&nbsp;{\App\Language::translate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
 						</div>
 						<div class="col-md-9 row">
-							<i class="glyphicon glyphicon-info-sign"></i>
+							<i class="fas fa-info-circle"></i>
 							<span style="margin-left:2px">{\App\Language::translate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>
@@ -103,8 +103,8 @@
 									{if $PROFILE_MODULE->getFields() || $PROFILE_MODULE->isUtilityActionEnabled()}
 										<div class="row">
 											<span class="col-md-4">&nbsp;</span>
-											<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
-													<i class="glyphicon glyphicon-chevron-down"></i>
+											<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-sm btn-light" style="padding-right: 20px; padding-left: 20px;">
+													<i class="fas fa-chevron-down"></i>
 												</button></span>
 										</div>
 									{/if}
@@ -115,8 +115,8 @@
 									<div class="row" data-togglecontent="{$TABID}-fields">
 										{if $PROFILE_MODULE->getFields()}
 											<div class="col-md-12">
-												<label class="themeTextColor font-x-large pull-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
-												<div class="pull-right">
+												<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
+												<div class="float-right">
 													<span class="mini-slider-control ui-slider" data-value="0">
 														<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 													</span>
@@ -175,7 +175,7 @@
 							<tr class="hide">
 								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 									<div class="row" data-togglecontent="{$TABID}-fields">
-										<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+										<div class="col-md-12"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 										<table class="table table-bordered table-striped">
 											{assign var=UTILITY_ACTION_COUNT value=0}
 											{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}

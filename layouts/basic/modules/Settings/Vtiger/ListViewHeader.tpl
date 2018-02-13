@@ -12,7 +12,7 @@
 {strip}
 	<div class="">
 		<div class='widget_header row '>
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 					{if $LINK->getLabel()}
 						{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
 					{/if}
-					<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}" class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-default{/if} {if $LINK->get('modalView')}showModal{/if}" 
+					<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}" class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-light{/if} {if $LINK->get('modalView')}showModal{/if}" 
 							{if $LINK->getUrl()}
 								{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
 								{else} onclick='window.location.href = "{$LINK->getUrl()}"' {/if}
@@ -47,7 +47,7 @@
 						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$TAB_ID}">
-									{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+								{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 							</option>
 						{/foreach}
 					</select>

@@ -10,72 +10,73 @@
 
 class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 {
+    use \App\Controller\ExposeMethod;
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('checkDuplicateName');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('checkDuplicateName');
+    }
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
+    public function process(\App\Request $request)
+    {
+        $mode = $request->getMode();
+        if (!empty($mode)) {
+            echo $this->invokeExposedMethod($mode, $request);
 
-		$taxId = $request->get('taxid');
-		$type = $request->get('type');
-		if (empty($taxId)) {
-			$taxRecordModel = new Settings_Vtiger_TaxRecord_Model();
-		} else {
-			$taxRecordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
-		}
+            return;
+        }
 
-		$fields = ['taxlabel', 'percentage', 'deleted'];
-		foreach ($fields as $fieldName) {
-			if ($request->has($fieldName)) {
-				$taxRecordModel->set($fieldName, $request->get($fieldName));
-			}
-		}
+        $taxId = $request->get('taxid');
+        $type = $request->get('type');
+        if (empty($taxId)) {
+            $taxRecordModel = new Settings_Vtiger_TaxRecord_Model();
+        } else {
+            $taxRecordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
+        }
 
-		$taxRecordModel->setType($type);
+        $fields = ['taxlabel', 'percentage', 'deleted'];
+        foreach ($fields as $fieldName) {
+            if ($request->has($fieldName)) {
+                $taxRecordModel->set($fieldName, $request->get($fieldName));
+            }
+        }
 
-		$response = new Vtiger_Response();
-		try {
-			$taxId = $taxRecordModel->save();
-			$recordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
-			$response->setResult(array_merge(['_editurl' => $recordModel->getEditTaxUrl(), 'type' => $recordModel->getType(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
-		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
-		}
-		$response->emit();
-	}
+        $taxRecordModel->setType($type);
 
-	public function checkDuplicateName(\App\Request $request)
-	{
-		$qualifiedModuleName = $request->getModule(false);
-		$taxId = $request->get('taxid');
-		$taxLabel = $request->get('taxlabel');
-		$type = $request->get('type');
+        $response = new Vtiger_Response();
+        try {
+            $taxId = $taxRecordModel->save();
+            $recordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
+            $response->setResult(array_merge(['_editurl' => $recordModel->getEditTaxUrl(), 'type' => $recordModel->getType(), 'row_type' => \App\User::getCurrentUserModel()->getDetail('rowheight')], $recordModel->getData()));
+        } catch (Exception $e) {
+            $response->setError($e->getCode(), $e->getMessage());
+        }
+        $response->emit();
+    }
 
-		$exists = Settings_Vtiger_TaxRecord_Model::checkDuplicate($taxLabel, $taxId, $type);
+    public function checkDuplicateName(\App\Request $request)
+    {
+        $qualifiedModuleName = $request->getModule(false);
+        $taxId = $request->get('taxid');
+        $taxLabel = $request->get('taxlabel');
+        $type = $request->get('type');
 
-		if (!$exists) {
-			$result = ['success' => false];
-		} else {
-			$result = ['success' => true, 'message' => \App\Language::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName)];
-		}
+        $exists = Settings_Vtiger_TaxRecord_Model::checkDuplicate($taxLabel, $taxId, $type);
 
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
-	}
+        if (!$exists) {
+            $result = ['success' => false];
+        } else {
+            $result = ['success' => true, 'message' => \App\Language::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName)];
+        }
 
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+        $response = new Vtiger_Response();
+        $response->setResult($result);
+        $response->emit();
+    }
+
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

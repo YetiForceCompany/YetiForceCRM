@@ -6,10 +6,10 @@
 			{\App\Language::translate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row">
-			<div class="col-xs-6 paddingLRZero">
-				<button class="btn btn-default addMenu pull-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
+			<div class="col-6 paddingLRZero">
+				<button class="btn btn-light addMenu float-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>
-			<div class="col-xs-6 pull-right ">
+			<div class="col-6 float-right">
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
@@ -22,7 +22,7 @@
 	<hr>
 	{if !$DATA}
 		<button class="btn btn-success copyMenu"><strong>{\App\Language::translate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</strong></button>
-	{/if}
+			{/if}
 	<div class="treeMenuContainer">
 		<input type="hidden" id="treeLastID" value="{$LASTID}" />
 		<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
@@ -64,10 +64,10 @@
 				<p>{\App\Language::translate('LBL_REMOVE_DESC', $QUALIFIED_MODULE)}</p>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-right">
+				<div class="float-right">
 					<button class="btn btn-warning cancelLink" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 				</div>
-				<div class="pull-right">
+				<div class="float-right">
 					<button class="btn btn-danger" data-dismiss="modal">{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}</button>
 				</div>
 			</div>

@@ -8,33 +8,32 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Documents_DownloadFile_Action extends Vtiger_Action_Controller
+class Documents_DownloadFile_Action extends \App\Controller\Action
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        if ($request->isEmpty('record')) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+        if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function process(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		//Download the file
-		$documentRecordModel->downloadFile();
-		//Update the Download Count
-		$documentRecordModel->updateDownloadCount();
-	}
+        $documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+        //Download the file
+        $documentRecordModel->downloadFile();
+        //Update the Download Count
+        $documentRecordModel->updateDownloadCount();
+    }
 }

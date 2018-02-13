@@ -4,5 +4,4 @@
 
 class IcalendarJournal extends IcalendarComponent
 {
-
 }

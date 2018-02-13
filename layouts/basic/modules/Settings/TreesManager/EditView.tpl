@@ -11,7 +11,7 @@
 			<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml($TREE)}' />
 			<input type="hidden" name="replace" id="replaceIds" value="" />
 			<div class='widget_header row '>
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{if isset($SELECTED_PAGE)}
 						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
@@ -73,11 +73,11 @@
 					<label class=""><strong>{\App\Language::translate('LBL_ADD_ITEM_TREE', $QUALIFIED_MODULE)}</strong></label>
 				</div>
 				<div class="col-md-8">
-					<div class="col-xs-4 col-sm-4 col-md-3 paddingLRZero">
+					<div class="col-4 col-sm-4 col-md-3 paddingLRZero">
 						<input type="text" class="fieldValue col-md-4 addNewElement form-control">
 					</div>
-					<div class="col-xs-6 paddingLeft5px">
-						<a class="btn btn-default addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
+					<div class="col-6 paddingLeft5px">
+						<a class="btn btn-light addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
 					</div>
 				</div>
 			</div>
@@ -86,13 +86,13 @@
 				<div id="treeContents"></div>
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success saveTree">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+					<span class="fas fa-check"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 				</button>&nbsp;&nbsp;
 				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-					<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+					<span class="fas fa-times"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 				</button>
 			</div>

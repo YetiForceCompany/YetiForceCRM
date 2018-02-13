@@ -111,19 +111,19 @@ jQuery.Class("Reservations_Calendar_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
-							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
-							(event.status ? '<div><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate(event.status) + '</div>' : '') +
+					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+							'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+							'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
+							'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
+							(event.status ? '<div><span class="fal fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate(event.status) + '</div>' : '') +
 							(event.company ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_COMPANY') + '</label>: ' + event.company + '</div>' : '') +
 							(event.process ? '<div><span class="userIcon-' + event.processType + '" aria-hidden="true"></span> <label>' + event.processLabel + '</label>: <a target="_blank" href="index.php?module=' + event.processType + '&view=Detail&record=' + event.processId + '">' + event.process + '</a></div>' : '') +
-							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+							(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -281,10 +281,10 @@ jQuery.Class("Reservations_Calendar_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0){
+		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
 			return;
 		}
-		if($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0){
+		if ($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0) {
 			return;
 		}
 		var calendar = this.getCalendarView();
@@ -293,8 +293,8 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.title.display_value,
-			smownerid: calendarDetails.assigned_user_id?calendarDetails.assigned_user_id.display_value:calendarDetails.smownerid,
-			status: calendarDetails.reservations_status?calendarDetails.reservations_status.display_value:calendarDetails.status,
+			smownerid: calendarDetails.assigned_user_id ? calendarDetails.assigned_user_id.display_value : calendarDetails.smownerid,
+			status: calendarDetails.reservations_status ? calendarDetails.reservations_status.display_value : calendarDetails.status,
 			isPrivate: calendarDetails.isPrivate,
 			start: startDate.toString(),
 			end: endDate.toString(),

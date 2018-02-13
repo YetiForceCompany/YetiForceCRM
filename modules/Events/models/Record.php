@@ -9,87 +9,98 @@
  * *********************************************************************************** */
 
 /**
- * Events Record Model Class
+ * Events Record Model Class.
  */
 class Events_Record_Model extends Calendar_Record_Model
 {
+    /**
+     * Function to get the Edit View url for the record.
+     *
+     * @return string - Record Edit View Url
+     */
+    public function getEditViewUrl()
+    {
+        $module = $this->getModule();
 
-	/**
-	 * Function to get the Edit View url for the record
-	 * @return string - Record Edit View Url
-	 */
-	public function getEditViewUrl()
-	{
-		$module = $this->getModule();
-		return 'index.php?module=Calendar&view=' . $module->getEditViewName() . '&record=' . $this->getId();
-	}
+        return 'index.php?module=Calendar&view='.$module->getEditViewName().'&record='.$this->getId();
+    }
 
-	/**
-	 * Function to get the Delete Action url for the record
-	 * @return string - Record Delete Action Url
-	 */
-	public function getDeleteUrl()
-	{
-		$module = $this->getModule();
-		return 'index.php?module=Calendar&action=' . $module->getDeleteActionName() . '&record=' . $this->getId();
-	}
+    /**
+     * Function to get the Delete Action url for the record.
+     *
+     * @return string - Record Delete Action Url
+     */
+    public function getDeleteUrl()
+    {
+        $module = $this->getModule();
 
-	/**
-	 * Funtion to get Duplicate Record Url
-	 * @return string
-	 */
-	public function getDuplicateRecordUrl()
-	{
-		$module = $this->getModule();
-		return 'index.php?module=Calendar&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
-	}
+        return 'index.php?module=Calendar&action='.$module->getDeleteActionName().'&record='.$this->getId();
+    }
 
-	/**
-	 * Get invities
-	 * @return array
-	 */
-	public function getInvities()
-	{
-		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
-	}
+    /**
+     * Funtion to get Duplicate Record Url.
+     *
+     * @return string
+     */
+    public function getDuplicateRecordUrl()
+    {
+        $module = $this->getModule();
 
-	/**
-	 * Get invition status
-	 * @param int $status
-	 * @return string
-	 */
-	static public function getInvitionStatus($status = false)
-	{
-		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
-		return $status !== false ? $statuses[$status] : $statuses;
-	}
+        return 'index.php?module=Calendar&view='.$module->getEditViewName().'&record='.$this->getId().'&isDuplicate=true';
+    }
 
-	/**
-	 * Get invite user mail data
-	 * @return array
-	 */
-	public function getInviteUserMailData()
-	{
-		return []; // To do
-	}
+    /**
+     * Get invities.
+     *
+     * @return array
+     */
+    public function getInvities()
+    {
+        return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
+    }
 
-	/**
-	 * Add relation
-	 * @param \App\Request $request
-	 */
-	public function addRelationOperation(\App\Request $request)
-	{
-		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 2);
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->get('sourceRecord');
-			$relatedModule = $this->getModule();
-			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
-			}
-			$relatedRecordId = $this->getId();
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
-		}
-	}
+    /**
+     * Get invition status.
+     *
+     * @param int $status
+     *
+     * @return string
+     */
+    public static function getInvitionStatus($status = false)
+    {
+        $statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
+
+        return $status !== false ? $statuses[$status] : $statuses;
+    }
+
+    /**
+     * Get invite user mail data.
+     *
+     * @return array
+     */
+    public function getInviteUserMailData()
+    {
+        return []; // To do
+    }
+
+    /**
+     * Add relation.
+     *
+     * @param \App\Request $request
+     */
+    public function addRelationOperation(\App\Request $request)
+    {
+        if ($request->getBoolean('relationOperation')) {
+            $parentModuleName = $request->getByType('sourceModule', 2);
+            $parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+            $parentRecordId = $request->get('sourceRecord');
+            $relatedModule = $this->getModule();
+            if ($relatedModule->getName() == 'Events') {
+                $relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+            }
+            $relatedRecordId = $this->getId();
+            $relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+            $relationModel->addRelation($parentRecordId, $relatedRecordId);
+        }
+    }
 }

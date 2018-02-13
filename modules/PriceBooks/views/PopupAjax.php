@@ -10,37 +10,30 @@
 
 class PriceBooks_PopupAjax_View extends PriceBooks_Popup_View
 {
+    use \App\Controller\ExposeMethod,
+     App\Controller\ClearProcess;
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getListViewCount');
-		$this->exposeMethod('getRecordsCount');
-		$this->exposeMethod('getPageCount');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('getListViewCount');
+        $this->exposeMethod('getRecordsCount');
+        $this->exposeMethod('getPageCount');
+    }
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
+    public function process(\App\Request $request)
+    {
+        $mode = $request->getMode();
+        if (!empty($mode)) {
+            $this->invokeExposedMethod($mode, $request);
 
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
+            return;
+        }
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+        $this->initializeListViewContents($request, $viewer);
 
-		$this->initializeListViewContents($request, $viewer);
-
-		echo $viewer->view('PopupContents.tpl', $moduleName, true);
-	}
+        echo $viewer->view('PopupContents.tpl', $moduleName, true);
+    }
 }

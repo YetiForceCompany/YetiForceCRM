@@ -9,42 +9,48 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger EditView Model Class
+ * Vtiger EditView Model Class.
  */
 class Vtiger_EditView_Model extends \App\Base
 {
+    /**
+     * Function to get the instance.
+     *
+     * @param string $moduleName - module name
+     * @param string $recordId   - record id
+     *
+     * @return <Vtiger_DetailView_Model>
+     */
+    public static function getInstance($moduleName, $recordId)
+    {
+        $modelClassName = Vtiger_Loader::getComponentClassName('Model', 'EditView', $moduleName);
+        $instance = new $modelClassName();
+        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-	/**
-	 * Function to get the instance
-	 * @param string $moduleName - module name
-	 * @param string $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
-	 */
-	public static function getInstance($moduleName, $recordId)
-	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'EditView', $moduleName);
-		$instance = new $modelClassName();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		return $instance->set('module', $moduleModel);
-	}
+        return $instance->set('module', $moduleModel);
+    }
 
-	/**
-	 * Function to get the Module Model
-	 * @return Vtiger_Module_Model instance
-	 */
-	public function getModule()
-	{
-		return $this->get('module');
-	}
+    /**
+     * Function to get the Module Model.
+     *
+     * @return Vtiger_Module_Model instance
+     */
+    public function getModule()
+    {
+        return $this->get('module');
+    }
 
-	/**
-	 * Function to get the list of listview links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
-	 */
-	public function getEditViewLinks($linkParams)
-	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
-		return $links;
-	}
+    /**
+     * Function to get the list of listview links for the module.
+     *
+     * @param <Array> $linkParams
+     *
+     * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+     */
+    public function getEditViewLinks($linkParams)
+    {
+        $links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
+
+        return $links;
+    }
 }

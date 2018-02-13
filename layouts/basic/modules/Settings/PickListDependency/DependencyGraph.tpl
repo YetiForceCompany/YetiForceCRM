@@ -11,7 +11,7 @@
 -->*}
 {strip}
     <div class="accordion paddingTop20">
-        <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
+        <span><i class="fas fa-info-circle alignMiddle"></i>&nbsp;{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
         <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
             <ul><br /><li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br />
@@ -23,8 +23,8 @@
     </div>
     <div class="">
         <span class="btn-toolbar">
-            <button class="btn sourceValues btn-default" type="button"><strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn unmarkAll btn-default" type="button"><strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn sourceValues btn-light" type="button"><strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn unmarkAll btn-light" type="button"><strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
         </span>
     </div>
 	<br />
@@ -39,25 +39,25 @@
     <input type="hidden" class="allSourceValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 
     <div class="row depandencyTable no-margin">
-        <div class="col-md-2 col-sm-2 col-xs-2 paddingRightZero">
+        <div class="col-md-2 col-sm-2 col-2 paddingRightZero">
             <table class="table-condensed themeTableColor" width="100%">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
                 </thead>
                 <tbody>
                     {foreach item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
-				{if $smarty.foreach.targetValuesLoop.index eq 0}
-					<tr>
-						<td class="tableHeading">
-							{$RECORD_MODEL->getTargetFieldLabel()}
-						</td>
-					</tr>
-				{/if}
-		    {/foreach}
-		</tbody>
+						{if $smarty.foreach.targetValuesLoop.index eq 0}
+							<tr>
+								<td class="tableHeading">
+									{$RECORD_MODEL->getTargetFieldLabel()}
+								</td>
+							</tr>
+						{/if}
+					{/foreach}
+				</tbody>
             </table>
         </div>
-        <div class="col-md-10 col-sm-10 col-xs-10 paddingLRZero marginLeftZero dependencyMapping">
+        <div class="col-md-10 col-sm-10 col-10 paddingLRZero marginLeftZero dependencyMapping">
             <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
@@ -82,7 +82,7 @@
 									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
 									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
 									{if $IS_SELECTED}
-										<i class="glyphicon glyphicon-ok pull-left"></i>
+										<i class="fas fa-check float-left"></i>
 									{/if}
 									{\App\Language::translate($TARGET_VALUE, $SELECTED_MODULE)}
 								</td>
@@ -128,7 +128,7 @@
 		</div>
 	</div>
 	<div class="padding1per">
-		<div class="btn-toolbar  pull-right">
+		<div class="btn-toolbar  float-right">
 			<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 		</div>

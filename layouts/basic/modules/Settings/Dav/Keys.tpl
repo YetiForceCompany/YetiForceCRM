@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{\App\Language::translate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-4"><button class="btn btn-primary addKey pull-right marginTop20">{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+			<div class="col-md-4"><button class="btn btn-primary addKey float-right marginTop20">{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<div class="contents">
 			{if $ENABLEDAV }
@@ -74,7 +74,7 @@
 						<div class="modal-body">
 							<form class="form-horizontal">
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-6 controls">
 										<select class="select user form-control" name="user" data-validation-engine="validate[required]">
 											{foreach from=$USERS item=item key=key}
@@ -84,7 +84,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-6 controls">
 										<select multiple="" class="select type form-control" name="type">
 											{foreach from=$MODULE_MODEL->getTypes() item=item}

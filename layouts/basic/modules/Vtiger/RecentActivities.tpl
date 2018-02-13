@@ -61,18 +61,18 @@
 													{/if}
 												{/foreach}
 											</span>
-											<span class="pull-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
+											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
 										</div>
 									</li>
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<li>
 										<div>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}</span>
-											
-											
-											<span class="pull-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
-										
-											
+
+
+											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
+
+
 										</div>
 										{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 											{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -105,7 +105,7 @@
 													{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
 											(<span>{\App\Language::translate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span>)
-											<span class="pull-right"><p class="muted no-margin"><small>{\App\Fields\DateTime::formatToViewDate($RELATION->get('changedon'))}</small></p></span>
+											<span class="float-right"><p class="muted no-margin"><small>{\App\Fields\DateTime::formatToViewDate($RELATION->get('changedon'))}</small></p></span>
 										</div>
 									</li>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
@@ -115,7 +115,7 @@
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
 												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}
 											</span>
-											<span class="pull-right">
+											<span class="float-right">
 												<p class="muted no-margin">
 													<small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}
 													</small>
@@ -123,7 +123,7 @@
 											</span>
 										</div>
 									</li>
-									
+
 								{else}	
 									<li>
 										<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 
@@ -141,8 +141,8 @@
 		</div>
 		<div id="moreLink">
 			{if $PAGING_MODEL->isNextPageExists()}
-				<div class="pull-right">
-					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+				<div class="float-right">
+					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
 			{/if}
 		</div>

@@ -19,16 +19,16 @@
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
 							</button>
 							<p>
-								<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-exclamation-circle"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_LDAP_RECOMMENDED_INFO', $QUALIFIED_MODULE)}
 							</p>
 						</div>
 						<div class="clearfix"></div>
 						<div class="row">
-							<div class="col-md-1 col-sm-1 col-xs-2 pagination-centered">
+							<div class="col-md-1 col-sm-1 col-2 pagination-centered">
 								<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 							</div>
-							<div class="col-md-11 col-sm-11 col-xs-10">
+							<div class="col-md-11 col-sm-11 col-10">
 								<label for="ldapActive">{\App\Language::translate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 							</div>
 						</div>
@@ -49,7 +49,7 @@
 								<div class="input-group">
 									<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 									<span class="input-group-addon popoverTooltip" data-content="@testlab.local (DC=testlab,DC=local)" id="basic-addon2">
-										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+										<span class="fas fa-info-circle"></span>
 									</span>
 								</div>
 							</div>

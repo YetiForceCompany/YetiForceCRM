@@ -11,59 +11,59 @@
 
 class Calendar_Detail_View extends Vtiger_Detail_View
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        if ($request->isEmpty('record')) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+        $moduleName = $request->getModule();
+        if (Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->getType() === 'Events') {
+            $moduleName = 'Events';
+        }
+        $request->set('module', $moduleName);
+        $this->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
+        if (!$this->record->getRecord()->isViewable()) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$moduleName = $request->getModule();
-		if (Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->getType() === 'Events') {
-			$moduleName = 'Events';
-		}
-		$request->set('module', $moduleName);
-		$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
-		if (!$this->record->getRecord()->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function preProcess(\App\Request $request, $display = true)
+    {
+        $viewer = $this->getViewer($request);
+        $viewer->assign('NO_SUMMARY', true);
+        parent::preProcess($request);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('NO_SUMMARY', true);
-		parent::preProcess($request);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function showModuleDetailView(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $recordModel = $this->record->getRecord();
+        if (!$this->recordStructure) {
+            $this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+        }
+        $viewer = $this->getViewer($request);
+        $viewer->assign('RECORD_STRUCTURE_MODEL', $this->recordStructure);
+        if ($moduleName === 'Events') {
+            $viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function showModuleDetailView(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$recordModel = $this->record->getRecord();
-		if (!$this->recordStructure) {
-			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		}
-		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_STRUCTURE_MODEL', $this->recordStructure);
-		if ($moduleName === 'Events') {
-			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
-		}
-		return parent::showModuleDetailView($request);
-	}
+        return parent::showModuleDetailView($request);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function showModuleBasicView(\App\Request $request)
-	{
-		return $this->showModuleDetailView($request);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function showModuleBasicView(\App\Request $request)
+    {
+        return $this->showModuleDetailView($request);
+    }
 }

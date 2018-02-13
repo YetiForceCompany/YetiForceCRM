@@ -1,15 +1,16 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 jQuery.Class("Settings_Inventory_Config_Js", {}, {
-	
+
 	registerChangeCheckbox: function (content) {
 		var thisInstance = this;
 		content.find('input[type="checkbox"]').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var value = 0;
-			if(target.is(':checked')){
+			if (target.is(':checked')) {
 				value = 1;
 			}
+
 			var params = {};
 			params['param'] = {
 				'value': value,
@@ -19,10 +20,10 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 			app.saveAjax('saveConfig', params).then(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 				if (value) {
-					target.parent().removeClass('btn-default').addClass('btn-success').find('.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
 					target.next().html('&nbsp;&nbsp;' + app.vtranslate('JS_YES'));
 				} else {
-					target.parent().removeClass('btn-success').addClass('btn-default').find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+					target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
 					target.next().html('&nbsp;&nbsp;' + app.vtranslate('JS_NO'));
 				}
 			});
@@ -34,9 +35,9 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 			var target = $(e.currentTarget);
 			var params = {};
 			var value = '';
-			if(target.attr('multiple') && target.val() != null){
+			if (target.attr('multiple') && target.val() != null) {
 				value = target.val().join();
-			}else if(target.val() != null){
+			} else if (target.val() != null) {
 				value = target.val();
 			}
 			params['param'] = {
@@ -49,7 +50,7 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 			});
 		});
 	},
-	
+
 	registerEvents: function () {
 		var content = jQuery('#inventoryConfig');
 		this.registerChangeVal(content);

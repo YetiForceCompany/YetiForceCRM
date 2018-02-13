@@ -11,62 +11,63 @@
 
 class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 {
+    /**
+     * Process.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        $qualifiedModuleName = $request->getModule(false);
+        $recordId = $request->get('record');
+        $roleName = $request->get('rolename');
+        $allowassignedrecordsto = $request->get('allowassignedrecordsto');
 
-	/**
-	 * Process
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
-		$roleName = $request->get('rolename');
-		$allowassignedrecordsto = $request->get('allowassignedrecordsto');
+        $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+        if (!empty($recordId)) {
+            $recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
+        } else {
+            $recordModel = new Settings_Roles_Record_Model();
+        }
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-		if (!empty($recordId)) {
-			$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
-		} else {
-			$recordModel = new Settings_Roles_Record_Model();
-		}
+        $roleProfiles = $request->get('profiles');
+        $parentRoleId = $request->get('parent_roleid');
+        if ($recordModel && !empty($parentRoleId)) {
+            $parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
+            $recordModel->set('change_owner', $request->get('change_owner'))
+                ->set('searchunpriv', $request->get('searchunpriv'))
+                ->set('listrelatedrecord', $request->get('listRelatedRecord'))
+                ->set('previewrelatedrecord', $request->get('previewRelatedRecord'))
+                ->set('editrelatedrecord', $request->get('editRelatedRecord'))
+                ->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
+                ->set('globalsearchadv', $request->get('globalSearchAdvanced'))
+                ->set('assignedmultiowner', $request->get('assignedmultiowner'))
+                ->set('clendarallorecords', $request->get('clendarallorecords'))
+                ->set('auto_assign', $request->get('auto_assign'));
+            if (!empty($allowassignedrecordsto)) {
+                $recordModel->set('allowassignedrecordsto', $allowassignedrecordsto);
+            } // set the value of assigned records to
+            if ($parentRole && !empty($roleName) && !empty($roleProfiles)) {
+                $recordModel->set('rolename', $roleName);
+                $recordModel->set('profileIds', $roleProfiles);
+                $parentRole->addChildRole($recordModel);
+            }
 
-		$roleProfiles = $request->get('profiles');
-		$parentRoleId = $request->get('parent_roleid');
-		if ($recordModel && !empty($parentRoleId)) {
-			$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
-			$recordModel->set('change_owner', $request->get('change_owner'))
-				->set('searchunpriv', $request->get('searchunpriv'))
-				->set('listrelatedrecord', $request->get('listRelatedRecord'))
-				->set('previewrelatedrecord', $request->get('previewRelatedRecord'))
-				->set('editrelatedrecord', $request->get('editRelatedRecord'))
-				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
-				->set('globalsearchadv', $request->get('globalSearchAdvanced'))
-				->set('assignedmultiowner', $request->get('assignedmultiowner'))
-				->set('clendarallorecords', $request->get('clendarallorecords'))
-				->set('auto_assign', $request->get('auto_assign'));
-			if (!empty($allowassignedrecordsto))
-				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to
-			if ($parentRole && !empty($roleName) && !empty($roleProfiles)) {
-				$recordModel->set('rolename', $roleName);
-				$recordModel->set('profileIds', $roleProfiles);
-				$parentRole->addChildRole($recordModel);
-			}
+            //After role updation recreating user privilege files
+            if ($roleProfiles) {
+                foreach ($roleProfiles as $profileId) {
+                    $profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
+                    $profileRecordModel->recalculate([$recordId]);
+                }
+            }
+        }
 
-			//After role updation recreating user privilege files
-			if ($roleProfiles) {
-				foreach ($roleProfiles as $profileId) {
-					$profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
-					$profileRecordModel->recalculate([$recordId]);
-				}
-			}
-		}
+        $redirectUrl = $moduleModel->getDefaultUrl();
+        header("Location: $redirectUrl");
+    }
 
-		$redirectUrl = $moduleModel->getDefaultUrl();
-		header("Location: $redirectUrl");
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

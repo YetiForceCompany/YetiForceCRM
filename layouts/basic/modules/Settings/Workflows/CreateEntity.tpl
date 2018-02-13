@@ -19,7 +19,7 @@
 <div class="conditionsContainer" id="save_fieldvaluemapping">
 	{if $RELATED_MODULE_MODEL_NAME neq ''}
 		<div>
-			<button type="button" class="btn btn-default" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+			<button type="button" class="btn btn-light" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 		</div><br />
 		{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($TASK_OBJECT->entity_type)}
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
@@ -36,7 +36,7 @@
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->getName()} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
-								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL_NAME)}{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL_NAME)}{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 							</option>	
 						{/foreach}
 					</select>
@@ -53,7 +53,7 @@
 				</div>
 				{if $MANDATORY_FIELD neq true || $MAPPING_PANEL}
 					<div class="cursorPointer btn span">
-						<span class="alignMiddle deleteCondition glyphicon glyphicon-trash"></span>
+						<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 					</div>
 				{/if}
 			</div>
@@ -62,7 +62,7 @@
 	{else}
 		{if $RELATED_MODULE_MODEL}
 			<div>
-				<button type="button" class="btn btn-default" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-light" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 			</div><br />
 			{if $MAPPING_PANEL}
 				{assign var=MANDATORY_FIELD_MODELS value=[]}
@@ -114,9 +114,9 @@
 				{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if  $FIELD_MODEL->getFieldDataType() neq 'reference' && ($MAPPING_PANEL || (!$FIELD_MODEL->isMandatory() && !$MAPPING_PANEL))}
-					<option value="{$FIELD_MODEL->getName()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
-						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL_NAME)} 
-					</option>
+						<option value="{$FIELD_MODEL->getName()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
+							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL_NAME)} 
+						</option>
 					{/if}
 				{/foreach}
 			</select>
@@ -132,7 +132,7 @@
 			<input type="hidden" name="valuetype" value="rawtext" />
 		</div>
 		<div class="cursorPointer btn span">
-			<span class="alignMiddle deleteCondition glyphicon glyphicon-trash"></span>
+			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</div>
 	</div>
 {/if}

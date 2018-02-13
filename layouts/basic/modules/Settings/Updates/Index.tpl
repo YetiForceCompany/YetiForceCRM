@@ -19,7 +19,7 @@
 			{/if}
 		</div>
 		<div class="col-md-5">
-			<div class="pull-right">
+			<div class="float-right">
 				<a class="btn btn-success addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
 			</div>
 		</div>

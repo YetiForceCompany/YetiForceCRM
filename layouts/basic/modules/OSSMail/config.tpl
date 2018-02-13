@@ -6,7 +6,7 @@
 		}
 	</style>
 	<div class='widget_header row '>
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
@@ -75,7 +75,7 @@
 							</div>
 						</div>
 					{/foreach}
-					<div class="pull-right">
+					<div class="float-right">
 						<button class="btn btn-success saveButton" style="margin-top:10px;" type="submit" title=""><strong>{\App\Language::translate('LBL_SAVE', 'OSSMail')}</strong></button>
 					</div>
 				</form>

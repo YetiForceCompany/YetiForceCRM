@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			{\App\Language::translate('LBL_ADVANCED_PERMISSION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -16,8 +16,8 @@
 			<input type="hidden" name="conditions" id="advanced_filter" />
 			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 			<div class="row">
-				<div class="col-md-5 pull-right">
-					<span class="pull-right">
+				<div class="col-md-5 float-right">
+					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

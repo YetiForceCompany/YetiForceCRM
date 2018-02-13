@@ -16,7 +16,7 @@
 				<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 			</div>
 			<div class="col-md-6 marginLeftZero">
-				<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+				<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 					<div class="btn-group">
 						<button class="btn btn-success addCustomField hide" type="button">
 							<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
@@ -27,10 +27,10 @@
 							<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
 							<span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu pull-right">
+						<ul class="dropdown-menu float-right">
 							<li class="blockVisibility" data-visible="1" data-block-id="">
 								<a href="javascript:void(0)">
-									<span class="glyphicon glyphicon-ok"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+									<span class="fas fa-check"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
 								</a>
 							</li>
 							<li class="inActiveFields">

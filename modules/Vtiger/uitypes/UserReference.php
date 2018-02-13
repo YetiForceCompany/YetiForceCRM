@@ -11,51 +11,53 @@
 
 class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        if (!is_numeric($value) || !\App\User::isExists($value)) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if (!is_numeric($value) || !\App\User::isExists($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getEditViewDisplayValue($value, $recordModel = false)
+    {
+        if ($value) {
+            return \App\Fields\Owner::getLabel($value);
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		if ($value) {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$displayValue = \vtlib\Functions::textLength($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
-		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
-			$recordModel = Users_Record_Model::getCleanInstance('Users');
-			$recordModel->setId($value);
-			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
-		}
-		return $displayValue;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $displayValue = \vtlib\Functions::textLength($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
+        if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
+            $recordModel = Users_Record_Model::getCleanInstance('Users');
+            $recordModel->setId($value);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Reference.tpl';
-	}
+            return '<a href="'.$recordModel->getDetailViewUrl().'">'.$displayValue.'</a>';
+        }
+
+        return $displayValue;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Reference.tpl';
+    }
 }

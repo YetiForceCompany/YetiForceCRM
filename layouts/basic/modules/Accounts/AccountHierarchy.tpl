@@ -33,7 +33,7 @@
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
 												{if $LISTFIELDS['fieldname'] === 'active' && \App\Privilege::isPermitted($MODULE, 'EditView', $RECORD_ID)}
-													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} popoverTooltip {/if}{/if}btn-xs toChangeBtn" data-record-id="{$RECORD_ID}"
+													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} popoverTooltip {/if}{/if}btn-sm toChangeBtn" data-record-id="{$RECORD_ID}"
 															data-fieldname="{$LISTFIELDS['fieldname']}"
 															{if empty($LISTFIELDS['rawData']) && isset($LAST_MODIFIED[$RECORD_ID])}
 																data-content="{\App\Language::translate('LBL_DEACTIVATED_BY', $MODULE)}<b>{$LAST_MODIFIED[$RECORD_ID]['active']['userModel']->getName()}</b> - {$LAST_MODIFIED[$RECORD_ID]['active']['changedon']} "
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class=" pull-right cancelLinkContainer">
+					<div class="float-right cancelLinkContainer">
 						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong></button>
 					</div>
 				</div>

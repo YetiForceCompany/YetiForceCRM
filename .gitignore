@@ -18,7 +18,6 @@
 /public_html/modules/OSSMail/roundcube/
 /public_html/libraries/gantt/
 /public_html/libraries/jquery/
-/public_html/libraries/font-awesome/
 /public_html/libraries/moment/
 /public_html/libraries/fullcalendar/
 /public_html/libraries/split.js/
@@ -29,7 +28,7 @@
 /public_html/libraries/object-assign/
 /public_html/libraries/css-element-queries/
 /public_html/libraries/select2/
-/public_html/libraries/select2-bootstrap-theme/
+/public_html/libraries/select2-bootstrap4-theme/
 /public_html/libraries/ckeditor/
 /public_html/libraries/chosen-js/
 /public_html/libraries/bootstrap-chosen/
@@ -91,10 +90,12 @@
 /public_html/libraries/jstorage/
 /public_html/libraries/jquery-slimscroll/
 /public_html/libraries/perfect-scrollbar/
+/public_html/libraries/popper.js/
+/public_html/libraries/font-awesome/
+/public_html/layouts/basic/styles/.sass-cache
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
 !/vendor/composer
 !/vendor/yii
 !/vendor/php-debugbar
-/nbproject/private/

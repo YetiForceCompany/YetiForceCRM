@@ -32,8 +32,8 @@ jQuery.Class('Vtiger_FileUpload_Js', {}, {
 		var ids = [];
 		$.each(data.result['attach'], function (index, value) {
 			ids.push(value.id);
-			var html = value.name + '&nbsp;<span class="btn btn-danger btn-xs multiImageDelete glyphicon glyphicon-trash" data-id="' + value.id + '"></span>';
-			$('<div class="multiImageContenDiv row col-xs-12 marginTop2">').html(html).appendTo("#fileResult" + data.result['field']);
+			var html = value.name + '&nbsp;<span class="btn btn-danger btn-xs multiImageDelete fas fa-trash-alt" data-id="' + value.id + '"></span>';
+			$('<div class="multiImageContenDiv row col-12 marginTop2">').html(html).appendTo("#fileResult" + data.result['field']);
 		});
 		var newValues = ids.concat(JSON.parse("[" + input.val().replace(/(^,)|(,$)/g, "") + ']'));
 		input.val(',' + newValues.toString() + ',');

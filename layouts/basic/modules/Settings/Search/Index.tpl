@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="btn-toolbar">
-			<span class="pull-right group-desc ">
+			<span class="float-right group-desc ">
 				<button class="btn btn-success saveModuleSequence hide" type="button">
 					<strong>{\App\Language::translate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -75,7 +75,7 @@
 								</div>
 							</td>
 							<td class="alignMiddle widthMin">
-								<button class="btn editLabels btn-default" data-tabid="{$KEY}">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+								<button class="btn editLabels btn-light" data-tabid="{$KEY}">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 							</td>
 							<td class="alignMiddle widthMin">
 								<button class="btn updateLabels btn-info noWrap" data-tabid="{$KEY}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>

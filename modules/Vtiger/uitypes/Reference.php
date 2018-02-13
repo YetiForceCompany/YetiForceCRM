@@ -11,112 +11,118 @@
 
 class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getDBValue($value, $recordModel = false)
+    {
+        if (empty($value)) {
+            $value = 0;
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if (empty($value)) {
-			$value = 0;
-		}
-		return (int) $value;
-	}
+        return (int) $value;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        if (!is_numeric($value)) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getReferenceModule($value)
-	{
-		$fieldModel = $this->getFieldModel();
-		$referenceModuleList = $fieldModel->getReferenceList();
-		$referenceEntityType = \App\Record::getType($value);
-		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
-			return Vtiger_Module_Model::getInstance($referenceEntityType);
-		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
-			return Vtiger_Module_Model::getInstance('Users');
-		}
-		return null;
-	}
+    /**
+     * Function to get the Display Value, for the current field type with given DB Insert Value.
+     *
+     * @param <Object> $value
+     *
+     * @return <Object>
+     */
+    public function getReferenceModule($value)
+    {
+        $fieldModel = $this->getFieldModel();
+        $referenceModuleList = $fieldModel->getReferenceList();
+        $referenceEntityType = \App\Record::getType($value);
+        if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
+            return Vtiger_Module_Model::getInstance($referenceEntityType);
+        } elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
+            return Vtiger_Module_Model::getInstance('Users');
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$referenceModule = $this->getReferenceModule($value);
-		if (!$referenceModule || empty($value)) {
-			return '';
-		}
-		$referenceModuleName = $referenceModule->get('name');
-		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		$name = \App\Record::getLabel($value);
-		if (is_int($length)) {
-			$name = \vtlib\Functions::textLength($name, $length);
-		} elseif ($length !== true) {
-			$name = vtlib\Functions::textLength($name, \AppConfig::main('href_max_length'));
-		}
-		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
-			return $name;
-		}
-		if (\App\Record::getState($value) !== 'Active') {
-			$name = '<s>' . $name . '</s>';
-		}
-		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
-		return $linkValue;
-	}
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		$referenceModuleName = $this->getReferenceModule($value);
-		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return \App\Record::getLabel($value);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $referenceModule = $this->getReferenceModule($value);
+        if (!$referenceModule || empty($value)) {
+            return '';
+        }
+        $referenceModuleName = $referenceModule->get('name');
+        if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
+            return \App\Fields\Owner::getLabel($value);
+        }
+        $name = \App\Record::getLabel($value);
+        if (is_int($length)) {
+            $name = \vtlib\Functions::textLength($name, $length);
+        } elseif ($length !== true) {
+            $name = vtlib\Functions::textLength($name, \AppConfig::main('href_max_length'));
+        }
+        if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+            return $name;
+        }
+        if (\App\Record::getState($value) !== 'Active') {
+            $name = '<s>'.$name.'</s>';
+        }
+        $linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=".$referenceModule->getDetailViewName()."&record=$value' title='".App\Language::translateSingularModuleName($referenceModuleName)."'>$name</a>";
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getListSearchTemplateName()
-	{
-		$fieldModel = $this->getFieldModel();
-		$fieldName = $fieldModel->getName();
-		if ($fieldName === 'modifiedby') {
-			return 'uitypes/OwnerFieldSearchView.tpl';
-		}
-		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			return 'uitypes/ReferenceSearchView.tpl';
-		}
-		return parent::getListSearchTemplateName();
-	}
+        return $linkValue;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Reference.tpl';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getEditViewDisplayValue($value, $recordModel = false)
+    {
+        $referenceModuleName = $this->getReferenceModule($value);
+        if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
+            return \App\Fields\Owner::getLabel($value);
+        }
+
+        return \App\Record::getLabel($value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getListSearchTemplateName()
+    {
+        $fieldModel = $this->getFieldModel();
+        $fieldName = $fieldModel->getName();
+        if ($fieldName === 'modifiedby') {
+            return 'uitypes/OwnerFieldSearchView.tpl';
+        }
+        if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+            return 'uitypes/ReferenceSearchView.tpl';
+        }
+
+        return parent::getListSearchTemplateName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Reference.tpl';
+    }
 }

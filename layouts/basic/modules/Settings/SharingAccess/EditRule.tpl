@@ -17,7 +17,7 @@
 					<input type="hidden" name="record" value="{$RULE_ID}" />
 					<div class="modal-body">
 						<div class="row form-group">
-							<label class="col-md-5 control-label">{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
+							<label class="col-md-5 col-form-label">{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
 							<div class="col-md-6 controls">
 								<select class="chzn-select form-control" name="source_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
@@ -33,7 +33,7 @@
 							</div>
 						</div>
 						<div class="row form-group">
-							<label class="col-md-5 control-label">{\App\Language::translate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls">
 								<select class="chzn-select form-control" name="target_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
@@ -49,7 +49,7 @@
 							</div>	
 						</div>
 						<div class="row form-group">
-							<label class="col-md-5 control-label">{\App\Language::translate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls">
 								<label class="checkbox">
 									<input type="radio" value="0" name="permission" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->isReadOnly()} checked {/if} {else} checked {/if}/>&nbsp;{\App\Language::translate('LBL_READ', $QUALIFIED_MODULE)}&nbsp;

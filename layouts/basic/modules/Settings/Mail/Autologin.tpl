@@ -2,7 +2,7 @@
 
 <div class="autologinContainer">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			&nbsp;{\App\Language::translate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -45,10 +45,10 @@
 		</div>
 		<div role="tabpanel" class="tab-pane" id="configurationTab">
 			{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('autologin')}
-			<div class="pull-left pagination-centered ">
+			<div class="float-left pagination-centered ">
 				<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
 			</div>
-			<div class="col-xs-10 pull-left">
+			<div class="col-10 float-left">
 				<label for="autologinActive">{\App\Language::translate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
 			</div>
 		</div>

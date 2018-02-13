@@ -10,55 +10,57 @@
 
 class PBXManager_PBXManagerHandler_Handler
 {
+    /**
+     * EntityAfterDelete handler function.
+     *
+     * @param App\EventHandler $eventHandler
+     */
+    public function entityAfterDelete(App\EventHandler $eventHandler)
+    {
+        (new PBXManager_Record_Model())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
+    }
 
-	/**
-	 * EntityAfterDelete handler function
-	 * @param App\EventHandler $eventHandler
-	 */
-	public function entityAfterDelete(App\EventHandler $eventHandler)
-	{
-		(new PBXManager_Record_Model())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
-	}
+    /**
+     * EntityAfterSave function.
+     *
+     * @param App\EventHandler $eventHandler
+     */
+    public function entityAfterSave(App\EventHandler $eventHandler)
+    {
+        $recordModel = $eventHandler->getRecordModel();
+        $values = [
+            'crmid' => $recordModel->getId(),
+            'setype' => $eventHandler->getModuleName(),
+        ];
+        $pbxRecordModel = new PBXManager_Record_Model();
+        $fields = $recordModel->getModule()->getFieldsByType('phone');
+        foreach ($fields as $fieldName => &$fieldModel) {
+            if (!$recordModel->isEmpty($fieldName)) {
+                $values[$fieldName] = $recordModel->get($fieldName);
+                $pbxRecordModel->receivePhoneLookUpRecord($fieldName, $values, true);
+            }
+        }
+    }
 
-	/**
-	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
-	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
-	{
-		$recordModel = $eventHandler->getRecordModel();
-		$values = [
-			'crmid' => $recordModel->getId(),
-			'setype' => $eventHandler->getModuleName(),
-		];
-		$pbxRecordModel = new PBXManager_Record_Model;
-		$fields = $recordModel->getModule()->getFieldsByType('phone');
-		foreach ($fields as $fieldName => &$fieldModel) {
-			if (!$recordModel->isEmpty($fieldName)) {
-				$values[$fieldName] = $recordModel->get($fieldName);
-				$pbxRecordModel->receivePhoneLookUpRecord($fieldName, $values, true);
-			}
-		}
-	}
-
-	/**
-	 * EntityChangeState handler function
-	 * @param App\EventHandler $eventHandler
-	 */
-	public function entityChangeState(App\EventHandler $eventHandler)
-	{
-		$recordModel = $eventHandler->getRecordModel();
-		$values = [
-			'crmid' => $recordModel->getId(),
-			'setype' => $eventHandler->getModuleName(),
-		];
-		$pbxRecordModel = new PBXManager_Record_Model;
-		$fields = $recordModel->getModule()->getFieldsByType('phone');
-		foreach ($fields as $fieldName => &$fieldModel) {
-			if (!$recordModel->isEmpty($fieldName)) {
-				$values[$fieldName] = $recordModel->get($fieldName);
-				$pbxRecordModel->receivePhoneLookUpRecord($fieldName, $values, true);
-			}
-		}
-	}
+    /**
+     * EntityChangeState handler function.
+     *
+     * @param App\EventHandler $eventHandler
+     */
+    public function entityChangeState(App\EventHandler $eventHandler)
+    {
+        $recordModel = $eventHandler->getRecordModel();
+        $values = [
+            'crmid' => $recordModel->getId(),
+            'setype' => $eventHandler->getModuleName(),
+        ];
+        $pbxRecordModel = new PBXManager_Record_Model();
+        $fields = $recordModel->getModule()->getFieldsByType('phone');
+        foreach ($fields as $fieldName => &$fieldModel) {
+            if (!$recordModel->isEmpty($fieldName)) {
+                $values[$fieldName] = $recordModel->get($fieldName);
+                $pbxRecordModel->receivePhoneLookUpRecord($fieldName, $values, true);
+            }
+        }
+    }
 }

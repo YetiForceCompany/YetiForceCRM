@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class='widget_header row '>
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
@@ -78,7 +78,7 @@
 							{/if}				
 						</div>
                     </div>
-                    <div class="pull-left">
+                    <div class="float-left">
                         <button class="btn btn-success saveButton" type="submit"><strong>{\App\Language::translate($MODULE, $MODULE)}</strong></button>
                         <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
                     </div>

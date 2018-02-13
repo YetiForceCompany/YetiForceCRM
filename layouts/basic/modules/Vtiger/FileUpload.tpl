@@ -14,16 +14,16 @@
 		<div class="modal-body">
 			<div>
 				<div class="uploadFileContainer">
-				<input id="fileupload" class="fileupload marginBottom5" type="file" name="files[]" multiple {if $FILE_TYPE eq 'image'}accept="image/x-png,image/gif,image/jpeg"{/if}>
-			</div>
+					<input id="fileupload" class="fileupload marginBottom5" type="file" name="files[]" multiple {if $FILE_TYPE eq 'image'}accept="image/x-png,image/gif,image/jpeg"{/if}>
+				</div>
 				<div class="fileContainer hide">
-				<div class="fileItem marginBottom5">
-					<div class="input-group input-group-sm">
-						<input type="text" name="nameFile[]" class="form-control" readonly>
-						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file"></span></span>
+					<div class="fileItem marginBottom5">
+						<div class="input-group input-group-sm">
+							<input type="text" name="nameFile[]" class="form-control" readonly>
+							<span class="input-group-addon" id="basic-addon1"><span class="fas fa-file"></span></span>
+						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</div>
 		<div class="modal-footer">

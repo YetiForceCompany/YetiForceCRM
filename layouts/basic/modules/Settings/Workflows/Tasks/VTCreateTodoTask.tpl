@@ -79,24 +79,24 @@
 					{/if}
 					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />
 					<span class="input-group-addon cursorPointer">
-						<i class="glyphicon glyphicon-time"></i>
+						<i class="far fa-clock"></i>
 					</span>
 				</div>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-xs-2">{\App\Language::translate('LBL_DAYS_START',$QUALIFIED_MODULE)}</span>
-			<div class="col-xs-2">
+			<span class="col-2">{\App\Language::translate('LBL_DAYS_START',$QUALIFIED_MODULE)}</span>
+			<div class="col-2">
 				<input class="form-control" type="text" name="days_start" value="{$TASK_OBJECT->days_start}">&nbsp;
 			</div>
-			<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
-			<div class="col-xs-3 marginLeftZero">
+			<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<div class="col-3 marginLeftZero">
 				<select class="chzn-select form-control" name="direction_start">
 					<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->direction_start eq 'before'}selected=""{/if} value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-4">
 				<select class="chzn-select form-control" name="datefield_start">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
@@ -110,18 +110,18 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-xs-2">{\App\Language::translate('LBL_DAYS_END',$QUALIFIED_MODULE)}</span>
-			<span class="col-xs-2">
+			<span class="col-2">{\App\Language::translate('LBL_DAYS_END',$QUALIFIED_MODULE)}</span>
+			<span class="col-2">
 				<input class="form-control" type="text" name="days_end" value="{$TASK_OBJECT->days_end}">&nbsp;
 			</span>
-			<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
-			<span class="col-xs-3 marginLeftZero">
+			<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="col-3 marginLeftZero">
 				<select class="chzn-select" name="direction_end" style="width: 100px">
 					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if} value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</span>
-			<span class="col-xs-4">
+			<span class="col-4">
 				<select class="chzn-select form-control" name="datefield_end">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}

@@ -14,8 +14,8 @@
 					<input type="hidden" name="id" value="{$ID}" />
 					<input type="hidden" name="role" value="{$RECORD->get('role')}" />
 					<div class="form-group">
-						<label class="col-md-4 control-label">{\App\Language::translate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
-						<div class="col-md-7 form-control-static">
+						<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
+						<div class="col-md-7 form-control-plaintext">
 							{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}
 						</div>
 					</div>
@@ -23,7 +23,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
+				<div class="float-right cancelLinkContainer" style="margin-top:0px;">
 					<a class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 					<a class="btn btn-success saveButton"><strong>{\App\Language::translate('LBL_SAVE_MENU', $QUALIFIED_MODULE)}</strong></a>
 				</div>

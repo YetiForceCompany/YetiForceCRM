@@ -9,12 +9,12 @@
 		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col-md-4 col-sm-5 col-xs-5 form-control-static">
+					<div class="col-md-4 col-sm-5 col-5 form-control-plaintext">
 						<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 					</div>
-					<div class="pull-right col-md-4 col-sm-7 col-xs-7">
+					<div class="float-right col-md-4 col-sm-7 col-7">
 						<div class="row">
-							<div class="col-xs-10">
+							<div class="col-10">
 								<select id="userList{$INDEX}" class="chzn-select form-control baseUser" data-validation-engine="validate[required]">
 									<option value=""></option>
 									{foreach from=$ALL_ACTIVEUSER_LIST key=ID item=USER_NAME}
@@ -22,9 +22,9 @@
 									{/foreach}
 								</select>
 							</div>
-							<div class="col-xs-2 paddingLefttZero">
-								<div class="pull-right">
-									<button type="button" class="removePanel btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>	
+							<div class="col-2 paddingLefttZero">
+								<div class="float-right">
+									<button type="button" class="removePanel btn btn-danger"><span class="fas fa-trash-alt"></span></button>	
 								</div>
 							</div>
 						</div>
@@ -33,9 +33,9 @@
 			</div>		
 			<div class="panel-body padding5 hide">
 				<div class="clearTables hide">
-					<div class="col-xs-12 col-sm-5 paddingLRZero">
+					<div class="col-12 col-sm-5 paddingLRZero">
 						<div class="table-responsive">
-							<div class="col-xs-12">
+							<div class="col-12">
 								<table class="table table-bordered table-condensed dataTable" data-mode="active">
 									<thead>
 										<tr>
@@ -48,14 +48,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-2">
+					<div class="col-12 col-sm-2">
 						<div class="textAlignCenter font-x-x-large betweenDragDrop">
-							<span class="glyphicon glyphicon-resize-horizontal"></span>
+							<span class="fas fa-arrows-alt-h"></span>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-5 paddingLRZero">
+					<div class="col-12 col-sm-5 paddingLRZero">
 						<div class="table-responsive">
-							<div class="col-xs-12">
+							<div class="col-12">
 								<table class="table table-bordered table-condensed dataTable" data-mode="base">
 									<thead>
 										<tr>

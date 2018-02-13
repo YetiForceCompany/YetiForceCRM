@@ -10,41 +10,40 @@
 
 class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 {
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
 
-	public function process(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+        $viewer->assign('MODULE_NAME', $moduleName);
+        $viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
 
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
-
-		switch ($request->getByType('step', 2)) {
-			case 'step1':
-				$modules = vtlib\Functions::getAllModules(true, false, 0);
-				//Since comments is not treated as seperate module 
-				unset($modules['ModComments']);
-				$viewer->assign('MODULES', $modules);
-				break;
-			case 'step2':
-				$selectedModule = $request->getByType('selectedModule', 2);
-				if (!\App\Privilege::isPermitted($selectedModule)) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-				}
-				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
-				$viewer->assign('ALLFILTERS', $filters);
-				break;
-			case 'step3':
-				$selectedModule = $request->getByType('selectedModule', 2);
-				if (!\App\Privilege::isPermitted($selectedModule)) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-				}
-				$queryGenerator = new \App\QueryGenerator($selectedModule);
-				$queryGenerator->initForCustomViewById($request->getInteger('filterid'));
-				$viewer->assign('QUERY_GENERATOR', $queryGenerator);
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
-				break;
-		}
-		$viewer->view('dashboards/MiniListWizard.tpl', $moduleName);
-	}
+        switch ($request->getByType('step', 2)) {
+            case 'step1':
+                $modules = vtlib\Functions::getAllModules(true, false, 0);
+                //Since comments is not treated as seperate module
+                unset($modules['ModComments']);
+                $viewer->assign('MODULES', $modules);
+                break;
+            case 'step2':
+                $selectedModule = $request->getByType('selectedModule', 2);
+                if (!\App\Privilege::isPermitted($selectedModule)) {
+                    throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+                }
+                $filters = CustomView_Record_Model::getAllByGroup($selectedModule);
+                $viewer->assign('ALLFILTERS', $filters);
+                break;
+            case 'step3':
+                $selectedModule = $request->getByType('selectedModule', 2);
+                if (!\App\Privilege::isPermitted($selectedModule)) {
+                    throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+                }
+                $queryGenerator = new \App\QueryGenerator($selectedModule);
+                $queryGenerator->initForCustomViewById($request->getInteger('filterid'));
+                $viewer->assign('QUERY_GENERATOR', $queryGenerator);
+                $viewer->assign('SELECTED_MODULE', $selectedModule);
+                break;
+        }
+        $viewer->view('dashboards/MiniListWizard.tpl', $moduleName);
+    }
 }

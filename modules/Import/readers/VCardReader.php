@@ -11,91 +11,93 @@
 
 class Import_VCardReader_Reader extends Import_FileReader_Reader
 {
+    protected $vCardPattern = '/BEGIN:VCARD.*?END:VCARD/si';
+    protected $skipLabels = ['BEGIN', 'END', 'VERSION'];
+    public static $fileContents = null;
 
-	protected $vCardPattern = '/BEGIN:VCARD.*?END:VCARD/si';
-	protected $skipLabels = ['BEGIN', 'END', 'VERSION'];
-	public static $fileContents = null;
+    public function hasHeader()
+    {
+        return true;
+    }
 
-	public function hasHeader()
-	{
-		return true;
-	}
+    public function getFirstRowData($hasHeader = true)
+    {
+        $default_charset = AppConfig::main('default_charset');
 
-	public function getFirstRowData($hasHeader = true)
-	{
-		$default_charset = AppConfig::main('default_charset');
+        $filePath = $this->getFilePath();
+        if (empty(self::$fileContents)) {
+            self::$fileContents = file_get_contents($filePath);
+        }
+        $fileContents = self::$fileContents;
 
-		$filePath = $this->getFilePath();
-		if (empty(self::$fileContents)) {
-			self::$fileContents = file_get_contents($filePath);
-		}
-		$fileContents = self::$fileContents;
+        $data = null;
+        $matches = [];
+        preg_match_all($this->vCardPattern, $fileContents, $matches);
 
-		$data = null;
-		$matches = [];
-		preg_match_all($this->vCardPattern, $fileContents, $matches);
+        $row = $matches[0][0];
+        $fieldValueMappings = explode("\r\n", $row);
+        $data = [];
+        foreach ($fieldValueMappings as $fieldValueMapping) {
+            list($label, $value) = explode(':', $fieldValueMapping, 2);
+            $value = str_replace(';', ' ', $value);
+            if (!in_array($label, $this->skipLabels)) {
+                $data[$label] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $default_charset);
+            }
+        }
 
-		$row = $matches[0][0];
-		$fieldValueMappings = explode("\r\n", $row);
-		$data = [];
-		foreach ($fieldValueMappings as $fieldValueMapping) {
-			list($label, $value) = explode(':', $fieldValueMapping, 2);
-			$value = str_replace(';', ' ', $value);
-			if (!in_array($label, $this->skipLabels)) {
-				$data[$label] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $default_charset);
-			}
-		}
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Function creates tables for import in database
-	 */
-	public function read()
-	{
-		$defaultCharset = AppConfig::main('default_charset');
+    /**
+     * Function creates tables for import in database.
+     */
+    public function read()
+    {
+        $defaultCharset = AppConfig::main('default_charset');
 
-		$filePath = $this->getFilePath();
-		$this->createTable();
+        $filePath = $this->getFilePath();
+        $this->createTable();
 
-		$fieldMapping = $this->request->get('field_mapping');
+        $fieldMapping = $this->request->get('field_mapping');
 
-		if (empty(self::$fileContents)) {
-			self::$fileContents = file_get_contents($filePath);
-		}
-		$fileContents = self::$fileContents;
+        if (empty(self::$fileContents)) {
+            self::$fileContents = file_get_contents($filePath);
+        }
+        $fileContents = self::$fileContents;
 
-		$matches = [];
-		preg_match_all($this->vCardPattern, $fileContents, $matches);
-		$countMatches = count($matches[0]);
-		for ($i = 0; $i < $countMatches; ++$i) {
-			$row = $matches[0][$i];
-			$fieldValueMappings = explode("\r\n", $row);
-			$data = [];
-			$valueCounter = 0;
-			foreach ($fieldValueMappings as $fieldValueMapping) {
-				list($label, $value) = explode(':', $fieldValueMapping, 2);
-				$value = str_replace(';', ' ', $value);
-				if (!in_array($label, $this->skipLabels)) {
-					$data[$valueCounter++] = $value;
-				}
-			}
-			$mappedData = [];
-			$allValuesEmpty = true;
-			foreach ($fieldMapping as $fieldName => $index) {
-				$fieldValue = $data[$index];
-				$mappedData[$fieldName] = $fieldValue;
-				if ($this->request->get('file_encoding') !== $defaultCharset) {
-					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
-				}
-				if (!empty($fieldValue))
-					$allValuesEmpty = false;
-			}
-			if ($allValuesEmpty)
-				continue;
-			$fieldNames = array_keys($mappedData);
-			$fieldValues = array_values($mappedData);
-			$this->addRecordToDB($fieldNames, $fieldValues);
-		}
-	}
+        $matches = [];
+        preg_match_all($this->vCardPattern, $fileContents, $matches);
+        $countMatches = count($matches[0]);
+        for ($i = 0; $i < $countMatches; ++$i) {
+            $row = $matches[0][$i];
+            $fieldValueMappings = explode("\r\n", $row);
+            $data = [];
+            $valueCounter = 0;
+            foreach ($fieldValueMappings as $fieldValueMapping) {
+                list($label, $value) = explode(':', $fieldValueMapping, 2);
+                $value = str_replace(';', ' ', $value);
+                if (!in_array($label, $this->skipLabels)) {
+                    $data[$valueCounter++] = $value;
+                }
+            }
+            $mappedData = [];
+            $allValuesEmpty = true;
+            foreach ($fieldMapping as $fieldName => $index) {
+                $fieldValue = $data[$index];
+                $mappedData[$fieldName] = $fieldValue;
+                if ($this->request->get('file_encoding') !== $defaultCharset) {
+                    $mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
+                }
+                if (!empty($fieldValue)) {
+                    $allValuesEmpty = false;
+                }
+            }
+            if ($allValuesEmpty) {
+                continue;
+            }
+            $fieldNames = array_keys($mappedData);
+            $fieldValues = array_values($mappedData);
+            $this->addRecordToDB($fieldNames, $fieldValues);
+        }
+    }
 }

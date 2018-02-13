@@ -3,7 +3,7 @@
 	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
 			<div class="row widget_header">
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{\App\Language::translate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
@@ -18,12 +18,12 @@
 			{/if}
 			<div class="row">
 				<div class="col-md-4 btn-toolbar">
-					<button class="btn btn-default addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
-						<i class="glyphicon glyphicon-plus"></i>&nbsp;
+					<button class="btn btn-light addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
+						<i class="fas fa-plus"></i>&nbsp;
 						<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_PDF_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 					</button>
-					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
-						<i class="glyphicon glyphicon-import"></i>
+					<button class="btn btn-light importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+						<i class="fas fa-download"></i>
 					</button>
 				</div>
 				<div class="col-md-4 btn-toolbar">

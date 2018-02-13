@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 <select id="groupbyfield_element">
 	<option value="">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
@@ -49,9 +49,9 @@
 	<option value='count(*)'>{\App\Language::translate('LBL_RECORD_COUNT', $MODULE)}</option>
 	{foreach key=CALCULATION_FIELDS_MODULE_LABEL item=CALCULATION_FIELDS_MODULE from=$CALCULATION_FIELDS}
 		<optgroup label="{\App\Language::translate($CALCULATION_FIELDS_MODULE_LABEL, $CALCULATION_FIELDS_MODULE_LABEL)}">
-		{foreach key=CALCULATION_FIELD_KEY item=CALCULATION_FIELD_TRANSLATED_LABEL from=$CALCULATION_FIELDS_MODULE}
-			<option value="{$CALCULATION_FIELD_KEY}">{$CALCULATION_FIELD_TRANSLATED_LABEL}</option>
-		{/foreach}
+			{foreach key=CALCULATION_FIELD_KEY item=CALCULATION_FIELD_TRANSLATED_LABEL from=$CALCULATION_FIELDS_MODULE}
+				<option value="{$CALCULATION_FIELD_KEY}">{$CALCULATION_FIELD_TRANSLATED_LABEL}</option>
+			{/foreach}
 		</optgroup>
 	{/foreach}
 </select>

@@ -7,65 +7,55 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to work with vtiger CRM Menu
- * @package vtlib
+ * Provides API to work with vtiger CRM Menu.
  */
 class Menu
 {
+    /** ID of this menu instance */
+    public $id = false;
+    public $label = false;
+    public $sequence = false;
+    public $visible = 0;
 
-	/** ID of this menu instance */
-	public $id = false;
-	public $label = false;
-	public $sequence = false;
-	public $visible = 0;
+    /**
+     * Initialize this instance.
+     *
+     * @param array Map
+     */
+    public function initialize($valuemap)
+    {
+        $this->id = $valuemap[parenttabid];
+        $this->label = $valuemap[parenttab_label];
+        $this->sequence = $valuemap[sequence];
+        $this->visible = $valuemap[visible];
+    }
 
-	/**
-	 * Initialize this instance
-	 * @param Array Map 
-	 * @access private
-	 */
-	public function initialize($valuemap)
-	{
-		$this->id = $valuemap[parenttabid];
-		$this->label = $valuemap[parenttab_label];
-		$this->sequence = $valuemap[sequence];
-		$this->visible = $valuemap[visible];
-	}
+    /**
+     * Get instance of menu by label.
+     *
+     * @param string Menu label
+     */
+    public static function getInstance($value)
+    {
+        return false;
+    }
 
-	/**
-	 * Get instance of menu by label
-	 * @param String Menu label
-	 */
-	public static function getInstance($value)
-	{
-		return false;
-	}
-
-	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
-	}
-
-	/**
-	 * Delete all menus associated with module
-	 * @param ModuleBasic $moduleInstance
-	 */
-	public static function deleteForModule(ModuleBasic $moduleInstance)
-	{
-		$id = (new \App\Db\Query)->select('id')->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
-		if ($id) {
-			\App\Db::getInstance()->createCommand()->delete('yetiforce_menu', ['module' => $moduleInstance->id])->execute();
-			$menuRecordModel = new \Settings_Menu_Record_Model();
-			$menuRecordModel->refreshMenuFiles();
-		}
-	}
+    /**
+     * Delete all menus associated with module.
+     *
+     * @param ModuleBasic $moduleInstance
+     */
+    public static function deleteForModule(ModuleBasic $moduleInstance)
+    {
+        $id = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
+        if ($id) {
+            \App\Db::getInstance()->createCommand()->delete('yetiforce_menu', ['module' => $moduleInstance->id])->execute();
+            $menuRecordModel = new \Settings_Menu_Record_Model();
+            $menuRecordModel->refreshMenuFiles();
+        }
+    }
 }

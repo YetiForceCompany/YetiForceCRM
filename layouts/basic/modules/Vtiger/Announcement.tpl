@@ -1,6 +1,6 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-{assign var="AMODULE" value='Announcements'}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{assign var="AMODULE" value='Announcements'}
 	<div id="announcements">
 		{foreach item=ANNOUNCEMENT from=$ANNOUNCEMENTS->getAnnouncements()}
 			<div class="announcement hide" data-id="{$ANNOUNCEMENT->getId()}">
@@ -16,12 +16,12 @@
 							<div class="modal-footer">
 								{if !$ANNOUNCEMENT->get('is_mandatory')}
 									<button type="button" class="btn btn-danger" data-type="0">
-										<span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+										<span class="far fa-clock"></span>&nbsp;
 										{\App\Language::translate('LBL_REMIND_ME_LATER',$AMODULE)}
 									</button>
 								{/if}
 								<button type="button" class="btn btn-success" data-type="1">
-									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
+									<span class="fas fa-check"></span>&nbsp;
 									{\App\Language::translate('LBL_MARK_AS_READ',$AMODULE)}
 								</button>
 							</div>

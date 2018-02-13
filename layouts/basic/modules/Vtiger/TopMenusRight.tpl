@@ -43,7 +43,7 @@
 					{if !empty($SRC)}
 						<img src="{$SRC}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 					{elseif !empty($ICON)}
-						<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+						<span class="fas fa-exchange-alt"></span>
 					{else}
 						<strong>{$TITLE}</strong>
 					{/if}
@@ -52,7 +52,7 @@
 					{/if}
 				</a>
 				{if !empty($CHILDLINKS)}
-					<ul class="dropdown-menu pull-right">
+					<ul class="dropdown-menu float-right">
 						{foreach item=CHILDLINK from=$CHILDLINKS}
 							{if $CHILDLINK->getLabel() eq NULL}
 								<li class="divider"></li>
@@ -79,7 +79,7 @@
 	<ul class="headerLinksContainer nav navbar-nav navbar-right">
 		<li>
 			<div class="remindersNotice">
-				<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+				<span class="fas fa-bell"></span>
 				<span class="badge hide">0</span>
 			</div>
 		</li>
@@ -98,13 +98,13 @@
 			{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
 			<div class="nav navbar-nav navbar-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 				<div class="btn-group">
-					<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
+					<a type="button" class="btn btn-sm btn-light" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
 						{$ITEM.username}
 						<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 						<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
 					</a>
 					{if $CONFIG['showMailAccounts']=='true'}
-						<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span class="caret"></span>
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
@@ -129,7 +129,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<ul class="dropdown-menu pull-right">
+			<ul class="dropdown-menu float-right">
 				{foreach key=index item=obj from=$MENU_HEADER_LINKS name="compactIndex"}
 					{assign var="src" value=$obj->getIconPath()}
 					{assign var="icon" value=$obj->getIcon()}

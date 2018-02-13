@@ -1,15 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<div class="col-xs-10">
+		<div class="col-10">
 			<h3 class="modal-title">{\App\Language::translate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
 		</div>
-		<div class="pull-right btn-group">
+		<div class="float-right btn-group">
 			{if $RECORD->isEditable()}
-				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
+				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="fas fa-edit summaryViewEdit"></span></a>
 				{/if}
 				{if $RECORD->isViewable()}
-				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="fas fa-th-list summaryViewEdit"></span></a>
 				{/if}
 		</div>
 		<div class="clearfix"></div>
@@ -19,7 +19,7 @@
 			{assign var=USERS value=$AUTO_ASSIGN_RECORD->getAvailableUsers()}
 			{assign var=DEFAULT_OWNER value=$AUTO_ASSIGN_RECORD->getDefaultOwner()}
 			{if $USERS}
-				<div class="table-responsive col-xs-12">
+				<div class="table-responsive col-12">
 					<table id="assignTable" class="table table-striped table-bordered dataTable">
 						<thead>
 							<tr>
@@ -51,8 +51,8 @@
 										{$VALUE}
 									</td>
 									<td>
-										<a href="#" onclick="Vtiger_Index_Js.assignToOwner(this,{$USER_ID})" data-module="{$RECORD->getModuleName()}" data-record="{$RECORD->getid()}" id="user_{$USER_ID}" class="btn btn-xs btn-success" title="{\App\Language::translate('LBL_ASSIGN', $MODULE_NAME)}">
-											<span class="glyphicon glyphicon-user"></span>
+										<a href="#" onclick="Vtiger_Index_Js.assignToOwner(this,{$USER_ID})" data-module="{$RECORD->getModuleName()}" data-record="{$RECORD->getid()}" id="user_{$USER_ID}" class="btn btn-sm btn-success" title="{\App\Language::translate('LBL_ASSIGN', $MODULE_NAME)}">
+											<span class="fas fa-user"></span>
 										</a>
 									</td>
 								</tr>
@@ -63,9 +63,9 @@
 			{elseif $DEFAULT_OWNER}
 				<div class="col-md-12 text-center">
 					<label>{\App\Language::translate('LBL_SET_DEFAULT_RECORD_OWNER', $MODULE_NAME)}&nbsp;</label>
-					<a href="#" onclick="Vtiger_Index_Js.assignToOwner(this,{$DEFAULT_OWNER})" data-module="{$RECORD->getModuleName()}" data-record="{$RECORD->getid()}" id="user_{$DEFAULT_OWNER}" class="btn btn-xs btn-success" title="{\App\Language::translate('LBL_ASSIGN', $MODULE_NAME)}">
-					<span class="glyphicon glyphicon-user">&nbsp;{\App\Fields\Owner::getLabel($DEFAULT_OWNER)}</span>
-				</a>
+					<a href="#" onclick="Vtiger_Index_Js.assignToOwner(this,{$DEFAULT_OWNER})" data-module="{$RECORD->getModuleName()}" data-record="{$RECORD->getid()}" id="user_{$DEFAULT_OWNER}" class="btn btn-sm btn-success" title="{\App\Language::translate('LBL_ASSIGN', $MODULE_NAME)}">
+						<span class="fas fa-user">&nbsp;{\App\Fields\Owner::getLabel($DEFAULT_OWNER)}</span>
+					</a>
 				</div>
 			{else}
 				<div class="text-center">

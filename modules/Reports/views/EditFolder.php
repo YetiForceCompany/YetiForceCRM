@@ -11,34 +11,34 @@
 
 class Reports_EditFolder_View extends Vtiger_IndexAjax_View
 {
+    /**
+     * Function to check permission.
+     *
+     * @param \App\Request $request
+     *
+     * @throws \App\Exceptions\NoPermitted
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $folderId = $request->getByType('folderid', 2);
 
-	public function process(\App\Request $request)
-	{
+        if ($folderId) {
+            $folderModel = Reports_Folder_Model::getInstanceById($folderId);
+        } else {
+            $folderModel = Reports_Folder_Model::getInstance();
+        }
 
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$folderId = $request->getByType('folderid', 2);
-
-		if ($folderId) {
-			$folderModel = Reports_Folder_Model::getInstanceById($folderId);
-		} else {
-			$folderModel = Reports_Folder_Model::getInstance();
-		}
-
-		$viewer->assign('FOLDER_MODEL', $folderModel);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('EditFolder.tpl', $moduleName);
-	}
+        $viewer->assign('FOLDER_MODEL', $folderModel);
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->view('EditFolder.tpl', $moduleName);
+    }
 }

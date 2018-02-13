@@ -22,7 +22,7 @@
 						<div class="row inActiveList"></div>
 					</div>
 					<div class="modal-footer">
-						<div class=" pull-right cancelLinkContainer">
+						<div class="float-right cancelLinkContainer">
 							<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
 						<button class="btn btn-success" type="submit" name="reactivateButton">

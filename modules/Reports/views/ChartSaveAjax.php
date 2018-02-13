@@ -11,56 +11,55 @@
 
 class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View
 {
+    public function checkPermission(\App\Request $request)
+    {
+        $record = $request->getInteger('record');
+        if (!$record) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+        $reportModel = Reports_Record_Model::getCleanInstance($record);
 
-	public function checkPermission(\App\Request $request)
-	{
-		$record = $request->getInteger('record');
-		if (!$record) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$reportModel = Reports_Record_Model::getCleanInstance($record);
+        $currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
 
-	public function process(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+        $record = $request->getInteger('record');
+        $reportModel = Reports_Record_Model::getInstanceById($record);
+        $reportModel->setModule('Reports');
+        $reportModel->set('advancedFilter', $request->get('advanced_filter'));
 
-		$record = $request->getInteger('record');
-		$reportModel = Reports_Record_Model::getInstanceById($record);
-		$reportModel->setModule('Reports');
-		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
+        $secondaryModules = $reportModel->getSecondaryModules();
+        if (empty($secondaryModules)) {
+            $viewer->assign('CLICK_THROUGH', true);
+        }
 
+        $dataFields = $request->get('datafields', 'count(*)');
+        if (is_string($dataFields)) {
+            $dataFields = [$dataFields];
+        }
 
-		$secondaryModules = $reportModel->getSecondaryModules();
-		if (empty($secondaryModules)) {
-			$viewer->assign('CLICK_THROUGH', true);
-		}
+        $reportModel->set('reporttypedata', \App\Json::encode([
+                'type' => $request->get('charttype', 'pieChart'),
+                'groupbyfield' => $request->get('groupbyfield'),
+                'datafields' => $dataFields, ]
+        ));
+        $reportModel->set('reporttype', 'chart');
+        $reportModel->save();
 
-		$dataFields = $request->get('datafields', 'count(*)');
-		if (is_string($dataFields))
-			$dataFields = [$dataFields];
+        $reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 
-		$reportModel->set('reporttypedata', \App\Json::encode([
-				'type' => $request->get('charttype', 'pieChart'),
-				'groupbyfield' => $request->get('groupbyfield'),
-				'datafields' => $dataFields]
-		));
-		$reportModel->set('reporttype', 'chart');
-		$reportModel->save();
+        $data = $reportChartModel->getData();
+        $viewer->assign('CHART_TYPE', $reportChartModel->getChartType());
+        $viewer->assign('DATA', json_encode($data, JSON_HEX_APOS));
+        $viewer->assign('MODULE', $moduleName);
 
-		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
-
-		$data = $reportChartModel->getData();
-		$viewer->assign('CHART_TYPE', $reportChartModel->getChartType());
-		$viewer->assign('DATA', json_encode($data, JSON_HEX_APOS));
-		$viewer->assign('MODULE', $moduleName);
-
-		$viewer->view('ChartReportContents.tpl', $moduleName);
-	}
+        $viewer->view('ChartReportContents.tpl', $moduleName);
+    }
 }

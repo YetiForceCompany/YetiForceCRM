@@ -88,11 +88,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var header = widget.find('.dashboardWidgetHeader');
 		var headerHeight = header.outerHeight();
 		var adjustedHeight = widget.height() - headerHeight;
-		if (footer.length) {
+		if (footer.length)
 			adjustedHeight -= footer.outerHeight();
-		}
+		if (!content.length)
+			return;
 		content.css('height', adjustedHeight + 'px');
-		var scrollbarInit = new PerfectScrollbar(content[0]);
+		app.showNewScrollbar(content, {wheelPropagation: true});
 	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
@@ -192,17 +193,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 			url += '&sortorder=';
 			var sort = currentElement.data('sort');
 			var sortorder = 'desc';
-			var icon = 'glyphicon-sort-by-attributes-alt';
+			var icon = 'fa-sort-amount-down';
 			if (sort == 'desc') {
 				sortorder = 'asc';
-				icon = 'glyphicon-sort-by-attributes';
+				icon = 'fa-sort-amount-up';
 			}
 			currentElement.data('sort', sortorder);
 			currentElement.attr('title', currentElement.data(sortorder));
 			currentElement.attr('alt', currentElement.data(sortorder));
 			url += sortorder;
-			var glyphicon = currentElement.find('.glyphicon');
-			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
+			var glyphicon = currentElement.find('[data-fa-i2svg]');
+			glyphicon.removeClass().addClass('[data-fa-i2svg]').addClass(icon);
 			drefresh.data('url', url);
 		}
 	},
@@ -1457,7 +1458,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
 				.mouseenter(function () {
-					jQuery('<span class="plus pull-left glyphicon glyphicon-plus"></span>')
+					jQuery('<span class="plus pull-left fas fa-plus"></span>')
 							.prependTo($(this))
 				}).mouseleave(function () {
 			$(this).find(".plus").remove();
@@ -1474,7 +1475,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
-		
+
 		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
 			if (state)
 				container.find('.widgetFilterSwitch').val('current');
@@ -1826,7 +1827,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 			this.getPlotContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				animate: !$.jqplot.use_excanvas,
-				seriesColors: data['colors'],
+				seriesColors: data['colors'] != false ? data['colors'] : "",
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {

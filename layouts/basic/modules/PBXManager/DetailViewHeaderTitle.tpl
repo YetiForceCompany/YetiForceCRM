@@ -78,16 +78,16 @@
 
 							{if $RECORD->get('direction') eq 'inbound'}
 								&nbsp;<strong><span class="{$NAME_FIELD}">
-									{\App\Language::translate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
-								</span><br /></strong>
-							{else}
-							&nbsp;<strong><span class="{$NAME_FIELD}">
-									{\App\Language::translate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
-								</span><br /></strong>
-							{/if}    
-							{if $FIELD_NAME}
-							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->getDisplayValue('customernumber')}
-							</span>
+										{\App\Language::translate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
+									</span><br /></strong>
+								{else}
+								&nbsp;<strong><span class="{$NAME_FIELD}">
+										{\App\Language::translate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
+									</span><br /></strong>
+								{/if}    
+								{if $FIELD_NAME}
+								&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->getDisplayValue('customernumber')}
+								</span>
 							{/if}
 						{/if}
 					{/foreach}

@@ -170,7 +170,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets: function (widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-		if (widgetContainer.find('.panel-body').html().trim()) {
+		if (widgetContainer.find('.card-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
@@ -362,10 +362,10 @@ var Vtiger_Index_Js = {
 			app.registerModal(content);
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
-				var recordID = currentElement.closest('.panel').data('record');
+				var recordID = currentElement.closest('.card').data('record');
 				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
 				AppConnector.request(url).then(function (data) {
-					currentElement.closest('.panel').fadeOut(300, function () {
+					currentElement.closest('.card').fadeOut(300, function () {
 						$(this).remove();
 						thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 					});
@@ -413,7 +413,7 @@ var Vtiger_Index_Js = {
 			var modalHeader = modal.find('.modal-header');
 			var height = app.getScreenHeight() - modalFooter.outerHeight(true) - modalHeader.outerHeight(true);
 			modalBody.css('max-height', height + 'px');
-			var scrollbarInit = new PerfectScrollbar(modalBody[0]);
+			app.showNewScrollbar(modalBody, {wheelPropagation: true});
 		});
 		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
@@ -624,14 +624,17 @@ var Vtiger_Index_Js = {
 					callback: function () {
 						Vtiger_Index_Js.updateWatching(module, value, user, record).then(function (data) {
 							if (instance != undefined) {
+								var buttonIcon = instance.find('[data-fa-i2svg]');
 								state = data.result == 1 ? 0 : 1;
 								instance.data('value', state);
 								if (state == 1) {
 									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
-									instance.children().toggleClass(instance.data('iconOff') + ' ' + instance.data('iconOn'));
+									buttonIcon.addClass('fa-eye-slash');
+									buttonIcon.removeClass('fas fa-eye');
 								} else {
 									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
-									instance.children().toggleClass(instance.data('iconOn') + ' ' + instance.data('iconOff'));
+									buttonIcon.addClass('fas fa-eye');
+									buttonIcon.removeClass('fa-eye-slash');
 								}
 							}
 						});

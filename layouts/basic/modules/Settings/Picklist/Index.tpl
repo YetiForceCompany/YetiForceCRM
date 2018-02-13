@@ -12,7 +12,7 @@
 {strip}
 	<div class="listViewPageDiv">
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 
 			<div id="modulePickListValuesContainer">
                 {if empty($NO_PICKLIST_FIELDS)}
-				{include file=\App\Layout::getTemplatePath('PickListValueDetail.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('PickListValueDetail.tpl', $QUALIFIED_MODULE)}
                 {/if}
             </div>
 		</div>

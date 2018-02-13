@@ -11,8 +11,8 @@
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
-				<div class="col-xs-12">
-					<label class="control-label">
+				<div class="col-12">
+					<label class="col-form-label">
 						{\App\Language::translate('LBL_SELECT_USER', $QUALIFIED_MODULE)}
 					</label>
 					<select id="exceptions" class="select2 form-control"  multiple="true" name="exceptions[]">

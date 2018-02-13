@@ -12,7 +12,7 @@
 {strip}
 	<div class="row">
 		<div class="form-group">
-			<label class="col-md-2 control-label">{\App\Language::translate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span class="redColor">*</span></label>
+			<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span class="redColor">*</span></label>
 			<div class="col-md-4">
 				<input type="text" class="fields form-control" data-validation-engine='validate[required]' name="sms_recepient" value="{$TASK_OBJECT->sms_recepient}" />
 			</div>
@@ -20,10 +20,10 @@
 				<select class="chzn-select task-fields form-control">
 					<option value="none"></option>
 					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('phone')}
-						<optgroup label="{\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
+						<optgroup label="{$BLOCK_NAME}">
 							{foreach item=ITEM from=$FIELDS}
 								<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
-									{\App\Language::translate($ITEM['label'], $SOURCE_MODULE)}
+									{$ITEM['label']}
 								</option>
 							{/foreach}
 						</optgroup>
@@ -39,7 +39,7 @@
 	<hr/>
 	<div class="row">
 		<div class="form-group">
-			<label class="col-md-2 control-label">{\App\Language::translate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</label>
+			<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</label>
 			<div class="col-md-8">
 				<textarea name="content" class="form-control fields">{$TASK_OBJECT->content}</textarea>
 			</div>

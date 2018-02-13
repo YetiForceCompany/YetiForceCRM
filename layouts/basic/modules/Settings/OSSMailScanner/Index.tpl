@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="widget_header row">
-	<div class="col-xs-12">
+	<div class="col-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</div>
 </div>
@@ -10,7 +10,7 @@
 		<h4 class="alert-heading">{\App\Language::translate('OSSMailScanner', 'OSSMailScanner')} - {\App\Language::translate('Alert_active_cron', 'OSSMailScanner')}</h4>
 		<p>{\App\Language::translate('Alert_active_cron_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-light" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -20,7 +20,7 @@
 		<h4 class="alert-heading">{\App\Language::translate('OSSMailScanner', 'OSSMailScanner')} - {\App\Language::translate('Alert_active_crontime', 'OSSMailScanner')}</h4>
 		<p>{\App\Language::translate('Alert_active_crontime_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-light" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -41,7 +41,7 @@
                 <p>{\App\Language::translate('Alert_no_module_desc', 'OSSMailScanner')}</p>
                 <p>
                     <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
-                    <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
+                    <a class="btn btn-light" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
                 </p>
             </div>	
         {/if}
@@ -50,7 +50,7 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-light" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 			<table class="table tableRWD table-bordered">
@@ -101,14 +101,14 @@
 							<td class='scanerMailActionsButtons'>
 								<div class="btn-toolbar">
 									<div class="btn-group">
-										<button title="{\App\Language::translate('LBL_SHOW_ACCOUNT_DETAILS', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide">
-											<span class="glyphicon glyphicon-chevron-down"></span>
+										<button title="{\App\Language::translate('LBL_SHOW_ACCOUNT_DETAILS', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-light expand-hide">
+											<span class="fas fa-chevron-down"></span>
 										</button>
-										<button title="{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-default editFolders">
-											<span class="glyphicon glyphicon-folder-open"></span>
+										<button title="{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-light editFolders">
+											<span class="fas fa-folder-open"></span>
 										</button>
-										<button title="{\App\Language::translate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
-											<span class="glyphicon glyphicon-trash"></span>
+										<button title="{\App\Language::translate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-light delate_accont">
+											<span class="fas fa-trash-alt"></span>
 										</button>
 									</div>
 								</div>

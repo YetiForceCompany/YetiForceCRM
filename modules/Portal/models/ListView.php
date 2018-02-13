@@ -10,95 +10,98 @@
  * *********************************************************************************** */
 
 /**
- * Portal ListView Model Class
+ * Portal ListView Model Class.
  */
 class Portal_ListView_Model extends Vtiger_ListView_Model
 {
+    public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
+    {
+        $moduleModel = Vtiger_Module_Model::getInstance('Portal');
 
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
-	{
-		$moduleModel = Vtiger_Module_Model::getInstance('Portal');
+        $query = $this->getQuery();
 
-		$query = $this->getQuery();
+        $startIndex = $pagingModel->getStartIndex();
+        $pageLimit = $pagingModel->getPageLimit();
 
-		$startIndex = $pagingModel->getStartIndex();
-		$pageLimit = $pagingModel->getPageLimit();
+        $orderBy = $this->get('orderby');
+        $sortOrder = $this->get('sortorder');
 
-		$orderBy = $this->get('orderby');
-		$sortOrder = $this->get('sortorder');
+        if (!empty($orderBy)) {
+            if ($sortOrder === 'ASC') {
+                $query->orderBy([$orderBy => SORT_ASC]);
+            } else {
+                $query->orderBy([$orderBy => SORT_DESC]);
+            }
+        }
+        $query->limit($pageLimit);
+        $query->offset($startIndex);
+        $dataReader = $query->all();
 
-		if (!empty($orderBy)) {
-			if ($sortOrder === 'ASC') {
-				$query->orderBy([$orderBy => SORT_ASC]);
-			} else {
-				$query->orderBy([$orderBy => SORT_DESC]);
-			}
-		}
-		$query->limit($pageLimit);
-		$query->offset($startIndex);
-		$dataReader = $query->all();
+        $listViewEntries = [];
+        foreach ($dataReader as $row) {
+            $listViewEntries[$row['portalid']] = [];
+            $listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
+            $listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
+            $listViewEntries[$row['portalid']]['createdtime'] = App\Fields\Date::formatToDisplay($row['createdtime']);
+        }
+        $index = 0;
+        foreach ($listViewEntries as $recordId => $record) {
+            $record['id'] = $recordId;
+            $listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
+        }
 
-		$listViewEntries = [];
-		foreach ($dataReader as $row) {
-			$listViewEntries[$row['portalid']] = [];
-			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
-			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
-			$listViewEntries[$row['portalid']]['createdtime'] = App\Fields\Date::formatToDisplay($row['createdtime']);
-		}
-		$index = 0;
-		foreach ($listViewEntries as $recordId => $record) {
-			$record['id'] = $recordId;
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
-		}
+        return $listViewRecordModels;
+    }
 
-		return $listViewRecordModels;
-	}
+    public function getQuery()
+    {
+        $query = (new \App\Db\Query())
+            ->select(['portalid', 'portalname', 'portalurl', 'createdtime'])
+            ->from('vtiger_portal');
+        $searchValue = $this->getForSql('search_value');
+        if (!empty($searchValue)) {
+            $query->where(['like', 'portalname', $searchValue]);
+        }
 
-	public function getQuery()
-	{
-		$query = (new \App\Db\Query())
-			->select(['portalid', 'portalname', 'portalurl', 'createdtime'])
-			->from('vtiger_portal');
-		$searchValue = $this->getForSql('search_value');
-		if (!empty($searchValue)) {
-			$query->where(['like', 'portalname', $searchValue]);
-		}
-		return $query;
-	}
+        return $query;
+    }
 
-	public function calculatePageRange($record, $pagingModel)
-	{
-		$pageLimit = $pagingModel->getPageLimit();
-		$page = $pagingModel->get('page');
+    public function calculatePageRange($record, $pagingModel)
+    {
+        $pageLimit = $pagingModel->getPageLimit();
+        $page = $pagingModel->get('page');
 
-		$startSequence = ($page - 1) * $pageLimit + 1;
-		$endSequence = $startSequence + count($record) - 1;
-		$recordCount = Portal_ListView_Model::getRecordCount();
+        $startSequence = ($page - 1) * $pageLimit + 1;
+        $endSequence = $startSequence + count($record) - 1;
+        $recordCount = self::getRecordCount();
 
-		$pageCount = intval($recordCount / $pageLimit);
-		if (($recordCount % $pageLimit) != 0)
-			$pageCount++;
-		if ($pageCount == 0)
-			$pageCount = 1;
-		if ($page < $pageCount)
-			$nextPageExists = true;
-		else
-			$nextPageExists = false;
+        $pageCount = intval($recordCount / $pageLimit);
+        if (($recordCount % $pageLimit) != 0) {
+            $pageCount++;
+        }
+        if ($pageCount == 0) {
+            $pageCount = 1;
+        }
+        if ($page < $pageCount) {
+            $nextPageExists = true;
+        } else {
+            $nextPageExists = false;
+        }
 
-		$result = [
-			'startSequence' => $startSequence,
-			'endSequence' => $endSequence,
-			'recordCount' => $recordCount,
-			'pageCount' => $pageCount,
-			'nextPageExists' => $nextPageExists,
-			'pageLimit' => $pageLimit
-		];
+        $result = [
+            'startSequence' => $startSequence,
+            'endSequence' => $endSequence,
+            'recordCount' => $recordCount,
+            'pageCount' => $pageCount,
+            'nextPageExists' => $nextPageExists,
+            'pageLimit' => $pageLimit,
+        ];
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getRecordCount()
-	{
-		return $this->getQuery()->count();
-	}
+    public function getRecordCount()
+    {
+        return $this->getQuery()->count();
+    }
 }

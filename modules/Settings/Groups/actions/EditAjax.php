@@ -8,37 +8,29 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
+class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 {
+    use \App\Controller\ExposeMethod;
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('checkDuplicate');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('checkDuplicate');
+    }
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
+    public function checkDuplicate(\App\Request $request)
+    {
+        $groupName = $request->get('groupname');
+        $recordId = $request->get('record');
 
-	public function checkDuplicate(\App\Request $request)
-	{
-		$groupName = $request->get('groupname');
-		$recordId = $request->get('record');
+        $recordModel = Settings_Groups_Record_Model::getInstanceByName(App\Purifier::decodeHtml($groupName), [$recordId]);
 
-		$recordModel = Settings_Groups_Record_Model::getInstanceByName(App\Purifier::decodeHtml($groupName), [$recordId]);
-
-		$response = new Vtiger_Response();
-		if (!empty($recordModel)) {
-			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);
-		} else {
-			$response->setResult(['success' => false]);
-		}
-		$response->emit();
-	}
+        $response = new Vtiger_Response();
+        if (!empty($recordModel)) {
+            $response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);
+        } else {
+            $response->setResult(['success' => false]);
+        }
+        $response->emit();
+    }
 }

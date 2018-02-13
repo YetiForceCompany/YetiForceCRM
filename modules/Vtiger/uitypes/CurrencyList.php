@@ -11,51 +11,54 @@
 
 class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        if (!is_numeric($value)) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $currencylist = $this->getPicklistValues();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$currencylist = $this->getPicklistValues();
-		return \App\Purifier::encodeHtml(isset($currencylist[$value]) ? $currencylist[$value] : $value);
-	}
+        return \App\Purifier::encodeHtml(isset($currencylist[$value]) ? $currencylist[$value] : $value);
+    }
 
-	/**
-	 * Function to get all the available picklist values for the current field
-	 * @return array List of picklist values if the field
-	 */
-	public function getPicklistValues()
-	{
-		$fieldModel = $this->getFieldModel();
-		return $fieldModel->getCurrencyList();
-	}
+    /**
+     * Function to get all the available picklist values for the current field.
+     *
+     * @return array List of picklist values if the field
+     */
+    public function getPicklistValues()
+    {
+        $fieldModel = $this->getFieldModel();
 
-	public function getCurrenyListReferenceFieldName()
-	{
-		return 'currency_name';
-	}
+        return $fieldModel->getCurrencyList();
+    }
 
-	/**
-	 * Function defines empty picklist element availability
-	 * @return boolean
-	 */
-	public function isEmptyPicklistOptionAllowed()
-	{
-		return false;
-	}
+    public function getCurrenyListReferenceFieldName()
+    {
+        return 'currency_name';
+    }
+
+    /**
+     * Function defines empty picklist element availability.
+     *
+     * @return bool
+     */
+    public function isEmptyPicklistOptionAllowed()
+    {
+        return false;
+    }
 }

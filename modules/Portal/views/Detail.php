@@ -10,44 +10,44 @@
 
 class Portal_Detail_View extends Vtiger_Index_View
 {
+    public function preProcess(\App\Request $request, $display = true)
+    {
+        parent::preProcess($request);
+    }
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		parent::preProcess($request);
-	}
+    public function process(\App\Request $request)
+    {
+        $recordId = $request->getInteger('record');
+        $module = $request->getModule();
 
-	public function process(\App\Request $request)
-	{
-		$recordId = $request->getInteger('record');
-		$module = $request->getModule();
+        $url = Portal_Module_Model::getWebsiteUrl($recordId);
+        $recordList = Portal_Module_Model::getAllRecords();
 
-		$url = Portal_Module_Model::getWebsiteUrl($recordId);
-		$recordList = Portal_Module_Model::getAllRecords();
+        $viewer = $this->getViewer($request);
 
-		$viewer = $this->getViewer($request);
+        $viewer->assign('MODULE', $module);
+        $viewer->assign('RECORD_ID', $recordId);
+        $viewer->assign('URL', $url);
+        $viewer->assign('RECORDS_LIST', $recordList);
 
-		$viewer->assign('MODULE', $module);
-		$viewer->assign('RECORD_ID', $recordId);
-		$viewer->assign('URL', $url);
-		$viewer->assign('RECORDS_LIST', $recordList);
+        $viewer->view('DetailView.tpl', $module);
+    }
 
-		$viewer->view('DetailView.tpl', $module);
-	}
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
 
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
+        $jsFileNames = [
+            'modules.Vtiger.resources.List',
+            'modules.Vtiger.resources.Detail',
+            "modules.$moduleName.resources.List",
+            "modules.$moduleName.resources.Detail",
+        ];
 
-		$jsFileNames = [
-			'modules.Vtiger.resources.List',
-			'modules.Vtiger.resources.Detail',
-			"modules.$moduleName.resources.List",
-			"modules.$moduleName.resources.Detail",
-		];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        return $headerScriptInstances;
+    }
 }

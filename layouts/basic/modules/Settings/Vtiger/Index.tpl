@@ -17,7 +17,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title" id="myModalLabel">
-								<span class="glyphicon glyphicon-warning-sign redColor" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-exclamation-circle redColor"></span>&nbsp;&nbsp;
 								{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
 							</h4>
 						</div>
@@ -34,21 +34,21 @@
 											<p>
 												{$ITEM->getDescription()}
 											</p>
-											<div class="pull-right">
+											<div class="float-right">
 												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
 													<button type="button" class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
-														<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+														<span class="fas fa-minus-circle"></span>
 														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
 													</button>&nbsp;&nbsp;
 												{/if}
 												{if $ITEM->getLink()}
 													<a class="btn btn-success" href="{$ITEM->getLink()}" target="_blank">
-														<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+														<span class="fas fa-link"></span>
 														&nbsp;&nbsp;{$ITEM->linkTitle}
 													</a>&nbsp;&nbsp;
 												{/if}
 												<button type="button" class="btn btn-danger cancel">
-													<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+													<span class="fas fa-ban"></span>
 													&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 												</button>
 											</div>
@@ -65,32 +65,32 @@
 	{/if}
 	<div class="settingsIndexPage">
 		<div class="row center-block">
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showWarnings()">
 					<h2 style="font-size: 44px" class="summaryCount">{$WARNINGS_COUNT}</h2>
                     <p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', $QUALIFIED_MODULE, $WARNINGS_COUNT)}</p>
 				</a>
-				
+
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()">
 					<h2 style="font-size: 44px" class="summaryCount">{$SECURITY_COUNT}</h2>
 					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_SECURITY', $QUALIFIED_MODULE, $SECURITY_COUNT)}</p>
 				</a>
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$USERS_COUNT}</h2>
 					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_USERS', $QUALIFIED_MODULE, $USERS_COUNT)}</p>
 				</a>
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="index.php?module=Workflows&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$ALL_WORKFLOWS}</h2>
                     <p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE,$ALL_WORKFLOWS)}</p>
 				</a>
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="index.php?module=ModuleManager&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$ACTIVE_MODULES}</h2>
 					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_MODULES',$QUALIFIED_MODULE,$ACTIVE_MODULES)}</p>

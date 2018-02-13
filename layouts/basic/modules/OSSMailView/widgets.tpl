@@ -6,36 +6,36 @@
 			<div class="row{if $KEY%2 != 0} even{/if}">
 				{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 					<div class="col-md-12 mailActions">
-						<div class="pull-left">
-							<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-default" >
-								<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
+						<div class="float-left">
+							<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-light" >
+								<span class="body-icon fas fa-caret-down"></span>
 							</a>&nbsp;
-							<button type="button" class="btn btn-sm btn-default showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
-								<span class="body-icon glyphicon glyphicon-search"></span>
+							<button type="button" class="btn btn-sm btn-light showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
+								<span class="body-icon fas fa-search"></span>
 							</button>
 						</div>
-						<div class="pull-right">
+						<div class="float-right">
 							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $PRIVILEGESMODEL->internal_mailer == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
+									<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 									</button>
-									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
+									<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 									</button>
-									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
-										<span class="glyphicon glyphicon-share-alt"></span>
+									<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
+										<span class="fas fa-share"></span>
 									</button>
 								{else}
-									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+									<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 									</a>
-									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}">
+									<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}">
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 									</a>
-									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
-										<span class="glyphicon glyphicon-share-alt"></span>
+									<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
+										<span class="fas fa-share"></span>
 									</a>
 								{/if}
 							{/if}
@@ -45,7 +45,7 @@
 					</div>
 				{/if}
 				<div class="col-md-12">
-					<div class="pull-left">
+					<div class="float-left">
 						{if $ROW['type'] eq 0}
 							{assign var=FIRST_LETTER_CLASS value='bgGreen'}
 						{elseif $ROW['type'] eq 1}
@@ -57,7 +57,7 @@
 							{$ROW['firstLetter']}
 						</span>
 					</div>
-					<div class="pull-right muted">
+					<div class="float-right muted">
 						<small>
 							{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 						</small>   
@@ -65,20 +65,20 @@
 					<h5 class="textOverflowEllipsis mailTitle mainFrom">
 						{$ROW['from']}
 					</h5>
-					<div class="pull-right">
+					<div class="float-right">
 						{if $ROW['attachments'] eq 1}
-							<img class="pull-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
+							<img class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
 						{/if}
-						<span class="pull-right">
+						<span class="float-right">
 							{if $ROW['type'] eq 0}
-								<span class="glyphicon glyphicon-arrow-up text-success" aria-hidden="true"></span>
+								<span class="fas fa-arrow-up text-success"></span>
 							{elseif $ROW['type'] eq 1}
-								<span class="glyphicon glyphicon-arrow-down text-danger" aria-hidden="true"></span>
+								<span class="fas fa-arrow-down text-danger"></span>
 							{elseif $ROW['type'] eq 2}
-								<span class="glyphicon glyphicon-retweet text-primary" aria-hidden="true"></span>
+								<span class="fas fa-retweet text-primary"></span>
 							{/if}
 						</span>
-						<span class="pull-right smalSeparator"></span>
+						<span class="float-right smalSeparator"></span>
 					</div>
 					<h5 class="textOverflowEllipsis mailTitle mainSubject">
 						{$ROW['subject']}

@@ -13,12 +13,12 @@
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
+			{if isset($SELECTED_PAGE)}
+				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+			{/if}
 		</div>
 		<div class="col-md-4 ">
-			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right">
+			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right">
 				<strong>{\App\Language::translate('LBL_EDIT_RECORD', $MODULE)}</strong>
 			</a>
 		</div>
@@ -27,7 +27,7 @@
 		<div class="">
 			<form id="detailView" class="form-horizontal" method="POST">
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						<span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}  
 					</div>
 					<div class="controls pushDown">
@@ -43,8 +43,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-2 control-label">
-						 <span class="redColor">*</span>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)} 
+					<div class="col-md-2 col-form-label">
+						<span class="redColor">*</span>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
 						<div class="row">
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						<span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="col-md-5 controls pushDown">
@@ -89,4 +89,4 @@
 			</form>
 		</div>
 	</div>
-{strip}
+	{strip}

@@ -10,5 +10,4 @@
 
 class Settings_Vtiger_Index_Action extends Settings_Vtiger_IndexAjax_View
 {
-	
 }

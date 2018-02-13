@@ -6,65 +6,38 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('addListPrice');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('addListPrice');
-	}
-	/*
-	 * Function to add relation for specified source record id and related record id list
-	 * @param <array> $request
-	 */
+    /**
+     * Function adds Products/Services-PriceBooks Relation.
+     *
+     * @param type $request
+     */
+    public function addListPrice(\App\Request $request)
+    {
+        $sourceModule = $request->getModule();
+        $sourceRecordId = $request->getInteger('src_record');
+        $relatedModule = $request->getByType('related_module');
+        $relInfos = $request->get('relinfo');
 
-	public function addRelation(\App\Request $request)
-	{
-		$sourceModule = $request->getModule();
-		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->getByType('related_module');
-		if (is_numeric($relatedModule)) {
-			$relatedModule = \App\Module::getModuleName($relatedModule);
-		}
-		$relatedRecordIdList = $request->get('related_record_list');
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		foreach ($relatedRecordIdList as $relatedRecordId) {
-			$relationModel->addRelation($sourceRecordId, (int) $relatedRecordId, $listPrice);
-			if ($relatedModule === 'PriceBooks') {
-				$recordModel = Vtiger_Record_Model::getInstanceById((int) $relatedRecordId);
-				if ($sourceRecordId && ($sourceModule === 'Products' || $sourceModule === 'Services')) {
-					$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
-					$recordModel->updateListPrice($sourceRecordId, $parentRecordModel->get('unit_price'));
-				}
-			}
-		}
-		$response = new Vtiger_Response();
-		$response->setResult(true);
-		$response->emit();
-	}
-
-	/**
-	 * Function adds Products/Services-PriceBooks Relation
-	 * @param type $request
-	 */
-	public function addListPrice(\App\Request $request)
-	{
-		$sourceModule = $request->getModule();
-		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->getByType('related_module');
-		$relInfos = $request->get('relinfo');
-
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		foreach ($relInfos as $relInfo) {
-			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
-			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
-		}
-	}
+        $sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+        $relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+        $relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+        foreach ($relInfos as $relInfo) {
+            $price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
+            $relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
+        }
+    }
 }

@@ -6,11 +6,11 @@
 				<div class="modal-dialog modal-lg ">
 					<div class="modal-content">
 						<div class="modal-header row no-margin">
-							<div class="col-xs-12 paddingLRZero">
-								<div class="col-xs-8 paddingLRZero">
+							<div class="col-12 paddingLRZero">
+								<div class="col-8 paddingLRZero">
 									<h4>{\App\Language::translate('LBL_TITLE_ADD_ISSUE', $QUALIFIED_MODULE)}</h4>
 								</div>
-								<div class="pull-right">
+								<div class="float-right">
 									<button class="btn btn-success saveIssues paddingLeftMd" type="submit" disabled>
 										{\App\Language::translate('LBL_ADD_ISSUES', $QUALIFIED_MODULE)}
 									</button>
@@ -19,13 +19,13 @@
 							</div>
 						</div>
 						<div class="modal-body row">
-							<div class="col-xs-12">
-								<div class="col-xs-12 paddingLRZero marginBottom10px">
+							<div class="col-12">
+								<div class="col-12 paddingLRZero marginBottom10px">
 									<span class="redColor">*</span>
 									{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}
 									<input id="titleIssues" class="form-control" data-validation-engine="validate[required]" type="text" name="title" value="">
 								</div>
-								<div class="col-xs-12 paddingLRZero marginBottom10px">
+								<div class="col-12 paddingLRZero marginBottom10px">
 									<div class="checkbox">
 										<label>
 											<input type="checkbox" name="confirmRegulations">
@@ -33,7 +33,7 @@
 										</label>
 									</div>
 								</div>
-								<div class="col-xs-12 paddingLRZero marginBottom10px">
+								<div class="col-12 paddingLRZero marginBottom10px">
 									{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 									<textarea id="bodyIssues" class="form-control ckEditorSource" type="text" name="title">
 									<br />

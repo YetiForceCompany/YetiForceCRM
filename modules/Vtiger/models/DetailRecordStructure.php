@@ -9,56 +9,58 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Detail View Record Structure Model
+ * Vtiger Detail View Record Structure Model.
  */
 class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
+    /**
+     * Function to get the values in stuctured format.
+     *
+     * @return array values in structure array('block'=>array(fieldinfo));
+     */
+    public function getFieldInHeader()
+    {
+        $moduleModel = $this->getModule();
+        $recordModel = $this->getRecord();
+        $fieldsInHeader = [];
+        foreach ($moduleModel->getFields() as $fieldModel) {
+            if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView()) {
+                $fieldsInHeader [$fieldModel->get('label')] = [
+                    'value' => $recordModel->getDisplayValue($fieldModel->getName()),
+                    'class' => $fieldModel->get('header_field'),
+                ];
+            }
+        }
 
-	/**
-	 * Function to get the values in stuctured format
-	 * @return array values in structure array('block'=>array(fieldinfo));
-	 */
-	public function getFieldInHeader()
-	{
-		$moduleModel = $this->getModule();
-		$recordModel = $this->getRecord();
-		$fieldsInHeader = [];
-		foreach ($moduleModel->getFields() as $fieldModel) {
-			if ($fieldModel->isHeaderField() && $fieldModel->isViewableInDetailView()) {
-				$fieldsInHeader [$fieldModel->get('label')] = [
-					'value' => $recordModel->getDisplayValue($fieldModel->getName()),
-					'class' => $fieldModel->get('header_field')
-				];
-			}
-		}
-		return $fieldsInHeader;
-	}
+        return $fieldsInHeader;
+    }
 
-	public function getStructure()
-	{
-		if (!empty($this->structuredValues)) {
-			return $this->structuredValues;
-		}
-		$values = [];
-		$recordModel = $this->getRecord();
-		$recordExists = !empty($recordModel);
-		$moduleModel = $this->getModule();
-		$blockModelList = $moduleModel->getBlocks();
-		foreach ($blockModelList as $blockLabel => &$blockModel) {
-			$fieldModelList = $blockModel->getFields();
-			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = [];
-				foreach ($fieldModelList as $fieldName => &$fieldModel) {
-					if ($fieldModel->isViewableInDetailView()) {
-						if ($recordExists) {
-							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-						}
-						$values[$blockLabel][$fieldName] = $fieldModel;
-					}
-				}
-			}
-		}
-		$this->structuredValues = $values;
-		return $values;
-	}
+    public function getStructure()
+    {
+        if (!empty($this->structuredValues)) {
+            return $this->structuredValues;
+        }
+        $values = [];
+        $recordModel = $this->getRecord();
+        $recordExists = !empty($recordModel);
+        $moduleModel = $this->getModule();
+        $blockModelList = $moduleModel->getBlocks();
+        foreach ($blockModelList as $blockLabel => &$blockModel) {
+            $fieldModelList = $blockModel->getFields();
+            if (!empty($fieldModelList)) {
+                $values[$blockLabel] = [];
+                foreach ($fieldModelList as $fieldName => &$fieldModel) {
+                    if ($fieldModel->isViewableInDetailView()) {
+                        if ($recordExists) {
+                            $fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+                        }
+                        $values[$blockLabel][$fieldName] = $fieldModel;
+                    }
+                }
+            }
+        }
+        $this->structuredValues = $values;
+
+        return $values;
+    }
 }

@@ -9,7 +9,7 @@
 {strip}
 	<div class="">
 		<div class="row widget_header">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
@@ -86,7 +86,7 @@
 				<div class="row">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('changeowner')} checked="" {/if} name="change_owner" class="alignTop" />
 						</div>
 					</div>
@@ -130,7 +130,7 @@
 				<div class="row">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('editrelatedrecord')} checked="" {/if} name="editRelatedRecord" class="alignTop" />
 						</div>
 					</div>
@@ -151,7 +151,7 @@
 				<div class="row">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_SHOW_GLOBAL_SEARCH_ADVANCED',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('globalsearchadv')} checked="" {/if} name="globalSearchAdvanced" class="alignTop" />
 						</div>
 					</div>
@@ -172,13 +172,13 @@
 				<div class="form-group paddingTop10">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_AUTO_ASSIGN_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('auto_assign')} checked="" {/if} name="auto_assign" class="alignTop" />
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="pull-right marginRight10px paddingTop20">
+			<div class="float-right marginRight10px paddingTop20">
 				<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$MODULE)}</button>
 				<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>

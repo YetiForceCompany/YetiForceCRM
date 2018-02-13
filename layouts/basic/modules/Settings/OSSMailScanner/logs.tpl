@@ -9,7 +9,7 @@
 </style>
 <div class='editViewContainer ' id="tab_cron">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 			<td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
 		</tr>
 	</table><br />
-	<div class="row col-xs-12">
+	<div class="row col-12">
 		<div  class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px" >
 			<div class="row col-sm-4">{\App\Language::translate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
 			<div class="col-sm-7"><input type="text" class="form-control" title="{\App\Language::translate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
@@ -28,7 +28,7 @@
 			<div class="col-sm-7"><input type="text" name="time_to_notify" title="{\App\Language::translate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 		</div>
 	</div>
-	<div class="pull-right">
+	<div class="float-right">
 		<select class="col-md-1 form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 			{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}

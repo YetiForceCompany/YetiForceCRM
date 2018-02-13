@@ -9,41 +9,40 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Users_DeleteImage_Action extends Vtiger_Action_Controller
+class Users_DeleteImage_Action extends \App\Controller\Action
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $record = $request->getInteger('id');
+        if (!(\App\Privilege::isPermitted($moduleName, 'EditView', $record) && \App\Privilege::isPermitted($moduleName, 'Delete', $record))) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$record = $request->getInteger('id');
-		if (!(\App\Privilege::isPermitted($moduleName, 'EditView', $record) && \App\Privilege::isPermitted($moduleName, 'Delete', $record))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function process(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $recordId = $request->getInteger('record');
+        $imageId = $request->getInteger('imageid');
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$imageId = $request->getInteger('imageid');
+        $response = new Vtiger_Response();
+        if ($recordId) {
+            $recordModel = Users_Record_Model::getInstanceById($recordId, $moduleName);
+            $status = $recordModel->deleteImage($imageId);
+            if ($status) {
+                $response->setResult([\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)]);
+            }
+        } else {
+            $response->setError(\App\Language::translate('LBL_IMAGE_NOT_DELETED', $moduleName));
+        }
 
-		$response = new Vtiger_Response();
-		if ($recordId) {
-			$recordModel = Users_Record_Model::getInstanceById($recordId, $moduleName);
-			$status = $recordModel->deleteImage($imageId);
-			if ($status) {
-				$response->setResult([\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)]);
-			}
-		} else {
-			$response->setError(\App\Language::translate('LBL_IMAGE_NOT_DELETED', $moduleName));
-		}
-
-		$response->emit();
-	}
+        $response->emit();
+    }
 }

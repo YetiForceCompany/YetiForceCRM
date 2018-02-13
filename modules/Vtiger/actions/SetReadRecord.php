@@ -11,29 +11,30 @@ F<?php
 
 class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 {
+    /**
+     * Function to check permission.
+     *
+     * @param \App\Request $request
+     *
+     * @throws \App\Exceptions\NoPermitted
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        parent::checkPermission($request);
+        $userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		parent::checkPermission($request);
-		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $this->saveRecord($request);
 
-	public function process(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$this->saveRecord($request);
-
-		$cvId = $request->getByType('viewname', 2);
-		$response = new Vtiger_Response();
-		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
-		$response->emit();
-	}
+        $cvId = $request->getByType('viewname', 2);
+        $response = new Vtiger_Response();
+        $response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
+        $response->emit();
+    }
 }

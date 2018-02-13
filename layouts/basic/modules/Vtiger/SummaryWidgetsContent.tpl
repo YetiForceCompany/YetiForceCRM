@@ -7,8 +7,8 @@
 					<tr class="">
 						{if !$IS_READ_ONLY}
 							<th class="noWrap listViewSearchTd">&nbsp;</th>
-						{/if}
-						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							{/if}
+							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
@@ -16,10 +16,10 @@
 						{if $SHOW_CREATOR_DETAIL}
 							<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
 							<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-						{/if}
-						{if $SHOW_COMMENT}
+							{/if}
+							{if $SHOW_COMMENT}
 							<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-						{/if}
+							{/if}
 					</tr>
 				</thead>
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
@@ -59,7 +59,7 @@
 								{/if}&nbsp;&nbsp;
 								<span class="actionImages">
 									<a class="showModal" data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+										<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>
 							</td>
@@ -79,14 +79,14 @@
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 										<tr class="summaryViewEntries">
 											<td class="fieldLabel {$WIDTHTYPE}">
-												<label class="muted pull-left">
+												<label class="muted float-left">
 													{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 												</label>
 											</td>
 											{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 											<td class="fieldValue {$WIDTHTYPE}">
 												<div class="row">
-													<div class="value textOverflowEllipsis col-xs-10 paddingRightZero">
+													<div class="value textOverflowEllipsis col-10 paddingRightZero">
 														{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
 															<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 																{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
@@ -101,18 +101,18 @@
 									{/foreach}
 								</tbody>
 							</table>
-							<div class="pull-right marginBottom5">
+							<div class="float-right marginBottom5">
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-										<button class="btn btn-sm btn-default popoverTooltip" type="button">
-											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list"></span>
+										<button class="btn btn-sm btn-light popoverTooltip" type="button">
+											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list"></span>
 										</button>
 									</a>
 								{/if}
 								{if $RELATED_RECORD->isEditable()}
 									<a class="addButton" href="{$RELATED_RECORD->getEditViewUrl()}">
-										<button class="btn btn-sm btn-default popoverTooltip" type="button">
-											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil"></span>
+										<button class="btn btn-sm btn-light popoverTooltip" type="button">
+											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit"></span>
 										</button>
 									</a>
 								{/if}

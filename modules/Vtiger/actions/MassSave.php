@@ -11,62 +11,66 @@
 
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 {
+    /**
+     * Function to check permission.
+     *
+     * @param \App\Request $request
+     *
+     * @throws \App\Exceptions\NoPermitted
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassEdit')) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassEdit')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $recordModels = $this->getRecordModelsFromRequest($request);
+        $allRecordSave = true;
+        foreach ($recordModels as $recordModel) {
+            if ($recordModel !== false) {
+                $recordModel->save();
+                unset($recordModel);
+            } else {
+                $allRecordSave = false;
+            }
+        }
+        $response = new Vtiger_Response();
+        $response->setResult($allRecordSave);
+        $response->emit();
+    }
 
-	public function process(\App\Request $request)
-	{
-		$recordModels = $this->getRecordModelsFromRequest($request);
-		$allRecordSave = true;
-		foreach ($recordModels as $recordModel) {
-			if ($recordModel !== false) {
-				$recordModel->save();
-				unset($recordModel);
-			} else {
-				$allRecordSave = false;
-			}
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($allRecordSave);
-		$response->emit();
-	}
+    /**
+     * Function to get the record model based on the request parameters.
+     *
+     * @param \App\Request $request
+     *
+     * @return Vtiger_Record_Model[] - List of Vtiger_Record_Model instances
+     */
+    public function getRecordModelsFromRequest(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+        $recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+        $recordModels = [];
+        $fieldModelList = $moduleModel->getFields();
+        foreach ($recordIds as $recordId) {
+            $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+            if (!$recordModel->isEditable()) {
+                $recordModels[$recordId] = false;
+                continue;
+            }
+            foreach ($fieldModelList as $fieldName => $fieldModel) {
+                if ($fieldModel->isWritable() && $request->has($fieldName)) {
+                    $fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
+                }
+            }
+            $recordModels[$recordId] = $recordModel;
+        }
 
-	/**
-	 * Function to get the record model based on the request parameters
-	 * @param \App\Request $request
-	 * @return Vtiger_Record_Model[] - List of Vtiger_Record_Model instances
-	 */
-	public function getRecordModelsFromRequest(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		$recordModels = [];
-		$fieldModelList = $moduleModel->getFields();
-		foreach ($recordIds as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-			if (!$recordModel->isEditable()) {
-				$recordModels[$recordId] = false;
-				continue;
-			}
-			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				if ($fieldModel->isWritable() && $request->has($fieldName)) {
-					$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-				}
-			}
-			$recordModels[$recordId] = $recordModel;
-		}
-		return $recordModels;
-	}
+        return $recordModels;
+    }
 }

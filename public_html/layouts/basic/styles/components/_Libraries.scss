@@ -1,0 +1,46 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//-------- general --------//
+
+//-------- select2 --------//
+.select2-container--bootstrap4 {
+	.select2-selection__rendered {
+		@extend .pb-1;
+	}
+	.select2-results__option,  .select2-results__option .select2-results__option, select2-results__group {
+		@extend .p-1;
+		font-size: inherit;
+	}
+	.select2-results__group {
+		font-size: inherit;
+	}
+}
+.select2Wrapper {
+	width: 100%;
+}
+.dashboardViewContainer, header {
+	.select2-selection.select2-selection--single {
+		font-size: $font-size-sm !important;
+		height: $menuItemsHeight !important;
+		@extend .py-2;
+	}
+}
+header {
+	.select2WithButtonWidth {
+		width: calc(100% - #{$iconButtonWidth});
+	}
+	.headerLinksMails .select2-selection:hover {
+		background: $dark !important;
+		.select2-selection__rendered {
+			color: $white !important;
+		}
+	}
+}
+//--- modal ---//
+
+.conditionRow .select2-container--bootstrap4 {
+	display: inline-block;
+    vertical-align: middle;
+	@extend .w-25;
+	@extend .mr-sm-2;
+}

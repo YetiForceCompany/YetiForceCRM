@@ -10,23 +10,24 @@
 
 class Faq_Module_Model extends Vtiger_Module_Model
 {
+    /**
+     * Function to check whether the module is an entity type module or not.
+     *
+     * @return bool true/false
+     */
+    public function isQuickCreateSupported()
+    {
+        //Faq module is not enabled for quick create
+        return false;
+    }
 
-	/**
-	 * Function to check whether the module is an entity type module or not
-	 * @return boolean true/false
-	 */
-	public function isQuickCreateSupported()
-	{
-		//Faq module is not enabled for quick create
-		return false;
-	}
-
-	/**
-	 * Function to check whether the module is summary view supported
-	 * @return boolean - true/false
-	 */
-	public function isSummaryViewSupported()
-	{
-		return false;
-	}
+    /**
+     * Function to check whether the module is summary view supported.
+     *
+     * @return bool - true/false
+     */
+    public function isSummaryViewSupported()
+    {
+        return false;
+    }
 }

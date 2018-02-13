@@ -10,26 +10,25 @@
 
 class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View
 {
+    public function process(\App\Request $request)
+    {
+        $currentUser = Users_Record_Model::getCurrentUserModel();
 
-	public function process(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+        $positionsMap = $request->get('positionsmap');
 
-		$positionsMap = $request->get('positionsmap');
+        if ($positionsMap) {
+            foreach ($positionsMap as $id => $position) {
+                list($linkid, $widgetid) = explode('-', $id);
+                if ($widgetid) {
+                    Vtiger_Widget_Model::updateWidgetPosition($position, null, (int) $widgetid, $currentUser->getId());
+                } else {
+                    Vtiger_Widget_Model::updateWidgetPosition($position, (int) $linkid, null, $currentUser->getId());
+                }
+            }
+        }
 
-		if ($positionsMap) {
-			foreach ($positionsMap as $id => $position) {
-				list ($linkid, $widgetid) = explode('-', $id);
-				if ($widgetid) {
-					Vtiger_Widget_Model::updateWidgetPosition($position, NULL, (int) $widgetid, $currentUser->getId());
-				} else {
-					Vtiger_Widget_Model::updateWidgetPosition($position, (int) $linkid, NULL, $currentUser->getId());
-				}
-			}
-		}
-
-		$response = new Vtiger_Response();
-		$response->setResult(['Save' => 'OK']);
-		$response->emit();
-	}
+        $response = new Vtiger_Response();
+        $response->setResult(['Save' => 'OK']);
+        $response->emit();
+    }
 }

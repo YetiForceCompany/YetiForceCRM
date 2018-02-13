@@ -18,7 +18,7 @@
 			<div class="inner-container">
 				<div class="pull-right">
 					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
-						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						<span class="fas fa-info-circle"></span>
 					</a>
 				</div>
 				<h4>{App\Language::translate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
@@ -76,7 +76,7 @@
 										<tr {if $item.status}class="danger"{/if}>
 											<td>
 												<label>{$key}</label>
-												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
 											</td>
 											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
@@ -99,7 +99,7 @@
 										<tr {if $item.status}class="danger"{/if}>
 											<td>
 												<label>{$key}</label>
-												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
 											</td>
 											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>

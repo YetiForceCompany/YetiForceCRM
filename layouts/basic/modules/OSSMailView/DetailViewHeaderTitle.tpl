@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="col-md-12 paddingLRZero row">
-		<div class="col-xs-10 margin0px">
+		<div class="col-10 margin0px">
 			<div class="moduleIcon">
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>
-			<div class="paddingLeft5px pull-left">
+			<div class="paddingLeft5px float-left">
 				<h4 style="color: #1560bd;" class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}

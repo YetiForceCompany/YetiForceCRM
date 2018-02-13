@@ -18,7 +18,7 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 		var form = container.find('form');
 		if (form.length) {
 			form.validationEngine(app.validationEngineOptions);
-			form.find(":input").inputmask();
+			form.find("[data-inputmask]").inputmask();
 		}
 		container.find('.select2noactive').each(function (index, domElement) {
 			var select = $(domElement);

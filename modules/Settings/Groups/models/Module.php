@@ -14,27 +14,28 @@
 
 class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 {
+    public $baseTable = 'vtiger_groups';
+    public $baseIndex = 'groupid';
+    public $listFields = ['groupname' => 'Name', 'description' => 'Description'];
+    public $name = 'Groups';
 
-	public $baseTable = 'vtiger_groups';
-	public $baseIndex = 'groupid';
-	public $listFields = ['groupname' => 'Name', 'description' => 'Description'];
-	public $name = 'Groups';
+    /**
+     * Function to get the url for default view of the module.
+     *
+     * @return string - url
+     */
+    public function getDefaultUrl()
+    {
+        return 'index.php?module=Groups&parent=Settings&view=List';
+    }
 
-	/**
-	 * Function to get the url for default view of the module
-	 * @return string - url
-	 */
-	public function getDefaultUrl()
-	{
-		return 'index.php?module=Groups&parent=Settings&view=List';
-	}
-
-	/**
-	 * Function to get the url for create view of the module
-	 * @return string - url
-	 */
-	public function getCreateRecordUrl()
-	{
-		return 'index.php?module=Groups&parent=Settings&view=Edit';
-	}
+    /**
+     * Function to get the url for create view of the module.
+     *
+     * @return string - url
+     */
+    public function getCreateRecordUrl()
+    {
+        return 'index.php?module=Groups&parent=Settings&view=Edit';
+    }
 }

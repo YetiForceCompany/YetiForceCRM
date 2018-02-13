@@ -11,21 +11,21 @@
 
 class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaders()
+    {
+        $headerFields = parent::getHeaders();
+        //Added to support List Price
+        $field = new Vtiger_Field_Model();
+        $field->set('name', 'listprice');
+        $field->set('column', 'listprice');
+        $field->set('label', 'List Price');
+        $field->set('typeofdata', 'N~O');
+        $field->set('fromOutsideList', true);
+        $headerFields['listprice'] = $field;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getHeaders()
-	{
-		$headerFields = parent::getHeaders();
-		//Added to support List Price
-		$field = new Vtiger_Field_Model();
-		$field->set('name', 'listprice');
-		$field->set('column', 'listprice');
-		$field->set('label', 'List Price');
-		$field->set('typeofdata', 'N~O');
-		$field->set('fromOutsideList', true);
-		$headerFields['listprice'] = $field;
-		return $headerFields;
-	}
+        return $headerFields;
+    }
 }

@@ -20,22 +20,22 @@
 						<div class="">
 							{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 							{if $IMAGE_PATH}
-								<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+								<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 							{else}	
-								<span class="glyphicon glyphicon-user userImage pull-left" aria-hidden="true"></span>
+								<span class="fas fa-user userImage float-left"></span>
 							{/if}
 						</div>
-						<div class="col-xs-8 commentorInfo">
+						<div class="col-8 commentorInfo">
 							{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 							<div class="inner">
-								<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
+								<span class="commentorName float-left"><strong>{$COMMENTOR->getName()}</strong></span>
 								<div class="clearfix"></div>
 							</div>
 							<div class="commentInfoContent">
 								{$COMMENT->getDisplayValue('commentcontent')}
 							</div>
 						</div>
-						<span class="pull-right paddingRight15">
+						<span class="float-right paddingRight15">
 							<p class="muted"><small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 						</span>
 					</div>
@@ -43,8 +43,8 @@
 			</div>
 			<div class="commentActionsContainer row no-margin ">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus visible-lg-block col-xs-6"  name="editStatus">
-					<p class="col-xs-6 marginLeftZero">
+				<div class="editedStatus visible-lg-block col-6"  name="editStatus">
+					<p class="col-6 marginLeftZero">
 						<small>
 							<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">
 								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
@@ -52,8 +52,8 @@
 						</small>
 					</p>
 					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-						<span class="{if empty($REASON_TO_EDIT)}row{else} col-xs-6 paddingRightZero{/if}">
-							<span class="pull-right">
+						<span class="{if empty($REASON_TO_EDIT)}row{else} col-6 paddingRightZero{/if}">
+							<span class="float-right">
 								<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
 							</span>
 						</span>
@@ -61,17 +61,17 @@
 				</div>
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<span class="pull-right commentActions">
+					<span class="float-right commentActions">
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-xs btn-success replyComment">
-								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+							<button type="button" class="btn btn-sm btn-success replyComment">
+								<span class="fas fa-share"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
+								<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}

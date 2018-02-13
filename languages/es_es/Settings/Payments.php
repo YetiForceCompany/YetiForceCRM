@@ -9,11 +9,11 @@
  * ********************************************************************************** */
 
 $languageStrings = [
-	'Payments' => 'Pagos',
-	'LBL_RIGHT_CLICK_COPY' => 'Haga clic derecho y copie',
+    'Payments' => 'Pagos',
+    'LBL_RIGHT_CLICK_COPY' => 'Haga clic derecho y copie',
 ];
 
 $jsLanguageStrings = [
-	'JS_DELETED_SUCCESSFULLY' => 'Eliminado correctamente',
-	'JS_SAVED_SUCCESSFULLY' => 'Guardado correctamente',
+    'JS_DELETED_SUCCESSFULLY' => 'Eliminado correctamente',
+    'JS_SAVED_SUCCESSFULLY' => 'Guardado correctamente',
 ];

@@ -158,7 +158,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled"{else} onclick="window.history.back()"{/if} />
+								<input type="button" class="btn btn-sm btn-light" value="{\App\Language::translate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled"{else} onclick="window.history.back()"{/if} />
 								{if $DB_CONNECTION_INFO['flag'] eq true}
 									<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step6"/>
 								{/if}

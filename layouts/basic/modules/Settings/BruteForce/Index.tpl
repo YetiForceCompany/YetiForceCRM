@@ -18,29 +18,29 @@
 						<div class="panel-body">
 							<form id="brutalForceTabForm1" class="form-horizontal" name="brutalForceTabForm1" data-mode="saveConfig">
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-8 col-md-9">
 										<input type="checkbox" id="active" name="active" class="switchBtn" title="{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}" {if $CONFIG.active} checked {/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-2">
 										<input type="text" class="form-control" name="attempsnumber" title="{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}" id="attempsNumber" value="{$CONFIG.attempsnumber}" data-validation-engine="validate[required,custom[number],min[2],max[100]]">
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-2">
 										<input type="text" class="form-control" name="timelock" id="timeLock" title="{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}" value="{$CONFIG.timelock}" data-validation-engine="validate[required,custom[integer]]">
 									</div>
 								</div>
 								<div class="form-group marginbottomZero">
-									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-9">
 										<input type="checkbox" id="sent" name="sent" class="switchBtn" {if $CONFIG.sent} checked {/if} title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}" data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
 										<div class="selectedUsersForm{if !$CONFIG.sent} hide{/if}">
-											<label class="control-label">{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
+											<label class="col-form-label">{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 											<select class="chzn-select form-control" name="selectedUsers" multiple id="selectedUsers" title="{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}" >
 												{foreach key=KEY item=USER from=$ADMIN_USERS}
 													<option value="{$KEY}" {if $USERS_FOR_NOTIFICATIONS } {if in_array($KEY, $USERS_FOR_NOTIFICATIONS)} selected {/if}{/if}>{$USER}</option>
@@ -51,7 +51,7 @@
 								</div>
 						</div>
 						<div class="panel-footer clearfix">
-							<div class="pull-left">
+							<div class="float-left">
 								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
 							</form>
 						</div>

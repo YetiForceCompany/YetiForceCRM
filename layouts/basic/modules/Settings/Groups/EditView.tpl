@@ -14,7 +14,7 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 			<div class="widget_header row">
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{if isset($SELECTED_PAGE)}
 						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
@@ -71,7 +71,7 @@
 							</select>
 						</div>
 						<div class="col-md-2">
-							<span class="pull-right groupMembersColors">
+							<span class="float-right groupMembersColors">
 								<ul class="liStyleNone">
 									<li class="Users padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
 									<li class="Groups padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
@@ -84,8 +84,8 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-5 pull-right">
-					<span class="pull-right">
+				<div class="col-md-5 float-right">
+					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

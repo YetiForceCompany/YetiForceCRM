@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_ADVANCED_PERMISSION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -14,7 +14,7 @@
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" name="mode" value="step1" />
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_ACTION', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_PRIORITY', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MODULE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -79,7 +79,7 @@
 						<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{\App\Language::translate('RoleAndSubordinates', $QUALIFIED_MODULE)}</strong></li>
 					</ul>
 				</div>
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MEMBERS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -95,8 +95,8 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-5 pull-right">
-					<span class="pull-right">
+				<div class="col-md-5 float-right">
+					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE_AND_CONDITIONS', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

@@ -1,14 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header container-fluid openStreetMapModalHeader">
-		<div class="col-xs-5">
+		<div class="col-5">
 			<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_MAP', $MODULE_NAME)}</h3>
 		</div>
-		<div class="col-xs-6">
-			<div class="col-xs-8 noSpaces">
+		<div class="col-6">
+			<div class="col-8 noSpaces">
 				<input type="text" class="searchValue form-control" placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}" />
 			</div>
-			<div class="col-xs-4 noSpaces">
+			<div class="col-4 noSpaces">
 				<div class="input-group group-btn">
 					<input type="text" class="form-control radius" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
 					<div class="input-group-btn">
@@ -17,28 +17,28 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-1">
-			<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<div class="col-1">
+			<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
 		</div>
 	</div>
 	<div class="modal-body container-fluid openStreetMapModalBody">
-		<div class="col-xs-9 paddingLRZero">
+		<div class="col-9 paddingLRZero">
 			<div id="mapid"></div>
 		</div>
-		<div class="col-xs-3">
-			<div class="col-xs-12 paddingLRZero ">
-				<div class="col-xs-7 form-group paddingLefttZero">
+		<div class="col-3">
+			<div class="col-12 paddingLRZero ">
+				<div class="col-7 form-group paddingLefttZero">
 					<div class="input-group">
 						<input type="text" class="form-control searchCompany" />
 						<span class="input-group-btn">
-							<button class="btn btn-default addRecord" type="button">
-								<span class="glyphicon glyphicon-plus"></span>
+							<button class="btn btn-light addRecord" type="button">
+								<span class="fas fa-plus"></span>
 							</button>
 						</span>
 					</div>
 				</div>
-				<div class="col-xs-5 paddingLRZero">
-					<select class="select2 searchModule col-xs-6">
+				<div class="col-5 paddingLRZero">
+					<select class="select2 searchModule col-6">
 						{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
 							<option value="{$ALLOWED_MODULE_NAME}">{\App\Language::translate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}</option>
 						{/foreach}
@@ -48,9 +48,9 @@
 			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
 					<optgroup label="{\App\Language::translate($SRC_MODULE, $SRC_MODULE)}">
-					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
-						<option value="{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
-					{/foreach}
+						{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
+							<option value="{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
+						{/foreach}
 					</optgroup>
 				</select>
 				<span class="input-group-addon">
@@ -69,7 +69,7 @@
 						<input type="text" readonly="readonly" class="form-control start" />
 						<div class="input-group-btn">
 							<button class="btn btn-success btn-sm setView">
-								<span class="fa fa-truck"></span>
+								<span class="fas  fa-truck"></span>
 							</button>
 						</div>
 					</div>
@@ -77,16 +77,16 @@
 						<input type="text" readonly="readonly" class="form-control indirect " />
 						<div class="input-group-btn">
 							<button class="btn btn-warning btn-sm setView">
-								<span class="fa fa-flag"></span>
+								<span class="fas fa-flag"></span>
 							</button>
 							<button class="btn btn-success btn-sm moveUp">
-								<span class="fa fa-arrow-up"></span>
+								<span class="fas fa-upload"></span>
 							</button>
 							<button class="btn btn-success  btn-sm moveDown">
-								<span class="fa fa-arrow-down"></span>
+								<span class="fas fa-download"></span>
 							</button>
 							<button class="btn btn-danger btn-sm removeIndirect">
-								<span class="glyphicon glyphicon-remove"></span>
+								<span class="fas fa-times"></span>
 							</button>
 						</div>
 					</div>
@@ -94,11 +94,11 @@
 						<input type="text" readonly="readonly" class="form-control end" />
 						<div class="input-group-btn">
 							<button class="btn btn-danger btn-sm setView">
-								<span class="fa fa-flag-checkered"></span>
+								<span class="fas fa-flag-checkered"></span>
 							</button>
 						</div>
 					</div>
-					<div class="form-group pull-right">
+					<div class="form-group float-right">
 						<button class="btn btn-primary hide calculateTrack">{\App\Language::translate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
 					</div>
 				</div>
@@ -110,7 +110,7 @@
 				<div class="panel-body cacheContent">
 					{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
 						<div class="cacheModuleContainer">
-							<div class="col-xs-8">
+							<div class="col-8">
 								<label>
 									<input type="checkbox" class="showRecordsFromCache" data-module="{$ALLOWED_MODULE_NAME}" />
 									&nbsp;{\App\Language::translate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}&nbsp;
@@ -121,14 +121,14 @@
 									</span>
 								</label>
 							</div>
-							<div class="col-xs-4">
-								<button class="btn btn-xs btn-success addAllRecords pull-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
-								<button class="btn btn-xs btn-danger deleteClipBoard pull-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fa fa-trash"></span></button>
+							<div class="col-4">
+								<button class="btn btn-sm btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-download"></span></button>
+								<button class="btn btn-sm btn-danger deleteClipBoard float-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
 							</div>
 						</div>
 					{/foreach}
-					<div class="col-xs-12">
-						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fa fa-clipboard"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+					<div class="col-12">
+						<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
 					</div>
 				</div>
 			</div>

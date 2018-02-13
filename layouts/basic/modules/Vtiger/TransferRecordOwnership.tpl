@@ -20,12 +20,12 @@
 				<form class="form-horizontal" id="changeOwner" name="changeOwner" method="post" action="index.php">
 					<div class="modal-body tabbable">
 						<div class="form-group">
-							<div class="col-sm-4 control-label">{\App\Language::translate('LBL_ASSIGNED_TO', $MODULE)}</div>
+							<div class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ASSIGNED_TO', $MODULE)}</div>
 							<div class="col-sm-7 controls">
 								<select class="select2 form-control" data-validation-engine="validate[ required]" title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}" name="transferOwnerId" id="transferOwnerId"
-									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
-										data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-									{/if}>
+										{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+											data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+										{/if}>
 									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 										<option value="{$USER_MODEL->get('id')}" data-picklistvalue="{$USER_MODEL->getName()}">
 											{$USER_MODEL->getName()}
@@ -54,7 +54,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-sm-4 control-label">{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
+							<div class="col-sm-4 col-form-label">{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
 							<div class="col-sm-7 controls"> 
 								<select class="select2-container form-control columnsSelect" id="related_modules" title="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" data-placeholder="{\App\Language::translate('--None--',$MODULE)}" multiple="" name="related_modules[]">
 									{if $REL_BY_FIELDS}

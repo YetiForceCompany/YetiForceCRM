@@ -10,32 +10,33 @@
 
 class ModComments_CommentsModel
 {
+    private $data;
+    public static $ownerNamesCache = [];
 
-	private $data;
-	public static $ownerNamesCache = [];
+    public function __construct($datarow)
+    {
+        $this->data = $datarow;
+    }
 
-	public function __construct($datarow)
-	{
-		$this->data = $datarow;
-	}
+    public function author()
+    {
+        $authorid = $this->data['smcreatorid'];
+        if (!isset(self::$ownerNamesCache[$authorid])) {
+            self::$ownerNamesCache[$authorid] = \App\Fields\Owner::getLabel($authorid);
+        }
 
-	public function author()
-	{
-		$authorid = $this->data['smcreatorid'];
-		if (!isset(self::$ownerNamesCache[$authorid])) {
-			self::$ownerNamesCache[$authorid] = \App\Fields\Owner::getLabel($authorid);
-		}
-		return self::$ownerNamesCache[$authorid];
-	}
+        return self::$ownerNamesCache[$authorid];
+    }
 
-	public function timestamp()
-	{
-		$date = new DateTimeField($this->data['modifiedtime']);
-		return $date->getDisplayDateTimeValue();
-	}
+    public function timestamp()
+    {
+        $date = new DateTimeField($this->data['modifiedtime']);
 
-	public function content()
-	{
-		return App\Purifier::decodeHtml($this->data['commentcontent']);
-	}
+        return $date->getDisplayDateTimeValue();
+    }
+
+    public function content()
+    {
+        return App\Purifier::decodeHtml($this->data['commentcontent']);
+    }
 }

@@ -76,7 +76,7 @@
 						{/if}
 						{assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]}
 						<select class="col-md-6 select2-container" title="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" id="secondary_module" multiple name="secondary_modules[]"
-							data-placeholder="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
+								data-placeholder="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
 							{foreach key=PRIMARY_RELATED_MODULE  item=PRIMARY_RELATED_MODULE_LABEL from=$PRIMARY_RELATED_MODULES}
 								<option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
 							{/foreach}
@@ -91,7 +91,7 @@
 					<div class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" name="description" title="{\App\Language::translate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
 			</div>
-			<div class="pull-right">
+			<div class="float-right">
 				<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 				<button onclick='window.history.back()' class="cancelLink cursorPointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>

@@ -11,37 +11,37 @@
 
 class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        parent::validate($value, $isUserFormat);
+        $this->validate = false;
+        if (\App\Language::getLanguageLabel($value) === false) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		parent::validate($value, $isUserFormat);
-		$this->validate = false;
-		if (\App\Language::getLanguageLabel($value) === false) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        return \App\Purifier::encodeHtml(\App\Language::getLanguageLabel($value));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		return \App\Purifier::encodeHtml(\App\Language::getLanguageLabel($value));
-	}
-
-	/**
-	 * Function to get all the available picklist values for the current field
-	 * @return array List of picklist values if the field
-	 */
-	public function getPicklistValues()
-	{
-		return \App\Language::getAll();
-	}
+    /**
+     * Function to get all the available picklist values for the current field.
+     *
+     * @return array List of picklist values if the field
+     */
+    public function getPicklistValues()
+    {
+        return \App\Language::getAll();
+    }
 }

@@ -1,11 +1,11 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	{if $DEVICE == 'Mobile'}
 		<div class="mobileLeftPanelContainer">
 			<ul class='paddingLRZero' role='menubar'>
 			{else}
 				<nav>
-					<ul class="nav modulesList" role="menubar">
+					<ul class="nav flex-column modulesList" role="menubar">
 					{/if}	
 					{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 					{assign var=TABINDEX value=0}

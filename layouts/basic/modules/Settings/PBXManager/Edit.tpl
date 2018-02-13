@@ -18,7 +18,7 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 				<div class="col-md-4 btn-toolbar">
-					<div class="pull-right">
+					<div class="float-right">
 						<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>
@@ -36,7 +36,7 @@
 					<tbody>
 						{assign var=FIELDS value=PBXManager_PBXManager_Connector::getSettingsParameters()}
 						{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
-							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
+							<tr><td width="25%"><label class="muted float-right marginRight10px"><span class="redColor">*</span>{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
 								<td style="border-left: none;"><input type="{$FIELD_TYPE}" class="form-control" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>
 								{/foreach}
 					<input type="hidden" name="module" value="PBXManager" />

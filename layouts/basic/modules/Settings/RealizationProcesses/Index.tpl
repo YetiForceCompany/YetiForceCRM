@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
- <div class=" supportProcessesContainer">
- 	<div class="widget_header row">
-		<div class="col-xs-12">
+<div class=" supportProcessesContainer">
+	<div class="widget_header row">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>	
@@ -26,7 +26,7 @@
 				<tbody>
 					<tr>
 						<td><label>{\App\Language::translate('LBL_PROJECT_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-xs-6">
+						<td class="col-6">
 							{assign var=STATUS_CLOSED value=$STATUS_NOT_MODIFY['Project']}
 							<select class="chzn-select projectStatus" multiple name="projectStatus" data-moduleid="{$STATUS_CLOSED.id}">
 								{foreach  item=STATUS from=$PROJECT_STATUS}

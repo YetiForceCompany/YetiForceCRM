@@ -5,9 +5,9 @@
     {assign var=SEARCH_VALUES value=explode('##',$SEARCH_INFO['searchValue'])}
     <div class="picklistSearchField">
         <select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
-        {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
+			{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
                 <option value="{\App\Purifier::encodeHtml($PICKLIST_LABEL.name)}" {if in_array($PICKLIST_LABEL.name,$SEARCH_VALUES) && ($PICKLIST_LABEL.name neq "") } selected{/if}>{\App\Purifier::encodeHtml($PICKLIST_LABEL.label)}</option>
-        {/foreach}
-    </select>
+			{/foreach}
+		</select>
     </div>
 {/strip}

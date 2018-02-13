@@ -1,23 +1,23 @@
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- ********************************************************************************/
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce.com
+********************************************************************************/
 -->*}
 {strip}
 	<div class="">
 		<form id="leadsMapping" method="POST">
 			<div class="row widget_header settingsHeader marginBottom5">
-				<span class="col-sm-12 col-xs-12 col-md-8">
+				<span class="col-sm-12 col-12 col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				</span>
-				<span class="col-xs-12 col-sm-12 col-md-4 ">
-					<span class="pull-right">
+				<span class="col-12 col-sm-12 col-md-4 ">
+					<span class="float-right">
 						<button type="submit" class="btn btn-success"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
@@ -34,7 +34,7 @@
 						<tr>
 							{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders() name=header}
 								<th {if $smarty.foreach.header.iteration > 2}data-hide='phone'{/if}><b>{\App\Language::translate($LABEL, $LABEL)}</b></th>
-							{/foreach}
+									{/foreach}
 						</tr>
 					</thead>
 					<tbody>
@@ -47,8 +47,8 @@
 										{foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}
 											{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
 												<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Leads']['id']} selected {/if} label="{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-														{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}
-													</option>
+													{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}
+												</option>
 											{/foreach}
 										{/foreach}
 									</select>
@@ -76,9 +76,9 @@
 									<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 									{foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}
 										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" label="{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-													{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}
-												</option>
+											<option data-type="{$FIELD_TYPE}" label="{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+												{\App\Language::translate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}
+											</option>
 										{/foreach}
 									{/foreach}
 								</select>
@@ -89,9 +89,9 @@
 									<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 									{foreach key=FIELD_TYPE item=FIELDS_INFO from=$ACCOUNTS_MODULE_MODEL->getFields()}
 										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" label="{\App\Language::translate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-													{\App\Language::translate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
-												</option>
+											<option data-type="{$FIELD_TYPE}" label="{\App\Language::translate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+												{\App\Language::translate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
+											</option>
 										{/foreach}
 									{/foreach}
 								</select>
@@ -103,11 +103,11 @@
 			<div class="row pushDown">
 				<span class="col-md-4">
 					<button id="addMapping" class="btn btn-info addButton" type="button">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
+						<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</span>
 				<span class="col-md-8">
-					<span class="pull-right">
+					<span class="float-right">
 						<button type="submit" class="btn btn-success"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

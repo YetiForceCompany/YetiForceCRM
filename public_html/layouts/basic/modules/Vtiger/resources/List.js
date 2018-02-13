@@ -1237,7 +1237,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	breadCrumbsFilter: function (text) {
-		var breadCrumbs = jQuery('.breadcrumbsContainer .breadcrumbsLinks');
+		var breadCrumbs = jQuery('.breadcrumbsContainer');
 		var breadCrumbsLastSpan = breadCrumbs.last('span');
 		var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
 		if (filterExist.length && text != undefined) {
@@ -1247,7 +1247,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
 				breadCrumbsLastSpan.text(': ' + text);
 			} else {
-				breadCrumbs.append('<span class="font-small breadCrumbsFilter hideToHistory"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
+				breadCrumbs.append('<span class="breadCrumbsFilter hideToHistory pl-1"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
 			}
 		}
 	},
@@ -1997,25 +1997,6 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
-	registerScroll: function (container) {
-		var scrollbarTopInit = new PerfectScrollbar(container[0], {
-			suppressScrollY: true,
-			wheelPropagation: true
-		});
-		var scrollbarBottomInit = new PerfectScrollbar(container[0], {
-			suppressScrollY: true,
-			wheelPropagation: true
-		});
-		var scrollbarTopElement = container.find('.ps__rail-x').first();
-		scrollbarTopElement.css({
-			top: 0,
-			bottom: 'auto'
-		})
-		scrollbarTopElement.find('.ps__thumb-x').css({
-			top: 2,
-			bottom: 'auto'
-		});
-	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2053,7 +2034,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
-		this.registerScroll(listViewContainer);
+		app.showNewBottomTopScrollbar(listViewContainer);
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOptiopn: function () {

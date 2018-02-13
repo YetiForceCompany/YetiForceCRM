@@ -1,0 +1,38 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.footerContainer {
+	background: $dark;
+	height: $footerHeight;
+	color: $white;
+	font-size: 0.9em;
+	a {
+		color: inherit;
+	}
+	p { 
+		font-size: 0.9em;
+	}
+	.page-item {
+		&:last-child .page-link, &:first-child .page-link {
+			border-radius: initial;
+		}
+	}
+	.page-link {
+		color: inherit;
+		background: inherit;
+		padding: 0.4rem 0.3rem;
+		border: none;
+		&:hover {
+			background: $white;
+			color: $dark;
+		}
+	}
+}
+@media only screen and (max-width: 768px) {
+	.footerContainer {
+		height: 17px;
+		.page-link {
+			font-size: 0.6em;
+			padding: 0.1rem 0.2rem;
+		}; 
+	}
+}

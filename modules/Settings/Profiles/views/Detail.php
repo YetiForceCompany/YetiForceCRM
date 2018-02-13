@@ -11,35 +11,38 @@
 
 class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 {
+    public function getBreadcrumbTitle(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        if ($request->get('record')) {
+            $recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+            $title = $recordModel->getName();
+        } else {
+            $title = \App\Language::translate('LBL_VIEW_DETAIL', $moduleName);
+        }
 
-	public function getBreadcrumbTitle(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		if ($request->get('record')) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
-			$title = $recordModel->getName();
-		} else {
-			$title = \App\Language::translate('LBL_VIEW_DETAIL', $moduleName);
-		}
-		return $title;
-	}
+        return $title;
+    }
 
-	public function process(\App\Request $request)
-	{
-		$recordId = $request->get('record');
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
+    /**
+     * Process.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        $recordId = $request->get('record');
+        $moduleName = $request->getModule();
+        $qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
+        $recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
 
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('RECORD_ID', $recordId);
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
-		$viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
-		$viewer->view('DetailView.tpl', $qualifiedModuleName);
-	}
+        $viewer = $this->getViewer($request);
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->assign('RECORD_ID', $recordId);
+        $viewer->assign('RECORD_MODEL', $recordModel);
+        $viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
+        $viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true));
+        $viewer->view('DetailView.tpl', $qualifiedModuleName);
+    }
 }

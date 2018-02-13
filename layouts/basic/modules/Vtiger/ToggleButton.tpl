@@ -10,10 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="hideToggle" class="hideToggle"><i class="icon glyphicon glyphicon-chevron-left"></i>
+    <div id="hideToggle" class="hideToggle"><i class="icon fas fa-chevron-left"></i>
         {*<div style="position:relative;"> *}  
         <div id="toggleButton" class="toggleButton">
-            <i class="icon glyphicon glyphicon-chevron-right"></i>
+            <i class="icon fas fa-chevron-right"></i>
         </div>
         {*</div>*}
     </div>

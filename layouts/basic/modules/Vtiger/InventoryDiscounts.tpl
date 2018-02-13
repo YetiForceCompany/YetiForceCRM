@@ -36,7 +36,7 @@
 				<div class="modal-footer">
 					{if count($GLOBAL_DISCOUNTS) > 0 || $GROUP_DISCOUNT != 0 || $DISCOUNT_TYPE == '0'}
 						<button class="btn btn-success saveDiscount" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-					{/if}
+							{/if}
 					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 				</div>
 			</div>

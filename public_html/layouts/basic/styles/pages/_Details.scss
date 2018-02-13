@@ -1,0 +1,29 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.detailViewTable {
+	.fieldRow {
+		@extend .border-top;
+	}
+}
+.detailViewTable {
+	.fieldLabel.medium, .fieldValue.medium {
+		padding: 10px;
+		min-height: 40px;
+	}
+	.fieldLabel.narrow, .fieldValue.narrow {
+		padding: 5px;
+		min-height: 25px;
+	}
+	.fieldLabel.wide, .fieldValue.wide {
+		padding: 15px;
+		min-height: 50px;
+	}
+	.fieldsLabelValue:last-child::after {
+		content: "";
+		float: left;
+		position: absolute;
+		top: 0;
+		left: 0px;
+		height: 100%;
+		border-right: 1px solid #ddd;
+	}
+}

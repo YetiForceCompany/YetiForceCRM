@@ -6,7 +6,7 @@
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 	<input type="hidden" id="type" value="{$TYPE}" />
 	<div class="modal-header">
-		<div class="pull-left">
+		<div class="float-left">
 			<h3 class="modal-title">{\App\Language::translate('LBL_MANAGE_PERMISSIONS', $MODULE_NAME)}</h3>
 		</div>
 		<div class="clearfix"></div>
@@ -14,10 +14,10 @@
 	<div class="modal-body">
 		<div class="">
 			<div class="form-group">
-				<label class="col-xs-12 control-label">
+				<label class="col-12 col-form-label">
 					{\App\Language::translate('LBL_ALL_GROUP_LIST', $MODULE_NAME)}
 				</label>
-				<div class="col-xs-10">
+				<div class="col-10">
 					<select class="select2 form-control add" id="allGroups" {if $IS_DEFAULT} disabled="disabled"{/if}>
 						{foreach from=$MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 							<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -29,13 +29,13 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="glyphicon glyphicon-arrow-down"></span></button>
+			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="fas fa-arrow-down"></span></button>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-12 control-label">
+			<label class="col-12 col-form-label">
 				{\App\Language::translate('LBL_GROUP_MEMBERS', $MODULE_NAME)}
 			</label>
-			<div class="col-xs-10">
+			<div class="col-10">
 				<select class="select2 form-control remove" id="groups">
 					{foreach from=$MEMBERS_DEFAULT key=LABEL item=GROUP}
 						<optgroup label="{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}">
@@ -49,7 +49,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-action="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="glyphicon glyphicon-arrow-up"></span></button>
+			<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-action="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="fas fa-arrow-up"></span></button>
 		</div>
 	</div>
 </div>

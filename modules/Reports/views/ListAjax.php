@@ -13,40 +13,41 @@
 
 class Reports_ListAjax_View extends Reports_List_View
 {
+    use \App\Controller\ExposeMethod;
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getListViewCount');
-		$this->exposeMethod('getRecordsCount');
-		$this->exposeMethod('getPageCount');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('getListViewCount');
+        $this->exposeMethod('getRecordsCount');
+        $this->exposeMethod('getPageCount');
+    }
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
+    public function preProcess(\App\Request $request, $display = true)
+    {
+    }
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+    public function process(\App\Request $request)
+    {
+        $mode = $request->getMode();
+        if (!empty($mode)) {
+            $this->invokeExposedMethod($mode, $request);
 
-		$folders = $moduleModel->getFolders();
-		$listViewModel = new Reports_ListView_Model();
-		$listViewModel->set('module', $moduleModel);
+            return;
+        }
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		$linkModels = $listViewModel->getListViewLinks(false);
+        $folders = $moduleModel->getFolders();
+        $listViewModel = new Reports_ListView_Model();
+        $listViewModel->set('module', $moduleModel);
 
-		$viewer->assign('LISTVIEW_LINKS', $linkModels);
-		$viewer->assign('FOLDERS', $folders);
+        $linkModels = $listViewModel->getListViewLinks(false);
 
-		$viewer->view('ListViewFolders.tpl', $moduleName);
-	}
+        $viewer->assign('LISTVIEW_LINKS', $linkModels);
+        $viewer->assign('FOLDERS', $folders);
+
+        $viewer->view('ListViewFolders.tpl', $moduleName);
+    }
 }

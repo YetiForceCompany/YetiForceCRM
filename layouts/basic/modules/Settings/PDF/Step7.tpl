@@ -15,7 +15,7 @@
 				</label>
 				<br />
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
 					</div>
 					<div class="col-md-6 controls">
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

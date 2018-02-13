@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-xs-12 paddingLRZero">
+	<div class="col-12 paddingLRZero">
 		<div class="table-responsive">
 			<table class="table table-bordered table-condensed">
 				<thead>
@@ -30,12 +30,12 @@
 							<td>
 								<div class="action">
 									{$SERVER['api_key']}
-									<div class="pull-right">
-										<button class="btn btn-primary btn-xs edit">
-											<span class="glyphicon glyphicon-pencil cursorPointer"></span>
+									<div class="float-right">
+										<button class="btn btn-primary btn-sm edit">
+											<span class="fas fa-edit cursorPointer"></span>
 										</button>
-										<button class="btn btn-danger btn-xs marginLeft5 remove">
-											<span class="glyphicon glyphicon-trash cursorPointer"></span>
+										<button class="btn btn-danger btn-sm marginLeft5 remove">
+											<span class="fas fa-trash-alt cursorPointer"></span>
 										</button>
 									</div>
 								</div>

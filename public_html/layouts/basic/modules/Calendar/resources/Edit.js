@@ -522,7 +522,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);
 						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
-						inviteRow.find('.inviteIcon .glyphicon').removeClass('glyphicon glyphicon-envelope').addClass('userIcon-' + selected.module);
+						inviteRow.find('.inviteIcon .glyphicon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
 						inviteesContent.append(inviteRow);
 					});
 				}

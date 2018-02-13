@@ -20,7 +20,7 @@
 					{/foreach}
 				</div>
 				<div class="modal-footer">
-					<div class="pull-right cancelLinkContainer">
+					<div class="float-right cancelLinkContainer">
 						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_EXECUTE', $MODULE)}</strong></button>
 						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 					</div>
@@ -28,9 +28,9 @@
 						{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
 						<div class="col-md-5">
 							<select class="select2 form-control" title="{\App\Language::translate('LBL_USER', $MODULE)}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
-								{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
-									data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-								{/if}>
+									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+										data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+									{/if}>
 								{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 									{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}

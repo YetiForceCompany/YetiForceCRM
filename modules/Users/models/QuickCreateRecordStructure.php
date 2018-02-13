@@ -10,40 +10,41 @@
 
 class Users_QuickCreateRecordStructure_Model extends Vtiger_QuickCreateRecordStructure_Model
 {
+    /**
+     * Function to get the values in stuctured format.
+     *
+     * @return <array> - values in structure array('block'=>array(fieldinfo));
+     */
+    public function getStructure()
+    {
+        if (!empty($this->structuredValues)) {
+            return $this->structuredValues;
+        }
 
-	/**
-	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
-	 */
-	public function getStructure()
-	{
-		if (!empty($this->structuredValues)) {
-			return $this->structuredValues;
-		}
+        $values = [];
+        $recordModel = $this->getRecord();
+        $moduleModel = $this->getModule();
 
-		$values = [];
-		$recordModel = $this->getRecord();
-		$moduleModel = $this->getModule();
+        $fieldModelList = [];
+        $quickCreateFields = ['user_name', 'email1', 'first_name', 'last_name', 'user_password', 'confirm_password', 'roleid', 'is_admin', 'status'];
+        foreach ($quickCreateFields as $field) {
+            $fieldModelList[$field] = $moduleModel->getField($field);
+        }
 
-		$fieldModelList = [];
-		$quickCreateFields = ['user_name', 'email1', 'first_name', 'last_name', 'user_password', 'confirm_password', 'roleid', 'is_admin', 'status'];
-		foreach ($quickCreateFields as $field) {
-			$fieldModelList[$field] = $moduleModel->getField($field);
-		}
+        foreach ($fieldModelList as $fieldName => $fieldModel) {
+            $recordModelFieldValue = $recordModel->get($fieldName);
+            if (!empty($recordModelFieldValue)) {
+                $fieldModel->set('fieldvalue', $recordModelFieldValue);
+            } else {
+                $defaultValue = $fieldModel->getDefaultFieldValue();
+                if ($defaultValue) {
+                    $fieldModel->set('fieldvalue', $defaultValue);
+                }
+            }
+            $values[$fieldName] = $fieldModel;
+        }
+        $this->structuredValues = $values;
 
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			$recordModelFieldValue = $recordModel->get($fieldName);
-			if (!empty($recordModelFieldValue)) {
-				$fieldModel->set('fieldvalue', $recordModelFieldValue);
-			} else {
-				$defaultValue = $fieldModel->getDefaultFieldValue();
-				if ($defaultValue) {
-					$fieldModel->set('fieldvalue', $defaultValue);
-				}
-			}
-			$values[$fieldName] = $fieldModel;
-		}
-		$this->structuredValues = $values;
-		return $values;
-	}
+        return $values;
+    }
 }

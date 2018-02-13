@@ -10,31 +10,30 @@
 
 class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 {
+    public function process(\App\Request $request)
+    {
+        $recordId = $request->get('record');
 
-	public function process(\App\Request $request)
-	{
-		$recordId = $request->get('record');
+        if (!empty($recordId)) {
+            $recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
+        } else {
+            $recordModel = new Settings_Profiles_Record_Model();
+        }
+        if ($recordModel) {
+            $recordModel->set('profilename', $request->get('profilename'));
+            $recordModel->set('description', $request->get('description'));
+            $recordModel->set('viewall', $request->get('viewall'));
+            $recordModel->set('editall', $request->get('editall'));
+            $recordModel->set('profile_permissions', $request->get('permissions'));
+            $recordModel->save();
+        }
 
-		if (!empty($recordId)) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
-		} else {
-			$recordModel = new Settings_Profiles_Record_Model();
-		}
-		if ($recordModel) {
-			$recordModel->set('profilename', $request->get('profilename'));
-			$recordModel->set('description', $request->get('description'));
-			$recordModel->set('viewall', $request->get('viewall'));
-			$recordModel->set('editall', $request->get('editall'));
-			$recordModel->set('profile_permissions', $request->get('permissions'));
-			$recordModel->save();
-		}
+        $redirectUrl = $recordModel->getDetailViewUrl();
+        header("Location: $redirectUrl");
+    }
 
-		$redirectUrl = $recordModel->getDetailViewUrl();
-		header("Location: $redirectUrl");
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

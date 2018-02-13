@@ -22,7 +22,7 @@
 		{/if}
 		<div class="modal-footer">
 			{if $BASE_USER_ID neq $USER_MODEL->getId()}
-				<div class="pull-left">
+				<div class="float-left">
 					<div class="btn-toolbar">
 						<button class="btn btn-primary getYourself" type="submit"><strong>{\App\Language::translate('LBL_SWITCH_TO_YOURSELF', $MODULE_NAME)}</strong></button>
 					</div>

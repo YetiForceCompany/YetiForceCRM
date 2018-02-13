@@ -830,8 +830,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var inventoryRowExpanded = items.find('[numrowex="' + row.attr('numrow') + '"]');
 		var element = row.find('.toggleVisibility');
 		element.data('status', '1');
-		element.find('.glyphicon').removeClass('glyphicon-menu-down');
-		element.find('.glyphicon').addClass('glyphicon-menu-up');
+		element.find('[data-fa-i2svg]').removeClass('fa-angle-down');
+		element.find('[data-fa-i2svg]').addClass('fa-angle-up');
 		inventoryRowExpanded.removeClass('hide');
 
 		var listInstance = Vtiger_Edit_Js.getInstance();
@@ -845,8 +845,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var inventoryRowExpanded = items.find('[numrowex="' + row.attr('numrow') + '"]');
 		var element = row.find('.toggleVisibility');
 		element.data('status', '0');
-		element.find('.glyphicon').removeClass('glyphicon-menu-up');
-		element.find('.glyphicon').addClass('glyphicon-menu-down');
+		element.find('[data-fa-i2svg]').removeClass('fa-angle-up');
+		element.find('[data-fa-i2svg]').addClass('fa-angle-down');
 		inventoryRowExpanded.addClass('hide');
 		$.each(inventoryRowExpanded.find('.ckEditorSource'), function (key, data) {
 			var editorInstance = CKEDITOR.instances[jQuery(data).attr('id')];

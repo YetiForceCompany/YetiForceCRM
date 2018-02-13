@@ -10,5 +10,4 @@
 
 class Events_Detail_View extends Calendar_Detail_View
 {
-	
 }

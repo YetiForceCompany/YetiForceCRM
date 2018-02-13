@@ -10,20 +10,19 @@
 
 class Vtiger_Image_UIType extends Vtiger_Base_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Image.tpl';
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Image.tpl';
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDetailViewTemplateName()
-	{
-		return 'uitypes/ImageDetailView.tpl';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDetailViewTemplateName()
+    {
+        return 'uitypes/ImageDetailView.tpl';
+    }
 }

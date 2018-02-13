@@ -8,330 +8,348 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once dirname(__FILE__) . '/cache/Connector.php';
+include_once dirname(__FILE__).'/cache/Connector.php';
 
 class Vtiger_Cache
 {
+    private static $selfInstance = false;
+    public static $cacheEnable = true;
+    protected $connector;
 
-	private static $selfInstance = false;
-	public static $cacheEnable = true;
-	protected $connector;
+    private function __construct()
+    {
+        $this->connector = Vtiger_Cache_Connector::getInstance();
+    }
 
-	private function __construct()
-	{
-		$this->connector = Vtiger_Cache_Connector::getInstance();
-	}
+    public static function getInstance()
+    {
+        if (self::$selfInstance) {
+            return self::$selfInstance;
+        } else {
+            self::$selfInstance = new self();
 
-	public static function getInstance()
-	{
-		if (self::$selfInstance) {
-			return self::$selfInstance;
-		} else {
-			self::$selfInstance = new self();
-			return self::$selfInstance;
-		}
-	}
+            return self::$selfInstance;
+        }
+    }
 
-	public static function get($ns, $key)
-	{
-		$self = self::getInstance();
-		if ($key && self::$cacheEnable) {
-			return $self->connector->get($ns, $key);
-		}
-		return false;
-	}
+    public static function get($ns, $key)
+    {
+        $self = self::getInstance();
+        if ($key && self::$cacheEnable) {
+            return $self->connector->get($ns, $key);
+        }
 
-	public static function set($ns, $key, $value)
-	{
-		$self = self::getInstance();
-		if (self::$cacheEnable) {
-			$self->connector->set($ns, $key, $value);
-		}
-	}
+        return false;
+    }
 
-	public static function flush()
-	{
-		$self = self::getInstance();
-		$self->connector->flush();
-	}
+    public static function set($ns, $key, $value)
+    {
+        $self = self::getInstance();
+        if (self::$cacheEnable) {
+            $self->connector->set($ns, $key, $value);
+        }
+    }
 
-	private static $_user_list;
+    public static function flush()
+    {
+        $self = self::getInstance();
+        $self->connector->flush();
+    }
 
-	public function getUserList($module, $currentUser)
-	{
-		if (isset(self::$_user_list[$currentUser][$module])) {
-			return self::$_user_list[$currentUser][$module];
-		}
-		return false;
-	}
+    private static $_user_list;
 
-	public function setUserList($module, $userList, $currentUser)
-	{
-		if (self::$cacheEnable) {
-			self::$_user_list[$currentUser][$module] = $userList;
-		}
-	}
+    public function getUserList($module, $currentUser)
+    {
+        if (isset(self::$_user_list[$currentUser][$module])) {
+            return self::$_user_list[$currentUser][$module];
+        }
 
-	private static $_group_list;
+        return false;
+    }
 
-	public function getGroupList($module, $currentUser)
-	{
-		if (isset(self::$_group_list[$currentUser][$module])) {
-			return self::$_group_list[$currentUser][$module];
-		}
-		return false;
-	}
+    public function setUserList($module, $userList, $currentUser)
+    {
+        if (self::$cacheEnable) {
+            self::$_user_list[$currentUser][$module] = $userList;
+        }
+    }
 
-	public function setGroupList($module, $GroupList, $currentUser)
-	{
-		if (self::$cacheEnable) {
-			self::$_group_list[$currentUser][$module] = $GroupList;
-		}
-	}
+    private static $_group_list;
 
-	private static $_picklist_details;
+    public function getGroupList($module, $currentUser)
+    {
+        if (isset(self::$_group_list[$currentUser][$module])) {
+            return self::$_group_list[$currentUser][$module];
+        }
 
-	public function getPicklistDetails($module, $field)
-	{
-		if (isset(self::$_picklist_details[$module][$field])) {
-			return self::$_picklist_details[$module][$field];
-		}
-		return false;
-	}
+        return false;
+    }
 
-	public function setPicklistDetails($module, $field, $picklistDetails)
-	{
-		if (self::$cacheEnable) {
-			self::$_picklist_details[$module][$field] = $picklistDetails;
-		}
-	}
+    public function setGroupList($module, $GroupList, $currentUser)
+    {
+        if (self::$cacheEnable) {
+            self::$_group_list[$currentUser][$module] = $GroupList;
+        }
+    }
 
-	private static $_module_ownedby;
+    private static $_picklist_details;
 
-	public function getModuleOwned($module)
-	{
-		if (isset(self::$_module_ownedby[$module])) {
-			return self::$_module_ownedby[$module];
-		}
-		return false;
-	}
+    public function getPicklistDetails($module, $field)
+    {
+        if (isset(self::$_picklist_details[$module][$field])) {
+            return self::$_picklist_details[$module][$field];
+        }
 
-	public function setModuleOwned($module, $ownedby)
-	{
-		if (self::$cacheEnable) {
-			self::$_module_ownedby[$module] = $ownedby;
-		}
-	}
+        return false;
+    }
 
-	private static $_field_instance;
+    public function setPicklistDetails($module, $field, $picklistDetails)
+    {
+        if (self::$cacheEnable) {
+            self::$_picklist_details[$module][$field] = $picklistDetails;
+        }
+    }
 
-	public function getFieldInstance($field, $moduleId)
-	{
-		if (isset(self::$_field_instance[$moduleId][$field])) {
-			return self::$_field_instance[$moduleId][$field];
-		}
-		return false;
-	}
+    private static $_module_ownedby;
 
-	public function setFieldInstance($field, $moduleId, $instance)
-	{
-		if (self::$cacheEnable) {
-			self::$_field_instance[$moduleId][$field] = $instance;
-		}
-	}
+    public function getModuleOwned($module)
+    {
+        if (isset(self::$_module_ownedby[$module])) {
+            return self::$_module_ownedby[$module];
+        }
 
-	private static $_admin_user_id = false;
+        return false;
+    }
 
-	public function getAdminUserId()
-	{
-		return self::$_admin_user_id;
-	}
+    public function setModuleOwned($module, $ownedby)
+    {
+        if (self::$cacheEnable) {
+            self::$_module_ownedby[$module] = $ownedby;
+        }
+    }
 
-	public function setAdminUserId($userId)
-	{
-		if (self::$cacheEnable) {
-			self::$_admin_user_id = $userId;
-		}
-	}
+    private static $_field_instance;
 
-	//cache for the module Instance
-	private static $_module_name = [];
+    public function getFieldInstance($field, $moduleId)
+    {
+        if (isset(self::$_field_instance[$moduleId][$field])) {
+            return self::$_field_instance[$moduleId][$field];
+        }
 
-	public function getModuleName($moduleId)
-	{
-		if (isset(self::$_module_name[$moduleId])) {
-			return self::$_module_name[$moduleId];
-		}
-		return false;
-	}
+        return false;
+    }
 
-	public function setModuleName($moduleId, $moduleName)
-	{
-		if (self::$cacheEnable) {
-			self::$_module_name[$moduleId] = $moduleName;
-		}
-	}
+    public function setFieldInstance($field, $moduleId, $instance)
+    {
+        if (self::$cacheEnable) {
+            self::$_field_instance[$moduleId][$field] = $instance;
+        }
+    }
 
-	private static $_user_id;
+    private static $_admin_user_id = false;
 
-	public function getUserId($userName)
-	{
-		if (isset(self::$_user_id[$userName])) {
-			return self::$_user_id[$userName];
-		}
-		return false;
-	}
+    public function getAdminUserId()
+    {
+        return self::$_admin_user_id;
+    }
 
-	public function setUserId($userName, $userId)
-	{
-		if (self::$cacheEnable) {
-			self::$_user_id[$userName] = $userId;
-		}
-	}
+    public function setAdminUserId($userId)
+    {
+        if (self::$cacheEnable) {
+            self::$_admin_user_id = $userId;
+        }
+    }
 
-	private static $_table_exists;
+    //cache for the module Instance
+    private static $_module_name = [];
 
-	public function getTableExists($tableName)
-	{
-		if (isset(self::$_table_exists[$tableName])) {
-			return self::$_table_exists[$tableName];
-		}
-		return false;
-	}
+    public function getModuleName($moduleId)
+    {
+        if (isset(self::$_module_name[$moduleId])) {
+            return self::$_module_name[$moduleId];
+        }
 
-	public function setTableExists($tableName, $exists)
-	{
-		if (self::$cacheEnable) {
-			self::$_table_exists[$tableName] = $exists;
-		}
-	}
+        return false;
+    }
 
-	private static $_picklist_id;
+    public function setModuleName($moduleId, $moduleName)
+    {
+        if (self::$cacheEnable) {
+            self::$_module_name[$moduleId] = $moduleName;
+        }
+    }
 
-	public function getPicklistId($fieldName, $moduleName)
-	{
-		if (isset(self::$_picklist_id[$moduleName][$fieldName])) {
-			return self::$_picklist_id[$moduleName][$fieldName];
-		}
-		return false;
-	}
+    private static $_user_id;
 
-	public function setPicklistId($fieldName, $moduleName, $picklistId)
-	{
-		if (self::$cacheEnable) {
-			self::$_picklist_id[$moduleName][$fieldName] = $picklistId;
-		}
-	}
+    public function getUserId($userName)
+    {
+        if (isset(self::$_user_id[$userName])) {
+            return self::$_user_id[$userName];
+        }
 
-	private static $_group_id;
+        return false;
+    }
 
-	public function getGroupId($groupName)
-	{
-		if (isset(self::$_group_id[$groupName])) {
-			return self::$_group_id[$groupName];
-		}
-		return false;
-	}
+    public function setUserId($userName, $userId)
+    {
+        if (self::$cacheEnable) {
+            self::$_user_id[$userName] = $userId;
+        }
+    }
 
-	public function setGroupId($groupName, $groupId)
-	{
-		if (self::$cacheEnable) {
-			self::$_group_id[$groupName] = $groupId;
-		}
-	}
+    private static $_table_exists;
 
-	private static $_block_fields;
+    public function getTableExists($tableName)
+    {
+        if (isset(self::$_table_exists[$tableName])) {
+            return self::$_table_exists[$tableName];
+        }
 
-	public function getBlockFields($block, $module)
-	{
-		if (isset(self::$_block_fields[$module][$block])) {
-			return self::$_block_fields[$module][$block];
-		}
-		return false;
-	}
+        return false;
+    }
 
-	public function setBlockFields($block, $module, $fields)
-	{
-		if (self::$cacheEnable) {
-			self::$_block_fields[$module][$block] = $fields;
-		}
-	}
+    public function setTableExists($tableName, $exists)
+    {
+        if (self::$cacheEnable) {
+            self::$_table_exists[$tableName] = $exists;
+        }
+    }
 
-	private static $_name_fields;
+    private static $_picklist_id;
 
-	public function getNameFields($module)
-	{
-		if (isset(self::$_name_fields[$module])) {
-			return self::$_name_fields[$module];
-		}
-		return false;
-	}
+    public function getPicklistId($fieldName, $moduleName)
+    {
+        if (isset(self::$_picklist_id[$moduleName][$fieldName])) {
+            return self::$_picklist_id[$moduleName][$fieldName];
+        }
 
-	public function setNameFields($module, $nameFields)
-	{
-		if (self::$cacheEnable) {
-			self::$_name_fields[$module] = $nameFields;
-		}
-	}
+        return false;
+    }
 
-	public function purifyGet($key)
-	{
-		if (self::$cacheEnable) {
-			return $this->connector->get('purify', $key);
-		}
-		return false;
-	}
+    public function setPicklistId($fieldName, $moduleName, $picklistId)
+    {
+        if (self::$cacheEnable) {
+            self::$_picklist_id[$moduleName][$fieldName] = $picklistId;
+        }
+    }
 
-	public function purifySet($key, $value)
-	{
-		if (self::$cacheEnable) {
-			$this->connector->set('purify', $key, $value);
-		}
-	}
+    private static $_group_id;
 
-	private static $_owners_names_list;
+    public function getGroupId($groupName)
+    {
+        if (isset(self::$_group_id[$groupName])) {
+            return self::$_group_id[$groupName];
+        }
 
-	public function getOwnerName($id)
-	{
-		if (isset(self::$_owners_names_list[$id])) {
-			return self::$_owners_names_list[$id];
-		}
-		return false;
-	}
+        return false;
+    }
 
-	public function setOwnerName($id, $value)
-	{
-		if (self::$cacheEnable) {
-			self::$_owners_names_list[$id] = $value;
-		}
-	}
+    public function setGroupId($groupName, $groupId)
+    {
+        if (self::$cacheEnable) {
+            self::$_group_id[$groupName] = $groupId;
+        }
+    }
 
-	public function hasOwnerName($id)
-	{
-		$value = $this->getOwnerName($id);
-		return $value !== false;
-	}
+    private static $_block_fields;
 
-	private static $_owners_db_names_list;
+    public function getBlockFields($block, $module)
+    {
+        if (isset(self::$_block_fields[$module][$block])) {
+            return self::$_block_fields[$module][$block];
+        }
 
-	public function getOwnerDbName($id)
-	{
-		if (isset(self::$_owners_db_names_list[$id])) {
-			return self::$_owners_db_names_list[$id];
-		}
-		return false;
-	}
+        return false;
+    }
 
-	public function setOwnerDbName($id, $value)
-	{
-		if (self::$cacheEnable) {
-			self::$_owners_db_names_list[$id] = $value;
-		}
-	}
+    public function setBlockFields($block, $module, $fields)
+    {
+        if (self::$cacheEnable) {
+            self::$_block_fields[$module][$block] = $fields;
+        }
+    }
 
-	public function hasOwnerDbName($id)
-	{
-		$value = $this->getOwnerDbName($id);
-		return $value !== false;
-	}
+    private static $_name_fields;
+
+    public function getNameFields($module)
+    {
+        if (isset(self::$_name_fields[$module])) {
+            return self::$_name_fields[$module];
+        }
+
+        return false;
+    }
+
+    public function setNameFields($module, $nameFields)
+    {
+        if (self::$cacheEnable) {
+            self::$_name_fields[$module] = $nameFields;
+        }
+    }
+
+    public function purifyGet($key)
+    {
+        if (self::$cacheEnable) {
+            return $this->connector->get('purify', $key);
+        }
+
+        return false;
+    }
+
+    public function purifySet($key, $value)
+    {
+        if (self::$cacheEnable) {
+            $this->connector->set('purify', $key, $value);
+        }
+    }
+
+    private static $_owners_names_list;
+
+    public function getOwnerName($id)
+    {
+        if (isset(self::$_owners_names_list[$id])) {
+            return self::$_owners_names_list[$id];
+        }
+
+        return false;
+    }
+
+    public function setOwnerName($id, $value)
+    {
+        if (self::$cacheEnable) {
+            self::$_owners_names_list[$id] = $value;
+        }
+    }
+
+    public function hasOwnerName($id)
+    {
+        $value = $this->getOwnerName($id);
+
+        return $value !== false;
+    }
+
+    private static $_owners_db_names_list;
+
+    public function getOwnerDbName($id)
+    {
+        if (isset(self::$_owners_db_names_list[$id])) {
+            return self::$_owners_db_names_list[$id];
+        }
+
+        return false;
+    }
+
+    public function setOwnerDbName($id, $value)
+    {
+        if (self::$cacheEnable) {
+            self::$_owners_db_names_list[$id] = $value;
+        }
+    }
+
+    public function hasOwnerDbName($id)
+    {
+        $value = $this->getOwnerDbName($id);
+
+        return $value !== false;
+    }
 }

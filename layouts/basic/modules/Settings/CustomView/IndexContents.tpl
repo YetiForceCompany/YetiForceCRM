@@ -29,7 +29,7 @@
 						<td>
 							<input class="switchBtn updateField" type="checkbox" name="setdefault" {if $item['setdefault']}checked disabled="disabled"{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES')}" data-off-text="{\App\Language::translate('LBL_NO')}" value="1">
 							&nbsp;&nbsp;
-							<button type="button" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getUrlDefaultUsers($SOURCE_MODULE_ID,$key, $item['setdefault'])}"><span class="glyphicon glyphicon-user"></span></button>
+							<button type="button" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getUrlDefaultUsers($SOURCE_MODULE_ID,$key, $item['setdefault'])}"><span class="fas fa-user"></span></button>
 						</td>
 						<td>
 							<input class="switchBtn updateField" type="checkbox" name="privileges" {if $item['privileges']}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES')}" data-off-text="{\App\Language::translate('LBL_NO')}" value="1">
@@ -37,10 +37,10 @@
 						<td>
 							<input class="switchBtn updateField" type="checkbox" name="featured" {if $item['featured']}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES')}" data-off-text="{\App\Language::translate('LBL_NO')}" value="1">
 							&nbsp;&nbsp;
-							<button type="button" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-user"></span></button>
+							<button type="button" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="fas fa-user"></span></button>
 						</td>
 						<td>
-							<button type="button" id="sort" name="sort" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-sort"></span></button>
+							<button type="button" id="sort" name="sort" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="fas fa-sort"></span></button>
 						</td>
 						<td>{\App\Fields\Owner::getLabel($item['userid'])}</td>
 						<td>
