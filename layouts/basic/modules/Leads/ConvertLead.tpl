@@ -46,14 +46,14 @@
 										<table class="table table-bordered moduleBlock">
 											{foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
 												<tr>
-													<td class="fieldLabel col-xs-5">
+													<td class="fieldLabel col-5">
 														<label class='muted float-right marginRight10px'>
 															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 															{App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 
 														</label>
 													</td>
-													<td class="fieldValue col-xs-7">
+													<td class="fieldValue col-7">
 														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
 													</td>
 												</tr>
@@ -66,13 +66,13 @@
 								<table class="table table-bordered">
 									{assign var=FIELD_MODEL value=$ASSIGN_TO}
 									<tr>
-										<td class="fieldLabel col-xs-5">
+										<td class="fieldLabel col-5">
 											<label class='muted float-right'>
 												<span class="redColor">*</span> {App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 												{if $FIELD_MODEL->isMandatory() eq true} {/if}
 											</label>
 										</td>
-										<td class="fieldValue col-xs-7">
+										<td class="fieldValue col-7">
 											{if $FIELD_MODEL->getUIType() eq '53'}
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 											{/if}

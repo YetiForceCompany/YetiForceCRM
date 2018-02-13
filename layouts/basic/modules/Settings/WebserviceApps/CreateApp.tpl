@@ -5,8 +5,8 @@
 			<input class="recordEditView" type="hidden">
 			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}" />
 			<div class="modal-header row no-margin">
-				<div class="col-xs-12 paddingLRZero">
-					<div class="col-xs-8 paddingLRZero">
+				<div class="col-12 paddingLRZero">
+					<div class="col-8 paddingLRZero">
 						{if $RECORD_MODEL}
 							<h4>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h4>
 						{else}
@@ -19,43 +19,43 @@
 				</div>
 			</div>
 			<div class="modal-body row">
-				<div class="col-xs-12 marginBottom10px">
-					<div class="col-xs-4 fieldLabel">
+				<div class="col-12 marginBottom10px">
+					<div class="col-4 fieldLabel">
 						<span class="redColor">*</span>{\App\Language::translate('LBL_APP_NAME', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-xs-8">
+					<div class="col-8">
 						<input type="text" name="name" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{$RECORD_MODEL->getName()}{/if}" class="form-control">
 					</div>
 				</div>
-				<div class="col-xs-12 marginBottom10px">
-					<div class="col-xs-4 fieldLabel">
+				<div class="col-12 marginBottom10px">
+					<div class="col-4 fieldLabel">
 						{\App\Language::translate('LBL_ADDRESS_URL', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-xs-8">
+					<div class="col-8">
 						<input type="text" name="addressUrl" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('acceptable_url')}{/if}" class="form-control">
 					</div>
 				</div>
-				<div class="col-xs-12 marginBottom10px">
-					<div class="col-xs-4 fieldLabel">
+				<div class="col-12 marginBottom10px">
+					<div class="col-4 fieldLabel">
 						<span class="redColor">*</span>{\App\Language::translate('LBL_PASS', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-xs-8">
+					<div class="col-8">
 						<input type="text" name="pass" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('pass')}{/if}" class="form-control">
 					</div>
 				</div>
-				<div class="col-xs-12 marginBottom10px">
-					<div class="col-xs-4 fieldLabel">
+				<div class="col-12 marginBottom10px">
+					<div class="col-4 fieldLabel">
 						{\App\Language::translate('Status', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-xs-8">
+					<div class="col-8">
 						<input type="checkbox" {if $RECORD_MODEL && $RECORD_MODEL->get('status') eq 1}checked{/if} name="status">
 					</div>
 				</div>
-				<div class="col-xs-12 marginBottom10px">
-					<div class="col-xs-4 fieldLabel">
+				<div class="col-12 marginBottom10px">
+					<div class="col-4 fieldLabel">
 						{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-xs-8">
+					<div class="col-8">
 						<select class="select2 typeServer" {if $RECORD_MODEL} disabled {/if}>
 							{foreach from=$TYPES_SERVERS item=TYPE}
 								<option value="{$TYPE}"
@@ -69,11 +69,11 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-xs-12 marginBottom10px">
-					<div class="col-xs-4 fieldLabel">
+				<div class="col-12 marginBottom10px">
+					<div class="col-4 fieldLabel">
 						{\App\Language::translate('SINGLE_Accounts', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-xs-8">
+					<div class="col-8">
 						<div class="fieldValue">
 							<input name="popupReferenceModule" type="hidden" 
 								   data-multi-reference="0" title="{\App\Language::translate('Accounts', $QUALIFIED_MODULE)}" 

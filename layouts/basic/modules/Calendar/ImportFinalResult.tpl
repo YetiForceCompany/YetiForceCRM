@@ -12,7 +12,7 @@
 {strip}
 	<div>
 		<input type="hidden" name="module" value="{$MODULE}" />
-		<table class="col-xs-12 paddingLRZero no-margin searchUIBasic well">
+		<table class="col-12 paddingLRZero no-margin searchUIBasic well">
 			<tr>
 				<td class="font-x-large" align="left" colspan="2">
 					<strong>{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_RESULT', $MODULE)}</strong>

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class='widget_header row '>
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>

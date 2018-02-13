@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-xs-12 paddingLRZero">
+	<div class="col-12 paddingLRZero">
 		<h4>{\App\Language::translate('LBL_LIST_RECORDS',$MODULE_NAME)}</h4>
 		<hr>
 	</div>
@@ -37,7 +37,7 @@
 			</tbody>
 		</table>
 	{else}
-		<div class="col-xs-12 paddingLRZero">
+		<div class="col-12 paddingLRZero">
 			<div class="alert alert-info">
 				{\App\Language::translate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
 			</div>

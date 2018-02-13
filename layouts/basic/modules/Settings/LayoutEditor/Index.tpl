@@ -115,14 +115,14 @@
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <div class="col-xs-2 col-sm-2">&nbsp;
+                                                            <div class="col-2 col-sm-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
                                                                     </a>
                                                                 {/if}
                                                             </div>
-                                                            <div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+                                                            <div class="col-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
@@ -158,14 +158,14 @@
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-xs-2 col-sm-2">&nbsp;
+															<div class="col-2 col-sm-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 																	</a>
 																{/if}
 															</div>
-															<div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+															<div class="col-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
 																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>

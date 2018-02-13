@@ -75,13 +75,13 @@
 					<div>
 						<div class="row">
 							<div class='form-inline'>
-								<div class="form-group col-xs-6">
+								<div class="form-group col-6">
 									<label>{\App\Language::translate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
 										<select id='groupbyfield' name='groupbyfieldSelect' class="form-control" data-validation-engine="validate[required]"></select>
 									</div>
 								</div>
-								<div class="form-group col-xs-6">
+								<div class="form-group col-6">
 									<label>{\App\Language::translate('LBL_SELECT_DATA_FIELD', $MODULE)}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
 										<select id='datafields' name='datafields[]' class="form-control" data-validation-engine="validate[required]">

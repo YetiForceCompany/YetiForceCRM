@@ -11,13 +11,13 @@
 -->*}
 {strip}
 	<div class='widget_header row '>
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<div>
 		<input type="hidden" name="module" value="{$FOR_MODULE}" />
-		<table class="searchUIBasic well col-xs-12 paddingLRZero no-margin">
+		<table class="searchUIBasic well col-12 paddingLRZero no-margin">
 			<tr>
 				<td class="font-x-large" align="left" colspan="2">
 					<strong>{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_RESULT', $MODULE)}</strong>

@@ -56,9 +56,9 @@
 									{assign var=MINUTES value="true"}
 									{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 								{/if}
-								<div class="col-xs-6 col-sm-4 paddingLRZero">
+								<div class="col-6 col-sm-4 paddingLRZero">
 									<input type="text" class="form-control" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue" /></div>
-								<div class="col-xs-6 col-sm-8 paddingLRZero">
+								<div class="col-6 col-sm-8 paddingLRZero">
 									<select class="chzn-select form-control" id="time_format">
 										<optgroup>
 											<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{\App\Language::translate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>

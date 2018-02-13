@@ -11,7 +11,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col-md-4 col-sm-4 col-xs-6">
+					<div class="col-md-4 col-sm-4 col-6">
 						<select class="chzn-select" id="moduleFilter" name="moduleFilter">
 							{foreach item=SUPPORTED_MODULE_NAME from=$SUPPORTED_MODULE_MODELS}
 								<option {if $SOURCE_MODULE eq $SUPPORTED_MODULE_NAME} selected="" {/if} value="{$SUPPORTED_MODULE_NAME}">
@@ -20,7 +20,7 @@
 							{/foreach}
 						</select>
 					</div>
-					<div class="col-md-8 col-sm-8 col-xs-6">
+					<div class="col-md-8 col-sm-8 col-6">
 						<button class="btn btn-success float-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="fas fa-plus"></span> {App\Language::translate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
 					</div>
 

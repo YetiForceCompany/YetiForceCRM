@@ -2,7 +2,7 @@
 
 <div class="supportProcessesContainer">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_FINANCIAL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>

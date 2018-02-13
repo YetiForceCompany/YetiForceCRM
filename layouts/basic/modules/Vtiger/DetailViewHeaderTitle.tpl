@@ -11,7 +11,7 @@
 	********************************************************************************/
 	-->*}
 	<div class="col-md-12 paddingLRZero row">
-		<div class="col-xs-12 col-sm-12 col-md-8">
+		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>

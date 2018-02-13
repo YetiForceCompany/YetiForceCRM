@@ -65,32 +65,32 @@
 	{/if}
 	<div class="settingsIndexPage">
 		<div class="row center-block">
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showWarnings()">
 					<h2 style="font-size: 44px" class="summaryCount">{$WARNINGS_COUNT}</h2>
                     <p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', $QUALIFIED_MODULE, $WARNINGS_COUNT)}</p>
 				</a>
 
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()">
 					<h2 style="font-size: 44px" class="summaryCount">{$SECURITY_COUNT}</h2>
 					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_SECURITY', $QUALIFIED_MODULE, $SECURITY_COUNT)}</p>
 				</a>
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$USERS_COUNT}</h2>
 					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_USERS', $QUALIFIED_MODULE, $USERS_COUNT)}</p>
 				</a>
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="index.php?module=Workflows&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$ALL_WORKFLOWS}</h2>
                     <p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE,$ALL_WORKFLOWS)}</p>
 				</a>
 			</span>
-			<span class="col-xs-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
 				<a href="index.php?module=ModuleManager&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$ACTIVE_MODULES}</h2>
 					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_MODULES',$QUALIFIED_MODULE,$ACTIVE_MODULES)}</p>

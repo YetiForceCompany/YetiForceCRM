@@ -61,8 +61,8 @@
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
-						<div class="col-xs-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
-							<div class="col-xs-12 paddingLRZero">
+						<div class="col-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
+							<div class="col-12 paddingLRZero">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
@@ -73,19 +73,19 @@
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
-								</div><div class="col-xs-12 paddingLRZero">
+								</div><div class="col-12 paddingLRZero">
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->getUIType() eq '300'}col-md-12 {else} col-md-6 col-xs-12{/if} fieldRow marginBottom5px">
-									<div class="col-xs-12 col-sm-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
+								<div class="{if $FIELD_MODEL->getUIType() eq '300'}col-md-12 {else} col-md-6 col-12{/if} fieldRow marginBottom5px">
+									<div class="col-12 col-sm-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										<label class="muted pull-right-md pull-right-lg pull-left-sm pull-left-xs marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>
 									</div>
-									<div class="col-xs-12 col-sm-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="col-12 col-sm-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{if $FIELD_MODEL->getUIType() eq "300"}
 											<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}</label>
 										{/if}

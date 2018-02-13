@@ -25,7 +25,7 @@
 								<td>{$LABEL}</td>
 								{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY}
 									{if $LANG eq $LANG_KEY}
-										<td class="col-xs-4">
+										<td class="col-4">
 											<input 	data-lang="{$LANG}"
 													data-type="{$TYPE}"
 													name="{$LABEL}" 

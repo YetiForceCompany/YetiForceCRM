@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-xs-12 paddingLRZero">
+	<div class="col-12 paddingLRZero">
 		{if count($DASHBOARD_TYPES) > 1}
 			<ul class="nav nav-tabs massEditTabs selectDashboard">
 				{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
@@ -19,5 +19,5 @@
 		{/if}
 	</div>
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-	<div class="col-xs-12 paddingLRZero">
+	<div class="col-12 paddingLRZero">
 	{/strip}

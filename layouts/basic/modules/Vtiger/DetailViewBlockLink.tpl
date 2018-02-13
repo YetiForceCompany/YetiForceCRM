@@ -20,7 +20,7 @@
 						</h4>
 					</div>
 				</div>
-				<div class="panel-body col-xs-12 blockContent hide"></div>
+				<div class="panel-body col-12 blockContent hide"></div>
 			</div>
 		{/foreach}		
 	</div>	

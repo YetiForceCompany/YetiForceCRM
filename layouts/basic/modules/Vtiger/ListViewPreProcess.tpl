@@ -15,10 +15,10 @@
 		<div class="mainContainer">
 			<div class="contentsDiv">
 				<div class="widget_header row marginBottom10px">
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<div class="float-right">
 							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader'}

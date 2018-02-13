@@ -87,7 +87,7 @@
 											{if $count % 3 == 0}
 												<div class="rows">
 												{/if}
-												<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
+												<div class="col-4{if $count % 3 != 2} paddingRightZero{/if}">
 													<a class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
 														<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 													</a>

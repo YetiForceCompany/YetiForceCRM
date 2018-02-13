@@ -12,7 +12,7 @@
 {strip}
 	<div class="" id="importModules">
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}

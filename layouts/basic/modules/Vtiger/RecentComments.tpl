@@ -50,7 +50,7 @@
 													<span class="fas fa-user userImage float-left"></span>
 												{/if}
 											</div>
-											<div class="col-xs-8 commentorInfo">
+											<div class="col-8 commentorInfo">
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">

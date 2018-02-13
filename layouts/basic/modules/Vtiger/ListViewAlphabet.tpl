@@ -11,7 +11,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="row no-margin">
-							<div class="col-md-7 col-xs-10">
+							<div class="col-md-7 col-10">
 								<h3 class="modal-title">{\App\Language::translate('LBL_ALPHABETIC_FILTERING', $MODULE_NAME)}</h3>
 							</div>
 							<div class="float-right">

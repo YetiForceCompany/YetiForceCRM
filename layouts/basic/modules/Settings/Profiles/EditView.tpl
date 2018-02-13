@@ -125,7 +125,7 @@
 														</div>
 														<div class="clearfix"></div>
 													</div>
-													<div class="col-xs-12 paddingLRZero marginBottom10px">
+													<div class="col-12 paddingLRZero marginBottom10px">
 														{assign var=COUNTER value=0}
 														{foreach from=$PROFILE_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
 															{if $FIELD_MODEL->isActiveField()}
@@ -133,7 +133,7 @@
 																{if $COUNTER % 3 == 0}
 																	<div class='col-md-12 paddingLRZero'>
 																	{/if}
-																	<div class='col-md-4 col-sm-6 col-xs-12 div-bordered padding10' style="border-left: 1px solid #DDD !important;">
+																	<div class='col-md-4 col-sm-6 col-12 div-bordered padding10' style="border-left: 1px solid #DDD !important;">
 																		{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($PROFILE_MODULE, $FIELD_MODEL)}
 																		<input type="hidden" name="permissions[{$TABID}][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}" readonly="true">
 																		<div class="mini-slider-control editViewMiniSlider float-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}"></div>
@@ -152,14 +152,14 @@
 														{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
 														{assign var=COUNTER value=0}
 														<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)} {\App\Language::translate('LBL_OF', $EVENT_MODULE->getName())} {\App\Language::translate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
-														<div class="col-xs-12 paddingLRZero marginBottom10px">
+														<div class="col-12 paddingLRZero marginBottom10px">
 															{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
 																{if $FIELD_MODEL->isActiveField()}
 																	{assign var="FIELD_ID" value=$FIELD_MODEL->getId()}
 																	{if $COUNTER % 3 == 0}
 																		<div class='col-md-12 paddingLRZero'>
 																		{/if}
-																		<div class='col-md-4 col-sm-6 col-xs-12  padding10 div-bordered' style="border-left: 1px solid #DDD !important;">
+																		<div class='col-md-4 col-sm-6 col-12  padding10 div-bordered' style="border-left: 1px solid #DDD !important;">
 																			{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($EVENT_MODULE, $FIELD_MODEL)}
 																			<input type="hidden" name="permissions[16][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}" readonly="true">
 																			<div class="mini-slider-control editViewMiniSlider float-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
@@ -194,14 +194,14 @@
 										<tr class="hide">
 											<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 												<div class="row" data-togglecontent="{$TABID}-fields">
-													<div class="col-xs-12 paddingLRZero"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+													<div class="col-12 paddingLRZero"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 													<div class="col-md-12 paddingLRZero marginBottom10px">
 														{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
 															{if $smarty.foreach.actions.index % 3 == 0}
 																<div class='paddingLRZero col-md-12'>
 																{/if}
 																{assign var=ACTIONID value=$ACTION_MODEL->get('actionid')}
-																<div class='col-md-4 col-sm-6 col-xs-12 padding10' {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}
+																<div class='col-md-4 col-sm-6 col-12 padding10' {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}
 																	 {assign var="index" value=($smarty.foreach.actions.index+1) % 3}
 																	 {assign var="colspan" value=4-$index}
 																	 colspan="{$colspan}"																

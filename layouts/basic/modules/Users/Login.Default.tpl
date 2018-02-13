@@ -77,7 +77,7 @@
 						</div>
 					{/if}
 				{/if}
-				<div class="form-group col-xs-12 noPadding">
+				<div class="form-group col-12 noPadding">
 					{if $MESSAGE}
 						<div class="alert {if $MESSAGE_TYPE === 'success'}alert-success{elseif $MESSAGE_TYPE === 'error'}alert-danger{else}alert-warning{/if}">
 							<p>{$MESSAGE}</p>

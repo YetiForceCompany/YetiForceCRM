@@ -114,16 +114,16 @@
 						{/if}
 						<td class="opacity col-md-6">
 							<div class="moduleManagerBlock">
-								<div class="col-md-1 col-xs-2">
+								<div class="col-md-1 col-2">
 									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 								</div>
-								<div class="col-md-1 col-xs-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
+								<div class="col-md-1 col-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
 									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 								</div>
-								<div class="col-xs-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
+								<div class="col-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
 									<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 								</div>
-								<div class="col-md-6 col-xs-12">
+								<div class="col-md-6 col-12">
 									{if $MODULE_MODEL->get('customized')}
 										<button class="deleteModule btn btn-danger btn-sm float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}

@@ -7,7 +7,7 @@
 				<div class="panel-heading paddingTBZero widget_header">
 					<input type="hidden" name="relatedModule" value="{$REL_MODULE}" />
 					<div class="panel-title row">
-						<h4 class="col-xs-8">{\App\Language::translate($REL_MODULE, $REL_MODULE)}</h4>
+						<h4 class="col-8">{\App\Language::translate($REL_MODULE, $REL_MODULE)}</h4>
 					</div>
 				</div>
 				<div class="widget_contents panel-body padding0">

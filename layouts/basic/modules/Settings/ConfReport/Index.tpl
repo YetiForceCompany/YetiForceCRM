@@ -2,11 +2,11 @@
 
 <div class="">
 	<div class="widget_header row">
-		<div class="col-xs-10">
+		<div class="col-10">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
 		</div>
-		<div class="col-xs-2">
+		<div class="col-2">
 			{*<!--
 			<button class="btn btn-primary testSpeed pull-right">
 			<span class="fab fa-cloudscale"></span>&nbsp;&nbsp;

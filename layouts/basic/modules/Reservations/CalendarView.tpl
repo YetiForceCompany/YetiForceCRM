@@ -9,12 +9,12 @@
 	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-	<div class="rowContent paddingLRZero col-xs-12">
+	<div class="rowContent paddingLRZero col-12">
 		<div class="widget_header row marginbottomZero marginRightMinus20">
 			<div class="float-left paddingLeftMd">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 			</div>
-			<div class="col-xs-10">
+			<div class="col-10">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>

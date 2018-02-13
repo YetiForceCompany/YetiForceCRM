@@ -21,7 +21,7 @@
 							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						</div>
 						<div class="col-lg">
-							<div class="col-xs-12 detailViewToolbar py-1 pr-2">
+							<div class="col-12 detailViewToolbar py-1 pr-2">
 								<div class="pull-right-md pull-left-sm pull-right-lg">
 									<div class="btn-toolbar detailViewActionsBtn">
 										{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}

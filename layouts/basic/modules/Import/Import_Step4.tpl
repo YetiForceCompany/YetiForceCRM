@@ -100,10 +100,10 @@
 	<td>&nbsp;</td>
 	<td align="right" colspan="2">
 		<div class="row">
-			<div class="col-xs-8">
+			<div class="col-8">
 				<input type="checkbox" title="{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}" name="save_map" id="save_map" />&nbsp;{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}&nbsp;&nbsp;
 			</div>
-			<div class="col-xs-4">
+			<div class="col-4">
 				<input class="form-control" type="text" name="save_map_as" id="save_map_as" />
 			</div>
 		</div>

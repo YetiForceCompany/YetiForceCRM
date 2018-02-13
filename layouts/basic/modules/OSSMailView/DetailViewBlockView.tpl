@@ -16,9 +16,9 @@
 						<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 					</div>
 				</div>
-				<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
+				<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
 					{assign var=COUNTER value=0}
-					<div class="col-xs-12 paddingLRZero fieldRow">
+					<div class="col-12 paddingLRZero fieldRow">
 						{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 							{if !$FIELD_MODEL->isViewableInDetailView()}
 								{continue}
@@ -26,15 +26,15 @@
 							{if $FIELD_MODEL->getUIType() eq "69" || $FIELD_MODEL->getUIType() eq "105"}
 								{if $COUNTER neq 0}
 									{if $COUNTER eq 2}
-									</div><div class="col-xs-12 paddingLRZero fieldRow">
+									</div><div class="col-12 paddingLRZero fieldRow">
 										{assign var=COUNTER value=0}
 									{/if}
 								{/if}
-								<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
-									<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
+								<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
+									<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}">
 										<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
 									</div>
-									<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
+									<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}">
 										<div id="imageContainer" width="300" height="200">
 											{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 												{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
@@ -52,18 +52,18 @@
 									{/if}
 								{/if}
 								{if $COUNTER eq 2}
-								</div><div class="col-xs-12 paddingLRZero fieldRow">
+								</div><div class="col-12 paddingLRZero fieldRow">
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
-									<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+								<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
+									<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 										<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
 											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 										</label>
 									</div>
-									<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 										</span>

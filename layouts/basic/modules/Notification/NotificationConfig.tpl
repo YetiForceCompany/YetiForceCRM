@@ -3,8 +3,8 @@
 	{assign var="CRON_ACTIVE" value=$CRON_INFO->getStatus()}
 	{assign var="IS_PERMITTED" value=\App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
 	<div class="modal-header row no-margin">
-		<div class="col-xs-12 paddingLRZero">
-			<div class="col-xs-8 paddingLRZero">
+		<div class="col-12 paddingLRZero">
+			<div class="col-8 paddingLRZero">
 				<h4>{\App\Language::translate('LBL_WATCHING_MODULES', $MODULE)}</h4>
 			</div>
 			<div class="float-right">
@@ -16,7 +16,7 @@
 		<form id="sortingCustomView">
 			<div class="row">
 				<div class="table-responsive padding10">
-					<div class="col-xs-12">
+					<div class="col-12">
 						<table class="table table-bordered table-condensed modalDataTable">
 							<thead>
 								<tr>
@@ -68,7 +68,7 @@
 					<option value="1440" {if $FREQUENCY eq '1440'} selected{/if}>{\App\Language::translate('PLL_24_H',$MODULE)}</option>
 				</select>
 			</div>
-			<div class="float-left col-xs-1 paddingLRZero">
+			<div class="float-left col-1 paddingLRZero">
 				<a href="#" class="infoPopover float-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fas fa-info-circle"></span></a>
 			</div>
 		{/if}

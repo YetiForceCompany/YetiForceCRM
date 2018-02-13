@@ -49,21 +49,21 @@
 									<h5>&nbsp;{\App\Language::translate('Edit Encryption Key', $MODULENAME)}</h5>
 								</div>
 								<div class="col-md-12 paddingLRZero panel-body blockContent">									
-									<div class="fieldRow col-md-8 col-xs-12">
-										<div class="fieldLabel col-xs-5 col-sm-2">
+									<div class="fieldRow col-md-8 col-12">
+										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
 										</div>
-										<div class="fieldValue col-xs-7 col-sm-10" >
+										<div class="fieldValue col-7 col-sm-10" >
 											<div class="row">
 												<input id="oldKey" type="text" class="form-control nameField" name="oldKey" value="" min="8" />
 											</div>
 										</div>
 									</div>
-									<div class="fieldRow col-md-8 col-xs-12">
-										<div class="fieldLabel col-xs-5 col-sm-2">
+									<div class="fieldRow col-md-8 col-12">
+										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
 										</div>
-										<div class="fieldValue col-xs-7 col-sm-10" >
+										<div class="fieldValue col-7 col-sm-10" >
 											<div class="row">
 												<input id="newKey" type="text" class="form-control nameField" name="newKey" value="" min="8" />
 											</div>
@@ -91,11 +91,11 @@
 									<h5>&nbsp;{\App\Language::translate('Enter Your Old Password', $MODULENAME)}</h5>
 								</div>
 								<div class="col-md-12 paddingLRZero panel-body blockContent">									
-									<div class="fieldRow col-md-8 col-xs-12">
-										<div class="fieldLabel col-xs-5 col-sm-2">
+									<div class="fieldRow col-md-8 col-12">
+										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
 										</div>
-										<div class="fieldValue col-xs-7 col-sm-10" >
+										<div class="fieldValue col-7 col-sm-10" >
 											<div class="row">
 												<input id="passKey" type="text" class="form-control nameField" name="passKey" value="" min="8" />
 											</div>
@@ -124,11 +124,11 @@
 							<h5>&nbsp;{\App\Language::translate('Enter encryption password', $MODULENAME)}</h5>
 						</div>
 						<div class="col-md-12 paddingLRZero panel-body blockContent">
-							<div class="fieldRow col-md-8 col-xs-12">
-								<div class="fieldLabel col-xs-5 col-sm-2">
+							<div class="fieldRow col-md-8 col-12">
+								<div class="fieldLabel col-5 col-sm-2">
 									<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption password', $MODULENAME)}:</label>
 								</div>
-								<div class="fieldValue col-xs-7 col-sm-10">
+								<div class="fieldValue col-7 col-sm-10">
 									<div class="row">
 										<input id="pass_key" type="text" class="form-control nameField" name="pass_key" value="" min="8" />
 									</div>
@@ -158,21 +158,21 @@
 						<h5>&nbsp;{\App\Language::translate('Password Length', $MODULENAME)}</h5>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
-						<div class="fieldRow col-md-8 col-xs-12">
-							<div class="fieldLabel col-xs-5 col-sm-2">
+						<div class="fieldRow col-md-8 col-12">
+							<div class="fieldLabel col-5 col-sm-2">
 								<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Minimum Length', $MODULENAME)}:</label>
 							</div>
-							<div class="fieldValue col-xs-7 col-sm-10">
+							<div class="fieldValue col-7 col-sm-10">
 								<div class="row">
 									<input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="form-control nameField" name="pass_length_min" value="{$MIN}" min="1" />
 								</div>
 							</div>
 						</div>
-						<div class="fieldRow col-md-8 col-xs-12">
-							<div class="fieldLabel col-xs-5 col-sm-2">
+						<div class="fieldRow col-md-8 col-12">
+							<div class="fieldLabel col-5 col-sm-2">
 								<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Maximum Length', $MODULENAME)}:</label>
 							</div>
-							<div class="fieldValue col-xs-7 col-sm-10">
+							<div class="fieldValue col-7 col-sm-10">
 								<div class="row">
 									<input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="form-control nameField" name="pass_length_max" value="{$MAX}" min="1" />
 								</div>
@@ -185,9 +185,9 @@
 						<h5>&nbsp;{\App\Language::translate('Allowed Characters', $MODULENAME)}</h5>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
-						<div class="fieldRow col-md-8 col-xs-12">
+						<div class="fieldRow col-md-8 col-12">
 							<div class="fieldLabel"> </div>
-							<div align="center" class="fieldValue col-xs-12">
+							<div align="center" class="fieldValue col-12">
 								<div class="row">
 									<textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea>
 								</div>
@@ -200,9 +200,9 @@
 						<h5>&nbsp;{\App\Language::translate('LBL_REGISTER_CHANGES', $MODULENAME)}</h5>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
-						<div class="fieldRow col-md-8 col-xs-12">
+						<div class="fieldRow col-md-8 col-12">
 							<div class="fieldLabel"> </div>
-							<div align="center" class="fieldValue col-xs-7 col-sm-10">
+							<div align="center" class="fieldValue col-7 col-sm-10">
 								<div class="row float-left">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
 									{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}

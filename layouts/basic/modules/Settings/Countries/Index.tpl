@@ -2,7 +2,7 @@
 {strip}
 	<div class="">
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				&nbsp;{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_DESCRIPTION', $QUALIFIED_MODULE))}
 			</div>
