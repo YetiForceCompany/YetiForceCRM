@@ -61,7 +61,7 @@
 			<div class="tab-pane" id="blocedIds">
 				<form id="brutalforceTabForm2" name="brutalforceTabForm2">
 					<div class="table-responsive">
-						<table  class="table tableRWD table-bordered table-condensed themeTableColor">
+						<table  class="table tableRWD table-bordered table-sm themeTableColor">
 							<thead>
 								<tr class="blockHeader">
 									<th><span class="alignMiddle">{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</span></th>

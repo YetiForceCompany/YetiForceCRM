@@ -94,7 +94,7 @@
 		{else}
 			<div class="">
 				<div class="table-responsive col-lg-9 col-md-10 col-sm-10 col-12">
-					<table class="table table-bordered table-condensed dataTable" data-mode="base">
+					<table class="table table-bordered table-sm dataTable" data-mode="base">
 						<thead>
 							<tr>
 								<th>

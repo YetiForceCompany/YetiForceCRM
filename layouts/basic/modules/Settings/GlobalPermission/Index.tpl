@@ -8,7 +8,7 @@
 			<div class="col-md-2"></div>
 		</div>
 		<div class="">
-			<table class="table table-bordered table-condensed listViewEntriesTable">
+			<table class="table table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="blockHeader">
 						<th><strong>{\App\Language::translate('LBL_PROFILE_NAME',$QUALIFIED_MODULE)}</strong></th>

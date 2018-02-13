@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<table class="table table-bordered table-condensed">
+	<table class="table table-bordered table-sm">
 		<thead>
 			<tr>
 				<th>{App\Language::translate('LBL_WARNINGS_TITLE', $MODULE)}</th>

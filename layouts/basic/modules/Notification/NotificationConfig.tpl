@@ -17,7 +17,7 @@
 			<div class="row">
 				<div class="table-responsive padding10">
 					<div class="col-12">
-						<table class="table table-bordered table-condensed modalDataTable">
+						<table class="table table-bordered table-sm modalDataTable">
 							<thead>
 								<tr>
 									<th>

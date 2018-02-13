@@ -9,7 +9,7 @@
 		</div>
 		<div class="contents">
 			<div class="contents tabbable">
-				<table class="table table-bordered table-condensed listViewEntriesTable">
+				<table class="table table-bordered table-sm listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
 							<th><strong>{\App\Language::translate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>

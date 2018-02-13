@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<hr>
-	<table class="table tableRWD table-bordered table-condensed themeTableColor">
+	<table class="table tableRWD table-bordered table-sm themeTableColor">
 		<thead>
 			<tr class="blockHeader">
 				<th colspan="1" class="mediumWidthType">

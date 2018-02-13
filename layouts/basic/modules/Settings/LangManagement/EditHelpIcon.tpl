@@ -26,7 +26,7 @@
 </div>
 {if $DATA}
 	<div class="">
-		<table class="table table-bordered table-condensed listViewEntriesTable" >
+		<table class="table table-bordered table-sm listViewEntriesTable" >
 			<thead>
 				<tr class="blockHeader">
 					<th class="col-md-1"><strong>{\App\Language::translate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</strong></th>

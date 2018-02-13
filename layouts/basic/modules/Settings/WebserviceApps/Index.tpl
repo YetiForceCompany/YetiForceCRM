@@ -2,7 +2,7 @@
 {strip}
 	<div class="col-12 paddingLRZero">
 		<div class="table-responsive">
-			<table class="table table-bordered table-condensed">
+			<table class="table table-bordered table-sm">
 				<thead>
 					<tr>
 						<th><strong>{\App\Language::translate('LBL_APP_NAME',$QUALIFIED_MODULE)}</strong></th>

@@ -15,7 +15,7 @@
 	<br />
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="userListTab">
-			<table class="table table-bordered table-condensed themeTableColor userTable">
+			<table class="table table-bordered table-sm themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">

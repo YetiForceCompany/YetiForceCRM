@@ -16,7 +16,7 @@
 				</ul>
 				<div class="tab-content layoutContent" style="padding-top: 10px;">
 					<div class="tab-pane paddingTop20 active" id="calendarConfig">
-						<table class="table table-bordered table-condensed listViewEntriesTable">
+						<table class="table table-bordered table-sm listViewEntriesTable">
 							<tbody>
 								{foreach from=$MODULE_MODEL->getCalendarConfig('reminder') item=item key=key}
 									<tr data-id="{$item.name}" data-color="{$item.value}">
@@ -30,7 +30,7 @@
 						</table>
 					</div>
 					<div class="tab-pane paddingTop20" id="workingDays">
-						<table class="table table-bordered table-condensed listViewEntriesTable workingDaysTable">
+						<table class="table table-bordered table-sm listViewEntriesTable workingDaysTable">
 							<tbody>
 								<tr>
 									<td class="col-md-3"><p style="padding-top:10px;">{\App\Language::translate('LBL_NOTWORKEDDAYS_INFO', $QUALIFIED_MODULE)}</p></td>

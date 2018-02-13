@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="securityIndexPage">
-		<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+		<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 			<thead>
 				<tr class="blockHeader">
 					<th colspan="3" class="mediumWidthType">
@@ -35,7 +35,7 @@
 		</table>
 		{if $SENSIOLABS}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">
@@ -74,7 +74,7 @@
 		{assign var="ACCESS_FOR_ADMIN" value=App\Log::getLogs('access_for_admin', 'oneDay')}
 		{if $ACCESS_FOR_ADMIN}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="3" class="mediumWidthType">
@@ -107,7 +107,7 @@
 		{assign var="ACCESS_FOR_RECORD" value=App\Log::getLogs('access_to_record', 'oneDay')}
 		{if $ACCESS_FOR_RECORD}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">
@@ -144,7 +144,7 @@
 		{assign var="ACCESS_FOR_API" value=App\Log::getLogs('access_for_api', 'oneDay')}
 		{if $ACCESS_FOR_API}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="3" class="mediumWidthType">
@@ -177,7 +177,7 @@
 		{assign var="ACCESS_FOR_USER" value=App\Log::getLogs('access_for_user', 'oneDay')}
 		{if $ACCESS_FOR_USER}
 			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">

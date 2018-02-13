@@ -18,7 +18,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="contents tabbable table-responsive">
-			<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
+			<table class="table customTableRWD table-bordered table-sm listViewEntriesTable" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
 						<th class="noWrap"><strong>{\App\Language::translate('Module',$QUALIFIED_MODULE)}</strong></th>

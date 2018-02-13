@@ -36,7 +36,7 @@
 					<div class="col-12 col-sm-5 paddingLRZero">
 						<div class="table-responsive">
 							<div class="col-12">
-								<table class="table table-bordered table-condensed dataTable" data-mode="active">
+								<table class="table table-bordered table-sm dataTable" data-mode="active">
 									<thead>
 										<tr>
 											<th><strong>{\App\Language::translate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
@@ -56,7 +56,7 @@
 					<div class="col-12 col-sm-5 paddingLRZero">
 						<div class="table-responsive">
 							<div class="col-12">
-								<table class="table table-bordered table-condensed dataTable" data-mode="base">
+								<table class="table table-bordered table-sm dataTable" data-mode="base">
 									<thead>
 										<tr>
 											<th><strong>{\App\Language::translate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
