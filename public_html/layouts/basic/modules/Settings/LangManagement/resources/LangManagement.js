@@ -300,7 +300,7 @@ var Settings_Index_Js = {
 		var cloneModal = $('.AddNewTranslationMondal').clone(true, true);
 		cloneModal.find('input[name="langs"]').val(JSON.stringify(langs_list));
 		$.each(langs_list, function (key) {
-			langs_fields += '<div class="form-group"><label class="col-md-4 control-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
+			langs_fields += '<div class="form-group"><label class="col-md-4 col-form-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
 		});
 		cloneModal.find('.add_translation_block').html(langs_fields);
 		var target = $(e.currentTarget);
@@ -419,7 +419,7 @@ var Settings_Index_Js = {
 				var max = data[k][0];
 				langStats += max;
 				delete data[k][0];
-				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-static control-label marginTop2">' + modules[i][k] + ': </label><div class="form-control-static col-md-9">'
+				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-static col-form-label marginTop2">' + modules[i][k] + ': </label><div class="form-control-static col-md-9">'
 				for (var q in data[k]) {
 					if (typeof shortages[q] == 'undefined') {
 						shortages[q] = 0;
