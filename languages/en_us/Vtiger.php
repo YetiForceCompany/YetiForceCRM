@@ -1298,6 +1298,11 @@ $languageStrings = [
 	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calculate sum for this field',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
+	'LBL_FULLTEXT_BEGIN' => 'Word begins with',
+	'LBL_FULLTEXT_WORD' => 'Word',
+	'LBL_CONTAINS' => 'Contains',
+	'LBL_STARTS_WITH' => 'Begins with',
+	'LBL_ENDS_WITH' => 'Ends with',
 	'LBL_ADVANCED_SEARCH' => 'Advanced search',
 	'BTN_PERMISSION_INSPECTOR' => 'Permission Inspector',
 ];
