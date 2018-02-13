@@ -20,7 +20,7 @@
 	{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 		<div class="row">
 			{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-				<span class="col-md-8" name="existingImages"><img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" alt="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}" class="img-responsive"></span>
+				<span class="col-md-8" name="existingImages"><img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" alt="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}" class="img-fluid"></span>
 				<span class="col-md-12">
 					<span class="">[{$IMAGE_INFO.name}]</span>&nbsp;
 					<span class=""><input type="button" id="file_{$ITER}" value="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="imageDelete"></span>
