@@ -27,7 +27,7 @@
 			<ul class="dropdown-menu">
 				{foreach item=LINK from=$LINKS}
 					{if $LINK_TYPE && $LINK_TYPE neq $LINK->getType()}
-						<li class="divider"></li>
+						<li class="dropdown-divider"></li>
 						{/if}
 						{assign var="LINK_TYPE" value=$LINK->getType()}
 						{assign var="LINK_URL" value=$LINK->getUrl()}

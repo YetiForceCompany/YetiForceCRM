@@ -21,7 +21,7 @@
 				</a>
 			</li>
 		{/foreach}
-		<li class="divider"></li>
+		<li class="dropdown-divider"></li>
 		<li><a class="clearHistory" href="#" onclick="app.clearBrowsingHistory();">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a></li>
 	</ul>
 {/strip}

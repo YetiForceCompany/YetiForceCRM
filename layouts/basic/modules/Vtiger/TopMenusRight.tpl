@@ -55,7 +55,7 @@
 					<ul class="dropdown-menu float-right">
 						{foreach item=CHILDLINK from=$CHILDLINKS}
 							{if $CHILDLINK->getLabel() eq NULL}
-								<li class="divider"></li>
+								<li class="dropdown-divider"></li>
 								{else}
 									{assign var="HREF" value=$CHILDLINK->getUrl()}
 									{assign var="LABEL" value=$CHILDLINK->getLabel()}
@@ -136,7 +136,7 @@
 					{assign var="title" value=$obj->getLabel()}
 					{assign var="childLinks" value=$obj->getChildLinks()}
 					{if $smarty.foreach.compactIndex.index neq 0}
-						<li class="divider"></li>
+						<li class="dropdown-divider"></li>
 						{/if}
 						{foreach key=index item=obj from=$childLinks}
 							{assign var="id" value=$obj->getId()}
