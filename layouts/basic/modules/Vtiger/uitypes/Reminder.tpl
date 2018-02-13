@@ -29,7 +29,7 @@
 			</label>
 		</div>
 		<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12">
-			<div class="col-xs-3 ">
+			<div class="col-3 ">
 				<div>
 					<select class="chzn-select input-mini" name="remdays" title="{\App\Language::translate('LBL_REMAIND_DAYS', $MODULE)}">
 						{for $DAYS = 0 to 31}
@@ -43,7 +43,7 @@
 
 			</div>
 
-			<div class="col-xs-3 ">
+			<div class="col-3 ">
 				<div>
 					<select class="chzn-select input-mini" name="remhrs" title="{\App\Language::translate('LBL_REMAIND_HOURS', $MODULE)}" >
 						{for $HOURS = 0 to 23}
@@ -56,7 +56,7 @@
 				</div>
 
 			</div>
-			<div class="col-xs-3 ">
+			<div class="col-3 ">
 				<div>
 					<select class="chzn-select  input-mini" name="remmin" title="{\App\Language::translate('LBL_REMAIND_MINS', $MODULE)}">
 						{for $MINUTES = 1 to 59}

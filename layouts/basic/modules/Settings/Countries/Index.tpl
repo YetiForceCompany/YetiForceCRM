@@ -2,14 +2,14 @@
 {strip}
 	<div class="">
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				&nbsp;{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_DESCRIPTION', $QUALIFIED_MODULE))}
 			</div>
 		</div>
 		<div class="contents">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
+			<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
 						<th width="1%" class="{$WIDTHTYPE}"></th>

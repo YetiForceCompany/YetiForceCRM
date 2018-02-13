@@ -1689,7 +1689,7 @@ window.app = {
 	registerImageFullModal: function () {
 		$('body').on('click', '.imageFullModal', function (e) {
 			e.preventDefault();
-			var img = $(this).next().clone(true, true).addClass('modal-content img-responsive');
+			var img = $(this).next().clone(true, true).addClass('modal-content img-fluid');
 			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">' + img.get(0).outerHTML + '</div></div>';
 			app.showModalWindow(html);
 		})

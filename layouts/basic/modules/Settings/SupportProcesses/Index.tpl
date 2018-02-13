@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class=" supportProcessesContainer">
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
@@ -12,7 +12,7 @@
 		<br />
 		<div class="tab-content">
 			<div class='editViewContainer tab-pane active' id="general_configuration">
-				<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">
+				<table class="table tableRWD table-bordered table-sm themeTableColor userTable">
 					<thead>
 						<tr class="blockHeader" >
 							<th class="mediumWidthType">
@@ -26,7 +26,7 @@
 					<tbody>
 						<tr data-id="{$ITEM['user_id']}">
 							<td><label>{\App\Language::translate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-							<td class="col-xs-6">
+							<td class="col-6">
 								<select class="chzn-select configField form-control status" multiple name="status">
 									{foreach  item=STATUS from=$TICKETSTATUS}
 										<option value="{$STATUS}" {if in_array($STATUS, $TICKETSTATUSNOTMODIFY)} selected {/if}  >{\App\Language::translate($STATUS, 'HelpDesk')}</option>

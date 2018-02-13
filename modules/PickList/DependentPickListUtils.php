@@ -24,130 +24,134 @@ require_once 'modules/PickList/PickListUtils.php';
 
 class Vtiger_DependencyPicklist
 {
+    /**
+     * Returns information about dependent picklists.
+     *
+     * @param string $module
+     *
+     * @return array
+     */
+    public static function getDependentPicklistFields($module = '')
+    {
+        $query = (new \App\Db\Query())->select(['sourcefield', 'targetfield', 'tabid'])
+            ->from('vtiger_picklist_dependency');
+        if (!empty($module)) {
+            $query->where(['tabid' => \App\Module::getModuleId($module)]);
+        }
+        $dataReader = $query->distinct()->createCommand()->query();
+        $dependentPicklists = [];
+        while ($row = $dataReader->read()) {
+            $sourceField = $row['sourcefield'];
+            $targetField = $row['targetfield'];
+            $moduleModel = Vtiger_Module_Model::getInstance($row['tabid']);
+            $sourceFieldModel = Vtiger_Field_Model::getInstance($sourceField, $moduleModel);
+            $targetFieldModel = Vtiger_Field_Model::getInstance($targetField, $moduleModel);
+            if (!$sourceFieldModel || !$targetFieldModel) {
+                continue;
+            }
+            $sourceFieldLabel = $sourceFieldModel->getFieldLabel();
+            $targetFieldLabel = $targetFieldModel->getFieldLabel();
+            $moduleName = $moduleModel->getName();
+            $dependentPicklists[] = [
+                'sourcefield' => $sourceField,
+                'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $moduleName),
+                'targetfield' => $targetField,
+                'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $moduleName),
+                'module' => $moduleName,
+            ];
+        }
+        $dataReader->close();
 
-	/**
-	 * Returns information about dependent picklists
-	 * @param string $module
-	 * @return array
-	 */
-	public static function getDependentPicklistFields($module = '')
-	{
-		$query = (new \App\Db\Query())->select(['sourcefield', 'targetfield', 'tabid'])
-			->from('vtiger_picklist_dependency');
-		if (!empty($module)) {
-			$query->where(['tabid' => \App\Module::getModuleId($module)]);
-		}
-		$dataReader = $query->distinct()->createCommand()->query();
-		$dependentPicklists = [];
-		while ($row = $dataReader->read()) {
-			$sourceField = $row['sourcefield'];
-			$targetField = $row['targetfield'];
-			$moduleModel = Vtiger_Module_Model::getInstance($row['tabid']);
-			$sourceFieldModel = Vtiger_Field_Model::getInstance($sourceField, $moduleModel);
-			$targetFieldModel = Vtiger_Field_Model::getInstance($targetField, $moduleModel);
-			if (!$sourceFieldModel || !$targetFieldModel) {
-				continue;
-			}
-			$sourceFieldLabel = $sourceFieldModel->getFieldLabel();
-			$targetFieldLabel = $targetFieldModel->getFieldLabel();
-			$moduleName = $moduleModel->getName();
-			$dependentPicklists[] = [
-				'sourcefield' => $sourceField,
-				'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $moduleName),
-				'targetfield' => $targetField,
-				'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $moduleName),
-				'module' => $moduleName
-			];
-		}
-		$dataReader->close();
-		return $dependentPicklists;
-	}
+        return $dependentPicklists;
+    }
 
-	public static function savePickListDependencies($module, $dependencyMap)
-	{
-		$db = App\Db::getInstance();
-		$tabId = \App\Module::getModuleId($module);
-		$sourceField = $dependencyMap['sourcefield'];
-		$targetField = $dependencyMap['targetfield'];
-		$valueMapping = $dependencyMap['valuemapping'];
-		$countValueMapping = count($valueMapping);
-		for ($i = 0; $i < $countValueMapping; ++$i) {
-			$mapping = $valueMapping[$i];
-			$sourceValue = $mapping['sourcevalue'];
-			$targetValues = $mapping['targetvalues'];
-			$serializedTargetValues = \App\Json::encode($targetValues);
-			$optionalsourcefield = $mapping['optionalsourcefield'];
-			$optionalsourcevalues = $mapping['optionalsourcevalues'];
-			if (!empty($optionalsourcefield)) {
-				$criteria = [];
-				$criteria['fieldname'] = $optionalsourcefield;
-				$criteria['fieldvalues'] = $optionalsourcevalues;
-				$serializedCriteria = \App\Json::encode($criteria);
-			} else {
-				$serializedCriteria = null;
-			}
-			//to handle Accent Sensitive search in MySql
-			//reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
-			$dependencyId = (new App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
-				->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
-				->scalar();
-			if ($dependencyId) {
-				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
-					'targetvalues' => $serializedTargetValues,
-					'criteria' => $serializedCriteria,
-					], ['id' => $dependencyId])->execute();
-			} else {
-				$db->createCommand()->insert('vtiger_picklist_dependency', [
-					'id' => $db->getUniqueID('vtiger_picklist_dependency'),
-					'tabid' => $tabId,
-					'sourcefield' => $sourceField,
-					'targetfield' => $targetField,
-					'sourcevalue' => $sourceValue,
-					'targetvalues' => $serializedTargetValues,
-					'criteria' => $serializedCriteria,
-				])->execute();
-			}
-		}
-	}
+    public static function savePickListDependencies($module, $dependencyMap)
+    {
+        $db = App\Db::getInstance();
+        $tabId = \App\Module::getModuleId($module);
+        $sourceField = $dependencyMap['sourcefield'];
+        $targetField = $dependencyMap['targetfield'];
+        $valueMapping = $dependencyMap['valuemapping'];
+        $countValueMapping = count($valueMapping);
+        for ($i = 0; $i < $countValueMapping; ++$i) {
+            $mapping = $valueMapping[$i];
+            $sourceValue = $mapping['sourcevalue'];
+            $targetValues = $mapping['targetvalues'];
+            $serializedTargetValues = \App\Json::encode($targetValues);
+            $optionalsourcefield = $mapping['optionalsourcefield'];
+            $optionalsourcevalues = $mapping['optionalsourcevalues'];
+            if (!empty($optionalsourcefield)) {
+                $criteria = [];
+                $criteria['fieldname'] = $optionalsourcefield;
+                $criteria['fieldvalues'] = $optionalsourcevalues;
+                $serializedCriteria = \App\Json::encode($criteria);
+            } else {
+                $serializedCriteria = null;
+            }
+            //to handle Accent Sensitive search in MySql
+            //reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
+            $dependencyId = (new App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
+                ->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
+                ->scalar();
+            if ($dependencyId) {
+                App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
+                    'targetvalues' => $serializedTargetValues,
+                    'criteria' => $serializedCriteria,
+                    ], ['id' => $dependencyId])->execute();
+            } else {
+                $db->createCommand()->insert('vtiger_picklist_dependency', [
+                    'id' => $db->getUniqueID('vtiger_picklist_dependency'),
+                    'tabid' => $tabId,
+                    'sourcefield' => $sourceField,
+                    'targetfield' => $targetField,
+                    'sourcevalue' => $sourceValue,
+                    'targetvalues' => $serializedTargetValues,
+                    'criteria' => $serializedCriteria,
+                ])->execute();
+            }
+        }
+    }
 
-	public static function deletePickListDependencies($module, $sourceField, $targetField)
-	{
-		App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
-			'tabid' => \App\Module::getModuleId($module),
-			'sourcefield' => $sourceField,
-			'targetfield' => $targetField
-		])->execute();
-	}
+    public static function deletePickListDependencies($module, $sourceField, $targetField)
+    {
+        App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
+            'tabid' => \App\Module::getModuleId($module),
+            'sourcefield' => $sourceField,
+            'targetfield' => $targetField,
+        ])->execute();
+    }
 
-	public static function getPickListDependency($module, $sourceField, $targetField)
-	{
-		$dependencyMap['sourcefield'] = $sourceField;
-		$dependencyMap['targetfield'] = $targetField;
-		$dataReader = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
-				->createCommand()->query();
-		$valueMapping = [];
-		while ($row = $dataReader->read()) {
-			$valueMapping[] = [
-				'sourcevalue' => $row['sourcevalue'],
-				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues']))
-			];
-		}
-		$dataReader->close();
-		$dependencyMap['valuemapping'] = $valueMapping;
-		return $dependencyMap;
-	}
+    public static function getPickListDependency($module, $sourceField, $targetField)
+    {
+        $dependencyMap['sourcefield'] = $sourceField;
+        $dependencyMap['targetfield'] = $targetField;
+        $dataReader = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+                ->createCommand()->query();
+        $valueMapping = [];
+        while ($row = $dataReader->read()) {
+            $valueMapping[] = [
+                'sourcevalue' => $row['sourcevalue'],
+                'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues'])),
+            ];
+        }
+        $dataReader->close();
+        $dependencyMap['valuemapping'] = $valueMapping;
 
-	public static function getJSPicklistDependencyDatasource($module)
-	{
-		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);
-		return \App\Json::encode($picklistDependencyDatasource);
-	}
+        return $dependencyMap;
+    }
 
-	public static function checkCyclicDependency($module, $sourceField, $targetField)
-	{
-		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
-		return (new App\Db\Query())->from('vtiger_picklist_dependency')
-				->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
-				->exists();
-	}
+    public static function getJSPicklistDependencyDatasource($module)
+    {
+        $picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);
+
+        return \App\Json::encode($picklistDependencyDatasource);
+    }
+
+    public static function checkCyclicDependency($module, $sourceField, $targetField)
+    {
+        // If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
+        return (new App\Db\Query())->from('vtiger_picklist_dependency')
+                ->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+                ->exists();
+    }
 }

@@ -9,78 +9,81 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
+class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 {
+    public function getBreadcrumbTitle(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        if ($request->get('record')) {
+            $recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+            $title = $recordModel->getName();
+        } else {
+            $title = \App\Language::translate('LBL_VIEW_EDIT', $moduleName);
+        }
 
-	public function getBreadcrumbTitle(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		if ($request->get('record')) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
-			$title = $recordModel->getName();
-		} else {
-			$title = \App\Language::translate('LBL_VIEW_EDIT', $moduleName);
-		}
-		return $title;
-	}
+        return $title;
+    }
 
-	public function process(\App\Request $request)
-	{
-		$this->initialize($request);
-		$qualifiedModuleName = $request->getModule(false);
+    public function process(\App\Request $request)
+    {
+        $this->initialize($request);
+        $qualifiedModuleName = $request->getModule(false);
 
-		$viewer = $this->getViewer($request);
-		$viewer->view('EditView.tpl', $qualifiedModuleName);
-	}
+        $viewer = $this->getViewer($request);
+        $viewer->view('EditView.tpl', $qualifiedModuleName);
+    }
 
-	public function initialize(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->getInteger('record');
-		$fromRecord = $request->getInteger('from_record');
+    public function initialize(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $qualifiedModuleName = $request->getModule(false);
+        $record = $request->getInteger('record');
+        $fromRecord = $request->getInteger('from_record');
 
-		if (!empty($record)) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($record);
-			$viewer->assign('MODE', 'edit');
-		} elseif (!empty($fromRecord)) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($fromRecord);
-			$recordModel->getModulePermissions();
-			$recordModel->getGlobalPermissions();
-			$recordModel->set('profileid', '');
-			$viewer->assign('MODE', '');
-			$viewer->assign('IS_DUPLICATE_RECORD', $fromRecord);
-		} else {
-			$recordModel = new Settings_Profiles_Record_Model();
-			$viewer->assign('MODE', '');
-		}
-		$viewer->assign('ALL_PROFILES', $recordModel->getAll());
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
-		$viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true));
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('RECORD_ID', $record);
-		$viewer->assign('MODULE', $moduleName);
-	}
+        if (!empty($record)) {
+            $recordModel = Settings_Profiles_Record_Model::getInstanceById($record);
+            $viewer->assign('MODE', 'edit');
+        } elseif (!empty($fromRecord)) {
+            $recordModel = Settings_Profiles_Record_Model::getInstanceById($fromRecord);
+            $recordModel->getModulePermissions();
+            $recordModel->getGlobalPermissions();
+            $recordModel->set('profileid', '');
+            $viewer->assign('MODE', '');
+            $viewer->assign('IS_DUPLICATE_RECORD', $fromRecord);
+        } else {
+            $recordModel = new Settings_Profiles_Record_Model();
+            $viewer->assign('MODE', '');
+        }
+        $viewer->assign('ALL_PROFILES', $recordModel->getAll());
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->assign('ALL_BASIC_ACTIONS', Vtiger_Action_Model::getAllBasic(true));
+        $viewer->assign('ALL_UTILITY_ACTIONS', Vtiger_Action_Model::getAllUtility(true));
+        $viewer->assign('RECORD_MODEL', $recordModel);
+        $viewer->assign('RECORD_ID', $record);
+        $viewer->assign('MODULE', $moduleName);
+    }
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return <Array> - List of Vtiger_JsScript_Model instances
+     */
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
 
-		$jsFileNames = [
-			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.Edit"
-		];
+        $jsFileNames = [
+            'modules.Settings.Vtiger.resources.Edit',
+            "modules.Settings.$moduleName.resources.Edit",
+        ];
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
+        return $headerScriptInstances;
+    }
 }

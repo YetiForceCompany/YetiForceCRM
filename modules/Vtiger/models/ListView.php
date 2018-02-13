@@ -122,7 +122,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
 				'linkdata' => ['url' => 'index.php?module=PermissionInspector&view=UserListModal&srcModule=' . $moduleModel->getName()],
-				'linkicon' => 'glyphicon glyphicon-lock',
+				'linkicon' => 'fas fa-user-secret',
 				'modalView' => true
 			];
 		}

@@ -11,47 +11,48 @@
 
 class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Model
 {
+    /**
+     * Function to get the values in stuctured format.
+     *
+     * @return <array> - values in structure array('block'=>array(fieldinfo));
+     */
+    public function getStructure()
+    {
+        if (!empty($this->structuredValues)) {
+            return $this->structuredValues;
+        }
 
-	/**
-	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
-	 */
-	public function getStructure()
-	{
-		if (!empty($this->structuredValues)) {
-			return $this->structuredValues;
-		}
+        $values = [];
+        $currentUserModel = Users_Record_Model::getCurrentUserModel();
+        $recordModel = $this->getRecord();
+        $recordId = $recordModel->getId();
+        $moduleModel = $this->getModule();
+        $blockModelList = $moduleModel->getBlocks();
+        foreach ($blockModelList as $blockLabel => $blockModel) {
+            $fieldModelList = $blockModel->getFields();
+            if (!empty($fieldModelList)) {
+                $values[$blockLabel] = [];
+                foreach ($fieldModelList as $fieldName => $fieldModel) {
+                    $fieldModel->set('rocordId', $recordId);
+                    if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
+                        $fieldModel->set('editable', $currentUserModel->getId() !== $recordId);
+                        $fieldValue = false;
+                        if ($recordModel->get($fieldName) === 'on' || $recordModel->get($fieldName) === true) {
+                            $fieldValue = true;
+                        }
+                        $recordModel->set($fieldName, $fieldValue);
+                    }
+                    if ($fieldModel->isViewableInDetailView()) {
+                        if ($recordId) {
+                            $fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+                        }
+                        $values[$blockLabel][$fieldName] = $fieldModel;
+                    }
+                }
+            }
+        }
+        $this->structuredValues = $values;
 
-		$values = [];
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$recordModel = $this->getRecord();
-		$recordId = $recordModel->getId();
-		$moduleModel = $this->getModule();
-		$blockModelList = $moduleModel->getBlocks();
-		foreach ($blockModelList as $blockLabel => $blockModel) {
-			$fieldModelList = $blockModel->getFields();
-			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = [];
-				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					$fieldModel->set('rocordId', $recordId);
-					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
-						$fieldModel->set('editable', $currentUserModel->getId() !== $recordId);
-						$fieldValue = false;
-						if ($recordModel->get($fieldName) === 'on' || $recordModel->get($fieldName) === true) {
-							$fieldValue = true;
-						}
-						$recordModel->set($fieldName, $fieldValue);
-					}
-					if ($fieldModel->isViewableInDetailView()) {
-						if ($recordId) {
-							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-						}
-						$values[$blockLabel][$fieldName] = $fieldModel;
-					}
-				}
-			}
-		}
-		$this->structuredValues = $values;
-		return $values;
-	}
+        return $values;
+    }
 }

@@ -10,7 +10,6 @@
 
 class Users_ListAjax_Action extends Vtiger_BasicAjax_Action
 {
-
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+    use \App\Controller\ExposeMethod,
+     App\Controller\ClearProcess;
 }

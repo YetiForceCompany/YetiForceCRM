@@ -15,7 +15,7 @@
 	<input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
 	<div class="col-md-12 row no-margin commentsBar paddingLRZero">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-			<div class="commentTitle col-xs-12 paddingTop10" >
+			<div class="commentTitle col-12 paddingTop10" >
 				<div class="addCommentBlock">
 					<div class="input-group">
 						<span class="input-group-addon">

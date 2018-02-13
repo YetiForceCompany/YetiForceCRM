@@ -34,7 +34,7 @@
 					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 
 					<div class="modal-body tabbable">
-						<textarea class="input-lg form-control" name="commentcontent" id="commentcontent" title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."></textarea>
+						<textarea class="form-control-lg form-control" name="commentcontent" id="commentcontent" title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."></textarea>
 					</div>
 					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>

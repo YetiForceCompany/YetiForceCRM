@@ -5,10 +5,10 @@
 			<div class="widget_header">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="widgetTitle row">
-					<div class="col-xs-7">
+					<div class="col-7">
 						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
-					<div class="col-xs-5">
+					<div class="col-5">
 						<div class="float-right">
 							<button type="button" class="btn btn-sm btn-light showMailsModal" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
 								<span class="body-icon fas fa-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
@@ -39,8 +39,8 @@
 				</div>
 				<hr class="rowHr" />
 				<div class="row">
-					<div class="col-xs-6 paddingRightZero">
-						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control input-sm">
+					<div class="col-6 paddingRightZero">
+						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control form-control-sm">
 							<option value="All" {if $TYPE eq 'all'} selected="selected"{/if}>
 								{\App\Language::translate('LBL_ALL', 'OSSMailView')}
 							</option>
@@ -55,9 +55,9 @@
 							</option>
 						</select>
 					</div>
-					<div class="col-xs-6">
+					<div class="col-6">
 						{if $MODULE_NAME == 'Accounts'}
-							<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}" class="form-control input-sm">
+							<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}" class="form-control form-control-sm">
 								<option value="All">{\App\Language::translate('LBL_FILTER_ALL', 'OSSMailView')}</option>
 								<option value="Accounts">{\App\Language::translate('LBL_FILTER_ACCOUNTS', 'OSSMailView')}</option>
 								<option value="Contacts">{\App\Language::translate('LBL_FILTER_CONTACTS', 'OSSMailView')}</option>

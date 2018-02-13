@@ -15,7 +15,7 @@
 <hr>	
 <div class="contents padding1per">
 	{if $RULE_MODEL_LIST}
-		<table class="table table-bordered table-condensed customRuleTable">
+		<table class="table table-bordered table-sm customRuleTable">
 			<thead>
 				<tr class="customRuleHeaders">
 					<th>{\App\Language::translate('LBL_RULE_NO', $QUALIFIED_MODULE)}</th>

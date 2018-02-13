@@ -11,27 +11,26 @@
 
 class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
+    public function checkPermission(\App\Request $request)
+    {
+        $currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$currentUserModel->hasModulePermission($request->getModule())) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+    }
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $module = $request->getModule();
+        $recordId = $request->isEmpty('record') ? null : $request->getInteger('record');
+        $bookmarkName = $request->get('bookmarkName');
+        $bookmarkUrl = $request->get('bookmarkUrl');
 
-	public function process(\App\Request $request)
-	{
-		$module = $request->getModule();
-		$recordId = $request->isEmpty('record') ? null : $request->getInteger('record');
-		$bookmarkName = $request->get('bookmarkName');
-		$bookmarkUrl = $request->get('bookmarkUrl');
+        Portal_Module_Model::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
 
-		Portal_Module_Model::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
-
-		$response = new Vtiger_Response();
-		$result = ['message' => \App\Language::translate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module)];
-		$response->setResult($result);
-		$response->emit();
-	}
+        $response = new Vtiger_Response();
+        $result = ['message' => \App\Language::translate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module)];
+        $response->setResult($result);
+        $response->emit();
+    }
 }

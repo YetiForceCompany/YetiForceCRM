@@ -11,38 +11,37 @@
 
 class Users_DeleteUser_View extends Vtiger_Index_View
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $currentUserModel = Users_Record_Model::getCurrentUserModel();
+        if (!$currentUserModel->isAdminUser()) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function process(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $userid = $request->getInteger('record');
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$userid = $request->getInteger('record');
+        $userRecordModel = Users_Record_Model::getInstanceById($userid, $moduleName);
+        $viewer = $this->getViewer($request);
+        $usersList = $userRecordModel->getAll(true);
 
-		$userRecordModel = Users_Record_Model::getInstanceById($userid, $moduleName);
-		$viewer = $this->getViewer($request);
-		$usersList = $userRecordModel->getAll(true);
-
-		if (array_key_exists($userid, $usersList)) {
-			unset($usersList[$userid]);
-		}
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USERID', $userid);
-		$viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
-		$viewer->assign('USER_LIST', $usersList);
-		$viewer->assign('PERMANENT', $request->getMode() === 'permanent');
-		$viewer->view('DeleteUser.tpl', $moduleName);
-	}
+        if (array_key_exists($userid, $usersList)) {
+            unset($usersList[$userid]);
+        }
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->assign('USERID', $userid);
+        $viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
+        $viewer->assign('USER_LIST', $usersList);
+        $viewer->assign('PERMANENT', $request->getMode() === 'permanent');
+        $viewer->view('DeleteUser.tpl', $moduleName);
+    }
 }

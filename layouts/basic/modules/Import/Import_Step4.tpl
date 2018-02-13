@@ -29,7 +29,7 @@
 			<input type="hidden" name="field_mapping" id="field_mapping" value="" />
 			<input type="hidden" name="inventory_field_mapping" id="inventory_field_mapping" value="" />
 			<input type="hidden" name="default_values" id="default_values" value="" />
-			<table width="100%" cellspacing="0" cellpadding="2" class="listRow table table-bordered table-condensed listViewEntriesTable">
+			<table width="100%" cellspacing="0" cellpadding="2" class="listRow table table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
 						{if $HAS_HEADER eq true}
@@ -100,10 +100,10 @@
 	<td>&nbsp;</td>
 	<td align="right" colspan="2">
 		<div class="row">
-			<div class="col-xs-8">
+			<div class="col-8">
 				<input type="checkbox" title="{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}" name="save_map" id="save_map" />&nbsp;{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}&nbsp;&nbsp;
 			</div>
-			<div class="col-xs-4">
+			<div class="col-4">
 				<input class="form-control" type="text" name="save_map_as" id="save_map_as" />
 			</div>
 		</div>

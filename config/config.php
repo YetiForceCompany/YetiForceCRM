@@ -17,7 +17,7 @@
  * The configuration file for FHS system
  * is located at /etc/vtigercrm directory.
  */
-require('config/config.inc.php');
+require 'config/config.inc.php';
 if (file_exists('config/config_override.php')) {
-	require 'config/config_override.php';
+    require 'config/config_override.php';
 }

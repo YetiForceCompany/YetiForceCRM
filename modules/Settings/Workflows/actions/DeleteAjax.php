@@ -10,25 +10,24 @@
 
 class Settings_Workflows_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
+    public function process(\App\Request $request)
+    {
+        $qualifiedModule = $request->getModule(false);
+        $recordId = $request->get('record');
 
-	public function process(\App\Request $request)
-	{
-		$qualifiedModule = $request->getModule(false);
-		$recordId = $request->get('record');
+        $response = new Vtiger_Response();
+        $recordModel = Settings_Workflows_Record_Model::getInstance($recordId);
+        if ($recordModel->isDefault()) {
+            $response->setError('LBL_DEFAULT_WORKFLOW', \App\Language::translate('LBL_CANNOT_DELETE_DEFAULT_WORKFLOW', $qualifiedModule));
+        } else {
+            $recordModel->delete();
+            $response->setResult(['success' => 'ok']);
+        }
+        $response->emit();
+    }
 
-		$response = new Vtiger_Response();
-		$recordModel = Settings_Workflows_Record_Model::getInstance($recordId);
-		if ($recordModel->isDefault()) {
-			$response->setError('LBL_DEFAULT_WORKFLOW', \App\Language::translate('LBL_CANNOT_DELETE_DEFAULT_WORKFLOW', $qualifiedModule));
-		} else {
-			$recordModel->delete();
-			$response->setResult(['success' => 'ok']);
-		}
-		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

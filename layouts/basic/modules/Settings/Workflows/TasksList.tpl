@@ -9,7 +9,7 @@
 {strip}
 	<br />
 	<div>
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="10%">{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}</th>

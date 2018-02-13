@@ -11,27 +11,27 @@
 
 class Vtiger_WorkflowTrigger_Model
 {
-
-	/**
-	 * Function executes workflow tasks
-	 * @param string $moduleName
-	 * @param int $record
-	 * @param array $ids
-	 * @param int $userId
-	 */
-	public static function execute($moduleName, $record, $ids, $userId)
-	{
-		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		if ($userId) {
-			$recordModel->executeUser = $userId;
-		}
-		$wfs = new VTWorkflowManager();
-		foreach ($ids as $id) {
-			$workflow = $wfs->retrieve($id);
-			if ($workflow->evaluate($recordModel)) {
-				$workflow->performTasks($recordModel);
-			}
-		}
-	}
+    /**
+     * Function executes workflow tasks.
+     *
+     * @param string $moduleName
+     * @param int    $record
+     * @param array  $ids
+     * @param int    $userId
+     */
+    public static function execute($moduleName, $record, $ids, $userId)
+    {
+        Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+        $recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+        if ($userId) {
+            $recordModel->executeUser = $userId;
+        }
+        $wfs = new VTWorkflowManager();
+        foreach ($ids as $id) {
+            $workflow = $wfs->retrieve($id);
+            if ($workflow->evaluate($recordModel)) {
+                $workflow->performTasks($recordModel);
+            }
+        }
+    }
 }

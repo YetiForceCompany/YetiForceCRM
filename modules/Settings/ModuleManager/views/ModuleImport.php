@@ -11,182 +11,185 @@
 
 class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_View
 {
+    use \App\Controller\ExposeMethod;
 
-	use \App\Controller\ExposeMethod;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('importUserModuleStep1');
+        $this->exposeMethod('importUserModuleStep2');
+        $this->exposeMethod('importUserModuleStep3');
+        $this->exposeMethod('updateUserModuleStep3');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('importUserModuleStep1');
-		$this->exposeMethod('importUserModuleStep2');
-		$this->exposeMethod('importUserModuleStep3');
-		$this->exposeMethod('updateUserModuleStep3');
-	}
+    public function process(\App\Request $request)
+    {
+        $systemMode = \AppConfig::main('systemMode');
+        if ($systemMode == 'demo') {
+            throw new \App\Exceptions\AppException('LBL_ERROR_IMPORT_IN_DEMO');
+        }
 
-	public function process(\App\Request $request)
-	{
-		$systemMode = \AppConfig::main('systemMode');
-		if ($systemMode == 'demo') {
-			throw new \App\Exceptions\AppException('LBL_ERROR_IMPORT_IN_DEMO');
-		}
+        $mode = $request->getMode();
+        if (!empty($mode)) {
+            $this->invokeExposedMethod($mode, $request);
 
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
+            return;
+        }
 
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Step1.tpl', $qualifiedModuleName);
-	}
+        $qualifiedModuleName = $request->getModule(false);
+        $viewer = $this->getViewer($request);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->view('Step1.tpl', $qualifiedModuleName);
+    }
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return <Array> - List of Vtiger_JsScript_Model instances
+     */
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
 
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.ModuleImport"
-		];
+        $jsFileNames = [
+            "modules.Settings.$moduleName.resources.ModuleImport",
+        ];
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-	public function importUserModuleStep1(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
-	}
+        return $headerScriptInstances;
+    }
 
-	public function importUserModuleStep2(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$qualifiedModuleName = $request->getModule(false);
+    public function importUserModuleStep1(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $qualifiedModuleName = $request->getModule(false);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
+    }
 
-		$uploadFile = 'usermodule_' . time() . '.zip';
-		$uploadFileName = "$uploadDir/$uploadFile";
-		$error = '';
-		\vtlib\Deprecated::checkFileAccess($uploadDir);
-		if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
-			$error = 'LBL_ERROR_MOVE_UPLOADED_FILE';
-		} else {
-			$package = new vtlib\Package();
-			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
-			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
+    public function importUserModuleStep2(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
+        $qualifiedModuleName = $request->getModule(false);
 
-			if ($importModuleName === null) {
-				$error = $package->_errorText;
-				\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-				unlink($uploadFileName);
-			} else {
-				// We need these information to push for Update if module is detected to be present.
-				$moduleLicence = App\Purifier::purify($package->getLicense());
+        $uploadFile = 'usermodule_'.time().'.zip';
+        $uploadFileName = "$uploadDir/$uploadFile";
+        $error = '';
+        \vtlib\Deprecated::checkFileAccess($uploadDir);
+        if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
+            $error = 'LBL_ERROR_MOVE_UPLOADED_FILE';
+        } else {
+            $package = new vtlib\Package();
+            $importModuleName = $package->getModuleNameFromZip($uploadFileName);
+            $importModuleDepVtVersion = $package->getDependentVtigerVersion();
 
-				$viewer->assign('MODULEIMPORT_FILE', $uploadFile);
-				$viewer->assign('MODULEIMPORT_TYPE', $package->type());
-				$viewer->assign('MODULEIMPORT_NAME', $importModuleName);
-				$viewer->assign('MODULEIMPORT_PACKAGE', $package);
-				$viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
-				$viewer->assign('MODULEIMPORT_LICENSE', $moduleLicence);
-				$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
+            if ($importModuleName === null) {
+                $error = $package->_errorText;
+                \vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+                unlink($uploadFileName);
+            } else {
+                // We need these information to push for Update if module is detected to be present.
+                $moduleLicence = App\Purifier::purify($package->getLicense());
 
-				if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
-					$moduleInstance = vtlib\Module::getInstance($importModuleName);
-					$moduleimport_exists = ($moduleInstance) ? "true" : "false";
-					$moduleimport_dir_name = "modules/$importModuleName";
-					$moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? "true" : "false");
-					$viewer->assign('MODULEIMPORT_EXISTS', $moduleimport_exists);
-					$viewer->assign('MODULEIMPORT_DIR', $moduleimport_dir_name);
-					$viewer->assign('MODULEIMPORT_DIR_EXISTS', $moduleimport_dir_exists);
-				}
-			}
-		}
-		$viewer->assign('MODULEIMPORT_ERROR', $error);
-		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
-	}
+                $viewer->assign('MODULEIMPORT_FILE', $uploadFile);
+                $viewer->assign('MODULEIMPORT_TYPE', $package->type());
+                $viewer->assign('MODULEIMPORT_NAME', $importModuleName);
+                $viewer->assign('MODULEIMPORT_PACKAGE', $package);
+                $viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
+                $viewer->assign('MODULEIMPORT_LICENSE', $moduleLicence);
+                $viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
 
-	public function importUserModuleStep3(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$importModuleName = $request->get('module_import_name');
-		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$uploadFileName = "$uploadDir/$uploadFile";
-		\vtlib\Deprecated::checkFileAccess($uploadFileName);
+                if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
+                    $moduleInstance = vtlib\Module::getInstance($importModuleName);
+                    $moduleimport_exists = ($moduleInstance) ? 'true' : 'false';
+                    $moduleimport_dir_name = "modules/$importModuleName";
+                    $moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? 'true' : 'false');
+                    $viewer->assign('MODULEIMPORT_EXISTS', $moduleimport_exists);
+                    $viewer->assign('MODULEIMPORT_DIR', $moduleimport_dir_name);
+                    $viewer->assign('MODULEIMPORT_DIR_EXISTS', $moduleimport_dir_exists);
+                }
+            }
+        }
+        $viewer->assign('MODULEIMPORT_ERROR', $error);
+        $viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
+    }
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-			$viewer->assign("IMPORT_MODULE_TYPE", 'Language');
-		} else if (strtolower($importType) == 'layout') {
-			$package = new vtlib\Layout();
-			$viewer->assign("IMPORT_MODULE_TYPE", 'Layout');
-		} else {
-			$package = new vtlib\Package();
-		}
-		$package->initParameters($request);
-		$package->import($uploadFileName);
-		if ($package->packageType) {
-			$viewer->assign("IMPORT_MODULE_TYPE", $package->packageType);
-		}
-		if ($package->_errorText != '') {
-			$viewer->assign("MODULEIMPORT_ERROR", $package->_errorText);
-		}
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
+    public function importUserModuleStep3(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $qualifiedModuleName = $request->getModule(false);
+        $importModuleName = $request->get('module_import_name');
+        $uploadFile = $request->get('module_import_file');
+        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
+        $uploadFileName = "$uploadDir/$uploadFile";
+        \vtlib\Deprecated::checkFileAccess($uploadFileName);
 
-		$viewer->assign("IMPORT_MODULE_NAME", $importModuleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
-	}
+        $importType = $request->get('module_import_type');
+        if (strtolower($importType) == 'language') {
+            $package = new vtlib\Language();
+            $viewer->assign('IMPORT_MODULE_TYPE', 'Language');
+        } elseif (strtolower($importType) == 'layout') {
+            $package = new vtlib\Layout();
+            $viewer->assign('IMPORT_MODULE_TYPE', 'Layout');
+        } else {
+            $package = new vtlib\Package();
+        }
+        $package->initParameters($request);
+        $package->import($uploadFileName);
+        if ($package->packageType) {
+            $viewer->assign('IMPORT_MODULE_TYPE', $package->packageType);
+        }
+        if ($package->_errorText != '') {
+            $viewer->assign('MODULEIMPORT_ERROR', $package->_errorText);
+        }
+        \vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+        unlink($uploadFileName);
 
-	public function updateUserModuleStep3(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$importModuleName = $request->get('module_import_name');
-		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$uploadFileName = "$uploadDir/$uploadFile";
-		\vtlib\Deprecated::checkFileAccess($uploadFileName);
+        $viewer->assign('IMPORT_MODULE_NAME', $importModuleName);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
+    }
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-		} else {
-			$package = new vtlib\Package();
-		}
-		$package->initParameters($request);
+    public function updateUserModuleStep3(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $qualifiedModuleName = $request->getModule(false);
+        $importModuleName = $request->get('module_import_name');
+        $uploadFile = $request->get('module_import_file');
+        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
+        $uploadFileName = "$uploadDir/$uploadFile";
+        \vtlib\Deprecated::checkFileAccess($uploadFileName);
 
-		if (strtolower($importType) == 'language') {
-			$package->import($uploadFileName);
-		} else {
-			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
-		}
+        $importType = $request->get('module_import_type');
+        if (strtolower($importType) == 'language') {
+            $package = new vtlib\Language();
+        } else {
+            $package = new vtlib\Package();
+        }
+        $package->initParameters($request);
 
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
+        if (strtolower($importType) == 'language') {
+            $package->import($uploadFileName);
+        } else {
+            $package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
+        }
 
-		$viewer->assign("UPDATE_MODULE_NAME", $importModuleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
-	}
+        \vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+        unlink($uploadFileName);
 
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateReadAccess();
-	}
+        $viewer->assign('UPDATE_MODULE_NAME', $importModuleName);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
+    }
+
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateReadAccess();
+    }
 }

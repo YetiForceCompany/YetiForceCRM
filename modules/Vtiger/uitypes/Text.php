@@ -11,80 +11,79 @@
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getDBValue($value, $recordModel = false)
+    {
+        return \App\Purifier::decodeHtml($value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		return \App\Purifier::decodeHtml($value);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+    {
+        $fieldName = $this->getFieldModel()->getFieldName();
+        if (!$requestFieldName) {
+            $requestFieldName = $fieldName;
+        }
+        if ($this->getFieldModel()->getUIType() === 300) {
+            $value = $request->getForHtml($requestFieldName, '');
+        } else {
+            $value = $request->get($requestFieldName, '');
+        }
+        $this->validate($value);
+        $recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
-	{
-		$fieldName = $this->getFieldModel()->getFieldName();
-		if (!$requestFieldName) {
-			$requestFieldName = $fieldName;
-		}
-		if ($this->getFieldModel()->getUIType() === 300) {
-			$value = $request->getForHtml($requestFieldName, '');
-		} else {
-			$value = $request->get($requestFieldName, '');
-		}
-		$this->validate($value);
-		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        if (!is_string($value)) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        //Check for HTML tags
+        if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if (!is_string($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		//Check for HTML tags
-		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $uiType = $this->getFieldModel()->get('uitype');
+        if (is_int($length)) {
+            $value = \vtlib\Functions::textLength($value, $length);
+        }
+        if ($uiType === 300) {
+            return App\Purifier::purifyHtml($value);
+        } else {
+            return nl2br(\App\Purifier::encodeHtml($value));
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$uiType = $this->getFieldModel()->get('uitype');
-		if (is_int($length)) {
-			$value = \vtlib\Functions::textLength($value, $length);
-		}
-		if ($uiType === 300) {
-			return App\Purifier::purifyHtml($value);
-		} else {
-			return nl2br(\App\Purifier::encodeHtml($value));
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+    {
+        return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
-	{
-		return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Text.tpl';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Text.tpl';
+    }
 }

@@ -15,171 +15,196 @@ Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTTaskType.php');
  */
 class VTTaskManager
 {
+    /**
+     * Save the task into the database.
+     *
+     * When a new task is saved for the first time a field is added to it called
+     * id that stores the task id used in the database.
+     *
+     * @param VTTask $task The task instance to save
+     *
+     * @return The id of the task
+     */
+    public function saveTask($task)
+    {
+        $db = App\Db::getInstance();
+        if (is_numeric($task->id)) {
+            //How do I check whether a member exists in php?
+            $taskId = $task->id;
+            $db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
 
-	/**
-	 * Save the task into the database.
-	 *
-	 * When a new task is saved for the first time a field is added to it called
-	 * id that stores the task id used in the database.
-	 *
-	 * @param VTTask $task The task instance to save.
-	 * @return The id of the task
-	 */
-	public function saveTask($task)
-	{
-		$db = App\Db::getInstance();
-		if (is_numeric($task->id)) {//How do I check whether a member exists in php?
-			$taskId = $task->id;
-			$db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
-			return $taskId;
-		} else {
-			$taskId = $db->getUniqueID("com_vtiger_workflowtasks");
-			$task->id = $taskId;
-			$db->createCommand()->insert('com_vtiger_workflowtasks', [
-				'task_id' => $taskId,
-				'workflow_id' => $task->workflowId,
-				'summary' => $task->summary,
-				'task' => serialize($task)
-			])->execute();
-			return $taskId;
-		}
-	}
+            return $taskId;
+        } else {
+            $taskId = $db->getUniqueID('com_vtiger_workflowtasks');
+            $task->id = $taskId;
+            $db->createCommand()->insert('com_vtiger_workflowtasks', [
+                'task_id' => $taskId,
+                'workflow_id' => $task->workflowId,
+                'summary' => $task->summary,
+                'task' => serialize($task),
+            ])->execute();
 
-	/**
-	 * Delete task by id
-	 * @param int $taskId
-	 */
-	public function deleteTask($taskId)
-	{
-		App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtasks', ['task_id' => $taskId])->execute();
-	}
+            return $taskId;
+        }
+    }
 
-	/**
-	 * Create a new class instance
-	 * @param string $taskType
-	 * @param int $workflowId
-	 * @return VTTask
-	 */
-	public function createTask($taskType, $workflowId)
-	{
-		$taskTypeInstance = VTTaskType::getInstanceFromTaskType($taskType);
-		$taskClass = $taskTypeInstance->get('classname');
-		require_once($taskTypeInstance->get('classpath'));
-		$task = new $taskClass();
-		$task->workflowId = $workflowId;
-		$task->summary = "";
-		$task->active = true;
-		return $task;
-	}
+    /**
+     * Delete task by id.
+     *
+     * @param int $taskId
+     */
+    public function deleteTask($taskId)
+    {
+        App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtasks', ['task_id' => $taskId])->execute();
+    }
 
-	/**
-	 * Retrieve a task from the database
-	 *
-	 * @param $taskId The id of the task to retrieve.
-	 * @return VTTask The retrieved task.
-	 */
-	public function retrieveTask($taskId)
-	{
-		$row = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->one();
-		$task = $this->unserializeTask($row['task']);
-		$task->workflowId = $row['workflow_id'];
-		$task->id = $row['task_id'];
-		return $task;
-	}
+    /**
+     * Create a new class instance.
+     *
+     * @param string $taskType
+     * @param int    $workflowId
+     *
+     * @return VTTask
+     */
+    public function createTask($taskType, $workflowId)
+    {
+        $taskTypeInstance = VTTaskType::getInstanceFromTaskType($taskType);
+        $taskClass = $taskTypeInstance->get('classname');
+        require_once $taskTypeInstance->get('classpath');
+        $task = new $taskClass();
+        $task->workflowId = $workflowId;
+        $task->summary = '';
+        $task->active = true;
 
-	/**
-	 * Return tasks for workflow
-	 * @param int $workflowId
-	 */
-	public function getTasksForWorkflow($workflowId)
-	{
-		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
-			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
-		}
-		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
-		$tasks = [];
-		while ($row = $dataReader->read()) {
-			$taskType = self::taskName($row['task']);
-			if (!empty($taskType)) {
-				require_once("tasks/$taskType.php");
-			}
-			$task = unserialize($row['task']);
-			$task->workflowId = $row['workflow_id'];
-			$task->id = $row['task_id'];
-			$tasks[] = $task;
-		}
-		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
-		return $tasks;
-	}
+        return $task;
+    }
 
-	/**
-	 * Userialize task string
-	 * @param string $str
-	 * @return array|bool
-	 */
-	public function unserializeTask($str)
-	{
-		$taskType = self::taskName($str);
-		if (!empty($taskType)) {
-			require_once("tasks/$taskType.php");
-		}
-		return unserialize($str);
-	}
+    /**
+     * Retrieve a task from the database.
+     *
+     * @param $taskId The id of the task to retrieve
+     *
+     * @return VTTask The retrieved task
+     */
+    public function retrieveTask($taskId)
+    {
+        $row = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->one();
+        $task = $this->unserializeTask($row['task']);
+        $task->workflowId = $row['workflow_id'];
+        $task->id = $row['task_id'];
 
-	/**
-	 * Return all tasks
-	 * @return array
-	 */
-	public function getTasks()
-	{
-		$result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
-		return $this->getTasksForResult($result);
-	}
+        return $task;
+    }
 
-	/**
-	 * Create tasks from query result array
-	 * @param array $result
-	 * @return VTTask[]
-	 */
-	private function getTasksForResult($result)
-	{
-		$tasks = [];
-		foreach ($result as $row) {
-			$taskType = self::taskName($row['task']);
-			if (!empty($taskType)) {
-				require_once("tasks/$taskType.php");
-			}
-			$tasks[] = unserialize($row['task']);
-		}
-		return $tasks;
-	}
+    /**
+     * Return tasks for workflow.
+     *
+     * @param int $workflowId
+     */
+    public function getTasksForWorkflow($workflowId)
+    {
+        if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
+            return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
+        }
+        $dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
+        $tasks = [];
+        while ($row = $dataReader->read()) {
+            $taskType = self::taskName($row['task']);
+            if (!empty($taskType)) {
+                require_once "tasks/$taskType.php";
+            }
+            $task = unserialize($row['task']);
+            $task->workflowId = $row['workflow_id'];
+            $task->id = $row['task_id'];
+            $tasks[] = $task;
+        }
+        \App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
 
-	/**
-	 * Return task name
-	 * @param string $serializedTask
-	 * @return string
-	 */
-	private function taskName($serializedTask)
-	{
-		$matches = [];
-		preg_match('/"([^"]+)"/', $serializedTask, $matches);
-		return $matches[1];
-	}
+        return $tasks;
+    }
 
-	/**
-	 * Return template path
-	 * @param string $moduleName
-	 * @param VTTaskType $taskTypeInstance
-	 * @return string
-	 */
-	public function retrieveTemplatePath($moduleName, VTTaskType $taskTypeInstance)
-	{
-		$taskTemplatePath = $taskTypeInstance->get('templatepath');
-		if (!empty($taskTemplatePath)) {
-			return $taskTemplatePath;
-		} else {
-			$taskType = $taskTypeInstance->get('classname');
-			return "$moduleName/taskforms/$taskType.tpl";
-		}
-	}
+    /**
+     * Userialize task string.
+     *
+     * @param string $str
+     *
+     * @return array|bool
+     */
+    public function unserializeTask($str)
+    {
+        $taskType = self::taskName($str);
+        if (!empty($taskType)) {
+            require_once "tasks/$taskType.php";
+        }
+
+        return unserialize($str);
+    }
+
+    /**
+     * Return all tasks.
+     *
+     * @return array
+     */
+    public function getTasks()
+    {
+        $result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
+
+        return $this->getTasksForResult($result);
+    }
+
+    /**
+     * Create tasks from query result array.
+     *
+     * @param array $result
+     *
+     * @return VTTask[]
+     */
+    private function getTasksForResult($result)
+    {
+        $tasks = [];
+        foreach ($result as $row) {
+            $taskType = self::taskName($row['task']);
+            if (!empty($taskType)) {
+                require_once "tasks/$taskType.php";
+            }
+            $tasks[] = unserialize($row['task']);
+        }
+
+        return $tasks;
+    }
+
+    /**
+     * Return task name.
+     *
+     * @param string $serializedTask
+     *
+     * @return string
+     */
+    private function taskName($serializedTask)
+    {
+        $matches = [];
+        preg_match('/"([^"]+)"/', $serializedTask, $matches);
+
+        return $matches[1];
+    }
+
+    /**
+     * Return template path.
+     *
+     * @param string     $moduleName
+     * @param VTTaskType $taskTypeInstance
+     *
+     * @return string
+     */
+    public function retrieveTemplatePath($moduleName, VTTaskType $taskTypeInstance)
+    {
+        $taskTemplatePath = $taskTypeInstance->get('templatepath');
+        if (!empty($taskTemplatePath)) {
+            return $taskTemplatePath;
+        } else {
+            $taskType = $taskTypeInstance->get('classname');
+
+            return "$moduleName/taskforms/$taskType.tpl";
+        }
+    }
 }

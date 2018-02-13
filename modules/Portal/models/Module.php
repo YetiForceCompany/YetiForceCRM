@@ -10,95 +10,99 @@
 
 class Portal_Module_Model extends Vtiger_Module_Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getSideBarLinks($linkParams)
+    {
+        $links = [];
+        $links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+                'linktype' => 'SIDEBARLINK',
+                'linklabel' => 'LBL_OUR_SITES_LIST',
+                'linkurl' => $this->getListViewUrl(),
+                'linkicon' => '',
+        ]);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getSideBarLinks($linkParams)
-	{
-		$links = [];
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_OUR_SITES_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-		]);
-		return $links;
-	}
+        return $links;
+    }
 
-	public static function savePortalRecord($recordId, $bookmarkName, $bookmarkUrl)
-	{
-		$db = App\Db::getInstance();
-		if (empty($recordId)) {
-			$db->createCommand()->insert('vtiger_portal', [
-				'portalname' => $bookmarkName,
-				'portalurl' => $bookmarkUrl,
-				'sequence' => 0,
-				'setdefault' => 0,
-				'createdtime' => date('Y-m-d H:i:s')
-			])->execute();
-		} else {
-			$db->createCommand()->update('vtiger_portal', [
-				'portalname' => $bookmarkName,
-				'portalurl' => $bookmarkUrl,
-				], ['portalid' => $recordId])->execute();
-		}
-		return true;
-	}
+    public static function savePortalRecord($recordId, $bookmarkName, $bookmarkUrl)
+    {
+        $db = App\Db::getInstance();
+        if (empty($recordId)) {
+            $db->createCommand()->insert('vtiger_portal', [
+                'portalname' => $bookmarkName,
+                'portalurl' => $bookmarkUrl,
+                'sequence' => 0,
+                'setdefault' => 0,
+                'createdtime' => date('Y-m-d H:i:s'),
+            ])->execute();
+        } else {
+            $db->createCommand()->update('vtiger_portal', [
+                'portalname' => $bookmarkName,
+                'portalurl' => $bookmarkUrl,
+                ], ['portalid' => $recordId])->execute();
+        }
 
-	/**
-	 * Function to get infomation about bookmark
-	 * @param int $recordId
-	 * @return array
-	 */
-	public static function getRecord($recordId)
-	{
-		return (new App\Db\Query())->select(['bookmarkName' => 'portalname', 'bookmarkUrl' => 'portalurl'])
-				->from('vtiger_portal')
-				->where(['portalid' => $recordId])
-				->one();
-	}
+        return true;
+    }
 
-	public function deleteRecord($recordId)
-	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_portal', ['portalid' => $recordId])->execute();
-	}
+    /**
+     * Function to get infomation about bookmark.
+     *
+     * @param int $recordId
+     *
+     * @return array
+     */
+    public static function getRecord($recordId)
+    {
+        return (new App\Db\Query())->select(['bookmarkName' => 'portalname', 'bookmarkUrl' => 'portalurl'])
+                ->from('vtiger_portal')
+                ->where(['portalid' => $recordId])
+                ->one();
+    }
 
-	public function getWebsiteUrl($recordId)
-	{
-		return (new \App\Db\Query())->select(['portalurl'])->from(['vtiger_portal'])
-				->where(['portalid' => $recordId])
-				->scalar();
-	}
+    public function deleteRecord($recordId)
+    {
+        \App\Db::getInstance()->createCommand()->delete('vtiger_portal', ['portalid' => $recordId])->execute();
+    }
 
-	public function getAllRecords()
-	{
-		return (new \App\Db\Query())->select(['id' => 'portalid', 'portalname'])->from(['vtiger_portal'])->all();
-	}
+    public function getWebsiteUrl($recordId)
+    {
+        return (new \App\Db\Query())->select(['portalurl'])->from(['vtiger_portal'])
+                ->where(['portalid' => $recordId])
+                ->scalar();
+    }
 
-	/**
-	 * Delete records
-	 * @param \App\Request $request
-	 */
-	public function deleteRecords(\App\Request $request)
-	{
-		$searchValue = $request->getForSql('search_value');
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-		$params = [];
-		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
-			$params = ['portalid' => $selectedIds];
-		} else if ($selectedIds == 'all') {
-			if (empty($searchValue) && count($excludedIds) > 0) {
-				$params = ['not in', 'portalid', $excludedIds];
-			} else if (!empty($searchValue) && count($excludedIds) < 1) {
-				$params = ['like', 'portalname', $searchValue];
-			} else if (!empty($searchValue) && count($excludedIds) > 0) {
-				$params = ['and'];
-				$params [] = ['like', 'portalname', $searchValue];
-				$params [] = ['not in', 'portalid', $excludedIds];
-			}
-		}
-		App\Db::getInstance()->createCommand()->delete('vtiger_portal', $params)->execute();
-	}
+    public function getAllRecords()
+    {
+        return (new \App\Db\Query())->select(['id' => 'portalid', 'portalname'])->from(['vtiger_portal'])->all();
+    }
+
+    /**
+     * Delete records.
+     *
+     * @param \App\Request $request
+     */
+    public function deleteRecords(\App\Request $request)
+    {
+        $searchValue = $request->getForSql('search_value');
+        $selectedIds = $request->get('selected_ids');
+        $excludedIds = $request->get('excluded_ids');
+        $params = [];
+        if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
+            $params = ['portalid' => $selectedIds];
+        } elseif ($selectedIds == 'all') {
+            if (empty($searchValue) && count($excludedIds) > 0) {
+                $params = ['not in', 'portalid', $excludedIds];
+            } elseif (!empty($searchValue) && count($excludedIds) < 1) {
+                $params = ['like', 'portalname', $searchValue];
+            } elseif (!empty($searchValue) && count($excludedIds) > 0) {
+                $params = ['and'];
+                $params [] = ['like', 'portalname', $searchValue];
+                $params [] = ['not in', 'portalid', $excludedIds];
+            }
+        }
+        App\Db::getInstance()->createCommand()->delete('vtiger_portal', $params)->execute();
+    }
 }

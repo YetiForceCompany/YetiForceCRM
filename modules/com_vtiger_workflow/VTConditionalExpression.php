@@ -12,49 +12,49 @@ Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTParseFailed.php');
 
 class VTConditionalExpression
 {
+    public function __construct($expression)
+    {
+        $parser = new VTConditionalParser($expression);
+        $this->expTree = $parser->parse();
+    }
 
-	public function __construct($expression)
-	{
-		$parser = new VTConditionalParser($expression);
-		$this->expTree = $parser->parse();
-	}
+    public function evaluate($data)
+    {
+        $this->env = $data;
 
-	public function evaluate($data)
-	{
-		$this->env = $data;
-		return $this->evalGate($this->expTree);
-	}
+        return $this->evalGate($this->expTree);
+    }
 
-	private function evalGate($tree)
-	{
-		if (in_array($tree[0], ["and", "or"])) {
-			switch ($tree[0]) {
-				case "and":
-					return $this->evalGate($tree[1]) && $this->evalGate($tree[2]);
-				case "or":
-					return $this->evalGate($tree[1]) || $this->evalGate($tree[2]);
-			}
-		} else {
-			return $this->evalCondition($tree);
-		}
-	}
+    private function evalGate($tree)
+    {
+        if (in_array($tree[0], ['and', 'or'])) {
+            switch ($tree[0]) {
+                case 'and':
+                    return $this->evalGate($tree[1]) && $this->evalGate($tree[2]);
+                case 'or':
+                    return $this->evalGate($tree[1]) || $this->evalGate($tree[2]);
+            }
+        } else {
+            return $this->evalCondition($tree);
+        }
+    }
 
-	private function evalCondition($tree)
-	{
-		switch ($tree[0]) {
-			case "=":
-				return (int) $this->getVal($tree[1]) == (int) $this->getVal($tree[2]);
-		}
-	}
+    private function evalCondition($tree)
+    {
+        switch ($tree[0]) {
+            case '=':
+                return (int) $this->getVal($tree[1]) == (int) $this->getVal($tree[2]);
+        }
+    }
 
-	private function getVal($node)
-	{
-		list($valueType, $value) = $node;
-		switch ($valueType) {
-			case "sym":
-				return $this->env[$value];
-			case "num":
-				return $value;
-		}
-	}
+    private function getVal($node)
+    {
+        list($valueType, $value) = $node;
+        switch ($valueType) {
+            case 'sym':
+                return $this->env[$value];
+            case 'num':
+                return $value;
+        }
+    }
 }

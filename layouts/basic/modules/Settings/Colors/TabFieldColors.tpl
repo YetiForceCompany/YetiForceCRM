@@ -38,7 +38,7 @@
 						<button data-module="{$SELECTED_MODULE_NAME}" data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" class="btn btn-sm btn-primary marginLeft10 addPicklistColorColumn">{\App\Language::translate('LBL_UPDATE_COLOR_COLUMN',$QUALIFIED_MODULE)}</button>
 					</div>
 				{else}
-					<table id="pickListValuesTable" class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
+					<table id="pickListValuesTable" class="table customTableRWD table-bordered table-sm listViewEntriesTable">
 						<thead>
 							<tr class="listViewHeaders">
 								<th><strong>{\App\Language::translate('LBL_ITEM',$QUALIFIED_MODULE)}</strong></th>

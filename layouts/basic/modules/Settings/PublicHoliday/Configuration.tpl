@@ -19,15 +19,15 @@
 								<table class="table table-bordered layoutBlockHeader">
 									<tr>
 										<td>
-											<div class="col-xs-12 col-sm-6 col-md-6 paddingLRZero">
+											<div class="col-12 col-sm-6 col-md-6 paddingLRZero">
 												<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
 											</div>
-											<div class="float-right col-xs-12 col-sm-6 col-md-6 paddingLRZero">
+											<div class="float-right col-12 col-sm-6 col-md-6 paddingLRZero">
 												<div class="float-right">
-													<div class="col-xs-3 paddingTop10 paddingLRZero">
+													<div class="col-3 paddingTop10 paddingLRZero">
 														<strong>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 													</div>
-													<div class="col-xs-8 col-xs-pull-1">
+													<div class="col-8 col-xs-pull-1">
 														<input type="text" class="dateRangeField dateFilter marginbottomZero form-control" data-date-format="{$USER_MODEL->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
 													</div>
 												</div>

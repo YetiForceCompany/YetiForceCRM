@@ -1,11 +1,10 @@
 <?php
 /**
- * OSSMail view portuguese translation
- * @package YetiForce.Languages
- * @copyright YetiForce Sp. z o.o.
+ * OSSMail view portuguese translation.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'Mail View' => 'E-Mails',
+    'Mail View' => 'E-Mails',
 ];
-

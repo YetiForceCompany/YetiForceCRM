@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="float-right listViewActions col-xs-8 paddingLRZero">
+	<div class="float-right listViewActions col-8 paddingLRZero">
 		<select class="chzn-select pickListSupportedModules form-control">
 			<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 			{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}

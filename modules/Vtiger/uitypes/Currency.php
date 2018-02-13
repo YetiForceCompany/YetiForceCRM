@@ -11,101 +11,107 @@
 
 class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 {
+    protected $edit = false;
 
-	protected $edit = false;
+    /**
+     * {@inheritdoc}
+     */
+    public function getDBValue($value, $recordModel = false)
+    {
+        if ($this->getFieldModel()->get('uitype') === 72) {
+            return CurrencyField::convertToDBFormat($value, null, true);
+        } else {
+            return CurrencyField::convertToDBFormat($value);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if ($this->getFieldModel()->get('uitype') === 72) {
-			return CurrencyField::convertToDBFormat($value, null, true);
-		} else {
-			return CurrencyField::convertToDBFormat($value);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        if ($isUserFormat) {
+            $currentUser = \App\User::getCurrentUserModel();
+            $value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+        }
+        if (!is_numeric($value)) {
+            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if ($isUserFormat) {
-			$currentUser = \App\User::getCurrentUserModel();
-			$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
-		}
-		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $uiType = $this->getFieldModel()->get('uitype');
+        if ($value) {
+            if ($uiType === 72) {
+                // Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
+                $value = CurrencyField::convertToUserFormat($value, null, true);
+            } else {
+                $value = CurrencyField::convertToUserFormat($value);
+            }
+            if (!$this->edit) {
+                $value = $this->getDetailViewDisplayValue($value, $record, $uiType);
+            }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$uiType = $this->getFieldModel()->get('uitype');
-		if ($value) {
-			if ($uiType === 72) {
-				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-				$value = CurrencyField::convertToUserFormat($value, null, true);
-			} else {
-				$value = CurrencyField::convertToUserFormat($value);
-			}
-			if (!$this->edit) {
-				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
-			}
-			return \App\Purifier::encodeHtml($value);
-		}
-		return 0;
-	}
+            return \App\Purifier::encodeHtml($value);
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		if (!empty($value)) {
-			$this->edit = true;
-			return $this->getDisplayValue($value);
-		}
-		return \App\Purifier::encodeHtml($value);
-	}
+        return 0;
+    }
 
-	/**
-	 * Function that converts the Number into Users Currency along with currency symbol
-	 * @param int|string $value
-	 * @param int $recordId
-	 * @param int $uiType
-	 * @return Formatted Currency
-	 */
-	public function getDetailViewDisplayValue($value, $recordId, $uiType)
-	{
-		if ($uiType === 72 && $recordId) {
-			$moduleName = $this->getFieldModel()->getModuleName();
-			if (!$moduleName) {
-				$moduleName = \App\Record::getType($recordId);
-			}
-			$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $moduleName);
-			$currencySymbol = \vtlib\Functions::getCurrencySymbolandRate($currencyId)['symbol'];
-		} else {
-			$currencyModal = new CurrencyField($value);
-			$currencyModal->initialize();
-			$currencySymbol = $currencyModal->currencySymbol;
-		}
-		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getEditViewDisplayValue($value, $recordModel = false)
+    {
+        if (!empty($value)) {
+            $this->edit = true;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Currency.tpl';
-	}
+            return $this->getDisplayValue($value);
+        }
+
+        return \App\Purifier::encodeHtml($value);
+    }
+
+    /**
+     * Function that converts the Number into Users Currency along with currency symbol.
+     *
+     * @param int|string $value
+     * @param int        $recordId
+     * @param int        $uiType
+     *
+     * @return Formatted Currency
+     */
+    public function getDetailViewDisplayValue($value, $recordId, $uiType)
+    {
+        if ($uiType === 72 && $recordId) {
+            $moduleName = $this->getFieldModel()->getModuleName();
+            if (!$moduleName) {
+                $moduleName = \App\Record::getType($recordId);
+            }
+            $currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $moduleName);
+            $currencySymbol = \vtlib\Functions::getCurrencySymbolandRate($currencyId)['symbol'];
+        } else {
+            $currencyModal = new CurrencyField($value);
+            $currencyModal->initialize();
+            $currencySymbol = $currencyModal->currencySymbol;
+        }
+
+        return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Currency.tpl';
+    }
 }

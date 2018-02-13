@@ -9,17 +9,17 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger ListView Model Class
+ * Vtiger ListView Model Class.
  */
 class Faq_ListView_Model extends Vtiger_ListView_Model
 {
-	/*
-	 * Function to give advance links of a module
-	 * 	@RETURN array of advanced links
-	 */
+    /*
+     * Function to give advance links of a module
+     * 	@RETURN array of advanced links
+     */
 
-	public function getAdvancedLinks()
-	{
-		return [];
-	}
+    public function getAdvancedLinks()
+    {
+        return [];
+    }
 }

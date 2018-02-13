@@ -9,7 +9,7 @@
 </style>
 <div class='editViewContainer ' id="tab_cron">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 			<td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
 		</tr>
 	</table><br />
-	<div class="row col-xs-12">
+	<div class="row col-12">
 		<div  class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px" >
 			<div class="row col-sm-4">{\App\Language::translate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
 			<div class="col-sm-7"><input type="text" class="form-control" title="{\App\Language::translate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>

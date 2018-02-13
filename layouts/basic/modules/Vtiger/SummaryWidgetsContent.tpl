@@ -86,7 +86,7 @@
 											{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 											<td class="fieldValue {$WIDTHTYPE}">
 												<div class="row">
-													<div class="value textOverflowEllipsis col-xs-10 paddingRightZero">
+													<div class="value textOverflowEllipsis col-10 paddingRightZero">
 														{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
 															<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 																{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}

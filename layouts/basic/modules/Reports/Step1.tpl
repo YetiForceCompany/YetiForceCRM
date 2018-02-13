@@ -84,7 +84,7 @@
 					<div class="col-md-7"><textarea class="col-md-6 form-control" type="text" title="{\App\Language::translate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
 				<div class="row paddingTop10">
-					<div class="col-xs-12">
+					<div class="col-12">
 						<input type="checkbox" title="{\App\Language::translate('LBL_SCHEDULE_REPORTS',$MODULE)}"  {if $SCHEDULEDREPORTS->get('scheduleid') neq ''} checked="" {/if} value="{if $SCHEDULEDREPORTS->get('scheduleid') neq ''}true{/if}" name='enable_schedule' style="margin-top: 0px !important;"> &nbsp;
 						<strong>{\App\Language::translate('LBL_SCHEDULE_REPORTS',$MODULE)}</strong>
 					</div>
@@ -149,7 +149,7 @@
 							<div class='input-group date' style='width: 185px;'>
 								{assign var=specificDate value=\App\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
 								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
+								<input  type="text" class="dateField form-control form-control-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
 								<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
 							</div>
 						</div>
@@ -183,7 +183,7 @@
 						</div>
 						<div class='col-md-4' id='schtime'>
 							<div class="input-group time">
-								<input type='text' class='clockPicker input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
+								<input type='text' class='clockPicker form-control-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
 								<span class="input-group-addon cursorPointer"><i class="far fa-clock"></i></span>
 							</div>
 						</div>

@@ -188,7 +188,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 											data += '>';
 											data += response.result.title + '</a>';
 											data += '</li>';
-											var divider = jQuery('.widgetsList .divider');
+											var divider = jQuery('.widgetsList .dropdown-divider');
 											if (divider.length) {
 												jQuery(data).insertBefore(divider);
 											} else {

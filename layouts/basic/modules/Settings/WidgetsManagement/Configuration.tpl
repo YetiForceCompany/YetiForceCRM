@@ -8,7 +8,7 @@
 			{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-3">
-			<div class="float-right col-xs-6 col-md-6 paddingLRZero">
+			<div class="float-right col-6 col-md-6 paddingLRZero">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
 						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>

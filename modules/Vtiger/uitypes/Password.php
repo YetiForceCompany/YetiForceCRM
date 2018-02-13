@@ -10,35 +10,34 @@
 
 class Vtiger_Password_UIType extends Vtiger_Base_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($value, $isUserFormat = false)
+    {
+        if ($this->validate || empty($value)) {
+            return;
+        }
+        $res = Settings_Password_Record_Model::checkPassword($value);
+        if ($res !== false) {
+            throw new \App\Exceptions\Security($res, 406);
+        }
+        $this->validate = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		$res = Settings_Password_Record_Model::checkPassword($value);
-		if ($res !== false) {
-			throw new \App\Exceptions\Security($res, 406);
-		}
-		$this->validate = true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToSave($value, Vtiger_Record_Model $recordModel)
+    {
+        return $recordModel->encryptPassword($value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function convertToSave($value, Vtiger_Record_Model $recordModel)
-	{
-		return $recordModel->encryptPassword($value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Password.tpl';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Password.tpl';
+    }
 }

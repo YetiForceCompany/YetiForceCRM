@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<div class="col-xs-10">
+		<div class="col-10">
 			<h3 class="modal-title">{\App\Language::translate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
 		</div>
 		<div class="float-right btn-group">
@@ -19,7 +19,7 @@
 			{assign var=USERS value=$AUTO_ASSIGN_RECORD->getAvailableUsers()}
 			{assign var=DEFAULT_OWNER value=$AUTO_ASSIGN_RECORD->getDefaultOwner()}
 			{if $USERS}
-				<div class="table-responsive col-xs-12">
+				<div class="table-responsive col-12">
 					<table id="assignTable" class="table table-striped table-bordered dataTable">
 						<thead>
 							<tr>

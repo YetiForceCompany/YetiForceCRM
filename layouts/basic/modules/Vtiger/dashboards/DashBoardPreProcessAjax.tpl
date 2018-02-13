@@ -18,5 +18,5 @@
 			</ul>
 		{/if}
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-	<div class="col-xs-12 paddingLRZero">
+	<div class="col-12 paddingLRZero">
 	{/strip}

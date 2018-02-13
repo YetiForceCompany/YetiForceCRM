@@ -2,7 +2,7 @@
 {strip}
 	<input id="addFilterUrl" type="hidden" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}" />
 	<div class="table-responsive">
-		<table class="table table-striped table-bordered table-condensed listViewEntriesTable">
+		<table class="table table-striped table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="blockHeader">
 					<th></th>

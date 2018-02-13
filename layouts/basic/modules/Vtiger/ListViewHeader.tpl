@@ -13,7 +13,7 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
-				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
+				<div class="btn-toolbar col-md-4 col-sm-6 col-12">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
 					{assign var=LINKS value=[]}
 					{if $LISTVIEW_MASSACTIONS}
@@ -27,7 +27,7 @@
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
-				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
+				<div class="btn-toolbar col-md-3 col-sm-5 col-12 pull-right-sm pull-left-xs">
 					<div class="customFilterMainSpan btn-group">
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
@@ -65,7 +65,7 @@
 						{/if}
 					</div>
 				</div>
-				<div class="col-xs-12 col-md-5 btn-toolbar paddingRightZero">
+				<div class="col-12 col-md-5 btn-toolbar paddingRightZero">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 				<span class="hide filterActionImages float-right">
@@ -78,12 +78,12 @@
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
 				<div class="row">
-					<div class="col-xs-12 btn-toolbar">
+					<div class="col-12 btn-toolbar">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
 								{if $CUSTOM_VIEW->isFeatured()}
 									<h5 class="btn-group resetButton cursorPointer">
-										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
+										<span class="badge badge-secondary btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
 											{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 											{if $CUSTOM_VIEW->get('description')}
 												&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>

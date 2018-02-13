@@ -10,17 +10,17 @@
 
 class VTExpressionSpaceFilter
 {
+    public function __construct($tokens)
+    {
+        $this->tokens = $tokens;
+    }
 
-	public function __construct($tokens)
-	{
-		$this->tokens = $tokens;
-	}
+    public function nextToken()
+    {
+        do {
+            $token = $this->tokens->nextToken();
+        } while ($token->label == 'SPACE');
 
-	public function nextToken()
-	{
-		do {
-			$token = $this->tokens->nextToken();
-		} while ($token->label == 'SPACE');
-		return $token;
-	}
+        return $token;
+    }
 }

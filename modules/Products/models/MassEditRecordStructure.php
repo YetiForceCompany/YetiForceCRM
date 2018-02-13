@@ -10,23 +10,23 @@
  * *********************************************************************************** */
 
 /**
- * Mass Edit Record Structure Model
+ * Mass Edit Record Structure Model.
  */
 class Products_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStructure_Model
 {
-	/*
-	 * Function that return Field Restricted are not
-	 * 	@params Field Model
-	 *  @returns boolean true or false
-	 */
+    /*
+     * Function that return Field Restricted are not
+     * 	@params Field Model
+     *  @returns boolean true or false
+     */
 
-	public function isFieldRestricted($fieldModel)
-	{
-		$restricted = parent::isFieldRestricted($fieldModel);
-		if ($restricted && $fieldModel->getName() === 'unit_price') {
-			return false;
-		} else {
-			return $restricted;
-		}
-	}
+    public function isFieldRestricted($fieldModel)
+    {
+        $restricted = parent::isFieldRestricted($fieldModel);
+        if ($restricted && $fieldModel->getName() === 'unit_price') {
+            return false;
+        } else {
+            return $restricted;
+        }
+    }
 }

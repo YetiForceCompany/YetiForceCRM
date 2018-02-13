@@ -2,7 +2,7 @@
 
 <div class=" supportProcessesContainer">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>	
@@ -12,7 +12,7 @@
 	<br />
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="project_configuration">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor userTable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">
@@ -26,7 +26,7 @@
 				<tbody>
 					<tr>
 						<td><label>{\App\Language::translate('LBL_PROJECT_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-xs-6">
+						<td class="col-6">
 							{assign var=STATUS_CLOSED value=$STATUS_NOT_MODIFY['Project']}
 							<select class="chzn-select projectStatus" multiple name="projectStatus" data-moduleid="{$STATUS_CLOSED.id}">
 								{foreach  item=STATUS from=$PROJECT_STATUS}

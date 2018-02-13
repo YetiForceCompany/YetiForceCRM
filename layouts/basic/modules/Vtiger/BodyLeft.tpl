@@ -8,7 +8,7 @@
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">
-				<div class="col-xs-12 noSpaces userName">
+				<div class="col-12 noSpaces userName">
 					{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}
 					{foreach from=$USER_NAME_ARRAY item=NAME name=userNameIterator}
 						{if $smarty.foreach.userNameIterator.iteration <= 2}

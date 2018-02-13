@@ -10,14 +10,13 @@
 
 class VTExpressionSymbol
 {
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
 
-	public function __construct($value)
-	{
-		$this->value = $value;
-	}
-
-	public function __toString()
-	{
-		return "VTExpressionSymbol({$this->value})";
-	}
+    public function __toString()
+    {
+        return "VTExpressionSymbol({$this->value})";
+    }
 }

@@ -24,7 +24,7 @@
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 		<div class="relatedHeader ">
 			<div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-12">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
 						<div class="btn-group paddingRight10 relatedViewGroup">
 							{assign var=TEXT_HOLDER value=''}
@@ -83,7 +83,7 @@
 					{/foreach}
 					&nbsp;
 				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-6 col-sm-6 col-12">
 					<div class="float-right">
 						{if $VIEW_MODEL}
 							<div class="float-right paddingLeft5px">

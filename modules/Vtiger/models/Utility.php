@@ -9,25 +9,26 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Action Model Class
+ * Vtiger Action Model Class.
  */
 class Vtiger_Utility_Model extends Vtiger_Action_Model
 {
+    public function isUtilityTool()
+    {
+        return true;
+    }
 
-	public function isUtilityTool()
-	{
-		return true;
-	}
+    public function isModuleEnabled($module)
+    {
+        if (!$module->isEntityModule()) {
+            if (!$module->isUtilityActionEnabled()) {
+                return false;
+            }
+        }
+        $tabId = $module->getId();
 
-	public function isModuleEnabled($module)
-	{
-		if (!$module->isEntityModule()) {
-			if (!$module->isUtilityActionEnabled())
-				return false;
-		}
-		$tabId = $module->getId();
-		return (new App\Db\Query())->from('vtiger_profile2utility')
-				->where(['tabid' => $tabId, 'activityid' => $this->getId()])
-				->exists();
-	}
+        return (new App\Db\Query())->from('vtiger_profile2utility')
+                ->where(['tabid' => $tabId, 'activityid' => $this->getId()])
+                ->exists();
+    }
 }

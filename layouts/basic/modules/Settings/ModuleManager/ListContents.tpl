@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable footable-loaded footable">
+			<table class="table tableRWD table-bordered table-sm themeTableColor confTable footable-loaded footable">
 				<thead>
 					<tr class="blockHeader">
 						<th>
@@ -66,17 +66,17 @@
 							<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
 							<td>
 								{if $LIBRARY['status'] == 1}
-									<span class="label label-success bigLabel">
+									<span class="badge badge-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="far fa-check-circle"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
-									<span class="label label-warning bigLabel">
+									<span class="badge badge-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="fas fa-info-circle"></span>
 									</span>
 								{else}
-									<span class="label label-danger bigLabel">
+									<span class="badge badge-danger bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="fas fa-ban"></span>
 									</span>
@@ -114,16 +114,16 @@
 						{/if}
 						<td class="opacity col-md-6">
 							<div class="moduleManagerBlock">
-								<div class="col-md-1 col-xs-2">
+								<div class="col-md-1 col-2">
 									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 								</div>
-								<div class="col-md-1 col-xs-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
+								<div class="col-md-1 col-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
 									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 								</div>
-								<div class="col-xs-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
+								<div class="col-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
 									<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 								</div>
-								<div class="col-md-6 col-xs-12">
+								<div class="col-md-6 col-12">
 									{if $MODULE_MODEL->get('customized')}
 										<button class="deleteModule btn btn-danger btn-sm float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}

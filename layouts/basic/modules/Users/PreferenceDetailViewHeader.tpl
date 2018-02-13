@@ -17,14 +17,14 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="marginLeftZero col-md-8">
-						<div class="logo col-xs-1 col-md-1">
+						<div class="logo col-1 col-md-1">
 							{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
 								{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
 									<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
 								{/if}
 							{/foreach}
 						</div>
-						<div class="col-xs-9 col-md-9">
+						<div class="col-9 col-md-9">
 							<div id="myPrefHeading" class="col-md-12">
 								<h3>{\App\Language::translate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
 							</div>

@@ -10,5 +10,4 @@
 
 class VTParseFailed extends Exception
 {
-
 }

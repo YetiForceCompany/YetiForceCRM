@@ -4,5 +4,4 @@
 
 class IcalendarFreebusy extends IcalendarComponent
 {
-
 }

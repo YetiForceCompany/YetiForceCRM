@@ -2,11 +2,11 @@
 
 <div class="">
 	<div class="widget_header row">
-		<div class="col-xs-10">
+		<div class="col-10">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
 		</div>
-		<div class="col-xs-2">
+		<div class="col-2">
 			{*<!--
 			<button class="btn btn-primary testSpeed pull-right">
 			<span class="fab fa-cloudscale"></span>&nbsp;&nbsp;
@@ -23,7 +23,7 @@
         <div id="Configuration" class="tab-pane fade in active">
 			<div class="row">
 				<div class="col-md-4">
-					<table class="table table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="1" class="mediumWidthType">
@@ -57,7 +57,7 @@
 						</tbody>
 					</table>
 					<br />
-					<table class="table table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -95,7 +95,7 @@
 					</table>
 				</div>
 				<div class="col-md-4">
-					<table class="table table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -128,7 +128,7 @@
 						</tbody>
 					</table>
 					<br />
-					<table class="table table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -164,7 +164,7 @@
 					</table>
 				</div>
 				<div class="col-md-4">
-					<table class="table table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="4" class="mediumWidthType">
@@ -205,7 +205,7 @@
 						</tbody>
 					</table>
 					<br>
-					<table class="table table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="2" class="mediumWidthType">
@@ -245,7 +245,7 @@
 			</div>
         </div>
         <div id="Permissions" class="tab-pane fade">
-			<table class="table table-bordered table-condensed themeTableColor confTable">
+			<table class="table table-bordered table-sm themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">

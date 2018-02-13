@@ -23,7 +23,7 @@
 			</div>
 			<div>
 				<div class="contents tabbable">
-					<table class="table table-bordered  tableRWD table-condensed listViewEntriesTable">
+					<table class="table table-bordered  tableRWD table-sm listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{\App\Language::translate('LBL_LOGIN',$QUALIFIED_MODULE)}</strong></th>

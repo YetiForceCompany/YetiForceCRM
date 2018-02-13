@@ -17,7 +17,7 @@
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="calendarColors">
-					<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
+					<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{\App\Language::translate('LBL_CALENDAR_TYPE',$QUALIFIED_MODULE)}</strong></th>
@@ -41,7 +41,7 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="userColors">
-					<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
+					<table class="table customTableRWD table-bordered table-sm listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{\App\Language::translate('First Name',$QUALIFIED_MODULE)}</strong></th>
@@ -67,7 +67,7 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="groupsColors">
-					<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
+					<table class="table customTableRWD table-bordered table-sm listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{\App\Language::translate('LBL_GROUP_NAME',$QUALIFIED_MODULE)}</strong></th>
@@ -91,7 +91,7 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="modulesColors">
-					<table  class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
+					<table  class="table customTableRWD table-bordered table-sm listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{\App\Language::translate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>

@@ -23,7 +23,7 @@
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 		<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
-			<div class="col-sm-5 col-xs-12">
+			<div class="col-sm-5 col-12">
 				{if !$RECORD_ID}
 					{assign var=BREADCRUMB_TITLE value=\App\Language::translate('LBL_VIEW_CREATE',$MODULE)}
 				{else}
@@ -31,7 +31,7 @@
 				{/if}
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
-			<div class="col-sm-7 col-xs-12 btn-toolbar" role="toolbar">
+			<div class="col-sm-7 col-12 btn-toolbar" role="toolbar">
 				<div class="btn-group filterActions float-right">
 					<button class="btn btn-warning" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 				</div>

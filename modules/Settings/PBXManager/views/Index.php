@@ -10,28 +10,27 @@
 
 class Settings_PBXManager_Index_View extends Settings_Vtiger_Index_View
 {
+    public function __construct()
+    {
+        $this->exposeMethod('gatewayInfo');
+    }
 
-	public function __construct()
-	{
-		$this->exposeMethod('gatewayInfo');
-	}
+    public function process(\App\Request $request)
+    {
+        $this->gatewayInfo($request);
+    }
 
-	public function process(\App\Request $request)
-	{
-		$this->gatewayInfo($request);
-	}
+    public function gatewayInfo(\App\Request $request)
+    {
+        $recordModel = Settings_PBXManager_Record_Model::getInstance();
+        $moduleModel = Settings_PBXManager_Module_Model::getCleanInstance();
+        $viewer = $this->getViewer($request);
 
-	public function gatewayInfo(\App\Request $request)
-	{
-		$recordModel = Settings_PBXManager_Record_Model::getInstance();
-		$moduleModel = Settings_PBXManager_Module_Model::getCleanInstance();
-		$viewer = $this->getViewer($request);
-
-		$viewer->assign('RECORD_ID', $recordModel->get('id'));
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('MODULE', $request->getModule(false));
-		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->view('index.tpl', $request->getModule(false));
-	}
+        $viewer->assign('RECORD_ID', $recordModel->get('id'));
+        $viewer->assign('MODULE_MODEL', $moduleModel);
+        $viewer->assign('MODULE', $request->getModule(false));
+        $viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+        $viewer->assign('RECORD_MODEL', $recordModel);
+        $viewer->view('index.tpl', $request->getModule(false));
+    }
 }

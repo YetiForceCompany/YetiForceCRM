@@ -8,37 +8,40 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
+class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 {
+    use App\Controller\ClearProcess;
 
-	use App\Controller\ClearProcess;
+    public function process(\App\Request $request)
+    {
+        echo $this->getContents($request);
+    }
 
-	public function process(\App\Request $request)
-	{
-		echo $this->getContents($request);
-	}
+    public function getContents(\App\Request $request)
+    {
+        $this->initialize($request);
 
-	public function getContents(\App\Request $request)
-	{
-		$this->initialize($request);
+        $qualifiedModuleName = $request->getModule(false);
+        $viewer = $this->getViewer($request);
+        $viewer->assign('SCRIPTS', $this->getScripts($request));
 
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SCRIPTS', $this->getScripts($request));
-		return $viewer->view('EditViewContents.tpl', $qualifiedModuleName, true);
-	}
+        return $viewer->view('EditViewContents.tpl', $qualifiedModuleName, true);
+    }
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getScripts(\App\Request $request)
-	{
-		$jsFileNames = [
-			'modules.Settings.Profiles.resources.Profiles',
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $jsScriptInstances;
-	}
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return <Array> - List of Vtiger_JsScript_Model instances
+     */
+    public function getScripts(\App\Request $request)
+    {
+        $jsFileNames = [
+            'modules.Settings.Profiles.resources.Profiles',
+        ];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+
+        return $jsScriptInstances;
+    }
 }

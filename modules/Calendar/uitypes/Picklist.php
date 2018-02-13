@@ -10,20 +10,19 @@
 
 class Calendar_Picklist_UIType extends Vtiger_Picklist_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getListSearchTemplateName()
+    {
+        $fieldName = $this->get('field')->get('name');
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getListSearchTemplateName()
-	{
+        if ($fieldName == 'activitystatus') {
+            return 'uitypes/StatusPickListFieldSearchView.tpl';
+        } elseif ($fieldName == 'activitytype') {
+            return 'uitypes/ActivityPicklistFieldSearchView.tpl';
+        }
 
-		$fieldName = $this->get('field')->get('name');
-
-		if ($fieldName == 'activitystatus') {
-			return 'uitypes/StatusPickListFieldSearchView.tpl';
-		} else if ($fieldName == 'activitytype') {
-			return 'uitypes/ActivityPicklistFieldSearchView.tpl';
-		}
-		return parent::getListSearchTemplateName();
-	}
+        return parent::getListSearchTemplateName();
+    }
 }

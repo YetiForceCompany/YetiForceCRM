@@ -24,11 +24,11 @@
 						{\App\Language::translate('LBL_SORTING_SETTINGS_WORNING', $MODULE_NAME)}
 					</div>
 				</div>
-				<div class="col-xs-12 form-group">
-					<label class="col-xs-12 col-form-label">
+				<div class="col-12 form-group">
+					<label class="col-12 col-form-label">
 						{\App\Language::translate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
 					</label>
-					<div class="col-md-9 col-sm-10 col-xs-12">
+					<div class="col-md-9 col-sm-10 col-12">
 						<div class="input-group">
 							<div class="input-group-btn" id="basic-addon1">
 								<button type="button" class="btn btn-danger clear" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">

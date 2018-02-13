@@ -28,7 +28,7 @@
 					<input type="hidden" name="records" value={\App\Json::encode($RECORDS)} />
 
 					<div>
-						<table class='table table-bordered table-condensed'>
+						<table class='table table-bordered table-sm'>
 							<thead class='listViewHeaders'>
 							<th>
 								{\App\Language::translate('LBL_FIELDS', $MODULE)}

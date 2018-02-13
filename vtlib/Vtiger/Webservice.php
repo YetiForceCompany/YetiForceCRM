@@ -7,26 +7,26 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to work with vtiger CRM Webservice (available from vtiger 5.1)
- * @package vtlib
+ * Provides API to work with vtiger CRM Webservice (available from vtiger 5.1).
  */
 class Webservice
 {
-
-	/**
-	 * Initialize webservice for the given module
-	 * @param \vtlib\ModuleBasic $moduleInstance
-	 */
-	public static function initialize(ModuleBasic $moduleInstance)
-	{
-		if ($moduleInstance->isentitytype) {
-			if (function_exists('vtws_addDefaultModuleTypeEntity')) {
-				vtws_addDefaultModuleTypeEntity($moduleInstance->name);
-				\App\Log::trace('Initializing webservices support ...DONE', __METHOD__);
-			}
-		}
-	}
+    /**
+     * Initialize webservice for the given module.
+     *
+     * @param \vtlib\ModuleBasic $moduleInstance
+     */
+    public static function initialize(ModuleBasic $moduleInstance)
+    {
+        if ($moduleInstance->isentitytype) {
+            if (function_exists('vtws_addDefaultModuleTypeEntity')) {
+                vtws_addDefaultModuleTypeEntity($moduleInstance->name);
+                \App\Log::trace('Initializing webservices support ...DONE', __METHOD__);
+            }
+        }
+    }
 }

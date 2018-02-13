@@ -12,7 +12,7 @@
 {strip}
 	<div class=" listViewPageDiv">
 		<div class='widget_header row '>
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 									</a>
 								</li>
 								{if $smarty.foreach.actionCount.last eq true}
-									<li class="divider"></li>
+									<li class="dropdown-divider"></li>
 									{/if}
 								{/foreach}
 								{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}

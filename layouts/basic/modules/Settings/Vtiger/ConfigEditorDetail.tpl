@@ -24,7 +24,7 @@
 		</div>
 		<hr>
 		<div class="contents">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor">
+			<table class="table tableRWD table-bordered table-sm themeTableColor">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="{$WIDTHTYPE}">

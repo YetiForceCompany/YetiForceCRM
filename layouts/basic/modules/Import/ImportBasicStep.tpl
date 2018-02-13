@@ -16,30 +16,30 @@
 			<input type="hidden" name="view" value="Import" />
 			<input type="hidden" name="mode" value="uploadAndParse" />
 			<div class='widget_header row '>
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 			</div>
-			<div class="col-xs-12 searchUIBasic paddingLRZero" style='margin:0 !important'>
+			<div class="col-12 searchUIBasic paddingLRZero" style='margin:0 !important'>
 				{if $ERROR_MESSAGE neq ''}
-					<div class="col-xs-12">
+					<div class="col-12">
 						<div class="style1">
 							<span class="alert-warning">{$ERROR_MESSAGE}</span>
 						</div>
 					</div>
 				{/if}
-				<div class="importContents col-xs-12">
+				<div class="importContents col-12">
 					{include file=\App\Layout::getTemplatePath('Import_Step1.tpl', 'Import')}
 				</div>
-				<div class="importContents col-xs-12">
+				<div class="importContents col-12">
 					{include file=\App\Layout::getTemplatePath('Import_Step2.tpl', 'Import')}
 				</div>
 				{if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
-					<div class="importContents col-xs-12">
+					<div class="importContents col-12">
 						{include file=\App\Layout::getTemplatePath('Import_Step3.tpl', 'Import')}
 					</div>
 				{/if}
-				<div class="col-xs-12 paddingBottom10">
+				<div class="col-12 paddingBottom10">
 					{include file=\App\Layout::getTemplatePath('Import_Basic_Buttons.tpl', 'Import')}
 				</div>
 			</div>

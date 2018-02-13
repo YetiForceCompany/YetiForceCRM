@@ -1,261 +1,284 @@
 <?php
+
 namespace App;
 
 /**
- * Modules basic class
- * @package YetiForce.App
- * @copyright YetiForce Sp. z o.o.
+ * Modules basic class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Module
 {
+    protected static $moduleEntityCacheById = [];
 
-	protected static $moduleEntityCacheById = [];
+    /**
+     * Cache for tabdata.php.
+     *
+     * @var array
+     */
+    protected static $tabdataCache;
 
-	/**
-	 * Cache for tabdata.php
-	 * @var array
-	 */
-	protected static $tabdataCache;
+    /**
+     * Init tabdataCache.
+     */
+    public static function init()
+    {
+        static::$tabdataCache = require 'user_privileges/tabdata.php';
+        static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
+    }
 
-	/**
-	 * Init tabdataCache
-	 */
-	public static function init()
-	{
-		static::$tabdataCache = require 'user_privileges/tabdata.php';
-		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
-	}
+    public static function getEntityInfo($mixed = false)
+    {
+        $entity = false;
+        if ($mixed) {
+            if (is_numeric($mixed)) {
+                if (Cache::has('ModuleEntityById', $mixed)) {
+                    return Cache::get('ModuleEntityById', $mixed);
+                }
+            } else {
+                if (Cache::has('ModuleEntityByName', $mixed)) {
+                    return Cache::get('ModuleEntityByName', $mixed);
+                }
+            }
+        }
+        if (!$entity) {
+            $dataReader = (new \App\Db\Query())->from('vtiger_entityname')
+                    ->createCommand()->query();
+            while ($row = $dataReader->read()) {
+                $row['fieldnameArr'] = explode(',', $row['fieldname']);
+                $row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
+                Cache::save('ModuleEntityByName', $row['modulename'], $row);
+                Cache::save('ModuleEntityById', $row['tabid'], $row);
+                static::$moduleEntityCacheById[$row['tabid']] = $row;
+            }
+            if ($mixed) {
+                if (is_numeric($mixed)) {
+                    return Cache::get('ModuleEntityById', $mixed);
+                } else {
+                    return Cache::get('ModuleEntityByName', $mixed);
+                }
+            }
+        }
 
-	public static function getEntityInfo($mixed = false)
-	{
-		$entity = false;
-		if ($mixed) {
-			if (is_numeric($mixed)) {
-				if (Cache::has('ModuleEntityById', $mixed)) {
-					return Cache::get('ModuleEntityById', $mixed);
-				}
-			} else {
-				if (Cache::has('ModuleEntityByName', $mixed)) {
-					return Cache::get('ModuleEntityByName', $mixed);
-				}
-			}
-		}
-		if (!$entity) {
-			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')
-					->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$row['fieldnameArr'] = explode(',', $row['fieldname']);
-				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
-				Cache::save('ModuleEntityByName', $row['modulename'], $row);
-				Cache::save('ModuleEntityById', $row['tabid'], $row);
-				static::$moduleEntityCacheById[$row['tabid']] = $row;
-			}
-			if ($mixed) {
-				if (is_numeric($mixed)) {
-					return Cache::get('ModuleEntityById', $mixed);
-				} else {
-					return Cache::get('ModuleEntityByName', $mixed);
-				}
-			}
-		}
-		return $entity;
-	}
+        return $entity;
+    }
 
-	public static function getAllEntityModuleInfo($sort = false)
-	{
-		if (empty(static::$moduleEntityCacheById)) {
-			static::getEntityInfo();
-		}
-		$entity = [];
-		if ($sort) {
-			foreach (static::$moduleEntityCacheById as $row) {
-				$entity[$row['sequence']] = $row;
-			}
-			ksort($entity);
-		} else {
-			$entity = static::$moduleEntityCacheById;
-		}
-		return $entity;
-	}
+    public static function getAllEntityModuleInfo($sort = false)
+    {
+        if (empty(static::$moduleEntityCacheById)) {
+            static::getEntityInfo();
+        }
+        $entity = [];
+        if ($sort) {
+            foreach (static::$moduleEntityCacheById as $row) {
+                $entity[$row['sequence']] = $row;
+            }
+            ksort($entity);
+        } else {
+            $entity = static::$moduleEntityCacheById;
+        }
 
-	protected static $isModuleActiveCache = [];
+        return $entity;
+    }
 
-	public static function isModuleActive($moduleName)
-	{
-		if (isset(static::$isModuleActiveCache[$moduleName])) {
-			return static::$isModuleActiveCache[$moduleName];
-		}
-		if (in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
-			static::$isModuleActiveCache[$moduleName] = true;
-			return true;
-		}
-		$moduleId = static::getModuleId($moduleName);
-		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0) ? true : false;
-		static::$isModuleActiveCache[$moduleName] = $isActive;
-		return $isActive;
-	}
+    protected static $isModuleActiveCache = [];
 
-	/**
-	 * Get module id by module name
-	 * @param string $moduleName
-	 * @return int|bool
-	 */
-	public static function getModuleId($moduleName)
-	{
-		return isset(static::$tabdataCache['tabId'][$moduleName]) ? static::$tabdataCache['tabId'][$moduleName] : false;
-	}
+    public static function isModuleActive($moduleName)
+    {
+        if (isset(static::$isModuleActiveCache[$moduleName])) {
+            return static::$isModuleActiveCache[$moduleName];
+        }
+        if (in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
+            static::$isModuleActiveCache[$moduleName] = true;
 
-	/**
-	 * Get module nane by module id
-	 * @param int $tabId
-	 * @return string|bool
-	 */
-	public static function getModuleName($tabId)
-	{
-		return isset(static::$tabdataCache['tabName'][$tabId]) ? static::$tabdataCache['tabName'][$tabId] : false;
-	}
+            return true;
+        }
+        $moduleId = static::getModuleId($moduleName);
+        $isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0) ? true : false;
+        static::$isModuleActiveCache[$moduleName] = $isActive;
 
-	/**
-	 * Get module owner by module id
-	 * @param int $tabId
-	 * @return int
-	 */
-	public static function getModuleOwner($tabId)
-	{
-		return isset(static::$tabdataCache['tabOwnedby'][$tabId]) ? static::$tabdataCache['tabOwnedby'][$tabId] : false;
-	}
+        return $isActive;
+    }
 
-	/**
-	 * Function get module name
-	 * @param string $moduleName
-	 * @return string
-	 */
-	public static function getTabName($moduleName)
-	{
-		return $moduleName === 'Events' ? 'Calendar' : $moduleName;
-	}
+    /**
+     * Get module id by module name.
+     *
+     * @param string $moduleName
+     *
+     * @return int|bool
+     */
+    public static function getModuleId($moduleName)
+    {
+        return isset(static::$tabdataCache['tabId'][$moduleName]) ? static::$tabdataCache['tabId'][$moduleName] : false;
+    }
 
-	/**
-	 * Function to get the list of module for which the user defined sharing rules can be defined
-	 * @param array $eliminateModules
-	 * @return array
-	 */
-	public static function getSharingModuleList($eliminateModules = false)
-	{
-		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
-		$sharingModules = [];
-		foreach ($modules as $tabId => $row) {
-			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
-				$sharingModules[] = $row['name'];
-			}
-		}
-		return $sharingModules;
-	}
+    /**
+     * Get module nane by module id.
+     *
+     * @param int $tabId
+     *
+     * @return string|bool
+     */
+    public static function getModuleName($tabId)
+    {
+        return isset(static::$tabdataCache['tabName'][$tabId]) ? static::$tabdataCache['tabName'][$tabId] : false;
+    }
 
-	/**
-	 * Get sql for name in display format
-	 * @param string $moduleName
-	 * @return string
-	 */
-	public static function getSqlForNameInDisplayFormat($moduleName)
-	{
-		$db = \App\Db::getInstance();
-		$entityFieldInfo = static::getEntityInfo($moduleName);
-		$fieldsName = $entityFieldInfo['fieldnameArr'];
-		if (count($fieldsName) > 1) {
-			$sqlString = 'CONCAT(';
-			foreach ($fieldsName as &$column) {
-				$sqlString .= "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($column)},' ',";
-			}
-			$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
-		} else {
-			$fieldsName = array_pop($fieldsName);
-			$formattedName = "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($fieldsName)}";
-		}
-		return $formattedName;
-	}
+    /**
+     * Get module owner by module id.
+     *
+     * @param int $tabId
+     *
+     * @return int
+     */
+    public static function getModuleOwner($tabId)
+    {
+        return isset(static::$tabdataCache['tabOwnedby'][$tabId]) ? static::$tabdataCache['tabOwnedby'][$tabId] : false;
+    }
 
-	/**
-	 * Function to get a action id for a given action name
-	 * @param string $action
-	 * @return int|null
-	 */
-	public static function getActionId($action)
-	{
-		if (empty($action)) {
-			return null;
-		}
-		if (Cache::has('getActionId', $action)) {
-			return Cache::get('getActionId', $action);
-		}
-		$actionIds = static::$tabdataCache['actionId'];
-		if (isset($actionIds[$action])) {
-			$actionId = $actionIds[$action];
-		}
-		if (empty($actionId)) {
-			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
-		}
-		if (is_numeric($actionId)) {
-			$actionId = (int) $actionId;
-		}
-		Cache::save('getActionId', $action, $actionId, Cache::LONG);
-		return $actionId;
-	}
+    /**
+     * Function get module name.
+     *
+     * @param string $moduleName
+     *
+     * @return string
+     */
+    public static function getTabName($moduleName)
+    {
+        return $moduleName === 'Events' ? 'Calendar' : $moduleName;
+    }
 
-	/**
-	 * Function to create file about modules
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public static function createModuleMetaFile()
-	{
-		$tabNames = $tabPresence = $tabOwned = [];
-		Cache::delete('moduleTabs', 'all');
-		$allModules = \vtlib\Functions::getAllModules(false, true);
-		foreach ($allModules as $moduleInfo) {
-			$tabid = (int) $moduleInfo['tabid'];
-			$tabNames[$moduleInfo['name']] = $tabid;
-			$tabPresence[$tabid] = (int) $moduleInfo['presence'];
-			$tabOwned[$tabid] = (int) $moduleInfo['ownedby'];
-		}
-		//Constructing the actionname=>actionid array
-		$actionAll = [];
-		$dataReader = (new Db\Query())->from(['vtiger_actionmapping'])->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$actionname = $row['actionname'];
-			$actionid = (int) $row['actionid'];
-			$actionAll[$actionname] = $actionid;
-			if ((int) $row['securitycheck'] === 0) {
-				$actionSecure[$actionid] = $actionname;
-			}
-		}
-		$filename = 'user_privileges/tabdata.php';
-		if (file_exists($filename)) {
-			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
-				}
-				$newbuf = "<?php\n";
-				$newbuf .= "\$tab_seq_array=" . Utils::varExport($tabPresence) . ";\n";
-				$tabdata = [
-					'tabId' => $tabNames,
-					'tabPresence' => $tabPresence,
-					'tabOwnedby' => $tabOwned,
-					'actionId' => $actionAll,
-					'actionName' => $actionSecure,
-				];
-				$newbuf .= 'return ' . Utils::varExport($tabdata) . ";\n";
-				fputs($handle, $newbuf);
-				fclose($handle);
-			} else {
-				Log::error("The file $filename is not writable");
-			}
-		} else {
-			Log::error("The file $filename does not exist");
-		}
-		static::init();
-	}
+    /**
+     * Function to get the list of module for which the user defined sharing rules can be defined.
+     *
+     * @param array $eliminateModules
+     *
+     * @return array
+     */
+    public static function getSharingModuleList($eliminateModules = false)
+    {
+        $modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
+        $sharingModules = [];
+        foreach ($modules as $tabId => $row) {
+            if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
+                $sharingModules[] = $row['name'];
+            }
+        }
+
+        return $sharingModules;
+    }
+
+    /**
+     * Get sql for name in display format.
+     *
+     * @param string $moduleName
+     *
+     * @return string
+     */
+    public static function getSqlForNameInDisplayFormat($moduleName)
+    {
+        $db = \App\Db::getInstance();
+        $entityFieldInfo = static::getEntityInfo($moduleName);
+        $fieldsName = $entityFieldInfo['fieldnameArr'];
+        if (count($fieldsName) > 1) {
+            $sqlString = 'CONCAT(';
+            foreach ($fieldsName as &$column) {
+                $sqlString .= "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($column)},' ',";
+            }
+            $formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',').')');
+        } else {
+            $fieldsName = array_pop($fieldsName);
+            $formattedName = "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($fieldsName)}";
+        }
+
+        return $formattedName;
+    }
+
+    /**
+     * Function to get a action id for a given action name.
+     *
+     * @param string $action
+     *
+     * @return int|null
+     */
+    public static function getActionId($action)
+    {
+        if (empty($action)) {
+            return null;
+        }
+        if (Cache::has('getActionId', $action)) {
+            return Cache::get('getActionId', $action);
+        }
+        $actionIds = static::$tabdataCache['actionId'];
+        if (isset($actionIds[$action])) {
+            $actionId = $actionIds[$action];
+        }
+        if (empty($actionId)) {
+            $actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
+        }
+        if (is_numeric($actionId)) {
+            $actionId = (int) $actionId;
+        }
+        Cache::save('getActionId', $action, $actionId, Cache::LONG);
+
+        return $actionId;
+    }
+
+    /**
+     * Function to create file about modules.
+     *
+     * @throws \App\Exceptions\NoPermitted
+     */
+    public static function createModuleMetaFile()
+    {
+        $tabNames = $tabPresence = $tabOwned = [];
+        Cache::delete('moduleTabs', 'all');
+        $allModules = \vtlib\Functions::getAllModules(false, true);
+        foreach ($allModules as $moduleInfo) {
+            $tabid = (int) $moduleInfo['tabid'];
+            $tabNames[$moduleInfo['name']] = $tabid;
+            $tabPresence[$tabid] = (int) $moduleInfo['presence'];
+            $tabOwned[$tabid] = (int) $moduleInfo['ownedby'];
+        }
+        //Constructing the actionname=>actionid array
+        $actionAll = [];
+        $dataReader = (new Db\Query())->from(['vtiger_actionmapping'])->createCommand()->query();
+        while ($row = $dataReader->read()) {
+            $actionname = $row['actionname'];
+            $actionid = (int) $row['actionid'];
+            $actionAll[$actionname] = $actionid;
+            if ((int) $row['securitycheck'] === 0) {
+                $actionSecure[$actionid] = $actionname;
+            }
+        }
+        $filename = 'user_privileges/tabdata.php';
+        if (file_exists($filename)) {
+            if (is_writable($filename)) {
+                if (!$handle = fopen($filename, 'w+')) {
+                    throw new Exceptions\NoPermitted("Cannot open file ($filename)");
+                }
+                $newbuf = "<?php\n";
+                $newbuf .= '$tab_seq_array='.Utils::varExport($tabPresence).";\n";
+                $tabdata = [
+                    'tabId' => $tabNames,
+                    'tabPresence' => $tabPresence,
+                    'tabOwnedby' => $tabOwned,
+                    'actionId' => $actionAll,
+                    'actionName' => $actionSecure,
+                ];
+                $newbuf .= 'return '.Utils::varExport($tabdata).";\n";
+                fputs($handle, $newbuf);
+                fclose($handle);
+            } else {
+                Log::error("The file $filename is not writable");
+            }
+        } else {
+            Log::error("The file $filename does not exist");
+        }
+        static::init();
+    }
 }
 
 Module::init();

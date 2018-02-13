@@ -10,25 +10,24 @@
 
 class Settings_Groups_DeleteAjax_View extends Settings_Vtiger_Index_View
 {
+    use App\Controller\ClearProcess;
 
-	use App\Controller\ClearProcess;
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $qualifiedModuleName = $request->getModule(false);
+        $recordId = $request->get('record');
 
-	public function process(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
+        $recordModel = Settings_Groups_Record_Model::getInstance($recordId);
 
-		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->assign('RECORD_MODEL', $recordModel);
 
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RECORD_MODEL', $recordModel);
+        $viewer->assign('ALL_USERS', Users_Record_Model::getAll());
+        $viewer->assign('ALL_GROUPS', Settings_Groups_Record_Model::getAll());
 
-		$viewer->assign('ALL_USERS', Users_Record_Model::getAll());
-		$viewer->assign('ALL_GROUPS', Settings_Groups_Record_Model::getAll());
-
-		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);
-	}
+        echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);
+    }
 }

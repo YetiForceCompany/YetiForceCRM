@@ -10,1242 +10,1336 @@
  * *********************************************************************************** */
 Vtiger_Loader::includeOnce('~modules/Reports/Reports.php');
 Vtiger_Loader::includeOnce('~modules/Reports/ReportRun.php');
-require_once('modules/Reports/ReportUtils.php');
-require_once('Report.php');
+require_once 'modules/Reports/ReportUtils.php';
+require_once 'Report.php';
 
 class Reports_Record_Model extends Vtiger_Record_Model
 {
+    /**
+     * Function to get the id of the Report.
+     *
+     * @return <Number> - Report Id
+     */
+    public function getId()
+    {
+        return $this->get('reportid');
+    }
 
-	/**
-	 * Function to get the id of the Report
-	 * @return <Number> - Report Id
-	 */
-	public function getId()
-	{
-		return $this->get('reportid');
-	}
+    /**
+     * Function to set the id of the Report.
+     *
+     * @param <type> $value - id value
+     *
+     * @return <Object> - current instance
+     */
+    public function setId($value)
+    {
+        return $this->set('reportid', $value);
+    }
 
-	/**
-	 * Function to set the id of the Report
-	 * @param <type> $value - id value
-	 * @return <Object> - current instance
-	 */
-	public function setId($value)
-	{
-		return $this->set('reportid', $value);
-	}
+    /**
+     * Fuction to get the Name of the Report.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->get('reportname');
+    }
 
-	/**
-	 * Fuction to get the Name of the Report
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->get('reportname');
-	}
+    /**
+     * Function deletes the Report.
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        return $this->getModule()->deleteRecord($this);
+    }
 
-	/**
-	 * Function deletes the Report
-	 * @return Boolean
-	 */
-	public function delete()
-	{
-		return $this->getModule()->deleteRecord($this);
-	}
+    /**
+     * Function to get the detail view url.
+     *
+     * @return string
+     */
+    public function getDetailViewUrl()
+    {
+        $module = $this->getModule();
+        $reporttype = $this->get('reporttype');
+        if ($reporttype === 'chart') {
+            $view = 'ChartDetail';
+        } else {
+            $view = $module->getDetailViewName();
+        }
 
-	/**
-	 * Function to get the detail view url
-	 * @return string
-	 */
-	public function getDetailViewUrl()
-	{
-		$module = $this->getModule();
-		$reporttype = $this->get('reporttype');
-		if ($reporttype === 'chart') {
-			$view = 'ChartDetail';
-		} else {
-			$view = $module->getDetailViewName();
-		}
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $view . '&record=' . $this->getId();
-	}
+        return 'index.php?module='.$this->getModuleName().'&view='.$view.'&record='.$this->getId();
+    }
 
-	/**
-	 * Function to get the edit view url
-	 * @return string
-	 */
-	public function getEditViewUrl()
-	{
-		$module = $this->getModule();
-		$reporttype = $this->get('reporttype');
-		if ($reporttype === 'chart') {
-			$view = 'ChartEdit';
-		} else {
-			$view = $module->getEditViewName();
-		}
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $view . '&record=' . $this->getId();
-	}
+    /**
+     * Function to get the edit view url.
+     *
+     * @return string
+     */
+    public function getEditViewUrl()
+    {
+        $module = $this->getModule();
+        $reporttype = $this->get('reporttype');
+        if ($reporttype === 'chart') {
+            $view = 'ChartEdit';
+        } else {
+            $view = $module->getEditViewName();
+        }
 
-	/**
-	 * Funtion to get Duplicate Record Url
-	 * @return string
-	 */
-	public function getDuplicateRecordUrl()
-	{
-		$module = $this->getModule();
-		$reporttype = $this->get('reporttype');
-		if ($reporttype === 'chart') {
-			$view = 'ChartEdit';
-		} else {
-			$view = $module->getEditViewName();
-		}
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $view . '&record=' . $this->getId() . '&isDuplicate=true';
-	}
+        return 'index.php?module='.$this->getModuleName().'&view='.$view.'&record='.$this->getId();
+    }
 
-	/**
-	 * Function returns the url that generates Report in Excel format
-	 * @return string
-	 */
-	public function getReportExcelURL()
-	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=getXls&record=' . $this->getId();
-	}
+    /**
+     * Funtion to get Duplicate Record Url.
+     *
+     * @return string
+     */
+    public function getDuplicateRecordUrl()
+    {
+        $module = $this->getModule();
+        $reporttype = $this->get('reporttype');
+        if ($reporttype === 'chart') {
+            $view = 'ChartEdit';
+        } else {
+            $view = $module->getEditViewName();
+        }
 
-	/**
-	 * Function returns the url that generates Report in CSV format
-	 * @return string
-	 */
-	public function getReportCSVURL()
-	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=getCsv&record=' . $this->getId();
-	}
+        return 'index.php?module='.$this->getModuleName().'&view='.$view.'&record='.$this->getId().'&isDuplicate=true';
+    }
 
-	/**
-	 * Function returns the url that generates Report in printable format
-	 * @return string
-	 */
-	public function getReportPrintURL()
-	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=getPrintReport&record=' . $this->getId();
-	}
+    /**
+     * Function returns the url that generates Report in Excel format.
+     *
+     * @return string
+     */
+    public function getReportExcelURL()
+    {
+        return 'index.php?module='.$this->getModuleName().'&view=ExportReport&mode=getXls&record='.$this->getId();
+    }
 
-	/**
-	 * Function returns the Reports Model instance
-	 * @param <Number> $recordId
-	 * @param string $module
-	 * @return <Reports_Record_Model>
-	 */
-	public static function getInstanceById($recordId, $module = null)
-	{
-		$db = PearDatabase::getInstance();
+    /**
+     * Function returns the url that generates Report in CSV format.
+     *
+     * @return string
+     */
+    public function getReportCSVURL()
+    {
+        return 'index.php?module='.$this->getModuleName().'&view=ExportReport&mode=getCsv&record='.$this->getId();
+    }
 
-		$self = new self();
-		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', [$recordId]);
-		if ($db->numRows($reportResult)) {
-			$values = $db->queryResultRowData($reportResult, 0);
-			$module = Vtiger_Module_Model::getInstance('Reports');
-			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
-			$self->initialize();
-		}
-		return $self;
-	}
+    /**
+     * Function returns the url that generates Report in printable format.
+     *
+     * @return string
+     */
+    public function getReportPrintURL()
+    {
+        return 'index.php?module='.$this->getModuleName().'&view=ExportReport&mode=getPrintReport&record='.$this->getId();
+    }
 
-	/**
-	 * Function creates Reports_Record_Model
-	 * @param <Number> $recordId
-	 * @return <Reports_Record_Model>
-	 */
-	public static function getCleanInstance($recordId = null)
-	{
-		if (empty($recordId)) {
-			$self = new Reports_Record_Model();
-		} else {
-			$self = self::getInstanceById($recordId);
-		}
-		$self->initialize();
-		$module = Vtiger_Module_Model::getInstance('Reports');
-		$self->setModuleFromInstance($module);
-		return $self;
-	}
+    /**
+     * Function returns the Reports Model instance.
+     *
+     * @param <Number> $recordId
+     * @param string   $module
+     *
+     * @return <Reports_Record_Model>
+     */
+    public static function getInstanceById($recordId, $module = null)
+    {
+        $db = PearDatabase::getInstance();
 
-	/**
-	 * Function initializes Report
-	 */
-	public function initialize()
-	{
-		$reportId = $this->getId();
-		$this->report = Vtiger_Report_Model::getInstance($reportId);
-	}
+        $self = new self();
+        $reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', [$recordId]);
+        if ($db->numRows($reportResult)) {
+            $values = $db->queryResultRowData($reportResult, 0);
+            $module = Vtiger_Module_Model::getInstance('Reports');
+            $self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
+            $self->initialize();
+        }
 
-	/**
-	 * Function returns Primary Module of the Report
-	 * @return string
-	 */
-	public function getPrimaryModule()
-	{
-		return $this->report->primodule;
-	}
+        return $self;
+    }
 
-	/**
-	 * Function returns Secondary Module of the Report
-	 * @return string
-	 */
-	public function getSecondaryModules()
-	{
-		return $this->report->secmodule;
-	}
+    /**
+     * Function creates Reports_Record_Model.
+     *
+     * @param <Number> $recordId
+     *
+     * @return <Reports_Record_Model>
+     */
+    public static function getCleanInstance($recordId = null)
+    {
+        if (empty($recordId)) {
+            $self = new self();
+        } else {
+            $self = self::getInstanceById($recordId);
+        }
+        $self->initialize();
+        $module = Vtiger_Module_Model::getInstance('Reports');
+        $self->setModuleFromInstance($module);
 
-	/**
-	 * Function sets the Primary Module of the Report
-	 * @param string $module
-	 */
-	public function setPrimaryModule($module)
-	{
-		$this->report->primodule = $module;
-	}
+        return $self;
+    }
 
-	/**
-	 * Function sets the Secondary Modules for the Report
-	 * @param string $modules, modules separated with colon(:)
-	 */
-	public function setSecondaryModule($modules)
-	{
-		$this->report->secmodule = $modules;
-	}
+    /**
+     * Function initializes Report.
+     */
+    public function initialize()
+    {
+        $reportId = $this->getId();
+        $this->report = Vtiger_Report_Model::getInstance($reportId);
+    }
 
-	/**
-	 * Function returns Report Type(Summary/Tabular)
-	 * @return string
-	 */
-	public function getReportType()
-	{
-		$reportType = $this->get('reporttype');
-		if (!empty($reportType)) {
-			return $reportType;
-		}
-		return $this->report->reporttype;
-	}
+    /**
+     * Function returns Primary Module of the Report.
+     *
+     * @return string
+     */
+    public function getPrimaryModule()
+    {
+        return $this->report->primodule;
+    }
 
-	/**
-	 * Returns the Reports Owner
-	 * @return <Number>
-	 */
-	public function getOwner()
-	{
-		return $this->get('owner');
-	}
+    /**
+     * Function returns Secondary Module of the Report.
+     *
+     * @return string
+     */
+    public function getSecondaryModules()
+    {
+        return $this->report->secmodule;
+    }
 
-	/**
-	 * Function checks if the Report is editable
-	 * @return boolean
-	 */
-	public function isEditable()
-	{
-		return ($this->report->isEditable());
-	}
+    /**
+     * Function sets the Primary Module of the Report.
+     *
+     * @param string $module
+     */
+    public function setPrimaryModule($module)
+    {
+        $this->report->primodule = $module;
+    }
 
-	/**
-	 * Function returns Report enabled Modules
-	 * @return type
-	 */
-	public function getReportRelatedModules()
-	{
-		$report = $this->report;
-		return $report->related_modules;
-	}
+    /**
+     * Function sets the Secondary Modules for the Report.
+     *
+     * @param string $modules, modules separated with colon(:)
+     */
+    public function setSecondaryModule($modules)
+    {
+        $this->report->secmodule = $modules;
+    }
 
-	public function getModulesList()
-	{
-		return $this->report->getModulesList();
-	}
+    /**
+     * Function returns Report Type(Summary/Tabular).
+     *
+     * @return string
+     */
+    public function getReportType()
+    {
+        $reportType = $this->get('reporttype');
+        if (!empty($reportType)) {
+            return $reportType;
+        }
 
-	/**
-	 * Function returns Primary Module Fields
-	 * @return <Array>
-	 */
-	public function getPrimaryModuleFields()
-	{
-		$report = $this->report;
-		$primaryModule = $this->getPrimaryModule();
-		$report->getPriModuleColumnsList($primaryModule);
-		//need to add this vtiger_crmentity:crmid:".$module."_ID:crmid:I
-		return $report->pri_module_columnslist;
-	}
+        return $this->report->reporttype;
+    }
 
-	/**
-	 * Function returns Secondary Module fields
-	 * @return <Array>
-	 */
-	public function getSecondaryModuleFields()
-	{
-		$report = $this->report;
-		$secondaryModule = $this->getSecondaryModules();
-		$report->getSecModuleColumnsList($secondaryModule);
-		return $report->sec_module_columnslist;
-	}
+    /**
+     * Returns the Reports Owner.
+     *
+     * @return <Number>
+     */
+    public function getOwner()
+    {
+        return $this->get('owner');
+    }
 
-	/**
-	 * Function returns Report Selected Fields
-	 * @return <Array>
-	 */
-	public function getSelectedFields()
-	{
-		$db = PearDatabase::getInstance();
+    /**
+     * Function checks if the Report is editable.
+     *
+     * @return bool
+     */
+    public function isEditable()
+    {
+        return $this->report->isEditable();
+    }
 
-		$result = $db->pquery('SELECT vtiger_selectcolumn.columnname FROM vtiger_report
+    /**
+     * Function returns Report enabled Modules.
+     *
+     * @return type
+     */
+    public function getReportRelatedModules()
+    {
+        $report = $this->report;
+
+        return $report->related_modules;
+    }
+
+    public function getModulesList()
+    {
+        return $this->report->getModulesList();
+    }
+
+    /**
+     * Function returns Primary Module Fields.
+     *
+     * @return <Array>
+     */
+    public function getPrimaryModuleFields()
+    {
+        $report = $this->report;
+        $primaryModule = $this->getPrimaryModule();
+        $report->getPriModuleColumnsList($primaryModule);
+        //need to add this vtiger_crmentity:crmid:".$module."_ID:crmid:I
+        return $report->pri_module_columnslist;
+    }
+
+    /**
+     * Function returns Secondary Module fields.
+     *
+     * @return <Array>
+     */
+    public function getSecondaryModuleFields()
+    {
+        $report = $this->report;
+        $secondaryModule = $this->getSecondaryModules();
+        $report->getSecModuleColumnsList($secondaryModule);
+
+        return $report->sec_module_columnslist;
+    }
+
+    /**
+     * Function returns Report Selected Fields.
+     *
+     * @return <Array>
+     */
+    public function getSelectedFields()
+    {
+        $db = PearDatabase::getInstance();
+
+        $result = $db->pquery('SELECT vtiger_selectcolumn.columnname FROM vtiger_report
 					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
 					INNER JOIN vtiger_selectcolumn ON vtiger_selectcolumn.queryid = vtiger_selectquery.queryid
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex', [$this->getId()]);
 
-		$selectedColumns = [];
-		$numRowsCount = $db->numRows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$column = $db->queryResult($result, $i, 'columnname');
-			$columnExpode = explode(':', $column);
-			$columnName = $columnExpode[1];
-			$moduleFieldLabel = $columnExpode[2];
-			$fieldName = $columnExpode[3];
-			$fieldLabel = explode('__', $moduleFieldLabel);
-			$module = $fieldLabel[0];
-			if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
-				$selectedColumns[] = $column;
-			}
-		}
-		return $selectedColumns;
-	}
+        $selectedColumns = [];
+        $numRowsCount = $db->numRows($result);
+        for ($i = 0; $i < $numRowsCount; ++$i) {
+            $column = $db->queryResult($result, $i, 'columnname');
+            $columnExpode = explode(':', $column);
+            $columnName = $columnExpode[1];
+            $moduleFieldLabel = $columnExpode[2];
+            $fieldName = $columnExpode[3];
+            $fieldLabel = explode('__', $moduleFieldLabel);
+            $module = $fieldLabel[0];
+            if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
+                $selectedColumns[] = $column;
+            }
+        }
 
-	/**
-	 * Function returns Report Calculation Fields
-	 * @return type
-	 */
-	public function getSelectedCalculationFields()
-	{
-		$db = PearDatabase::getInstance();
+        return $selectedColumns;
+    }
 
-		$result = $db->pquery('SELECT vtiger_reportsummary.columnname FROM vtiger_reportsummary
+    /**
+     * Function returns Report Calculation Fields.
+     *
+     * @return type
+     */
+    public function getSelectedCalculationFields()
+    {
+        $db = PearDatabase::getInstance();
+
+        $result = $db->pquery('SELECT vtiger_reportsummary.columnname FROM vtiger_reportsummary
 					INNER JOIN vtiger_report ON vtiger_report.reportid = vtiger_reportsummary.reportsummaryid
 					WHERE vtiger_report.reportid=?', [$this->getId()]);
 
-		$columns = [];
-		$numRowsCount = $db->numRows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$columns[] = $db->queryResult($result, $i, 'columnname');
-		}
-		return $columns;
-	}
+        $columns = [];
+        $numRowsCount = $db->numRows($result);
+        for ($i = 0; $i < $numRowsCount; ++$i) {
+            $columns[] = $db->queryResult($result, $i, 'columnname');
+        }
 
-	/**
-	 * Function returns Report Sort Fields
-	 * @return type
-	 */
-	public function getSelectedSortFields()
-	{
-		$db = PearDatabase::getInstance();
+        return $columns;
+    }
 
-		$result = $db->pquery('SELECT vtiger_reportsortcol.* FROM vtiger_report
+    /**
+     * Function returns Report Sort Fields.
+     *
+     * @return type
+     */
+    public function getSelectedSortFields()
+    {
+        $db = PearDatabase::getInstance();
+
+        $result = $db->pquery('SELECT vtiger_reportsortcol.* FROM vtiger_report
 					INNER JOIN vtiger_reportsortcol ON vtiger_report.reportid = vtiger_reportsortcol.reportid
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_reportsortcol.sortcolid', [$this->getId()]);
 
-		$sortColumns = [];
-		$numRowsCount = $db->numRows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$column = $db->queryResult($result, $i, 'columnname');
-			$order = $db->queryResult($result, $i, 'sortorder');
-			$sortColumns[App\Purifier::decodeHtml($column)] = $order;
-		}
-		return $sortColumns;
-	}
+        $sortColumns = [];
+        $numRowsCount = $db->numRows($result);
+        for ($i = 0; $i < $numRowsCount; ++$i) {
+            $column = $db->queryResult($result, $i, 'columnname');
+            $order = $db->queryResult($result, $i, 'sortorder');
+            $sortColumns[App\Purifier::decodeHtml($column)] = $order;
+        }
 
-	/**
-	 * Function returns Reports Standard Filters
-	 * @return type
-	 */
-	public function getSelectedStandardFilter()
-	{
-		$db = PearDatabase::getInstance();
+        return $sortColumns;
+    }
 
-		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', [$this->getId(), '0000-00-00', '0000-00-00']);
-		$standardFieldInfo = [];
-		if ($db->numRows($result)) {
-			$standardFieldInfo['columnname'] = $db->queryResult($result, 0, 'datecolumnname');
-			$standardFieldInfo['type'] = $db->queryResult($result, 0, 'datefilter');
-			$standardFieldInfo['startdate'] = $db->queryResult($result, 0, 'startdate');
-			$standardFieldInfo['enddate'] = $db->queryResult($result, 0, 'enddate');
+    /**
+     * Function returns Reports Standard Filters.
+     *
+     * @return type
+     */
+    public function getSelectedStandardFilter()
+    {
+        $db = PearDatabase::getInstance();
 
-			if ($standardFieldInfo['type'] == "custom" || $standardFieldInfo['type'] == "") {
-				if ($standardFieldInfo["startdate"] != "0000-00-00" && $standardFieldInfo["startdate"] != "") {
-					$startDateTime = new DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
-					$standardFieldInfo["startdate"] = $startDateTime->getDisplayDate();
-				}
-				if ($standardFieldInfo["enddate"] != "0000-00-00" && $standardFieldInfo["enddate"] != "") {
-					$endDateTime = new DateTimeField($standardFieldInfo["enddate"] . ' ' . date('H:i:s'));
-					$standardFieldInfo["enddate"] = $endDateTime->getDisplayDate();
-				}
-			} else {
-				$startDateTime = new DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
-				$standardFieldInfo["startdate"] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($standardFieldInfo["enddate"] . ' ' . date('H:i:s'));
-				$standardFieldInfo["enddate"] = $endDateTime->getDisplayDate();
-			}
-		}
+        $result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', [$this->getId(), '0000-00-00', '0000-00-00']);
+        $standardFieldInfo = [];
+        if ($db->numRows($result)) {
+            $standardFieldInfo['columnname'] = $db->queryResult($result, 0, 'datecolumnname');
+            $standardFieldInfo['type'] = $db->queryResult($result, 0, 'datefilter');
+            $standardFieldInfo['startdate'] = $db->queryResult($result, 0, 'startdate');
+            $standardFieldInfo['enddate'] = $db->queryResult($result, 0, 'enddate');
 
-		return $standardFieldInfo;
-	}
+            if ($standardFieldInfo['type'] == 'custom' || $standardFieldInfo['type'] == '') {
+                if ($standardFieldInfo['startdate'] != '0000-00-00' && $standardFieldInfo['startdate'] != '') {
+                    $startDateTime = new DateTimeField($standardFieldInfo['startdate'].' '.date('H:i:s'));
+                    $standardFieldInfo['startdate'] = $startDateTime->getDisplayDate();
+                }
+                if ($standardFieldInfo['enddate'] != '0000-00-00' && $standardFieldInfo['enddate'] != '') {
+                    $endDateTime = new DateTimeField($standardFieldInfo['enddate'].' '.date('H:i:s'));
+                    $standardFieldInfo['enddate'] = $endDateTime->getDisplayDate();
+                }
+            } else {
+                $startDateTime = new DateTimeField($standardFieldInfo['startdate'].' '.date('H:i:s'));
+                $standardFieldInfo['startdate'] = $startDateTime->getDisplayDate();
+                $endDateTime = new DateTimeField($standardFieldInfo['enddate'].' '.date('H:i:s'));
+                $standardFieldInfo['enddate'] = $endDateTime->getDisplayDate();
+            }
+        }
 
-	/**
-	 * Function returns Reports Advanced Filters
-	 * @return type
-	 */
-	public function getSelectedAdvancedFilter()
-	{
-		$report = $this->report;
-		$report->getAdvancedFilterList($this->getId());
-		return $report->advft_criteria;
-	}
+        return $standardFieldInfo;
+    }
 
-	/**
-	 * Function saves a Report
-	 */
-	public function save()
-	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+    /**
+     * Function returns Reports Advanced Filters.
+     *
+     * @return type
+     */
+    public function getSelectedAdvancedFilter()
+    {
+        $report = $this->report;
+        $report->getAdvancedFilterList($this->getId());
 
-		$reportId = $this->getId();
-		if (empty($reportId)) {
-			$reportId = $db->getUniqueID("vtiger_selectquery");
-			$this->setId($reportId);
+        return $report->advft_criteria;
+    }
 
-			$db->pquery('INSERT INTO vtiger_selectquery(queryid, startindex, numofobjects) VALUES(?,?,?)', [$reportId, 0, 0]);
+    /**
+     * Function saves a Report.
+     */
+    public function save()
+    {
+        $db = PearDatabase::getInstance();
+        $currentUser = Users_Record_Model::getCurrentUserModel();
 
-			$reportParams = [$reportId, $this->get('folderid'), $this->get('reportname'), $this->get('description'),
-				$this->get('reporttype', 'tabular'), $reportId, 'CUSTOM', $currentUser->id, 'Public'];
-			$db->pquery('INSERT INTO vtiger_report(reportid, folderid, reportname, description,
+        $reportId = $this->getId();
+        if (empty($reportId)) {
+            $reportId = $db->getUniqueID('vtiger_selectquery');
+            $this->setId($reportId);
+
+            $db->pquery('INSERT INTO vtiger_selectquery(queryid, startindex, numofobjects) VALUES(?,?,?)', [$reportId, 0, 0]);
+
+            $reportParams = [$reportId, $this->get('folderid'), $this->get('reportname'), $this->get('description'),
+                $this->get('reporttype', 'tabular'), $reportId, 'CUSTOM', $currentUser->id, 'Public', ];
+            $db->pquery('INSERT INTO vtiger_report(reportid, folderid, reportname, description,
 								reporttype, queryid, state, owner, sharingtype) VALUES(?,?,?,?,?,?,?,?,?)', $reportParams);
 
+            $secondaryModule = $this->getSecondaryModules();
+            $db->pquery('INSERT INTO vtiger_reportmodules(reportmodulesid, primarymodule, secondarymodules) VALUES(?,?,?)', [$reportId, $this->getPrimaryModule(), $secondaryModule]);
 
-			$secondaryModule = $this->getSecondaryModules();
-			$db->pquery('INSERT INTO vtiger_reportmodules(reportmodulesid, primarymodule, secondarymodules) VALUES(?,?,?)', [$reportId, $this->getPrimaryModule(), $secondaryModule]);
+            $this->saveSelectedFields();
 
-			$this->saveSelectedFields();
+            $this->saveSortFields();
+            if ($this->get('reporttype') != 'chart') {
+                $this->saveCalculationFields();
+            }
 
-			$this->saveSortFields();
-			if ($this->get('reporttype') != 'chart') {
-				$this->saveCalculationFields();
-			}
+            $this->saveStandardFilter();
 
-			$this->saveStandardFilter();
+            $this->saveAdvancedFilters();
 
-			$this->saveAdvancedFilters();
+            $this->saveReportType();
 
-			$this->saveReportType();
+            $this->saveSharingInformation();
+        } else {
+            $reportId = $this->getId();
+            $db->pquery('DELETE FROM vtiger_selectcolumn WHERE queryid = ?', [$reportId]);
+            $this->saveSelectedFields();
 
-			$this->saveSharingInformation();
-		} else {
+            $db->pquery('DELETE FROM vtiger_reportsharing WHERE reportid = ?', [$reportId]);
+            $this->saveSharingInformation();
 
-			$reportId = $this->getId();
-			$db->pquery('DELETE FROM vtiger_selectcolumn WHERE queryid = ?', [$reportId]);
-			$this->saveSelectedFields();
+            $db->pquery('UPDATE vtiger_reportmodules SET primarymodule = ?,secondarymodules = ? WHERE reportmodulesid = ?', [$this->getPrimaryModule(), $this->getSecondaryModules(), $reportId]);
 
-			$db->pquery("DELETE FROM vtiger_reportsharing WHERE reportid = ?", [$reportId]);
-			$this->saveSharingInformation();
-
-
-			$db->pquery('UPDATE vtiger_reportmodules SET primarymodule = ?,secondarymodules = ? WHERE reportmodulesid = ?', [$this->getPrimaryModule(), $this->getSecondaryModules(), $reportId]);
-
-			$db->pquery('UPDATE vtiger_report SET reportname = ?, description = ?, reporttype = ?, folderid = ? WHERE
+            $db->pquery('UPDATE vtiger_report SET reportname = ?, description = ?, reporttype = ?, folderid = ? WHERE
 				reportid = ?', [$this->get('reportname'), $this->get('description'), $this->get('reporttype'), $this->get('folderid'), $reportId]);
 
+            $db->pquery('DELETE FROM vtiger_reportsortcol WHERE reportid = ?', [$reportId]);
+            $db->pquery('DELETE FROM vtiger_reportgroupbycolumn WHERE reportid = ?', [$reportId]);
+            $this->saveSortFields();
 
-			$db->pquery('DELETE FROM vtiger_reportsortcol WHERE reportid = ?', [$reportId]);
-			$db->pquery('DELETE FROM vtiger_reportgroupbycolumn WHERE reportid = ?', [$reportId]);
-			$this->saveSortFields();
+            $db->pquery('DELETE FROM vtiger_reportsummary WHERE reportsummaryid = ?', [$reportId]);
+            if ($this->get('reporttype') != 'chart') {
+                $this->saveCalculationFields();
+            }
 
-			$db->pquery('DELETE FROM vtiger_reportsummary WHERE reportsummaryid = ?', [$reportId]);
-			if ($this->get('reporttype') != 'chart') {
-				$this->saveCalculationFields();
-			}
+            $db->pquery('DELETE FROM vtiger_reportdatefilter WHERE datefilterid = ?', [$reportId]);
+            $this->saveStandardFilter();
 
-			$db->pquery('DELETE FROM vtiger_reportdatefilter WHERE datefilterid = ?', [$reportId]);
-			$this->saveStandardFilter();
+            $this->saveReportType();
 
-			$this->saveReportType();
+            $this->saveAdvancedFilters();
+        }
+    }
 
-			$this->saveAdvancedFilters();
-		}
-	}
+    /**
+     * Function saves Reports Sorting Fields.
+     */
+    public function saveSortFields()
+    {
+        $db = \App\Db::getInstance();
+        $sortFields = $this->get('sortFields');
+        if (!empty($sortFields)) {
+            $i = 0;
+            $dbCommand = $db->createCommand();
+            foreach ($sortFields as $fieldInfo) {
+                $columnName = App\Purifier::decodeHtml($fieldInfo[0]);
+                $dbCommand->insert('vtiger_reportsortcol', ['sortcolid' => $i, 'reportid' => $this->getId(), 'columnname' => $columnName, 'sortorder' => $fieldInfo[1]])->execute();
+                if (ReportUtils::isDateField($columnName)) {
+                    if (empty($fieldInfo[2])) {
+                        $fieldInfo[2] = 'None';
+                    }
+                    $dbCommand->insert('vtiger_reportgroupbycolumn', ['reportid' => $this->getId(), 'sortid' => $i, 'sortcolname' => $columnName, 'dategroupbycriteria' => $fieldInfo[2]])->execute();
+                }
+                ++$i;
+            }
+        }
+    }
 
-	/**
-	 * Function saves Reports Sorting Fields
-	 */
-	public function saveSortFields()
-	{
-		$db = \App\Db::getInstance();
-		$sortFields = $this->get('sortFields');
-		if (!empty($sortFields)) {
-			$i = 0;
-			$dbCommand = $db->createCommand();
-			foreach ($sortFields as $fieldInfo) {
-				$columnName = App\Purifier::decodeHtml($fieldInfo[0]);
-				$dbCommand->insert('vtiger_reportsortcol', ['sortcolid' => $i, 'reportid' => $this->getId(), 'columnname' => $columnName, 'sortorder' => $fieldInfo[1]])->execute();
-				if (ReportUtils::isDateField($columnName)) {
-					if (empty($fieldInfo[2])) {
-						$fieldInfo[2] = 'None';
-					}
-					$dbCommand->insert('vtiger_reportgroupbycolumn', ['reportid' => $this->getId(), 'sortid' => $i, 'sortcolname' => $columnName, 'dategroupbycriteria' => $fieldInfo[2]])->execute();
-				}
-				$i++;
-			}
-		}
-	}
+    /**
+     * Function saves Reports Calculation Fields information.
+     */
+    public function saveCalculationFields()
+    {
+        $db = PearDatabase::getInstance();
 
-	/**
-	 * Function saves Reports Calculation Fields information
-	 */
-	public function saveCalculationFields()
-	{
-		$db = PearDatabase::getInstance();
+        $calculationFields = $this->get('calculationFields');
+        $countCalculationFields = count($calculationFields);
+        for ($i = 0; $i < $countCalculationFields; ++$i) {
+            $db->pquery('INSERT INTO vtiger_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)', [$this->getId(), $i, $calculationFields[$i]]);
+        }
+    }
 
-		$calculationFields = $this->get('calculationFields');
-		$countCalculationFields = count($calculationFields);
-		for ($i = 0; $i < $countCalculationFields; $i++) {
-			$db->pquery('INSERT INTO vtiger_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)', [$this->getId(), $i, $calculationFields[$i]]);
-		}
-	}
+    /**
+     * Function saves Reports Standard Filter information.
+     */
+    public function saveStandardFilter()
+    {
+        $db = PearDatabase::getInstance();
 
-	/**
-	 * Function saves Reports Standard Filter information
-	 */
-	public function saveStandardFilter()
-	{
-		$db = PearDatabase::getInstance();
-
-		$standardFilter = $this->get('standardFilter');
-		if (!empty($standardFilter)) {
-			$db->pquery('INSERT INTO vtiger_reportdatefilter (datefilterid, datecolumnname, datefilter, startdate, enddate)
+        $standardFilter = $this->get('standardFilter');
+        if (!empty($standardFilter)) {
+            $db->pquery('INSERT INTO vtiger_reportdatefilter (datefilterid, datecolumnname, datefilter, startdate, enddate)
 							VALUES (?,?,?,?,?)', [$this->getId(), $standardFilter['field'], $standardFilter['type'],
-				$standardFilter['start'], $standardFilter['end']]);
-		}
-	}
+                $standardFilter['start'], $standardFilter['end'], ]);
+        }
+    }
 
-	/**
-	 * Function saves Reports Sharing information
-	 */
-	public function saveSharingInformation()
-	{
-		$db = PearDatabase::getInstance();
-		$sharingInfo = $this->get('sharingInfo');
-		if ($sharingInfo) {
-			foreach ($sharingInfo as $key => $value) {
-				$db->insert('vtiger_reportsharing', [
-					'reportid' => $this->getId(),
-					'shareid' => $value['id'],
-					'setype' => $value['type']
-				]);
-			}
-		}
-	}
+    /**
+     * Function saves Reports Sharing information.
+     */
+    public function saveSharingInformation()
+    {
+        $db = PearDatabase::getInstance();
+        $sharingInfo = $this->get('sharingInfo');
+        if ($sharingInfo) {
+            foreach ($sharingInfo as $key => $value) {
+                $db->insert('vtiger_reportsharing', [
+                    'reportid' => $this->getId(),
+                    'shareid' => $value['id'],
+                    'setype' => $value['type'],
+                ]);
+            }
+        }
+    }
 
-	/**
-	 * Functions saves Reports selected fields
-	 */
-	public function saveSelectedFields()
-	{
-		$db = PearDatabase::getInstance();
+    /**
+     * Functions saves Reports selected fields.
+     */
+    public function saveSelectedFields()
+    {
+        $db = PearDatabase::getInstance();
 
-		$selectedFields = $this->get('selectedFields');
+        $selectedFields = $this->get('selectedFields');
 
-		if (!empty($selectedFields)) {
-			$countSelectedFields = count($selectedFields);
-			for ($i = 0; $i < $countSelectedFields; $i++) {
-				if (!empty($selectedFields[$i])) {
-					$db->pquery('INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)', [$this->getId(), $i, App\Purifier::decodeHtml($selectedFields[$i])]);
-				}
-			}
-		}
-	}
+        if (!empty($selectedFields)) {
+            $countSelectedFields = count($selectedFields);
+            for ($i = 0; $i < $countSelectedFields; ++$i) {
+                if (!empty($selectedFields[$i])) {
+                    $db->pquery('INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)', [$this->getId(), $i, App\Purifier::decodeHtml($selectedFields[$i])]);
+                }
+            }
+        }
+    }
 
-	/**
-	 * Function saves Reports Filter information
-	 */
-	public function saveAdvancedFilters()
-	{
-		$db = PearDatabase::getInstance();
+    /**
+     * Function saves Reports Filter information.
+     */
+    public function saveAdvancedFilters()
+    {
+        $db = PearDatabase::getInstance();
 
-		$reportId = $this->getId();
-		$advancedFilter = $this->get('advancedFilter');
-		if (!empty($advancedFilter)) {
+        $reportId = $this->getId();
+        $advancedFilter = $this->get('advancedFilter');
+        if (!empty($advancedFilter)) {
+            $db->pquery('DELETE FROM vtiger_relcriteria WHERE queryid = ?', [$reportId]);
+            $db->pquery('DELETE FROM vtiger_relcriteria_grouping WHERE queryid = ?', [$reportId]);
 
-			$db->pquery('DELETE FROM vtiger_relcriteria WHERE queryid = ?', [$reportId]);
-			$db->pquery('DELETE FROM vtiger_relcriteria_grouping WHERE queryid = ?', [$reportId]);
+            foreach ($advancedFilter as $groupIndex => $groupInfo) {
+                if (empty($groupInfo)) {
+                    continue;
+                }
 
-			foreach ($advancedFilter as $groupIndex => $groupInfo) {
-				if (empty($groupInfo))
-					continue;
+                $groupColumns = $groupInfo['columns'];
+                $groupCondition = $groupInfo['condition'];
 
-				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'];
+                foreach ($groupColumns as $columnIndex => $columnCondition) {
+                    if (empty($columnCondition)) {
+                        continue;
+                    }
 
-				foreach ($groupColumns as $columnIndex => $columnCondition) {
-					if (empty($columnCondition))
-						continue;
+                    $advFilterColumn = $columnCondition['columnname'];
+                    $advFilterComparator = $columnCondition['comparator'];
+                    $advFilterValue = $columnCondition['value'];
+                    $advFilterColumnCondition = $columnCondition['column_condition'];
 
-					$advFilterColumn = $columnCondition["columnname"];
-					$advFilterComparator = $columnCondition["comparator"];
-					$advFilterValue = $columnCondition["value"];
-					$advFilterColumnCondition = $columnCondition["column_condition"];
+                    $columnInfo = explode(':', $advFilterColumn);
+                    $moduleFieldLabel = $columnInfo[2];
 
-					$columnInfo = explode(':', $advFilterColumn);
-					$moduleFieldLabel = $columnInfo[2];
+                    list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
+                    $fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
+                    $fieldType = null;
+                    if (!empty($fieldInfo)) {
+                        $fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+                        $fieldType = $fieldModel->getFieldDataType();
+                    }
 
-					list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-					$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
-					$fieldType = null;
-					if (!empty($fieldInfo)) {
-						$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
-						$fieldType = $fieldModel->getFieldDataType();
-					}
+                    if ($fieldType === 'currency') {
+                        if ($fieldModel->getUIType() == '72') {
+                            // Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
+                            $advFilterValue = CurrencyField::convertToDBFormat($advFilterValue, null, true);
+                        } else {
+                            $advFilterValue = CurrencyField::convertToDBFormat($advFilterValue);
+                        }
+                    }
 
-					if ($fieldType === 'currency') {
-						if ($fieldModel->getUIType() == '72') {
-							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFilterValue = CurrencyField::convertToDBFormat($advFilterValue, null, true);
-						} else {
-							$advFilterValue = CurrencyField::convertToDBFormat($advFilterValue);
-						}
-					}
+                    $tempVal = explode(',', $advFilterValue);
+                    if (($columnInfo[4] === 'D' || ($columnInfo[4] === 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
+                        ($columnInfo[4] === 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '')) {
+                        $val = [];
+                        $countTempVal = count($tempVal);
+                        for ($i = 0; $i < $countTempVal; ++$i) {
+                            if (trim($tempVal[$i]) != '') {
+                                $date = new DateTimeField(trim($tempVal[$i]));
+                                if ($columnInfo[4] === 'D') {
+                                    $val[$i] = DateTimeField::convertToDBFormat(trim($tempVal[$i]));
+                                } elseif ($columnInfo[4] === 'DT') {
+                                    /**
+                                     * While generating query to retrieve report, for date time fields we are only taking
+                                     * date field and appending '00:00:00' for correct results depending on time zone.
+                                     * If you save the time also here by converting to db format, while showing in edit
+                                     * view it was changing the date selected.
+                                     */
+                                    $values = explode(' ', $tempVal[$i]);
+                                    $date = new DateTimeField($values[0]);
+                                    $val[$i] = $date->getDBInsertDateValue();
+                                } else {
+                                    $val[$i] = $date->getDBInsertTimeValue();
+                                }
+                            }
+                        }
+                        $advFilterValue = implode(',', $val);
+                    }
 
-					$tempVal = explode(",", $advFilterValue);
-					if (($columnInfo[4] === 'D' || ($columnInfo[4] === 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
-						($columnInfo[4] === 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' )) {
-						$val = [];
-						$countTempVal = count($tempVal);
-						for ($i = 0; $i < $countTempVal; $i++) {
-							if (trim($tempVal[$i]) != '') {
-								$date = new DateTimeField(trim($tempVal[$i]));
-								if ($columnInfo[4] === 'D') {
-									$val[$i] = DateTimeField::convertToDBFormat(trim($tempVal[$i]));
-								} elseif ($columnInfo[4] === 'DT') {
-									/**
-									 * While generating query to retrieve report, for date time fields we are only taking
-									 * date field and appending '00:00:00' for correct results depending on time zone.
-									 * If you save the time also here by converting to db format, while showing in edit
-									 * view it was changing the date selected.
-									 */
-									$values = explode(' ', $tempVal[$i]);
-									$date = new DateTimeField($values[0]);
-									$val[$i] = $date->getDBInsertDateValue();
-								} else {
-									$val[$i] = $date->getDBInsertTimeValue();
-								}
-							}
-						}
-						$advFilterValue = implode(",", $val);
-					}
-
-					$db->pquery('INSERT INTO vtiger_relcriteria (queryid, columnindex, columnname, comparator, value,
+                    $db->pquery('INSERT INTO vtiger_relcriteria (queryid, columnindex, columnname, comparator, value,
 						groupid, column_condition) VALUES (?,?,?,?,?,?,?)', [$reportId, $columnIndex, $advFilterColumn,
-						$advFilterComparator, $advFilterValue, $groupIndex, $advFilterColumnCondition]);
+                        $advFilterComparator, $advFilterValue, $groupIndex, $advFilterColumnCondition, ]);
 
-					// Update the condition expression for the group to which the condition column belongs
-					$groupConditionExpression = '';
-					if (!empty($advancedFilter[$groupIndex]["conditionexpression"])) {
-						$groupConditionExpression = $advancedFilter[$groupIndex]["conditionexpression"];
-					}
-					$groupConditionExpression = $groupConditionExpression . ' ' . $columnIndex . ' ' . $advFilterColumnCondition;
-					$advancedFilter[$groupIndex]["conditionexpression"] = $groupConditionExpression;
-				}
+                    // Update the condition expression for the group to which the condition column belongs
+                    $groupConditionExpression = '';
+                    if (!empty($advancedFilter[$groupIndex]['conditionexpression'])) {
+                        $groupConditionExpression = $advancedFilter[$groupIndex]['conditionexpression'];
+                    }
+                    $groupConditionExpression = $groupConditionExpression.' '.$columnIndex.' '.$advFilterColumnCondition;
+                    $advancedFilter[$groupIndex]['conditionexpression'] = $groupConditionExpression;
+                }
 
-				$groupConditionExpression = $advancedFilter[$groupIndex]["conditionexpression"];
-				if (empty($groupConditionExpression))
-					continue; // Case when the group doesn't have any column criteria
+                $groupConditionExpression = $advancedFilter[$groupIndex]['conditionexpression'];
+                if (empty($groupConditionExpression)) {
+                    continue;
+                } // Case when the group doesn't have any column criteria
 
-				$db->pquery("INSERT INTO vtiger_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)", [$groupIndex, $reportId, $groupCondition, $groupConditionExpression]);
-			}
-		}
-	}
+                $db->pquery('INSERT INTO vtiger_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)', [$groupIndex, $reportId, $groupCondition, $groupConditionExpression]);
+            }
+        }
+    }
 
-	/**
-	 * Function saves Reports Scheduling information
-	 */
-	public function saveScheduleInformation()
-	{
-		$db = PearDatabase::getInstance();
+    /**
+     * Function saves Reports Scheduling information.
+     */
+    public function saveScheduleInformation()
+    {
+        $db = PearDatabase::getInstance();
 
-		$selectedRecipients = $this->get('selectedRecipients');
-		$scheduledInterval = $this->get('scheduledInterval');
-		$scheduledFormat = $this->get('scheduledFormat');
+        $selectedRecipients = $this->get('selectedRecipients');
+        $scheduledInterval = $this->get('scheduledInterval');
+        $scheduledFormat = $this->get('scheduledFormat');
 
-		$db->pquery('INSERT INTO vtiger_scheduled_reports(reportid, recipients, schedule, format, next_trigger_time) VALUES
-			(?,?,?,?,?)', [$this->getId(), $selectedRecipients, $scheduledInterval, $scheduledFormat, date("Y-m-d H:i:s")]);
-	}
+        $db->pquery('INSERT INTO vtiger_scheduled_reports(reportid, recipients, schedule, format, next_trigger_time) VALUES
+			(?,?,?,?,?)', [$this->getId(), $selectedRecipients, $scheduledInterval, $scheduledFormat, date('Y-m-d H:i:s')]);
+    }
 
-	/**
-	 * Function deletes report scheduling information
-	 */
-	public function deleteScheduling()
-	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', [$this->getId()]);
-	}
+    /**
+     * Function deletes report scheduling information.
+     */
+    public function deleteScheduling()
+    {
+        $db = PearDatabase::getInstance();
+        $db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', [$this->getId()]);
+    }
 
-	/**
-	 * Function returns sql for the report
-	 * @param string $advancedFilterSQL
-	 * @param string $format
-	 * @return string
-	 */
-	public function getReportSQL($advancedFilterSQL = false, $format = false)
-	{
-		$reportRun = ReportRun::getInstance($this->getId());
-		$sql = $reportRun->sGetSQLforReport($this->getId(), $advancedFilterSQL, $format);
-		return $sql;
-	}
+    /**
+     * Function returns sql for the report.
+     *
+     * @param string $advancedFilterSQL
+     * @param string $format
+     *
+     * @return string
+     */
+    public function getReportSQL($advancedFilterSQL = false, $format = false)
+    {
+        $reportRun = ReportRun::getInstance($this->getId());
+        $sql = $reportRun->sGetSQLforReport($this->getId(), $advancedFilterSQL, $format);
 
-	/**
-	 * Function returns sql for count query which don't need any fields
-	 * @param string $query (with all columns)
-	 * @return string $query (by removing all columns)
-	 */
-	public function generateCountQuery($query)
-	{
-		$from = preg_split('/ from /i', $query);
-		//If we select the same field in select and grouping/soring then it will include order by and query failure will happen
-		$fromAndWhereQuery = explode(' order by ', $from[1]);
-		$sql = sprintf('SELECT count(*) AS count FROM %s', $fromAndWhereQuery[0]);
-		return $sql;
-	}
+        return $sql;
+    }
 
-	/**
-	 * Function returns report's data
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param string $filterQuery
-	 * @return <Array>
-	 */
-	public function getReportData($pagingModel = false, $filterQuery = false)
-	{
-		$reportRun = ReportRun::getInstance($this->getId());
-		$data = $reportRun->GenerateReport('PDF', $filterQuery, true, $pagingModel->getStartIndex(), $pagingModel->getPageLimit());
-		return $data;
-	}
+    /**
+     * Function returns sql for count query which don't need any fields.
+     *
+     * @param string $query (with all columns)
+     *
+     * @return string $query (by removing all columns)
+     */
+    public function generateCountQuery($query)
+    {
+        $from = preg_split('/ from /i', $query);
+        //If we select the same field in select and grouping/soring then it will include order by and query failure will happen
+        $fromAndWhereQuery = explode(' order by ', $from[1]);
+        $sql = sprintf('SELECT count(*) AS count FROM %s', $fromAndWhereQuery[0]);
 
-	public function getReportsCount($query = null)
-	{
-		if ($query === null)
-			$query = $this->get('recordCountQuery');
-		$adb = PearDatabase::getInstance();
-		$count = 0;
-		$result = $adb->query($query, []);
-		if ($adb->numRows($result) > 0) {
-			$count = $adb->queryResult($result, 0, 'count');
-		}
-		return $count;
-	}
+        return $sql;
+    }
 
-	public function getReportCalulationData($filterQuery = false)
-	{
-		$reportRun = ReportRun::getInstance($this->getId());
-		$data = $reportRun->GenerateReport('TOTALXLS', $filterQuery, true);
-		return $data;
-	}
+    /**
+     * Function returns report's data.
+     *
+     * @param <Vtiger_Paging_Model> $pagingModel
+     * @param string                $filterQuery
+     *
+     * @return <Array>
+     */
+    public function getReportData($pagingModel = false, $filterQuery = false)
+    {
+        $reportRun = ReportRun::getInstance($this->getId());
+        $data = $reportRun->GenerateReport('PDF', $filterQuery, true, $pagingModel->getStartIndex(), $pagingModel->getPageLimit());
 
-	/**
-	 * Function exports reports data into a Excel file
-	 */
-	public function getReportXLS()
-	{
-		$reportRun = ReportRun::getInstance($this->getId());
-		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$tmpDir = \AppConfig::main('tmp_dir');
+        return $data;
+    }
 
-		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
-		$fileName = App\Purifier::decodeHtml($this->getName()) . '.xls';
-		$reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
+    public function getReportsCount($query = null)
+    {
+        if ($query === null) {
+            $query = $this->get('recordCountQuery');
+        }
+        $adb = PearDatabase::getInstance();
+        $count = 0;
+        $result = $adb->query($query, []);
+        if ($adb->numRows($result) > 0) {
+            $count = $adb->queryResult($result, 0, 'count');
+        }
 
-		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-			header('Pragma: public');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		}
+        return $count;
+    }
 
-		header('Content-Type: application/x-msexcel');
-		header('Content-Length: ' . filesize($tempFileName));
-		header("Content-Disposition: attachment; filename=\"$fileName\"");
+    public function getReportCalulationData($filterQuery = false)
+    {
+        $reportRun = ReportRun::getInstance($this->getId());
+        $data = $reportRun->GenerateReport('TOTALXLS', $filterQuery, true);
 
-		$fp = fopen($tempFileName, 'rb');
-		fpassthru($fp);
-	}
+        return $data;
+    }
 
-	/**
-	 * Function exports reports data into a csv file
-	 */
-	public function getReportCSV()
-	{
-		$reportRun = ReportRun::getInstance($this->getId());
-		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$tmpDir = \AppConfig::main('tmp_dir');
+    /**
+     * Function exports reports data into a Excel file.
+     */
+    public function getReportXLS()
+    {
+        $reportRun = ReportRun::getInstance($this->getId());
+        $advanceFilterSql = $this->getAdvancedFilterSQL();
+        $tmpDir = \AppConfig::main('tmp_dir');
 
-		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
-		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
-		$fileName = App\Purifier::decodeHtml($this->getName()) . '.csv';
+        $tempFileName = tempnam(ROOT_DIRECTORY.DIRECTORY_SEPARATOR.$tmpDir, 'xls');
+        $fileName = App\Purifier::decodeHtml($this->getName()).'.xls';
+        $reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
 
-		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-			header('Pragma: public');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		}
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+            header('Pragma: public');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        }
 
-		header('Content-Type: application/csv');
-		header('Content-Length: ' . filesize($tempFileName));
-		header("Content-Disposition: attachment; filename=\"$fileName\"");
+        header('Content-Type: application/x-msexcel');
+        header('Content-Length: '.filesize($tempFileName));
+        header("Content-Disposition: attachment; filename=\"$fileName\"");
 
-		$fp = fopen($tempFileName, 'rb');
-		fpassthru($fp);
-	}
+        $fp = fopen($tempFileName, 'rb');
+        fpassthru($fp);
+    }
 
-	/**
-	 * Function returns data in printable format
-	 * @return <Array>
-	 */
-	public function getReportPrint()
-	{
-		$reportRun = ReportRun::getInstance($this->getId());
-		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$data = [];
-		$data['data'] = $reportRun->GenerateReport('PRINT', $advanceFilterSql);
-		$data['total'] = $reportRun->GenerateReport('PRINT_TOTAL', $advanceFilterSql);
-		return $data;
-	}
+    /**
+     * Function exports reports data into a csv file.
+     */
+    public function getReportCSV()
+    {
+        $reportRun = ReportRun::getInstance($this->getId());
+        $advanceFilterSql = $this->getAdvancedFilterSQL();
+        $tmpDir = \AppConfig::main('tmp_dir');
 
-	/**
-	 * Function returns reports is default or not
-	 * @return <boolean>
-	 */
-	public function isDefault()
-	{
-		if ($this->get('state') === 'SAVED') {
-			return true;
-		}
-		return false;
-	}
+        $tempFileName = tempnam(ROOT_DIRECTORY.DIRECTORY_SEPARATOR.$tmpDir, 'csv');
+        $reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
+        $fileName = App\Purifier::decodeHtml($this->getName()).'.csv';
 
-	/**
-	 * Function move report to another specified folder
-	 * @param folderid
-	 */
-	public function move($folderId)
-	{
-		$db = PearDatabase::getInstance();
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+            header('Pragma: public');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        }
 
-		$db->pquery("UPDATE vtiger_report SET folderid = ? WHERE reportid = ?", [$folderId, $this->getId()]);
-	}
+        header('Content-Type: application/csv');
+        header('Content-Length: '.filesize($tempFileName));
+        header("Content-Disposition: attachment; filename=\"$fileName\"");
 
-	/**
-	 * Function to get Calculation fields for Primary module
-	 * @return <Array> Primary module calculation fields
-	 */
-	public function getPrimaryModuleCalculationFields()
-	{
-		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleFields = $this->getPrimaryModuleFields();
-		$calculationFields = [];
-		foreach ($primaryModuleFields[$primaryModule] as $blocks) {
-			if (!empty($blocks)) {
-				foreach ($blocks as $fieldType => $fieldName) {
-					$fieldDetails = explode(':', $fieldType);
-					if ($fieldName === 'Send Reminder' && $primaryModule === 'Calendar')
-						continue;
-					if ($fieldDetails[4] === "I" || $fieldDetails[4] === "N" || $fieldDetails[4] === "NN") {
-						$calculationFields[$fieldType] = $fieldName;
-					}
-				}
-			}
-		}
-		$primaryModuleCalculationFields[$primaryModule] = $calculationFields;
-		return $primaryModuleCalculationFields;
-	}
+        $fp = fopen($tempFileName, 'rb');
+        fpassthru($fp);
+    }
 
-	/**
-	 * Function to get Calculation fields for Secondary modules
-	 * @return <Array> Secondary modules calculation fields
-	 */
-	public function getSecondaryModuleCalculationFields()
-	{
-		$secondaryModuleCalculationFields = [];
-		$secondaryModules = $this->getSecondaryModules();
-		if (!empty($secondaryModules)) {
-			$secondaryModulesList = explode(':', $secondaryModules);
-			$count = count($secondaryModulesList);
+    /**
+     * Function returns data in printable format.
+     *
+     * @return <Array>
+     */
+    public function getReportPrint()
+    {
+        $reportRun = ReportRun::getInstance($this->getId());
+        $advanceFilterSql = $this->getAdvancedFilterSQL();
+        $data = [];
+        $data['data'] = $reportRun->GenerateReport('PRINT', $advanceFilterSql);
+        $data['total'] = $reportRun->GenerateReport('PRINT_TOTAL', $advanceFilterSql);
 
-			$secondaryModuleFields = $this->getSecondaryModuleFields();
+        return $data;
+    }
 
-			for ($i = 0; $i < $count; $i++) {
-				$calculationFields = [];
-				$secondaryModule = $secondaryModulesList[$i];
-				foreach ($secondaryModuleFields[$secondaryModule] as $blocks) {
-					if (!empty($blocks)) {
-						foreach ($blocks as $fieldType => $fieldName) {
-							$fieldDetails = explode(':', $fieldType);
-							if ($fieldName === 'Send Reminder' && $secondaryModule === 'Calendar')
-								continue;
-							if ($fieldDetails[4] === "I" || $fieldDetails[4] === "N" || $fieldDetails[4] === "NN") {
-								$calculationFields[$fieldType] = $fieldName;
-							}
-						}
-					}
-				}
-				$secondaryModuleCalculationFields[$secondaryModule] = $calculationFields;
-			}
-		}
-		return $secondaryModuleCalculationFields;
-	}
+    /**
+     * Function returns reports is default or not.
+     *
+     * @return <boolean>
+     */
+    public function isDefault()
+    {
+        if ($this->get('state') === 'SAVED') {
+            return true;
+        }
 
-	/**
-	 * Function to get Calculation fields for entire Report
-	 * @return <Array> report calculation fields
-	 */
-	public function getCalculationFields()
-	{
-		$primaryModuleCalculationFields = $this->getPrimaryModuleCalculationFields();
-		$secondaryModuleCalculationFields = $this->getSecondaryModuleCalculationFields();
+        return false;
+    }
 
-		return array_merge($primaryModuleCalculationFields, $secondaryModuleCalculationFields);
-	}
+    /**
+     * Function move report to another specified folder.
+     *
+     * @param folderid
+     */
+    public function move($folderId)
+    {
+        $db = PearDatabase::getInstance();
 
-	/**
-	 * Function used to transform the older filter condition to suit newer filters.
-	 * The newer filters have only two groups one with ALL(AND) condition between each
-	 * filter and other with ANY(OR) condition, this functions tranforms the older
-	 * filter with 'AND' condition between filters of a group and will be placed under
-	 * match ALL conditions group and the rest of it will be placed under match Any group.
-	 * @return <Array>
-	 */
-	public function transformToNewAdvancedFilter()
-	{
-		$standardFilter = $this->transformStandardFilter();
-		$advancedFilter = $this->getSelectedAdvancedFilter();
-		$allGroupColumns = $anyGroupColumns = [];
-		foreach ($advancedFilter as $index => $group) {
-			$columns = $group['columns'];
-			$and = $or = 0;
-			$block = $group['condition'];
-			if (count($columns) != 1) {
-				foreach ($columns as $column) {
-					if ($column['column_condition'] === 'and') {
-						++$and;
-					} else {
-						++$or;
-					}
-				}
-				if ($and == count($columns) - 1 && count($columns) != 1) {
-					$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-				} else {
-					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-				}
-			} else if ($block === 'and' || $index == 1) {
-				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
-			} else {
-				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
-			}
-		}
-		if ($standardFilter) {
-			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
-		}
-		$transformedAdvancedCondition = [];
-		$transformedAdvancedCondition[1] = ['columns' => $allGroupColumns, 'condition' => 'and'];
-		$transformedAdvancedCondition[2] = ['columns' => $anyGroupColumns, 'condition' => ''];
+        $db->pquery('UPDATE vtiger_report SET folderid = ? WHERE reportid = ?', [$folderId, $this->getId()]);
+    }
 
-		return $transformedAdvancedCondition;
-	}
-	/*
-	 *  Function used to tranform the standard filter as like as advanced filter format
-	 * 	@returns array of tranformed standard filter
-	 */
+    /**
+     * Function to get Calculation fields for Primary module.
+     *
+     * @return <Array> Primary module calculation fields
+     */
+    public function getPrimaryModuleCalculationFields()
+    {
+        $primaryModule = $this->getPrimaryModule();
+        $primaryModuleFields = $this->getPrimaryModuleFields();
+        $calculationFields = [];
+        foreach ($primaryModuleFields[$primaryModule] as $blocks) {
+            if (!empty($blocks)) {
+                foreach ($blocks as $fieldType => $fieldName) {
+                    $fieldDetails = explode(':', $fieldType);
+                    if ($fieldName === 'Send Reminder' && $primaryModule === 'Calendar') {
+                        continue;
+                    }
+                    if ($fieldDetails[4] === 'I' || $fieldDetails[4] === 'N' || $fieldDetails[4] === 'NN') {
+                        $calculationFields[$fieldType] = $fieldName;
+                    }
+                }
+            }
+        }
+        $primaryModuleCalculationFields[$primaryModule] = $calculationFields;
 
-	public function transformStandardFilter()
-	{
-		$standardFilter = $this->getSelectedStandardFilter();
-		if (!empty($standardFilter)) {
-			$tranformedStandardFilter = [];
-			$tranformedStandardFilter['comparator'] = 'bw';
+        return $primaryModuleCalculationFields;
+    }
 
-			$fields = explode(':', $standardFilter['columnname']);
+    /**
+     * Function to get Calculation fields for Secondary modules.
+     *
+     * @return <Array> Secondary modules calculation fields
+     */
+    public function getSecondaryModuleCalculationFields()
+    {
+        $secondaryModuleCalculationFields = [];
+        $secondaryModules = $this->getSecondaryModules();
+        if (!empty($secondaryModules)) {
+            $secondaryModulesList = explode(':', $secondaryModules);
+            $count = count($secondaryModulesList);
 
-			if ($fields[1] === 'createdtime' || $fields[1] === 'modifiedtime' || ($fields[0] === 'vtiger_activity' && $fields[1] === 'date_start')) {
-				$tranformedStandardFilter['columnname'] = "$fields[0]:$fields[1]:$fields[3]:$fields[2]:DT";
-				$date[] = $standardFilter['startdate'] . ' 00:00:00';
-				$date[] = $standardFilter['enddate'] . ' 00:00:00';
-				$tranformedStandardFilter['value'] = implode(',', $date);
-			} else {
-				$tranformedStandardFilter['columnname'] = "$fields[0]:$fields[1]:$fields[3]:$fields[2]:D";
-				$tranformedStandardFilter['value'] = $standardFilter['startdate'] . ',' . $standardFilter['enddate'];
-			}
-			return [$tranformedStandardFilter];
-		} else {
-			return false;
-		}
-	}
+            $secondaryModuleFields = $this->getSecondaryModuleFields();
 
-	/**
-	 * Function returns the Advanced filter SQL
-	 * @return string
-	 */
-	public function getAdvancedFilterSQL()
-	{
-		$advancedFilter = $this->get('advancedFilter');
+            for ($i = 0; $i < $count; ++$i) {
+                $calculationFields = [];
+                $secondaryModule = $secondaryModulesList[$i];
+                foreach ($secondaryModuleFields[$secondaryModule] as $blocks) {
+                    if (!empty($blocks)) {
+                        foreach ($blocks as $fieldType => $fieldName) {
+                            $fieldDetails = explode(':', $fieldType);
+                            if ($fieldName === 'Send Reminder' && $secondaryModule === 'Calendar') {
+                                continue;
+                            }
+                            if ($fieldDetails[4] === 'I' || $fieldDetails[4] === 'N' || $fieldDetails[4] === 'NN') {
+                                $calculationFields[$fieldType] = $fieldName;
+                            }
+                        }
+                    }
+                }
+                $secondaryModuleCalculationFields[$secondaryModule] = $calculationFields;
+            }
+        }
 
-		$advancedFilterCriteria = [];
-		$advancedFilterCriteriaGroup = [];
-		if (is_array($advancedFilter)) {
-			foreach ($advancedFilter as $groupIndex => $groupInfo) {
-				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'];
+        return $secondaryModuleCalculationFields;
+    }
 
-				if (empty($groupColumns)) {
-					unset($advancedFilter[1]['condition']);
-				} else {
-					if (!empty($groupCondition)) {
-						$advancedFilterCriteriaGroup[$groupIndex] = ['groupcondition' => $groupCondition];
-					}
-				}
+    /**
+     * Function to get Calculation fields for entire Report.
+     *
+     * @return <Array> report calculation fields
+     */
+    public function getCalculationFields()
+    {
+        $primaryModuleCalculationFields = $this->getPrimaryModuleCalculationFields();
+        $secondaryModuleCalculationFields = $this->getSecondaryModuleCalculationFields();
 
-				foreach ($groupColumns as $groupColumn) {
-					$groupColumn['groupid'] = $groupIndex;
-					$groupColumn['columncondition'] = $groupColumn['column_condition'];
-					unset($groupColumn['column_condition']);
-					$advancedFilterCriteria[] = $groupColumn;
-				}
-			}
-		}
+        return array_merge($primaryModuleCalculationFields, $secondaryModuleCalculationFields);
+    }
 
-		$this->reportRun = ReportRun::getInstance($this->getId());
-		$filterQuery = $this->reportRun->runTimeAdvFilter($advancedFilterCriteria, $advancedFilterCriteriaGroup);
-		return $filterQuery;
-	}
+    /**
+     * Function used to transform the older filter condition to suit newer filters.
+     * The newer filters have only two groups one with ALL(AND) condition between each
+     * filter and other with ANY(OR) condition, this functions tranforms the older
+     * filter with 'AND' condition between filters of a group and will be placed under
+     * match ALL conditions group and the rest of it will be placed under match Any group.
+     *
+     * @return <Array>
+     */
+    public function transformToNewAdvancedFilter()
+    {
+        $standardFilter = $this->transformStandardFilter();
+        $advancedFilter = $this->getSelectedAdvancedFilter();
+        $allGroupColumns = $anyGroupColumns = [];
+        foreach ($advancedFilter as $index => $group) {
+            $columns = $group['columns'];
+            $and = $or = 0;
+            $block = $group['condition'];
+            if (count($columns) != 1) {
+                foreach ($columns as $column) {
+                    if ($column['column_condition'] === 'and') {
+                        ++$and;
+                    } else {
+                        ++$or;
+                    }
+                }
+                if ($and == count($columns) - 1 && count($columns) != 1) {
+                    $allGroupColumns = array_merge($allGroupColumns, $group['columns']);
+                } else {
+                    $anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
+                }
+            } elseif ($block === 'and' || $index == 1) {
+                $allGroupColumns = array_merge($allGroupColumns, $group['columns']);
+            } else {
+                $anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
+            }
+        }
+        if ($standardFilter) {
+            $allGroupColumns = array_merge($allGroupColumns, $standardFilter);
+        }
+        $transformedAdvancedCondition = [];
+        $transformedAdvancedCondition[1] = ['columns' => $allGroupColumns, 'condition' => 'and'];
+        $transformedAdvancedCondition[2] = ['columns' => $anyGroupColumns, 'condition' => ''];
 
-	/**
-	 * Function to generate data for advanced filter conditions
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array>
-	 */
-	public function generateData($pagingModel = false)
-	{
-		$filterQuery = $this->getAdvancedFilterSQL();
-		return $this->getReportData($pagingModel, $filterQuery);
-	}
+        return $transformedAdvancedCondition;
+    }
+    /*
+     *  Function used to tranform the standard filter as like as advanced filter format
+     * 	@returns array of tranformed standard filter
+     */
 
-	/**
-	 * Function to generate data for advanced filter conditions
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array>
-	 */
-	public function generateCalculationData()
-	{
-		$filterQuery = $this->getAdvancedFilterSQL();
-		return $this->getReportCalulationData($filterQuery);
-	}
+    public function transformStandardFilter()
+    {
+        $standardFilter = $this->getSelectedStandardFilter();
+        if (!empty($standardFilter)) {
+            $tranformedStandardFilter = [];
+            $tranformedStandardFilter['comparator'] = 'bw';
 
-	/**
-	 * Function to check duplicate exists or not
-	 * @return <boolean>
-	 */
-	public function checkDuplicate()
-	{
-		$db = PearDatabase::getInstance();
-		$record = $this->getId();
-		$params = [];
-		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
-		$params [] = $this->getName();
-		if (!empty($record) && empty($this->get('isDuplicate'))) {
-			return false;
-		}
-		$result = $db->pquery($query, $params);
-		if ($db->numRows($result)) {
-			return true;
-		}
-		return false;
-	}
+            $fields = explode(':', $standardFilter['columnname']);
 
-	//Remove when there are no modules with the old products block.
-	/**
-	 * Function is used for Inventory reports, filters should show line items fields only if they are selected in
-	 * calculation otherwise it should not be shown
-	 * @return boolean
-	 */
-	public function showLineItemFieldsInFilter($calculationFields = false)
-	{
-		if ($calculationFields === false) {
-			$calculationFields = $this->getSelectedCalculationFields();
-		}
-		if (!empty($calculationFields)) {
-			foreach ($calculationFields as $field) {
-				if (stripos($field, 'cb:vtiger_inventoryproductrel') !== false) {
-					return true;
-				}
-			}
-			return false;
-		}
-		return true;
-	}
+            if ($fields[1] === 'createdtime' || $fields[1] === 'modifiedtime' || ($fields[0] === 'vtiger_activity' && $fields[1] === 'date_start')) {
+                $tranformedStandardFilter['columnname'] = "$fields[0]:$fields[1]:$fields[3]:$fields[2]:DT";
+                $date[] = $standardFilter['startdate'].' 00:00:00';
+                $date[] = $standardFilter['enddate'].' 00:00:00';
+                $tranformedStandardFilter['value'] = implode(',', $date);
+            } else {
+                $tranformedStandardFilter['columnname'] = "$fields[0]:$fields[1]:$fields[3]:$fields[2]:D";
+                $tranformedStandardFilter['value'] = $standardFilter['startdate'].','.$standardFilter['enddate'];
+            }
 
-	public function getScheduledReport()
-	{
-		return Reports_ScheduleReports_Model::getInstanceById($this->getId());
-	}
+            return [$tranformedStandardFilter];
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * Function to get ids for selected records
-	 * @param \App\Request $request
-	 * @return int[]
-	 */
-	public static function getRecordsListFromRequest(\App\Request $request)
-	{
-		$folderId = $request->get('viewname');
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-		if (!empty($selectedIds) && $selectedIds != '"all"' && $selectedIds != 'all') {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				return $selectedIds;
-			}
-		}
-		$reportFolderModel = Reports_Folder_Model::getInstance();
-		$reportFolderModel->set('folderid', $folderId);
-		return $reportFolderModel->getRecordIds($excludedIds);
-	}
+    /**
+     * Function returns the Advanced filter SQL.
+     *
+     * @return string
+     */
+    public function getAdvancedFilterSQL()
+    {
+        $advancedFilter = $this->get('advancedFilter');
 
-	public function getModuleCalculationFieldsForReport()
-	{
-		$aggregateFunctions = $this->getAggregateFunctions();
-		$moduleFields = [];
-		$primaryModuleFields = $this->getPrimaryModuleCalculationFields();
-		$secondaryModuleFields = $this->getSecondaryModuleCalculationFields();
-		$moduleFields = array_merge($primaryModuleFields, $secondaryModuleFields);
-		foreach ($moduleFields as $moduleName => $fieldList) {
-			$fields = [];
-			if (!empty($fieldList)) {
-				foreach ($fieldList as $column => $label) {
-					foreach ($aggregateFunctions as $function) {
-						$fLabel = \App\Language::translate($label, $moduleName) . ' (' . \App\Language::translate('LBL_' . $function, 'Reports') . ')';
-						$fColumn = $column . ':' . $function;
-						$fields[$fColumn] = $fLabel;
-					}
-				}
-			}
-			$moduleFields[$moduleName] = $fields;
-		}
-		return $moduleFields;
-	}
+        $advancedFilterCriteria = [];
+        $advancedFilterCriteriaGroup = [];
+        if (is_array($advancedFilter)) {
+            foreach ($advancedFilter as $groupIndex => $groupInfo) {
+                $groupColumns = $groupInfo['columns'];
+                $groupCondition = $groupInfo['condition'];
 
-	public function getAggregateFunctions()
-	{
-		$functions = ['SUM', 'AVG', 'MIN', 'MAX'];
-		return $functions;
-	}
+                if (empty($groupColumns)) {
+                    unset($advancedFilter[1]['condition']);
+                } else {
+                    if (!empty($groupCondition)) {
+                        $advancedFilterCriteriaGroup[$groupIndex] = ['groupcondition' => $groupCondition];
+                    }
+                }
 
-	/**
-	 * Function to save reprot tyep data
-	 */
-	public function saveReportType()
-	{
-		$db = PearDatabase::getInstance();
-		$data = $this->get('reporttypedata');
-		if (!empty($data)) {
-			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', [$this->getId()]);
-			$db->pquery("INSERT INTO vtiger_reporttype(reportid, data) VALUES (?,?)", [$this->getId(), $data]);
-		}
-	}
+                foreach ($groupColumns as $groupColumn) {
+                    $groupColumn['groupid'] = $groupIndex;
+                    $groupColumn['columncondition'] = $groupColumn['column_condition'];
+                    unset($groupColumn['column_condition']);
+                    $advancedFilterCriteria[] = $groupColumn;
+                }
+            }
+        }
 
-	public function getReportTypeInfo()
-	{
-		$db = PearDatabase::getInstance();
+        $this->reportRun = ReportRun::getInstance($this->getId());
+        $filterQuery = $this->reportRun->runTimeAdvFilter($advancedFilterCriteria, $advancedFilterCriteriaGroup);
 
-		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", [$this->getId()]);
+        return $filterQuery;
+    }
 
-		$dataFields = '';
-		if ($db->numRows($result) > 0) {
-			$dataFields = $db->queryResult($result, 0, 'data');
-		}
-		return $dataFields;
-	}
+    /**
+     * Function to generate data for advanced filter conditions.
+     *
+     * @param Vtiger_Paging_Model $pagingModel
+     *
+     * @return <Array>
+     */
+    public function generateData($pagingModel = false)
+    {
+        $filterQuery = $this->getAdvancedFilterSQL();
 
-	/**
-	 * Function is used in Charts to remove fields like email, phone, descriptions etc
-	 * as these fields are not generally used for grouping records
-	 * @return $fields - array of report field columns
-	 */
-	public function getPrimaryModuleFieldsForAdvancedReporting()
-	{
-		$fields = $this->getPrimaryModuleFields();
-		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
-		$primaryModuleFieldInstances = $primaryModuleModel->getFields();
+        return $this->getReportData($pagingModel, $filterQuery);
+    }
 
-		if (is_array($fields))
-			foreach ($fields as $module => $blocks) {
-				if (is_array($blocks))
-					foreach ($blocks as $blockLabel => $blockFields) {
-						if (is_array($blockFields))
-							foreach ($blockFields as $reportFieldInfo => $fieldLabel) {
-								$fieldInfo = explode(':', $reportFieldInfo);
+    /**
+     * Function to generate data for advanced filter conditions.
+     *
+     * @param Vtiger_Paging_Model $pagingModel
+     *
+     * @return <Array>
+     */
+    public function generateCalculationData()
+    {
+        $filterQuery = $this->getAdvancedFilterSQL();
 
-								$fieldInstance = $primaryModuleFieldInstances[$fieldInfo[3]];
-								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
-									unset($fields[$module][$blockLabel][$reportFieldInfo]);
-								}
-							}
-					}
-			}
-		return $fields;
-	}
+        return $this->getReportCalulationData($filterQuery);
+    }
 
-	/**
-	 * Function is used in Charts to remove fields like email, phone, descriptions etc
-	 * as these fields are not generally used for grouping records
-	 * @return $fields - array of report field columns
-	 */
-	public function getSecondaryModuleFieldsForAdvancedReporting()
-	{
-		$fields = $this->getSecondaryModuleFields();
-		$secondaryModules = $this->getSecondaryModules();
+    /**
+     * Function to check duplicate exists or not.
+     *
+     * @return <boolean>
+     */
+    public function checkDuplicate()
+    {
+        $db = PearDatabase::getInstance();
+        $record = $this->getId();
+        $params = [];
+        $query = 'SELECT 1 FROM vtiger_report WHERE reportname = ?';
+        $params [] = $this->getName();
+        if (!empty($record) && empty($this->get('isDuplicate'))) {
+            return false;
+        }
+        $result = $db->pquery($query, $params);
+        if ($db->numRows($result)) {
+            return true;
+        }
 
-		$secondaryModules = explode(':', $secondaryModules);
-		if (is_array($secondaryModules)) {
-			$secondaryModuleFieldInstances = [];
-			foreach ($secondaryModules as $secondaryModule) {
-				if (!empty($secondaryModule)) {
-					$secondaryModuleModel = Vtiger_Module_Model::getInstance($secondaryModule);
-					$secondaryModuleFieldInstances[$secondaryModule] = $secondaryModuleModel->getFields();
-				}
-			}
-		}
-		if (is_array($fields))
-			foreach ($fields as $module => $blocks) {
-				if (is_array($blocks))
-					foreach ($blocks as $blockLabel => $blockFields) {
-						if (is_array($blockFields))
-							foreach ($blockFields as $reportFieldInfo => $fieldLabel) {
-								$fieldInfo = explode(':', $reportFieldInfo);
-								$fieldInstance = $secondaryModuleFieldInstances[$module][$fieldInfo[3]];
-								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
-									unset($fields[$module][$blockLabel][$reportFieldInfo]);
-								}
-							}
-					}
-			}
+        return false;
+    }
 
-		return $fields;
-	}
+    //Remove when there are no modules with the old products block.
+    /**
+     * Function is used for Inventory reports, filters should show line items fields only if they are selected in
+     * calculation otherwise it should not be shown.
+     *
+     * @return bool
+     */
+    public function showLineItemFieldsInFilter($calculationFields = false)
+    {
+        if ($calculationFields === false) {
+            $calculationFields = $this->getSelectedCalculationFields();
+        }
+        if (!empty($calculationFields)) {
+            foreach ($calculationFields as $field) {
+                if (stripos($field, 'cb:vtiger_inventoryproductrel') !== false) {
+                    return true;
+                }
+            }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
-	{
-		switch ($fieldName) {
-			case 'foldername':
-				$value = \App\Language::translateArgs($this->get($fieldName), 'Reports');
-				break;
-			default:
-				$value = $this->get($fieldName);
-				break;
-		}
-		return $value;
-	}
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getScheduledReport()
+    {
+        return Reports_ScheduleReports_Model::getInstanceById($this->getId());
+    }
+
+    /**
+     * Function to get ids for selected records.
+     *
+     * @param \App\Request $request
+     *
+     * @return int[]
+     */
+    public static function getRecordsListFromRequest(\App\Request $request)
+    {
+        $folderId = $request->get('viewname');
+        $selectedIds = $request->get('selected_ids');
+        $excludedIds = $request->get('excluded_ids');
+        if (!empty($selectedIds) && $selectedIds != '"all"' && $selectedIds != 'all') {
+            if (!empty($selectedIds) && count($selectedIds) > 0) {
+                return $selectedIds;
+            }
+        }
+        $reportFolderModel = Reports_Folder_Model::getInstance();
+        $reportFolderModel->set('folderid', $folderId);
+
+        return $reportFolderModel->getRecordIds($excludedIds);
+    }
+
+    public function getModuleCalculationFieldsForReport()
+    {
+        $aggregateFunctions = $this->getAggregateFunctions();
+        $moduleFields = [];
+        $primaryModuleFields = $this->getPrimaryModuleCalculationFields();
+        $secondaryModuleFields = $this->getSecondaryModuleCalculationFields();
+        $moduleFields = array_merge($primaryModuleFields, $secondaryModuleFields);
+        foreach ($moduleFields as $moduleName => $fieldList) {
+            $fields = [];
+            if (!empty($fieldList)) {
+                foreach ($fieldList as $column => $label) {
+                    foreach ($aggregateFunctions as $function) {
+                        $fLabel = \App\Language::translate($label, $moduleName).' ('.\App\Language::translate('LBL_'.$function, 'Reports').')';
+                        $fColumn = $column.':'.$function;
+                        $fields[$fColumn] = $fLabel;
+                    }
+                }
+            }
+            $moduleFields[$moduleName] = $fields;
+        }
+
+        return $moduleFields;
+    }
+
+    public function getAggregateFunctions()
+    {
+        $functions = ['SUM', 'AVG', 'MIN', 'MAX'];
+
+        return $functions;
+    }
+
+    /**
+     * Function to save reprot tyep data.
+     */
+    public function saveReportType()
+    {
+        $db = PearDatabase::getInstance();
+        $data = $this->get('reporttypedata');
+        if (!empty($data)) {
+            $db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', [$this->getId()]);
+            $db->pquery('INSERT INTO vtiger_reporttype(reportid, data) VALUES (?,?)', [$this->getId(), $data]);
+        }
+    }
+
+    public function getReportTypeInfo()
+    {
+        $db = PearDatabase::getInstance();
+
+        $result = $db->pquery('SELECT data FROM vtiger_reporttype WHERE reportid = ?', [$this->getId()]);
+
+        $dataFields = '';
+        if ($db->numRows($result) > 0) {
+            $dataFields = $db->queryResult($result, 0, 'data');
+        }
+
+        return $dataFields;
+    }
+
+    /**
+     * Function is used in Charts to remove fields like email, phone, descriptions etc
+     * as these fields are not generally used for grouping records.
+     *
+     * @return $fields - array of report field columns
+     */
+    public function getPrimaryModuleFieldsForAdvancedReporting()
+    {
+        $fields = $this->getPrimaryModuleFields();
+        $primaryModule = $this->getPrimaryModule();
+        $primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+        $primaryModuleFieldInstances = $primaryModuleModel->getFields();
+
+        if (is_array($fields)) {
+            foreach ($fields as $module => $blocks) {
+                if (is_array($blocks)) {
+                    foreach ($blocks as $blockLabel => $blockFields) {
+                        if (is_array($blockFields)) {
+                            foreach ($blockFields as $reportFieldInfo => $fieldLabel) {
+                                $fieldInfo = explode(':', $reportFieldInfo);
+
+                                $fieldInstance = $primaryModuleFieldInstances[$fieldInfo[3]];
+                                if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
+                                    unset($fields[$module][$blockLabel][$reportFieldInfo]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Function is used in Charts to remove fields like email, phone, descriptions etc
+     * as these fields are not generally used for grouping records.
+     *
+     * @return $fields - array of report field columns
+     */
+    public function getSecondaryModuleFieldsForAdvancedReporting()
+    {
+        $fields = $this->getSecondaryModuleFields();
+        $secondaryModules = $this->getSecondaryModules();
+
+        $secondaryModules = explode(':', $secondaryModules);
+        if (is_array($secondaryModules)) {
+            $secondaryModuleFieldInstances = [];
+            foreach ($secondaryModules as $secondaryModule) {
+                if (!empty($secondaryModule)) {
+                    $secondaryModuleModel = Vtiger_Module_Model::getInstance($secondaryModule);
+                    $secondaryModuleFieldInstances[$secondaryModule] = $secondaryModuleModel->getFields();
+                }
+            }
+        }
+        if (is_array($fields)) {
+            foreach ($fields as $module => $blocks) {
+                if (is_array($blocks)) {
+                    foreach ($blocks as $blockLabel => $blockFields) {
+                        if (is_array($blockFields)) {
+                            foreach ($blockFields as $reportFieldInfo => $fieldLabel) {
+                                $fieldInfo = explode(':', $reportFieldInfo);
+                                $fieldInstance = $secondaryModuleFieldInstances[$module][$fieldInfo[3]];
+                                if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
+                                    unset($fields[$module][$blockLabel][$reportFieldInfo]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
+    {
+        switch ($fieldName) {
+            case 'foldername':
+                $value = \App\Language::translateArgs($this->get($fieldName), 'Reports');
+                break;
+            default:
+                $value = $this->get($fieldName);
+                break;
+        }
+
+        return $value;
+    }
 }

@@ -11,56 +11,56 @@
 
 class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $reminder_value = '';
+        $reminder_time = $this->getEditViewDisplayValue($value, $recordModel);
+        if (!empty($reminder_time[0])) {
+            $reminder_value = $reminder_time[0].' '.\App\Language::translate('LBL_DAYS');
+        }
+        if (!empty($reminder_time[1])) {
+            $reminder_value = $reminder_value.' '.$reminder_time[1].' '.\App\Language::translate('LBL_HOURS');
+        }
+        if (!empty($reminder_time[2])) {
+            $reminder_value = $reminder_value.' '.$reminder_time[2].' '.\App\Language::translate('LBL_MINUTES');
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$reminder_value = '';
-		$reminder_time = $this->getEditViewDisplayValue($value, $recordModel);
-		if (!empty($reminder_time[0])) {
-			$reminder_value = $reminder_time[0] . ' ' . \App\Language::translate('LBL_DAYS');
-		}
-		if (!empty($reminder_time[1])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[1] . ' ' . \App\Language::translate('LBL_HOURS');
-		}
-		if (!empty($reminder_time[2])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . \App\Language::translate('LBL_MINUTES');
-		}
+        return $reminder_value;
+    }
 
-		return $reminder_value;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getEditViewDisplayValue($value, $recordModel = false)
+    {
+        if ($value != 0) {
+            $rem_days = floor($value / (24 * 60));
+            $rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
+            $rem_min = ($value - ($rem_days * 24 * 60)) % 60;
+            $reminder_time = array($rem_days, $rem_hrs, $rem_min);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		if ($value != 0) {
-			$rem_days = floor($value / (24 * 60));
-			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
-			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			$reminder_time = array($rem_days, $rem_hrs, $rem_min);
-			return $reminder_time;
-		} else {
-			return '';
-		}
-	}
+            return $reminder_time;
+        } else {
+            return '';
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Reminder.tpl';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return 'uitypes/Reminder.tpl';
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDetailViewTemplateName()
-	{
-		return 'uitypes/ReminderDetailView.tpl';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getDetailViewTemplateName()
+    {
+        return 'uitypes/ReminderDetailView.tpl';
+    }
 }

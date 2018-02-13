@@ -6,7 +6,7 @@
 	</div>
 	<div class="modal-body form-horizontal">
 		<div class="table-responsive">
-			<table class="table table-bordered table-condensed tableMiddle">
+			<table class="table table-bordered table-sm tableMiddle">
 				{foreach from=$DATA item=TRANSLATIONS_BY_TYPE key=TYPE name=dataType}
 					{foreach from=$TRANSLATIONS_BY_TYPE item=TRANSLATIONS key=LABEL name=data}
 						{if $smarty.foreach.dataType.first && $smarty.foreach.data.first}
@@ -25,7 +25,7 @@
 								<td>{$LABEL}</td>
 								{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY}
 									{if $LANG eq $LANG_KEY}
-										<td class="col-xs-4">
+										<td class="col-4">
 											<input 	data-lang="{$LANG}"
 													data-type="{$TYPE}"
 													name="{$LABEL}" 

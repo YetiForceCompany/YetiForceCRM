@@ -624,14 +624,17 @@ var Vtiger_Index_Js = {
 					callback: function () {
 						Vtiger_Index_Js.updateWatching(module, value, user, record).then(function (data) {
 							if (instance != undefined) {
+								var buttonIcon = instance.find('[data-fa-i2svg]');
 								state = data.result == 1 ? 0 : 1;
 								instance.data('value', state);
 								if (state == 1) {
 									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
-									instance.children().toggleClass(instance.data('iconOff') + ' ' + instance.data('iconOn'));
+									buttonIcon.addClass('fa-eye-slash');
+									buttonIcon.removeClass('fas fa-eye');
 								} else {
 									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
-									instance.children().toggleClass(instance.data('iconOn') + ' ' + instance.data('iconOff'));
+									buttonIcon.addClass('fas fa-eye');
+									buttonIcon.removeClass('fa-eye-slash');
 								}
 							}
 						});

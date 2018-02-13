@@ -10,7 +10,6 @@
 
 class Settings_Vtiger_ListAjax_View extends Settings_Vtiger_List_View
 {
-
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+    use \App\Controller\ExposeMethod,
+     App\Controller\ClearProcess;
 }
