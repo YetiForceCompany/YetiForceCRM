@@ -66,17 +66,17 @@
 							<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
 							<td>
 								{if $LIBRARY['status'] == 1}
-									<span class="label label-success bigLabel">
+									<span class="badge label-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="far fa-check-circle"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
-									<span class="label label-warning bigLabel">
+									<span class="badge label-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="fas fa-info-circle"></span>
 									</span>
 								{else}
-									<span class="label label-danger bigLabel">
+									<span class="badge label-danger bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="fas fa-ban"></span>
 									</span>

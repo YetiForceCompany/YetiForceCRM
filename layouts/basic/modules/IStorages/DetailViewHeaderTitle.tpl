@@ -15,7 +15,7 @@
 					{if $RECORD_STATE !== 'Active'}
 						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
