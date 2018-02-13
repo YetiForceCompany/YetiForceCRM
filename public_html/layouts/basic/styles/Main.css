@@ -11086,7 +11086,7 @@ header .headerLinksMails .select2-selection:hover {
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
-  background-color: #007bff;
+  background-color: #4A5364;
   height: 50px;
   top: 0;
   right: 0;
@@ -11147,7 +11147,7 @@ header .headerLinksMails .select2-selection:hover {
   width: 230px;
   color: #f8f9fa;
   z-index: 1030;
-  background: #007bff; }
+  background: #4A5364; }
   .leftPanel:after {
     content: "";
     position: fixed;
@@ -11155,7 +11155,7 @@ header .headerLinksMails .select2-selection:hover {
     z-index: -2;
     width: 230px;
     height: 100%;
-    background: #007bff; }
+    background: #4A5364; }
   .leftPanel .menuContainer .modulesList .menuIcon {
     padding-right: 18px;
     font-size: 24px;
@@ -11185,7 +11185,7 @@ header .headerLinksMails .select2-selection:hover {
     .leftPanel a:active, .leftPanel a:focus {
       outline: 0; }
     .leftPanel a:hover {
-      color: #007bff; }
+      color: #4A5364; }
   .leftPanel .menuContainer a {
     border-radius: 0;
     vertical-align: text-top;
@@ -11229,17 +11229,17 @@ header .headerLinksMails .select2-selection:hover {
       text-align: left;
       padding-left: 50px; }
     .leftPanel .menuContainer .subMenu a, .leftPanel .menuContainer .subMenu .menuLabel {
-      color: #007bff; }
+      color: #4A5364; }
       .leftPanel .menuContainer .subMenu a:hover, .leftPanel .menuContainer .subMenu a:focus, .leftPanel .menuContainer .subMenu .menuLabel:hover, .leftPanel .menuContainer .subMenu .menuLabel:focus {
         color: #f8f9fa;
-        background: #007bff; }
+        background: #4A5364; }
       .leftPanel .menuContainer .subMenu a.hasIcon, .leftPanel .menuContainer .subMenu .menuLabel.hasIcon {
         padding: 8px 10px; }
       .leftPanel .menuContainer .subMenu a .menuName, .leftPanel .menuContainer .subMenu a button .menuName, .leftPanel .menuContainer .subMenu .menuLabel .menuName, .leftPanel .menuContainer .subMenu .menuLabel button .menuName {
         top: 2px; }
     .leftPanel .menuContainer .subMenu button:hover, .leftPanel .menuContainer .subMenu button:focus {
       color: #f8f9fa;
-      background: #007bff; }
+      background: #4A5364; }
     .leftPanel .menuContainer .subMenu button .hasIcon {
       padding: 8px 10px; }
     .leftPanel .menuContainer .subMenu .menuLabel a {
