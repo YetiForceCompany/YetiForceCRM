@@ -66,7 +66,7 @@
 							<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
 							<td>
 								{if $LIBRARY['status'] == 1}
-									<span class="badge label-success bigLabel">
+									<span class="badge badge-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="far fa-check-circle"></span>
 									</span>
