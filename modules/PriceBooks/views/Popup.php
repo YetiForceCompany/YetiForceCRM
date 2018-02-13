@@ -26,7 +26,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
         $searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
         $searchValue = $request->get('search_value');
         $currencyId = $request->isEmpty('currency_id') ? false : $request->getInteger('currency_id');
-        $filterFields = $request->get('filterFields');
+        $filterFields = $request->getArray('filterFields', 'Alnum');
 
         //To handle special operation when selecting record from Popup
         $getUrl = $request->get('get_url');

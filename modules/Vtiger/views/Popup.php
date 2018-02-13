@@ -109,11 +109,11 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
         $orderBy = $request->getForSql('orderby');
         $sortOrder = $request->getForSql('sortorder');
         $sourceModule = $request->getByType('src_module', 2);
-        $sourceField = $request->get('src_field');
+        $sourceField = $request->isEmpty('src_field', true) ? '' : $request->getByType('src_field', 2);
         $currencyId = $request->getInteger('currency_id');
         $relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
         $relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
-        $filterFields = $request->getArray('filterFields', 'Integer');
+        $filterFields = $request->getArray('filterFields', 'Alnum');
         $showSwitch = $request->getInteger('showSwitch');
         //To handle special operation when selecting record from Popup
         $getUrl = $request->get('get_url');

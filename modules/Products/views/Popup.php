@@ -30,7 +30,7 @@ class Products_Popup_View extends Vtiger_Popup_View
         $currencyId = $request->isEmpty('currency_id') ? false : $request->getInteger('currency_id');
         $relatedParentModule = $request->getByType('related_parent_module', 2);
         $relatedParentId = $request->getInteger('related_parent_id');
-        $filterFields = $request->get('filterFields');
+        $filterFields = $request->getArray('filterFields', 'Alnum');
 
         //To handle special operation when selecting record from Popup
         $getUrl = $request->get('get_url');
