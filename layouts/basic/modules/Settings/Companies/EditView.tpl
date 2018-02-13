@@ -1,7 +1,7 @@
 {strip} 
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -59,11 +59,11 @@
 								{$RECORD_MODEL->getDisplayValue($COLUMN)}
 							</div>
 							<div class="col-sm-9">
-								<div class='col-xs-12'>
+								<div class='col-12'>
 									<div class=''>
 										<input type="file" name="{$COLUMN}" id="{$COLUMN}" {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>&nbsp;&nbsp;
 									</div>
-									<div class=" col-xs-12 alert alert-info float-right">
+									<div class=" col-12 alert alert-info float-right">
 										{App\Language::translate('LBL_PANELLOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 									</div>
 								</div>

@@ -2,8 +2,8 @@
 {strip}
 	<div class="validationEngineContainer">
 		<div class="modal-header row no-margin">
-			<div class="col-xs-12 paddingLRZero">
-				<div class="col-xs-8 paddingLRZero">
+			<div class="col-12 paddingLRZero">
+				<div class="col-8 paddingLRZero">
 					<h4>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h4>
 				</div>
 				<div class="float-right">
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="modal-body row">
-			<div class="col-xs-12 form-horizontal">
+			<div class="col-12 form-horizontal">
 				<div class="form-group">
 					<div class="col-sm-3 col-form-label">
 						<label>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>

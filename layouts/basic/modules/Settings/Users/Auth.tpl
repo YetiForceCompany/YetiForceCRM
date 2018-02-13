@@ -25,10 +25,10 @@
 						</div>
 						<div class="clearfix"></div>
 						<div class="row">
-							<div class="col-md-1 col-sm-1 col-xs-2 pagination-centered">
+							<div class="col-md-1 col-sm-1 col-2 pagination-centered">
 								<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 							</div>
-							<div class="col-md-11 col-sm-11 col-xs-10">
+							<div class="col-md-11 col-sm-11 col-10">
 								<label for="ldapActive">{\App\Language::translate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 							</div>
 						</div>

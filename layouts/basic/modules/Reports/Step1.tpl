@@ -84,7 +84,7 @@
 					<div class="col-md-7"><textarea class="col-md-6 form-control" type="text" title="{\App\Language::translate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
 				<div class="row paddingTop10">
-					<div class="col-xs-12">
+					<div class="col-12">
 						<input type="checkbox" title="{\App\Language::translate('LBL_SCHEDULE_REPORTS',$MODULE)}"  {if $SCHEDULEDREPORTS->get('scheduleid') neq ''} checked="" {/if} value="{if $SCHEDULEDREPORTS->get('scheduleid') neq ''}true{/if}" name='enable_schedule' style="margin-top: 0px !important;"> &nbsp;
 						<strong>{\App\Language::translate('LBL_SCHEDULE_REPORTS',$MODULE)}</strong>
 					</div>

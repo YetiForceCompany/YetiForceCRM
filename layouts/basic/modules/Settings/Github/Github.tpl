@@ -6,7 +6,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="row no-margin">
-							<div class="col-md-7 col-xs-10">
+							<div class="col-md-7 col-10">
 								<h3 class="modal-title">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>
 							</div>
 							<div class="float-right">
@@ -20,7 +20,7 @@
 						</div>
 					</div>
 					<div class="modal-body row ">
-						<div class="col-xs-12">
+						<div class="col-12">
 							<div class="alert alert-warning">
 								<ul>
 									<li>{\App\Language::translate('LBL_USERNAME_DESCRIPTION', $QUALIFIED_MODULE)}</li>
@@ -28,15 +28,15 @@
 								</ul>
 							</div>
 						</div>
-						<div class="col-xs-12">
+						<div class="col-12">
 							<div class="alert alert-danger errorMsg hide"></div>
 						</div>
-						<div class="col-xs-12 marginBottom10px">
+						<div class="col-12 marginBottom10px">
 							<span class="redColor">*</span>
 							{\App\Language::translate('LBL_USER_NAME', $QUALIFIED_MODULE)}
 							<input class="form-control" name="username" data-validation-engine="validate[required]" value="" type="text">
 						</div>
-						<div class="col-xs-12">
+						<div class="col-12">
 							<span class="redColor">*</span>
 							{\App\Language::translate('LBL_TOKEN', $QUALIFIED_MODULE)}
 							<input class="form-control" data-validation-engine="validate[required]" name="token" value="" type="text">

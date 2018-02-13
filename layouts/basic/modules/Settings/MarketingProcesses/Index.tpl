@@ -2,7 +2,7 @@
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -16,9 +16,9 @@
 			{assign var=CONVERSION value=$MODULE_MODEL->getConfig('conversion')}
 			<div class="well">
 				<div class="row">
-					<div class="col-xs-3"><label class="">{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
-					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
-					<div class="col-xs-8">
+					<div class="col-3"><label class="">{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
+					<div class="col-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
+					<div class="col-8">
 						<span class="alert alert-info float-right no-margin">
 							{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
 						</span>
@@ -27,9 +27,9 @@
 			</div>
 			<div class="well">
 				<div class="row">
-					<div class="col-xs-3"><label class="">{\App\Language::translate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
-					<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
-					<div class="col-xs-8">
+					<div class="col-3"><label class="">{\App\Language::translate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
+					<div class="col-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
+					<div class="col-8">
 						<span class="alert alert-info float-right no-margin">
 							{\App\Language::translate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
 						</span>
@@ -68,7 +68,7 @@
 									</td>
 									<td>
 										<div class="row">
-											<div class="col-xs-11">
+											<div class="col-11">
 												<select class="accountsFields select2 input-sm" name="mapping[{$smarty.foreach.mappingLoop.iteration}][account]">
 													{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
 														<option {if $FIELD_NAME eq current($MAPPING_ARRAY)} selected {/if} value="{$FIELD_NAME}">
@@ -96,7 +96,7 @@
 								</td>
 								<td>
 									<div class="row">
-										<div class="col-xs-11">
+										<div class="col-11">
 											<select class="accountsFields newSelect">
 												{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
 													<option value="{$FIELD_NAME}">

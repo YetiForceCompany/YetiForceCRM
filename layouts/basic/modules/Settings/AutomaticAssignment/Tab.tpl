@@ -32,19 +32,19 @@
 			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 			<form id="formValue" class="col-sm-12">
 				<div class="form-group">
-					<label class="col-xs-12">
+					<label class="col-12">
 						{if $FIELD_NAME eq 'roleid'}
 							{\App\Language::translate('LBL_DEACTIVATE_SYSTEM_MODE', $QUALIFIED_MODULE)}
 						{else}
 							{\App\Language::translate('LBL_SET_DEFAULT_USER', $QUALIFIED_MODULE)}
 						{/if}
 					</label>
-					<div class="col-xs-12">
+					<div class="col-12">
 						&nbsp;<input name="{$FIELD_NAME}" id="defaultUser" class="switchBtn saveValue noField" type="checkbox" {if $RECORD_MODEL->get($FIELD_NAME)}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 					</div>
 				</div>
 				<div class="form-group fieldToShowHide{if !$RECORD_MODEL->get($FIELD_NAME)} hide{/if}">
-					<label class="col-xs-12">
+					<label class="col-12">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}<span class="redColor"> *</span>
 					</label>
 					<div class="col-md-5 col-lg-4">
@@ -93,14 +93,14 @@
 			</div>
 		{else}
 			<div class="">
-				<div class="table-responsive col-lg-9 col-md-10 col-sm-10 col-xs-12">
+				<div class="table-responsive col-lg-9 col-md-10 col-sm-10 col-12">
 					<table class="table table-bordered table-condensed dataTable" data-mode="base">
 						<thead>
 							<tr>
 								<th>
 									<strong>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</strong>
-									<div class="col-xs-8 float-right controls">
-										<div class="input-group col-xs-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
+									<div class="col-8 float-right controls">
+										<div class="input-group col-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
@@ -126,7 +126,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 groupMembersColors">
+				<div class="col-12 col-sm-2 col-md-2 col-lg-1 groupMembersColors">
 					<br />
 					<ul class="nav nav-pills nav-stacked">
 						{if $FIELD_NAME eq 'roles'}

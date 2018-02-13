@@ -25,7 +25,7 @@
 								<span class="fas fa-user userImage float-left"></span>
 							{/if}
 						</div>
-						<div class="col-xs-8 commentorInfo">
+						<div class="col-8 commentorInfo">
 							{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 							<div class="inner">
 								<span class="commentorName float-left"><strong>{$COMMENTOR->getName()}</strong></span>
@@ -43,8 +43,8 @@
 			</div>
 			<div class="commentActionsContainer row no-margin ">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus visible-lg-block col-xs-6"  name="editStatus">
-					<p class="col-xs-6 marginLeftZero">
+				<div class="editedStatus visible-lg-block col-6"  name="editStatus">
+					<p class="col-6 marginLeftZero">
 						<small>
 							<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">
 								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
@@ -52,7 +52,7 @@
 						</small>
 					</p>
 					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-						<span class="{if empty($REASON_TO_EDIT)}row{else} col-xs-6 paddingRightZero{/if}">
+						<span class="{if empty($REASON_TO_EDIT)}row{else} col-6 paddingRightZero{/if}">
 							<span class="float-right">
 								<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
 							</span>

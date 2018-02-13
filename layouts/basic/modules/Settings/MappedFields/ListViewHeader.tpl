@@ -3,7 +3,7 @@
 	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
 			<div class="widget_header row">
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 					{\App\Language::translate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>

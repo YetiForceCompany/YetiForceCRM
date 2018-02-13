@@ -19,7 +19,7 @@
 				</div>
 				<div class="col-md-5">
 					<div class="btn-toolbar">
-						<div class="btn-group col-xs-5 float-right paddingLRZero">
+						<div class="btn-group col-5 float-right paddingLRZero">
 							<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>

@@ -68,8 +68,8 @@
 								</div>	
 							</div>
 							<div class="form-group">
-								<label class="muted col-md-4 col-xs-2 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
-								<div class="col-xs-6 col-md-6 controls">
+								<label class="muted col-md-4 col-2 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+								<div class="col-6 col-md-6 controls">
 									<label class="checkbox">
 										<input type="hidden" name="currency_status" value="Inactive" />
 										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 

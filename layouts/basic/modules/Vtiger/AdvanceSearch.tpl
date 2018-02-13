@@ -44,7 +44,7 @@
 				</div>
 				<div class="actions modal-footer">
 					{if $SAVE_FILTER_PERMITTED}
-						<div class="col-xs-3 ">
+						<div class="col-3 ">
 							<input class="zeroOpacity form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}" />
 						</div>
 						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}

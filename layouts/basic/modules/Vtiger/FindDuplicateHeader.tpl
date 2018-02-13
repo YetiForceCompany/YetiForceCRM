@@ -12,12 +12,12 @@
 {strip}
 	<div class='listViewPageDiv'>
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
 		<div class="row  listViewActionsDiv pushDown">
-			<div class="btn-toolbar col-xs-4">
+			<div class="btn-toolbar col-4">
 				<span class="btn-group listViewMassActions">
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS}
 						<span class="btn-group">
@@ -26,8 +26,8 @@
 					{/foreach}
 				</span>
 			</div>
-			<div class='col-xs-4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{\App\Language::translate('LBL_DUPLICATE')}  {\App\Language::translate($MODULE, $MODULE)}</h3></div></div>
-			<div class="col-xs-12 col-sm-4 btn-toolbar">
+			<div class='col-4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{\App\Language::translate('LBL_DUPLICATE')}  {\App\Language::translate($MODULE, $MODULE)}</h3></div></div>
+			<div class="col-12 col-sm-4 btn-toolbar">
 				{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 			</div>
 		</div>

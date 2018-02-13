@@ -18,6 +18,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 listWithNotifications">
+	<div class="col-12 listWithNotifications">
 	</div>
 {/strip}

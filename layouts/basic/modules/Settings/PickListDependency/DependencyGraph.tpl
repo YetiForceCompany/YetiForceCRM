@@ -39,7 +39,7 @@
     <input type="hidden" class="allSourceValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 
     <div class="row depandencyTable no-margin">
-        <div class="col-md-2 col-sm-2 col-xs-2 paddingRightZero">
+        <div class="col-md-2 col-sm-2 col-2 paddingRightZero">
             <table class="table-condensed themeTableColor" width="100%">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
@@ -57,7 +57,7 @@
 				</tbody>
             </table>
         </div>
-        <div class="col-md-10 col-sm-10 col-xs-10 paddingLRZero marginLeftZero dependencyMapping">
+        <div class="col-md-10 col-sm-10 col-10 paddingLRZero marginLeftZero dependencyMapping">
             <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}

@@ -15,8 +15,8 @@
 			<div class="modal-dialog modal-lg ">
 				<div class="modal-content">
 					<div class="modal-header row no-margin">
-						<div class="col-xs-12 paddingLRZero">
-							<div class="col-xs-8 paddingLRZero">
+						<div class="col-12 paddingLRZero">
+							<div class="col-8 paddingLRZero">
 								<h4>{App\Language::translate('LBL_TITLE_TYPE_SAVING', $MODULE)}</h4>
 							</div>
 							<div class="float-right">
@@ -25,34 +25,34 @@
 						</div>
 					</div>
 					<div class="modal-body row">
-						<div class="col-xs-12">
-							<div class="col-xs-12 paddingLRZero marginBottom10px">
-								<div class="col-xs-4">
+						<div class="col-12">
+							<div class="col-12 paddingLRZero marginBottom10px">
+								<div class="col-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="2">
 										{App\Language::translate('LBL_UPDATE_THIS_EVENT', $MODULE)}
 									</button>
 								</div>
-								<div class="col-xs-8">
+								<div class="col-8">
 									{App\Language::translate('LBL_UPDATE_THIS_EVENT_DESCRIPTION', $MODULE)}
 								</div>
 							</div>
-							<div class="col-xs-12 paddingLRZero marginBottom10px">	
-								<div class="col-xs-4">
+							<div class="col-12 paddingLRZero marginBottom10px">	
+								<div class="col-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
 										{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS', $MODULE)}
 									</button>
 								</div>
-								<div class="col-xs-8">
+								<div class="col-8">
 									{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS_DESCRIPTION', $MODULE)}
 								</div>
 							</div>
-							<div class="col-xs-12 paddingLRZero marginBottom10px">	
-								<div class="col-xs-4">
+							<div class="col-12 paddingLRZero marginBottom10px">	
+								<div class="col-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="1">
 										{App\Language::translate('LBL_UPDATE_ALL_EVENTS', $MODULE)}
 									</button>
 								</div>
-								<div class="col-xs-8">
+								<div class="col-8">
 									{App\Language::translate('LBL_UPDATE_ALL_EVENTS_DESCRIPTION', $MODULE)}
 								</div>
 							</div>
@@ -68,10 +68,10 @@
 			   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" />
 		{assign var="RECURRING_INFORMATION" value=Vtiger_Recurrence_UIType::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
 		<div class="clearfix">
-			<div class="col-xs-4 paddingLRZero marginBottom10px">
+			<div class="col-4 paddingLRZero marginBottom10px">
 				<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>
 			</div>
-			<div class="col-xs-8 paddingLRZero marginBottom10px">
+			<div class="col-8 paddingLRZero marginBottom10px">
 				<select class="select2 form-control recurringType" title="{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)} {$MODULE}">
 					<option title="{\App\Language::translate('LBL_DAYS_TYPE', $MODULE)}" value="DAILY" {if $RECURRING_INFORMATION['FREQ'] eq 'DAILY'} selected {/if}>{\App\Language::translate('LBL_DAYS_TYPE', $MODULE)}</option>
 					<option title="{\App\Language::translate('LBL_WEEKS_TYPE', $MODULE)}" value="WEEKLY" {if $RECURRING_INFORMATION['FREQ'] eq 'WEEKLY'} selected {/if}>{\App\Language::translate('LBL_WEEKS_TYPE', $MODULE)}</option>
@@ -79,10 +79,10 @@
 					<option title="{\App\Language::translate('LBL_YEAR_TYPE', $MODULE)}" value="YEARLY" {if $RECURRING_INFORMATION['FREQ'] eq 'YEARLY'} selected {/if}>{\App\Language::translate('LBL_YEAR_TYPE', $MODULE)}</option>
 				</select>
 			</div>
-			<div class="col-xs-4 paddingLRZero marginBottom10px">
+			<div class="col-4 paddingLRZero marginBottom10px">
 				<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
 			</div>
-			<div class="col-xs-8 paddingLRZero marginBottom10px">
+			<div class="col-8 paddingLRZero marginBottom10px">
 				<select class="select2 form-control repeatFrequency" title="{\App\Language::translate('LBL_REPEAT_FOR', $MODULE)}">
 					{for $FREQUENCY = 1 to 31}
 						<option value="{$FREQUENCY}" title="{$FREQUENCY}" {if $FREQUENCY eq $RECURRING_INFORMATION['INTERVAL']}selected{/if}>{$FREQUENCY}</option>
@@ -127,7 +127,7 @@
 				</span>
 			</div>
 
-			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}hide{/if} col-xs-12 paddingLRZero repeatMonthUI">
+			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}hide{/if} col-12 paddingLRZero repeatMonthUI">
 				<span class="col-md-4 paddingLRZero">
 					<span class="medium">{\App\Language::translate('LBL_REAPEAT_BY', $MODULE)}</span>
 				</span>
@@ -146,10 +146,10 @@
 					</div>
 				</span>
 			</div>
-			<div class="col-xs-4 paddingLRZero marginBottom10px">
+			<div class="col-4 paddingLRZero marginBottom10px">
 				<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
 			</div>
-			<div class="col-xs-8 paddingLRZero marginBottom10px">
+			<div class="col-8 paddingLRZero marginBottom10px">
 				<div class="input-group marginBottom10px">
 					<span class="input-group-addon">
 						<input type="radio" name="calendarEndType" value="never" {if !isset($RECURRING_INFORMATION['COUNT']) && !isset($RECURRING_INFORMATION['UNTIL'])}checked{/if}>

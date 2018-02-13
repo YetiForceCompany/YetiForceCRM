@@ -19,11 +19,11 @@
     <hr>
 	<div class="main_content">
 		<form>
-			<div class="col-xs-12 row">
-				<div class="col-xs-12 row">
+			<div class="col-12 row">
+				<div class="col-12 row">
 					<h4>{\App\Language::translate('LBL_GLOBAL_CONFIG', $MODULENAME)} </h4>
 				</div>
-				<div class="col-xs-12 row marginBottom5px">
+				<div class="col-12 row marginBottom5px">
 					<div class="col-sm-6 col-md-4 row">
 						<div >
 							{\App\Language::translate('LBL_MIN_LOOKUP_LENGTH', $MODULENAME)}: 
@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="clearfix"></div>
-				<div class="col-xs-12 row  marginBottom5px">
+				<div class="col-12 row  marginBottom5px">
 					<div class='col-sm-6 col-md-4 row'>
 						<div>
 							{\App\Language::translate('LBL_NUMBER_SEARCH_RESULTS', $MODULENAME)}: 
@@ -48,15 +48,15 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 row marginBottom5px">
+				<div class="col-12 row marginBottom5px">
 					<div>
 						<button type="button" class="btn btn-success saveGlobal">{\App\Language::translate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
 					</div>
 				</div>
-				<div class="col-xs-12 row marginBottom5px">
+				<div class="col-12 row marginBottom5px">
 					<hr>
 				</div>
-				<div class="col-xs-12 row marginBottom5px">
+				<div class="col-12 row marginBottom5px">
 					<div class=' row col-md-4 col-sm-6'>
 						{\App\Language::translate('LBL_CHOOSE_API', $MODULENAME)}
 					</div>
@@ -74,7 +74,7 @@
 				</div>
 				{foreach from=$CONFIG item=item key=key}
 					{if $key neq 'global'}
-						<div class="apiContainer col-xs-12 paddingLRZero {if !$item["key"]}hide{/if} api_row {$key}">
+						<div class="apiContainer col-12 paddingLRZero {if !$item["key"]}hide{/if} api_row {$key}">
 							{include file=\App\Layout::getTemplatePath($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
 						{/if}
 					</div>

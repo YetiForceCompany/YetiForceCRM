@@ -25,7 +25,7 @@
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="col-xs-8 float-left commentorInfo">
+					<div class="col-8 float-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<span class="commentorName float-left">
 							<strong>{$COMMENTOR->getName()}</strong>
@@ -54,12 +54,12 @@
 			<div class="commentActionsContainer row no-margin">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="editedStatus visible-lg-block"  name="editStatus">
-					<div class="col-xs-6">
-						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-xs-6 editReason">
+					<div class="col-6">
+						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-6 editReason">
 							<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
 						</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
+							<span class="{if !empty($REASON_TO_EDIT)} col-6{/if}">
 								<span class="float-right">
 									<p class="muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
 								</span>

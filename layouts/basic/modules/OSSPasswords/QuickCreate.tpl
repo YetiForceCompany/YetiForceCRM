@@ -39,7 +39,7 @@
 											<div class="quickCreateContent">
 												<div class="modal-body row no-margin">
 													<div class="massEditTable row no-margin">
-														<div class="col-xs-12 paddingLRZero fieldRow">
+														<div class="col-12 paddingLRZero fieldRow">
 															{assign var=COUNTER value=0}
 															{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 																{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -47,13 +47,13 @@
 																{assign var="refrenceListCount" value=count($refrenceList)}
 																{if $COUNTER eq 2}
 																</div>
-																<div class="col-xs-12 paddingLRZero fieldRow">
+																<div class="col-12 paddingLRZero fieldRow">
 																	{assign var=COUNTER value=1}
 																{else}
 																	{assign var=COUNTER value=$COUNTER+1}
 																{/if}
-																<div class="col-xs-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero">
-																	<div class="fieldLabel col-xs-12 col-sm-5">
+																<div class="col-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero">
+																	<div class="fieldLabel col-12 col-sm-5">
 																		{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 																		{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 																		<label class="muted pull-left-xs float-sm-right float-lg-right">
@@ -64,13 +64,13 @@
 																				{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 																		</label>
 																	</div>
-																	<div class="fieldValue col-xs-12 col-sm-7" >
+																	<div class="fieldValue col-12 col-sm-7" >
 																		{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE)}
 																	</div>
 																</div>
 															{/foreach}
 															{if $COUNTER eq 1}
-																<div class="col-xs-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero"></div>
+																<div class="col-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero"></div>
 															{/if}
 														</div>
 													</div>

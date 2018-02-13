@@ -33,7 +33,7 @@
 							<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 							{\App\Language::translate('LBL_MASS_SEND_SMS_INFO', $MODULE)}
 						</div>
-						<div class="col-xs-12">
+						<div class="col-12">
 							<div class="form-group">
 								<span><strong>{\App\Language::translate('LBL_STEP_1',$MODULE)}</strong></span>
 								&nbsp;:&nbsp;

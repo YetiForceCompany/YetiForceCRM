@@ -3,7 +3,7 @@
 	<input type="hidden" id="view" value="{$VIEW}" />
 	<div class="" id="inventoryConfig">
 		<div class="widget_header row">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{\App\Language::translate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 			</div>

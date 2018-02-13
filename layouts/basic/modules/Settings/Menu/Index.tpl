@@ -6,10 +6,10 @@
 			{\App\Language::translate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row">
-			<div class="col-xs-6 paddingLRZero">
+			<div class="col-6 paddingLRZero">
 				<button class="btn btn-light addMenu float-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>
-			<div class="col-xs-6 float-right">
+			<div class="col-6 float-right">
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}

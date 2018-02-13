@@ -13,10 +13,10 @@
 	<div class="">
 		<form id="EditView" method="POST">
 			<div class="widget_header row">
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
-				<div class="col-xs-12">
+				<div class="col-12">
 					<span>{\App\Language::translate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
 				</div>
 			</div>

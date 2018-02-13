@@ -2,7 +2,7 @@
 {strip}
 	<div  class="summaryWidgetContainer activityWidgetContainer">
 		<div class="widget_header row">
-			<div class="col-xs-5">
+			<div class="col-5">
 				<h4 class="widgetTitle textOverflowEllipsis">
 					{if $WIDGET['label'] eq ''}
 						{\App\Language::translate('LBL_COUNT_RECORDS_WIDGET',$MODULE_NAME)}

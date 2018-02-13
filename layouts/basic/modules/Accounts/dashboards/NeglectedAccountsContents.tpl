@@ -2,20 +2,20 @@
 {strip}
 	{if count($ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
-			<div class="col-xs-4">
+			<div class="col-4">
 				<h6><b>{\App\Language::translate('Account Name' ,$MODULE_NAME)}</b></h6>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-4">
 				<h6><b>{\App\Language::translate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-4">
 				<h6><b>{\App\Language::translate('LBL_CRMACTIVITY' ,$MODULE_NAME)}</b></h6>
 			</div>
-			<div class="col-xs-12"><hr></div>
+			<div class="col-12"><hr></div>
 			{/if}
 			{foreach from=$ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
-			<div class="col-xs-12 paddingLRZero">
-				<div class="col-xs-4 textOverflowEllipsis">
+			<div class="col-12 paddingLRZero">
+				<div class="col-4 textOverflowEllipsis">
 					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
 							<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
@@ -24,10 +24,10 @@
 						{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
 					{/if}
 				</div>
-				<div class="col-xs-4 textOverflowEllipsis">
+				<div class="col-4 textOverflowEllipsis">
 					{$ACCOUNTS_MODEL['userModel']->getName()}
 				</div>
-				<div class="col-xs-4 textOverflowEllipsis">
+				<div class="col-4 textOverflowEllipsis">
 					{if is_null($ACCOUNTS_MODEL['crmactivity'])}
 						-
 					{else}

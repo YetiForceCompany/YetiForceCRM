@@ -37,10 +37,10 @@
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
 		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
 		<input type="hidden" class="step" value="2" />
-		<div class="well contentsBackground col-xs-12">
-			<div class="block marginBottom10px col-xs-12 paddingLRZero">
-				<div class="col-xs-12 marginBottom10px"><span class="redColor">*</span><strong>{\App\Language::translate('LBL_SELECT_COLUMNS',$MODULE)} ({\App\Language::translate('LBL_MAX',$MODULE)} {AppConfig::module('Reports','MAX_REPORT_COLUMN')})</strong></div>
-				<div class="col-xs-12">
+		<div class="well contentsBackground col-12">
+			<div class="block marginBottom10px col-12 paddingLRZero">
+				<div class="col-12 marginBottom10px"><span class="redColor">*</span><strong>{\App\Language::translate('LBL_SELECT_COLUMNS',$MODULE)} ({\App\Language::translate('LBL_MAX',$MODULE)} {AppConfig::module('Reports','MAX_REPORT_COLUMN')})</strong></div>
+				<div class="col-12">
 					<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="form-control columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
@@ -63,18 +63,18 @@
 					</select>
 				</div>
 			</div>
-			<div class="block col-xs-12 paddingLRZero paddingTop20">
-				<div class="col-xs-12 paddingLRZero marginBottom10px">
-					<span class="col-xs-6">
+			<div class="block col-12 paddingLRZero paddingTop20">
+				<div class="col-12 paddingLRZero marginBottom10px">
+					<span class="col-6">
 						<strong>{\App\Language::translate('LBL_GROUP_BY',$MODULE)}</strong>
 					</span>
-					<span class="col-xs-6">
+					<span class="col-6">
 						<strong>{\App\Language::translate('LBL_SORT_ORDER',$MODULE)}</strong>
 					</span>
 				</div>
 				{assign var=ROW_VAL value=1}
 				{foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
-					<div class="paddingTop20 col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
+					<div class="paddingTop20 col-12 marginBottom10px paddingLRZero sortFieldRow">
 						{include file=\App\Layout::getTemplatePath('RelatedFields.tpl', $MODULE) ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 					</div>
@@ -82,14 +82,14 @@
 				{assign var=SELECTED_SORT_FEILDS_ARRAY value=$SELECTED_SORT_FIELDS}
 				{assign var=SELECTED_SORT_FIELDS_COUNT value=count($SELECTED_SORT_FEILDS_ARRAY)}
 				{while $SELECTED_SORT_FIELDS_COUNT lt 3 }
-					<div class="col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
+					<div class="col-12 marginBottom10px paddingLRZero sortFieldRow">
 						{include file=\App\Layout::getTemplatePath('RelatedFields.tpl', $MODULE) ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 						{assign var=SELECTED_SORT_FIELDS_COUNT value=($SELECTED_SORT_FIELDS_COUNT+1)}
 					</div>
 				{/while}
 			</div>
-			<div class="paddingTop20 col-xs-12 block marginBottom10px ">
+			<div class="paddingTop20 col-12 block marginBottom10px ">
 				<div class="marginBottom10px"><strong>{\App\Language::translate('LBL_CALCULATIONS',$MODULE)}</strong></div>
 				<div class="">
 					<table class="table tableRWD table-bordered CalculationFields" width="100%">

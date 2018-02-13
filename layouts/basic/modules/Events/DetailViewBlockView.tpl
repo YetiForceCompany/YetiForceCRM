@@ -22,13 +22,13 @@
 					<h4>{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</h4>
 				</div>
 			</div>
-			<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
-				<div class="col-xs-12 paddingLRZero fieldRow">
-					<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
-						<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
+			<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
+				<div class="col-12 paddingLRZero fieldRow">
+					<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
+						<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}">
 							<label class="muted float-right marginRight10px">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
 						</div>
-						<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
+						<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}">
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}
 								{assign var=LABEL value=''}
 								{assign var=TITLE value=''}
