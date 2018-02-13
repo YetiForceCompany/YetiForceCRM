@@ -1280,6 +1280,12 @@ $languageStrings = [
 	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
 	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 	'LBL_RELATED_RECORDS_LIST' => 'Related records list',
+	'LBL_FULLTEXT_BEGIN' => 'Word begins with',
+	'LBL_FULLTEXT_WORD' => 'Word',
+	'LBL_CONTAINS' => 'Contains',
+	'LBL_STARTS_WITH' => 'Begins with',
+	'LBL_ENDS_WITH' => 'Ends with',
+	'BTN_PERMISSION_INSPECTOR' => 'Permission Inspector',
 	'LBL_ADVANCED_SEARCH' => 'Advanced search',
 ];
 $jsLanguageStrings = [
