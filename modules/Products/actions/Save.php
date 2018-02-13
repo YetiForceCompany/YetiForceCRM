@@ -10,11 +10,10 @@
 
 class Products_Save_Action extends Vtiger_Save_Action
 {
-
-	public function process(\App\Request $request)
-	{
-		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
-		$_FILES = $result['imagename'];
-		parent::process($request);
-	}
+    public function process(\App\Request $request)
+    {
+        $result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
+        $_FILES = $result['imagename'];
+        parent::process($request);
+    }
 }

@@ -12,61 +12,64 @@
 //A collection of util functions for the workflow module
 
 /**
- * Class vTWorkflowUtils
+ * Class vTWorkflowUtils.
  */
 class VTWorkflowUtils
 {
+    /**
+     * User stack.
+     *
+     * @var array
+     */
+    public static $userStack;
 
-	/**
-	 * User stack
-	 * @var array
-	 */
-	public static $userStack;
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        if (empty(self::$userStack)) {
+            self::$userStack = [];
+        }
+    }
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		if (empty(self::$userStack)) {
-			self::$userStack = [];
-		}
-	}
+    /**
+     * Check whether the given identifier is valid.
+     *
+     * @param string $identifier Description
+     */
+    public function validIdentifier($identifier)
+    {
+        if (is_string($identifier)) {
+            return preg_match('/^[a-zA-Z][a-zA-Z_0-9]+$/', $identifier);
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * Check whether the given identifier is valid.
-	 * @param string $identifier Description
-	 */
-	public function validIdentifier($identifier)
-	{
-		if (is_string($identifier)) {
-			return preg_match("/^[a-zA-Z][a-zA-Z_0-9]+$/", $identifier);
-		} else {
-			return false;
-		}
-	}
+    /** function to check if the module has workflow
+     * @param string $modulename - name of the module
+     */
+    public static function checkModuleWorkflow($modulename)
+    {
+        return (new \App\Db\Query())->from('vtiger_tab')->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Events', 'Users']])->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])->exists();
+    }
 
-	/** function to check if the module has workflow
-	 * @param string $modulename - name of the module
-	 */
-	public static function checkModuleWorkflow($modulename)
-	{
-		return (new \App\Db\Query())->from('vtiger_tab')->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Events', 'Users']])->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])->exists();
-	}
+    /**
+     * Get modules.
+     *
+     * @return array
+     */
+    public function vtGetModules()
+    {
+        $modules_not_supported = ['PBXManager'];
+        $query = (new \App\Db\Query())->select(['vtiger_field.tabid', 'name'])->from('vtiger_field')->innerJoin('vtiger_tab', 'vtiger_field.tabid=vtiger_tab.tabid')->where(['vtiger_tab.isentitytype' => 1, 'vtiger_tab.presence' => [0, 2]])->andWhere(['NOT IN', 'vtiger_tab.name', $modules_not_supported])->distinct();
+        $modules = [];
+        $dataReader = $query->createCommand()->query();
+        while ($row = $dataReader->read()) {
+            $modules[] = $row['name'];
+        }
 
-	/**
-	 * Get modules
-	 * @return array
-	 */
-	public function vtGetModules()
-	{
-		$modules_not_supported = ['PBXManager'];
-		$query = (new \App\Db\Query())->select(['vtiger_field.tabid', 'name'])->from('vtiger_field')->innerJoin('vtiger_tab', 'vtiger_field.tabid=vtiger_tab.tabid')->where(['vtiger_tab.isentitytype' => 1, 'vtiger_tab.presence' => [0, 2]])->andWhere(['NOT IN', 'vtiger_tab.name', $modules_not_supported])->distinct();
-		$modules = [];
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$modules[] = $row['name'];
-		}
-		return $modules;
-	}
+        return $modules;
+    }
 }

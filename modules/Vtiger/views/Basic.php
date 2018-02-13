@@ -19,93 +19,95 @@
 
 abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function preProcess(\App\Request $request, $display = true)
+    {
+        parent::preProcess($request, false);
+        $viewer = $this->getViewer($request);
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-		$viewer = $this->getViewer($request);
+        if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
+            $userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+            $activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
+        }
+        $selectedModule = $request->getModule();
+        $viewer->assign('CURRENTDATE', App\Fields\Date::formatToDisplay(date('Y-n-j')));
+        $viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+        $viewer->assign('MENUS', $this->getMenu());
+        $viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Helper::getHistory());
+        $homeModuleModel = Vtiger_Module_Model::getInstance('Home');
+        $viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
+        $viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
+        if (AppConfig::performance('GLOBAL_SEARCH')) {
+            $viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+        }
+        if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
+            $viewer->assign('SEARCHED_MODULE', $selectedModule);
+        }
+        if (\App\Module::isModuleActive('Chat')) {
+            $viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries());
+        }
+        $viewer->assign('REMINDER_ACTIVE', $activeReminder);
+        if ($display) {
+            $this->preProcessDisplay($request);
+        }
+    }
 
-		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
-		}
-		$selectedModule = $request->getModule();
-		$viewer->assign('CURRENTDATE', App\Fields\Date::formatToDisplay(date('Y-n-j')));
-		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-		$viewer->assign('MENUS', $this->getMenu());
-		$viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Helper::getHistory());
-		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
-		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		if (AppConfig::performance('GLOBAL_SEARCH')) {
-			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-		}
-		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
-			$viewer->assign('SEARCHED_MODULE', $selectedModule);
-		}
-		if (\App\Module::isModuleActive('Chat')) {
-			$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries());
-		}
-		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
+    protected function getMenu()
+    {
+        return Vtiger_Menu_Model::getAll(true);
+    }
 
-	protected function getMenu()
-	{
-		return Vtiger_Menu_Model::getAll(true);
-	}
+    protected function preProcessTplName(\App\Request $request)
+    {
+        return 'BasicHeader.tpl';
+    }
 
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'BasicHeader.tpl';
-	}
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return Vtiger_JsScript_Model[]
+     */
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_JsScript_Model[]
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
+        $jsFileNames = [
+            '~libraries/js/timepicker/jquery.timepicker.min.js',
+            '~libraries/clockpicker/dist/jquery-clockpicker.js',
+            '~libraries//inputmask/dist/jquery.inputmask.bundle.js',
+            '~libraries/mousetrap/mousetrap.js',
+            'modules.Vtiger.resources.Menu',
+            'modules.Vtiger.resources.Header',
+            'modules.Vtiger.resources.Edit',
+            "modules.$moduleName.resources.Edit",
+            'modules.Vtiger.resources.Popup',
+            "modules.$moduleName.resources.Popup",
+            '~layouts/resources/Field.js',
+            "modules.$moduleName.resources.Field",
+            '~layouts/resources/validator/BaseValidator.js',
+            '~layouts/resources/validator/FieldValidator.js',
+            "modules.$moduleName.resources.validator.FieldValidator",
+            'libraries.js.jquery_windowmsg',
+            'modules.Vtiger.resources.BasicSearch',
+            "modules.$moduleName.resources.BasicSearch",
+            'modules.Vtiger.resources.AdvanceFilter',
+            "modules.$moduleName.resources.AdvanceFilter",
+            'modules.Vtiger.resources.SearchAdvanceFilter',
+            "modules.$moduleName.resources.SearchAdvanceFilter",
+            'modules.Vtiger.resources.AdvanceSearch',
+            "modules.$moduleName.resources.AdvanceSearch",
+        ];
 
-		$jsFileNames = [
-			'~libraries/js/timepicker/jquery.timepicker.min.js',
-			'~libraries/clockpicker/dist/jquery-clockpicker.js',
-			'~libraries//inputmask/dist/jquery.inputmask.bundle.js',
-			'~libraries/mousetrap/mousetrap.js',
-			'modules.Vtiger.resources.Menu',
-			'modules.Vtiger.resources.Header',
-			'modules.Vtiger.resources.Edit',
-			"modules.$moduleName.resources.Edit",
-			'modules.Vtiger.resources.Popup',
-			"modules.$moduleName.resources.Popup",
-			'~layouts/resources/Field.js',
-			"modules.$moduleName.resources.Field",
-			'~layouts/resources/validator/BaseValidator.js',
-			'~layouts/resources/validator/FieldValidator.js',
-			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.js.jquery_windowmsg',
-			'modules.Vtiger.resources.BasicSearch',
-			"modules.$moduleName.resources.BasicSearch",
-			'modules.Vtiger.resources.AdvanceFilter',
-			"modules.$moduleName.resources.AdvanceFilter",
-			'modules.Vtiger.resources.SearchAdvanceFilter',
-			"modules.$moduleName.resources.SearchAdvanceFilter",
-			'modules.Vtiger.resources.AdvanceSearch',
-			"modules.$moduleName.resources.AdvanceSearch",
-		];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        return $headerScriptInstances;
+    }
 }

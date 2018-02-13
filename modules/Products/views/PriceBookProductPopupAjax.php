@@ -10,17 +10,16 @@
 
 class Products_PriceBookProductPopupAjax_View extends Products_PriceBookProductPopup_View
 {
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
 
-	public function process(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+        $this->initializeListViewContents($request, $viewer);
 
-		$this->initializeListViewContents($request, $viewer);
+        $viewer->assign('MODULE_NAME', $moduleName);
+        $viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
-		echo $viewer->view('PriceBookProductPopupContents.tpl', 'Products', true);
-	}
+        echo $viewer->view('PriceBookProductPopupContents.tpl', 'Products', true);
+    }
 }

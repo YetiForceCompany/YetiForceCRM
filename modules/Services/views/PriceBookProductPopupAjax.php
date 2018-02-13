@@ -10,5 +10,4 @@
 
 class Services_PriceBookProductPopupAjax_View extends Products_PriceBookProductPopupAjax_View
 {
-	
 }

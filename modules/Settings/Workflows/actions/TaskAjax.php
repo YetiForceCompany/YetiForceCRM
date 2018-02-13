@@ -11,156 +11,156 @@
 
 class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
+    use \App\Controller\ExposeMethod;
 
-	use \App\Controller\ExposeMethod;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('delete');
+        $this->exposeMethod('changeStatus');
+        $this->exposeMethod('changeStatusAllTasks');
+        $this->exposeMethod('save');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('delete');
-		$this->exposeMethod('changeStatus');
-		$this->exposeMethod('changeStatusAllTasks');
-		$this->exposeMethod('save');
-	}
+    public function delete(\App\Request $request)
+    {
+        $record = $request->get('task_id');
+        if (!empty($record)) {
+            $taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
+            $taskRecordModel->delete();
+            $response = new Vtiger_Response();
+            $response->setResult(['ok']);
+            $response->emit();
+        }
+    }
 
-	public function delete(\App\Request $request)
-	{
-		$record = $request->get('task_id');
-		if (!empty($record)) {
-			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
-			$taskRecordModel->delete();
-			$response = new Vtiger_Response();
-			$response->setResult(['ok']);
-			$response->emit();
-		}
-	}
+    public function changeStatus(\App\Request $request)
+    {
+        $record = $request->get('task_id');
+        if (!empty($record)) {
+            $taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
+            $taskObject = $taskRecordModel->getTaskObject();
+            if ($request->get('status') == 'true') {
+                $taskObject->active = true;
+            } else {
+                $taskObject->active = false;
+            }
+            $taskRecordModel->save();
+            $response = new Vtiger_Response();
+            $response->setResult(['ok']);
+            $response->emit();
+        }
+    }
 
-	public function changeStatus(\App\Request $request)
-	{
-		$record = $request->get('task_id');
-		if (!empty($record)) {
-			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
-			$taskObject = $taskRecordModel->getTaskObject();
-			if ($request->get('status') == 'true')
-				$taskObject->active = true;
-			else
-				$taskObject->active = false;
-			$taskRecordModel->save();
-			$response = new Vtiger_Response();
-			$response->setResult(['ok']);
-			$response->emit();
-		}
-	}
+    public function changeStatusAllTasks(\App\Request $request)
+    {
+        $record = $request->get('record');
+        $status = $request->get('status');
+        if (!empty($record)) {
+            $workflowModel = Settings_Workflows_Record_Model::getInstance($record);
+            $taskList = $workflowModel->getTasks();
+            foreach ($taskList as $task) {
+                $taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($task->getId());
+                $taskObject = $taskRecordModel->getTaskObject();
+                if ($status == 'true') {
+                    $taskObject->active = true;
+                } else {
+                    $taskObject->active = false;
+                }
+                $taskRecordModel->save();
+            }
+            $response = new Vtiger_Response();
+            $response->setResult(['success' => true, 'count' => count($taskList)]);
+            $response->emit();
+        }
+    }
 
-	public function changeStatusAllTasks(\App\Request $request)
-	{
-		$record = $request->get('record');
-		$status = $request->get('status');
-		if (!empty($record)) {
-			$workflowModel = Settings_Workflows_Record_Model::getInstance($record);
-			$taskList = $workflowModel->getTasks();
-			foreach ($taskList as $task) {
-				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($task->getId());
-				$taskObject = $taskRecordModel->getTaskObject();
-				if ($status == 'true')
-					$taskObject->active = true;
-				else
-					$taskObject->active = false;
-				$taskRecordModel->save();
-			}
-			$response = new Vtiger_Response();
-			$response->setResult(['success' => true, 'count' => count($taskList)]);
-			$response->emit();
-		}
-	}
+    public function save(\App\Request $request)
+    {
+        $workflowId = $request->get('for_workflow');
+        if (!empty($workflowId)) {
+            $record = $request->get('task_id');
+            if ($record) {
+                $taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
+            } else {
+                $workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
+                $taskRecordModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $request->get('taskType'));
+            }
 
-	public function save(\App\Request $request)
-	{
+            $taskObject = $taskRecordModel->getTaskObject();
+            $taskObject->summary = htmlspecialchars($request->get('summary'));
+            $active = $request->get('active');
+            if ($active == 'true') {
+                $taskObject->active = true;
+            } elseif ($active == 'false') {
+                $taskObject->active = false;
+            }
+            $checkSelectDate = $request->get('check_select_date');
 
-		$workflowId = $request->get('for_workflow');
-		if (!empty($workflowId)) {
-			$record = $request->get('task_id');
-			if ($record) {
-				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
-			} else {
-				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
-				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $request->get('taskType'));
-			}
+            if (!empty($checkSelectDate)) {
+                $trigger = [
+                    'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int) $request->get('select_date_days'),
+                    'field' => $request->get('select_date_field'),
+                ];
+                $taskObject->trigger = $trigger;
+            } else {
+                $taskObject->trigger = null;
+            }
 
-			$taskObject = $taskRecordModel->getTaskObject();
-			$taskObject->summary = htmlspecialchars($request->get("summary"));
-			$active = $request->get("active");
-			if ($active == "true") {
-				$taskObject->active = true;
-			} else if ($active == "false") {
-				$taskObject->active = false;
-			}
-			$checkSelectDate = $request->get('check_select_date');
+            $fieldNames = $taskObject->getFieldNames();
 
-			if (!empty($checkSelectDate)) {
-				$trigger = [
-					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int) $request->get('select_date_days'),
-					'field' => $request->get('select_date_field')
-				];
-				$taskObject->trigger = $trigger;
-			} else {
-				$taskObject->trigger = null;
-			}
+            foreach ($fieldNames as $fieldName) {
+                if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
+                    $values = \App\Json::decode($request->getRaw($fieldName));
 
-			$fieldNames = $taskObject->getFieldNames();
+                    if ($values) {
+                        foreach ($values as $index => $value) {
+                            $values[$index]['value'] = htmlspecialchars($value['value']);
+                        }
 
-			foreach ($fieldNames as $fieldName) {
-				if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
-					$values = \App\Json::decode($request->getRaw($fieldName));
+                        $taskObject->$fieldName = \App\Json::encode($values);
+                    } else {
+                        $taskObject->$fieldName = $request->getRaw($fieldName);
+                    }
+                } else {
+                    $taskObject->$fieldName = $request->get($fieldName);
+                }
+            }
 
-					if ($values) {
-						foreach ($values as $index => $value) {
-							$values[$index]['value'] = htmlspecialchars($value['value']);
-						}
+            $taskType = get_class($taskObject);
+            if ($taskType === 'VTCreateEntityTask' && $taskObject->field_value_mapping) {
+                $relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
+                $ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-						$taskObject->$fieldName = \App\Json::encode($values);
-					} else {
-						$taskObject->$fieldName = $request->getRaw($fieldName);
-					}
-				} else {
-					$taskObject->$fieldName = $request->get($fieldName);
-				}
-			}
+                $fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
+                foreach ($fieldMapping as $key => $mappingInfo) {
+                    if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
+                        if ($mappingInfo['value'] == 'assigned_user_id') {
+                            $fieldMapping[$key]['valuetype'] = 'fieldname';
+                        } else {
+                            $userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
+                            $ownerName = $userRecordModel->get('user_name');
 
-			$taskType = get_class($taskObject);
-			if ($taskType === 'VTCreateEntityTask' && $taskObject->field_value_mapping) {
-				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
-				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
+                            if (!$ownerName) {
+                                $groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
+                                $ownerName = $groupRecordModel->getName();
+                            }
+                            $fieldMapping[$key]['value'] = $ownerName;
+                        }
+                    }
+                }
+                $taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
+            }
 
-				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
-				foreach ($fieldMapping as $key => $mappingInfo) {
-					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						if ($mappingInfo['value'] == 'assigned_user_id') {
-							$fieldMapping[$key]['valuetype'] = 'fieldname';
-						} else {
-							$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
-							$ownerName = $userRecordModel->get('user_name');
+            $taskRecordModel->save();
+            $response = new Vtiger_Response();
+            $response->setResult(['for_workflow' => $workflowId]);
+            $response->emit();
+        }
+    }
 
-							if (!$ownerName) {
-								$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
-								$ownerName = $groupRecordModel->getName();
-							}
-							$fieldMapping[$key]['value'] = $ownerName;
-						}
-					}
-				}
-				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
-			}
-
-			$taskRecordModel->save();
-			$response = new Vtiger_Response();
-			$response->setResult(['for_workflow' => $workflowId]);
-			$response->emit();
-		}
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

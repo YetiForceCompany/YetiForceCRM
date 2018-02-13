@@ -10,32 +10,31 @@
 
 class Users_Logout_Action extends \App\Controller\Action
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		return true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function process(\App\Request $request)
+    {
+        $eventHandler = new App\EventHandler();
+        $eventHandler->trigger('UserLogoutBefore');
+        if (AppConfig::main('session_regenerate_id')) {
+            App\Session::regenerateId(true); // to overcome session id reuse.
+        }
+        App\Session::destroy();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$eventHandler = new App\EventHandler();
-		$eventHandler->trigger('UserLogoutBefore');
-		if (AppConfig::main('session_regenerate_id')) {
-			App\Session::regenerateId(true); // to overcome session id reuse.
-		}
-		App\Session::destroy();
-
-		//Track the logout History
-		$moduleName = $request->getModule();
-		$moduleModel = Users_Module_Model::getInstance($moduleName);
-		$moduleModel->saveLogoutHistory();
-		//End
-		header('Location: index.php');
-	}
+        //Track the logout History
+        $moduleName = $request->getModule();
+        $moduleModel = Users_Module_Model::getInstance($moduleName);
+        $moduleModel->saveLogoutHistory();
+        //End
+        header('Location: index.php');
+    }
 }

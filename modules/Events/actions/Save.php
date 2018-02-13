@@ -11,44 +11,49 @@
 
 class Events_Save_Action extends Calendar_Save_Action
 {
+    /**
+     * Function to save record.
+     *
+     * @param \App\Request $request - values of the record
+     *
+     * @return Vtiger_Record_Model - record Model of saved record
+     */
+    public function saveRecord(\App\Request $request)
+    {
+        $recordModel = $this->getRecordModelFromRequest($request);
+        $data = $recordModel->getData();
+        $recordModel->save();
+        $recordModel->addRelationOperation($request);
+        if ($request->getBoolean('reapeat')) {
+            $recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
+            if ($request->isEmpty('record')) {
+                App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
+                $data['followup'] = $recordModel->getId();
+            } elseif (empty($data['followup'])) {
+                $data['followup'] = $recordModel->getId();
+            }
+            $recurringEvents->setChanges($recordModel->getPreviousValue());
+            $recurringEvents->setData($data);
+            $recurringEvents->save();
+        }
 
-	/**
-	 * Function to save record
-	 * @param \App\Request $request - values of the record
-	 * @return Vtiger_Record_Model - record Model of saved record
-	 */
-	public function saveRecord(\App\Request $request)
-	{
-		$recordModel = $this->getRecordModelFromRequest($request);
-		$data = $recordModel->getData();
-		$recordModel->save();
-		$recordModel->addRelationOperation($request);
-		if ($request->getBoolean('reapeat')) {
-			$recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
-			if ($request->isEmpty('record')) {
-				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
-				$data['followup'] = $recordModel->getId();
-			} else if (empty($data['followup'])) {
-				$data['followup'] = $recordModel->getId();
-			}
-			$recurringEvents->setChanges($recordModel->getPreviousValue());
-			$recurringEvents->setData($data);
-			$recurringEvents->save();
-		}
-		return $recordModel;
-	}
+        return $recordModel;
+    }
 
-	/**
-	 * Function to get the record model based on the request parameters
-	 * @param \App\Request $request
-	 * @return Vtiger_Record_Model
-	 */
-	public function getRecordModelFromRequest(\App\Request $request)
-	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
-			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
-		}
-		return $recordModel;
-	}
+    /**
+     * Function to get the record model based on the request parameters.
+     *
+     * @param \App\Request $request
+     *
+     * @return Vtiger_Record_Model
+     */
+    public function getRecordModelFromRequest(\App\Request $request)
+    {
+        $recordModel = parent::getRecordModelFromRequest($request);
+        if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
+            $recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
+        }
+
+        return $recordModel;
+    }
 }

@@ -8,86 +8,90 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
+class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
+    use \App\Controller\ExposeMethod;
 
-	use \App\Controller\ExposeMethod;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('showRules');
+        $this->exposeMethod('editRule');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('showRules');
-		$this->exposeMethod('editRule');
-	}
+    /**
+     * Show rules.
+     *
+     * @param \App\Request $request
+     */
+    public function showRules(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $qualifiedModuleName = $request->getModule(false);
+        $forModule = $request->getByType('for_module', 'Alnum');
 
-	/**
-	 * Show rules
-	 * @param \App\Request $request
-	 */
-	public function showRules(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		$forModule = $request->getByType('for_module', 'Alnum');
+        $moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
+        $ruleModelList = Settings_SharingAccess_Rule_Model::getAllByModule($moduleModel);
 
-		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		$ruleModelList = Settings_SharingAccess_Rule_Model::getAllByModule($moduleModel);
+        $viewer->assign('MODULE_MODEL', $moduleModel);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->assign('FOR_MODULE', $forModule);
+        $viewer->assign('RULE_MODEL_LIST', $ruleModelList);
+        echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
+    }
 
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('FOR_MODULE', $forModule);
-		$viewer->assign('RULE_MODEL_LIST', $ruleModelList);
-		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
-	}
+    /**
+     * Edit rule.
+     *
+     * @param \App\Request $request
+     */
+    public function editRule(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $qualifiedModuleName = $request->getModule(false);
+        $forModule = $request->getByType('for_module', 'Alnum');
+        $ruleId = $request->getInteger('record');
 
-	/**
-	 * Edit rule
-	 * @param \App\Request $request
-	 */
-	public function editRule(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		$forModule = $request->getByType('for_module', 'Alnum');
-		$ruleId = $request->getInteger('record');
+        $moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
+        if ($ruleId) {
+            $ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
+        } else {
+            $ruleModel = new Settings_SharingAccess_Rule_Model();
+            $ruleModel->setModuleFromInstance($moduleModel);
+        }
 
-		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		if ($ruleId) {
-			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
-		} else {
-			$ruleModel = new Settings_SharingAccess_Rule_Model();
-			$ruleModel->setModuleFromInstance($moduleModel);
-		}
+        $viewer->assign('ALL_RULE_MEMBERS', Settings_SharingAccess_RuleMember_Model::getAll());
+        $viewer->assign('ALL_PERMISSIONS', Settings_SharingAccess_Rule_Model::$allPermissions);
+        $viewer->assign('MODULE_MODEL', $moduleModel);
+        $viewer->assign('RULE_MODEL', $ruleModel);
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        echo $viewer->view('EditRule.tpl', $qualifiedModuleName, true);
+    }
 
-		$viewer->assign('ALL_RULE_MEMBERS', Settings_SharingAccess_RuleMember_Model::getAll());
-		$viewer->assign('ALL_PERMISSIONS', Settings_SharingAccess_Rule_Model::$allPermissions);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('RULE_MODEL', $ruleModel);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		echo $viewer->view('EditRule.tpl', $qualifiedModuleName, true);
-	}
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return \Vtiger_JsScript_Model[]
+     */
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return \Vtiger_JsScript_Model[]
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
+        $jsFileNames = [
+            'modules.Settings.Vtiger.resources.Index',
+            "modules.Settings.$moduleName.resources.Index",
+        ];
 
-		$jsFileNames = [
-			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index"
-		];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        return $headerScriptInstances;
+    }
 }

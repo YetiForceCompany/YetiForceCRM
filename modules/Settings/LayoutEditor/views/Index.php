@@ -11,102 +11,102 @@
 
 class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 {
+    use \App\Controller\ExposeMethod;
 
-	use \App\Controller\ExposeMethod;
+    public function __construct()
+    {
+        $this->exposeMethod('showFieldLayout');
+        $this->exposeMethod('showRelatedListLayout');
+    }
 
-	public function __construct()
-	{
-		$this->exposeMethod('showFieldLayout');
-		$this->exposeMethod('showRelatedListLayout');
-	}
+    public function process(\App\Request $request)
+    {
+        $mode = $request->getMode();
+        if ($this->isMethodExposed($mode)) {
+            $this->invokeExposedMethod($mode, $request);
+        } else {
+            //by default show field layout
+            $this->showFieldLayout($request);
+        }
+    }
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		} else {
-			//by default show field layout
-			$this->showFieldLayout($request);
-		}
-	}
+    public function showFieldLayout(\App\Request $request)
+    {
+        $sourceModule = $request->getByType('sourceModule', 2);
+        $supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 
-	public function showFieldLayout(\App\Request $request)
-	{
-		$sourceModule = $request->getByType('sourceModule', 2);
-		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
+        if (empty($sourceModule)) {
+            //To get the first element
+            $sourceModule = reset($supportedModulesList);
+        }
+        $moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
+        $fieldModels = $moduleModel->getFields();
+        $blockModels = $moduleModel->getBlocks();
 
-		if (empty($sourceModule)) {
-			//To get the first element
-			$sourceModule = reset($supportedModulesList);
-		}
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
-		$fieldModels = $moduleModel->getFields();
-		$blockModels = $moduleModel->getBlocks();
+        $blockIdFieldMap = [];
+        $inactiveFields = [];
+        foreach ($fieldModels as $fieldModel) {
+            $blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
+            if (!$fieldModel->isActiveField()) {
+                $inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \App\Language::translate($fieldModel->get('label'), $sourceModule);
+            }
+        }
 
-		$blockIdFieldMap = [];
-		$inactiveFields = [];
-		foreach ($fieldModels as $fieldModel) {
-			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
-			if (!$fieldModel->isActiveField()) {
-				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \App\Language::translate($fieldModel->get('label'), $sourceModule);
-			}
-		}
+        foreach ($blockModels as $blockLabel => $blockModel) {
+            if (isset($blockIdFieldMap[$blockModel->get('id')])) {
+                $fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
+                $blockModel->setFields($fieldModelList);
+            }
+        }
 
-		foreach ($blockModels as $blockLabel => $blockModel) {
-			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
-				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
-				$blockModel->setFields($fieldModelList);
-			}
-		}
+        $qualifiedModule = $request->getModule(false);
 
-		$qualifiedModule = $request->getModule(false);
+        $viewer = $this->getViewer($request);
+        $viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
+        $viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
+        $viewer->assign('SELECTED_MODULE_MODEL', $moduleModel);
+        $viewer->assign('BLOCKS', $blockModels);
+        $viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
+        $viewer->assign('DISPLAY_TYPE_LIST', Vtiger_Field_Model::showDisplayTypeList());
+        $viewer->assign('MODULE', $qualifiedModule);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+        $viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
+        $viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
+        $viewer->assign('INVENTORY_MODEL', Vtiger_InventoryField_Model::getInstance($sourceModule));
+        $viewer->view('Index.tpl', $qualifiedModule);
+    }
 
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
-		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
-		$viewer->assign('SELECTED_MODULE_MODEL', $moduleModel);
-		$viewer->assign('BLOCKS', $blockModels);
-		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
-		$viewer->assign('DISPLAY_TYPE_LIST', Vtiger_Field_Model::showDisplayTypeList());
-		$viewer->assign('MODULE', $qualifiedModule);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
-		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('INVENTORY_MODEL', Vtiger_InventoryField_Model::getInstance($sourceModule));
-		$viewer->view('Index.tpl', $qualifiedModule);
-	}
+    public function showRelatedListLayout(\App\Request $request)
+    {
+        $sourceModule = $request->getByType('sourceModule', 2);
+        $supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 
-	public function showRelatedListLayout(\App\Request $request)
-	{
-		$sourceModule = $request->getByType('sourceModule', 2);
-		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
+        if (empty($sourceModule)) {
+            //To get the first element
+            $moduleName = reset($supportedModulesList);
+            $sourceModule = Vtiger_Module_Model::getInstance($moduleName)->getName();
+        }
+        $moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
+        $relatedModuleModels = $moduleModel->getRelations();
 
-		if (empty($sourceModule)) {
-			//To get the first element
-			$moduleName = reset($supportedModulesList);
-			$sourceModule = Vtiger_Module_Model::getInstance($moduleName)->getName();
-		}
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
-		$relatedModuleModels = $moduleModel->getRelations();
+        $qualifiedModule = $request->getModule(false);
+        $viewer = $this->getViewer($request);
+        $viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
+        $viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
+        $viewer->assign('RELATED_MODULES', $relatedModuleModels);
+        $viewer->assign('MODULE', $qualifiedModule);
+        $viewer->assign('MODULE_MODEL', $moduleModel);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+        $viewer->view('RelatedList.tpl', $qualifiedModule);
+    }
 
-		$qualifiedModule = $request->getModule(false);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
-		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
-		$viewer->assign('RELATED_MODULES', $relatedModuleModels);
-		$viewer->assign('MODULE', $qualifiedModule);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-		$viewer->view('RelatedList.tpl', $qualifiedModule);
-	}
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $jsFileNames = ['libraries.clipboard.dist.clipboard'];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = ['libraries.clipboard.dist.clipboard'];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        return $headerScriptInstances;
+    }
 }

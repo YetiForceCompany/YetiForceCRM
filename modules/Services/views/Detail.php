@@ -10,29 +10,29 @@
 
 class Services_Detail_View extends Products_Detail_View
 {
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
+        $modulePopUpFile = 'modules.'.$moduleName.'.resources.Edit';
+        $moduleDetailFile = 'modules.'.$moduleName.'.resources.Detail';
+        $moduleRelatedListFile = 'modules.'.$moduleName.'.resources.RelatedList';
+        unset($headerScriptInstances[$modulePopUpFile]);
+        unset($headerScriptInstances[$moduleDetailFile]);
+        unset($headerScriptInstances[$moduleRelatedListFile]);
 
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$modulePopUpFile = 'modules.' . $moduleName . '.resources.Edit';
-		$moduleDetailFile = 'modules.' . $moduleName . '.resources.Detail';
-		$moduleRelatedListFile = 'modules.' . $moduleName . '.resources.RelatedList';
-		unset($headerScriptInstances[$modulePopUpFile]);
-		unset($headerScriptInstances[$moduleDetailFile]);
-		unset($headerScriptInstances[$moduleRelatedListFile]);
+        $jsFileNames = [
+            'modules.Products.resources.Edit',
+            'modules.Products.resources.Detail',
+            'modules.Products.resources.RelatedList',
+        ];
+        $jsFileNames[] = $modulePopUpFile;
+        $jsFileNames[] = $moduleDetailFile;
+        $jsFileNames[] = $moduleRelatedListFile;
 
-		$jsFileNames = [
-			'modules.Products.resources.Edit',
-			'modules.Products.resources.Detail',
-			'modules.Products.resources.RelatedList',
-		];
-		$jsFileNames[] = $modulePopUpFile;
-		$jsFileNames[] = $moduleDetailFile;
-		$jsFileNames[] = $moduleRelatedListFile;
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        return $headerScriptInstances;
+    }
 }

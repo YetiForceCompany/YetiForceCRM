@@ -10,13 +10,12 @@
 
 class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDependency_Edit_View
 {
+    use \App\Controller\ExposeMethod,
+     App\Controller\ClearProcess;
 
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getDependencyGraph');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('getDependencyGraph');
+    }
 }

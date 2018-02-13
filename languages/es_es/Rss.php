@@ -9,18 +9,18 @@
  * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_FEED_SOURCE' => 'Añadir Fuente de origen',
-	'LBL_ENTER_FEED_SOURCE' => 'Añadir Fuente de origen',
-	'LBL_FEEDS_LIST_FROM' => 'Lista de canales de',
-	'LBL_FEED_SOURCE' => 'Fuente de origen',
-	'LBL_RSS_FEED_SOURCES' => 'Fuente de origen RSS',
-	'LBL_SENDER' => 'Remitente',
-	'LBL_SET_AS_DEFAULT' => 'Establecer como predeterminado',
-	'SINGLE_Rss' => 'RSS Feed',
-	'LBL_CHANGE_RSS_CHANNEL' => 'Cambiar canal RSS',
+    'LBL_ADD_FEED_SOURCE' => 'Añadir Fuente de origen',
+    'LBL_ENTER_FEED_SOURCE' => 'Añadir Fuente de origen',
+    'LBL_FEEDS_LIST_FROM' => 'Lista de canales de',
+    'LBL_FEED_SOURCE' => 'Fuente de origen',
+    'LBL_RSS_FEED_SOURCES' => 'Fuente de origen RSS',
+    'LBL_SENDER' => 'Remitente',
+    'LBL_SET_AS_DEFAULT' => 'Establecer como predeterminado',
+    'SINGLE_Rss' => 'RSS Feed',
+    'LBL_CHANGE_RSS_CHANNEL' => 'Cambiar canal RSS',
 ];
 $jsLanguageStrings = [
-	'JS_INVALID_RSS_URL' => 'URL inválida',
-	'JS_RSS_MADE_AS_DEFAULT' => 'RSS marcado por defecto',
-	'JS_RSS_SUCCESSFULLY_SAVED' => 'RSS guardado correctamente',
+    'JS_INVALID_RSS_URL' => 'URL inválida',
+    'JS_RSS_MADE_AS_DEFAULT' => 'RSS marcado por defecto',
+    'JS_RSS_SUCCESSFULLY_SAVED' => 'RSS guardado correctamente',
 ];

@@ -10,13 +10,12 @@
 
 class Services_Record_Model extends Products_Record_Model
 {
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function delete()
-	{
-		parent::delete();
-		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $this->getId()], ['crmid' => $this->getId()]])->execute();
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function delete()
+    {
+        parent::delete();
+        \App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $this->getId()], ['crmid' => $this->getId()]])->execute();
+    }
 }

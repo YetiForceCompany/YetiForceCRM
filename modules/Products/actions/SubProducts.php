@@ -10,38 +10,39 @@
 
 class Products_SubProducts_Action extends \App\Controller\Action
 {
+    /**
+     * Function to check permission.
+     *
+     * @param \App\Request $request
+     *
+     * @throws \App\Exceptions\NoPermittedToRecord
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $recordId = $request->getInteger('record');
+        if (!$recordId) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+        if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+        }
+    }
 
-	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermittedToRecord
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $productId = $request->getInteger('record');
+        $values = [];
+        if (\App\Record::isExists($productId)) {
+            $productModel = Vtiger_Record_Model::getInstanceById($productId);
+            $subProducts = $productModel->getSubProducts();
 
-	public function process(\App\Request $request)
-	{
-		$productId = $request->getInteger('record');
-		$values = [];
-		if (\App\Record::isExists($productId)) {
-			$productModel = Vtiger_Record_Model::getInstanceById($productId);
-			$subProducts = $productModel->getSubProducts();
+            foreach ($subProducts as $subProduct) {
+                $values[$subProduct->getId()] = $subProduct->getName();
+            }
+        }
 
-			foreach ($subProducts as $subProduct) {
-				$values[$subProduct->getId()] = $subProduct->getName();
-			}
-		}
-
-		$response = new Vtiger_Response();
-		$response->setResult($values);
-		$response->emit();
-	}
+        $response = new Vtiger_Response();
+        $response->setResult($values);
+        $response->emit();
+    }
 }

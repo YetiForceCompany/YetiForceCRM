@@ -9,29 +9,27 @@
  * *********************************************************************************** */
 
 /**
- * Roles Record Model Class
+ * Roles Record Model Class.
  */
 abstract class Settings_Vtiger_Record_Model extends App\Base
 {
+    abstract public function getId();
 
-	abstract public function getId();
+    abstract public function getName();
 
-	abstract public function getName();
+    public function getRecordLinks()
+    {
+        $links = [];
+        $recordLinks = [];
+        foreach ($recordLinks as $recordLink) {
+            $links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+        }
 
-	public function getRecordLinks()
-	{
+        return $links;
+    }
 
-		$links = [];
-		$recordLinks = [];
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-
-		return $links;
-	}
-
-	public function getDisplayValue($key)
-	{
-		return $this->get($key);
-	}
+    public function getDisplayValue($key)
+    {
+        return $this->get($key);
+    }
 }

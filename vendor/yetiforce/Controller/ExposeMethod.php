@@ -1,71 +1,80 @@
 <?php
+
 namespace App\Controller;
 
 /**
- * Trait expose method controller class
- * @package YetiForce.App
- * @copyright YetiForce Sp. z o.o.
+ * Trait expose method controller class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 trait ExposeMethod
 {
+    /**
+     * Control the exposure of methods to be invoked from client (kind-of RPC).
+     *
+     * @var string[]
+     */
+    protected $exposedMethods = [];
 
-	/**
-	 * Control the exposure of methods to be invoked from client (kind-of RPC)
-	 * @var string[]
-	 */
-	protected $exposedMethods = [];
+    /**
+     * Function that will expose methods for external access.
+     *
+     * @param string $name - method name
+     */
+    protected function exposeMethod($name)
+    {
+        if (!in_array($name, $this->exposedMethods)) {
+            $this->exposedMethods[] = $name;
+        }
+    }
 
-	/**
-	 * Function that will expose methods for external access
-	 * @param string $name - method name
-	 */
-	protected function exposeMethod($name)
-	{
-		if (!in_array($name, $this->exposedMethods)) {
-			$this->exposedMethods[] = $name;
-		}
-	}
+    /**
+     * Function checks if the method is exposed for client usage.
+     *
+     * @param string $name - method name
+     *
+     * @return bool
+     */
+    public function isMethodExposed($name)
+    {
+        if (in_array($name, $this->exposedMethods)) {
+            return true;
+        }
 
-	/**
-	 * Function checks if the method is exposed for client usage
-	 * @param string $name - method name
-	 * @return boolean
-	 */
-	public function isMethodExposed($name)
-	{
-		if (in_array($name, $this->exposedMethods)) {
-			return true;
-		}
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Function invokes exposed methods for this class
-	 * @param string $name - method name
-	 * @param \App\Request $request
-	 * @return type
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function invokeExposedMethod()
-	{
-		$parameters = func_get_args();
-		$name = array_shift($parameters);
-		if (!empty($name) && $this->isMethodExposed($name)) {
-			return call_user_func_array([$this, $name], $parameters);
-		}
-		throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE', 406);
-	}
+    /**
+     * Function invokes exposed methods for this class.
+     *
+     * @param string       $name    - method name
+     * @param \App\Request $request
+     *
+     * @return type
+     *
+     * @throws \App\Exceptions\AppException
+     */
+    public function invokeExposedMethod()
+    {
+        $parameters = func_get_args();
+        $name = array_shift($parameters);
+        if (!empty($name) && $this->isMethodExposed($name)) {
+            return call_user_func_array([$this, $name], $parameters);
+        }
+        throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE', 406);
+    }
 
-	/**
-	 * Process action
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		if ($mode = $request->getMode()) {
-			$this->invokeExposedMethod($mode, $request);
-		}
-	}
+    /**
+     * Process action.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        if ($mode = $request->getMode()) {
+            $this->invokeExposedMethod($mode, $request);
+        }
+    }
 }

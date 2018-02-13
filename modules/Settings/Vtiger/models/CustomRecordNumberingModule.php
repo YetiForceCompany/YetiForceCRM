@@ -10,76 +10,84 @@
 
 class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Model
 {
+    /**
+     * Function to get focus of this object.
+     *
+     * @return CRMEntity
+     */
+    public function getFocus()
+    {
+        if (!isset($this->focus)) {
+            $this->focus = CRMEntity::getInstance($this->getName());
+        }
 
-	/**
-	 * Function to get focus of this object
-	 * @return CRMEntity
-	 */
-	public function getFocus()
-	{
-		if (!isset($this->focus)) {
-			$this->focus = CRMEntity::getInstance($this->getName());
-		}
-		return $this->focus;
-	}
+        return $this->focus;
+    }
 
-	/**
-	 * Function to get Instance of this module
-	 * @param string $moduleName
-	 * @return Settings_Vtiger_CustomRecordNumberingModule_Model $moduleModel
-	 */
-	public static function getInstance($moduleName, $tabId = false)
-	{
-		$moduleModel = new self();
-		$moduleModel->name = $moduleName;
-		if ($tabId) {
-			$moduleModel->id = $tabId;
-		}
-		return $moduleModel;
-	}
+    /**
+     * Function to get Instance of this module.
+     *
+     * @param string $moduleName
+     *
+     * @return Settings_Vtiger_CustomRecordNumberingModule_Model $moduleModel
+     */
+    public static function getInstance($moduleName, $tabId = false)
+    {
+        $moduleModel = new self();
+        $moduleModel->name = $moduleName;
+        if ($tabId) {
+            $moduleModel->id = $tabId;
+        }
 
-	/**
-	 * Function to ger Supported modules for Custom record numbering
-	 * @return array list of supported modules Vtiger_Module_Model
-	 */
-	public static function getSupportedModules()
-	{
-		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
-		$dataReader = (new App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$modulesModels[$row['tabid']] = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($row['name'], $row['tabid']);
-		}
-		$dataReader->close();
+        return $moduleModel;
+    }
 
-		return $modulesModels;
-	}
+    /**
+     * Function to ger Supported modules for Custom record numbering.
+     *
+     * @return array list of supported modules Vtiger_Module_Model
+     */
+    public static function getSupportedModules()
+    {
+        $subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+        $dataReader = (new App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])->createCommand()->query();
+        while ($row = $dataReader->read()) {
+            $modulesModels[$row['tabid']] = self::getInstance($row['name'], $row['tabid']);
+        }
+        $dataReader->close();
 
-	/**
-	 * Function to set Module sequence
-	 * @return array result of success
-	 */
-	public function setModuleSequence()
-	{
-		$prefix = $this->get('prefix');
-		$postfix = $this->get('postfix');
-		$tabId = \App\Module::getModuleId($this->getName());
-		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix);
-		$success = ['success' => $status];
-		if (!$status) {
-			$success['sequenceNumber'] = (new App\Db\Query())->select(['cur_id'])
-				->from('vtiger_modentity_num')
-				->where(['tabid' => $tabId, 'prefix' => $prefix, 'postfix' => $postfix])
-				->scalar();
-		}
-		return $success;
-	}
+        return $modulesModels;
+    }
 
-	/**
-	 * Function to update record sequences which are under this module
-	 * @return array result of success
-	 */
-	public function updateRecordsWithSequence()
-	{
-		return $this->getFocus()->updateMissingSeqNumber($this->getName());
-	}
+    /**
+     * Function to set Module sequence.
+     *
+     * @return array result of success
+     */
+    public function setModuleSequence()
+    {
+        $prefix = $this->get('prefix');
+        $postfix = $this->get('postfix');
+        $tabId = \App\Module::getModuleId($this->getName());
+        $status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix);
+        $success = ['success' => $status];
+        if (!$status) {
+            $success['sequenceNumber'] = (new App\Db\Query())->select(['cur_id'])
+                ->from('vtiger_modentity_num')
+                ->where(['tabid' => $tabId, 'prefix' => $prefix, 'postfix' => $postfix])
+                ->scalar();
+        }
+
+        return $success;
+    }
+
+    /**
+     * Function to update record sequences which are under this module.
+     *
+     * @return array result of success
+     */
+    public function updateRecordsWithSequence()
+    {
+        return $this->getFocus()->updateMissingSeqNumber($this->getName());
+    }
 }

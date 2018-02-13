@@ -1,217 +1,217 @@
 <?php
 /**
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
- * Class for connection to Narodowy Bank Polski currency exchange rates
+ * Class for connection to Narodowy Bank Polski currency exchange rates.
  */
 class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
-	/*
-	 * Returns bank name
-	 */
+    /*
+     * Returns bank name
+     */
 
-	public function getName()
-	{
-		return 'NBP';
-	}
-	/*
-	 * Returns url sources from where exchange rates are taken from
-	 */
+    public function getName()
+    {
+        return 'NBP';
+    }
+    /*
+     * Returns url sources from where exchange rates are taken from
+     */
 
-	public function getSource()
-	{
-		return ['http://nbp.pl/kursy/xml/LastA.xml'];
-	}
-	/*
-	 * Returns list of currencies supported by this bank
-	 */
+    public function getSource()
+    {
+        return ['http://nbp.pl/kursy/xml/LastA.xml'];
+    }
+    /*
+     * Returns list of currencies supported by this bank
+     */
 
-	public function getSupportedCurrencies()
-	{
-		$supportedCurrencies = [];
-		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
-		$dateCur = date('Y-m-d', strtotime('last monday'));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
+    public function getSupportedCurrencies()
+    {
+        $supportedCurrencies = [];
+        $supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
+        $dateCur = date('Y-m-d', strtotime('last monday'));
+        $date = str_replace('-', '', $dateCur);
+        $date = substr($date, 2);
 
-		$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
+        $txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
+        $xmlSrc = 'http://nbp.pl/kursy/xml/';
+        $newXmlSrc = '';
 
-		$file = file($txtSrc);
-		$fileNum = count($file);
-		$numberOfDays = 1;
-		$stateA = false;
+        $file = file($txtSrc);
+        $fileNum = count($file);
+        $numberOfDays = 1;
+        $stateA = false;
 
-		while (!$stateA) {
-			for ($i = 0; $i < $fileNum; $i++) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
-					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
-				}
-			}
+        while (!$stateA) {
+            for ($i = 0; $i < $fileNum; ++$i) {
+                $lineStart = strstr($file[$i], $date, true);
+                if ($lineStart && $lineStart[0] == 'a') {
+                    $stateA = true;
+                    $newXmlSrc = $xmlSrc.$lineStart.$date.'.xml';
+                }
+            }
 
-			if (!$stateA) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
+            if (!$stateA) {
+                $newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
+                $newDate = date('Y-m-d', $newDate);
 
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
-				$numberOfDays++;
-			}
-		}
-		$headers = get_headers($newXmlSrc, 1);
-		if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
-			$xml = simplexml_load_file($newXmlSrc);
-			$xmlObj = $xml->children();
-			$num = count($xmlObj->pozycja);
-			for ($i = 0; $i <= $num; $i++) {
-				if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-					continue;
-				}
-				$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
-				if ($currencyCode == 'XDR') {
-					continue;
-				}
-				$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
-				$supportedCurrencies[$currencyName] = $currencyCode;
-			}
-		} else {
-			App\Log::warning('Can not connect to the server' . $newXmlSrc);
-		}
-		return $supportedCurrencies;
-	}
-	/*
-	 * Returns banks main currency
-	 */
+                $date = str_replace('-', '', $newDate);
+                $date = substr($date, 2);
+                ++$numberOfDays;
+            }
+        }
+        $headers = get_headers($newXmlSrc, 1);
+        if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
+            $xml = simplexml_load_file($newXmlSrc);
+            $xmlObj = $xml->children();
+            $num = count($xmlObj->pozycja);
+            for ($i = 0; $i <= $num; ++$i) {
+                if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+                    continue;
+                }
+                $currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
+                if ($currencyCode == 'XDR') {
+                    continue;
+                }
+                $currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
+                $supportedCurrencies[$currencyName] = $currencyCode;
+            }
+        } else {
+            App\Log::warning('Can not connect to the server'.$newXmlSrc);
+        }
 
-	public function getMainCurrencyCode()
-	{
-		return 'PLN';
-	}
-	/*
-	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
-	 */
+        return $supportedCurrencies;
+    }
+    /*
+     * Returns banks main currency
+     */
 
-	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
-	{
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$selectedBank = $moduleModel->getActiveBankId();
-		$yesterday = date('Y-m-d', strtotime('-1 day'));
+    public function getMainCurrencyCode()
+    {
+        return 'PLN';
+    }
+    /*
+     * Fetch exchange rates
+     * @param <Array> $currencies - list of systems active currencies
+     * @param <Date> $date - date for which exchange is fetched
+     * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
+     */
 
-		// check if data is correct, currency rates can be retrieved only for working days
-		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
+    public function getRates($otherCurrencyCode, $dateParam, $cron = false)
+    {
+        $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+        $selectedBank = $moduleModel->getActiveBankId();
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
 
-		$today = date('Y-m-d');
-		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
-		$dateCur = $dateParam;
-		$chosenYear = date('Y', strtotime($dateCur));
-		$date = substr(str_replace('-', '', $dateCur), 2);
+        // check if data is correct, currency rates can be retrieved only for working days
+        $lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
-		if (date('Y') == $chosenYear) {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		} else {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir' . $chosenYear . '.txt';
-		}
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
+        $today = date('Y-m-d');
+        $mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+        $dateCur = $dateParam;
+        $chosenYear = date('Y', strtotime($dateCur));
+        $date = substr(str_replace('-', '', $dateCur), 2);
 
-		$file = file($txtSrc);
-		$fileNum = count($file);
-		$numberOfDays = 1;
-		$stateA = false;
+        if (date('Y') == $chosenYear) {
+            $txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
+        } else {
+            $txtSrc = 'http://www.nbp.pl/kursy/xml/dir'.$chosenYear.'.txt';
+        }
+        $xmlSrc = 'http://nbp.pl/kursy/xml/';
+        $newXmlSrc = '';
 
-		while (!$stateA && $file) {
-			for ($i = 0; $i < $fileNum; $i++) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
-					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
-				}
-			}
-			if ($stateA === false) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
+        $file = file($txtSrc);
+        $fileNum = count($file);
+        $numberOfDays = 1;
+        $stateA = false;
 
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
-				$numberOfDays++;
-			}
-		}
+        while (!$stateA && $file) {
+            for ($i = 0; $i < $fileNum; ++$i) {
+                $lineStart = strstr($file[$i], $date, true);
+                if ($lineStart && $lineStart[0] == 'a') {
+                    $stateA = true;
+                    $newXmlSrc = $xmlSrc.$lineStart.$date.'.xml';
+                }
+            }
+            if ($stateA === false) {
+                $newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
+                $newDate = date('Y-m-d', $newDate);
 
-		$xml = simplexml_load_file($newXmlSrc);
+                $date = str_replace('-', '', $newDate);
+                $date = substr($date, 2);
+                ++$numberOfDays;
+            }
+        }
 
-		$xmlObj = $xml->children();
+        $xml = simplexml_load_file($newXmlSrc);
 
-		$num = count($xmlObj->pozycja);
-		$datePublicationOfFile = (string) $xmlObj->data_publikacji;
+        $xmlObj = $xml->children();
 
-		$exchangeRate = 1.0;
-		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
-		if ($mainCurrency !== $this->getMainCurrencyCode()) {
-			for ($i = 0; $i <= $num; $i++) {
-				if ((string) $xmlObj->pozycja[$i]->kod_waluty === $mainCurrency) {
-					$exchangeRate = (float) str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-				}
-			}
-		}
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-				continue;
-			}
-			$currency = (string) $xmlObj->pozycja[$i]->kod_waluty;
-			foreach ($otherCurrencyCode as $key => $currId) {
-				if ($key == $currency && $currency != $mainCurrency) {
-					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-					$exchange = ((float) $exchange) / ((float) $xmlObj->pozycja[$i]->przelicznik);
-					$exchangeVtiger = $exchangeRate / $exchange;
-					$exchange = $exchangeRate ? ($exchange / $exchangeRate) : 0;
+        $num = count($xmlObj->pozycja);
+        $datePublicationOfFile = (string) $xmlObj->data_publikacji;
 
-					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
-						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
-					}
-					$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
-					if ($existingId > 0) {
-						$moduleModel->updateCurrencyRate($existingId, $exchange);
-					} else {
-						$moduleModel->addCurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
-					}
-				}
-			}
-		}
+        $exchangeRate = 1.0;
+        // if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
+        if ($mainCurrency !== $this->getMainCurrencyCode()) {
+            for ($i = 0; $i <= $num; ++$i) {
+                if ((string) $xmlObj->pozycja[$i]->kod_waluty === $mainCurrency) {
+                    $exchangeRate = (float) str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
+                }
+            }
+        }
+        for ($i = 0; $i <= $num; ++$i) {
+            if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+                continue;
+            }
+            $currency = (string) $xmlObj->pozycja[$i]->kod_waluty;
+            foreach ($otherCurrencyCode as $key => $currId) {
+                if ($key == $currency && $currency != $mainCurrency) {
+                    $exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
+                    $exchange = ((float) $exchange) / ((float) $xmlObj->pozycja[$i]->przelicznik);
+                    $exchangeVtiger = $exchangeRate / $exchange;
+                    $exchange = $exchangeRate ? ($exchange / $exchangeRate) : 0;
 
-		// currency diffrent than PLN, we need to add manually PLN rates
-		if ($mainCurrency != $this->getMainCurrencyCode()) {
-			$exchange = $exchangeRate ? (1.00000 / $exchangeRate) : 0;
-			$mainCurrencyId = false;
-			foreach ($otherCurrencyCode as $code => $id) {
-				if ($code == $this->getMainCurrencyCode()) {
-					$mainCurrencyId = $id;
-				}
-			}
+                    if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+                        $moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
+                    }
+                    $existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
+                    if ($existingId > 0) {
+                        $moduleModel->updateCurrencyRate($existingId, $exchange);
+                    } else {
+                        $moduleModel->addCurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
+                    }
+                }
+            }
+        }
 
-			if ($mainCurrencyId) {
-				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
-					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
-				}
+        // currency diffrent than PLN, we need to add manually PLN rates
+        if ($mainCurrency != $this->getMainCurrencyCode()) {
+            $exchange = $exchangeRate ? (1.00000 / $exchangeRate) : 0;
+            $mainCurrencyId = false;
+            foreach ($otherCurrencyCode as $code => $id) {
+                if ($code == $this->getMainCurrencyCode()) {
+                    $mainCurrencyId = $id;
+                }
+            }
 
-				$existingId = $moduleModel->getCurrencyRateId($mainCurrencyId, $datePublicationOfFile, $selectedBank);
+            if ($mainCurrencyId) {
+                if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+                    $moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
+                }
 
-				if ($existingId > 0) {
-					$moduleModel->updateCurrencyRate($existingId, $exchange);
-				} else {
-					$moduleModel->addCurrencyRate($mainCurrencyId, $datePublicationOfFile, $exchange, $selectedBank);
-				}
-			}
-		}
-	}
+                $existingId = $moduleModel->getCurrencyRateId($mainCurrencyId, $datePublicationOfFile, $selectedBank);
+
+                if ($existingId > 0) {
+                    $moduleModel->updateCurrencyRate($existingId, $exchange);
+                } else {
+                    $moduleModel->addCurrencyRate($mainCurrencyId, $datePublicationOfFile, $exchange, $selectedBank);
+                }
+            }
+        }
+    }
 }

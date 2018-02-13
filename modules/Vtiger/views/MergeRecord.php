@@ -10,28 +10,28 @@
 
 class Vtiger_MergeRecord_View extends Vtiger_Popup_View
 {
+    /**
+     * Process.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        $records = $request->getExploded('records');
+        $moduleName = $request->getModule();
+        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+        $fieldModels = $moduleModel->getFields();
 
-	/**
-	 * Process
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$records = $request->getExploded('records');
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModels = $moduleModel->getFields();
-
-		foreach ($records as $recordId) {
-			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-				$recordModels[] = Vtiger_Record_Model::getInstanceById($recordId);
-			}
-		}
-		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORDS', $records);
-		$viewer->assign('RECORDMODELS', $recordModels);
-		$viewer->assign('FIELDS', $fieldModels);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('MergeRecords.tpl', $moduleName);
-	}
+        foreach ($records as $recordId) {
+            if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+                $recordModels[] = Vtiger_Record_Model::getInstanceById($recordId);
+            }
+        }
+        $viewer = $this->getViewer($request);
+        $viewer->assign('RECORDS', $records);
+        $viewer->assign('RECORDMODELS', $recordModels);
+        $viewer->assign('FIELDS', $fieldModels);
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->view('MergeRecords.tpl', $moduleName);
+    }
 }

@@ -10,37 +10,36 @@
 
 class CustomView_Deny_Action extends \App\Controller\Action
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isPublic()) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isPublic()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function process(\App\Request $request)
+    {
+        $currentUser = Users_Record_Model::getCurrentUserModel();
+        $customViewModel = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
+        $moduleModel = $customViewModel->getModule();
+        if ($currentUser->isAdminUser()) {
+            $customViewModel->deny();
+        }
+        $listViewUrl = $moduleModel->getListViewUrl();
+        header("Location: $listViewUrl");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$customViewModel = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
-		$moduleModel = $customViewModel->getModule();
-		if ($currentUser->isAdminUser()) {
-			$customViewModel->deny();
-		}
-		$listViewUrl = $moduleModel->getListViewUrl();
-		header("Location: $listViewUrl");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

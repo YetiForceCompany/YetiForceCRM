@@ -17,38 +17,37 @@ Vtiger_Loader::includeOnce('include.runtime.Layout');
 
 abstract class Vtiger_EntryPoint
 {
+    /**
+     * Login data.
+     */
+    protected $login = false;
 
-	/**
-	 * Login data
-	 */
-	protected $login = false;
+    /**
+     * Get login data.
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
 
-	/**
-	 * Get login data.
-	 */
-	public function getLogin()
-	{
-		return $this->login;
-	}
+    /**
+     * Set login data.
+     */
+    public function setLogin()
+    {
+        if ($this->login) {
+            throw new \App\Exceptions\AppException('Login is already set.');
+        }
+        $this->login = true;
+    }
 
-	/**
-	 * Set login data.
-	 */
-	public function setLogin()
-	{
-		if ($this->login) {
-			throw new \App\Exceptions\AppException('Login is already set.');
-		}
-		$this->login = true;
-	}
+    /**
+     * Check if login data is present.
+     */
+    public function hasLogin()
+    {
+        return $this->getLogin();
+    }
 
-	/**
-	 * Check if login data is present.
-	 */
-	public function hasLogin()
-	{
-		return $this->getLogin();
-	}
-
-	abstract public function process(\App\Request $request);
+    abstract public function process(\App\Request $request);
 }

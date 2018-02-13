@@ -10,58 +10,63 @@
 
 class Settings_Roles_Index_View extends Settings_Vtiger_Index_View
 {
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $qualifiedModuleName = $request->getModule(false);
+        $rootRole = Settings_Roles_Record_Model::getBaseRole();
+        $allRoles = Settings_Roles_Record_Model::getAll();
 
-	public function process(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$rootRole = Settings_Roles_Record_Model::getBaseRole();
-		$allRoles = Settings_Roles_Record_Model::getAll();
+        $viewer->assign('ROOT_ROLE', $rootRole);
+        $viewer->assign('ROLES', $allRoles);
+        $viewer->assign('VIEW', $request->getByType('view', 1));
+        $viewer->assign('TYPE', $request->get('type'));
+        $viewer->view('Index.tpl', $qualifiedModuleName);
+    }
 
-		$viewer->assign('ROOT_ROLE', $rootRole);
-		$viewer->assign('ROLES', $allRoles);
-		$viewer->assign('VIEW', $request->getByType('view', 1));
-		$viewer->assign('TYPE', $request->get('type'));
-		$viewer->view('Index.tpl', $qualifiedModuleName);
-	}
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return <Array> - List of Vtiger_JsScript_Model instances
+     */
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
+        $jsFileNames = [
+            'modules.Settings.Vtiger.resources.Index',
+            "modules.Settings.$moduleName.resources.Index",
+            'modules.Settings.Vtiger.resources.Popup',
+            "modules.Settings.$moduleName.resources.Popup",
+            'libraries.js.jquery_windowmsg',
+        ];
 
-		$jsFileNames = [
-			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index",
-			'modules.Settings.Vtiger.resources.Popup',
-			"modules.Settings.$moduleName.resources.Popup",
-			'libraries.js.jquery_windowmsg',
-		];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+        return $headerScriptInstances;
+    }
 
-	/**
-	 * Function to get the list of Css models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'libraries.js.jqTree.jqtree'
-		];
+    /**
+     * Function to get the list of Css models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return <Array> - List of Vtiger_CssScript_Model instances
+     */
+    public function getHeaderCss(\App\Request $request)
+    {
+        $headerCssInstances = parent::getHeaderCss($request);
+        $cssFileNames = [
+            'libraries.js.jqTree.jqtree',
+        ];
 
-		$cssStyleInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssStyleInstances);
-		return $headerCssInstances;
-	}
+        $cssStyleInstances = $this->checkAndConvertCssStyles($cssFileNames);
+        $headerCssInstances = array_merge($headerCssInstances, $cssStyleInstances);
+
+        return $headerCssInstances;
+    }
 }

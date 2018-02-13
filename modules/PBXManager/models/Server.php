@@ -10,63 +10,68 @@
 
 class PBXManager_Server_Model extends \App\Base
 {
+    const TABLE_NAME = 'vtiger_pbxmanager_gateway';
 
-	const TABLE_NAME = 'vtiger_pbxmanager_gateway';
+    public static function getCleanInstance()
+    {
+        return new self();
+    }
 
-	public static function getCleanInstance()
-	{
-		return new self;
-	}
+    /**
+     * Static Function Server Record Model.
+     *
+     * @params string gateway name
+     *
+     * @return PBXManager_Server_Model
+     */
+    public static function getInstance()
+    {
+        $serverModel = new self();
+        $row = (new \App\Db\Query())->from(self::TABLE_NAME)->one();
+        if ($row !== false) {
+            $serverModel->set('gateway', $row['gateway']);
+            $serverModel->set('id', $row['id']);
+            $parameters = \App\Json::decode(App\Purifier::decodeHtml($row['parameters']));
+            foreach ($parameters as $fieldName => $fieldValue) {
+                $serverModel->set($fieldName, $fieldValue);
+            }
 
-	/**
-	 * Static Function Server Record Model
-	 * @params string gateway name
-	 * @return PBXManager_Server_Model
-	 */
-	public static function getInstance()
-	{
-		$serverModel = new self();
-		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->one();
-		if ($row !== false) {
-			$serverModel->set('gateway', $row['gateway']);
-			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(App\Purifier::decodeHtml($row['parameters']));
-			foreach ($parameters as $fieldName => $fieldValue) {
-				$serverModel->set($fieldName, $fieldValue);
-			}
-			return $serverModel;
-		}
-		return $serverModel;
-	}
+            return $serverModel;
+        }
 
-	public static function checkPermissionForOutgoingCall()
-	{
-		$permission = Vtiger_Cache::get('outgoingCall', 'PBXManager');
-		if ($permission !== false) {
-			return $permission ? true : false;
-		}
-		Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = \App\Privilege::isPermitted('PBXManager', 'MakeOutgoingCalls');
+        return $serverModel;
+    }
 
-		$serverModel = PBXManager_Server_Model::getInstance();
-		$gateway = $serverModel->get('gateway');
+    public static function checkPermissionForOutgoingCall()
+    {
+        $permission = Vtiger_Cache::get('outgoingCall', 'PBXManager');
+        if ($permission !== false) {
+            return $permission ? true : false;
+        }
+        Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        $permission = \App\Privilege::isPermitted('PBXManager', 'MakeOutgoingCalls');
 
-		if ($permission && $gateway) {
-			Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
-			return true;
-		} else {
-			Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
-			return false;
-		}
-	}
+        $serverModel = self::getInstance();
+        $gateway = $serverModel->get('gateway');
 
-	public static function generateVtigerSecretKey()
-	{
-		return uniqid(rand());
-	}
+        if ($permission && $gateway) {
+            Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
 
-	public function getConnector()
-	{
-		return new PBXManager_PBXManager_Connector;
-	}
+            return true;
+        } else {
+            Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
+
+            return false;
+        }
+    }
+
+    public static function generateVtigerSecretKey()
+    {
+        return uniqid(rand());
+    }
+
+    public function getConnector()
+    {
+        return new PBXManager_PBXManager_Connector();
+    }
 }

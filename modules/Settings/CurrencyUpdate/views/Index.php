@@ -1,87 +1,86 @@
 <?php
 
 /**
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 {
+    /**
+     * Process.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        $qualifiedModule = $request->getModule(false);
+        $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 
-	/**
-	 * Process
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$qualifiedModule = $request->getModule(false);
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+        // synchronise bank list
+        $moduleModel->refreshBanks();
 
-		// synchronise bank list
-		$moduleModel->refreshBanks();
+        $downloadBtn = !$request->isEmpty('download') ? $request->getByType('download') : false;
+        $date = !$request->isEmpty('duedate') ? Vtiger_Datetime_UIType::getDBInsertedValue($request->getByType('duedate', 'DateInUserFormat')) : false;
 
-		$downloadBtn = !$request->isEmpty('download') ? $request->getByType('download') : false;
-		$date = !$request->isEmpty('duedate') ? Vtiger_Datetime_UIType::getDBInsertedValue($request->getByType('duedate', 'DateInUserFormat')) : false;
+        $dateCur = '';
+        if ($date) {
+            // if its future date change it to present one
+            if (strtotime($date) > strtotime(date('Y-m-d'))) {
+                $date = date('Y-m-d');
+            }
+            $dateCur = $date;
+        } else {
+            $dateCur = date('Y-m-d');
+        }
 
-		$dateCur = '';
-		if ($date) {
-			// if its future date change it to present one
-			if (strtotime($date) > strtotime(date('Y-m-d')))
-				$date = date('Y-m-d');
-			$dateCur = $date;
-		}
-		else {
-			$dateCur = date('Y-m-d');
-		}
+        // take currency rates for yesterday
+        if (strcmp(date('Y-m-d'), $dateCur) == 0) {
+            $dateCur = strtotime('-1 day', strtotime($dateCur));
+            $dateCur = date('Y-m-d', $dateCur);
+        }
 
-		// take currency rates for yesterday
-		if (strcmp(date('Y-m-d'), $dateCur) == 0) {
-			$dateCur = strtotime('-1 day', strtotime($dateCur));
-			$dateCur = date('Y-m-d', $dateCur);
-		}
+        $dateCur = vtlib\Functions::getLastWorkingDay($dateCur);
 
-		$dateCur = vtlib\Functions::getLastWorkingDay($dateCur);
+        // get currency if not already archived
+        if ($downloadBtn) {
+            $moduleModel->fetchCurrencyRates($dateCur);
+        }
 
-		// get currency if not already archived
-		if ($downloadBtn) {
-			$moduleModel->fetchCurrencyRates($dateCur);
-		}
+        $selectBankId = $moduleModel->getActiveBankId();
 
-		$selectBankId = $moduleModel->getActiveBankId();
+        $history = $moduleModel->getRatesHistory($selectBankId, $dateCur, $request);
+        $bankTab = [];
 
-		$history = $moduleModel->getRatesHistory($selectBankId, $dateCur, $request);
-		$bankTab = [];
+        $db = new \App\Db\Query();
+        $db->from('yetiforce_currencyupdate_banks');
+        $dataReader = $db->createCommand()->query();
+        $i = 0;
+        while ($row = $dataReader->read()) {
+            $bankTab[$i]['id'] = $row['id'];
+            $bankName = $row['bank_name'];
+            $bankTab[$i]['bank_name'] = $bankName;
+            $bankTab[$i]['active'] = $row['active'];
+            ++$i;
+        }
+        $dataReader->close();
+        // number of currencies
+        $curr_num = $moduleModel->getCurrencyNum();
+        // get info about main currency
+        $mainCurrencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
 
-		$db = new \App\Db\Query();
-		$db->from('yetiforce_currencyupdate_banks');
-		$dataReader = $db->createCommand()->query();
-		$i = 0;
-		while ($row = $dataReader->read()) {
-			$bankTab[$i]['id'] = $row['id'];
-			$bankName = $row['bank_name'];
-			$bankTab[$i]['bank_name'] = $bankName;
-			$bankTab[$i]['active'] = $row['active'];
-			$i++;
-		}
-		$dataReader->close();
-		// number of currencies
-		$curr_num = $moduleModel->getCurrencyNum();
-		// get info about main currency
-		$mainCurrencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
-
-		$viewer = $this->getViewer($request);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('MODULENAME', 'CurrencyUpdate');
-		$viewer->assign('DATE', ($request->has('duedate') ? (new Vtiger_Date_UIType())->getDisplayValue($dateCur) : ''));
-		$viewer->assign('CURRNUM', $curr_num);
-		$viewer->assign('BANK', $bankTab);
-		$viewer->assign('HISTORIA', $history);
-		$viewer->assign('MAINCURR', $mainCurrencyInfo);
-		$viewer->assign('SUPPORTED_CURRENCIES', $moduleModel->getSupportedCurrencies());
-		$viewer->assign('UNSUPPORTED_CURRENCIES', $moduleModel->getUnSupportedCurrencies());
-		$viewer->view('Index.tpl', $qualifiedModule);
-		\App\Log::trace('End ' . __METHOD__);
-	}
+        $viewer = $this->getViewer($request);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+        $viewer->assign('MODULE_MODEL', $moduleModel);
+        $viewer->assign('MODULENAME', 'CurrencyUpdate');
+        $viewer->assign('DATE', ($request->has('duedate') ? (new Vtiger_Date_UIType())->getDisplayValue($dateCur) : ''));
+        $viewer->assign('CURRNUM', $curr_num);
+        $viewer->assign('BANK', $bankTab);
+        $viewer->assign('HISTORIA', $history);
+        $viewer->assign('MAINCURR', $mainCurrencyInfo);
+        $viewer->assign('SUPPORTED_CURRENCIES', $moduleModel->getSupportedCurrencies());
+        $viewer->assign('UNSUPPORTED_CURRENCIES', $moduleModel->getUnSupportedCurrencies());
+        $viewer->view('Index.tpl', $qualifiedModule);
+        \App\Log::trace('End '.__METHOD__);
+    }
 }

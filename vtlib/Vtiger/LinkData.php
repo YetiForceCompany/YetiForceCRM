@@ -8,42 +8,41 @@
  * All Rights Reserved.
  *
  * ******************************************************************************* */
+
 namespace vtlib;
 
 /**
- * Description of LinkData
+ * Description of LinkData.
  *
  * @author MAK
  */
 class LinkData
 {
+    protected $link;
+    protected $user;
+    protected $module;
 
-	protected $link;
-	protected $user;
-	protected $module;
+    public function __construct($link)
+    {
+        $this->link = $link;
+        $this->module = \App\Request::_getModule();
+    }
 
-	public function __construct($link)
-	{
-		$this->link = $link;
-		$this->module = \App\Request::_getModule();
-	}
+    public function getInputParameter($name)
+    {
+        return \App\Request::_get($name);
+    }
 
-	public function getInputParameter($name)
-	{
-		return \App\Request::_get($name);
-	}
+    /**
+     * @return vtlib\Link
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
 
-	/**
-	 *
-	 * @return vtlib\Link
-	 */
-	public function getLink()
-	{
-		return $this->link;
-	}
-
-	public function getModule()
-	{
-		return $this->module;
-	}
+    public function getModule()
+    {
+        return $this->module;
+    }
 }

@@ -10,23 +10,23 @@
 
 class Documents_Field_Model extends Vtiger_Field_Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+    {
+        $fieldName = $this->getName();
+        if ($fieldName === 'filesize' && $recordModel) {
+            $downloadType = $recordModel->get('filelocationtype');
+            if ($downloadType === 'I') {
+                $value = vtlib\Functions::showBytes($value);
+            } else {
+                $value = ' --';
+            }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$fieldName = $this->getName();
-		if ($fieldName === 'filesize' && $recordModel) {
-			$downloadType = $recordModel->get('filelocationtype');
-			if ($downloadType === 'I') {
-				$value = vtlib\Functions::showBytes($value);
-			} else {
-				$value = ' --';
-			}
-			return $value;
-		}
+            return $value;
+        }
 
-		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
-	}
+        return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
+    }
 }

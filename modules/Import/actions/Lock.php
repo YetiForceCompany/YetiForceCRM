@@ -9,79 +9,81 @@
  * *********************************************************************************** */
 
 /**
- * Import lock action
+ * Import lock action.
  */
 class Import_Lock_Action extends \App\Controller\Action
 {
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function process(\App\Request $request)
+    {
+        return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		return false;
-	}
+    /**
+     * Lock.
+     *
+     * @param int                $importId
+     * @param string             $module
+     * @param Users_Record_Model $user
+     */
+    public static function lock($importId, $module, $user)
+    {
+        \App\Db::getInstance()->createCommand()
+            ->insert('vtiger_import_locks', [
+                'userid' => $user->id,
+                'tabid' => \App\Module::getModuleId($module),
+                'importid' => $importId,
+                'locked_since' => date('Y-m-d H:i:s'),
+            ])->execute();
+    }
 
-	/**
-	 * Lock
-	 * @param int $importId
-	 * @param string $module
-	 * @param Users_Record_Model $user
-	 */
-	public static function lock($importId, $module, $user)
-	{
-		\App\Db::getInstance()->createCommand()
-			->insert('vtiger_import_locks', [
-				'userid' => $user->id,
-				'tabid' => \App\Module::getModuleId($module),
-				'importid' => $importId,
-				'locked_since' => date('Y-m-d H:i:s')
-			])->execute();
-	}
+    /**
+     * Unlock.
+     *
+     * @param Users_Record_Model $user
+     * @param string             $module
+     */
+    public static function unLock($user, $module = false)
+    {
+        $db = \App\Db::getInstance();
+        $where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
+        if ($module) {
+            $where['tabid'] = \App\Module::getModuleId($module);
+        }
+        $db->createCommand()->delete('vtiger_import_locks', $where)->execute();
+    }
 
-	/**
-	 * Unlock
-	 * @param Users_Record_Model $user
-	 * @param string $module
-	 */
-	public static function unLock($user, $module = false)
-	{
-		$db = \App\Db::getInstance();
-		$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
-		if ($module) {
-			$where['tabid'] = \App\Module::getModuleId($module);
-		}
-		$db->createCommand()->delete('vtiger_import_locks', $where)->execute();
-	}
-
-	/**
-	 * Is locked for module
-	 * @param string $module
-	 * @return array|bool
-	 */
-	public static function isLockedForModule($module)
-	{
-		return (new \App\Db\Query())
-				->from('vtiger_import_locks')
-				->where(['tabid' => \App\Module::getModuleId($module)])->one();
-	}
+    /**
+     * Is locked for module.
+     *
+     * @param string $module
+     *
+     * @return array|bool
+     */
+    public static function isLockedForModule($module)
+    {
+        return (new \App\Db\Query())
+                ->from('vtiger_import_locks')
+                ->where(['tabid' => \App\Module::getModuleId($module)])->one();
+    }
 }

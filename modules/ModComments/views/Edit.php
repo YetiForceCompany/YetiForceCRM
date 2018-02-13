@@ -8,20 +8,21 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class ModComments_Edit_View extends Vtiger_Edit_View
+class ModComments_Edit_View extends Vtiger_Edit_View
 {
-
-	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		if ($record || !\App\Privilege::isPermitted($moduleName, 'EditView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
-	}
+    /**
+     * Function to check permission.
+     *
+     * @param \App\Request $request
+     *
+     * @throws \App\Exceptions\NoPermitted
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $record = $request->getInteger('record');
+        if ($record || !\App\Privilege::isPermitted($moduleName, 'EditView')) {
+            throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+        }
+    }
 }

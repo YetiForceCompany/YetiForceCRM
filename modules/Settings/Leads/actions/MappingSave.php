@@ -11,29 +11,29 @@
 
 class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 {
+    public function process(\App\Request $request)
+    {
+        $mapping = $request->get('mapping');
+        $csrfKey = $GLOBALS['csrf']['input-name'];
+        if (array_key_exists($csrfKey, $mapping)) {
+            unset($mapping[$csrfKey]);
+        }
+        $mappingModel = Settings_Leads_Mapping_Model::getCleanInstance();
 
-	public function process(\App\Request $request)
-	{
-		$mapping = $request->get('mapping');
-		$csrfKey = $GLOBALS['csrf']['input-name'];
-		if (array_key_exists($csrfKey, $mapping)) {
-			unset($mapping[$csrfKey]);
-		}
-		$mappingModel = Settings_Leads_Mapping_Model::getCleanInstance();
+        $response = new Vtiger_Response();
+        if ($mapping) {
+            $mappingModel->save($mapping);
+            $result = ['status' => true];
+        } else {
+            $result['status'] = false;
+        }
+        $response->setResult($result);
 
-		$response = new Vtiger_Response();
-		if ($mapping) {
-			$mappingModel->save($mapping);
-			$result = ['status' => true];
-		} else {
-			$result['status'] = false;
-		}
-		$response->setResult($result);
-		return $response->emit();
-	}
+        return $response->emit();
+    }
 
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
+    public function validateRequest(\App\Request $request)
+    {
+        $request->validateWriteAccess();
+    }
 }

@@ -10,22 +10,21 @@
 
 class Settings_Workflows_TasksList_View extends Settings_Vtiger_Index_View
 {
+    public function process(\App\Request $request)
+    {
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
+        $qualifiedModuleName = $request->getModule(false);
 
-	public function process(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
+        $recordId = $request->get('record');
+        $workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
 
-		$recordId = $request->get('record');
-		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+        $viewer->assign('WORKFLOW_MODEL', $workflowModel);
 
-		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
-
-		$viewer->assign('TASK_LIST', $workflowModel->getTasks());
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('RECORD', $recordId);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('TasksList.tpl', $qualifiedModuleName);
-	}
+        $viewer->assign('TASK_LIST', $workflowModel->getTasks());
+        $viewer->assign('MODULE', $moduleName);
+        $viewer->assign('RECORD', $recordId);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->view('TasksList.tpl', $qualifiedModuleName);
+    }
 }

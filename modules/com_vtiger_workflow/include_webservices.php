@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once 'include/Webservices/Utils.php';
-require_once("modules/Users/Users.php");
-require_once("include/Webservices/WebServiceError.php");
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/WebServiceError.php';
 require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';

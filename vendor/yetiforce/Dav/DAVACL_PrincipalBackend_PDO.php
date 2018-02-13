@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Dav;
 
 use Sabre\DAVACL;
 
 /**
- * PDO principal backend
+ * PDO principal backend.
  *
  *
  * This backend assumes all principals are in a single collection. The default collection
@@ -16,19 +17,17 @@ use Sabre\DAVACL;
  */
 class DAVACL_PrincipalBackend_PDO extends DAVACL\PrincipalBackend\PDO
 {
+    /**
+     * PDO table name for 'principals'.
+     *
+     * @var string
+     */
+    public $tableName = 'dav_principals';
 
-	/**
-	 * PDO table name for 'principals'
-	 *
-	 * @var string
-	 */
-	public $tableName = 'dav_principals';
-
-	/**
-	 * PDO table name for 'group members'
-	 *
-	 * @var string
-	 */
-	public $groupMembersTableName = 'dav_groupmembers';
-
+    /**
+     * PDO table name for 'group members'.
+     *
+     * @var string
+     */
+    public $groupMembersTableName = 'dav_groupmembers';
 }

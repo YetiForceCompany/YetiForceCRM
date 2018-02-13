@@ -1,40 +1,43 @@
 <?php
 
 /**
- * Settings search index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings search index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Search_Index_View extends Settings_Vtiger_Index_View
 {
+    /**
+     * Main process.
+     *
+     * @param \App\Request $request
+     */
+    public function process(\App\Request $request)
+    {
+        $qualifiedModuleName = $request->getModule(false);
+        $viewer = $this->getViewer($request);
+        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+        $viewer->assign('MODULE', $request->getModule());
+        $viewer->view('Index.tpl', $qualifiedModuleName);
+    }
 
-	/**
-	 * Main process
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE', $request->getModule());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
-	}
+    /**
+     * Function to get the list of Script models to be included.
+     *
+     * @param \App\Request $request
+     *
+     * @return array - List of Vtiger_JsScript_Model instances
+     */
+    public function getFooterScripts(\App\Request $request)
+    {
+        $headerScriptInstances = parent::getFooterScripts($request);
+        $moduleName = $request->getModule();
+        $jsFileNames = [
+            "modules.Settings.$moduleName.resources.Search",
+        ];
+        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return array - List of Vtiger_JsScript_Model instances
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.Search"
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return array_merge($headerScriptInstances, $jsScriptInstances);
-	}
+        return array_merge($headerScriptInstances, $jsScriptInstances);
+    }
 }

@@ -17,103 +17,104 @@ Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_ImportICS_Action extends \App\Controller\Action
 {
+    /**
+     * Function to check permission.
+     *
+     * @param \App\Request $request
+     *
+     * @throws \App\Exceptions\NoPermitted
+     */
+    public function checkPermission(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+        if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
+            throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+        }
+    }
 
-	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $moduleName = $request->getModule();
+        $ics = $request->get('ics').'.ics';
+        $icsUrl = 'cache/import/'.$ics;
+        if (file_exists($icsUrl)) {
+            $currentUserModel = Users_Record_Model::getCurrentUserModel();
+            $userId = $currentUserModel->getId();
 
-	public function process(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$ics = $request->get('ics') . '.ics';
-		$icsUrl = 'cache/import/' . $ics;
-		if (file_exists($icsUrl)) {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$userId = $currentUserModel->getId();
+            $lastImport = new IcalLastImport();
+            $lastImport->clearRecords($userId);
 
-			$lastImport = new IcalLastImport();
-			$lastImport->clearRecords($userId);
+            $eventModule = 'Events';
+            $todoModule = 'Calendar';
+            $skipFields = [
+                $eventModule => ['duration_hours'],
+                $todoModule => ['activitystatus'],
+            ];
 
-			$eventModule = 'Events';
-			$todoModule = 'Calendar';
-			$skipFields = [
-				$eventModule => ['duration_hours'],
-				$todoModule => ['activitystatus']
-			];
+            $requiredFields = [];
+            $modules = [$eventModule, $todoModule];
+            $calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
-			$requiredFields = [];
-			$modules = [$eventModule, $todoModule];
-			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
+            foreach ($modules as $module) {
+                $moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
+                $requiredFields[$module] = array_diff($moduleRequiredFields, $skipFields[$module]);
+                $totalCount[$module] = 0;
+                $skipCount[$module] = 0;
+            }
 
-			foreach ($modules as $module) {
-				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
-				$requiredFields[$module] = array_diff($moduleRequiredFields, $skipFields[$module]);
-				$totalCount[$module] = 0;
-				$skipCount[$module] = 0;
-			}
+            $ical = new Ical();
+            $icalActivities = $ical->iCalReader($ics);
+            $noOfActivities = count($icalActivities);
 
-			$ical = new Ical();
-			$icalActivities = $ical->iCalReader($ics);
-			$noOfActivities = count($icalActivities);
+            for ($i = 0; $i < $noOfActivities; ++$i) {
+                if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
+                    $activity = new IcalendarEvent();
+                    $module = $eventModule;
+                } else {
+                    $activity = new IcalendarTodo();
+                    $module = $todoModule;
+                }
 
-			for ($i = 0; $i < $noOfActivities; $i++) {
-				if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-					$activity = new IcalendarEvent;
-					$module = $eventModule;
-				} else {
-					$activity = new IcalendarTodo;
-					$module = $todoModule;
-				}
+                ++$totalCount[$module];
+                $activityFieldsList = $activity->generateArray($icalActivities[$i]);
 
-				$totalCount[$module] ++;
-				$activityFieldsList = $activity->generateArray($icalActivities[$i]);
+                $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+                $recordModel->setData($activityFieldsList);
+                $recordModel->set('assigned_user_id', $userId);
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-				$recordModel->setData($activityFieldsList);
-				$recordModel->set('assigned_user_id', $userId);
+                foreach ($requiredFields[$module] as $key) {
+                    $value = $recordModel->get($key);
+                    if (empty($value)) {
+                        ++$skipCount[$module];
+                        break;
+                    }
+                }
+                $recordModel->save();
 
-				foreach ($requiredFields[$module] as $key) {
-					$value = $recordModel->get($key);
-					if (empty($value)) {
-						$skipCount[$module] ++;
-						break;
-					}
-				}
-				$recordModel->save();
+                $lastImport = new IcalLastImport();
+                $lastImport->setFields(['userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()]);
+                $lastImport->save();
 
-				$lastImport = new IcalLastImport();
-				$lastImport->setFields(['userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()]);
-				$lastImport->save();
-
-				if (!empty($icalActivities[$i]['VALARM'])) {
-					$recordModel->setActivityReminder(0, '', '');
-				}
-			}
-			$return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
-			$importedEvents = $totalCount[$eventModule] - $skipCount[$eventModule];
-			$importedTasks = $totalCount[$todoModule] - $skipCount[$todoModule];
-			if ($importedEvents > 0 || $importedTasks > 0) {
-				$return = 'LBL_IMPORT_ICS_SUCCESS';
-			}
-			@unlink($icsUrl);
-		} else {
-			$return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
-		}
-		$response = new Vtiger_Response();
-		$response->setResult(\App\Language::translate($return, $moduleName));
-		$response->emit();
-	}
+                if (!empty($icalActivities[$i]['VALARM'])) {
+                    $recordModel->setActivityReminder(0, '', '');
+                }
+            }
+            $return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
+            $importedEvents = $totalCount[$eventModule] - $skipCount[$eventModule];
+            $importedTasks = $totalCount[$todoModule] - $skipCount[$todoModule];
+            if ($importedEvents > 0 || $importedTasks > 0) {
+                $return = 'LBL_IMPORT_ICS_SUCCESS';
+            }
+            @unlink($icsUrl);
+        } else {
+            $return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
+        }
+        $response = new Vtiger_Response();
+        $response->setResult(\App\Language::translate($return, $moduleName));
+        $response->emit();
+    }
 }

@@ -9,44 +9,47 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Image Model Class
+ * Vtiger Image Model Class.
  */
 class Vtiger_Image_Model extends \App\Base
 {
+    /**
+     * Function to get the title of the Image.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->get('title');
+    }
 
-	/**
-	 * Function to get the title of the Image
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		return $this->get('title');
-	}
+    /**
+     * Function to get the alternative text for the Image.
+     *
+     * @return string
+     */
+    public function getAltText()
+    {
+        return $this->get('alt');
+    }
 
-	/**
-	 * Function to get the alternative text for the Image
-	 * @return string
-	 */
-	public function getAltText()
-	{
-		return $this->get('alt');
-	}
+    /**
+     * Function to get the Image file path.
+     *
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return Vtiger_Theme::getImagePath($this->get('imagename'));
+    }
 
-	/**
-	 * Function to get the Image file path
-	 * @return string
-	 */
-	public function getImagePath()
-	{
-		return Vtiger_Theme::getImagePath($this->get('imagename'));
-	}
-
-	/**
-	 * Function to get the Image file name
-	 * @return string
-	 */
-	public function getImageFileName()
-	{
-		return $this->get('imagename');
-	}
+    /**
+     * Function to get the Image file name.
+     *
+     * @return string
+     */
+    public function getImageFileName()
+    {
+        return $this->get('imagename');
+    }
 }

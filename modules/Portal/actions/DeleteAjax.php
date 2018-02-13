@@ -10,24 +10,23 @@
 
 class Portal_DeleteAjax_Action extends \App\Controller\Action
 {
+    public function checkPermission(\App\Request $request)
+    {
+        $currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+        if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+        }
+    }
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+    public function process(\App\Request $request)
+    {
+        $recordId = $request->getInteger('record');
+        $module = $request->getModule();
+        $moduleModel = new Portal_Module_Model();
+        $moduleModel->deleteRecord($recordId);
 
-	public function process(\App\Request $request)
-	{
-		$recordId = $request->getInteger('record');
-		$module = $request->getModule();
-		$moduleModel = new Portal_Module_Model();
-		$moduleModel->deleteRecord($recordId);
-
-		$response = new Vtiger_Response();
-		$response->setResult(['message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)]);
-		$response->emit();
-	}
+        $response = new Vtiger_Response();
+        $response->setResult(['message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)]);
+        $response->emit();
+    }
 }

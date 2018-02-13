@@ -1,11 +1,11 @@
 <?php
 /**
- * OSSMail module config
- * @package YetiForce.Config
- * @copyright YetiForce Sp. z o.o.
+ * OSSMail module config.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-$config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
+$config['db_dsnw'] = 'mysql://'.$dbconfig['db_username'].':'.$dbconfig['db_password'].'@'.$dbconfig['db_server'].':'.$dbconfig['db_port'].'/'.$dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
 $config['default_host'] = ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'];
 $config['validate_cert'] = false;
@@ -44,8 +44,8 @@ $config['messages_cache'] = 'db';
 $config['reply_mode'] = 1;
 $config['imap_max_retries'] = 0;
 $config['imap_params'] = [
-	// enable this for imap and MS Exchange bug "Kerberos error: Credentials cache file  ... not found
-	// 	'DISABLE_AUTHENTICATOR' => 'GSSAPI'
+    // enable this for imap and MS Exchange bug "Kerberos error: Credentials cache file  ... not found
+    // 	'DISABLE_AUTHENTICATOR' => 'GSSAPI'
 ];
 // Debug
 $config['debug_level'] = AppConfig::debug('ROUNDCUBE_DEBUG_LEVEL');
@@ -58,20 +58,20 @@ $config['imap_debug'] = AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
 $config['ldap_debug'] = AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
 $config['smtp_debug'] = AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
 $config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
-$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/logs/';
-$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/mail/';
+$config['log_dir'] = RCUBE_INSTALL_PATH.'/../../../../cache/logs/';
+$config['temp_dir'] = RCUBE_INSTALL_PATH.'/../../../../cache/mail/';
 //Socket context options
 $config['imap_conn_options'] = [
-	'ssl' => [
-		'verify_peer' => false,
-		'verify_peer_name' => false,
-	],
+    'ssl' => [
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+    ],
 ];
 $config['smtp_conn_options'] = [
-	'ssl' => [
-		'verify_peer' => false,
-		'verify_peer_name' => false,
-	],
+    'ssl' => [
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+    ],
 ];
 $config['smtp_timeout'] = 5;
 $config['smtp_helo_host'] = 'YetiForceCRM';
@@ -81,9 +81,8 @@ $config['list_cols'] = array('flag', 'status', 'subject', 'fromto', 'date', 'siz
 $config['enable_authres_status_column'] = true;
 $config['show_statuses'] = 127;
 //CRM Additional configuration parameters
-$config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+$config['root_directory'] = ROOT_DIRECTORY.DIRECTORY_SEPARATOR;
 $config['site_URL'] = $config['public_URL'] = $site_URL;
 $config['public_URL'] .= strpos($_SERVER['SCRIPT_NAME'], 'public_html/modules/OSSMail') === false ? '' : 'public_html/';
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;
-

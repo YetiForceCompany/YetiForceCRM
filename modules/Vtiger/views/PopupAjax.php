@@ -11,29 +11,29 @@
 
 class Vtiger_PopupAjax_View extends Vtiger_Popup_View
 {
+    use \App\Controller\ExposeMethod,
+     App\Controller\ClearProcess;
 
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->exposeMethod('getListViewCount');
+        $this->exposeMethod('getRecordsCount');
+        $this->exposeMethod('getPageCount');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getListViewCount');
-		$this->exposeMethod('getRecordsCount');
-		$this->exposeMethod('getPageCount');
-	}
+    public function process(\App\Request $request)
+    {
+        $mode = $request->getMode();
+        if (!empty($mode)) {
+            $this->invokeExposedMethod($mode, $request);
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+            return;
+        }
+        $viewer = $this->getViewer($request);
+        $moduleName = $request->getModule();
 
-		$this->initializeListViewContents($request, $viewer);
-		echo $viewer->view('PopupContents.tpl', $moduleName, true);
-	}
+        $this->initializeListViewContents($request, $viewer);
+        echo $viewer->view('PopupContents.tpl', $moduleName, true);
+    }
 }
