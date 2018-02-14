@@ -30,7 +30,7 @@
 		</div>
 	</div>
 </div>
-<div class="dashboardWidgetContent noSpaces">
+<div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/NeglectedAccountsContents.tpl', $MODULE_NAME)}
 </div>
 
