@@ -184,7 +184,7 @@ $languageStrings = [
     'LBL_PBX_DESCRIPTION' => 'Eine PBX Integration ermöglicht direkte Anrufe aus dem CRM System heraus',
     /* settings menu */
     'LBL_BRUTEFORCE_DESCRIPTION' => 'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
-    'LBL_BRUTEFORCE' => 'Passwords - Brute force',
+    'LBL_BRUTEFORCE' => 'Passwörter - Brute force',
     'LBL_API_ADDRESS' => 'Adressen-Suche',
     'LBL_API_ADDRESS_DESCRIPTION' => 'Modul erlaubt das Suchen/Autokompletieren der Adresse während der Erstellung/Bearbeitung von Daten im System.',
     'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Modul ermöglicht, das Layout der Felder innerhalb im -Schnell erstellen- Fenster zu ändern',
