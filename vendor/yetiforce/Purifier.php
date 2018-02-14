@@ -144,6 +144,8 @@ class Purifier
             $config->set('HTML.DefinitionRev', 1);
             $config->set('HTML.TargetBlank', true);
             static::loadHtmlDefinition($config);
+            $uri = $config->getDefinition('URI');
+            $uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
             if (static::$collectErrors) {
                 $config->set('Core.CollectErrors', true);
             }
