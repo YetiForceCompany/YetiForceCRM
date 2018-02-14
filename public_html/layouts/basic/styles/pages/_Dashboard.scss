@@ -115,6 +115,7 @@
         }
       }
       .dashboardWidgetContent {
+		@extend .small;
         &:not(.dashboardWidgetCalendar) {
           padding: 5px;
           line-height: 20px;
