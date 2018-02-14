@@ -3,8 +3,8 @@
 	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{\App\Purifier::encodeHtml($ROW->get('type'))}">
 		{assign var=ICON value=$ROW->getIcon()}
 		<div class="media-body wordBreakAll">
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="card mb-3">
+				<div class="card-header p-2">
 					{if $ICON}
 						<div class="float-left">
 							{if $ICON['type'] == 'image'}
@@ -21,7 +21,7 @@
 					</div>
 					<strong>{$ROW->getTitle()}</strong>
 				</div>
-				<div class="panel-body">
+				<div class="card-body p-2">
 					{assign var=COTENT value=$ROW->getMessage()}
 					{if $COTENT}
 						{$COTENT}
