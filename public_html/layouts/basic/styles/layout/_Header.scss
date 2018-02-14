@@ -30,37 +30,36 @@
 	&.menuOpen {
 		left: 230px;
 	}
-}
-
-.rightHeader, .modal :not(.chatModal) {
-	position: relative;
-	.btn {
-		@extend .ml-2;
-		@extend .px-1;
-		height: $menuItemsHeight;
-		font-size: 17px;
-		[data-fa-i2svg] {
-			margin-bottom: 4px;
-			&.fa-power-off {
-				margin-bottom: 1px;
+	.rightHeader {
+		position: relative;
+		.headerButton {
+			@extend .ml-2;
+			@extend .px-1;
+			height: $menuItemsHeight;
+			font-size: 17px;
+			[data-fa-i2svg] {
+				margin-bottom: 4px;
+				&.fa-power-off {
+					margin-bottom: 1px;
+				}
 			}
 		}
 	}
-}
-.headerLinksMails {
-	height: fit-content;
-	> .btn + .dropdown-toggle {
-		padding-top: 7px;
-		padding-bottom: 7px;
-	}
-	.dropdown-menu {
-		left: auto;
-		right: 0;
-	}
-	.btn {
-		@extend .m-0;
-		@extend .px-2;
-		font-size: $font-size-sm;
+	.headerLinksMails {
+		height: fit-content;
+		> .btn + .dropdown-toggle {
+			padding-top: 7px;
+			padding-bottom: 7px;
+		}
+		.dropdown-menu {
+			left: auto;
+			right: 0;
+		}
+		.btn {
+			@extend .m-0;
+			@extend .px-2;
+			font-size: $font-size-sm;
+		}
 	}
 }
 .globalSearchResults .nav li a {

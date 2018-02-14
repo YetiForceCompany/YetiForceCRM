@@ -5051,7 +5051,7 @@ button.bg-dark:focus {
 .mh-100 {
   max-height: 100% !important; }
 
-.m-0, .headerLinksMails .btn {
+.m-0, .bodyHeader .headerLinksMails .btn {
   margin: 0 !important; }
 
 .mt-0,
@@ -5104,7 +5104,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .rightHeader .btn, .modal :not(.chatModal) .btn,
+.ml-2, .bodyHeader .rightHeader .headerButton,
 .mx-2 {
   margin-left: 0.5rem !important; }
 
@@ -5193,8 +5193,7 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
-.rightHeader .btn,
-.modal :not(.chatModal) .btn {
+.bodyHeader .rightHeader .headerButton {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
@@ -5203,8 +5202,7 @@ button.bg-dark:focus {
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
-.rightHeader .btn,
-.modal :not(.chatModal) .btn {
+.bodyHeader .rightHeader .headerButton {
   padding-left: 0.25rem !important; }
 
 .p-2 {
@@ -5218,7 +5216,7 @@ header .select2-selection.select2-selection--single {
 
 .pr-2,
 .px-2,
-.headerLinksMails .btn {
+.bodyHeader .headerLinksMails .btn {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5229,7 +5227,7 @@ header .select2-selection.select2-selection--single {
 
 .pl-2,
 .px-2,
-.headerLinksMails .btn {
+.bodyHeader .headerLinksMails .btn {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -10991,27 +10989,25 @@ header .headerLinksMails .select2-selection:hover {
     margin: 5px; }
   .bodyHeader.menuOpen {
     left: 230px; }
-
-.rightHeader, .modal :not(.chatModal) {
-  position: relative; }
-  .rightHeader .btn, .modal :not(.chatModal) .btn {
-    height: 32px;
-    font-size: 17px; }
-    .rightHeader .btn [data-fa-i2svg], .modal :not(.chatModal) .btn [data-fa-i2svg] {
-      margin-bottom: 4px; }
-      .rightHeader .btn [data-fa-i2svg].fa-power-off, .modal :not(.chatModal) .btn [data-fa-i2svg].fa-power-off {
-        margin-bottom: 1px; }
-
-.headerLinksMails {
-  height: fit-content; }
-  .headerLinksMails > .btn + .dropdown-toggle {
-    padding-top: 7px;
-    padding-bottom: 7px; }
-  .headerLinksMails .dropdown-menu {
-    left: auto;
-    right: 0; }
-  .headerLinksMails .btn {
-    font-size: 0.875rem; }
+  .bodyHeader .rightHeader {
+    position: relative; }
+    .bodyHeader .rightHeader .headerButton {
+      height: 32px;
+      font-size: 17px; }
+      .bodyHeader .rightHeader .headerButton [data-fa-i2svg] {
+        margin-bottom: 4px; }
+        .bodyHeader .rightHeader .headerButton [data-fa-i2svg].fa-power-off {
+          margin-bottom: 1px; }
+  .bodyHeader .headerLinksMails {
+    height: fit-content; }
+    .bodyHeader .headerLinksMails > .btn + .dropdown-toggle {
+      padding-top: 7px;
+      padding-bottom: 7px; }
+    .bodyHeader .headerLinksMails .dropdown-menu {
+      left: auto;
+      right: 0; }
+    .bodyHeader .headerLinksMails .btn {
+      font-size: 0.875rem; }
 
 .globalSearchResults .nav li a {
   padding: 10px 0; }
