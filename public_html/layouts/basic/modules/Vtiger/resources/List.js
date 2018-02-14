@@ -1247,7 +1247,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
 				breadCrumbsLastSpan.text(': ' + text);
 			} else {
-				breadCrumbs.append('<span class="breadCrumbsFilter hideToHistory pl-1"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
+				breadCrumbs.append('<small class="breadCrumbsFilter hideToHistory p-1"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</small>');
 			}
 		}
 	},

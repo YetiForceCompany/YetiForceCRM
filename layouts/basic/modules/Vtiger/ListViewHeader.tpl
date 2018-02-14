@@ -13,7 +13,7 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
-				<div class="btn-toolbar col-md-4 col-sm-6 col-12">
+				<div class="col-md-4 col-sm-6 col-12">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
 					{assign var=LINKS value=[]}
 					{if $LISTVIEW_MASSACTIONS}
@@ -22,13 +22,13 @@
 					{if isset($LISTVIEW_LINKS['LISTVIEW'])}
 						{assign var=LINKS value=array_merge($LINKS,$LISTVIEW_LINKS['LISTVIEW'])}
 					{/if}
-					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS BTN_GROUP=false TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS=listViewMassActions}
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS=listViewMassActions}
 					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
-				<div class="btn-toolbar col-md-3 col-sm-5 col-12 pull-right-sm pull-left-xs">
-					<div class="customFilterMainSpan btn-group">
+				<div class="col-md-3 col-sm-5 col-12">
+					<div class="customFilterMainSpan">
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
@@ -54,7 +54,7 @@
 							{if \App\Privilege::isPermitted($MODULE, 'CreateCustomFilter')}
 								<div class="filterActionsDiv hide">
 									<hr>
-									<ul class="filterActions">
+									<ul class="filterActions list-unstyled m-2">
 										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
 									</ul>
 								</div>
@@ -65,7 +65,7 @@
 						{/if}
 					</div>
 				</div>
-				<div class="col-12 col-md-5 btn-toolbar paddingRightZero">
+				<div class="col-12 col-md-5 d-flex flex-row-reverse">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 				<span class="hide filterActionImages float-right">
