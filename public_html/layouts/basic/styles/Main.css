@@ -5104,7 +5104,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .headerRightWrapper .btn, .modal :not(.chatModal) .btn,
+.ml-2, .rightHeader .btn, .modal :not(.chatModal) .btn,
 .mx-2 {
   margin-left: 0.5rem !important; }
 
@@ -5193,7 +5193,7 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
-.headerRightWrapper .btn,
+.rightHeader .btn,
 .modal :not(.chatModal) .btn {
   padding-right: 0.25rem !important; }
 
@@ -5203,7 +5203,7 @@ button.bg-dark:focus {
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
-.headerRightWrapper .btn,
+.rightHeader .btn,
 .modal :not(.chatModal) .btn {
   padding-left: 0.25rem !important; }
 
@@ -7120,12 +7120,6 @@ hr {
       white-space: nowrap;
       margin-right: 5px; }
 
-.mainContainer .contentsDiv {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  position: relative; }
 .mainContainer #leftPanel {
   background-color: #eeeff2;
   background-image: -moz-linear-gradient(top, #eeeff2, #eeeff2);
@@ -7168,32 +7162,6 @@ hr {
 
 .listViewPageDiv {
   margin: 0px 0; }
-
-.customFilterMainSpan {
-  width: 100%; }
-  .customFilterMainSpan .select2-container {
-    width: 95% !important; }
-
-.select2-container .select2-choice {
-  border-radius: 2px;
-  background: #ffffff;
-  border-color: #dddddd;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  color: #2b2b2b; }
-  .select2-container .select2-choice div {
-    border-radius: 0;
-    border-left: 0;
-    background: #ffffff; }
-
-.select2-drop {
-  border-color: #dddddd; }
-
-.select2-dropdown ul.filterActions {
-  list-style: none !important;
-  padding-left: 15px; }
-  .select2-dropdown ul.filterActions li {
-    cursor: pointer; }
 
 .ui-autocomplete .ui-menu-item #ui-active-menuitem {
   background: #404952;
@@ -8673,9 +8641,6 @@ tr.summaryViewEntries, #detailView table, table.listViewEntriesTable {
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue, #massEditContainer .massEditContent table tr td.fieldValue, #tab_accounts td.functionList {
   width: 30%; }
 
-.btn {
-  white-space: normal; }
-
 .valuesAssignedToRole {
   border: 1px solid #adadad;
   overflow: hidden;
@@ -8885,37 +8850,6 @@ span[name=existingImages] img {
   font-weight: normal;
   min-height: 40px; }
 
-.paginationDiv .pagination {
-  margin: 0; }
-  .paginationDiv .pagination li {
-    cursor: pointer; }
-    .paginationDiv .pagination li.popoverTooltip {
-      display: inline-block; }
-  .paginationDiv .pagination > li > span, .paginationDiv .pagination > li a {
-    padding: 8px 8px; }
-.paginationDiv .listViewBasicAction.dropdown-menu {
-  width: 35%; }
-
-.listViewEntriesTable .picklistSearchField, .listViewEntriesTable .searchField {
-  min-width: 150px; }
-.listViewEntriesTable .boolenSearchField {
-  min-width: 90px; }
-
-.paginationDiv .pageInfo {
-  border: 1px solid #ddd;
-  color: #337AB7;
-  float: right;
-  margin-left: 5px;
-  margin-bottom: 0;
-  list-style: none;
-  padding: 8px 5px; }
-
-.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
-  margin: 0;
-  vertical-align: middle;
-  width: 16px;
-  height: 16px; }
-
 #widgetsManagementEditorContainer .modal-footer .btn {
   margin: 5px; }
 #widgetsManagementEditorContainer .fieldDetailsForm .modal-footer {
@@ -9095,13 +9029,6 @@ html, body, .baseContainer {
   margin-top: 0;
   padding-top: 0px;
   padding-bottom: 15px; }
-
-.bodyContents {
-  padding: 0 0px;
-  color: #353c44; }
-
-.bodyContent::after {
-  clear: both; }
 
 .userDetailsContainer {
   height: 50px;
@@ -9498,8 +9425,6 @@ html, body, .baseContainer {
   max-height: 35px; }
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu {
   left: 20px; }
-.listViewActionsDiv .dropdown-toggle, .listViewActionsDiv .addButton {
-  margin-bottom: 7px; }
 
 .widget_header .dropdown-toggle + .dropdown-menu {
   left: 15px; }
@@ -10963,6 +10888,10 @@ border1px {
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.bodyHeader .dropdown-toggle::after, .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
+  display: none; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
@@ -10985,6 +10914,14 @@ header .headerLinksMails .select2-selection:hover {
 .conditionRow .select2-container--bootstrap4 {
   display: inline-block;
   vertical-align: middle; }
+
+.customFilterMainSpan {
+  width: 100%; }
+  .customFilterMainSpan .select2-container {
+    width: 95% !important; }
+
+.select2-dropdown ul.filterActions li {
+  cursor: pointer; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
@@ -11043,8 +10980,6 @@ header .headerLinksMails .select2-selection:hover {
   transition-delay: 0.5s; }
   .bodyHeader .basicSearchModulesList {
     width: 35px; }
-  .bodyHeader .dropdown-toggle::after {
-    display: none; }
   .bodyHeader .globalSearchInput {
     width: 500px; }
     .bodyHeader .globalSearchInput .btn {
@@ -11057,15 +10992,15 @@ header .headerLinksMails .select2-selection:hover {
   .bodyHeader.menuOpen {
     left: 230px; }
 
-.headerRightWrapper .rightHeader, .modal :not(.chatModal) .rightHeader {
+.rightHeader, .modal :not(.chatModal) {
   position: relative; }
-.headerRightWrapper .btn, .modal :not(.chatModal) .btn {
-  height: 32px;
-  font-size: 17px; }
-  .headerRightWrapper .btn [data-fa-i2svg], .modal :not(.chatModal) .btn [data-fa-i2svg] {
-    margin-bottom: 4px; }
-    .headerRightWrapper .btn [data-fa-i2svg].fa-power-off, .modal :not(.chatModal) .btn [data-fa-i2svg].fa-power-off {
-      margin-bottom: 1px; }
+  .rightHeader .btn, .modal :not(.chatModal) .btn {
+    height: 32px;
+    font-size: 17px; }
+    .rightHeader .btn [data-fa-i2svg], .modal :not(.chatModal) .btn [data-fa-i2svg] {
+      margin-bottom: 4px; }
+      .rightHeader .btn [data-fa-i2svg].fa-power-off, .modal :not(.chatModal) .btn [data-fa-i2svg].fa-power-off {
+        margin-bottom: 1px; }
 
 .headerLinksMails {
   height: fit-content; }
@@ -11411,5 +11346,29 @@ header .headerLinksMails .select2-selection:hover {
   left: 0px;
   height: 100%;
   border-right: 1px solid #ddd; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.paginationDiv .listViewBasicAction.dropdown-menu {
+  width: 35%; }
+
+.listViewEntriesTable .picklistSearchField, .listViewEntriesTable .searchField {
+  min-width: 150px; }
+.listViewEntriesTable .boolenSearchField {
+  min-width: 90px; }
+
+.paginationDiv .pageInfo {
+  border: 1px solid #ddd;
+  color: #337AB7;
+  float: right;
+  margin-left: 5px;
+  margin-bottom: 0;
+  list-style: none;
+  padding: 8px 5px; }
+
+.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
+  margin: 0;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px; }
 
 /*# sourceMappingURL=Main.css.map */

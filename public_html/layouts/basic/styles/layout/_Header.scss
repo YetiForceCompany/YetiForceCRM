@@ -9,12 +9,9 @@
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition-delay: 0.5s;
+	@extend %removeDropdownIcon;
 	.basicSearchModulesList {
 		width: 35px;
-	}
-
-	.dropdown-toggle::after {
-		display: none;
 	}
 	.globalSearchInput {
 		width: 500px;
