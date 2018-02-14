@@ -690,7 +690,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu li a").click(function () {
-			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
+			$(this).parents('div').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
 	listenTextAreaChange: function () {

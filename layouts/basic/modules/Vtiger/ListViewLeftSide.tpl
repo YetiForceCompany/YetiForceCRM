@@ -7,7 +7,7 @@
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
 		<div class="actions">
-			<div class="{if !$ONLY_ONE}actionImages hide{/if}">
+			<div class="{if !$ONLY_ONE}actionImages hide bg-light{/if}">
 				{foreach from=$LINKS item=LINK}
 					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{/foreach}
