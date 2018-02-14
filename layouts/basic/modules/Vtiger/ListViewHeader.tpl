@@ -59,7 +59,7 @@
 									</ul>
 								</div>
 							{/if}
-							<span class="fas fa-filter filterImage" style="display:none;margin-right:2px"></span>
+							<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}

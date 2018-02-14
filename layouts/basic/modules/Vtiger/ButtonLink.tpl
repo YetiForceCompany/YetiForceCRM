@@ -15,12 +15,12 @@
 						{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 							{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 								{/strip} {strip}
-										data-{$NAME}="{$DATA}" 
+										data-{$NAME}="{$DATA}"
 										{/foreach}
 											{/if}
 												{/strip} {strip}
 														{if $LABEL neq '' && $LINK->get('showLabel') != 1}
-															data-placement="auto"{/strip} {strip}
+															data-placement="bottom"{/strip} {strip}
 															data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 														{/if}
 													{/strip} {strip}
@@ -44,14 +44,14 @@
 															data-url="{$LINK_URL}"
 														{else}
 															{if $LINK->get('linkPopup')}
-																onclick="window.open('{$LINK_URL}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
+																onclick="window.open('{$LINK_URL}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})"
 															{else}
 																{if $LINK_URL neq '' && !$LINK->get('linkhref')}
 																	{if stripos($LINK_URL, 'javascript:')===0}
 																		onclick='{$LINK_URL|substr:strlen("javascript:")};'
 																	{else}
 																		onclick='window.location.href = "{$LINK_URL}"'
-																	{/if} 
+																	{/if}
 																{/if}
 															{/if}
 														{/if}
