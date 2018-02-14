@@ -23,7 +23,15 @@
 						<div class="float-left marginLeft5 marginTop5">
 							{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 							{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
-							<image src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" alt="{\App\Language::translate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
+							<i class="
+								{if $ACTIVITY_TYPE eq 'Task'}
+									far fa-check-square
+								{elseif $ACTIVITY_TYPE eq 'Call'}
+									fas fa-phone
+								{else}
+									fas fa-user
+								{/if}
+							"></i>
 						</div>
 						{assign var=START_DATE value=$ACTIVITY->get('date_start')}
 						{assign var=START_TIME value=$ACTIVITY->get('time_start')}
