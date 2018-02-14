@@ -344,13 +344,6 @@ hr {
 	}
 }
 .mainContainer {
-	.contentsDiv {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		word-wrap: break-word;
-		position: relative;
-	}
 	#leftPanel {
 		background-color: #eeeff2;
 		background-image: -moz-linear-gradient(top, #eeeff2, #eeeff2);
@@ -396,35 +389,6 @@ hr {
 }
 .listViewPageDiv {
 	margin: 0px 0;
-}
-.customFilterMainSpan {
-	width: 100%;
-	.select2-container {
-		width: 95% !important;
-	}
-}
-.select2-container .select2-choice {
-	border-radius: 2px;
-	background: #ffffff;
-	border-color: #dddddd;
-	font-size: 14px;
-	letter-spacing: 0.01em;
-	color: #2b2b2b;
-	div {
-		border-radius: 0;
-		border-left: 0;
-		background: #ffffff;
-	}
-}
-.select2-drop {
-	border-color: #dddddd;
-}
-.select2-dropdown ul.filterActions {
-	list-style: none !important;
-	padding-left: 15px;
-	li {
-		cursor: pointer;
-	}
 }
 .ui-autocomplete .ui-menu-item #ui-active-menuitem {
 	background: #404952;
@@ -2131,9 +2095,6 @@ tr.summaryViewEntries, #detailView table, table.listViewEntriesTable {
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue, #massEditContainer .massEditContent table tr td.fieldValue, #tab_accounts td.functionList {
 	width: 30%;
 }
-.btn {
-	white-space: normal;
-}
 .valuesAssignedToRole {
 	border: 1px solid #adadad;
 	overflow: hidden;
@@ -2376,48 +2337,6 @@ span[name=existingImages] img {
 		min-height: 40px;
 	}
 }
-.paginationDiv {
-	.pagination {
-		margin: 0;
-		li {
-			&.popoverTooltip {
-				display: inline-block;
-			}
-			cursor: pointer;
-		}
-		& > li {
-			& > span, a {
-				padding: 8px 8px;
-			}
-		}
-	}
-	.listViewBasicAction.dropdown-menu {
-		width: 35%;
-	}
-}
-.listViewEntriesTable {
-	.picklistSearchField, .searchField {
-		min-width: 150px;
-	}
-	.boolenSearchField {
-		min-width: 90px;
-	}
-}
-.paginationDiv .pageInfo {
-	border: 1px solid #ddd;
-	color: #337AB7;
-	float: right;
-	margin-left: 5px;
-	margin-bottom: 0;
-	list-style: none;
-	padding: 8px 5px;
-}
-.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
-	margin: 0;
-	vertical-align: middle;
-	width: 16px;
-	height: 16px;
-}
 #widgetsManagementEditorContainer {
 	.modal-footer .btn {
 		margin: 5px;
@@ -2634,13 +2553,6 @@ html, body, .baseContainer {
 	margin-top: 0;
 	padding-top: 0px;
 	padding-bottom: 15px;
-}
-.bodyContents {
-	padding: 0 0px;
-	color: #353c44;
-}
-.bodyContent::after {
-	clear: both;
 }
 .userDetailsContainer {
 	height: 50px;
@@ -3082,9 +2994,6 @@ html, body, .baseContainer {
 	}
 	.btn-toolbar > .dropdown-toggle + .dropdown-menu {
 		left: 20px;
-	}
-	.dropdown-toggle, .addButton {
-		margin-bottom: 7px;
 	}
 }
 .widget_header .dropdown-toggle + .dropdown-menu {

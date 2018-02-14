@@ -10,14 +10,14 @@
 					{if $LINK->get('linkicon') neq ''}
 						{assign var=BTN_ICON value=$LINK->get('linkicon')}
 					{/if}
-				{/if} 
+				{/if}
 			{/foreach}
 		{/if}
-		{if isset($BTN_GROUP) && !$BTN_GROUP}<div class="btn-group {if isset($CLASS)}{$CLASS}{/if}">{/if} 
+		<div class="d-inline-block {if isset($CLASS)}{$CLASS}{/if}">
 			<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
 				{if $BTN_ICON}
 					<span class="{$BTN_ICON}"></span>
-				{else}	
+				{else}
 					<span class="fas fa-list"></span>
 				{/if}
 				&nbsp;
@@ -32,11 +32,11 @@
 						{assign var="LINK_TYPE" value=$LINK->getType()}
 						{assign var="LINK_URL" value=$LINK->getUrl()}
 					<li>
-						<a class="quickLinks {$LINK->getClassName()}" 
+						<a class="quickLinks {$LINK->getClassName()}"
 						   {if $LINK->get('linkdata') neq ''}
 							   {foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 								   {/strip} {strip}
-										   data-{$NAME}="{$DATA}" 
+										   data-{$NAME}="{$DATA}"
 										   {/foreach}
 											   {/if}
 												   {/strip} {strip}
@@ -61,6 +61,6 @@
 												   </li>
 												   {/foreach}
 												   </ul>
-												   {if isset($BTN_GROUP) && !$BTN_GROUP}</div>{/if} 
-												   {/if} 
-													   {/strip}
+											   </div>
+											   {/if}
+												   {/strip}

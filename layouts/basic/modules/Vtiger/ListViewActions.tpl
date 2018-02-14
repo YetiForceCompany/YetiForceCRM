@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{if $PARENT_MODULE !== 'Settings' && $VIEW_MODEL}
-		<div class="float-right paddingLeft5px">
+		<div>
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 			<input type="hidden" id="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 			<div class="dropdown dropdownEntityState">
@@ -43,12 +43,11 @@
 			</div>
 		</div>
 	{/if}
-	<div class="listViewActions float-right paginationDiv paddingLeft5px">
+	<div class="listViewActions paginationDiv mr-1">
         {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
         {/if}
 	</div>
-	<div class="clearfix"></div>
 	<input type="hidden" id="recordsCount" value="" />
 	<input type="hidden" id="selectedIds" name="selectedIds" />
 	<input type="hidden" id="excludedIds" name="excludedIds" />

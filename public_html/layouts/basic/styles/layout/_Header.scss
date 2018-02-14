@@ -35,10 +35,8 @@
 	}
 }
 
-.headerRightWrapper, .modal :not(.chatModal) {
-	.rightHeader {
-		position: relative;
-	}
+.rightHeader, .modal :not(.chatModal) {
+	position: relative;
 	.btn {
 		@extend .ml-2;
 		@extend .px-1;

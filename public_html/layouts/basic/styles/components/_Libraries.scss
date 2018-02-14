@@ -44,3 +44,17 @@ header {
 	@extend .w-25;
 	@extend .mr-sm-2;
 }
+
+//--- list ---//
+
+.customFilterMainSpan {
+	width: 100%;
+	.select2-container {
+		width: 95% !important;
+	}
+}
+.select2-dropdown ul.filterActions {
+	li {
+		cursor: pointer;
+	}
+}

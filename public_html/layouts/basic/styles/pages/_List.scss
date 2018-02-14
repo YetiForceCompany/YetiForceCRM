@@ -1,0 +1,30 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.paginationDiv {
+	.listViewBasicAction.dropdown-menu {
+		width: 35%;
+	}
+}
+.listViewEntriesTable {
+	.picklistSearchField, .searchField {
+		min-width: 150px;
+	}
+	.boolenSearchField {
+		min-width: 90px;
+	}
+}
+.paginationDiv .pageInfo {
+	border: 1px solid #ddd;
+	color: #337AB7;
+	float: right;
+	margin-left: 5px;
+	margin-bottom: 0;
+	list-style: none;
+	padding: 8px 5px;
+}
+.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
+	margin: 0;
+	vertical-align: middle;
+	width: 16px;
+	height: 16px;
+}
