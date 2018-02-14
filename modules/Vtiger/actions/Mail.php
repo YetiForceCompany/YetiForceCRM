@@ -60,9 +60,9 @@ class Vtiger_Mail_Action extends \App\Controller\Action
     public function sendMails(\App\Request $request)
     {
         $moduleName = $request->getModule();
-        $field = $request->getByType('field');
+        $field = $request->getByType('field', 'Alnum');
         $template = $request->getInteger('template');
-        $sourceModule = $request->getByType('sourceModule', 2);
+        $sourceModule = $request->getByType('sourceModule', 'Alnum');
         $sourceRecord = $request->getInteger('sourceRecord');
         $result = false;
         if (!empty($template) && !empty($field)) {
