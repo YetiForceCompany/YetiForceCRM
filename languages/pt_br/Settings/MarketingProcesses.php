@@ -6,21 +6,21 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'LBL_CONVERSION' => 'Conversão',
-    'LBL_CONVERSION_TO_ACCOUNT' => 'Responsável pela alteração',
-    'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Quando esta opção estiver marcada, o Usuário que converter o Lead para Organização tornar-se-á seu Responsável',
-    'LBL_LEADS' => 'Leads',
-    'LBL_INFO' => 'Informação',
-    'LBL_VALUES' => 'Valores',
-    'LBL_GROUPS_INFO' => 'Grupos sem um Responsável',
-    'LBL_LEAD_STATUS' => 'Selecione os status que indicam o final do trabalho com Leads',
-    'LBL_LEAD_CONVERT_STATUS' => 'Status que permitem converter o Lead para Conta',
-    'LBL_CURRENTUSER_STATUS' => 'Alteração do Responsável para um Usuário que editou um registro',
-    'LBL_CONVERT_LEAD_MERGE' => 'Vincular os requisitos específicos da reunião enquanto converte o Lead para Conta',
-    'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Esta opção permite que o Sistema associe automaticamente o registro convertido com o já existente - não será criada uma nova Conta, ao invés disso os dados do registro existente serão transferidos a partir do Lead',
-    'LBL_CONDITION' => 'Adiconar condição',
-    'MarketingProcesses' => 'Processo de Marketing',
+	'LBL_CONVERSION' => 'Conversão',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Responsável pela alteração',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Quando esta opção estiver marcada, o Usuário que converter o Lead para Organização tornar-se-á seu Responsável',
+	'LBL_LEADS' => 'Leads',
+	'LBL_INFO' => 'Informação',
+	'LBL_VALUES' => 'Valores',
+	'LBL_GROUPS_INFO' => 'Grupos sem um Responsável',
+	'LBL_LEAD_STATUS' => 'Selecione os status que indicam o final do trabalho com Leads',
+	'LBL_LEAD_CONVERT_STATUS' => 'Status que permitem converter o Lead para Conta',
+	'LBL_CURRENTUSER_STATUS' => 'Alteração do Responsável para um Usuário que editou um registro',
+	'LBL_CONVERT_LEAD_MERGE' => 'Vincular os requisitos específicos da reunião enquanto converte o Lead para Conta',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Esta opção permite que o Sistema associe automaticamente o registro convertido com o já existente - não será criada uma nova Conta, ao invés disso os dados do registro existente serão transferidos a partir do Lead',
+	'LBL_CONDITION' => 'Adiconar condição',
+	'MarketingProcesses' => 'Processo de Marketing',
 ];
 $jsLanguageStrings = [
-    'JS_NO_CONDITIONS' => 'Pelo menos uma condições é requirida',
+	'JS_NO_CONDITIONS' => 'Pelo menos uma condições é requirida',
 ];

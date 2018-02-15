@@ -8,21 +8,21 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-    'LBL_ADD_RECORD' => 'Adicionar Grupo',
-    'LBL_ADD_USERS_ROLES' => 'Adicionar Usuários, Funções...',
-    'LBL_DUPLICATES_EXIST' => 'Nome do Grupo já Existe',
-    'LBL_GROUP_MEMBERS' => 'Membros do Grupo',
-    'LBL_GROUP_NAME' => 'Nome Grupo',
-    'LBL_ROLEANDSUBORDINATE' => 'Função e Subordinados',
-    'LBL_TO_OTHER_GROUP' => 'Para Outro Grupo ',
-    'LBL_TRANSFORM_OWNERSHIP' => 'Transferir Propriedade',
-    'SINGLE_Groups' => 'Grupo',
-    'Users' => 'Usuários',
-    'Name' => 'Nome Grupo',
-    'Description' => 'Descrição',
+	'LBL_ADD_RECORD' => 'Adicionar Grupo',
+	'LBL_ADD_USERS_ROLES' => 'Adicionar Usuários, Funções...',
+	'LBL_DUPLICATES_EXIST' => 'Nome do Grupo já Existe',
+	'LBL_GROUP_MEMBERS' => 'Membros do Grupo',
+	'LBL_GROUP_NAME' => 'Nome Grupo',
+	'LBL_ROLEANDSUBORDINATE' => 'Função e Subordinados',
+	'LBL_TO_OTHER_GROUP' => 'Para Outro Grupo ',
+	'LBL_TRANSFORM_OWNERSHIP' => 'Transferir Propriedade',
+	'SINGLE_Groups' => 'Grupo',
+	'Users' => 'Usuários',
+	'Name' => 'Nome Grupo',
+	'Description' => 'Descrição',
 ];
 
 $jsLanguageStrings = [
-    'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Por favor, selecione pelo menos um membro de um Grupo',
-    'JS_RECORD_DELETED_SUCCESSFULLY' => 'O Grupo foi apagado com sucesso',
+	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Por favor, selecione pelo menos um membro de um Grupo',
+	'JS_RECORD_DELETED_SUCCESSFULLY' => 'O Grupo foi apagado com sucesso',
 ];

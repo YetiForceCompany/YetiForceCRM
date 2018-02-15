@@ -9,26 +9,26 @@
  * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
-    // Basic Strings
-    'SINGLE_ProjectMilestone' => 'Hito del proyecto',
-    // Blocks
-    'LBL_PROJECT_MILESTONE_INFORMATION' => 'Información sobre el Hito',
-    'LBL_PROJECTS_LIST' => 'Lista de Proyectos',
-    'LBL_TASKS_LIST' => 'Lista de Tareas',
-    'LBL_MILESTONES_LIST' => 'Lista de Hitos',
-    'Description' => 'Descripción',
-    'Related to' => 'Proyecto',
-    //Field Labels
-    'Project Milestone Name' => 'Nombre del Hito',
-    'Milestone Date' => 'Fecha Hito',
-    'Project Milestone No' => 'ID',
-    'LBL_PRIORITY' => 'Prioridad',
-    'LBL_PROGRESS' => 'Progreso',
-    //PICKLIST
-    'PLL_INTERNAL' => 'Interno',
-    'PLL_EXTERNAL' => 'Externo',
-    'PLL_SHARED' => 'Compartido',
-    'PLL_LOW' => 'Baja',
-    'PLL_NORMAL' => 'Normal',
-    'PLL_HIGH' => 'Alta',
+	// Basic Strings
+	'SINGLE_ProjectMilestone' => 'Hito del proyecto',
+	// Blocks
+	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Información sobre el Hito',
+	'LBL_PROJECTS_LIST' => 'Lista de Proyectos',
+	'LBL_TASKS_LIST' => 'Lista de Tareas',
+	'LBL_MILESTONES_LIST' => 'Lista de Hitos',
+	'Description' => 'Descripción',
+	'Related to' => 'Proyecto',
+	//Field Labels
+	'Project Milestone Name' => 'Nombre del Hito',
+	'Milestone Date' => 'Fecha Hito',
+	'Project Milestone No' => 'ID',
+	'LBL_PRIORITY' => 'Prioridad',
+	'LBL_PROGRESS' => 'Progreso',
+	//PICKLIST
+	'PLL_INTERNAL' => 'Interno',
+	'PLL_EXTERNAL' => 'Externo',
+	'PLL_SHARED' => 'Compartido',
+	'PLL_LOW' => 'Baja',
+	'PLL_NORMAL' => 'Normal',
+	'PLL_HIGH' => 'Alta',
 ];

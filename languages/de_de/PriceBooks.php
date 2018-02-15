@@ -8,15 +8,15 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-    'LBL_ADD_TO' => 'Hinzufügen zu',
-    'LBL_EDIT_LIST_PRICE' => 'Listenpreis bearbeiten',
-    'LBL_PRICEBOOK_INFORMATION' => 'Einzelheiten der Preisliste',
-    'LBL_UNIT_PRICE' => 'Stückpreis',
-    'Price Book Name' => 'Preislisten Name',
-    'PriceBook No' => 'Preislisten Nummer',
-    'PriceBooks' => 'Preislisten',
-    'SINGLE_PriceBooks' => 'Preisliste',
-    'yes' => 'Ja',
-    'no' => 'Nein',
-    'Unit Price' => 'Preis/Einheit',
+	'LBL_ADD_TO' => 'Hinzufügen zu',
+	'LBL_EDIT_LIST_PRICE' => 'Listenpreis bearbeiten',
+	'LBL_PRICEBOOK_INFORMATION' => 'Einzelheiten der Preisliste',
+	'LBL_UNIT_PRICE' => 'Stückpreis',
+	'Price Book Name' => 'Preislisten Name',
+	'PriceBook No' => 'Preislisten Nummer',
+	'PriceBooks' => 'Preislisten',
+	'SINGLE_PriceBooks' => 'Preisliste',
+	'yes' => 'Ja',
+	'no' => 'Nein',
+	'Unit Price' => 'Preis/Einheit',
 ];

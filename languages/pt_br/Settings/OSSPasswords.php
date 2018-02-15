@@ -6,6 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'LBL_VIEW_CONFIGUREPASS' => 'Configurações de Senhas',
-    'OSSPasswords' => 'Configurações de Senhas',
+	'LBL_VIEW_CONFIGUREPASS' => 'Configurações de Senhas',
+	'OSSPasswords' => 'Configurações de Senhas',
 ];

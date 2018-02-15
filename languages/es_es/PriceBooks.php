@@ -9,15 +9,15 @@
  * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
-    'LBL_ADD_TO' => 'Añadir a',
-    'LBL_EDIT_LIST_PRICE' => 'Editar Tarifas',
-    'LBL_PRICEBOOK_INFORMATION' => 'Información sobre Tarifas',
-    'LBL_UNIT_PRICE' => 'Precio unitario',
-    'Price Book Name' => 'Nombre de la Tarifa',
-    'PriceBook No' => 'ID',
-    'PriceBooks' => 'Tarifas',
-    'SINGLE_PriceBooks' => 'Tarifa',
-    'yes' => 'Si',
-    'no' => 'No',
-    'Unit Price' => 'Precio unitario',
+	'LBL_ADD_TO' => 'Añadir a',
+	'LBL_EDIT_LIST_PRICE' => 'Editar Tarifas',
+	'LBL_PRICEBOOK_INFORMATION' => 'Información sobre Tarifas',
+	'LBL_UNIT_PRICE' => 'Precio unitario',
+	'Price Book Name' => 'Nombre de la Tarifa',
+	'PriceBook No' => 'ID',
+	'PriceBooks' => 'Tarifas',
+	'SINGLE_PriceBooks' => 'Tarifa',
+	'yes' => 'Si',
+	'no' => 'No',
+	'Unit Price' => 'Precio unitario',
 ];

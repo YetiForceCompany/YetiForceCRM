@@ -7,6 +7,6 @@
  */
 // Action translation
 $languageStrings = [
-    'Announcements|FL_INTERVAL' => 'Frequência de lembretes em dias, se o usuário não rever as alterações. Se o campo for mantido vazio, o lembrete não será exibido novamente.',
-    'Accounts|Account Name' => 'Este campo é destinado ao nome da Empresa',
+	'Announcements|FL_INTERVAL' => 'Frequência de lembretes em dias, se o usuário não rever as alterações. Se o campo for mantido vazio, o lembrete não será exibido novamente.',
+	'Accounts|Account Name' => 'Este campo é destinado ao nome da Empresa',
 ];

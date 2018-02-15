@@ -6,6 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    // Others
-    'Dashboards' => 'Ana Sayfam',
+	// Others
+	'Dashboards' => 'Ana Sayfam',
 ];

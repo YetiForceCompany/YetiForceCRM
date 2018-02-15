@@ -10,11 +10,11 @@
  * ********************************************************************************** */
 
 $languageStrings = [
-    'Payments' => 'Платежи',
-    'LBL_RIGHT_CLICK_COPY' => 'Щелкните правой кнопкой мыши и скопируйте',
+	'Payments' => 'Платежи',
+	'LBL_RIGHT_CLICK_COPY' => 'Щелкните правой кнопкой мыши и скопируйте',
 ];
 
 $jsLanguageStrings = [
-    'JS_DELETED_SUCCESSFULLY' => 'Удалено успешно',
-    'JS_SAVED_SUCCESSFULLY' => 'Сохранено успешно',
+	'JS_DELETED_SUCCESSFULLY' => 'Удалено успешно',
+	'JS_SAVED_SUCCESSFULLY' => 'Сохранено успешно',
 ];

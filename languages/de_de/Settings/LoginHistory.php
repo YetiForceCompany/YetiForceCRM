@@ -7,5 +7,5 @@
  * @author skavenkf (K.Fink)
  */
 $languageStrings = [
-    'LBL_OTHER' => 'Weitere',
+	'LBL_OTHER' => 'Weitere',
 ];

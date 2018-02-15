@@ -6,5 +6,5 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'LBL_OTHER' => 'Inni',
+	'LBL_OTHER' => 'Inni',
 ];

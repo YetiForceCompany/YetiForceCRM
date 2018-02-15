@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-    'LBL_GENERAL' => 'General',
-    'FinancialProcesses' => 'Financial processes',
+	'LBL_GENERAL' => 'General',
+	'FinancialProcesses' => 'Financial processes',
 ];
 
 $jsLanguageStrings = [

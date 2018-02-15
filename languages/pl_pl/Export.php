@@ -6,6 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'Export' => 'Eksportuj',
-    'LBL_INFO_USER_EXPORT_RECORDS' => 'Możliwy jest eksport tylko użytkowników aktywnych',
+	'Export' => 'Eksportuj',
+	'LBL_INFO_USER_EXPORT_RECORDS' => 'Możliwy jest eksport tylko użytkowników aktywnych',
 ];

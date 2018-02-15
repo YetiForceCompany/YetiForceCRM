@@ -7,8 +7,8 @@
  * @author skavenkf (K.Fink)
  */
 $languageStrings = [
-    'LBL_GENERAL' => 'Allgemein',
-    'FinancialProcesses' => 'Finanzprozesse',
+	'LBL_GENERAL' => 'Allgemein',
+	'FinancialProcesses' => 'Finanzprozesse',
 ];
 
 $jsLanguageStrings = [

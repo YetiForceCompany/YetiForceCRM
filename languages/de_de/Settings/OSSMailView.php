@@ -7,5 +7,5 @@
  * @author skavenkf (K.Fink)
  */
 $languageStrings = [
-    'Mail View' => 'E-Mails',
+	'Mail View' => 'E-Mails',
 ];

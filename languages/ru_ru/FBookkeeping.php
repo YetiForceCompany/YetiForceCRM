@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'FBookkeeping' => 'Бухгалтерия',
-    'SINGLE_FBookkeeping' => 'Бухгалтерский учет',
-    'FBookkeeping ID' => 'Бухгалтерский ID',
-    'FL_SUBJECT' => 'Наименование',
+	'FBookkeeping' => 'Бухгалтерия',
+	'SINGLE_FBookkeeping' => 'Бухгалтерский учет',
+	'FBookkeeping ID' => 'Бухгалтерский ID',
+	'FL_SUBJECT' => 'Наименование',
 ];
