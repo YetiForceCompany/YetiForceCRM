@@ -2919,23 +2919,8 @@ html, body, .baseContainer {
 .menuPanel {
 	padding: 5px;
 }
-.blockContainer .blockHeader .iconCollapse {
-	padding: 10px;
-}
 .quickCreateContent .fieldLabel label {
 	padding-top: 8px;
-}
-.blockContainer .blockContent {
-	.adressAction {
-		border-bottom: 1px #ddd solid;
-		margin-bottom: 10px;
-		margin-top: 5px;
-		padding-bottom: 5px;
-		text-align: center;
-		button {
-			margin: 0 10px;
-		}
-	}
 }
 .chosen-container {
 	min-height: 32px;
@@ -3685,19 +3670,11 @@ html, body, .baseContainer {
 }
 .blockContainer .blockHeader {
 	cursor: pointer;
-	display: inline-block;
-	width: 100%;
 }
 .detailViewTable .blockHeader {
 	cursor: pointer;
 	display: inline-block;
 	width: 100%;
-	.iconCollapse {
-		padding: 10px;
-	}
-}
-.detailViewBlockLink .blockHeader .iconCollapse {
-	padding: 10px;
 }
 .detailViewTable {
 	margin-bottom: 10px;
@@ -3709,10 +3686,6 @@ html, body, .baseContainer {
 		margin-left: 5px;
 		vertical-align: middle;
 	}
-}
-.blockHeader .iconCollapse h4 {
-	display: inline-block;
-	margin: 0 5px;
 }
 select.form-control {
 	padding-right: 0;
@@ -4027,9 +4000,6 @@ select.form-control {
 	-moz-transition: width 0.5s ease;
 	-o-transition: width 0.5s ease;
 	transition: width 0.5s ease;
-}
-.blockHeader .inviteesSearch {
-	margin-top: 3px;
 }
 .blockContent {
 	.inviteesContent {
