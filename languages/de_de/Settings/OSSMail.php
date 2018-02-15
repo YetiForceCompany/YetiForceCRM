@@ -12,5 +12,4 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_ERROR_EMPTY' => 'Alle Felder müssen ausgefüllt werden',
 ];

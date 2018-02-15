@@ -10,5 +10,4 @@ $languageStrings = [
 	'ERR_NO_MODULE_IS_INACTIVE' => 'Moduł "Moja poczta" jest nieaktywny, przed rozpoczęciem konfiguracji należy go włączyć.',
 ];
 $jsLanguageStrings = [
-	'JS_ERROR_EMPTY' => 'Wszystkie pola muszą być wypełnione',
 ];
