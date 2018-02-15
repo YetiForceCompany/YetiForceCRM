@@ -15,10 +15,10 @@
 	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 	<div class="dashboardWidgetHeader">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="box float-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
