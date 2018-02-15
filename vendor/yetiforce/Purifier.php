@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 /**
@@ -12,6 +11,7 @@ namespace App;
  */
 class Purifier
 {
+
     /**
      * Default charset.
      *
@@ -45,11 +45,11 @@ class Purifier
      *
      * @var string
      */
-    private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|'.
-        'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|onbeforepaste|onresizestart|onactivate|'.
-        'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart|ondragdrop|onmouseleave|onmouseenter|onunload|onresize|onmessage|'.
-        'onpropertychange|onfilterchange|onstart|onfinish|onbounce|onrowsinserted|onrowsdelete|onrowexit|onrowenter|ondatasetcomplete|ondatasetchanged|ondataavailable|oncellchange|'.
-        'onbeforeupdate|onafterupdate|onerrorupdate|onhelp|onbeforeprint|onafterprint|oncontrolselect|onfocusout|onfocusin|ondeactivate|onbeforeeditfocus|onbeforedeactivate|onbeforeactivate|'.
+    private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
+        'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|onbeforepaste|onresizestart|onactivate|' .
+        'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart|ondragdrop|onmouseleave|onmouseenter|onunload|onresize|onmessage|' .
+        'onpropertychange|onfilterchange|onstart|onfinish|onbounce|onrowsinserted|onrowsdelete|onrowexit|onrowenter|ondatasetcomplete|ondatasetchanged|ondataavailable|oncellchange|' .
+        'onbeforeupdate|onafterupdate|onerrorupdate|onhelp|onbeforeprint|onafterprint|oncontrolselect|onfocusout|onfocusin|ondeactivate|onbeforeeditfocus|onbeforedeactivate|onbeforeactivate|' .
         'onresizeend|onmovestart|onmoveend|onmove|onbeforecopy|onbeforecut|onbeforeunload|onhashchange|onoffline|ononline|onreadystatechange|onstop|onlosecapture';
 
     /**
@@ -77,7 +77,7 @@ class Purifier
             $config = \HTMLPurifier_Config::createDefault();
             $config->set('Core.Encoding', static::$defaultCharset);
             $config->set('Cache.SerializerPermissions', 0775);
-            $config->set('Cache.SerializerPath', ROOT_DIRECTORY.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'vtlib');
+            $config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
             $config->set('HTML.Allowed', '');
             static::$purifyInstanceCache = new \HTMLPurifier($config);
         }
@@ -109,12 +109,11 @@ class Purifier
      * Purify HTML (Cleanup) malicious snippets of code from the input.
      *
      * @param string $input
-     * @param bool   $firstEvent First verify events
      * @param bool   $loop       Purify values in the loop
      *
      * @return string
      */
-    public static function purifyHtml($input, $firstEvent = true, $loop = true)
+    public static function purifyHtml($input, $loop = true)
     {
         if (empty($input)) {
             return $input;
@@ -129,7 +128,7 @@ class Purifier
             $config = \HTMLPurifier_Config::createDefault();
             $config->set('Core.Encoding', static::$defaultCharset);
             $config->set('Cache.SerializerPermissions', 0775);
-            $config->set('Cache.SerializerPath', ROOT_DIRECTORY.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'vtlib');
+            $config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
             $config->set('HTML.Doctype', 'HTML 4.01 Transitional');
             $config->set('CSS.AllowTricky', true);
             $config->set('CSS.Proprietary', true);
@@ -152,21 +151,16 @@ class Purifier
             static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
         }
         if (static::$purifyHtmlInstanceCache) {
-            if ($firstEvent) {
-                static::purifyHtmlEventAttributes($input);
-            }
             $value = static::decodeHtml(static::$purifyHtmlInstanceCache->purify(static::decodeHtml($input)));
             if (static::$collectErrors) {
                 echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
             }
-            if (!$firstEvent) {
-                static::purifyHtmlEventAttributes($value);
-            }
+            static::purifyHtmlEventAttributes($value);
             if ($loop) {
                 $last = '';
                 while ($last !== $value) {
                     $last = $value;
-                    $value = static::purifyHtml($value, $firstEvent, false);
+                    $value = static::purifyHtml($value, false);
                 }
             }
             Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
@@ -182,9 +176,9 @@ class Purifier
      */
     public static function purifyHtmlEventAttributes($value)
     {
-        if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(".static::$htmlEventAttributes.")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
-            \App\Log::error('purifyHtmlEventAttributes: '.$value, 'BadRequest');
-            throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||'.$value, 406);
+        if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
+            \App\Log::error('purifyHtmlEventAttributes: ' . $value, 'BadRequest');
+            throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
         }
     }
 
@@ -294,8 +288,8 @@ class Purifier
         if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,]+$/', $input)) {
             return $input;
         }
-        \App\Log::error('purifySql: '.$input, 'BadRequest');
-        throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||'.$input, 406);
+        \App\Log::error('purifySql: ' . $input, 'BadRequest');
+        throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
     }
 
     /**
@@ -370,8 +364,8 @@ class Purifier
                     break;
             }
             if ($value === false) {
-                \App\Log::error('purifyByType: '.$input, 'BadRequest');
-                throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||'.$input, 406);
+                \App\Log::error('purifyByType: ' . $input, 'BadRequest');
+                throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
             }
         }
 
