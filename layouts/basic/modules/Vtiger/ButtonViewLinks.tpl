@@ -31,7 +31,7 @@
 						{/if}
 						{assign var="LINK_TYPE" value=$LINK->getType()}
 						{assign var="LINK_URL" value=$LINK->getUrl()}
-					<a class="dropdown-item quickLinks {$LINK->getClassName()}" href="#"
+					<a class="dropdown-item quickLinks {$LINK->getClassName()}"
 					   {if $LINK->get('linkdata') neq ''}
 						   {foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 							   {/strip} {strip}
@@ -42,6 +42,7 @@
 													   {if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
 														   href="{$LINK_URL}"
 													   {elseif $LINK_URL}
+														   href="#"
 														   onclick='{$LINK_URL|substr:strlen("javascript:")}'
 													   {/if}
 												   {/strip} {strip}
