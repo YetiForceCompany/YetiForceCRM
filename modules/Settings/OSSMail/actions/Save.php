@@ -33,26 +33,26 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
         foreach ($recordModel->getForm() as $fieldName => $fieldInfo) {
             if ($fieldInfo['required'] === 1) {
                 if ($request->isEmpty($fieldName)) {
-              //      throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+                    throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
                 }
             }
             if ($fieldInfo['fieldType'] === 'text') {
-             //   $recordModel->set($fieldName, $request->get($fieldName));
+                $recordModel->set($fieldName, $request->get($fieldName));
             } elseif ($fieldInfo['fieldType'] === 'checkbox') {
-             //   $recordModel->set($fieldName, $request->getBoolean($fieldName));
+                $recordModel->set($fieldName, $request->getBoolean($fieldName));
             } elseif ($fieldInfo['fieldType'] === 'multipicklist') {
-            //    $recordModel->set($fieldName, $request->getArray($fieldName));
+                $recordModel->set($fieldName, $request->getArray($fieldName));
             } elseif ($fieldInfo['fieldType'] === 'int') {
-            //    $recordModel->set($fieldName, $request->getInteger($fieldName));
+                $recordModel->set($fieldName, $request->getInteger($fieldName));
             } elseif ($fieldInfo['fieldType'] === 'picklist') {
-            //    $value = $request->getByType($fieldName, 'Alnum');
+                $value = $request->getByType($fieldName, 'Alnum');
                 if (!in_array($value, $fieldInfo['value'])) {
-              //      throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+                    throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
                 }
                 $recordModel->set($fieldName, $value);
             }
         }
-       // $recordModel->save();
+        $recordModel->save();
         $result = ['success' => true, 'data' => \App\Language::translate('JS_save_config_info', 'OSSMailScanner')];
         $response = new Vtiger_Response();
         $response->setResult($result);

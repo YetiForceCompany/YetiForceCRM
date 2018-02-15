@@ -91,7 +91,7 @@ class Settings_OSSMail_Config_Model extends App\Base
                     $saveValue[$value] = $value;
                 }
                 $fieldValue = $saveValue;
-            } elseif ($fieldName == 'skin_logo') {
+            } elseif ($fieldName === 'skin_logo') {
                 $fieldValue = ['*' => $fieldValue];
             }
             $replacement = sprintf("\$config['%s'] = %s;", $fieldName, App\Utils::varExport($fieldValue));
