@@ -9,6 +9,7 @@
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
+
     /**
      * Process.
      *
@@ -42,7 +43,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
             $record->set('cc_email', \App\Purifier::purify($mail->get('ccaddress')));
             $record->set('bcc_email', \App\Purifier::purify($mail->get('bccaddress')));
             $record->set('fromaddress', \App\Purifier::purify($mail->get('from')));
-            $record->set('orginal_mail', \App\Purifier::purifyHtml($mail->get('clean'), false));
+            $record->set('orginal_mail', \App\Purifier::purifyHtml($mail->get('clean')));
             $record->set('uid', \App\Purifier::purify($mail->get('message_id')))->set('rc_user', $account['user_id']);
             $record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
             $record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
@@ -63,14 +64,12 @@ class OSSMailScanner_CreatedEmail_ScannerAction
                     'cid' => $mail->getUniqueId(),
                     ], ['ossmailviewid' => $id]
                 )->execute();
-
                 return ['mailViewId' => $id, 'attachments' => $attachments];
             } else {
                 App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
                     'id' => $mail->get('id'),
                     ], ['ossmailviewid' => $mailId]
                 )->execute();
-
                 return ['mailViewId' => $mailId];
             }
         }
@@ -92,7 +91,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
         if (count($html) < 2) {
             foreach ($attachments as $key => $attachment) {
                 if ((substr($attachment['filename'], -5) === '.html') || (substr($attachment['filename'], -4) === '.txt')) {
-                    $html .= $attachment['attachment'].'<hr />';
+                    $html .= $attachment['attachment'] . '<hr />';
                     unset($attachments[$key]);
                 }
             }
@@ -113,7 +112,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
          * Alternative when coding problems
          * $doc->loadHTML(mb_convert_encoding($mail->get('body'), 'HTML-ENTITIES', 'UTF-8'));
          */
-        $doc->loadHTML('<?xml encoding="utf-8"?>'.$html);
+        $doc->loadHTML('<?xml encoding="utf-8"?>' . $html);
         libxml_clear_errors();
         libxml_use_internal_errors($previousValue);
         $params = [
@@ -161,6 +160,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
         $mail->set('files', $files);
         $mail->set('attachments', $attachments);
 
-        return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $doc->saveHTML()), false);
+        return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $doc->saveHTML()));
     }
 }
