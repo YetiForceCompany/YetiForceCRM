@@ -10,78 +10,78 @@
 
 class PBXManager_Module_Model extends Vtiger_Module_Model
 {
-    /**
-     * Function to check whether the module is an entity type module or not.
-     *
-     * @return bool true/false
-     */
-    public function isQuickCreateSupported()
-    {
-        //PBXManager module is not enabled for quick create
-        return false;
-    }
+	/**
+	 * Function to check whether the module is an entity type module or not.
+	 *
+	 * @return bool true/false
+	 */
+	public function isQuickCreateSupported()
+	{
+		//PBXManager module is not enabled for quick create
+		return false;
+	}
 
-    public function isWorkflowSupported()
-    {
-        return true;
-    }
+	public function isWorkflowSupported()
+	{
+		return true;
+	}
 
-    /**
-     * Overided to make editview=false for this module.
-     */
-    public function isPermitted($actionName)
-    {
-        if ($actionName == 'EditView' || $actionName == 'CreateView') {
-            return false;
-        } else {
-            return $this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName);
-        }
-    }
+	/**
+	 * Overided to make editview=false for this module.
+	 */
+	public function isPermitted($actionName)
+	{
+		if ($actionName == 'EditView' || $actionName == 'CreateView') {
+			return false;
+		} else {
+			return $this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName);
+		}
+	}
 
-    /**
-     * Function to get Settings links.
-     *
-     * @return <Array>
-     */
-    public function getSettingLinks()
-    {
-        if (!$this->isEntityModule()) {
-            return [];
-        }
-        Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+	/**
+	 * Function to get Settings links.
+	 *
+	 * @return <Array>
+	 */
+	public function getSettingLinks()
+	{
+		if (!$this->isEntityModule()) {
+			return [];
+		}
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-        $editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
-        $settingsLinks = [];
+		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$settingsLinks = [];
 
-        if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-            $settingsLinks[] = [
-                'linktype' => 'LISTVIEWSETTING',
-                'linklabel' => 'LBL_EDIT_WORKFLOWS',
-                'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule='.$this->getName(),
-                'linkicon' => $editWorkflowsImagePath,
-            ];
-        }
+		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+			$settingsLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_EDIT_WORKFLOWS',
+				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
+				'linkicon' => $editWorkflowsImagePath,
+			];
+		}
 
-        $settingsLinks[] = [
-            'linktype' => 'LISTVIEWSETTINGS',
-            'linklabel' => 'LBL_SERVER_CONFIGURATION',
-            'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
-            'linkicon' => '',
-        ];
+		$settingsLinks[] = [
+			'linktype' => 'LISTVIEWSETTINGS',
+			'linklabel' => 'LBL_SERVER_CONFIGURATION',
+			'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
+			'linkicon' => '',
+		];
 
-        return $settingsLinks;
-    }
+		return $settingsLinks;
+	}
 
-    /**
-     * Funxtion to identify if the module supports quick search or not.
-     */
-    public function isQuickSearchEnabled()
-    {
-        return false;
-    }
+	/**
+	 * Funxtion to identify if the module supports quick search or not.
+	 */
+	public function isQuickSearchEnabled()
+	{
+		return false;
+	}
 
-    public function isListViewNameFieldNavigationEnabled()
-    {
-        return false;
-    }
+	public function isListViewNameFieldNavigationEnabled()
+	{
+		return false;
+	}
 }

@@ -11,41 +11,41 @@
 
 class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        if ($value === '') {
-            return '';
-        }
-        $moduleName = $this->getFieldModel()->getModuleName();
-        $dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
-        if (is_int($length)) {
-            $dispalyValue = \vtlib\Functions::textLength($dispalyValue, $length);
-        }
-        if ($rawText) {
-            return $dispalyValue;
-        }
-        $fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
-        $value = App\Colors::sanitizeValue($value);
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if ($value === '') {
+			return '';
+		}
+		$moduleName = $this->getFieldModel()->getModuleName();
+		$dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
+		if (is_int($length)) {
+			$dispalyValue = \vtlib\Functions::textLength($dispalyValue, $length);
+		}
+		if ($rawText) {
+			return $dispalyValue;
+		}
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		$value = App\Colors::sanitizeValue($value);
 
-        return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
-    }
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getListSearchTemplateName()
-    {
-        return 'uitypes/PickListFieldSearchView.tpl';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/PickListFieldSearchView.tpl';
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTemplateName()
-    {
-        return 'uitypes/Picklist.tpl';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Picklist.tpl';
+	}
 }

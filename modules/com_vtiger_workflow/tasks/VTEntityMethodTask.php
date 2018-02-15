@@ -12,20 +12,20 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 
 class VTEntityMethodTask extends VTTask
 {
-    public $executeImmediately = true;
+	public $executeImmediately = true;
 
-    public function getFieldNames()
-    {
-        return ['methodName'];
-    }
+	public function getFieldNames()
+	{
+		return ['methodName'];
+	}
 
-    /**
-     * Execute task.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     */
-    public function doTask($recordModel)
-    {
-        (new VTEntityMethodManager())->executeMethod($recordModel, $this->methodName);
-    }
+	/**
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
+	{
+		(new VTEntityMethodManager())->executeMethod($recordModel, $this->methodName);
+	}
 }

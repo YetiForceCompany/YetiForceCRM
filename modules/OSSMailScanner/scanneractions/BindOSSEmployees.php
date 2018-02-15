@@ -9,8 +9,8 @@
  */
 class OSSMailScanner_BindOSSEmployees_ScannerAction extends OSSMailScanner_EmailScannerAction_Model
 {
-    public function process(OSSMail_Mail_Model $mail, $moduleName = 'OSSEmployees')
-    {
-        return parent::process($mail, 'OSSEmployees');
-    }
+	public function process(OSSMail_Mail_Model $mail, $moduleName = 'OSSEmployees')
+	{
+		return parent::process($mail, 'OSSEmployees');
+	}
 }

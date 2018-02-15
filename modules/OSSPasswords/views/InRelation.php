@@ -6,22 +6,22 @@
  */
 class OSSPasswords_InRelation_View extends Vtiger_RelatedList_View
 {
-    public function getScripts(\App\Request $request)
-    {
-        $jsFileNames = [
-            'libraries.clipboard.dist.clipboard',
-            'modules.OSSPasswords.resources.showRelatedModulePass',
-        ];
-        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+	public function getScripts(\App\Request $request)
+	{
+		$jsFileNames = [
+			'libraries.clipboard.dist.clipboard',
+			'modules.OSSPasswords.resources.showRelatedModulePass',
+		];
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 
-        return $jsScriptInstances;
-    }
+		return $jsScriptInstances;
+	}
 
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $viewer->assign('RELATED_SCRIPTS', $this->getScripts($request));
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RELATED_SCRIPTS', $this->getScripts($request));
 
-        return parent::process($request);
-    }
+		return parent::process($request);
+	}
 }

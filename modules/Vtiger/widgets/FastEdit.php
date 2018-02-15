@@ -8,15 +8,15 @@
  */
 class Vtiger_FastEdit_Widget extends Vtiger_Basic_Widget
 {
-    public function getConfigTplName()
-    {
-        return 'FastEditConfig';
-    }
+	public function getConfigTplName()
+	{
+		return 'FastEditConfig';
+	}
 
-    public function getWidget()
-    {
-        $this->Config['tpl'] = 'FastEdit.tpl';
+	public function getWidget()
+	{
+		$this->Config['tpl'] = 'FastEdit.tpl';
 
-        return $this->Config;
-    }
+		return $this->Config;
+	}
 }

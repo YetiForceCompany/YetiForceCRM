@@ -9,18 +9,18 @@
  */
 class Settings_AdvancedPermission_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-    public function process(\App\Request $request)
-    {
-        $qualifiedModuleName = $request->getModule(false);
-        $recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
-        $recordModel->delete();
+	public function process(\App\Request $request)
+	{
+		$qualifiedModuleName = $request->getModule(false);
+		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
+		$recordModel->delete();
 
-        $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-        header("Location: {$moduleModel->getDefaultUrl()}");
-    }
+		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		header("Location: {$moduleModel->getDefaultUrl()}");
+	}
 
-    public function validateRequest(\App\Request $request)
-    {
-        $request->validateReadAccess();
-    }
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
+	}
 }

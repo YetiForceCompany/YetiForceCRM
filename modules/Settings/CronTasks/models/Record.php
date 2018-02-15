@@ -11,7 +11,6 @@
 
 class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	public static $STATUS_DISABLED = 0;
 	public static $STATUS_ENABLED = 1;
 	public static $STATUS_RUNNING = 2;
@@ -103,7 +102,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	public function hadTimedout()
 	{
 		if ($this->get('lastend') === 0 && $this->get('laststart') != 0) {
-			return intval($this->get('lastend'));
+			return (int) ($this->get('lastend'));
 		}
 	}
 
@@ -132,8 +131,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTimeDiff()
 	{
-		$lastStart = intval($this->get('laststart'));
-		$lastEnd = intval($this->get('lastend'));
+		$lastStart = (int) ($this->get('laststart'));
+		$lastEnd = (int) ($this->get('lastend'));
 		$timeDiff = $lastEnd - $lastStart;
 
 		return $timeDiff;
@@ -151,13 +150,13 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		$fieldValue = $this->get($fieldName);
 		switch ($fieldName) {
 			case 'frequency':
-				$fieldValue = intval($fieldValue);
+				$fieldValue = (int) $fieldValue;
 				$hours = str_pad((int) (($fieldValue / (60 * 60))), 2, 0, STR_PAD_LEFT);
 				$minutes = str_pad((int) (($fieldValue % (60 * 60)) / 60), 2, 0, STR_PAD_LEFT);
 				$fieldValue = $hours . ':' . $minutes;
 				break;
 			case 'status':
-				$fieldValue = intval($fieldValue);
+				$fieldValue = (int) $fieldValue;
 				$moduleModel = $this->getModule();
 				if ($fieldValue === self::$STATUS_COMPLETED) {
 					$fieldLabel = 'LBL_COMPLETED';
@@ -172,7 +171,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'laststart':
 			case 'lastend':
-				$fieldValue = intval($fieldValue);
+				$fieldValue = (int) $fieldValue;
 				if ($fieldValue) {
 					$fieldValue = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $fieldValue));
 				} else {
@@ -186,9 +185,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 		return $fieldValue;
 	}
-	/*
-	 * Function to get Edit view url
-	 */
+
+	// Function to get Edit view url
 
 	public function getEditViewUrl()
 	{

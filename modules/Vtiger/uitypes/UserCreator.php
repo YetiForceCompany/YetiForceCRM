@@ -9,19 +9,19 @@
  */
 class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDBValue($value, $recordModel = false)
-    {
-        return \App\User::getCurrentUserRealId();
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return \App\User::getCurrentUserRealId();
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getListSearchTemplateName()
-    {
-        return 'uitypes/OwnerFieldSearchView.tpl';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/OwnerFieldSearchView.tpl';
+	}
 }

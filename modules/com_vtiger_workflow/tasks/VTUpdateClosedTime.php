@@ -8,20 +8,20 @@
  */
 class VTUpdateClosedTime extends VTTask
 {
-    public $executeImmediately = true;
+	public $executeImmediately = true;
 
-    public function getFieldNames()
-    {
-        return [];
-    }
+	public function getFieldNames()
+	{
+		return [];
+	}
 
-    /**
-     * Execute task.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     */
-    public function doTask($recordModel)
-    {
-        \App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['closedtime' => date('Y-m-d H:i:s')], ['crmid' => $recordModel->getId()])->execute();
-    }
+	/**
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['closedtime' => date('Y-m-d H:i:s')], ['crmid' => $recordModel->getId()])->execute();
+	}
 }

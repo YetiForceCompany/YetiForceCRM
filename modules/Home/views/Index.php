@@ -10,14 +10,14 @@
 
 class Home_Index_View extends Vtiger_Index_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
 
-        $viewer->view('Index.tpl', $moduleName);
-    }
+		$viewer->view('Index.tpl', $moduleName);
+	}
 }

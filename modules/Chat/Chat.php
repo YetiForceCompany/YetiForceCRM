@@ -11,16 +11,16 @@
  */
 class Chat
 {
-    /**
-     * Invoked when special actions are performed on the module.
-     *
-     * @param string $moduleName
-     * @param string $eventType
-     */
-    public function moduleHandler($moduleName, $eventType)
-    {
-        if ($eventType === 'module.postinstall') {
-            \App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-        }
-    }
+	/**
+	 * Invoked when special actions are performed on the module.
+	 *
+	 * @param string $moduleName
+	 * @param string $eventType
+	 */
+	public function moduleHandler($moduleName, $eventType)
+	{
+		if ($eventType === 'module.postinstall') {
+			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
+		}
+	}
 }

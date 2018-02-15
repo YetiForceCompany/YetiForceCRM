@@ -11,52 +11,52 @@
 
 class ReportRunQueryDependencyMatrix
 {
-    protected $matrix = [];
-    protected $computedMatrix = null;
+	protected $matrix = [];
+	protected $computedMatrix;
 
-    public function setDependency($table, array $dependents)
-    {
-        $this->matrix[$table] = $dependents;
-    }
+	public function setDependency($table, array $dependents)
+	{
+		$this->matrix[$table] = $dependents;
+	}
 
-    public function addDependency($table, $dependent)
-    {
-        if (isset($this->matrix[$table]) && !in_array($dependent, $this->matrix[$table])) {
-            $this->matrix[$table][] = $dependent;
-        } else {
-            $this->setDependency($table, [$dependent]);
-        }
-    }
+	public function addDependency($table, $dependent)
+	{
+		if (isset($this->matrix[$table]) && !in_array($dependent, $this->matrix[$table])) {
+			$this->matrix[$table][] = $dependent;
+		} else {
+			$this->setDependency($table, [$dependent]);
+		}
+	}
 
-    public function getDependents($table)
-    {
-        $this->computeDependencies();
+	public function getDependents($table)
+	{
+		$this->computeDependencies();
 
-        return isset($this->computedMatrix[$table]) ? $this->computedMatrix[$table] : [];
-    }
+		return isset($this->computedMatrix[$table]) ? $this->computedMatrix[$table] : [];
+	}
 
-    protected function computeDependencies()
-    {
-        if ($this->computedMatrix !== null) {
-            return;
-        }
+	protected function computeDependencies()
+	{
+		if ($this->computedMatrix !== null) {
+			return;
+		}
 
-        $this->computedMatrix = [];
-        foreach ($this->matrix as $key => $values) {
-            $this->computedMatrix[$key] = $this->computeDependencyForKey($values);
-        }
-    }
+		$this->computedMatrix = [];
+		foreach ($this->matrix as $key => $values) {
+			$this->computedMatrix[$key] = $this->computeDependencyForKey($values);
+		}
+	}
 
-    protected function computeDependencyForKey($values)
-    {
-        $merged = [];
-        foreach ($values as $value) {
-            $merged[] = $value;
-            if (isset($this->matrix[$value])) {
-                $merged = array_merge($merged, $this->matrix[$value]);
-            }
-        }
+	protected function computeDependencyForKey($values)
+	{
+		$merged = [];
+		foreach ($values as $value) {
+			$merged[] = $value;
+			if (isset($this->matrix[$value])) {
+				$merged = array_merge($merged, $this->matrix[$value]);
+			}
+		}
 
-        return $merged;
-    }
+		return $merged;
+	}
 }

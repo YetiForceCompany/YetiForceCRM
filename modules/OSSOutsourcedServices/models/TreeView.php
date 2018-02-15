@@ -9,8 +9,8 @@
  */
 class OSSOutsourcedServices_TreeView_Model extends Vtiger_TreeView_Model
 {
-    public function isActive()
-    {
-        return true;
-    }
+	public function isActive()
+	{
+		return true;
+	}
 }

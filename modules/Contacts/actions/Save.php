@@ -11,19 +11,19 @@
 
 class Contacts_Save_Action extends Vtiger_Save_Action
 {
-    /**
-     * Process.
-     *
-     * @param \App\Request $request
-     */
-    public function process(\App\Request $request)
-    {
-        $result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
-        $_FILES = $result['imagename'];
-        //To stop saveing the value of salutation as '--None--'
-        if ($request->get('salutationtype') === '--None--') {
-            $request->set('salutationtype', '');
-        }
-        parent::process($request);
-    }
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
+	{
+		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
+		$_FILES = $result['imagename'];
+		//To stop saveing the value of salutation as '--None--'
+		if ($request->get('salutationtype') === '--None--') {
+			$request->set('salutationtype', '');
+		}
+		parent::process($request);
+	}
 }

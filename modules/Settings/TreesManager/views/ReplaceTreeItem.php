@@ -8,11 +8,11 @@
  */
 class Settings_TreesManager_ReplaceTreeItem_View extends Settings_Vtiger_Index_View
 {
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule(false);
-        $viewer->assign('QUALIFIED_MODULE', $moduleName);
-        $viewer->view('ReplaceTreeItem.tpl', $moduleName);
-    }
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule(false);
+		$viewer->assign('QUALIFIED_MODULE', $moduleName);
+		$viewer->view('ReplaceTreeItem.tpl', $moduleName);
+	}
 }

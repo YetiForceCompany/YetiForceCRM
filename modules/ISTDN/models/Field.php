@@ -9,13 +9,13 @@
  */
 class ISTDN_Field_Model extends Vtiger_Field_Model
 {
-    public function isAjaxEditable()
-    {
-        $edit = parent::isAjaxEditable();
-        if ($edit && $this->getName() === 'istdn_status') {
-            $edit = false;
-        }
+	public function isAjaxEditable()
+	{
+		$edit = parent::isAjaxEditable();
+		if ($edit && $this->getName() === 'istdn_status') {
+			$edit = false;
+		}
 
-        return $edit;
-    }
+		return $edit;
+	}
 }

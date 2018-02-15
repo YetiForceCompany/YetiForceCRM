@@ -10,21 +10,21 @@
 
 class VTDummyTask extends VTTask
 {
-    public $executeImmediately = true;
+	public $executeImmediately = true;
 
-    public function getFieldNames()
-    {
-        return [];
-    }
+	public function getFieldNames()
+	{
+		return [];
+	}
 
-    /**
-     * Execute task.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     */
-    public function doTask($recordModel)
-    {
-        $statement = $this->statement;
-        echo "This is a dummy workflow task with $statement";
-    }
+	/**
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
+	{
+		$statement = $this->statement;
+		echo "This is a dummy workflow task with $statement";
+	}
 }

@@ -8,29 +8,29 @@
  */
 class OSSPasswords_Detail_View extends Vtiger_Detail_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getFooterScripts(\App\Request $request)
-    {
-        $headerScriptInstances = parent::getFooterScripts($request);
-        $jsFileNames = [
-            'modules.OSSPasswords.resources.gen_pass',
-            'libraries.clipboard.dist.clipboard',
-            'modules.OSSPasswords.resources.zClipDetailView',
-        ];
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$jsFileNames = [
+			'modules.OSSPasswords.resources.gen_pass',
+			'libraries.clipboard.dist.clipboard',
+			'modules.OSSPasswords.resources.zClipDetailView',
+		];
 
-        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-        $headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
 
-        return $headerScriptInstances;
-    }
+		return $headerScriptInstances;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isAjaxEnabled($recordModel)
-    {
-        return false;
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEnabled($recordModel)
+	{
+		return false;
+	}
 }

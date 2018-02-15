@@ -9,66 +9,66 @@
  */
 class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 {
-    /** @var string Class name */
-    public $name = 'LBL_TIME_CONTROL_USER_GROUP';
+	/** @var string Class name */
+	public $name = 'LBL_TIME_CONTROL_USER_GROUP';
 
-    /** @var mixed Parser type */
-    public $type = 'pdf';
+	/** @var mixed Parser type */
+	public $type = 'pdf';
 
-    /**
-     * Process.
-     *
-     * @return string
-     */
-    public function process()
-    {
-        $html = '<br /><style>'.
-            '.table {width: 100%; border-collapse: collapse;}'.
-            '.table thead th {border-bottom: 1px solid grey;}'.
-            '.table tbody tr {border-bottom: 1px solid grey}'.
-            '.table tbody tr:nth-child(even) {background-color: #F7F7F7;}'.
-            '.center {text-align: center;}'.
-            '.summary {border-top: 1px solid grey;}'.
-            '</style>';
-        $html .= '<table class="table"><thead><tr>';
-        $html .= '<th>Nazwa użytkownika</th>';
-        $html .= '<th class="center">Dział</th>';
-        $html .= '<th class="center">Czas pracy</th>';
-        $html .= '</tr></thead><tbody>';
-        foreach ($this->getUserList() as $user => $data) {
-            $html .= '<tr>';
-            $html .= '<td>'.$user.'</td>';
-            $html .= '<td class="center">'.$data['role'].'</td>';
-            $html .= '<td class="center">'.\App\Fields\DateTime::formatToHourText($data['time'], 'short').'</td>';
-            $html .= '</tr>';
-        }
-        $html .= '</tbody></table>';
+	/**
+	 * Process.
+	 *
+	 * @return string
+	 */
+	public function process()
+	{
+		$html = '<br /><style>' .
+			'.table {width: 100%; border-collapse: collapse;}' .
+			'.table thead th {border-bottom: 1px solid grey;}' .
+			'.table tbody tr {border-bottom: 1px solid grey}' .
+			'.table tbody tr:nth-child(even) {background-color: #F7F7F7;}' .
+			'.center {text-align: center;}' .
+			'.summary {border-top: 1px solid grey;}' .
+			'</style>';
+		$html .= '<table class="table"><thead><tr>';
+		$html .= '<th>Nazwa użytkownika</th>';
+		$html .= '<th class="center">Dział</th>';
+		$html .= '<th class="center">Czas pracy</th>';
+		$html .= '</tr></thead><tbody>';
+		foreach ($this->getUserList() as $user => $data) {
+			$html .= '<tr>';
+			$html .= '<td>' . $user . '</td>';
+			$html .= '<td class="center">' . $data['role'] . '</td>';
+			$html .= '<td class="center">' . \App\Fields\DateTime::formatToHourText($data['time'], 'short') . '</td>';
+			$html .= '</tr>';
+		}
+		$html .= '</tbody></table>';
 
-        return $html;
-    }
+		return $html;
+	}
 
-    protected function getUserList()
-    {
-        $users = [];
-        $ids = $this->textParser->getParam('pdf')->getRecordIds();
-        if (!is_array($ids)) {
-            $ids = [$ids];
-        }
-        foreach ($ids as $recordId) {
-            $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
-            $user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
-            $time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
-            $users[$user] = [
-                'time' => $time,
-                'role' => \App\Language::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
-            ];
-        }
+	protected function getUserList()
+	{
+		$users = [];
+		$ids = $this->textParser->getParam('pdf')->getRecordIds();
+		if (!is_array($ids)) {
+			$ids = [$ids];
+		}
+		foreach ($ids as $recordId) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
+			$time = ($users[$user]['time'] ?? 0) + $recordModel->get('sum_time');
+			$users[$user] = [
+				'time' => $time,
+				'role' => \App\Language::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
+			];
+		}
 
-        return $users;
-    }
+		return $users;
+	}
 
-    public function getRoleName($userId)
-    {
-        return (new \App\Db\Query())->select(['rolename'])->from('vtiger_role')->innerJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')->where(['vtiger_user2role.userid' => $userId])->scalar();
-    }
+	public function getRoleName($userId)
+	{
+		return (new \App\Db\Query())->select(['rolename'])->from('vtiger_role')->innerJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')->where(['vtiger_user2role.userid' => $userId])->scalar();
+	}
 }

@@ -10,25 +10,25 @@
 
 class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
-    use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('checkDuplicate');
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('checkDuplicate');
+	}
 
-    public function checkDuplicate(\App\Request $request)
-    {
-        $profileName = $request->get('profilename');
-        $recordId = $request->get('record');
-        $recordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, false, $recordId);
-        $response = new Vtiger_Response();
-        if (!empty($recordModel)) {
-            $response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);
-        } else {
-            $response->setResult(['success' => false]);
-        }
-        $response->emit();
-    }
+	public function checkDuplicate(\App\Request $request)
+	{
+		$profileName = $request->get('profilename');
+		$recordId = $request->get('record');
+		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, false, $recordId);
+		$response = new Vtiger_Response();
+		if (!empty($recordModel)) {
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);
+		} else {
+			$response->setResult(['success' => false]);
+		}
+		$response->emit();
+	}
 }

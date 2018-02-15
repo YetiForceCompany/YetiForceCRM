@@ -10,8 +10,8 @@
 
 abstract class Vtiger_Footer_View extends Vtiger_Header_View
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	public function __construct()
+	{
+		parent::__construct();
+	}
 }

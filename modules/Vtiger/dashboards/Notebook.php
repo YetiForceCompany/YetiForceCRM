@@ -10,30 +10,30 @@
 
 class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 {
-    public function process(\App\Request $request, $widget = null)
-    {
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
+	public function process(\App\Request $request, $widget = null)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
 
-        // Initialize Widget to the right-state of information
-        if ($widget && !$request->has('widgetid')) {
-            $widgetId = $widget->get('id');
-        } else {
-            $widgetId = $request->getInteger('widgetid');
-        }
+		// Initialize Widget to the right-state of information
+		if ($widget && !$request->has('widgetid')) {
+			$widgetId = $widget->get('id');
+		} else {
+			$widgetId = $request->getInteger('widgetid');
+		}
 
-        $widget = Vtiger_Notebook_Model::getUserInstance($widgetId);
+		$widget = Vtiger_Notebook_Model::getUserInstance($widgetId);
 
-        $mode = $request->getMode();
-        if ($mode == 'save') {
-            $widget->save($request);
-        }
-        $viewer->assign('WIDGET', $widget);
-        $viewer->assign('MODULE_NAME', $moduleName);
-        if ($request->has('content')) {
-            $viewer->view('dashboards/NotebookContents.tpl', $moduleName);
-        } else {
-            $viewer->view('dashboards/Notebook.tpl', $moduleName);
-        }
-    }
+		$mode = $request->getMode();
+		if ($mode == 'save') {
+			$widget->save($request);
+		}
+		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		if ($request->has('content')) {
+			$viewer->view('dashboards/NotebookContents.tpl', $moduleName);
+		} else {
+			$viewer->view('dashboards/Notebook.tpl', $moduleName);
+		}
+	}
 }

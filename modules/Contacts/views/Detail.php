@@ -11,17 +11,17 @@
 
 class Contacts_Detail_View extends Vtiger_Detail_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function showModuleDetailView(\App\Request $request)
-    {
-        if (!$this->record) {
-            $this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
-        }
-        $viewer = $this->getViewer($request);
-        $viewer->assign('IMAGE_DETAILS', $this->record->getRecord()->getImageDetails());
+	/**
+	 * {@inheritdoc}
+	 */
+	public function showModuleDetailView(\App\Request $request)
+	{
+		if (!$this->record) {
+			$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('IMAGE_DETAILS', $this->record->getRecord()->getImageDetails());
 
-        return parent::showModuleDetailView($request);
-    }
+		return parent::showModuleDetailView($request);
+	}
 }

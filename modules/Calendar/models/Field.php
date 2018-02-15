@@ -14,162 +14,162 @@
  */
 class Calendar_Field_Model extends Vtiger_Field_Model
 {
-    /**
-     * Function returns special validator for fields.
-     *
-     * @return <Array>
-     */
-    public function getValidator()
-    {
-        $validator = [];
-        $fieldName = $this->getName();
+	/**
+	 * Function returns special validator for fields.
+	 *
+	 * @return <Array>
+	 */
+	public function getValidator()
+	{
+		$validator = [];
+		$fieldName = $this->getName();
 
-        switch ($fieldName) {
-            case 'due_date': $funcName = ['name' => 'greaterThanDependentField',
-                    'params' => ['date_start'], ];
-                array_push($validator, $funcName);
-                break;
-            // NOTE: Letting user to add pre or post dated Event.
-            /* case 'date_start' : $funcName = array('name'=>'greaterThanToday');
-              array_push($validator, $funcName);
-              break; */
-            default: $validator = parent::getValidator();
-                break;
-        }
+		switch ($fieldName) {
+			case 'due_date': $funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['date_start'], ];
+				array_push($validator, $funcName);
+				break;
+			// NOTE: Letting user to add pre or post dated Event.
+			/* case 'date_start' : $funcName = array('name'=>'greaterThanToday');
+			  array_push($validator, $funcName);
+			  break; */
+			default: $validator = parent::getValidator();
+				break;
+		}
 
-        return $validator;
-    }
+		return $validator;
+	}
 
-    /**
-     * Function to get the Webservice Field data type.
-     *
-     * @return string Data type of the field
-     */
-    public function getFieldDataType()
-    {
-        if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
-            return 'datetime';
-        } elseif ($this->get('uitype') == '30') {
-            return 'reminder';
-        }
+	/**
+	 * Function to get the Webservice Field data type.
+	 *
+	 * @return string Data type of the field
+	 */
+	public function getFieldDataType()
+	{
+		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
+			return 'datetime';
+		} elseif ($this->get('uitype') == '30') {
+			return 'reminder';
+		}
 
-        return parent::getFieldDataType();
-    }
+		return parent::getFieldDataType();
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        if ($recordModel) {
-            if ($this->getName() === 'date_start') {
-                $dateTimeValue = $value.' '.$recordModel->get('time_start');
-                $value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-                list($startDate, $startTime, $meridiem) = explode(' ', $value);
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if ($recordModel) {
+			if ($this->getName() === 'date_start') {
+				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
+				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
+				list($startDate, $startTime, $meridiem) = explode(' ', $value);
 
-                return $startDate.' '.$startTime.' '.$meridiem;
-            } elseif ($this->getName() === 'due_date') {
-                $dateTimeValue = $value.' '.$recordModel->get('time_end');
-                $value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-                list($startDate, $startTime, $meridiem) = explode(' ', $value);
+				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+			} elseif ($this->getName() === 'due_date') {
+				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
+				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
+				list($startDate, $startTime, $meridiem) = explode(' ', $value);
 
-                return $startDate.' '.$startTime.' '.$meridiem;
-            }
-        }
+				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+			}
+		}
 
-        return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
-    }
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
+	}
 
-    /**
-     * Function to get Edit view display value.
-     *
-     * @param string Data base value
-     *
-     * @return string value
-     */
-    public function getEditViewDisplayValue($value, $recordModel = false)
-    {
-        $fieldName = $this->getName();
+	/**
+	 * Function to get Edit view display value.
+	 *
+	 * @param string Data base value
+	 *
+	 * @return string value
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		$fieldName = $this->getName();
 
-        if ($fieldName == 'time_start' || $fieldName == 'time_end') {
-            return $this->getUITypeModel()->getDisplayTimeDifferenceValue($fieldName, $value);
-        }
+		if ($fieldName == 'time_start' || $fieldName == 'time_end') {
+			return $this->getUITypeModel()->getDisplayTimeDifferenceValue($fieldName, $value);
+		}
 
-        //Set the start date and end date
-        if (empty($value)) {
-            if ($fieldName === 'date_start') {
-                return DateTimeField::convertToUserFormat(date('Y-m-d'));
-            } elseif ($fieldName === 'due_date') {
-                $currentUser = Users_Record_Model::getCurrentUserModel();
-                $minutes = $currentUser->get('callduration');
+		//Set the start date and end date
+		if (empty($value)) {
+			if ($fieldName === 'date_start') {
+				return DateTimeField::convertToUserFormat(date('Y-m-d'));
+			} elseif ($fieldName === 'due_date') {
+				$currentUser = Users_Record_Model::getCurrentUserModel();
+				$minutes = $currentUser->get('callduration');
 
-                return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
-            }
-        }
+				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
+			}
+		}
 
-        return parent::getEditViewDisplayValue($value, $recordModel);
-    }
+		return parent::getEditViewDisplayValue($value, $recordModel);
+	}
 
-    /**
-     * Function to get the advanced filter option names by Field type.
-     *
-     * @return <Array>
-     */
-    public static function getAdvancedFilterOpsByFieldType()
-    {
-        $filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
-        $filterOpsByFieldType['O'] = ['e', 'n'];
+	/**
+	 * Function to get the advanced filter option names by Field type.
+	 *
+	 * @return <Array>
+	 */
+	public static function getAdvancedFilterOpsByFieldType()
+	{
+		$filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
+		$filterOpsByFieldType['O'] = ['e', 'n'];
 
-        return $filterOpsByFieldType;
-    }
+		return $filterOpsByFieldType;
+	}
 
-    /**
-     * Function which will check if empty piclist option should be given.
-     */
-    public function isEmptyPicklistOptionAllowed()
-    {
-        if ($this->getFieldName() == 'visibility') {
-            return false;
-        }
+	/**
+	 * Function which will check if empty piclist option should be given.
+	 */
+	public function isEmptyPicklistOptionAllowed()
+	{
+		if ($this->getFieldName() == 'visibility') {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Function to get visibilty permissions of a Field.
-     *
-     * @param bool $readOnly
-     *
-     * @return bool
-     */
-    public function getPermissions($readOnly = true)
-    {
-        $calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
-        $events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
+	/**
+	 * Function to get visibilty permissions of a Field.
+	 *
+	 * @param bool $readOnly
+	 *
+	 * @return bool
+	 */
+	public function getPermissions($readOnly = true)
+	{
+		$calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
+		$events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
 
-        return $calendar || $events;
-    }
+		return $calendar || $events;
+	}
 
-    /**
-     * Function to get the field details.
-     *
-     * @return <Array> - array of field values
-     */
-    public function getFieldInfo()
-    {
-        parent::getFieldInfo();
-        //Change the default search operator
-        if ($this->get('name') == 'date_start') {
-            $searchParams = \App\Request::_get('search_params');
-            if (!empty($searchParams)) {
-                foreach ($searchParams[0] as $value) {
-                    if ($value[0] == 'date_start') {
-                        $this->fieldInfo['searchOperator'] = $value[1];
-                    }
-                }
-            }
-        }
+	/**
+	 * Function to get the field details.
+	 *
+	 * @return <Array> - array of field values
+	 */
+	public function getFieldInfo()
+	{
+		parent::getFieldInfo();
+		//Change the default search operator
+		if ($this->get('name') == 'date_start') {
+			$searchParams = \App\Request::_get('search_params');
+			if (!empty($searchParams)) {
+				foreach ($searchParams[0] as $value) {
+					if ($value[0] == 'date_start') {
+						$this->fieldInfo['searchOperator'] = $value[1];
+					}
+				}
+			}
+		}
 
-        return $this->fieldInfo;
-    }
+		return $this->fieldInfo;
+	}
 }

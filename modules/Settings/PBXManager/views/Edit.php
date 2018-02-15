@@ -11,30 +11,30 @@
 
 class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
 {
-    public function __construct()
-    {
-        $this->exposeMethod('showPopup');
-    }
+	public function __construct()
+	{
+		$this->exposeMethod('showPopup');
+	}
 
-    public function process(\App\Request $request)
-    {
-        $this->showPopup($request);
-    }
+	public function process(\App\Request $request)
+	{
+		$this->showPopup($request);
+	}
 
-    public function showPopup(\App\Request $request)
-    {
-        $id = $request->get('id');
-        $qualifiedModuleName = $request->getModule(false);
-        $viewer = $this->getViewer($request);
-        if ($id) {
-            $recordModel = Settings_PBXManager_Record_Model::getInstanceById($id, $qualifiedModuleName);
-        } else {
-            $recordModel = Settings_PBXManager_Record_Model::getCleanInstance();
-        }
-        $viewer->assign('RECORD_ID', $id);
-        $viewer->assign('RECORD_MODEL', $recordModel);
-        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-        $viewer->assign('MODULE', $request->getModule(false));
-        $viewer->view('Edit.tpl', $request->getModule(false));
-    }
+	public function showPopup(\App\Request $request)
+	{
+		$id = $request->get('id');
+		$qualifiedModuleName = $request->getModule(false);
+		$viewer = $this->getViewer($request);
+		if ($id) {
+			$recordModel = Settings_PBXManager_Record_Model::getInstanceById($id, $qualifiedModuleName);
+		} else {
+			$recordModel = Settings_PBXManager_Record_Model::getCleanInstance();
+		}
+		$viewer->assign('RECORD_ID', $id);
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $request->getModule(false));
+		$viewer->view('Edit.tpl', $request->getModule(false));
+	}
 }

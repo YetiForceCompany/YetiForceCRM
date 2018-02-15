@@ -10,19 +10,19 @@
 
 class Settings_CronTasks_EditAjax_View extends Settings_Vtiger_IndexAjax_View
 {
-    public function process(\App\Request $request)
-    {
-        $recordId = $request->getInteger('record');
-        $moduleName = $request->getModule();
-        $qualifiedModuleName = $request->getModule(false);
+	public function process(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
 
-        $recordModel = Settings_CronTasks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
-        $viewer = $this->getViewer($request);
+		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$viewer = $this->getViewer($request);
 
-        $viewer->assign('RECORD_MODEL', $recordModel);
-        $viewer->assign('MODULE', $moduleName);
-        $viewer->assign('RECORD', $recordId);
-        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-        $viewer->view('EditAjax.tpl', $qualifiedModuleName);
-    }
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORD', $recordId);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->view('EditAjax.tpl', $qualifiedModuleName);
+	}
 }

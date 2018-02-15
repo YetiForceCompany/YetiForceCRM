@@ -9,41 +9,41 @@
  */
 class Chat_Entries_Action extends \App\Controller\Action
 {
-    use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod;
 
-    /**
-     * Function to check permission.
-     *
-     * @param \App\Request $request
-     *
-     * @throws \App\Exceptions\NoPermitted
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-        if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-        }
-    }
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
 
-    /**
-     * Constructor with a list of allowed methods.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('add');
-    }
+	/**
+	 * Constructor with a list of allowed methods.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('add');
+	}
 
-    /**
-     * Add entries function.
-     *
-     * @param \App\Request $request
-     */
-    public function add(\App\Request $request)
-    {
-        Chat_Module_Model::add($request->get('message'));
-        $view = new Chat_Entries_View();
-        $view->get($request);
-    }
+	/**
+	 * Add entries function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function add(\App\Request $request)
+	{
+		Chat_Module_Model::add($request->get('message'));
+		$view = new Chat_Entries_View();
+		$view->get($request);
+	}
 }

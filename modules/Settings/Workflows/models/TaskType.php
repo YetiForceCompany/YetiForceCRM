@@ -8,9 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-/*
- * Workflow Task Type Model Class
- */
+// Workflow Task Type Model Class
 require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 
 /**
@@ -18,126 +16,126 @@ require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
  */
 class Settings_Workflows_TaskType_Model extends \App\Base
 {
-    /**
-     * Get record id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->get('id');
-    }
+	/**
+	 * Get record id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->get('id');
+	}
 
-    /**
-     * Get task name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->get('tasktypename');
-    }
+	/**
+	 * Get task name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->get('tasktypename');
+	}
 
-    /**
-     * Get task label.
-     *
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->get('label');
-    }
+	/**
+	 * Get task label.
+	 *
+	 * @return string
+	 */
+	public function getLabel()
+	{
+		return $this->get('label');
+	}
 
-    /**
-     * Get template path.
-     *
-     * @return string
-     */
-    public function getTemplatePath()
-    {
-        return \App\Layout::getTemplatePath('Tasks/'.$this->getName().'.tpl', 'Settings:Workflows');
-    }
+	/**
+	 * Get template path.
+	 *
+	 * @return string
+	 */
+	public function getTemplatePath()
+	{
+		return \App\Layout::getTemplatePath('Tasks/' . $this->getName() . '.tpl', 'Settings:Workflows');
+	}
 
-    /**
-     * Get edit view url.
-     *
-     * @return string
-     */
-    public function getEditViewUrl()
-    {
-        return '?module=Workflows&parent=Settings&view=EditTask&type='.$this->getName();
-    }
+	/**
+	 * Get edit view url.
+	 *
+	 * @return string
+	 */
+	public function getEditViewUrl()
+	{
+		return '?module=Workflows&parent=Settings&view=EditTask&type=' . $this->getName();
+	}
 
-    /**
-     * Create instance from class name.
-     *
-     * @param VTTask $taskClass
-     *
-     * @return $this
-     */
-    public static function getInstanceFromClassName($taskClass)
-    {
-        $row = (new \App\Db\Query())->from('com_vtiger_workflow_tasktypes')->where(['classname' => $taskClass])->one();
-        $taskTypeObject = VTTaskType::getInstance($row);
+	/**
+	 * Create instance from class name.
+	 *
+	 * @param VTTask $taskClass
+	 *
+	 * @return $this
+	 */
+	public static function getInstanceFromClassName($taskClass)
+	{
+		$row = (new \App\Db\Query())->from('com_vtiger_workflow_tasktypes')->where(['classname' => $taskClass])->one();
+		$taskTypeObject = VTTaskType::getInstance($row);
 
-        return self::getInstanceFromTaskTypeObject($taskTypeObject);
-    }
+		return self::getInstanceFromTaskTypeObject($taskTypeObject);
+	}
 
-    /**
-     * Get all tasks for module.
-     *
-     * @param object $moduleModel
-     *
-     * @return array
-     */
-    public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
-    {
-        $taskTypes = VTTaskType::getAll($moduleModel->getName());
-        $taskTypeModels = [];
-        foreach ($taskTypes as $taskTypeObject) {
-            $taskTypeModels[] = self::getInstanceFromTaskTypeObject($taskTypeObject);
-        }
+	/**
+	 * Get all tasks for module.
+	 *
+	 * @param object $moduleModel
+	 *
+	 * @return array
+	 */
+	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
+	{
+		$taskTypes = VTTaskType::getAll($moduleModel->getName());
+		$taskTypeModels = [];
+		foreach ($taskTypes as $taskTypeObject) {
+			$taskTypeModels[] = self::getInstanceFromTaskTypeObject($taskTypeObject);
+		}
 
-        return $taskTypeModels;
-    }
+		return $taskTypeModels;
+	}
 
-    /**
-     * Get task type instance.
-     *
-     * @param string $taskType
-     *
-     * @return object
-     */
-    public static function getInstance($taskType)
-    {
-        $taskTypeObject = VTTaskType::getInstanceFromTaskType($taskType);
+	/**
+	 * Get task type instance.
+	 *
+	 * @param string $taskType
+	 *
+	 * @return object
+	 */
+	public static function getInstance($taskType)
+	{
+		$taskTypeObject = VTTaskType::getInstanceFromTaskType($taskType);
 
-        return self::getInstanceFromTaskTypeObject($taskTypeObject);
-    }
+		return self::getInstanceFromTaskTypeObject($taskTypeObject);
+	}
 
-    /**
-     * Get instance from task type object.
-     *
-     * @param object $taskTypeObject
-     *
-     * @return \self
-     */
-    public static function getInstanceFromTaskTypeObject($taskTypeObject)
-    {
-        return new self($taskTypeObject->data);
-    }
+	/**
+	 * Get instance from task type object.
+	 *
+	 * @param object $taskTypeObject
+	 *
+	 * @return \self
+	 */
+	public static function getInstanceFromTaskTypeObject($taskTypeObject)
+	{
+		return new self($taskTypeObject->data);
+	}
 
-    /**
-     * Get task base module object.
-     *
-     * @return object
-     */
-    public function getTaskBaseModule()
-    {
-        $taskTypeName = $this->get('tasktypename');
-        switch ($taskTypeName) {
-            case 'VTCreateTodoTask': return Vtiger_Module_Model::getInstance('Calendar');
-            case 'VTCreateEventTask': return Vtiger_Module_Model::getInstance('Events');
-        }
-    }
+	/**
+	 * Get task base module object.
+	 *
+	 * @return object
+	 */
+	public function getTaskBaseModule()
+	{
+		$taskTypeName = $this->get('tasktypename');
+		switch ($taskTypeName) {
+			case 'VTCreateTodoTask': return Vtiger_Module_Model::getInstance('Calendar');
+			case 'VTCreateEventTask': return Vtiger_Module_Model::getInstance('Events');
+		}
+	}
 }

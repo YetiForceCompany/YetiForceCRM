@@ -10,19 +10,19 @@
 
 class Vtiger_CRMEntity extends CRMEntity
 {
-    public $db; // Used in class functions of CRMEntity
-    public $column_fields = [];
+	public $db; // Used in class functions of CRMEntity
+	public $column_fields = [];
 
-    /** Indicator if this is a custom module or standard module */
-    public $IsCustomModule = true;
-    // Required Information for enabling Import feature
-    public $required_fields = ['assigned_user_id' => 1];
-    // Callback function list during Importing
-    public $special_functions = ['set_import_assigned_user'];
+	/** Indicator if this is a custom module or standard module */
+	public $IsCustomModule = true;
+	// Required Information for enabling Import feature
+	public $required_fields = ['assigned_user_id' => 1];
+	// Callback function list during Importing
+	public $special_functions = ['set_import_assigned_user'];
 
-    public function __construct()
-    {
-        $this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
-        $this->db = PearDatabase::getInstance();
-    }
+	public function __construct()
+	{
+		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
+		$this->db = PearDatabase::getInstance();
+	}
 }

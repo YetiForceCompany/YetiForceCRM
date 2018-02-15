@@ -12,92 +12,92 @@ require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 class VTUpdateFieldsTask extends VTTask
 {
-    public $executeImmediately = true;
+	public $executeImmediately = true;
 
-    public function getFieldNames()
-    {
-        return ['field_value_mapping'];
-    }
+	public function getFieldNames()
+	{
+		return ['field_value_mapping'];
+	}
 
-    /**
-     * Execute task.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     */
-    public function doTask($recordModel)
-    {
-        $moduleModel = $recordModel->getModule();
-        $moduleFields = $moduleModel->getFields();
-        $fieldValueMapping = [];
-        if (!empty($this->field_value_mapping)) {
-            $fieldValueMapping = \App\Json::decode($this->field_value_mapping);
-        }
-        if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
-            $isNew = $recordModel->isNew();
-            if ($isNew) {
-                $recordModel->isNew = false;
-            }
-            foreach ($fieldValueMapping as $fieldInfo) {
-                $fieldName = $fieldInfo['fieldname'];
-                $fieldValueType = $fieldInfo['valuetype'];
-                $fieldValue = trim($fieldInfo['value']);
-                $fieldInstance = $moduleFields[$fieldName];
-                if ($fieldValueType === 'expression') {
-                    require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
-                    $parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
-                    $expression = $parser->expression();
-                    $exprEvaluater = new VTFieldExpressionEvaluater($expression);
-                    $fieldValue = $exprEvaluater->evaluate($recordModel);
-                    //for Product Unit Price value converted with based product currency
-                    if ($fieldInstance && $fieldInstance->getFieldDataType() === 'currency' && $fieldName === 'unit_price') {
-                        $fieldValue = $this->calculateProductUnitPrice($fieldValue);
-                    }
-                } elseif ($fieldValueType === 'fieldname') {
-                    $fieldValue = $recordModel->get($fieldValue);
-                } else {
-                    if (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
-                        $fieldValue = $match[1];
-                        if ($fieldValue == 'true') {
-                            $fieldValue = '1';
-                        } else {
-                            $fieldValue = '0';
-                        }
-                    }
-                    //for Product Unit Price value converted with based product currency
-                    if ($fieldInstance && $fieldInstance->getFieldDataType() === 'currency' && $fieldName === 'unit_price') {
-                        $fieldValue = $this->calculateProductUnitPrice($fieldValue);
-                    }
-                }
-                $recordModel->set($fieldName, App\Purifier::decodeHtml($fieldValue));
-            }
-            $recordModel->setHandlerExceptions(['disableWorkflow' => true]);
-            $recordModel->save();
-            if ($isNew) {
-                $recordModel->isNew = true;
-            }
-        }
-    }
+	/**
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
+	{
+		$moduleModel = $recordModel->getModule();
+		$moduleFields = $moduleModel->getFields();
+		$fieldValueMapping = [];
+		if (!empty($this->field_value_mapping)) {
+			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
+		}
+		if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
+			$isNew = $recordModel->isNew();
+			if ($isNew) {
+				$recordModel->isNew = false;
+			}
+			foreach ($fieldValueMapping as $fieldInfo) {
+				$fieldName = $fieldInfo['fieldname'];
+				$fieldValueType = $fieldInfo['valuetype'];
+				$fieldValue = trim($fieldInfo['value']);
+				$fieldInstance = $moduleFields[$fieldName];
+				if ($fieldValueType === 'expression') {
+					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
+					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
+					$expression = $parser->expression();
+					$exprEvaluater = new VTFieldExpressionEvaluater($expression);
+					$fieldValue = $exprEvaluater->evaluate($recordModel);
+					//for Product Unit Price value converted with based product currency
+					if ($fieldInstance && $fieldInstance->getFieldDataType() === 'currency' && $fieldName === 'unit_price') {
+						$fieldValue = $this->calculateProductUnitPrice($fieldValue);
+					}
+				} elseif ($fieldValueType === 'fieldname') {
+					$fieldValue = $recordModel->get($fieldValue);
+				} else {
+					if (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
+						$fieldValue = $match[1];
+						if ($fieldValue == 'true') {
+							$fieldValue = '1';
+						} else {
+							$fieldValue = '0';
+						}
+					}
+					//for Product Unit Price value converted with based product currency
+					if ($fieldInstance && $fieldInstance->getFieldDataType() === 'currency' && $fieldName === 'unit_price') {
+						$fieldValue = $this->calculateProductUnitPrice($fieldValue);
+					}
+				}
+				$recordModel->set($fieldName, App\Purifier::decodeHtml($fieldValue));
+			}
+			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+			$recordModel->save();
+			if ($isNew) {
+				$recordModel->isNew = true;
+			}
+		}
+	}
 
-    /**
-     * Function to calculate Product Unit Price.
-     * Product Unit Price value converted with based product currency.
-     *
-     * @param type $fieldValue
-     */
-    public function calculateProductUnitPrice($fieldValue)
-    {
-        $currency_details = vtlib\Functions::getAllCurrency(false);
-        $amountOfElements = count($currency_details);
-        for ($i = 0; $i < $amountOfElements; ++$i) {
-            $curid = $currency_details[$i]['curid'];
-            $cur_checkname = 'cur_'.$curid.'_check';
-            $cur_valuename = 'curname'.$curid;
-            if ($cur_valuename == \App\Request::_get('base_currency') && (\App\Request::_get($cur_checkname) == 'on' || \App\Request::_get($cur_checkname) == 1)) {
-                $fieldValue = $fieldValue * $currency_details[$i]['conversionrate'];
-                \App\Request::_set($cur_valuename, $fieldValue);
-            }
-        }
+	/**
+	 * Function to calculate Product Unit Price.
+	 * Product Unit Price value converted with based product currency.
+	 *
+	 * @param type $fieldValue
+	 */
+	public function calculateProductUnitPrice($fieldValue)
+	{
+		$currency_details = vtlib\Functions::getAllCurrency(false);
+		$amountOfElements = count($currency_details);
+		for ($i = 0; $i < $amountOfElements; ++$i) {
+			$curid = $currency_details[$i]['curid'];
+			$cur_checkname = 'cur_' . $curid . '_check';
+			$cur_valuename = 'curname' . $curid;
+			if ($cur_valuename == \App\Request::_get('base_currency') && (\App\Request::_get($cur_checkname) == 'on' || \App\Request::_get($cur_checkname) == 1)) {
+				$fieldValue = $fieldValue * $currency_details[$i]['conversionrate'];
+				\App\Request::_set($cur_valuename, $fieldValue);
+			}
+		}
 
-        return $fieldValue;
-    }
+		return $fieldValue;
+	}
 }

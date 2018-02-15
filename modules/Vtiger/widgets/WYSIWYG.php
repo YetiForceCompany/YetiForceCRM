@@ -8,15 +8,15 @@
  */
 class Vtiger_WYSIWYG_Widget extends Vtiger_Basic_Widget
 {
-    public function getWidget()
-    {
-        $this->Config['tpl'] = 'WYSIWYG.tpl';
+	public function getWidget()
+	{
+		$this->Config['tpl'] = 'WYSIWYG.tpl';
 
-        return $this->Config;
-    }
+		return $this->Config;
+	}
 
-    public function getConfigTplName()
-    {
-        return 'WYSIWYGConfig';
-    }
+	public function getConfigTplName()
+	{
+		return 'WYSIWYGConfig';
+	}
 }

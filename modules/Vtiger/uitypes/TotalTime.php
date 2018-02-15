@@ -9,11 +9,11 @@
  */
 class Vtiger_TotalTime_UIType extends Vtiger_Double_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        return \App\Fields\DateTime::formatToHourText($value, 'short');
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		return \App\Fields\DateTime::formatToHourText($value, 'short');
+	}
 }

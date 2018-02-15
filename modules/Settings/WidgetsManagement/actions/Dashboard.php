@@ -9,30 +9,30 @@
  */
 class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexAjax_View
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('save');
-        $this->exposeMethod('delete');
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('save');
+		$this->exposeMethod('delete');
+	}
 
-    public function save(\App\Request $request)
-    {
-        Settings_WidgetsManagement_Module_Model::saveDashboard($request->get('dashboardId'), $request->get('name'));
-        $response = new Vtiger_Response();
-        $response->setResult(true);
-        $response->emit();
-    }
+	public function save(\App\Request $request)
+	{
+		Settings_WidgetsManagement_Module_Model::saveDashboard($request->get('dashboardId'), $request->get('name'));
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
 
-    public function delete(\App\Request $request)
-    {
-        $dashboardId = $request->get('dashboardId');
-        if ($dashboardId === Settings_WidgetsManagement_Module_Model::getDefaultDashboard()) {
-            throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-        }
-        Settings_WidgetsManagement_Module_Model::deleteDashboard($dashboardId);
-        $response = new Vtiger_Response();
-        $response->setResult(true);
-        $response->emit();
-    }
+	public function delete(\App\Request $request)
+	{
+		$dashboardId = $request->get('dashboardId');
+		if ($dashboardId === Settings_WidgetsManagement_Module_Model::getDefaultDashboard()) {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+		}
+		Settings_WidgetsManagement_Module_Model::deleteDashboard($dashboardId);
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
 }

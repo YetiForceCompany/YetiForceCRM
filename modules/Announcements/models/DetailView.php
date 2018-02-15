@@ -9,7 +9,6 @@
  */
 class Announcements_DetailView_Model extends Vtiger_DetailView_Model
 {
-
 	/**
 	 * Function to get the detail view related links.
 	 *

@@ -9,14 +9,14 @@
  */
 class Vtiger_AutomaticAssignment_Handler
 {
-    /**
-     * EntitySystemAfterCreate handler function.
-     *
-     * @param App\EventHandler $eventHandler
-     */
-    public function entitySystemAfterCreate(App\EventHandler $eventHandler)
-    {
-        $recordModel = $eventHandler->getRecordModel();
-        Settings_AutomaticAssignment_Module_Model::autoAssignExecute($recordModel);
-    }
+	/**
+	 * EntitySystemAfterCreate handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entitySystemAfterCreate(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		Settings_AutomaticAssignment_Module_Model::autoAssignExecute($recordModel);
+	}
 }

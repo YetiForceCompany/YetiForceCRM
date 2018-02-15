@@ -10,29 +10,29 @@
 
 class Settings_PBXManager_Gateway_Action extends Settings_Vtiger_IndexAjax_View
 {
-    public function __construct()
-    {
-        $this->exposeMethod('getSecretKey');
-    }
+	public function __construct()
+	{
+		$this->exposeMethod('getSecretKey');
+	}
 
-    public function process(\App\Request $request)
-    {
-        $this->getSecretKey($request);
-    }
+	public function process(\App\Request $request)
+	{
+		$this->getSecretKey($request);
+	}
 
-    public function getSecretKey(\App\Request $request)
-    {
-        $serverModel = PBXManager_Server_Model::getInstance();
-        $response = new Vtiger_Response();
-        $vtigersecretkey = $serverModel->get('vtigersecretkey');
-        if ($vtigersecretkey) {
-            $connector = $serverModel->getConnector();
-            $vtigersecretkey = $connector->getVtigerSecretKey();
-            $response->setResult($vtigersecretkey);
-        } else {
-            $vtigersecretkey = PBXManager_Server_Model::generateVtigerSecretKey();
-            $response->setResult($vtigersecretkey);
-        }
-        $response->emit();
-    }
+	public function getSecretKey(\App\Request $request)
+	{
+		$serverModel = PBXManager_Server_Model::getInstance();
+		$response = new Vtiger_Response();
+		$vtigersecretkey = $serverModel->get('vtigersecretkey');
+		if ($vtigersecretkey) {
+			$connector = $serverModel->getConnector();
+			$vtigersecretkey = $connector->getVtigerSecretKey();
+			$response->setResult($vtigersecretkey);
+		} else {
+			$vtigersecretkey = PBXManager_Server_Model::generateVtigerSecretKey();
+			$response->setResult($vtigersecretkey);
+		}
+		$response->emit();
+	}
 }

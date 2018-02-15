@@ -9,47 +9,47 @@
  */
 class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 {
-    public $allowedModules = ['Campaigns'];
+	public $allowedModules = ['Campaigns'];
 
-    public function getUrl()
-    {
-        $url = 'module='.$this->Module.'&view=Detail&record='.$this->Record.'&mode=showCountRecords';
-        if (isset($this->Data['relatedModules'])) {
-            foreach ($this->Data['relatedModules'] as $module) {
-                $url .= '&relatedModules[]='.$module;
-            }
-        }
+	public function getUrl()
+	{
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showCountRecords';
+		if (isset($this->Data['relatedModules'])) {
+			foreach ($this->Data['relatedModules'] as $module) {
+				$url .= '&relatedModules[]=' . $module;
+			}
+		}
 
-        return $url;
-    }
+		return $url;
+	}
 
-    public function getWidget()
-    {
-        $this->Config['tpl'] = 'CountRecords.tpl';
-        $this->Config['url'] = $this->getUrl();
-        $this->Config['relatedModules'] = $this->Data['relatedModules'];
-        $widget = $this->Config;
+	public function getWidget()
+	{
+		$this->Config['tpl'] = 'CountRecords.tpl';
+		$this->Config['url'] = $this->getUrl();
+		$this->Config['relatedModules'] = $this->Data['relatedModules'];
+		$widget = $this->Config;
 
-        return $widget;
-    }
+		return $widget;
+	}
 
-    public function getConfigTplName()
-    {
-        return 'CountRecordsConfig';
-    }
+	public function getConfigTplName()
+	{
+		return 'CountRecordsConfig';
+	}
 
-    public static function getCountRecords($modules, $recordId)
-    {
-        $countRecords = [];
-        $parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
-        foreach ($modules as $relatedModuleName) {
-            $relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-            if (!\App\Module::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
-                continue;
-            }
-            $countRecords[$relatedModuleName] = (int) $relationListView->getRelatedEntriesCount();
-        }
+	public static function getCountRecords($modules, $recordId)
+	{
+		$countRecords = [];
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		foreach ($modules as $relatedModuleName) {
+			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+			if (!\App\Module::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+				continue;
+			}
+			$countRecords[$relatedModuleName] = (int) $relationListView->getRelatedEntriesCount();
+		}
 
-        return $countRecords;
-    }
+		return $countRecords;
+	}
 }

@@ -9,8 +9,8 @@
  */
 class OSSMailScanner_BindLeads_ScannerAction extends OSSMailScanner_EmailScannerAction_Model
 {
-    public function process(OSSMail_Mail_Model $mail, $moduleName = 'Leads')
-    {
-        return parent::process($mail, 'Leads');
-    }
+	public function process(OSSMail_Mail_Model $mail, $moduleName = 'Leads')
+	{
+		return parent::process($mail, 'Leads');
+	}
 }

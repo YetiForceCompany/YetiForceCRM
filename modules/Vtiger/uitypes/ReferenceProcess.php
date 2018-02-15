@@ -9,16 +9,16 @@
  */
 class Vtiger_ReferenceProcess_UIType extends Vtiger_ReferenceLink_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getReferenceList()
-    {
-        $modules = \App\ModuleHierarchy::getModulesByLevel(1);
-        if (!empty($modules)) {
-            return array_keys($modules);
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getReferenceList()
+	{
+		$modules = \App\ModuleHierarchy::getModulesByLevel(1);
+		if (!empty($modules)) {
+			return array_keys($modules);
+		}
 
-        return [];
-    }
+		return [];
+	}
 }

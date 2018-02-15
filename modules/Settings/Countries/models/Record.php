@@ -7,15 +7,15 @@
  */
 class Settings_Countries_Record_Model
 {
-    /**
-     * Get all records with all fields from countries.
-     *
-     * @return array all rows of the query result. Each array element is an array representing a row of data
-     */
-    public static function getAll()
-    {
-        $query = (new \App\Db\Query())->from('u_#__countries')->orderBy('sortorderid');
+	/**
+	 * Get all records with all fields from countries.
+	 *
+	 * @return array all rows of the query result. Each array element is an array representing a row of data
+	 */
+	public static function getAll()
+	{
+		$query = (new \App\Db\Query())->from('u_#__countries')->orderBy('sortorderid');
 
-        return $query->createCommand()->queryAll();
-    }
+		return $query->createCommand()->queryAll();
+	}
 }

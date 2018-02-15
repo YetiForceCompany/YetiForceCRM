@@ -11,64 +11,64 @@
 
 class Users_PreferenceEdit_View extends Vtiger_Edit_View
 {
-    public function checkPermission(\App\Request $request)
-    {
-        $moduleName = $request->getModule();
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
-        if (!$request->isEmpty('record', true)) {
-            $this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-            if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
-                throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-            }
-        } elseif ($request->isEmpty('record')) {
-            $this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-        }
-        if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
-            return true;
-        } else {
-            throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-        }
-    }
+	public function checkPermission(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!$request->isEmpty('record', true)) {
+			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			}
+		} elseif ($request->isEmpty('record')) {
+			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
+		}
+		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
+			return true;
+		} else {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+		}
+	}
 
-    public function preProcessTplName(\App\Request $request)
-    {
-        return 'UserEditViewPreProcess.tpl';
-    }
+	public function preProcessTplName(\App\Request $request)
+	{
+		return 'UserEditViewPreProcess.tpl';
+	}
 
-    public function preProcess(\App\Request $request, $display = true)
-    {
-        parent::preProcess($request, false);
-        $viewer = $this->getViewer($request);
-        $viewer->assign('IS_PREFERENCE', true);
-        if ($display) {
-            $this->preProcessDisplay($request);
-        }
-    }
+	public function preProcess(\App\Request $request, $display = true)
+	{
+		parent::preProcess($request, false);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('IS_PREFERENCE', true);
+		if ($display) {
+			$this->preProcessDisplay($request);
+		}
+	}
 
-    protected function preProcessDisplay(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $viewer->view($this->preProcessTplName($request), $request->getModule());
-    }
+	protected function preProcessDisplay(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->view($this->preProcessTplName($request), $request->getModule());
+	}
 
-    public function process(\App\Request $request)
-    {
-        $moduleName = $request->getModule();
-        $recordId = $request->get('record');
-        if (!empty($recordId)) {
-            $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-        } else {
-            $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-        }
-        $dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
-        $viewer = $this->getViewer($request);
-        $viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
-        $viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
-        $viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+	public function process(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordId = $request->get('record');
+		if (!empty($recordId)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		} else {
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		}
+		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
+		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-        parent::process($request);
-    }
+		parent::process($request);
+	}
 }

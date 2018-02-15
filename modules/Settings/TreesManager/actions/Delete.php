@@ -8,15 +8,15 @@
  */
 class Settings_TreesManager_Delete_Action extends Settings_Vtiger_Index_Action
 {
-    public function process(\App\Request $request)
-    {
-        $recordId = $request->getInteger('record');
-        $recordModel = Settings_TreesManager_Record_Model::getInstanceById($recordId);
-        $recordModel->delete();
-        $returnUrl = $recordModel->getListViewUrl();
-        $response = new Vtiger_Response();
-        $response->setResult($returnUrl);
+	public function process(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$recordModel = Settings_TreesManager_Record_Model::getInstanceById($recordId);
+		$recordModel->delete();
+		$returnUrl = $recordModel->getListViewUrl();
+		$response = new Vtiger_Response();
+		$response->setResult($returnUrl);
 
-        return $response;
-    }
+		return $response;
+	}
 }

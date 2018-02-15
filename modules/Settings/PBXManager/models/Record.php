@@ -10,80 +10,80 @@
 
 class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 {
-    const TABLE_NAME = 'vtiger_pbxmanager_gateway';
+	const TABLE_NAME = 'vtiger_pbxmanager_gateway';
 
-    public function getId()
-    {
-        return $this->get('id');
-    }
+	public function getId()
+	{
+		return $this->get('id');
+	}
 
-    public function getName()
-    {
-    }
+	public function getName()
+	{
+	}
 
-    public function getModule()
-    {
-        return new Settings_PBXManager_Module_Model();
-    }
+	public function getModule()
+	{
+		return new Settings_PBXManager_Module_Model();
+	}
 
-    public static function getCleanInstance()
-    {
-        return new self();
-    }
+	public static function getCleanInstance()
+	{
+		return new self();
+	}
 
-    public static function getInstance()
-    {
-        $serverModel = new self();
-        $row = (new \App\Db\Query())->from(self::TABLE_NAME)->one();
-        if ($row !== false) {
-            $serverModel->set('gateway', $row['gateway']);
-            $serverModel->set('id', $row['id']);
-            $parameters = \App\Json::decode(App\Purifier::decodeHtml($row['parameters']));
-            foreach ($parameters as $fieldName => $fieldValue) {
-                $serverModel->set($fieldName, $fieldValue);
-            }
+	public static function getInstance()
+	{
+		$serverModel = new self();
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->one();
+		if ($row !== false) {
+			$serverModel->set('gateway', $row['gateway']);
+			$serverModel->set('id', $row['id']);
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($row['parameters']));
+			foreach ($parameters as $fieldName => $fieldValue) {
+				$serverModel->set($fieldName, $fieldValue);
+			}
 
-            return $serverModel;
-        }
+			return $serverModel;
+		}
 
-        return $serverModel;
-    }
+		return $serverModel;
+	}
 
-    public static function getInstanceById($recordId, $qualifiedModuleName)
-    {
-        $row = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['id' => $recordId])->one();
-        if ($row !== false) {
-            $recordModel = new self();
-            $recordModel->setData($row);
-            $parameters = \App\Json::decode(App\Purifier::decodeHtml($recordModel->get('parameters')));
-            foreach ($parameters as $fieldName => $fieldValue) {
-                $recordModel->set($fieldName, $fieldValue);
-            }
+	public static function getInstanceById($recordId, $qualifiedModuleName)
+	{
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['id' => $recordId])->one();
+		if ($row !== false) {
+			$recordModel = new self();
+			$recordModel->setData($row);
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($recordModel->get('parameters')));
+			foreach ($parameters as $fieldName => $fieldValue) {
+				$recordModel->set($fieldName, $fieldValue);
+			}
 
-            return $recordModel;
-        }
+			return $recordModel;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public function save()
-    {
-        $db = App\Db::getInstance();
-        $parameters = [];
-        $selectedGateway = $this->get('gateway');
-        foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
-            $parameters[$field] = $this->get($field);
-        }
-        $this->set('parameters', \App\Json::encode($parameters));
-        $params = [
-            'gateway' => $selectedGateway,
-            'parameters' => $this->get('parameters'),
-        ];
-        $id = $this->getId();
-        if ($id) {
-            $db->createCommand()->update(self::TABLE_NAME, $params, ['id' => $id])->execute();
-        } else {
-            $db->createCommand()->insert(self::TABLE_NAME, $params)->execute();
-        }
-    }
+	public function save()
+	{
+		$db = App\Db::getInstance();
+		$parameters = [];
+		$selectedGateway = $this->get('gateway');
+		foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
+			$parameters[$field] = $this->get($field);
+		}
+		$this->set('parameters', \App\Json::encode($parameters));
+		$params = [
+			'gateway' => $selectedGateway,
+			'parameters' => $this->get('parameters'),
+		];
+		$id = $this->getId();
+		if ($id) {
+			$db->createCommand()->update(self::TABLE_NAME, $params, ['id' => $id])->execute();
+		} else {
+			$db->createCommand()->insert(self::TABLE_NAME, $params)->execute();
+		}
+	}
 }

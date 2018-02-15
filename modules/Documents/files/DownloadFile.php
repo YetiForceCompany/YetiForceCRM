@@ -12,38 +12,38 @@
  */
 class Documents_DownloadFile_File extends Vtiger_Basic_File
 {
-    /**
-     * Checking permission in get method.
-     *
-     * @param \App\Request $request
-     *
-     * @return bool
-     */
-    public function getCheckPermission(\App\Request $request)
-    {
-        if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
+	/**
+	 * Checking permission in get method.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return bool
+	 */
+	public function getCheckPermission(\App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Download file.
-     *
-     * @param \App\Request $request
-     *
-     * @return string|bool
-     */
-    public function get(\App\Request $request)
-    {
-        $documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-        //Download the file
-        $documentRecordModel->set('show', $request->getBoolean('show'));
-        $documentRecordModel->downloadFile();
-        //Update the Download Count
-        $documentRecordModel->updateDownloadCount();
+	/**
+	 * Download file.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string|bool
+	 */
+	public function get(\App\Request $request)
+	{
+		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		//Download the file
+		$documentRecordModel->set('show', $request->getBoolean('show'));
+		$documentRecordModel->downloadFile();
+		//Update the Download Count
+		$documentRecordModel->updateDownloadCount();
 
-        return false;
-    }
+		return false;
+	}
 }

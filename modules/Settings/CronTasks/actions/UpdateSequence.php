@@ -10,16 +10,16 @@
 
 class Settings_CronTasks_UpdateSequence_Action extends Settings_Vtiger_Index_Action
 {
-    public function process(\App\Request $request)
-    {
-        $moduleModel = Settings_CronTasks_Module_Model::getInstance($request->getModule(false));
-        $response = new Vtiger_Response();
-        if ($sequencesList = $request->getArray('sequencesList', 'Integer')) {
-            $moduleModel->updateSequence($sequencesList);
-            $response->setResult([true]);
-        } else {
-            $response->setError();
-        }
-        $response->emit();
-    }
+	public function process(\App\Request $request)
+	{
+		$moduleModel = Settings_CronTasks_Module_Model::getInstance($request->getModule(false));
+		$response = new Vtiger_Response();
+		if ($sequencesList = $request->getArray('sequencesList', 'Integer')) {
+			$moduleModel->updateSequence($sequencesList);
+			$response->setResult([true]);
+		} else {
+			$response->setError();
+		}
+		$response->emit();
+	}
 }

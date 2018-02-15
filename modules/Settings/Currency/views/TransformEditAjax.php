@@ -10,17 +10,17 @@
 
 class Settings_Currency_TransformEditAjax_View extends Settings_Vtiger_IndexAjax_View
 {
-    public function process(\App\Request $request)
-    {
-        $record = $request->getInteger('record');
+	public function process(\App\Request $request)
+	{
+		$record = $request->getInteger('record');
 
-        $currencyList = Settings_Currency_Record_Model::getAll($record);
+		$currencyList = Settings_Currency_Record_Model::getAll($record);
 
-        $qualifiedName = $request->getModule(false);
-        $viewer = $this->getViewer($request);
-        $viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-        $viewer->assign('CURRENCY_LIST', $currencyList);
-        $viewer->assign('RECORD_MODEL', Settings_Currency_Record_Model::getInstance($record));
-        $viewer->view('TransformEdit.tpl', $qualifiedName);
-    }
+		$qualifiedName = $request->getModule(false);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
+		$viewer->assign('CURRENCY_LIST', $currencyList);
+		$viewer->assign('RECORD_MODEL', Settings_Currency_Record_Model::getInstance($record));
+		$viewer->view('TransformEdit.tpl', $qualifiedName);
+	}
 }

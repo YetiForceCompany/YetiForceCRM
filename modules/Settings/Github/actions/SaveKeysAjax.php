@@ -9,29 +9,29 @@
  */
 class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $clientModel = Settings_Github_Client_Model::getInstance();
-        $clientModel->setToken($request->getByType('token', 'Alnum'));
-        $clientModel->setUsername($request->get('username'));
-        if ($clientModel->checkToken()) {
-            $success = $clientModel->saveKeys() ? true : false;
-        } else {
-            $success = false;
-        }
-        $responce = new Vtiger_Response();
-        $responce->setResult(['success' => $success]);
-        $responce->emit();
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$clientModel = Settings_Github_Client_Model::getInstance();
+		$clientModel->setToken($request->getByType('token', 'Alnum'));
+		$clientModel->setUsername($request->get('username'));
+		if ($clientModel->checkToken()) {
+			$success = $clientModel->saveKeys() ? true : false;
+		} else {
+			$success = false;
+		}
+		$responce = new Vtiger_Response();
+		$responce->setResult(['success' => $success]);
+		$responce->emit();
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateRequest(\App\Request $request)
-    {
-        $request->validateWriteAccess();
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

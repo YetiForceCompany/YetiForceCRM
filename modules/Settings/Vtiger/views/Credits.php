@@ -8,10 +8,10 @@
  */
 class Settings_Vtiger_Credits_View extends Settings_Vtiger_Index_View
 {
-    public function process(\App\Request $request)
-    {
-        $qualifiedModuleName = $request->getModule(false);
-        $viewer = $this->getViewer($request);
-        $viewer->view('Credits.tpl', $qualifiedModuleName);
-    }
+	public function process(\App\Request $request)
+	{
+		$qualifiedModuleName = $request->getModule(false);
+		$viewer = $this->getViewer($request);
+		$viewer->view('Credits.tpl', $qualifiedModuleName);
+	}
 }

@@ -10,30 +10,30 @@
 
 class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 {
-    const TABLE_NAME = 'vtiger_currency_info';
+	const TABLE_NAME = 'vtiger_currency_info';
 
-    public $listFields = ['currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
-        'conversion_rate' => 'Conversion Rate', 'currency_status' => 'Status', ];
-    public $name = 'Currency';
+	public $listFields = ['currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
+		'conversion_rate' => 'Conversion Rate', 'currency_status' => 'Status', ];
+	public $name = 'Currency';
 
-    public function isPagingSupported()
-    {
-        return false;
-    }
+	public function isPagingSupported()
+	{
+		return false;
+	}
 
-    public function getCreateRecordUrl()
-    {
-        return 'javascript:Settings_Currency_Js.triggerAdd(event)';
-    }
+	public function getCreateRecordUrl()
+	{
+		return 'javascript:Settings_Currency_Js.triggerAdd(event)';
+	}
 
-    public function getBaseTable()
-    {
-        return self::TABLE_NAME;
-    }
+	public function getBaseTable()
+	{
+		return self::TABLE_NAME;
+	}
 
-    public static function delete($recordId)
-    {
-        \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['deleted' => 1], ['id' => $recordId])->execute();
-        Settings_Currency_Record_Model::clearCache();
-    }
+	public static function delete($recordId)
+	{
+		\App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['deleted' => 1], ['id' => $recordId])->execute();
+		Settings_Currency_Record_Model::clearCache();
+	}
 }

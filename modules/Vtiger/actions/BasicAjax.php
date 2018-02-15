@@ -10,39 +10,39 @@
 
 class Vtiger_BasicAjax_Action extends \App\Controller\Action
 {
-    /**
-     * Function to check permission.
-     *
-     * @param \App\Request $request
-     *
-     * @throws \App\Exceptions\NoPermitted
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-        if (!$currentUserPriviligesModel->hasModulePermission($request->getByType('search_module')) || !$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-        }
-    }
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getByType('search_module')) || !$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
 
-    public function process(\App\Request $request)
-    {
-        $searchModuleModel = Vtiger_Module_Model::getInstance($request->getByType('search_module'));
-        $records = $searchModuleModel->searchRecord($request->get('search_value'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
-        $result = [];
-        if (is_array($records)) {
-            foreach ($records as $moduleName => $recordModels) {
-                foreach ($recordModels as $recordModel) {
-                    $result[] = [
-                        'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),
-                        'value' => App\Purifier::decodeHtml($recordModel->getName()),
-                        'id' => $recordModel->getId(),
-                    ];
-                }
-            }
-        }
-        $response = new Vtiger_Response();
-        $response->setResult($result);
-        $response->emit();
-    }
+	public function process(\App\Request $request)
+	{
+		$searchModuleModel = Vtiger_Module_Model::getInstance($request->getByType('search_module'));
+		$records = $searchModuleModel->searchRecord($request->get('search_value'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
+		$result = [];
+		if (is_array($records)) {
+			foreach ($records as $moduleName => $recordModels) {
+				foreach ($recordModels as $recordModel) {
+					$result[] = [
+						'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),
+						'value' => App\Purifier::decodeHtml($recordModel->getName()),
+						'id' => $recordModel->getId(),
+					];
+				}
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
 }

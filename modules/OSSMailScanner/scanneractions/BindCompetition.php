@@ -9,8 +9,8 @@
  */
 class OSSMailScanner_BindCompetition_ScannerAction extends OSSMailScanner_EmailScannerAction_Model
 {
-    public function process(OSSMail_Mail_Model $mail, $moduleName = 'Competition')
-    {
-        return parent::process($mail, 'Competition');
-    }
+	public function process(OSSMail_Mail_Model $mail, $moduleName = 'Competition')
+	{
+		return parent::process($mail, 'Competition');
+	}
 }

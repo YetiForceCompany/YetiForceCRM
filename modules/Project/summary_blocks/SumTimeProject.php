@@ -8,19 +8,19 @@
  */
 class SumTimeProject
 {
-    public $name = 'FL_TOTAL_TIME_H';
-    public $sequence = 9;
-    public $reference = 'OSSTimeControl';
+	public $name = 'FL_TOTAL_TIME_H';
+	public $sequence = 9;
+	public $reference = 'OSSTimeControl';
 
-    /**
-     * Process.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     *
-     * @return string
-     */
-    public function process(Vtiger_Record_Model $recordModel)
-    {
-        return \App\Fields\DateTime::formatToHourText($recordModel->get('sum_time'), 'short');
-    }
+	/**
+	 * Process.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return string
+	 */
+	public function process(Vtiger_Record_Model $recordModel)
+	{
+		return \App\Fields\DateTime::formatToHourText($recordModel->get('sum_time'), 'short');
+	}
 }

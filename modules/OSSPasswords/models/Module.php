@@ -8,30 +8,30 @@
  */
 class OSSPasswords_Module_Model extends Vtiger_Module_Model
 {
-    /**
-     * Function returns Settings Links.
-     *
-     * @return array
-     */
-    public function getSettingLinks()
-    {
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        $settingLinks = parent::getSettingLinks();
+	/**
+	 * Function returns Settings Links.
+	 *
+	 * @return array
+	 */
+	public function getSettingLinks()
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$settingLinks = parent::getSettingLinks();
 
-        if ($currentUserModel->isAdminUser()) {
-            $settingLinks[] = [
-                'linktype' => 'LISTVIEWSETTING',
-                'linklabel' => 'LBL_PASS_CONFIGURATION',
-                'linkurl' => 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings',
-                'linkicon' => '',
-            ];
-        }
+		if ($currentUserModel->isAdminUser()) {
+			$settingLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_PASS_CONFIGURATION',
+				'linkurl' => 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings',
+				'linkicon' => '',
+			];
+		}
 
-        return $settingLinks;
-    }
+		return $settingLinks;
+	}
 
-    public function isSummaryViewSupported()
-    {
-        return false;
-    }
+	public function isSummaryViewSupported()
+	{
+		return false;
+	}
 }

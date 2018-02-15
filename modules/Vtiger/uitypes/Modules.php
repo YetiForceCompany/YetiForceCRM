@@ -9,27 +9,27 @@
  */
 class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        return \App\Language::translate($value, $value);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		return \App\Language::translate($value, $value);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getListSearchTemplateName()
-    {
-        return 'uitypes/ModulesFieldSearchView.tpl';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/ModulesFieldSearchView.tpl';
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTemplateName()
-    {
-        return 'uitypes/Modules.tpl';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Modules.tpl';
+	}
 }

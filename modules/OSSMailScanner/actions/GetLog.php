@@ -8,31 +8,31 @@
  */
 class OSSMailScanner_GetLog_Action extends \App\Controller\Action
 {
-    /**
-     * Function to check permission.
-     *
-     * @param \App\Request $request
-     *
-     * @throws \App\Exceptions\NoPermittedForAdmin
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        if (!$currentUserModel->isAdminUser()) {
-            throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-        }
-    }
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
 
-    public function process(\App\Request $request)
-    {
-        $startNumber = $request->getInteger('start_number');
-        $moduleName = $request->getModule();
+	public function process(\App\Request $request)
+	{
+		$startNumber = $request->getInteger('start_number');
+		$moduleName = $request->getModule();
 
-        $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-        $log = $recordModel->getScanHistory($startNumber);
+		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$log = $recordModel->getScanHistory($startNumber);
 
-        $response = new Vtiger_Response();
-        $response->setResult($log);
-        $response->emit();
-    }
+		$response = new Vtiger_Response();
+		$response->setResult($log);
+		$response->emit();
+	}
 }

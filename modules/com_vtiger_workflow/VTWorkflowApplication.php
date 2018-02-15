@@ -10,69 +10,69 @@
 
 class VTWorkflowApplication
 {
-    public function __construct($action)
-    {
-        $this->request;
-        $this->name = 'com_vtiger_workflow';
-        $this->label = 'Workflow';
-        $this->action = $action;
-        $this->returnUrl = \App\Request::_getServer('REQUEST_URI');
-    }
+	public function __construct($action)
+	{
+		$this->request;
+		$this->name = 'com_vtiger_workflow';
+		$this->label = 'Workflow';
+		$this->action = $action;
+		$this->returnUrl = \App\Request::_getServer('REQUEST_URI');
+	}
 
-    public function currentUrl()
-    {
-        return \App\Request::_getServer('REQUEST_URI');
-    }
+	public function currentUrl()
+	{
+		return \App\Request::_getServer('REQUEST_URI');
+	}
 
-    public function returnUrl()
-    {
-        return $this->returnUrl;
-    }
+	public function returnUrl()
+	{
+		return $this->returnUrl;
+	}
 
-    public function listViewUrl()
-    {
-        return "index.php?module={$this->name}&action=workflowlist";
-    }
+	public function listViewUrl()
+	{
+		return "index.php?module={$this->name}&action=workflowlist";
+	}
 
-    public function editWorkflowUrl($id = null)
-    {
-        if ($id !== null) {
-            $idPart = "&workflow_id=$id";
-        }
+	public function editWorkflowUrl($id = null)
+	{
+		if ($id !== null) {
+			$idPart = "&workflow_id=$id";
+		}
 
-        return "index.php?module={$this->name}&action=editworkflow$idPart&return_url=".urlencode($this->returnUrl());
-    }
+		return "index.php?module={$this->name}&action=editworkflow$idPart&return_url=" . urlencode($this->returnUrl());
+	}
 
-    public function deleteWorkflowUrl($id)
-    {
-        $idPart = "&workflow_id=$id";
+	public function deleteWorkflowUrl($id)
+	{
+		$idPart = "&workflow_id=$id";
 
-        return "index.php?module={$this->name}&action=deleteworkflow$idPart&return_url=".urlencode($this->returnUrl());
-    }
+		return "index.php?module={$this->name}&action=deleteworkflow$idPart&return_url=" . urlencode($this->returnUrl());
+	}
 
-    public function editTaskUrl($id = null)
-    {
-        if ($id !== null) {
-            $idPart = "&task_id=$id";
-        }
+	public function editTaskUrl($id = null)
+	{
+		if ($id !== null) {
+			$idPart = "&task_id=$id";
+		}
 
-        return "index.php?module={$this->name}&action=edittask$idPart&return_url=".urlencode($this->returnUrl());
-    }
+		return "index.php?module={$this->name}&action=edittask$idPart&return_url=" . urlencode($this->returnUrl());
+	}
 
-    public function deleteTaskUrl($id)
-    {
-        $idPart = "&task_id=$id";
+	public function deleteTaskUrl($id)
+	{
+		$idPart = "&task_id=$id";
 
-        return "index.php?module={$this->name}&action=deletetask$idPart&return_url=".urlencode($this->returnUrl());
-    }
+		return "index.php?module={$this->name}&action=deletetask$idPart&return_url=" . urlencode($this->returnUrl());
+	}
 
-    public function setReturnUrl($returnUrl)
-    {
-        $this->returnUrl = $returnUrl;
-    }
+	public function setReturnUrl($returnUrl)
+	{
+		$this->returnUrl = $returnUrl;
+	}
 
-    public function errorPageUrl($message)
-    {
-        return "index.php?module={$this->name}&action=errormessage&message=".urlencode($message);
-    }
+	public function errorPageUrl($message)
+	{
+		return "index.php?module={$this->name}&action=errormessage&message=" . urlencode($message);
+	}
 }

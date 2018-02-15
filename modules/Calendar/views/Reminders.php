@@ -11,25 +11,25 @@
 
 class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 {
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
-        if ($request->getBoolean('type_remainder')) {
-            $recordModels = Calendar_Module_Model::getCalendarReminder(true);
-        } else {
-            $recordModels = Calendar_Module_Model::getCalendarReminder();
-        }
-        foreach ($recordModels as $record) {
-            $record->updateReminderStatus(2);
-        }
-        $userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-        $permission = $userPrivilegesModel->hasModulePermission($moduleName);
-        $permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
-        $viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
-        $viewer->assign('MODULE_NAME', $moduleName);
-        $viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-        $viewer->assign('RECORDS', $recordModels);
-        $viewer->view('Reminders.tpl', $moduleName);
-    }
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		if ($request->getBoolean('type_remainder')) {
+			$recordModels = Calendar_Module_Model::getCalendarReminder(true);
+		} else {
+			$recordModels = Calendar_Module_Model::getCalendarReminder();
+		}
+		foreach ($recordModels as $record) {
+			$record->updateReminderStatus(2);
+		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
+		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
+		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('RECORDS', $recordModels);
+		$viewer->view('Reminders.tpl', $moduleName);
+	}
 }

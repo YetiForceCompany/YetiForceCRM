@@ -9,29 +9,29 @@
  */
 class Announcements_Detail_View extends Vtiger_Detail_View
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('showUsers');
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('showUsers');
+	}
 
-    public function showUsers(\App\Request $request)
-    {
-        $recordId = $request->getInteger('record');
-        $moduleName = $request->getModule();
+	public function showUsers(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
 
-        $viewer = $this->getViewer($request);
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$viewer = $this->getViewer($request);
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-        $users = [];
-        foreach ($moduleModel->getUsers() as $userId => $name) {
-            $row = $moduleModel->getMarkInfo($recordId, $userId);
-            $row['name'] = $name;
-            $users[$userId] = $row;
-        }
+		$users = [];
+		foreach ($moduleModel->getUsers() as $userId => $name) {
+			$row = $moduleModel->getMarkInfo($recordId, $userId);
+			$row['name'] = $name;
+			$users[$userId] = $row;
+		}
 
-        $viewer->assign('MODULE_NAME', $moduleName);
-        $viewer->assign('USERS', $users);
-        $viewer->view('UsersList.tpl', $moduleName);
-    }
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('USERS', $users);
+		$viewer->view('UsersList.tpl', $moduleName);
+	}
 }

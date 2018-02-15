@@ -13,33 +13,33 @@ Vtiger_Loader::includeOnce('modules.Vtiger.helpers.ListUpdatedRecord');
 
 class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 {
-    public function process(\App\Request $request)
-    {
-        $currentUser = Users_Record_Model::getCurrentUserModel();
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
-        if (!$request->isEmpty('number')) {
-            $number = $request->getInteger('number');
-        } else {
-            $number = 'all';
-        }
-        $linkId = $request->getInteger('linkid');
-        $widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-        $data = $request->getAll();
+	public function process(\App\Request $request)
+	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		if (!$request->isEmpty('number')) {
+			$number = $request->getInteger('number');
+		} else {
+			$number = 'all';
+		}
+		$linkId = $request->getInteger('linkid');
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$data = $request->getAll();
 
-        $columnList = ['LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid'];
+		$columnList = ['LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid'];
 
-        $recordList = ListUpdatedRecord::getListRecord(null, $columnList, $number);
+		$recordList = ListUpdatedRecord::getListRecord(null, $columnList, $number);
 
-        $viewer->assign('COLUMN_LIST', $columnList);
-        $viewer->assign('WIDGET', $widget);
-        $viewer->assign('MODULE_NAME', $moduleName);
-        $viewer->assign('LIST', $recordList);
-        $viewer->assign('DATA', $data);
-        if ($request->has('content')) {
-            $viewer->view('dashboards/ListUpdatedRecordContents.tpl', $moduleName);
-        } else {
-            $viewer->view('dashboards/ListUpdatedRecord.tpl', $moduleName);
-        }
-    }
+		$viewer->assign('COLUMN_LIST', $columnList);
+		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('LIST', $recordList);
+		$viewer->assign('DATA', $data);
+		if ($request->has('content')) {
+			$viewer->view('dashboards/ListUpdatedRecordContents.tpl', $moduleName);
+		} else {
+			$viewer->view('dashboards/ListUpdatedRecord.tpl', $moduleName);
+		}
+	}
 }

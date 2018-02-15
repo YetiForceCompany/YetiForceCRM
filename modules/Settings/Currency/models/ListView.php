@@ -10,11 +10,11 @@
 
 class Settings_Currency_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-    public function getBasicListQuery()
-    {
-        $query = parent::getBasicListQuery();
-        $query->where(['deleted' => 0]);
+	public function getBasicListQuery()
+	{
+		$query = parent::getBasicListQuery();
+		$query->where(['deleted' => 0]);
 
-        return $query;
-    }
+		return $query;
+	}
 }

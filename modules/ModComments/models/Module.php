@@ -10,67 +10,67 @@
 
 class ModComments_Module_Model extends Vtiger_Module_Model
 {
-    /**
-     * Function to get the Quick Links for the module.
-     *
-     * @param <Array> $linkParams
-     *
-     * @return <Array> List of Vtiger_Link_Model instances
-     */
-    public function getSideBarLinks($linkParams)
-    {
-        $links = parent::getSideBarLinks($linkParams);
-        unset($links['SIDEBARLINK']);
+	/**
+	 * Function to get the Quick Links for the module.
+	 *
+	 * @param <Array> $linkParams
+	 *
+	 * @return <Array> List of Vtiger_Link_Model instances
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = parent::getSideBarLinks($linkParams);
+		unset($links['SIDEBARLINK']);
 
-        return $links;
-    }
+		return $links;
+	}
 
-    /**
-     * Function to get the create url with parent id set.
-     *
-     * @param <type> $parentRecord - parent record for which comment need to be added
-     *
-     * @return string Url
-     */
-    public function getCreateRecordUrlWithParent($parentRecord)
-    {
-        $createRecordUrl = $this->getCreateRecordUrl();
-        $createRecordUrlWithParent = $createRecordUrl.'&parent_id='.$parentRecord->getId();
+	/**
+	 * Function to get the create url with parent id set.
+	 *
+	 * @param <type> $parentRecord - parent record for which comment need to be added
+	 *
+	 * @return string Url
+	 */
+	public function getCreateRecordUrlWithParent($parentRecord)
+	{
+		$createRecordUrl = $this->getCreateRecordUrl();
+		$createRecordUrlWithParent = $createRecordUrl . '&parent_id=' . $parentRecord->getId();
 
-        return $createRecordUrlWithParent;
-    }
+		return $createRecordUrlWithParent;
+	}
 
-    /**
-     * Function to get Settings links.
-     *
-     * @return <Array>
-     */
-    public function getSettingLinks()
-    {
-        Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+	/**
+	 * Function to get Settings links.
+	 *
+	 * @return <Array>
+	 */
+	public function getSettingLinks()
+	{
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-        $editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
-        $settingsLinks = [];
+		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$settingsLinks = [];
 
-        if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-            $settingsLinks[] = [
-                'linktype' => 'LISTVIEWSETTING',
-                'linklabel' => 'LBL_EDIT_WORKFLOWS',
-                'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule='.$this->getName(),
-                'linkicon' => $editWorkflowsImagePath,
-            ];
-        }
+		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+			$settingsLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_EDIT_WORKFLOWS',
+				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
+				'linkicon' => $editWorkflowsImagePath,
+			];
+		}
 
-        return $settingsLinks;
-    }
+		return $settingsLinks;
+	}
 
-    /**
-     * Delete coments associated with module.
-     *
-     * @param vtlib\ModuleBasic Instnace of module to use
-     */
-    public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
-    {
-        \App\Db::getInstance()->createCommand()->delete('vtiger_modcomments', ['related_to' => (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleInstance->name])])->execute();
-    }
+	/**
+	 * Delete coments associated with module.
+	 *
+	 * @param vtlib\ModuleBasic Instnace of module to use
+	 */
+	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
+	{
+		\App\Db::getInstance()->createCommand()->delete('vtiger_modcomments', ['related_to' => (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleInstance->name])])->execute();
+	}
 }

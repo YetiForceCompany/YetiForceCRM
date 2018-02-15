@@ -7,47 +7,45 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-/*
- * Class for reloading the Reports headers
- */
+// Class for reloading the Reports headers
 
 class Reports_ListAjax_View extends Reports_List_View
 {
-    use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('getListViewCount');
-        $this->exposeMethod('getRecordsCount');
-        $this->exposeMethod('getPageCount');
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('getListViewCount');
+		$this->exposeMethod('getRecordsCount');
+		$this->exposeMethod('getPageCount');
+	}
 
-    public function preProcess(\App\Request $request, $display = true)
-    {
-    }
+	public function preProcess(\App\Request $request, $display = true)
+	{
+	}
 
-    public function process(\App\Request $request)
-    {
-        $mode = $request->getMode();
-        if (!empty($mode)) {
-            $this->invokeExposedMethod($mode, $request);
+	public function process(\App\Request $request)
+	{
+		$mode = $request->getMode();
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
 
-            return;
-        }
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			return;
+		}
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-        $folders = $moduleModel->getFolders();
-        $listViewModel = new Reports_ListView_Model();
-        $listViewModel->set('module', $moduleModel);
+		$folders = $moduleModel->getFolders();
+		$listViewModel = new Reports_ListView_Model();
+		$listViewModel->set('module', $moduleModel);
 
-        $linkModels = $listViewModel->getListViewLinks(false);
+		$linkModels = $listViewModel->getListViewLinks(false);
 
-        $viewer->assign('LISTVIEW_LINKS', $linkModels);
-        $viewer->assign('FOLDERS', $folders);
+		$viewer->assign('LISTVIEW_LINKS', $linkModels);
+		$viewer->assign('FOLDERS', $folders);
 
-        $viewer->view('ListViewFolders.tpl', $moduleName);
-    }
+		$viewer->view('ListViewFolders.tpl', $moduleName);
+	}
 }

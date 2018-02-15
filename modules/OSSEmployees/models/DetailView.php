@@ -8,20 +8,20 @@
  */
 class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 {
-    public function getDetailViewLinks($linkParams)
-    {
-        $recordModel = $this->getRecord();
-        $linkModelLists = parent::getDetailViewLinks($linkParams);
+	public function getDetailViewLinks($linkParams)
+	{
+		$recordModel = $this->getRecord();
+		$linkModelLists = parent::getDetailViewLinks($linkParams);
 
-        $linkURL = 'index.php?module=OSSEmployees&view=EmployeeHierarchy&record='.$recordModel->getId();
-        $linkModel = [
-            'linktype' => 'LISTVIEWMASSACTION',
-            'linkhint' => 'LBL_SHOW_EMPLOYEES_HIERARCHY',
-            'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("'.$linkURL.'");',
-            'linkicon' => 'fas fa-user',
-        ];
-        $linkModelLists['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
+		$linkURL = 'index.php?module=OSSEmployees&view=EmployeeHierarchy&record=' . $recordModel->getId();
+		$linkModel = [
+			'linktype' => 'LISTVIEWMASSACTION',
+			'linkhint' => 'LBL_SHOW_EMPLOYEES_HIERARCHY',
+			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
+			'linkicon' => 'fas fa-user',
+		];
+		$linkModelLists['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
 
-        return $linkModelLists;
-    }
+		return $linkModelLists;
+	}
 }

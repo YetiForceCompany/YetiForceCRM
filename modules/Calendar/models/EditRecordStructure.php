@@ -13,56 +13,56 @@
  */
 class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-    /**
-     * Function to get the values in stuctured format.
-     *
-     * @return <array> - values in structure array('block'=>array(fieldinfo));
-     */
-    public function getStructure()
-    {
-        if (!empty($this->structuredValues)) {
-            return $this->structuredValues;
-        }
+	/**
+	 * Function to get the values in stuctured format.
+	 *
+	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 */
+	public function getStructure()
+	{
+		if (!empty($this->structuredValues)) {
+			return $this->structuredValues;
+		}
 
-        $values = [];
-        $recordModel = $this->getRecord();
-        $recordExists = !empty($recordModel);
-        $moduleModel = $this->getModule();
-        $blockModelList = $moduleModel->getBlocks();
+		$values = [];
+		$recordModel = $this->getRecord();
+		$recordExists = !empty($recordModel);
+		$moduleModel = $this->getModule();
+		$blockModelList = $moduleModel->getBlocks();
 
-        foreach ($blockModelList as $blockLabel => $blockModel) {
-            $fieldModelList = $blockModel->getFields();
-            if (!empty($fieldModelList)) {
-                $values[$blockLabel] = [];
-                foreach ($fieldModelList as $fieldName => $fieldModel) {
-                    if ($fieldModel->isEditable()) {
-                        if ($recordExists) {
-                            $fieldValue = $recordModel->get($fieldName);
-                            if ($fieldName === 'date_start') {
-                                $fieldValue = $fieldValue.' '.$recordModel->get('time_start');
-                            } elseif ($fieldName == 'due_date' && $moduleModel->get('name') != 'Calendar') {
-                                //Do not concat duedate and endtime for Tasks as it contains only duedate
-                                if ($moduleModel->getName() != 'Calendar') {
-                                    $fieldValue = $fieldValue.' '.$recordModel->get('time_end');
-                                }
-                            } elseif ($fieldName === 'activitystatus' && empty($fieldValue)) {
-                                $currentUserModel = Users_Record_Model::getCurrentUserModel();
-                                $defaulteventstatus = $currentUserModel->get('defaulteventstatus');
-                                $fieldValue = $defaulteventstatus;
-                            } elseif ($fieldName === 'activitytype' && empty($fieldValue)) {
-                                $currentUserModel = Users_Record_Model::getCurrentUserModel();
-                                $defaultactivitytype = $currentUserModel->get('defaultactivitytype');
-                                $fieldValue = $defaultactivitytype;
-                            }
-                            $fieldModel->set('fieldvalue', $fieldValue);
-                        }
-                        $values[$blockLabel][$fieldName] = $fieldModel;
-                    }
-                }
-            }
-        }
-        $this->structuredValues = $values;
+		foreach ($blockModelList as $blockLabel => $blockModel) {
+			$fieldModelList = $blockModel->getFields();
+			if (!empty($fieldModelList)) {
+				$values[$blockLabel] = [];
+				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					if ($fieldModel->isEditable()) {
+						if ($recordExists) {
+							$fieldValue = $recordModel->get($fieldName);
+							if ($fieldName === 'date_start') {
+								$fieldValue = $fieldValue . ' ' . $recordModel->get('time_start');
+							} elseif ($fieldName == 'due_date' && $moduleModel->get('name') != 'Calendar') {
+								//Do not concat duedate and endtime for Tasks as it contains only duedate
+								if ($moduleModel->getName() != 'Calendar') {
+									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
+								}
+							} elseif ($fieldName === 'activitystatus' && empty($fieldValue)) {
+								$currentUserModel = Users_Record_Model::getCurrentUserModel();
+								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
+								$fieldValue = $defaulteventstatus;
+							} elseif ($fieldName === 'activitytype' && empty($fieldValue)) {
+								$currentUserModel = Users_Record_Model::getCurrentUserModel();
+								$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
+								$fieldValue = $defaultactivitytype;
+							}
+							$fieldModel->set('fieldvalue', $fieldValue);
+						}
+						$values[$blockLabel][$fieldName] = $fieldModel;
+					}
+				}
+			}
+		}
+		$this->structuredValues = $values;
 
-        return $values;
-    }
+		return $values;
+	}
 }

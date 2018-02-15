@@ -8,113 +8,113 @@
  */
 class Settings_SalesProcesses_Module_Model extends \App\Base
 {
-    /**
-     * Return clean instance of self.
-     *
-     * @return \self
-     */
-    public static function getCleanInstance()
-    {
-        $instance = new self();
+	/**
+	 * Return clean instance of self.
+	 *
+	 * @return \self
+	 */
+	public static function getCleanInstance()
+	{
+		$instance = new self();
 
-        return $instance;
-    }
+		return $instance;
+	}
 
-    /**
-     * Return sales processess configuration array.
-     *
-     * @param string $type
-     *
-     * @return array
-     */
-    public static function getConfig($type = false)
-    {
-        \App\Log::trace('Start '.__METHOD__." | Type: $type");
-        $cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
-        if ($cache) {
-            \App\Log::trace('End '.__METHOD__);
+	/**
+	 * Return sales processess configuration array.
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	public static function getConfig($type = false)
+	{
+		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
+		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
+		if ($cache) {
+			\App\Log::trace('End ' . __METHOD__);
 
-            return $cache;
-        }
+			return $cache;
+		}
 
-        $returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
-        $query = (new \App\Db\Query())
-            ->from('yetiforce_proc_sales');
-        if ($type) {
-            $query->where(['type' => $type]);
-        }
-        $rows = $query->all();
-        if (!$rows) {
-            return [];
-        }
-        $config = [];
-        foreach ($rows as $row) {
-            $param = $row['param'];
-            $value = $row['value'];
-            if (in_array($param, $returnArrayForFields)) {
-                $value = $value === '' ? [] : explode(',', $value);
-            }
-            if ($type) {
-                $config[$param] = $value;
-            } else {
-                $config[$row['type']][$param] = $value;
-            }
-        }
-        Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
-        \App\Log::trace('End '.__METHOD__);
+		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
+		$query = (new \App\Db\Query())
+			->from('yetiforce_proc_sales');
+		if ($type) {
+			$query->where(['type' => $type]);
+		}
+		$rows = $query->all();
+		if (!$rows) {
+			return [];
+		}
+		$config = [];
+		foreach ($rows as $row) {
+			$param = $row['param'];
+			$value = $row['value'];
+			if (in_array($param, $returnArrayForFields)) {
+				$value = $value === '' ? [] : explode(',', $value);
+			}
+			if ($type) {
+				$config[$param] = $value;
+			} else {
+				$config[$row['type']][$param] = $value;
+			}
+		}
+		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
+		\App\Log::trace('End ' . __METHOD__);
 
-        return $config;
-    }
+		return $config;
+	}
 
-    /**
-     * Set sales processess config variable.
-     *
-     * @param array $param
-     *
-     * @return bool
-     */
-    public static function setConfig($param)
-    {
-        \App\Log::trace('Start '.__METHOD__);
-        $value = $param['val'];
-        if (is_array($value)) {
-            $value = implode(',', $value);
-        }
-        App\Db::getInstance()->createCommand()
-            ->update('yetiforce_proc_sales', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
-            ->execute();
-        \App\Log::trace('End '.__METHOD__);
+	/**
+	 * Set sales processess config variable.
+	 *
+	 * @param array $param
+	 *
+	 * @return bool
+	 */
+	public static function setConfig($param)
+	{
+		\App\Log::trace('Start ' . __METHOD__);
+		$value = $param['val'];
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		App\Db::getInstance()->createCommand()
+			->update('yetiforce_proc_sales', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
+			->execute();
+		\App\Log::trace('End ' . __METHOD__);
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Checks if products are set to be narrowed to only those related to Opportunity.
-     *
-     * @return - true or false
-     */
-    public static function checkRelatedToPotentialsLimit($moduleName)
-    {
-        if (!self::isLimitForModule($moduleName)) {
-            return false;
-        }
-        $popup = self::getConfig('popup');
-        if ($popup['limit_product_service'] == 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	/**
+	 * Checks if products are set to be narrowed to only those related to Opportunity.
+	 *
+	 * @return - true or false
+	 */
+	public static function checkRelatedToPotentialsLimit($moduleName)
+	{
+		if (!self::isLimitForModule($moduleName)) {
+			return false;
+		}
+		$popup = self::getConfig('popup');
+		if ($popup['limit_product_service'] == 'true') {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    /**
-     * Checks if limit can be applied to this module.
-     *
-     * @return - true or false
-     */
-    public static function isLimitForModule($moduleName)
-    {
-        $validModules = ['SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders'];
+	/**
+	 * Checks if limit can be applied to this module.
+	 *
+	 * @return - true or false
+	 */
+	public static function isLimitForModule($moduleName)
+	{
+		$validModules = ['SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders'];
 
-        return in_array($moduleName, $validModules);
-    }
+		return in_array($moduleName, $validModules);
+	}
 }

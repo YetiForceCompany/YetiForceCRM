@@ -11,72 +11,72 @@
 
 class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function validate($value, $isUserFormat = false)
-    {
-        if ($this->validate || empty($value)) {
-            return;
-        }
-        if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
-            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
-        }
-        $this->validate = true;
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        $displayValue = \vtlib\Functions::textLength(\App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName()), is_int($length) ? $length : false);
-        if (\App\User::getCurrentUserModel()->isAdmin() && $rawText !== false) {
-            $roleRecordModel = new Settings_Roles_Record_Model();
-            $roleRecordModel->set('roleid', $value);
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$displayValue = \vtlib\Functions::textLength(\App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName()), is_int($length) ? $length : false);
+		if (\App\User::getCurrentUserModel()->isAdmin() && $rawText !== false) {
+			$roleRecordModel = new Settings_Roles_Record_Model();
+			$roleRecordModel->set('roleid', $value);
 
-            return '<a href="'.$roleRecordModel->getEditViewUrl().'">'.\App\Purifier::encodeHtml($displayValue).'</a>';
-        }
+			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml($displayValue) . '</a>';
+		}
 
-        return $displayValue;
-    }
+		return $displayValue;
+	}
 
-    /**
-     * Function to get all the available picklist values for the current field.
-     *
-     * @return string[]
-     */
-    public function getPicklistValues()
-    {
-        $roleModels = Settings_Roles_Record_Model::getAll();
-        $roles = [];
-        foreach ($roleModels as $roleId => $roleModel) {
-            $roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->getFieldModel()->getModuleName());
-        }
+	/**
+	 * Function to get all the available picklist values for the current field.
+	 *
+	 * @return string[]
+	 */
+	public function getPicklistValues()
+	{
+		$roleModels = Settings_Roles_Record_Model::getAll();
+		$roles = [];
+		foreach ($roleModels as $roleId => $roleModel) {
+			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->getFieldModel()->getModuleName());
+		}
 
-        return $roles;
-    }
+		return $roles;
+	}
 
-    /**
-     * Function searches for value data.
-     *
-     * @param string $value
-     *
-     * @return string[]
-     */
-    public function getSearchValues($value)
-    {
-        $roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
-                ->createCommand()->queryAllByGroup();
+	/**
+	 * Function searches for value data.
+	 *
+	 * @param string $value
+	 *
+	 * @return string[]
+	 */
+	public function getSearchValues($value)
+	{
+		$roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
+			->createCommand()->queryAllByGroup();
 
-        return $roles;
-    }
+		return $roles;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getListSearchTemplateName()
-    {
-        return 'uitypes/UserRoleFieldSearchView.tpl';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/UserRoleFieldSearchView.tpl';
+	}
 }

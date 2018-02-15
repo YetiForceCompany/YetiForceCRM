@@ -8,19 +8,19 @@
  */
 class Settings_ModuleManager_CreateModule_View extends Settings_Vtiger_Index_View
 {
-    public function preProcess(\App\Request $request, $display = true)
-    {
-        parent::preProcess($request);
-    }
+	public function preProcess(\App\Request $request, $display = true)
+	{
+		parent::preProcess($request);
+	}
 
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
-        $qualifiedModuleName = $request->getModule(false);
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
 
-        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-        $viewer->assign('MODULE', $moduleName);
-        $viewer->view('CreateModule.tpl', $qualifiedModuleName);
-    }
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->view('CreateModule.tpl', $qualifiedModuleName);
+	}
 }

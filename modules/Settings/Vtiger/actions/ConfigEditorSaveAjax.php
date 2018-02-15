@@ -10,30 +10,30 @@
 
 class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-    public function process(\App\Request $request)
-    {
-        $response = new Vtiger_Response();
-        $qualifiedModuleName = $request->getModule(false);
-        $updatedFields = $request->get('updatedFields');
-        $moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
+	public function process(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$qualifiedModuleName = $request->getModule(false);
+		$updatedFields = $request->get('updatedFields');
+		$moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
 
-        if ($updatedFields) {
-            $moduleModel->set('updatedFields', $updatedFields);
-            $status = $moduleModel->save();
+		if ($updatedFields) {
+			$moduleModel->set('updatedFields', $updatedFields);
+			$status = $moduleModel->save();
 
-            if ($status === true) {
-                $response->setResult([$status]);
-            } else {
-                $response->setError(\App\Language::translate($status, $qualifiedModuleName));
-            }
-        } else {
-            $response->setError(\App\Language::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
-        }
-        $response->emit();
-    }
+			if ($status === true) {
+				$response->setResult([$status]);
+			} else {
+				$response->setError(\App\Language::translate($status, $qualifiedModuleName));
+			}
+		} else {
+			$response->setError(\App\Language::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
+		}
+		$response->emit();
+	}
 
-    public function validateRequest(\App\Request $request)
-    {
-        $request->validateWriteAccess();
-    }
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }
