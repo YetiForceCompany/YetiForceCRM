@@ -7,14 +7,14 @@
 			</div>
 			<div class="col-md-5">
 				<div class="box float-right">
-					<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="far fa-arrow-alt-circle-down" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
+					<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
+						<span class="far fa-arrow-alt-circle-down"></span>
 					</button>&nbsp;
-					<button class="btn btn-sm btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="fas fa-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
+					<button class="btn btn-sm btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
+						<span class="fas fa-print"></span>
 					</button>&nbsp;
-					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}">
-						<span class="fas fa-signal" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
+					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
+						<span class="fas fa-signal"></span>
 						<a class="float-left hide" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
 							<span class="count badge float-left"></span>
 						</a>
