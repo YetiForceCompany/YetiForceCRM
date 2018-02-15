@@ -13,20 +13,20 @@ use Sabre\DAV;
  */
 class DAV_Auth_Backend_PDO extends DAV\Auth\Backend\PDO
 {
-    /**
-     * PDO table name we'll be using.
-     *
-     * @var string
-     */
-    public $tableName = 'dav_users';
+	/**
+	 * PDO table name we'll be using.
+	 *
+	 * @var string
+	 */
+	public $tableName = 'dav_users';
 
-    /**
-     * Authentication Realm.
-     *
-     * The realm is often displayed by browser clients when showing the
-     * authentication dialog.
-     *
-     * @var string
-     */
-    protected $realm = 'YetiDAV';
+	/**
+	 * Authentication Realm.
+	 *
+	 * The realm is often displayed by browser clients when showing the
+	 * authentication dialog.
+	 *
+	 * @var string
+	 */
+	protected $realm = 'YetiDAV';
 }

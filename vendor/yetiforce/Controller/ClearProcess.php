@@ -11,23 +11,23 @@ namespace App\Controller;
  */
 trait ClearProcess
 {
-    /**
-     * Empty pre process.
-     *
-     * @param \App\Request $request
-     * @param bool         $display
-     */
-    public function preProcess(\App\Request $request, $display = true)
-    {
-    }
+	/**
+	 * Empty pre process.
+	 *
+	 * @param \App\Request $request
+	 * @param bool         $display
+	 */
+	public function preProcess(\App\Request $request, $display = true)
+	{
+	}
 
-    /**
-     * Empty pos process.
-     *
-     * @param \App\Request $request
-     * @param bool         $display
-     */
-    public function postProcess(\App\Request $request, $display = true)
-    {
-    }
+	/**
+	 * Empty pos process.
+	 *
+	 * @param \App\Request $request
+	 * @param bool         $display
+	 */
+	public function postProcess(\App\Request $request, $display = true)
+	{
+	}
 }

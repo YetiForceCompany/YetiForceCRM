@@ -3,7 +3,7 @@
 namespace App\Extension\HTMLPurifier;
 
 /**
- * Plugin to check allowed domains in urls
+ * Plugin to check allowed domains in urls.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -11,10 +11,10 @@ namespace App\Extension\HTMLPurifier;
  */
 class Domain extends \HTMLPurifier_URIFilter
 {
-
 	/**
-	 * Allowed domains
-	 * @var string[] 
+	 * Allowed domains.
+	 *
+	 * @var string[]
 	 */
 	private $allowedDomains = [];
 
@@ -37,6 +37,7 @@ class Domain extends \HTMLPurifier_URIFilter
 		if (!in_array($uri->host, $this->allowedDomains)) {
 			return false;
 		}
+
 		return true;
 	}
 }
