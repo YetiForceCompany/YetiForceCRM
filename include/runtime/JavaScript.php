@@ -10,35 +10,35 @@
 
 class Vtiger_JavaScript extends Vtiger_Viewer
 {
-    /**
-     * Function to get the path of a given style sheet or default style sheet.
-     *
-     * @param string $fileName
-     *
-     * @return <string / Boolean> - file path , false if not exists
-     */
-    public static function getFilePath($fileName = '')
-    {
-        if (empty($fileName)) {
-            return false;
-        }
-        $filePath = self::getBaseJavaScriptPath().'/'.$fileName;
-        $completeFilePath = Vtiger_Loader::resolveNameToPath('~'.$filePath);
+	/**
+	 * Function to get the path of a given style sheet or default style sheet.
+	 *
+	 * @param string $fileName
+	 *
+	 * @return <string / Boolean> - file path , false if not exists
+	 */
+	public static function getFilePath($fileName = '')
+	{
+		if (empty($fileName)) {
+			return false;
+		}
+		$filePath = self::getBaseJavaScriptPath() . '/' . $fileName;
+		$completeFilePath = Vtiger_Loader::resolveNameToPath('~' . $filePath);
 
-        if (file_exists($completeFilePath)) {
-            return $filePath;
-        }
+		if (file_exists($completeFilePath)) {
+			return $filePath;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Function to get the Base Theme Path, until theme folder not selected theme folder.
-     *
-     * @return string - theme folder
-     */
-    public static function getBaseJavaScriptPath()
-    {
-        return 'layouts'.'/'.self::getLayoutName();
-    }
+	/**
+	 * Function to get the Base Theme Path, until theme folder not selected theme folder.
+	 *
+	 * @return string - theme folder
+	 */
+	public static function getBaseJavaScriptPath()
+	{
+		return 'layouts' . '/' . self::getLayoutName();
+	}
 }

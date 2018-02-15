@@ -11,20 +11,20 @@ namespace Api\Core\Auth;
  */
 abstract class AbstractAuth
 {
-    protected $currentServer;
-    protected $api;
+	protected $currentServer;
+	protected $api;
 
-    public function setApi($api)
-    {
-        $this->api = $api;
-    }
+	public function setApi($api)
+	{
+		$this->api = $api;
+	}
 
-    abstract protected function authenticate($realm);
+	abstract protected function authenticate($realm);
 
-    abstract protected function validatePass($username, $password);
+	abstract protected function validatePass($username, $password);
 
-    public function getCurrentServer()
-    {
-        return $this->currentServer;
-    }
+	public function getCurrentServer()
+	{
+		return $this->currentServer;
+	}
 }

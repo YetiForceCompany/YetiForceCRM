@@ -11,42 +11,42 @@ namespace Api\Core;
  */
 class Module
 {
-    /** @var array Permitted modules */
-    protected static $permittedModules;
+	/** @var array Permitted modules */
+	protected static $permittedModules;
 
-    /**
-     * Get permitted modules.
-     *
-     * @return array
-     */
-    public static function getPermittedModules()
-    {
-        if (isset(static::$permittedModules)) {
-            return static::$permittedModules;
-        }
-        $modules = [];
-        foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
-            if (\App\Privilege::isPermitted($value['name'])) {
-                $modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
-            }
-        }
+	/**
+	 * Get permitted modules.
+	 *
+	 * @return array
+	 */
+	public static function getPermittedModules()
+	{
+		if (isset(static::$permittedModules)) {
+			return static::$permittedModules;
+		}
+		$modules = [];
+		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
+			if (\App\Privilege::isPermitted($value['name'])) {
+				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
+			}
+		}
 
-        return static::$permittedModules = $modules;
-    }
+		return static::$permittedModules = $modules;
+	}
 
-    /**
-     * Check module access.
-     *
-     * @param string $moduleName
-     *
-     * @return bool
-     */
-    public static function checkModuleAccess($moduleName)
-    {
-        if (isset(static::$permittedModules)) {
-            return isset(static::$permittedModules[$moduleName]);
-        }
+	/**
+	 * Check module access.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return bool
+	 */
+	public static function checkModuleAccess($moduleName)
+	{
+		if (isset(static::$permittedModules)) {
+			return isset(static::$permittedModules[$moduleName]);
+		}
 
-        return \App\Privilege::isPermitted($moduleName);
-    }
+		return \App\Privilege::isPermitted($moduleName);
+	}
 }

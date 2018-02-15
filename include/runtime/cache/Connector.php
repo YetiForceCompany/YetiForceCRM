@@ -8,55 +8,55 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once dirname(__FILE__).'/Connectors.php';
+include_once dirname(__FILE__) . '/Connectors.php';
 
 class Vtiger_Cache_Connector
 {
-    protected $connection;
+	protected $connection;
 
-    protected function __construct()
-    {
-        if (!$this->connection) {
-            $this->connection = new Vtiger_Cache_Connector_Memory();
-        }
-    }
+	protected function __construct()
+	{
+		if (!$this->connection) {
+			$this->connection = new Vtiger_Cache_Connector_Memory();
+		}
+	}
 
-    protected function cacheKey($ns, $key)
-    {
-        if (is_array($key)) {
-            $key = implode('-', $key);
-        }
+	protected function cacheKey($ns, $key)
+	{
+		if (is_array($key)) {
+			$key = implode('-', $key);
+		}
 
-        return $ns.'-'.$key;
-    }
+		return $ns . '-' . $key;
+	}
 
-    public function set($namespace, $key, $value)
-    {
-        $this->connection->set($this->cacheKey($namespace, $key), $value);
-    }
+	public function set($namespace, $key, $value)
+	{
+		$this->connection->set($this->cacheKey($namespace, $key), $value);
+	}
 
-    public function get($namespace, $key)
-    {
-        return $this->connection->get($this->cacheKey($namespace, $key));
-    }
+	public function get($namespace, $key)
+	{
+		return $this->connection->get($this->cacheKey($namespace, $key));
+	}
 
-    public function has($namespace, $key)
-    {
-        return $this->get($namespace, $key) !== false;
-    }
+	public function has($namespace, $key)
+	{
+		return $this->get($namespace, $key) !== false;
+	}
 
-    public function flush()
-    {
-        $this->connection->flush();
-    }
+	public function flush()
+	{
+		$this->connection->flush();
+	}
 
-    public static function getInstance()
-    {
-        static $singleton = null;
-        if ($singleton === null) {
-            $singleton = new self();
-        }
+	public static function getInstance()
+	{
+		static $singleton = null;
+		if ($singleton === null) {
+			$singleton = new self();
+		}
 
-        return $singleton;
-    }
+		return $singleton;
+	}
 }
