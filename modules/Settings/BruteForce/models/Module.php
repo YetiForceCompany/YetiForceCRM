@@ -292,7 +292,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
             }
             \App\Mailer::sendFromTemplate([
                 'template' => 'BruteForceSecurityRiskHasBeenDetected',
-                'moduleName' => 'Contacts',
+                'moduleName' => 'Users',
                 'to' => $emails,
             ]);
         }
