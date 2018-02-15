@@ -9,8 +9,7 @@
 			{elseif isset($HISTORY['viewOlder'])}
 				<a class="dropdown-item item selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</a>
 			{/if}
-
-			<a class="item dropdown-item" href="{$HISTORY['url']}">
+			<a class="item dropdown-item" href="{$HISTORY['url']|escape}">
 				{if $HISTORY['hour']}
 					<span class="historyHour">{$HISTORY['date']}</span>
 				{else}
@@ -19,7 +18,6 @@
 				{" | "}
 				{$HISTORY['title']}
 			</a>
-
 		{/foreach}
 		<a class="dropdown-item dropdown-divider"></a>
 		<a class="dropdown-item clearHistory" href="#" onclick="app.clearBrowsingHistory();">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a>
