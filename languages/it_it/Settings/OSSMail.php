@@ -11,5 +11,4 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_ERROR_EMPTY' => 'All fields must be completed',
 ];
