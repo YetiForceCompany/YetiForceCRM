@@ -15,3 +15,18 @@
 	@extend .rounded-circle;
 	@extend .text-white;
 }
+.childrenMarginRight > * {
+	@extend .mr-2;
+}
+.childrenMarginTopX > * {
+	@extend .mt-2;
+	@extend .mx-1;
+}
+.card.blockContainer {
+	.blockHeader {
+		@extend .d-inline-flex;
+	}
+	.iconToggle {
+		@extend .m-2;
+	}
+}

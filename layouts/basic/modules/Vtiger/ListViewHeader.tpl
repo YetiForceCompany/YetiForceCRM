@@ -55,7 +55,7 @@
 								<div class="filterActionsDiv hide">
 									<hr>
 									<ul class="filterActions list-unstyled m-2">
-										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
+										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><a href="#"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</a></li>
 									</ul>
 								</div>
 							{/if}

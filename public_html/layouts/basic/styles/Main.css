@@ -4315,7 +4315,7 @@ button.bg-dark:focus {
 .d-flex {
   display: flex !important; }
 
-.d-inline-flex {
+.d-inline-flex, .card.blockContainer .blockHeader {
   display: inline-flex !important; }
 
 @media (min-width: 576px) {
@@ -5081,7 +5081,8 @@ button.bg-dark:focus {
   margin-top: 0.25rem !important; }
 
 .mr-1,
-.mx-1 {
+.mx-1,
+.childrenMarginTopX > * {
   margin-right: 0.25rem !important; }
 
 .mb-1,
@@ -5089,17 +5090,18 @@ button.bg-dark:focus {
   margin-bottom: 0.25rem !important; }
 
 .ml-1,
-.mx-1 {
+.mx-1,
+.childrenMarginTopX > * {
   margin-left: 0.25rem !important; }
 
-.m-2 {
+.m-2, .card.blockContainer .iconToggle {
   margin: 0.5rem !important; }
 
-.mt-2,
+.mt-2, .childrenMarginTopX > *,
 .my-2 {
   margin-top: 0.5rem !important; }
 
-.mr-2,
+.mr-2, .childrenMarginRight > *,
 .mx-2 {
   margin-right: 0.5rem !important; }
 
@@ -9359,20 +9361,8 @@ html, body, .baseContainer {
 .menuPanel {
   padding: 5px; }
 
-.blockContainer .blockHeader .iconCollapse {
-  padding: 10px; }
-
 .quickCreateContent .fieldLabel label {
   padding-top: 8px; }
-
-.blockContainer .blockContent .adressAction {
-  border-bottom: 1px #ddd solid;
-  margin-bottom: 10px;
-  margin-top: 5px;
-  padding-bottom: 5px;
-  text-align: center; }
-  .blockContainer .blockContent .adressAction button {
-    margin: 0 10px; }
 
 .chosen-container {
   min-height: 32px;
@@ -10028,19 +10018,12 @@ html, body, .baseContainer {
   right: 0px !important; }
 
 .blockContainer .blockHeader {
-  cursor: pointer;
-  display: inline-block;
-  width: 100%; }
+  cursor: pointer; }
 
 .detailViewTable .blockHeader {
   cursor: pointer;
   display: inline-block;
   width: 100%; }
-  .detailViewTable .blockHeader .iconCollapse {
-    padding: 10px; }
-
-.detailViewBlockLink .blockHeader .iconCollapse {
-  padding: 10px; }
 
 .detailViewTable {
   margin-bottom: 10px; }
@@ -10051,10 +10034,6 @@ html, body, .baseContainer {
     margin-right: 7px;
     margin-left: 5px;
     vertical-align: middle; }
-
-.blockHeader .iconCollapse h4 {
-  display: inline-block;
-  margin: 0 5px; }
 
 select.form-control {
   padding-right: 0;
@@ -10329,9 +10308,6 @@ select.form-control {
   -moz-transition: width 0.5s ease;
   -o-transition: width 0.5s ease;
   transition: width 0.5s ease; }
-
-.blockHeader .inviteesSearch {
-  margin-top: 3px; }
 
 .blockContent .inviteesContent {
   padding: 10px; }
@@ -10878,7 +10854,8 @@ header .headerLinksMails .select2-selection:hover {
   vertical-align: middle; }
 
 .customFilterMainSpan {
-  width: 100%; }
+  width: 100%;
+  cursor: pointer; }
   .customFilterMainSpan .select2-container {
     width: 95% !important; }
 
