@@ -4280,7 +4280,7 @@ button.bg-dark:focus {
   border-top-left-radius: 0.25rem !important;
   border-bottom-left-radius: 0.25rem !important; }
 
-.rounded-circle {
+.rounded-circle, .badgeIcon {
   border-radius: 50% !important; }
 
 .rounded-0 {
@@ -5208,7 +5208,7 @@ button.bg-dark:focus {
 .bodyHeader .rightHeader .headerButton {
   padding-left: 0.25rem !important; }
 
-.p-2 {
+.p-2, .badgeIcon {
   padding: 0.5rem !important; }
 
 .pt-2,
@@ -6378,7 +6378,7 @@ header .select2-selection.select2-selection--single {
 .font-italic {
   font-style: italic !important; }
 
-.text-white {
+.text-white, .badgeIcon {
   color: #fff !important; }
 
 .text-primary {
@@ -7087,11 +7087,9 @@ hr {
       word-wrap: break-word; }
       .themeMenuContainer .themeMenu .themeElement:hover {
         border: 1px solid #000;
-        background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
         background-position: -286px 2px; }
     .themeMenuContainer .themeMenu .themeSelected {
       border: 1px solid #000;
-      background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
       background-position: -286px 2px; }
 
 .commonActionsContainer .quickAction {
@@ -7100,8 +7098,6 @@ hr {
   cursor: pointer; }
   .commonActionsContainer .quickAction img {
     max-height: 22px; }
-  .commonActionsContainer .quickAction .glyphicon {
-    font-size: 18px; }
   .commonActionsContainer .quickAction #companyLogo-container img {
     height: 98%;
     margin: 0 auto; }
@@ -7147,10 +7143,6 @@ hr {
   border: 1px solid #dddddd;
   border-left: 0;
   display: inline-block; }
-  .toggleButton .glyphicon-chevron-left {
-    background-position: -434px -72px !important; }
-  .toggleButton .glyphicon-chevron-right {
-    background-position: -460px -72px !important; }
 
 #selectAllMsgDiv, #deSelectAllMsgDiv {
   display: none;
@@ -8430,9 +8422,6 @@ textarea.col-md-11 {
   .chzn-container .chzn-results li {
     margin-right: 7px; }
 
-.select2-result-label i {
-  background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png"); }
-
 .ui-autocomplete-loading {
   background: #f8f9fa url("./images/load.gif") no-repeat right center; }
 
@@ -8759,9 +8748,6 @@ span[name=existingImages] img {
 .paddingTBZero {
   padding-top: 0;
   padding-bottom: 0; }
-
-.dashboardWidgetContent a .glyphicon {
-  top: -3px; }
 
 .detailViewTitle .popover {
   min-width: 130px;
@@ -10244,31 +10230,6 @@ select.form-control {
       .timeline > li > .timeline-item > .timeline-body {
         padding-right: 10px;
         padding-left: 44px; }
-    .timeline > li > .glyphicon {
-      width: 30px;
-      height: 30px;
-      font-size: 15px;
-      line-height: 30px;
-      position: absolute;
-      color: #666;
-      background: #d2d6de;
-      border-radius: 50%;
-      text-align: center;
-      left: 0;
-      top: 0; }
-
-.timeLineIconList > .glyphicon {
-  display: inline-block !important;
-  width: 29px;
-  height: 29px;
-  font-size: 15px;
-  line-height: 29px;
-  position: relative;
-  color: #666;
-  background: #d2d6de;
-  border-radius: 50%;
-  text-align: center;
-  vertical-align: middle; }
 
 .timeline .userImage, .commentInfoHeader .userImage {
   margin: 0 auto;
@@ -10424,9 +10385,6 @@ select.form-control {
   height: 15px;
   width: 15px;
   float: left; }
-
-.modal-fullscreen {
-  width: 98%; }
 
 .marginRight15 {
   margin-right: 15px; }
@@ -10892,6 +10850,9 @@ border1px {
 .bodyHeader .dropdown-toggle::after, .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
   display: none; }
 
+.openStreetMapModalBody .input-group {
+  flex-wrap: nowrap; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
@@ -10920,9 +10881,6 @@ header .headerLinksMails .select2-selection:hover {
   width: 100%; }
   .customFilterMainSpan .select2-container {
     width: 95% !important; }
-
-.select2-dropdown ul.filterActions li {
-  cursor: pointer; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
@@ -11219,6 +11177,9 @@ header .headerLinksMails .select2-selection:hover {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .modal-full {
   max-width: 95%; }
+
+.modal-fullscreen {
+  max-width: 98%; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {

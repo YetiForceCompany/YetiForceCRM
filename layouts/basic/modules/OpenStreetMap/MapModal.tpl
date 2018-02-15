@@ -5,14 +5,16 @@
 			<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_MAP', $MODULE_NAME)}</h3>
 		</div>
 		<div class="col-6">
-			<div class="col-8 noSpaces">
-				<input type="text" class="searchValue form-control" placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}" />
-			</div>
-			<div class="col-4 noSpaces">
-				<div class="input-group group-btn">
-					<input type="text" class="form-control radius" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
-					<div class="input-group-btn">
-						<button class="btn btn-primary searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>
+			<div class="row">
+				<div class="col-8 noSpaces">
+					<input type="text" class="searchValue form-control" placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}" />
+				</div>
+				<div class="col-4 noSpaces">
+					<div class="input-group group-btn">
+						<input type="text" class="form-control radius" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
+						<div class="input-group-btn">
+							<button class="btn btn-primary searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -21,13 +23,13 @@
 			<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
 		</div>
 	</div>
-	<div class="modal-body container-fluid openStreetMapModalBody">
+	<div class="modal-body row openStreetMapModalBody">
 		<div class="col-9 paddingLRZero">
 			<div id="mapid"></div>
 		</div>
 		<div class="col-3">
-			<div class="col-12 paddingLRZero ">
-				<div class="col-7 form-group paddingLefttZero">
+			<div class="row">
+				<div class="col-7 form-group">
 					<div class="input-group">
 						<input type="text" class="form-control searchCompany" />
 						<span class="input-group-btn">
@@ -37,7 +39,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="col-5 paddingLRZero">
+				<div class="col-5">
 					<select class="select2 searchModule col-6">
 						{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
 							<option value="{$ALLOWED_MODULE_NAME}">{\App\Language::translate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}</option>
@@ -45,26 +47,28 @@
 					</select>
 				</div>
 			</div>
-			<div class="input-group group-btn form-group">
-				<select class="select2 fieldsToGroup">
-					<optgroup label="{\App\Language::translate($SRC_MODULE, $SRC_MODULE)}">
-						{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
-							<option value="{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
-						{/foreach}
-					</optgroup>
-				</select>
-				<span class="input-group-addon">
-					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{\App\Language::translate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours" />
-				</span>
-				<div class="input-group-btn">
+			<div class="input-group mb-3">
+				<div class="w-100">
+					<select class="select2 form-control fieldsToGroup">
+						<optgroup label="{\App\Language::translate($SRC_MODULE, $SRC_MODULE)}">
+							{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
+								<option value="{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
+							{/foreach}
+						</optgroup>
+					</select>
+				</div>
+				<div class="input-group-append">
+					<span class="input-group-text">
+						<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{\App\Language::translate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours" />
+					</span>
 					<button class="btn btn-primary groupBy">{\App\Language::translate('LBL_GROUP_BY', $MODULE_NAME)}</button>
 				</div>
 			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="card mb-3">
+				<div class="card-header">
 					{\App\Language::translate('LBL_CALCULATE_ROUTE_HEADER_BLOCK', $MODULE_NAME)}
 				</div>
-				<div class="panel-body track">
+				<div class="card-body track">
 					<div class="input-group group-btn input-group-sm form-group startContainer">
 						<input type="text" readonly="readonly" class="form-control start" />
 						<div class="input-group-btn">
@@ -103,13 +107,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel panel-default cacheContainer">
-				<div class="panel-heading">
+			<div class="card cacheContainer">
+				<div class="card-header">
 					{\App\Language::translate('LBL_CLIPBOARD', $MODULE_NAME)}
 				</div>
-				<div class="panel-body cacheContent">
+				<div class="card-body cacheContent">
 					{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
-						<div class="cacheModuleContainer">
+						<div class="cacheModuleContainer row mb-1">
 							<div class="col-8">
 								<label>
 									<input type="checkbox" class="showRecordsFromCache" data-module="{$ALLOWED_MODULE_NAME}" />
@@ -127,13 +131,11 @@
 							</div>
 						</div>
 					{/foreach}
-					<div class="col-12">
-						<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
-					</div>
+					<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
 				</div>
 			</div>
-			<div class="panel panel-default hide descriptionContainer">
-				<div class="panel-body descriptionContent">
+			<div class="card mt-3 hide descriptionContainer">
+				<div class="card-body descriptionContent">
 					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp;</b><span class="distance"></span><br />
 					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp;</b><span class="travelTime"></span><br />
 					<b>{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp;</b><span class="instruction"></span>

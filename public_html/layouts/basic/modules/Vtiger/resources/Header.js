@@ -689,7 +689,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
-		$(".buttonTextHolder .dropdown-menu li a").click(function () {
+		$(".buttonTextHolder .dropdown-menu a").click(function () {
 			$(this).parents('div').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},

@@ -5,9 +5,13 @@
 		display: none;
 	}	
 }
+%input-groupSelect2 {
+	.input-group {
+		flex-wrap: nowrap;
+	}
+}
 .badgeIcon {
 	@extend .p-2;
 	@extend .rounded-circle;
 	@extend .text-white;
-	@extend .bg-primary;
 }

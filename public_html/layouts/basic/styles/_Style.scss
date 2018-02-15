@@ -296,13 +296,11 @@ hr {
 			word-wrap: break-word;
 			&:hover {
 				border: 1px solid #000;
-				background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
 				background-position: -286px 2px;
 			}
 		}
 		.themeSelected {
 			border: 1px solid #000;
-			background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
 			background-position: -286px 2px;
 		}
 	}
@@ -314,9 +312,6 @@ hr {
 		cursor: pointer;
 		img {
 			max-height: 22px;
-		}
-		.glyphicon {
-			font-size: 18px;
 		}
 		#companyLogo-container img {
 			height: 98%;
@@ -371,12 +366,6 @@ hr {
 	border: 1px solid #dddddd;
 	border-left: 0;
 	display: inline-block;
-	.glyphicon-chevron-left {
-		background-position: -434px -72px !important;
-	}
-	.glyphicon-chevron-right {
-		background-position: -460px -72px !important;
-	}
 }
 #selectAllMsgDiv, #deSelectAllMsgDiv {
 	display: none;
@@ -1872,9 +1861,6 @@ textarea.col-md-11 {
 		margin-right: 7px;
 	}
 }
-.select2-result-label i {
-	background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png");
-}
 .ui-autocomplete-loading {
 	background: $light url('./images/load.gif') no-repeat right center;
 }
@@ -2234,9 +2220,6 @@ span[name=existingImages] img {
 .paddingTBZero {
 	padding-top: 0;
 	padding-bottom: 0;
-}
-.dashboardWidgetContent a .glyphicon {
-	top: -3px;
 }
 .detailViewTitle .popover {
 	min-width: 130px;
@@ -3935,34 +3918,8 @@ select.form-control {
 					}
 				}
 			}
-			.glyphicon {
-				width: 30px;
-				height: 30px;
-				font-size: 15px;
-				line-height: 30px;
-				position: absolute;
-				color: #666;
-				background: #d2d6de;
-				border-radius: 50%;
-				text-align: center;
-				left: 0;
-				top: 0;
-			}
 		}
 	}
-}
-.timeLineIconList > .glyphicon {
-	display: inline-block !important;
-	width: 29px;
-	height: 29px;
-	font-size: 15px;
-	line-height: 29px;
-	position: relative;
-	color: #666;
-	background: #d2d6de;
-	border-radius: 50%;
-	text-align: center;
-	vertical-align: middle;
 }
 .timeline .userImage, .commentInfoHeader .userImage {
 	margin: 0 auto;
@@ -4136,9 +4093,6 @@ select.form-control {
 	height: 15px;
 	width: 15px;
 	float: left;
-}
-.modal-fullscreen {
-	width: 98%;
 }
 .marginRight15 {
 	margin-right: 15px;

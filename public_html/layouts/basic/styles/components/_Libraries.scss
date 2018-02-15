@@ -53,8 +53,6 @@ header {
 		width: 95% !important;
 	}
 }
-.select2-dropdown ul.filterActions {
-	li {
-		cursor: pointer;
-	}
+.openStreetMapModalBody {
+	@extend %input-groupSelect2;
 }
