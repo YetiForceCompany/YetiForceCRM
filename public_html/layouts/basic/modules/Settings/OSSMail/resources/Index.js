@@ -35,7 +35,7 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 	},
 
 	/**
-	 *
+	 * Register events for form
 	 * @returns {undefined}
 	 */
 	registerForm: function () {
