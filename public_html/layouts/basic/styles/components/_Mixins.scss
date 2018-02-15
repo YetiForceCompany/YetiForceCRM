@@ -5,3 +5,9 @@
 		display: none;
 	}	
 }
+.badgeIcon {
+	@extend .p-2;
+	@extend .rounded-circle;
+	@extend .text-white;
+	@extend .bg-primary;
+}
