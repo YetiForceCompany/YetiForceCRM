@@ -11,8 +11,9 @@
 /**
  * Class IcalLastImport.
  */
-class iCalLastImport
+class IcalLastImport
 {
+
     /**
      * Table name.
      *
@@ -81,7 +82,7 @@ class iCalLastImport
 
         $fieldNames = array_keys($this->fieldData);
         $fieldValues = array_values($this->fieldData);
-        $adb->pquery('INSERT INTO '.$this->tableName.'('.implode(',', $fieldNames).') VALUES ('.$adb->generateQuestionMarks($fieldValues).')', [$fieldValues]);
+        $adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . $adb->generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
     }
 
     /**

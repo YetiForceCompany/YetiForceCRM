@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-
 namespace vtlib;
 
 /**
@@ -16,6 +15,7 @@ namespace vtlib;
  */
 class Cron
 {
+
     protected static $cronAction = false;
     protected static $baseTable = 'vtiger_cron_task';
     protected static $schemaInitialized = false;
@@ -108,7 +108,7 @@ class Cron
      */
     public function getLastEndDateTime()
     {
-        if ($this->data['lastend'] != null) {
+        if ($this->data['lastend'] !== null) {
             $lastEndDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
 
             return $lastEndDateTime->getDisplayDateTimeValue();
@@ -122,7 +122,7 @@ class Cron
      */
     public function getLastStartDateTime()
     {
-        if ($this->data['laststart'] != null) {
+        if ($this->data['laststart'] !== null) {
             $lastStartDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
 
             return $lastStartDateTime->getDisplayDateTimeValue();
