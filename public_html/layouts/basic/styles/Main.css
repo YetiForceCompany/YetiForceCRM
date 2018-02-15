@@ -353,7 +353,8 @@ hr {
   border-top: 1px solid rgba(0, 0, 0, 0.1); }
 
 small,
-.small {
+.small,
+.gridster > ul li.dashboardWidget .dashboardWidgetContent {
   font-size: 80%;
   font-weight: 400; }
 
@@ -5059,7 +5060,8 @@ button.bg-dark:focus {
   margin-top: 0 !important; }
 
 .mr-0,
-.mx-0 {
+.mx-0,
+.gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
 .mb-0,
@@ -5067,7 +5069,8 @@ button.bg-dark:focus {
   margin-bottom: 0 !important; }
 
 .ml-0,
-.mx-0 {
+.mx-0,
+.gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-left: 0 !important; }
 
 .m-1 {
@@ -11214,6 +11217,9 @@ header .headerLinksMails .select2-selection:hover {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.modal-full {
+  max-width: 95%; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
   padding: 0; }

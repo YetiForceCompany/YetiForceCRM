@@ -1,13 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">{\App\Language::translate('LBL_INSPECTION_PERMISSION_HEADER', $MODULE_NAME)}</h4>
+		<h5 class="modal-title">{\App\Language::translate('LBL_INSPECTION_PERMISSION_HEADER', $MODULE_NAME)}</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+        </button>
 	</div>
 	<div class="modal-body" style="max-height: 500px;overflow-y: auto;">
 		<div>
 			<table class="table dataTable">
-				<thead> 
+				<thead>
 					<tr>
 						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
 							<th style="width:60px" class="text-left" ></th>
@@ -17,7 +19,7 @@
 						<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
 						<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
 						<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
-					</tr> 
+					</tr>
 				</thead>
 				<tbody>
 					{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
@@ -65,7 +67,7 @@
 										{if $ACTION['isPermitted']}
 											<span class="fas fa-check text-success" aria-hidden="true"></span>
 											<span class="hide" aria-hidden="true">1</span>
-										{else}	
+										{else}
 											<span class="fas fa-times text-danger" aria-hidden="true"></span>
 											<span class="hide" aria-hidden="true">0</span>
 										{/if}
@@ -79,11 +81,9 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<div class="pull-right">
-			<button class="btn btn-primary" type="reset" data-dismiss="modal">
-				<span class="fas fa-times margin-right5px"></span>
-				<strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
-			</button>
-		</div>
+		<button class="btn btn-danger" type="reset" data-dismiss="modal">
+			<span class="fas fa-times mr-1"></span>
+			<strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
+		</button>
 	</div>
 {/strip}
