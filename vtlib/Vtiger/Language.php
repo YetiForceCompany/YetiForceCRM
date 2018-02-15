@@ -15,31 +15,31 @@ namespace vtlib;
  */
 class Language extends LanguageImport
 {
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
-    /**
-     * Function to remove language files related to a module.
-     *
-     * @param ModuleBasic $moduleInstance
-     */
-    public static function deleteForModule(ModuleBasic $moduleInstance)
-    {
-        $query = (new \App\Db\Query())->select(['prefix'])->from('vtiger_language');
-        foreach ($query->column() as $lang) {
-            $langFilePath = "languages/$lang/{$moduleInstance->name}.php";
-            if (file_exists($langFilePath)) {
-                unlink($langFilePath);
-            }
-            $langFilePath = "languages/$lang/Settings/{$moduleInstance->name}.php";
-            if (file_exists($langFilePath)) {
-                unlink($langFilePath);
-            }
-        }
-    }
+	/**
+	 * Function to remove language files related to a module.
+	 *
+	 * @param ModuleBasic $moduleInstance
+	 */
+	public static function deleteForModule(ModuleBasic $moduleInstance)
+	{
+		$query = (new \App\Db\Query())->select(['prefix'])->from('vtiger_language');
+		foreach ($query->column() as $lang) {
+			$langFilePath = "languages/$lang/{$moduleInstance->name}.php";
+			if (file_exists($langFilePath)) {
+				unlink($langFilePath);
+			}
+			$langFilePath = "languages/$lang/Settings/{$moduleInstance->name}.php";
+			if (file_exists($langFilePath)) {
+				unlink($langFilePath);
+			}
+		}
+	}
 }
