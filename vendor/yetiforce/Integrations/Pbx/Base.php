@@ -13,22 +13,22 @@ namespace App\Integrations\Pbx;
  */
 abstract class Base
 {
-    /**
-     * @var string Class name
-     */
-    public $name = '';
+	/**
+	 * @var string Class name
+	 */
+	public $name = '';
 
-    /**
-     * Values to configure.
-     *
-     * @var string[]
-     */
-    public $configFields = [];
+	/**
+	 * Values to configure.
+	 *
+	 * @var string[]
+	 */
+	public $configFields = [];
 
-    /**
-     * Perform phone call.
-     *
-     * @param \App\Integrations\Pbx $pbx
-     */
-    abstract public function performCall(\App\Integrations\Pbx $pbx);
+	/**
+	 * Perform phone call.
+	 *
+	 * @param \App\Integrations\Pbx $pbx
+	 */
+	abstract public function performCall(\App\Integrations\Pbx $pbx);
 }

@@ -11,23 +11,23 @@ namespace App\QueryField;
  */
 class ModulesField extends BaseField
 {
-    /**
-     * Get value.
-     *
-     * @return array
-     */
-    public function getValue()
-    {
-        return explode('##', $this->value);
-    }
+	/**
+	 * Get value.
+	 *
+	 * @return array
+	 */
+	public function getValue()
+	{
+		return explode('##', $this->value);
+	}
 
-    /**
-     * Not equal operator.
-     *
-     * @return array
-     */
-    public function operatorN()
-    {
-        return ['NOT IN', $this->getColumnName(), $this->getValue()];
-    }
+	/**
+	 * Not equal operator.
+	 *
+	 * @return array
+	 */
+	public function operatorN()
+	{
+		return ['NOT IN', $this->getColumnName(), $this->getValue()];
+	}
 }

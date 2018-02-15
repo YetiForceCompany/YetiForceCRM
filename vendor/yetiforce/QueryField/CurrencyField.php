@@ -11,21 +11,21 @@ namespace App\QueryField;
  */
 class CurrencyField extends IntegerField
 {
-    /**
-     * Get value.
-     *
-     * @return float
-     */
-    public function getValue()
-    {
-        $value = $this->value;
-        $uiType = $this->fieldModel->getUIType();
-        if ($uiType === 72) {
-            $value = \CurrencyField::convertToDBFormat($value, null, true);
-        } elseif ($uiType === 71) {
-            $value = \CurrencyField::convertToDBFormat($value);
-        }
+	/**
+	 * Get value.
+	 *
+	 * @return float
+	 */
+	public function getValue()
+	{
+		$value = $this->value;
+		$uiType = $this->fieldModel->getUIType();
+		if ($uiType === 72) {
+			$value = \CurrencyField::convertToDBFormat($value, null, true);
+		} elseif ($uiType === 71) {
+			$value = \CurrencyField::convertToDBFormat($value);
+		}
 
-        return $value;
-    }
+		return $value;
+	}
 }

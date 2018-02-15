@@ -11,47 +11,47 @@ namespace App\QueryField;
  */
 class IdField extends StringField
 {
-    /**
-     * Get column name.
-     *
-     * @return string
-     */
-    public function getColumnName()
-    {
-        if ($this->fullColumnName) {
-            return $this->fullColumnName;
-        }
+	/**
+	 * Get column name.
+	 *
+	 * @return string
+	 */
+	public function getColumnName()
+	{
+		if ($this->fullColumnName) {
+			return $this->fullColumnName;
+		}
 
-        return $this->fullColumnName = $this->queryGenerator->getColumnName('id');
-    }
+		return $this->fullColumnName = $this->queryGenerator->getColumnName('id');
+	}
 
-    /**
-     * Starts with operator.
-     *
-     * @return array
-     */
-    public function operatorS()
-    {
-        return ['like', $this->getColumnName(), $this->getValue().'%', false];
-    }
+	/**
+	 * Starts with operator.
+	 *
+	 * @return array
+	 */
+	public function operatorS()
+	{
+		return ['like', $this->getColumnName(), $this->getValue() . '%', false];
+	}
 
-    /**
-     * Ends with operator.
-     *
-     * @return array
-     */
-    public function operatorEw()
-    {
-        return ['like', $this->getColumnName(), '%'.$this->getValue(), false];
-    }
+	/**
+	 * Ends with operator.
+	 *
+	 * @return array
+	 */
+	public function operatorEw()
+	{
+		return ['like', $this->getColumnName(), '%' . $this->getValue(), false];
+	}
 
-    /**
-     * Greater operator.
-     *
-     * @return array
-     */
-    public function operatorA()
-    {
-        return ['>', $this->getColumnName(), $this->getValue()];
-    }
+	/**
+	 * Greater operator.
+	 *
+	 * @return array
+	 */
+	public function operatorA()
+	{
+		return ['>', $this->getColumnName(), $this->getValue()];
+	}
 }

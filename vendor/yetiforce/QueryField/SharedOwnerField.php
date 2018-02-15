@@ -12,115 +12,115 @@ namespace App\QueryField;
  */
 class SharedOwnerField extends BaseField
 {
-    /**
-     * Equals operator.
-     *
-     * @return array
-     */
-    public function operatorE()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $focus = $this->queryGenerator->getEntityModel();
-        $baseTable = $focus->table_name;
-        $baseTableIndex = $focus->table_index;
-        $this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-        $values = explode('##', $this->value);
-        $condition = ['or'];
-        foreach ($values as $value) {
-            $condition[] = ['u_#__crmentity_showners.userid' => $value];
-        }
+	/**
+	 * Equals operator.
+	 *
+	 * @return array
+	 */
+	public function operatorE()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		$values = explode('##', $this->value);
+		$condition = ['or'];
+		foreach ($values as $value) {
+			$condition[] = ['u_#__crmentity_showners.userid' => $value];
+		}
 
-        return $condition;
-    }
+		return $condition;
+	}
 
-    /**
-     * Not equal operator.
-     *
-     * @return array
-     */
-    public function operatorN()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $focus = $this->queryGenerator->getEntityModel();
-        $baseTable = $focus->table_name;
-        $baseTableIndex = $focus->table_index;
-        $this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-        $values = explode('##', $this->value);
-        $condition = ['or'];
-        foreach ($values as $value) {
-            $condition[] = ['<>', 'u_#__crmentity_showners.userid', $value];
-        }
+	/**
+	 * Not equal operator.
+	 *
+	 * @return array
+	 */
+	public function operatorN()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		$values = explode('##', $this->value);
+		$condition = ['or'];
+		foreach ($values as $value) {
+			$condition[] = ['<>', 'u_#__crmentity_showners.userid', $value];
+		}
 
-        return $condition;
-    }
+		return $condition;
+	}
 
-    /**
-     * Currently logged user.
-     *
-     * @return array
-     */
-    public function operatorOm()
-    {
-        $focus = $this->queryGenerator->getEntityModel();
-        $baseTable = $focus->table_name;
-        $baseTableIndex = $focus->table_index;
-        $this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+	/**
+	 * Currently logged user.
+	 *
+	 * @return array
+	 */
+	public function operatorOm()
+	{
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
 
-        return ['u_#__crmentity_showners.userid' => \App\User::getCurrentUserId()];
-    }
+		return ['u_#__crmentity_showners.userid' => \App\User::getCurrentUserId()];
+	}
 
-    /**
-     * Contains operator.
-     *
-     * @return array
-     */
-    public function operatorC()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $focus = $this->queryGenerator->getEntityModel();
-        $baseTable = $focus->table_name;
-        $baseTableIndex = $focus->table_index;
-        $this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-        $values = explode('##', $this->value);
-        $condition = ['or'];
-        foreach ($values as $value) {
-            $condition[] = ['u_#__crmentity_showners.userid' => $value];
-        }
+	/**
+	 * Contains operator.
+	 *
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		$values = explode('##', $this->value);
+		$condition = ['or'];
+		foreach ($values as $value) {
+			$condition[] = ['u_#__crmentity_showners.userid' => $value];
+		}
 
-        return $condition;
-    }
+		return $condition;
+	}
 
-    /**
-     * Is not empty operator.
-     *
-     * @return array
-     */
-    public function operatorNy()
-    {
-        $focus = $this->queryGenerator->getEntityModel();
-        $baseTable = $focus->table_name;
-        $baseTableIndex = $focus->table_index;
-        $this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-    }
+	/**
+	 * Is not empty operator.
+	 *
+	 * @return array
+	 */
+	public function operatorNy()
+	{
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+	}
 
-    /**
-     * Is empty operator.
-     *
-     * @return array
-     */
-    public function operatorY()
-    {
-        $focus = $this->queryGenerator->getEntityModel();
-        $baseTable = $focus->table_name;
-        $baseTableIndex = $focus->table_index;
-        $this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+	/**
+	 * Is empty operator.
+	 *
+	 * @return array
+	 */
+	public function operatorY()
+	{
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
 
-        return ['u_#__crmentity_showners.userid' => null];
-    }
+		return ['u_#__crmentity_showners.userid' => null];
+	}
 }
