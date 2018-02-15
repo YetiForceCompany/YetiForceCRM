@@ -1532,7 +1532,6 @@ jQuery.Class("Vtiger_List_Js", {
 					if (liFilterImages.length > 0) {
 						liFilterImages.show();
 					} else {
-						window.console.log('else');
 						thisInstance.performFilterImageActions(liElement);
 					}
 
