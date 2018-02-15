@@ -2951,7 +2951,7 @@ class Base3 extends \App\Db\Importers\Base
 					[5, 'Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', NULL, 0, 1],
 					[6, 'Italian', 'it_it', 'Italian', '2017-12-23 15:12:39', NULL, 0, 1],
 					[7, 'Spanish', 'es_es', 'ES Spanish', '2017-03-11 00:00:00', NULL, 0, 1],
-					[7, 'Turkish', 'tr_tr', 'Turkish','2018-02-13 00:00:00', NULL, 0, 1],
+					[8, 'Turkish', 'tr_tr', 'Turkish','2018-02-13 00:00:00', NULL, 0, 1],
 				]
 			],
 			'vtiger_language_seq' => [
