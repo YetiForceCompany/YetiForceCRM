@@ -12,8 +12,8 @@
 				<div class="box float-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-light btn-sm" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
-								return false;">
-							<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+								return false;" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+							<span class='fas fa-plus' border='0'></span>
 						</a>
 					{/if}
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
