@@ -45,7 +45,7 @@ $dbconfig['db_name'] = '_DBC_NAME_';
 $dbconfig['db_type'] = '_DBC_TYPE_';
 $dbconfig['db_status'] = '_DB_STAT_';
 
-$dbconfig['db_hostname'] = $dbconfig['db_server'].':'.$dbconfig['db_port'];
+$dbconfig['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 
 $host_name = $dbconfig['db_hostname'];
 
@@ -137,9 +137,9 @@ $php_max_execution_time = 0;
 // Set the default timezone as per your preference
 $default_timezone = '_TIMEZONE_';
 
-/* If timezone is configured, try to set it */
+// If timezone is configured, try to set it
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
-    date_default_timezone_set($default_timezone);
+	date_default_timezone_set($default_timezone);
 }
 
 // Maximum length of characters for title

@@ -19,5 +19,5 @@
  */
 require 'config/config.inc.php';
 if (file_exists('config/config_override.php')) {
-    require 'config/config_override.php';
+	require 'config/config_override.php';
 }

@@ -15,7 +15,7 @@ namespace vtlib;
  */
 class ThemeExport extends Package
 {
-	public const TABLENAME = 'vtiger_layoutskins';
+	const TABLENAME = 'vtiger_layoutskins';
 
 	/**
 	 * Generate unique id for insertion.
