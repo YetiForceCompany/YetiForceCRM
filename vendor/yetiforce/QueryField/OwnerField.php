@@ -19,15 +19,16 @@ class OwnerField extends BaseField
 	 */
 	public function operatorE()
 	{
-		if (strpos($this->value, '##') === false) {
-			return [$this->getColumnName() => $this->value];
+		if (!is_array($this->value)) {
+			if (strpos($this->value, '##') === false) {
+				return [$this->getColumnName() => $this->value];
+			}
+			$this->value = explode('##', $this->value);
 		}
-		$values = explode('##', $this->value);
 		$condition = ['or'];
-		foreach ($values as $value) {
+		foreach ($this->value as $value) {
 			$condition[] = [$this->getColumnName() => $value];
 		}
-
 		return $condition;
 	}
 
@@ -46,7 +47,6 @@ class OwnerField extends BaseField
 		foreach ($values as $value) {
 			$condition[] = ['<>', $this->getColumnName(), $value];
 		}
-
 		return $condition;
 	}
 
@@ -77,7 +77,6 @@ class OwnerField extends BaseField
 				$condition = ['u_#__watchdog_record.state' => 1, 'u_#__watchdog_record.userid' => $watchdog->get('userId')];
 			}
 		}
-
 		return $condition;
 	}
 
@@ -98,7 +97,6 @@ class OwnerField extends BaseField
 				$condition = ['or', ['u_#__watchdog_record.record' => null], ['not', ['u_#__watchdog_record.userid' => $watchdog->get('userId'), 'u_#__watchdog_record.state' => 1]]];
 			}
 		}
-
 		return $condition;
 	}
 

@@ -336,7 +336,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function changeState($state)
 	{
-		parent::changeState();
+		parent::changeState($state);
 		$stateId = 0;
 		switch ($state) {
 			case 'Active':
