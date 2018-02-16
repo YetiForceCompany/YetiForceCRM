@@ -22,11 +22,11 @@
 	@extend .mt-2;
 	@extend .mx-1;
 }
-.card.blockContainer {
+.card {
 	.blockHeader {
 		@extend .d-inline-flex;
 	}
-	.iconToggle {
+	.blockToggle, .iconToggle {
 		@extend .m-2;
 	}
 }
