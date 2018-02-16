@@ -14,7 +14,7 @@
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				<div class="widget_header row mb-3">
+				<div class="widget_header row mb-2">
 					<div class="col-sm-6 col-12">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
