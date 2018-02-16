@@ -24,10 +24,10 @@
 		</div>
 	</div>
 	<div class="modal-body row openStreetMapModalBody">
-		<div class="col-9 paddingLRZero">
+		<div class="col-lg-9 paddingLRZero">
 			<div id="mapid"></div>
 		</div>
-		<div class="col-3">
+		<div class="col-lg-3">
 			<div class="row">
 				<div class="col-7 form-group">
 					<div class="input-group">
