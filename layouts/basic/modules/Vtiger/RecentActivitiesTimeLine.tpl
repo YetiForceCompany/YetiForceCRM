@@ -26,7 +26,7 @@
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
-									<span class="fas fa-plus fa-2x fa-fw bgGreen"></span>
+									<span class="badgeIcon fas fa-plus fa-2x fa-fw bgGreen"></span>
 									<div class="w-100 ml-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isCreate">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -69,7 +69,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
-									<span class="fas fa-edit fa-2x fa-fw bgDarkBlue"></span>
+									<span class="badgeIcon fas fa-edit fa-2x fa-fw bgDarkBlue"></span>
 									<div class="w-100 ml-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -134,7 +134,7 @@
 										</div>
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
-									<span class="fas fa-link fa-2x fa-fw bgOrange"></span>
+									<span class="badgeIcon fas fa-link fa-2x fa-fw bgOrange"></span>
 									<div class="w-100 ml-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -177,11 +177,11 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									{if $RECENT_ACTIVITY->get('status') == 1}
-										<span class="fas fa-trash-alt fa-2x fa-fw entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
+										<span class="badgeIcon fas fa-trash-alt fa-2x fa-fw entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 3}
-										<span class="fa glyphicon fa-refresh fa-2x fa-fw entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Active']}style="background: {$LIST_ENTITY_STATE_COLOR['Active']};"{/if}></span>
+										<span class="badgeIcon fa glyphicon fa-refresh fa-2x fa-fw entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Active']}style="background: {$LIST_ENTITY_STATE_COLOR['Active']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 8}
-										<span class="fa glyphicon fa-archive fa-2x fa-fw entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="background: {$LIST_ENTITY_STATE_COLOR['Archived']};"{/if}></span>
+										<span class="badgeIcon fa glyphicon fa-archive fa-2x fa-fw entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="background: {$LIST_ENTITY_STATE_COLOR['Archived']};"{/if}></span>
 									{/if}
 									<div class="w-100 ml-1 timeline-item isDisplayed">
 										<div class="float-left paddingRight15 imageContainer">
@@ -203,7 +203,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
-									<span class="fas fa-exchange-alt fa-2x fa-fw bgAzure"></span>
+									<span class="badgeIcon fas fa-exchange-alt fa-2x fa-fw bgAzure"></span>
 									<div class="w-100 ml-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -223,7 +223,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
-									<span class="fas fa-th-list fa-2x fa-fw bgAzure"></span>
+									<span class="badgeIcon fas fa-th-list fa-2x fa-fw bgAzure"></span>
 									<div class="w-100 ml-1 timeline-item isDisplayed">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
