@@ -16,11 +16,11 @@
 		return;
 	}
 	$.jstree.defaults.edit = {
-		createClass: ' glyphicon-plus-sign',
-		deleteClass: ' glyphicon-remove-circle'
+		createClass: ' fa-plus-circle',
+		deleteClass: ' fa-times-circle'
 	};
 	var _i = document.createElement('I');
-	_i.className = 'jstree-edit glyphicon noAction';
+	_i.className = 'jstree-edit [data-fa-i2svg] noAction';
 	_i.setAttribute('role', 'presentation');
 	$.jstree.plugins.edit = function (options, parent) {
 		this.bind = function () {
