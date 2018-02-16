@@ -187,7 +187,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			if (currentValue != prevValue || data.forceChange) {
 				var list = element.data('timepicker-list');
 				if (!list) {
-					//To generate the list 
+					//To generate the list
 					element.timepicker('show');
 					element.timepicker('hide');
 					list = element.data('timepicker-list');
@@ -239,7 +239,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		});
 	},
 	/**
-	 * 
+	 *
 	 * @returns {String}
 	 */
 	getRule: function () {
@@ -522,7 +522,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);
 						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
-						inviteRow.find('.inviteIcon .glyphicon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+						inviteRow.find('.inviteIcon .badgeIcon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
 						inviteesContent.append(inviteRow);
 					});
 				}
