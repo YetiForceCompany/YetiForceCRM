@@ -109,16 +109,19 @@
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 						<span class="commonActionsContainer">
-							<a class="headerButton btn-light btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+							<a class="headerButton btn-light btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-toggle="modal" data-target="#quickCreateModules" data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 								<span class="fas fa-plus fa-fw"></span>
 							</a>
-							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-								<li class="quickCreateModules">
-									<div class="card">
-										<div class="card-header">
-											<span class="card-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></span>
+							<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
 										</div>
-										<div class="card-body paddingLRZero">
+										<div class="modal-body">
 											{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
 												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
@@ -130,8 +133,8 @@
 														<div class="row small">
 														{/if}
 														<div class="col-4{if $count % 3 != 2} paddingRightZero{/if}">
-															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-																<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
+															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
+																<span class="modCT_{$NAME} userIcon-{$NAME}"></span>&nbsp;<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 															</a>
 														</div>
 														{if $count % 3 == 2}
@@ -141,11 +144,15 @@
 												{/if}
 											{/foreach}
 											{if $count % 3 >= 1}
-											</div>
-										{/if}
+												</div>
+											{/if}
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-warning btn-sm" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+										</div>
 									</div>
-								</li>
-							</ul>
+								</div>
+							</div>
 						</span>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
