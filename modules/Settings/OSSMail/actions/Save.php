@@ -20,13 +20,16 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 	{
 		parent::checkPermission($request);
 		if (!\App\Module::isModuleActive('OSSMail')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED123', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED13', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$recordModel = Settings_OSSMail_Config_Model::getCleanIntance();
