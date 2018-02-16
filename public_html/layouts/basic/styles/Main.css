@@ -4315,7 +4315,7 @@ button.bg-dark:focus {
 .d-flex {
   display: flex !important; }
 
-.d-inline-flex, .card.blockContainer .blockHeader {
+.d-inline-flex, .card .blockHeader {
   display: inline-flex !important; }
 
 @media (min-width: 576px) {
@@ -5094,7 +5094,7 @@ button.bg-dark:focus {
 .childrenMarginTopX > * {
   margin-left: 0.25rem !important; }
 
-.m-2, .card.blockContainer .iconToggle {
+.m-2, .card .blockToggle, .card .iconToggle {
   margin: 0.5rem !important; }
 
 .mt-2, .childrenMarginTopX > *,
