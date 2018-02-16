@@ -33,3 +33,6 @@
 		@extend %removeDropdownIcon;
 	}
 }
+.paginationDiv .pagination {
+	@extend .mb-0;
+}

@@ -5064,7 +5064,7 @@ button.bg-dark:focus {
 .gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
-.mb-0,
+.mb-0, .paginationDiv .pagination,
 .my-0 {
   margin-bottom: 0 !important; }
 

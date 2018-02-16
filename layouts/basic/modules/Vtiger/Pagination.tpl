@@ -63,8 +63,8 @@
 				</li>
 			{/if}
 			{if $LISTVIEW_COUNT}
-				<li class="{if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
-					<span aria-hidden="true">{\App\Language::translate('LBL_LAST')}</span>
+				<li class="page-item {if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
+					<a class="page-link" href="#">{\App\Language::translate('LBL_LAST')}</a>
 				</li>
 			{/if}
 			<li class="page-item disabled">

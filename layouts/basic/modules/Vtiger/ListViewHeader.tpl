@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="listViewPageDiv">
-		<div class="listViewTopMenuDiv noprint">
+		<div class="listViewTopMenuDiv noprint mb-2">
 			<div class="listViewActionsDiv row">
 				<div class="col-md-4 col-sm-6 col-12">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
