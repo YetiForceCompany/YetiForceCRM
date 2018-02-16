@@ -573,7 +573,7 @@ pre {
 .order-1 {
   order: 1; }
 
-.order-2 {
+.order-2, .bootbox-close-button {
   order: 2; }
 
 .order-3 {
@@ -4182,12 +4182,14 @@ button.bg-danger:hover,
 button.bg-danger:focus {
   background-color: #bd2130 !important; }
 
-.bg-light {
+.bg-light, .listViewTopMenuDiv .nav-tabs .active {
   background-color: #f8f9fa !important; }
 
-a.bg-light:hover, a.bg-light:focus,
+a.bg-light:hover, .listViewTopMenuDiv .nav-tabs a.active:hover, a.bg-light:focus, .listViewTopMenuDiv .nav-tabs a.active:focus,
 button.bg-light:hover,
-button.bg-light:focus {
+.listViewTopMenuDiv .nav-tabs button.active:hover,
+button.bg-light:focus,
+.listViewTopMenuDiv .nav-tabs button.active:focus {
   background-color: #dae0e5 !important; }
 
 .bg-dark {
@@ -5064,7 +5066,7 @@ button.bg-dark:focus {
 .gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
-.mb-0, .paginationDiv .pagination,
+.mb-0, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
 .my-0 {
   margin-bottom: 0 !important; }
 
@@ -7514,7 +7516,7 @@ td.fieldValue input, td.fieldValue .input-group {
 .activityEntries .summaryViewEntries a {
   color: inherit !important; }
 
-.listViewEntriesTable .listViewEntries .unreviewed .badge, .listViewEntriesTable .listViewEntries .timeLineIconList span, .listViewEntriesTable .listViewEntries .actions {
+.listViewEntriesTable .listViewEntries .unreviewed .badge, .listViewEntriesTable .listViewEntries .actions {
   margin-left: 4px; }
 .listViewEntriesTable td.listViewEntryValue {
   vertical-align: middle;
@@ -10823,7 +10825,7 @@ border1px {
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.bodyHeader .dropdown-toggle::after, .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
+.bodyHeader .dropdown-toggle::after, .listViewTopMenuDiv .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
   display: none; }
 
 .openStreetMapModalBody .input-group {
@@ -11157,6 +11159,9 @@ header .headerLinksMails .select2-selection:hover {
 
 .modal-fullscreen {
   max-width: 98%; }
+
+.modal-dialog {
+  min-width: fit-content; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
