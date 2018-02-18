@@ -16,7 +16,7 @@
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
-											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
+											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 											{assign var=POPUP value=$CONFIG['popup']}
 											<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
@@ -48,7 +48,7 @@
 									{/if}
 									{if \App\Privilege::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
-											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-light" data-mode="previewPrint">
+											<button id="previewPrint" onclick="OSSMailView_Preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-light" data-mode="previewPrint">
 												<span class="fas fa-print"></span>&nbsp;&nbsp;
 												<strong>{\App\Language::translate('LBL_PRINT',$MODULENAME)}</strong>
 											</button>
@@ -125,7 +125,7 @@
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
-												<a class="btn btn-sm btn-primary" title="{$ATTACHMENT['name']}" 
+												<a class="btn btn-sm btn-primary" title="{$ATTACHMENT['name']}"
 												   href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
 													<span class="fas fa-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 												{/foreach}
