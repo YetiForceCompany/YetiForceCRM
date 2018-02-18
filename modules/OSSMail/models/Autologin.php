@@ -11,6 +11,7 @@
  */
 class OSSMail_Autologin_Model
 {
+
 	/**
 	 * Get autologin users.
 	 *
@@ -18,11 +19,12 @@ class OSSMail_Autologin_Model
 	 */
 	public static function getAutologinUsers()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$user_id = $currentUserModel->getId();
 		$users = [];
-		$query = (new \App\Db\Query())->select(['rcuser_id', 'crmuser_id', 'username', 'password'])->from('roundcube_users_autologin')->innerJoin('roundcube_users', 'roundcube_users_autologin.rcuser_id = roundcube_users.user_id')->where(['roundcube_users_autologin.crmuser_id' => $user_id]);
-		$rcUser = $_SESSION['AutoLoginUser'] ?? false;
+		$query = (new \App\Db\Query())->select(['rcuser_id', 'crmuser_id', 'username', 'password'])
+			->from('roundcube_users_autologin')
+			->innerJoin('roundcube_users', 'roundcube_users_autologin.rcuser_id = roundcube_users.user_id')
+			->where(['roundcube_users_autologin.crmuser_id' => \App\User::getCurrentUserId()]);
+		$rcUser = \App\Session::has('AutoLoginUser') ? \App\Session::get('AutoLoginUser') : false;
 		$dataReader = $query->createCommand()->query();
 		while ($account = $dataReader->read()) {
 			$account['active'] = ($rcUser && $rcUser == $account['rcuser_id']) ? true : false;

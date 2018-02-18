@@ -8,6 +8,7 @@
  */
 class OSSMail_CheckMails_Action extends \App\Controller\Action
 {
+
 	/**
 	 * Function to check permission.
 	 *
@@ -18,14 +19,18 @@ class OSSMail_CheckMails_Action extends \App\Controller\Action
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) || array_diff($request->getArray('users', 'Integer'), array_keys(OSSMail_Autologin_Model::getAutologinUsers()))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * Process.
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$users = $request->get('users');
+		$users = $request->getArray('users', 'Integer');
 		$output = [];
 		if (count($users) > 0) {
 			OSSMail_Record_Model::updateMailBoxmsgInfo($users);
