@@ -7,7 +7,7 @@
 	*/	
 	$languageStrings = [	
 	'IGDN' => 'Gönderilen malların Notu',
-	'SINGLE_IGDN' => 'Gönderilen malların Notu',
+	'SINGLE_IGDN' => 'Gönderilen malın Notu',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
 	'LBL_ATTENTION_BLOCK' => 'Yorum',
 	// Fields	
