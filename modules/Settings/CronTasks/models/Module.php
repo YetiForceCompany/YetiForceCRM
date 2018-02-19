@@ -72,7 +72,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
         $result = $query->select(['id'])->orderBy(['laststart' => SORT_DESC])->one();
         if ($result) {
             $recordId = $result['id'];
-            $recordModel = Settings_CronTasks_Record_Model::getInstanceById((int) $recordId);
+            $recordModel = Settings_CronTasks_Record_Model::getInstanceById((int) $recordId, $this->getName(true));
             $lastDuration = $recordModel->getDuration();
 
             $result['duration'] = $lastDuration;

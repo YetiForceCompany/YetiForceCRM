@@ -248,7 +248,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
      *
      * @return <Settings_CronTasks_Record_Model> RecordModel
      */
-    public static function getInstanceById($recordId, $qualifiedModuleName = null)
+    public static function getInstanceById($recordId, $qualifiedModuleName)
     {
         if (empty($recordId)) {
             return false;
@@ -258,8 +258,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
             ->where(['id' => $recordId])
             ->one();
         if ($row) {
-            $recordModel = new self();
-            $recordModel->setData($row);
+            $recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+            $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+            $recordModel = new $recordModelClass();
+            $recordModel->setData($row)->setModule($moduleModel);
 
             return $recordModel;
         }
