@@ -10166,59 +10166,6 @@ select.form-control {
   height: 27px;
   padding: 4px 12px; }
 
-.timeline {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  list-style: none; }
-  .timeline:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #ddd;
-    left: 13px;
-    margin: 0;
-    border-radius: 2px; }
-  .timeline > li {
-    position: relative;
-    padding-bottom: 10px; }
-    .timeline > li:before {
-      content: " ";
-      display: table; }
-    .timeline > li:after {
-      content: " ";
-      display: table;
-      clear: both; }
-    .timeline > li .timeline-item {
-      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-      border-radius: 3px;
-      margin-top: 0;
-      background: #FBFBFB;
-      color: #444;
-      padding: 0;
-      position: relative; }
-      .timeline > li .timeline-item .time {
-        color: #999;
-        float: right;
-        padding: 5px 0;
-        font-size: 12px; }
-      .timeline > li .timeline-item > .imageContainer {
-        width: 40px; }
-      .timeline > li .timeline-item > .timeline-body {
-        padding-right: 10px;
-        padding-left: 44px; }
-
-.timeline .userImage, .commentInfoHeader .userImage {
-  margin: 0 auto;
-  width: 40px;
-  height: 40px;
-  padding: 2px;
-  border: 2px solid #d2d6de;
-  font-size: 32px; }
-
 .columnSorted {
   background: #EAEAEA !important; }
 
@@ -10830,8 +10777,8 @@ border1px {
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
 
-.ml-12px {
-  margin-left: 12px; }
+.ml-10px {
+  margin-left: 10px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {

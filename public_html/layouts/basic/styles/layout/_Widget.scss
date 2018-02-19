@@ -1,0 +1,59 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.timeline {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 4px;
+		background: #ddd;
+		left: 13px;
+		margin: 0;
+		border-radius: 2px;
+	}
+	> li {
+		position: relative;
+		padding-bottom: 10px;
+		&:before {
+			content: " ";
+			display: table;
+		}
+		&:after {
+			content: " ";
+			display: table;
+			clear: both;
+		}
+		.timeline-item {
+			-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 3px;
+			margin-top: 0;
+			background: #FBFBFB;
+			color: #444;
+			padding: 0;
+			position: relative;
+			> {
+				.imageContainer {
+					width: 40px;
+				}
+				.timeline-body {
+					padding-right: 10px;
+					padding-left: 44px;
+				}
+			}
+		}
+	}
+}
+.timeline .userImage, .commentInfoHeader .userImage {
+	margin: 0 auto;
+	width: 40px;
+	height: 40px;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+	font-size: 32px;
+}
