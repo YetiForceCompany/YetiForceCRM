@@ -20,6 +20,6 @@
 	'PLL_OBJECTIONS' => 'İtirazlar',
 	'PLL_FOR_APPROVAL' => 'Onay için',
 	'PLL_CANCELLED' => 'İptal edildi',
-	'PLL_ACCEPTED' => 'Kabul edilmiş',
+	'PLL_ACCEPTED' => 'Kabul edildi',
 	'LBL_CHANGE_STATUS' => 'Durumu değiştir',
 ];	
