@@ -3864,31 +3864,28 @@ select.form-control {
 			display: table;
 			clear: both;
 		}
-		> {
-			.timeline-item {
-				-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-				box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-				border-radius: 3px;
-				margin-top: 0;
-				background: #FBFBFB;
-				color: #444;
-				margin-left: 33px;
-				padding: 0;
-				position: relative;
-				.time {
-					color: #999;
-					float: right;
-					padding: 5px 0;
-					font-size: 12px;
+		.timeline-item {
+			-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 3px;
+			margin-top: 0;
+			background: #FBFBFB;
+			color: #444;
+			padding: 0;
+			position: relative;
+			.time {
+				color: #999;
+				float: right;
+				padding: 5px 0;
+				font-size: 12px;
+			}
+			> {
+				.imageContainer {
+					width: 40px;
 				}
-				> {
-					.imageContainer {
-						width: 40px;
-					}
-					.timeline-body {
-						padding-right: 10px;
-						padding-left: 44px;
-					}
+				.timeline-body {
+					padding-right: 10px;
+					padding-left: 44px;
 				}
 			}
 		}
