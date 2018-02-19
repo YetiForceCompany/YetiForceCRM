@@ -753,7 +753,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (response) {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
-					element.find('.glyphicon').each(function () {
+					element.find('[data-fa-i2svg]').each(function () {
 						if (jQuery(this).hasClass('hide')) {
 							jQuery(this).removeClass('hide');
 						} else {
@@ -848,7 +848,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var listViewEntriesDiv = container.find('.listViewEntriesDiv');
 			var commActHeight = $('.commonActionsContainer').height();
 			var paddingTop = 6;
-			var offset = fixedList.offset().top - commActHeight - paddingTop;			
+			var offset = fixedList.offset().top - commActHeight - paddingTop;
 			app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
 			app.showNewLeftScrollbar(fixedList);
 			$(window).resize(function () {
