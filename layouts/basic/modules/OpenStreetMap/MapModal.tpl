@@ -2,7 +2,7 @@
 {strip}
 	<div class="modal-header container-fluid openStreetMapModalHeader">
 		<div class="col-5">
-			<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_MAP', $MODULE_NAME)}</h3>
+			<h4 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_MAP', $MODULE_NAME)}</h4>
 		</div>
 		<div class="col-6">
 			<div class="row">
@@ -19,12 +19,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-1">
-			<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-		</div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+        </button>
 	</div>
 	<div class="modal-body row openStreetMapModalBody">
-		<div class="col-lg-9 paddingLRZero">
+		<div class="col-lg-9">
 			<div id="mapid"></div>
 		</div>
 		<div class="col-lg-3">
@@ -127,7 +127,7 @@
 							</div>
 							<div class="col-4">
 								<button class="btn btn-sm btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-download"></span></button>
-								<button class="btn btn-sm btn-danger deleteClipBoard float-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
+								<button class="btn btn-sm btn-danger deleteClipBoard float-right {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
 							</div>
 						</div>
 					{/foreach}
