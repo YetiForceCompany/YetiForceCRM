@@ -139,6 +139,40 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
     }
 
     /**
+     * Get cron operation duration in '00:00::00' or more friendly "0h 0m 0s" format.
+     *
+     * @param bool	user friendly format?
+     *
+     * @return string duration or html danger icon
+     */
+    public function getDuration()
+    {
+        $lastStart = (int) $this->get('laststart');
+        $lastEnd = (int) $this->get('lastend');
+        if (!$lastStart) {
+            return '-';
+        }
+
+        $start = date('Y-m-d H:i:s', $lastStart);
+        if ($lastEnd && $lastEnd >= $lastStart) {
+            $end = date('Y-m-d H:i:s', $lastEnd);
+        } else {
+            $moduleName = $this->getModule()->getName(true);
+            $notFinished = \App\Language::translate('LBL_NOTFINISHED', $moduleName);
+
+            return "<i class=\"fa fa-exclamation-triangle\" title=\"{$notFinished}\"></i>";
+        }
+
+        $diffSec = $this->getTimeDiff();
+        $hms = \App\Fields\DateTime::secondsToHmsElapsed($diffSec);
+        $decimal = \App\Fields\DateTime::timeToDecimal($hms);
+        $diff = \App\Fields\DateTime::formatToHourText($decimal, 'short_with_seconds');
+        $result = $diff;
+
+        return $result;
+    }
+
+    /**
      * Function to get display value of every field from this record.
      *
      * @param string $fieldName
@@ -147,6 +181,9 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
      */
     public function getDisplayValue($fieldName)
     {
+        if ($fieldName == 'duration') {
+            return $this->getDuration();
+        }
         $fieldValue = $this->get($fieldName);
         switch ($fieldName) {
             case 'frequency':
@@ -211,7 +248,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
      *
      * @return <Settings_CronTasks_Record_Model> RecordModel
      */
-    public static function getInstanceById($recordId, $qualifiedModuleName)
+    public static function getInstanceById($recordId, $qualifiedModuleName = null)
     {
         if (empty($recordId)) {
             return false;
@@ -221,10 +258,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
             ->where(['id' => $recordId])
             ->one();
         if ($row) {
-            $recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-            $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-            $recordModel = new $recordModelClass();
-            $recordModel->setData($row)->setModule($moduleModel);
+            $recordModel = new self();
+            $recordModel->setData($row);
 
             return $recordModel;
         }

@@ -12,7 +12,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 {
     public $baseTable = 'vtiger_cron_task';
     public $baseIndex = 'id';
-    public $listFields = ['sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End'];
+    public $listFields = ['sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End', 'duration' => 'Duration'];
     public $nameFields = [''];
     public $name = 'CronTasks';
 
@@ -50,5 +50,38 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
     public function isPagingSupported()
     {
         return false;
+    }
+
+    /**
+     * Get last executed Cron info formated by user settings.
+     *
+     * @return array ['duration'=>'0g 0m 0s','laststart'=>'2018-12-01 10:00:00','lastend'=>'...']
+     */
+    public function getLastCronInfo()
+    {
+        $result = [
+            'duration' => '-',
+            'laststart' => '-',
+            'lastend' => '-',
+        ];
+
+        $lastDuration = '-';
+        $moduleName = $this->getName();
+
+        $query = (new App\Db\Query())->from($this->getBaseTable());
+        $result = $query->select(['id'])->orderBy(['laststart' => SORT_DESC])->one();
+        if ($result) {
+            $recordId = $result['id'];
+            $recordModel = Settings_CronTasks_Record_Model::getInstanceById((int) $recordId);
+            $lastDuration = $recordModel->getDuration();
+
+            $result['duration'] = $lastDuration;
+            $lastStartDate = date('Y-m-d H:i:s', $recordModel->get('laststart'));
+            $lastEndDate = date('Y-m-d H:i:s', $recordModel->get('lastend'));
+            $result['laststart'] = \App\Fields\DateTime::formatToViewDate($lastStartDate);
+            $result['lastend'] = \App\Fields\DateTime::formatToViewDate($lastEndDate);
+        }
+
+        return $result;
     }
 }

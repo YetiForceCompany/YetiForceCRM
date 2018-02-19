@@ -267,6 +267,7 @@ $languageStrings = [
     'LBL_HELP' => 'Pomoc',
     'LBL_HOME' => 'Strona główna',
     'LBL_H' => 'g',
+    'LBL_S' => 's',
     'LBL_D' => 'd',
     'LBL_HOUR' => 'godzinę',
     'LBL_HOURS' => 'godzin',

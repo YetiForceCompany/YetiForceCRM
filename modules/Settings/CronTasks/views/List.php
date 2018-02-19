@@ -23,9 +23,30 @@ class Settings_CronTasks_List_View extends Settings_Vtiger_List_View
             $this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
         }
 
-        $viewer->assign('MODULE_MODEL', $listViewModel->getModule());
+        $module = $listViewModel->getModule();
+        $qualifiedModuleName = $module->getName(true);
+        $lastCronInfo = $module->getLastCronInfo(true);
+
+        $viewer->assign('MODULE_MODEL', $module);
+        $viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
         $viewer->assign('PAGING_MODEL', $pagingModel);
         $viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
         $viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
+        $viewer->assign('LAST_DURATION', $lastCronInfo['duration']);
+        $viewer->assign('LAST_START', $lastCronInfo['laststart']);
+        $viewer->assign('LAST_END', $lastCronInfo['lastend']);
+    }
+
+    public function getHeaderCss(\App\Request $request)
+    {
+        $headerCssInstances = parent::getHeaderCss($request);
+        $moduleName = $request->getModule();
+        $cssFileNames = [
+            "modules.Settings.$moduleName.css.Index",
+        ];
+        $cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+        $headerCssInstances = array_merge($cssInstances, $headerCssInstances);
+
+        return $headerCssInstances;
     }
 }
