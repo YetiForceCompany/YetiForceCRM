@@ -13,7 +13,7 @@ class DiskUsage extends \App\SystemWarnings\Template
 {
     protected $title = 'LBL_DISK_USAGE';
     protected $priority = 9;
-    protected $precentAlert = 90;
+    protected $leftAlert = 1024*1024*1024; // bytes = 1GB
 
     /**
      * Check disk space.
@@ -24,8 +24,7 @@ class DiskUsage extends \App\SystemWarnings\Template
         $dir = ROOT_DIRECTORY.DIRECTORY_SEPARATOR;
         $total = disk_total_space($dir);
         $free = disk_free_space($dir);
-        $used = ($total - $free) / $total * 100;
-        if ($used > $this->precentAlert) {
+        if ($free <= $this->leftAlert) {
             $this->status = 0;
         } else {
             foreach (\Settings_ConfReport_Module_Model::$writableFilesAndFolders as $value) {
@@ -36,8 +35,7 @@ class DiskUsage extends \App\SystemWarnings\Template
                 if (is_dir($path)) {
                     $total = disk_total_space($path);
                     $free = disk_free_space($path);
-                    $used = ($total - $free) / $total * 100;
-                    if ($used > $this->precentAlert) {
+                    if ($free <= $this->leftAlert) {
                         $this->status = 0;
                         $dir = $path;
                     }
