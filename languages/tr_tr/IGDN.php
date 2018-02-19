@@ -20,7 +20,7 @@
 	'FL_SSIGNLEORDERS' => 'Satın alma emri',
 	// Picklist	
 	'PLL_DRAFT' => 'Taslak',
-	'PLL_IN_REALIZATION' => 'Gerçekleştirilmesinde',
+	'PLL_IN_REALIZATION' => 'Gerçekleşmede',
 	'PLL_OBJECTIONS' => 'İtirazlar',
 	'PLL_FOR_APPROVAL' => 'Onay için',
 	'PLL_CANCELLED' => 'İptal edildi',
