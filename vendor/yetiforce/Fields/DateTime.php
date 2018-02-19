@@ -34,6 +34,37 @@ class DateTime
     }
 
     /**
+     * Convert elapsed time from "H:i:s" to decimal equvalent.
+     *
+     * @param string $time "12:00:00"
+     *
+     * @return float
+     */
+    public static function timeToDecimal(string $time)
+    {
+        $hms = explode(':', $time);
+        $decTime = $hms[0] + ($hms[1] / 60) + ($hms[2] / 3600);
+
+        return $decTime;
+    }
+
+    /**
+     * Convert time (seconds) to H:i:s format elapsed - not clock time.
+     *
+     * @param int $sec seconds elapsed
+     *
+     * @return string "120:12:12"
+     */
+    public static function secondsToHmsElapsed(int $sec)
+    {
+        $hours = floor($sec / 3600);
+        $minutes = floor(($sec / 60) % 60);
+        $seconds = $sec % 60;
+
+        return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+    }
+
+    /**
      * Function to get date and time value for db format.
      *
      * @param string $value        Date time
@@ -137,28 +168,84 @@ class DateTime
     }
 
     /**
-     * The function returns the decimal format of the time.
+     * Format elapsed time to short display value.
      *
-     * @param int         $decTime
-     * @param bool|string $type    Values: short, full
+     * @param int      $hour
+     * @param int      $min
+     * @param int|bool $sec  if is provided as int then will be displayed
      *
-     * @return array
+     * @return string
      */
-    public static function formatToHourText($decTime, $type = false)
+    public static function formatToShortHourText($hour, $min, $sec = false)
     {
-        $hour = floor($decTime);
-        $min = round(60 * ($decTime - $hour));
-        switch ($type) {
-            case 'short':
-                return $hour.\App\Language::translate('LBL_H').' '.$min.\App\Language::translate('LBL_M');
-            case 'full':
-                return $hour.' '.\App\Language::translate('LBL_HOURS').' '.$min.' '.\App\Language::translate('LBL_MINUTES');
+        $result = '';
+        if ($hour) {
+            $result .= $hour.\App\Language::translate('LBL_H');
+        }
+        if ($hour || $min) {
+            $result .= " {$min}".\App\Language::translate('LBL_M');
+        }
+        if ($sec !== false) {
+            $result .= " {$sec}".\App\Language::translate('LBL_S');
+        }
+        if (!$hour && !$min && $sec === false) {
+            $result = '0'.\App\Language::translate('LBL_M');
         }
 
-        return [
-            'short' => $hour.\App\Language::translate('LBL_H').' '.$min.\App\Language::translate('LBL_M'),
-            'full' => $hour.' '.\App\Language::translate('LBL_HOURS').' '.$min.' '.\App\Language::translate('LBL_MINUTES'),
-        ];
+        return trim($result);
+    }
+
+    /**
+     * Format elapsed time to full display value.
+     *
+     * @param int      $hour
+     * @param int      $min
+     * @param int|bool $sec  if is provided as int then will be displayed
+     *
+     * @return string
+     */
+    public static function formatToFullHourText($hour, $min, $sec = false)
+    {
+        $result = '';
+        if ($hour) {
+            $result .= "{$hour} ".\App\Language::translate('LBL_HOURS');
+        }
+        if ($hour || $min) {
+            $result .= " {$min} ".\App\Language::translate('LBL_MINUTES');
+        }
+        if ($sec !== false) {
+            $result .= " {$sec} ".\App\Language::translate('LBL_SECONDS');
+        }
+        if (!$hour && !$min && $sec === false) {
+            $result = '0 '.\App\Language::translate('LBL_MINUTES');
+        }
+
+        return trim($result);
+    }
+
+    /**
+     * The function returns the decimal format of the time.
+     *
+     * @param int    $decTime
+     * @param string $type    Values: short, full
+     *
+     * @return string
+     */
+    public static function formatToHourText($decTime, string $type)
+    {
+        $hour = floor($decTime);
+        $min = floor(($decTime - $hour) * 60);
+        $sec = round((($decTime - $hour) * 60 - $min) * 60);
+        switch ($type) {
+            case 'short':
+                return self::formatToShortHourText($hour, $min);
+            case 'full':
+                return self::formatToFullHourText($hour, $min);
+            case 'short_with_seconds':
+                return self::formatToShortHourText($hour, $min, $sec);
+            case 'full_with_seconds':
+                return self::formatToFullHourText($hour, $min, $sec);
+        }
     }
 
     /**
