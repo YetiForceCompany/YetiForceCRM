@@ -23,10 +23,10 @@ class TotalTimeWorked
     {
         \App\Log::trace('Entering TotalTimeWorked::process() method ...');
         $timecontrol = (new App\Db\Query())->from('vtiger_osstimecontrol')
-            ->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
-            ->where(['vtiger_crmentity.deleted' => 0, 'vtiger_osstimecontrol.link' => $recordModel->getId()])
-            ->sum('vtiger_osstimecontrol.sum_time');
+                ->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
+                ->where(['vtiger_crmentity.deleted' => 0, 'vtiger_osstimecontrol.link' => $recordModel->getId()])
+                ->sum('vtiger_osstimecontrol.sum_time');
 
-        return \App\Fields\DateTime::formatToHourText($timecontrol, 'short');
+        return \App\Fields\Time::formatToHourText($timecontrol, 'short');
     }
 }

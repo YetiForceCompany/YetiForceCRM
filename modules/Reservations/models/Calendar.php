@@ -19,9 +19,9 @@ class Reservations_Calendar_Model extends \App\Base
         $module = 'Reservations';
         $currentUser = Users_Record_Model::getCurrentUserModel();
         $query = (new \App\Db\Query())->from('vtiger_reservations')
-            ->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
-            ->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')
-            ->where(['vtiger_crmentity.deleted' => 0]);
+                ->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
+                ->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')
+                ->where(['vtiger_crmentity.deleted' => 0]);
 
         if ($this->get('start') && $this->get('end')) {
             $dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
@@ -69,7 +69,7 @@ class Reservations_Calendar_Model extends \App\Base
             $item['title'] = \App\Purifier::encodeHtml($record['title']);
             $item['type'] = $fieldType->getDisplayValue($record['type']);
             $item['status'] = \App\Purifier::encodeHtml($record['reservations_status']);
-            $item['totalTime'] = \App\Fields\DateTime::formatToHourText($record['sum_time'], 'short');
+            $item['totalTime'] = \App\Fields\Time::formatToHourText($record['sum_time'], 'short');
             $item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
             if ($record['relatedida']) {
                 $item['company'] = \App\Record::getLabel($record['relatedida']);
@@ -129,7 +129,7 @@ class Reservations_Calendar_Model extends \App\Base
         $templateId = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'))->getFieldParams();
 
         return (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
-                ->where(['templateid' => $templateId])
-                ->createCommand()->queryAllByGroup(0);
+                        ->where(['templateid' => $templateId])
+                        ->createCommand()->queryAllByGroup(0);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CronTasks polish translation.
  *
@@ -17,7 +18,7 @@ $languageStrings = [
     'CronTasks' => 'Harmonogram',
     'Frequency' => 'Częstotliwość',
     'Frequency(H:M)' => 'Częstotliwość (G:M)',
-    'Duration' => 'Czas trwania',
+    'LBL_DURATION' => 'Czas trwania',
     'Id' => 'Id',
     'Last End' => 'Zakończenie zadania',
     'Last Start' => 'Uruchomienie zadania',

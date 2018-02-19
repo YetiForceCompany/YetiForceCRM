@@ -23,13 +23,13 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
     public function process()
     {
         $html = '<br /><style>'.
-            '.table {width: 100%; border-collapse: collapse;}'.
-            '.table thead th {border-bottom: 1px solid grey;}'.
-            '.table tbody tr {border-bottom: 1px solid grey}'.
-            '.table tbody tr:nth-child(even) {background-color: #F7F7F7;}'.
-            '.center {text-align: center;}'.
-            '.summary {border-top: 1px solid grey;}'.
-            '</style>';
+                '.table {width: 100%; border-collapse: collapse;}'.
+                '.table thead th {border-bottom: 1px solid grey;}'.
+                '.table tbody tr {border-bottom: 1px solid grey}'.
+                '.table tbody tr:nth-child(even) {background-color: #F7F7F7;}'.
+                '.center {text-align: center;}'.
+                '.summary {border-top: 1px solid grey;}'.
+                '</style>';
         $html .= '<table class="table"><thead><tr>';
         $html .= '<th>Nazwa użytkownika</th>';
         $html .= '<th class="center">Dział</th>';
@@ -39,7 +39,7 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
             $html .= '<tr>';
             $html .= '<td>'.$user.'</td>';
             $html .= '<td class="center">'.$data['role'].'</td>';
-            $html .= '<td class="center">'.\App\Fields\DateTime::formatToHourText($data['time'], 'short').'</td>';
+            $html .= '<td class="center">'.\App\Fields\Time::formatToHourText($data['time'], 'short').'</td>';
             $html .= '</tr>';
         }
         $html .= '</tbody></table>';

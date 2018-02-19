@@ -13,7 +13,7 @@ class DiskUsage extends \App\SystemWarnings\Template
 {
     protected $title = 'LBL_DISK_USAGE';
     protected $priority = 9;
-    protected $leftAlert = 1024*1024*1024; // bytes = 1GB
+    protected $leftAlert = 1024 * 1024 * 1024; // bytes = 1GB
 
     /**
      * Check disk space.

@@ -1,4 +1,5 @@
 <?php
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -25,15 +26,13 @@ class Settings_CronTasks_List_View extends Settings_Vtiger_List_View
 
         $module = $listViewModel->getModule();
         $qualifiedModuleName = $module->getName(true);
-        $lastCronInfo = $module->getLastCronInfo(true);
+        $lastCronIteration = $module->getLastCronIteration();
 
         $viewer->assign('MODULE_MODEL', $module);
         $viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
         $viewer->assign('PAGING_MODEL', $pagingModel);
         $viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
         $viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-        $viewer->assign('LAST_DURATION', $lastCronInfo['duration']);
-        $viewer->assign('LAST_START', $lastCronInfo['laststart']);
-        $viewer->assign('LAST_END', $lastCronInfo['lastend']);
+        $viewer->assign('LAST_CRON', $lastCronIteration);
     }
 }

@@ -32,13 +32,13 @@ class OSSTimeControl_List_TextParser extends \App\TextParser\Base
             $ids = [$ids];
         }
         $html = '<br /><style>'.
-            '.table {width: 100%; border-collapse: collapse;}'.
-            '.table thead th {border-bottom: 1px solid grey;}'.
-            '.table tbody tr {border-bottom: 1px solid grey}'.
-            '.table tbody tr:nth-child(even) {background-color: #F7F7F7;}'.
-            '.center {text-align: center;}'.
-            '.summary {border-top: 1px solid grey;}'.
-            '</style>';
+                '.table {width: 100%; border-collapse: collapse;}'.
+                '.table thead th {border-bottom: 1px solid grey;}'.
+                '.table tbody tr {border-bottom: 1px solid grey}'.
+                '.table tbody tr:nth-child(even) {background-color: #F7F7F7;}'.
+                '.center {text-align: center;}'.
+                '.summary {border-top: 1px solid grey;}'.
+                '</style>';
 
         $html .= '<table class="table"><thead><tr>';
         foreach ($this->columnNames as $column) {
@@ -67,7 +67,7 @@ class OSSTimeControl_List_TextParser extends \App\TextParser\Base
         foreach ($this->columnNames as $key => $column) {
             $class = $content = '';
             if ($column == 'sum_time') {
-                $content = '<strong>'.\App\Fields\DateTime::formatToHourText($summary['sum_time'], 'short').'</strong>';
+                $content = '<strong>'.\App\Fields\Time::formatToHourText($summary['sum_time'], 'short').'</strong>';
                 $class = 'center';
             } elseif ($column == 'name') {
                 $content = '<strong>'.\App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName).':'.'</strong>';

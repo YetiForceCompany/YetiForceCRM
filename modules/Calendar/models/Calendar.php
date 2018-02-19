@@ -44,11 +44,11 @@ class Calendar_Calendar_Model extends App\Base
         }
         $query = $queryGenerator->createQuery();
         $query->select(['vtiger_activity.*', 'linkmod' => 'relcrm.setype', 'processmod' => 'procrm.setype', 'subprocessmod' => 'subprocrm.setype', 'linkecrmmod' => 'linkecrm.setype'])
-            ->innerJoin('vtiger_activitycf', 'vtiger_activity.activityid = vtiger_activitycf.activityid')
-            ->leftJoin('vtiger_crmentity relcrm', 'vtiger_activity.link = relcrm.crmid')
-            ->leftJoin('vtiger_crmentity linkecrm', 'vtiger_activity.linkextend = linkecrm.crmid')
-            ->leftJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
-            ->leftJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid');
+                ->innerJoin('vtiger_activitycf', 'vtiger_activity.activityid = vtiger_activitycf.activityid')
+                ->leftJoin('vtiger_crmentity relcrm', 'vtiger_activity.link = relcrm.crmid')
+                ->leftJoin('vtiger_crmentity linkecrm', 'vtiger_activity.linkextend = linkecrm.crmid')
+                ->leftJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
+                ->leftJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid');
         if ($this->get('start') && $this->get('end')) {
             $dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
             $dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -196,10 +196,10 @@ class Calendar_Calendar_Model extends App\Base
                 $tabInfo = $this->relationAcounts[$findMod];
                 if ($tabInfo) {
                     $query = (new \App\Db\Query())
-                        ->select('vtiger_account.accountid, vtiger_account.accountname')
-                        ->from('vtiger_account')
-                        ->innerJoin($tabInfo[0], "vtiger_account.accountid = {$tabInfo[0]}.{$tabInfo[2]}")
-                        ->where([$tabInfo[1] => $findId]);
+                            ->select('vtiger_account.accountid, vtiger_account.accountname')
+                            ->from('vtiger_account')
+                            ->innerJoin($tabInfo[0], "vtiger_account.accountid = {$tabInfo[0]}.{$tabInfo[2]}")
+                            ->where([$tabInfo[1] => $findId]);
                     $dataReader = $query->createCommand()->query();
                     if ($dataReader->count()) {
                         $row = $dataReader->read();
@@ -237,7 +237,7 @@ class Calendar_Calendar_Model extends App\Base
             $item['end_display'] = $endDateTimeDisplay;
             $item['hour_start'] = $startTimeDisplay;
             $hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
-            $item['hours'] = \App\Fields\DateTime::formatToHourText($hours, 'short');
+            $item['hours'] = \App\Fields\Time::formatToHourText($hours, 'short');
             $item['allDay'] = $record['allday'] == 1 ? true : false;
             $item['className'] = ' ownerCBg_'.$record['smownerid'].' picklistCBr_Calendar_activitytype_'.$activitytype;
             $return[] = $item;
