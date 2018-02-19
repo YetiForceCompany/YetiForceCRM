@@ -55,7 +55,7 @@
 								<div class="filterActionsDiv hide">
 									<hr>
 									<ul class="filterActions list-unstyled m-2">
-										<li data-value="create" class="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><a href="#"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</a></li>
+										<li id="createFilter" data-value="create" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><a href="#"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</a></li>
 									</ul>
 								</div>
 							{/if}
@@ -80,9 +80,9 @@
 				<ul class="nav nav-tabs pt-2" role="tablist">
 					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 						{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-							{if $CUSTOM_VIEW->isFeatured() || $CUSTOM_VIEW->get('viewname') eq 'All'}
+							{if $CUSTOM_VIEW->isFeatured()}
 								<li class="nav-item featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">
-									<a class="nav-link {if $CUSTOM_VIEW->get('viewname') eq 'All'} active {/if}" href="#" {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if} data-toggle="tab" role="tab" aria-selected="{if $CUSTOM_VIEW->get('viewname') eq 'All'}true{else}false{/if}">
+									<a class="nav-link" href="#" {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if} data-toggle="tab" role="tab" aria-selected="false">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}
 											&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
@@ -92,13 +92,6 @@
 							{/if}
 						{/foreach}
 					{/foreach}
-					{if \App\Privilege::isPermitted($MODULE, 'CreateCustomFilter')}
-						<li class="nav-item featuredLabel createFilter" data-value="create" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}">
-							<a class="nav-link" href="#" data-toggle="tab" role="tab" aria-selected="false">
-								<span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}
-							</a>
-						</li>
-					{/if}
 				</ul>
 			{/if}
 		</div>
