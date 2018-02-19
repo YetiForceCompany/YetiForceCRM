@@ -9387,7 +9387,7 @@ html, body, .baseContainer {
   background: #fff; }
 
 .modal-backdrop {
-  z-index: 1031; }
+  z-index: 1030; }
 
 .commonActionsContainer .badge {
   font-size: 11px;
@@ -10191,24 +10191,23 @@ select.form-control {
       content: " ";
       display: table;
       clear: both; }
-    .timeline > li > .timeline-item {
+    .timeline > li .timeline-item {
       -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
       border-radius: 3px;
       margin-top: 0;
       background: #FBFBFB;
       color: #444;
-      margin-left: 33px;
       padding: 0;
       position: relative; }
-      .timeline > li > .timeline-item .time {
+      .timeline > li .timeline-item .time {
         color: #999;
         float: right;
         padding: 5px 0;
         font-size: 12px; }
-      .timeline > li > .timeline-item > .imageContainer {
+      .timeline > li .timeline-item > .imageContainer {
         width: 40px; }
-      .timeline > li > .timeline-item > .timeline-body {
+      .timeline > li .timeline-item > .timeline-body {
         padding-right: 10px;
         padding-left: 44px; }
 
@@ -10831,6 +10830,9 @@ border1px {
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
 
+.ml-12px {
+  margin-left: 12px; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
@@ -10905,6 +10907,9 @@ header .headerLinksMails .select2-selection:hover {
   left: 210px;
   -webkit-transition: left ease-in-out 0.3s;
   transition: left ease-in-out 0.3s; }
+
+.left-3px {
+  left: -3px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
