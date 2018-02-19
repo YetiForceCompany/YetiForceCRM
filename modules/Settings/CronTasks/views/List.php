@@ -36,17 +36,4 @@ class Settings_CronTasks_List_View extends Settings_Vtiger_List_View
         $viewer->assign('LAST_START', $lastCronInfo['laststart']);
         $viewer->assign('LAST_END', $lastCronInfo['lastend']);
     }
-
-    public function getHeaderCss(\App\Request $request)
-    {
-        $headerCssInstances = parent::getHeaderCss($request);
-        $moduleName = $request->getModule();
-        $cssFileNames = [
-            "modules.Settings.$moduleName.css.Index",
-        ];
-        $cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-        $headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-
-        return $headerCssInstances;
-    }
 }
