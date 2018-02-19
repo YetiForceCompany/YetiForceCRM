@@ -20,14 +20,15 @@
 							<li>
 								{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
 									{$NEW_CHANGE = false}
-									<div class="lineOfText">
-										<div>{\App\Language::translate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
-									</div>
+									<div class="lineOfText"><div>{\App\Language::translate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div></div>
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
 									<div class="row">
-										<div class="ml-12px"><span class="badgeIcon bgGreen"><span class="fas fa-plus fa-fw"></span></span></div>
+										<span class="fa-layers fa-fw fa-2x ml-10px">
+											<span class="fas fa-circle text-success"></span>
+											<span class="fas fa-plus text-light" data-fa-transform="shrink-8"></span>
+										</span>
 										<div class="col-11 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -38,13 +39,9 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div>
-													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-													&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
-													<span class="time ml-auto">
-														<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
-													</span>
-												</div>
+												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
+												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
+												<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</div>
 												<div>
 													{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 														{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -52,13 +49,9 @@
 																<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																{if $FIELDMODEL->get('postvalue') neq ''}
 																	<strong class="moreContent">
-																		<span class="teaserContent">
-																			{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
-																		</span>
+																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
-																			<span class="fullContent hide">
-																				{$FIELDMODEL->get('fullPostValue')}
-																			</span>
+																			<span class="fullContent hide">{$FIELDMODEL->get('fullPostValue')}</span>
 																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
@@ -72,7 +65,10 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<div class="row">
-										<div class="ml-12px"><span class="badgeIcon bgDarkBlue"><span class="fas fa-edit fa-fw"></span></span></div>
+										<span class="fa-layers fa-fw fa-2x ml-10px">
+											<span class="fas fa-circle text-dark"></span>
+											<span class="fas fa-edit text-light" data-fa-transform="shrink-8"></span>
+										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -83,12 +79,8 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div>
-													<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}</span>
-													<span class="time ml-auto">
-														<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
-													</span>
-												</div>
+												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
+												<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 												<div>
 													{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 														{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -97,21 +89,15 @@
 																{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 																	&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp;
 																	<strong class="moreContent">
-																		<span class="teaserContent">
-																			{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}
-																		</span>
+																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
 																		{if $FIELDMODEL->has('fullPreValue')}
-																			<span class="fullContent hide">
-																				{$FIELDMODEL->get('fullPreValue')}
-																			</span>
+																			<span class="fullContent hide">{$FIELDMODEL->get('fullPreValue')}</span>
 																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
 																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 																	&nbsp;
-																	<strong>
-																		{\App\Language::translate('LBL_DELETED','ModTracker')}
-																	</strong>
+																	<strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong>
 																	( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
 																{else}
 																	&nbsp;{\App\Language::translate('LBL_CHANGED')}
@@ -119,13 +105,9 @@
 																{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 																	&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;
 																	<strong class="moreContent">
-																		<span class="teaserContent">
-																			{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
-																		</span>
+																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
-																			<span class="fullContent hide">
-																				{$FIELDMODEL->get('fullPostValue')}
-																			</span>
+																			<span class="fullContent hide">{$FIELDMODEL->get('fullPostValue')}</span>
 																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
@@ -139,7 +121,10 @@
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 									<div class="row">
-										<div class="ml-12px"><span class="badgeIcon bgOrange"><span class="fas fa-link fa-fw"></span></span></div>
+										<span class="fa-layers fa-fw fa-2x ml-10px">
+											<span class="fas fa-circle text-warning"></span>
+											<span class="fas fa-link text-light" data-fa-transform="shrink-8"></span>
+										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -150,28 +135,16 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div class="float-right">
-													<span class="time float-right">
-														<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
-													</span>
-												</div>
-												<span>
-													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}&nbsp;</strong>
-												</span>
+												<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
+												<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}&nbsp;</strong></span>
 												{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-												<span>
-													{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}&nbsp;
-												</span>
+												<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}&nbsp;</span>
 												<span>
 													{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
 														<strong class="moreContent">
-															<span class="teaserContent">
-																{Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue())}
-															</span>
+															<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue())}</span>
 															{if $RELATION->has('fullValue')}
-																<span class="fullContent hide">
-																	{$RELATION->get('fullValue')}
-																</span>
+																<span class="fullContent hide">{$RELATION->get('fullValue')}</span>
 																<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 															{/if}
 														</strong>
@@ -183,15 +156,18 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									<div class="row">
-										<div class="ml-12px">
+										<span class="fa-layers fa-fw fa-2x ml-10px">
 											{if $RECENT_ACTIVITY->get('status') == 1}
-												<span class="badgeIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}><span class="fas fa-trash-alt fa-fw entityStateIcon"></span></span>
-												{else if $RECENT_ACTIVITY->get('status') == 3}
-												<span class="badgeIcon" {if $LIST_ENTITY_STATE_COLOR['Active']}style="background: {$LIST_ENTITY_STATE_COLOR['Active']};"{/if}><span class="fas fa-refresh fa-fw entityStateIcon"></span></span>
-												{else if $RECENT_ACTIVITY->get('status') == 8}
-												<span class="badgeIcon" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="background: {$LIST_ENTITY_STATE_COLOR['Archived']};"{/if}><span class="fas fa-archive fa-fw entityStateIcon"></span></span>
-												{/if}
-										</div>
+												<span class="fas fa-circle" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="color: {$LIST_ENTITY_STATE_COLOR['Trash']}{/if};"></span>
+												<span class="fas fa-trash-alt fa-fw text-light" data-fa-transform="shrink-8"></span>
+											{else if $RECENT_ACTIVITY->get('status') == 3}
+												<span class="fas fa-circle" {if $LIST_ENTITY_STATE_COLOR['Active']}style="color: {$LIST_ENTITY_STATE_COLOR['Active']}{/if};"></span>
+												<span class="fas fa-refresh fa-fw text-light" data-fa-transform="shrink-8"></span>
+											{else if $RECENT_ACTIVITY->get('status') == 8}
+												<span class="fas fa-circle" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="color: {$LIST_ENTITY_STATE_COLOR['Archived']}{/if};"></span>
+												<span class="fas fa-archive fa-fw text-light" data-fa-transform="shrink-8"></span>
+											{/if}
+										</span>
 										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
 											<div class="imageContainer float-left">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -202,19 +178,17 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<span class="time">
-													<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
-												</span>
-												<div class="">
-													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-													&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
-												</div>
+												<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
+												<div><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</div>
 											</div>
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<div class="row">
-										<div class="ml-12px"><span class="badgeIcon bgAzure"><span class="fas fa-exchange-alt fa-fw"></span></span></div>
+										<span class="fa-layers fa-fw fa-2x ml-10px">
+											<span class="fas fa-circle text-info"></span>
+											<span class="fas fa-exchange-alt text-light" data-fa-transform="shrink-8"></span>
+										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -225,18 +199,17 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div class="float-left">
-													<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong>
-												</div>
-												<span class="time float-right">
-													<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
-												</span>
+												<div class="float-left"><strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong></div>
+												<span class="time float-right"><span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span></span>
 											</div>
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<div class="row">
-										<div class="ml-12px"><span class="badgeIcon bgAzure"><span class="fas fa-th-list fa-fw"></span></span></div>
+										<span class="fa-layers fa-fw fa-2x ml-10px">
+											<span class="fas fa-circle text-info"></span>
+											<span class="fas fa-th-list text-light" data-fa-transform="shrink-8"></span>
+										</span>
 										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -247,13 +220,8 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div class="float-left">
-													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-													&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
-												</div>
-												<span class="time float-right">
-													<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
-												</span>
+												<div class="float-left"><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> &nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</div>
+												<span class="time float-right"><span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span></span>
 											</div>
 										</div>
 									</div>
@@ -264,16 +232,12 @@
 				</ul>
 			</div>
 		{else}
-			<div class="summaryWidgetContainer">
-				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECENT_UPDATES')}</p>
-			</div>
-		{/if}
+			<div class="summaryWidgetContainer"><p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECENT_UPDATES')}</p></div>
+			{/if}
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-				<div class="float-right">
-					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
-				</div>
+				<div class="float-right"><button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button></div>
 			{/if}
 		</div>
 	</div>
