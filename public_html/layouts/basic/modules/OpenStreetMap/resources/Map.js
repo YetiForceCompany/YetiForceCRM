@@ -35,7 +35,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				maxClusterRadius: 10
 			});
 			var coordinates = response.result.coordinates;
-			map.removeLayer(this.layerMarkers);
+			if (typeof this.layerMarkers !== 'boolean') {
+				map.removeLayer(this.layerMarkers);
+			}
 			var records = [];
 			coordinates.forEach(function (e) {
 				markerArray.push([e.lat, e.lon]);
@@ -55,7 +57,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			this.layerMarkers = markers;
 			map.addLayer(markers);
 		}
-		map.removeLayer(this.polygonLayer);
+		if (typeof this.polygonLayer !== 'boolean') {
+			map.removeLayer(this.polygonLayer);
+		}
 		if (typeof response.result.coordinatesCeneter != 'undefined') {
 			if (typeof response.result.coordinatesCeneter.error == 'undefined') {
 				var radius = container.find('.radius').val();
@@ -395,7 +399,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					}).bindPopup(e.label);
 					layer.addLayer(marker);
 				});
-				
+
 				Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
 					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
 					var cacheLayer = L.markerClusterGroup({
@@ -403,7 +407,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					});
 					thisInstance.cacheMarkers[key].forEach(function (e) {
 						var marker = L.marker([e.lat, e.lon], {
-								icon: L.AwesomeMarkers.icon({
+							icon: L.AwesomeMarkers.icon({
 								icon: 'home',
 								markerColor: 'orange',
 								prefix: 'fa',
@@ -434,7 +438,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					var markerArray = [];
 					thisInstance.cacheMarkers[key].forEach(function (e) {
 						var marker = L.marker([e.lat, e.lon], {
-								icon: L.AwesomeMarkers.icon({
+							icon: L.AwesomeMarkers.icon({
 								icon: 'home',
 								markerColor: 'orange',
 								prefix: 'fa',
@@ -465,7 +469,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
 			var radiusValue = container.find('.radius').val();
-			if(radiusValue !== '' && parseInt(radiusValue)) {
+			if (radiusValue !== '' && parseInt(radiusValue)) {
 				params['radius'] = radiusValue;
 			}
 			$.extend(params, thisInstance.selectedParams);
@@ -559,7 +563,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('.indirectContainer');
 			var previousElement = container.prev();
-			if(!previousElement.hasClass('startContainer')) {
+			if (!previousElement.hasClass('startContainer')) {
 				previousElement.before(container);
 			}
 		});
@@ -567,9 +571,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('.indirectContainer');
 			var nextElement = container.next();
-			if(!nextElement.hasClass('indirectTemplate')) {
+			if (!nextElement.hasClass('indirectTemplate')) {
 				nextElement.after(container);
-			}	
+			}
 		});
 		container.on('click', '.searchInRadius', function (e) {
 			map.removeLayer(endIconLayer);
@@ -702,7 +706,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				$map.height(1000);
 			}
 		}
-		
+
 		var myMap = this.registerMap(startCoordinate, startZoom);
 		var markers = L.markerClusterGroup({
 			maxClusterRadius: 10
