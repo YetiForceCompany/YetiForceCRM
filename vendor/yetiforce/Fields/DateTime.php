@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tools for datetime class.
  *
@@ -134,31 +135,6 @@ class DateTime
 		$formatedDate .= " ($dateDay)";
 
 		return $formatedDate;
-	}
-
-	/**
-	 * The function returns the decimal format of the time.
-	 *
-	 * @param int         $decTime
-	 * @param bool|string $type    Values: short, full
-	 *
-	 * @return array
-	 */
-	public static function formatToHourText($decTime, $type = false)
-	{
-		$hour = floor($decTime);
-		$min = round(60 * ($decTime - $hour));
-		switch ($type) {
-			case 'short':
-				return $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M');
-			case 'full':
-				return $hour . ' ' . \App\Language::translate('LBL_HOURS') . ' ' . $min . ' ' . \App\Language::translate('LBL_MINUTES');
-		}
-
-		return [
-			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
-			'full' => $hour . ' ' . \App\Language::translate('LBL_HOURS') . ' ' . $min . ' ' . \App\Language::translate('LBL_MINUTES'),
-		];
 	}
 
 	/**

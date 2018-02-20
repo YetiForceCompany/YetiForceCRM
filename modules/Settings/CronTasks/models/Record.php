@@ -56,7 +56,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;
-
 		return $this;
 	}
 
@@ -65,7 +64,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_DISABLED) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -74,7 +72,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_RUNNING) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -83,7 +80,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_COMPLETED) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -92,18 +88,33 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_ENABLED) {
 			return true;
 		}
-
 		return false;
 	}
 
 	/**
-	 * Detect if the task was started by never finished.
+	 * Detect if the task was started and never finished.
+	 * 
+	 * @return bool
 	 */
 	public function hadTimedout()
 	{
-		if ($this->get('lastend') === 0 && $this->get('laststart') != 0) {
-			return (int) ($this->get('lastend'));
+		$lastEnd = (int) $this->get('lastend');
+		$lastStart = (int) $this->get('laststart');
+		if ($lastEnd < $lastStart && !$this->isRunning()) {
+			return true;
 		}
+
+		$maxExecutionTime = (int) \AppConfig::main('maxExecutionCronTime');
+		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
+		if ($maxExecutionTime > $iniMaxExecutionTime) {
+			$maxExecutionTime = $iniMaxExecutionTime;
+		}
+		if ($lastEnd < $lastStart && $this->isRunning()) {
+			if (time() > ($lastStart + $maxExecutionTime)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -128,14 +139,36 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Get Time taken to complete task.
+	 * 
+	 * @return int seconds
 	 */
 	public function getTimeDiff()
 	{
 		$lastStart = (int) ($this->get('laststart'));
 		$lastEnd = (int) ($this->get('lastend'));
 		$timeDiff = $lastEnd - $lastStart;
-
 		return $timeDiff;
+	}
+
+	/**
+	 * Get cron operation duration.
+	 *
+	 * @param string $type string format 'short' for '1h 3m 0s', 'full' for '1 hour 3 minutes 4 seconds'
+	 *
+	 * @return string duration string or 'running','timeout'
+	 */
+	public function getDuration($type = 'short')
+	{
+		$lastStart = (int) $this->get('laststart');
+		if (!$lastStart) {
+			return '-';
+		}
+		if ($this->isRunning() && !$this->hadTimedout()) {
+			return 'running';
+		} elseif ($this->hadTimedout()) {
+			return 'timeout';
+		}
+		return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
 	}
 
 	/**
@@ -181,8 +214,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 			case 'name':
 				$fieldValue = \App\Language::translate($fieldValue, $this->getModule()->getName(true));
 				break;
+			case 'duration':
+				$fieldValue = $this->getDuration();
+				break;
 		}
-
 		return $fieldValue;
 	}
 
@@ -227,7 +262,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $recordModel;
 		}
-
 		return false;
 	}
 
@@ -244,7 +278,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $recordModel;
 		}
-
 		return false;
 	}
 
@@ -268,7 +301,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -278,7 +310,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($frequency)) {
 			return $frequency * 60;
 		}
-
 		return 60;
 	}
 }
