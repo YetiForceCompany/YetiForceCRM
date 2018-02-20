@@ -340,6 +340,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!\App\Privilege::isPermitted('ModTracker')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		include_once 'modules/ModTracker/ModTracker.php';
 		$type = 'changes';
 		$parentRecordId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');

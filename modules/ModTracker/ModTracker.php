@@ -31,16 +31,16 @@ class ModTracker
 	 * @var array
 	 */
 	public static $iconActions = [
-		0 => 'glyphicon glyphicon-pencil',
-		1 => 'glyphicon glyphicon-remove',
-		2 => 'glyphicon glyphicon-plus',
-		3 => 'glyphicon glyphicon-repeat',
-		4 => 'glyphicon glyphicon-link',
-		5 => 'glyphicon glyphicon-flash',
-		6 => 'glyphicon glyphicon-transfer',
-		7 => 'glyphicon glyphicon-th-list',
-		8 => 'fa glyphicon fa-archive',
-		9 => 'glyphicon glyphicon-erase',
+		0 => 'fas fa-edit',
+		1 => 'fas fa-trash-alt',
+		2 => 'fas fa-plus',
+		3 => 'fas fa-undo-alt',
+		4 => 'fas fa-link',
+		5 => 'fas fa-unlink',
+		6 => 'fas fa-exchange-alt',
+		7 => 'fas fa-th-list',
+		8 => 'fas fa-archive',
+		9 => 'fas fa-eraser',
 	];
 
 	/**
@@ -49,15 +49,15 @@ class ModTracker
 	 * @var array
 	 */
 	public static $colorsActions = [
-		0 => '#a0ff3a',
-		1 => '#ff0000',
-		2 => '#ffc200',
+		0 => '#9c27b0',
+		1 => '#ab0505',
+		2 => '#607d8b',
 		3 => '#009405',
-		4 => '#d1ecf1',
-		5 => '#d4edda',
+		4 => '#009cb9',
+		5 => '#de9100',
 		6 => '#e2e3e5',
 		7 => '#65a9ff',
-		8 => '#fe5fff',
+		8 => '#0032a2',
 		9 => '#000',
 	];
 
