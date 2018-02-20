@@ -31,7 +31,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$scripts = [
 			'~libraries/jstree/dist/jstree.js',
 			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 		];
 		$viewInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($parentScriptInstances, $viewInstances);
@@ -47,7 +47,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
-			'~libraries/datatables.net-bs/css/dataTables.bootstrap.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$cssInstances = array_merge($parentCssInstances, $modalInstances);

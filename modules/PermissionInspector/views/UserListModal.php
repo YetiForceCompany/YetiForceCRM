@@ -64,7 +64,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 				'~libraries/datatables.net/js/jquery.dataTables.js',
-				'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
+				'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 		]));
 	}
 
@@ -74,7 +74,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	public function getModalCss(\App\Request $request)
 	{
 		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/datatables.net-bs/css/dataTables.bootstrap.css',
+				'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 		]));
 	}
 }
