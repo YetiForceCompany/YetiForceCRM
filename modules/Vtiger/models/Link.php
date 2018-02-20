@@ -99,7 +99,7 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link font awesome name.
+	 * Function to get the link header icon name.
 	 *
 	 * @return string
 	 */
