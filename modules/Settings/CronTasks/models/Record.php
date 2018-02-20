@@ -101,9 +101,9 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
      */
     public function hadTimedout()
     {
-        $time = (int) $this->get('lastend');
+        $lastEnd = (int) $this->get('lastend');
         $lastStart = (int) $this->get('laststart');
-        if ($time < $lastStart && !$this->isRunning()) {
+        if ($lastEnd < $lastStart && !$this->isRunning()) {
             return true;
         }
         $maxExecutionTime = (int) \AppConfig::main('maxExecutionCronTime');
@@ -111,11 +111,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
         if ($maxExecutionTime > $iniMaxExecutionTime) {
             $maxExecutionTime = $iniMaxExecutionTime;
         }
-        if (!$time || $time < $lastStart) {
-            $time = $lastStart;
-        }
-        if (time() > ($time + $maxExecutionTime)) {
-            return true;
+        if ($lastEnd < $lastStart && $this->isRunning()) {
+            if (time() > ($lastStart + $maxExecutionTime)) {
+                return true;
+            }
         }
 
         return false;
@@ -156,16 +155,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
     /**
      * Get cron operation duration.
      *
-     * @param int|null|bool $lastStart timestamp
-     * @param int|null|bool $lastEnd   timestamp
-     * @param string        $type      string format 'short' for '1h 3m 0s', 'full' for '1 hour 3 minutes 4 seconds'
+     * @param string $type string format 'short' for '1h 3m 0s', 'full' for '1 hour 3 minutes 4 seconds'
      *
      * @return string duration string or 'running','timeout'
      */
     public function getDuration($type = 'short')
     {
-        $lastStart = $this->get('laststart');
-        if (!is_int($lastStart)) {
+        $lastStart = (int) $this->get('laststart');
+        if (!$lastStart) {
             return '-';
         }
         if ($this->isRunning() && !$this->hadTimedout()) {
@@ -174,7 +171,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
             return 'timeout';
         }
 
-        return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - (int) $lastStart), $type, true);
+        return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
     }
 
     /**
