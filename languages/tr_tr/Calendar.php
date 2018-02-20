@@ -1,11 +1,14 @@
-<?php
-/**
- * Calendar turkish translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
+<?php		
+/* +***********************************************************************************		
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0		
+ * ("License"); You may not use this file except in compliance with the License		
+ * The Original Code is:  vtiger CRM Open Source		
+ * The Initial Developer of the Original Code is vtiger.		
+ * Portions created by vtiger are Copyright (C) vtiger.		
+ * All Rights Reserved.		
+ * Contributor(s): YetiForce.com		
+ * ********************************************************************************** */		
+$languageStrings =	 [	
 	'Status' => 'Durum',
 	'Activity Type' => 'Etkinlik türü',
 	'Call' => 'Ara',
@@ -141,9 +144,9 @@ $languageStrings = [
 	'LBL_SHOW_LOCATION' => 'Konumu göster',
 	'FL_RECURRENCE' => 'Tekrarlama',
 	'FL_REAPEAT' => 'Tekrarla',
-];
-
-$jsLanguageStrings = [
+];		
+		
+$jsLanguageStrings =	 [	
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'İlanlardan iletişim seçemiyorum',
 	'JS Activity Type' => 'Etkinlik türü',
 	'JS_SATATUS' => 'Durum',
@@ -193,4 +196,4 @@ $jsLanguageStrings = [
 	'JS_SWITCHING_DAYS' => 'Günleri değiştir',
 	'JS_ALL' => 'Hepsi',
 	'JS_WORK_DAYS' => 'İş günleri',
-];
+];		

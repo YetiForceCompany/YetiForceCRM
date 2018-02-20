@@ -1,19 +1,19 @@
-<?php
-/**
- * CallHistory turkish translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
+<?php		
+/**		
+ * CallHistory english translation		
+ * @package YetiForce.Language		
+ * @copyright YetiForce Sp. z o.o.		
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
+ */		
+$languageStrings =	 [	
 	'CallHistory' => 'Arama geçmişi',
 	'SINGLE_CallHistory' => 'Arama geçmişi',
-	//Bloks
+	//Bloks	
 	'LBL_CALLHISTORY_INFORMATION' => 'Arama geçmişi bilgileri',
 	'LBL_CUSTOM_INFORMATION' => 'Ek bilgi',
 	'LBL_PHONE_INFORMATION' => 'Telefon bilgileri',
 	'LBL_RELATED_INFORMATION' => 'İlgili bilgiler',
-	//Fields
+	//Fields	
 	'LBL_TYPE' => 'Tip',
 	'LBL_FROM_NUMBER' => 'FROM numara',
 	'LBL_TO_NUMBER' => 'Sayıya git',
@@ -31,11 +31,11 @@ $languageStrings = [
 	'LBL_DESTINATION' => 'Nereden çağrıldı',
 	'LBL_SOURCE' => 'Çağrı kaynağı',
 	'Record Id' => 'Kayıt Kimliği',
-	//pick list values
+	//pick list values	
 	'Outgoing missed' => 'Cevap Yok',
 	'Outgoing received' => 'Alındı',
 	'Incoming' => 'Gelen',
 	'Missed' => 'Cevapsız',
 	'Voicemail' => 'Sesli mesaj',
 	'Call history' => 'Çağrı Geçmişi',
-];
+];		
