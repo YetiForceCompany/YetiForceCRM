@@ -87,7 +87,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 				$item['linkexl'] = \App\Record::getLabel($record['linkextend']);
 				$item['linkexm'] = \App\Record::getType($record['linkextend']);
 			}
-			$item['totalTime'] = \App\Fields\DateTime::formatToHourText($record['sum_time'], 'short');
+			$item['totalTime'] = \App\Fields\Time::formatToHourText($record['sum_time'], 'short');
 			$item['smownerid'] = \App\Fields\Owner::getLabel($record['assigned_user_id']);
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);

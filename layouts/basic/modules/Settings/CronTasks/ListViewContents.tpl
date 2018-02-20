@@ -54,8 +54,18 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
+							{assign var="VALUE" $LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+
 							<td class="listViewEntryValue {$WIDTHTYPE}"  >
-								&nbsp; {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+								&nbsp;
+								{if $LISTVIEW_HEADERNAME==='duration'}
+									{if $VALUE==='running'}<i class="fa fa-spinner fa-spin" title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
+									{elseif $VALUE==='timeout'}<i class="fa fa-exclamation-triangle text-danger" title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
+									{else}{$VALUE}
+									{/if}
+								{else}
+									{$VALUE}
+								{/if}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td><td nowrap class="{$WIDTHTYPE}">
 									<div class="float-right actions">
@@ -96,4 +106,5 @@
 			</table>
 		{/if}
 	</div>
+</div>
 {/strip}

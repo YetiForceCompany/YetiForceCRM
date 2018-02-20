@@ -13,7 +13,7 @@
  */
 include_once 'include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
-file_put_contents(ROOT_DIRECTORY.'/user_privileges/cron.php', '<?php return '.App\Utils::varExport(Settings_ConfReport_Module_Model::getPhpIniConf()).';');
+file_put_contents(ROOT_DIRECTORY.'/user_privileges/cron.php', '<?php return '.App\Utils::varExport(array_merge(Settings_ConfReport_Module_Model::getPhpIniConf(), ['last_iteration_start' => time()])).';');
 
 App\Session::init();
 $authenticatedUserId = App\Session::get('authenticated_user_id');

@@ -237,7 +237,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
 			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
-			$item['hours'] = \App\Fields\DateTime::formatToHourText($hours, 'short');
+			$item['hours'] = \App\Fields\Time::formatToHourText($hours, 'short');
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
