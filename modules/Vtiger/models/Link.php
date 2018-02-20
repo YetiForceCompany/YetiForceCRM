@@ -99,13 +99,13 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link glyphicon name.
+	 * Function to get the link font awesome name.
 	 *
 	 * @return string
 	 */
-	public function getGlyphiconIcon()
+	public function getFontAwesomeIcon()
 	{
-		return $this->glyphicon;
+		return $this->fontawesomeicon;
 	}
 
 	/**

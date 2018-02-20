@@ -203,7 +203,7 @@
 							{assign var="HREF" value='#'}
 							{assign var="ICON_PATH" value=$obj->getIconPath()}
 							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+							{assign var="FONTAWESOMEICON" value=$obj->getFontAwesomeIcon()}
 							{assign var="TITLE" value=$obj->getLabel()}
 							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
 							{if !empty($LINK)}
@@ -215,8 +215,8 @@
 									   data-{$DATA_NAME}="{$DATA_VALUE}"
 								   {/foreach}
 							   {/if}>
-								{if $GLYPHICON}
-									<span class="{$GLYPHICON}"></span>
+								{if $FONTAWESOMEICON}
+									<span class="{$FONTAWESOMEICON}"></span>
 								{/if}
 								{if $ICON_PATH}
 									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
