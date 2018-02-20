@@ -695,7 +695,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	listenTextAreaChange: function () {
 		var thisInstance = this;
-		$('textarea').live('keyup', function () {
+		$('textarea').on('keyup', function () {
 			var elem = $(this);
 			if (!elem.data('has-scroll'))
 			{
