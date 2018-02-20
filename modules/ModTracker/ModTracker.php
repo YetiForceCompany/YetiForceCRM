@@ -25,19 +25,55 @@ class ModTracker
 	public static $ARCHIVED = 8;
 	public static $DELETED = 9;
 
+	/**
+	 * Icon actions.
+	 *
+	 * @var array
+	 */
+	public static $iconActions = [
+		0 => 'glyphicon glyphicon-pencil',
+		1 => 'glyphicon glyphicon-remove',
+		2 => 'glyphicon glyphicon-plus',
+		3 => 'glyphicon glyphicon-repeat',
+		4 => 'glyphicon glyphicon-link',
+		5 => 'glyphicon glyphicon-flash',
+		6 => 'glyphicon glyphicon-transfer',
+		7 => 'glyphicon glyphicon-th-list',
+		8 => 'fa glyphicon fa-archive',
+		9 => 'glyphicon glyphicon-erase',
+	];
+
+	/**
+	 * Colors actions.
+	 *
+	 * @var array
+	 */
+	public static $colorsActions = [
+		0 => '#a0ff3a',
+		1 => '#ff0000',
+		2 => '#ffc200',
+		3 => '#009405',
+		4 => '#d1ecf1',
+		5 => '#d4edda',
+		6 => '#e2e3e5',
+		7 => '#65a9ff',
+		8 => '#fe5fff',
+		9 => '#000',
+	];
+
 	public static function getAllActionsTypes()
 	{
 		return [
 			static::$UPDATED => 'LBL_AT_UPDATE',
-			static::$DELETED => 'LBL_AT_DELETE',
 			static::$TRASH => 'LBL_AT_TRASH',
 			static::$CREATED => 'LBL_AT_CREATE',
+			static::$ACTIVE => 'LBL_AT_ACTIVE',
 			static::$LINK => 'LBL_AT_LINK',
 			static::$UNLINK => 'LBL_AT_UNLINK',
 			static::$CONVERTTOACCOUNT => 'LBL_AT_CONVERTTOACCOUNT',
 			static::$DISPLAYED => 'LBL_AT_DISPLAY',
-			static::$ACTIVE => 'LBL_AT_ACTIVE',
 			static::$ARCHIVED => 'LBL_AT_ARCHIVED',
+			static::$DELETED => 'LBL_AT_DELETE',
 		];
 	}
 

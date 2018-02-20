@@ -307,6 +307,16 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'DateRangeUserFormat': // date range user format
+					$v = [];
+					foreach (explode(',', $input) as $i) {
+						list($y, $m, $d) = Fields\Date::explode($i, User::getCurrentUserModel()->getDetail('date_format'));
+						if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
+							$v[] = \DateTimeField::convertToDBFormat($i);
+						}
+					}
+					$value = $v;
+					break;
 				case 'Date': // date in base format yyyy-mm-dd
 					list($y, $m, $d) = Fields\Date::explode($input);
 					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {

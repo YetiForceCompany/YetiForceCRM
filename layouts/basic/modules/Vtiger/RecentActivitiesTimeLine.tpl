@@ -21,9 +21,9 @@
 								{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
 									{$NEW_CHANGE = false}
 									<div class="lineOfText"><div>{\App\Language::translate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div></div>
-								{/if}
-								{$COUNT=$COUNT+1}
-								{if $RECENT_ACTIVITY->isCreate()}
+										{/if}
+										{$COUNT=$COUNT+1}
+										{if $RECENT_ACTIVITY->isCreate()}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
 											<span class="fas fa-circle text-success"></span>
@@ -199,7 +199,7 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div class="float-left"><strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong></div>
+												<div><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</div>
 												<span class="time float-right"><span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span></span>
 											</div>
 										</div>
