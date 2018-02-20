@@ -249,7 +249,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 			'libraries.ckeditor.adapters.jquery',
 			'libraries.js.jstree.jstree',
 			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'modules.Vtiger.resources.CkEditor',
 			'modules.Settings.Vtiger.resources.Vtiger',
 			'modules.Settings.Vtiger.resources.Edit',
@@ -271,7 +271,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'libraries.js.jstree.themes.proton.style',
-			'~libraries/datatables.net-bs/css/dataTables.bootstrap.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 

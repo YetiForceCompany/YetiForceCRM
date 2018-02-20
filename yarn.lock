@@ -104,6 +104,13 @@ csv-parse@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.2.tgz#9bb08dd84bb41008a03cde988c07afe0768362f3"
 
+datatables.net-bs4@^1.10.16:
+  version "1.10.16"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.16.tgz#9eee67cfa8565bd3807a603a188305f7d0e20e32"
+  dependencies:
+    datatables.net "1.10.16"
+    jquery ">=1.7"
+
 datatables.net-bs@^1.10.16:
   version "1.10.16"
   resolved "https://registry.yarnpkg.com/datatables.net-bs/-/datatables.net-bs-1.10.16.tgz#b0854f5b374f713ae3db4156c7cea8a760c3de76"
