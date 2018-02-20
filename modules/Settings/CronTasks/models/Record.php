@@ -56,7 +56,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;
-
 		return $this;
 	}
 
@@ -65,7 +64,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_DISABLED) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -74,7 +72,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_RUNNING) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -83,7 +80,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_COMPLETED) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -92,12 +88,13 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('status') == self::$STATUS_ENABLED) {
 			return true;
 		}
-
 		return false;
 	}
 
 	/**
 	 * Detect if the task was started and never finished.
+	 * 
+	 * @return bool
 	 */
 	public function hadTimedout()
 	{
@@ -117,7 +114,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -143,13 +139,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Get Time taken to complete task.
+	 * 
+	 * @return int seconds
 	 */
 	public function getTimeDiff()
 	{
 		$lastStart = (int) ($this->get('laststart'));
 		$lastEnd = (int) ($this->get('lastend'));
 		$timeDiff = $lastEnd - $lastStart;
-
 		return $timeDiff;
 	}
 
@@ -171,7 +168,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		} elseif ($this->hadTimedout()) {
 			return 'timeout';
 		}
-
 		return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
 	}
 
@@ -222,7 +218,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldValue = $this->getDuration();
 				break;
 		}
-
 		return $fieldValue;
 	}
 
@@ -267,7 +262,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $recordModel;
 		}
-
 		return false;
 	}
 
@@ -284,7 +278,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $recordModel;
 		}
-
 		return false;
 	}
 
@@ -308,7 +301,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -318,7 +310,6 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($frequency)) {
 			return $frequency * 60;
 		}
-
 		return 60;
 	}
 }

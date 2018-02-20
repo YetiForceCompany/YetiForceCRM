@@ -41,18 +41,6 @@ class Utils
 	}
 
 	/**
-	 * Import data from previosly exported string from varExport.
-	 *
-	 * @param  string $str [description]
-	 *
-	 * @return [type]      [description]
-	 */
-	public static function varImport(string $str)
-	{
-		return unserialize($str);
-	}
-
-	/**
 	 * Check if array is associative.
 	 *
 	 * @param array $arr

@@ -26,7 +26,7 @@ class Settings_CronTasks_List_View extends Settings_Vtiger_List_View
 		$module = $listViewModel->getModule();
 
 		$viewer->assign('MODULE_MODEL', $module);
-		$viewer->assign('QUALIFIED_MODULE_NAME', $module->getName(true));
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);

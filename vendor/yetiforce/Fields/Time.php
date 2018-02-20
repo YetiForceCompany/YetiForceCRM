@@ -1,6 +1,6 @@
 <?php
 /**
- * Tools for datetime class.
+ * Tools for time class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -24,7 +24,6 @@ class Time
 	public static function timeToDecimal(string $time)
 	{
 		$hms = explode(':', $time);
-
 		return $hms[0] + ($hms[1] / 60) + ($hms[2] / 3600);
 	}
 
@@ -39,7 +38,6 @@ class Time
 	{
 		$h = floor($seconds / 60 / 60);
 		$m = floor(($seconds - ($h * 60 * 60)) / 60);
-
 		return self::timeToDecimal(sprintf('%02d:%02d:%02d', $h, $m, $seconds - ($h * 60 * 60) - ($m * 60)));
 	}
 
@@ -73,7 +71,6 @@ class Time
 		if (!$hour && !$min && $withSeconds === false) {
 			$result = $short ? '0' . \App\Language::translate('LBL_M') : '0 ' . \App\Language::translate('LBL_MINUTES');
 		}
-
 		return trim($result);
 	}
 }
