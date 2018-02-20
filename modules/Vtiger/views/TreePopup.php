@@ -11,7 +11,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	public function checkPermission(\App\Request $request)
 	{
 		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

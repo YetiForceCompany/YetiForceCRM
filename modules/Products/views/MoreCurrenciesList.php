@@ -28,7 +28,7 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 			$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && !$request->getBoolean('isDuplicate'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

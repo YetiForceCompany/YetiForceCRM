@@ -32,7 +32,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			if ((int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}

@@ -18,10 +18,10 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		parent::checkPermission($request);
 		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('relatedRecord', true) && !\App\Privilege::isPermitted($request->getByType('relatedModule', 2), 'DetailView', $request->getInteger('relatedRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

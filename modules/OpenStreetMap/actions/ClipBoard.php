@@ -78,7 +78,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$record = $request->getInteger('record');
 		$srcModuleName = $request->getByType('srcModuleName');
 		if (!\App\Privilege::isPermitted($srcModuleName, 'DetailView', $record)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $srcModuleName);

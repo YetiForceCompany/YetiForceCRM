@@ -381,7 +381,6 @@ $languageStrings = [
 	'LBL_PAGE' => 'Stron',
 	'LBL_PARENT_OWNER' => 'Nadrzędny właściciela rekordu',
 	'LBL_PERMISSION_DENIED' => 'Brak uprawnień',
-	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'Próbujesz przeglądać/edytować rekord do którego nie masz wystarczających uprawnień. Jeśli powinieneś mieć do niego dostęp zgłoś problem administratorowi.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
 	'LBL_POST' => 'Dodaj',
 	'LBL_PREVIOUS_FQ' => 'Poprzedni kwartał',

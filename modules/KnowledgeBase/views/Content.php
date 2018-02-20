@@ -19,7 +19,7 @@ class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 		parent::checkPermission($request);
 		$recordId = $request->getInteger('record');
 		if ($recordId && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
