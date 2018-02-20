@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -98,13 +97,28 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
     }
 
     /**
-     * Detect if the task was started by never finished.
+     * Detect if the task was started and never finished.
      */
     public function hadTimedout()
     {
-        if ($this->get('lastend') === 0 && $this->get('laststart') != 0) {
-            return intval($this->get('lastend'));
+        $time = (int) $this->get('lastend');
+        $lastStart = (int) $this->get('laststart');
+        if ($time < $lastStart && !$this->isRunning()) {
+            return true;
         }
+        $maxExecutionTime = (int) \AppConfig::main('maxExecutionCronTime');
+        $iniMaxExecutionTime = (int) ini_get('max_execution_time');
+        if ($maxExecutionTime > $iniMaxExecutionTime) {
+            $maxExecutionTime = $iniMaxExecutionTime;
+        }
+        if (!$time || $time < $lastStart) {
+            $time = $lastStart;
+        }
+        if (time() > ($time + $maxExecutionTime)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -146,26 +160,21 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
      * @param int|null|bool $lastEnd   timestamp
      * @param string        $type      string format 'short' for '1h 3m 0s', 'full' for '1 hour 3 minutes 4 seconds'
      *
-     * @return string duration string or html danger icon
+     * @return string duration string or 'running','timeout'
      */
-    public function getDuration($lastStart = false, $lastEnd = false, $type = 'short')
+    public function getDuration($type = 'short')
     {
-        if ($lastStart === false) {
-            $lastStart = $this->get('laststart');
-        }
-        if ($lastEnd === false) {
-            $lastEnd = $this->get('lastend');
-        }
-        if (!$lastStart) {
+        $lastStart = $this->get('laststart');
+        if (!is_int($lastStart)) {
             return '-';
         }
-        if ($lastEnd && $lastEnd >= $lastStart) {
-            $notFinished = \App\Language::translate('LBL_NOTFINISHED', 'Settings/CronTasks');
-
-            return "<i class=\"fa fa-exclamation-triangle\" title=\"{$notFinished}\"></i>";
+        if ($this->isRunning() && !$this->hadTimedout()) {
+            return 'running';
+        } elseif ($this->hadTimedout()) {
+            return 'timeout';
         }
 
-        return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal($this->getTimeDiff()), $type, true);
+        return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - (int) $lastStart), $type, true);
     }
 
     /**
@@ -212,13 +221,12 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
                 $fieldValue = \App\Language::translate($fieldValue, $this->getModule()->getName(true));
                 break;
             case 'duration':
-                $fieldValue = self::getDuration($this->get('laststart'), $this->get('lastend'), 'short');
+                $fieldValue = $this->getDuration();
                 break;
         }
 
         return $fieldValue;
     }
-
     /*
      * Function to get Edit view url
      */
@@ -234,7 +242,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
     public function save()
     {
         \App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['frequency' => $this->get('frequency'), 'status' => $this->get('status')], ['id' => $this->getId()])
-                ->execute();
+            ->execute();
     }
 
     /**
@@ -251,9 +259,9 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
             return false;
         }
         $row = (new \App\Db\Query())
-                ->from('vtiger_cron_task')
-                ->where(['id' => $recordId])
-                ->one();
+            ->from('vtiger_cron_task')
+            ->where(['id' => $recordId])
+            ->one();
         if ($row) {
             $recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
             $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
@@ -269,8 +277,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
     public static function getInstanceByName($name)
     {
         $query = (new \App\Db\Query())
-                ->from('vtiger_cron_task')
-                ->where(['name' => $name]);
+            ->from('vtiger_cron_task')
+            ->where(['name' => $name]);
         $row = $query->createCommand()->queryOne();
         if ($row) {
             $moduleModel = new Settings_CronTasks_Module_Model();

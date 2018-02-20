@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CronTasks polish translation.
  *
@@ -20,15 +19,16 @@ $languageStrings = [
     'Frequency(H:M)' => 'Częstotliwość (G:M)',
     'LBL_DURATION' => 'Czas trwania',
     'Id' => 'Id',
-    'Last End' => 'Zakończenie zadania',
-    'Last Start' => 'Uruchomienie zadania',
+    'Last End' => 'Zadanie zakończono',
+    'Last Start' => 'Zadanie uruchomiono',
     'LBL_ACTIVE' => 'Aktywny',
     'LBL_COMPLETED' => 'Ukończone',
     'LBL_INACTIVE' => 'Nieaktywny',
     'LBL_RUNNING' => 'Uruchomione',
-    'LBL_LAST_DURATION' => 'czas trwania',
-    'LBL_LAST_START' => 'Ostatnie uruchomienie zadania',
-    'LBL_NOTFINISHED' => 'Zadanie nadal trwa lub nie zostało ukończone poprawnie',
+    'LBL_IS_RUNNING' => 'Uruchomiony',
+    'LBL_HAD_TIMEOUT' => 'Nie ukończono',
+    'LBL_TOTAL_LAST_DURATION' => 'łączny czas wykonywania',
+    'LBL_LAST_START' => 'Ostatnie zadanie uruchomiono',
     'Sequence' => 'Kolejność',
     'Status' => 'Status',
     'LBL_ADD_CRON' => 'Dodaj zadanie',

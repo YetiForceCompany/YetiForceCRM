@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Tools for datetime class.
  *
@@ -16,7 +15,7 @@ namespace App\Fields;
 class Time
 {
     /**
-     * Convert elapsed time from "H:i:s" to decimal equvalent.
+     * Convert elapsed time from "H:i:s" to decimal equivalent.
      *
      * @param string $time "12:00:00"
      *
@@ -25,21 +24,35 @@ class Time
     public static function timeToDecimal(string $time)
     {
         $hms = explode(':', $time);
-        $decTime = $hms[0] + ($hms[1] / 60) + ($hms[2] / 3600);
 
-        return $decTime;
+        return $hms[0] + ($hms[1] / 60) + ($hms[2] / 3600);
+    }
+
+    /**
+     * Convert seconds to decimal time format.
+     *
+     * @param int $seconds
+     *
+     * @return float
+     */
+    public static function secondsToDecimal(int $seconds)
+    {
+        $h = floor($seconds / 60 / 60);
+        $m = floor(($seconds - ($h * 60 * 60)) / 60);
+
+        return self::timeToDecimal(sprintf('%02d:%02d:%02d', $h, $m, $seconds - ($h * 60 * 60) - ($m * 60)));
     }
 
     /**
      * Format elapsed time to short display value.
      *
-     * @param float    $decTime time in decimal format 1.5 = 1h 30m
-     * @param string   $type    hour text format 'short' or 'full'
-     * @param int|bool $sec     if is provided as int then will be displayed
+     * @param float    $decTime     time in decimal format 1.5 = 1h 30m
+     * @param string   $type        hour text format 'short' or 'full'
+     * @param int|bool $withSeconds if is provided as int then will be displayed
      *
      * @return string
      */
-    public static function formatToHourText($decTime, $type = 'short', $sec = false)
+    public static function formatToHourText($decTime, $type = 'short', $withSeconds = false)
     {
         $short = $type === 'short';
 
@@ -49,16 +62,16 @@ class Time
 
         $result = '';
         if ($hour) {
-            $result .= $hour.$short ? \App\Language::translate('LBL_H') : ' '.\App\Language::translate('LBL_HOURS');
+            $result .= $short ? $hour.\App\Language::translate('LBL_H') : "{$hour} ".\App\Language::translate('LBL_HOURS');
         }
         if ($hour || $min) {
-            $result .= " {$min}".$short ? \App\Language::translate('LBL_M') : ' '.\App\Language::translate('LBL_MINUTES');
+            $result .= $short ? " {$min}".\App\Language::translate('LBL_M') : " {$min} ".\App\Language::translate('LBL_MINUTES');
         }
-        if ($sec !== false) {
-            $result .= " {$sec}".$short ? \App\Language::translate('LBL_S') : ' '.\App\Language::translate('LBL_SECONDS');
+        if ($withSeconds !== false) {
+            $result .= $short ? " {$sec}".\App\Language::translate('LBL_S') : " {$sec} ".\App\Language::translate('LBL_SECONDS');
         }
-        if (!$hour && !$min && $sec === false) {
-            $result = '0'.$short ? \App\Language::translate('LBL_M') : ' '.\App\Language::translate('LBL_MINUTES');
+        if (!$hour && !$min && $withSeconds === false) {
+            $result = $short ? '0'.\App\Language::translate('LBL_M') : '0 '.\App\Language::translate('LBL_MINUTES');
         }
 
         return trim($result);
