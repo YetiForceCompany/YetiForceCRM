@@ -1,27 +1,27 @@
 <?php
 /**
- * ISTN english translation.
+ * ISTN turkish translation.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'ISTN' => 'Storage Turnover Notes',
-    'SINGLE_ISTN' => 'Storage Turnover Notes',
-    'LBL_DESCRIPTION_BLOCK' => 'Description',
-    'LBL_ATTENTION_BLOCK' => 'Comments',
-    'FL_ESTIMATED_DATE' => 'Estimated date',
-    'FL_NUMBER' => 'Number',
-    'FL_SUBJECT' => 'Subject',
-    'FL_STATUS' => 'Status',
-    'PLL_DRAFT' => 'Draft',
-    'PLL_IN_REALIZATION' => 'In realization',
-    'PLL_OBJECTIONS' => 'Objections',
-    'PLL_FOR_APPROVAL' => 'For approval',
-    'PLL_CANCELLED' => 'Cancelled',
-    'PLL_ACCEPTED' => 'Accepted',
-    'PLL_RECEIVED' => 'Received',
-    'PLL_TRANSFER' => 'Transfer',
-    'PLL_DISPATCHED' => 'Dispatched',
-    'FL_TYPE' => 'Type',
+	'ISTN' => 'Depolama Devri Notları',
+	'SINGLE_ISTN' => 'Depolama Devri Notu',
+	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
+	'LBL_ATTENTION_BLOCK' => 'Yorum',
+	'FL_ESTIMATED_DATE' => 'Tahmin edilen tarih',
+	'FL_NUMBER' => 'Numara',
+	'FL_SUBJECT' => 'Konu',
+	'FL_STATUS' => 'Durum',
+	'PLL_DRAFT' => 'Taslak',
+	'PLL_IN_REALIZATION' => 'Gerçekleşmede',
+	'PLL_OBJECTIONS' => 'İtirazlar',
+	'PLL_FOR_APPROVAL' => 'Onay için',
+	'PLL_CANCELLED' => 'İptal edildi',
+	'PLL_ACCEPTED' => 'Kabul edildi',
+	'PLL_RECEIVED' => 'Alınan',
+	'PLL_TRANSFER' => 'Aktar',
+	'PLL_DISPATCHED' => 'Gönderildi',
+	'FL_TYPE' => 'Tür',
 ];

@@ -10,5 +10,5 @@
 
 class Settings_Roles_IndexAjax_View extends Settings_Roles_Index_View
 {
-    use App\Controller\ClearProcess;
+	use App\Controller\ClearProcess;
 }

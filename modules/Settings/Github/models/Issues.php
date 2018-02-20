@@ -9,19 +9,19 @@
  */
 class Settings_Github_Issues_Model
 {
-    private $valueMap;
-    public static $totalCount;
+	private $valueMap;
+	public static $totalCount;
 
-    public function get($key)
-    {
-        return $this->valueMap->$key;
-    }
+	public function get($key)
+	{
+		return $this->valueMap->$key;
+	}
 
-    public static function getInstanceFromArray($issueArray)
-    {
-        $issueModel = new self();
-        $issueModel->valueMap = $issueArray;
+	public static function getInstanceFromArray($issueArray)
+	{
+		$issueModel = new self();
+		$issueModel->valueMap = $issueArray;
 
-        return $issueModel;
-    }
+		return $issueModel;
+	}
 }

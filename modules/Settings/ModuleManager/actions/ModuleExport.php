@@ -10,26 +10,26 @@
 
 class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAjax_View
 {
-    use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('exportModule');
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('exportModule');
+	}
 
-    protected function exportModule(\App\Request $request)
-    {
-        $moduleName = $request->get('forModule');
+	protected function exportModule(\App\Request $request)
+	{
+		$moduleName = $request->get('forModule');
 
-        $moduleModel = \vtlib\Module::getInstance($moduleName);
-        if (!$moduleModel->isExportable()) {
-            echo 'Module not exportable!';
+		$moduleModel = \vtlib\Module::getInstance($moduleName);
+		if (!$moduleModel->isExportable()) {
+			echo 'Module not exportable!';
 
-            return;
-        }
+			return;
+		}
 
-        $package = new vtlib\PackageExport();
-        $package->export($moduleModel, '', sprintf('%s-%s.zip', $moduleModel->name, $moduleModel->version), true);
-    }
+		$package = new vtlib\PackageExport();
+		$package->export($moduleModel, '', sprintf('%s-%s.zip', $moduleModel->name, $moduleModel->version), true);
+	}
 }

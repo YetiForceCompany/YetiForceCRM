@@ -8,61 +8,61 @@
  */
 class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        $viewer->assign('CURRENT_USER', $currentUserModel);
-        $viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
-        $viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-        $viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
-        $viewer->view('CalendarView.tpl', $request->getModule());
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$viewer->assign('CURRENT_USER', $currentUserModel);
+		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
+		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->view('CalendarView.tpl', $request->getModule());
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function postProcess(\App\Request $request, $display = true)
-    {
-        $moduleName = $request->getModule();
-        $viewer = $this->getViewer($request);
-        $viewer->view('CalendarViewPostProcess.tpl', $moduleName);
-        parent::postProcess($request);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcess(\App\Request $request, $display = true)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		parent::postProcess($request);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFooterScripts(\App\Request $request)
-    {
-        $headerScriptInstances = parent::getFooterScripts($request);
-        $moduleName = $request->getModule();
-        $jsFileNames = [
-            '~libraries/fullcalendar/dist/fullcalendar.js',
-            'modules.'.$moduleName.'.resources.Calendar',
-        ];
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+		$jsFileNames = [
+			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'modules.' . $moduleName . '.resources.Calendar',
+		];
 
-        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-        return $headerScriptInstances;
-    }
+		return $headerScriptInstances;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHeaderCss(\App\Request $request)
-    {
-        $headerCssInstances = parent::getHeaderCss($request);
-        $cssFileNames = [
-            '~libraries/fullcalendar/dist/fullcalendar.css',
-        ];
-        $cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-        $headerCssInstances = array_merge($headerCssInstances, $cssInstances);
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'~libraries/fullcalendar/dist/fullcalendar.css',
+		];
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 
-        return $headerCssInstances;
-    }
+		return $headerCssInstances;
+	}
 }

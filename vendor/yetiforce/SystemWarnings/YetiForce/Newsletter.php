@@ -11,64 +11,64 @@ namespace App\SystemWarnings\YetiForce;
  */
 class Newsletter extends \App\SystemWarnings\Template
 {
-    protected $title = 'LBL_NEWSLETTER';
-    protected $priority = 8;
-    protected $tpl = true;
+	protected $title = 'LBL_NEWSLETTER';
+	protected $priority = 8;
+	protected $tpl = true;
 
-    /**
-     * Checking whether all the configuration parameters are correct.
-     */
-    public function process()
-    {
-        if (file_exists('cache/'.$this->getKey()) || \AppConfig::main('systemMode') === 'demo') {
-            $this->status = 1;
-        } else {
-            $this->status = 0;
-        }
-    }
+	/**
+	 * Checking whether all the configuration parameters are correct.
+	 */
+	public function process()
+	{
+		if (file_exists('cache/' . $this->getKey()) || \AppConfig::main('systemMode') === 'demo') {
+			$this->status = 1;
+		} else {
+			$this->status = 0;
+		}
+	}
 
-    /**
-     * Get unique key.
-     *
-     * @return type
-     */
-    public function getKey()
-    {
-        return sha1('Newsletter'.\AppConfig::main('site_URL').ROOT_DIRECTORY);
-    }
+	/**
+	 * Get unique key.
+	 *
+	 * @return type
+	 */
+	public function getKey()
+	{
+		return sha1('Newsletter' . \AppConfig::main('site_URL') . ROOT_DIRECTORY);
+	}
 
-    /**
-     * Update ignoring status.
-     *
-     * @param int $params
-     *
-     * @return bool
-     */
-    public function update($params)
-    {
-        if (gethostbyname('yetiforce.com') === 'yetiforce.com') {
-            \App\Log::warning('ERR_NO_INTERNET_CONNECTION');
+	/**
+	 * Update ignoring status.
+	 *
+	 * @param int $params
+	 *
+	 * @return bool
+	 */
+	public function update($params)
+	{
+		if (gethostbyname('yetiforce.com') === 'yetiforce.com') {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION');
 
-            return 'ERR_NO_INTERNET_CONNECTION';
-        }
-        $result = false;
-        $message = \App\Language::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
-        try {
-            $request = \Requests::POST('https://api.yetiforce.com/newsletter', [], array_merge($params, [
-                    'key' => sha1(\AppConfig::main('site_URL').ROOT_DIRECTORY),
-                    'version' => \App\Version::get(),
-                    'language' => \App\Language::getLanguage(),
-                    'timezone' => date_default_timezone_get(),
-                    ]), ['useragent' => 'YetiForceCRM']);
-            if ($request->body === 'OK') {
-                file_put_contents('cache/'.$this->getKey(), 'Newsletter');
-                $result = true;
-                $message = \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
-            }
-        } catch (\Exception $exc) {
-            \App\Log::warning($exc->getMessage());
-        }
+			return 'ERR_NO_INTERNET_CONNECTION';
+		}
+		$result = false;
+		$message = \App\Language::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
+		try {
+			$request = \Requests::POST('https://api.yetiforce.com/newsletter', [], array_merge($params, [
+					'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
+					'version' => \App\Version::get(),
+					'language' => \App\Language::getLanguage(),
+					'timezone' => date_default_timezone_get(),
+					]), ['useragent' => 'YetiForceCRM']);
+			if ($request->body === 'OK') {
+				file_put_contents('cache/' . $this->getKey(), 'Newsletter');
+				$result = true;
+				$message = \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
+			}
+		} catch (\Exception $exc) {
+			\App\Log::warning($exc->getMessage());
+		}
 
-        return ['result' => $result, 'message' => $message];
-    }
+		return ['result' => $result, 'message' => $message];
+	}
 }

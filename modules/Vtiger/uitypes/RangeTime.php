@@ -9,25 +9,25 @@
  */
 class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        $result = vtlib\Functions::getRangeTime($value, !is_null($value));
-        $mode = $this->getFieldModel()->getFieldParams();
-        if (empty($mode)) {
-            $mode = 'short';
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$result = vtlib\Functions::getRangeTime($value, !is_null($value));
+		$mode = $this->getFieldModel()->getFieldParams();
+		if (empty($mode)) {
+			$mode = 'short';
+		}
 
-        return \App\Purifier::encodeHtml($result[$mode]);
-    }
+		return \App\Purifier::encodeHtml($result[$mode]);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isActiveSearchView()
-    {
-        return false;
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isActiveSearchView()
+	{
+		return false;
+	}
 }

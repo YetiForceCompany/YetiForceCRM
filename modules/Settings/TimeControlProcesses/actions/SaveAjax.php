@@ -8,15 +8,15 @@
  */
 class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
-    public function process(\App\Request $request)
-    {
-        $params = $request->get('param');
-        $moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
-        $response = new Vtiger_Response();
-        $response->setResult([
-            'success' => $moduleModel->setConfig($params),
-            'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
-        ]);
-        $response->emit();
-    }
+	public function process(\App\Request $request)
+	{
+		$params = $request->get('param');
+		$moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => $moduleModel->setConfig($params),
+			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
+		]);
+		$response->emit();
+	}
 }

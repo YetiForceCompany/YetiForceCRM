@@ -10,13 +10,13 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger ListView Model Class
+ * Vtiger ListView Model Class.
  */
 class Vtiger_ListView_Model extends \App\Base
 {
-
 	/**
-	 * Function to get the Module Model
+	 * Function to get the Module Model.
+	 *
 	 * @return Vtiger_Module_Model instance
 	 */
 	public function getModule()
@@ -25,9 +25,11 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
+	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view.
+	 *
 	 * @param string $moduleName - Module Name
-	 * @param int $viewId - Custom View Id
+	 * @param int    $viewId     - Custom View Id
+	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
 	public static function getInstance($moduleName, $viewId = 0)
@@ -49,12 +51,15 @@ class Vtiger_ListView_Model extends \App\Base
 		}
 		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
+	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view.
+	 *
 	 * @param string $value - Module Name
+	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
 	public static function getInstanceForPopup($value, $sourceModule = false)
@@ -69,12 +74,15 @@ class Vtiger_ListView_Model extends \App\Base
 		$listFields = $moduleModel->getPopupViewFieldsList($sourceModule);
 		$listFields[] = 'id';
 		$queryGenerator->setFields($listFields);
+
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
 	/**
-	 * Function to get the Quick Links for the List view of the module
+	 * Function to get the Quick Links for the List view of the module.
+	 *
 	 * @param array $linkParams
+	 *
 	 * @return array List of Vtiger_Link_Model instances
 	 */
 	public function getHederLinks($linkParams)
@@ -129,11 +137,13 @@ class Vtiger_ListView_Model extends \App\Base
 		foreach ($headerLinks as $headerLink) {
 			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}
+
 		return $links;
 	}
 
 	/**
-	 * Function to give advance links of a module
+	 * Function to give advance links of a module.
+	 *
 	 * @return array of advanced links
 	 */
 	public function getAdvancedLinks()
@@ -201,12 +211,15 @@ class Vtiger_ListView_Model extends \App\Base
 				];
 			}
 		}
+
 		return $advancedLinks;
 	}
 
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param type $linkParams
+	 *
 	 * @return Vtiger_Link_Model[]
 	 */
 	public function getListViewMassActions($linkParams)
@@ -295,11 +308,13 @@ class Vtiger_ListView_Model extends \App\Base
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
+
 		return $links;
 	}
 
 	/**
-	 * Function to get Basic links
+	 * Function to get Basic links.
+	 *
 	 * @return array of Basic links
 	 */
 	public function getBasicLinks()
@@ -332,12 +347,15 @@ class Vtiger_ListView_Model extends \App\Base
 				];
 			}
 		}
+
 		return $basicLinks;
 	}
 
 	/**
-	 * Function to get the list of listview links for the module
+	 * Function to get the list of listview links for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
 	public function getListViewLinks($linkParams)
@@ -363,11 +381,13 @@ class Vtiger_ListView_Model extends \App\Base
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
+
 		return $links;
 	}
 
 	/**
-	 * Get query generator instance
+	 * Get query generator instance.
+	 *
 	 * @return \App\QueryGenerator
 	 */
 	public function getQueryGenerator()
@@ -376,7 +396,8 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list view header
+	 * Function to get the list view header.
+	 *
 	 * @return array - List of Vtiger_Field_Model instances
 	 */
 	public function getListViewHeaders()
@@ -389,11 +410,12 @@ class Vtiger_ListView_Model extends \App\Base
 			}
 			$headerFieldModels[$fieldName] = $fieldsModel;
 		}
+
 		return $headerFieldModels;
 	}
 
 	/**
-	 * Set list view order by
+	 * Set list view order by.
 	 */
 	public function loadListViewOrderBy()
 	{
@@ -411,7 +433,7 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Load list view conditions
+	 * Load list view conditions.
 	 */
 	public function loadListViewCondition()
 	{
@@ -451,8 +473,10 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return Vtiger_Record_Model[] - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
@@ -479,17 +503,21 @@ class Vtiger_ListView_Model extends \App\Base
 			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
 		}
 		unset($rows);
+
 		return $listViewRecordModels;
 	}
 
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewCount()
 	{
 		$this->loadListViewCondition();
+
 		return $this->getQueryGenerator()->createQuery()->count();
 	}
 

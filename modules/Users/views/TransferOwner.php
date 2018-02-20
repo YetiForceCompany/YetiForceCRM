@@ -10,34 +10,34 @@
 
 class Users_TransferOwner_View extends Vtiger_Index_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        if (!$currentUserModel->isAdminUser()) {
-            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-        }
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $moduleName = $request->getModule();
-        $userid = $request->getInteger('record');
-        $userRecordModel = Users_Record_Model::getCurrentUserModel();
-        $viewer = $this->getViewer($request);
-        $usersList = $userRecordModel->getActiveAdminUsers(true);
-        if (array_key_exists($userid, $usersList)) {
-            unset($usersList[$userid]);
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$userid = $request->getInteger('record');
+		$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		$viewer = $this->getViewer($request);
+		$usersList = $userRecordModel->getActiveAdminUsers(true);
+		if (array_key_exists($userid, $usersList)) {
+			unset($usersList[$userid]);
+		}
 
-        $viewer->assign('USERID', $userid);
-        $viewer->assign('TRANSFER_USER_NAME', $userRecordModel->getName());
-        $viewer->assign('USER_LIST', $usersList);
-        $viewer->view('TransferOwner.tpl', $moduleName);
-    }
+		$viewer->assign('USERID', $userid);
+		$viewer->assign('TRANSFER_USER_NAME', $userRecordModel->getName());
+		$viewer->assign('USER_LIST', $usersList);
+		$viewer->view('TransferOwner.tpl', $moduleName);
+	}
 }

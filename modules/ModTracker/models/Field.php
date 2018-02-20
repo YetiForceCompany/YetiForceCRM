@@ -10,113 +10,113 @@
 
 class ModTracker_Field_Model extends Vtiger_Record_Model
 {
-    /**
-     * Function to set parent to this model.
-     *
-     * @param Vtiger_Record_Model
-     */
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
+	/**
+	 * Function to set parent to this model.
+	 *
+	 * @param Vtiger_Record_Model
+	 */
+	public function setParent($parent)
+	{
+		$this->parent = $parent;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to get parent.
-     *
-     * @return Vtiger_Record_Model
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
+	/**
+	 * Function to get parent.
+	 *
+	 * @return Vtiger_Record_Model
+	 */
+	public function getParent()
+	{
+		return $this->parent;
+	}
 
-    /**
-     * Function to set Field instance.
-     *
-     * @param Vtiger_Field_Model
-     */
-    public function setFieldInstance($fieldModel)
-    {
-        $this->fieldInstance = $fieldModel;
+	/**
+	 * Function to set Field instance.
+	 *
+	 * @param Vtiger_Field_Model
+	 */
+	public function setFieldInstance($fieldModel)
+	{
+		$this->fieldInstance = $fieldModel;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to get Field instance.
-     *
-     * @return Vtiger_Field_Model
-     */
-    public function getFieldInstance()
-    {
-        return $this->fieldInstance;
-    }
+	/**
+	 * Function to get Field instance.
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldInstance()
+	{
+		return $this->fieldInstance;
+	}
 
-    /**
-     * Function to get Old value of this Field.
-     *
-     * @return string
-     */
-    public function getOldValue()
-    {
-        $value = $this->getDisplayValue($this->get('prevalue'));
-        if ($this->getFieldInstance()->getFieldDataType() != 'text') {
-            return $value;
-        }
-        $teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
-        if (substr($teaser, -3) == '...') {
-            $this->set('fullPreValue', $value);
-        }
+	/**
+	 * Function to get Old value of this Field.
+	 *
+	 * @return string
+	 */
+	public function getOldValue()
+	{
+		$value = $this->getDisplayValue($this->get('prevalue'));
+		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
+			return $value;
+		}
+		$teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		if (substr($teaser, -3) == '...') {
+			$this->set('fullPreValue', $value);
+		}
 
-        return $teaser;
-    }
+		return $teaser;
+	}
 
-    /**
-     * Function to get new(updated) value of this Field.
-     *
-     * @return string
-     */
-    public function getNewValue()
-    {
-        $value = $this->getDisplayValue($this->get('postvalue'));
-        if ($this->getFieldInstance()->getFieldDataType() != 'text') {
-            return $value;
-        }
-        $teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
-        if (substr($teaser, -3) == '...') {
-            $this->set('fullPostValue', $value);
-        }
+	/**
+	 * Function to get new(updated) value of this Field.
+	 *
+	 * @return string
+	 */
+	public function getNewValue()
+	{
+		$value = $this->getDisplayValue($this->get('postvalue'));
+		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
+			return $value;
+		}
+		$teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		if (substr($teaser, -3) == '...') {
+			$this->set('fullPostValue', $value);
+		}
 
-        return $teaser;
-    }
+		return $teaser;
+	}
 
-    /**
-     * Function to get name.
-     *
-     * @return <type>
-     */
-    public function getName()
-    {
-        return $this->getFieldInstance()->get('label');
-    }
+	/**
+	 * Function to get name.
+	 *
+	 * @return <type>
+	 */
+	public function getName()
+	{
+		return $this->getFieldInstance()->get('label');
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        return $this->getFieldInstance()->getDisplayValue($value, $record, $recordModel, $rawText, $length);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		return $this->getFieldInstance()->getDisplayValue($value, $record, $recordModel, $rawText, $length);
+	}
 
-    /**
-     * Function returns the module name of the field.
-     *
-     * @return string
-     */
-    public function getModuleName()
-    {
-        return $this->getParent()->getParent()->getModule()->getName();
-    }
+	/**
+	 * Function returns the module name of the field.
+	 *
+	 * @return string
+	 */
+	public function getModuleName()
+	{
+		return $this->getParent()->getParent()->getModule()->getName();
+	}
 }

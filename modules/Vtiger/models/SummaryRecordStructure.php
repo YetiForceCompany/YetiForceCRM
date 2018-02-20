@@ -13,31 +13,31 @@
  */
 class Vtiger_SummaryRecordStructure_Model extends Vtiger_DetailRecordStructure_Model
 {
-    /**
-     * Function to get the values in stuctured format.
-     *
-     * @return <array> - values in structure array('block'=>array(fieldinfo));
-     */
-    public function getStructure()
-    {
-        $summaryFieldsList = $this->getModule()->getSummaryViewFieldsList();
-        $recordModel = $this->getRecord();
-        $blockSeqSortSummaryFields = [];
-        if ($summaryFieldsList) {
-            foreach ($summaryFieldsList as $fieldName => $fieldModel) {
-                if ($fieldModel->isViewableInDetailView()) {
-                    $fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-                    $blockSequence = $fieldModel->block->sequence;
-                    $blockSeqSortSummaryFields[$blockSequence]['SUMMARY_FIELDS'][$fieldName] = $fieldModel;
-                }
-            }
-        }
-        $summaryFieldModelsList = [];
-        ksort($blockSeqSortSummaryFields);
-        foreach ($blockSeqSortSummaryFields as $blockSequence => $summaryFields) {
-            $summaryFieldModelsList = array_merge_recursive($summaryFieldModelsList, $summaryFields);
-        }
+	/**
+	 * Function to get the values in stuctured format.
+	 *
+	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 */
+	public function getStructure()
+	{
+		$summaryFieldsList = $this->getModule()->getSummaryViewFieldsList();
+		$recordModel = $this->getRecord();
+		$blockSeqSortSummaryFields = [];
+		if ($summaryFieldsList) {
+			foreach ($summaryFieldsList as $fieldName => $fieldModel) {
+				if ($fieldModel->isViewableInDetailView()) {
+					$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+					$blockSequence = $fieldModel->block->sequence;
+					$blockSeqSortSummaryFields[$blockSequence]['SUMMARY_FIELDS'][$fieldName] = $fieldModel;
+				}
+			}
+		}
+		$summaryFieldModelsList = [];
+		ksort($blockSeqSortSummaryFields);
+		foreach ($blockSeqSortSummaryFields as $blockSequence => $summaryFields) {
+			$summaryFieldModelsList = array_merge_recursive($summaryFieldModelsList, $summaryFields);
+		}
 
-        return $summaryFieldModelsList;
-    }
+		return $summaryFieldModelsList;
+	}
 }

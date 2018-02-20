@@ -11,37 +11,37 @@
 
 class VTSMSTask extends VTTask
 {
-    public $executeImmediately = true;
+	public $executeImmediately = true;
 
-    public function getFieldNames()
-    {
-        return ['content', 'sms_recepient'];
-    }
+	public function getFieldNames()
+	{
+		return ['content', 'sms_recepient'];
+	}
 
-    /**
-     * Execute task.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     */
-    public function doTask($recordModel)
-    {
-        if (SMSNotifier_Module_Model::checkServer()) {
-            $textParser = \App\TextParser::getInstanceByModel($recordModel);
-            $content = $textParser->setContent($this->content)->parse()->getContent();
-            $recepient = $textParser->setContent($this->sms_recepient)->parse()->getContent();
-            $recepients = explode(',', $recepient);
-            $toNumbers = [];
-            foreach ($recepients as $toNumber) {
-                $parseNumber = preg_replace_callback('/[^\d]/s', function ($m) {
-                    return '';
-                }, $toNumber);
-                if (!empty($parseNumber) && !in_array($parseNumber, $toNumbers)) {
-                    $toNumbers[] = $parseNumber;
-                }
-            }
-            if ($toNumbers) {
-                SMSNotifier_Record_Model::sendSMS($content, $toNumbers, [$recordModel->getId()], $recordModel->getModuleName());
-            }
-        }
-    }
+	/**
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
+	{
+		if (SMSNotifier_Module_Model::checkServer()) {
+			$textParser = \App\TextParser::getInstanceByModel($recordModel);
+			$content = $textParser->setContent($this->content)->parse()->getContent();
+			$recepient = $textParser->setContent($this->sms_recepient)->parse()->getContent();
+			$recepients = explode(',', $recepient);
+			$toNumbers = [];
+			foreach ($recepients as $toNumber) {
+				$parseNumber = preg_replace_callback('/[^\d]/s', function ($m) {
+					return '';
+				}, $toNumber);
+				if (!empty($parseNumber) && !in_array($parseNumber, $toNumbers)) {
+					$toNumbers[] = $parseNumber;
+				}
+			}
+			if ($toNumbers) {
+				SMSNotifier_Record_Model::sendSMS($content, $toNumbers, [$recordModel->getId()], $recordModel->getModuleName());
+			}
+		}
+	}
 }

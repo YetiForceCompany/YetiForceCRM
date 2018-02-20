@@ -10,27 +10,27 @@
 
 class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-    public function saveRecord(\App\Request $request)
-    {
-        $recordModel = $this->getRecordModelFromRequest($request);
-        $recordModel->save();
-        if ($request->getBoolean('relationOperation')) {
-            $parentModuleName = $request->getByType('sourceModule', 2);
-            $parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-            $parentRecordId = $request->getInteger('sourceRecord');
-            $relatedModule = $recordModel->getModule();
-            $relatedRecordId = $recordModel->getId();
+	public function saveRecord(\App\Request $request)
+	{
+		$recordModel = $this->getRecordModelFromRequest($request);
+		$recordModel->save();
+		if ($request->getBoolean('relationOperation')) {
+			$parentModuleName = $request->getByType('sourceModule', 2);
+			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentRecordId = $request->getInteger('sourceRecord');
+			$relatedModule = $recordModel->getModule();
+			$relatedRecordId = $recordModel->getId();
 
-            $relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-            $relationModel->addRelation($parentRecordId, $relatedRecordId);
+			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 
-            //To store the relationship between Products/Services and PriceBooks
-            if ($parentRecordId && ($parentModuleName === 'Products' || $parentModuleName === 'Services')) {
-                $parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-                $recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
-            }
-        }
+			//To store the relationship between Products/Services and PriceBooks
+			if ($parentRecordId && ($parentModuleName === 'Products' || $parentModuleName === 'Services')) {
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
+				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
+			}
+		}
 
-        return $recordModel;
-    }
+		return $recordModel;
+	}
 }

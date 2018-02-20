@@ -11,19 +11,19 @@ namespace App\SystemWarnings\SystemRequirements;
  */
 class LibraryPDF extends \App\SystemWarnings\Template
 {
-    protected $title = 'LBL_LIBRARY_PDF';
-    protected $priority = 4;
+	protected $title = 'LBL_LIBRARY_PDF';
+	protected $priority = 4;
 
-    /**
-     * Checking whether there is a library mPDF.
-     */
-    public function process()
-    {
-        $this->status = \Settings_ModuleManager_Library_Model::checkLibrary('mPDF') ? 0 : 1;
-        if ($this->status === 0) {
-            $this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
-            $this->linkTitle = \App\Language::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-            $this->description = \App\Language::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
-        }
-    }
+	/**
+	 * Checking whether there is a library mPDF.
+	 */
+	public function process()
+	{
+		$this->status = \Settings_ModuleManager_Library_Model::checkLibrary('mPDF') ? 0 : 1;
+		if ($this->status === 0) {
+			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
+			$this->linkTitle = \App\Language::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
+			$this->description = \App\Language::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
+		}
+	}
 }

@@ -10,17 +10,17 @@
 
 class Users_ListAjax_View extends Users_List_View
 {
-    use \App\Controller\ExposeMethod,
-     App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('getListViewCount');
-        $this->exposeMethod('getRecordsCount');
-        $this->exposeMethod('getPageCount');
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('getListViewCount');
+		$this->exposeMethod('getRecordsCount');
+		$this->exposeMethod('getPageCount');
+	}
 }

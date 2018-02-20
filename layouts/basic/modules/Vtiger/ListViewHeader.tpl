@@ -11,9 +11,9 @@
 -->*}
 {strip}
 	<div class="listViewPageDiv">
-		<div class="listViewTopMenuDiv noprint">
+		<div class="listViewTopMenuDiv noprint mb-2">
 			<div class="listViewActionsDiv row">
-				<div class="btn-toolbar col-md-4 col-sm-6 col-12">
+				<div class="col-md-4 col-sm-6 col-12">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
 					{assign var=LINKS value=[]}
 					{if $LISTVIEW_MASSACTIONS}
@@ -22,13 +22,13 @@
 					{if isset($LISTVIEW_LINKS['LISTVIEW'])}
 						{assign var=LINKS value=array_merge($LINKS,$LISTVIEW_LINKS['LISTVIEW'])}
 					{/if}
-					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS BTN_GROUP=false TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS=listViewMassActions}
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS=listViewMassActions}
 					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
-				<div class="btn-toolbar col-md-3 col-sm-5 col-12 pull-right-sm pull-left-xs">
-					<div class="customFilterMainSpan btn-group">
+				<div class="col-md-3 col-sm-5 col-12">
+					<div class="customFilterMainSpan">
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
@@ -54,18 +54,18 @@
 							{if \App\Privilege::isPermitted($MODULE, 'CreateCustomFilter')}
 								<div class="filterActionsDiv hide">
 									<hr>
-									<ul class="filterActions">
-										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
+									<ul class="filterActions list-unstyled m-2">
+										<li id="createFilter" data-value="create" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><a href="#"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</a></li>
 									</ul>
 								</div>
 							{/if}
-							<span class="fas fa-filter filterImage" style="display:none;margin-right:2px"></span>
+							<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
 					</div>
 				</div>
-				<div class="col-12 col-md-5 btn-toolbar paddingRightZero">
+				<div class="col-12 col-md-5 d-flex flex-row-reverse">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 				<span class="hide filterActionImages float-right">
@@ -77,22 +77,22 @@
 				</span>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
-				<div class="row">
-					<div class="col-12 btn-toolbar">
-						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-								{if $CUSTOM_VIEW->isFeatured()}
-									<a class="badge badge-secondary btn-success featuredLabel" href="#" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
+				<ul class="nav nav-tabs pt-2" role="tablist">
+					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+						{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+							{if $CUSTOM_VIEW->isFeatured()}
+								<li class="nav-item featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">
+									<a class="nav-link" href="#" {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if} data-toggle="tab" role="tab" aria-selected="false">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}
 											&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
 										{/if}
 									</a>
-								{/if}
-							{/foreach}
+								</li>
+							{/if}
 						{/foreach}
-					</div>
-				</div>
+					{/foreach}
+				</ul>
 			{/if}
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">

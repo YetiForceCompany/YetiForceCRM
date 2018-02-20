@@ -10,24 +10,24 @@
 
 class Events_Edit_View extends Calendar_Edit_View
 {
-    /**
-     * Function to get the list of Script models to be included.
-     *
-     * @param \App\Request $request
-     *
-     * @return <Array> - List of Vtiger_JsScript_Model instances
-     */
-    public function getFooterScripts(\App\Request $request)
-    {
-        $headerScriptInstances = parent::getFooterScripts($request);
+	/**
+	 * Function to get the list of Script models to be included.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
 
-        $jsFileNames = [
-            'modules.Calendar.resources.Edit',
-        ];
+		$jsFileNames = [
+			'modules.Calendar.resources.Edit',
+		];
 
-        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-        return $headerScriptInstances;
-    }
+		return $headerScriptInstances;
+	}
 }

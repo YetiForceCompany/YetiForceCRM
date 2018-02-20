@@ -2,19 +2,21 @@
 {strip}
 	{if count($NEW_ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
-			<div class="col-4">
-				<h6><b>{\App\Language::translate('Account Name' ,$MODULE_NAME)}</b></h6>
+			<div class="row">
+				<div class="col-4">
+					<h6><b>{\App\Language::translate('Account Name' ,$MODULE_NAME)}</b></h6>
+				</div>
+				<div class="col-4">
+					<h6><b>{\App\Language::translate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
+				</div>
+				<div class="col-4">
+					<h6><b>{\App\Language::translate('Created Time' ,$MODULE_NAME)}</b></h6>
+				</div>
 			</div>
-			<div class="col-4">
-				<h6><b>{\App\Language::translate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
-			</div>
-			<div class="col-4">
-				<h6><b>{\App\Language::translate('Created Time' ,$MODULE_NAME)}</b></h6>
-			</div>
-			<div class="col-12"><hr></div>
+			<hr>
 			{/if}
 			{foreach from=$NEW_ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
-			<div class="col-12 paddingLRZero">
+			<div class="row paddingLRZero">
 				<div class="col-4">
 					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">

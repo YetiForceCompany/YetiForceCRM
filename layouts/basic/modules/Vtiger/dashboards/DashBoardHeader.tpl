@@ -10,10 +10,10 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<nav class="widget_header d-flex">
-		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-		<div class="btn-group listViewMassActions modOn_{$MODULE} float-left paddingRight10">
+	<nav class="widget_header row">
+		<div class="listViewMassActions ml-3 m-2 modOn_{$MODULE}">
 			{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}
 		</div>
+		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</nav>
 {/strip}

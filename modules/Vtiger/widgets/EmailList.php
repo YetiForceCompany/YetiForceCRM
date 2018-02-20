@@ -8,28 +8,28 @@
  */
 class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 {
-    public $dbParams = [];
+	public $dbParams = [];
 
-    public function getUrl()
-    {
-        return 'module=OSSMailView&view=Widget&smodule='.$this->Module.'&srecord='.$this->Record.'&mode=showEmailsList&type=All&mailFilter=All&limit='.$this->Data['limit'];
-    }
+	public function getUrl()
+	{
+		return 'module=OSSMailView&view=Widget&smodule=' . $this->Module . '&srecord=' . $this->Record . '&mode=showEmailsList&type=All&mailFilter=All&limit=' . $this->Data['limit'];
+	}
 
-    public function getConfigTplName()
-    {
-        return 'EmailListConfig';
-    }
+	public function getConfigTplName()
+	{
+		return 'EmailListConfig';
+	}
 
-    public function getWidget()
-    {
-        $widget = [];
-        $model = Vtiger_Module_Model::getInstance('OSSMailView');
-        if ($model->isPermitted('DetailView')) {
-            $this->Config['tpl'] = 'EmailList.tpl';
-            $this->Config['url'] = $this->getUrl();
-            $widget = $this->Config;
-        }
+	public function getWidget()
+	{
+		$widget = [];
+		$model = Vtiger_Module_Model::getInstance('OSSMailView');
+		if ($model->isPermitted('DetailView')) {
+			$this->Config['tpl'] = 'EmailList.tpl';
+			$this->Config['url'] = $this->getUrl();
+			$widget = $this->Config;
+		}
 
-        return $widget;
-    }
+		return $widget;
+	}
 }

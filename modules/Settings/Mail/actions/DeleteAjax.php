@@ -9,29 +9,29 @@
  */
 class Settings_Mail_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-    /**
-     * Process.
-     *
-     * @param \App\Request $request
-     */
-    public function process(\App\Request $request)
-    {
-        $record = $request->get('record');
-        $qualifiedModuleName = $request->getModule(false);
-        $recordModel = Settings_Mail_Record_Model::getInstance($record);
-        $recordModel->delete();
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
+	{
+		$record = $request->get('record');
+		$qualifiedModuleName = $request->getModule(false);
+		$recordModel = Settings_Mail_Record_Model::getInstance($record);
+		$recordModel->delete();
 
-        $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-        header("Location: {$moduleModel->getDefaultUrl()}");
-    }
+		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		header("Location: {$moduleModel->getDefaultUrl()}");
+	}
 
-    /**
-     * Validate Request.
-     *
-     * @param \App\Request $request
-     */
-    public function validateRequest(\App\Request $request)
-    {
-        $request->validateReadAccess();
-    }
+	/**
+	 * Validate Request.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
+	}
 }

@@ -11,16 +11,16 @@ namespace Api\Portal\BaseAction;
  */
 class Modules extends \Api\Core\BaseAction
 {
-    /** @var string[] Allowed request methods */
-    public $allowedMethod = ['GET'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['GET'];
 
-    /**
-     * Get modules list.
-     *
-     * @return string[]
-     */
-    public function get()
-    {
-        return \Api\Core\Module::getPermittedModules();
-    }
+	/**
+	 * Get modules list.
+	 *
+	 * @return string[]
+	 */
+	public function get()
+	{
+		return \Api\Core\Module::getPermittedModules();
+	}
 }

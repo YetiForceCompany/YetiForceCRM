@@ -16,11 +16,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
      * @var string[]
      */
     public static $colors = [
-        'ModComments' => 'bgBlue',
-        'OSSMailViewReceived' => 'bgDanger',
-        'OSSMailViewSent' => 'bgGreen',
-        'OSSMailViewInternal' => 'bgBlue',
-        'Calendar' => 'bgOrange',
+        'ModComments' => 'text-primary',
+        'OSSMailViewReceived' => 'text-danger',
+        'OSSMailViewSent' => 'text-success',
+        'OSSMailViewInternal' => 'text-primary',
+        'Calendar' => 'text-warning',
     ];
 
     /**

@@ -689,8 +689,8 @@ jQuery.Class("Vtiger_Header_Js", {
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
-		$(".buttonTextHolder .dropdown-menu li a").click(function () {
-			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
+		$(".buttonTextHolder .dropdown-menu a").click(function () {
+			$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
 	listenTextAreaChange: function () {

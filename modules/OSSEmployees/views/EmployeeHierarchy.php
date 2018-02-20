@@ -8,35 +8,35 @@
  */
 class OSSEmployees_EmployeeHierarchy_View extends \App\Controller\View
 {
-    use App\Controller\ClearProcess;
+	use App\Controller\ClearProcess;
 
-    /**
-     * Function to check permission.
-     *
-     * @param \App\Request $request
-     *
-     * @throws \App\Exceptions\NoPermittedToRecord
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $recordId = $request->getInteger('record');
-        if (!$recordId) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
-        if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
-    }
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
 
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $moduleName = $request->getModule();
-        $recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-        $hierarchy = $recordModel->getEmployeeHierarchy();
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$hierarchy = $recordModel->getEmployeeHierarchy();
 
-        $viewer->assign('MODULE', $moduleName);
-        $viewer->assign('EMPLOYEES_HIERARCHY', $hierarchy);
-        $viewer->view('EmployeeHierarchy.tpl', $moduleName);
-    }
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('EMPLOYEES_HIERARCHY', $hierarchy);
+		$viewer->view('EmployeeHierarchy.tpl', $moduleName);
+	}
 }

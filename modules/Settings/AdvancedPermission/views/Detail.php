@@ -9,15 +9,15 @@
  */
 class Settings_AdvancedPermission_Detail_View extends Settings_Vtiger_Index_View
 {
-    public function process(\App\Request $request)
-    {
-        $record = $request->getInteger('record');
-        $qualifiedModuleName = $request->getModule(false);
-        $recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
+	public function process(\App\Request $request)
+	{
+		$record = $request->getInteger('record');
+		$qualifiedModuleName = $request->getModule(false);
+		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
 
-        $viewer = $this->getViewer($request);
-        $viewer->assign('RECORD_MODEL', $recordModel);
-        $viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-        $viewer->view('DetailView.tpl', $qualifiedModuleName);
-    }
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->view('DetailView.tpl', $qualifiedModuleName);
+	}
 }

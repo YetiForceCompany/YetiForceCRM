@@ -11,52 +11,52 @@
 
 class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function validate($value, $isUserFormat = false)
-    {
-        if ($this->validate || empty($value)) {
-            return;
-        }
-        parent::validate($value, $isUserFormat);
-        $this->validate = false;
-        $allowedPicklist = $this->getPicklistValues();
-        if (!isset($allowedPicklist[$value])) {
-            throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||'.$this->getFieldModel()->getFieldName().'||'.$value, 406);
-        }
-        $this->validate = true;
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		parent::validate($value, $isUserFormat);
+		$this->validate = false;
+		$allowedPicklist = $this->getPicklistValues();
+		if (!isset($allowedPicklist[$value])) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        $values = $this->getPicklistValues();
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$values = $this->getPicklistValues();
 
-        return \App\Purifier::encodeHtml(isset($values[$value]) ? $values[$value] : $value);
-    }
+		return \App\Purifier::encodeHtml($values[$value] ?? $value);
+	}
 
-    /**
-     * Function to get all the available picklist values for the current field.
-     *
-     * @return array List of picklist values if the field
-     */
-    public function getPicklistValues()
-    {
-        $moduleName = $this->getFieldModel()->getModuleName();
+	/**
+	 * Function to get all the available picklist values for the current field.
+	 *
+	 * @return array List of picklist values if the field
+	 */
+	public function getPicklistValues()
+	{
+		$moduleName = $this->getFieldModel()->getModuleName();
 
-        return ['I' => \App\Language::translate('LBL_INTERNAL', $moduleName), 'E' => \App\Language::translate('LBL_EXTERNAL', $moduleName)];
-    }
+		return ['I' => \App\Language::translate('LBL_INTERNAL', $moduleName), 'E' => \App\Language::translate('LBL_EXTERNAL', $moduleName)];
+	}
 
-    /**
-     * Function defines empty picklist element availability.
-     *
-     * @return bool
-     */
-    public function isEmptyPicklistOptionAllowed()
-    {
-        return false;
-    }
+	/**
+	 * Function defines empty picklist element availability.
+	 *
+	 * @return bool
+	 */
+	public function isEmptyPicklistOptionAllowed()
+	{
+		return false;
+	}
 }

@@ -11,55 +11,54 @@
 
 class Products_Detail_View extends Vtiger_Detail_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function showModuleDetailView(\App\Request $request)
-    {
-        $recordId = $request->getInteger('record');
-        $moduleName = $request->getModule();
+	/**
+	 * {@inheritdoc}
+	 */
+	public function showModuleDetailView(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
 
-        $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-        $baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
-        $viewer = $this->getViewer($request);
-        $viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-        $viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer = $this->getViewer($request);
+		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
+		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
-        return parent::showModuleDetailView($request);
-    }
+		return parent::showModuleDetailView($request);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function showModuleBasicView(\App\Request $request)
-    {
-        return $this->showModuleDetailView($request);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function showModuleBasicView(\App\Request $request)
+	{
+		return $this->showModuleDetailView($request);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFooterScripts(\App\Request $request)
-    {
-        $headerScriptInstances = parent::getFooterScripts($request);
-        $moduleName = $request->getModule();
-        $moduleDetailFile = 'modules.'.$moduleName.'.resources.Detail';
-        $moduleRelatedListFile = 'modules.'.$moduleName.'.resources.RelatedList';
-        unset($headerScriptInstances[$moduleDetailFile]);
-        unset($headerScriptInstances[$moduleRelatedListFile]);
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+		$moduleDetailFile = 'modules.' . $moduleName . '.resources.Detail';
+		$moduleRelatedListFile = 'modules.' . $moduleName . '.resources.RelatedList';
+		unset($headerScriptInstances[$moduleDetailFile], $headerScriptInstances[$moduleRelatedListFile]);
 
-        $jsFileNames = [
-            '~libraries/jquery-cycle/index.js',
-            'modules.PriceBooks.resources.RelatedList',
-        ];
+		$jsFileNames = [
+			'~libraries/jquery-cycle/index.js',
+			'modules.PriceBooks.resources.RelatedList',
+		];
 
-        $jsFileNames[] = $moduleDetailFile;
-        $jsFileNames[] = $moduleRelatedListFile;
+		$jsFileNames[] = $moduleDetailFile;
+		$jsFileNames[] = $moduleRelatedListFile;
 
-        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-        return $headerScriptInstances;
-    }
+		return $headerScriptInstances;
+	}
 }

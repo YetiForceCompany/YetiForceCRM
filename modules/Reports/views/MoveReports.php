@@ -11,17 +11,17 @@
 
 class Reports_MoveReports_View extends Vtiger_Index_View
 {
-    public function process(\App\Request $request)
-    {
-        $moduleName = $request->getModule();
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-        $folderList = $moduleModel->getFolders();
-        $viewer = $this->getViewer($request);
-        $viewer->assign('FOLDERS', $folderList);
-        $viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
-        $viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-        $viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
-        $viewer->assign('MODULE', $moduleName);
-        $viewer->view('MoveReports.tpl', $moduleName);
-    }
+	public function process(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$folderList = $moduleModel->getFolders();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('FOLDERS', $folderList);
+		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
+		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
+		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->view('MoveReports.tpl', $moduleName);
+	}
 }

@@ -11,41 +11,41 @@
 
 class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View
 {
-    /**
-     * Function to check permission.
-     *
-     * @param \App\Request $request
-     *
-     * @throws \App\Exceptions\NoPermittedToRecord
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $recordId = $request->getInteger('record');
-        if (!$recordId) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
-        if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
-    }
+	/**
+	 * Function to check permission.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
 
-    /**
-     * Process.
-     *
-     * @param \App\Request $request
-     */
-    public function process(\App\Request $request)
-    {
-        $record = $request->getInteger('record');
-        $moduleName = $request->getModule();
-        $recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        $modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
+	{
+		$record = $request->getInteger('record');
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 
-        $viewer = $this->getViewer($request);
-        $viewer->assign('CURRENTUSER', $currentUserModel);
-        $viewer->assign('COMMENT', $recordModel);
-        $viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
-        echo $viewer->view('Comment.tpl', $moduleName, true);
-    }
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CURRENTUSER', $currentUserModel);
+		$viewer->assign('COMMENT', $recordModel);
+		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		echo $viewer->view('Comment.tpl', $moduleName, true);
+	}
 }

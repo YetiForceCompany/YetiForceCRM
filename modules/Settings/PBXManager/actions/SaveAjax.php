@@ -10,36 +10,36 @@
 
 class Settings_PBXManager_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-    public function checkPermission(\App\Request $request)
-    {
-        if (!\App\User::getCurrentUserModel()->isAdmin()) {
-            throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-        }
-    }
+	public function checkPermission(\App\Request $request)
+	{
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
 
-    // To save Mapping of user from mapping popup
-    public function process(\App\Request $request)
-    {
-        $id = $request->get('id');
-        $qualifiedModuleName = 'PBXManager';
+	// To save Mapping of user from mapping popup
+	public function process(\App\Request $request)
+	{
+		$id = $request->get('id');
+		$qualifiedModuleName = 'PBXManager';
 
-        $recordModel = Settings_PBXManager_Record_Model::getCleanInstance();
-        $recordModel->set('gateway', $qualifiedModuleName);
-        if ($id) {
-            $recordModel->set('id', $id);
-        }
+		$recordModel = Settings_PBXManager_Record_Model::getCleanInstance();
+		$recordModel->set('gateway', $qualifiedModuleName);
+		if ($id) {
+			$recordModel->set('id', $id);
+		}
 
-        foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
-            $recordModel->set($field, $request->get($field));
-        }
+		foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
+			$recordModel->set($field, $request->get($field));
+		}
 
-        $response = new Vtiger_Response();
-        try {
-            $recordModel->save();
-            $response->setResult(true);
-        } catch (Exception $e) {
-            $response->setError($e->getMessage());
-        }
-        $response->emit();
-    }
+		$response = new Vtiger_Response();
+		try {
+			$recordModel->save();
+			$response->setResult(true);
+		} catch (Exception $e) {
+			$response->setError($e->getMessage());
+		}
+		$response->emit();
+	}
 }

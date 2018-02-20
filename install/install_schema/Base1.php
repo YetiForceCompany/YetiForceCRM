@@ -1,16 +1,16 @@
 <?php
+
 namespace Importers;
 
 /**
- * Class that imports base database
- * @package YetiForce.Install
+ * Class that imports base database.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base1 extends \App\Db\Importers\Base
 {
-
 	public $dbType = 'base';
 
 	public function scheme()
@@ -3757,16 +3757,16 @@ class Base1 extends \App\Db\Importers\Base
 					[5, 'VTUpdateFieldsTask', 'Update Fields', 'VTUpdateFieldsTask', 'modules/com_vtiger_workflow/tasks/VTUpdateFieldsTask.php', 'com_vtiger_workflow/taskforms/VTUpdateFieldsTask.tpl', '{"include":[],"exclude":[]}', ''],
 					[6, 'VTCreateEntityTask', 'Create Entity', 'VTCreateEntityTask', 'modules/com_vtiger_workflow/tasks/VTCreateEntityTask.php', 'com_vtiger_workflow/taskforms/VTCreateEntityTask.tpl', '{"include":[],"exclude":[]}', ''],
 					[7, 'VTSMSTask', 'SMS Task', 'VTSMSTask', 'modules/com_vtiger_workflow/tasks/VTSMSTask.php', 'com_vtiger_workflow/taskforms/VTSMSTask.tpl', '{"include":[],"exclude":[]}', 'SMSNotifier'],
-					[8, 'VTEmailTemplateTask', 'Email Template Task', 'VTEmailTemplateTask', 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php', 'com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl', '{"include":[],"exclude":[]}', NULL],
-					[9, 'VTSendPdf', 'Send Pdf', 'VTSendPdf', 'modules/com_vtiger_workflow/tasks/VTSendPdf.php', 'com_vtiger_workflow/taskforms/VTSendPdf.tpl', '{"include":[],"exclude":[]}', NULL],
-					[10, 'VTUpdateClosedTime', 'Update Closed Time', 'VTUpdateClosedTime', 'modules/com_vtiger_workflow/tasks/VTUpdateClosedTime.php', 'com_vtiger_workflow/taskforms/VTUpdateClosedTime.tpl', '{"include":[],"exclude":[]}', NULL],
-					[11, 'VTSendNotificationTask', 'Send Notification', 'VTSendNotificationTask', 'modules/com_vtiger_workflow/tasks/VTSendNotificationTask.php', 'com_vtiger_workflow/taskforms/VTSendNotificationTask.tpl', '{"include":["Calendar","Events"],"exclude":[]}', NULL],
-					[12, 'VTAddressBookTask', 'Create Address Book', 'VTAddressBookTask', 'modules/com_vtiger_workflow/tasks/VTAddressBookTask.php', 'com_vtiger_workflow/taskforms/VTAddressBookTask.tpl', '{"include":["Contacts","OSSEmployees","Accounts","Leads","Vendors"],"exclude":[]}', NULL],
-					[13, 'VTUpdateCalendarDates', 'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY', 'VTUpdateCalendarDates', 'modules/com_vtiger_workflow/tasks/VTUpdateCalendarDates.php', 'com_vtiger_workflow/taskforms/VTUpdateCalendarDates.tpl', '{"include":["Accounts","Contacts","Leads","OSSEmployees","Vendors","Campaigns","HelpDesk","Project","ServiceContracts"],"exclude":["Calendar","FAQ","Events"]}', NULL],
-					[14, 'VTUpdateWorkTime', 'LBL_UPDATE_WORK_TIME_AUTOMATICALLY', 'VTUpdateWorkTime', 'modules/com_vtiger_workflow/tasks/VTUpdateWorkTime.php', 'com_vtiger_workflow/taskforms/VTUpdateWorkTime.tpl', '{"include":["OSSTimeControl"],"exclude":[]}', NULL],
+					[8, 'VTEmailTemplateTask', 'Email Template Task', 'VTEmailTemplateTask', 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php', 'com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl', '{"include":[],"exclude":[]}', null],
+					[9, 'VTSendPdf', 'Send Pdf', 'VTSendPdf', 'modules/com_vtiger_workflow/tasks/VTSendPdf.php', 'com_vtiger_workflow/taskforms/VTSendPdf.tpl', '{"include":[],"exclude":[]}', null],
+					[10, 'VTUpdateClosedTime', 'Update Closed Time', 'VTUpdateClosedTime', 'modules/com_vtiger_workflow/tasks/VTUpdateClosedTime.php', 'com_vtiger_workflow/taskforms/VTUpdateClosedTime.tpl', '{"include":[],"exclude":[]}', null],
+					[11, 'VTSendNotificationTask', 'Send Notification', 'VTSendNotificationTask', 'modules/com_vtiger_workflow/tasks/VTSendNotificationTask.php', 'com_vtiger_workflow/taskforms/VTSendNotificationTask.tpl', '{"include":["Calendar","Events"],"exclude":[]}', null],
+					[12, 'VTAddressBookTask', 'Create Address Book', 'VTAddressBookTask', 'modules/com_vtiger_workflow/tasks/VTAddressBookTask.php', 'com_vtiger_workflow/taskforms/VTAddressBookTask.tpl', '{"include":["Contacts","OSSEmployees","Accounts","Leads","Vendors"],"exclude":[]}', null],
+					[13, 'VTUpdateCalendarDates', 'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY', 'VTUpdateCalendarDates', 'modules/com_vtiger_workflow/tasks/VTUpdateCalendarDates.php', 'com_vtiger_workflow/taskforms/VTUpdateCalendarDates.tpl', '{"include":["Accounts","Contacts","Leads","OSSEmployees","Vendors","Campaigns","HelpDesk","Project","ServiceContracts"],"exclude":["Calendar","FAQ","Events"]}', null],
+					[14, 'VTUpdateWorkTime', 'LBL_UPDATE_WORK_TIME_AUTOMATICALLY', 'VTUpdateWorkTime', 'modules/com_vtiger_workflow/tasks/VTUpdateWorkTime.php', 'com_vtiger_workflow/taskforms/VTUpdateWorkTime.tpl', '{"include":["OSSTimeControl"],"exclude":[]}', null],
 					[15, 'VTUpdateRelatedFieldTask', 'LBL_UPDATE_RELATED_FIELD', 'VTUpdateRelatedFieldTask', 'modules/com_vtiger_workflow/tasks/VTUpdateRelatedFieldTask.php', 'com_vtiger_workflow/taskforms/VTUpdateRelatedFieldTask.tpl', '{"include":[],"exclude":[]}', ''],
-					[16, 'VTWatchdog', 'LBL_NOTIFICATIONS', 'VTWatchdog', 'modules/com_vtiger_workflow/tasks/VTWatchdog.php', 'com_vtiger_workflow/taskforms/VTWatchdog.tpl', '{"include":[],"exclude":[]}', NULL],
-					[17, 'VTAutoAssign', 'LBL_AUTO_ASSIGN', 'VTAutoAssign', 'modules/com_vtiger_workflow/tasks/VTAutoAssign.php', 'com_vtiger_workflow/taskforms/VTAutoAssign.tpl', '{"include":[],"exclude":[]}', NULL],
+					[16, 'VTWatchdog', 'LBL_NOTIFICATIONS', 'VTWatchdog', 'modules/com_vtiger_workflow/tasks/VTWatchdog.php', 'com_vtiger_workflow/taskforms/VTWatchdog.tpl', '{"include":[],"exclude":[]}', null],
+					[17, 'VTAutoAssign', 'LBL_AUTO_ASSIGN', 'VTAutoAssign', 'modules/com_vtiger_workflow/tasks/VTAutoAssign.php', 'com_vtiger_workflow/taskforms/VTAutoAssign.tpl', '{"include":[],"exclude":[]}', null],
 				]
 			],
 			'com_vtiger_workflow_tasktypes_seq' => [
@@ -3778,29 +3778,29 @@ class Base1 extends \App\Db\Importers\Base
 			'com_vtiger_workflows' => [
 				'columns' => ['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew', 'schtypeid', 'schdayofmonth', 'schdayofweek', 'schannualdates', 'schtime', 'nexttrigger_time'],
 				'values' => [
-					[13, 'Events', 'Workflow for Events when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[14, 'Calendar', 'Workflow for Calendar Todos when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[25, 'HelpDesk', 'Ticket change: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[26, 'HelpDesk', 'Ticket change: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[27, 'HelpDesk', 'Ticket change: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[28, 'HelpDesk', 'Ticket Closed: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[29, 'HelpDesk', 'Ticket Closed: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[30, 'HelpDesk', 'Ticket Closed: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[31, 'HelpDesk', 'Ticket Creation: Send Email to Record Owner', '[]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[33, 'HelpDesk', 'Ticket Creation: Send Email to Record Account', '[{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[53, 'Contacts', 'Send Customer Login Details', '[{"fieldname":"emailoptout","operation":"is","value":"1","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[54, 'HelpDesk', 'Update Closed Time', '[{"fieldname":"ticketstatus","operation":"is","value":"Rejected","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 2, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[55, 'Contacts', 'Generate mail address book', '[]', 3, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[57, 'ModComments', 'New comment added to ticket - Owner', '[{"fieldname":"customer","operation":"is not empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[58, 'ModComments', 'New comment added to ticket - account', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[59, 'ModComments', 'New comment added to ticket - contact', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-					[63, 'SQuoteEnquiries', 'Block edition', '[{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[64, 'SRequirementsCards', 'Block edition', '[{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[65, 'SCalculations', 'Block edition', '[{"fieldname":"scalculations_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"scalculations_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[66, 'SQuotes', 'Block edition', '[{"fieldname":"squotes_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squotes_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[67, 'SSingleOrders', 'Block edition', '[{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[68, 'SRecurringOrders', 'Block edition', '[{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_UNREALIZED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_REALIZED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
-					[69, 'OSSTimeControl', 'LBL_UPDATE_WORK_TIME', '[]', 7, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
+					[13, 'Events', 'Workflow for Events when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, null, null, null, null, null, null],
+					[14, 'Calendar', 'Workflow for Calendar Todos when Send Notification is True', '[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, 1, 'basic', 6, null, null, null, null, null, null],
+					[25, 'HelpDesk', 'Ticket change: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[26, 'HelpDesk', 'Ticket change: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[27, 'HelpDesk', 'Ticket change: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[28, 'HelpDesk', 'Ticket Closed: Send Email to Record Owner', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(assigned_user_id : (Users) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[29, 'HelpDesk', 'Ticket Closed: Send Email to Record Contact', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[30, 'HelpDesk', 'Ticket Closed: Send Email to Record Account', '[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[31, 'HelpDesk', 'Ticket Creation: Send Email to Record Owner', '[]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[33, 'HelpDesk', 'Ticket Creation: Send Email to Record Account', '[{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[53, 'Contacts', 'Send Customer Login Details', '[{"fieldname":"emailoptout","operation":"is","value":"1","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 4, null, 'basic', 6, null, null, null, null, null, null],
+					[54, 'HelpDesk', 'Update Closed Time', '[{"fieldname":"ticketstatus","operation":"is","value":"Rejected","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 2, null, 'basic', 6, null, null, null, null, null, null],
+					[55, 'Contacts', 'Generate mail address book', '[]', 3, null, 'basic', 6, null, null, null, null, null, null],
+					[57, 'ModComments', 'New comment added to ticket - Owner', '[{"fieldname":"customer","operation":"is not empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[58, 'ModComments', 'New comment added to ticket - account', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[59, 'ModComments', 'New comment added to ticket - contact', '[{"fieldname":"customer","operation":"is empty","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]', 1, null, 'basic', 6, null, null, null, null, null, null],
+					[63, 'SQuoteEnquiries', 'Block edition', '[{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squoteenquiries_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[64, 'SRequirementsCards', 'Block edition', '[{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srequirementscards_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[65, 'SCalculations', 'Block edition', '[{"fieldname":"scalculations_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"scalculations_status","operation":"is","value":"PLL_COMPLETED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[66, 'SQuotes', 'Block edition', '[{"fieldname":"squotes_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"squotes_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[67, 'SSingleOrders', 'Block edition', '[{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[68, 'SRecurringOrders', 'Block edition', '[{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_UNREALIZED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_REALIZED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, null, 'basic', 6, 0, '', '', '', '', null],
+					[69, 'OSSTimeControl', 'LBL_UPDATE_WORK_TIME', '[]', 7, null, 'basic', 6, null, null, null, null, null, null],
 				]
 			],
 			'com_vtiger_workflowtasks' => [
@@ -3907,7 +3907,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[36, 'Notify Account On Ticket Change', 'N2', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_COPY_BILLING_ADDRESS)$  $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -3953,7 +3953,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[37, 'Notify Contact On Ticket Closed', 'N3', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4037,7 +4037,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[39, 'Notify Contact On Ticket Create', 'N5', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4113,7 +4113,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[41, 'Notify Contact On Ticket Change', 'N7', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4195,7 +4195,7 @@ class Base1 extends \App\Db\Importers\Base
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[43, 'Notify Owner On Ticket Create', 'N9', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4232,7 +4232,7 @@ class Base1 extends \App\Db\Importers\Base
 			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[44, 'Customer Portal Login Details', 'N10', 'PLL_RECORD', 'Contacts', 'Customer Portal Login Details', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
 			</td>
@@ -4251,7 +4251,7 @@ Created for your account in the customer portal, below sending data access<br />
 			<div style="float:right;">$(organization : mailLogo)$</div>
 			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[45, 'Send invitations', 'N11', 'PLL_RECORD', 'Events', '$(record : activitytype)$ $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(record : subject)$</span></h3>
 			</td>
@@ -4305,7 +4305,7 @@ Created for your account in the customer portal, below sending data access<br />
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[46, 'Send Notification Email to Record Owner', 'N12', 'PLL_RECORD', 'Calendar', 'Task : $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>Activity Notification Details</span></h3>
 			</td>
@@ -4355,7 +4355,7 @@ Created for your account in the customer portal, below sending data access<br />
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
-		</tr></table>', NULL, 1],
+		</tr></table>', null, 1],
 					[93, 'Activity Reminder Notification', 'N13', 'PLL_RECORD', 'Calendar', 'Reminder:  $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>This is a reminder notification for the Activity</span></h3>
 			</td>
@@ -4610,8 +4610,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, '', 7],
 					[11, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, '', 7],
 					[12, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, '', 7],
-					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
-					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
+					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 7],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 7],
 				]
 			],
 			'u_#__fcorectinginvoice_invmap' => [
@@ -4628,16 +4628,16 @@ Created for your account in the customer portal, below sending data access<br />
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 7],
 					[3, 'discount', 'LBL_DISCOUNT', 'Discount', 0, '0', 6, 1, 0, '{}', 7],
 					[4, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 11, 2, 0, '{}', 0],
-					[5, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, NULL, 7],
-					[6, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 13, 0, 0, NULL, 7],
-					[7, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 14, 0, 0, NULL, 7],
-					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 7],
-					[9, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, NULL, 7],
-					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 7],
-					[12, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, NULL, 7],
-					[13, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 7],
-					[14, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
-					[15, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
+					[5, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, null, 7],
+					[6, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 13, 0, 0, null, 7],
+					[7, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 14, 0, 0, null, 7],
+					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 7],
+					[9, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, null, 7],
+					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, null, 7],
+					[12, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, null, 7],
+					[13, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 7],
+					[14, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 7],
+					[15, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 7],
 				]
 			],
 			'u_#__finvoice_invmap' => [
@@ -4681,8 +4681,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, '{}', 10],
 					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, '{}', 10],
 					[12, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 12, 2, 0, '{}', 0],
-					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__finvoiceproforma_invmap' => [
@@ -4706,10 +4706,10 @@ Created for your account in the customer portal, below sending data access<br />
 					[3, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[4, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[5, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
-					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
+					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__igdn_invmap' => [
@@ -4750,10 +4750,10 @@ Created for your account in the customer portal, below sending data access<br />
 					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[9, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[10, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[11, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[12, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
-					[13, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[11, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[12, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
+					[13, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__igin_invmap' => [
@@ -4772,10 +4772,10 @@ Created for your account in the customer portal, below sending data access<br />
 					[3, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[4, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[5, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
-					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
+					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__igrn_invmap' => [
@@ -4814,12 +4814,12 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 1, 1, 0, '{"modules":"Products","limit":" "}', 29],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 5, 1, 0, '{}', 15],
 					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 5, 2, 0, '{}', 0],
-					[4, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, NULL, 5],
-					[5, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, NULL, 12],
+					[4, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, null, 5],
+					[5, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, null, 12],
 					[6, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 6, 1, 0, '{}', 12],
 					[7, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
-					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, NULL, 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, null, 15],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__iidn_invmap' => [
@@ -4841,7 +4841,7 @@ Created for your account in the customer portal, below sending data access<br />
 					[7, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 7, 1, 0, '{}', 12],
 					[8, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, '{}', 12],
 					[9, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, '{}', 15],
-					[10, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[10, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__ipreorder_invmap' => [
@@ -4863,7 +4863,7 @@ Created for your account in the customer portal, below sending data access<br />
 					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, '', 5],
 					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, '', 12],
 					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, '', 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__istdn_invmap' => [
@@ -4885,7 +4885,7 @@ Created for your account in the customer portal, below sending data access<br />
 					[6, 'seq', 'LBL_ITEM_NUMBER', 'ItemNumber', 0, '', 0, 1, 0, '', 5],
 					[7, 'unit', 'LBL_UNIT', 'Value', 0, '', 3, 1, 10, '', 12],
 					[8, 'ean', 'LBL_EAN', 'Value', 0, '', 2, 1, 10, '', 15],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, NULL, 10],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 4, 1, 10, null, 10],
 				]
 			],
 			'u_#__istrn_invmap' => [
@@ -4908,13 +4908,13 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 40],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 10],
 					[4, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
-					[5, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 10],
-					[6, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 10],
-					[7, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 6, 1, 0, NULL, 10],
-					[8, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 7, 1, 0, NULL, 10],
-					[9, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 8, 1, 0, NULL, 10],
-					[10, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[11, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[5, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 10],
+					[6, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 10],
+					[7, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 6, 1, 0, null, 10],
+					[8, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 7, 1, 0, null, 10],
+					[9, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 8, 1, 0, null, 10],
+					[10, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[11, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__scalculations_invmap' => [
@@ -4930,8 +4930,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 50],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 30],
 					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
-					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__squoteenquiries_invmap' => [
@@ -4950,17 +4950,17 @@ Created for your account in the customer portal, below sending data access<br />
 					[4, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 9, 1, 0, '{}', 10],
 					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 10, 1, 0, '{}', 6],
 					[6, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 6, 2, 0, '{}', 0],
-					[7, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 6],
-					[8, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 6],
-					[9, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, NULL, 6],
-					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, NULL, 6],
-					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, NULL, 6],
-					[12, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 10, 0, 0, NULL, 1],
-					[13, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 11, 0, 0, NULL, 1],
-					[14, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, NULL, 1],
-					[15, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 6],
-					[16, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 6],
-					[17, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 6],
+					[7, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 6],
+					[8, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 6],
+					[9, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, null, 6],
+					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, null, 6],
+					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, null, 6],
+					[12, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 10, 0, 0, null, 1],
+					[13, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 11, 0, 0, null, 1],
+					[14, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, null, 1],
+					[15, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, null, 6],
+					[16, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 6],
+					[17, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 6],
 				]
 			],
 			'u_#__squotes_invmap' => [
@@ -4980,8 +4980,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 6, 1, 0, '{}', 10],
 					[6, 'tax', 'LBL_TAX', 'Tax', 0, '0', 7, 1, 0, '{}', 10],
 					[7, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 7, 2, 0, '{}', 0],
-					[8, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[8, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[9, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__srecurringorders_invmap' => [
@@ -4997,8 +4997,8 @@ Created for your account in the customer portal, below sending data access<br />
 					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 50],
 					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 30],
 					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
-					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 10],
-					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 10],
+					[4, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 10],
+					[5, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 10],
 				]
 			],
 			'u_#__srequirementscards_invmap' => [
@@ -5018,16 +5018,16 @@ Created for your account in the customer portal, below sending data access<br />
 					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 10, 1, 0, '{}', 7],
 					[6, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, '{}', 7],
 					[7, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 7, 2, 0, '{}', 0],
-					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 7],
-					[9, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 7],
-					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 7],
-					[11, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, NULL, 7],
-					[12, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, NULL, 7],
-					[13, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 11, 0, 0, NULL, 1],
-					[14, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 12, 0, 0, NULL, 1],
-					[15, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 13, 0, 0, NULL, 1],
-					[16, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
-					[17, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
+					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, null, 7],
+					[9, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, null, 7],
+					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, null, 7],
+					[11, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, null, 7],
+					[12, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, null, 7],
+					[13, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 11, 0, 0, null, 1],
+					[14, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 12, 0, 0, null, 1],
+					[15, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 13, 0, 0, null, 1],
+					[16, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, null, 7],
+					[17, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, null, 7],
 				]
 			],
 			'u_#__ssingleorders_invmap' => [

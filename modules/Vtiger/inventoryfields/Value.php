@@ -9,38 +9,38 @@
  */
 class Vtiger_Value_InventoryField extends Vtiger_Basic_InventoryField
 {
-    protected $name = 'Value';
-    protected $defaultLabel = 'LBL_VALUE';
-    protected $columnName = 'value';
-    protected $dbType = 'string';
-    protected $onlyOne = false;
+	protected $name = 'Value';
+	protected $defaultLabel = 'LBL_VALUE';
+	protected $columnName = 'value';
+	protected $dbType = 'string';
+	protected $onlyOne = false;
 
-    /**
-     * Getting value to display.
-     *
-     * @param type $value
-     *
-     * @return string
-     */
-    public function getDisplayValue($value, $rawText = false)
-    {
-        $mapDetail = $this->getMapDetail(true);
-        if ($mapDetail) {
-            $value = $mapDetail->getDisplayValue($value, false, false, true);
-        }
+	/**
+	 * Getting value to display.
+	 *
+	 * @param type $value
+	 *
+	 * @return string
+	 */
+	public function getDisplayValue($value, $rawText = false)
+	{
+		$mapDetail = $this->getMapDetail(true);
+		if ($mapDetail) {
+			$value = $mapDetail->getDisplayValue($value, false, false, true);
+		}
 
-        return $value;
-    }
+		return $value;
+	}
 
-    /**
-     * Getting value to display.
-     *
-     * @param type $value
-     *
-     * @return string
-     */
-    public function getEditValue($value)
-    {
-        return \App\Purifier::encodeHtml($value);
-    }
+	/**
+	 * Getting value to display.
+	 *
+	 * @param type $value
+	 *
+	 * @return string
+	 */
+	public function getEditValue($value)
+	{
+		return \App\Purifier::encodeHtml($value);
+	}
 }

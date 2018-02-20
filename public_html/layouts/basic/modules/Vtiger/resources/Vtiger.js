@@ -445,7 +445,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerChatLoadItems: function (timer) {
-		var icon = $('.chatModal .modal-title .glyphicon-comment');
+		var icon = $('.chatModal .modal-title .fa-comments');
 		this.chatTimer = setTimeout(function () {
 			icon.css('color', '#00e413');
 			Vtiger_Index_Js.getChatItems();

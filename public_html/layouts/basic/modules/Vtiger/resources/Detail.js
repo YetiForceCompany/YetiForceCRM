@@ -884,7 +884,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		detailContentsHolder.find('.detailViewBlockLink .blockHeader').click(function () {
-			var block = $(this).closest('.panel');
+			var block = $(this).closest('.card');
 			var blockContent = block.find('.blockContent');
 			var isEmpty = blockContent.is(':empty');
 			if (!blockContent.is(':visible')) {
@@ -912,7 +912,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.find(".blockHeader").click(function () {
 			var currentTarget = $(this).find(".blockToggle").not(".hide");
 			var blockId = currentTarget.data("id");
-			var closestBlock = currentTarget.closest(".panel");
+			var closestBlock = currentTarget.closest(".card");
 			var bodyContents = closestBlock.find(".blockContent");
 			var data = currentTarget.data();
 			var module = app.getModuleName();
@@ -936,7 +936,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
-			var bodyContents = currentBlock.closest('.panel').find('.blockContent');
+			var bodyContents = currentBlock.closest('.card').find('.blockContent');
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);

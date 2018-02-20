@@ -9,13 +9,13 @@
  */
 class Vtiger_RecordLabelUpdater_Handler
 {
-    /**
-     * EntityAfterSave function.
-     *
-     * @param App\EventHandler $eventHandler
-     */
-    public function entityAfterSave(App\EventHandler $eventHandler)
-    {
-        \App\Record::updateLabelOnSave($eventHandler->getRecordModel());
-    }
+	/**
+	 * EntityAfterSave function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
+	{
+		\App\Record::updateLabelOnSave($eventHandler->getRecordModel());
+	}
 }

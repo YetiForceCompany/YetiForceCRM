@@ -11,13 +11,13 @@ namespace App\Controller;
  */
 abstract class Action extends Base
 {
-    /**
-     * Process action.
-     *
-     * @param \App\Request $request
-     */
-    public function process(\App\Request $request)
-    {
-        return true;
-    }
+	/**
+	 * Process action.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
+	{
+		return true;
+	}
 }

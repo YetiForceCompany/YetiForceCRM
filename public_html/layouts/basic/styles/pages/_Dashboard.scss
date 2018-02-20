@@ -115,6 +115,7 @@
         }
       }
       .dashboardWidgetContent {
+		@extend .small;
         &:not(.dashboardWidgetCalendar) {
           padding: 5px;
           line-height: 20px;
@@ -122,6 +123,9 @@
         .dashboard_notebookWidget_viewarea {
           height: 200px;
         }
+		.row {
+			@extend .mx-0;
+		}
       }
       .widgeticons {
         min-width: 50px;

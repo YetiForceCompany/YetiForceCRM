@@ -7,16 +7,16 @@
  * @author skavenkf (K.Fink)
  */
 $languageStrings = [
-    'Updates' => 'Updates',
-    'LBL_YES' => 'Ja',
-    'LBL_NO' => 'Nein',
-    'LBL_TIME' => 'Zeit',
-    'LBL_USER' => 'Benutzername',
-    'LBL_FROM_VERSION' => 'Von Version',
-    'LBL_TO_VERSION' => 'Nach Version',
-    'LBL_RESULT' => 'Status',
-    'LBL_UPDATES' => 'Updates',
-    'LBL_UPDATES_DESCRIPTION' => 'Updates Historie',
-    'LBL_IMPORT_UPDATE' => 'Update hochladen',
-    'LBL_NAME_PACKAGES' => 'Name',
+	'Updates' => 'Updates',
+	'LBL_YES' => 'Ja',
+	'LBL_NO' => 'Nein',
+	'LBL_TIME' => 'Zeit',
+	'LBL_USER' => 'Benutzername',
+	'LBL_FROM_VERSION' => 'Von Version',
+	'LBL_TO_VERSION' => 'Nach Version',
+	'LBL_RESULT' => 'Status',
+	'LBL_UPDATES' => 'Updates',
+	'LBL_UPDATES_DESCRIPTION' => 'Updates Historie',
+	'LBL_IMPORT_UPDATE' => 'Update hochladen',
+	'LBL_NAME_PACKAGES' => 'Name',
 ];

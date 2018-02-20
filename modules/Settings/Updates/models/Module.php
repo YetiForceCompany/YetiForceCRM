@@ -8,9 +8,9 @@
  */
 class Settings_Updates_Module_Model extends Settings_Vtiger_Module_Model
 {
-    public static function getUpdates()
-    {
-        return (new App\Db\Query())->from('yetiforce_updates')
-                ->all();
-    }
+	public static function getUpdates()
+	{
+		return (new App\Db\Query())->from('yetiforce_updates')
+			->all();
+	}
 }

@@ -11,88 +11,88 @@ namespace App\QueryField;
  */
 class CompanySelectField extends PicklistField
 {
-    /**
-     * Equals operator.
-     *
-     * @return array
-     */
-    public function operatorE()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $columnName = $this->getColumnName();
-        $focus = $this->queryGenerator->getEntityModel();
-        $this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
+	/**
+	 * Equals operator.
+	 *
+	 * @return array
+	 */
+	public function operatorE()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$columnName = $this->getColumnName();
+		$focus = $this->queryGenerator->getEntityModel();
+		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
 
-        return ['s_#__companies.name' => $this->getValue()];
-    }
+		return ['s_#__companies.name' => $this->getValue()];
+	}
 
-    /**
-     * Not equal operator.
-     *
-     * @return array
-     */
-    public function operatorN()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $columnName = $this->getColumnName();
-        $focus = $this->queryGenerator->getEntityModel();
-        $this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
+	/**
+	 * Not equal operator.
+	 *
+	 * @return array
+	 */
+	public function operatorN()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$columnName = $this->getColumnName();
+		$focus = $this->queryGenerator->getEntityModel();
+		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
 
-        return ['not', ['s_#__companies.name' => $this->getValue()]];
-    }
+		return ['not', ['s_#__companies.name' => $this->getValue()]];
+	}
 
-    /**
-     * Contains operator.
-     *
-     * @return array
-     */
-    public function operatorC()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $focus = $this->queryGenerator->getEntityModel();
-        $columnName = $this->getColumnName();
-        $this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
+	/**
+	 * Contains operator.
+	 *
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$focus = $this->queryGenerator->getEntityModel();
+		$columnName = $this->getColumnName();
+		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
 
-        return ['like', 's_#__companies.name', "%{$this->value}%", false];
-    }
+		return ['like', 's_#__companies.name', "%{$this->value}%", false];
+	}
 
-    /**
-     * Ends with operator.
-     *
-     * @return array
-     */
-    public function operatorEw()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $focus = $this->queryGenerator->getEntityModel();
-        $columnName = $this->getColumnName();
-        $this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
+	/**
+	 * Ends with operator.
+	 *
+	 * @return array
+	 */
+	public function operatorEw()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$focus = $this->queryGenerator->getEntityModel();
+		$columnName = $this->getColumnName();
+		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
 
-        return ['like', 's_#__companies.name', '%'.$this->value, false];
-    }
+		return ['like', 's_#__companies.name', '%' . $this->value, false];
+	}
 
-    /**
-     * Does not contain operator.
-     *
-     * @return array
-     */
-    public function operatorK()
-    {
-        if (empty($this->value)) {
-            return [];
-        }
-        $focus = $this->queryGenerator->getEntityModel();
-        $columnName = $this->getColumnName();
-        $this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
+	/**
+	 * Does not contain operator.
+	 *
+	 * @return array
+	 */
+	public function operatorK()
+	{
+		if (empty($this->value)) {
+			return [];
+		}
+		$focus = $this->queryGenerator->getEntityModel();
+		$columnName = $this->getColumnName();
+		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
 
-        return ['not like', 's_#__companies.name', $this->value];
-    }
+		return ['not like', 's_#__companies.name', $this->value];
+	}
 }

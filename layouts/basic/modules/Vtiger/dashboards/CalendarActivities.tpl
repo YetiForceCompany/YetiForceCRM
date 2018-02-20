@@ -15,15 +15,15 @@
 	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 	<div class="dashboardWidgetHeader">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="box float-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
-								return false;">
-							<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+								return false;" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+							<span class='fas fa-plus' border='0'></span>
 						</a>
 					{/if}&nbsp;
 					<button class="btn btn-light btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">

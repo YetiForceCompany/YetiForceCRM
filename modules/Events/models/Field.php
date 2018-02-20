@@ -13,35 +13,35 @@
  */
 class Events_Field_Model extends Calendar_Field_Model
 {
-    public function get($propertyName)
-    {
-        if (property_exists($this, $propertyName)) {
-            $fieldName = $this->getName();
-            if ($propertyName == 'label' && $fieldName == 'due_date') {
-                return 'End Date & Time';
-            }
+	public function get($propertyName)
+	{
+		if (property_exists($this, $propertyName)) {
+			$fieldName = $this->getName();
+			if ($propertyName == 'label' && $fieldName == 'due_date') {
+				return 'End Date & Time';
+			}
 
-            return $this->$propertyName;
-        }
+			return $this->$propertyName;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Customize the display value for detail view.
-     */
-    public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-    {
-        if ($recordModel) {
-            if ($this->getName() === 'due_date') {
-                $displayValue = $value.' '.$recordModel->get('time_end');
-                $value = $this->getUITypeModel()->getDisplayValue($displayValue);
-                list($endDate, $endTime, $meridiem) = explode(' ', $value);
+	/**
+	 * Customize the display value for detail view.
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if ($recordModel) {
+			if ($this->getName() === 'due_date') {
+				$displayValue = $value . ' ' . $recordModel->get('time_end');
+				$value = $this->getUITypeModel()->getDisplayValue($displayValue);
+				list($endDate, $endTime, $meridiem) = explode(' ', $value);
 
-                return $endDate.' '.$endTime.' '.$meridiem;
-            }
-        }
+				return $endDate . ' ' . $endTime . ' ' . $meridiem;
+			}
+		}
 
-        return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
-    }
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
+	}
 }

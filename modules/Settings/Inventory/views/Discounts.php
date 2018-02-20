@@ -7,8 +7,8 @@
  */
 class Settings_Inventory_Discounts_View extends Settings_Inventory_CreditLimits_View
 {
-    public function getView()
-    {
-        return 'Discounts';
-    }
+	public function getView()
+	{
+		return 'Discounts';
+	}
 }

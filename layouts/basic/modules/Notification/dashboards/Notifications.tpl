@@ -32,12 +32,12 @@
 			<div class="col-md-6">
 				<div class="btn-toolbar float-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
-						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()">
-							<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+							<span class="fas fa-plus"></span>
 						</button>
 					{/if}
-					<button type="button"  class="btn btn-light" href="index.php?module=Notification&view=List">
-						<span class="fas fa-th-list" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}" alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}"></span>
+					<button type="button"  class="btn btn-light" href="index.php?module=Notification&view=List" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}" alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}">
+						<span class="fas fa-th-list"></span>
 					</button>
 				</div>
 			</div>

@@ -9,95 +9,95 @@
  */
 class Vtiger_BrowsingHistory_Helper
 {
-    /**
-     * Get browsing history.
-     *
-     * @return array
-     */
-    public static function getHistory()
-    {
-        $results = (new \App\Db\Query())->from('u_#__browsinghistory')
-            ->where(['userid' => App\User::getCurrentUserId()])
-            ->orderBy(['id' => SORT_DESC])
-            ->limit(AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT'))
-            ->all();
+	/**
+	 * Get browsing history.
+	 *
+	 * @return array
+	 */
+	public static function getHistory()
+	{
+		$results = (new \App\Db\Query())->from('u_#__browsinghistory')
+			->where(['userid' => App\User::getCurrentUserId()])
+			->orderBy(['id' => SORT_DESC])
+			->limit(AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT'))
+			->all();
 
-        $today = false;
-        $yesterday = false;
-        $older = false;
-        $dateToday = DateTimeField::convertToUserTimeZone('today')->format('U');
-        $dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format('U');
-        foreach ($results as &$value) {
-            $userDate = DateTimeField::convertToUserTimeZone($value['date'])->format('Y-m-d H:i:s');
-            if (strtotime($userDate) >= $dateToday) {
-                $value['hour'] = true;
-                if (!$today) {
-                    $value['viewToday'] = true;
-                    $today = true;
-                }
-            } elseif (strtotime($userDate) >= $dateYesterday) {
-                $value['hour'] = true;
-                if (!$yesterday) {
-                    $value['viewYesterday'] = true;
-                    $yesterday = true;
-                }
-            } else {
-                $value['hour'] = false;
-                if (!$older) {
-                    $value['viewOlder'] = true;
-                    $older = true;
-                }
-            }
-            if ($value['hour']) {
-                $value['date'] = (new DateTimeField($userDate))->getDisplayTime();
-            } else {
-                $value['date'] = DateTimeField::convertToUserFormat($userDate);
-            }
-        }
+		$today = false;
+		$yesterday = false;
+		$older = false;
+		$dateToday = DateTimeField::convertToUserTimeZone('today')->format('U');
+		$dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format('U');
+		foreach ($results as &$value) {
+			$userDate = DateTimeField::convertToUserTimeZone($value['date'])->format('Y-m-d H:i:s');
+			if (strtotime($userDate) >= $dateToday) {
+				$value['hour'] = true;
+				if (!$today) {
+					$value['viewToday'] = true;
+					$today = true;
+				}
+			} elseif (strtotime($userDate) >= $dateYesterday) {
+				$value['hour'] = true;
+				if (!$yesterday) {
+					$value['viewYesterday'] = true;
+					$yesterday = true;
+				}
+			} else {
+				$value['hour'] = false;
+				if (!$older) {
+					$value['viewOlder'] = true;
+					$older = true;
+				}
+			}
+			if ($value['hour']) {
+				$value['date'] = (new DateTimeField($userDate))->getDisplayTime();
+			} else {
+				$value['date'] = DateTimeField::convertToUserFormat($userDate);
+			}
+		}
 
-        return $results;
-    }
+		return $results;
+	}
 
-    /**
-     * Save step in browsing history.
-     *
-     * @param string $title
-     */
-    public static function saveHistory($title)
-    {
-        if (empty(App\User::getCurrentUserId())) {
-            return false;
-        }
+	/**
+	 * Save step in browsing history.
+	 *
+	 * @param string $title
+	 */
+	public static function saveHistory($title)
+	{
+		if (empty(App\User::getCurrentUserId())) {
+			return false;
+		}
 
-        $url = App\RequestUtil::getBrowserInfo()->requestUri;
-        parse_str(parse_url($url, PHP_URL_QUERY), $urlQuery);
+		$url = App\RequestUtil::getBrowserInfo()->requestUri;
+		parse_str(parse_url($url, PHP_URL_QUERY), $urlQuery);
 
-        $validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
+		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
 
-        if (!empty($urlQuery['module']) && !empty($urlQuery['view'])) {
-            if (in_array($urlQuery['view'], $validViews)) {
-                if (!empty($urlQuery['record'])) {
-                    $title .= ' | '.App\Record::getLabel($urlQuery['record']);
-                }
+		if (!empty($urlQuery['module']) && !empty($urlQuery['view'])) {
+			if (in_array($urlQuery['view'], $validViews)) {
+				if (!empty($urlQuery['record'])) {
+					$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
+				}
 
-                \App\Db::getInstance()->createCommand()
-                    ->insert('u_#__browsinghistory', [
-                        'userid' => App\User::getCurrentUserId(),
-                        'date' => date('Y-m-d H:i:s'),
-                        'title' => $title,
-                        'url' => $url,
-                    ])->execute();
-            }
-        }
-    }
+				\App\Db::getInstance()->createCommand()
+					->insert('u_#__browsinghistory', [
+						'userid' => App\User::getCurrentUserId(),
+						'date' => date('Y-m-d H:i:s'),
+						'title' => $title,
+						'url' => $url,
+					])->execute();
+			}
+		}
+	}
 
-    /**
-     * Clear browsing history for user.
-     */
-    public static function deleteHistory()
-    {
-        \App\Db::getInstance()->createCommand()
-            ->delete('u_#__browsinghistory', ['userid' => App\User::getCurrentUserId()])
-            ->execute();
-    }
+	/**
+	 * Clear browsing history for user.
+	 */
+	public static function deleteHistory()
+	{
+		\App\Db::getInstance()->createCommand()
+			->delete('u_#__browsinghistory', ['userid' => App\User::getCurrentUserId()])
+			->execute();
+	}
 }

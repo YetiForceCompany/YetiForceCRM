@@ -8,6 +8,7 @@
 
 //-------- base --------//
 @import 'components/_Variables';
+@import 'components/_Global';
 @import 'components/_Libraries';
 
 //-------- layout --------//
@@ -20,4 +21,5 @@
 //-------- pages --------//
 @import 'pages/_Dashboard';
 @import 'pages/_Calendar';
-@import 'pages/_Details';
+@import 'pages/_Detail';
+@import 'pages/_List';

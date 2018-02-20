@@ -10,9 +10,9 @@
  * ****************************************************************************** */
 
 $languageStrings = [
-    'Webservices' => 'Webservices',
-    'LBL_CHANGE_PASSWORD_FAILURE' => 'Fehler beim Passwort ändern',
-    'LBL_DATABASE_QUERY_ERROR' => 'Datenbankfehler während der Durchführung der angeforderten Operation',
-    'LBL_INVALID_OLD_PASSWORD' => 'Ungültiger Wert für altes Passwort angegeben.',
-    'LBL_NEW_PASSWORD_MISMATCH' => 'Neues Passwort und Bestätigungspasswort stimmen nicht überein',
+	'Webservices' => 'Webservices',
+	'LBL_CHANGE_PASSWORD_FAILURE' => 'Fehler beim Passwort ändern',
+	'LBL_DATABASE_QUERY_ERROR' => 'Datenbankfehler während der Durchführung der angeforderten Operation',
+	'LBL_INVALID_OLD_PASSWORD' => 'Ungültiger Wert für altes Passwort angegeben.',
+	'LBL_NEW_PASSWORD_MISMATCH' => 'Neues Passwort und Bestätigungspasswort stimmen nicht überein',
 ];

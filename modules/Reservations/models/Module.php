@@ -8,54 +8,54 @@
  */
 class Reservations_Module_Model extends Vtiger_Module_Model
 {
-    public function getCalendarViewUrl()
-    {
-        return 'index.php?module='.$this->get('name').'&view=Calendar';
-    }
+	public function getCalendarViewUrl()
+	{
+		return 'index.php?module=' . $this->get('name') . '&view=Calendar';
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSideBarLinks($linkParams)
-    {
-        $links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
-        $links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-                'linktype' => 'SIDEBARLINK',
-                'linklabel' => 'LBL_CALENDAR_VIEW',
-                'linkurl' => $this->getCalendarViewUrl(),
-                'linkicon' => 'fas fa-calendar-alt',
-        ]);
-        $links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-                'linktype' => 'SIDEBARLINK',
-                'linklabel' => 'LBL_RECORDS_LIST',
-                'linkurl' => $this->getListViewUrl(),
-                'linkicon' => 'fas fa-list',
-        ]);
-        if ($linkParams['ACTION'] === 'Calendar') {
-            $links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-                    'linktype' => 'SIDEBARWIDGET',
-                    'linklabel' => 'LBL_USERS',
-                    'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getUsersList',
-                    'linkicon' => '',
-            ]);
-            $links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-                    'linktype' => 'SIDEBARWIDGET',
-                    'linklabel' => 'LBL_TYPE',
-                    'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getTypesList',
-                    'linkicon' => '',
-            ]);
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_CALENDAR_VIEW',
+				'linkurl' => $this->getCalendarViewUrl(),
+				'linkicon' => 'fas fa-calendar-alt',
+		]);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_RECORDS_LIST',
+				'linkurl' => $this->getListViewUrl(),
+				'linkicon' => 'fas fa-list',
+		]);
+		if ($linkParams['ACTION'] === 'Calendar') {
+			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARWIDGET',
+					'linklabel' => 'LBL_USERS',
+					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
+					'linkicon' => '',
+			]);
+			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARWIDGET',
+					'linklabel' => 'LBL_TYPE',
+					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getTypesList',
+					'linkicon' => '',
+			]);
+		}
 
-        return $links;
-    }
+		return $links;
+	}
 
-    /**
-     * Function to get the Default View Component Name.
-     *
-     * @return string
-     */
-    public function getDefaultViewName()
-    {
-        return 'Calendar';
-    }
+	/**
+	 * Function to get the Default View Component Name.
+	 *
+	 * @return string
+	 */
+	public function getDefaultViewName()
+	{
+		return 'Calendar';
+	}
 }

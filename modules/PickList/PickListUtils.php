@@ -8,6 +8,4 @@
  * All Rights Reserved.
  * ******************************************************************************* */
 require_once 'include/runtime/Cache.php';
-/*
- * this file will be used to store the functions to be used in the picklist module
- */
+// this file will be used to store the functions to be used in the picklist module

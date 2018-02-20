@@ -11,38 +11,38 @@
 
 class Users_DeleteAjax_View extends Vtiger_Index_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUserModel = Users_Record_Model::getCurrentUserModel();
-        if (!$currentUserModel->isAdminUser()) {
-            return true;
-        } else {
-            throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-        }
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			return true;
+		} else {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+		}
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $moduleName = $request->getModule();
-        $userid = $request->getInteger('record');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$userid = $request->getInteger('record');
 
-        $userRecordModel = Users_Record_Model::getInstanceById($userid, $moduleName);
-        $viewer = $this->getViewer($request);
-        $usersList = $userRecordModel->getAll(true);
+		$userRecordModel = Users_Record_Model::getInstanceById($userid, $moduleName);
+		$viewer = $this->getViewer($request);
+		$usersList = $userRecordModel->getAll(true);
 
-        if (array_key_exists($userid, $usersList)) {
-            unset($usersList[$userid]);
-        }
+		if (array_key_exists($userid, $usersList)) {
+			unset($usersList[$userid]);
+		}
 
-        $viewer->assign('USERID', $userid);
-        $viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
-        $viewer->assign('USER_LIST', $usersList);
-        $viewer->view('DeleteUser.tpl', $moduleName);
-    }
+		$viewer->assign('USERID', $userid);
+		$viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
+		$viewer->assign('USER_LIST', $usersList);
+		$viewer->view('DeleteUser.tpl', $moduleName);
+	}
 }

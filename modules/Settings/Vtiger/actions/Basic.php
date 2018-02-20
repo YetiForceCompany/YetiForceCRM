@@ -10,47 +10,47 @@
 
 class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 {
-    use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('updateFieldPinnedStatus');
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('updateFieldPinnedStatus');
+	}
 
-    /**
-     * Checking permissions.
-     *
-     * @param \App\Request $request
-     *
-     * @throws \App\Exceptions\NoPermittedForAdmin
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        if (!\App\User::getCurrentUserModel()->isAdmin()) {
-            throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-        }
-    }
+	/**
+	 * Checking permissions.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
 
-    public function updateFieldPinnedStatus(\App\Request $request)
-    {
-        $fieldId = $request->get('fieldid');
-        $menuItemModel = Settings_Vtiger_MenuItem_Model::getInstanceById($fieldId);
+	public function updateFieldPinnedStatus(\App\Request $request)
+	{
+		$fieldId = $request->get('fieldid');
+		$menuItemModel = Settings_Vtiger_MenuItem_Model::getInstanceById($fieldId);
 
-        $pin = $request->get('pin');
-        if ($pin == 'true') {
-            $menuItemModel->markPinned();
-        } else {
-            $menuItemModel->unMarkPinned();
-        }
+		$pin = $request->get('pin');
+		if ($pin == 'true') {
+			$menuItemModel->markPinned();
+		} else {
+			$menuItemModel->unMarkPinned();
+		}
 
-        $response = new Vtiger_Response();
-        $response->setResult(['SUCCESS' => 'OK']);
-        $response->emit();
-    }
+		$response = new Vtiger_Response();
+		$response->setResult(['SUCCESS' => 'OK']);
+		$response->emit();
+	}
 
-    public function validateRequest(\App\Request $request)
-    {
-        $request->validateWriteAccess();
-    }
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

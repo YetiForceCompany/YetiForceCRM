@@ -3,21 +3,24 @@
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
 	{/if}
-	<nav>		
+	<nav aria-label="Page navigation">
 		<ul class="pagination" data-total-count="{$LISTVIEW_COUNT}">
-			<li class="{if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
-				<span aria-hidden="true">{\App\Language::translate('LBL_FIRST')}</span>
+			<li class="page-item {if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
+				<a class="page-link" href="#">{\App\Language::translate('LBL_FIRST')}</a>
 			</li>
-			<li class="{if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="{$VIEWNAME}ViewPreviousPageButton">
-				<span aria-hidden="true">&laquo;</span>
-			</li>	
+			<li  class="page-item">
+				<a class="page-link {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="{$VIEWNAME}ViewPreviousPageButton" href="#">
+					<span aria-hidden="true">&laquo;</span>
+					<span class="sr-only">Previous</span>
+				</a>
+			</li>
 			{if $PAGE_COUNT neq 0}
 				{assign var=PAGIN_TO value=$START_PAGIN_FROM+4}
 				{for $PAGE_INDEX=$START_PAGIN_FROM to $PAGIN_TO}
 					{if $PAGE_INDEX eq $PAGE_COUNT || $PAGE_INDEX eq $PAGIN_TO}
 						{if $PAGE_COUNT > 5}
-							<li {if $PAGE_COUNT eq 1} disabled {/if} >
-								<a id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-expanded="true">
+							<li class="page-item {if $PAGE_COUNT eq 1} disabled {/if}">
+								<a class="page-link" id="dLabel" data-target="#" data-toggle="dropdown" role="button" href="#" aria-expanded="true">
 									...
 								</a>
 								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
@@ -38,38 +41,37 @@
 						{/if}
 						{break}
 					{/if}
-					<li class="pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}" data-id="{$PAGE_INDEX}">
-						<a>{$PAGE_INDEX}</a>
+					<li class="page-item pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}" data-id="{$PAGE_INDEX}">
+						<a class="page-link" href="#">{$PAGE_INDEX}</a>
 					</li>
 				{/for}
 			{/if}
 			{if $PAGE_INDEX <= $PAGE_COUNT}
 				<li class="pageNumber{if $PAGE_NUMBER eq $PAGE_COUNT} active disabled{/if}" data-id="{$PAGE_COUNT}">
-					<a>{$PAGE_COUNT}</a>
+					<a class="page-link" href="#">{$PAGE_COUNT}</a>
 				</li>
 			{/if}
-			<li class="{if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}" id="{$VIEWNAME}ViewNextPageButton">
-				<span aria-hidden="true">&raquo;</span>
+			<li class="page-item {if (!$PAGING_MODEL->isNextPageExists())} disabled {/if}" id="{$VIEWNAME}ViewNextPageButton">
+				<a class="page-link" href="#" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+					<span class="sr-only">Next</span>
+				</a>
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
-				<li class="popoverTooltip" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
-					<a><span class="fas fa-signal"></span></a>
+				<li class="page-item popoverTooltip" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
+					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}
 			{if $LISTVIEW_COUNT}
-				<li class="{if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
-					<span aria-hidden="true">{\App\Language::translate('LBL_LAST')}</span>
+				<li class="page-item {if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
+					<a class="page-link" href="#">{\App\Language::translate('LBL_LAST')}</a>
 				</li>
 			{/if}
-		</ul>
-		<ul class="pageInfo">
-			<li>
-				<span>
-					<span class="pageNumbersText">
-						{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
-						{if $LISTVIEW_COUNT} ({$LISTVIEW_COUNT}){/if}
-					</span>
-				</span>
+			<li class="page-item disabled">
+				<a class="page-link pageNumbersText">
+					{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
+					{if $LISTVIEW_COUNT} ({$LISTVIEW_COUNT}){/if}
+				</a>
 			</li>
 		</ul>
 	</nav>

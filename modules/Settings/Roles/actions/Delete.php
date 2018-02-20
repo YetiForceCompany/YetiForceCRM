@@ -10,25 +10,25 @@
 
 class Settings_Roles_Delete_Action extends Settings_Vtiger_Basic_Action
 {
-    public function process(\App\Request $request)
-    {
-        $qualifiedModuleName = $request->getModule(false);
-        $recordId = $request->get('record');
-        $transferRecordId = $request->get('transfer_record');
+	public function process(\App\Request $request)
+	{
+		$qualifiedModuleName = $request->getModule(false);
+		$recordId = $request->get('record');
+		$transferRecordId = $request->get('transfer_record');
 
-        $moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-        $recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
-        $transferToRole = Settings_Roles_Record_Model::getInstanceById($transferRecordId);
-        if ($recordModel && $transferToRole) {
-            $recordModel->delete($transferToRole);
-        }
+		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
+		$transferToRole = Settings_Roles_Record_Model::getInstanceById($transferRecordId);
+		if ($recordModel && $transferToRole) {
+			$recordModel->delete($transferToRole);
+		}
 
-        $redirectUrl = $moduleModel->getDefaultUrl();
-        header("Location: $redirectUrl");
-    }
+		$redirectUrl = $moduleModel->getDefaultUrl();
+		header("Location: $redirectUrl");
+	}
 
-    public function validateRequest(\App\Request $request)
-    {
-        $request->validateWriteAccess();
-    }
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

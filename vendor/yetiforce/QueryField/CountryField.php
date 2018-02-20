@@ -14,22 +14,22 @@ namespace App\QueryField;
  */
 class CountryField extends BaseField
 {
-    /**
-     * Auto operator.
-     *
-     * @return array
-     */
-    public function operatorA()
-    {
-        if (strpos($this->value, '##') === false) {
-            return [$this->getColumnName() => $this->value];
-        }
-        $values = explode('##', $this->value);
-        $condition = ['or'];
-        foreach ($values as $value) {
-            $condition[] = [$this->getColumnName() => $value];
-        }
+	/**
+	 * Auto operator.
+	 *
+	 * @return array
+	 */
+	public function operatorA()
+	{
+		if (strpos($this->value, '##') === false) {
+			return [$this->getColumnName() => $this->value];
+		}
+		$values = explode('##', $this->value);
+		$condition = ['or'];
+		foreach ($values as $value) {
+			$condition[] = [$this->getColumnName() => $value];
+		}
 
-        return $condition;
-    }
+		return $condition;
+	}
 }

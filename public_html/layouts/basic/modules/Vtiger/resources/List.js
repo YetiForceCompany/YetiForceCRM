@@ -1210,6 +1210,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerChangeCustomFilterEvent: function () {
 		var thisInstance = this;
 		this.getFilterSelectElement().on('change', function (event) {
+			$(`.nav-item[data-cvid='${thisInstance.getCurrentCvId()}'] .nav-link`).tab('show');
 			var currentTarget = jQuery(event.currentTarget);
 			var selectOption = currentTarget.find(':selected');
 			app.setMainParams('pageNumber', '1');
@@ -1247,7 +1248,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
 				breadCrumbsLastSpan.text(': ' + text);
 			} else {
-				breadCrumbs.append('<span class="breadCrumbsFilter hideToHistory pl-1"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
+				breadCrumbs.append('<small class="breadCrumbsFilter hideToHistory p-1"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</small>');
 			}
 		}
 	},
@@ -1403,7 +1404,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li span.duplicateFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].duplicateFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1421,13 +1422,14 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li span.editFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].editFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var editUrl = currentOptionElement.data('editurl');
 				Vtiger_CustomView_Js.loadFilterView(editUrl);
+				var cvId = jQuery(this).data('cvid');
 				event.stopPropagation();
 			});
 		}
@@ -1440,7 +1442,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup', 'li span.deleteFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].deleteFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1472,7 +1474,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li span.approveFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].approveFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1484,7 +1486,6 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 				newEle += '</form>';
 				var formElement = jQuery(newEle);
-
 				formElement.appendTo('body').submit();
 				event.stopPropagation();
 			});
@@ -1497,7 +1498,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li span.denyFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].denyFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1522,7 +1523,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var filterBlock = this.getFilterBlock()
 		if (filterBlock != false) {
 			filterBlock.on('hover', 'li.select2-results__option[role="treeitem"]', function (event) {
-				var liElement = jQuery(event.currentTarget);
+				var liElement = $(event.currentTarget);
 				var liFilterImages = liElement.find('.filterActionImgs');
 				if (liElement.hasClass('group-result')) {
 					return;
@@ -1829,7 +1830,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
 		listViewTopMenuDiv.on('click', '.featuredLabel', function (e) {
 			var cvId = jQuery(this).data('cvid');
-			thisInstance.getFilterSelectElement().val(cvId).trigger('change')
+			thisInstance.getFilterSelectElement().val(cvId).trigger('change');
 		});
 	},
 	triggerDisplayTypeEvent: function () {
@@ -1933,7 +1934,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.type) {
-					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList span').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('hide')
+					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('hide')
 							.on('click', function (e) {
 								var element = jQuery(e.currentTarget);
 								var url = element.data('url');

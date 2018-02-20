@@ -10,17 +10,17 @@
  */
 class Settings_PDF_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
-    public function process(\App\Request $request)
-    {
-        $recordId = $request->get('record');
+	public function process(\App\Request $request)
+	{
+		$recordId = $request->get('record');
 
-        $response = new Vtiger_Response();
-        $recordModel = Vtiger_PDF_Model::getInstanceById($recordId);
-        if (Settings_PDF_Record_Model::delete($recordModel)) {
-            $response->setResult(['success' => 'true']);
-        } else {
-            $response->setResult(['success' => 'false']);
-        }
-        $response->emit();
-    }
+		$response = new Vtiger_Response();
+		$recordModel = Vtiger_PDF_Model::getInstanceById($recordId);
+		if (Settings_PDF_Record_Model::delete($recordModel)) {
+			$response->setResult(['success' => 'true']);
+		} else {
+			$response->setResult(['success' => 'false']);
+		}
+		$response->emit();
+	}
 }

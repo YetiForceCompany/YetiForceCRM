@@ -11,24 +11,24 @@
 
 class Contacts_Edit_View extends Vtiger_Edit_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $viewer = $this->getViewer($request);
-        $viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
 
-        $salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $this->record->getModule());
-        // Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
-        $salutationType = $request->get('salutationtype');
-        if (!empty($salutationType)) {
-            $salutationFieldModel->set('fieldvalue', $salutationFieldModel->getUITypeModel()->getDBValue($salutationType, $this->record));
-        } else {
-            $salutationFieldModel->set('fieldvalue', $this->record->get('salutationtype'));
-        }
-        $viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
+		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $this->record->getModule());
+		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
+		$salutationType = $request->get('salutationtype');
+		if (!empty($salutationType)) {
+			$salutationFieldModel->set('fieldvalue', $salutationFieldModel->getUITypeModel()->getDBValue($salutationType, $this->record));
+		} else {
+			$salutationFieldModel->set('fieldvalue', $this->record->get('salutationtype'));
+		}
+		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
 
-        parent::process($request);
-    }
+		parent::process($request);
+	}
 }

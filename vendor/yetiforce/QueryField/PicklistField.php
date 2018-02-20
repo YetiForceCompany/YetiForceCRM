@@ -11,27 +11,27 @@ namespace App\QueryField;
  */
 class PicklistField extends BaseField
 {
-    /**
-     * Get value.
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        if (strpos($this->value, ',') !== false) {
-            return explode(',', $this->value);
-        }
+	/**
+	 * Get value.
+	 *
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		if (strpos($this->value, ',') !== false) {
+			return explode(',', $this->value);
+		}
 
-        return explode('##', $this->value);
-    }
+		return explode('##', $this->value);
+	}
 
-    /**
-     * Not equal operator.
-     *
-     * @return array
-     */
-    public function operatorN()
-    {
-        return ['NOT IN', $this->getColumnName(), $this->getValue()];
-    }
+	/**
+	 * Not equal operator.
+	 *
+	 * @return array
+	 */
+	public function operatorN()
+	{
+		return ['NOT IN', $this->getColumnName(), $this->getValue()];
+	}
 }

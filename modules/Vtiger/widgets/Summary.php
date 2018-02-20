@@ -8,15 +8,15 @@
  */
 class Vtiger_Summary_Widget extends Vtiger_Basic_Widget
 {
-    public function getWidget()
-    {
-        $this->Config['tpl'] = 'Summary.tpl';
+	public function getWidget()
+	{
+		$this->Config['tpl'] = 'Summary.tpl';
 
-        return $this->Config;
-    }
+		return $this->Config;
+	}
 
-    public function getConfigTplName()
-    {
-        return 'SummaryConfig';
-    }
+	public function getConfigTplName()
+	{
+		return 'SummaryConfig';
+	}
 }

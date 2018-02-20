@@ -353,7 +353,8 @@ hr {
   border-top: 1px solid rgba(0, 0, 0, 0.1); }
 
 small,
-.small {
+.small,
+.gridster > ul li.dashboardWidget .dashboardWidgetContent {
   font-size: 80%;
   font-weight: 400; }
 
@@ -572,7 +573,7 @@ pre {
 .order-1 {
   order: 1; }
 
-.order-2 {
+.order-2, .bootbox-close-button {
   order: 2; }
 
 .order-3 {
@@ -4181,12 +4182,14 @@ button.bg-danger:hover,
 button.bg-danger:focus {
   background-color: #bd2130 !important; }
 
-.bg-light {
+.bg-light, .listViewTopMenuDiv .nav-tabs .active {
   background-color: #f8f9fa !important; }
 
-a.bg-light:hover, a.bg-light:focus,
+a.bg-light:hover, .listViewTopMenuDiv .nav-tabs a.active:hover, a.bg-light:focus, .listViewTopMenuDiv .nav-tabs a.active:focus,
 button.bg-light:hover,
-button.bg-light:focus {
+.listViewTopMenuDiv .nav-tabs button.active:hover,
+button.bg-light:focus,
+.listViewTopMenuDiv .nav-tabs button.active:focus {
   background-color: #dae0e5 !important; }
 
 .bg-dark {
@@ -4279,7 +4282,7 @@ button.bg-dark:focus {
   border-top-left-radius: 0.25rem !important;
   border-bottom-left-radius: 0.25rem !important; }
 
-.rounded-circle {
+.rounded-circle, .badgeIcon {
   border-radius: 50% !important; }
 
 .rounded-0 {
@@ -4314,7 +4317,7 @@ button.bg-dark:focus {
 .d-flex {
   display: flex !important; }
 
-.d-inline-flex {
+.d-inline-flex, .card .blockHeader {
   display: inline-flex !important; }
 
 @media (min-width: 576px) {
@@ -5051,7 +5054,7 @@ button.bg-dark:focus {
 .mh-100 {
   max-height: 100% !important; }
 
-.m-0, .headerLinksMails .btn {
+.m-0, .bodyHeader .headerLinksMails .btn {
   margin: 0 !important; }
 
 .mt-0,
@@ -5059,15 +5062,17 @@ button.bg-dark:focus {
   margin-top: 0 !important; }
 
 .mr-0,
-.mx-0 {
+.mx-0,
+.gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
-.mb-0,
+.mb-0, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
 .my-0 {
   margin-bottom: 0 !important; }
 
 .ml-0,
-.mx-0 {
+.mx-0,
+.gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-left: 0 !important; }
 
 .m-1 {
@@ -5078,7 +5083,8 @@ button.bg-dark:focus {
   margin-top: 0.25rem !important; }
 
 .mr-1,
-.mx-1 {
+.mx-1,
+.childrenMarginTopX > * {
   margin-right: 0.25rem !important; }
 
 .mb-1,
@@ -5086,17 +5092,18 @@ button.bg-dark:focus {
   margin-bottom: 0.25rem !important; }
 
 .ml-1,
-.mx-1 {
+.mx-1,
+.childrenMarginTopX > * {
   margin-left: 0.25rem !important; }
 
-.m-2 {
+.m-2, .card .blockToggle, .card .iconToggle {
   margin: 0.5rem !important; }
 
-.mt-2,
+.mt-2, .childrenMarginTopX > *,
 .my-2 {
   margin-top: 0.5rem !important; }
 
-.mr-2,
+.mr-2, .childrenMarginRight > *,
 .mx-2 {
   margin-right: 0.5rem !important; }
 
@@ -5104,7 +5111,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .headerRightWrapper .btn, .modal :not(.chatModal) .btn,
+.ml-2, .bodyHeader .rightHeader .headerButton,
 .mx-2 {
   margin-left: 0.5rem !important; }
 
@@ -5193,8 +5200,7 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
-.headerRightWrapper .btn,
-.modal :not(.chatModal) .btn {
+.bodyHeader .rightHeader .headerButton {
   padding-right: 0.25rem !important; }
 
 .pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
@@ -5203,11 +5209,10 @@ button.bg-dark:focus {
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
-.headerRightWrapper .btn,
-.modal :not(.chatModal) .btn {
+.bodyHeader .rightHeader .headerButton {
   padding-left: 0.25rem !important; }
 
-.p-2 {
+.p-2, .badgeIcon {
   padding: 0.5rem !important; }
 
 .pt-2,
@@ -5218,7 +5223,7 @@ header .select2-selection.select2-selection--single {
 
 .pr-2,
 .px-2,
-.headerLinksMails .btn {
+.bodyHeader .headerLinksMails .btn {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5229,7 +5234,7 @@ header .select2-selection.select2-selection--single {
 
 .pl-2,
 .px-2,
-.headerLinksMails .btn {
+.bodyHeader .headerLinksMails .btn {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -6377,7 +6382,7 @@ header .select2-selection.select2-selection--single {
 .font-italic {
   font-style: italic !important; }
 
-.text-white {
+.text-white, .badgeIcon {
   color: #fff !important; }
 
 .text-primary {
@@ -7086,11 +7091,9 @@ hr {
       word-wrap: break-word; }
       .themeMenuContainer .themeMenu .themeElement:hover {
         border: 1px solid #000;
-        background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
         background-position: -286px 2px; }
     .themeMenuContainer .themeMenu .themeSelected {
       border: 1px solid #000;
-      background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
       background-position: -286px 2px; }
 
 .commonActionsContainer .quickAction {
@@ -7099,8 +7102,6 @@ hr {
   cursor: pointer; }
   .commonActionsContainer .quickAction img {
     max-height: 22px; }
-  .commonActionsContainer .quickAction .glyphicon {
-    font-size: 18px; }
   .commonActionsContainer .quickAction #companyLogo-container img {
     height: 98%;
     margin: 0 auto; }
@@ -7120,12 +7121,6 @@ hr {
       white-space: nowrap;
       margin-right: 5px; }
 
-.mainContainer .contentsDiv {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  position: relative; }
 .mainContainer #leftPanel {
   background-color: #eeeff2;
   background-image: -moz-linear-gradient(top, #eeeff2, #eeeff2);
@@ -7152,10 +7147,6 @@ hr {
   border: 1px solid #dddddd;
   border-left: 0;
   display: inline-block; }
-  .toggleButton .glyphicon-chevron-left {
-    background-position: -434px -72px !important; }
-  .toggleButton .glyphicon-chevron-right {
-    background-position: -460px -72px !important; }
 
 #selectAllMsgDiv, #deSelectAllMsgDiv {
   display: none;
@@ -7168,32 +7159,6 @@ hr {
 
 .listViewPageDiv {
   margin: 0px 0; }
-
-.customFilterMainSpan {
-  width: 100%; }
-  .customFilterMainSpan .select2-container {
-    width: 95% !important; }
-
-.select2-container .select2-choice {
-  border-radius: 2px;
-  background: #ffffff;
-  border-color: #dddddd;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  color: #2b2b2b; }
-  .select2-container .select2-choice div {
-    border-radius: 0;
-    border-left: 0;
-    background: #ffffff; }
-
-.select2-drop {
-  border-color: #dddddd; }
-
-.select2-dropdown ul.filterActions {
-  list-style: none !important;
-  padding-left: 15px; }
-  .select2-dropdown ul.filterActions li {
-    cursor: pointer; }
 
 .ui-autocomplete .ui-menu-item #ui-active-menuitem {
   background: #404952;
@@ -7551,7 +7516,7 @@ td.fieldValue input, td.fieldValue .input-group {
 .activityEntries .summaryViewEntries a {
   color: inherit !important; }
 
-.listViewEntriesTable .listViewEntries .unreviewed .badge, .listViewEntriesTable .listViewEntries .timeLineIconList span, .listViewEntriesTable .listViewEntries .actions {
+.listViewEntriesTable .listViewEntries .unreviewed .badge, .listViewEntriesTable .listViewEntries .actions {
   margin-left: 4px; }
 .listViewEntriesTable td.listViewEntryValue {
   vertical-align: middle;
@@ -8461,9 +8426,6 @@ textarea.col-md-11 {
   .chzn-container .chzn-results li {
     margin-right: 7px; }
 
-.select2-result-label i {
-  background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png"); }
-
 .ui-autocomplete-loading {
   background: #f8f9fa url("./images/load.gif") no-repeat right center; }
 
@@ -8673,9 +8635,6 @@ tr.summaryViewEntries, #detailView table, table.listViewEntriesTable {
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue, #massEditContainer .massEditContent table tr td.fieldValue, #tab_accounts td.functionList {
   width: 30%; }
 
-.btn {
-  white-space: normal; }
-
 .valuesAssignedToRole {
   border: 1px solid #adadad;
   overflow: hidden;
@@ -8794,9 +8753,6 @@ span[name=existingImages] img {
   padding-top: 0;
   padding-bottom: 0; }
 
-.dashboardWidgetContent a .glyphicon {
-  top: -3px; }
-
 .detailViewTitle .popover {
   min-width: 130px;
   text-align: center; }
@@ -8884,37 +8840,6 @@ span[name=existingImages] img {
 .roundedCorners label {
   font-weight: normal;
   min-height: 40px; }
-
-.paginationDiv .pagination {
-  margin: 0; }
-  .paginationDiv .pagination li {
-    cursor: pointer; }
-    .paginationDiv .pagination li.popoverTooltip {
-      display: inline-block; }
-  .paginationDiv .pagination > li > span, .paginationDiv .pagination > li a {
-    padding: 8px 8px; }
-.paginationDiv .listViewBasicAction.dropdown-menu {
-  width: 35%; }
-
-.listViewEntriesTable .picklistSearchField, .listViewEntriesTable .searchField {
-  min-width: 150px; }
-.listViewEntriesTable .boolenSearchField {
-  min-width: 90px; }
-
-.paginationDiv .pageInfo {
-  border: 1px solid #ddd;
-  color: #337AB7;
-  float: right;
-  margin-left: 5px;
-  margin-bottom: 0;
-  list-style: none;
-  padding: 8px 5px; }
-
-.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
-  margin: 0;
-  vertical-align: middle;
-  width: 16px;
-  height: 16px; }
 
 #widgetsManagementEditorContainer .modal-footer .btn {
   margin: 5px; }
@@ -9095,13 +9020,6 @@ html, body, .baseContainer {
   margin-top: 0;
   padding-top: 0px;
   padding-bottom: 15px; }
-
-.bodyContents {
-  padding: 0 0px;
-  color: #353c44; }
-
-.bodyContent::after {
-  clear: both; }
 
 .userDetailsContainer {
   height: 50px;
@@ -9445,20 +9363,8 @@ html, body, .baseContainer {
 .menuPanel {
   padding: 5px; }
 
-.blockContainer .blockHeader .iconCollapse {
-  padding: 10px; }
-
 .quickCreateContent .fieldLabel label {
   padding-top: 8px; }
-
-.blockContainer .blockContent .adressAction {
-  border-bottom: 1px #ddd solid;
-  margin-bottom: 10px;
-  margin-top: 5px;
-  padding-bottom: 5px;
-  text-align: center; }
-  .blockContainer .blockContent .adressAction button {
-    margin: 0 10px; }
 
 .chosen-container {
   min-height: 32px;
@@ -9481,7 +9387,7 @@ html, body, .baseContainer {
   background: #fff; }
 
 .modal-backdrop {
-  z-index: 1031; }
+  z-index: 1030; }
 
 .commonActionsContainer .badge {
   font-size: 11px;
@@ -9498,8 +9404,6 @@ html, body, .baseContainer {
   max-height: 35px; }
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu {
   left: 20px; }
-.listViewActionsDiv .dropdown-toggle, .listViewActionsDiv .addButton {
-  margin-bottom: 7px; }
 
 .widget_header .dropdown-toggle + .dropdown-menu {
   left: 15px; }
@@ -10116,19 +10020,12 @@ html, body, .baseContainer {
   right: 0px !important; }
 
 .blockContainer .blockHeader {
-  cursor: pointer;
-  display: inline-block;
-  width: 100%; }
+  cursor: pointer; }
 
 .detailViewTable .blockHeader {
   cursor: pointer;
   display: inline-block;
   width: 100%; }
-  .detailViewTable .blockHeader .iconCollapse {
-    padding: 10px; }
-
-.detailViewBlockLink .blockHeader .iconCollapse {
-  padding: 10px; }
 
 .detailViewTable {
   margin-bottom: 10px; }
@@ -10139,10 +10036,6 @@ html, body, .baseContainer {
     margin-right: 7px;
     margin-left: 5px;
     vertical-align: middle; }
-
-.blockHeader .iconCollapse h4 {
-  display: inline-block;
-  margin: 0 5px; }
 
 select.form-control {
   padding-right: 0;
@@ -10273,85 +10166,6 @@ select.form-control {
   height: 27px;
   padding: 4px 12px; }
 
-.timeline {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  list-style: none; }
-  .timeline:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #ddd;
-    left: 13px;
-    margin: 0;
-    border-radius: 2px; }
-  .timeline > li {
-    position: relative;
-    padding-bottom: 10px; }
-    .timeline > li:before {
-      content: " ";
-      display: table; }
-    .timeline > li:after {
-      content: " ";
-      display: table;
-      clear: both; }
-    .timeline > li > .timeline-item {
-      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-      border-radius: 3px;
-      margin-top: 0;
-      background: #FBFBFB;
-      color: #444;
-      margin-left: 33px;
-      padding: 0;
-      position: relative; }
-      .timeline > li > .timeline-item .time {
-        color: #999;
-        float: right;
-        padding: 5px 0;
-        font-size: 12px; }
-      .timeline > li > .timeline-item > .imageContainer {
-        width: 40px; }
-      .timeline > li > .timeline-item > .timeline-body {
-        padding-right: 10px;
-        padding-left: 44px; }
-    .timeline > li > .glyphicon {
-      width: 30px;
-      height: 30px;
-      font-size: 15px;
-      line-height: 30px;
-      position: absolute;
-      color: #666;
-      background: #d2d6de;
-      border-radius: 50%;
-      text-align: center;
-      left: 0;
-      top: 0; }
-
-.timeLineIconList > .glyphicon {
-  display: inline-block !important;
-  width: 29px;
-  height: 29px;
-  font-size: 15px;
-  line-height: 29px;
-  position: relative;
-  color: #666;
-  background: #d2d6de;
-  border-radius: 50%;
-  text-align: center;
-  vertical-align: middle; }
-
-.timeline .userImage, .commentInfoHeader .userImage {
-  margin: 0 auto;
-  width: 40px;
-  height: 40px;
-  padding: 2px;
-  border: 2px solid #d2d6de;
-  font-size: 32px; }
-
 .columnSorted {
   background: #EAEAEA !important; }
 
@@ -10443,9 +10257,6 @@ select.form-control {
   -o-transition: width 0.5s ease;
   transition: width 0.5s ease; }
 
-.blockHeader .inviteesSearch {
-  margin-top: 3px; }
-
 .blockContent .inviteesContent {
   padding: 10px; }
 .blockContent .inviteRow {
@@ -10498,9 +10309,6 @@ select.form-control {
   height: 15px;
   width: 15px;
   float: left; }
-
-.modal-fullscreen {
-  width: 98%; }
 
 .marginRight15 {
   margin-right: 15px; }
@@ -10963,6 +10771,16 @@ border1px {
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.bodyHeader .dropdown-toggle::after, .listViewTopMenuDiv .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
+  display: none; }
+
+.openStreetMapModalBody .input-group {
+  flex-wrap: nowrap; }
+
+.ml-10px {
+  margin-left: 10px; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
@@ -10985,6 +10803,12 @@ header .headerLinksMails .select2-selection:hover {
 .conditionRow .select2-container--bootstrap4 {
   display: inline-block;
   vertical-align: middle; }
+
+.customFilterMainSpan {
+  width: 100%;
+  cursor: pointer; }
+  .customFilterMainSpan .select2-container {
+    width: 95% !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
@@ -11031,6 +10855,9 @@ header .headerLinksMails .select2-selection:hover {
   -webkit-transition: left ease-in-out 0.3s;
   transition: left ease-in-out 0.3s; }
 
+.left-3px {
+  left: -3px; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
   background-color: #4A5364;
@@ -11043,8 +10870,6 @@ header .headerLinksMails .select2-selection:hover {
   transition-delay: 0.5s; }
   .bodyHeader .basicSearchModulesList {
     width: 35px; }
-  .bodyHeader .dropdown-toggle::after {
-    display: none; }
   .bodyHeader .globalSearchInput {
     width: 500px; }
     .bodyHeader .globalSearchInput .btn {
@@ -11056,27 +10881,25 @@ header .headerLinksMails .select2-selection:hover {
     margin: 5px; }
   .bodyHeader.menuOpen {
     left: 230px; }
-
-.headerRightWrapper .rightHeader, .modal :not(.chatModal) .rightHeader {
-  position: relative; }
-.headerRightWrapper .btn, .modal :not(.chatModal) .btn {
-  height: 32px;
-  font-size: 17px; }
-  .headerRightWrapper .btn [data-fa-i2svg], .modal :not(.chatModal) .btn [data-fa-i2svg] {
-    margin-bottom: 4px; }
-    .headerRightWrapper .btn [data-fa-i2svg].fa-power-off, .modal :not(.chatModal) .btn [data-fa-i2svg].fa-power-off {
-      margin-bottom: 1px; }
-
-.headerLinksMails {
-  height: fit-content; }
-  .headerLinksMails > .btn + .dropdown-toggle {
-    padding-top: 7px;
-    padding-bottom: 7px; }
-  .headerLinksMails .dropdown-menu {
-    left: auto;
-    right: 0; }
-  .headerLinksMails .btn {
-    font-size: 0.875rem; }
+  .bodyHeader .rightHeader {
+    position: relative; }
+    .bodyHeader .rightHeader .headerButton {
+      height: 32px;
+      font-size: 17px; }
+      .bodyHeader .rightHeader .headerButton [data-fa-i2svg] {
+        margin-bottom: 4px; }
+        .bodyHeader .rightHeader .headerButton [data-fa-i2svg].fa-power-off {
+          margin-bottom: 1px; }
+  .bodyHeader .headerLinksMails {
+    height: fit-content; }
+    .bodyHeader .headerLinksMails > .btn + .dropdown-toggle {
+      padding-top: 7px;
+      padding-bottom: 7px; }
+    .bodyHeader .headerLinksMails .dropdown-menu {
+      left: auto;
+      right: 0; }
+    .bodyHeader .headerLinksMails .btn {
+      font-size: 0.875rem; }
 
 .globalSearchResults .nav li a {
   padding: 10px 0; }
@@ -11283,6 +11106,15 @@ header .headerLinksMails .select2-selection:hover {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.modal-full {
+  max-width: 95%; }
+
+.modal-fullscreen {
+  max-width: 98%; }
+
+.modal-dialog {
+  min-width: fit-content; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
   padding: 0; }
@@ -11411,5 +11243,29 @@ header .headerLinksMails .select2-selection:hover {
   left: 0px;
   height: 100%;
   border-right: 1px solid #ddd; }
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.paginationDiv .listViewBasicAction.dropdown-menu {
+  width: 35%; }
+
+.listViewEntriesTable .picklistSearchField, .listViewEntriesTable .searchField {
+  min-width: 150px; }
+.listViewEntriesTable .boolenSearchField {
+  min-width: 90px; }
+
+.paginationDiv .pageInfo {
+  border: 1px solid #ddd;
+  color: #337AB7;
+  float: right;
+  margin-left: 5px;
+  margin-bottom: 0;
+  list-style: none;
+  padding: 8px 5px; }
+
+.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
+  margin: 0;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px; }
 
 /*# sourceMappingURL=Main.css.map */

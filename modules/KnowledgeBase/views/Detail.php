@@ -9,23 +9,23 @@
  */
 class KnowledgeBase_Detail_View extends Vtiger_Detail_View
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->exposeMethod('showPreview');
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('showPreview');
+	}
 
-    /**
-     * Shows preview.
-     *
-     * @param \App\Request $request
-     */
-    public function showPreview(\App\Request $request)
-    {
-        $previewContent = new KnowledgeBase_PreviewContent_View();
-        $previewContent->process($request);
-    }
+	/**
+	 * Shows preview.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function showPreview(\App\Request $request)
+	{
+		$previewContent = new KnowledgeBase_PreviewContent_View();
+		$previewContent->process($request);
+	}
 }

@@ -11,16 +11,16 @@ namespace Api\Core;
  */
 class Auth
 {
-    protected static $realm = 'YetiForceApi';
+	protected static $realm = 'YetiForceApi';
 
-    public static function init($self)
-    {
-        $method = \AppConfig::api('AUTH_METHOD');
-        $class = "Api\Core\Auth\\$method";
-        $intance = new $class();
-        $intance->setApi($self);
-        $intance->authenticate(static::$realm);
+	public static function init($self)
+	{
+		$method = \AppConfig::api('AUTH_METHOD');
+		$class = "Api\Core\Auth\\$method";
+		$intance = new $class();
+		$intance->setApi($self);
+		$intance->authenticate(static::$realm);
 
-        return $intance->getCurrentServer();
-    }
+		return $intance->getCurrentServer();
+	}
 }

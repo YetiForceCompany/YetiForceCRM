@@ -44,3 +44,19 @@ header {
 	@extend .w-25;
 	@extend .mr-sm-2;
 }
+
+//--- list ---//
+
+.customFilterMainSpan {
+	width: 100%;
+	cursor: pointer;
+	.select2-container {
+		width: 95% !important;
+	}
+}
+.openStreetMapModalBody {
+	@extend %input-groupSelect2;
+}
+.bootbox-close-button {
+	@extend .order-2;
+}

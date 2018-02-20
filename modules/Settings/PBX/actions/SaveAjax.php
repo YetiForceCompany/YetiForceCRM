@@ -9,23 +9,23 @@
  */
 class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-    /**
-     * Save pbx record.
-     *
-     * @param \App\Request $request
-     */
-    public function process(\App\Request $request)
-    {
-        if (!$request->isEmpty('record', true)) {
-            $recordModel = Settings_PBX_Record_Model::getInstanceById($request->getInteger('record'));
-        } else {
-            $recordModel = Settings_PBX_Record_Model::getCleanInstance();
-        }
-        $recordModel->parseFromRequest($request->getArray('param'));
-        $result = $recordModel->save();
+	/**
+	 * Save pbx record.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
+	{
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Settings_PBX_Record_Model::getInstanceById($request->getInteger('record'));
+		} else {
+			$recordModel = Settings_PBX_Record_Model::getCleanInstance();
+		}
+		$recordModel->parseFromRequest($request->getArray('param'));
+		$result = $recordModel->save();
 
-        $responceToEmit = new Vtiger_Response();
-        $responceToEmit->setResult($result);
-        $responceToEmit->emit();
-    }
+		$responceToEmit = new Vtiger_Response();
+		$responceToEmit->setResult($result);
+		$responceToEmit->emit();
+	}
 }

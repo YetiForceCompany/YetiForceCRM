@@ -9,36 +9,36 @@
  */
 class Vtiger_ReferenceExtend_UIType extends Vtiger_Reference_UIType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getReferenceList()
-    {
-        $modules = \App\ModuleHierarchy::getModulesByLevel(3);
-        if (!empty($modules)) {
-            return array_keys($modules);
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getReferenceList()
+	{
+		$modules = \App\ModuleHierarchy::getModulesByLevel(3);
+		if (!empty($modules)) {
+			return array_keys($modules);
+		}
 
-        return [];
-    }
+		return [];
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getListSearchTemplateName()
-    {
-        if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-            return 'uitypes/ReferenceSearchView.tpl';
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			return 'uitypes/ReferenceSearchView.tpl';
+		}
 
-        return Vtiger_Base_UIType::getListSearchTemplateName();
-    }
+		return Vtiger_Base_UIType::getListSearchTemplateName();
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isAjaxEditable()
-    {
-        return false;
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEditable()
+	{
+		return false;
+	}
 }

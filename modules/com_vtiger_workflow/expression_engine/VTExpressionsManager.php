@@ -13,75 +13,75 @@
  */
 class VTExpressionsManager
 {
-    /**
-     * Cache array.
-     *
-     * @var array
-     */
-    private static $cache = [];
+	/**
+	 * Cache array.
+	 *
+	 * @var array
+	 */
+	private static $cache = [];
 
-    /**
-     * Add parameter to cache.
-     *
-     * @param string $key
-     * @param mixed  $value
-     */
-    public static function addToCache($key, $value)
-    {
-        self::$cache[$key] = $value;
-    }
+	/**
+	 * Add parameter to cache.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 */
+	public static function addToCache($key, $value)
+	{
+		self::$cache[$key] = $value;
+	}
 
-    /**
-     * Get parameter from cache.
-     *
-     * @param string $key
-     *
-     * @return mixed|bool
-     */
-    public static function fromCache($key)
-    {
-        if (isset(self::$cache[$key])) {
-            return self::$cache[$key];
-        }
+	/**
+	 * Get parameter from cache.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed|bool
+	 */
+	public static function fromCache($key)
+	{
+		if (isset(self::$cache[$key])) {
+			return self::$cache[$key];
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Clear cache array.
-     */
-    public static function clearCache()
-    {
-        self::$cache = [];
-    }
+	/**
+	 * Clear cache array.
+	 */
+	public static function clearCache()
+	{
+		self::$cache = [];
+	}
 
-    /**
-     * Get fields info.
-     *
-     * @param string $moduleName
-     *
-     * @return array
-     */
-    public function fields($moduleName)
-    {
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-        $arr = [];
-        foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
-            $arr[$fieldName] = $fieldModel->getFieldLabel();
-        }
+	/**
+	 * Get fields info.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function fields($moduleName)
+	{
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$arr = [];
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			$arr[$fieldName] = $fieldModel->getFieldLabel();
+		}
 
-        return $arr;
-    }
+		return $arr;
+	}
 
-    /**
-     * Get expression functions.
-     *
-     * @return array
-     */
-    public function expressionFunctions()
-    {
-        return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
-            'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
-            'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')", ];
-    }
+	/**
+	 * Get expression functions.
+	 *
+	 * @return array
+	 */
+	public function expressionFunctions()
+	{
+		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
+			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
+			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')", ];
+	}
 }

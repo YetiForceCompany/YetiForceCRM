@@ -10,51 +10,51 @@
  */
 class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 {
-    protected $name = 'MarginP';
-    protected $defaultLabel = 'LBL_MARGIN_PERCENT';
-    protected $defaultValue = 0;
-    protected $columnName = 'marginp';
-    protected $dbType = 'decimal(28,8) DEFAULT 0';
-    protected $summationValue = true;
-    protected $colSpan = 15;
+	protected $name = 'MarginP';
+	protected $defaultLabel = 'LBL_MARGIN_PERCENT';
+	protected $defaultValue = 0;
+	protected $columnName = 'marginp';
+	protected $dbType = 'decimal(28,8) DEFAULT 0';
+	protected $summationValue = true;
+	protected $colSpan = 15;
 
-    /**
-     * Getting value to display.
-     *
-     * @param type $value
-     *
-     * @return type
-     */
-    public function getDisplayValue($value, $rawText = false)
-    {
-        return CurrencyField::convertToUserFormat($value, null, true);
-    }
+	/**
+	 * Getting value to display.
+	 *
+	 * @param type $value
+	 *
+	 * @return type
+	 */
+	public function getDisplayValue($value, $rawText = false)
+	{
+		return CurrencyField::convertToUserFormat($value, null, true);
+	}
 
-    public function getSummaryValuesFromData($data)
-    {
-        $sum = 0;
-        if (is_array($data)) {
-            foreach ($data as $row) {
-                $purchase += $row['purchase'];
-                $margin += $row['margin'];
-            }
-            if (!empty($purchase)) {
-                $sum = ($margin / $purchase) * 100;
-            }
-        }
+	public function getSummaryValuesFromData($data)
+	{
+		$sum = 0;
+		if (is_array($data)) {
+			foreach ($data as $row) {
+				$purchase += $row['purchase'];
+				$margin += $row['margin'];
+			}
+			if (!empty($purchase)) {
+				$sum = ($margin / $purchase) * 100;
+			}
+		}
 
-        return $sum;
-    }
+		return $sum;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getValueFromRequest(&$insertData, \App\Request $request, $i)
-    {
-        $column = $this->getColumnName();
-        if (empty($column) || $column === '-' || !$request->has($column.$i)) {
-            return false;
-        }
-        $insertData[$column] = CurrencyField::convertToDBFormat($request->getByType($column.$i, 'NumberInUserFormat'), null, true);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
+			return false;
+		}
+		$insertData[$column] = CurrencyField::convertToDBFormat($request->getByType($column . $i, 'NumberInUserFormat'), null, true);
+	}
 }

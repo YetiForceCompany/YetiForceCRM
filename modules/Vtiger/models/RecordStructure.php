@@ -13,135 +13,135 @@
  */
 class Vtiger_RecordStructure_Model extends \App\Base
 {
-    protected $record = false;
-    protected $module = false;
-    protected $structuredValues = false;
+	protected $record = false;
+	protected $module = false;
+	protected $structuredValues = false;
 
-    const RECORD_STRUCTURE_MODE_DEFAULT = '';
-    const RECORD_STRUCTURE_MODE_DETAIL = 'Detail';
-    const RECORD_STRUCTURE_MODE_EDIT = 'Edit';
-    const RECORD_STRUCTURE_MODE_QUICKCREATE = 'QuickCreate';
-    const RECORD_STRUCTURE_MODE_MASSEDIT = 'MassEdit';
-    const RECORD_STRUCTURE_MODE_SUMMARY = 'Summary';
+	const RECORD_STRUCTURE_MODE_DEFAULT = '';
+	const RECORD_STRUCTURE_MODE_DETAIL = 'Detail';
+	const RECORD_STRUCTURE_MODE_EDIT = 'Edit';
+	const RECORD_STRUCTURE_MODE_QUICKCREATE = 'QuickCreate';
+	const RECORD_STRUCTURE_MODE_MASSEDIT = 'MassEdit';
+	const RECORD_STRUCTURE_MODE_SUMMARY = 'Summary';
 
-    /**
-     * Function to set the record Model.
-     *
-     * @param <type> $record - record instance
-     *
-     * @return Vtiger_RecordStructure_Model
-     */
-    public function setRecord($record)
-    {
-        $this->record = $record;
+	/**
+	 * Function to set the record Model.
+	 *
+	 * @param <type> $record - record instance
+	 *
+	 * @return Vtiger_RecordStructure_Model
+	 */
+	public function setRecord($record)
+	{
+		$this->record = $record;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to get the record.
-     *
-     * @return Vtiger_Record_Model
-     */
-    public function getRecord()
-    {
-        return $this->record;
-    }
+	/**
+	 * Function to get the record.
+	 *
+	 * @return Vtiger_Record_Model
+	 */
+	public function getRecord()
+	{
+		return $this->record;
+	}
 
-    public function getRecordName()
-    {
-        return $this->record->getName();
-    }
+	public function getRecordName()
+	{
+		return $this->record->getName();
+	}
 
-    /**
-     * Function to get the module.
-     *
-     * @return Vtiger_Module_Model
-     */
-    public function getModule()
-    {
-        return $this->module;
-    }
+	/**
+	 * Function to get the module.
+	 *
+	 * @return Vtiger_Module_Model
+	 */
+	public function getModule()
+	{
+		return $this->module;
+	}
 
-    /**
-     * Function to set the module.
-     *
-     * @param <type> $module - module model
-     *
-     * @return Vtiger_RecordStructure_Model
-     */
-    public function setModule($module)
-    {
-        $this->module = $module;
+	/**
+	 * Function to set the module.
+	 *
+	 * @param <type> $module - module model
+	 *
+	 * @return Vtiger_RecordStructure_Model
+	 */
+	public function setModule($module)
+	{
+		$this->module = $module;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to get the values in stuctured format.
-     *
-     * @return <array> - values in structure array('block'=>array(fieldinfo));
-     */
-    public function getStructure()
-    {
-        if (!empty($this->structuredValues)) {
-            return $this->structuredValues;
-        }
+	/**
+	 * Function to get the values in stuctured format.
+	 *
+	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 */
+	public function getStructure()
+	{
+		if (!empty($this->structuredValues)) {
+			return $this->structuredValues;
+		}
 
-        $values = [];
-        $recordModel = $this->getRecord();
-        $recordExists = !empty($recordModel);
-        $moduleModel = $this->getModule();
-        $blockModelList = $moduleModel->getBlocks();
-        foreach ($blockModelList as $blockLabel => $blockModel) {
-            $fieldModelList = $blockModel->getFields();
-            if (!empty($fieldModelList)) {
-                $values[$blockLabel] = [];
-                foreach ($fieldModelList as $fieldName => $fieldModel) {
-                    if ($fieldModel->isViewable()) {
-                        if ($recordExists) {
-                            $fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-                        }
-                        $values[$blockLabel][$fieldName] = $fieldModel;
-                    }
-                }
-            }
-        }
-        $this->structuredValues = $values;
+		$values = [];
+		$recordModel = $this->getRecord();
+		$recordExists = !empty($recordModel);
+		$moduleModel = $this->getModule();
+		$blockModelList = $moduleModel->getBlocks();
+		foreach ($blockModelList as $blockLabel => $blockModel) {
+			$fieldModelList = $blockModel->getFields();
+			if (!empty($fieldModelList)) {
+				$values[$blockLabel] = [];
+				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					if ($fieldModel->isViewable()) {
+						if ($recordExists) {
+							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+						}
+						$values[$blockLabel][$fieldName] = $fieldModel;
+					}
+				}
+			}
+		}
+		$this->structuredValues = $values;
 
-        return $values;
-    }
+		return $values;
+	}
 
-    /**
-     * Function to retieve the instance from record model.
-     *
-     * @param Vtiger_Record_Model $recordModel - record instance
-     *
-     * @return Vtiger_RecordStructure_Model
-     */
-    public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
-    {
-        $moduleModel = $recordModel->getModule();
-        $className = Vtiger_Loader::getComponentClassName('Model', $mode.'RecordStructure', $moduleModel->getName(true));
-        $instance = new $className();
-        $instance->setModule($moduleModel)->setRecord($recordModel);
+	/**
+	 * Function to retieve the instance from record model.
+	 *
+	 * @param Vtiger_Record_Model $recordModel - record instance
+	 *
+	 * @return Vtiger_RecordStructure_Model
+	 */
+	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
+	{
+		$moduleModel = $recordModel->getModule();
+		$className = Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
+		$instance = new $className();
+		$instance->setModule($moduleModel)->setRecord($recordModel);
 
-        return $instance;
-    }
+		return $instance;
+	}
 
-    /**
-     * Function to retieve the instance from module model.
-     *
-     * @param Vtiger_Module_Model $moduleModel - module instance
-     *
-     * @return Vtiger_RecordStructure_Model
-     */
-    public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
-    {
-        $className = Vtiger_Loader::getComponentClassName('Model', $mode.'RecordStructure', $moduleModel->get('name'));
-        $instance = new $className();
-        $instance->setModule($moduleModel);
+	/**
+	 * Function to retieve the instance from module model.
+	 *
+	 * @param Vtiger_Module_Model $moduleModel - module instance
+	 *
+	 * @return Vtiger_RecordStructure_Model
+	 */
+	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
+	{
+		$className = Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
+		$instance = new $className();
+		$instance->setModule($moduleModel);
 
-        return $instance;
-    }
+		return $instance;
+	}
 }

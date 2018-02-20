@@ -11,43 +11,43 @@
 
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUser = Users_Record_Model::getCurrentUserModel();
-        if (!$currentUser->isAdminUser()) {
-            throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-        }
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUser->isAdminUser()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(\App\Request $request)
-    {
-        $searchValue = $request->get('search_value');
-        $searchModule = $request->getByType('search_module');
-        $parentRecordId = $request->getInteger('parent_id');
-        $parentModuleName = $request->getByType('parent_module');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$searchValue = $request->get('search_value');
+		$searchModule = $request->getByType('search_module');
+		$parentRecordId = $request->getInteger('parent_id');
+		$parentModuleName = $request->getByType('parent_module');
 
-        $searchModuleModel = Users_Module_Model::getInstance($searchModule);
-        $records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
-        $result = [];
-        if (is_array($records)) {
-            foreach ($records as $moduleName => $recordModels) {
-                foreach ($recordModels as $recordModel) {
-                    $result[] = [
-                        'label' => App\Purifier::decodeHtml($recordModel->getName()),
-                        'value' => App\Purifier::decodeHtml($recordModel->getName()),
-                        'id' => $recordModel->getId(),
-                    ];
-                }
-            }
-        }
-        $response = new Vtiger_Response();
-        $response->setResult($result);
-        $response->emit();
-    }
+		$searchModuleModel = Users_Module_Model::getInstance($searchModule);
+		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
+		$result = [];
+		if (is_array($records)) {
+			foreach ($records as $moduleName => $recordModels) {
+				foreach ($recordModels as $recordModel) {
+					$result[] = [
+						'label' => App\Purifier::decodeHtml($recordModel->getName()),
+						'value' => App\Purifier::decodeHtml($recordModel->getName()),
+						'id' => $recordModel->getId(),
+					];
+				}
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
 }

@@ -2,7 +2,7 @@
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
+* The Original Code is: vtiger CRM Open Source
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
@@ -31,24 +31,18 @@
 				{/if}
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
-			<div class="col-sm-7 col-12 btn-toolbar" role="toolbar">
-				<div class="btn-group filterActions float-right">
-					<button class="btn btn-warning" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-				</div>
-				<div class="btn-group filterActions float-right">
-					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-				</div>
-				<div class="btn-group float-right float-sm-left iconPreferences marginRight10 btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
-						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
+			<div class="col-sm-7 col-12 btn-toolbar p-2 childrenMarginRight justify-content-end" role="toolbar">
+				<div class="btn-group iconPreferences btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isDefault()} active btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
+						<input id="setdefault" name="setdefault" type="checkbox" {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
 						<span class="far fa-heart" data-check="fas fa-heart" data-unchecked="far fa-heart"></span>
 					</label>
-					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
+					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isSetPublic()} active btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
 						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if} />
 						<span class="far fa-eye-slash" data-check="fas fa-eye" data-unchecked="fa-eye-slash"></span>
 					</label>
 					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
-						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1" />
+						<input id="featured" name="featured" type="checkbox" {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1" />
 						<span class="far fa-star" data-check="fas fa-star" data-unchecked="far fa-star"></span>
 					</label>
 					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
@@ -56,25 +50,28 @@
 						<span class="fas fa-desktop" data-check="fas fa-desktop" data-unchecked="fas fa-desktop"></span>
 					</label>
 				</div>
+				<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+				<button class="btn btn-danger" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 			</div>
 		</div>
 		{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
-		<div class="">
-			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
-				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
-						<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
-						<h4 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h4></div></div>
-				<div class="panel-body">
+		<div class="childrenMarginTopX">
+			<div class="card blockContainer">
+				<div class="blockHeader card-header">
+					<span class="cursorPointer iconToggle fas fa-chevron-down m-1" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<h4 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h4>
+				</div>
+				<div class="card-body">
 					<div class="form-group">
 						<div class="row col-md-5">
-							<label class="float-left col-form-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
+							<label class="float-left col-form-label "><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
 							<div class="col-md-7">
 								<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="paddingLeftMd col-form-label"><span class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)} ({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
+						<label class=" col-form-label"><span class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)} ({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=[]}
 							<div class="">
@@ -120,7 +117,7 @@
 					</div>
 					<div class="form-group marginbottomZero">
 						<div class="row col-md-5">
-							<label class="float-left col-form-label paddingLeftMd">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
 							<div class="col-md-7">
 								<div class="input-group">
 									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}" />
@@ -131,19 +128,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
-				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
-						<span class="cursorPointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
-						<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4></div></div>
-				<div class="panel-body padding5 hide">
+			<div class="card blockContainer">
+				<div class="blockHeader card-header">
+					<span class="cursorPointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4>
+				</div>
+				<div class="card-body hide">
 					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 				</div>
 			</div>
-			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
-				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
-						<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
-						<h4 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4></div></div>
-				<div class="panel-body">
+			<div class="card blockContainer">
+				<div class="blockHeader card-header">
+					<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<h4 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4>
+				</div>
+				<div class="card-body">
 					<div class="filterConditionsDiv">
 						<div class="row">
 							<span class="col-md-12">
@@ -154,9 +153,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="filterActions">
-			<button class="cancelLink float-right btn btn-warning" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success float-right" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+		<div class="filterActions pt-2">
+			<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+			<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 		</div>
 	</form>
 {/strip}

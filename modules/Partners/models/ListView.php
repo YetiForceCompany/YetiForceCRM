@@ -9,30 +9,30 @@
  */
 class Partners_ListView_Model extends Vtiger_ListView_Model
 {
-    /**
-     * Function to get the list of Mass actions for the module.
-     *
-     * @param array $linkParams
-     *
-     * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
-     */
-    public function getListViewMassActions($linkParams)
-    {
-        $links = parent::getListViewMassActions($linkParams);
-        $moduleModel = $this->getModule();
-        $massActionLinks = [];
-        if ($moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
-            $massActionLinks[] = [
-                'linktype' => 'LISTVIEWMASSACTION',
-                'linklabel' => 'LBL_MASS_SEND_EMAIL',
-                'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
-                'linkicon' => '',
-            ];
-        }
-        foreach ($massActionLinks as $massActionLink) {
-            $links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
-        }
+	/**
+	 * Function to get the list of Mass actions for the module.
+	 *
+	 * @param array $linkParams
+	 *
+	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 */
+	public function getListViewMassActions($linkParams)
+	{
+		$links = parent::getListViewMassActions($linkParams);
+		$moduleModel = $this->getModule();
+		$massActionLinks = [];
+		if ($moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_SEND_EMAIL',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
+				'linkicon' => '',
+			];
+		}
+		foreach ($massActionLinks as $massActionLink) {
+			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		}
 
-        return $links;
-    }
+		return $links;
+	}
 }

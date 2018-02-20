@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-    'FBookkeeping' => 'Buchhaltung',
-    'SINGLE_FBookkeeping' => 'Buchhaltung',
-    'FBookkeeping ID' => 'Buchhaltung ID',
-    'FL_SUBJECT' => 'Betreff',
+	'FBookkeeping' => 'Buchhaltung',
+	'SINGLE_FBookkeeping' => 'Buchhaltung',
+	'FBookkeeping ID' => 'Buchhaltung ID',
+	'FL_SUBJECT' => 'Betreff',
 ];

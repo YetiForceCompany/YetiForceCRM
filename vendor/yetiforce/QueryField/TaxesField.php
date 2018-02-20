@@ -12,10 +12,10 @@ namespace App\QueryField;
  */
 class TaxesField extends MultipicklistField
 {
-    /**
-     * Separator.
-     *
-     * @var string
-     */
-    protected $separator = ',';
+	/**
+	 * Separator.
+	 *
+	 * @var string
+	 */
+	protected $separator = ',';
 }

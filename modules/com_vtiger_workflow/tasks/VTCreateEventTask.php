@@ -13,143 +13,143 @@ require_once 'modules/Users/Users.php';
 
 class VTCreateEventTask extends VTTask
 {
-    public $executeImmediately = true;
+	public $executeImmediately = true;
 
-    public function getFieldNames()
-    {
-        return ['eventType', 'eventName', 'description', 'sendNotification',
-            'startTime', 'startDays', 'startDirection', 'startDatefield',
-            'endTime', 'endDays', 'endDirection', 'endDatefield',
-            'status', 'priority', 'assigned_user_id', ];
-    }
+	public function getFieldNames()
+	{
+		return ['eventType', 'eventName', 'description', 'sendNotification',
+			'startTime', 'startDays', 'startDirection', 'startDatefield',
+			'endTime', 'endDays', 'endDirection', 'endDatefield',
+			'status', 'priority', 'assigned_user_id', ];
+	}
 
-    /**
-     * Execute task.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     */
-    public function doTask($recordModel)
-    {
-        if (!\App\Module::isModuleActive('Calendar')) {
-            return;
-        }
-        $userId = $recordModel->get('assigned_user_id');
-        if ($userId === null) {
-            $userId = Users::getActiveAdminUser();
-        }
-        $moduleName = $recordModel->getModuleName();
-        $startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
-        $endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
+	/**
+	 * Execute task.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
+	{
+		if (!\App\Module::isModuleActive('Calendar')) {
+			return;
+		}
+		$userId = $recordModel->get('assigned_user_id');
+		if ($userId === null) {
+			$userId = Users::getActiveAdminUser();
+		}
+		$moduleName = $recordModel->getModuleName();
+		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
+		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
-        if ($this->assigned_user_id === 'currentUser') {
-            $userId = \App\User::getCurrentUserId();
-        } elseif ($this->assigned_user_id === 'triggerUser') {
-            $userId = $recordModel->executeUser;
-        } elseif ($this->assigned_user_id === 'copyParentOwner') {
-            $userId = $recordModel->get('assigned_user_id');
-        } elseif (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
-            $userExists = (new App\Db\Query())->from('vtiger_users')
-                ->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
-                ->exists();
-            if ($userExists) {
-                $userId = $this->assigned_user_id;
-            } else {
-                $groupExist = (new App\Db\Query())->from('vtiger_groups')
-                    ->where(['groupid' => $this->assigned_user_id])
-                    ->exists();
-                if ($groupExist) {
-                    $userId = $this->assigned_user_id;
-                }
-            }
-        }
-        $textParser = \App\TextParser::getInstanceByModel($recordModel);
-        $fields = [
-            'activitytype' => $this->eventType,
-            'description' => $textParser->setContent($this->description)->parse()->getContent(),
-            'subject' => $textParser->setContent($this->eventName)->parse()->getContent(),
-            'taskpriority' => $this->priority,
-            'activitystatus' => $this->status,
-            'assigned_user_id' => $userId,
-            'time_start' => self::convertToDBFormat($this->startTime),
-            'date_start' => $startDate,
-            'time_end' => self::convertToDBFormat($this->endTime),
-            'due_date' => $endDate,
-            'duration_hours' => 0,
-        ];
-        $id = $recordModel->getId();
-        $field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
-        if ($field) {
-            $fields[$field] = $id;
-        }
-        if ($parentRecord = \App\Record::getParentRecord($id)) {
-            $parentModuleName = \App\Record::getType($parentRecord);
-            $field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
-            if ($field) {
-                $fields[$field] = $parentRecord;
-            }
-            if ($parentRecord = \App\Record::getParentRecord($parentRecord)) {
-                $parentModuleName = \App\Record::getType($parentRecord);
-                $field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
-                if ($field) {
-                    $fields[$field] = $parentRecord;
-                }
-            }
-        }
-        $newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
-        $newRecordModel->setData($fields);
-        $newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
-        $newRecordModel->save();
-        vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
-    }
+		if ($this->assigned_user_id === 'currentUser') {
+			$userId = \App\User::getCurrentUserId();
+		} elseif ($this->assigned_user_id === 'triggerUser') {
+			$userId = $recordModel->executeUser;
+		} elseif ($this->assigned_user_id === 'copyParentOwner') {
+			$userId = $recordModel->get('assigned_user_id');
+		} elseif (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
+			$userExists = (new App\Db\Query())->from('vtiger_users')
+				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
+				->exists();
+			if ($userExists) {
+				$userId = $this->assigned_user_id;
+			} else {
+				$groupExist = (new App\Db\Query())->from('vtiger_groups')
+					->where(['groupid' => $this->assigned_user_id])
+					->exists();
+				if ($groupExist) {
+					$userId = $this->assigned_user_id;
+				}
+			}
+		}
+		$textParser = \App\TextParser::getInstanceByModel($recordModel);
+		$fields = [
+			'activitytype' => $this->eventType,
+			'description' => $textParser->setContent($this->description)->parse()->getContent(),
+			'subject' => $textParser->setContent($this->eventName)->parse()->getContent(),
+			'taskpriority' => $this->priority,
+			'activitystatus' => $this->status,
+			'assigned_user_id' => $userId,
+			'time_start' => self::convertToDBFormat($this->startTime),
+			'date_start' => $startDate,
+			'time_end' => self::convertToDBFormat($this->endTime),
+			'due_date' => $endDate,
+			'duration_hours' => 0,
+		];
+		$id = $recordModel->getId();
+		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
+		if ($field) {
+			$fields[$field] = $id;
+		}
+		if ($parentRecord = \App\Record::getParentRecord($id)) {
+			$parentModuleName = \App\Record::getType($parentRecord);
+			$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+			if ($field) {
+				$fields[$field] = $parentRecord;
+			}
+			if ($parentRecord = \App\Record::getParentRecord($parentRecord)) {
+				$parentModuleName = \App\Record::getType($parentRecord);
+				$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+				if ($field) {
+					$fields[$field] = $parentRecord;
+				}
+			}
+		}
+		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$newRecordModel->setData($fields);
+		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+		$newRecordModel->save();
+		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+	}
 
-    private function calculateDate($recordModel, $days, $direction, $datefield)
-    {
-        $baseDate = $recordModel->get($datefield);
-        if ($baseDate == '') {
-            $baseDate = date('Y-m-d');
-        }
-        if ($days == '') {
-            $days = 0;
-        }
-        preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
-        $baseDate = strtotime($match[0]);
-        $date = strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
-            (strtolower($direction) == 'before' ? -1 : 1));
+	private function calculateDate($recordModel, $days, $direction, $datefield)
+	{
+		$baseDate = $recordModel->get($datefield);
+		if ($baseDate == '') {
+			$baseDate = date('Y-m-d');
+		}
+		if ($days == '') {
+			$days = 0;
+		}
+		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
+		$baseDate = strtotime($match[0]);
+		$date = strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
+			(strtolower($direction) == 'before' ? -1 : 1));
 
-        return $date;
-    }
+		return $date;
+	}
 
-    /**
-     * To convert time_start & time_end values to db format.
-     *
-     * @param type $timeStr
-     *
-     * @return time
-     */
-    public static function convertToDBFormat($timeStr)
-    {
-        $date = new DateTime();
-        $time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
-        $dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d').' '.$time);
+	/**
+	 * To convert time_start & time_end values to db format.
+	 *
+	 * @param type $timeStr
+	 *
+	 * @return time
+	 */
+	public static function convertToDBFormat($timeStr)
+	{
+		$date = new DateTime();
+		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
+		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
 
-        return $dbInsertDateTime->format('H:i:s');
-    }
+		return $dbInsertDateTime->format('H:i:s');
+	}
 
-    public static function conv12to24hour($timeStr)
-    {
-        $arr = [];
-        preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
-        if ($arr[3] == 'am') {
-            $hours = ((int) $arr[1]) % 12;
-        } else {
-            $hours = ((int) $arr[1]) % 12 + 12;
-        }
+	public static function conv12to24hour($timeStr)
+	{
+		$arr = [];
+		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
+		if ($arr[3] == 'am') {
+			$hours = ((int) $arr[1]) % 12;
+		} else {
+			$hours = ((int) $arr[1]) % 12 + 12;
+		}
 
-        return str_pad($hours, 2, '0', STR_PAD_LEFT).':'.str_pad($arr[2], 2, '0', STR_PAD_LEFT);
-    }
+		return str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' . str_pad($arr[2], 2, '0', STR_PAD_LEFT);
+	}
 
-    public function getTimeFieldList()
-    {
-        return ['startTime', 'endTime'];
-    }
+	public function getTimeFieldList()
+	{
+		return ['startTime', 'endTime'];
+	}
 }

@@ -7,10 +7,9 @@
  * @author skavenkf (K.Fink)
  */
 $languageStrings = [
-    'OSSMail' => 'Meine E-Mailbox',
-    'ERR_NO_MODULE_IS_INACTIVE' => '"Mein E-Mailbox" Modul ist inaktiv, bitte vor der Konfiguration aktivieren.',
+	'OSSMail' => 'Meine E-Mailbox',
+	'ERR_NO_MODULE_IS_INACTIVE' => '"Mein E-Mailbox" Modul ist inaktiv, bitte vor der Konfiguration aktivieren.',
 ];
 
 $jsLanguageStrings = [
-    'JS_ERROR_EMPTY' => 'Alle Felder müssen ausgefüllt werden',
 ];

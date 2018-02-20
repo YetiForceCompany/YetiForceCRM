@@ -8,36 +8,36 @@
  */
 class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_View
 {
-    /**
-     * Process.
-     *
-     * @param \App\Request $request
-     */
-    public function process(\App\Request $request)
-    {
-        \App\Log::trace('Start '.__METHOD__);
-        $qualifiedModule = $request->getModule(false);
-        $moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
+	{
+		\App\Log::trace('Start ' . __METHOD__);
+		$qualifiedModule = $request->getModule(false);
+		$moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 
-        $viewer = $this->getViewer($request);
-        $viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-        $viewer->assign('MODULE_MODEL', $moduleModel->getConfigInstance());
-        $viewer->view('Index.tpl', $qualifiedModule);
-        \App\Log::trace('End '.__METHOD__);
-    }
+		$viewer = $this->getViewer($request);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->assign('MODULE_MODEL', $moduleModel->getConfigInstance());
+		$viewer->view('Index.tpl', $qualifiedModule);
+		\App\Log::trace('End ' . __METHOD__);
+	}
 
-    public function getFooterScripts(\App\Request $request)
-    {
-        $headerScriptInstances = parent::getFooterScripts($request);
-        $moduleName = $request->getModule();
+	public function getFooterScripts(\App\Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
 
-        $jsFileNames = [
-            "modules.Settings.$moduleName.resources.Index",
-        ];
+		$jsFileNames = [
+			"modules.Settings.$moduleName.resources.Index",
+		];
 
-        $jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-        $headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 
-        return $headerScriptInstances;
-    }
+		return $headerScriptInstances;
+	}
 }

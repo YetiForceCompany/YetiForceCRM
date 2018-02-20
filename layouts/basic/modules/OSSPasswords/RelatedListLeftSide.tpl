@@ -5,7 +5,7 @@
 		<div>
 			<a class="favorites btn btn-light btn-sm" data-state="{$RECORD_IS_FAVORITE}">
 				<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fas fa-star {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-				<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="fal fa-star-o {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+				<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="far fa-star {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 			</a>
 		</div>
 	{/if}

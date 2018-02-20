@@ -11,28 +11,28 @@
 
 class Rss_Save_Action extends Vtiger_Save_Action
 {
-    public function checkPermission(\App\Request $request)
-    {
-        $currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-        if (!$currentUserModel->hasModulePermission($request->getModule())) {
-            throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-        }
-    }
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
 
-    public function process(\App\Request $request)
-    {
-        $response = new Vtiger_Response();
-        $moduleName = $request->getModule();
-        $url = $request->get('feedurl');
-        $recordModel = Rss_Record_Model::getCleanInstance($moduleName);
-        $result = $recordModel->validateRssUrl($url);
-        if ($result) {
-            $recordModel->saveRecord($url);
-            $response->setResult(['success' => true, 'message' => \App\Language::translate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
-        } else {
-            $response->setResult(['success' => false, 'message' => \App\Language::translate('JS_INVALID_RSS_URL', $moduleName)]);
-        }
+	public function process(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$moduleName = $request->getModule();
+		$url = $request->get('feedurl');
+		$recordModel = Rss_Record_Model::getCleanInstance($moduleName);
+		$result = $recordModel->validateRssUrl($url);
+		if ($result) {
+			$recordModel->saveRecord($url);
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
+		} else {
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('JS_INVALID_RSS_URL', $moduleName)]);
+		}
 
-        $response->emit();
-    }
+		$response->emit();
+	}
 }

@@ -14,41 +14,41 @@ use DebugBar\DataCollector\Renderable;
  */
 class DebugBarDatabase extends DataCollector implements Renderable
 {
-    /**
-     * @return array
-     */
-    public function collect()
-    {
-        $data = [
-        ];
+	/**
+	 * @return array
+	 */
+	public function collect()
+	{
+		$data = [
+		];
 
-        return $data;
-    }
+		return $data;
+	}
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Database';
-    }
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return 'Database';
+	}
 
-    /**
-     * @return array
-     */
-    public function getWidgets()
-    {
-        return [
-            'Database' => [
-                'icon' => 'tags',
-                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map' => 'Database',
-                'default' => '{}',
-            ],
-            'Database:badge' => [
-                'map' => 'Database.count',
-                'default' => 1,
-            ],
-        ];
-    }
+	/**
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		return [
+			'Database' => [
+				'icon' => 'tags',
+				'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
+				'map' => 'Database',
+				'default' => '{}',
+			],
+			'Database:badge' => [
+				'map' => 'Database.count',
+				'default' => 1,
+			],
+		];
+	}
 }

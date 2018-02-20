@@ -10,26 +10,26 @@
 
 class Settings_CronTasks_List_View extends Settings_Vtiger_List_View
 {
-    public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
-    {
-        $listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
-        $listViewModel->set('orderby', 'sequence');
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	{
+		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
+		$listViewModel->set('orderby', 'sequence');
 
-        $pagingModel = new Vtiger_Paging_Model();
-        if (!$this->listViewHeaders) {
-            $this->listViewHeaders = $listViewModel->getListViewHeaders();
-        }
-        if (!$this->listViewEntries) {
-            $this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
-        }
+		$pagingModel = new Vtiger_Paging_Model();
+		if (!$this->listViewHeaders) {
+			$this->listViewHeaders = $listViewModel->getListViewHeaders();
+		}
+		if (!$this->listViewEntries) {
+			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
+		}
 
-        $module = $listViewModel->getModule();
+		$module = $listViewModel->getModule();
 
-        $viewer->assign('MODULE_MODEL', $module);
-        $viewer->assign('QUALIFIED_MODULE_NAME', $module->getName(true));
-        $viewer->assign('PAGING_MODEL', $pagingModel);
-        $viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
-        $viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-        $viewer->assign('LAST_CRON', $module->getLastCronIteration());
-    }
+		$viewer->assign('MODULE_MODEL', $module);
+		$viewer->assign('QUALIFIED_MODULE_NAME', $module->getName(true));
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
+		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
+		$viewer->assign('LAST_CRON', $module->getLastCronIteration());
+	}
 }

@@ -8,19 +8,19 @@
  */
 class Progress
 {
-    public $name = 'Progress';
-    public $sequence = 5;
-    public $reference = 'Details';
+	public $name = 'Progress';
+	public $sequence = 5;
+	public $reference = 'Details';
 
-    /**
-     * Process.
-     *
-     * @param Vtiger_Record_Model $recordModel
-     *
-     * @return string
-     */
-    public function process(Vtiger_Record_Model $recordModel)
-    {
-        return $recordModel->get('progress');
-    }
+	/**
+	 * Process.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return string
+	 */
+	public function process(Vtiger_Record_Model $recordModel)
+	{
+		return $recordModel->get('progress');
+	}
 }
