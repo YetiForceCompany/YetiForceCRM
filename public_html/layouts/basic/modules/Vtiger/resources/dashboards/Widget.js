@@ -202,8 +202,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			currentElement.attr('title', currentElement.data(sortorder));
 			currentElement.attr('alt', currentElement.data(sortorder));
 			url += sortorder;
-			var glyphicon = currentElement.find('[data-fa-i2svg]');
-			glyphicon.removeClass().addClass('[data-fa-i2svg]').addClass(icon);
+			var faIcon = currentElement.find('[data-fa-i2svg]');
+			faIcon.removeClass().addClass('[data-fa-i2svg]').addClass(icon);
 			drefresh.data('url', url);
 		}
 	},
