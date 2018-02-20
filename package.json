@@ -36,7 +36,6 @@
 		"clockpicker": "^0.0.7",
 		"css-element-queries": "^1.0.1",
 		"datatables.net": "^1.10.16",
-		"datatables.net-bs": "^1.10.16",
 		"datatables.net-bs4": "^1.10.16",
 		"dompurify": "^1.0.3",
 		"flot-valuelabels": "https://github.com/winne27/flot-valuelabels.git",
