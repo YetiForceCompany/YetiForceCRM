@@ -80,7 +80,7 @@ $languageStrings = [
 	'LBL_IMPORT_FILE_COPY_FAILED' => 'İçe aktarma dosyası kopyalanamadı. İzinleri değiştir ',	
 	'LBL_INVALID_FILE' => 'Geçersiz dosya',	
 	'LBL_NO_ROWS_FOUND' => 'Bulunan satır yok',	
-	'LBL_SCHEDULED_IMPORT_DETAILS' => İçe aktarma işlemi planlandı ve 15 dakika içinde başlayacak. İçe aktarma işlemi bittikten sonra bir e-posta alacaksınız. <br /> <br />
+	'LBL_SCHEDULED_IMPORT_DETAILS' => 'İçe aktarma işlemi planlandı ve 15 dakika içinde başlayacak. İçe aktarma işlemi bittikten sonra bir e-posta alacaksınız. <br /> <br />
 Lütfen giden sunucunun ve e-posta adresinizin e-posta bildirimi alacak şekilde yapılandırıldığından emin olun ',		
 	'LBL_DETAILS' => 'Ayrıntılar',	
 	'skipped' => 'Atlanan kayıtlar',	
