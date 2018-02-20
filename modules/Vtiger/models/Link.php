@@ -103,9 +103,10 @@ class Vtiger_Link_Model extends vtlib\Link
 	 *
 	 * @return string
 	 */
-	public function getFontAwesomeIcon()
+	public function getHeaderIcon()
 	{
-		return $this->fontawesomeicon;
+		var_dump($this->icon);
+		return $this->icon;
 	}
 
 	/**
