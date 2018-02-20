@@ -2065,15 +2065,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var row = $(e.currentTarget).closest('.row');
 			var mailBody = row.find('.mailBody');
 			var mailTeaser = row.find('.mailTeaser');
-			var glyphicon = $(e.currentTarget).find('[data-fa-i2svg]');
+			var faCaretIcon = $(e.currentTarget).find('[data-fa-i2svg]');
 			if (mailBody.hasClass('hide')) {
 				mailBody.removeClass('hide');
 				mailTeaser.addClass('hide');
-				glyphicon.removeClass("fa-caret-down").addClass("fa-caret-up");
+				faCaretIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
 			} else {
 				mailBody.addClass('hide');
 				mailTeaser.removeClass('hide');
-				glyphicon.removeClass("fa-caret-up").addClass("fa-caret-down");
+				faCaretIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
 			}
 		});
 		container.find('[name="mail-type"]').change(function (e) {
