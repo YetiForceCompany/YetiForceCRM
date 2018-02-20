@@ -1,24 +1,24 @@
-<?php
-/**
- * CInternalTickets turkish translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
+<?php		
+/**		
+ * CInternalTickets english translation		
+ * @package YetiForce.Language		
+ * @copyright YetiForce Sp. z o.o.		
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
+ */		
+$languageStrings =	 [	
 	'CInternalTickets' => 'Dahili biletler',
 	'SINGLE_CInternalTickets' => 'Dahili bilet',
-	//BLOCKS
+	//BLOCKS	
 	'LBL_ADDITIONAL_INFORMATION' => 'Ek bilgi',
 	'LBL_BASIC_INFORMATION' => 'Temel bilgiler',
 	'LBL_TICKET_RESOLUTION' => 'Çözüm',
 	'LBL_ATTENTION_BLOCK' => 'Notlar',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
-	//FIELDS
+	//FIELDS	
 	'FL_SUBJECT' => 'Konu',
 	'FL_STATUS' => 'Durum',
 	'FL_RESOLUTION' => 'Çözüm',
-	// Picklist
+	// Picklist	
 	'PLL_UNASSIGNED' => 'Atamasız',
 	'PLL_AWAITING_REALIZATION' => 'Gerçekleşmeyi bekliyor',
 	'PLL_FOR_PROCESSING' => 'Gerçekleştirme için',
@@ -27,4 +27,4 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Onay için',
 	'PLL_CANCELLED' => 'İptal edildi',
 	'PLL_ACCEPTED' => 'Kabul Edildi',
-];
+];		

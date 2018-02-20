@@ -1,19 +1,19 @@
-<?php
-/**
- * CFixedAssets turkish translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
+<?php		
+/**		
+ * CFixedAssets english translation		
+ * @package YetiForce.Language		
+ * @copyright YetiForce Sp. z o.o.		
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
+ */		
+$languageStrings =	 [	
 	'CFixedAssets' => 'Sabit kıymetler',
 	'SINGLE_CFixedAssets' => 'Sabit kıymetler',
-	//BLOCKS
+	//BLOCKS	
 	'LBL_VEHICLE' => 'Araç',
 	'LBL_BASIC_INFORMATION' => 'Temel bilgiler',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
 	'LBL_ATTENTION_BLOCK' => 'Notlar',
-	//FIELDS
+	//FIELDS	
 	'FL_SUBJECT' => 'İsim',
 	'FL_TYPE' => 'Tip',
 	'FL_STATUS' => 'Durum',
@@ -45,7 +45,7 @@ $languageStrings = [
 	'FL_COST_INSURANCE_NW' => 'Kişisel Yaralanma Koruması Sigorta Bedeli',
 	'FL_NUMBER_MOTOHOURS' => 'Moto saat sayısı',
 	'FL_EQUIPMENT' => 'Ekipmanlar',
-	// Picklist
+	// Picklist	
 	'PLL_UNAVAILABLE' => 'Kullanılamıyor',
 	'PLL_AVAILABLE' => 'Uygun',
 	'PLL_DEMAGED' => 'Hasar görmüş',
@@ -61,4 +61,4 @@ $languageStrings = [
 	'PLL_PROPERTY' => 'Özellik',
 	'PLL_INVENTORY' => 'Envanter',
 	'PLL_DIESEL' => 'Dizel',
-];
+];		

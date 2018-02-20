@@ -1,17 +1,20 @@
-<?php
-/**
- * Assets turkish translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
-	// Basic Strings
+<?php		
+/* +***********************************************************************************		
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0		
+ * ("License"); You may not use this file except in compliance with the License		
+ * The Original Code is:  vtiger CRM Open Source		
+ * The Initial Developer of the Original Code is vtiger.		
+ * Portions created by vtiger are Copyright (C) vtiger.		
+ * All Rights Reserved.		
+ * Contributor(s): YetiForce.com		
+ * ********************************************************************************** */		
+$languageStrings =	 [	
+	// Basic Strings	
 	'Assets' => 'Varlıklar',
 	'SINGLE_Assets' => 'Varlık',
-	// Blocks
+	// Blocks	
 	'LBL_ASSET_INFORMATION' => 'Varlık ayrıntıları',
-	//Field Labels
+	//Field Labels	
 	'Asset No' => 'Varlık numarası',
 	'Serial Number' => 'Seri numarası',
 	'Date Sold' => 'Satılan tarih',
@@ -25,7 +28,7 @@ $languageStrings = [
 	'LBL_SET_RENEWAL' => 'Yenilemeyi ayarla',
 	'FL_RENEWAL_INVOICE' => 'Yenileme faturası',
 	'FL_CONTACT' => 'İletişim',
-	// picklist values
+	/* picklist values */	
 	'PLL_DRAFT' => 'Taslak',
 	'PLL_ACCEPTED' => 'Kabul Edildi',
 	'PLL_CANCELLED' => 'İptal edildi',
@@ -39,7 +42,7 @@ $languageStrings = [
 	'PLL_RENEWED_VERIFICATION' => 'Yenilendi (doğrulama)',
 	'PLL_NOT_RENEWED_VERIFICATION' => 'Yenilenmedi (doğrulama)',
 	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Geçerli değil (doğrulama)',
-	//YetiForce
+	//YetiForce	
 	'description' => 'Açıklama',
 	'attentions' => 'Yorumlar',
 	'BLOCK_INFORMATION_TIME' => 'Zaman bilgisi',
@@ -47,4 +50,4 @@ $languageStrings = [
 	'LBL_ORDER_TIME' => 'Sipariş süresi',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Satılan ürünlerin süresinin dolması',
 	'LBL_CHANGE_STATUS' => 'Durumu Değiştir',
-];
+];		

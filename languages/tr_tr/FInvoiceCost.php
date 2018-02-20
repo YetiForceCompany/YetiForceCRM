@@ -1,20 +1,20 @@
-<?php
-/**
- * FInvoiceCost turkish translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
+<?php		
+/**		
+ * FInvoiceCost english translation		
+ * @package YetiForce.Language		
+ * @copyright YetiForce Sp. z o.o.		
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
+ */		
+$languageStrings =	 [	
 	'FInvoiceCost' => 'Maliyet faturaları',
 	'SINGLE_FInvoiceCost' => 'Maliyet faturası',
-	//BLOCKS
+	//BLOCKS	
 	'LBL_CUSTOM_INFORMATION' => 'Sistem bilgisi',
 	'LBL_INVOICE_ADDRESS' => 'Fatura adresi',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Teslimat adresi',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
 	'LBL_ATTENTION_BLOCK' => 'Yorumlar',
-	//FIELDS
+	//FIELDS	
 	'FL_SUBJECT' => 'Konu',
 	'FL_PAYMENT_DATE' => 'Teslim tarihi',
 	'FL_SALE_DATE' => 'Satış tarihi',
@@ -28,7 +28,7 @@ $languageStrings = [
 	'FL_PAYMENT_STATUS' => 'Ödeme durumu',
 	'FL_INVOICE_TYPE' => 'Fatura türü',
 	'FL_CATEGORY' => 'Kategori',
-	//PICKLIST VALUES
+	//PICKLIST VALUES	
 	'PLL_TRANSFER' => 'Banka havalesi',
 	'PLL_WIRE_TRANSFER' => 'Havale',
 	'PLL_CASH' => 'nakit',
@@ -46,4 +46,4 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Onay için',
 	'PLL_CANCELLED' => 'İptal edildi',
 	'PLL_ACCEPTED' => 'Kabul Edildi',
-];
+];		
