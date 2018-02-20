@@ -1,11 +1,11 @@
-<?php		
-/**	
-* IStorages english translation.	
-*	
-* @copyright YetiForce Sp. z o.o	
-* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-*/	
-$languageStrings = [	
+<?php
+/**
+ * IStorages english translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'IStorages' => 'Depolar',
 	'SINGLE_IStorages' => 'Depolama',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
@@ -27,4 +27,4 @@ $languageStrings = [
 	'LBL_ROW_NUM' => 'Yok hayır.',
 	'LBL_STORAGE_OWNER' => 'Sahibi',
 	'FL_POS' => 'POS',
-];	
+];

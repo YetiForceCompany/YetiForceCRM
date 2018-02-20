@@ -1,11 +1,11 @@
-<?php		
-	/**	
-	* IPreOrder english translation.	
-	*	
-	* @copyright YetiForce Sp. z o.o	
-	* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-	*/	
-	$languageStrings = [	
+<?php
+/**
+ * IPreOrder english translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'IPreOrder' => 'Ön siparişler',
 	'SINGLE_IPreOrder' => 'Ön sipariş',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
@@ -23,4 +23,4 @@
 	'PLL_CANCELLED' => 'İptal edildi',
 	'PLL_ACCEPTED' => 'Kabul edildi',
 	'LBL_CHANGE_STATUS' => 'Durumu değiştir',
-];	
+];

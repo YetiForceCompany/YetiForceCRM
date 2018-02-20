@@ -1,25 +1,25 @@
-<?php		
-/* +***********************************************************************************		
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0		
- * ("License"); You may not use this file except in compliance with the License		
- * The Original Code is:  vtiger CRM Open Source		
- * The Initial Developer of the Original Code is vtiger.		
- * Portions created by vtiger are Copyright (C) vtiger.		
- * All Rights Reserved.		
- * Contributor(s): YetiForce.com		
- * ********************************************************************************** */		
-$languageStrings =	 [	
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * ********************************************************************************** */
+$languageStrings = [
 	'Campaign Name' => 'Kampanya adı',
 	'Campaign No' => 'Kampanya numarası',
 	'Campaigns' => 'Kampanyalar',
 	'SINGLE_Campaigns' => 'Pazarlama kampanyası',
-	//FIELDS	
+	//FIELDS
 	'Budget Cost' => 'Kampanya bütçesi',
 	'Campaign Type' => 'Kampanya türü',
-	//BLOCKS	
+	//BLOCKS
 	'LBL_CAMPAIGN_INFORMATION' => 'Kampanya ayrıntıları',
 	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Beklentiler ve sonuçlar',
-	//OTHERS	
+	//OTHERS
 	'Complete' => 'Tamamlandı',
 	'Actual Cost' => 'Fiili maliyet',
 	'Actual Response Count' => 'Gerçek cevap sayısı',
@@ -43,7 +43,7 @@ $languageStrings =	 [
 	'Good' => 'İyi',
 	'Inactive' => 'Etkin değil',
 	'Active' => 'Aktif',
-	'--None--' => "--Yok--",
+	'--None--' => '--Yok--',
 	'Num Sent' => 'Numara gönderildi',
 	'Others' => 'Diğerleri',
 	'Planning' => 'Planlama',
@@ -60,7 +60,7 @@ $languageStrings =	 [
 	'LBL_LOAD_RECORDS' => 'Filtreden yükle',
 	'LBL_LOAD_RECORDS_INFO' => 'Filtrede belirtilen şartları sağlayan tüm kayıtları yüklemek için kullanılan düğme',
 	'LBL_COUNT_RECORDS_WIDGET' => 'İlgili modül kayıtlarının sayısı',
-];		
-$jsLanguageStrings =	 [	
+];
+$jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Filtreden tüm kayıtları eklemek istiyor musunuz?',
-];		
+];

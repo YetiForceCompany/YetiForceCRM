@@ -1,14 +1,14 @@
-<?php		
-	/* +***********************************************************************************	
-	* The contents of this file are subject to the vtiger CRM Public License Version 1.0	
-	* ("License"); You may not use this file except in compliance with the License	
-	* The Original Code is: vtiger CRM Open Source	
-	* The Initial Developer of the Original Code is vtiger.	
-	* Portions created by vtiger are Copyright (C) vtiger.	
-	* All Rights Reserved.	
-	* Contributor(s): YetiForce.com	
-	* ********************************************************************************** */	
-	$languageStrings = [	
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * ********************************************************************************** */
+$languageStrings = [
 	'ALVT' => 'En Hesaplar',
 	'CVLVT' => 'Temel Ölçütler',
 	'GRT' => 'Grubum Tahsisi',
@@ -33,7 +33,7 @@
 	'LBL_TIME' => 'Zaman',
 	'LBL_NOTIFICATION_BY_SENDER' => 'Gönderene göre bildirim sayısı',
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Alıcıya göre bildirim sayısı',
-	//Widgets	
+	//Widgets
 	'LBL_MINI_LIST' => 'Mini liste',
 	'LBL_FILTERING_BY_DATE' => 'Alana tarihine göre filtreleme',
 	'LBL_TIMELINE_BY_DATE' => 'Tarihe göre zaman çizelgesi',
@@ -47,7 +47,7 @@
 	'LBL_GROUP_VALUES' => 'Bölünmüş gruplama değerleri',
 	'LBL_FILTER_BY_OWNER' => 'Sahibine göre filtrele',
 	'LBL_ALL_OWNERS' => 'Hepsi',
-];	
-		
-$jsLanguageStrings = [	
-];	
+];
+
+$jsLanguageStrings = [
+];

@@ -1,11 +1,11 @@
-<?php		
-	/**	
-	* IIDN english translation.	
-	*	
-	* @copyright YetiForce Sp. z o.o	
-	* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-	*/	
-	$languageStrings = [	
+<?php
+/**
+ * IIDN english translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'IIDN' => 'İç Teslimat Notları',
 	'SINGLE_IIDN' => 'İç Teslimat Notu',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
@@ -22,4 +22,4 @@
 	'PLL_CANCELLED' => 'İptal edildi',
 	'PLL_ACCEPTED' => 'Kabul edildi',
 	'LBL_CHANGE_STATUS' => 'Durumu değiştir',
-];	
+];

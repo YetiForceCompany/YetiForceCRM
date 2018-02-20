@@ -1,11 +1,11 @@
-<?php		
-	/**	
-	* IGDNC english translation.	
-	*	
-	* @copyright YetiForce Sp. z o.o	
-	* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-	*/	
-	$languageStrings = [	
+<?php
+/**
+ * IGDNC english translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'IGDNC' => 'Gönderilen Malların Not Düzeltmeleri',
 	'SINGLE_IGDNC' => 'Gönderilen Malın Not Düzeltme',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
@@ -24,4 +24,4 @@
 	'PLL_CANCELLED' => 'İptal edildi',
 	'PLL_ACCEPTED' => 'Kabul edildi',
 	'LBL_CHANGE_STATUS' => 'Durumu değiştir',
-];	
+];

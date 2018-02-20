@@ -11,7 +11,6 @@
 $languageStrings = [
 	// Field Labels
 	'FL_RENEWABLE' => 'Renovable',
-
 	'Unit Code' => 'Código unitario',
 	'Mf. Country Code' => 'Código del país (ISO 3166-2:MF)',
 	'Manuf. Country' => 'País de origen',

@@ -8,7 +8,6 @@
 $languageStrings = [
 	// Field Labels
 	'FL_RENEWABLE' => 'Odnawialny',
-
 	'Unit Code' => 'Unit Code',
 	'Mf. Country Code' => 'Mf. Country Code',
 	'Manuf. Country' => 'Manuf. Country',

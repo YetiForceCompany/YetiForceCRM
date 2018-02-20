@@ -10,7 +10,6 @@
 $languageStrings = [
 	'FL_RENEWABLE' => 'Zu Erneuern',
 	// Field Labels
-
 	'Unit Code' => 'Einheit',
 	'Mf. Country Code' => 'Hersteller Länderschlüssel',
 	'Manuf. Country' => 'Herstellerland',

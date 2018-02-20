@@ -1,11 +1,11 @@
-<?php		
-	/**	
-	* IGRN english translation.	
-	*	
-	* @copyright YetiForce Sp. z o.o	
-	* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-	*/	
-	$languageStrings = [	
+<?php
+/**
+ * IGRN english translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'IGRN' => 'Malların alındı notu',
 	'SINGLE_IGRN' => 'Mal alındı notu',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',

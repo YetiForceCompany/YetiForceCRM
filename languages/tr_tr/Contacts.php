@@ -1,14 +1,14 @@
-<?php		
-/* +***********************************************************************************		
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0		
- * ("License"); You may not use this file except in compliance with the License		
- * The Original Code is:  vtiger CRM Open Source		
- * The Initial Developer of the Original Code is vtiger.		
- * Portions created by vtiger are Copyright (C) vtiger.		
- * All Rights Reserved.		
- * Contributor(s): YetiForce.com		
- * ********************************************************************************** */		
-$languageStrings =	 [	
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * ********************************************************************************** */
+$languageStrings = [
 	'Member Of' => 'Üye',
 	'Birthdate' => 'Doğum tarihi',
 	'Contact Id' => 'Kontak kimliği',
@@ -32,7 +32,7 @@ $languageStrings =	 [
 	'Title' => 'Başlık',
 	'User List' => 'Kullanıcı listesi',
 	'Job title' => 'İş unvanı',
-	//Added for Picklist Values	
+	//Added for Picklist Values
 	'Dr.' => 'Dr.',
 	'Mr.' => 'Bay',
 	'Mrs.' => 'Bayan',
@@ -48,14 +48,14 @@ $languageStrings =	 [
 	'Approval for email' => 'E-posta gönderme izni',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Dil bildirimleri',
 	'Decision maker' => 'Karar verici',
-	//Activity Types	
+	//Activity Types
 	'End of support for contact' => 'Temas desteğinin sonu',
 	'Birthdays of contacts' => 'Kişilerin doğum günleri',
 	'SINGLE_Leads' => 'Kurşun',
 	'SINGLE_Vendors' => 'Satıcı',
 	'LBL_SWITCH_ON_DECISION_MAKER' => 'Karar verici',
 	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Hepsi',
-];		
-		
-$jsLanguageStrings 	= [	
-];		
+];
+
+$jsLanguageStrings = [
+];

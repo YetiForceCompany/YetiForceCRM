@@ -11,7 +11,6 @@
 $languageStrings = [
 	//Innovaris
 	'LBL_EvaluationProductService' => 'Evaluación del producto/servicio',
-
 	'LBL_TO_LC' => 'a',
 	'LBL_EXPORT_TO_PDF' => 'Exportar a PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Información sobre la dirección',

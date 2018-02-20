@@ -1,17 +1,17 @@
-<?php		
-/* +***********************************************************************************		
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0		
- * ("License"); You may not use this file except in compliance with the License		
- * The Original Code is:  vtiger CRM Open Source		
- * The Initial Developer of the Original Code is vtiger.		
- * Portions created by vtiger are Copyright (C) vtiger.		
- * All Rights Reserved.		
- * Contributor(s): YetiForce.com		
- * ********************************************************************************** */		
-		
-/* NOTE: Should be inline with Calendar language translation but few variations */		
-		
-$languageStrings =	 [	
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * ********************************************************************************** */
+
+// NOTE: Should be inline with Calendar language translation but few variations
+
+$languageStrings = [
 	'Activity Type' => 'Etkinlik Türü',
 	'Busy' => 'Meşgul',
 	'Call' => 'Ara',
@@ -74,7 +74,7 @@ $languageStrings =	 [
 	'Mobile Call' => 'Mobil arama',
 	'LBL_NO_DESCRIPTION' => 'Açıklama yok',
 	'All day' => 'Bütün gün',
-	//Priority picklist values 	
+	//Priority picklist values
 	'High' => 'Yüksek',
 	'Medium' => 'Orta',
 	'Low' => 'Düşük',
@@ -115,7 +115,7 @@ $languageStrings =	 [
 	'LBL_DAY_IN_WEEK' => 'Haftanın günü',
 	'LBL_NEVER' => 'Asla',
 	'LBL_COUNT' => 'Olguların sayısı',
-	// Recuring Events	
+	// Recuring Events
 	'FL_RECURRENCE' => 'Tekrarlama',
 	'FL_REAPEAT' => 'Tekrarla',
 	'LBL_REAPEAT_IN' => 'Tekrarla',
@@ -133,4 +133,4 @@ $languageStrings =	 [
 	'LBL_DELETE_FUTURE_EVENTS_DESCRIPTION' => 'Yalnızca sonraki kayıtlar silinecek',
 	'LBL_DELETE_ALL_EVENTS' => 'Tüm kayıtları sil',
 	'LBL_DELETE_ALL_EVENTS_DESCRIPTION' => 'Sıralı tüm kayıtlar silinir',
-];		
+];

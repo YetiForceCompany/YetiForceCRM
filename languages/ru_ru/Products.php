@@ -13,7 +13,6 @@ $languageStrings = [
 	'FL_POS' => 'Позиций',
 	// Field Labels
 	'FL_RENEWABLE' => 'Возобновляемый',
-
 	'--None--' => 'Нет',
 	'300-Sales-Software' => '300-Продажи-ПО',
 	'301-Sales-Hardware' => '301-Продажи-Оборудование',

@@ -1,11 +1,11 @@
-<?php		
-/**	
-* ISTN english translation.	
-*	
-* @copyright YetiForce Sp. z o.o	
-* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-*/	
-$languageStrings = [	
+<?php
+/**
+ * ISTN english translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'ISTN' => 'Depolama Devri Notları',
 	'SINGLE_ISTN' => 'Depolama Devri Notu',
 	'LBL_DESCRIPTION_BLOCK' => 'Açıklama',
@@ -24,4 +24,4 @@ $languageStrings = [
 	'PLL_TRANSFER' => 'Aktar',
 	'PLL_DISPATCHED' => 'Gönderildi',
 	'FL_TYPE' => 'Tür',
-];	
+];
