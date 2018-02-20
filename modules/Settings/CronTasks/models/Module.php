@@ -68,9 +68,12 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		if ($this->lastCronStart) {
 			return $this->lastCronStart;
 		}
-		$cronConfig = include ROOT_DIRECTORY . '/user_privileges/cron.php';
-		if ($cronConfig && isset($cronConfig['last_iteration_start'])) {
-			return $this->lastCronStart = (int) $cronConfig['last_iteration_start'];
+		$cronConfigFileName=ROOT_DIRECTORY . '/user_privileges/cron.php';
+		if (file_exists($cronConfigFileName)) {
+			$cronConfig = include $cronConfigFileName;
+			if ($cronConfig && isset($cronConfig['last_iteration_start'])) {
+				return $this->lastCronStart = (int) $cronConfig['last_iteration_start'];
+			}
 		}
 		return 0;
 	}
