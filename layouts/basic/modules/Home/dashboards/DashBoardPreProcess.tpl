@@ -34,6 +34,5 @@
 										{/foreach}
 							</ul>
 						{/if}
-					{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-					<div class="col-sm-12 paddingLRZero">
+					<div class="col-sm-12">
 					{/strip}
