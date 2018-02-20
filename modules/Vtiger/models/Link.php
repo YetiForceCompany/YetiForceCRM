@@ -105,7 +105,6 @@ class Vtiger_Link_Model extends vtlib\Link
 	 */
 	public function getHeaderIcon()
 	{
-		var_dump($this->icon);
 		return $this->icon;
 	}
 
