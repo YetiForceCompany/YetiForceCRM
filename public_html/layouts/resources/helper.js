@@ -177,7 +177,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 * Function to show pnotify message
 	 */
 	showPnotify: function (customParams) {
-
 		var userParams = customParams;
 		if (typeof customParams == 'string') {
 			var userParams = {};
@@ -188,21 +187,23 @@ jQuery.Class("Vtiger_Helper_Js", {
 			hide: false,
 			delay: '3000',
 			type: 'error',
-			styling: 'bootstrap3',
-			buttons: {
+			Buttons: {
+				closerHover: false,
 				sticker: false,
+				stickerHover: false,
 				labels: {close: app.vtranslate('JS_CLOSE')}
 			}
 		}
 
 		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
 			params.hide = true;
-			params.animate_speed = 1;
+			params.animateSpeed = 1;
 		}
 		if (typeof userParams != 'undefined') {
 			var params = jQuery.extend(params, userParams);
 		}
-		return new PNotify(params);
+
+		return new PNotifyCompat(params);
 	},
 	/*
 	 * Function to remove pnotify message
@@ -213,16 +214,16 @@ jQuery.Class("Vtiger_Helper_Js", {
 		}
 		notice.remove();
 	},
-	/* 
-	 * Function to add clickoutside event on the element - By using outside events plugin 
-	 * @params element---On which element you want to apply the click outside event 
-	 * @params callbackFunction---This function will contain the actions triggered after clickoutside event 
+	/*
+	 * Function to add clickoutside event on the element - By using outside events plugin
+	 * @params element---On which element you want to apply the click outside event
+	 * @params callbackFunction---This function will contain the actions triggered after clickoutside event
 	 */
 	addClickOutSideEvent: function (element, callbackFunction) {
 		element.one('clickoutside', callbackFunction);
 	},
 	/*
-	 * Function to show horizontal top scroll bar 
+	 * Function to show horizontal top scroll bar
 	 */
 	showHorizontalTopScrollBar: function () {
 		var container = jQuery('.contentsDiv');

@@ -62,7 +62,7 @@
 		"moment": ">=2.18.1",
 		"mousetrap": "^1.6.1",
 		"perfect-scrollbar": "^1.3.0",
-		"pnotify": "^3.2.1",
+		"pnotify": "^4.0.0-alpha.2",
 		"popper.js": "^1.12.9",
 		"respond.js": "^1.4.2",
 		"select2": "^4.0.6-rc.1",
