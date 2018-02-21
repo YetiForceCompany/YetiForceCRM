@@ -15,4 +15,5 @@ $languageStrings = [
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Das Passwort wurde bereits verwendet. Das System erlaubt aus Sicherheitsgründen keine bisherigen Passwörter.',
 	'ERR_USER_EXISTS' => 'Benutzer mit dem gleichen Namen und Rolle schon vorhanden (%s)',
 	'ERR_NOT_ACCESSIBLE' => 'Zugriff verweigert',
+	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'Fehlende Berechtigung um diesen Datensatz anzuschauen oder zu editieren. Bitte kontaktieren Sie den Administrator falls Sie diese Berechtigung benötigen.',
 ];
