@@ -153,6 +153,8 @@ jQuery.Class("Vtiger_Helper_Js", {
 			}
 		}
 		var bootBoxModal = bootbox.confirm($.extend(baseParams, params));
+		this.titleH4Hack(bootBoxModal);
+
 		bootBoxModal.on('hidden', function (e) {
 			//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 			// modal open
@@ -307,5 +309,9 @@ jQuery.Class("Vtiger_Helper_Js", {
 		return array.filter(function (el, index, arr) {
 			return index === arr.indexOf(el);
 		});
+	},
+	titleH4Hack: function (bootBoxModal) {
+		var oldTitle = $(bootBoxModal).find('h4').html();
+		$(bootBoxModal).find('h4').parent().html('<h5>' + oldTitle + '</h5>');
 	}
 }, {});
