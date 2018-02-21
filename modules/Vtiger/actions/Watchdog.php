@@ -23,17 +23,17 @@ class Vtiger_Watchdog_Action extends \App\Controller\Action
 		$recordId = $request->getInteger('record');
 		if (empty($recordId)) {
 			if (!App\Privilege::isPermitted($moduleName, 'WatchingModule')) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
 			if (!App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) || !App\Privilege::isPermitted($moduleName, 'WatchingRecords')) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
 			if (!in_array($request->getInteger('user'), $userList)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}

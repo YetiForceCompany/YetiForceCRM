@@ -353,20 +353,6 @@ hr {
 		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	}
 }
-.toggleButton {
-	background: #eeeff2;
-	font-weight: bold;
-	padding: 5px 2px !important;
-	position: absolute;
-	top: 20px;
-	left: -1px;
-	cursor: pointer;
-	width: 15px;
-	z-index: 100;
-	border: 1px solid #dddddd;
-	border-left: 0;
-	display: inline-block;
-}
 #selectAllMsgDiv, #deSelectAllMsgDiv {
 	display: none;
 	background-color: #fafad2;

@@ -24,7 +24,7 @@ class Products_SummaryWidget_Model
 		$record = $request->getInteger('record');
 		$mod = $request->getByType('mod', 1);
 		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!in_array($mod, self::MODULES)) {
 			throw new \App\Exceptions\AppException('Not supported Module');

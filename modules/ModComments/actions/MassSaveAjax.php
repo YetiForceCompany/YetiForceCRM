@@ -28,7 +28,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$sourceModule = $request->getByType('source_module', 2);
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		if (!$moduleModel->isCommentEnabled() || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassAddComment')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

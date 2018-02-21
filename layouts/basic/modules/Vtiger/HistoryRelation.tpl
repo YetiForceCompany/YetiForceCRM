@@ -7,7 +7,7 @@
 			<ul class="timeline" id="relatedUpdates">
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
-						<span class="glyphicon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
+						<span class="badgeIcon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
 							<div class="float-left paddingRight15 imageContainer">
 								{if !$HISTORY['isGroup']}

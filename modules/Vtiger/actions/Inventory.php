@@ -37,7 +37,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$currency = $request->get('currency');
 		$price = $request->get('price');
@@ -97,7 +97,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$record = $request->getInteger('record');
 		$recordModule = $request->getByType('recordModule', 2);
 		if (!\App\Privilege::isPermitted($recordModule, 'EditView', $record)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$unitPriceValues = false;
 		if (in_array($recordModule, ['Products', 'Services'])) {
@@ -132,7 +132,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();

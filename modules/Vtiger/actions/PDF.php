@@ -82,7 +82,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		}
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId[0])) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			if ($emailPdf) {
 				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
@@ -97,7 +97,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			}
 		} elseif ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
@@ -111,7 +111,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$body = '';
 				foreach ($recordId as $index => $record) {
 					if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
-						throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+						throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 					}
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
@@ -174,7 +174,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
-							throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+							throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 						}
 						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 						$pdf = new $handlerClass();
@@ -225,7 +225,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$pdfModel = new Vtiger_PDF_Model();
 		$pdfModel->setMainRecordId($recordId);

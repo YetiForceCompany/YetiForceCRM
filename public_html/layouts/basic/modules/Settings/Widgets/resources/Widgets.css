@@ -23,7 +23,7 @@
 	-moz-box-shadow: 0 0 3px -1px #dddddd;
 	box-shadow: 0 0 3px -1px #dddddd;
 }
-.HelpInfoPopover .glyphicon-info-sign{
+.HelpInfoPopover .fa-info-circle{
 	margin-left: 3px;
 }
 .form-switch-mini .control-label{

@@ -77,7 +77,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [
 			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 		];
 		$modalInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);
