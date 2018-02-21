@@ -467,7 +467,8 @@ jQuery.Class("Vtiger_List_Js", {
 			var excludedIds = listInstance.readExcludedIds(true);
 			var cvId = listInstance.getCurrentCvId();
 			var message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+			var title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
+			Vtiger_Helper_Js.showConfirmationBox({'message': message, 'title': title}).then(
 					function (e) {
 						var url = reviewUrl + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
 						if (listInstance.getListSearchInstance()) {
