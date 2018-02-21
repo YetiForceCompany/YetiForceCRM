@@ -443,7 +443,6 @@ $languageStrings = [
 	'LBL_PAGE' => 'Page',
 	'LBL_PARENT_OWNER' => 'Parent record owner',
 	'LBL_PERMISSION_DENIED' => 'Permission denied',
-	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'You don\'t have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Please select any module to search',
 	'LBL_POST' => 'Post',
 	'LBL_PREVIOUS_FQ' => 'Previous FQ',
