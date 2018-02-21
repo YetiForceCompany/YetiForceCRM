@@ -683,7 +683,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var thisInstance = this;
 		var contentHeight = this.content.find('.listPreview,.recordsListPreview');
 		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
-		this.content.find('.listPreviewframe').load(function () {
+		this.content.find('.listPreviewframe').on('load', function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
 			contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 		});

@@ -26,7 +26,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerPreviewEvent: function () {
 		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
-		$(".listPreviewframe").load(function () {
+		$(".listPreviewframe").on('load', function () {
 			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height($(this).contents().find(".bodyContents").height() - 20);
@@ -81,7 +81,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Registers list events.
 	 * @param {jQuery} container - current container for reference.
 	 */
-	registerListEvents: function (container) {	
+	registerListEvents: function (container) {
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
@@ -89,9 +89,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listViewEntriesDiv = container.find('.listViewEntriesDiv');
 		var commActHeight = $('.commonActionsContainer').height();
 		var paddingTop = 6;
-		var offset = fixedList.offset().top - commActHeight - paddingTop;	
+		var offset = fixedList.offset().top - commActHeight - paddingTop;
 		app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
-		app.showNewLeftScrollbar(fixedList);	
+		app.showNewLeftScrollbar(fixedList);
 		$(window).resize(function () {
 			if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
