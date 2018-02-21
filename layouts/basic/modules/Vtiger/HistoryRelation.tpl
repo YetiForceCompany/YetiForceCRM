@@ -8,10 +8,10 @@
 				<ul class="timeline" id="relatedUpdates">
 					{foreach item=HISTORY from=$HISTORIES}
 						<li>
-							<div class="row">
+							<div class="d-flex">
 								<span class="badgeIcon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
-								<div class="col-11 ml-3 p-1 timeline-item isCreate">
-									<div class="float-left paddingRight15 imageContainer">
+								<div class="w-100 ml-5 p-1 timeline-item">
+									<div class="float-left imageContainer">
 										{if !$HISTORY['isGroup']}
 											{assign var=IMAGE value=$HISTORY['userModel']->getImagePath()}
 											{if $IMAGE}

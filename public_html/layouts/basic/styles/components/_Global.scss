@@ -11,9 +11,14 @@
 	}
 }
 .badgeIcon {
-	@extend .p-2;
+	@extend .position-absolute;
 	@extend .rounded-circle;
 	@extend .text-white;
+    @extend .text-center;
+	width: 32px;
+    height: 32px;
+    font-size: 17px;
+    line-height: 30px;
 }
 .childrenMarginRight > * {
 	@extend .mr-2;
