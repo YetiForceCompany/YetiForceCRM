@@ -15,4 +15,5 @@ $languageStrings = [
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Этот пароль уже использовался. Система не разрешает использовать одинаковые пароли из соображений безопасности.',
 	'ERR_USER_EXISTS' => 'User with the same username and role already exists (%s)',
 	'ERR_NOT_ACCESSIBLE' => 'Недоступно',
+	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'Доступ ограничен. Свяжитесь с системным администратором',
 ];
