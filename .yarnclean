@@ -10,6 +10,10 @@ doc
 Font-Awesome/advanced-options
 Font-Awesome/use-on-desktop
 Font-Awesome/web-fonts-with-css
+chart.js/node_modules
+chart.js/samples
+chart.js/dist/Chart.bundle.js
+chart.js/dist/Chart.bundle.min.js
 # examples
 example
 examples
