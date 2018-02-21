@@ -462,7 +462,6 @@ $languageStrings = [
 	'LBL_PAGE' => 'Стр.',
 	'LBL_PARENT_OWNER' => 'Родительская запись владельца',
 	'LBL_PERMISSION_DENIED' => 'Доступ запрещен',
-	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'Доступ ограничен. Свяжитесь с системным администратором',
 	'LBL_PLEASE_SELECT_MODULE' => 'Выберите модуль для поиска',
 	'LBL_POST' => 'Опубликовать',
 	'LBL_PREVIOUS_FQ' => 'Предыдущий финансовый квартал',
