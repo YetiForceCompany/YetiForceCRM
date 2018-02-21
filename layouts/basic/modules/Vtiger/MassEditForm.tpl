@@ -70,7 +70,7 @@
 																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}:
 																</label>
 															</div>
-															<div class="col">
+															<div class="col-md-8">
 																<div class="fieldValue" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-input">
 																	{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}
 																</div>
