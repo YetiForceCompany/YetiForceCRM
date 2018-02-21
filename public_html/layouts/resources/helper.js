@@ -187,6 +187,9 @@ jQuery.Class("Vtiger_Helper_Js", {
 			hide: false,
 			delay: '3000',
 			type: 'error',
+			defaults: {
+				styling: "bootstrap4",
+			},
 			Buttons: {
 				closerHover: false,
 				sticker: false,
