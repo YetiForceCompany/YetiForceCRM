@@ -153,6 +153,8 @@ jQuery.Class("Vtiger_Helper_Js", {
 			}
 		}
 		var bootBoxModal = bootbox.confirm($.extend(baseParams, params));
+		this.titleH4Hack(bootBoxModal);
+
 		bootBoxModal.on('hidden', function (e) {
 			//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 			// modal open
@@ -213,16 +215,16 @@ jQuery.Class("Vtiger_Helper_Js", {
 		}
 		notice.remove();
 	},
-	/* 
-	 * Function to add clickoutside event on the element - By using outside events plugin 
-	 * @params element---On which element you want to apply the click outside event 
-	 * @params callbackFunction---This function will contain the actions triggered after clickoutside event 
+	/*
+	 * Function to add clickoutside event on the element - By using outside events plugin
+	 * @params element---On which element you want to apply the click outside event
+	 * @params callbackFunction---This function will contain the actions triggered after clickoutside event
 	 */
 	addClickOutSideEvent: function (element, callbackFunction) {
 		element.one('clickoutside', callbackFunction);
 	},
 	/*
-	 * Function to show horizontal top scroll bar 
+	 * Function to show horizontal top scroll bar
 	 */
 	showHorizontalTopScrollBar: function () {
 		var container = jQuery('.contentsDiv');
@@ -303,5 +305,9 @@ jQuery.Class("Vtiger_Helper_Js", {
 		return array.filter(function (el, index, arr) {
 			return index === arr.indexOf(el);
 		});
+	},
+	titleH4Hack: function (bootBoxModal) {
+		var oldTitle = $(bootBoxModal).find('h4').html();
+		$(bootBoxModal).find('h4').parent().html('<h5>' + oldTitle + '</h5>');
 	}
 }, {});

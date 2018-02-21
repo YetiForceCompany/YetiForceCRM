@@ -10,18 +10,20 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="transferOwnershipContainer" class='modelContainer modal fade' tabindex="-1">
-		<div class="modal-dialog">
+	<div class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}</h3>
+					<h5 class="modal-title"><i class="fa fa-user"></i> {\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				<form class="form-horizontal" id="changeOwner" name="changeOwner" method="post" action="index.php">
-					<div class="modal-body tabbable">
-						<div class="form-group">
-							<div class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ASSIGNED_TO', $MODULE)}</div>
-							<div class="col-sm-7 controls">
+				<form id="changeOwner" name="changeOwner" method="post" action="index.php">
+					<div class="modal-body">
+						<div class="form-group row">
+							<label class="col col-form-label col-form-label-sm text-right" for="transferOwnerId">{\App\Language::translate('LBL_ASSIGNED_TO', $MODULE)}</label>
+							<div class="col-md-8">
 								<select class="select2 form-control" data-validation-engine="validate[ required]" title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}" name="transferOwnerId" id="transferOwnerId"
 										{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 											data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
@@ -53,9 +55,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-sm-4 col-form-label">{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
-							<div class="col-sm-7 controls"> 
+						<div class="form-group row">
+							<label class="col col-form-label-sm text-right">{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}</label>
+							<div class="col-md-8"> 
 								<select class="select2-container form-control columnsSelect" id="related_modules" title="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" data-placeholder="{\App\Language::translate('--None--',$MODULE)}" multiple="" name="related_modules[]">
 									{if $REL_BY_FIELDS}
 										<optgroup label="{\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
