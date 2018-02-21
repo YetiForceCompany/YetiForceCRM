@@ -21,7 +21,7 @@
 			<div class="px-2 mr-auto">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
-			<div class="px-2">
+			<div class="px-2 pt-2">
 				<button class="btn btn-light btn-sm addButton marginRight10">
 					<span class="fas fa-plus"></span>
 				</button>
