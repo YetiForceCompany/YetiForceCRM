@@ -236,7 +236,7 @@ jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
 
-"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6.0, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.x, jquery@>=1.9.1:
+"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.x, jquery@>=1.9.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -313,11 +313,9 @@ perfect-scrollbar@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.3.0.tgz#61da56f94b58870d8e0a617bce649cee17d1e3b2"
 
-pnotify@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-3.2.1.tgz#eb68fb57fd1835764f23253235c1e973c456eb19"
-  dependencies:
-    jquery ">=1.6.0"
+pnotify@>4.0.0:
+  version "4.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.2.tgz#3f4b7bd0d36298b1ec0fe8ba568b3ec4c0c6918d"
 
 popper.js@^1.12.9:
   version "1.12.9"
