@@ -30,6 +30,7 @@
 		"bootstrap-datepicker": "^1.7.1",
 		"bootstrap-daterangepicker": "^2.1.30",
 		"bootstrap-switch": "^3.3.4",
+		"chart.js": "^2.7.1",
 		"chosen-js": "^1.8.2",
 		"ckeditor": "^4.8.0",
 		"clipboard": "^1.7.1",
