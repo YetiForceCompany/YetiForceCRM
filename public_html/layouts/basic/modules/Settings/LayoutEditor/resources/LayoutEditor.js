@@ -702,7 +702,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	 */
 	addCustomField: function (blockId, form) {
 		var thisInstance = this;
-		var modalHeader = form.closest('#globalmodal').find('.modal-header h5');
+		var modalHeader = form.closest('#globalmodal').find('.modal-header h3');
 		var aDeferred = jQuery.Deferred();
 
 		modalHeader.progressIndicator({smallLoadingImage: true, imageContainerCss: {display: 'inline', 'margin-left': '18%', position: 'absolute'}});
