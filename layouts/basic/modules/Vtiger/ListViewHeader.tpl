@@ -77,7 +77,7 @@
 				</span>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
-				<ul class="nav nav-tabs pt-2" role="tablist">
+				<ul class="nav nav-tabs pt-2 font-weight-bold" role="tablist">
 					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 						{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 							{if $CUSTOM_VIEW->isFeatured()}

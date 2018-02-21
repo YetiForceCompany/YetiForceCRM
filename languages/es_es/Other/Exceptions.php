@@ -15,4 +15,5 @@ $languageStrings = [
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Esta contraseña ya ha sido utilizada. El sistema no permite usar la misma contraseña por razones de seguridad.',
 	'ERR_USER_EXISTS' => 'Ya existe el usuario con el mismo nombre de usuario y mismo rol (%s)',
 	'ERR_NOT_ACCESSIBLE' => 'Access denied',
+	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'No tiene los permisos necesarios para ver/editar este registro. Póngase en contacto con el administrador si debería tener permiso para verlo.',
 ];

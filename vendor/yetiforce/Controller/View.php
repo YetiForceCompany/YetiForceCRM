@@ -262,7 +262,7 @@ abstract class View extends Base
 	public function getHeaderScripts(\App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
-				'libraries.js.jquery',
+				'libraries.jquery.dist.jquery',
 				'libraries.jquery-migrate.dist.jquery-migrate',
 				'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
 		]);

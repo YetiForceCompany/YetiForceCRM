@@ -466,7 +466,6 @@ $languageStrings = [
 	'LBL_PARENT_OWNER' => 'Propietario del registro padre',
 	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'El enlace de contraseña ha caducado o ha introducido una contraseña no válida.',
 	'LBL_PERMISSION_DENIED' => 'Permiso denegado',
-	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'No tiene los permisos necesarios para ver/editar este registro. Póngase en contacto con el administrador si debería tener permiso para verlo.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Selecciona cualquier módulo para buscar',
 	'LBL_POST' => 'Publicar',
 	'LBL_PREVIOUS_FQ' => 'FQ anterior',

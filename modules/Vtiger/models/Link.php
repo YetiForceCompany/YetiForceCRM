@@ -99,13 +99,13 @@ class Vtiger_Link_Model extends vtlib\Link
 	}
 
 	/**
-	 * Function to get the link glyphicon name.
+	 * Function to get the link header icon name.
 	 *
 	 * @return string
 	 */
-	public function getGlyphiconIcon()
+	public function getHeaderIcon()
 	{
-		return $this->glyphicon;
+		return $this->icon;
 	}
 
 	/**

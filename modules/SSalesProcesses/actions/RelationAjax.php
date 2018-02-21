@@ -20,7 +20,7 @@ class SSalesProcesses_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$sourceModule = $request->getModule();
 		$recordId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$focus = CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getHierarchy($recordId);

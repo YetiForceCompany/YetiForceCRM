@@ -25,19 +25,55 @@ class ModTracker
 	public static $ARCHIVED = 8;
 	public static $DELETED = 9;
 
+	/**
+	 * Icon actions.
+	 *
+	 * @var array
+	 */
+	public static $iconActions = [
+		0 => 'fas fa-edit',
+		1 => 'fas fa-trash-alt',
+		2 => 'fas fa-plus',
+		3 => 'fas fa-undo-alt',
+		4 => 'fas fa-link',
+		5 => 'fas fa-unlink',
+		6 => 'fas fa-exchange-alt',
+		7 => 'fas fa-th-list',
+		8 => 'fas fa-archive',
+		9 => 'fas fa-eraser',
+	];
+
+	/**
+	 * Colors actions.
+	 *
+	 * @var array
+	 */
+	public static $colorsActions = [
+		0 => '#9c27b0',
+		1 => '#ab0505',
+		2 => '#607d8b',
+		3 => '#009405',
+		4 => '#009cb9',
+		5 => '#de9100',
+		6 => '#e2e3e5',
+		7 => '#65a9ff',
+		8 => '#0032a2',
+		9 => '#000',
+	];
+
 	public static function getAllActionsTypes()
 	{
 		return [
 			static::$UPDATED => 'LBL_AT_UPDATE',
-			static::$DELETED => 'LBL_AT_DELETE',
 			static::$TRASH => 'LBL_AT_TRASH',
 			static::$CREATED => 'LBL_AT_CREATE',
+			static::$ACTIVE => 'LBL_AT_ACTIVE',
 			static::$LINK => 'LBL_AT_LINK',
 			static::$UNLINK => 'LBL_AT_UNLINK',
 			static::$CONVERTTOACCOUNT => 'LBL_AT_CONVERTTOACCOUNT',
 			static::$DISPLAYED => 'LBL_AT_DISPLAY',
-			static::$ACTIVE => 'LBL_AT_ACTIVE',
 			static::$ARCHIVED => 'LBL_AT_ARCHIVED',
+			static::$DELETED => 'LBL_AT_DELETE',
 		];
 	}
 

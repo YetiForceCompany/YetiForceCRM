@@ -24,7 +24,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$relatedRecord = $request->isEmpty('relatedRecord', true) ? false : $request->getInteger('relatedRecord');
 		$totalPrice = (float) $request->get('totalPrice');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$config = $inventoryModel->getDiscountsConfig();
@@ -59,7 +59,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$taxType = $request->get('taxType');
 		$totalPrice = (float) $request->get('totalPrice');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);

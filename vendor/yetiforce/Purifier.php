@@ -5,7 +5,6 @@ namespace App;
 /**
  * Purifier basic class.
  *
- * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce Sp. z o.o
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -101,7 +100,6 @@ class Purifier
 				Cache::save('purify', $cacheKey, $value, Cache::SHORT);
 			}
 		}
-
 		return $value;
 	}
 
@@ -125,34 +123,15 @@ class Purifier
 		}
 		// Initialize the instance if it has not yet done
 		if (!static::$purifyHtmlInstanceCache) {
-			$config = \HTMLPurifier_Config::createDefault();
-			$config->set('Core.Encoding', static::$defaultCharset);
-			$config->set('Cache.SerializerPermissions', 0775);
-			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
-			$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
-			$config->set('CSS.AllowTricky', true);
-			$config->set('CSS.Proprietary', true);
-			$config->set('Core.RemoveInvalidImg', true);
-			/*
-			  $config->set('AutoFormat.RemoveEmpty', true);
-			  $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
-			 */
-			$config->set('HTML.SafeIframe', true);
-			$config->set('HTML.SafeEmbed', true);
-			$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');
-			$config->set('HTML.DefinitionRev', 1);
-			$config->set('HTML.TargetBlank', true);
-			static::loadHtmlDefinition($config);
-			$uri = $config->getDefinition('URI');
-			$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
-			if (static::$collectErrors) {
-				$config->set('Core.CollectErrors', true);
-			}
+			$config = static::getHtmlConfig();
 			static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
 		}
 		if (static::$purifyHtmlInstanceCache) {
-			$value = static::decodeHtml(static::$purifyHtmlInstanceCache->purify(static::decodeHtml($input)));
+			$value = static::$purifyHtmlInstanceCache->purify($input);
 			if (static::$collectErrors) {
+				if (!$config) {
+					$config = static::getHtmlConfig();
+				}
 				echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
 			}
 			static::purifyHtmlEventAttributes($value);
@@ -165,7 +144,6 @@ class Purifier
 			}
 			Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 		}
-
 		return $value;
 	}
 
@@ -183,36 +161,29 @@ class Purifier
 	}
 
 	/**
-	 * Allowed html definition.
+	 * Get html config.
 	 *
-	 * @var type
+	 * @return \HTMLPurifier_Config
 	 */
-	private static $allowedHtmlDefinition = [
-		'img[src|alt|title|width|height|style|data-mce-src|data-mce-json|class]',
-		'figure', 'figcaption',
-		'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
-		'audio[src|type|preload|controls|class]',
-		'a[href|target|class]',
-		'iframe[width|height|src|frameborder|allowfullscreen|class]',
-		'strong', 'b', 'i', 'u', 'em', 'br', 'font',
-		'h1[style|class]', 'h2[style|class]', 'h3[style|class]', 'h4[style|class]', 'h5[style|class]', 'h6[style|class]',
-		'p[style|class]', 'div[style|class]', 'center', 'address[style]',
-		'span[style|class]', 'pre[style]',
-		'ul', 'ol', 'li',
-		'table[width|height|border|style|class]', 'th[width|height|border|style|class|colspan|rowspan]',
-		'tr[width|height|border|style|class]', 'td[width|height|border|style|class|colspan|rowspan]',
-		'blockquote[style]',
-		'hr', 'small',
-	];
-
-	/**
-	 * Load html definition.
-	 *
-	 * @param \HTMLPurifier_Config $config
-	 */
-	public static function loadHtmlDefinition(\HTMLPurifier_Config &$config)
+	public static function getHtmlConfig()
 	{
-		$config->set('HTML.Allowed', implode(',', static::$allowedHtmlDefinition));
+		$config = \HTMLPurifier_Config::createDefault();
+		$config->set('Core.Encoding', static::$defaultCharset);
+		$config->set('Cache.SerializerPermissions', 0775);
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
+		$config->set('CSS.AllowTricky', true);
+		$config->set('CSS.Proprietary', true);
+		$config->set('Core.RemoveInvalidImg', true);
+		/*
+		  $config->set('AutoFormat.RemoveEmpty', true);
+		  $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
+		 */
+		$config->set('HTML.SafeIframe', true);
+		$config->set('HTML.SafeEmbed', true);
+		$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');
+		$config->set('HTML.DefinitionRev', 1);
+		$config->set('HTML.TargetBlank', true);
 		$config->set('URI.AllowedSchemes', [
 			'http' => true,
 			'https' => true,
@@ -273,6 +244,12 @@ class Purifier
 			$def->addAttribute('tr', 'height', 'Text');
 			$def->addAttribute('tr', 'border', 'Text');
 		}
+		$uri = $config->getDefinition('URI');
+		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		if (static::$collectErrors) {
+			$config->set('Core.CollectErrors', true);
+		}
+		return $config;
 	}
 
 	/**
@@ -329,6 +306,16 @@ class Purifier
 					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 						$value = $input;
 					}
+					break;
+				case 'DateRangeUserFormat': // date range user format
+					$v = [];
+					foreach (explode(',', $input) as $i) {
+						list($y, $m, $d) = Fields\Date::explode($i, User::getCurrentUserModel()->getDetail('date_format'));
+						if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
+							$v[] = \DateTimeField::convertToDBFormat($i);
+						}
+					}
+					$value = $v;
 					break;
 				case 'Date': // date in base format yyyy-mm-dd
 					list($y, $m, $d) = Fields\Date::explode($input);

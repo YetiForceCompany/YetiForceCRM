@@ -31,7 +31,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$relInfos = $request->get('relinfo');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('related_module'));
@@ -57,7 +57,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
@@ -84,7 +84,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$relatedModule = $request->getByType('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);

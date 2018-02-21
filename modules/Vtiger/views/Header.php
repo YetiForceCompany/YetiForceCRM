@@ -54,7 +54,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'glyphicon' => 'fas fa-exchange-alt fa-fw',
+				'icon' => 'fas fa-exchange-alt fa-fw',
 				'nocaret' => true,
 				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
 				'linkclass' => 'showModal',
@@ -65,7 +65,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'glyphicon' => 'fas fa-tasks fa-fw',
+				'icon' => 'fas fa-tasks fa-fw',
 			];
 		}
 		if ($userModel->isAdminUser()) {
@@ -74,14 +74,14 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
-					'glyphicon' => 'fas fa-cog fa-fw',
+					'icon' => 'fas fa-cog fa-fw',
 				];
 			} else {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'glyphicon' => 'fas fa-user fa-fw',
+					'icon' => 'fas fa-user fa-fw',
 				];
 			}
 		}
@@ -89,7 +89,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'glyphicon' => 'fas fa-power-off fa-fw',
+			'icon' => 'fas fa-power-off fa-fw',
 			'linkclass' => 'btn-danger p-1',
 		];
 		$headerLinkInstances = [];

@@ -22,12 +22,12 @@ class Vtiger_ProcessDuplicates_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'DuplicatesHandling', $request->getInteger('primaryRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$records = $request->getArray('records');
 		foreach ($records as $record) {
 			if (!is_numeric($record) || !\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}

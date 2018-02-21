@@ -15,7 +15,7 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 
 		$recordPermission = \App\Privilege::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 
 		return true;

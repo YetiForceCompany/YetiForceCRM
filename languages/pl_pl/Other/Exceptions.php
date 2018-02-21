@@ -15,4 +15,5 @@ $languageStrings = [
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Takie hasło było już kiedyś używane, system ze względów bezpieczeństwa nie pozwala na używanie takich samych haseł.',
 	'ERR_USER_EXISTS' => 'Użytkownik o takiej nazwie i roli już istnieje (%s)',
 	'ERR_NOT_ACCESSIBLE' => 'Brak dostępu',
+	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'Próbujesz przeglądać/edytować rekord do którego nie masz wystarczających uprawnień. Jeśli powinieneś mieć do niego dostęp zgłoś problem administratorowi.',
 ];

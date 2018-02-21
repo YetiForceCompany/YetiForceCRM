@@ -24,7 +24,7 @@ class Link
 	public $linklabel;
 	public $linkurl;
 	public $linkicon;
-	public $glyphicon;
+	public $icon;
 	public $sequence;
 	public $status = false;
 	public $handler_path;

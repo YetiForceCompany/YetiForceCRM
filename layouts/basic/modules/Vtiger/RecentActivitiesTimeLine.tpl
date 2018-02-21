@@ -20,14 +20,16 @@
 							<li>
 								{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
 									{$NEW_CHANGE = false}
-									<div class="lineOfText"><div>{\App\Language::translate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div></div>
+									<div class="lineOfText">
+										<div>{\App\Language::translate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
+									</div>
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
-											<span class="fas fa-circle text-success"></span>
-											<span class="fas fa-plus text-light" data-fa-transform="shrink-8"></span>
+											<span class="fas fa-circle text-success" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
 											<div class="float-left imageContainer">
@@ -66,8 +68,8 @@
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
-											<span class="fas fa-circle text-dark"></span>
-											<span class="fas fa-edit text-light" data-fa-transform="shrink-8"></span>
+											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-left imageContainer">
@@ -122,8 +124,8 @@
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
-											<span class="fas fa-circle text-warning"></span>
-											<span class="fas fa-link text-light" data-fa-transform="shrink-8"></span>
+											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 											<div class="float-left imageContainer">
@@ -157,16 +159,8 @@
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
-											{if $RECENT_ACTIVITY->get('status') == 1}
-												<span class="fas fa-circle" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="color: {$LIST_ENTITY_STATE_COLOR['Trash']}{/if};"></span>
-												<span class="fas fa-trash-alt fa-fw text-light" data-fa-transform="shrink-8"></span>
-											{else if $RECENT_ACTIVITY->get('status') == 3}
-												<span class="fas fa-circle" {if $LIST_ENTITY_STATE_COLOR['Active']}style="color: {$LIST_ENTITY_STATE_COLOR['Active']}{/if};"></span>
-												<span class="fas fa-refresh fa-fw text-light" data-fa-transform="shrink-8"></span>
-											{else if $RECENT_ACTIVITY->get('status') == 8}
-												<span class="fas fa-circle" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="color: {$LIST_ENTITY_STATE_COLOR['Archived']}{/if};"></span>
-												<span class="fas fa-archive fa-fw text-light" data-fa-transform="shrink-8"></span>
-											{/if}
+											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
 											<div class="imageContainer float-left">
@@ -186,8 +180,8 @@
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
-											<span class="fas fa-circle text-info"></span>
-											<span class="fas fa-exchange-alt text-light" data-fa-transform="shrink-8"></span>
+											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 											<div class="float-left imageContainer">
@@ -199,7 +193,7 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div class="float-left"><strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong></div>
+												<div><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</div>
 												<span class="time float-right"><span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span></span>
 											</div>
 										</div>
@@ -207,8 +201,8 @@
 								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<div class="row">
 										<span class="fa-layers fa-fw fa-2x ml-10px">
-											<span class="fas fa-circle text-info"></span>
-											<span class="fas fa-th-list text-light" data-fa-transform="shrink-8"></span>
+											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
 											<div class="float-left imageContainer">

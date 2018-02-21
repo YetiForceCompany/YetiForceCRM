@@ -1,6 +1,6 @@
 <?php
 /**
- * Exceptions portuguese translation.
+ * Exceptions italian translation.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,6 +14,6 @@ $languageStrings = [
 	'ERR_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'This password has already been used. The system does not allow to use the same password for security reasons.',
 	'ERR_USER_EXISTS' => 'User with the same username and role already exists (%s)',
-	'ERR_NOT_ACCESSIBLE' => 'Acesso Negado',
+	'ERR_NOT_ACCESSIBLE' => 'Access denied',
 	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'You don\'t have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it.',
 ];

@@ -446,7 +446,6 @@ $languageStrings = [
 	'LBL_PAGE' => 'Página',
 	'LBL_PARENT_OWNER' => 'Proprietário Registro Pai',
 	'LBL_PERMISSION_DENIED' => 'Permissão negada',
-	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'You don\'t have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Por favor, selecione o módulo',
 	'LBL_POST' => 'Postar',
 	'LBL_PREVIOUS_FQ' => 'Semestre Anterior',

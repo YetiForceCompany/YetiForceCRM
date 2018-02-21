@@ -50,9 +50,8 @@ $SECURITY_CONFIG = [
 	 * https://sekurak.pl/mechanizm-http-public-key-pinning/
 	 */
 	'HPKP_KEYS' => [],
-	/*
-	 * Content Security Policy
-	 */
+	// Content Security Policy
 	'CSP_ACTIVE' => true,
+    // List of allowed domains for fields with HTML support
 	'PURIFIER_ALLOWED_DOMAINS' => [],
 ];

@@ -7134,20 +7134,6 @@ hr {
   border-color: #eeeff2 #eeeff2 #c3c6d1;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); }
 
-.toggleButton {
-  background: #eeeff2;
-  font-weight: bold;
-  padding: 5px 2px !important;
-  position: absolute;
-  top: 20px;
-  left: -1px;
-  cursor: pointer;
-  width: 15px;
-  z-index: 100;
-  border: 1px solid #dddddd;
-  border-left: 0;
-  display: inline-block; }
-
 #selectAllMsgDiv, #deSelectAllMsgDiv {
   display: none;
   background-color: #fafad2;
@@ -10855,9 +10841,6 @@ header .headerLinksMails .select2-selection:hover {
   -webkit-transition: left ease-in-out 0.3s;
   transition: left ease-in-out 0.3s; }
 
-.left-3px {
-  left: -3px; }
-
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader {
   background-color: #4A5364;
@@ -11243,6 +11226,54 @@ header .headerLinksMails .select2-selection:hover {
   left: 0px;
   height: 100%;
   border-right: 1px solid #ddd; }
+
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  .timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #ddd;
+    left: 13px;
+    margin: 0;
+    border-radius: 2px; }
+  .timeline > li {
+    position: relative;
+    padding-bottom: 10px; }
+    .timeline > li:before {
+      content: " ";
+      display: table; }
+    .timeline > li:after {
+      content: " ";
+      display: table;
+      clear: both; }
+    .timeline > li .timeline-item {
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+      margin-top: 0;
+      background: #FBFBFB;
+      color: #444;
+      padding: 0;
+      position: relative; }
+      .timeline > li .timeline-item > .imageContainer {
+        width: 40px; }
+      .timeline > li .timeline-item > .timeline-body {
+        padding-right: 10px;
+        padding-left: 44px; }
+
+.timeline .userImage, .commentInfoHeader .userImage {
+  margin: 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  border: 2px solid #d2d6de;
+  font-size: 32px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .paginationDiv .listViewBasicAction.dropdown-menu {
