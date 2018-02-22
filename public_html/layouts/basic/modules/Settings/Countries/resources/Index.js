@@ -42,7 +42,6 @@ $.Class("Settings_Countries_Index_Js", {}, {
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 			});
@@ -69,7 +68,6 @@ $.Class("Settings_Countries_Index_Js", {}, {
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 			});
@@ -96,7 +94,6 @@ $.Class("Settings_Countries_Index_Js", {}, {
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 			});
@@ -127,7 +124,6 @@ $.Class("Settings_Countries_Index_Js", {}, {
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 				if (data.success) {
@@ -168,7 +164,6 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				title: app.vtranslate('JS_COUNTRY_SETTING'),
 				text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 				type: 'success',
-				animation: 'show'
 			});
 		});
 	},

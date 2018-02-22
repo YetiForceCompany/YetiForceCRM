@@ -15,7 +15,7 @@ var Settings_UserColors_Js = {
 		var value = 0;
 		if (target.prop('checked')) {
 			value = 1;
-		}			
+		}
 		var params = {};
 		params.color = value;
 		params.id = target.attr('id');
@@ -39,7 +39,6 @@ var Settings_UserColors_Js = {
 					var response = data['result'];
 					var params = {
 						text: response['message'],
-						animation: 'show',
 						type: 'success'
 					};
 					app.hideModalWindow();

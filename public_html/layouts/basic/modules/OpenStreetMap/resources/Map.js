@@ -90,7 +90,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: response.result.coordinatesCeneter.error,
 					type: 'error',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 			}
@@ -181,7 +180,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success',
-					animation: 'show'
 				});
 				var countRecords = container.find('.countRecords' + app.getModuleName());
 				countRecords.html(response.result);
@@ -202,7 +200,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				var countRecords = container.find('.countRecords' + moduleName);
@@ -226,7 +223,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				container.find('.countRecords' + moduleName).html(response.result.count);
@@ -285,7 +281,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 						title: app.vtranslate('JS_LBL_PERMISSION'),
 						text: response.result,
 						type: 'error',
-						animation: 'show'
 					});
 				}
 				searchValue.val('');

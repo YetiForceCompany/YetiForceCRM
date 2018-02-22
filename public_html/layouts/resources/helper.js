@@ -87,7 +87,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var dateComponent = dateTimeComponents[0];
 		var timeComponent = dateTimeComponents[1];
 		var seconds = '00';
-
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") != -1) {
 			dotMode = '-';
@@ -170,43 +169,45 @@ jQuery.Class("Vtiger_Helper_Js", {
 		if (typeof params.title == "undefined") {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
-		params.animation = "show";
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*
 	 * Function to show pnotify message
 	 */
 	showPnotify: function (customParams) {
-		var userParams = customParams;
+		let userParams = customParams;
 		if (typeof customParams == 'string') {
-			var userParams = {};
+			userParams = {};
 			userParams.text = customParams;
 		}
-
-		var params = {
-			hide: false,
-			delay: '3000',
-			type: 'error',
-			defaults: {
-				styling: "bootstrap4",
-			},
-			Buttons: {
-				closerHover: false,
-				sticker: false,
-				stickerHover: false,
-				labels: {close: app.vtranslate('JS_CLOSE')}
+		let params = {
+			target: document.body,
+			data: {
+				type: 'error',
+				hide: false,
+				delay: '2000',
+				modules: {
+					Buttons: {
+						closerHover: false,
+						labels: {close: app.vtranslate('JS_CLOSE')}
+					},
+					Animate: {
+						animate: true,
+						inClass: 'zoomInLeft',
+						outClass: 'zoomOutRight'
+					}
+				}
 			}
 		}
-
 		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
-			params.hide = true;
-			params.animateSpeed = 1;
+			params.data.hide = true;
 		}
 		if (typeof userParams != 'undefined') {
-			var params = jQuery.extend(params, userParams);
+			params.data = jQuery.extend(params.data, userParams);
 		}
-
-		return new PNotifyCompat(params);
+		PNotify.defaults.styling = "bootstrap4";
+		PNotify.defaults.icons = "fontawesome5";
+		return new PNotify(params);
 	},
 	/*
 	 * Function to remove pnotify message
@@ -232,15 +233,12 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var container = jQuery('.contentsDiv');
 		var topScroll = jQuery('.contents-topscroll', container);
 		var bottomScroll = jQuery('.contents-bottomscroll', container);
-
 		jQuery('.bottomscroll-div', container).attr('style', '');
 		jQuery('.topscroll-div', container).css('width', jQuery('.bottomscroll-div', container).outerWidth());
 		jQuery('.bottomscroll-div', container).css('width', jQuery('.topscroll-div', container).outerWidth());
-
 		topScroll.scroll(function () {
 			bottomScroll.scrollLeft(topScroll.scrollLeft());
 		});
-
 		bottomScroll.scroll(function () {
 			topScroll.scrollLeft(bottomScroll.scrollLeft());
 		});

@@ -42,7 +42,6 @@ Vtiger_List_Js("Portal_List_Js", {
 				var data = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_ENTER_MANDATORY_FIELD'),
-					animation: 'show',
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(data);
@@ -53,7 +52,6 @@ Vtiger_List_Js("Portal_List_Js", {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: data.result.message,
-						animation: 'show',
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -86,7 +84,6 @@ Vtiger_List_Js("Portal_List_Js", {
 								var params = {
 									title: app.vtranslate('JS_MESSAGE'),
 									text: data.result.message,
-									animation: 'show',
 									type: 'error'
 								};
 								Vtiger_Helper_Js.showPnotify(params);
@@ -200,7 +197,6 @@ Vtiger_List_Js("Portal_List_Js", {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: data.result.message,
-							animation: 'show',
 							type: 'error'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
