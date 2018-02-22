@@ -1,4 +1,5 @@
 <?php
+
 namespace Importers;
 
 /**
@@ -10,7 +11,6 @@ namespace Importers;
  */
 class Admin extends \App\Db\Importers\Base
 {
-
 	public $dbType = 'admin';
 
 	public function scheme()
