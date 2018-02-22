@@ -647,7 +647,11 @@ class Owner
 	public static function getColor($id)
 	{
 		if (!static::$colorsCache) {
-			static::$colorsCache = require 'user_privileges/owners_colors.php';
+			if (file_exists('user_privileges/owners_colors.php')) {
+				static::$colorsCache = require 'user_privileges/owners_colors.php';
+			} else {
+				static::$colorsCache = [];
+			}
 		}
 		return static::$colorsCache[$id] ?? '#24ff00';
 	}
