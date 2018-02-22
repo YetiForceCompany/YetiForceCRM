@@ -765,7 +765,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					if (state) {
 						text = app.vtranslate('JS_ADDED_TO_FAVORITES');
 					}
-					Vtiger_Helper_Js.showPnotify({text: text, type: 'success', animation: 'show'});
+					Vtiger_Helper_Js.showPnotify({text: text, type: 'success'});
 				}
 			});
 		});

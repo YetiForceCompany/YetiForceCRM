@@ -38,10 +38,8 @@ var Settings_UserColors_Js = {
 				function (data) {
 					var response = data['result'];
 					var params = {
-						data: {
-							text: response['message'],
-							type: 'success'
-						}
+						text: response['message'],
+						type: 'success'
 					};
 					app.hideModalWindow();
 					Vtiger_Helper_Js.showPnotify(params);
@@ -63,7 +61,7 @@ var Settings_UserColors_Js = {
 				params['val'] = target.val();
 			}
 			app.saveAjax('updateNotWorkingDays', params).then(function (data) {
-				Settings_Vtiger_Index_Js.showMessage({data: {type: 'success', text: data.result.message}});
+				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});
 	},

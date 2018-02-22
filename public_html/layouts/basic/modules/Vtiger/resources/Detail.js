@@ -117,7 +117,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-							animation: 'show',
 							type: 'info'
 						};
 						var oldvalue = jQuery('.assigned_user_id').val();
@@ -170,7 +169,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						title: app.vtranslate('JS_INFORMATION'),
 						text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
 						type: 'error',
-						animation: 'show'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				} else {
@@ -178,7 +176,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_STARTED_PERFORM_WORKFLOW'),
 						type: 'info',
-						animation: 'show'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 					var postData = {
@@ -195,7 +192,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 									title: app.vtranslate('JS_MESSAGE'),
 									text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
 									type: 'success',
-									animation: 'show'
 								};
 								Vtiger_Helper_Js.showPnotify(params);
 								app.hideModalWindow();
@@ -206,7 +202,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 									title: app.vtranslate('JS_ERROR'),
 									text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
 									type: 'error',
-									animation: 'show'
 								};
 								Vtiger_Helper_Js.showPnotify(params);
 								app.hideModalWindow();
@@ -689,7 +684,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('LBL_SMS_MAX_CHARACTERS_ALLOWED'),
-					animation: 'show',
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
@@ -1818,7 +1812,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					text: app.vtranslate('JS_SET_READ_RECORD'),
 					title: app.vtranslate('System'),
 					type: 'info',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
 				var relatedTabKey = jQuery('.related li.active');
@@ -1861,7 +1854,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var params = {
 				title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 				type: 'success',
-				animation: 'show'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
 			thisInstance.reloadTabContent();

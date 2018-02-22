@@ -75,7 +75,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			view: "BasicAjax",
 			mode: "showAdvancedSearch",
 		};
-		if(app.getParentModuleName()){
+		if (app.getParentModuleName()) {
 			searchableModulesParams.parent = app.getParentModuleName()
 		}
 		var progressInstance = jQuery.progressIndicator();
@@ -166,7 +166,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		var module = this.getSearchModule();
 		return this._search({
 			module: app.getModuleName(),
-			searchModule: module, 
+			searchModule: module,
 			advfilterlist: JSON.stringify(conditionValues)
 		});
 	},
@@ -214,7 +214,6 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: data.error.message,
-					animation: 'show',
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(params);

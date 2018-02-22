@@ -35,7 +35,6 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: data.result,
-							animation: 'show',
 							type: 'info'
 						};
 						Vtiger_Helper_Js.showPnotify(params);

@@ -163,15 +163,12 @@ jQuery.Class("Vtiger_Helper_Js", {
 		return aDeferred.promise();
 	},
 	showMessage: function (params) {
-		window.console.log('messsage');
 		if (typeof params.type == "undefined") {
 			params.type = 'info';
 		}
 		if (typeof params.title == "undefined") {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
-		params.animation = "show";
-		window.console.log(params);
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*
@@ -181,7 +178,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 		let userParams = customParams;
 		if (typeof customParams == 'string') {
 			userParams = {};
-			userParams.data.text = customParams;
+			userParams.text = customParams;
 		}
 		let params = {
 			target: document.body,
@@ -202,17 +199,14 @@ jQuery.Class("Vtiger_Helper_Js", {
 				}
 			}
 		}
-		if (typeof customParams.data.type != 'undefined' && customParams.data.type != 'error') {
+		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
 			params.data.hide = true;
 		}
-		let paramsData = params.data;
 		if (typeof userParams != 'undefined') {
-			params = jQuery.extend(params, userParams);
-			params.data = jQuery.extend(paramsData, userParams.data);
+			params.data = jQuery.extend(params.data, userParams);
 		}
 		PNotify.defaults.styling = "bootstrap4";
 		PNotify.defaults.icons = "fontawesome5";
-		window.console.log(params);
 		return new PNotify(params);
 	},
 	/*

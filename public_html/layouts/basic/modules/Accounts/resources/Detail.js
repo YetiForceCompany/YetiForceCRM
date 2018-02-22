@@ -44,7 +44,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			};
 			AppConnector.request(params).then(
 					function (data) {
-						if(currentTarget.hasClass('btn-warning')){
+						if (currentTarget.hasClass('btn-warning')) {
 							currentTarget.removeClass('btn-warning');
 							currentTarget.addClass('btn-success');
 						} else {
@@ -56,7 +56,6 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							type: 'success',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showMessage(params);
 					}

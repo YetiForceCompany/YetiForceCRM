@@ -213,7 +213,6 @@ jQuery.Class("Vtiger_List_Js", {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-							animation: 'show',
 							type: 'info'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
@@ -296,7 +295,6 @@ jQuery.Class("Vtiger_List_Js", {
 				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: err,
-					animation: 'show',
 					type: 'error'
 				});
 			});
@@ -310,7 +308,6 @@ jQuery.Class("Vtiger_List_Js", {
 			var params = {
 				title: app.vtranslate('JS_MESSAGE'),
 				text: app.vtranslate('JS_MASS_EDIT_LIMIT'),
-				animation: 'show',
 				type: 'error'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
@@ -1049,7 +1046,6 @@ jQuery.Class("Vtiger_List_Js", {
 				title: app.vtranslate('JS_LBL_PERMISSION'),
 				text: app.vtranslate('JS_GET_PAGINATION_INFO'),
 				type: 'info',
-				animation: 'show'
 			};
 			Vtiger_Helper_Js.showMessage(paramsNotifier);
 			var params = thisInstance.getDefaultParams();

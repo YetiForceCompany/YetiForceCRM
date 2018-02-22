@@ -10,15 +10,11 @@
 jQuery.Class("Settings_Vtiger_Index_Js", {
 	showMessage: function (customParams) {
 		let params = {
-			data: {
-				type: 'success',
-				title: app.vtranslate('JS_MESSAGE')
-			}
+			type: 'success',
+			title: app.vtranslate('JS_MESSAGE')
 		};
-		let paramsData = params.data;
 		if (typeof customParams != 'undefined') {
 			params = jQuery.extend(params, customParams);
-			params.data = jQuery.extend(paramsData, customParams.data);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
 	},
@@ -109,7 +105,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
-						animation: 'show',
 						type: 'info'
 					};
 					thisInstance.registerReAlign();
@@ -218,7 +213,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SHORTCUT_ALREADY_ADDED'),
-						animation: 'show',
 						type: 'info'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -274,7 +268,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_ADDED_ISSUE_COMPLETE'),
 							type: 'success',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showMessage(params);
 					}
@@ -321,7 +314,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
 							type: 'success',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showMessage(params);
 					}
@@ -413,9 +405,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 								params: params,
 							}).then(function (data) {
 								if (data.result.result) {
-									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'success', animation: 'show'});
+									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'success'});
 								} else {
-									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'error', animation: 'show'});
+									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'error'});
 								}
 							})
 						}

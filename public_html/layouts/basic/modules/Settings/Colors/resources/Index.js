@@ -84,7 +84,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
 								text: data['result']['message'],
-								animation: 'show',
 								type: 'success'
 							});
 							return data['result'];
@@ -117,7 +116,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', data['result'].color);
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -138,7 +136,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', '');
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -174,7 +171,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
 								text: data['result']['message'],
-								animation: 'show',
 								type: 'success'
 							});
 							return data['result'];
@@ -207,7 +203,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', data['result'].color);
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -228,7 +223,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', '');
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -264,7 +258,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
 								text: data['result']['message'],
-								animation: 'show',
 								type: 'success'
 							});
 							return data['result'];
@@ -297,7 +290,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', data['result'].color);
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -318,7 +310,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', '');
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -339,7 +330,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				function (data) {
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 					colorPreview.css('background', data['result'].color);
@@ -361,7 +351,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				function (data) {
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 					container.find('.modulePickList').trigger('change');
@@ -401,7 +390,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
 								text: data['result']['message'],
-								animation: 'show',
 								type: 'success'
 							});
 							return data['result'];
@@ -442,7 +430,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', data['result'].color);
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -473,7 +460,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', '');
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
@@ -495,7 +481,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		}).then(
 				function (data) {
 					window.console.log('messsage');
-					Settings_Colors_Index_Js.showMessage({data: {type: 'success', text: data.result.message}});
+					Settings_Colors_Index_Js.showMessage({type: 'success', text: data.result.message});
 					closestTrElement.find('.calendarColor').css('background', data.result.color);
 					closestTrElement.data('color', data.result.color);
 				}
@@ -534,7 +520,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
 								text: data['result']['message'],
-								animation: 'show',
 								type: 'success'
 							});
 							return data['result'];
@@ -574,7 +559,6 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					colorPreview.data('color', '');
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
-						animation: 'show',
 						type: 'success'
 					});
 				}
