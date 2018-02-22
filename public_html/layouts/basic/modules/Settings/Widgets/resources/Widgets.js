@@ -121,7 +121,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 					var response = data['result'];
 					var params = {
 						text: response['message'],
-						animation: 'show',
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -172,15 +171,15 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				optgroup.removeAttr("disabled");
 			}
 			optgroup.find('option').each(function (index, option) {
-			option = $(option);
-			if (relatedModule != option.data('module')) {
-				option.addClass("hide");
-				option.attr("disabled", "disabled");
-			} else {
-				option.removeClass('hide');
-				option.removeAttr("disabled");
-			}
-		});
+				option = $(option);
+				if (relatedModule != option.data('module')) {
+					option.addClass("hide");
+					option.attr("disabled", "disabled");
+				} else {
+					option.removeClass('hide');
+					option.removeAttr("disabled");
+				}
+			});
 		});
 		relatedfields.trigger('chosen:updated');
 	},

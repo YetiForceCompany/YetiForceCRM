@@ -64,7 +64,6 @@ jQuery.Class('Settings_DAV_Js', {}, {
 					var response = data['result'];
 					var params = {
 						text: response['message'],
-						animation: 'show',
 					};
 					if (response.success == true) {
 						params.type = 'success'

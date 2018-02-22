@@ -330,7 +330,7 @@ var Settings_Index_Js = {
 	AddTranslationMondal: function (e) {
 		var currentTarget = $(e.currentTarget);
 		var container = currentTarget.closest('.modalContainer');
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation',$.extend({mod: $(".LangManagement #mods_list").val()}, container.find(".AddTranslationForm").serializeFormData()));
+		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation', $.extend({mod: $(".LangManagement #mods_list").val()}, container.find(".AddTranslationForm").serializeFormData()));
 		if (SaveEvent.resp) {
 			container.find('.AddNewTranslationMondal').modal('hide');
 		}
@@ -369,7 +369,6 @@ var Settings_Index_Js = {
 					response = data['result'];
 					var params = {
 						text: response['message'],
-						animation: 'show'
 					};
 					if (response['success'] == true) {
 						params.type = 'info';

@@ -53,13 +53,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 							var params = {
 								text: response['message'],
 								type: 'info',
-								animation: 'show'
 							};
 							Vtiger_Helper_Js.showPnotify(params);
 						} else {
 							var params = {
 								text: response['message'],
-								animation: 'show'
 							};
 							Vtiger_Helper_Js.showPnotify(params);
 						}
@@ -85,7 +83,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				var params = {
 					text: app.vtranslate('JS_mail_error'),
 					type: 'error',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
 			}
@@ -118,7 +115,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 							var params = {
 								text: data.result.data,
 								type: 'info',
-								animation: 'show'
 							}
 							Vtiger_Helper_Js.showPnotify(params);
 						}
@@ -140,7 +136,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 							var params = {
 								text: data.result.data,
 								type: 'info',
-								animation: 'show'
 							};
 							Vtiger_Helper_Js.showPnotify(params);
 							jQuery('#row_account_' + userid).hide();
@@ -163,7 +158,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 							var params = {
 								text: app.vtranslate('removed_identity'),
 								type: 'info',
-								animation: 'show'
 							};
 
 							Vtiger_Helper_Js.showPnotify(params);
@@ -211,7 +205,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				var params = {
 					text: app.vtranslate('JS_mail_error'),
 					type: 'error',
-					animation: 'show'
 				};
 
 				Vtiger_Helper_Js.showPnotify(params);
@@ -225,7 +218,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				var params = {
 					text: app.vtranslate('JS_time_error'),
 					type: 'error',
-					animation: 'show'
 				};
 
 				Vtiger_Helper_Js.showPnotify(params);
@@ -246,13 +238,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						var params = {
 							text: response['data'],
 							type: 'info',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
 						var params = {
 							text: response['data'],
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					}
@@ -276,13 +266,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						var params = {
 							text: response['data'],
 							type: 'info',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
 						var params = {
 							text: response['data'],
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					}
@@ -312,13 +300,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						var params = {
 							text: response['data'],
 							type: 'info',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
 						var params = {
 							text: response['data'],
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					}
@@ -355,13 +341,11 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						var params = {
 							text: response['data'],
 							type: 'info',
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
 						var params = {
 							text: response['data'],
-							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					}

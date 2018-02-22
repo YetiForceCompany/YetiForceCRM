@@ -45,13 +45,11 @@
 									var params = {
 										text: response['data'],
 										type: 'info',
-										animation: 'show'
 									};
 									Vtiger_Helper_Js.showPnotify(params);
 								} else {
 									var params = {
 										text: response['data'],
-										animation: 'show'
 									};
 									Vtiger_Helper_Js.showPnotify(params);
 								}

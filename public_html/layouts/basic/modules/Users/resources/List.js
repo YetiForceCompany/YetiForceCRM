@@ -79,7 +79,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 						params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: data.result.message,
-							animation: 'show',
 							type: 'success'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
@@ -127,7 +126,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 																params = {
 																	title: app.vtranslate('JS_MESSAGE'),
 																	text: response.result.message,
-																	animation: 'show',
 																	type: 'error'
 																};
 																Vtiger_Helper_Js.showPnotify(params);

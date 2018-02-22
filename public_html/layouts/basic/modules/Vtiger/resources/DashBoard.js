@@ -660,7 +660,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				var params = {
 					text: app.vtranslate('JS_WIDGET_DELETED'),
 					type: 'success',
-					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				var parent = currentTarget.closest('li');
