@@ -22,6 +22,7 @@
 		"Flot": "https://github.com/flot/flot.git",
 		"Font-Awesome": "https://github.com/FortAwesome/Font-Awesome",
 		"add": "^2.0.6",
+		"animate.css": "3.5.2",
 		"block-ui": "^2.70.1",
 		"bootbox": "^4.4.0",
 		"bootstrap": "^4.0.0",

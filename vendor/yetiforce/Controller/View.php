@@ -243,6 +243,7 @@ abstract class View extends Base
 				'~libraries/footable/css/footable.core.css',
 				'~libraries/js/timepicker/jquery.timepicker.css',
 				'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
+				'~libraries/animate.css/animate.css',
 				'~layouts/resources/colors/calendar.css',
 				'~layouts/resources/colors/owners.css',
 				'~layouts/resources/colors/modules.css',
