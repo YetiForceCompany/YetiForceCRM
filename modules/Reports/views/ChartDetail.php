@@ -150,6 +150,8 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.ChartDetailView",
 			"modules.$moduleName.resources.TypeCharts",
 			'~libraries/chart.js/dist/Chart.js',
+			'~libraries/hammerjs/hammer.js',
+			'~libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.js',
 			'~libraries/updated-jqplot/dist/jquery.updated-jqplot.js',
 			'~libraries/updated-jqplot/dist/plugins/jqplot.barRenderer.js',
 			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasTextRenderer.js',

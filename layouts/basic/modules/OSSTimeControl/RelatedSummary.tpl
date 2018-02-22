@@ -2,6 +2,8 @@
 {strip}
 	<div class="sumaryRelatedTimeControl">
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chart.js/dist/Chart.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/hammerjs/hammer.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/Flot/jquery.flot.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/Flot/jquery.flot.resize.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/Flot/jquery.flot.stack.js')}"></script>
