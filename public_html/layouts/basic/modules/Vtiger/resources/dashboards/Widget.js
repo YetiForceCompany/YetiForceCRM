@@ -65,7 +65,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		if (this.plotContainer == false || !useCache) {
 			var container = this.getContainer();
-			this.plotContainer = container.find('.widgetChartContainer');
+			this.plotContainer = container.find('.widgetChartContainer').html('<canvas></canvas>').find('canvas').get(0);
 		}
 		return this.plotContainer;
 	},
@@ -1268,44 +1268,34 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data['chart']) {
-			chartData.push(data['chart'][index]);
-			thisInstance.chartData[data['chart'][index].id] = data['chart'][index];
-		}
-
-		return {'chartData': chartData, 'ticks': data['ticks'], 'links': data['links'], 'legend': data['legend'], 'valueLabels': data['valueLabels'] ? data['valueLabels'] : {}};
+		return JSON.parse(jData);
 	},
 	loadChart: function () {
 		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		var options = {
-			xaxis: {
-				minTickSize: 1,
-				ticks: chartData['ticks']
-			},
-			yaxis: {
-				min: 0,
-				tickDecimals: 0
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.9,
-					dataLabels: false,
-					align: "center",
-					lineWidth: 0
-				},
-				valueLabels: chartData['valueLabels'],
-				stack: true
-			},
-		};
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		console.log(thisInstance.generateData())
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: 'bar',
+					data: thisInstance.generateData(),
+					options: {
+						maintainAspectRatio: false,
+						title: {
+							display: false
+						},
+						legend: {
+							display: false
+						},
+						scales: {
+							yAxes: [{
+									ticks: {
+										beginAtZero: true
+									}
+								}]
+						}
+					}
+				}
+		);
 	},
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";

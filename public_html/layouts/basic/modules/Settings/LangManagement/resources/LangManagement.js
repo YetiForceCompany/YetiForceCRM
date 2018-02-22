@@ -468,23 +468,44 @@ var Settings_Index_Js = {
 		})
 	},
 	getDataCharts: function (shortages, max) {
+
+		function getRandomColor() {
+			var letters = '0123456789ABCDEF'.split('');
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+			}
+			return color;
+		}
+
 		var k = 1;
-		var chartData = [];
-		chartData['chart'] = {};
 		var data = [];
-		chartData['ticks'] = [];
-		chartData['colors'] = ['#d18b2c'];
+		var chartData = {
+			labels: [],
+			datasets: [
+				{
+					data: data,
+					backgroundColor: [],
+					datalabels: {
+						font: {
+							weight: 'bold'
+						},
+						color: 'white',
+						anchor: 'end',
+						align: 'start',
+					}
+				}
+			]
+		};
 		for (var i in shortages) {
 			var x = shortages[i] * 100 / max;
 			var langName = jQuery('select option[value="' + i + '"]').text();
-			data.push([k, x.toFixed(2)]);
-			chartData['ticks'].push([k, langName]);
+			data.push(Math.round(x * 100) / 100);
+			chartData.datasets[0].backgroundColor.push(getRandomColor());
+			chartData.labels.push(langName);
 			++k;
 		}
 		if (data.length > 0) {
-			chartData['chart'].data = data;
-			chartData = jQuery.extend({}, chartData);
-			chartData['valueLabels'] = {show: true, showAsHtml: true, align: "center", valign: 'middle'}
 			jQuery('.widgetData').val(JSON.stringify(chartData));
 			this.showCharts()
 		}

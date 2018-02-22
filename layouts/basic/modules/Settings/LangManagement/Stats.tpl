@@ -33,8 +33,7 @@
 		<div class="chartBlock row" id="chartBlock">
 			<div class="col-md-2"></div>
 			<div class="col-md-8">
-				<div class="widgetChartContainer" id="widgetChartContainer">
-					<canvas></canvas>
+				<div class="widgetChartContainer" id="widgetChartContainer" style="position:relative;">
 				</div>
 			</div>
 			<div class="col-md-2"></div>
