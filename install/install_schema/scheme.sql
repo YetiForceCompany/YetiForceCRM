@@ -473,6 +473,19 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `l_yf_batchmethod` */
+
+CREATE TABLE `l_yf_batchmethod` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `method` varchar(50) NOT NULL,
+  `params` text DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_profile` */
 
 CREATE TABLE `l_yf_profile` (
@@ -845,6 +858,18 @@ CREATE TABLE `s_yf_automatic_assignment` (
   `conditions` text DEFAULT NULL,
   `user_limit` tinyint(1) DEFAULT NULL,
   `roleid` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_batchmethod` */
+
+CREATE TABLE `s_yf_batchmethod` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `method` varchar(50) NOT NULL,
+  `params` text NOT NULL,
+  `created_time` date NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL,
+  `userid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4246,7 +4271,7 @@ CREATE TABLE `vtiger_cron_task` (
   UNIQUE KEY `handler_file` (`handler_file`),
   KEY `vtiger_cron_task_status_idx` (`status`),
   KEY `vtiger_cron_task_sequence_idx` (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
