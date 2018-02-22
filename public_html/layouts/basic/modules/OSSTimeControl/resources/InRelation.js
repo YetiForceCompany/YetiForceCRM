@@ -10,51 +10,37 @@ jQuery(document).ready(function ($) {
 					return false;
 				}
 				var jdata = JSON.parse(data);
-				var chartData = [];
-				var ticks = [];
-				var name = [];
-				for (var index in jdata) {
-					chartData.push(jdata[index]['data']);
-					ticks.push(jdata[index]['initial']);
-					name[jdata[index]['name'][0]] = jdata[index]['name'][1];
-				}
-				var options = {
-					xaxis: {
-						minTickSize: 1,
-						ticks: ticks
-					},
-					yaxis: {
-
-					},
-					grid: {
-						hoverable: true,
-						//clickable: true
-					},
-					series: {
-						bars: {
-							show: true,
-							barWidth: 0.9,
-							dataLabels: false,
-							align: "center",
-							//lineWidth: 0
+				console.log(jdata);
+				var ctx = document.getElementById("related-summary-chart-canvas").getContext("2d");
+				var relativeChart = new Chart(ctx, {
+					type: 'bar',
+					data: jdata,
+					options: {
+						zoom: {
+							enabled: true,
+							mode: 'y',
 						},
-						valueLabels: {
-							show: true,
-							showAsHtml: true,
-							align: "center",
-							valign: 'middle',
+						legend: {
+							display: false,
 						},
-						stack: true
+						maintainAspectRatio: false,
+						scales: {
+							yAxes: [{
+									ticks: {
+										beginAtZero: true
+									}
+								}]
+						}
 					}
-				};
-				$.plot(this.chart, [chartData], options);
+				});
+				//$.plot(this.chart, [chartData], options);
 			},
 			registerSwitch: function () {
 				$(".sumaryRelatedTimeControl .switchChartContainer").toggle(function () {
-					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+					$(this).find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
 					$(".chartContainer").hide();
 				}, function () {
-					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+					$(this).find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 					$(".chartContainer").show();
 				});
 			},
@@ -64,10 +50,8 @@ jQuery(document).ready(function ($) {
 				this.registerSwitch();
 			}
 		});
-
 	}
 	var instance = new OSSTimeControl_Calendar_Js();
 	instance.registerEvents();
 	window.loadInRelationTomeControl = true;
 });
-

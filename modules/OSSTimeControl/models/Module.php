@@ -8,6 +8,7 @@
  */
 class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 {
+
 	public function getCalendarViewUrl()
 	{
 		return 'index.php?module=' . $this->getName() . '&view=Calendar';
@@ -73,18 +74,40 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 		// Calculate total working time divided into users
 		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
-			->groupBy('vtiger_crmentity.smownerid')
-			->createCommand()->query();
-		$userTime = [];
-		$count = 1;
+				->groupBy('vtiger_crmentity.smownerid')->orderBy('vtiger_crmentity.smownerid', 'asc')
+				->createCommand()->query();
+
+		$userTime = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'borderColor' => []
+				]
+			],
+		];
+
+		// if user doesn't have a color - generate it
+		function getColor($num)
+		{
+			$hash = md5('color' . $num); // modify 'color' to get a different palette
+			return "rgb(" .
+				hexdec(substr($hash, 0, 2)) . "," .
+				hexdec(substr($hash, 2, 2)) . "," .
+				hexdec(substr($hash, 4, 2)) . ")";
+		}
 		while ($row = $dataReader->read()) {
+			$color = (new App\Db\Query())->select(['color' => 'cal_color'])->from('vtiger_users')->where(['=', 'id', $row['smownerid']])->one();
+			if (empty($color['color'])) {
+				$color['color'] = getColor($row['smownerid']);
+			}
+			//$color = App\Fields\Owner::getColor();
 			$smownerid = App\Fields\Owner::getLabel($row['smownerid']);
-			$userTime[] = [
-				'name' => [$count, $smownerid],
-				'initial' => [$count, vtlib\Functions::getInitials($smownerid)],
-				'data' => [$count, $row['sumtime']],
-			];
-			++$count;
+			$userTime['labels'][] = $smownerid; //vtlib\Functions::getInitials($smownerid);
+			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
+			$userTime['datasets'][0]['backgroundColor'][] = $color['color'];
+			$userTime['datasets'][0]['borderColor'][] = $color['color'];
 		}
 		$dataReader->close();
 
@@ -101,8 +124,8 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 					'vtiger_crmentity.smownerid',
 					'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'),
 				])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::RECALCULATE_STATUS])
-					->groupBy('smownerid');
+				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::RECALCULATE_STATUS])
+				->groupBy('smownerid');
 			App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
 			$data = [];

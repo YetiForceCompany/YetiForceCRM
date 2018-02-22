@@ -2,10 +2,7 @@
 {strip}
 	<div class="sumaryRelatedTimeControl">
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chart.js/dist/Chart.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/Flot/jquery.flot.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/Flot/jquery.flot.resize.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/Flot/jquery.flot.stack.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/flot-valuelabels/jquery.flot.valuelabels.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
 		<style type="text/css">
 			.legendContainer{
@@ -35,7 +32,9 @@
 					<div class="legendContainer">
 						{\App\Language::translate('LBL_SUM', $RELATED_MODULE_NAME)}: {\App\Fields\Time::formatToHourText($RELATED_SUMMARY['totalTime'], 'full')}<br />
 					</div>
-					<div class="chartBlock" style="height: 200px;width:100%"></div>
+					<div class="chartBlock chart-container" style="position: relative; height: 200px;width:100%">
+						<canvas id="related-summary-chart-canvas"></canvas>
+					</div>
 				</div>
 			</div>
 			<hr />
