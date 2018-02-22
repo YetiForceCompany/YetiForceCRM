@@ -653,7 +653,12 @@ class Owner
 				static::$colorsCache = [];
 			}
 		}
-		return static::$colorsCache[$id] ?? '#24ff00';
+		if (static::$colorsCache[$id]) {
+			return static::$colorsCache[$id];
+		} else {
+			$hash = md5('color' . $id);
+			return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
+		}
 	}
 
 	protected static $typeCache = [];

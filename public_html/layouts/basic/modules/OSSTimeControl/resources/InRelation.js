@@ -54,10 +54,10 @@ jQuery(document).ready(function ($) {
 			},
 			registerSwitch: function () {
 				$(".sumaryRelatedTimeControl .switchChartContainer").toggle(function () {
-					$(this).find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
 					$(".chartContainer").hide();
 				}, function () {
-					$(this).find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 					$(".chartContainer").show();
 				});
 			},
