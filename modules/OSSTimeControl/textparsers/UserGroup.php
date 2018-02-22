@@ -9,6 +9,7 @@
  */
 class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 {
+
 	/** @var string Class name */
 	public $name = 'LBL_TIME_CONTROL_USER_GROUP';
 
@@ -31,9 +32,9 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 			'.summary {border-top: 1px solid grey;}' .
 			'</style>';
 		$html .= '<table class="table"><thead><tr>';
-		$html .= '<th>Nazwa użytkownika</th>';
-		$html .= '<th class="center">Dział</th>';
-		$html .= '<th class="center">Czas pracy</th>';
+		$html .= '<th>' . \App\Language::translate('User Name', 'Users') . '</th>';
+		$html .= '<th class="center">' . \App\Language::translate('Role', 'Users') . '</th>';
+		$html .= '<th class="center">' . \App\Language::translate('OSSTimeControl', 'OSSTimeControl') . '</th>';
 		$html .= '</tr></thead><tbody>';
 		foreach ($this->getUserList() as $user => $data) {
 			$html .= '<tr>';
