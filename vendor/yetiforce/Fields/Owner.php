@@ -653,7 +653,7 @@ class Owner
 				static::$colorsCache = [];
 			}
 		}
-		if (static::$colorsCache[$id]) {
+		if (isset(static::$colorsCache[$id])) {
 			return static::$colorsCache[$id];
 		} else {
 			$hash = md5('color' . $id);
