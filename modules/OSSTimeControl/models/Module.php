@@ -70,21 +70,34 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	{
 		// Calculate total working time
 		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
-
 		// Calculate total working time divided into users
 		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
 			->groupBy('vtiger_crmentity.smownerid')
-			->createCommand()->query();
-		$userTime = [];
-		$count = 1;
+			->orderBy(['vtiger_crmentity.smownerid' => SORT_ASC])
+			->createCommand()
+			->query();
+
+		$userTime = [
+			'labels' => [],
+			'title' => \App\Language::translate('LBL_SUM', $this->getName(true)) . ': ' . \App\Fields\Time::formatToHourText($totalTime, 'full'),
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'borderColor' => [],
+					'tooltips' => [],
+				],
+			],
+		];
+
 		while ($row = $dataReader->read()) {
-			$smownerid = App\Fields\Owner::getLabel($row['smownerid']);
-			$userTime[] = [
-				'name' => [$count, $smownerid],
-				'initial' => [$count, vtlib\Functions::getInitials($smownerid)],
-				'data' => [$count, $row['sumtime']],
-			];
-			++$count;
+			$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
+			$color = App\Fields\Owner::getColor($row['smownerid']);
+			$userTime['labels'][] = vtlib\Functions::getInitials($ownerName);
+			$userTime['datasets'][0]['tooltips'][] = $ownerName;
+			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
+			$userTime['datasets'][0]['backgroundColor'][] = $color;
+			$userTime['datasets'][0]['borderColor'][] = $color;
 		}
 		$dataReader->close();
 
