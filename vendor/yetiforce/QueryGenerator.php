@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 /**
@@ -12,6 +11,7 @@ namespace App;
  */
 class QueryGenerator
 {
+
 	const STRING_TYPE = ['string', 'text', 'email', 'reference'];
 	const NUMERIC_TYPE = ['integer', 'double', 'currency'];
 	const DATE_TYPE = ['date', 'datetime'];
@@ -621,7 +621,7 @@ class QueryGenerator
 			if (is_array($this->stdFilterList)) {
 				if (!empty($this->stdFilterList['columnname'])) {
 					list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $this->stdFilterList['columnname']);
-					$this->addRequiredCondition([
+					$this->addNativeCondition([
 						'between',
 						$fieldName,
 						$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
