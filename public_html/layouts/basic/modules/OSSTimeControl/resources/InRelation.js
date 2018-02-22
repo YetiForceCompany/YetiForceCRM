@@ -18,8 +18,7 @@ jQuery(document).ready(function ($) {
 					anchor: 'end',
 					align: 'start',
 				};
-				var ctx = document.getElementById("related-summary-chart-canvas").getContext("2d");
-				new Chart(ctx, {
+				new Chart(document.getElementById("related-summary-chart-canvas").getContext("2d"), {
 					type: 'bar',
 					data: jdata,
 					options: {
@@ -38,10 +37,6 @@ jQuery(document).ready(function ($) {
 									return jdata.datasets[0].tooltips[ tooltipItem['index'] ];
 								}
 							}
-						},
-						zoom: {
-							enabled: true,
-							mode: 'y',
 						},
 						legend: {
 							display: false,
