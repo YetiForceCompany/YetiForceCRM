@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Integrations;
 
 /**
@@ -10,7 +11,6 @@ namespace App\Integrations;
  */
 class Pbx extends \App\Base
 {
-
 	/**
 	 * Connector Instances.
 	 *
