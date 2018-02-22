@@ -4,25 +4,11 @@
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chart.js/dist/Chart.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
-		<style type="text/css">
-			.legendContainer{
-				position: absolute;
-				right: 30px;
-				top: 15px;
-				background-color: #F2F2F2;
-				border: 1px solid #dddddd;
-				padding: 3px;
-				z-index:2;
-			}
-			.switchChartContainer{
-				margin-right: 5px;
-			}
-		</style>
-		{if count($RELATED_SUMMARY['userTime']) gt 0 }
+		{if count($RELATED_SUMMARY['userTime']['datasets'][0]['data']) gt 0 }
 			<div class="row">
 				<div class="col-md-12">
-					<button class="btn btn-sm float-left btn-light switchChartContainer" type="button">
-						<span class="fas fa-chevron-up"></span>
+					<button class="btn btn-sm btn-default float-left mr-2 switchChartContainer" type="button">
+						<span class="fa fa-chevron-up"></span>
 					</button>
 					<h5>{\App\Language::translate('LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS', $RELATED_MODULE_NAME)}:</h5>
 				</div>
@@ -30,7 +16,7 @@
 			<div class="row chartContainer">
 				<div class="col-md-12">
 					<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
-					<div class="chartBlock chart-container" style="position: relative; height: 200px;width:100%">
+					<div class="chartBlock chart-container" style="position: relative; height:200px; width:100%">
 						<canvas id="related-summary-chart-canvas"></canvas>
 					</div>
 				</div>

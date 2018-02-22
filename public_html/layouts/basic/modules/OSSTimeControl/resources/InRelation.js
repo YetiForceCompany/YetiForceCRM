@@ -10,6 +10,10 @@ jQuery(document).ready(function ($) {
 					return false;
 				}
 				var jdata = JSON.parse(data);
+				if (jdata.datasets.length == 0 || jdata.datasets[0].data.length == 0) {
+					return false;
+				}
+
 				jdata.datasets[0].datalabels = {
 					font: {
 						weight: 'bold'
@@ -18,7 +22,7 @@ jQuery(document).ready(function ($) {
 					anchor: 'end',
 					align: 'start',
 				};
-				console.log(this.chart);
+
 				new Chart($(this.chart).find("canvas")[0].getContext("2d"), {
 					type: 'bar',
 					data: jdata,
@@ -59,12 +63,15 @@ jQuery(document).ready(function ($) {
 				});
 			},
 			registerSwitch: function () {
-				$(".sumaryRelatedTimeControl .switchChartContainer").toggle(function () {
-					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-					$(".chartContainer").hide();
-				}, function () {
-					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-					$(".chartContainer").show();
+				$(".switchChartContainer").click(function () {
+					var chartContainer = $('.chartContainer')[0];
+					if ($(chartContainer).is(':visible')) {
+						$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+						$(".chartContainer").hide();
+					} else {
+						$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+						$(".chartContainer").show();
+					}
 				});
 			},
 			registerEvents: function () {
