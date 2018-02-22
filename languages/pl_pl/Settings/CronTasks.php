@@ -67,6 +67,7 @@ $languageStrings = [
 	'LBL_BROWSING_HISTORY' => 'Usuwanie historii ostatnio przeglądanych stron',
 	'LBK_SYSTEM_WARNINGS' => 'Powiadomienia z ostrzeżeniami systemowymi',
 	'LBL_BATCH_PROCESSES' => 'Procesy wsadowe do obsługi długo trwających akcji',
+	'LBL_BATCH_METHODS' => 'Systemowe metody wsadowe',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
