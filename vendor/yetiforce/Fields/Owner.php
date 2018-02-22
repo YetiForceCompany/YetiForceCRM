@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Fields;
 
 /**
@@ -11,7 +12,6 @@ namespace App\Fields;
  */
 class Owner
 {
-
 	protected $moduleName;
 	protected $searchValue;
 	protected $currentUser;
@@ -241,17 +241,17 @@ class Owner
 			$selectFields['id'] = 'vtiger_user2role.userid';
 			$queryByUserRole->
 				select($selectFields)
-				->from('vtiger_user2role')
-				->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
-				->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
+					->from('vtiger_user2role')
+					->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+					->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
 			$queryBySharing = new \App\Db\Query();
 			$selectFields['id'] = 'shareduserid';
 			$queryBySharing->
 				select($selectFields)
-				->from('vtiger_tmp_write_user_sharing_per')
-				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
-				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+					->from('vtiger_tmp_write_user_sharing_per')
+					->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
+					->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
 			$query->union($queryByUserRole)->union($queryBySharing);
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid')->where(['vtiger_user2role.roleid' => $roles]);
@@ -640,8 +640,10 @@ class Owner
 	protected static $colorsCache = false;
 
 	/**
-	 * Get owner color
+	 * Get owner color.
+	 *
 	 * @param int $id
+	 *
 	 * @return string
 	 */
 	public static function getColor($id)
@@ -653,7 +655,13 @@ class Owner
 				static::$colorsCache = [];
 			}
 		}
-		return static::$colorsCache[$id] ?? '#24ff00';
+		if (isset(static::$colorsCache[$id])) {
+			return static::$colorsCache[$id];
+		} else {
+			$hash = md5('color' . $id);
+
+			return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
+		}
 	}
 
 	protected static $typeCache = [];
@@ -703,10 +711,10 @@ class Owner
 		$db->createCommand()->delete('vtiger_users2group', ['userid' => $oldId])->execute();
 
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'fieldname', 'tablename', 'columnname'])
-				->from('vtiger_field')
-				->leftJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
-				->where(['or', ['uitype' => [52, 53, 77, 101]], ['uitype' => 10, 'relmodule' => 'Users']])
-				->createCommand()->query();
+			->from('vtiger_field')
+			->leftJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
+			->where(['or', ['uitype' => [52, 53, 77, 101]], ['uitype' => 10, 'relmodule' => 'Users']])
+			->createCommand()->query();
 		$columnList = [];
 		while ($row = $dataReader->read()) {
 			$column = $row['tablename'] . '.' . $row['columnname'];
@@ -741,8 +749,8 @@ class Owner
 		$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $oldId . '"';
 		$fieldSearchValue = 's:16:"assigned_user_id"';
 		$dataReader = (new \App\Db\Query())->select(['task', 'task_id', 'workflow_id'])->from('com_vtiger_workflowtasks')
-				->where(['or like', 'task', [$nameSearchValue, $idSearchValue, $fieldSearchValue]])
-				->createCommand()->query();
+			->where(['or like', 'task', [$nameSearchValue, $idSearchValue, $fieldSearchValue]])
+			->createCommand()->query();
 		require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 		while ($row = $dataReader->read()) {
 			$task = $row['task'];
