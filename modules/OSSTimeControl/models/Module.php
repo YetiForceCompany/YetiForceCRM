@@ -83,7 +83,8 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				[
 					'data' => [],
 					'backgroundColor' => [],
-					'borderColor' => []
+					'borderColor' => [],
+					'tooltips' => [],
 				]
 			],
 		];
@@ -104,7 +105,8 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			}
 			//$color = App\Fields\Owner::getColor();
 			$smownerid = App\Fields\Owner::getLabel($row['smownerid']);
-			$userTime['labels'][] = $smownerid; //vtlib\Functions::getInitials($smownerid);
+			$userTime['labels'][] = vtlib\Functions::getInitials($smownerid);
+			$userTime['datasets'][0]['tooltips'][] = $smownerid;
 			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
 			$userTime['datasets'][0]['backgroundColor'][] = $color['color'];
 			$userTime['datasets'][0]['borderColor'][] = $color['color'];

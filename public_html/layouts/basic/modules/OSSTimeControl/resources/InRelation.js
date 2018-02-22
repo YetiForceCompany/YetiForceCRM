@@ -16,6 +16,22 @@ jQuery(document).ready(function ($) {
 					type: 'bar',
 					data: jdata,
 					options: {
+						tooltips: {
+							callbacks: {
+								labelColor: function (tooltipItem, chart) {
+									return {
+										borderColor: jdata.datasets[0].backgroundColor[ tooltipItem['index'] ],
+										backgroundColor: jdata.datasets[0].borderColor[ tooltipItem['index'] ]
+									}
+								},
+								title: function ([tooltipItem], chart) {
+									return jdata.datasets[0].data[ tooltipItem['index'] ];
+								},
+								label: function (tooltipItem, chart) {
+									return jdata.datasets[0].tooltips[ tooltipItem['index'] ];
+								}
+							}
+						},
 						zoom: {
 							enabled: true,
 							mode: 'y',
