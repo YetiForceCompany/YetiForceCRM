@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 /**
@@ -12,6 +11,7 @@ namespace App;
  */
 class TextParser
 {
+
 	/**
 	 * Examples of supported variables.
 	 *
@@ -479,7 +479,7 @@ class TextParser
 			$employee = Cache::get('TextParserEmployeeDetailRows', $userId);
 		} else {
 			$employee = (new Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $userId])
-				->limit(1)->scalar();
+					->limit(1)->scalar();
 			Cache::save('TextParserEmployeeDetailRows', $userId, $employee, Cache::LONG);
 		}
 		$value = '';
@@ -1142,8 +1142,8 @@ class TextParser
 	{
 		$variables = [
 			'LBL_ENTITY_VARIABLES' => array_map(function ($value) {
-				return Language::translate($value, 'Other.TextParser');
-			}, array_flip(static::$variableGeneral)),
+					return Language::translate($value, 'Other.TextParser');
+				}, array_flip(static::$variableGeneral)),
 		];
 		$companyDetails = Company::getInstanceById()->getData();
 		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
@@ -1197,8 +1197,8 @@ class TextParser
 	protected function getModuleGeneralVariable()
 	{
 		$variables = [];
-		if ($this->moduleName && is_dir(("modules/{$this->moduleName}/textParsers/"))) {
-			foreach ((new \DirectoryIterator("modules/{$this->moduleName}/textParsers/")) as $fileInfo) {
+		if ($this->moduleName && is_dir(("modules/{$this->moduleName}/textparsers/"))) {
+			foreach ((new \DirectoryIterator("modules/{$this->moduleName}/textparsers/")) as $fileInfo) {
 				$fileName = $fileInfo->getBasename('.php');
 				if ($fileInfo->getType() !== 'dir' && $fileInfo->getExtension() === 'php') {
 					$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $fileName, $this->moduleName);

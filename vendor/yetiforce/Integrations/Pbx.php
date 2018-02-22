@@ -98,7 +98,7 @@ class Pbx extends \App\Base
 	 */
 	public function loadUserPhone()
 	{
-		$this->set('sourcePhone', \App\User::getCurrentUserModel()->getDetail('phone_crm_extension'));
+		$this->set('sourcePhone', \App\User::getCurrentUserModel()->getDetail('phone_crm_extension_extra'));
 	}
 
 	/**

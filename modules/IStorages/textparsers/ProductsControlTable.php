@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class IStorages_ProductsControlTable_TextParser extends \App\TextParser\Base
+class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 {
 	/** @var string Class name */
 	public $name = 'LBL_PRODUCTS_CONTROL_TABLE';
