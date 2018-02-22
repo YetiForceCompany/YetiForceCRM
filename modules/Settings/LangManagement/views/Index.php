@@ -8,6 +8,7 @@
  */
 class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 {
+
 	/**
 	 * Process function.
 	 *
@@ -44,9 +45,7 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
 			'~libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.js',
-			'~libraries/Flot/jquery.flot.js',
-			'~libraries/Flot/jquery.flot.stack.js',
-			'~libraries/flot-valuelabels/jquery.flot.valuelabels.js',
+			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js'
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
