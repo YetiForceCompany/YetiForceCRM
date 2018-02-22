@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSTimeControl_List_TextParser extends \App\TextParser\Base
+class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 {
 	/** @var string Class name */
 	public $name = 'LBL_TIME_CONTROL_LIST';
