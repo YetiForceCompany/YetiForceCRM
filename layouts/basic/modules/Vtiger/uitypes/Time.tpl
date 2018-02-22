@@ -16,7 +16,7 @@
 	{assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 	<div class="input-group time">
-		{if $FIELD_NAME neq 'due_date'}
+		{if $FIELD_NAME neq 'time_end'}
 			<div class="input-group-prepend">
 				<span class="input-group-text"><span class="notEvent HelpInfoPopover" data-placement="top" data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">
 						<input type="checkbox" class="autofill" />
