@@ -2,7 +2,8 @@
 {strip}
 	<div class="sumaryRelatedTimeControl">
 		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chart.js/dist/Chart.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
 		<style type="text/css">
 			.legendContainer{
@@ -12,6 +13,7 @@
 				background-color: #F2F2F2;
 				border: 1px solid #dddddd;
 				padding: 3px;
+				z-index:2;
 			}
 			.switchChartContainer{
 				margin-right: 5px;

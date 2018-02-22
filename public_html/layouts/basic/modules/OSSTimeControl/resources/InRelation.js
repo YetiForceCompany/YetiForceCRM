@@ -10,9 +10,16 @@ jQuery(document).ready(function ($) {
 					return false;
 				}
 				var jdata = JSON.parse(data);
-				console.log(jdata);
+				jdata.datasets[0].datalabels = {
+					font: {
+						weight: 'bold'
+					},
+					color: 'white',
+					anchor: 'end',
+					align: 'start',
+				};
 				var ctx = document.getElementById("related-summary-chart-canvas").getContext("2d");
-				var relativeChart = new Chart(ctx, {
+				new Chart(ctx, {
 					type: 'bar',
 					data: jdata,
 					options: {
@@ -49,7 +56,6 @@ jQuery(document).ready(function ($) {
 						}
 					}
 				});
-				//$.plot(this.chart, [chartData], options);
 			},
 			registerSwitch: function () {
 				$(".sumaryRelatedTimeControl .switchChartContainer").toggle(function () {
