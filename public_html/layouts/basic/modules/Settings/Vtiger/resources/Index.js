@@ -9,12 +9,16 @@
  *************************************************************************************/
 jQuery.Class("Settings_Vtiger_Index_Js", {
 	showMessage: function (customParams) {
-		var params = {};
-		params.animation = "show";
-		params.type = 'success';
-		params.title = app.vtranslate('JS_MESSAGE');
+		let params = {
+			data: {
+				type: 'success',
+				title: app.vtranslate('JS_MESSAGE')
+			}
+		};
+		let paramsData = params.data;
 		if (typeof customParams != 'undefined') {
-			var params = jQuery.extend(params, customParams);
+			params = jQuery.extend(params, customParams);
+			params.data = jQuery.extend(paramsData, customParams.data);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
 	},

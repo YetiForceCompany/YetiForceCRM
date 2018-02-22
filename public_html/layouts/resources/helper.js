@@ -163,6 +163,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 		return aDeferred.promise();
 	},
 	showMessage: function (params) {
+		window.console.log('messsage');
 		if (typeof params.type == "undefined") {
 			params.type = 'info';
 		}
@@ -170,43 +171,47 @@ jQuery.Class("Vtiger_Helper_Js", {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
 		params.animation = "show";
+		window.console.log(params);
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*
 	 * Function to show pnotify message
 	 */
 	showPnotify: function (customParams) {
-		var userParams = customParams;
+		let userParams = customParams;
 		if (typeof customParams == 'string') {
-			var userParams = {};
-			userParams.text = customParams;
+			userParams = {};
+			userParams.data.text = customParams;
 		}
-
-		var params = {
+		let params = {
 			target: document.body,
-			hide: false,
-			delay: '3000',
 			data: {
 				type: 'error',
-			},
-//			defaults: {
-//				styling: "bootstrap4",
-//			},
-			Buttons: {
-				closerHover: false,
-				sticker: false,
-				stickerHover: false,
-				labels: {close: app.vtranslate('JS_CLOSE')}
+				hide: false,
+				delay: '2000',
+				modules: {
+					Buttons: {
+						closerHover: false,
+						labels: {close: app.vtranslate('JS_CLOSE')}
+					},
+					Animate: {
+						animate: true,
+						inClass: 'zoomInLeft',
+						outClass: 'zoomOutRight'
+					}
+				}
 			}
 		}
-
-		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
-			params.hide = true;
-			params.animateSpeed = 1;
+		if (typeof customParams.data.type != 'undefined' && customParams.data.type != 'error') {
+			params.data.hide = true;
 		}
+		let paramsData = params.data;
 		if (typeof userParams != 'undefined') {
-			var params = jQuery.extend(params, userParams);
+			params = jQuery.extend(params, userParams);
+			params.data = jQuery.extend(paramsData, userParams.data);
 		}
+		PNotify.defaults.styling = "bootstrap4";
+		PNotify.defaults.icons = "fontawesome5";
 		window.console.log(params);
 		return new PNotify(params);
 	},
