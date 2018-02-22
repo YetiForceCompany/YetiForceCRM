@@ -177,7 +177,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 * Function to show pnotify message
 	 */
 	showPnotify: function (customParams) {
-
 		var userParams = customParams;
 		if (typeof customParams == 'string') {
 			var userParams = {};
@@ -188,21 +187,26 @@ jQuery.Class("Vtiger_Helper_Js", {
 			hide: false,
 			delay: '3000',
 			type: 'error',
-			styling: 'bootstrap3',
-			buttons: {
+			defaults: {
+				styling: "bootstrap4",
+			},
+			Buttons: {
+				closerHover: false,
 				sticker: false,
+				stickerHover: false,
 				labels: {close: app.vtranslate('JS_CLOSE')}
 			}
 		}
 
 		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
 			params.hide = true;
-			params.animate_speed = 1;
+			params.animateSpeed = 1;
 		}
 		if (typeof userParams != 'undefined') {
 			var params = jQuery.extend(params, userParams);
 		}
-		return new PNotify(params);
+
+		return new PNotifyCompat(params);
 	},
 	/*
 	 * Function to remove pnotify message

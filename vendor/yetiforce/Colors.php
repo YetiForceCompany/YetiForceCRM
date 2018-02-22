@@ -6,7 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
-
 namespace App;
 
 /**
@@ -14,6 +13,7 @@ namespace App;
  */
 class Colors
 {
+
 	/**
 	 * Generate stylesheet file.
 	 *
@@ -51,11 +51,13 @@ class Colors
 	private static function generateOwners()
 	{
 		$css = '';
+		$colors = [];
 		foreach (self::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
 				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$colors[$item['id']] = $item['color'];
 			}
 		}
 		foreach (self::getAllGroupColor() as $item) {
@@ -63,9 +65,11 @@ class Colors
 				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$colors[$item['id']] = $item['color'];
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
+		file_put_contents(ROOT_DIRECTORY . '/user_privileges/owners_colors.php', '<?php return ' . Utils::varExport($colors) . ';');
 	}
 
 	/**

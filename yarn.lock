@@ -8,7 +8,7 @@
 
 "Font-Awesome@https://github.com/FortAwesome/Font-Awesome":
   version "0.0.0"
-  resolved "https://github.com/FortAwesome/Font-Awesome#159d220a7446ceb7cde0b0096674f60f51129bf7"
+  resolved "https://github.com/FortAwesome/Font-Awesome#58afb4246eaaff2e23033d1687f15c4573c695c1"
 
 add@^2.0.6:
   version "2.0.6"
@@ -17,6 +17,10 @@ add@^2.0.6:
 almond@~0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
+
+animate.css@3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.5.2.tgz#91e668dc069a808e5e499514867b97aae0166c36"
 
 ansicolors@~0.2.1:
   version "0.2.1"
@@ -76,7 +80,7 @@ cardinal@^1.0.0:
     ansicolors "~0.2.1"
     redeyed "~1.0.0"
 
-chart.js@^2.7.1:
+chart.js@^2.6.0, chart.js@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.1.tgz#ae90b4aa4ff1f02decd6b1a2a8dabfd73c9f9886"
   dependencies:
@@ -95,6 +99,17 @@ chartjs-color@~2.2.0:
   dependencies:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
+
+chartjs-plugin-datalabels@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.2.0.tgz#bf1748c06fb7e5deeba169e4259914bcdeae0ede"
+
+chartjs-plugin-zoom@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.6.3.tgz#6101a049f00e9404102376ba8db27edcdcf8ccda"
+  dependencies:
+    chart.js "^2.6.0"
+    hammerjs "^2.0.8"
 
 chosen-js@^1.8.2:
   version "1.8.3"
@@ -129,8 +144,8 @@ css-element-queries@^1.0.1:
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.1.tgz#dd14970dd66a7634ec59028fee3820f2a7eff8a8"
 
 csv-parse@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.2.tgz#9bb08dd84bb41008a03cde988c07afe0768362f3"
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.4.tgz#5b469596766ee07f2cbd71aced7ae76b3c73c901"
 
 datatables.net-bs4@^1.10.16:
   version "1.10.16"
@@ -186,6 +201,10 @@ gridster@^0.5.6:
   dependencies:
     jquery "git+https://github.com/jquery/jquery.git#2.0.3"
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+
 html5shiv@^3.7.3:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/html5shiv/-/html5shiv-3.7.3.tgz#d78a84a367bcb9a710100d57802c387b084631d2"
@@ -236,7 +255,7 @@ jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
 
-"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6.0, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.x, jquery@>=1.9.1:
+"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.x, jquery@>=1.9.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -290,7 +309,7 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-moment@>=2.18.1, moment@^2.9.0:
+moment@>=2.20.0, moment@^2.9.0:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
@@ -313,11 +332,9 @@ perfect-scrollbar@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.3.0.tgz#61da56f94b58870d8e0a617bce649cee17d1e3b2"
 
-pnotify@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-3.2.1.tgz#eb68fb57fd1835764f23253235c1e973c456eb19"
-  dependencies:
-    jquery ">=1.6.0"
+pnotify@^4.0.0-alpha.2:
+  version "4.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.2.tgz#3f4b7bd0d36298b1ec0fe8ba568b3ec4c0c6918d"
 
 popper.js@^1.12.9:
   version "1.12.9"

@@ -91,8 +91,16 @@
 /public_html/libraries/jquery-slimscroll/
 /public_html/libraries/perfect-scrollbar/
 /public_html/libraries/popper.js/
-/public_html/libraries/font-awesome/
+/public_html/libraries/Font-awesome/
+/public_html/libraries/color-convert/
+/public_html/libraries/color-name/
 /public_html/libraries/chart.js/
+/public_html/libraries/chart.js-color/
+/public_html/libraries/chart.js-color-string/
+/public_html/libraries/chartjs-plugin-zoom/
+/public_html/libraries/chartjs-plugin-datalabels/
+/public_html/libraries/hammerjs/
+/public_html/libraries/animate.css/
 /public_html/layouts/basic/styles/.sass-cache
 /libraries/mPDF/
 /vendor/*/

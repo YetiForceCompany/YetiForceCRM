@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-	
+
 %removeDropdownIcon {
 	.dropdown-toggle::after {
 		display: none;
@@ -11,9 +11,14 @@
 	}
 }
 .badgeIcon {
-	@extend .p-2;
+	@extend .position-absolute;
 	@extend .rounded-circle;
 	@extend .text-white;
+	@extend .text-center;
+	width: 32px;
+	height: 32px;
+	line-height: 30px;
+	font-size: 17px;
 }
 .childrenMarginRight > * {
 	@extend .mr-2;
