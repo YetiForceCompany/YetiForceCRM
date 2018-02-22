@@ -18,7 +18,8 @@ jQuery(document).ready(function ($) {
 					anchor: 'end',
 					align: 'start',
 				};
-				new Chart(document.getElementById("related-summary-chart-canvas").getContext("2d"), {
+				console.log(this.chart);
+				new Chart($(this.chart).find("canvas")[0].getContext("2d"), {
 					type: 'bar',
 					data: jdata,
 					options: {
@@ -40,6 +41,11 @@ jQuery(document).ready(function ($) {
 						},
 						legend: {
 							display: false,
+						},
+						title: {
+							display: true,
+							position: 'top',
+							text: jdata.title,
 						},
 						maintainAspectRatio: false,
 						scales: {

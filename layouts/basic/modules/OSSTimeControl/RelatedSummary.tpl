@@ -30,9 +30,6 @@
 			<div class="row chartContainer">
 				<div class="col-md-12">
 					<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
-					<div class="legendContainer">
-						{\App\Language::translate('LBL_SUM', $RELATED_MODULE_NAME)}: {\App\Fields\Time::formatToHourText($RELATED_SUMMARY['totalTime'], 'full')}<br />
-					</div>
 					<div class="chartBlock chart-container" style="position: relative; height: 200px;width:100%">
 						<canvas id="related-summary-chart-canvas"></canvas>
 					</div>
