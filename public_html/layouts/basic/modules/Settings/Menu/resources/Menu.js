@@ -35,9 +35,9 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 								var inst = $.jstree.reference(data.reference);
 								var ids = inst.get_selected();
 								var showInfo = false;
-								for(var i in ids){
+								for (var i in ids) {
 									var menu = inst.get_node(ids[i]);
-									if(menu.children.length > 0){
+									if (menu.children.length > 0) {
 										showInfo = true;
 										break;
 									}
@@ -184,8 +184,8 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	registerSelectIcons: function (container) {
 		var iconSelect = container.find('#selectIconButton');
 		var icon = container.find('[name="icon"]');
-		iconSelect.on('click', function(){
-			$.when(Settings_Vtiger_Index_Js.selectIcon()).then(function(data){
+		iconSelect.on('click', function () {
+			$.when(Settings_Vtiger_Index_Js.selectIcon()).then(function (data) {
 				icon.val(data['name']);
 			});
 		});
@@ -296,7 +296,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 
 			var myModal = container.find('.copyMenuModal').clone(true, true);
 			var callBackFunction = function (data) {
-				
+
 				var selectElement = data.find("[name='roles']");
 				app.showSelect2ElementView(selectElement);
 				var form = data.find('form');
@@ -334,20 +334,20 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['fromRole'] = fromRole;
 		params['toRole'] = toRole;
 		AppConnector.request(params).then(
-			function (data) {
-				app.hideModalWindow();
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				thisInstance.loadContent();
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
+				function (data) {
+					app.hideModalWindow();
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					thisInstance.loadContent();
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
-	
+
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.treeInstance = false;

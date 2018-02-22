@@ -6,14 +6,14 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Reports_Edit3_Js("Reports_ChartEdit3_Js",{
+Reports_Edit3_Js("Reports_ChartEdit3_Js", {
 
-	registerFieldForChosen : function() {
+	registerFieldForChosen: function () {
 		app.changeSelectElementView(jQuery('#groupbyfield'), 'select2');
 		app.changeSelectElementView(jQuery('#datafields'), 'select2');
 	},
 
-	initSelectValues : function() {
+	initSelectValues: function () {
 		var groupByField = jQuery('#groupbyfield');
 		var dataFields = jQuery('#datafields');
 
@@ -26,45 +26,45 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 		groupByField.html(groupByHTML);
 		dataFields.html(dataFieldsHTML);
 
-		if(dataFieldsValue)
+		if (dataFieldsValue)
 			dataFieldsValue = JSON.parse(dataFieldsValue);
 
 		var selectedChartType = jQuery('input[name=charttype]').val();
 
 		groupByField.select2().val(groupByFieldValue).trigger('change');
 
-		if(selectedChartType == 'pieChart') {
+		if (selectedChartType == 'pieChart') {
 			dataFields.attr('multiple', false).select2().val(dataFieldsValue).trigger('change');
-		} else if(dataFieldsValue && dataFieldsValue[0]) {
+		} else if (dataFieldsValue && dataFieldsValue[0]) {
 			dataFields.attr('multiple', true).select2({maximumSelectionLength: 3, closeOnSelect: false}).val(dataFieldsValue).trigger('change');
 		}
 
-		if(selectedChartType) {
+		if (selectedChartType) {
 			jQuery('ul[name=charttab] li.active').removeClass('active');
-			jQuery('ul[name=charttab] li a[data-type='+selectedChartType+']').addClass('active contentsBackground backgroundColor').trigger('click');
+			jQuery('ul[name=charttab] li a[data-type=' + selectedChartType + ']').addClass('active contentsBackground backgroundColor').trigger('click');
 		} else {
 			jQuery('ul[name=charttab] li a[data-type=pieChart]').addClass('contentsBackground backgroundColor').trigger('click'); // by default piechart should be selected
 		}
 	}
 
-},{
-	initialize : function(container) {
-		if(typeof container == 'undefined') {
+}, {
+	initialize: function (container) {
+		if (typeof container == 'undefined') {
 			container = jQuery('#chart_report_step3');
 		}
-		if(container.is('#chart_report_step3')) {
+		if (container.is('#chart_report_step3')) {
 			this.setContainer(container);
 		} else {
 			this.setContainer(jQuery('#chart_report_step3'));
 		}
 	},
 
-	registerForChartTabClick : function() {
+	registerForChartTabClick: function () {
 		var dataFields = jQuery('#datafields');
 
-		jQuery('ul[name=charttab] li a').on('click', function(e){
+		jQuery('ul[name=charttab] li a').on('click', function (e) {
 			var chartType = jQuery(e.currentTarget).data('type');
-			if(chartType == 'pieChart') {
+			if (chartType == 'pieChart') {
 				dataFields.attr('multiple', false).select2().val('').trigger('change');
 			} else {
 				dataFields.attr('multiple', true).select2({maximumSelectionLength: 3});
@@ -74,32 +74,32 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js",{
 			jQuery(this).addClass('contentsBackground backgroundColor');
 		});
 	},
-    
-     calculateValues : function(){
+
+	calculateValues: function () {
 		//handled advanced filters saved values.
-		var advfilterlist = jQuery('#advanced_filter','#chart_report_step2').val();// value from step2
-		jQuery('#advanced_filter','#chart_report_step3').val(advfilterlist);
+		var advfilterlist = jQuery('#advanced_filter', '#chart_report_step2').val();// value from step2
+		jQuery('#advanced_filter', '#chart_report_step3').val(advfilterlist);
 	},
 
-	registerSubmitEvent : function() {
+	registerSubmitEvent: function () {
 		var thisInstance = this;
-		jQuery('#generateReport').on('click', function(e) {
+		jQuery('#generateReport').on('click', function (e) {
 			var legend = jQuery('#groupbyfield').val();
 			var sector = jQuery('#datafields').val();
 			var form = thisInstance.getContainer();
-			if(sector != '' && legend != '') {
+			if (sector != '' && legend != '') {
 				jQuery('#s2id_groupbyfield').validationEngine('hideAll');
 				form.submit();
 			} else {
-				jQuery('#s2id_groupbyfield').validationEngine('showPrompt',app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),'',"bottomRight",true);
+				jQuery('#s2id_groupbyfield').validationEngine('showPrompt', app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'), '', "bottomRight", true);
 				e.preventDefault();
 			}
 		});
 	},
 
-	registerEvents : function(){
+	registerEvents: function () {
 		this._super();
-        this.calculateValues();
+		this.calculateValues();
 		this.registerForChartTabClick();
 		Reports_ChartEdit3_Js.registerFieldForChosen();
 		Reports_ChartEdit3_Js.initSelectValues();

@@ -31,7 +31,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	setContainer: function (element) {
 		this.workFlowsContainer = element;
 		return this;
-},
+	},
 	/*
 	 * Function to return the instance based on the step of the Workflow
 	 */
@@ -45,7 +45,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		}
 	},
 	/*
-	 * Function to get the value of the step 
+	 * Function to get the value of the step
 	 * returns 1 or 2 or 3
 	 */
 	getStepValue: function () {
@@ -221,7 +221,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		data.on('click', '.closeModal', function (e) {
 			data.modal('hide');
 		});
-},
+	},
 	registerPopUpSaveEvent: function (data, fieldUiHolder) {
 		jQuery('[name="saveButton"]', data).on('click', function (e) {
 			var valueType = jQuery('.textType', data).val();
@@ -306,7 +306,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		jQuery('[data-' + uiType + ']', data).show();
 	},
 	/*
-	 * Function to register the click event for back step 
+	 * Function to register the click event for back step
 	 */
 	registerBackStepClickEvent: function () {
 		var thisInstance = this;

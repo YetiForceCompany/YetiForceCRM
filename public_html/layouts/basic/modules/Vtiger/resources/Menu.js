@@ -7,31 +7,31 @@
  * All Rights Reserved.
  *************************************************************************************/
 jQuery.Class("Vtiger_Menu_Js", {
-	registerMenu: function() {
+	registerMenu: function () {
 		var largeNav = jQuery('#largeNavDiv nav').width();
 		var tabsWidth = 0;
 		var windowWidth = jQuery(window).width();
 
-		jQuery('#largeNavDiv ul.nav.modulesList').children('li').each( function() {
+		jQuery('#largeNavDiv ul.nav.modulesList').children('li').each(function () {
 			var eWidth = jQuery(this).width();
-			var moreMenuElement = jQuery('#commonMoreMenu li[data-id="'+jQuery(this).data('id')+'"]')
+			var moreMenuElement = jQuery('#commonMoreMenu li[data-id="' + jQuery(this).data('id') + '"]')
 			tabsWidth += eWidth;
-			if ( tabsWidth > largeNav ) {
+			if (tabsWidth > largeNav) {
 				jQuery(this).hide();
 				moreMenuElement.show();
-			}else{
+			} else {
 				jQuery(this).show();
 				moreMenuElement.hide();
 			}
 		});
-		if (tabsWidth < largeNav )
-			jQuery('#commonMoreMenu').hide();	
+		if (tabsWidth < largeNav)
+			jQuery('#commonMoreMenu').hide();
 	}
 });
 var menu = new Vtiger_Menu_Js();
-jQuery( window ).resize(function() {
+jQuery(window).resize(function () {
 	menu.registerMenu();
 });
-jQuery( function() {
+jQuery(function () {
 	menu.registerMenu();
 });

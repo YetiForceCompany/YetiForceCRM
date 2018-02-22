@@ -37,7 +37,7 @@ if (typeof (ImportJs) == 'undefined') {
 			var xmlTpl = jQuery('#xml_tpl');
 			var extension = jQuery('#zipExtension');
 
-			switch(fileType) {
+			switch (fileType) {
 				case 'xml':
 					delimiterContainer.hide();
 					hasHeaderContainer.hide();
@@ -233,14 +233,14 @@ if (typeof (ImportJs) == 'undefined') {
 				}
 				if (selectedFieldName != '') {
 					var stopImmediately;
-					if(selectElement.hasClass('inventory')){
+					if (selectElement.hasClass('inventory')) {
 						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, inventoryMappedFields, selectedFieldElement);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
 					} else {
 						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
 						mappedFields[selectedFieldName] = rowId - 1;
 					}
-					if(stopImmediately){
+					if (stopImmediately) {
 						return false;
 					}
 					if (defaultValue != '') {
@@ -273,7 +273,7 @@ if (typeof (ImportJs) == 'undefined') {
 			jQuery('#default_values').val(JSON.stringify(mappedDefaultValues));
 			return true;
 		},
-		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement){
+		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement) {
 			if (selectedFieldName in mappedFields) {
 				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + " " + selectedFieldElement.data('label');
 				var params = {
@@ -412,7 +412,7 @@ if (typeof (ImportJs) == 'undefined') {
 		},
 		submitAction: function () {
 			var form = jQuery('[name="importAdvanced"]');
-			form.on('submit',function(){
+			form.on('submit', function () {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 					'position': 'html',

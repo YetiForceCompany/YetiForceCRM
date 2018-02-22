@@ -18,7 +18,7 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 				view: 'Speed'
 			}).then(function (response) {
 				app.showModalWindow(response, function (data) {
-					
+
 				});
 				progress.progressIndicator({mode: 'hide'});
 			}, function (data, err) {

@@ -6,13 +6,13 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 		}
 		return this.formElement;
 	},
-	registerProviderTypeChangeEvent : function(form) {
+	registerProviderTypeChangeEvent: function (form) {
 		var contents = this.getForm();
-		contents.find('[name="providertype"]').on('change',function(e) {
+		contents.find('[name="providertype"]').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			var selectedProviderName = currentTarget.val(); 
+			var selectedProviderName = currentTarget.val();
 			contents.find('form [data-provider]').remove();
-			var providerFields = contents.find('.providersFields [data-provider="'+selectedProviderName+'"]').clone(true, true);
+			var providerFields = contents.find('.providersFields [data-provider="' + selectedProviderName + '"]').clone(true, true);
 			contents.find('.fieldsContainer').append(providerFields);
 			app.showSelect2ElementView(providerFields.find('select').removeClass('chzn-select'));
 		})

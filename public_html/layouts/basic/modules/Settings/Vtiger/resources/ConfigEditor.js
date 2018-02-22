@@ -7,158 +7,158 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-jQuery.Class("Settings_Vtiger_ConfigEditor_Js",{},{
-	
+jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
+
 	/*
 	 * Function to save the Configuration Editor content
 	 */
-	saveConfigEditor : function(form) {
+	saveConfigEditor: function (form) {
 		var aDeferred = jQuery.Deferred();
-		
+
 		var data = form.serializeFormData();
 		var updatedFields = {};
-		jQuery.each(data, function(key, value) {
+		jQuery.each(data, function (key, value) {
 			if (key === '__vtrftk') {
 				return;
 			}
 			updatedFields[key] = value;
 		})
-		
+
 		var params = {
-			'module' : app.getModuleName(),
-			'parent' : app.getParentModuleName(),
-			'action' : 'ConfigEditorSaveAjax',
-			'updatedFields' : JSON.stringify(updatedFields)
+			'module': app.getModuleName(),
+			'parent': app.getParentModuleName(),
+			'action': 'ConfigEditorSaveAjax',
+			'updatedFields': JSON.stringify(updatedFields)
 		}
 		AppConnector.request(params).then(
-			function(data) {
-				aDeferred.resolve(data);
-			},
-			function(error,err){
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
-	
+
 	/*
 	 * Function to load the contents from the url through pjax
 	 */
-	loadContents : function(url) {
+	loadContents: function (url) {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.requestPjax(url).then(
-			function(data){
-				aDeferred.resolve(data);
-			},
-			function(error, err){
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
-	
+
 	/*
 	 * function to register the events in editView
 	 */
-	registerEditViewEvents : function() {
+	registerEditViewEvents: function () {
 		var thisInstance = this;
 		var form = jQuery('#ConfigEditorForm');
 		var detailUrl = form.data('detailUrl');
-		
+
 		//register all select2 Elements
-		app.showSelect2ElementView(form.find('select.select2'), {dropdownCss : {'z-index' : 0}});
-		
+		app.showSelect2ElementView(form.find('select.select2'), {dropdownCss: {'z-index': 0}});
+
 		//register validation engine
 		var params = app.validationEngineOptions;
-		params.onValidationComplete = function(form, valid){
-			if(valid) {
+		params.onValidationComplete = function (form, valid) {
+			if (valid) {
 				var progressIndicatorElement = jQuery.progressIndicator({
-					'position' : 'html',
-					'blockInfo' : {
-						'enabled' : true
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
 					}
 				});
 				thisInstance.saveConfigEditor(form).then(
-					function(data) {
-						var params = {};
-						if(data['success']) {
-							params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
-							thisInstance.loadContents(detailUrl).then(
-								function(data) {
-									progressIndicatorElement.progressIndicator({'mode':'hide'});
-									jQuery('.contentsDiv').html(data);
-									thisInstance.registerDetailViewEvents();
-								}
-							);
-						} else {
-							progressIndicatorElement.progressIndicator({'mode':'hide'});
-							params['text'] = data['error']['message'];
-							params['type'] = 'error';
-						}
-						Settings_Vtiger_Index_Js.showMessage(params);
-					},function(error, err) {
-						progressIndicatorElement.progressIndicator({'mode':'hide'});
-					}
+						function (data) {
+							var params = {};
+							if (data['success']) {
+								params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
+								thisInstance.loadContents(detailUrl).then(
+										function (data) {
+											progressIndicatorElement.progressIndicator({'mode': 'hide'});
+											jQuery('.contentsDiv').html(data);
+											thisInstance.registerDetailViewEvents();
+										}
+								);
+							} else {
+								progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								params['text'] = data['error']['message'];
+								params['type'] = 'error';
+							}
+							Settings_Vtiger_Index_Js.showMessage(params);
+						}, function (error, err) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}
 				);
 				return valid;
 			}
 		}
 		form.validationEngine(params);
-		
-		form.submit(function(e) {
+
+		form.submit(function (e) {
 			e.preventDefault();
 		})
-		
+
 		//Register click event for cancel link
 		var cancelLink = form.find('.cancelLink');
-		cancelLink.click(function() {
+		cancelLink.click(function () {
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
 				}
 			});
 			thisInstance.loadContents(detailUrl).then(
-				function(data) {
-					progressIndicatorElement.progressIndicator({'mode':'hide'})
-					jQuery('.contentsDiv').html(data);
-					thisInstance.registerDetailViewEvents();
-				}
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'})
+						jQuery('.contentsDiv').html(data);
+						thisInstance.registerDetailViewEvents();
+					}
 			);
 		})
 	},
-	
+
 	/*
 	 * function to register the events in DetailView
 	 */
-	registerDetailViewEvents : function() {
+	registerDetailViewEvents: function () {
 		var thisInstance = this;
 		var container = jQuery('#ConfigEditorDetails');
 		var editButton = container.find('.editButton');
-		
+
 		//Register click event for edit button
-		editButton.click(function() {
+		editButton.click(function () {
 			var url = editButton.data('url');
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
 				}
 			});
 			thisInstance.loadContents(url).then(
-				function(data) {
-					progressIndicatorElement.progressIndicator({'mode':'hide'});
-					jQuery('.contentsDiv').html(data);
-					thisInstance.registerEditViewEvents();
-				}, function(error, err) {
-					progressIndicatorElement.progressIndicator({'mode':'hide'});
-				}
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						jQuery('.contentsDiv').html(data);
+						thisInstance.registerEditViewEvents();
+					}, function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 			);
 		});
 	},
-	
-	registerEvents: function() {
-		if(jQuery('#ConfigEditorDetails').length > 0) {
+
+	registerEvents: function () {
+		if (jQuery('#ConfigEditorDetails').length > 0) {
 			this.registerDetailViewEvents();
 		} else {
 			this.registerEditViewEvents();
@@ -167,38 +167,38 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js",{},{
 
 });
 
-jQuery(document).ready(function(e){
+jQuery(document).ready(function (e) {
 	var tacInstance = new Settings_Vtiger_ConfigEditor_Js();
 	tacInstance.registerEvents();
 })
 
-Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange5_Validator_Js",{
-	
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange5_Validator_Js", {
+
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var rangeInstance = new Vtiger_NumberRange5_Validator_Js();
 		rangeInstance.setElement(field);
 		var response = rangeInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return rangeInstance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the percentage field data
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var response = this._super();
-		if(response != true){
+		if (response != true) {
 			return response;
-		}else{
+		} else {
 			var fieldValue = this.getFieldValue();
 			if (fieldValue < 1 || fieldValue > 5) {
 				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_1TO5');
@@ -210,33 +210,33 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange5_Validator_Js
 	}
 });
 
-Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange2_Validator_Js",{
-	
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange2_Validator_Js", {
+
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var rangeInstance = new Vtiger_NumberRange5_Validator_Js();
 		rangeInstance.setElement(field);
 		var response = rangeInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return rangeInstance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the percentage field data
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var response = this._super();
-		if(response != true){
+		if (response != true) {
 			return response;
-		}else{
+		} else {
 			var fieldValue = this.getFieldValue();
 			if (fieldValue < 1 || fieldValue > 2) {
 				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_1TO2');
@@ -248,33 +248,33 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange2_Validator_Js
 	}
 });
 
-Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange100_Validator_Js",{
+Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_NumberRange100_Validator_Js", {
 
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var rangeInstance = new Vtiger_NumberRange100_Validator_Js();
 		rangeInstance.setElement(field);
 		var response = rangeInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return rangeInstance.getError();
 		}
 	}
-	
-},{
+
+}, {
 	/**
 	 * Function to validate the percentage field data
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var response = this._super();
-		if(response != true){
+		if (response != true) {
 			return response;
-		}else{
+		} else {
 			var fieldValue = this.getFieldValue();
 			if (fieldValue < 1 || fieldValue > 100) {
 				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_1TO100');

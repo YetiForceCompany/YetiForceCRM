@@ -134,7 +134,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 			var selectedRecords = JSON.parse(container.find('#all_records').val());
 			var recordsInput = container.find('[name="selectedRecords"]');
 			var validInput = container.find('[name="validRecords"]');
-			container.find('div.modal-body').append('<p id="recordsInfo">'+ app.vtranslate('JS_RECORD_INFO'),+'</p>');
+			container.find('div.modal-body').append('<p id="recordsInfo">' + app.vtranslate('JS_RECORD_INFO'), +'</p>');
 			recordsInput.val(JSON.stringify(selectedRecords));
 			validInput.val(JSON.stringify(selectedRecords));
 			jQuery('#recordsInfo').text(selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.');

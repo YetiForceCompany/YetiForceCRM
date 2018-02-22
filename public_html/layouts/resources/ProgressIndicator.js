@@ -154,8 +154,7 @@
 			if (typeof this.blockedElement != 'undefined') {
 				if (this.isPageBlockMode()) {
 					$.unblockUI();
-				}
-				else {
+				} else {
 					this.blockedElement.unblock();
 				}
 			}

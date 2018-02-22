@@ -1,71 +1,71 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class("Vtiger_TreePopup_Js",{
+jQuery.Class("Vtiger_TreePopup_Js", {
 
-    getInstance: function(){
-	    var module = app.getModuleName();
+	getInstance: function () {
+		var module = app.getModuleName();
 		var className = jQuery('#popUpClassName').val();
-		if(typeof className != 'undefined'){
+		if (typeof className != 'undefined') {
 			var moduleClassName = className;
-		}else{
-			var moduleClassName = module+"_TreePopup_Js";
+		} else {
+			var moduleClassName = module + "_TreePopup_Js";
 		}
 		var fallbackClassName = Vtiger_TreePopup_Js;
-	    if(typeof window[moduleClassName] != 'undefined'){
+		if (typeof window[moduleClassName] != 'undefined') {
 			var instance = new window[moduleClassName]();
-		}else{
+		} else {
 			var instance = new fallbackClassName();
 		}
-	    return instance;
+		return instance;
 	}
 
-},{
+}, {
 	//holds the event name that child window need to trigger
-	eventName : '',
-	popupPageContentsContainer : false,
-	jstreeInstance : false,
-	multiple : false,
-	container : false,
+	eventName: '',
+	popupPageContentsContainer: false,
+	jstreeInstance: false,
+	multiple: false,
+	container: false,
 
-	setEventName : function(eventName) {
+	setEventName: function (eventName) {
 		this.eventName = eventName;
 	},
-	
-	setMultiple : function(multiple) {
+
+	setMultiple: function (multiple) {
 		this.multiple = multiple == 1 ? true : false;
 	},
-	
-	setContainer : function(container) {
+
+	setContainer: function (container) {
 		this.container = container;
 	},
-	
-	getEventName : function() {
+
+	getEventName: function () {
 		return this.eventName;
 	},
-	
-	getPopupPageContainer : function(){
-		if(this.popupPageContentsContainer == false) {
+
+	getPopupPageContainer: function () {
+		if (this.popupPageContentsContainer == false) {
 			this.popupPageContentsContainer = jQuery('#treePopupContainer');
 		}
 		return this.popupPageContentsContainer;
 	},
-	
-	done : function(result, eventToTrigger, window) {
-		if(typeof eventToTrigger == 'undefined' || eventToTrigger.length <=0 ) {
+
+	done: function (result, eventToTrigger, window) {
+		if (typeof eventToTrigger == 'undefined' || eventToTrigger.length <= 0) {
 			eventToTrigger = 'postSelection'
 		}
-		if(typeof window == 'undefined'){
+		if (typeof window == 'undefined') {
 			window = self;
 		}
 		window.close();
-        var data = JSON.stringify(result);
-        // Because if we have two dollars like this "$$" it's not working because it'll be like escape char(Email Templates)
-        data = data.replace(/\$\$/g,"$ $");
+		var data = JSON.stringify(result);
+		// Because if we have two dollars like this "$$" it's not working because it'll be like escape char(Email Templates)
+		data = data.replace(/\$\$/g, "$ $");
 		jQuery.triggerParentEvent(eventToTrigger, data);
 	},
-	
-	generateTree : function() {
+
+	generateTree: function () {
 		var thisInstance = this;
-		if(thisInstance.jstreeInstance == false) {
+		if (thisInstance.jstreeInstance == false) {
 			var treeValues = $('#treePopupValues').val();
 			var data = JSON.parse(treeValues);
 			thisInstance.jstreeInstance = $("#treePopupContents");
@@ -74,7 +74,7 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 				plugins.push('category');
 				plugins.push('checkbox');
 			}
-			thisInstance.jstreeInstance.jstree({ 
+			thisInstance.jstreeInstance.jstree({
 				core: {
 					data: data,
 					themes: {
@@ -90,16 +90,16 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 		}
 		return this.jstreeInstance;
 	},
-	
-	registerSelect : function(obj){
+
+	registerSelect: function (obj) {
 		if (!this.multiple) {
 			var thisInstance = this;
 			var recordData = {id: obj.id, name: obj.text}
 			thisInstance.done(recordData, thisInstance.getEventName());
 		}
 	},
-	
-	registerSaveRecords : function(){
+
+	registerSaveRecords: function () {
 		var thisInstance = this;
 		if (this.multiple) {
 			this.container.find('[name="saveButton"]').on('click', function (e) {
@@ -116,19 +116,19 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 			});
 		}
 	},
-	
-	registerEvents: function(){
+
+	registerEvents: function () {
 		this.setMultiple($('#isMultiple').val());
 		this.setContainer($('#treePopupContainer'));
 		this.generateTree();
 		this.registerSaveRecords();
 	}
 });
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	var popupInstance = Vtiger_TreePopup_Js.getInstance();
 	var triggerEventName = jQuery('.triggerEventName').val();
-	var documentHeight = (jQuery(document).height())+'px';
-	jQuery('#popupPageContainer').css('height',documentHeight);
+	var documentHeight = (jQuery(document).height()) + 'px';
+	jQuery('#popupPageContainer').css('height', documentHeight);
 	popupInstance.setEventName(triggerEventName);
 	popupInstance.registerEvents();
 	Vtiger_Helper_Js.showHorizontalTopScrollBar();

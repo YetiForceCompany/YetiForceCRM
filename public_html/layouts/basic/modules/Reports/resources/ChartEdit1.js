@@ -7,4 +7,4 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Reports_Edit1_Js("Reports_ChartEdit1_Js",{},{});
+Reports_Edit1_Js("Reports_ChartEdit1_Js", {}, {});
