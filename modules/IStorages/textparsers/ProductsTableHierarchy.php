@@ -10,7 +10,7 @@
 /**
  * Class IStorages_ProductsTableHierarchy_TextParser.
  */
-class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
+class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 {
 	/** @var string Class name */
 	public $name = 'LBL_PRODUCTS_TABLE_HIERARCHY';

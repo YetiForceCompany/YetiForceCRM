@@ -634,6 +634,36 @@ class Owner
 		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}
 
+	/**
+	 * @var string|bool Owners color
+	 */
+	protected static $colorsCache = false;
+
+	/**
+	 * Get owner color.
+	 *
+	 * @param int $id
+	 *
+	 * @return string
+	 */
+	public static function getColor($id)
+	{
+		if (!static::$colorsCache) {
+			if (file_exists('user_privileges/owners_colors.php')) {
+				static::$colorsCache = require 'user_privileges/owners_colors.php';
+			} else {
+				static::$colorsCache = [];
+			}
+		}
+		if (isset(static::$colorsCache[$id])) {
+			return static::$colorsCache[$id];
+		} else {
+			$hash = md5('color' . $id);
+
+			return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
+		}
+	}
+
 	protected static $typeCache = [];
 
 	/**

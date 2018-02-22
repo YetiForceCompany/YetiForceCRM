@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Users_Bruteforce_TextParser extends \App\TextParser\Base
+class Users_Bruteforce_Textparser extends \App\TextParser\Base
 {
 	/** @var string Class name */
 	public $name = 'LBL_BRUTAL_FORCE';

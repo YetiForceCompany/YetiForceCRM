@@ -10,52 +10,68 @@ jQuery(document).ready(function ($) {
 					return false;
 				}
 				var jdata = JSON.parse(data);
-				var chartData = [];
-				var ticks = [];
-				var name = [];
-				for (var index in jdata) {
-					chartData.push(jdata[index]['data']);
-					ticks.push(jdata[index]['initial']);
-					name[jdata[index]['name'][0]] = jdata[index]['name'][1];
+				if (jdata.datasets.length == 0 || jdata.datasets[0].data.length == 0) {
+					return false;
 				}
-				var options = {
-					xaxis: {
-						minTickSize: 1,
-						ticks: ticks
-					},
-					yaxis: {
 
+				jdata.datasets[0].datalabels = {
+					font: {
+						weight: 'bold'
 					},
-					grid: {
-						hoverable: true,
-						//clickable: true
-					},
-					series: {
-						bars: {
-							show: true,
-							barWidth: 0.9,
-							dataLabels: false,
-							align: "center",
-							//lineWidth: 0
-						},
-						valueLabels: {
-							show: true,
-							showAsHtml: true,
-							align: "center",
-							valign: 'middle',
-						},
-						stack: true
-					}
+					color: 'white',
+					anchor: 'end',
+					align: 'start',
 				};
-				$.plot(this.chart, [chartData], options);
+
+				new Chart($(this.chart).find("canvas")[0].getContext("2d"), {
+					type: 'bar',
+					data: jdata,
+					options: {
+						tooltips: {
+							callbacks: {
+								labelColor: function (tooltipItem, chart) {
+									return {
+										borderColor: jdata.datasets[0].backgroundColor[ tooltipItem['index'] ],
+										backgroundColor: jdata.datasets[0].borderColor[ tooltipItem['index'] ]
+									}
+								},
+								title: function ([tooltipItem], chart) {
+									return jdata.datasets[0].data[ tooltipItem['index'] ];
+								},
+								label: function (tooltipItem, chart) {
+									return jdata.datasets[0].tooltips[ tooltipItem['index'] ];
+								}
+							}
+						},
+						legend: {
+							display: false,
+						},
+						title: {
+							display: true,
+							position: 'top',
+							text: jdata.title,
+						},
+						maintainAspectRatio: false,
+						scales: {
+							yAxes: [{
+									ticks: {
+										beginAtZero: true
+									}
+								}]
+						}
+					}
+				});
 			},
 			registerSwitch: function () {
-				$(".sumaryRelatedTimeControl .switchChartContainer").toggle(function () {
-					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-					$(".chartContainer").hide();
-				}, function () {
-					$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-					$(".chartContainer").show();
+				$(".switchChartContainer").click(function () {
+					var chartContainer = $('.chartContainer')[0];
+					if ($(chartContainer).is(':visible')) {
+						$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+						$(".chartContainer").hide();
+					} else {
+						$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+						$(".chartContainer").show();
+					}
 				});
 			},
 			registerEvents: function () {
@@ -64,10 +80,8 @@ jQuery(document).ready(function ($) {
 				this.registerSwitch();
 			}
 		});
-
 	}
 	var instance = new OSSTimeControl_Calendar_Js();
 	instance.registerEvents();
 	window.loadInRelationTomeControl = true;
 });
-

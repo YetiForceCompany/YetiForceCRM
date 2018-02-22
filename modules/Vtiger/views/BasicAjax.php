@@ -30,7 +30,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
+		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-' && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -46,7 +46,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if (!$request->isEmpty('searchModule')) {
+		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-') {
 			$moduleName = $request->getByType('searchModule', 2);
 		} elseif (\App\Module::getModuleId($moduleName) === false || (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings')) {
 			//See if it is an excluded module, If so search in home module
@@ -126,7 +126,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 			$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if (!$request->isEmpty('searchModule', true)) {
+			if (!$request->isEmpty('searchModule', true) && $request->getRaw('searchModule') !== '-') {
 				$searchModule = $request->getByType('searchModule', 2);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);

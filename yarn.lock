@@ -100,6 +100,10 @@ chartjs-color@~2.2.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
+chartjs-plugin-datalabels@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.2.0.tgz#bf1748c06fb7e5deeba169e4259914bcdeae0ede"
+
 chartjs-plugin-zoom@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.6.3.tgz#6101a049f00e9404102376ba8db27edcdcf8ccda"
