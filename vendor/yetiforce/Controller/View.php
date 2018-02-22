@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 /**
@@ -11,6 +10,7 @@ namespace App\Controller;
  */
 abstract class View extends Base
 {
+
 	/**
 	 * Viewer instance.
 	 *
@@ -206,7 +206,6 @@ abstract class View extends Base
 		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
-
 	/**
 	 * Retrieves css styles that need to loaded in the page.
 	 *
@@ -288,17 +287,17 @@ abstract class View extends Base
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
 			'~libraries/pnotify/dist/iife/PNotify.js',
-			'~libraries/pnotify/dist/iife/PNotifyButtons.js',
-			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
-			'~libraries/pnotify/dist/iife/PNotifyCallbacks.js',
-			'~libraries/pnotify/dist/iife/PNotifyNonBlock.js',
-			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
-			'~libraries/pnotify/dist/iife/PNotifyHistory.js',
-			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
-			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
-			'~libraries/pnotify/dist/iife/PNotifyStyleMaterial.js',
-			'~libraries/pnotify/dist/iife/PNotifyReference.js',
-			'~libraries/pnotify/dist/iife/PNotifyCompat.js',
+//			'~libraries/pnotify/dist/iife/PNotifyButtons.js',
+//			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
+//			'~libraries/pnotify/dist/iife/PNotifyCallbacks.js',
+//			'~libraries/pnotify/dist/iife/PNotifyNonBlock.js',
+//			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
+//			'~libraries/pnotify/dist/iife/PNotifyHistory.js',
+//			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
+//			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
+//			'~libraries/pnotify/dist/iife/PNotifyStyleMaterial.js',
+//			'~libraries/pnotify/dist/iife/PNotifyReference.js',
+			//'~libraries/pnotify/dist/iife/PNotifyCompat.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',

@@ -494,7 +494,8 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			field: closestTrElement.data('field')
 		}).then(
 				function (data) {
-					Settings_Colors_Index_Js.showMessage({type: 'success', text: data.result.message});
+					window.console.log('messsage');
+					Settings_Colors_Index_Js.showMessage({data: {type: 'success', text: data.result.message}});
 					closestTrElement.find('.calendarColor').css('background', data.result.color);
 					closestTrElement.data('color', data.result.color);
 				}

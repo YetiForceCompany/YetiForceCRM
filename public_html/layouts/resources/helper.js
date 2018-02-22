@@ -87,7 +87,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var dateComponent = dateTimeComponents[0];
 		var timeComponent = dateTimeComponents[1];
 		var seconds = '00';
-
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") != -1) {
 			dotMode = '-';
@@ -184,12 +183,15 @@ jQuery.Class("Vtiger_Helper_Js", {
 		}
 
 		var params = {
+			target: document.body,
 			hide: false,
 			delay: '3000',
-			type: 'error',
-			defaults: {
-				styling: "bootstrap4",
+			data: {
+				type: 'error',
 			},
+//			defaults: {
+//				styling: "bootstrap4",
+//			},
 			Buttons: {
 				closerHover: false,
 				sticker: false,
@@ -205,8 +207,8 @@ jQuery.Class("Vtiger_Helper_Js", {
 		if (typeof userParams != 'undefined') {
 			var params = jQuery.extend(params, userParams);
 		}
-
-		return new PNotifyCompat(params);
+		window.console.log(params);
+		return new PNotify(params);
 	},
 	/*
 	 * Function to remove pnotify message
@@ -232,15 +234,12 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var container = jQuery('.contentsDiv');
 		var topScroll = jQuery('.contents-topscroll', container);
 		var bottomScroll = jQuery('.contents-bottomscroll', container);
-
 		jQuery('.bottomscroll-div', container).attr('style', '');
 		jQuery('.topscroll-div', container).css('width', jQuery('.bottomscroll-div', container).outerWidth());
 		jQuery('.bottomscroll-div', container).css('width', jQuery('.topscroll-div', container).outerWidth());
-
 		topScroll.scroll(function () {
 			bottomScroll.scrollLeft(topScroll.scrollLeft());
 		});
-
 		bottomScroll.scroll(function () {
 			topScroll.scrollLeft(bottomScroll.scrollLeft());
 		});
