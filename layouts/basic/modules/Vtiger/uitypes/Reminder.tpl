@@ -28,7 +28,7 @@
 				<input type="checkbox" name="set_reminder" {if $REMINDER_VALUES neq ''}checked{/if} title="{\App\Language::translate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
 			</label>
 		</div>
-		<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12">
+		<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12 form-row">
 			<div class="col-3 ">
 				<div>
 					<select class="chzn-select input-mini" name="remdays" title="{\App\Language::translate('LBL_REMAIND_DAYS', $MODULE)}">
