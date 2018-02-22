@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Integrations;
 
 /**
@@ -11,6 +10,7 @@ namespace App\Integrations;
  */
 class Pbx extends \App\Base
 {
+
 	/**
 	 * Connector Instances.
 	 *
@@ -98,7 +98,7 @@ class Pbx extends \App\Base
 	 */
 	public function loadUserPhone()
 	{
-		$this->set('sourcePhone', \App\User::getCurrentUserModel()->getDetail('phone_crm_extension'));
+		$this->set('sourcePhone', \App\User::getCurrentUserModel()->getDetail('phone_crm_extension_extra'));
 	}
 
 	/**
