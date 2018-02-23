@@ -2,11 +2,11 @@
 var Settings_Index_Js = {
 	updatedBlockFieldsList: [],
 	initEvants: function () {
-		$('.SearchFieldsEdit .fieldname').on('change',Settings_Index_Js.save);
-		$('.SearchFieldsEdit .searchcolumn').on('change',Settings_Index_Js.save);
-		$('.SearchFieldsEdit .updateLabels').on('click',Settings_Index_Js.updateLabels);
-		$('.SearchFieldsEdit .editLabels').on('click',Settings_Index_Js.editLabels);
-		$('.SearchFieldsEdit .turn_off').on('click',Settings_Index_Js.replacement);
+		$('.SearchFieldsEdit .fieldname').on('change', Settings_Index_Js.save);
+		$('.SearchFieldsEdit .searchcolumn').on('change', Settings_Index_Js.save);
+		$('.SearchFieldsEdit .updateLabels').on('click', Settings_Index_Js.updateLabels);
+		$('.SearchFieldsEdit .editLabels').on('click', Settings_Index_Js.editLabels);
+		$('.SearchFieldsEdit .turn_off').on('click', Settings_Index_Js.replacement);
 	},
 	replacement: function (e) {
 		var target = $(e.currentTarget);
@@ -21,7 +21,7 @@ var Settings_Index_Js = {
 	updateLabels: function (e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
-		if(!closestTrElement.hasClass('ui-sortable-handle')){
+		if (!closestTrElement.hasClass('ui-sortable-handle')) {
 			closestTrElement = closestTrElement.prev();
 		}
 		Settings_Index_Js.registerSaveEvent('updateLabels', {
@@ -32,8 +32,8 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var tabId = target.data('tabid');
 		var closestTrElement = target.closest('tr');
-		jQuery('.elementLabels'+tabId).addClass('hide');
-		var e = jQuery('.elementEdit'+tabId).removeClass('hide');
+		jQuery('.elementLabels' + tabId).addClass('hide');
+		var e = jQuery('.elementEdit' + tabId).removeClass('hide');
 		Settings_Index_Js.registerSelectElement(e.find('select'));
 	},
 	save: function (e) {
@@ -42,7 +42,7 @@ var Settings_Index_Js = {
 			name: target.attr('name'),
 			value: target.val(),
 			tabid: target.data('tabid'),
-		});		
+		});
 	},
 	registerSaveEvent: function (mode, data) {
 		var progress = $.progressIndicator({
@@ -68,7 +68,6 @@ var Settings_Index_Js = {
 					var response = data['result'];
 					var params = {
 						text: response['message'],
-						animation: 'show',
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -189,25 +188,25 @@ var Settings_Index_Js = {
 		});
 	},
 	registerSelectElement: function (element) {
-			var value = element.val();
-			if(!element.hasClass('selectized')){
-				element.selectize({plugins: ['drag_drop', 'remove_button'],
-					onChange: function (value) {
-						if(value.length > 1){
-							jQuery(this.$control[0]).find('.remove').removeClass('hide');
-						}else{
-							jQuery(this.$control[0]).find('.remove').addClass('hide');
-						}
-					},
-					onInitialize: function () {
-						if(this.items.length > 1){
-							jQuery(this.$control[0]).find('.remove').removeClass('hide');
-						}else{
-							jQuery(this.$control[0]).find('.remove').addClass('hide');
-						}
-					},
-				})
-			}
+		var value = element.val();
+		if (!element.hasClass('selectized')) {
+			element.selectize({plugins: ['drag_drop', 'remove_button'],
+				onChange: function (value) {
+					if (value.length > 1) {
+						jQuery(this.$control[0]).find('.remove').removeClass('hide');
+					} else {
+						jQuery(this.$control[0]).find('.remove').addClass('hide');
+					}
+				},
+				onInitialize: function () {
+					if (this.items.length > 1) {
+						jQuery(this.$control[0]).find('.remove').removeClass('hide');
+					} else {
+						jQuery(this.$control[0]).find('.remove').addClass('hide');
+					}
+				},
+			})
+		}
 	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();

@@ -7,10 +7,10 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Vtiger_List_Js("Campaigns_List_Js",{},{
-	
-	readSelectedIds : function(decode){
-		if(app.getViewName() != "Detail"){
+Vtiger_List_Js("Campaigns_List_Js", {}, {
+
+	readSelectedIds: function (decode) {
+		if (app.getViewName() != "Detail") {
 			return this._super(decode);
 		}
 		var selectedIdsElement = jQuery('#selectedIds');
@@ -23,16 +23,16 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 		} else {
 			selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
 		}
-		if(decode == true){
-			if(typeof selectedIds == 'object'){
+		if (decode == true) {
+			if (typeof selectedIds == 'object') {
 				return JSON.stringify(selectedIds);
 			}
 		}
 		return selectedIds;
 	},
-	
-	readExcludedIds : function(decode){
-		if(app.getViewName() != "Detail"){
+
+	readExcludedIds: function (decode) {
+		if (app.getViewName() != "Detail") {
 			return this._super(decode);
 		}
 		var exlcudedIdsElement = jQuery('#excludedIds');
@@ -42,57 +42,57 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 		if (excludedIds == "") {
 			excludedIds = [];
 			this.writeExcludedIds(excludedIds);
-		}else{
+		} else {
 			excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
 		}
-		if(decode == true){
-			if(typeof excludedIds == 'object') {
+		if (decode == true) {
+			if (typeof excludedIds == 'object') {
 				return JSON.stringify(excludedIds);
 			}
 		}
 		return excludedIds;
 	},
 
-	writeSelectedIds : function(selectedIds){
-		if(app.getViewName() != "Detail"){
+	writeSelectedIds: function (selectedIds) {
+		if (app.getViewName() != "Detail") {
 			this._super(selectedIds);
 			return;
 		}
-		jQuery('#selectedIds').data('selectedIds',selectedIds);
+		jQuery('#selectedIds').data('selectedIds', selectedIds);
 	},
 
-	writeExcludedIds : function(excludedIds){
-		if(app.getViewName() != "Detail"){
+	writeExcludedIds: function (excludedIds) {
+		if (app.getViewName() != "Detail") {
 			this._super(excludedIds);
 			return;
 		}
-		jQuery('#excludedIds').data('excludedIds',excludedIds);
+		jQuery('#excludedIds').data('excludedIds', excludedIds);
 	},
-	
+
 	/**
 	 * Function to mark selected records
 	 */
-	markSelectedRecords : function(){
+	markSelectedRecords: function () {
 		var thisInstance = this;
 		var selectedIds = this.readSelectedIds();
-		if(selectedIds != ''){
-			if(selectedIds == 'all'){
-				jQuery('.listViewEntriesCheckBox').each( function(index,element) {
+		if (selectedIds != '') {
+			if (selectedIds == 'all') {
+				jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 					jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 				});
 				jQuery('#deSelectAllMsgDiv').show();
 				var excludedIds = jQuery('[name="excludedIds"]').data('excludedIds');
-				if(excludedIds != ''){
-					jQuery('#listViewEntriesMainCheckBox').prop('checked',false);
-					jQuery('.listViewEntriesCheckBox').each( function(index,element) {
-						if(jQuery.inArray(jQuery(element).val(),excludedIds) != -1){
+				if (excludedIds != '') {
+					jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
+					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+						if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
 							jQuery(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 						}
 					});
 				}
 			} else {
-				jQuery('.listViewEntriesCheckBox').each( function(index,element) {
-					if(jQuery.inArray(jQuery(element).val(),selectedIds) != -1){
+				jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+					if (jQuery.inArray(jQuery(element).val(), selectedIds) != -1) {
 						jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 					}
 				});
@@ -100,15 +100,15 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 			thisInstance.checkSelectAll();
 		}
 	},
-	
-	getRecordsCount : function(){
-		if(app.getViewName() != "Detail"){
+
+	getRecordsCount: function () {
+		if (app.getViewName() != "Detail") {
 			return this._super();
 		}
 		var detailInstance = Vtiger_Detail_Js.getInstance();
 		var aDeferred = jQuery.Deferred();
 		var recordCountVal = jQuery("#recordsCount").val();
-		if(recordCountVal != ''){
+		if (recordCountVal != '') {
 			aDeferred.resolve(recordCountVal);
 		} else {
 			var count = '';
@@ -124,30 +124,30 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 				"action": "DetailAjax",
 				"viewname": cvId,
 				"mode": "getRecordsCount",
-				"relatedModule" : relatedModuleName,
-				'record' : recordId,
-				'tab_label' : tab_label
+				"relatedModule": relatedModuleName,
+				'record': recordId,
+				'tab_label': tab_label
 			};
 			AppConnector.request(postData).then(
-				function(data) {
-					jQuery("#recordsCount").val(data['result']['count']);
-					count =  data['result']['count'];
-					aDeferred.resolve(count);
-				},
-				function(error,err){
+					function (data) {
+						jQuery("#recordsCount").val(data['result']['count']);
+						count = data['result']['count'];
+						aDeferred.resolve(count);
+					},
+					function (error, err) {
 
-				}
+					}
 			);
 		}
 
 		return aDeferred.promise();
 	},
-	
-	/** 
+
+	/**
 	 * Function to register events
 	 */
-	registerEvents : function(){
-		if(app.getViewName() != "Detail"){
+	registerEvents: function () {
+		if (app.getViewName() != "Detail") {
 			this._super();
 			return;
 		}

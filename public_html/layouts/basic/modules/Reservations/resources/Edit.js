@@ -1,13 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery(document).ready(function ($) {    
-    // enable/disable confirm button
-    $('#status').change(function() {
-        $('#confirm').attr('disabled', !this.checked);
-    });
+jQuery(document).ready(function ($) {
+	// enable/disable confirm button
+	$('#status').change(function () {
+		$('#confirm').attr('disabled', !this.checked);
+	});
 });
-Vtiger_Edit_Js("Reservations_Edit_Js",{},{
+Vtiger_Edit_Js("Reservations_Edit_Js", {}, {
 
-	differenceDays : function(){
+	differenceDays: function () {
 		var firstDate = jQuery('input[name="date_start"]');
 		var firstDateFormat = firstDate.data('date-format');
 		var firstDateValue = firstDate.val();
@@ -21,40 +21,40 @@ Vtiger_Edit_Js("Reservations_Edit_Js",{},{
 		var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
 		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
 
-			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue,firstDateFormat);
-			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
+		var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
+		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
 
-		var timeBetweenDates =  secondDateInstance - firstDateInstance;
-		if(timeBetweenDates >= 0){
+		var timeBetweenDates = secondDateInstance - firstDateInstance;
+		if (timeBetweenDates >= 0) {
 			return timeBetweenDates;
 		}
-        return 'Error';
-		
+		return 'Error';
+
 	},
 
 	/**
 	 * Function to register recordpresave event
 	 */
-	registerRecordPreSaveEvent : function(){
+	registerRecordPreSaveEvent: function () {
 		var thisInstance = this;
 		form = this.getForm();
-	
-		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+
+		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 			var sumeTime2 = thisInstance.differenceDays();
-			if(sumeTime2 == 'Error'){
+			if (sumeTime2 == 'Error') {
 				var parametry = {
 					text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(parametry);
 				return false;
-			}else{
-			send = true;
-			form.submit();
+			} else {
+				send = true;
+				form.submit();
 			}
-		});	
+		});
 	},
-	registerEvents: function(){
+	registerEvents: function () {
 		this._super();
 		this.registerRecordPreSaveEvent();
 	}

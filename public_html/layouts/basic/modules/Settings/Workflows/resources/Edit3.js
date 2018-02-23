@@ -104,7 +104,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: result,
-							animation: 'show',
 							type: 'error'
 						}
 						Vtiger_Helper_Js.showPnotify(params);
@@ -315,7 +314,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_STATUS_CHANGED_SUCCESSFULLY'),
-						animation: 'show',
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -342,7 +340,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 								var params = {
 									title: app.vtranslate('JS_MESSAGE'),
 									text: app.vtranslate('JS_TASK_DELETED_SUCCESSFULLY'),
-									animation: 'show',
 									type: 'success'
 								};
 								Vtiger_Helper_Js.showPnotify(params);

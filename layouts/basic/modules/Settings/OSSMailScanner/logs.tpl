@@ -88,7 +88,6 @@
 					var params = {
 						text: app.vtranslate('JS_time_error'),
 						type: 'error',
-						animation: 'show'
 					};
 
 					Vtiger_Helper_Js.showPnotify(params);
@@ -102,7 +101,6 @@
 					var params = {
 						text: app.vtranslate('JS_mail_error'),
 						type: 'error',
-						animation: 'show'
 					};
 
 					Vtiger_Helper_Js.showPnotify(params);

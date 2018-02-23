@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_Module_Manager_Js', {
-	validateField: function(field, rules, i, options){
+	validateField: function (field, rules, i, options) {
 		var specialChars = /[&\<\>\:\'\"\,]/;
 		if (specialChars.test(field.val())) {
 			return app.vtranslate('JS_SPECIAL_CHARACTERS_NOT_ALLOWED');
@@ -63,7 +63,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 							if (!result.success) {
 								var params = {
 									text: result.text,
-									animation: 'show',
 									type: 'error'
 								};
 								Vtiger_Helper_Js.showPnotify(params);
@@ -142,7 +141,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 						wizardContainer.find('[name="module_name"]').attr("check", false);
 						var params = {
 							text: result.text,
-							animation: 'show',
 							type: 'error'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
@@ -157,7 +155,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		var params = {
 			title: app.vtranslate('JS_MESSAGE'),
 			text: '',
-			animation: 'show',
 			type: 'info'
 		};
 		$.extend(params, customParams);
@@ -179,7 +176,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 					function (data) {
 						var params = {
 							title: app.vtranslate('JS_REMOVED_MODULE'),
-							animation: 'show',
 							type: 'info'
 						};
 						Vtiger_Helper_Js.showPnotify(params);

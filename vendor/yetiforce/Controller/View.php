@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 /**
@@ -11,6 +10,7 @@ namespace App\Controller;
  */
 abstract class View extends Base
 {
+
 	/**
 	 * Viewer instance.
 	 *
@@ -206,7 +206,6 @@ abstract class View extends Base
 		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
-
 	/**
 	 * Retrieves css styles that need to loaded in the page.
 	 *
@@ -236,7 +235,6 @@ abstract class View extends Base
 				'~libraries/simplebar/dist/simplebar.css',
 				'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
 				'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
-				'~libraries/pnotify/dist/PNotifyBrightTheme.css',
 				'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
 				'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 				'~libraries/bootstrap-daterangepicker/daterangepicker.css',
@@ -290,15 +288,8 @@ abstract class View extends Base
 			'~libraries/pnotify/dist/iife/PNotify.js',
 			'~libraries/pnotify/dist/iife/PNotifyButtons.js',
 			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
-			'~libraries/pnotify/dist/iife/PNotifyCallbacks.js',
-			'~libraries/pnotify/dist/iife/PNotifyNonBlock.js',
 			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
-			'~libraries/pnotify/dist/iife/PNotifyHistory.js',
-			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
 			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
-			'~libraries/pnotify/dist/iife/PNotifyStyleMaterial.js',
-			'~libraries/pnotify/dist/iife/PNotifyReference.js',
-			'~libraries/pnotify/dist/iife/PNotifyCompat.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',

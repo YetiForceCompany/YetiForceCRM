@@ -6,24 +6,24 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Reports_Edit_Js("Reports_Edit2_Js",{},{
+Reports_Edit_Js("Reports_Edit2_Js", {}, {
 
-	step2Container : false,
+	step2Container: false,
 
 	//This will contain the reports multi select element
-	reportsColumnsList : false,
+	reportsColumnsList: false,
 
 	//This will contain the selected fields element
-	selectedFields : false,
+	selectedFields: false,
 
-	init : function() {
+	init: function () {
 		this.initialize();
 	},
 	/**
 	 * Function to get the container which holds all the report elements
 	 * @return jQuery object
 	 */
-	getContainer : function() {
+	getContainer: function () {
 		return this.step2Container;
 	},
 
@@ -32,7 +32,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * @params : element - which represents the report step2 container
 	 * @return : current instance
 	 */
-	setContainer : function(element) {
+	setContainer: function (element) {
 		this.step2Container = element;
 		return this;
 	},
@@ -41,8 +41,8 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * Function to get the multi select element
 	 * @return : jQuery object of reports multi select element
 	 */
-	getReportsColumnsList : function() {
-		if(this.reportsColumnsList == false) {
+	getReportsColumnsList: function () {
+		if (this.reportsColumnsList == false) {
 			this.reportsColumnsList = jQuery('#reportsColumnsList');
 		}
 		return this.reportsColumnsList;
@@ -52,8 +52,8 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * Function to get the selected fields
 	 * @return : jQuery object of selected fields
 	 */
-	getSelectedFields : function() {
-		if(this.selectedFields == false) {
+	getSelectedFields: function () {
+		if (this.selectedFields == false) {
 			this.selectedFields = jQuery('#seleted_fields');
 		}
 		return this.selectedFields;
@@ -62,14 +62,14 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	/**
 	 * Function  to intialize the reports step2
 	 */
-	initialize : function(container) {
-		if(typeof container == 'undefined') {
+	initialize: function (container) {
+		if (typeof container == 'undefined') {
 			container = jQuery('#report_step2');
 		}
 
-		if(container.is('#report_step2')) {
+		if (container.is('#report_step2')) {
 			this.setContainer(container);
-		}else{
+		} else {
 			this.setContainer(jQuery('#report_step2'));
 		}
 	},
@@ -77,13 +77,13 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * Function to validate special cases in the form
 	 * returns result
 	 */
-	isFormValidate : function(){
+	isFormValidate: function () {
 		var thisInstance = this;
 		var selectElement = this.getReportsColumnsList();
 		var select2Element = app.getSelect2ElementFromSelect(selectElement);
 		var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(selectElement);
-		if(result != true){
-			select2Element.validationEngine('showPrompt', result , 'error','bottomLeft',true);
+		if (result != true) {
+			select2Element.validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
 			var form = thisInstance.getContainer();
 			app.formAlignmentAfterValidation(form);
 			return false;
@@ -95,7 +95,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	/*
 	 * Fucntion to perform all the requires calculation before submit
 	 */
-	calculateValues : function(){
+	calculateValues: function () {
 		var container = this.getContainer();
 		//Handled select fields values
 		var selectedFields = this.getSelectedColumns();
@@ -103,53 +103,53 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 
 		//handled selected sort fields
 		var selectedSortOrderFields = [];
-		var selectedSortFieldsRows = jQuery('.sortFieldRow',container);
-		jQuery.each(selectedSortFieldsRows,function(index,element){
+		var selectedSortFieldsRows = jQuery('.sortFieldRow', container);
+		jQuery.each(selectedSortFieldsRows, function (index, element) {
 			var currentElement = jQuery(element);
 			var field = currentElement.find('.selectedSortFields').val();
 			var order = currentElement.find('.sortOrder').filter(':checked').val();
 			var type = currentElement.find('.sortType').val();
-			selectedSortOrderFields.push([field,order,type]);
+			selectedSortOrderFields.push([field, order, type]);
 		});
 		jQuery('#selected_sort_fields').val(JSON.stringify(selectedSortOrderFields));
 
 		//handled Selected Calculation fields
 
 		var selectedCalculationFields = {};
-		var calculationFieldsTable = jQuery('.CalculationFields',container);
+		var calculationFieldsTable = jQuery('.CalculationFields', container);
 		var calculationFieldRows = calculationFieldsTable.find('.calculationFieldRow');
 		var indexValue = 0;
-		jQuery.each(calculationFieldRows,function(index,element){
+		jQuery.each(calculationFieldRows, function (index, element) {
 			var calculationTypes = jQuery(element).find('.calculationType:checked');
-			jQuery.each(calculationTypes,function(index,element){
+			jQuery.each(calculationTypes, function (index, element) {
 				selectedCalculationFields[indexValue] = jQuery(element).val();
 				indexValue++;
 			});
 		});
 		jQuery('#calculation_fields').val(JSON.stringify(selectedCalculationFields));
 	},
-	submit : function(){
+	submit: function () {
 		var aDeferred = jQuery.Deferred();
 		this.calculateValues();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		AppConnector.request(formData).then(
-			function(data) {
-				form.hide();
-				progressIndicatorElement.progressIndicator({
-					'mode' : 'hide'
-				});
-				aDeferred.resolve(data);
-			},
-			function(error,err){
+				function (data) {
+					form.hide();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					});
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -157,7 +157,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	/**
 	 * Function which will register the select2 elements for columns selection
 	 */
-	registerSelect2ElementForReportColumns : function() {
+	registerSelect2ElementForReportColumns: function () {
 		var selectElement = this.getReportsColumnsList();
 		var selectedFields = JSON.parse(this.getSelectedFields().val());
 		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: app.getMainParams('maxReportColumn')});
@@ -172,7 +172,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * Function which will get the selected columns with order preserved
 	 * @return : array of selected values in order
 	 */
-	getSelectedColumns : function() {
+	getSelectedColumns: function () {
 		var columnListSelectElement = this.getReportsColumnsList();
 		var selectedValuesByOrder = columnListSelectElement.val();
 		return selectedValuesByOrder;
@@ -182,69 +182,73 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 * Function is used to limit the calculation for line item fields and inventory module fields.
 	 * only one of these fields can be used at a time
 	 */
-	registerLineItemCalculationLimit : function() {
+	registerLineItemCalculationLimit: function () {
 		var thisInstance = this;
 		var primaryModule = jQuery('input[name="primary_module"]').val();
-        var inventoryModules = [];
-        // To limit the calculation fields if secondary module contains inventoryModule
-        var secodaryModules = jQuery('input[name="secondary_modules"]').val();
-        var secondaryIsInventory = false;
-		inventoryModules.forEach(function(entry){
-           if(secodaryModules.indexOf(entry) != -1){
-               secondaryIsInventory = true;
-           } 
-        });
-		if(jQuery.inArray(primaryModule, inventoryModules) !== -1 || secondaryIsInventory) {
-			jQuery('.CalculationFields').on('change', 'input[type="checkbox"]', function(e) {
+		var inventoryModules = [];
+		// To limit the calculation fields if secondary module contains inventoryModule
+		var secodaryModules = jQuery('input[name="secondary_modules"]').val();
+		var secondaryIsInventory = false;
+		inventoryModules.forEach(function (entry) {
+			if (secodaryModules.indexOf(entry) != -1) {
+				secondaryIsInventory = true;
+			}
+		});
+		if (jQuery.inArray(primaryModule, inventoryModules) !== -1 || secondaryIsInventory) {
+			jQuery('.CalculationFields').on('change', 'input[type="checkbox"]', function (e) {
 				var element = jQuery(e.currentTarget);
 				var value = element.val();
 				var reg = new RegExp(/cb:vtiger_inventoryproductrel*/);
 				var attr = element.is(':checked');
 				var moduleCalculationFields = jQuery('.CalculationFields input[type="checkbox"]').not('[value^="cb:vtiger_inventoryproductrel"]');
 				var lineItemCalculationFields = jQuery('.CalculationFields').find('[value^="cb:vtiger_inventoryproductrel"]');
-				if(reg.test(value)) {	// line item field selected
-					if(attr) {	// disable all the other checkboxes
-						moduleCalculationFields.prop('checked',false).attr('disabled',true);
+				if (reg.test(value)) {	// line item field selected
+					if (attr) {	// disable all the other checkboxes
+						moduleCalculationFields.prop('checked', false).attr('disabled', true);
 					} else {
 						var otherLineItemFieldsCheckedLength = lineItemCalculationFields.filter(':checked').length;
-						if(otherLineItemFieldsCheckedLength == 0) moduleCalculationFields.attr('disabled',false);
-						else moduleCalculationFields.prop('checked',false).attr('disabled',true);
+						if (otherLineItemFieldsCheckedLength == 0)
+							moduleCalculationFields.attr('disabled', false);
+						else
+							moduleCalculationFields.prop('checked', false).attr('disabled', true);
 					}
 				} else {		// some other field is selected
-					if(attr) {
-						lineItemCalculationFields.prop('checked',false).attr('disabled',true);
+					if (attr) {
+						lineItemCalculationFields.prop('checked', false).attr('disabled', true);
 					} else {
 						var moduleCalculationFieldLength = moduleCalculationFields.filter(':checked').length;
-						if(moduleCalculationFieldLength == 0) lineItemCalculationFields.attr('disabled', false);
-						else lineItemCalculationFields.attr('disabled', true).prop('checked',false);
+						if (moduleCalculationFieldLength == 0)
+							lineItemCalculationFields.attr('disabled', false);
+						else
+							lineItemCalculationFields.attr('disabled', true).prop('checked', false);
 					}
 				}
 				thisInstance.displayLineItemFieldLimitationMessage();
 			});
 		}
 	},
-	displayLineItemFieldLimitationMessage : function() {
+	displayLineItemFieldLimitationMessage: function () {
 		var message = app.vtranslate('JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION');
-		if(jQuery('#calculationLimitationMessage').length == 0) {
-			jQuery('.CalculationFields').parent().append('<div id="calculationLimitationMessage" class="pull-right alert alert-info">'+message+'</div>');
+		if (jQuery('#calculationLimitationMessage').length == 0) {
+			jQuery('.CalculationFields').parent().append('<div id="calculationLimitationMessage" class="pull-right alert alert-info">' + message + '</div>');
 		} else {
 			jQuery('#calculationLimitationMessage').html(message);
 		}
 	},
 
-	registerLineItemCalculationLimitOnLoad : function() {
+	registerLineItemCalculationLimitOnLoad: function () {
 		var moduleCalculationFields = jQuery('.CalculationFields input[type="checkbox"]').not('[value^="cb:vtiger_inventoryproductrel"]');
 		var lineItemFields = jQuery('.CalculationFields').find('[value^="cb:vtiger_inventoryproductrel"]');
-		if(moduleCalculationFields.filter(':checked').length != 0) {
+		if (moduleCalculationFields.filter(':checked').length != 0) {
 			lineItemFields.prop('checked', false).attr('disabled', true);
 			this.displayLineItemFieldLimitationMessage();
-		} else if(lineItemFields.filter(':checked').length != 0) {
+		} else if (lineItemFields.filter(':checked').length != 0) {
 			moduleCalculationFields.prop('checked', false).attr('disabled', true);
 			this.displayLineItemFieldLimitationMessage();
 		}
 	},
 
-	registerEvents : function(){
+	registerEvents: function () {
 		var container = this.getContainer();
 		//If the container is reloading, containers cache should be reset
 		this.reportsColumnsList = false;
@@ -255,8 +259,8 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		app.changeSelectElementView(container);
 		container.validationEngine({
 			// to prevent the page reload after the validation has completed
-			'onValidationComplete' : function(form,valid){
-                return valid;
+			'onValidationComplete': function (form, valid) {
+				return valid;
 			}
 		});
 	}

@@ -47,7 +47,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 						var response = data['result'];
 						var html = '';
 						for (var name in response) {
-							html += '<p><strong>'+name+'</strong> - '+response[name]+'</p>';
+							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
 						}
 						container.find('#infoSpan').html(html);
 					},
@@ -79,7 +79,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 						}
 						var html = '';
 						for (var name in response) {
-							html += '<p><strong>'+name+'</strong> - '+response[name]+'</p>';
+							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
 						}
 						container.find('#alertSpan').html(html);
 					},
@@ -102,15 +102,12 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 						if (response['success']) {
 							var params = {
 								text: response['message'],
-								animation: 'show',
 								type: 'success'
 							};
 							Vtiger_Helper_Js.showPnotify(params);
-						}
-						else {
+						} else {
 							var params = {
 								text: response['message'],
-								animation: 'show',
 								hide: false,
 								type: 'error'
 							};

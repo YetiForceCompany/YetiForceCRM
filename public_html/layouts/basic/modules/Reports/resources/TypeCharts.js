@@ -124,7 +124,7 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 	positionNoDataMsg: function () {
 		Reports_ChartDetailView_Js.displayNoDataMessage();
 	},
-	
+
 	getPlotContainer: function (useCache) {
 		if (typeof useCache == 'undefined') {
 			useCache = false;

@@ -11,7 +11,7 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 				parent: app.getParentModuleName(),
 				action: 'SaveAjax',
 				mode: 'acceptanceRecord',
-				id:  $('#recordId').val()
+				id: $('#recordId').val()
 			}).then(
 					function (data) {
 						progressIndicator.progressIndicator({'mode': 'hide'});

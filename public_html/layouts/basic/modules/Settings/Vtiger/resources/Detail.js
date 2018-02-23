@@ -7,15 +7,15 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-jQuery.Class("Settings_Vtiger_Detail_Js",{},{
-	detailViewForm : false,
+jQuery.Class("Settings_Vtiger_Detail_Js", {}, {
+	detailViewForm: false,
 
 	/**
 	 * Function which will give the detail view form
 	 * @return : jQuery element
 	 */
-	getForm : function() {
-		if(this.detailViewForm == false) {
+	getForm: function () {
+		if (this.detailViewForm == false) {
 			this.detailViewForm = jQuery('#detailView');
 		}
 		return this.detailViewForm;
@@ -24,7 +24,7 @@ jQuery.Class("Settings_Vtiger_Detail_Js",{},{
 	/**
 	 * Function to register form for validation
 	 */
-	registerFormForValidation : function(){
+	registerFormForValidation: function () {
 		var detailViewForm = this.getForm();
 		detailViewForm.validationEngine(app.validationEngineOptions);
 	},
@@ -32,7 +32,7 @@ jQuery.Class("Settings_Vtiger_Detail_Js",{},{
 	/**
 	 * Function which will handle the registrations for the elements
 	 */
-	registerEvents : function() {
+	registerEvents: function () {
 		this.registerFormForValidation();
 	}
 });

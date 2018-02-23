@@ -33,10 +33,10 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			var progress = jQuery.progressIndicator();
 			app.showModalWindow(null, "index.php?module=Notifications&parent=Settings&view=CreateNotification", function (container) {
 				progress.progressIndicator({'mode': 'hide'});
-				thisInstance.registerSave(container,0);
+				thisInstance.registerSave(container, 0);
 			});
 		});
-		$('[name="roleMenu"]').on('change', function(){
+		$('[name="roleMenu"]').on('change', function () {
 			thisInstance.showTable();
 		});
 	},
@@ -64,7 +64,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			app.showModalWindow(null, currentTarget.data('url'), function (container) {
 				progress.progressIndicator({'mode': 'hide'});
 				var trRow = currentTarget.closest('tr');
-				thisInstance.registerSave(container,trRow.data('id'));
+				thisInstance.registerSave(container, trRow.data('id'));
 			});
 
 		});
@@ -73,21 +73,21 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			var currentTrElement = removeButton.closest('tr');
 			var message = app.vtranslate('JS_DELETE_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var params = {
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						action: 'Delete',
-						id: currentTrElement.data('id')
-					};
-					var progress = jQuery.progressIndicator();
-					AppConnector.request(params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						thisInstance.showTable();
-					});
-				},
-				function (error, err) {
-				}
+					function (e) {
+						var params = {
+							module: app.getModuleName(),
+							parent: app.getParentModuleName(),
+							action: 'Delete',
+							id: currentTrElement.data('id')
+						};
+						var progress = jQuery.progressIndicator();
+						AppConnector.request(params).then(function (data) {
+							progress.progressIndicator({'mode': 'hide'});
+							thisInstance.showTable();
+						});
+					},
+					function (error, err) {
+					}
 			);
 		});
 	},

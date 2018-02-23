@@ -322,10 +322,10 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 				}
 			});
 			AppConnector.request({
-				module:app.getModuleName(),
-				view:'Configuration',
+				module: app.getModuleName(),
+				view: 'Configuration',
 				parent: app.getParentModuleName(),
-				date: '["'+picker.startDate.format(format) + '","' + picker.endDate.format(format)+'"]'
+				date: '["' + picker.startDate.format(format) + '","' + picker.endDate.format(format) + '"]'
 			}).then(function (data) {
 				jQuery('.contentsDiv').html(data);
 				thisInstance.registerEvents();

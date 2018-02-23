@@ -145,8 +145,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	getSequenceNumber: function (element) {
 		if (element.length) {
 			var sequenceNumber = element.attr('sequence-number');
-		}
-		else {
+		} else {
 			sequenceNumber = 0;
 		}
 		return parseInt(sequenceNumber);
@@ -184,7 +183,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 			})
 			delete fieldsBasedOnType;
 
-			container.find('.selectedFieldDataType').html(selectedOption.data('type-name')?selectedOption.data('type-name'):'');
+			container.find('.selectedFieldDataType').html(selectedOption.data('type-name') ? selectedOption.data('type-name') : '');
 			fieldsSelectElement.html(options.children());
 
 			fieldsSelectElement.trigger('change', false);

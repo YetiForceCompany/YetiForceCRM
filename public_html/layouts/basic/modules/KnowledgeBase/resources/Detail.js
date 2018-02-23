@@ -17,10 +17,10 @@ Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
 		$(id + ' .knowledgePresentationContent').each(function () {
 			$(this).css('height', highestSlideHeight + 'px');
 		});
-		
+
 		return true;
 	},
-	registerBasicEvents : function(){
+	registerBasicEvents: function () {
 		this._super();
 		var tab = this.getSelectedTab();
 		if (tab.data('reference') === 'Summary') {

@@ -369,7 +369,6 @@ var Settings_Index_Js = {
 					response = data['result'];
 					var params = {
 						text: response['message'],
-						animation: 'show'
 					};
 					if (response['success'] == true) {
 						params.type = 'info';

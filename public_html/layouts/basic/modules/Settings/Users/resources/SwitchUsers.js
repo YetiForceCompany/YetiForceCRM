@@ -13,9 +13,9 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 			var target = $(e.currentTarget);
 			var cloneItem = content.find('.cloneItem tbody').clone(true, true);
 			var suFrom = cloneItem.find('.sufrom option')
-			suFrom.each(function (index, option) {			
-				$.each( data, function( key, selectedUser ){
-					if($(option).val() == selectedUser.user){
+			suFrom.each(function (index, option) {
+				$.each(data, function (key, selectedUser) {
+					if ($(option).val() == selectedUser.user) {
 						cloneItem.find(option).remove()
 					}
 				});
@@ -38,7 +38,7 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 		content.find('.saveItems').click(function (e) {
 			var data = [];
 			content.find('.switchUsersTable tbody tr').each(function (index) {
-				if($(this).find('.suto :selected').length > 0){
+				if ($(this).find('.suto :selected').length > 0) {
 					data.push({
 						user: $(this).find('.sufrom').val(),
 						access: $(this).find('.suto').val(),

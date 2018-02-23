@@ -6,49 +6,49 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
+Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js", {
 
-},{
+}, {
 	/**
 	 * Function to register event for enabling list price
 	 */
-	checkBoxChangeHandler : function(e){
-			this._super(e);
-			var elem = jQuery(e.currentTarget);
-			var parentRow = elem.closest('tr');
-			if(elem.is(':checked')) {
-				jQuery('input[name=listPrice]',parentRow).removeClass('invisible');
-			}else{
-				jQuery('input[name=listPrice]',parentRow).addClass('invisible');
-			}
+	checkBoxChangeHandler: function (e) {
+		this._super(e);
+		var elem = jQuery(e.currentTarget);
+		var parentRow = elem.closest('tr');
+		if (elem.is(':checked')) {
+			jQuery('input[name=listPrice]', parentRow).removeClass('invisible');
+		} else {
+			jQuery('input[name=listPrice]', parentRow).addClass('invisible');
+		}
 	},
 
 	/**
 	 * Function to register event for add to pricebook button in the popup
 	 */
 
-	registerSelectButton : function(){
+	registerSelectButton: function () {
 		var popupPageContentsContainer = jQuery('#popupPage');
 		var thisInstance = this;
-		popupPageContentsContainer.on('jqv.form.result', function(e){
+		popupPageContentsContainer.on('jqv.form.result', function (e) {
 			e.preventDefault();
 			var tableEntriesElement = popupPageContentsContainer.find('table.listViewEntriesTable');
 			var selectedRecords = jQuery('input.entryCheckBox', tableEntriesElement).filter(':checked');
-			if((selectedRecords.length) == 0){
+			if ((selectedRecords.length) == 0) {
 				var message = app.vtranslate("JS_PLEASE_SELECT_ONE_RECORD");
 				bootbox.alert(message);
 				return;
 			}
 			var invalidFields = popupPageContentsContainer.data('jqv').InvalidFields;
-			if((invalidFields.length) == 0){
+			if ((invalidFields.length) == 0) {
 				var selectedRecordDetails = [];
-				selectedRecords.each(function(index, checkBoxElement){
+				selectedRecords.each(function (index, checkBoxElement) {
 					var checkBoxJqueryObject = jQuery(checkBoxElement);
 					var row = checkBoxJqueryObject.closest('tr');
 					var rowListPrice = row.find('input[name=listPrice]');
 					var listPrice = rowListPrice.val();
 					var id = row.data('id');
-					selectedRecordDetails.push({'id' : id,'price' : listPrice});
+					selectedRecordDetails.push({'id': id, 'price': listPrice});
 				});
 				thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
 			}
@@ -59,14 +59,14 @@ Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
 	 * Function to handle select all in the popup
 	 */
 
-	selectAllHandler : function(e){
+	selectAllHandler: function (e) {
 		this._super(e);
 		var currentElement = jQuery(e.currentTarget);
 		var isMainCheckBoxChecked = currentElement.is(':checked');
 		var tableElement = currentElement.closest('table');
-		if(isMainCheckBoxChecked) {
+		if (isMainCheckBoxChecked) {
 			jQuery('input.entryCheckBox', tableElement).closest('tr').find('input[name="listPrice"]').removeClass('invisible');
-		}else {
+		} else {
 			jQuery('input.entryCheckBox', tableElement).closest('tr').find('input[name="listPrice"]').addClass('invisible');
 		}
 	},
@@ -74,10 +74,10 @@ Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
 	/**
 	 * Function to register event for actions buttons
 	 */
-	registerEventForActionsButtons : function(){
+	registerEventForActionsButtons: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','.cancelLink',function(e){
+		popupPageContentsContainer.on('click', '.cancelLink', function (e) {
 			thisInstance.done();
 		});
 	},
@@ -85,21 +85,20 @@ Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
 	/**
 	 * Function to get Page Records
 	 */
-	getPageRecords : function(params){
+	getPageRecords: function (params) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		this._super(params).then(
-			function(data){
-				thisInstance.popupSlimScroll();
-				var form = jQuery('#popupPage');
-				form.validationEngine('detach');
-				form.validationEngine('attach');
-				aDeferred.resolve(data);
-			},
-
-			function(textStatus, errorThrown){
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					thisInstance.popupSlimScroll();
+					var form = jQuery('#popupPage');
+					form.validationEngine('detach');
+					form.validationEngine('attach');
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -107,29 +106,28 @@ Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
 	/**
 	 * Function to handle sort
 	 */
-	sortHandler : function(headerElement){
+	sortHandler: function (headerElement) {
 		var thisInstance = this;
 		//Listprice column should not be sorted so checking for class noSorting
-		if(headerElement.hasClass('noSorting')){
+		if (headerElement.hasClass('noSorting')) {
 			return;
 		}
 		this._super(headerElement).then(
-			function(data){
-				thisInstance.popupSlimScroll();
-				var form = jQuery('#popupPage');
-				form.validationEngine('detach');
-				form.validationEngine('attach');
-			},
+				function (data) {
+					thisInstance.popupSlimScroll();
+					var form = jQuery('#popupPage');
+					form.validationEngine('detach');
+					form.validationEngine('attach');
+				},
+				function (textStatus, errorThrown) {
 
-			function(textStatus, errorThrown){
-
-			}
+				}
 		);
 	},
 	/**
 	 * Function which will register event when user clicks on the row
 	 */
-	registerEventForListViewEntries : function() {
+	registerEventForListViewEntries: function () {
 		//To Make sure we will not close the window once he clicks on the row,
 		//which is default behaviour in normal popup
 		return true;
@@ -137,19 +135,19 @@ Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
 	/**
 	 * Function to handle slim scroll for popup
 	 */
-	popupSlimScroll : function(){
+	popupSlimScroll: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		var element = popupPageContentsContainer.find('.popupEntriesDiv');
-		app.showScrollBar(element, {"height" : '400px'});
+		app.showScrollBar(element, {"height": '400px'});
 	},
 
 	/**
 	 * Function to register events
 	 */
-	registerEvents : function(){
+	registerEvents: function () {
 		this._super();
 		this.registerEventForActionsButtons();
 		this.popupSlimScroll();
-		jQuery('#popupPage').validationEngine({promptPosition : "topRight"});
+		jQuery('#popupPage').validationEngine({promptPosition: "topRight"});
 	}
 });

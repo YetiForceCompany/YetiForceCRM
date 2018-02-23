@@ -234,7 +234,6 @@ var Settings_Picklist_Js = {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
-					animation: 'show',
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
@@ -413,7 +412,6 @@ var Settings_Picklist_Js = {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
-						animation: 'show',
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
@@ -464,7 +462,6 @@ var Settings_Picklist_Js = {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
-							animation: 'show',
 							type: 'success'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
@@ -528,7 +525,6 @@ var Settings_Picklist_Js = {
 							var params = {
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEMS_DELETED_SUCCESSFULLY'),
-								animation: 'show',
 								type: 'success'
 							};
 							Vtiger_Helper_Js.showPnotify(params);

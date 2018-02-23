@@ -14,6 +14,7 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
+
 	/**
 	 * Get download file url.
 	 *
@@ -69,9 +70,9 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	public function getFileDetails()
 	{
 		return (new \App\Db\Query())->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->where(['crmid' => $this->get('id')])
-			->one();
+				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->where(['crmid' => $this->get('id')])
+				->one();
 	}
 
 	/**
@@ -79,36 +80,33 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public function downloadFile()
 	{
-		$fileDetails = $this->getFileDetails();
 		$fileContent = false;
-
-		if (!empty($fileDetails)) {
+		if ($fileDetails = $this->getFileDetails()) {
 			$filePath = $fileDetails['path'];
 			$fileName = $fileDetails['name'];
-
-			if ($this->get('filelocationtype') == 'I') {
+			if ($this->get('filelocationtype') === 'I') {
 				$fileName = html_entity_decode($fileName, ENT_QUOTES, \AppConfig::main('default_charset'));
 				if (file_exists($filePath . $fileDetails['attachmentsid'])) {
 					$savedFile = $fileDetails['attachmentsid'];
 				} else {
 					$savedFile = $fileDetails['attachmentsid'] . '_' . $fileName;
 				}
-
-				$fileSize = filesize($filePath . $savedFile);
-				$fileSize = $fileSize + ($fileSize % 1024);
-
-				if (fopen($filePath . $savedFile, 'r')) {
-					$fileContent = fread(fopen($filePath . $savedFile, 'r'), $fileSize);
-					$fileName = $this->get('filename');
-					header('Content-type: ' . $fileDetails['type']);
-					header('Pragma: public');
-					header('Cache-Control: private');
-					if ($this->get('show')) {
-						header('Content-Disposition: inline');
-					} else {
-						header("Content-Disposition: attachment; filename=\"$fileName\"");
+				if (file_exists($filePath . $savedFile)) {
+					$fileSize = filesize($filePath . $savedFile);
+					$fileSize = $fileSize + ($fileSize % 1024);
+					if (fopen($filePath . $savedFile, 'r')) {
+						$fileContent = fread(fopen($filePath . $savedFile, 'r'), $fileSize);
+						$fileName = $this->get('filename');
+						header('Content-type: ' . $fileDetails['type']);
+						header('Pragma: public');
+						header('Cache-Control: private');
+						if ($this->get('show')) {
+							header('Content-Disposition: inline');
+						} else {
+							header("Content-Disposition: attachment; filename=\"$fileName\"");
+						}
+						header('Content-Description: PHP Generated Data');
 					}
-					header('Content-Description: PHP Generated Data');
 				}
 			}
 		}

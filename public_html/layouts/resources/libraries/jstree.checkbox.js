@@ -390,7 +390,7 @@
 		};
 		this.redraw_node = function (obj, deep, is_callback, force_render) {
 			obj = parent.redraw_node.apply(this, arguments);
-			if(this.get_node(obj).original.type == 'category'){
+			if (this.get_node(obj).original.type == 'category') {
 				return obj;
 			}
 			if (obj) {
@@ -556,7 +556,7 @@
 			if (this.settings.checkbox.tie_selection && (this.settings.checkbox.whole_node || $(e.target).hasClass('jstree-checkbox'))) {
 				e.ctrlKey = true;
 			}
-			
+
 			if (this.settings.checkbox.tie_selection || (!this.settings.checkbox.whole_node && !$(e.target).hasClass('jstree-checkbox'))) {
 				return parent.activate_node.call(this, obj, e);
 			}

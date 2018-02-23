@@ -1,11 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
-	showPresentationContent : function(recordId) {
+	showPresentationContent: function (recordId) {
 		var url = 'index.php?module=KnowledgeBase&view=FullScreen&record=' + recordId;
 		var screenWidth = screen.width;
 		var screenHeight = screen.height;
-		var popupWinRef =  window.open(url, '' ,'width=' + screenWidth + ',height=' + screenHeight);
-		popupWinRef.moveTo(0,0);
+		var popupWinRef = window.open(url, '', 'width=' + screenWidth + ',height=' + screenHeight);
+		popupWinRef.moveTo(0, 0);
 		if (typeof this.destroy == 'function') {
 			// To remove form elements that have created earlier
 			this.destroy();
@@ -13,7 +13,7 @@ Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 		jQuery.initWindowMsg();
 		return popupWinRef;
 	},
-	setSlidesHeight : function () {
+	setSlidesHeight: function () {
 		$(function () {
 			var highestSlideHeight = $('#page').height();
 			$('#carouselPresentation .knowledgePresentationContent').each(function () {
@@ -21,7 +21,7 @@ Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 			});
 		});
 	},
-	registerEvents : function () {
+	registerEvents: function () {
 		if ($('#popupValue').val() == 1) {
 			this.setSlidesHeight();
 		}

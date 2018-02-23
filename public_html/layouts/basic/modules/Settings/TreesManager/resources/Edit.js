@@ -94,7 +94,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 								Settings_Vtiger_Index_Js.selectIcon().then(function (data) {
 									if (data['name'] == '-') {
 										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, false);
-									}else{
+									} else {
 										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, data['name']);
 									}
 								});

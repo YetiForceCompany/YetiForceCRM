@@ -6,22 +6,22 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_Edit_Js("Contacts_Edit_Js",{},{
+Vtiger_Edit_Js("Contacts_Edit_Js", {}, {
 
-    /**
+	/**
 	 * Function to check for Portal User
 	 */
-	checkForPortalUser : function(form){
-		var element = jQuery('[name="portal"]',form);
+	checkForPortalUser: function (form) {
+		var element = jQuery('[name="portal"]', form);
 		var response = element.is(':checked');
 		var primaryEmailField = jQuery('[name="email"]');
 		var primaryEmailValue = primaryEmailField.val();
-		if(response){
-			if(primaryEmailField.length == 0){
+		if (response) {
+			if (primaryEmailField.length == 0) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS'));
 				return false;
 			}
-			if(primaryEmailValue == ""){
+			if (primaryEmailValue == "") {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER'));
 				return false;
 			}
@@ -32,21 +32,21 @@ Vtiger_Edit_Js("Contacts_Edit_Js",{},{
 	/**
 	 * Function to register recordpresave event
 	 */
-	registerRecordPreSaveEvent : function(form){
+	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if(typeof form == 'undefined') {
+		if (typeof form == 'undefined') {
 			form = this.getForm();
 		}
 
-		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 			var result = thisInstance.checkForPortalUser(form);
-			if(!result){
+			if (!result) {
 				e.preventDefault();
 			}
 		});
 	},
-	
-	registerBasicEvents : function(container){
+
+	registerBasicEvents: function (container) {
 		this._super(container);
 		this.registerRecordPreSaveEvent(container);
 	}

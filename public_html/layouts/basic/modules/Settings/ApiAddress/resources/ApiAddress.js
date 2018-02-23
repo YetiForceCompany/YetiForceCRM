@@ -22,21 +22,21 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var parametres = {
-						text: response['message'],
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(parametres);
-				},
-				function (data, err) {
-					var parametres = {
-						text: app.vtranslate('JS_ERROR'),
-						type: 'error'
-					};
-					Vtiger_Helper_Js.showPnotify(parametres);
-				}
+					function (data) {
+						var response = data['result'];
+						var parametres = {
+							text: response['message'],
+							type: 'success'
+						};
+						Vtiger_Helper_Js.showPnotify(parametres);
+					},
+					function (data, err) {
+						var parametres = {
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						};
+						Vtiger_Helper_Js.showPnotify(parametres);
+					}
 			);
 		});
 		content.find('.save').on('click', function () {
@@ -161,7 +161,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			}
 		}
 		return status;
-		
+
 	},
 	registerValidatemin_length: function (val) {
 		var filter = /^\d+$/;

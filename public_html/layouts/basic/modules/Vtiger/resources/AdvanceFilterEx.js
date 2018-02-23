@@ -293,7 +293,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
 				});
 			};
-			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);	
+			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(jQuery('.clonedPopupUi', conditionsContainer));
