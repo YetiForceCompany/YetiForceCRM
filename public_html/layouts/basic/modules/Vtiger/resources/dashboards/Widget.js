@@ -65,7 +65,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		if (this.plotContainer == false || !useCache) {
 			var container = this.getContainer();
-			this.plotContainer = container.find('.widgetChartContainer').html('<canvas></canvas>').find('canvas').get(0);
+			this.plotContainer = container.find('.widgetChartContainer').find('canvas').get(0);
 		}
 		return this.plotContainer;
 	},
