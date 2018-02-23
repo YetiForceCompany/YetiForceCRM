@@ -100,6 +100,8 @@ $languageStrings = [
 	'LBL_WORKDAYS_INFO' => 'Work days',
 	'LBL_SUM' => 'Sum',
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Working time graph divided into users',
+	'LBL_TIME_CONTROL_LIST' => 'Time Control List',
+	'LBL_TIME_CONTROL_USER_GROUP' => 'Time Control List with additional information about users',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Allowed characters: [0-9]',
