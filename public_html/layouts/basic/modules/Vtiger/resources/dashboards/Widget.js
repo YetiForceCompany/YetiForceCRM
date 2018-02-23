@@ -1272,7 +1272,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		var thisInstance = this;
-		console.log(thisInstance.generateData())
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
