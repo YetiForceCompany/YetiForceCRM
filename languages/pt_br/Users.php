@@ -44,6 +44,7 @@ $languageStrings = [
 	'LBL_ALL_FIELDS_BELOW_ARE_REQUIRED' => '(Todos os campos abaixo são obrigatórios)',
 	'LBL_ALMOST_THERE' => 'Quase lá!',
 	'LBL_BASE_CURRENCY' => 'Moeda Padrão',
+	'LBL_BRUTAL_FORCE' => 'List of failed login attempts',
 	'LBL_CHANGE_PASSWORD' => 'Mudar Senha',
 	'LBL_CHOOSE_BASE_CURRENCY' => 'Escolher Moeda Padrão',
 	'LBL_CHOOSE_DATE_FORMAT' => 'Escolher Formato Data',
