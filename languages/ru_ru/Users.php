@@ -173,6 +173,7 @@ $languageStrings = [
 	'LBL_ALL_FIELDS_BELOW_ARE_REQUIRED' => '(Все поля обязательны для заполнения)',
 	'LBL_ALMOST_THERE' => 'Почти готово',
 	'LBL_BASE_CURRENCY' => 'Базовая валюта',
+	'LBL_BRUTAL_FORCE' => 'List of failed login attempts',
 	'LBL_CHANGE_PASSWORD' => 'Изменить пароль',
 	'LBL_CHOOSE_BASE_CURRENCY' => 'Выберите базовую валюту',
 	'LBL_CHOOSE_DATE_FORMAT' => 'Выберите формат даты',

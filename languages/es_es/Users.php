@@ -44,6 +44,7 @@ $languageStrings = [
 	'LBL_ALL_FIELDS_BELOW_ARE_REQUIRED' => '(Todos los campos son requeridos)',
 	'LBL_ALMOST_THERE' => 'Casi!',
 	'LBL_BASE_CURRENCY' => 'Moneda base',
+	'LBL_BRUTAL_FORCE' => 'List of failed login attempts',
 	'LBL_CHANGE_PASSWORD' => 'Cambiar contraseña',
 	'LBL_CHOOSE_BASE_CURRENCY' => 'Moneda',
 	'LBL_CHOOSE_DATE_FORMAT' => 'Formato de fecha',

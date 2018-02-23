@@ -54,6 +54,7 @@ $languageStrings = [
 	'LBL_ALL_FIELDS_BELOW_ARE_REQUIRED' => '(Alle nachfolgenden Felder werden benötigt)',
 	'LBL_ALMOST_THERE' => 'Fast geschafft!',
 	'LBL_BASE_CURRENCY' => 'Basis Währung',
+	'LBL_BRUTAL_FORCE' => 'List of failed login attempts',
 	'LBL_CHANGE_PASSWORD' => 'Passwort ändern',
 	'LBL_CHOOSE_BASE_CURRENCY' => 'Basis Währung auswählen',
 	'LBL_CHOOSE_DATE_FORMAT' => 'Datumsformat auswählen',

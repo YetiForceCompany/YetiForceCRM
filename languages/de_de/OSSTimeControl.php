@@ -95,6 +95,8 @@ $languageStrings = [
 	'LBL_WORKDAYS_INFO' => 'Arbeitstage',
 	'LBL_SUM' => 'Summe',
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Arbeitszeitgrafik unterteilt in Benutzer',
+	'LBL_TIME_CONTROL_LIST' => 'Time Control List',
+	'LBL_TIME_CONTROL_USER_GROUP' => 'Time Control List with additional information about users',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => ' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

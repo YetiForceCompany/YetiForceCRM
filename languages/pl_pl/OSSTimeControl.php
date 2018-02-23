@@ -102,7 +102,7 @@ $languageStrings = [
 	'LBL_SUM' => 'Suma',
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Wykres czasu pracy z podziałem na użytkowników',
 	'LBL_TIME_CONTROL_LIST' => 'Lista czasu pracy',
-	'LBL_TIME_CONTROL_USER_GROUP' => 'Listra czasu pracy z dodatkowymi informacjami o użytkowniku',
+	'LBL_TIME_CONTROL_USER_GROUP' => 'Lista czasu pracy z dodatkowymi informacjami o użytkowniku',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',

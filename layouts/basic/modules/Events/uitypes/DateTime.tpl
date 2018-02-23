@@ -34,11 +34,11 @@
 	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_CONVERTED_VALUE)}
 	{assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[0])}
 
-	<div class="dateTimeField">
-		<div class="col-7 paddingLRZero">
+	<div class="form-row">
+		<div class="col-7">
 			{include file=\App\Layout::getTemplatePath('uitypes/Date.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
 		</div>
-		<div class="col-5 paddingLRZero">
+		<div class="col-5">
 			{include file=\App\Layout::getTemplatePath('uitypes/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
 		</div>
 	</div>

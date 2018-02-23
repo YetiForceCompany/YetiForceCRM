@@ -12,14 +12,12 @@
 {strip}
 	{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', 'Vtiger')}
     <input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
-	<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
-		<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-			<div class="col-md-8 fieldRow paddingLRZero">
-				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide"></span>
-					<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show"></span>
-					<h4>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE)}</h4>
-				</div>
+	<div class="card row blockContainer mx-1 mb-2" data-label="{$BLOCK_LABEL}">
+		<div class="blockHeader card-header bg-light">
+			<div class="col-md-8 form-row">
+				<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide"></span>
+				<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show"></span>
+				<h4>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE)}</h4>
 			</div>
 			<div class="col-md-4 fieldRow">
 				<input type="text" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE)}" placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE)}" class="form-control inviteesSearch" />

@@ -16,4 +16,5 @@ $languageStrings = [
 	'ERR_USER_EXISTS' => 'Użytkownik o takiej nazwie i roli już istnieje (%s)',
 	'ERR_NOT_ACCESSIBLE' => 'Brak dostępu',
 	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'Próbujesz przeglądać/edytować rekord do którego nie masz wystarczających uprawnień. Jeśli powinieneś mieć do niego dostęp zgłoś problem administratorowi.',
+	'ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION' => 'Zawartość zmiennej (%s) nie może być wywołana jako funkcja',
 ];
