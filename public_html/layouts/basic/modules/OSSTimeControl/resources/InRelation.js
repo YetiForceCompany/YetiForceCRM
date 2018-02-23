@@ -36,10 +36,10 @@ jQuery(document).ready(function ($) {
 									}
 								},
 								title: function ([tooltipItem], chart) {
-									return jdata.datasets[0].data[ tooltipItem['index'] ];
+									return jdata.datasets[0].tooltips[ tooltipItem['index'] ];
 								},
 								label: function (tooltipItem, chart) {
-									return jdata.datasets[0].tooltips[ tooltipItem['index'] ];
+									return jdata.datasets[0].data[ tooltipItem['index'] ];
 								}
 							}
 						},
