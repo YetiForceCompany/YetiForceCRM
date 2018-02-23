@@ -144,6 +144,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
 			'~libraries/chartjs-plugin-zoom/chartjs-plugin-zoom.js',
+			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'~libraries/Flot/jquery.flot.js',
 			'~libraries/Flot/jquery.flot.pie.js',
 			'~libraries/Flot/jquery.flot.stack.js',

@@ -62,23 +62,33 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
 		$dataReader = $query->createCommand()->query();
-		$response = [];
+		$chartData = [
+			'labels' => [],
+			'title' => 'test',
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'borderColor' => [],
+					'tooltips' => [],
+				],
+			],
+		];
 		$i = 0;
 		while ($row = $dataReader->read()) {
-			$data[$i]['label'] = \App\Language::translate($row['industryvalue'], 'Leads');
-			$ticks[$i][0] = $i;
-			$ticks[$i][1] = \App\Language::translate($row['industryvalue'], 'Leads');
-			$data[$i]['data'][0][0] = $i;
-			$data[$i]['data'][0][1] = $row['count'];
-			$name[] = $row['industryvalue'];
+			$color = '#FF00FF';
+			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], 'Leads');
+			$chartData['datasets'][0]['data'][] = $row['count'];
+			$chartData['datasets'][0]['backgroundColor'][] = $color;
+			$chartData['datasets'][0]['borderColor'][] = $color;
 			++$i;
 		}
-		$response['chart'] = $data;
-		$response['ticks'] = $ticks;
-		$response['name'] = $name;
+		//$response['chart'] = $data;
+		//$response['ticks'] = $ticks;
+		//$response['name'] = $name;
 		$dataReader->close();
 
-		return $response;
+		return $chartData;
 	}
 
 	/**
@@ -99,7 +109,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ($owner === 'all') {
 			$owner = '';
 		}
 

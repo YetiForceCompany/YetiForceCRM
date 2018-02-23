@@ -82,7 +82,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	loadScrollbar: function () {
-		var widget = this.getPlotContainer(false).closest('.dashboardWidget');
+		var widget = $(this.getPlotContainer(false).closest('.dashboardWidget'));
 		var content = widget.find('.dashboardWidgetContent');
 		var footer = widget.find('.dashboardWidgetFooter');
 		var header = widget.find('.dashboardWidgetHeader');
@@ -1286,15 +1286,27 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 								beginAtZero: true
 							}
 						}]
-				}
+				},
+
 			};
 		}
+
 		var thisInstance = this;
+		var data = thisInstance.generateData();
+		data.datasets[0].datalabels = {
+			font: {
+				weight: 'bold'
+			},
+			color: 'white',
+			anchor: 'end',
+			align: 'start',
+		};
+		console.log(data)
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'bar',
-					data: thisInstance.generateData(),
+					data: data,
 					options: options,
 				}
 		);
@@ -1860,21 +1872,24 @@ YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
 	registerSectionClick: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.seriesIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
-		});
+		console.log("TODO click");
+		/*
+		 thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+		 if (item) {
+		 $(this).css('cursor', 'pointer');
+		 } else {
+		 $(this).css('cursor', 'auto');
+		 }
+		 });
+		 thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+		 if (item) {
+		 $(chartData['links']).each(function () {
+		 if (item.seriesIndex == this[0])
+		 window.location.href = this[1];
+		 });
+		 }
+		 });
+		 */
 	}
 });
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
