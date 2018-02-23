@@ -8,7 +8,6 @@
  */
 class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 {
-
 	/**
 	 * Process function.
 	 *
