@@ -1270,29 +1270,32 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		var jData = container.find('.widgetData').val();
 		return JSON.parse(jData);
 	},
-	loadChart: function () {
+	loadChart: function (options) {
+		if (typeof options === 'undefined') {
+			options = {
+				maintainAspectRatio: false,
+				title: {
+					display: false
+				},
+				legend: {
+					display: false
+				},
+				scales: {
+					yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+				}
+			};
+		}
 		var thisInstance = this;
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'bar',
 					data: thisInstance.generateData(),
-					options: {
-						maintainAspectRatio: false,
-						title: {
-							display: false
-						},
-						legend: {
-							display: false
-						},
-						scales: {
-							yAxes: [{
-									ticks: {
-										beginAtZero: true
-									}
-								}]
-						}
-					}
+					options: options,
 				}
 		);
 	},
