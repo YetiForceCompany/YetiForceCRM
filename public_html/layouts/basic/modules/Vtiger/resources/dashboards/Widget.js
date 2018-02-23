@@ -1287,7 +1287,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 							}
 						}]
 				},
-
+				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
 		}
 
@@ -1301,7 +1301,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			anchor: 'end',
 			align: 'start',
 		};
-		console.log(data)
+
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1315,22 +1315,44 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
 	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
+		var chart = this.chartInstance;
+
+		function getDataFromEvent(e, additionalFields) {
+			var elements = chart.getElementsAtEvent(e);
+			if (elements.length === 0) {
+				return null;
 			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.dataIndex == this[0])
-						window.location.href = this[1];
+			var index = elements[0]._index;
+			var result = {
+				label: chart.data.labels[index],
+				value: chart.data.datasets[0].data[index],
+			};
+			if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
+				additionalFields.forEach((fieldName) => {
+					result[fieldName] = chart.data.datasets[0][fieldName][index];
 				});
 			}
+			return result;
+		}
+
+		var pointer = false;
+		$(chart.canvas).on('click', function (e) {
+			var data = getDataFromEvent(e, ['links']);
+			window.location.href = data.links;
+		});
+		$(chart.canvas).on('mousemove', function (e) {
+			var data = getDataFromEvent(e);
+			if (data && !pointer) {
+				$(chart.canvas).css('cursor', 'pointer');
+				pointer = true;
+			} else if (!data && pointer) {
+				$(chart.canvas).css('cursor', 'auto');
+				pointer = false;
+			}
+		});
+		$(chart.canvas).on('mouseout', function () {
+			$(chart.canvas).css('cursor', 'auto');
+			pointer = false;
 		});
 	}
 });
@@ -1870,26 +1892,46 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 });
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
 	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		console.log("TODO click");
-		/*
-		 thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-		 if (item) {
-		 $(this).css('cursor', 'pointer');
-		 } else {
-		 $(this).css('cursor', 'auto');
-		 }
-		 });
-		 thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-		 if (item) {
-		 $(chartData['links']).each(function () {
-		 if (item.seriesIndex == this[0])
-		 window.location.href = this[1];
-		 });
-		 }
-		 });
-		 */
+		var chart = this.chartInstance;
+
+		function getDataFromEvent(e, additionalFields) {
+			var elements = chart.getElementsAtEvent(e);
+			if (elements.length === 0) {
+				return null;
+			}
+			var index = elements[0]._index;
+			var result = {
+				label: chart.data.labels[index],
+				value: chart.data.datasets[0].data[index],
+			};
+			if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
+				additionalFields.forEach((fieldName) => {
+					result[fieldName] = chart.data.datasets[0][fieldName][index];
+				});
+			}
+			return result;
+		}
+
+		var pointer = false;
+
+		$(chart.canvas).on('click', function (e) {
+			var data = getDataFromEvent(e, ['links']);
+			window.location.href = data.links;
+		});
+		$(chart.canvas).on('mousemove', function (e) {
+			var data = getDataFromEvent(e);
+			if (data && !pointer) {
+				$(chart.canvas).css('cursor', 'pointer');
+				pointer = true;
+			} else if (!data && pointer) {
+				$(chart.canvas).css('cursor', 'auto');
+				pointer = false;
+			}
+		});
+		$(chart.canvas).on('mouseout', function () {
+			$(chart.canvas).css('cursor', 'auto');
+			pointer = false;
+		});
 	}
 });
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
