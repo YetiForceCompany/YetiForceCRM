@@ -34,6 +34,7 @@
 			<div class="col-md-2"></div>
 			<div class="col-md-8">
 				<div class="widgetChartContainer" id="widgetChartContainer" style="position:relative;">
+					<canvas id="language-stats-chart"></canvas>
 				</div>
 			</div>
 			<div class="col-md-2"></div>
