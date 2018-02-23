@@ -43,8 +43,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getAccountsByIndustry($owner, $dateFilter)
 	{
-		$module = 'Accounts';
-
+		$moduleName = 'Accounts';
 		$query = new \App\Db\Query();
 		$query->select([
 				'industryid' => 'vtiger_industry.industryid',
@@ -60,12 +59,10 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($dateFilter)) {
 			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
 		$dataReader = $query->createCommand()->query();
-
 		$colors = \App\Fields\Picklist::getColors('industry');
-
 		$chartData = [
 			'labels' => [],
 			'title' => 'test',
@@ -81,14 +78,13 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			'names' => [] // names for link generation
 		];
 		while ($row = $dataReader->read()) {
-			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], 'Leads');
+			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], $moduleName);
 			$chartData['datasets'][0]['data'][] = $row['count'];
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['industryid']];
 			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
 			$chartData['names'][] = $row['industryvalue'];
 		}
 		$dataReader->close();
-
 		return $chartData;
 	}
 
@@ -113,9 +109,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if ($owner === 'all') {
 			$owner = '';
 		}
-
 		$createdTime = $request->getDateRange('createdtime');
-
 		//Date conversion from user to database format
 		$dates = [];
 		if (!empty($createdTime)) {

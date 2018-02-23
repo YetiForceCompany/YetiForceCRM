@@ -1314,44 +1314,44 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
-	registerSectionClick: function () {
-		var chart = this.chartInstance;
-
-		function getDataFromEvent(e, additionalFields) {
-			var elements = chart.getElementsAtEvent(e);
-			if (elements.length === 0) {
-				return null;
-			}
-			var index = elements[0]._index;
-			var result = {
-				label: chart.data.labels[index],
-				value: chart.data.datasets[0].data[index],
-			};
-			if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
-				additionalFields.forEach((fieldName) => {
-					result[fieldName] = chart.data.datasets[0][fieldName][index];
-				});
-			}
-			return result;
+	getDataFromEvent: function (e, additionalFields) {
+		let chart = this.chartInstance;
+		var elements = chart.getElementsAtEvent(e);
+		if (elements.length === 0) {
+			return false;
 		}
-
+		var dataIndex = elements[0]._index;
+		var eventData = {
+			label: chart.data.labels[dataIndex],
+			value: chart.data.datasets[0].data[dataIndex],
+		};
+		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
+			additionalFields.forEach((fieldName) => {
+				if (typeof chart.data.datasets[0][fieldName] !== 'undefined' && typeof chart.data.datasets[0][fieldName][dataIndex] !== 'undefined') {
+					eventData[fieldName] = chart.data.datasets[0][fieldName][dataIndex];
+				}
+			});
+		}
+		return eventData;
+	},
+	registerSectionClick: function () {
+		const thisInstance = this;
 		var pointer = false;
-		$(chart.canvas).on('click', function (e) {
-			var data = getDataFromEvent(e, ['links']);
-			window.location.href = data.links;
-		});
-		$(chart.canvas).on('mousemove', function (e) {
-			var data = getDataFromEvent(e);
-			if (data && !pointer) {
-				$(chart.canvas).css('cursor', 'pointer');
+		$(thisInstance.chartInstance.canvas).on('click', function (e) {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
+				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
+			}
+		}).on('mousemove', function (e) {
+			let eventData = thisInstance.getDataFromEvent(e);
+			if (eventData && !pointer) {
+				$(this).css('cursor', 'pointer');
 				pointer = true;
-			} else if (!data && pointer) {
-				$(chart.canvas).css('cursor', 'auto');
+			} else if (!eventData && pointer) {
+				$(this).css('cursor', 'auto');
 				pointer = false;
 			}
-		});
-		$(chart.canvas).on('mouseout', function () {
-			$(chart.canvas).css('cursor', 'auto');
+		}).on('mouseout', function () {
+			$(this).css('cursor', 'auto');
 			pointer = false;
 		});
 	}
@@ -1890,50 +1890,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 		}
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
-	registerSectionClick: function () {
-		var chart = this.chartInstance;
-
-		function getDataFromEvent(e, additionalFields) {
-			var elements = chart.getElementsAtEvent(e);
-			if (elements.length === 0) {
-				return null;
-			}
-			var index = elements[0]._index;
-			var result = {
-				label: chart.data.labels[index],
-				value: chart.data.datasets[0].data[index],
-			};
-			if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
-				additionalFields.forEach((fieldName) => {
-					result[fieldName] = chart.data.datasets[0][fieldName][index];
-				});
-			}
-			return result;
-		}
-
-		var pointer = false;
-
-		$(chart.canvas).on('click', function (e) {
-			var data = getDataFromEvent(e, ['links']);
-			window.location.href = data.links;
-		});
-		$(chart.canvas).on('mousemove', function (e) {
-			var data = getDataFromEvent(e);
-			if (data && !pointer) {
-				$(chart.canvas).css('cursor', 'pointer');
-				pointer = true;
-			} else if (!data && pointer) {
-				$(chart.canvas).css('cursor', 'auto');
-				pointer = false;
-			}
-		});
-		$(chart.canvas).on('mouseout', function () {
-			$(chart.canvas).css('cursor', 'auto');
-			pointer = false;
-		});
-	}
-});
+YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	generateData: function () {
 		var container = this.getContainer();
