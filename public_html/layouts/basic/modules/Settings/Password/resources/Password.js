@@ -13,11 +13,12 @@ var Settings_Password_Js = {
 	},
 	saveConf: function (type, vale) {
 		var params = {
-			'module': app.getModuleName(),
-			'parent': app.getParentModuleName(),
-			'action': "Save",
-			'type': type,
-			'vale': vale
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: "Save",
+			mode: 'pass',
+			type: type,
+			vale: vale
 		}
 		AppConnector.request(params).then(
 				function (data) {

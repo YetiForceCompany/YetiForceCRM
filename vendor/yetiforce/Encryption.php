@@ -1,71 +1,195 @@
 <?php
-
-namespace App;
-
 /**
  * Encryption basic class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Tomasz Kur <t.kuri@yetiforce.com>
  */
-class Encryption
+namespace App;
+
+/**
+ * Class to encrypt and decrypt data.
+ */
+class Encryption extends Base
 {
-	protected $method = false;
-	protected $pass = false;
-	protected $vector = false;
-	protected $options = true;
+
+	/** @var array Passwords to encrypt */
+	private static $mapPasswords = [
+		'roundcube_users' => ['columnName' => 'password', 'index' => 'user_id', 'db' => 'base']
+	];
 
 	/**
-	 * Class contructor.
+	 * Function to get instance.
 	 */
-	public function __construct()
+	public static function getInstance()
 	{
+		if (Cache::has('Encryption', 'Instance')) {
+			return Cache::get('Encryption', 'Instance');
+		}
 		$row = (new \App\Db\Query())->from('a_#__encryption')->one(\App\Db::getInstance('admin'));
+		$instance = new static();
 		if ($row) {
-			$this->method = $row['method'];
-			$this->vector = $row['pass'];
-			$this->pass = \AppConfig::securityKeys('encryptionPass');
+			$instance->set('method', $row['method']);
+			$instance->set('vector', $row['pass']);
+		}
+		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
+		Cache::save('Encryption', 'Instance', $instance, Cache::LONG);
+		return $instance;
+	}
+
+	/**
+	 * Function to change password for encryption.
+	 *
+	 * @param string $method
+	 * @param string $password
+	 *
+	 * @throws \Exception
+	 * @throws Exceptions\AppException
+	 */
+	public static function recalculatePasswords($method, $password)
+	{
+		$decryptInstance = static::getInstance();
+		if ($decryptInstance->get('method') === $method && $decryptInstance->get('vector') === $password) {
+			return;
+		}
+		$dbAdmin = Db::getInstance('admin');
+		$transactionAdmin = $dbAdmin->beginTransaction();
+		$transactionBase = Db::getInstance()->beginTransaction();
+		try {
+			$passwords = [];
+			foreach (static::$mapPasswords as $tableName => $info) {
+				$values = (new Db\Query())->select([$info['index'], $info['columnName']])
+					->from($tableName)
+					->createCommand(Db::getInstance($info['db']))
+					->queryAllByGroup(0);
+				if (!$values) {
+					continue;
+				}
+				if ($decryptInstance->isActive()) {
+					foreach ($values as &$value) {
+						if (!empty($value)) {
+							$value = $decryptInstance->decrypt($value);
+							if (empty($value)) {
+								throw new Exceptions\AppException('ERR_IMPOSSIBLE_DECRYPT');
+							}
+						}
+					}
+				}
+				$passwords[$tableName] = $values;
+			}
+			if (!$decryptInstance->isActive()) {
+				$dbAdmin->createCommand()->insert('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
+			} else {
+				$dbAdmin->createCommand()->update('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
+			}
+			$config = new Configurator('securityKeys');
+			$config->set('encryptionMethod', $method);
+			$config->save();
+			Cache::delete('Encryption', 'Instance');
+			\AppConfig::set('securityKeys', 'encryptionMethod', $method);
+			\AppConfig::set('securityKeys', 'encryptionPass', $decryptInstance->get('pass'));
+			$encryptInstance = static::getInstance();
+			foreach ($passwords as $tableName => $pass) {
+				$dbCommand = Db::getInstance(static::$mapPasswords[$tableName]['db'])->createCommand();
+				foreach ($pass as $index => $value) {
+					if (!empty($value)) {
+						$encryptValue = $encryptInstance->encrypt($value);
+						if (empty($encryptValue)) {
+							throw new Exceptions\AppException('ERR_IMPOSSIBLE_ENCRYPT');
+						}
+						$dbCommand->update($tableName, [static::$mapPasswords[$tableName]['columnName'] => $encryptValue], [static::$mapPasswords[$tableName]['index'] => $index])->execute();
+					}
+				}
+			}
+			$transactionBase->commit();
+			$transactionAdmin->commit();
+		} catch (\Exception $e) {
+			$transactionBase->rollBack();
+			$transactionAdmin->rollback();
+			if (isset($config)) {
+				$config->revert();
+			}
+			throw $e;
+		} catch (\Error $e) {
+			$transactionBase->rollBack();
+			$transactionAdmin->rollback();
+			if (isset($config)) {
+				$config->revert();
+			}
+			throw $e;
 		}
 	}
 
+	/**
+	 * Specifies the length of the vector.
+	 *
+	 * @param string $method
+	 *
+	 * @return int
+	 */
+	public static function getLengthVector($method)
+	{
+		return openssl_cipher_iv_length($method);
+	}
+
+	/**
+	 * Function to encrypt data.
+	 *
+	 * @param string $decrypted
+	 *
+	 * @return string
+	 */
 	public function encrypt($decrypted)
 	{
 		if (!$this->isActive()) {
 			return $decrypted;
 		}
-		$encrypted = openssl_encrypt($decrypted, $this->method, $this->pass, $this->options, $this->vector);
+		$encrypted = openssl_encrypt($decrypted, $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
 
 		return base64_encode($encrypted);
 	}
 
+	/**
+	 * Function to decrypt data
+	 * @param string $encrypted
+	 * @return string
+	 */
 	public function decrypt($encrypted)
 	{
 		if (!$this->isActive()) {
 			return $encrypted;
 		}
-		$decrypted = openssl_decrypt(base64_decode($encrypted), $this->method, $this->pass, $this->options, $this->vector);
+		$decrypted = openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
 
 		return $decrypted;
 	}
 
-	public function getMethods()
+	/**
+	 * Returns list method of encryption
+	 * @return string[]
+	 */
+	public static function getMethods()
 	{
 		return openssl_get_cipher_methods();
 	}
 
+	/**
+	 * Checks if encrypt or decrypt is possible
+	 * @return boolean
+	 */
 	public function isActive()
 	{
 		if (!function_exists('openssl_encrypt')) {
 			return false;
-		} elseif (empty($this->method)) {
+		} elseif ($this->isEmpty('method')) {
 			return false;
-		} elseif ($this->method != \AppConfig::securityKeys('encryptionMethod')) {
+		} elseif ($this->get('method') !== \AppConfig::securityKeys('encryptionMethod')) {
 			return false;
-		} elseif (!in_array($this->method, $this->getMethods())) {
+		} elseif (!in_array($this->get('method'), static::getMethods())) {
 			return false;
 		}
-
 		return true;
 	}
 

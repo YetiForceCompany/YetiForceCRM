@@ -86,4 +86,14 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 
 		return date('Y-m-d', strtotime("-{$passConfig['change_time']} day"));
 	}
+
+	/**
+	 * Checks if encrypt is active.
+	 *
+	 * @return bool
+	 */
+	public static function isRunEncrypt()
+	{
+		return (new \App\Db\Query())->from('s_#__batchmethod')->where(['method' => '\App\Encryption::recalculatePasswords'])->exists();
+	}
 }

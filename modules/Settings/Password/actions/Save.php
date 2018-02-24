@@ -8,7 +8,24 @@
  */
 class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 {
-	public function process(\App\Request $request)
+	use \App\Controller\ExposeMethod;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('encryption');
+		$this->exposeMethod('pass');
+	}
+
+	/**
+	 * Action change configuration for password.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function pass(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$type = $request->getByType('type', 2);
@@ -21,6 +38,29 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($resp);
+		$response->emit();
+	}
+
+	/**
+	 * Action to set password and method for encryption.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\BadRequest
+	 */
+	public function encryption(\App\Request $request)
+	{
+		$method = $request->get('methods');
+		if (!in_array($method, \App\Encryption::getMethods())) {
+			throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||methods', 406);
+		}
+		$password = $request->get('password');
+		if (strlen($password) !== App\Encryption::getLengthVector($method)) {
+			throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||password', 406);
+		}
+		(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => App\Json::encode([$method, $password])]))->save();
+		$response = new Vtiger_Response();
+		$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
 		$response->emit();
 	}
 }

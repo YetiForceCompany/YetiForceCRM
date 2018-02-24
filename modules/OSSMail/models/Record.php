@@ -168,7 +168,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$account = self::getMailAccountDetail($user);
 			if ($account !== false) {
 				$result = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $user])->count();
-				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
+				$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
 				if ($mbox) {
 					$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
 					if ($result > 0) {
@@ -548,7 +548,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$account = self::getAccountsList($user);
 		$account = reset($account);
 		$folders = false;
-		$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
+		$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
 		if ($mbox) {
 			$folders = [];
 			$ref = '{' . $account['mail_host'] . '}';
@@ -610,7 +610,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mails = [];
 		$mailLimit = 5;
 		if ($account) {
-			$imap = self::imapConnect($account[0]['username'], $account[0]['password'], $account[0]['mail_host']);
+			$imap = self::imapConnect($account[0]['username'], \App\Encryption::getInstance()->decrypt($account[0]['password']), $account[0]['mail_host']);
 			$numMessages = imap_num_msg($imap);
 			if ($numMessages < $mailLimit) {
 				$mailLimit = $numMessages;

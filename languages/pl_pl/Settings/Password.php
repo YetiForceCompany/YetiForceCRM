@@ -22,4 +22,9 @@ $languageStrings = [
 	'LBL_PASSWORD_CHANGE_TIME_DESC' => '0 - bez ograniczenia, 356 - rok, 30 - miesiąc. Po tym okresie system będzie pokazywał przy każdym logowaniu okno zmiany hasła.',
 	'LBL_TIME_TO_CHANGE_PASSWORD' => 'Maksymalny okres zmiany hasła (dni)',
 	'LBL_TIME_TO_CHANGE_PASSWORD_DESC' => 'Po upływie czasu konto zostanie zablokowane bez możliwości zalogowania się do systemu.',
+	'LBL_METHOD' => 'Metoda szyfrowania',
+	'LBL_ENCRYPT_IS_NOT_ACTIVE' => 'Szyfrowanie haseł jest nie aktywne',
+	'LBL_REGISTER_ENCRYPTION' => 'Wprowadzone zmiany będą wykonane przez cron\'a',
+	'LBL_ENCRYPTION_CRON_BATCH_METHODS' => 'Cron "Systemowe metody wsadowe" jest nie aktywny. Cron ten jest wymagany dla prawidłowego działania mechanizmu szyfrowania haseł.',
+	'LBL_ENCRYPTION_RUN' => 'Trwa szyfrowanie haseł'
 ];

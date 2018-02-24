@@ -180,10 +180,18 @@ class Cache
 			return false;
 		}
 		register_shutdown_function(function () {
-			if (function_exists('opcache_reset')) {
-				opcache_reset();
-			}
+			static::resetOpcache();
 		});
 		static::$clearOpcache = true;
+	}
+
+	/**
+	 * Reset opcache if it is possible.
+	 */
+	public static function resetOpcache()
+	{
+		if (function_exists('opcache_reset')) {
+			opcache_reset();
+		}
 	}
 }
