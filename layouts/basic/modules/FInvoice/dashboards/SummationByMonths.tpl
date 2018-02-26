@@ -43,7 +43,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 								max: {$CONF_DATA['plotLimit']},
 							{/if}
 						},
-                    }],
+					}],
 					xAxes:[
 						{
 							stacked:true
