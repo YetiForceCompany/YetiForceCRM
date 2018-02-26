@@ -347,7 +347,7 @@ class Purifier
 					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : false;
 					break;
 				default:
-					$value = self::purify($value);
+					$value = self::purify($input);
 					break;
 			}
 			if ($value === false) {

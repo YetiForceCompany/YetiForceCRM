@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="encryptionContainer marginTop10">
+		<div class="encryptionContainer mt-3">
 			{if !$ENCRYPT->isActive()}
 				<div class="alert alert-warning alert-dismissible fade show" role="alert">
 					{App\Language::translate('LBL_ENCRYPT_IS_NOT_ACTIVE', $QUALIFIED_MODULE)}
@@ -38,23 +38,23 @@
 				<input type="hidden" name="action" value="Save">
 				<input type="hidden" name="mode" value="encryption">
 				<div class="form-group row">
-					<label for="inputPassword" class="col-12 col-lg-2 col-form-label"><span class="redColor">*</span>{App\Language::translate('LBL_METHOD', $QUALIFIED_MODULE)}</label>
+					<label for="inputPassword" class="col-12 col-lg-2 col-form-label">{App\Language::translate('LBL_METHOD', $QUALIFIED_MODULE)}</label>
 					<div class="col-12 col-lg-4">
-						<select class="select2" name="methods" data-validation-engine="validate[required]">
+						<select class="chzn-select" name="methods">
+							<option value="">{App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 							{foreach from=$AVAILABLE_METHODS item=METHOD}
-								<option></option>
 								<option value="{$METHOD}" {if $ENCRYPT->get('method') === $METHOD}selected{/if}>{$METHOD}</option>
 							{/foreach}
 						</select>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-12 col-lg-2 col-form-label"><span class="redColor">*</span>{App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}</label>
+					<label class="col-12 col-lg-2 col-form-label">{App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}</label>
 					<div class="col-12 col-lg-4">
 						<div class="input-group">
 							<input type="password" name="password" class="form-control" {if !$ENCRYPT->isEmpty('method') && $MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')] === 0}disabled="disabled"{/if}data-validation-engine="{if $ENCRYPT->isEmpty('method')}validate[required]{else}validate[required,maxSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}],minSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}]]{/if}" value="{$ENCRYPT->get('vector')}">
 							<span class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button" onmousedown="password.type = 'text';" onmouseup="password.type = 'password';" onmouseout="password.type = 'password';">
+								<button class="btn btn-outline-secondary previewPassword" type="button">
 									<span class="fas fa-eye"></span>
 								</button>
 							</span>

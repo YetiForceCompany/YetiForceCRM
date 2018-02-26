@@ -20,7 +20,6 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 	},
 	/**
 	 * Register events for change method encryption
-	 * @returns {undefined}
 	 */
 	registerChangeMethodName: function () {
 		var container = this.getContainer();
@@ -28,10 +27,9 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 		var mapLengthVector = JSON.parse($('[name="lengthVectors"]').val());
 		methodElement.on('change', function () {
 			var length = mapLengthVector[methodElement.val()];
-			var validator;
+			var validator = '';
 			var passwordElement = container.find('[name="password"]');
-			if (length === 0) {
-				validator = '';
+			if (typeof length === 'undefined' || length === 0) {
 				passwordElement.val('');
 				passwordElement.attr('disabled', 'disabled');
 			} else {
@@ -43,7 +41,6 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 	},
 	/**
 	 * Register events for form
-	 * @returns {undefined}
 	 */
 	registerForm: function () {
 		var thisInstance = this;
@@ -53,34 +50,45 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {
 				var progressIndicatorElement = jQuery.progressIndicator({
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
+					position: 'html',
+					blockInfo: {
+						enabled: true
 					}
 				});
-				AppConnector.request(container.serializeFormData()).then(
-						function (response) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							Vtiger_Helper_Js.showPnotify({
-								text: response.result,
-								type: 'info',
-							});
-						},
-						function (data, err) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							app.errorLog(data, err);
-						}
-				);
+				AppConnector.request(container.serializeFormData()).then(function (response) {
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					Vtiger_Helper_Js.showPnotify({
+						text: response.result,
+						type: 'info',
+					});
+				});
 			}
 		});
 	},
 	/**
+	 * Register events to preview password
+	 */
+	registerPreviewPassword: function () {
+		var container = this.getContainer();
+		var button = container.find('.previewPassword');
+		var passwordElement = container.find('[name="password"]');
+		button.on('mousedown', function () {
+			passwordElement.attr('type', 'text');
+		});
+		button.on('mouseup', function () {
+			passwordElement.attr('type', 'password');
+		});
+		button.on('mouseout', function () {
+			passwordElement.attr('type', 'password');
+		});
+	},
+	/**
 	 * Register all events in view
-	 * @returns {undefined}
 	 */
 	registerEvents: function () {
 		this.setContainer($('.formEncryption'));
 		this.registerForm();
 		this.registerChangeMethodName();
+		this.registerPreviewPassword();
 	}
 });
