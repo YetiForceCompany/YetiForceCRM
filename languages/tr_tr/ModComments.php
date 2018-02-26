@@ -21,7 +21,7 @@ $languageStrings = [
 	'Comment' => 'Yorum Yap',		
 	'Creator' => 'Oluşturan',		
 	'Related To Comments' => 'İle ilgili',		
-	'UserId' => 'Kullanıcı adı',		
+	'UserId' => 'KullanıcıId',		
 	'Customer' => 'Müşteri',		
 	'ReasonToEdit' => 'Düzenleme nedeni',		
 	//Email notifications			
