@@ -15,10 +15,10 @@
     {/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     <div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog modal-full">
+		<div class="modal-dialog">
             <div class="modal-content">
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header row">
+					<div class="modal-header">
 						<div class="col-5">
 						<div class="float-left">
 							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
@@ -56,13 +56,13 @@
 					<input type="hidden" name="userChangedEndDateTime" value="0" />
 					<!-- Random number is used to make specific tab is opened -->
 					{assign var="RAND_NUMBER" value=rand()}
-					<div class="modal-body row m-0 tabbable" >
+					<div class="modal-body m-0 tabbable">
 						<ul class="nav nav-pills">
-							<li class="active">
-								<a href="javascript:void(0);" data-target=".EventsQuikcCreateContents_{$RAND_NUMBER}" data-toggle="tab" data-tab-name="Event">{\App\Language::translate('LBL_EVENT',$MODULE)}</a>
+							 <li class="nav-item">
+								<a class="nav-link active" href="javascript:void(0);" data-target=".EventsQuikcCreateContents_{$RAND_NUMBER}" data-toggle="tab" data-tab-name="Event">{\App\Language::translate('LBL_EVENT',$MODULE)}</a>
 							</li>
-							<li class="">
-								<a href="javascript:void(0);" data-target=".CalendarQuikcCreateContents_{$RAND_NUMBER} " data-toggle="tab" data-tab-name="Task">{\App\Language::translate('LBL_TASK',$MODULE)}</a>
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-target=".CalendarQuikcCreateContents_{$RAND_NUMBER} " data-toggle="tab" data-tab-name="Task">{\App\Language::translate('LBL_TASK',$MODULE)}</a>
 							</li>
 						</ul>
 						<div class="tab-content overflowVisible">
@@ -73,8 +73,8 @@
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
 									{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['moduleModel']}
 									<div class="quickCreateContent">
-										<div class="massEditTable row m-0">
-											<div class="col-12 pl-0 pr-0 form-row">
+										<div class="massEditTable pr-1 pl-1 mx-auto m-0">
+											<div class="col-12 pl-0 pr-0 mx-auto form-row">
 												{assign var=COUNTER value=0}
 												{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 													{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -82,16 +82,16 @@
 													{assign var="refrenceListCount" value=count($refrenceList)}
 													{if $COUNTER eq 2}
 													</div>
-													<div class="col-12 pl-0 pr-0 form-row">
+													<div class="col-12 pl-0 pr-0 mx-auto form-row">
 														{assign var=COUNTER value=1}
 													{else}
 														{assign var=COUNTER value=$COUNTER+1}
 													{/if}
 													<div class="col-12 col-md-6 pt-2 pb-2 form-row pl-0 pr-0 {$WIDTHTYPE}">
-														<div class="fieldLabel col-12 col-sm-5 ">
+														<div class="fieldLabel col-12 col-sm-5">
 															{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 															{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-															<label class="muted col-form-label float-left-sm float-right-md float-right-lg">
+															<label class="muted col-form-label float-sm-left float-md-right float-lg-right">
 																{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 																{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 																	<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
@@ -106,7 +106,7 @@
 												{/foreach}
 											</div>
 										</div>
-										<div class="float-right marginTB10">
+										<div class="float-right mt-2 mb-2">
 											<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button>
 											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 										</div>
