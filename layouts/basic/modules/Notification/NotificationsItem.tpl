@@ -7,10 +7,10 @@
 				<div class="card-header p-2">
 					{if $ICON}
 						<div class="float-left">
-							{if $ICON['type'] == 'image'}
-								<img width="22px" class="mr-1 top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
+							{if $ICON['type'] == 'image' && $ICON['src'] != false}
+								<img width="22px" class="mr-1 {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
 							{else}
-								<span class="mr-1 noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}"></span>
+								<span class="mr-1 fas fa-user userImage"></span>
 							{/if}
 						</div>
 					{/if}
