@@ -7,6 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Tomasz Kur <t.kuri@yetiforce.com>
  */
+
 namespace App;
 
 /**
@@ -14,7 +15,6 @@ namespace App;
  */
 class Encryption extends Base
 {
-
 	/** @var array Passwords to encrypt */
 	private static $mapPasswords = [
 		'roundcube_users' => ['columnName' => 'password', 'index' => 'user_id', 'db' => 'base']
@@ -81,6 +81,8 @@ class Encryption extends Base
 			}
 			if (!$decryptInstance->isActive()) {
 				$dbAdmin->createCommand()->insert('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
+			} elseif (empty($method) && empty($password)) {
+				$dbAdmin->createCommand()->delete('a_#__encryption')->execute();
 			} else {
 				$dbAdmin->createCommand()->update('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
 			}
@@ -152,8 +154,10 @@ class Encryption extends Base
 	}
 
 	/**
-	 * Function to decrypt data
+	 * Function to decrypt data.
+	 *
 	 * @param string $encrypted
+	 *
 	 * @return string
 	 */
 	public function decrypt($encrypted)
@@ -167,7 +171,8 @@ class Encryption extends Base
 	}
 
 	/**
-	 * Returns list method of encryption
+	 * Returns list method of encryption.
+	 *
 	 * @return string[]
 	 */
 	public static function getMethods()
@@ -176,8 +181,9 @@ class Encryption extends Base
 	}
 
 	/**
-	 * Checks if encrypt or decrypt is possible
-	 * @return boolean
+	 * Checks if encrypt or decrypt is possible.
+	 *
+	 * @return bool
 	 */
 	public function isActive()
 	{

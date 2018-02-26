@@ -40,10 +40,8 @@ class Configurator extends Base
 	 */
 	public function save()
 	{
-		$fileContent = file_get_contents(static::$paths[$this->type]);
-		$this->content = $fileContent;
-		$param = $this->getData();
-		foreach ($param as $fieldName => $fieldValue) {
+		$this->content = $fileContent = file_get_contents(static::$paths[$this->type]);
+		foreach ($this->getData() as $fieldName => $fieldValue) {
 			$replacement = sprintf("'%s' => %s,", $fieldName, Utils::varExport($fieldValue));
 			$fileContent = preg_replace('/\'' . $fieldName . '\'[\s]+=>([^\n]+),/', $replacement, $fileContent);
 		}

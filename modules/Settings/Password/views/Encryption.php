@@ -37,12 +37,8 @@ class Settings_Password_Encryption_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.Encryption",
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return array_merge($headerScriptInstances, $jsScriptInstances);
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				"modules.Settings.{$request->getModule()}.resources.Encryption",
+		]));
 	}
 }

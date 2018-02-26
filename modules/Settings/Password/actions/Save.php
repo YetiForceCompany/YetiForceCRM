@@ -50,12 +50,12 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	 */
 	public function encryption(\App\Request $request)
 	{
-		$method = $request->get('methods');
-		if (!in_array($method, \App\Encryption::getMethods())) {
+		$method = $request->isEmpty('methods') ? '' : $request->getByType('methods', 'Text');
+		if ($method && !in_array($method, \App\Encryption::getMethods())) {
 			throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||methods', 406);
 		}
-		$password = $request->get('password');
-		if (strlen($password) !== App\Encryption::getLengthVector($method)) {
+		$password = $request->getRaw('password');
+		if ($method && strlen($password) !== App\Encryption::getLengthVector($method)) {
 			throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
 		(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => App\Json::encode([$method, $password])]))->save();
