@@ -1293,15 +1293,16 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 
 		var thisInstance = this;
 		var data = thisInstance.generateData();
-		data.datasets[0].datalabels = {
-			font: {
-				weight: 'bold'
-			},
-			color: 'white',
-			anchor: 'end',
-			align: 'start',
-		};
-
+		data.datasets.forEach((dataset) => {
+			dataset.datalabels = {
+				font: {
+					weight: 'bold'
+				},
+				color: 'white',
+				anchor: 'end',
+				align: 'start',
+			};
+		});
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
