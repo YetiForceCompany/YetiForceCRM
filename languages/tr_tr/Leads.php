@@ -28,7 +28,7 @@
 	'Local number' => 'Ofis numarası',
 	'LBL_CONVERT_LEAD' => 'Potansiyel Müşteri Değiştir',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Modüller devre dışı',
-	'LBL_CONVERT_LEAD_ERROR' => 'Potansiyel Müşteri dönüştürmek için Hesap veya Kişi'yi etkinleştirmeniz gerekiyor',
+	'LBL_CONVERT_LEAD_ERROR' => 'Potansiyel Müşteri dönüştürmek için Hesap veya Kişi\'yi etkinleştirmeniz gerekiyor',
 	'LBL_CUSTOM_FIELD_MAPPING' => 'Alan eşlemesini düzenle',
 	'LBL_FOLLOWING_ARE_POSSIBLE_REASONS' => 'Muhtemel sebepler şunlardır:',
 	'LBL_LEAD_INFORMATION' => 'Potansiyel Müşteri ayrıntıları',
