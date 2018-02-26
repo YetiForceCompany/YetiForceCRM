@@ -116,7 +116,10 @@
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong>
+											<strong>
+												<span class="fas fa-plus fa-fw"></span>&nbsp;
+												{\App\Language::translate('LBL_QUICK_CREATE')}
+											</strong>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -130,7 +133,7 @@
 												{/if}
 												{if $quickCreateModule == '1'}
 													{if $count % 3 == 0}
-														<div class="row small">
+														<div class="row">
 														{/if}
 														<div class="col-4{if $count % 3 != 2} paddingRightZero{/if}">
 															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
@@ -148,7 +151,10 @@
 											{/if}
 										</div>
 										<div class="modal-footer">
-											<button class="btn btn-warning btn-sm" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+											<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">
+												<span class="fas fa-times"></span>&nbsp;&nbsp;
+												<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}
+											</strong></button>
 										</div>
 									</div>
 								</div>
