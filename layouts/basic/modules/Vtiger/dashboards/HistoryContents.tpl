@@ -34,7 +34,7 @@
 								{if \App\Layout::getImagePath($MOD_NAME|cat:'.png')}
 									<img width='24px' src="{\App\Layout::getImagePath($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 								{else}
-									<span class="fas fa-bars icon-in-history-widget" title="{$TRANSLATED_MODULE_NAME}"></span>
+									<span class="fas fa-bars fa-2x" title="{$TRANSLATED_MODULE_NAME}"></span>
 								{/if}
 							</div>
 							<div class="col-md-11">
