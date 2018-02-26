@@ -14,6 +14,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 		const data = thisInstance.generateData();
 		const options = {
 				maintainAspectRatio: false,
+				layout:{
+					padding:{
+						top:-30
+					}
+				},
 				tooltips:{
 					callbacks:{
 						label:function(item){
