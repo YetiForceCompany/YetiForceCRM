@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{foreach from=$DATES item=DATE name="iteration"}
-		<div class="width1per7 paddingLRZero" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
+		<div class="grid1x7 px-0" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
 			<table class="table">
 				<tr>
 					{if $smarty.foreach.iteration.first}
-						<th class="padding5 d-none d-sm-none d-md-block">
+						<th class="p-1 d-none d-sm-none d-md-block">
 							<button type="button" class="btn btn-sm btn-primary previousDayBtn"><</button>
 						</th>
 					{/if}
@@ -13,7 +13,7 @@
 						<span class="cursorPointer dateBtn" data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)})</span>
 					</th>
 					{if $smarty.foreach.iteration.last}
-						<th class="padding5 d-none d-sm-none d-md-block">
+						<th class="p-1 d-none d-sm-none d-md-block">
 							<button type="button" class="btn btn-sm btn-primary nextDayBtn">></button>
 						</th>
 					{/if}
@@ -24,23 +24,23 @@
 							<a target="_blank" href="{$EVENT['url']}">
 								<div class="cut-string">
 									<span class="fas fa-calendar-alt"></span>
-									<span class="paddingLR5"><strong>{$EVENT['hour_start']}</strong></span>
+									<span class="px-1"><strong>{$EVENT['hour_start']}</strong></span>
 									<span>{vtlib\Functions::textLength($EVENT['title'], 16)}</span>
 									<span class="HelpInfoPopover" title="" data-placement="top" data-content="
-										  <div><label class='paddingLR5'>{App\Language::translate('Start Time', $MODULE_NAME)}:</label>{$EVENT['start_display']}</div>
-										  <div><label class='paddingLR5'>{App\Language::translate('End Time', $MODULE_NAME)}:</label>{$EVENT['end_display']}</div>
-										  <div><label class='paddingLR5'>{App\Language::translate('Subject', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['title'])}</div>
-										  <div><label class='paddingLR5'>{App\Language::translate('LBL_STATE', $MODULE_NAME)}:</label>{$EVENT['labels']['state']}</div>
-										  <div><label class='paddingLR5'>{App\Language::translate('LBL_STATUS', $MODULE_NAME)}:</label>{$EVENT['labels']['sta']}</div>
-										  <div><label class='paddingLR5'>{App\Language::translate('Priority', $MODULE_NAME)}:</label>{$EVENT['labels']['pri']}</div>
+										  <div><label class='px-1'>{App\Language::translate('Start Time', $MODULE_NAME)}:</label>{$EVENT['start_display']}</div>
+										  <div><label class='px-1'>{App\Language::translate('End Time', $MODULE_NAME)}:</label>{$EVENT['end_display']}</div>
+										  <div><label class='px-1'>{App\Language::translate('Subject', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['title'])}</div>
+										  <div><label class='px-1'>{App\Language::translate('LBL_STATE', $MODULE_NAME)}:</label>{$EVENT['labels']['state']}</div>
+										  <div><label class='px-1'>{App\Language::translate('LBL_STATUS', $MODULE_NAME)}:</label>{$EVENT['labels']['sta']}</div>
+										  <div><label class='px-1'>{App\Language::translate('Priority', $MODULE_NAME)}:</label>{$EVENT['labels']['pri']}</div>
 										  {if $EVENT['link'] neq 0}
-											  <div><label class='paddingLR5'>{App\Language::translate('FL_RELATION', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['linkl'])}</div>
+											  <div><label class='px-1'>{App\Language::translate('FL_RELATION', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['linkl'])}</div>
 										  {/if}
 										  {if $EVENT['process'] neq 0}
-											  <div><label class='paddingLR5'>{App\Language::translate('FL_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['procl'])}</div>
+											  <div><label class='px-1'>{App\Language::translate('FL_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['procl'])}</div>
 										  {/if}
 										  {if $EVENT['subprocess'] neq 0}
-											  <div><label class='paddingLR5'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
+											  <div><label class='px-1'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
 										  {/if}
 										  ">
 										<i class="float-right fas fa-info-circle"></i>

@@ -73,8 +73,8 @@
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
 									{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['moduleModel']}
 									<div class="quickCreateContent">
-										<div class="massEditTable pr-1 pl-1 mx-auto m-0">
-											<div class="col-12 pl-0 pr-0 mx-auto form-row">
+										<div class="massEditTable px-1 mx-auto m-0">
+											<div class="col-12 px-0 mx-auto form-row">
 												{assign var=COUNTER value=0}
 												{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 													{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -82,13 +82,13 @@
 													{assign var="refrenceListCount" value=count($refrenceList)}
 													{if $COUNTER eq 2}
 													</div>
-													<div class="col-12 pl-0 pr-0 mx-auto form-row">
+													<div class="col-12 px-0 mx-auto form-row">
 														{assign var=COUNTER value=1}
 													{else}
 														{assign var=COUNTER value=$COUNTER+1}
 													{/if}
-													<div class="col-12 col-md-6 pt-2 pb-2 form-row pl-0 pr-0 {$WIDTHTYPE}">
-														<div class="fieldLabel col-12 col-sm-5">
+													<div class="col-12 col-md-6 py-2 form-row px-0 {$WIDTHTYPE}">
+														<div class="fieldLabel font-weight-bold col-12 col-sm-5">
 															{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 															{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 															<label class="muted col-form-label float-sm-left float-md-right float-lg-right">
@@ -106,7 +106,7 @@
 												{/foreach}
 											</div>
 										</div>
-										<div class="float-right mt-2 mb-2">
+										<div class="float-right my-2">
 											<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button>
 											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 										</div>
@@ -117,7 +117,7 @@
 								</div>
 							{/foreach}
 							{if $COUNTER eq 1}
-								<div class="col-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} pl-0 pr-0"></div>
+								<div class="col-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} px-0"></div>
 							{/if}
 						</div>
 					</div>
