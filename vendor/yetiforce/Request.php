@@ -6,7 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 namespace App;
 
 /**
@@ -14,6 +13,7 @@ namespace App;
  */
 class Request
 {
+
 	/**
 	 * Raw request data.
 	 *
@@ -211,6 +211,9 @@ class Request
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
+			if (!$value) {
+				return [];
+			}
 			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 				$decodeValue = Json::decode($value);
 				if (isset($decodeValue)) {
@@ -223,10 +226,8 @@ class Request
 				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
 			settype($value, 'array');
-
 			return $this->purifiedValuesByArray[$key] = $value;
 		}
-
 		return $value;
 	}
 

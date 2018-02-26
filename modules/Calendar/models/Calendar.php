@@ -9,6 +9,7 @@
  */
 class Calendar_Calendar_Model extends App\Base
 {
+
 	public $moduleName = 'Calendar';
 	public $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
@@ -143,7 +144,7 @@ class Calendar_Calendar_Model extends App\Base
 		$dataReader->close();
 		$labels = \App\Record::getLabel($ids);
 
-		foreach ($records as &$record) {
+		foreach ($records as $record) {
 			$item = [];
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
