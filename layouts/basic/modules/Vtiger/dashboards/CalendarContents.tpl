@@ -7,11 +7,5 @@
 	<input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 	<input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
 	<input type="hidden" id="defaultDate" value="{$DEFAULTDATE}" />
-	<div class="paddingLR10">
-		<div class="row">
-			<div class="col-md-12">
-				<div id="calendarview"></div>
-			</div>
-		</div>
-	</div>
+	<div id="calendarview"></div>
 {/strip}
