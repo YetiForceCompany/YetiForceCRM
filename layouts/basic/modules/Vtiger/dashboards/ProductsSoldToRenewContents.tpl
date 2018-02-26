@@ -27,8 +27,6 @@
 	{/foreach}
 
 	{if count($WIDGET_RECORDS) >= $WIDGET_MODEL->getRecordLimit()}
-		<div class="">
-			<a class="float-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{\App\Language::translate('LBL_MORE')}</a>
-		</div>
+		<a class="float-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{\App\Language::translate('LBL_MORE')}</a>
 	{/if}
 {/strip}
