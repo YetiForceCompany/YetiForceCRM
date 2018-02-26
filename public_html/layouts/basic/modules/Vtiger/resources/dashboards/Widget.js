@@ -82,7 +82,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	loadScrollbar: function () {
-		var widget = this.getPlotContainer(false).closest('.dashboardWidget');
+		var widget = $(this.getPlotContainer(false).closest('.dashboardWidget'));
 		var content = widget.find('.dashboardWidgetContent');
 		var footer = widget.find('.dashboardWidgetFooter');
 		var header = widget.find('.dashboardWidgetHeader');
@@ -1286,15 +1286,27 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 								beginAtZero: true
 							}
 						}]
-				}
+				},
+				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
 		}
+
 		var thisInstance = this;
+		var data = thisInstance.generateData();
+		data.datasets[0].datalabels = {
+			font: {
+				weight: 'bold'
+			},
+			color: 'white',
+			anchor: 'end',
+			align: 'start',
+		};
+
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'bar',
-					data: thisInstance.generateData(),
+					data: data,
 					options: options,
 				}
 		);
@@ -1302,23 +1314,45 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
+	getDataFromEvent: function (e, additionalFields) {
+		let chart = this.chartInstance;
+		var elements = chart.getElementsAtEvent(e);
+		if (elements.length === 0) {
+			return false;
+		}
+		var dataIndex = elements[0]._index;
+		var eventData = {
+			label: chart.data.labels[dataIndex],
+			value: chart.data.datasets[0].data[dataIndex],
+		};
+		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
+			additionalFields.forEach((fieldName) => {
+				if (typeof chart.data.datasets[0][fieldName] !== 'undefined' && typeof chart.data.datasets[0][fieldName][dataIndex] !== 'undefined') {
+					eventData[fieldName] = chart.data.datasets[0][fieldName][dataIndex];
+				}
+			});
+		}
+		return eventData;
+	},
 	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
+		const thisInstance = this;
+		var pointer = false;
+		$(thisInstance.chartInstance.canvas).on('click', function (e) {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
+				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
+			}
+		}).on('mousemove', function (e) {
+			let eventData = thisInstance.getDataFromEvent(e);
+			if (eventData && !pointer) {
 				$(this).css('cursor', 'pointer');
-			} else {
+				pointer = true;
+			} else if (!eventData && pointer) {
 				$(this).css('cursor', 'auto');
+				pointer = false;
 			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.dataIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
+		}).on('mouseout', function () {
+			$(this).css('cursor', 'auto');
+			pointer = false;
 		});
 	}
 });
@@ -1856,27 +1890,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 		}
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
-	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.seriesIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
-		});
-	}
-});
+YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	generateData: function () {
 		var container = this.getContainer();
