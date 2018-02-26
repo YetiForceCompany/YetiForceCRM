@@ -116,10 +116,10 @@
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<strong>
-												<span class="fas fa-plus fa-fw"></span>&nbsp;
+											<h5>
+												<span class="fas fa-plus fa-fw mr-1"></span>
 												{\App\Language::translate('LBL_QUICK_CREATE')}
-											</strong>
+											</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -152,7 +152,7 @@
 										</div>
 										<div class="modal-footer">
 											<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">
-												<span class="fas fa-times"></span>&nbsp;&nbsp;
+												<span class="fas fa-times mr-1"></span>
 												<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}
 											</strong></button>
 										</div>
