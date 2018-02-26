@@ -100,7 +100,7 @@
 	"Attorney General's Office" => "Başsavcılık Ofisi",
 	'LBL_RELATION' => 'İlişki',
 	'LBL_LEGAL_FORM' => 'Hukuk formu',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'En az iki Hesap bağlama gereksinimlerini karşılar, gidin: (Yönetim> Süreçler> Pazarlama süreçleri> Dönüşüm)% s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'En az iki Hesap bağlama gereksinimlerini karşılar, gidin: (Yönetim> Süreçler> Pazarlama süreçleri> Dönüşüm) %s',
 	];	
 		
 	$jsLanguageStrings = [
