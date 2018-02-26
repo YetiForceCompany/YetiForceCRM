@@ -8,10 +8,10 @@
 					{if $ICON}
 						<div class="float-left">
 							{if $ICON['type'] == 'image'}
-								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
+								<img width="22px" class="mr-1 top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
 							{else}
-								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}"></span>
-							{/if}&nbsp;&nbsp;
+								<span class="mr-1 noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}"></span>
+							{/if}
 						</div>
 					{/if}
 					<div class="float-right">
@@ -31,10 +31,12 @@
 						<b>{\App\Language::translate('Created By')}:</b>&nbsp;{$ROW->getCreatorUser()}&nbsp;
 						<button type="button" class="btn btn-success btn-sm" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{\App\Language::translate('LBL_MARK_AS_READ', $MODULE_NAME)}">
 							<span class="fas fa-check"></span>
-						</button>&nbsp;&nbsp;
+						</button>
 						{assign var=RELATED_RECORD value=$ROW->getRelatedRecord()}
 						{if $RELATED_RECORD['id'] && \App\Record::isExists($RELATED_RECORD['id'])}
-							<a class="btn btn-info btn-sm fas fa-th-list" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}"></a>
+							<a class="btn btn-info btn-sm ml-1" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}">
+								<i class="fas fa-th-list"></i>
+							</a>
 						{/if}
 					</div>
 				</div>
