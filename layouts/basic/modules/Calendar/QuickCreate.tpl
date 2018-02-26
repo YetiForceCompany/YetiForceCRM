@@ -15,16 +15,16 @@
     {/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     <div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-full">
             <div class="modal-content">
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
-						<div class="col-5">
+						<div class="col-5 px-0">
 						<div class="float-left">
 							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
 						</div>
 						</div>
-						<div class="col-7">
+						<div class="col-7 px-0">
 						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 						<div class="quickCreateActions float-right pullRight">
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
@@ -59,7 +59,7 @@
 					<div class="modal-body m-0 tabbable">
 						<ul class="nav nav-pills">
 							 <li class="nav-item">
-								<a class="nav-link active" href="javascript:void(0);" data-target=".EventsQuikcCreateContents_{$RAND_NUMBER}" data-toggle="tab" data-tab-name="Event">{\App\Language::translate('LBL_EVENT',$MODULE)}</a>
+								<a class="nav-link active show" href="javascript:void(0);" data-target=".EventsQuikcCreateContents_{$RAND_NUMBER}" data-toggle="tab" data-tab-name="Event">{\App\Language::translate('LBL_EVENT',$MODULE)}</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="javascript:void(0);" data-target=".CalendarQuikcCreateContents_{$RAND_NUMBER} " data-toggle="tab" data-tab-name="Task">{\App\Language::translate('LBL_TASK',$MODULE)}</a>
@@ -67,7 +67,7 @@
 						</ul>
 						<div class="tab-content overflowVisible">
 							{foreach item=MODULE_DETAILS key=MODULE_NAME from=$QUICK_CREATE_CONTENTS}
-								<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active in {/if}fade">
+								<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active show {/if}fade">
 									<input type="hidden" name="mode" value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}" />
 									{assign var="RECORD_STRUCTURE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructureModel']}
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
@@ -88,10 +88,10 @@
 														{assign var=COUNTER value=$COUNTER+1}
 													{/if}
 													<div class="col-12 col-md-6 py-2 form-row px-0 {$WIDTHTYPE}">
-														<div class="fieldLabel font-weight-bold col-12 col-sm-5">
+														<div class="fieldLabel  col-12 col-sm-5">
 															{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 															{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-															<label class="muted col-form-label float-sm-left float-md-right float-lg-right">
+															<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
 																{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 																{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 																	<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
@@ -111,7 +111,7 @@
 											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
-											<div class="row noSpaces col-12 eventsTable"></div>
+											<div class="form-row d-flex px-0 mx-0 col-12 eventsTable"></div>
 										{/if}
 									</div>
 								</div>

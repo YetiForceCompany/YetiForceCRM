@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{foreach from=$DATES item=DATE name="iteration"}
-		<div class="grid1x7 px-0" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
+		<div class="grid1x7 px-0 small font-weight-bold" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
 			<table class="table">
 				<tr>
 					{if $smarty.foreach.iteration.first}
