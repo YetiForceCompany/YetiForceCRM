@@ -2828,9 +2828,6 @@ html, body, .baseContainer {
 		margin-bottom: 7px;
 	}
 }
-.modal-body .fieldLabel {
-	font-weight: 900;
-}
 .editViewContainer .btn-warning.pull-right {
 	margin-left: 5px;
 }
@@ -3241,7 +3238,7 @@ html, body, .baseContainer {
 	}
 }
 @media only screen and (min-width: 768px) {
-	.width1per7 {
+	.grid1x7 {
 		width: 14.28%;
 	}
 	.basePanel.menuOpen {
@@ -3259,9 +3256,6 @@ html, body, .baseContainer {
 			top: 0;
 			left: 0px;
 			height: 100%;
-			border-right: 1px solid #ddd;
-		}
-		.fieldLabel {
 			border-right: 1px solid #ddd;
 		}
 	}
@@ -3313,7 +3307,7 @@ html, body, .baseContainer {
 	}
 }
 @media only screen and (max-width: 768px) {
-	.width1per7 {
+	.grid1x7 {
 		width: 100%;
 	}
 	.mainBody {
@@ -3711,7 +3705,7 @@ select.form-control {
 		}
 	}
 }
-.width1per7 {
+.grid1x7 {
 	float: left;
 }
 .quickCreateContent .addedNearCalendarEvent td {
