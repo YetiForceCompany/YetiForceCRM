@@ -65,7 +65,6 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$colors = \App\Fields\Picklist::getColors('industry');
 		$chartData = [
 			'labels' => [],
-			'title' => 'test',
 			'datasets' => [
 				[
 					'data' => [],
