@@ -10,26 +10,24 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div style='padding:5px;'>
-		{if $LIST neq false}
-			<table class="table table-bordered">
+	{if $LIST neq false}
+		<table class="table table-bordered">
+			<tr>
+				{foreach from=$COLUMN_LIST item=col key=col_key}
+					<th>{\App\Language::translate($col_key, 'Vtiger')}</th>
+					{/foreach}
+			</tr>
+			{foreach key=$index item=record from=$LIST}
 				<tr>
-					{foreach from=$COLUMN_LIST item=col key=col_key}
-						<th>{\App\Language::translate($col_key, 'Vtiger')}</th>
-						{/foreach}
+					{foreach from=$record item=item key=key}
+						<td>{$item}</td>
+					{/foreach}
 				</tr>
-				{foreach key=$index item=record from=$LIST}
-					<tr>
-						{foreach from=$record item=item key=key}
-							<td>{$item}</td>
-						{/foreach}
-					</tr>
-				{/foreach}
-			</table>
-		{else}
-			<span class="noDataMsg">
-				{\App\Language::translate('LBL_NO_MOD_RECORDS', $MODULE_NAME)}
-			</span>
-		{/if}
-	</div>
+			{/foreach}
+		</table>
+	{else}
+		<span class="noDataMsg">
+			{\App\Language::translate('LBL_NO_MOD_RECORDS', $MODULE_NAME)}
+		</span>
+	{/if}
 {/strip}
