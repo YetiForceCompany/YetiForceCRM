@@ -282,7 +282,7 @@ class Picklist
 				$hash = md5('color' . $id);
 				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
 			} else {
-				$color = '#' . $value['color'];
+				$color = substr($value['color'], 0, 1) === '#' ? $value['color'] : '#' . $value['color'];
 			}
 			$colors[$id] = $color;
 		}

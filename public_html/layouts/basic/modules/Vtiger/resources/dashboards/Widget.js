@@ -461,7 +461,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerSectionClick: function () {
 		const thisInstance = this;
-		if (typeof thisInstance.chartData === 'undefined' || thisInstance.chartData.datasets.length === 0 || typeof thisInstance.chartData.datasets[0].links === 'undefined' || thisInstance.chartData.datasets[0].links.length == 0) {
+		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.chartData.datasets === 'undefined' || thisInstance.chartData.datasets.length === 0 || typeof thisInstance.chartData.datasets[0].links === 'undefined' || thisInstance.chartData.datasets[0].links.length === 0) {
 			// if we doesn't have a links
 			return false;
 		}

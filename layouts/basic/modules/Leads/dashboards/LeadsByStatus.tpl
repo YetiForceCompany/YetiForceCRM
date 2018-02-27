@@ -11,24 +11,49 @@
 -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Leadsbystatus_Widget_Js',{}, {
-		registerSectionClick: function () {
+		loadChart:function(){
+			const options = {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						yAxes: [{
+								ticks: {
+									beginAtZero: true,
+								}
+						}],
+						xAxes:[{
+							ticks:{
+								minRotation:75,
+							}
+						}]
+					},
+					events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+				};
 			var thisInstance = this;
-			var chartData = thisInstance.generateData();
-			thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-				if (item) {
-					$(this).css('cursor', 'pointer');
-				} else {
-					$(this).css('cursor', 'auto');
-				}
+			var data = thisInstance.generateData();
+			data.datasets.forEach((dataset) => {
+				dataset.datalabels = {
+					font: {
+						weight: 'bold'
+					},
+					color: 'white',
+					anchor: 'end',
+					align: 'start',
+				};
 			});
-			thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-				if (item) {
-					$(chartData['links']).each(function () {
-						if (item.seriesIndex == this[0])
-							window.location.href = this[1];
-					});
-				}
-			});
+			thisInstance.chartInstance = new Chart(
+					thisInstance.getPlotContainer().getContext("2d"),
+					{
+						type: 'bar',
+						data: data,
+						options: options,
+					}
+			);
 		}
 	});
 </script>
