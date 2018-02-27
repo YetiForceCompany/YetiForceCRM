@@ -11,6 +11,7 @@
 
 class Vtiger_DashBoard_View extends Vtiger_Index_View
 {
+
 	public function preProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -144,20 +145,6 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
-			'~libraries/updated-jqplot/dist/jquery.updated-jqplot.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasTextRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasAxisTickRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.pieRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.barRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.categoryAxisRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.pointLabels.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasAxisLabelRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.funnelRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.donutRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.barRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.logAxisRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.enhancedLegendRenderer.js',
-			'~libraries/updated-jqplot/dist/plugins/jqplot.enhancedPieLegendRenderer.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
