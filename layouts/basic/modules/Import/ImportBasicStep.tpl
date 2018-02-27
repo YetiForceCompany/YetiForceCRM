@@ -28,7 +28,7 @@
 						</div>
 					</div>
 				{/if}
-				<div class="importContents col-12">
+				<div class="importContents col-12 mt-2">
 					{include file=\App\Layout::getTemplatePath('Import_Step1.tpl', 'Import')}
 				</div>
 				<div class="importContents col-12">
