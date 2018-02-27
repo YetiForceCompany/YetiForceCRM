@@ -23,7 +23,7 @@
 			{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
 				{$SPANSIZE_ARRAY[$ITERATION] = 3}
 			{/if}
-			<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+			<div class="p-0 pr-2 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
 		{/foreach}
 	</div>
 	{if $OWNER eq false}
@@ -36,13 +36,13 @@
 			{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
 				{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
 				{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
-				<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis">
+				<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
 					{if $LAST_RECORD}
 						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
-						{/if}
-						{if $RECORD->get($FIELD->get('name'))}
-							{$RECORD->getDisplayValue($FIELD->get('name'))}
-						{else}
+					{/if}
+					{if $RECORD->get($FIELD->get('name'))}
+					<div class="pr-2 textOverflowEllipsis">{$RECORD->getDisplayValue($FIELD->get('name'))}</div>
+					{else}
 						&nbsp;
 					{/if}
 				</div>
