@@ -82,12 +82,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	loadScrollbar: function () {
-		var widget = $(this.getPlotContainer(false).closest('.dashboardWidget'));
-		var content = widget.find('.dashboardWidgetContent');
-		var footer = widget.find('.dashboardWidgetFooter');
-		var header = widget.find('.dashboardWidgetHeader');
-		var headerHeight = header.outerHeight();
-		var adjustedHeight = widget.height() - headerHeight;
+		const container = this.getPlotContainer(false);
+		if (typeof container === 'undefined') { // if there is no data
+			return false;
+		}
+		const widget = $(container.closest('.dashboardWidget'));
+		const content = widget.find('.dashboardWidgetContent');
+		const footer = widget.find('.dashboardWidgetFooter');
+		const header = widget.find('.dashboardWidgetHeader');
+		const headerHeight = header.outerHeight();
+		const adjustedHeight = widget.height() - headerHeight;
 		if (footer.length)
 			adjustedHeight -= footer.outerHeight();
 		if (!content.length)
