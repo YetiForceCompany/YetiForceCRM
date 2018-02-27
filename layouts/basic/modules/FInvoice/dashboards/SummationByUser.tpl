@@ -13,15 +13,17 @@
 				},
 				scales: {
 					yAxes: [{
-							ticks: {
-								beginAtZero: true
-							}
-						}]
+						ticks: {
+							beginAtZero: true
+						}
+					}],
+					xAxes:[{
+						display:false
+					}]
 				},
 				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
 			const data = thisInstance.generateData();
-			console.log(data);
 			data.datasets.forEach((dataset) => {
 				dataset.datalabels = {
 					font: {
@@ -40,29 +42,6 @@
 						options: options,
 					}
 			);
-	{if $PARAM['showUsers']}
-			/*chartArea.bind('plothover', function (event, pos, item) {
-				if (item) {
-					var html = '';
-					$("#tooltip").remove();
-					var html = '<div id="tooltip">';
-					html += item.series.label;
-					html += '</div>';
-					$(html).css({
-						position: 'absolute',
-						top: pos.pageY,
-						left: pos.pageX + 20,
-						border: '1px solid #DAD9D9',
-						padding: '2px',
-						'z-index': 1050,
-						'background-color': '#f5f5f5',
-					}).appendTo("body").fadeIn(200);
-
-				} else {
-					$("#tooltip").fadeOut();
-				}
-			});*/
-	{/if}
 		}
 	});
 </script>
