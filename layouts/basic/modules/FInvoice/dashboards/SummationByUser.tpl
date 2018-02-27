@@ -2,35 +2,46 @@
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbyuser_Widget_Js',{}, {
 		loadChart: function () {
-			var thisInstance = this;
-			var chartData = thisInstance.generateData();
-			var chartArea = thisInstance.getPlotContainer(false);
-			var options = {
-				series: {
-					bars: {
-						show: true,
-						//barWidth: 0.4,
-					},
+			const thisInstance = this;
+			const options = {
+				maintainAspectRatio: false,
+				title: {
+					display: false
 				},
-				bars: {
-					barWidth: .8,
-				},
-				xaxis: {
-					ticks: [],
-					autoscaleMargin: .05
-				},
-	{if $PARAM['showUsers']}
-				grid: {
-					hoverable: true
-				},
-	{/if}
 				legend: {
-					show: false
-				}
+					display: false
+				},
+				scales: {
+					yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+				},
+				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
-			thisInstance.plotInstance = $.plot(chartArea, chartData['chartData'], options);
+			const data = thisInstance.generateData();
+			console.log(data);
+			data.datasets.forEach((dataset) => {
+				dataset.datalabels = {
+					font: {
+						weight: 'bold'
+					},
+					color: 'white',
+					anchor: 'end',
+					align: 'start',
+				};
+			});
+			thisInstance.chartInstance = new Chart(
+					thisInstance.getPlotContainer().getContext("2d"),
+					{
+						type: 'bar',
+						data: data,
+						options: options,
+					}
+			);
 	{if $PARAM['showUsers']}
-			chartArea.bind('plothover', function (event, pos, item) {
+			/*chartArea.bind('plothover', function (event, pos, item) {
 				if (item) {
 					var html = '';
 					$("#tooltip").remove();
@@ -50,7 +61,7 @@
 				} else {
 					$("#tooltip").fadeOut();
 				}
-			});
+			});*/
 	{/if}
 		}
 	});

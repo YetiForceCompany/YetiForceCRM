@@ -64,38 +64,36 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
-		$rawData = $response = $ticks = [];
-		$currentUserId = \App\User::getCurrentUserId();
-		$param = $time['start'] . ',' . $time['end'];
-
 		$s = new \yii\db\Expression('sum(sum_gross)');
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setField('assigned_user_id');
 		$queryGenerator->setCustomColumn(['s' => $s]);
-		$queryGenerator->addCondition('saledate', $param, 'bw');
+		$queryGenerator->addCondition('saledate', $time['start'] . ',' . $time['end'], 'bw');
 		$queryGenerator->setGroup('assigned_user_id');
 		$query = $queryGenerator->createQuery();
 		$query->orderBy(['s' => SORT_DESC]);
 		$query->having(['>', $s, 0]);
 		$dataReader = $query->createCommand()->query();
-
-		$i = 0;
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+				//'borderColor' => [],
+				//'tooltips' => [],
+				//'links' => [], // links generated in proccess method
+				],
+			],
+			'show_chart' => false
+		];
 		while ($row = $dataReader->read()) {
-			$color = '#EDC240';
-			if ($currentUserId === $row['assigned_user_id']) {
-				$color = '#4979aa';
-			}
-			$owner = \App\Fields\Owner::getLabel($row['assigned_user_id']);
-			$rawData[] = [
-				'data' => [[++$i, (int) $row['s']]],
-				'label' => $owner,
-				'color' => $color,
-			];
+			$chartData['datasets'][0]['data'][] = (int) $row['s'];
+			$chartData['labels'][] = \App\Fields\Owner::getLabel($row['assigned_user_id']);
+			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor($row['assigned_user_id']);
+			$chartData['show_chart'] = true;
 		}
 		$dataReader->close();
-		$response['ticks'] = $ticks;
-		$response['chart'] = $rawData;
-
-		return $response;
+		return $chartData;
 	}
 }
