@@ -2,7 +2,7 @@
 {strip}
 	{if $WIZARD_STEP eq 'step1'}
 		<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
 						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}</h3>
