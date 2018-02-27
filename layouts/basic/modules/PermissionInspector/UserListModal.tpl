@@ -6,79 +6,77 @@
 			<span aria-hidden="true">&times;</span>
         </button>
 	</div>
-	<div class="modal-body" style="max-height: 500px;overflow-y: auto;">
-		<div>
-			<table class="table dataTable">
-				<thead>
-					<tr>
+	<div class="modal-body px-0">
+		<table class="table dataTable">
+			<thead>
+				<tr>
+					{if $WATCHDOG || $SRC_RECORD_ID neq 0}
+						<th style="width:60px" class="text-left" ></th>
+						{/if}
+					<th class="text-center">{\App\Language::translate('LBL_FULL_USER_NAME', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_VIEW_PRVILIGE', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
+					<tr data-id="{$USER_ID}">
 						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
-							<th style="width:60px" class="text-left" ></th>
-							{/if}
-						<th class="text-center">{\App\Language::translate('LBL_FULL_USER_NAME', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_VIEW_PRVILIGE', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
-						<tr data-id="{$USER_ID}">
-							{if $WATCHDOG || $SRC_RECORD_ID neq 0}
-								<th scope="row" class="text-left">
-									{if $WATCHDOG}
-										{if $ITEM['watchdog']['active']}
-											<button type="button" class="btn btn-info btn-xs"
-													data-off="btn-sm btn-light" data-on="btn-sm btn-info"
-													data-value="0" data-user="{$USER_ID}"
-													data-record="{$SRC_RECORD_ID}"
-													onclick="Vtiger_Index_Js.changeWatching(this);">
-												<span class="fas fa-eye"></span>
-											</button>
-										{else}
-											<button type="button" class="btn btn-light btn-xs"
-													data-off="btn-sm btn-light" data-on="btn-sm btn-info"
-													data-value="1" data-user="{$USER_ID}"
-													data-record="{$SRC_RECORD_ID}"
-													onclick="Vtiger_Index_Js.changeWatching(this);">
-												<span class="far fa-eye-slash"></span>
-											</button>
-										{/if}
+							<th scope="row" class="text-left">
+								{if $WATCHDOG}
+									{if $ITEM['watchdog']['active']}
+										<button type="button" class="btn btn-info btn-xs"
+												data-off="btn-sm btn-light" data-on="btn-sm btn-info"
+												data-value="0" data-user="{$USER_ID}"
+												data-record="{$SRC_RECORD_ID}"
+												onclick="Vtiger_Index_Js.changeWatching(this);">
+											<span class="fas fa-eye"></span>
+										</button>
+									{else}
+										<button type="button" class="btn btn-light btn-xs"
+												data-off="btn-sm btn-light" data-on="btn-sm btn-info"
+												data-value="1" data-user="{$USER_ID}"
+												data-record="{$SRC_RECORD_ID}"
+												onclick="Vtiger_Index_Js.changeWatching(this);">
+											<span class="far fa-eye-slash"></span>
+										</button>
 									{/if}
-									{if !empty($UNREVIEWED_CHANGES[$USER_ID]['a'])}
-										<span class="badge bgDanger marginLeft5" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}">{$UNREVIEWED_CHANGES[$USER_ID]['a']}</span>
-									{/if}
-									{if !empty($UNREVIEWED_CHANGES[$USER_ID]['m'])}
-										<span class="badge bgBlue mail marginLeft5" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}">{$UNREVIEWED_CHANGES[$USER_ID]['m']}</span>
-									{/if}
-								</th>
-							{/if}
-							<th scope="row" class="text-center">
-								{$ITEM['userName']}
-							</th>
-							{foreach item=ACTION from=$ITEM['privileges']}
-								{if $ACTION['param']}
-									{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME, $ACTION['param'])}
-								{else}
-									{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME)}
 								{/if}
-								<td class="text-center {$ACTION['text']}">
-									<span class="cursorPointer popoverTooltip" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
-										{if $ACTION['isPermitted']}
-											<span class="fas fa-check text-success" aria-hidden="true"></span>
-											<span class="hide" aria-hidden="true">1</span>
-										{else}
-											<span class="fas fa-times text-danger" aria-hidden="true"></span>
-											<span class="hide" aria-hidden="true">0</span>
-										{/if}
-									</span>
-								</td>
-							{/foreach}
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
+								{if !empty($UNREVIEWED_CHANGES[$USER_ID]['a'])}
+										<span class="badge bgDanger ml-1" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}">{$UNREVIEWED_CHANGES[$USER_ID]['a']}</span>
+								{/if}
+								{if !empty($UNREVIEWED_CHANGES[$USER_ID]['m'])}
+										<span class="badge bgBlue mail ml-1" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}">{$UNREVIEWED_CHANGES[$USER_ID]['m']}</span>
+								{/if}
+							</th>
+						{/if}
+						<th scope="row" class="text-center">
+							{$ITEM['userName']}
+						</th>
+						{foreach item=ACTION from=$ITEM['privileges']}
+							{if $ACTION['param']}
+								{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME, $ACTION['param'])}
+							{else}
+								{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME)}
+							{/if}
+							<td class="text-center {$ACTION['text']}">
+								<span class="cursorPointer popoverTooltip" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
+									{if $ACTION['isPermitted']}
+										<span class="fas fa-check text-success" aria-hidden="true"></span>
+										<span class="hide" aria-hidden="true">1</span>
+									{else}
+										<span class="fas fa-times text-danger" aria-hidden="true"></span>
+										<span class="hide" aria-hidden="true">0</span>
+									{/if}
+								</span>
+							</td>
+						{/foreach}
+					</tr>
+				{/foreach}
+			</tbody>
+		</table>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-danger" type="reset" data-dismiss="modal">
