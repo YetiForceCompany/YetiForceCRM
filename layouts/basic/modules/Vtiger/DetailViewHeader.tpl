@@ -22,7 +22,7 @@
 						</div>
 						<div class="col-lg">
 							<div class="col-12 detailViewToolbar py-1 pr-2">
-								<div class="pull-right-md pull-left-sm pull-right-lg">
+								<div class="float-md-right float-sm-left float-lg-right">
 									<div class="btn-toolbar detailViewActionsBtn">
 										{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
 											<span class="btn-group ">
@@ -54,7 +54,7 @@
 			{/if}					
 			{if !empty($DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET'])}
 				{foreach item=WIDGET from=$DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET']}
-					<div class="col-md-12 paddingLRZero">
+					<div class="col-md-12 px-0">
 						{Vtiger_Widget_Model::processWidget($WIDGET, $RECORD)}
 					</div>
 				{/foreach}
