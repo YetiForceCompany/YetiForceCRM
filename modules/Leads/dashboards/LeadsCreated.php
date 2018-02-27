@@ -10,28 +10,6 @@
 
 class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 {
-	/**
-	 * Function to get the list of Script models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$jsFileNames = [
-//			'~libraries/updated-jqplot/dist/plugins/jqplot.cursor.js',
-//			'~libraries/updated-jqplot/dist/plugins/jqplot.dateAxisRenderer.js',
-//			'~libraries/updated-jqplot/dist/plugins/jqplot.logAxisRenderer.js',
-//			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasTextRenderer.js',
-//			'~libraries/updated-jqplot/dist/plugins/jqplot.canvasAxisTickRenderer.js'
-		];
-
-		$headerScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-
-		return $headerScriptInstances;
-	}
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
