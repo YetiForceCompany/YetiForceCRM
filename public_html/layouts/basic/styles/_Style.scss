@@ -4291,19 +4291,8 @@ select {
 .calculateValue {
 	margin-left: 10px;
 }
-.listPreviewframe {
-	width: 100%;
-	height: 100%;
-	margin-bottom: 6px;
-}
 border1px {
 	border: 1px solid #ddd;
-}
-.listPreview {
-	float: right;
-	padding-left: 10px;
-	padding-right: 0;
-	margin-top: 2px;
 }
 #recordsList {
 	padding-left: 0;
@@ -4312,28 +4301,6 @@ border1px {
 }
 [class*="picklistLb_"] {
 	border-radius: 7px;
-}
-.fixedListInitial {
-	padding-right: 10px;
-	height: 600px;
-	padding-left: 0;
-	overflow: hidden;
-}
-.fixedListContent {
-	position: relative;
-	margin-top: 2px;
-	height: max-content;
-	#recordsList {
-		padding-left: 0;
-		padding-right: 0;
-		float: none;
-	}
-	.contents-topscroll {
-		margin-top: -2px;
-	}
-	.listViewSummation td {
-		padding: 0;
-	}
 }
 .formActionsPanel {
 	position: fixed;
@@ -4362,24 +4329,7 @@ border1px {
 	padding-right: 10px;
 	padding-left: 10px;
 }
-@media only screen and (max-width: 992px) {
-	.listPreview {
-		padding-left: 0;
-		padding-right: 0;
-		margin-top: 2px;
-		width: 100%;
-		height: 100%;
-	}
-	.fixedListInitial {
-		position: static;
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.fixedListContent {
-		margin-right: 0;
-		margin-bottom: 10px;
-	}
-}
+
 @media only screen and (max-width: 768px) {
 	.formActionsPanel {
 		bottom: 17px;
@@ -4392,68 +4342,7 @@ border1px {
 .popover.activities {
 	min-width: 400px;
 }
-.gutter {
-	background-color: #4979aa;
-	background-repeat: no-repeat;
-	background-position: 50%;
-	position: relative;
-	margin-top: 2px;
-	z-index: 300;
-	&:active:before {
-		content: "";
-		position: fixed;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		background: transparent;
-	}
-	&.gutter-horizontal {
-		cursor: ew-resize;
-		background-image: url('images/vertical.png');
-		height: calc(100vh - 33px);
-		float: left;
-	}
-}
-.gutterOnScroll {
-	position: fixed;
-	top: 48px;
-}
-.wrappedPanel {
-	display: none;
-	height: calc(100vh - 33px);
-	width: 20px;
-	position: absolute;
-	top: 2px;
-	background: $light;
-}
-.wrappedPanelLeft {
-	display: block;
-	left: -10px;
-}
-.wrappedPanelRight {
-	display: block;
-	right: -10px;
-	background: $primary;
-}
-.rotatedText {
-	transform: rotate(0.75turn);
-	position: absolute;
-	text-align: center;
-}
-.wrappedPanelRight .rotatedText {
-	color: #fff;
-}
-.wrappedPanelOnScroll {
-	position: fixed;
-	top: 50px;
-}
-.wrappedPanelLeft.wrappedPanelOnScroll {
-	left: 50px;
-}
-.wrappedPanelRight.wrappedPanelOnScroll {
-	right: 17px;
-}
+
 .inventoryRow .input-group-addon {
 	padding: 0px 5px;
 }
