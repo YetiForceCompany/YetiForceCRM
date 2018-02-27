@@ -17,10 +17,8 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$linkId = $request->getInteger('linkid');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUser->getId());
 		if ($request->has('time')) {
 			$time = $request->getDateRange('time');
 		} else {
@@ -33,13 +31,10 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
 			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
 		$param = \App\Json::decode($widget->get('data'));
 		$data = $this->getWidgetData($moduleName, $param, $time);
-
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);

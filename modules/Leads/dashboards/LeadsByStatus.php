@@ -113,9 +113,8 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				$dates = $time;
 			}
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getLeadsByStatus($owner, $dates);
-		$listViewUrl = $moduleModel->getListViewUrl();
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$leadStatusAmount = count($data['names']);
 		for ($i = 0; $i < $leadStatusAmount; ++$i) {
 			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $dates);
@@ -126,11 +125,8 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('DTIME', $dates);
-
-		$accessibleUsers = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule());
 		$viewer->assign('OWNER', $ownerForwarded);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		if ($request->has('content')) {

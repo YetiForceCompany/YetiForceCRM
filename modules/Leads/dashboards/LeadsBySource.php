@@ -82,9 +82,8 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
 		$createdTime = $request->getDateRange('createdtime');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUser->getId());
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		} else {
@@ -105,9 +104,8 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 				$dates = $time;
 			}
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getLeadsBySource($owner, $dates);
-		$listViewUrl = $moduleModel->getListViewUrl();
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$leadSourceAmount = count($data['names']);
 		for ($i = 0; $i < $leadSourceAmount; ++$i) {
 			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $dates);
@@ -118,10 +116,8 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('DTIME', $dates);
-		$accessibleUsers = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule());
 		$viewer->assign('OWNER', $ownerForwarded);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);

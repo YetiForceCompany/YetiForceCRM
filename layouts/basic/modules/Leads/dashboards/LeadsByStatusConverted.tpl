@@ -10,7 +10,52 @@
 ************************************************************************************/
 -->*}
 <script type="text/javascript">
-	Vtiger_Barchat_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{});
+	YetiForce_Bar_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{
+		loadChart:function(){
+			const options = {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						yAxes: [{
+								ticks: {
+									beginAtZero: true,
+								}
+						}],
+						xAxes:[{
+							ticks:{
+								minRotation:75,
+							}
+						}]
+					},
+					events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+				};
+			var thisInstance = this;
+			var data = thisInstance.generateData();
+			data.datasets.forEach((dataset) => {
+				dataset.datalabels = {
+					font: {
+						weight: 'bold'
+					},
+					color: 'white',
+					anchor: 'end',
+					align: 'start',
+				};
+			});
+			thisInstance.chartInstance = new Chart(
+					thisInstance.getPlotContainer().getContext("2d"),
+					{
+						type: 'bar',
+						data: data,
+						options: options,
+					}
+			);
+		}
+	});
 </script>
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}

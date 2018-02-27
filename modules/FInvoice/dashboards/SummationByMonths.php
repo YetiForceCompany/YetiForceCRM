@@ -10,6 +10,7 @@
  */
 class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 {
+
 	private $conditions = false;
 
 	/**
@@ -19,21 +20,16 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$linkId = $request->getInteger('linkid');
-
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUser->getId());
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
 		$data = $this->getWidgetData($moduleName, $owner);
-
 		$viewer->assign('USERID', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
