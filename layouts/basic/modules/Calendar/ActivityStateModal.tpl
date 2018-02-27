@@ -7,7 +7,7 @@
 				<div class="modal-header row">
 					<div class="col-5">
 						<div class="float-left">
-							<h3 class="modal-title">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
+							<h5 class="modal-title">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h5>
 						</div>
 					</div>
 					<div class="col-7">
@@ -28,10 +28,10 @@
 								{/if}
 							{/if}
 							{if $RECORD->isEditable()}
-								<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light"><span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
+								<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light btn-sm"><span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 								{/if}
 								{if $RECORD->isViewable()}
-								<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span></a>
+								<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light btn-sm"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span></a>
 								{/if}
 								{*<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>*}
 						</div>
@@ -139,13 +139,13 @@
 							<div class="float-left">
 								{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 								{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
-									<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
+									<button type="button" class="mr-1 btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
 								{/if}
 								{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
-									<button type="button" class="btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
+									<button type="button" class="mr-1 btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
 								{/if}
 								{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
-									<button type="button" class="btn btn-primary showQuickCreate" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
+									<button type="button" class="mr-1 btn btn-primary showQuickCreate" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
 								{/if}
 								{if !$EMPTY}
 									{\App\Language::translate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
