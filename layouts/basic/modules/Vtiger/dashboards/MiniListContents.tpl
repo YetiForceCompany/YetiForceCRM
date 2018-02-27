@@ -8,49 +8,45 @@
 * Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
-	<div class="row no-margin">
-		<div class="col-sm-12">
-			{* Comupte the nubmer of columns required *}
-			{assign var="SPANSIZE_ARRAY" value=[]}
-			{assign var="SPANSIZE" value=12}
-			{assign var="HEADER_COUNT" value=$MINILIST_WIDGET_MODEL->getHeaderCount()}
-			{if $HEADER_COUNT}
-				{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
-			{/if}
+	{* Comupte the nubmer of columns required *}
+	{assign var="SPANSIZE_ARRAY" value=[]}
+	{assign var="SPANSIZE" value=12}
+	{assign var="HEADER_COUNT" value=$MINILIST_WIDGET_MODEL->getHeaderCount()}
+	{if $HEADER_COUNT}
+		{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
+	{/if}
 
-			<div class="row">
-				{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name=headers}
-					{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
-					{$SPANSIZE_ARRAY[$ITERATION] = $SPANSIZE}
-					{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
-						{$SPANSIZE_ARRAY[$ITERATION] = 3}
-					{/if}
-					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
-				{/foreach}
-			</div>
-			{if $OWNER eq false}
-				{assign var="MINILIST_WIDGET_RECORDS" value=[]}
-			{else}
-				{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($OWNER)}
+	<div class="row">
+		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name=headers}
+			{assign var="ITERATION" value=$smarty.foreach.headers.iteration}
+			{$SPANSIZE_ARRAY[$ITERATION] = $SPANSIZE}
+			{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
+				{$SPANSIZE_ARRAY[$ITERATION] = 3}
 			{/if}
-			{foreach item=RECORD from=$MINILIST_WIDGET_RECORDS}
-				<div class="row">
-					{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
-						{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
-						{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
-						<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis">
-							{if $LAST_RECORD}
-								<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
-								{/if}
-								{if $RECORD->get($FIELD->get('name'))}
-									{$RECORD->getDisplayValue($FIELD->get('name'))}
-								{else}
-								&nbsp;
-							{/if}
-						</div>
-					{/foreach}
+			<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+		{/foreach}
+	</div>
+	{if $OWNER eq false}
+		{assign var="MINILIST_WIDGET_RECORDS" value=[]}
+	{else}
+		{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($OWNER)}
+	{/if}
+	{foreach item=RECORD from=$MINILIST_WIDGET_RECORDS}
+		<div class="row">
+			{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
+				{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
+				{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
+				<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis">
+					{if $LAST_RECORD}
+						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
+						{/if}
+						{if $RECORD->get($FIELD->get('name'))}
+							{$RECORD->getDisplayValue($FIELD->get('name'))}
+						{else}
+						&nbsp;
+					{/if}
 				</div>
 			{/foreach}
 		</div>
-	</div>
+	{/foreach}
 {/strip}
