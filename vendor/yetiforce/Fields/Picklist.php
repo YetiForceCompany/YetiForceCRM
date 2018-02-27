@@ -276,9 +276,8 @@ class Picklist
 	 */
 	public static function getColors($fieldName)
 	{
-		$values = static::getValues($fieldName);
 		$colors = [];
-		foreach ($values as $id => $value) {
+		foreach (static::getValues($fieldName) as $id => $value) {
 			if (empty($value['color'])) {
 				$hash = md5('color' . $id);
 				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);

@@ -87,27 +87,27 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
-		$years_data = [];
+		$yearsData = [];
 		foreach ($rawData as $y => $raw) {
 			$years[] = $y;
-			if (!isset($years_data[$y])) {
-				$years_data[$y] = [
+			if (!isset($yearsData[$y])) {
+				$yearsData[$y] = [
 					'data' => [],
 					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 					'backgroundColor' => [],
 					'borderColor' => [],
 				];
 				for ($m = 0; $m < 12; $m++) {
-					$years_data[$y]['data'][$m] = [];
+					$yearsData[$y]['data'][$m] = [];
 				}
 			}
 			foreach ($raw as $m => &$value) {
-				$years_data[$y]['data'][$m] = ['y' => $value[1], 'x' => (int) $m + 1];
+				$yearsData[$y]['data'][$m] = ['y' => $value[1], 'x' => (int) $m + 1];
 				$hash = md5('color' . $y * 10);
 				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
-				$years_data[$y]['backgroundColor'][] = $color;
-				$years_data[$y]['borderColor'][] = $color;
-				$years_data[$y]['stack'] = (string) $y;
+				$yearsData[$y]['backgroundColor'][] = $color;
+				$yearsData[$y]['borderColor'][] = $color;
+				$yearsData[$y]['stack'] = (string) $y;
 				$chartData['show_chart'] = true;
 			}
 		}
@@ -123,7 +123,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		$chartData['datasets'] = [];
-		foreach ($years_data as $y => $data) {
+		foreach ($yearsData as $y => $data) {
 			$chartData['datasets'][] = $data;
 		}
 		return $chartData;
