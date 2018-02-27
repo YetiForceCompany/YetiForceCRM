@@ -1441,7 +1441,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
 							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">' + event.event[key].count + '</span>' +
+							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
 							'</a>\n';
 				}
 				element += '</div>';
