@@ -3,7 +3,7 @@
 </div>
 </div>
 </div>
-<div class="listPreview col-md-9">
+<div class="listPreview W-75">
 	<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 </div>
 <div class="wrappedPanel">
