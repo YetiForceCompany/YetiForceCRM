@@ -1287,9 +1287,9 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				scales: {
 					yAxes: [{
 							ticks: {
-								beginAtZero: true
+								beginAtZero: true,
 							}
-						}]
+						}],
 				},
 				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
@@ -1895,7 +1895,53 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 		}
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
+	loadChart: function () {
+		const options = {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: false
+			},
+			scales: {
+				yAxes: [{
+						ticks: {
+							beginAtZero: true,
+						}
+					}],
+				xAxes: [{
+						ticks: {
+							minRotation: 70
+						}
+					}],
+			},
+			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+		};
+
+		var thisInstance = this;
+		var data = thisInstance.generateData();
+		data.datasets.forEach((dataset) => {
+			dataset.datalabels = {
+				font: {
+					weight: 'bold'
+				},
+				color: 'white',
+				anchor: 'end',
+				align: 'start',
+			};
+		});
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: 'bar',
+					data: data,
+					options: options,
+				}
+		);
+	}
+});
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	generateData: function () {
 		var container = this.getContainer();

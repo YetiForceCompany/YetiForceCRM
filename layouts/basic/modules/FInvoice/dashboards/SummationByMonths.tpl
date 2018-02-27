@@ -2,6 +2,7 @@
 {assign var=CONF_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
+	registerSectionClick:function(){},
 	loadChart: function () {
 		const thisInstance = this;
 		const chartData = thisInstance.generateData();
@@ -13,6 +14,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 		const data = thisInstance.generateData();
 		const options = {
 				maintainAspectRatio: false,
+				layout:{
+					padding:{
+						top:-30
+					}
+				},
 				tooltips:{
 					callbacks:{
 						label:function(item){
