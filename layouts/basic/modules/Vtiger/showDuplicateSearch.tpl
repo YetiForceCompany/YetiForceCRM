@@ -14,18 +14,18 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</h3>
+					<span class="modal-title h5">{\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</span>
+					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 				</div>
 				<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
 					<input type='hidden' name='module' value='{$MODULE}' />
 					<input type='hidden' name='view' value='FindDuplicates' />
 					<br />
-					<div class="form-group">
+					<div class="form-group form-row px-3">
 						<div class="col-sm-3 col-form-label">
 							{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
 						</div>
-						<div class="col-sm-6 controls">
+						<div class="col-sm-6 controls form-row">
 							<div class="col-md-10">
 								<select id="fieldList" class="select2 form-control" multiple="true" title="{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
 										data-validation-engine="validate[required]">
@@ -37,7 +37,7 @@
 								</select>
 							</div>
 							<div class="col-md-10">
-								<label><input type="checkbox" name="ignoreEmpty" title="{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
+								<label class="form-row m-0 pt-1"><input type="checkbox" name="ignoreEmpty" title="{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle pl-1">{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
 							</div>
 							<br />
 						</div>
