@@ -8,16 +8,25 @@
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
 			<div class="card mb-2 picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
-				<div class="card-header pb-1 picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
-					<img class="activityTypeIcon" src="{\App\Layout::getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
-					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
-						{$RECORD->getDisplayValue('subject')}
-					</a>
+				<div class="card-header p-1 picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
+					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
+					<div class="float-left mt-1">
+						{if $ACTIVITY_TYPE eq 'Task'}
+							<span class="far fa-check-square fa-lg"></span>
+						{elseif $ACTIVITY_TYPE eq 'Call'}
+							<span class="fas fa-phone fa-lg" data-fa-transform="rotate--260"></span>
+						{else}
+							<span class="fas fa-user fa-lg"></span>
+						{/if}
+						<a class="ml-1" target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
+							{$RECORD->getDisplayValue('subject')}
+						</a>
+					</div>
 					<button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="fas fa-check"></span>
 					</button>
 				</div>
-				<div class="card-body pt-1 pb-2">
+				<div class="card-body small p-1">
 					<div>
 						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
@@ -35,14 +44,14 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-									<a target="_blank" class="float-right btn btn-light btn-sm actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="fas fa-envelope"></span>
+									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
+										<span class="fas fa-envelope fa-fw"></span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
-										<a class="float-right btn btn-light btn-sm actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<a class="float-right" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>
 									{/if}
 								{/if}
@@ -60,14 +69,14 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
-									<a target="_blank" class="float-right btn btn-light btn-sm actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="fas fa-envelope"></span>
+									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
+										<span class="fas fa-envelope fa-fw"></span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
-										<a class="float-right btn btn-light btn-sm actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<a class="float-right" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>
 									{/if}
 								{/if}
@@ -81,13 +90,13 @@
 					{/if}
 					{if $RECORD->get('location') neq '' }
 						<div>
-							{\App\Language::translate('Location',$MODULE_NAME)}:&nbsp;
-							<strong>
+							{\App\Language::translate('Location',$MODULE_NAME)}:
+							<strong class="ml-1">
 								{$RECORD->getDisplayValue('location')}
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
-								<a class="float-right btn btn-light btn-sm actionIcon" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
-									<span class="fas fa-map-marker-alt"></span>
+								<a class="float-right" href="#" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
+									<span class="fas fa-map-marker-alt fa-fw"></span>
 								</a>
 							{/if}
 						</div>
