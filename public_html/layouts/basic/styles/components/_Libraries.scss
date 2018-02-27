@@ -44,6 +44,9 @@ header {
 	@extend .w-25;
 	@extend .mr-sm-2;
 }
+.modalPermissionInspectorUserListModal .dataTables_wrapper {
+	@extend .px-0;
+}
 
 //--- list ---//
 
