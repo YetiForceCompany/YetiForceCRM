@@ -1,61 +1,82 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {assign var=CONF_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
+YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
+	registerSectionClick:function(){},
 	loadChart: function () {
-	var thisInstance = this;
-	var chartData = thisInstance.generateData();
-	var chartArea = thisInstance.getPlotContainer(false);
-	var months = [ "JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE",
-			"JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER" ];
-	var options = {
-	series: {
-	bars: {
-	show: true,
-			barWidth: 0.4,
-	},
-	},
-			xaxis: {
-			ticks: chartData['ticks'],
-					autoscaleMargin: .05
-			},
-			yaxis: {
-	{if $CONF_DATA['plotTickSize']}
-			tickSize: {$CONF_DATA['plotTickSize']},
-	{/if}
-	{if $CONF_DATA['plotLimit']}
-			max: {$CONF_DATA['plotLimit']},
-	{/if}
-			},
-			grid: {
-			hoverable: true
-			},
-	};
-	thisInstance.plotInstance = $.plot(chartArea, chartData['chartData'], options);
-	chartArea.bind('plothover', function (event, pos, item) {
-	if (item) {
-	var html = '';
-	$("#tooltip").remove();
-	var x = item.datapoint[0].toFixed(0),
-			y = item.datapoint[1];
-	var html = '<div id="tooltip">';
-	html += item.series.label + "<br />" + app.vtranslate(months[x - 1]) + "<br />" + y;
-	html += '</div>';
-	$(html).css({
-	position: 'absolute',
-			top:  pos.pageY - 30,
-			left: pos.pageX + 20,
-			border: '1px solid #DAD9D9',
-			padding: '2px',
-			'z-index': 1050,
-			'background-color': '#f5f5f5',
-	}).appendTo("body").fadeIn(200);
-	} else {
-	$("#tooltip").fadeOut();
+		const thisInstance = this;
+		const chartData = thisInstance.generateData();
+		const chartArea = thisInstance.getPlotContainer(false);
+		const months = [ "JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN",
+				"JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC" ];
+		const fullMonths = [ "JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE",
+				"JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER" ];
+		const data = thisInstance.generateData();
+		const options = {
+				maintainAspectRatio: false,
+				layout:{
+					padding:{
+						top:-30
+					}
+				},
+				tooltips:{
+					callbacks:{
+						label:function(item){
+							return app.parseNumberToShow(item.yLabel);
+						},
+						title:function(item){
+							return app.vtranslate(fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
+						},
+					}
+				},
+				title: {
+					display: true
+				},
+				legend: {
+					display: true,
+				},
+				scales: {
+					 yAxes: [{
+						stacked:true,
+						ticks:{
+							callback:function(label,index,labels){
+								return app.parseNumberToShow(label);
+							},
+							{if $CONF_DATA['plotTickSize']}
+								stepValue: {$CONF_DATA['plotTickSize']},
+							{/if}
+							{if $CONF_DATA['plotLimit']}
+								max: {$CONF_DATA['plotLimit']},
+							{/if}
+						},
+                    }],
+					xAxes:[
+						{
+							stacked:true
+						}
+					]
+				},
+				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+		};
+		data.labels=[];
+		for(let i=0;i<12;i++){
+			data.labels.push(app.vtranslate(months[i]));
+		}
+		data.datasets.forEach((dataset) => {
+			dataset.datalabels = {
+				display:false
+			};
+		});
+		thisInstance.chartInstance = new Chart(
+			thisInstance.getPlotContainer().getContext("2d"),
+			{
+				type: 'bar',
+				data: data,
+				options: options,
+			}
+		);
 	}
-	});
-	}
-	});
+});
 </script>
 <div class="dashboardWidgetHeader">
 	<div class="row">

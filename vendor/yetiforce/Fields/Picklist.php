@@ -268,4 +268,25 @@ class Picklist
 
 		return $values;
 	}
+
+	/**
+	 * Get colors for all fields or generate it if not exists.
+	 *
+	 * @return array [$id=>'#FF00FF']
+	 */
+	public static function getColors($fieldName)
+	{
+		$colors = [];
+		foreach (static::getValues($fieldName) as $id => $value) {
+			if (empty($value['color'])) {
+				$hash = md5('color' . $id);
+				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
+			} else {
+				$color = '#' . $value['color'];
+			}
+			$colors[$id] = $color;
+		}
+
+		return $colors;
+	}
 }
