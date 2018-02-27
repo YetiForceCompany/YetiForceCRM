@@ -15,7 +15,7 @@
 	<div class="detailViewContainer">
 		<div class="row detailViewTitle p-0">
 			{if $SHOW_BREAD_CRUMBS}
-				<div class="widget_header col-12 p-0">
+				<div class="widget_header col-12 p-0 pl-3">
 					<div class="row">
 						<div class="col-lg">
 							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}

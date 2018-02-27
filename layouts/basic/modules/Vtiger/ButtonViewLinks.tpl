@@ -13,7 +13,7 @@
 				{/if}
 			{/foreach}
 		{/if}
-		<div class="d-inline-block pt-2 {if isset($CLASS)}{$CLASS}{/if}">
+		<div class="d-inline-block {if isset($CLASS)}{$CLASS}{/if}">
 			<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
 				{if $BTN_ICON}
 					<span class="{$BTN_ICON}"></span>
