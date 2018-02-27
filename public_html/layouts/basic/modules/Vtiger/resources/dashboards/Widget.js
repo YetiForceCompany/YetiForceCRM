@@ -134,15 +134,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	generateData: function () {
 		var thisInstance = this;
-		var container = thisInstance.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			chartData.push(data[index]);
-			thisInstance.chartData[data[index].id] = data[index];
-		}
-		return {'chartData': chartData};
+		var jData = thisInstance.getContainer().find('.widgetData').val();
+		thisInstance.chartData = JSON.parse(jData);
+		return thisInstance.chartData;
 	},
 	loadChart: function () {
 
@@ -466,6 +460,29 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	registerSectionClick: function () {
+		const thisInstance = this;
+		if (typeof thisInstance.chartData === 'undefined' || thisInstance.chartData.datasets.length === 0 || typeof thisInstance.chartData.datasets[0].links === 'undefined' || thisInstance.chartData.datasets[0].links.length == 0) {
+			// if we doesn't have a links
+			return false;
+		}
+		let pointer = false;
+		$(thisInstance.chartInstance.canvas).on('click', function (e) {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
+				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
+			}
+		}).on('mousemove', function (e) {
+			let eventData = thisInstance.getDataFromEvent(e);
+			if (eventData && !pointer) {
+				$(this).css('cursor', 'pointer');
+				pointer = true;
+			} else if (!eventData && pointer) {
+				$(this).css('cursor', 'auto');
+				pointer = false;
+			}
+		}).on('mouseout', function () {
+			$(this).css('cursor', 'auto');
+			pointer = false;
+		});
 	},
 	registerLoadMore: function () {
 		var thisInstance = this;
@@ -513,7 +530,27 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (container.data('cache') == 1) {
 			this.paramCache = true;
 		}
-	}
+	},
+	getDataFromEvent: function (e, additionalFields) {
+		let chart = this.chartInstance;
+		var elements = chart.getElementsAtEvent(e);
+		if (elements.length === 0) {
+			return false;
+		}
+		var dataIndex = elements[0]._index;
+		var eventData = {
+			label: chart.data.labels[dataIndex],
+			value: chart.data.datasets[0].data[dataIndex],
+		};
+		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
+			additionalFields.forEach((fieldName) => {
+				if (typeof chart.data.datasets[0][fieldName] !== 'undefined' && typeof chart.data.datasets[0][fieldName][dataIndex] !== 'undefined') {
+					eventData[fieldName] = chart.data.datasets[0][fieldName][dataIndex];
+				}
+			});
+		}
+		return eventData;
+	},
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	postLoadWidget: function () {
@@ -1268,12 +1305,6 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 });
 
 Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	generateData: function () {
-		var thisInstance = this;
-		var container = thisInstance.getContainer();
-		var jData = container.find('.widgetData').val();
-		return JSON.parse(jData);
-	},
 	loadChart: function (options) {
 		if (typeof options === 'undefined') {
 			options = {
@@ -1319,47 +1350,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
-	getDataFromEvent: function (e, additionalFields) {
-		let chart = this.chartInstance;
-		var elements = chart.getElementsAtEvent(e);
-		if (elements.length === 0) {
-			return false;
-		}
-		var dataIndex = elements[0]._index;
-		var eventData = {
-			label: chart.data.labels[dataIndex],
-			value: chart.data.datasets[0].data[dataIndex],
-		};
-		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
-			additionalFields.forEach((fieldName) => {
-				if (typeof chart.data.datasets[0][fieldName] !== 'undefined' && typeof chart.data.datasets[0][fieldName][dataIndex] !== 'undefined') {
-					eventData[fieldName] = chart.data.datasets[0][fieldName][dataIndex];
-				}
-			});
-		}
-		return eventData;
-	},
-	registerSectionClick: function () {
-		const thisInstance = this;
-		var pointer = false;
-		$(thisInstance.chartInstance.canvas).on('click', function (e) {
-			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
-				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
-			}
-		}).on('mousemove', function (e) {
-			let eventData = thisInstance.getDataFromEvent(e);
-			if (eventData && !pointer) {
-				$(this).css('cursor', 'pointer');
-				pointer = true;
-			} else if (!eventData && pointer) {
-				$(this).css('cursor', 'auto');
-				pointer = false;
-			}
-		}).on('mouseout', function () {
-			$(this).css('cursor', 'auto');
-			pointer = false;
-		});
-	}
+
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 	loadChart: function () {
@@ -1762,27 +1753,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	}
 });
-YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
-	registerSectionClick: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				$(chartData['links']).each(function () {
-					if (item.seriesIndex == this[0])
-						window.location.href = this[1];
-				});
-			}
-		});
-	}
-});
+YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
 Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	generateData: function () {
 		var container = this.getContainer();
