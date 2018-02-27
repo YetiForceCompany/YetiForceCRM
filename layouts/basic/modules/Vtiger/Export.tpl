@@ -29,62 +29,59 @@
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
             <input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 
-            <div>
-                <div class="col-md-8">
-                    <div class="well exportContents marginLeftZero">
-						<div class="radio">
-							<label title="{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS')}">
-								<input type="radio" name="mode" id="optionsRadios1" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}>
-								{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}
-								{if empty($SELECTED_IDS)}&nbsp; - <span class="redColor">{\App\Language::translate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
-							</label>
+            <div class="col-md-8">
+				<div class="p-3 card bg-light exportContents ml-0 my-2">
+					<div class="radio">
+						<label title="{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS')}">
+							<input class="mr-1" type="radio" name="mode" id="optionsRadios1" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}>
+							{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}
+							{if empty($SELECTED_IDS)}&nbsp; - <span class="redColor">{\App\Language::translate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
+						</label>
+					</div>
+					<div class="radio">
+						<label title="{\App\Language::translate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}">
+							<input class="mr-1" type="radio" name="mode" id="optionsRadios2" value="ExportCurrentPage">
+							{\App\Language::translate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}
+						</label>
+					</div>
+					<div class="radio">
+						<label title="{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}">
+							<input class="mr-1" type="radio" name="mode" id="optionsRadios3" value="ExportAllData" {if empty($SELECTED_IDS)} checked="checked" {/if}>
+							{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}
+						</label>
+					</div>
+					<br />
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<label class="">{\App\Language::translate('LBL_EXPORT_TYPE',$MODULE)}</label>
+							<div class="">
+								<select class="select2" id="exportType" name="export_type">
+									{foreach from=$EXPORT_TYPE item=TYPE key=LABEL}
+										<option value="{$TYPE}">{\App\Language::translate({$LABEL},$MODULE)}</option>
+									{/foreach}
+								</select>
+							</div>
 						</div>
-						<div class="radio">
-							<label title="{\App\Language::translate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}">
-								<input type="radio" name="mode" id="optionsRadios2" value="ExportCurrentPage">
-								{\App\Language::translate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}
-							</label>
-						</div>
-						<div class="radio">
-							<label title="{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}">
-								<input type="radio" name="mode" id="optionsRadios3" value="ExportAllData" {if empty($SELECTED_IDS)} checked="checked" {/if}>
-								{\App\Language::translate('LBL_EXPORT_ALL_DATA',$MODULE)}
-							</label>
-						</div>
-						<br />
-						<hr>
-						<div class="row">
-							<div class="col-md-6">
-								<label class="">{\App\Language::translate('LBL_EXPORT_TYPE',$MODULE)}</label>
+						{if $XML_TPL_LIST}
+							<div class="col-md-6 hide xml-tpl">
+								<label class="">{\App\Language::translate('LBL_XML_EXPORT_TPL',$MODULE)}</label>
 								<div class="">
-									<select class="select2" id="exportType" name="export_type">
-										{foreach from=$EXPORT_TYPE item=TYPE key=LABEL}
-											<option value="{$TYPE}">{\App\Language::translate({$LABEL},$MODULE)}</option>
+									<select class="select2" id="xmlExportType" name="xmlExportType">
+										{foreach from=$XML_TPL_LIST item=item key=key}
+											<option value="{$item}">{\App\Language::translate({$item}, $MODULE)}</option>
 										{/foreach}
 									</select>
 								</div>
 							</div>
-							{if $XML_TPL_LIST}
-								<div class="col-md-6 hide xml-tpl">
-									<label class="">{\App\Language::translate('LBL_XML_EXPORT_TPL',$MODULE)}</label>
-									<div class="">
-										<select class="select2" id="xmlExportType" name="xmlExportType">
-											{foreach from=$XML_TPL_LIST item=item key=key}
-												<option value="{$item}">{\App\Language::translate({$item}, $MODULE)}</option>
-											{/foreach}
-										</select>
-									</div>
-								</div>
-							{/if}				
-						</div>
-                    </div>
-                    <div class="float-left">
-                        <button class="btn btn-success saveButton" type="submit"><strong>{\App\Language::translate($MODULE, $MODULE)}</strong></button>
-                        <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-                    </div>
-                </div>
+						{/if}				
+					</div>
+				</div>
+				<div class="float-left">
+					<button class="btn btn-success saveButton" type="submit"><strong>{\App\Language::translate($MODULE, $MODULE)}</strong></button>
+					<button class="btn btn-warning" type="reset" onclick='window.history.back()'>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+				</div>
             </div>
-
 		</form>
     </div>
 {/strip}
