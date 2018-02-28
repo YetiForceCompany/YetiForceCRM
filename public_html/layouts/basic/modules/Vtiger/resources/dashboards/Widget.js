@@ -572,6 +572,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		chartData.datasets.forEach((dataset) => {
 			dataset.datalabels = this.getDefaultDatalabelsConfig();
 		});
+		return chartData;
 	},
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
@@ -1317,19 +1318,24 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	}
 });
 Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	applyDefaultTooltipsConfig: function (options) {
-		options.tooltips = {
-			callbacks: {
-				label: function (tooltipItem, data) {
-					if (!isNaN(Number(tooltipItem.yLabel))) {
-						return app.parseNumberToShow(tooltipItem.yLabel);
-					}
-					return tooltipItem.yLabel;
+	applyDefaultTooltipsConfig: function (options = {}) {
+		if (typeof options.tooltips === 'undefined') {
+			options.tooltips = {};
+		}
+		if (typeof options.tooltips.callbacks === 'undefined') {
+			options.tooltips.callbacks = {};
+		}
+		if (typeof options.tooltips.callbacks.label === 'undefined') {
+			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
+				if (!isNaN(Number(tooltipItem.yLabel))) {
+					return app.parseNumberToShow(tooltipItem.yLabel);
 				}
+				return tooltipItem.yLabel;
 			}
-		};
+		}
+		return options;
 	},
-	applyDefaultAxesLabelsConfig: function (options) {
+	applyDefaultAxesLabelsConfig: function (options = {}) {
 		if (typeof options.scales === 'undefined') {
 			options.scales = {};
 		}
@@ -1364,32 +1370,39 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				axis.ticks.beginAtZero = true;
 			}
 		});
+		return options;
 	},
-	loadChart: function (options) {
-		const thisInstance = this;
-		if (typeof options === 'undefined') {
-			options = {
-				maintainAspectRatio: false,
-				title: {
-					display: false
-				},
-				legend: {
-					display: false
-				},
-				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-			};
+	applyDefaultOptions: function (options = {}){
+		if (typeof options.maintainAspectRatio === 'undefined') {
+			options.maintainAspectRatio = false;
 		}
-		const data = thisInstance.generateData();
-		thisInstance.applyDefaultDatalabelsConfig(data);
-		thisInstance.applyDefaultTooltipsConfig(options);
-		thisInstance.applyDefaultAxesLabelsConfig(options);
-		console.log(options)
+		if (typeof options.title === 'undefined') {
+			options.title = {};
+		}
+		if (typeof options.title.display === 'undefined') {
+			options.title.display = false;
+		}
+		if (typeof options.legend === 'undefined') {
+			options.legend = {};
+		}
+		if (typeof options.legend.display === 'undefined') {
+			options.legend.display = false;
+		}
+		if (typeof options.events === 'undefined') {
+			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
+		}
+		this.applyDefaultTooltipsConfig(options);
+		this.applyDefaultAxesLabelsConfig(options);
+		return options;
+	},
+	loadChart: function (options = {}) {
+		const thisInstance = this;
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'bar',
-					data: data,
-					options: options,
+					data: thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData()),
+					options: thisInstance.applyDefaultOptions(options),
 				}
 		);
 	},
