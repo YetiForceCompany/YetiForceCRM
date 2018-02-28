@@ -143,7 +143,7 @@ class BatchMethod extends Base
 	 */
 	private function log($message)
 	{
-		Db::getInstance()->createCommand()->insert('l_#__batchmethod', [
+		Db::getInstance('log')->createCommand()->insert('l_#__batchmethod', [
 			'status' => $this->get('status'),
 			'date' => date('Y-m-d H:i:s'),
 			'method' => $this->get('method'),
