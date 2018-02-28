@@ -11,7 +11,7 @@
 		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
 	{if $LINK->get('linkhref')}<a{else}<button type="button"{/if}{/strip} {strip}
 					{if !$LINK->isActive()} disabled {/if}{/strip} {strip}
-						class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-light {/if}{$LINK->getClassName()}{else}btn-light{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"
+						class="mr-1 btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-light {/if}{$LINK->getClassName()}{else}btn-light{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"
 						{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 							{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 								{/strip} {strip}
