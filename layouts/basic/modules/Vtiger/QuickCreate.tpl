@@ -68,7 +68,6 @@
 												</div>
 												<div class="fieldValue col-7" >
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE)}
-{*													{var_dump(\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE))}*}
 												</div>
 											</div>
 											{/foreach}
