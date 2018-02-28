@@ -5,13 +5,16 @@
 		<div class="media-body wordBreakAll">
 			<div class="card mb-3">
 				<div class="card-header p-2">
-					<div class="float-left">
-						{if $ICON['src'] != false}
-							<img width="22px" class="mr-1 {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
-						{else}
-							<span class="mr-1 fas fa-user userImage"></span>
-						{/if}
-					</div>
+					{if $ICON}
+						<div class="float-left">
+							{assign var=IMAGE_PATH value=$ICON['src']}
+							{if $IMAGE_PATH}
+								<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+							{else}	
+								<span class="mr-1 fas fa-user userImage"></span>
+							{/if}
+						</div>
+					{/if}
 					<div class="float-right">
 						<small>
 							{\App\Fields\DateTime::formatToViewDate($ROW->get('createdtime'))}
