@@ -37,7 +37,7 @@
 					<span class="input-group-text">
 						<span class="fas fa-calendar-alt iconMiddle margintop3" title="{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
 				</span>
-				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control textAlignCenter text-center"  value="{implode(',', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control textAlignCenter text-center"  value="{implode(' - ', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 			</div>
 		</div>
 		<div class="col-sm-6">

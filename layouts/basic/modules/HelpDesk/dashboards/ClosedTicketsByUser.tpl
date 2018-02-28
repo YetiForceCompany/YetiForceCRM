@@ -20,7 +20,7 @@
 							<span class="fas fa-calendar-alt iconMiddle margintop3"></span>
 						</span>
 					</span>
-					<input type="text" name="time" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter text-center" value="{implode(',',$DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+					<input type="text" name="time" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter text-center" value="{implode(' - ',$DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 				</div>
 			</div>
 		</div>
