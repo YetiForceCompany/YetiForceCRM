@@ -97,6 +97,10 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			}
 		}
+		$encoding = mb_detect_encoding($html);
+		if ($encoding && $encoding !== 'UTF-8') {
+			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
+		}
 		$html = preg_replace(
 			[':<(head|style|script).+?</\1>:is', // remove <head>, <styleand <scriptsections
 			':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
