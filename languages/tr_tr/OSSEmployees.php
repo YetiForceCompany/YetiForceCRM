@@ -1,52 +1,52 @@
-<?php
-/**
- * OSSEmployees english translation.
- *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */
-$languageStrings = [
-	'OSSEmployees' => 'Employees',
-	'SINGLE_OSSEmployees' => 'Employee',
-	'LBL_INFORMATION' => 'Employee details',
-	'LBL_CONTACTS' => 'Contact details',
-	'LBL_PERMANENT_ADDRESS' => 'Address of permanent residence',
-	'LBL_CORRESPONDANCE_ADDRESS' => 'Forwarding address',
-//fields
-	'No.' => 'Number',
-	'Assigned To' => 'Assigned to',
-	'LBL_EMPLOYEESTATUS' => 'Status',
-	'LBL_NAME' => 'First name',
-	'LBL_LASTNAME' => 'Last name',
-	'LBL_PESEL' => 'Personal Identification Number',
-	'LBL_IDCARD' => 'Identity card',
-	'LBL_EDUCATION' => 'Education',
-	'LBL_BIRTHDATE' => 'Date of birth',
-	'LBL_BUSINESSPHONE' => 'Business phone no.',
-	'LBL_PRIVATEPHONE' => 'Private phone no.',
-	'LBL_BUSINESSMAIL' => 'Business email',
-	'LBL_PRIVATEMAIL' => 'Private email',
-	'LBL_STREET' => 'Street and number',
-	'LBL_CODE' => 'Post code',
-	'LBL_CITY' => 'City',
-	'LBL_STATE' => 'State',
-	'LBL_COUNTRY' => 'Country',
-	'LBL_SHIPSTREET' => 'Street and number',
-	'LBL_SHIPCODE' => 'Post code',
-	'LBL_SHIPCITY' => 'City',
-	'LBL_SHIPSTATE' => 'State',
-	'LBL_SHIPCOUNTRY' => 'Country',
-	'Primary' => 'Primary',
-	'Secondary' => 'Secondary',
-	'Higher' => 'Higher',
-	'LBL_Member_Of' => 'Member of',
-	'LBL_SHOW_EMPLOYEES_HIERARCHY' => 'Employee hierarchy',
-	'Recruiting' => 'Recruiting',
-	'Employee' => 'Employed',
-	'Inactive' => 'Inactive',
-	'Average daily working time' => 'Average daily working time',
-	'LBL_USER_EXISTS' => 'Employee already exists',
-	'FL_POSITION' => 'Position',
-	'FL_SECONDARY_PHONE' => 'Secondary phone',
+<?php		
+/**		
+ * OSSEmployees turkish translation.		
+ *		
+ * @copyright YetiForce Sp. z o.o		
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
+ */		
+$languageStrings = [		
+	'OSSEmployees' => 'Personeller',
+	'SINGLE_OSSEmployees' => 'Personel',
+	'LBL_INFORMATION' => 'Personel bilgileri',
+	'LBL_CONTACTS' => 'İletişim detayları',
+	'LBL_PERMANENT_ADDRESS' => 'Daimi ikametgah adresi',
+	'LBL_CORRESPONDANCE_ADDRESS' => 'Yönlendirme adresi',
+//fields		
+	'No.' => 'Numara',
+	'Assigned To' => 'Atandı',
+	'LBL_EMPLOYEESTATUS' => 'Durumu',
+	'LBL_NAME' => 'İsim',
+	'LBL_LASTNAME' => 'Soyadı',
+	'LBL_PESEL' => 'Kimlik Numarası',
+	'LBL_IDCARD' => 'Kimlik kartı',
+	'LBL_EDUCATION' => 'Eğitim',
+	'LBL_BIRTHDATE' => 'Doğum tarihi',
+	'LBL_BUSINESSPHONE' => 'İş telefonu no',
+	'LBL_PRIVATEPHONE' => 'Özel telefon numarası',
+	'LBL_BUSINESSMAIL' => 'İş e-postası',
+	'LBL_PRIVATEMAIL' => 'Özel e-posta',
+	'LBL_STREET' => 'Sokak ve numara',
+	'LBL_CODE' => 'Posta kodu',
+	'LBL_CITY' => 'Şehir',
+	'LBL_STATE' => 'Eyalet',
+	'LBL_COUNTRY' => 'Ülke',
+	'LBL_SHIPSTREET' => 'Sokak ve numara',
+	'LBL_SHIPCODE' => 'Posta kodu',
+	'LBL_SHIPCITY' => 'Şehir',
+	'LBL_SHIPSTATE' => 'Eyalet',
+	'LBL_SHIPCOUNTRY' => 'Ülke',
+	'Primary' => 'Birincil',
+	'Secondary' => 'İkincil',
+	'Higher' => 'Daha yüksek',
+	'LBL_Member_Of' => 'Üyesi',
+	'LBL_SHOW_EMPLOYEES_HIERARCHY' => 'Personel hiyerarşisi',
+	'Recruiting' => 'İşe',
+	'Employee' => 'Personel',
+	'Inactive' => 'Etkin',
+	'Average daily working time' => 'Ortalama günlük çalışma süresi',
+	'LBL_USER_EXISTS' => 'Çalışanlar zaten var',
+	'FL_POSITION' => 'Pozisyon',
+	'FL_SECONDARY_PHONE' => 'İkincil Telefon',
 	'FL_RBH' => 'RBH',
-];
+];		
