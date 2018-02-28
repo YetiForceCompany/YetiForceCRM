@@ -37,6 +37,15 @@ header {
 	}
 }
 //--- modal ---//
+.leaflet-popup-content{
+	width: 62px;
+}
+
+.awesome-marker{
+	[data-fa-i2svg] {
+		margin-top: 11px;
+	}
+}
 
 .conditionRow .select2-container--bootstrap4 {
 	display: inline-block;
