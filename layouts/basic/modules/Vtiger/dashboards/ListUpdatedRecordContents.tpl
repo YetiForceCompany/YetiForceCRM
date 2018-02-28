@@ -14,8 +14,10 @@
 		<table class="table table-bordered">
 			<tr>
 				{foreach from=$COLUMN_LIST item=col key=col_key}
-					<th>{\App\Language::translate($col_key, 'Vtiger')}</th>
-					{/foreach}
+					<th>
+						{\App\Language::translate($col_key, 'Vtiger')}
+					</th>
+				{/foreach}
 			</tr>
 			{foreach key=$index item=record from=$LIST}
 				<tr>
