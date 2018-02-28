@@ -9,6 +9,9 @@
  */
 class OpenStreetMap_Coordinate_Model extends \App\Base
 {
+	/**
+	 * Radius earth.
+	 */
 	const EARTH_RADIUS = 6378137;
 
 	/**
@@ -30,10 +33,15 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	 */
 	private function doRequest($url)
 	{
-		$response = Requests::get($url);
-		if ($response->success) {
-			return \App\Json::decode($response->body);
-		} else {
+		try {
+			$response = Requests::get($url);
+			if ($response->success) {
+				return \App\Json::decode($response->body);
+			} else {
+				return false;
+			}
+		} catch (Exception $ex) {
+			\App\Log::warning($ex->getMessage());
 			return false;
 		}
 	}

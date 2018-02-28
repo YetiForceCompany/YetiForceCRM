@@ -147,8 +147,12 @@ abstract class SMSNotifier_Basic_Provider
 	 */
 	public function send()
 	{
-		$request = Requests::post($this->getPatch(), $this->getHeaders());
-
+		try {
+			$request = Requests::post($this->getPatch(), $this->getHeaders());
+		} catch (Exception $e) {
+			\App\Log::warning($e->getMessage());
+			return false;
+		}
 		return $this->getResponse($request);
 	}
 

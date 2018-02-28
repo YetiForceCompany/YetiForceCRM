@@ -62,24 +62,29 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$travel = 0;
 		$description = '';
 		$urlToRoute = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
-		foreach ($tracks as $track) {
-			$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . App\Language::getLanguage() . '&instructions=1';
-			$response = Requests::get($url);
-			$json = \App\Json::decode($response->body);
-			$coordinates = array_merge($coordinates, $json['coordinates']);
-			$description .= $json['properties']['description'];
-			$travel = $travel + $json['properties']['traveltime'];
-			$distance = $distance + $json['properties']['distance'];
+		try {
+			foreach ($tracks as $track) {
+				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . App\Language::getLanguage() . '&instructions=1';
+				$response = Requests::get($url);
+				$json = \App\Json::decode($response->body);
+				$coordinates = array_merge($coordinates, $json['coordinates']);
+				$description .= $json['properties']['description'];
+				$travel = $travel + $json['properties']['traveltime'];
+				$distance = $distance + $json['properties']['distance'];
+			}
+			$result = [
+				'type' => 'LineString',
+				'coordinates' => $coordinates,
+				'properties' => [
+					'description' => $description,
+					'traveltime' => $travel,
+					'distance' => $distance,
+				],
+			];
+		} catch (Exception $ex) {
+			\App\Log::warning($ex->getMessage());
+			$result = false;
 		}
-		$result = [
-			'type' => 'LineString',
-			'coordinates' => $coordinates,
-			'properties' => [
-				'description' => $description,
-				'traveltime' => $travel,
-				'distance' => $distance,
-			],
-		];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

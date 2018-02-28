@@ -191,15 +191,21 @@ class Settings_Github_Client_Model
 		if ($this->isAuthorized()) {
 			$options['auth'] = [$this->username, $this->clientToken];
 		}
-		switch ($method) {
-			case 'GET':
-				$url .= '?' . http_build_query($data);
-				$content = \Requests::get($url, [], $options);
-				break;
-			case 'POST':
-				$content = \Requests::post($url, [], $data, $options);
-				break;
+		try {
+			switch ($method) {
+				case 'GET':
+					$url .= '?' . http_build_query($data);
+					$content = \Requests::get($url, [], $options);
+					break;
+				case 'POST':
+					$content = \Requests::post($url, [], $data, $options);
+					break;
+			}
+		} catch (Exception $e) {
+			\App\Log::warning($e->getMessage());
+			return false;
 		}
+
 		$code = $content->status_code;
 		if ($code != $status) {
 			return false;
