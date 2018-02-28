@@ -14,7 +14,10 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">{\App\Language::translate('LBL_ADVANCED_SEARCH',$MODULE)}</h5>
+					<h5 class="modal-title">
+						<span class="fas fa-th-large mr-1"></span>
+						{\App\Language::translate('LBL_ADVANCED_SEARCH',$MODULE)}
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 				</div>
 				<div class="modal-body">
