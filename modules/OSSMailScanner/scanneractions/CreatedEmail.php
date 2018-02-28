@@ -9,7 +9,6 @@
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
-
 	/**
 	 * Process.
 	 *
@@ -98,7 +97,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			}
 		}
-		if ($encoding = mb_detect_encoding($html) && $encoding !== 'UTF-8') {
+		$encoding = mb_detect_encoding($html);
+		if ($encoding && $encoding !== 'UTF-8') {
 			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
 		}
 		$html = preg_replace(
