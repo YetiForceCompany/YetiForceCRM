@@ -59,6 +59,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
+		$currentUserId = Users_Record_Model::getCurrentUserModel()->getId();
 		$s = new \yii\db\Expression('sum(sum_gross)');
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setField('assigned_user_id');
@@ -86,10 +87,12 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $dataReader->read()) {
 			$label = \App\Fields\Owner::getLabel($row['assigned_user_id']);
 			$chartData['datasets'][0]['data'][] = (int) $row['s'];
-			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor($row['assigned_user_id']);
+			$chartData['datasets'][0]['backgroundColor'][] = (int) $currentUserId === (int) $row['assigned_user_id'] ? \App\Fields\Owner::getColor($row['assigned_user_id']) : 'rgba(0,0,0,0.25)';
 			$chartData['labels'][] = $widgetParam['showUser'] ? vtlib\Functions::getInitials($label) : '';
-			if ($widgetParam['showUser']) {
+			if ($widgetParam['showUser'] || (int) $currentUserId === (int) $row['assigned_user_id']) {
 				$chartData['fullLabels'][] = $label;
+			} else {
+				$chartData['fullLabels'][] = '';
 			}
 			$chartData['show_chart'] = true;
 		}

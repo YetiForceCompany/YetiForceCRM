@@ -13,10 +13,7 @@
 							tooltips:{
 								callbacks:{
 									title: function tooltipsTitleCallback(tooltipItems,data){
-										if(typeof data.fullLabels!=='undefined'){
-											return data.fullLabels[tooltipItems[0].index];
-										}
-										return '';
+										return data.fullLabels[tooltipItems[0].index];
 									}
 								}
 							}
