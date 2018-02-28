@@ -446,7 +446,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				_renderItem: function (ul, item) {
 					return $("<li>")
 							.data("item.autocomplete", item)
-							.append($("<a></a>").html(item.label))
+							.append($("<a href='#'></a>").html(item.label))
 							.appendTo(ul);
 				},
 			});
