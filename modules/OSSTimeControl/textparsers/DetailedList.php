@@ -36,7 +36,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 		}
 		$html = '<br /><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
-			'.table thead th {border-bottom: 1px solid grey;}' .
+			'.table thead th {border-bottom: 1px solid grey; width: ' . (100 / count($this->columnNames)) . '%;}' .
 			'.table tbody tr {border-bottom: 1px solid grey}' .
 			'.table tbody tr:nth-child(even) {background-color: #F7F7F7;}' .
 			'.center {text-align: center;}' .
@@ -63,7 +63,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 				} else {
 					$fieldModel = $fields[$column];
 				}
-				$html .= '<td class="center">' . $this->getDisplayValue($recordModel, $column) . '</td>';
+				$html .= '<td class="' . $class . '">' . $this->getDisplayValue($recordModel, $column) . '</td>';
 				if ($column === 'sum_time') {
 					$summary['sum_time'] += $recordModel->get($fieldModel->getName());
 				}
