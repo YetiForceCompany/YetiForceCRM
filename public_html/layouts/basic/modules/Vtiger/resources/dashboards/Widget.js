@@ -284,7 +284,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (urlparams != '') {
 				var onval = currentElement.data('on-val');
 				var offval = currentElement.data('off-val');
-
 				url = url.replace('&' + urlparams + '=' + onval, '');
 				url = url.replace('&' + urlparams + '=' + offval, '');
 				url += '&' + urlparams + '=';
@@ -303,7 +302,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getFilterData: function () {
 		return {};
 	},
-
 	/**
 	 * Refresh widget
 	 * @returns {undefined}
@@ -313,7 +311,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var parent = this.getContainer();
 		var element = parent.find('a[name="drefresh"]');
 		var url = element.data('url');
-
 		var contentContainer = parent.find('.dashboardWidgetContent');
 		var params = url;
 		var widgetFilters = parent.find('.widgetFilter');
@@ -343,7 +340,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 				var fieldInfo = searchContributorElement.data('fieldinfo');
 				var fieldName = searchContributorElement.attr('name');
 				var searchValue = searchContributorElement.val();
-
 				if (typeof searchValue == "object") {
 					if (searchValue == null) {
 						searchValue = "";
@@ -394,7 +390,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainer.html('');
 		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
-
 		if (this.paramCache && widgetFilters.length > 0) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
@@ -494,7 +489,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			element.hide();
 			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
 			jQuery(parent).find('.slimScrollDiv').css('overflow', 'visible');
-
 			var user = parent.find('.owner').val();
 			var type = parent.find("[name='type']").val();
 			var url = element.data('url') + '&content=true&owner=' + user;
@@ -551,6 +545,34 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return eventData;
 	},
+	getDefaultDataLabelsConfig: function () {
+		return {
+			font: {
+				size: 11
+			},
+			color: 'white',
+			backgroundColor: 'rgba(0,0,0,0.2)',
+			anchor: 'center',
+			align: 'center',
+			formatter: function (value) {
+				if (!isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			},
+			display: function (context) {
+				return context.dataset.data[context.dataIndex];
+			}
+		};
+	},
+	applyDefaultDatalabelsConfig: function (chartData) {
+		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
+			return false;
+		}
+		chartData.datasets.forEach((dataset) => {
+			dataset.datalabels = this.getDefaultDataLabelsConfig();
+		});
+	}
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	postLoadWidget: function () {
@@ -565,14 +587,12 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
-
 		var loadMoreHandler = contentContainer.find('.load-more');
 		loadMoreHandler.click(function () {
 			var parent = thisInstance.getContainer();
 			var element = parent.find('a[name="drefresh"]');
 			var url = element.data('url');
 			var params = url;
-
 			var widgetFilters = parent.find('.widgetFilter');
 			if (widgetFilters.length > 0) {
 				params = {url: url, data: {}};
@@ -594,7 +614,6 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 
 			// Next page.
 			params.data['page'] = loadMoreHandler.data('nextpage');
-
 			var refreshContainer = parent.find('.dashboardWidgetContent');
 			refreshContainer.progressIndicator();
 			AppConnector.request(params).then(function (data) {
@@ -1155,7 +1174,6 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 		});
 	}
 });
-
 // NOTE Widget-class name camel-case convention
 Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 	postLoadWidget: function () {
@@ -1181,7 +1199,6 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 		}
 	}
 });
-
 /* Notebook Widget */
 Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 }, {
@@ -1212,10 +1229,8 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 		$('body').off('click');
 		var self = this;
 		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-
 		var url = this.container.data('url');
 		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-
 		var refreshContainer = this.container.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
 		AppConnector.request(params).then(function (data) {
@@ -1225,7 +1240,6 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 		});
 	}
 });
-
 Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
 	generateChartData: function () {
 		var container = this.getContainer();
@@ -1260,7 +1274,6 @@ Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
 		});
 	}
 });
-
 Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	loadChart: function () {
 		var thisInstance = this;
@@ -1303,7 +1316,6 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		});
 	}
 });
-
 Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	loadChart: function (options) {
 		if (typeof options === 'undefined') {
@@ -1319,25 +1331,20 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					yAxes: [{
 							ticks: {
 								beginAtZero: true,
-							}
+								callback: function (value, index, values) {
+									return app.parseNumberToShow(value);
+								}
+							},
 						}],
 				},
+
 				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
 		}
 
-		var thisInstance = this;
-		var data = thisInstance.generateData();
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels = {
-				font: {
-					weight: 'bold'
-				},
-				color: 'white',
-				anchor: 'end',
-				align: 'start',
-			};
-		});
+		const thisInstance = this;
+		const data = thisInstance.generateData();
+		thisInstance.applyDefaultDatalabelsConfig(data);
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1350,7 +1357,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
-
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 	loadChart: function () {
@@ -1415,12 +1421,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		//Default first day of the week
 		var defaultFirstDay = jQuery('#start_day').val();
 		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
-
 		//Default first hour of the day
 		var defaultFirstHour = jQuery('#start_hour').val();
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
-
 		var defaultDate = app.getMainParams('defaultDate');
 		if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 			defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
@@ -1485,7 +1489,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				}).mouseleave(function () {
 			$(this).find(".plus").remove();
 		});
-
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {noCache: true};
@@ -1497,7 +1500,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
-
 		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
 			if (state)
 				container.find('.widgetFilterSwitch').val('current');
@@ -1608,7 +1610,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerFilterChangeEvent();
-
 	},
 	refreshWidget: function () {
 		var thisInstance = this;
@@ -1718,39 +1719,50 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		var options = {
-			xaxis: {
-				minTickSize: 1,
-				ticks: chartData['ticks']
-			},
-			yaxis: {
-				min: 0,
-				tickDecimals: 0
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.8,
-					dataLabels: false,
-					align: "center",
-					lineWidth: 0,
-				},
-				stack: true
+		const options = {
+			maintainAspectRatio: false,
+			title: {
+				display: false
 			},
 			legend: {
-				show: true,
-				labelFormatter: function (label, series) {
-					return('<b>' + label + '</b>: ' + chartData['legend'][label] + ' h');
+				display: true
+			},
+			scales: {
+				yAxes: [{
+						stacked: true,
+						ticks: {
+							callback: function (value, index, values) {
+								return app.parseNumberToShow(value);
+							}
+						}
+					}],
+				xAxes: [{
+						stacked: true,
+					}]
+			},
+			tooltips: {
+				callbacks: {
+					label: function (tooltipItem, data) {
+						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + tooltipItem.yLabel;
+					},
+					title: function (tooltipItems, data) {
+						return data.fullLabels[tooltipItems[0].index];
+					}
 				}
-			}
+			},
+			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 		};
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		const thisInstance = this;
+		const data = thisInstance.generateData();
+		thisInstance.applyDefaultDatalabelsConfig(data);
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: 'bar',
+					data: data,
+					options: options,
+				}
+		);
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
@@ -1844,7 +1856,6 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 					xaxis: {
 						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 						renderer: jQuery.jqplot.CategoryAxisRenderer,
-
 						tickOptions: {
 							angle: -45,
 							labelPosition: 'auto'
@@ -1890,7 +1901,6 @@ YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
 			},
 			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 		};
-
 		var thisInstance = this;
 		var data = thisInstance.generateData();
 		data.datasets.forEach((dataset) => {

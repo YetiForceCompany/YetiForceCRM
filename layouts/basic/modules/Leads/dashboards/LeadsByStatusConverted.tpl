@@ -24,6 +24,9 @@
 						yAxes: [{
 								ticks: {
 									beginAtZero: true,
+									callback: function (value, index, values) {
+										return app.parseNumberToShow(value);
+									}
 								}
 						}],
 						xAxes:[{
@@ -36,16 +39,7 @@
 				};
 			var thisInstance = this;
 			var data = thisInstance.generateData();
-			data.datasets.forEach((dataset) => {
-				dataset.datalabels = {
-					font: {
-						weight: 'bold'
-					},
-					color: 'white',
-					anchor: 'end',
-					align: 'start',
-				};
-			});
+			thisInstance.applyDefaultDatalabelsConfig(data);
 			thisInstance.chartInstance = new Chart(
 					thisInstance.getPlotContainer().getContext("2d"),
 					{
