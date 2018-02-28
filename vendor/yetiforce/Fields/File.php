@@ -796,12 +796,13 @@ class File
 	 */
 	public static function getImageBaseData($path)
 	{
-		$mime = static::getMimeContentType($path);
-		$mimeParts = explode('/', $mime);
-		if ($mime && file_exists($path) && isset(static::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], static::$allowedFormats[$mimeParts[0]])) {
-			return "data:$mime;base64," . base64_encode(file_get_contents($path));
+		if ($path) {
+			$mime = static::getMimeContentType($path);
+			$mimeParts = explode('/', $mime);
+			if ($mime && file_exists($path) && isset(static::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], static::$allowedFormats[$mimeParts[0]])) {
+				return "data:$mime;base64," . base64_encode(file_get_contents($path));
+			}
 		}
-
 		return '';
 	}
 
