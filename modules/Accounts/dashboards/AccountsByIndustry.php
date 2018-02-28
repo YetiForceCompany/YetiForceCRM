@@ -74,7 +74,8 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 					'links' => [], // links generated in proccess method
 				],
 			],
-			'names' => [] // names for link generation
+			'names' => [], // names for link generation,
+			'show_chart' => false,
 		];
 		while ($row = $dataReader->read()) {
 			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], $moduleName);
@@ -82,6 +83,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['industryid']];
 			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
 			$chartData['names'][] = $row['industryvalue'];
+			$chartData['show_chart'] = true;
 		}
 		$dataReader->close();
 		return $chartData;

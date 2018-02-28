@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
-	{if count($DATA) gt 0 }
+	{if $DATA['show_chart'] }
 		<div class="widgetChartContainer"><canvas></canvas></div>
 	{else}
 		<span class="noDataMsg">
