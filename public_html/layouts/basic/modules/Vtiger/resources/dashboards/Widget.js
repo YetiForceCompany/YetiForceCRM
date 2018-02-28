@@ -545,7 +545,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return eventData;
 	},
-	getDefaultDataLabelsConfig: function () {
+	getDefaultDatalabelsConfig: function () {
 		return {
 			font: {
 				size: 11
@@ -570,9 +570,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		chartData.datasets.forEach((dataset) => {
-			dataset.datalabels = this.getDefaultDataLabelsConfig();
+			dataset.datalabels = this.getDefaultDatalabelsConfig();
 		});
-	}
+	},
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	postLoadWidget: function () {
@@ -1317,7 +1317,56 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	}
 });
 Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
+	applyDefaultTooltipsConfig: function (options) {
+		options.tooltips = {
+			callbacks: {
+				label: function (tooltipItem, data) {
+					if (!isNaN(Number(tooltipItem.yLabel))) {
+						return app.parseNumberToShow(tooltipItem.yLabel);
+					}
+					return tooltipItem.yLabel;
+				}
+			}
+		};
+	},
+	applyDefaultAxesLabelsConfig: function (options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			if (typeof axis.ticks.minRotation === 'undefined') {
+				axis.ticks.minRotation = 70;
+			}
+		});
+
+		if (typeof options.scales.yAxes === 'undefined') {
+			options.scales.yAxes = [{}];
+		}
+		options.scales.yAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			if (typeof axis.ticks.callback === 'undefined') {
+				axis.ticks.callback = function defaultYTicksCallback(value, index, values) {
+					if (!isNaN(Number(value))) {
+						return app.parseNumberToShow(value);
+					}
+					return value;
+				}
+			}
+			if (typeof axis.ticks.beginAtZero === 'undefined') {
+				axis.ticks.beginAtZero = true;
+			}
+		});
+	},
 	loadChart: function (options) {
+		const thisInstance = this;
 		if (typeof options === 'undefined') {
 			options = {
 				maintainAspectRatio: false,
@@ -1327,24 +1376,14 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				legend: {
 					display: false
 				},
-				scales: {
-					yAxes: [{
-							ticks: {
-								beginAtZero: true,
-								callback: function (value, index, values) {
-									return app.parseNumberToShow(value);
-								}
-							},
-						}],
-				},
-
 				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 			};
 		}
-
-		const thisInstance = this;
 		const data = thisInstance.generateData();
 		thisInstance.applyDefaultDatalabelsConfig(data);
+		thisInstance.applyDefaultTooltipsConfig(options);
+		thisInstance.applyDefaultAxesLabelsConfig(options);
+		console.log(options)
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1353,9 +1392,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					options: options,
 				}
 		);
-	},
-	getLabelFormat: function (label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
@@ -1719,6 +1755,7 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 	loadChart: function () {
+		const thisInstance = this;
 		const options = {
 			maintainAspectRatio: false,
 			title: {
@@ -1730,11 +1767,6 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			scales: {
 				yAxes: [{
 						stacked: true,
-						ticks: {
-							callback: function (value, index, values) {
-								return app.parseNumberToShow(value);
-							}
-						}
 					}],
 				xAxes: [{
 						stacked: true,
@@ -1743,7 +1775,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			tooltips: {
 				callbacks: {
 					label: function (tooltipItem, data) {
-						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + tooltipItem.yLabel;
+						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.parseNumberToShow(tooltipItem.yLabel);
 					},
 					title: function (tooltipItems, data) {
 						return data.fullLabels[tooltipItems[0].index];
@@ -1752,9 +1784,9 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 		};
-		const thisInstance = this;
 		const data = thisInstance.generateData();
 		thisInstance.applyDefaultDatalabelsConfig(data);
+		thisInstance.applyDefaultAxesLabelsConfig(options);
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1877,52 +1909,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 		}
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
-	loadChart: function () {
-		const options = {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false
-			},
-			scales: {
-				yAxes: [{
-						ticks: {
-							beginAtZero: true,
-						}
-					}],
-				xAxes: [{
-						ticks: {
-							minRotation: 70
-						}
-					}],
-			},
-			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-		};
-		var thisInstance = this;
-		var data = thisInstance.generateData();
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels = {
-				font: {
-					weight: 'bold'
-				},
-				color: 'white',
-				anchor: 'end',
-				align: 'start',
-			};
-		});
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'bar',
-					data: data,
-					options: options,
-				}
-		);
-	}
-});
+YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	generateData: function () {
 		var container = this.getContainer();

@@ -20,26 +20,13 @@
 					legend: {
 						display: false
 					},
-					scales: {
-						yAxes: [{
-								ticks: {
-									beginAtZero: true,
-									callback: function (value, index, values) {
-										return app.parseNumberToShow(value);
-									}
-								}
-						}],
-						xAxes:[{
-							ticks:{
-								minRotation:75,
-							}
-						}]
-					},
 					events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 				};
 			var thisInstance = this;
 			var data = thisInstance.generateData();
 			thisInstance.applyDefaultDatalabelsConfig(data);
+			thisInstance.applyDefaultTooltipsConfig(options);
+			thisInstance.applyDefaultAxesLabelsConfig(options);
 			thisInstance.chartInstance = new Chart(
 					thisInstance.getPlotContainer().getContext("2d"),
 					{

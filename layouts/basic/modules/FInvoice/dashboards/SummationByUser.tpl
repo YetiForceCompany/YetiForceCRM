@@ -28,6 +28,7 @@
 			};
 			const data = thisInstance.generateData();
 			thisInstance.applyDefaultDatalabelsConfig(data);
+			thisInstance.applyDefaultTooltipsConfig(options);
 			thisInstance.chartInstance = new Chart(
 					thisInstance.getPlotContainer().getContext("2d"),
 					{

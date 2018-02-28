@@ -12,6 +12,7 @@
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{
 		loadChart:function(){
+			const thisInstance = this;
 			const options = {
 					maintainAspectRatio: false,
 					title: {
@@ -20,26 +21,12 @@
 					legend: {
 						display: false
 					},
-					scales: {
-						yAxes: [{
-								ticks: {
-									beginAtZero: true,
-									callback: function (value, index, values) {
-										return app.parseNumberToShow(value);
-									}
-								}
-						}],
-						xAxes:[{
-							ticks:{
-								minRotation:75,
-							}
-						}]
-					},
 					events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 				};
-			var thisInstance = this;
-			var data = thisInstance.generateData();
+			const data = thisInstance.generateData();
 			thisInstance.applyDefaultDatalabelsConfig(data);
+			thisInstance.applyDefaultTooltipsConfig(options);
+			thisInstance.applyDefaultAxesLabelsConfig(options);
 			thisInstance.chartInstance = new Chart(
 					thisInstance.getPlotContainer().getContext("2d"),
 					{
