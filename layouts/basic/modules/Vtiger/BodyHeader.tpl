@@ -175,11 +175,13 @@
 							<div class="modal-dialog modalRightSiteBar" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h4 class="modal-title" id="myModalLabel">
+										<h5 class="modal-title" id="myModalLabel">
 											<span class="fas fa-comments fa-fw"></span>&nbsp;&nbsp;
 											{\App\Language::translate('LBL_CHAT')}
-										</h4>
-										<button type="button" class="btn btn-warning p-0 float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
+										</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
 									</div>
 									<div class="modal-body">
 										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
