@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Vtiger_Save_Action extends \App\Controller\Action
@@ -47,22 +48,11 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		parent::preProcess($request);
-		if (App\Session::has('baseUserId') && !empty(App\Session::get('baseUserId'))) {
-			App\User::setCurrentUserId(App\Session::get('baseUserId'));
-		}
-	}
-
-	public function preProcessAjax(\App\Request $request)
-	{
-		parent::preProcessAjax($request);
-		if (App\Session::has('baseUserId') && !empty(App\Session::get('baseUserId'))) {
-			App\User::setCurrentUserId(App\Session::get('baseUserId'));
-		}
-	}
-
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
