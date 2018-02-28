@@ -41,7 +41,12 @@
 					{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
 				</div>
 				<div class="addCondition">
-					<button type="button" class="btn btn-light pushDown"><strong>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
+					<button type="button" class="btn btn-light pushDown">
+						<strong>
+							<span class="fas fa-plus mr-1"></span>
+							{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}
+						</strong>
+					</button>
 				</div>
 				<div class="groupCondition">
 					{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
@@ -68,7 +73,12 @@
 					{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=[] CONDITION="or" NOCHOSEN=true}
 				</div>
 				<div class="addCondition">
-					<button type="button" class="btn btn-light pushDown"><strong>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
+					<button type="button" class="btn btn-light pushDown">
+						<strong>
+							<span class="fas fa-plus mr-1"></span>
+							{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}
+						</strong>
+					</button>
 				</div>
 			</div>
 		</div>
