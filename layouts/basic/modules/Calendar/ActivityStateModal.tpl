@@ -4,13 +4,13 @@
 		{assign var=ID value=$RECORD->getId()}
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header row">
-					<div class="col-5">
+				<div class="modal-header">
+					<div class="col-5 px-0">
 						<div class="float-left">
 							<h3 class="modal-title">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 						</div>
 					</div>
-					<div class="col-7">
+					<div class="col-7 px-0">
 						<div class="float-right">
 							{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
@@ -133,9 +133,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer form-row">
+				<div class="modal-footer">
 					{if $RECORD->isEditable()}
-						<div class="col-12">
+						<div class="col-12 p-0">
 							<div class="float-left">
 								{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 								{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
