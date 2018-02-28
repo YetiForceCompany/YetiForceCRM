@@ -9,6 +9,7 @@
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
+
 	/**
 	 * Process.
 	 *
@@ -97,8 +98,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			}
 		}
-		$encoding = mb_detect_encoding($html);
-		if ($encoding && $encoding !== 'UTF-8') {
+		if ($encoding = mb_detect_encoding($html) && $encoding !== 'UTF-8') {
 			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
 		}
 		$html = preg_replace(
@@ -113,10 +113,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			], ['', '', '', '', '', '', '', ''], $html);
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
-		/*
-		 * Alternative when coding problems
-		 * $doc->loadHTML(mb_convert_encoding($mail->get('body'), 'HTML-ENTITIES', 'UTF-8'));
-		 */
 		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
