@@ -3,38 +3,24 @@
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbyuser_Widget_Js',{}, {
 		loadChart: function () {
 			const thisInstance = this;
-			const options = {
-				maintainAspectRatio: false,
-				title: {
-					display: false
-				},
-				legend: {
-					display: false
-				},
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero: true,
-							callback: function (value, index, values) {
-								return app.parseNumberToShow(value);
-							}
-						}
-					}],
-					xAxes:[{
-						display:false
-					}]
-				},
-				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-			};
-			const data = thisInstance.generateData();
-			thisInstance.applyDefaultDatalabelsConfig(data);
-			thisInstance.applyDefaultTooltipsConfig(options);
+			const data =thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
 			thisInstance.chartInstance = new Chart(
 					thisInstance.getPlotContainer().getContext("2d"),
 					{
 						type: 'bar',
 						data: data,
-						options: options,
+						options: thisInstance.applyDefaultOptions({
+							tooltips:{
+								callbacks:{
+									title: function tooltipsTitleCallback(tooltipItems,data){
+										if(typeof data.fullLabels!=='undefined'){
+											return data.fullLabels[tooltipItems[0].index];
+										}
+										return '';
+									}
+								}
+							}
+						}),
 					}
 			);
 		}

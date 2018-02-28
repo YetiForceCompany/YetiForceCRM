@@ -80,11 +80,17 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			],
 			'show_chart' => false
 		];
+		if ($widgetParam['showUser']) {
+			$chartData['fullLabels'] = [];
+		}
 		while ($row = $dataReader->read()) {
 			$label = \App\Fields\Owner::getLabel($row['assigned_user_id']);
 			$chartData['datasets'][0]['data'][] = (int) $row['s'];
 			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor($row['assigned_user_id']);
-			$chartData['labels'][] = $widgetParam['showUser'] ? $label : '';
+			$chartData['labels'][] = $widgetParam['showUser'] ? vtlib\Functions::getInitials($label) : '';
+			if ($widgetParam['showUser']) {
+				$chartData['fullLabels'][] = $label;
+			}
 			$chartData['show_chart'] = true;
 		}
 		$dataReader->close();
