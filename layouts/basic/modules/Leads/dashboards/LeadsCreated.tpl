@@ -20,7 +20,7 @@
 				</span>
 			</span>
 			<span class="col-md-4">
-				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter" />
+				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter text-center" />
 			</span>
 		</div>
 		<div class="row">
