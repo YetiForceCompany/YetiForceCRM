@@ -23,7 +23,7 @@ class Domain extends \HTMLPurifier_URIFilter
 	 */
 	public function prepare($config)
 	{
-		$this->allowedDomains = \AppConfig::security('PURIFIER_ALLOWED_DOMAINS');
+		$this->allowedDomains = \AppConfig::security('PURIFIER_ALLOWED_DOMAINS') ?: $this->allowedDomains;
 	}
 
 	/**
