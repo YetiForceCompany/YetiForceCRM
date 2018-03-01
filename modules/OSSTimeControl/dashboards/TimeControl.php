@@ -8,6 +8,7 @@
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
+
 	public function getSearchParams($assignedto, $date)
 	{
 		$conditions = [];
@@ -16,7 +17,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($date)) {
-			array_push($conditions, ['due_date', 'bw', $date . ',' . $date . '']);
+			$displayDate = \App\Fields\Date::formatToDisplay($date);
+			array_push($conditions, ['due_date', 'bw', $displayDate . ',' . $displayDate . '']);
 		}
 		$listSearchParams[] = $conditions;
 
@@ -26,16 +28,16 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetTimeControl($user, $time)
 	{
 		if (!$time) {
-			return [];
+			return ['show_chart' => false];
 		}
 		$date['start'] = Vtiger_Date_UIType::getDBInsertedValue($time['start']);
 		$date['end'] = Vtiger_Date_UIType::getDBInsertedValue($time['end']);
-		$module = 'HelpDesk';
-		$query = (new App\Db\Query())->select(['daytime' => 'sum_time', 'due_date', 'timecontrol_type'])
+		$query = (new App\Db\Query())->select(['sum_time', 'due_date', 'vtiger_osstimecontrol.timecontrol_type', 'timecontrol_typeid'])
 			->from('vtiger_osstimecontrol')
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_timecontrol_type', 'vtiger_osstimecontrol.timecontrol_type = vtiger_timecontrol_type.timecontrol_type')
 			->where(['vtiger_crmentity.setype' => 'OSSTimeControl', 'vtiger_crmentity.smownerid' => $user]);
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\PrivilegeQuery::getConditions($query, 'HelpDesk');
 		$query->andWhere([
 			'and',
 			['>=', 'vtiger_osstimecontrol.due_date', $date['start']],
@@ -45,118 +47,74 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 		$days = [];
 		$timeTypes = [];
-		$sumWorkTime = 0;
-		$sumBreakTime = 0;
-		$workedDaysAmount = [];
-		$holidayDaysAmount = [];
-		$response = [];
-
+		$colors = \App\Fields\Picklist::getColors('timecontrol_type');
+		$chartData = [
+			'labels' => [],
+			'fullLabels' => [],
+			'datasets' => [],
+			'show_chart' => false,
+			'days' => []
+		];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$workingTimeByType[\App\Language::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
-			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['daytime'];
-			if (!array_key_exists($row['timecontrol_type'], $timeTypes)) {
-				$timeTypes[$row['timecontrol_type']] = $counter++;
+			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
+			$workingTimeByType[$label] += (float) $row['sum_time'];
+			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['sum_time'];
+			if (!in_array($row['timecontrol_type'], $timeTypes)) {
+				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
+				// one dataset per type
+				$chartData['datasets'][] = [
+					'label' => $label,
+					'original_label' => $label,
+					'_type' => $row['timecontrol_type'],
+					'data' => [],
+					'dataFormatted' => [],
+					'backgroundColor' => [],
+					'links' => [],
+				];
 			}
-			if (!in_array($row['due_date'], $workedDaysAmount) && 'PLL_WORKING_TIME' == $row['timecontrol_type']) {
-				$workedDaysAmount[$row['due_date']] = 1;
-			}
-
-			if (!in_array($row['due_date'], $holidayDaysAmount) && 'PLL_HOLIDAY' == $row['timecontrol_type']) {
-				$holidayDaysAmount[$row['due_date']] = 1;
-			}
-
-			if ('PLL_WORKING_TIME' == $row['timecontrol_type']) {
-				$sumWorkTime += $row['daytime'];
-			}
-
-			if ('PLL_BREAK_TIME' == $row['timecontrol_type']) {
-				$sumBreakTime += $row['daytime'];
-			}
-
-			if (!in_array($row['due_date'], $days)) {
-				$days[] = $row['due_date'];
+			if (!in_array($row['due_date'], $chartData['days'])) {
+				$chartData['labels'][] = substr($row['due_date'], -2);
+				$chartData['fullLabels'][] = \App\Fields\Date::getDayFromDate($row['due_date']) . ' ' . \App\Fields\Date::formatToDisplay($row['due_date']);
+				$chartData['days'][] = $row['due_date'];
 			}
 		}
 		$dataReader->close();
+		foreach ($chartData['datasets'] as &$dataset) {
+			$dataset['label'] .= ': ' . \App\Fields\Time::formatToHourText($workingTimeByType[$dataset['label']]);
+		}
 		if ($dataReader->count() > 0) {
-			$dataReader = (new App\Db\Query())->select(['timecontrol_type', 'color'])
-				->from('vtiger_timecontrol_type')
-				->createCommand()->query();
-
-			while ($row = $dataReader->read()) {
-				$colors[$row['timecontrol_type']] = $row['color'];
-			}
-			$dataReader->close();
-
-			$counter = 0;
-			$result = [];
-			foreach ($workingTime as $timeKey => $timeValue) {
-				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
-					$result[$timeTypeKey]['data'][$counter][0] = $counter;
-					$result[$timeTypeKey]['label'] = \App\Language::translate($timeTypeKey, 'OSSTimeControl');
-					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
-					if ($timeValue[$timeTypeKey]) {
-						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];
+			$chartData['show_chart'] = true;
+			foreach ($workingTime as $dueDate => $timeValue) {
+				foreach ($timeTypes as $timeTypeId => $timeType) {
+					if ($timeValue[$timeType]) {
+						$value = $timeValue[$timeType];
 					} else {
-						$result[$timeTypeKey]['data'][$counter][1] = 0;
+						$value = 0;
+					}
+					foreach ($chartData['datasets'] as &$dataset) {
+						if ($dataset['_type'] === $timeType) {
+							// each data item is an different day in this dataset/time type
+							$dataset['data'][] = round($value, 2);
+							$dataset['dataFormatted'][] = \App\Fields\Time::formatToHourText($value);
+							$dataset['backgroundColor'][] = $colors[$timeTypeId];
+						}
 					}
 				}
-				++$counter;
 			}
-
-			$ticks = [];
-			foreach ($days as $key => $value) {
-				$value = substr($value, -2);
-				$newArray = [$key, $value];
-				array_push($ticks, $newArray);
-			}
-
-			$workedDaysAmount = count($workedDaysAmount);
-			$holidayDaysAmount = count($holidayDaysAmount);
-			$allDaysAndWeekends = $this->getDays($time['start'], $time['end']);
-			if ($sumWorkTime > 0) {
-				if (0 == $workedDaysAmount) {
-					$averageWorkingTime = $sumWorkTime;
-				} else {
-					$averageWorkingTime = $sumWorkTime / $workedDaysAmount;
-				}
-			}
-
-			if ($sumBreakTime > 0) {
-				if (0 == $workedDaysAmount) {
-					$averageBreakTime = $sumBreakTime;
-				} else {
-					$averageBreakTime = $sumBreakTime / $workedDaysAmount;
-				}
-			}
-			$response['holiayDays'] = $holidayDaysAmount;
-			$response['daysWorked'] = $workedDaysAmount;
-			$response['workDays'] = $allDaysAndWeekends['workDays'];
-			$response['allDays'] = $allDaysAndWeekends['days'];
-			$response['weekends'] = $allDaysAndWeekends['weekends'];
-			$response['averageWorkingTime'] = number_format($averageWorkingTime, 2, '.', ' ');
-			$response['sumBreakTime'] = number_format($averageBreakTime, 2, '.', ' ');
-			$response['legend'] = $workingTimeByType;
-			$response['chart'] = $result;
-			$response['ticks'] = $ticks;
-			$response['days'] = $days;
 		}
 		$dataReader->close();
-
-		return $response;
+		return $chartData;
 	}
 
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$loggedUserId = $currentUser->get('id');
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
 		$user = $request->getByType('user', 2);
 		$time = $request->getDateRange('time');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
@@ -167,89 +125,28 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		if (empty($user)) {
-			$user = $loggedUserId;
+			$user = $currentUserId;
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		$daysAmount = count($data['ticks']);
-		$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
-		for ($i = 0; $i < $daysAmount; ++$i) {
-			$data['links'][$i][0] = $i;
-			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);
-		}
-
-		$publicHolidays = Settings_PublicHoliday_Module_Model::getHolidayGroupType([$time['start'], $time['end']]);
-		if ($publicHolidays) {
-			foreach ($publicHolidays as $key => $value) {
-				$upperCase = strtoupper($key);
-				$viewer->assign($upperCase, $value);
+		foreach ($data['datasets'] as &$dataset) {
+			foreach ($dataset['data'] as $index => $dataItem) {
+				$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($user, $data['days'][
+						$index]);
 			}
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
-
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', $time);
-		$viewer->assign('WORKDAYS', $data['workDays']);
-		$viewer->assign('WORKEDDAYS', $data['daysWorked']);
-		$viewer->assign('HOLIDAYDAYS', $data['holiayDays']);
-		$viewer->assign('AVERAGEBREAKTIME', $data['sumBreakTime']);
-		$viewer->assign('WORKINGDAYS', $data['workDays']);
-		$viewer->assign('WEEKENDDAYS', $data['weekends']);
-		$viewer->assign('AVERAGEWORKTIME', $data['averageWorkingTime']);
-		$viewer->assign('ALLDAYS', $data['allDays']);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('LOGGEDUSERID', $loggedUserId);
+		$viewer->assign('LOGGEDUSERID', $currentUserId);
 		$viewer->assign('SOURCE_MODULE', 'OSSTimeControl');
 		if ($request->has('content')) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/TimeControl.tpl', $moduleName);
-		}
-	}
-
-	public function getDays($startDate, $endDate)
-	{
-		$holidayDays = Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
-		$notWorkingDaysType = Settings_Calendar_Module_Model::getNotWorkingDays();
-		$begin = strtotime($startDate);
-		$end = strtotime($endDate);
-		$workDays = 0;
-
-		if ($begin > $end) {
-			return 0;
-		} else {
-			$days = 0;
-			$weekends = 0;
-			while ($begin <= $end) {
-				++$days;
-				$whatDay = date('N', $begin);
-				$day = date('Y-m-d', $begin);
-				$isWorkDay = true;
-				foreach ($holidayDays as $key => $value) {
-					if ($day == $value['date']) {
-						$isWorkDay = false;
-						unset($holidayDays[$key]);
-					}
-				}
-				foreach ($notWorkingDaysType as $key => $value) {
-					if ($whatDay == $value) {
-						$isWorkDay = false;
-					}
-				}
-				if ($isWorkDay) {
-					++$workDays;
-				}
-				if ($whatDay > 5 && !$isWorkDay && $notWorkingDaysType) {
-					++$weekends;
-				}
-				$begin += 86400;
-			}
-			$result = ['workDays' => $workDays, 'weekends' => $weekends, 'days' => $days];
-
-			return $result;
 		}
 	}
 }
