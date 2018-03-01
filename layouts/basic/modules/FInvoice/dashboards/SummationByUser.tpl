@@ -3,7 +3,7 @@
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbyuser_Widget_Js',{}, {
 		loadChart: function () {
 			const thisInstance = this;
-			const data =thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+			const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
 			thisInstance.chartInstance = new Chart(
 					thisInstance.getPlotContainer().getContext("2d"),
 					{

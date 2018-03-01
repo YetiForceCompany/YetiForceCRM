@@ -17,8 +17,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
 		if ($request->has('time')) {
 			$time = $request->getDateRange('time');
 		} else {
@@ -40,7 +39,6 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('PARAM', $param);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/SummationByUserContents.tpl', $moduleName);
 		} else {
@@ -59,7 +57,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
-		$currentUserId = Users_Record_Model::getCurrentUserModel()->getId();
+		$currentUserId = \App\User::getCurrentUserId();
 		$s = new \yii\db\Expression('sum(sum_gross)');
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setField('assigned_user_id');
@@ -87,9 +85,9 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $dataReader->read()) {
 			$label = \App\Fields\Owner::getLabel($row['assigned_user_id']);
 			$chartData['datasets'][0]['data'][] = (int) $row['s'];
-			$chartData['datasets'][0]['backgroundColor'][] = (int) $currentUserId === (int) $row['assigned_user_id'] ? \App\Fields\Owner::getColor($row['assigned_user_id']) : 'rgba(0,0,0,0.25)';
+			$chartData['datasets'][0]['backgroundColor'][] = $currentUserId === (int) $row['assigned_user_id'] ? \App\Fields\Owner::getColor($row['assigned_user_id']) : 'rgba(0,0,0,0.25)';
 			$chartData['labels'][] = $widgetParam['showUser'] ? vtlib\Functions::getInitials($label) : '';
-			if ($widgetParam['showUser'] || (int) $currentUserId === (int) $row['assigned_user_id']) {
+			if ($widgetParam['showUser'] || $currentUserId === (int) $row['assigned_user_id']) {
 				$chartData['fullLabels'][] = $label;
 			} else {
 				$chartData['fullLabels'][] = '';

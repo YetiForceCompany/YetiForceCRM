@@ -12,7 +12,7 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 {
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -29,17 +29,16 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getLeadsCreated($owner, $dates);
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUserId);
 
 		//Include special script and css needed for this widget
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('CURRENTUSERID', $currentUserId);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('CURRENTUSER', $currentUser);
-
-		$accessibleUsers = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
+		$accessibleUsers = \App\Fields\Owner::getInstance('Leads', $currentUserId)->getAccessibleUsersForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
