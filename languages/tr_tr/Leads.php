@@ -1,14 +1,14 @@
-<?php		
-	/* +***********************************************************************************	
-	* The contents of this file are subject to the vtiger CRM Public License Version 1.0	
-	* ("License"); You may not use this file except in compliance with the License	
-	* The Original Code is: vtiger CRM Open Source	
-	* The Initial Developer of the Original Code is vtiger.	
-	* Portions created by vtiger are Copyright (C) vtiger.	
-	* All Rights Reserved.	
-	* Contributor(s): YetiForce.com	
-	* ********************************************************************************** */	
-	$languageStrings = [
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * ********************************************************************************** */
+$languageStrings = [
 	'Verification data' => 'Doğrulama verileri',
 	'Orders accepted' => 'Siparişler kabul edildi',
 	'Attempted to Contact' => 'İletişim kurmaya çalışıldı',
@@ -55,7 +55,7 @@
 	'SINGLE_Leads' => 'Potansiyel Müşteri',
 	'Warm' => 'Sıcak',
 	'Website' => 'Web sitesi',
-	// YetiForce Lead Status	
+	// YetiForce Lead Status
 	'PLL_TO_REALIZE' => 'İşleme için',
 	'PLL_CONTACTS_IN_THE_FUTURE' => 'Gelecekte iletişim',
 	'PLL_LEAD_UNTAPPED' => 'Elde Edilmemiş',
@@ -63,12 +63,12 @@
 	'PLL_PENDING' => 'Beklemede',
 	'PLL_IN_REALIZATION' => 'Gerçekleşmede',
 	'PLL_INCORRECT' => 'Yanlış',
-	// YetiForce	
+	// YetiForce
 	'Contact Information' => 'İletişim bilgileri',
 	'LBL_REGISTRATION_INFO' => 'Kayıt detayları',
 	'Approval for phone calls' => 'Çağrı izni',
 	'Approval for email' => 'E-posta gönderme izni',
-	//PICKLIST VALUES	
+	//PICKLIST VALUES
 	'PLL_B2C' => 'B2C',
 	'PLL_B2B' => 'B2B',
 	'PLL_NATURAL_PERSON' => 'Özel şahıs',
@@ -97,12 +97,11 @@
 	'Total time worked' => 'Toplam çalışma süresi',
 	'Total contacts' => 'Kişi sayısı',
 	'Attention' => 'Notlar',
-	"Attorney General's Office" => "Başsavcılık Ofisi",
+	"Attorney General's Office" => 'Başsavcılık Ofisi',
 	'LBL_RELATION' => 'İlişki',
 	'LBL_LEGAL_FORM' => 'Hukuk formu',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'En az iki Hesap bağlama gereksinimlerini karşılar, gidin: (Yönetim> Süreçler> Pazarlama süreçleri> Dönüşüm) %s',
-	];	
-		
-	$jsLanguageStrings = [
+];
+$jsLanguageStrings = [
 	'JS_SELECT_ORGANIZATION' => 'Devam etmek için Hesap Seç',
-	];	
+];

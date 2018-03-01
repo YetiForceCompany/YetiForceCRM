@@ -1,19 +1,19 @@
-<?php		
-/**		
- * OSSMailView turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
-	// Basic Strings	
+<?php
+/**
+ * OSSMailView turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
+	// Basic Strings
 	'OSSMailView' => 'Kurumsal e-postalar',
 	'SINGLE_OSSMailView' => 'Kurumsal e-posta',
 	'LBL_RECORDS_LIST' => 'E-postaların listesi',
-	// Blocks	
+	// Blocks
 	'LBL_INFORMATION' => 'Genel bilgi',
 	'LBL_ORIGN_MESSAGE' => 'Orijinal mesaj',
-	//Field Labels	
+	//Field Labels
 	'relatedid' => 'İle ilgili',
 	'number' => 'Numara',
 	'yes' => 'Evet',
@@ -78,7 +78,7 @@ $languageStrings = [
 	'LBL_MAIL_REPLY_INTRO' => '%s üzerinde, %s yazdı:',
 	'LBL_MAIL_FORWARD_INTRO' => '-------- Orijinal mesaj --------',
 	'LBL_NO_MAILS' => 'E-postalar yok',
-	//dashboards	
+	//dashboards
 	'Graf' => 'Türlere göre kurumsal e-postalar',
 	'Today' => 'Bugün',
 	'Yesterday' => 'Dün',
@@ -89,8 +89,8 @@ $languageStrings = [
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Orijinal posta içeriği',
 	'BTN_RESET_RELATED_MAILS' => 'İlgili e-postaları sıfırlayın',
 	'LBL_SET_RELOAD_RELATIONS' => 'İlişki yenilemesi için işaretlendi',
-];		
-$jsLanguageStrings = [		
+];
+$jsLanguageStrings = [
 	'From' => 'Gönderen',
 	'To' => 'Kime',
 	'CC' => 'CC',
@@ -99,4 +99,4 @@ $jsLanguageStrings = [
 	'Subject' => 'Konu',
 	'Content' => 'İçerik',
 	'JS_BIND_CONFIRM' => 'Seçilen mesajları bağlamak istediğinizden emin misiniz?',
-];		
+];

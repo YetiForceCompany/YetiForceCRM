@@ -1,11 +1,11 @@
-<?php		
-/**		
- * Notification turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
+<?php
+/**
+ * Notification turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'Notification' => 'Bildirimler',
 	'SINGLE_Notification' => 'Bildirim',
 	'Notification ID' => 'Bildirim ID',
@@ -44,7 +44,7 @@ $languageStrings = [
 	'LBL_NOTIFICATION_SETTINGS' => 'Bildirim ayarları',
 	'LBL_UNREAD' => 'Okunmamış',
 	'LBL_NO_UNREAD_NOTIFICATIONS' => 'Okunmamış bildirim yok',
-];		
-$jsLanguageStrings = [		
+];
+$jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Okundu olarak işaretlendi',
-];		
+];

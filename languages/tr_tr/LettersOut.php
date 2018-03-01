@@ -1,17 +1,17 @@
-<?php		
-	/**	
-	* LettersOut turkish translation.	
-	*	
-	* @copyright YetiForce Sp. z o.o	
-	* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)	
-	*/	
-	$languageStrings = [	
-	// Basic Strings	
+<?php
+/**
+ * LettersOut turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
+	// Basic Strings
 	'LettersOut' => 'Giden yazışmalar',
 	'SINGLE_LettersOut' => 'Giden yazışma',
-	// Blocks	
+	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Yazışmalarla ilgili bilgi',
-	//Field Labels	
+	//Field Labels
 	'Number' => 'Numara',
 	'Title' => 'Konu',
 	'Date of adoption' => 'Alınan tarih',
@@ -27,7 +27,7 @@
 	'Contact' => 'Temas',
 	'Type of document' => 'Belge Türü',
 	'FL_INCOMING_CORRESPONDENCE' => 'Gelen yazışmalar',
-	// picklist values	
+	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Kişisel koleksiyon',
 	'PLL_POST_OFFICE_PL' => 'Polonya Posta Ofisi',
 	'PLL_POST_OFFICE' => 'Postane',
@@ -61,4 +61,4 @@
 	'PLL_SETTLED' => 'Yerleşik',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
-	];	
+];

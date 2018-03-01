@@ -1,21 +1,21 @@
-<?php		
-/**		
- * LettersIn turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
-	// Basic Strings	
+<?php
+/**
+ * LettersIn turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
+// Basic Strings
 	'LettersIn' => 'Gelen yazışmalar',
 	'SINGLE_LettersIn' => 'Gelen yazışma',
-	// Blocks	
+	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Yazışmalarla ilgili bilgi',
-	//Field Labels	
+	//Field Labels
 	'Number' => 'Numara',
 	'Title' => 'Konu',
 	'Date of adoption' => 'Alınan tarih',
-	'Type of shipping' =>  'Sevkıyat türü',
+	'Type of shipping' => 'Sevkıyat türü',
 	'Type of document' => 'Belge Türü',
 	'Person receiving' => 'Kişi alıyor',
 	'Deadline for reply' => 'Yanıt için son gün',
@@ -32,7 +32,7 @@ $languageStrings = [
 	'FL_OUTGOING_CORRESPONDENCE' => 'Giden yazışmalar',
 	'FL_INTERNAL_NOTES' => 'İç notlar',
 	'FL_PUBLIC_NOTES' => 'Genel notlar',
-	// picklist values	
+	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Kişisel koleksiyon',
 	'PLL_POST_OFFICE_PL' => 'Polonya Posta Ofisi',
 	'PLL_POST_OFFICE' => 'Postane',
@@ -77,4 +77,4 @@ $languageStrings = [
 	'PLL_DOCUMENT' => 'Döküman',
 	'PLL_RETURN' => 'Geri Gönderme',
 	'PLL_POSTAL_ADVICE' => 'Posta tavsiyesi',
-];		
+];

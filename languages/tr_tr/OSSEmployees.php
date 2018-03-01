@@ -1,18 +1,18 @@
-<?php		
-/**		
- * OSSEmployees turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
+<?php
+/**
+ * OSSEmployees turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'OSSEmployees' => 'Personeller',
 	'SINGLE_OSSEmployees' => 'Personel',
 	'LBL_INFORMATION' => 'Personel bilgileri',
 	'LBL_CONTACTS' => 'İletişim detayları',
 	'LBL_PERMANENT_ADDRESS' => 'Daimi ikametgah adresi',
 	'LBL_CORRESPONDANCE_ADDRESS' => 'Yönlendirme adresi',
-//fields		
+//fields
 	'No.' => 'Numara',
 	'Assigned To' => 'Atandı',
 	'LBL_EMPLOYEESTATUS' => 'Durumu',
@@ -49,4 +49,4 @@ $languageStrings = [
 	'FL_POSITION' => 'Pozisyon',
 	'FL_SECONDARY_PHONE' => 'İkincil Telefon',
 	'FL_RBH' => 'RBH',
-];		
+];
