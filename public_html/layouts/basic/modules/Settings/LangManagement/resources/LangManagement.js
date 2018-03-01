@@ -467,16 +467,15 @@ var Settings_Index_Js = {
 			});
 		})
 	},
-	getDataCharts: function (shortages, max) {
-
-		function getRandomColor() {
-			var letters = '0123456789ABCDEF'.split('');
-			var color = '#';
-			for (var i = 0; i < 6; i++) {
-				color += letters[Math.floor(Math.random() * 16)];
-			}
-			return color;
+	getRandomColor: function () {
+		var letters = '0123456789ABCDEF'.split('');
+		var color = '#';
+		for (var i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
 		}
+		return color;
+	},
+	getDataCharts: function (shortages, max) {
 
 		var k = 1;
 		var data = [];
@@ -501,7 +500,7 @@ var Settings_Index_Js = {
 			var x = shortages[i] * 100 / max;
 			var langName = jQuery('select option[value="' + i + '"]').text();
 			data.push(Math.round(x * 100) / 100);
-			chartData.datasets[0].backgroundColor.push(getRandomColor());
+			chartData.datasets[0].backgroundColor.push(this.getRandomColor());
 			chartData.labels.push(langName);
 			++k;
 		}

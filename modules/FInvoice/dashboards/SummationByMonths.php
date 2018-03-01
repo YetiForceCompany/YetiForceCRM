@@ -19,28 +19,22 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$linkId = $request->getInteger('linkid');
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
-
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
 		$data = $this->getWidgetData($moduleName, $owner);
-
 		$viewer->assign('USERID', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENTUSER', $currentUser);
-		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
+		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUserId)->getAccessibleUsersForModule();
+		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUserId)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
@@ -81,28 +75,51 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$rawData[$row['y']][] = [$row['m'], (int) $row['s']];
 		}
 		$dataReader->close();
-
+		$chartData = [
+			'labels' => [],
+			'datasets' => [],
+			'show_chart' => false,
+		];
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
+		$yearsData = [];
 		foreach ($rawData as $y => $raw) {
 			$years[] = $y;
+			if (!isset($yearsData[$y])) {
+				$yearsData[$y] = [
+					'data' => [],
+					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
+					'backgroundColor' => [],
+					'borderColor' => [],
+				];
+				for ($m = 0; $m < 12; $m++) {
+					$yearsData[$y]['data'][$m] = [];
+				}
+			}
+			foreach ($raw as $m => &$value) {
+				$yearsData[$y]['data'][$m] = ['y' => $value[1], 'x' => (int) $m + 1];
+				$hash = md5('color' . $y * 10);
+				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
+				$yearsData[$y]['backgroundColor'][] = $color;
+				$yearsData[$y]['borderColor'][] = $color;
+				$yearsData[$y]['stack'] = (string) $y;
+				$chartData['show_chart'] = true;
+			}
 		}
 		$years = array_values(array_unique($years));
-		foreach ($rawData as $y => $raw) {
-			$values = [];
-			foreach ($raw as $m => &$value) {
-				$plus = array_search($y, $years) % 2 == 0 ? 0.45 : 0;
-				$value[0] = $value[0] - $plus;
-				$values[] = $value;
+		$chartData['years'] = $years;
+		foreach ($years as $y) {
+			foreach ($chartData['datasets'] as &$dataset) {
+				foreach ($dataset['data'] as $index => &$values) {
+					if (count($values) === 0) {
+						$values = ['x' => $index, 'y' => 0];
+					}
+				}
 			}
-			$data[] = [
-				'data' => $values,
-				'bars' => ['order' => (array_search($y, $years) + 1)],
-				'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
-			];
 		}
-		$response['chart'] = $data;
-		$response['ticks'] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-		return $response;
+		$chartData['datasets'] = [];
+		foreach ($yearsData as $y => $data) {
+			$chartData['datasets'][] = $data;
+		}
+		return $chartData;
 	}
 }

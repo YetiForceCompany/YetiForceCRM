@@ -30,12 +30,11 @@
 				</span>
 			</span>
 			<span class="col-md-4">
-				{assign var=CURRENT_USER_ID value=$CURRENTUSER->getId()}
 				<select class="widgetFilter" name="owner">
 					<option value="">{\App\Language::translate('LBL_ALL', $MODULE_NAME)}</option>
 					{foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
 						<option value="{$USER_ID}">
-							{if $USER_ID eq $CURRENTUSER->getId()}
+							{if $USER_ID eq $CURRENTUSERID}
 								{\App\Language::translate('LBL_MINE',$MODULE_NAME)}
 							{else}
 								{$USER_NAME}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{if count($DATA) gt 0 }
+	{if $DATA['show_chart'] }
 		{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
 		<div class="summary-left float-left" style="text-align:center;margin-left:2%;">
 			{*if $SHOWING_ICON.workingDays eq 'true'}
@@ -86,7 +86,7 @@
 		</div>
 		{/if*}
 		<div class="clearfix"></div>
-		<div class="widgetChartContainer" style="height:100%;width:98%"></div>
+		<div class="widgetChartContainer"><canvas></canvas></div>
 	{else}
 		<span class="noDataMsg">
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
