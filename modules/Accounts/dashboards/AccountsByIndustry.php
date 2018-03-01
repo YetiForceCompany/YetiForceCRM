@@ -43,10 +43,10 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getAccountsByIndustry($owner, $dateFilter)
 	{
-		$module = 'Accounts';
-
+		$moduleName = 'Accounts';
 		$query = new \App\Db\Query();
 		$query->select([
+				'industryid' => 'vtiger_industry.industryid',
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END"), ])
 				->from('vtiger_account')
@@ -59,26 +59,34 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($dateFilter)) {
 			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
 		$dataReader = $query->createCommand()->query();
-		$response = [];
-		$i = 0;
+		$colors = \App\Fields\Picklist::getColors('industry');
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'borderColor' => [],
+					'tooltips' => [],
+					'links' => [], // links generated in proccess method
+				],
+			],
+			'names' => [], // names for link generation,
+			'show_chart' => false,
+		];
 		while ($row = $dataReader->read()) {
-			$data[$i]['label'] = \App\Language::translate($row['industryvalue'], 'Leads');
-			$ticks[$i][0] = $i;
-			$ticks[$i][1] = \App\Language::translate($row['industryvalue'], 'Leads');
-			$data[$i]['data'][0][0] = $i;
-			$data[$i]['data'][0][1] = $row['count'];
-			$name[] = $row['industryvalue'];
-			++$i;
+			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], $moduleName);
+			$chartData['datasets'][0]['data'][] = $row['count'];
+			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['industryid']];
+			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
+			$chartData['names'][] = $row['industryvalue'];
+			$chartData['show_chart'] = true;
 		}
-		$response['chart'] = $data;
-		$response['ticks'] = $ticks;
-		$response['name'] = $name;
 		$dataReader->close();
-
-		return $response;
+		return $chartData;
 	}
 
 	/**
@@ -88,23 +96,20 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = \App\User::getCurrentUserModel();
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Accounts');
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ($owner === 'all') {
 			$owner = '';
 		}
-
 		$createdTime = $request->getDateRange('createdtime');
-
 		//Date conversion from user to database format
 		$dates = [];
 		if (!empty($createdTime)) {
@@ -119,24 +124,18 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $this->getAccountsByIndustry($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$leadSIndustryAmount = count($data['name']);
+		$leadSIndustryAmount = count($data['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
-			$data['links'][$i][0] = $i;
-			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($data['name'][$i], $owner, $dates);
+			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $dates);
 		}
 		//Include special script and css needed for this widget
-
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DTIME', $dates);
-
-		$accessibleUsers = \App\Fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \App\Fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleGroupForModule();
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleUsersForModule());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleGroupForModule());
 		$viewer->assign('OWNER', $ownerForwarded);
-
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {

@@ -51,50 +51,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns Leads grouped by Status.
-	 *
-	 * @param type $data
-	 *
-	 * @return array
-	 */
-	public function getLeadsByStatusConverted($owner, $dateFilter)
-	{
-		$module = $this->getName();
-		$query = new \App\Db\Query();
-		$query->select([
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadstatusvalue' => 'vtiger_leadstatus.leadstatus', ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
-				->where(['deleted' => 0]);
-		if (!empty($owner)) {
-			$query->andWhere(['smownerid' => $owner]);
-		}
-		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
-		}
-		\App\PrivilegeQuery::getConditions($query, $module);
-		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
-		$dataReader = $query->createCommand()->query();
-		$i = 0;
-		$response = [];
-		while ($row = $dataReader->read()) {
-			$response[$i][0] = $row['count'];
-			$leadStatusVal = $row['leadstatusvalue'];
-			if ($leadStatusVal == '') {
-				$leadStatusVal = 'LBL_BLANK';
-			}
-			$response[$i][1] = \App\Language::translate($leadStatusVal, $module);
-			$response[$i][2] = $leadStatusVal;
-			++$i;
-		}
-		$dataReader->close();
-
-		return $response;
-	}
-
-	/**
 	 * Function to get Converted Information for selected records.
 	 *
 	 * @param array $recordIdsList

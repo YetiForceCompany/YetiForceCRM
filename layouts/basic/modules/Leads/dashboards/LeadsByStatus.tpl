@@ -11,24 +11,30 @@
 -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Leadsbystatus_Widget_Js',{}, {
-		registerSectionClick: function () {
+		loadChart:function(){
+			const options = {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+				};
 			var thisInstance = this;
-			var chartData = thisInstance.generateData();
-			thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-				if (item) {
-					$(this).css('cursor', 'pointer');
-				} else {
-					$(this).css('cursor', 'auto');
-				}
-			});
-			thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-				if (item) {
-					$(chartData['links']).each(function () {
-						if (item.seriesIndex == this[0])
-							window.location.href = this[1];
-					});
-				}
-			});
+			var data = thisInstance.generateData();
+			thisInstance.applyDefaultDatalabelsConfig(data);
+			thisInstance.applyDefaultTooltipsConfig(options);
+			thisInstance.applyDefaultAxesLabelsConfig(options);
+			thisInstance.chartInstance = new Chart(
+					thisInstance.getPlotContainer().getContext("2d"),
+					{
+						type: 'bar',
+						data: data,
+						options: options,
+					}
+			);
 		}
 	});
 </script>
