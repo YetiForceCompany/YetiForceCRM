@@ -8,6 +8,7 @@
  */
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
+
 	use \App\Controller\ExposeMethod;
 
 	/**
@@ -82,7 +83,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 					case 6://datetimes
 					case 23:
 					case 70:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($record->get($fieldsModel->getFieldName())), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 						if ($moduleName === 'Reservations' || $moduleName === 'OSSTimeControl' || $moduleName === 'Calendar') {
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY'); //format the date to the users preference
 						} else {
