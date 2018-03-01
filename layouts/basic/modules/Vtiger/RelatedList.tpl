@@ -22,7 +22,7 @@
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
-		<div class="relatedHeader ">
+		<div class="relatedHeader my-1">
 			<div class="row">
                 <div class="col-md-6 col-sm-6 col-12">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
@@ -127,21 +127,21 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div class="recordsListPreview">
+				<div class="recordsListPreview d-flex">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
 					<div class="wrappedPanel">
 						<div class="rotatedText">
 							<div class="textCenter"></div>
 						</div>
 					</div>
-					<div class="fixedListInitial col-md-3">
+					<div class="fixedListInitial">
 						<div class="fixedListContent">
 							<div id="recordsList">
 								{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
 							</div>
 						</div>
 					</div>
-					<div class="listPreview col-md-9">
+					<div class="listPreview">
 						<iframe class="border1px listPreviewframe" frameborder="0"></iframe>
 					</div>
 					<div class="wrappedPanel">
