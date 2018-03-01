@@ -1,12 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	frameProgress: false,
-	/**
-	 * Sets correct page url.
-	 * @param {string} url - current url.
+	/*
+	 * Shows progress indicator
 	 */
-	updatePreview: function (url) {
-		var frame = $('.listPreviewframe');
+	showProgressIndicator() {
 		this.frameProgress = $.progressIndicator({
 			position: 'html',
 			message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -14,6 +12,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				enabled: true
 			}
 		});
+	},
+	/**
+	 * Sets correct page url.
+	 * @param {string} url - current url.
+	 */
+	updatePreview: function (url) {
+		var frame = $('.listPreviewframe');
+		this.showProgressIndicator();
 		var defaultView = '';
 		if (app.getMainParams('defaultDetailViewName')) {
 			defaultView = defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
@@ -26,6 +32,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerPreviewEvent: function () {
 		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
+		if (thisInstance.frameProgress === false) {
+			thisInstance.showProgressIndicator();
+		}
 		$(".listPreviewframe").on('load', function () {
 			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
