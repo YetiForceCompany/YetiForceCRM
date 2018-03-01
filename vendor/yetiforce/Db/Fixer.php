@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Db;
 
 /**
@@ -11,6 +10,7 @@ namespace App\Db;
  */
 class Fixer
 {
+
 	/**
 	 * Add missing entries in vtiger_def_org_field.
 	 */
@@ -94,6 +94,29 @@ class Fixer
 			}
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
 		}
-		RecalculateSharingRules();
+		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
+	}
+
+	/**
+	 * Add missing entries in vtiger_profile2standardpermissions.
+	 */
+	public static function baseModuleActions()
+	{
+		$curentProfile = [];
+		foreach ((new \App\Db\Query())->from('vtiger_profile2standardpermissions')->all() as $row) {
+			$curentProfile[$row['profileid']][$row['tabid']][$row['operation']] = $row['permissions'];
+		}
+		$moduleIds = array_keys(\vtlib\Functions::getAllModules());
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		foreach (\vtlib\Profile::getAllIds() as $profileId) {
+			foreach ($moduleIds as $moduleId) {
+				foreach (\Vtiger_Action_Model::$standardActions as $actionId => $actionName) {
+					if (!isset($curentProfile[$profileId][$moduleId][$actionId])) {
+						$dbCommand->insert('vtiger_profile2standardpermissions', ['profileid' => $profileId, 'tabid' => $moduleId, 'operation' => $actionId, 'permissions' => 1])->execute();
+					}
+				}
+			}
+		}
+		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 }
