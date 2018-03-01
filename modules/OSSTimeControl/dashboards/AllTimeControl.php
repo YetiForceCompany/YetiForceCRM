@@ -87,6 +87,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$dataset['label'] .= ': ' . \CurrencyField::convertToUserFormat($workingTimeByType[$dataset['label']]);
 		}
 		if ($dataReader->count() > 0) {
+			$chartData['show_chart'] = true;
 			foreach ($workingTime as $ownerId => $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
 					// if owner has this kind of type
@@ -100,7 +101,6 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 							// each data item is an different owner time in this dataset/time type
 							$dataset['data'][] = round($userTime, 2);
 							$dataset['backgroundColor'][] = $colors[$timeTypeId];
-							$chartData['show_chart'] = true;
 						}
 					}
 				}
