@@ -225,6 +225,6 @@ class Date
 	 */
 	public static function getDayFromDate($date, $shortName = false)
 	{
-		return date($shortName ? 'D' : 'l', strtotime($date));
+		return \App\Language::translate(date($shortName ? 'D' : 'l', strtotime($date)), 'Calendar');
 	}
 }
