@@ -554,13 +554,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 			backgroundColor: 'rgba(0,0,0,0.2)',
 			anchor: 'center',
 			align: 'center',
-			formatter: function (value) {
+			formatter: function (value, context) {
+				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+				}
 				if (!isNaN(Number(value))) {
 					return app.parseNumberToShow(value);
 				}
 				return value;
 			},
 			display: function (context) {
+				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+				}
 				return context.dataset.data[context.dataIndex];
 			}
 		};
@@ -1783,6 +1791,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			scales: {
 				yAxes: [{
 						stacked: true,
+						ticks: {
+							callback: function formatYAxisTick(value, index, values) {
+								return app.formatToHourText(value, 'short', false, false);
+							}
+						}
 					}],
 				xAxes: [{
 						stacked: true,
@@ -1794,7 +1807,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			tooltips: {
 				callbacks: {
 					label: function (tooltipItem, data) {
-						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.parseNumberToShow(tooltipItem.yLabel);
+						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.formatToHourText(tooltipItem.yLabel);
 					},
 					title: function (tooltipItems, data) {
 						return data.fullLabels[tooltipItems[0].index];
@@ -1806,6 +1819,12 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 		const data = thisInstance.generateData();
 		thisInstance.applyDefaultDatalabelsConfig(data);
 		thisInstance.applyDefaultAxesLabelsConfig(options);
+		data.datasets.forEach((dataset) => {
+			// https://chartjs-plugin-datalabels.netlify.com/options.html
+			dataset.datalabels.formatter = function datalabelsFormatter(value, context) {
+				return app.formatToHourText(value);
+			};
+		});
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
