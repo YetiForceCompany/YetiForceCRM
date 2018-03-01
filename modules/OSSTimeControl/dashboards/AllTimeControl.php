@@ -26,7 +26,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetTimeControl($user, $time)
 	{
 		if (!$time) {
-			return [];
+			return ['show_chart' => false];
 		}
 		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
@@ -84,7 +84,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \CurrencyField::convertToUserFormat($workingTimeByType[$dataset['label']]);
+			$dataset['label'] .= ': ' . \App\Fields\Time::formatToHourText($workingTimeByType[$dataset['label']]);
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;
