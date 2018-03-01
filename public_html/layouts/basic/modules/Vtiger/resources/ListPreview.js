@@ -32,9 +32,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerPreviewEvent: function () {
 		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
-		if (thisInstance.frameProgress === false) {
-			thisInstance.showProgressIndicator();
-		}
 		$(".listPreviewframe").on('load', function () {
 			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
@@ -52,6 +49,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
+		this.registerRowClickEvent();
 		this.registerPreviewEvent();
 	},
 	/**
