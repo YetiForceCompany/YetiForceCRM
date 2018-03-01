@@ -128,9 +128,6 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			if ($time === false) {
 				$time['start'] = App\Fields\Date::formatToDisplay('now');
 				$time['end'] = App\Fields\Date::formatToDisplay('now');
-			} else {
-				$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
-				$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 			}
 		}
 		if (empty($user)) {

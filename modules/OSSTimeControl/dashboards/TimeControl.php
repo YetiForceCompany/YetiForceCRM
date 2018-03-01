@@ -8,7 +8,6 @@
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function getSearchParams($assignedto, $date)
 	{
 		$conditions = [];
@@ -118,11 +117,9 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+				$time['start'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y'))));
+				$time['end'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y'))));
 			}
-			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
-			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		if (empty($user)) {
 			$user = $currentUserId;

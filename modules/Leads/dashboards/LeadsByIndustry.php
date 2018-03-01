@@ -91,17 +91,12 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$owner = '';
 		}
 		$createdTime = $request->getDateRange('createdtime');
-
 		$dates = [];
-		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Fields\Date::formatToDisplay($createdTime['start']);
+			$dates['end'] = \App\Fields\Date::formatToDisplay($createdTime['end']);
 		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time !== false) {
-				$dates = $time;
-			}
+			$dates = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

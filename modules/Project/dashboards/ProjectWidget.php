@@ -62,10 +62,9 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		$owner = $request->getByType('owner', 2);
 		$dates = $request->getDateRange('expectedclosedate');
 
-		//Date conversion from user to database format
 		if (!empty($dates)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($dates['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($dates['end']);
+			$dates['start'] = \App\Fields\Date::formatToDisplay($dates['start']);
+			$dates['end'] = \App\Fields\Date::formatToDisplay($dates['end']);
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
