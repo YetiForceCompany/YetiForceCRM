@@ -1349,6 +1349,9 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			if (typeof axis.ticks.minRotation === 'undefined') {
 				axis.ticks.minRotation = 70;
 			}
+			if (typeof axis.ticks.autoSkip === 'undefined') {
+				axis.ticks.autoSkip = false;
+			}
 		});
 
 		if (typeof options.scales.yAxes === 'undefined') {
