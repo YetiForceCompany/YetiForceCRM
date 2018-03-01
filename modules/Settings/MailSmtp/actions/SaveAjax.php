@@ -26,6 +26,9 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function updateSmtp(\App\Request $request)
 	{
 		$data = $request->get('param');
+		$encryptInstance = \App\Encryption::getInstance();
+		$data['password'] = $encryptInstance->encrypt($data['password']);
+		$data['smtp_password'] = $encryptInstance->encrypt($data['smtp_password']);
 		$mailer = new \App\Mailer();
 		$mailer->loadSmtp($data);
 		$testMailer = $mailer->test();

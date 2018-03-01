@@ -207,7 +207,7 @@ class Mailer
 		$this->mailer->SMTPSecure = $this->smtp['secure'];
 		$this->mailer->SMTPAuth = isset($this->smtp['authentication']) ? (bool) $this->smtp['authentication'] : false;
 		$this->mailer->Username = trim($this->smtp['username']);
-		$this->mailer->Password = trim($this->smtp['password']);
+		$this->mailer->Password = trim(Encryption::getInstance()->decrypt($this->smtp['password']));
 		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
 		}
@@ -520,7 +520,7 @@ class Mailer
 			'imap_open_add_connection_type' => true,
 		];
 		$folder = \OSSMail_Record_Model::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF7-IMAP', 'UTF-8');
-		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], $this->smtp['smtp_password'], $this->smtp['smtp_host'], $folder, false, $params);
+		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], Encryption::getInstance()->decrypt($this->smtp['smtp_password']), $this->smtp['smtp_host'], $folder, false, $params);
 		if ($mbox === false && !imap_last_error()) {
 			$this->error[] = 'IMAP error - ' . imap_last_error();
 			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');

@@ -5,7 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Tomasz Kur <t.kuri@yetiforce.com>
+ * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 namespace App;
@@ -17,7 +17,10 @@ class Encryption extends Base
 {
 	/** @var array Passwords to encrypt */
 	private static $mapPasswords = [
-		'roundcube_users' => ['columnName' => 'password', 'index' => 'user_id', 'db' => 'base']
+		'roundcube_users' => ['columnName' => ['password'], 'index' => 'user_id', 'db' => 'base'],
+		's_#__mail_smtp' => ['columnName' => ['password', 'smtp_password'], 'index' => 'id', 'db' => 'admin'],
+		'a_#__smsnotifier_servers' => ['columnName' => ['api_key'], 'index' => 'id', 'db' => 'admin'],
+		'u_#__github' => ['columnName' => ['token'], 'index' => 'github_id', 'db' => 'base'],
 	];
 
 	/**
@@ -60,19 +63,21 @@ class Encryption extends Base
 		try {
 			$passwords = [];
 			foreach (static::$mapPasswords as $tableName => $info) {
-				$values = (new Db\Query())->select([$info['index'], $info['columnName']])
+				$values = (new Db\Query())->select(array_merge([$info['index']], $info['columnName']))
 					->from($tableName)
 					->createCommand(Db::getInstance($info['db']))
-					->queryAllByGroup(0);
+					->queryAllByGroup(1);
 				if (!$values) {
 					continue;
 				}
 				if ($decryptInstance->isActive()) {
-					foreach ($values as &$value) {
-						if (!empty($value)) {
-							$value = $decryptInstance->decrypt($value);
-							if (empty($value)) {
-								throw new Exceptions\AppException('ERR_IMPOSSIBLE_DECRYPT');
+					foreach ($values as &$columns) {
+						foreach ($columns as &$value) {
+							if (!empty($value)) {
+								$value = $decryptInstance->decrypt($value);
+								if (empty($value)) {
+									throw new Exceptions\AppException('ERR_IMPOSSIBLE_DECRYPT');
+								}
 							}
 						}
 					}
@@ -95,14 +100,16 @@ class Encryption extends Base
 			$encryptInstance = static::getInstance();
 			foreach ($passwords as $tableName => $pass) {
 				$dbCommand = Db::getInstance(static::$mapPasswords[$tableName]['db'])->createCommand();
-				foreach ($pass as $index => $value) {
-					if (!empty($value)) {
-						$encryptValue = $encryptInstance->encrypt($value);
-						if (empty($encryptValue)) {
-							throw new Exceptions\AppException('ERR_IMPOSSIBLE_ENCRYPT');
+				foreach ($pass as $index => $values) {
+					foreach ($values as &$value) {
+						if (!empty($value)) {
+							$value = $encryptInstance->encrypt($value);
+							if (empty($value)) {
+								throw new Exceptions\AppException('ERR_IMPOSSIBLE_ENCRYPT');
+							}
 						}
-						$dbCommand->update($tableName, [static::$mapPasswords[$tableName]['columnName'] => $encryptValue], [static::$mapPasswords[$tableName]['index'] => $index])->execute();
 					}
+					$dbCommand->update($tableName, $values, [static::$mapPasswords[$tableName]['index'] => $index])->execute();
 				}
 			}
 			$transactionBase->commit();

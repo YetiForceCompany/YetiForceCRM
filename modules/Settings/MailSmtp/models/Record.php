@@ -120,11 +120,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'password':
 			case 'smtp_password':
-				$passLength = strlen($value);
-				$value = '';
-				for ($i = 0; $i < $passLength; ++$i) {
-					$value .= '*';
-				}
+				$value = str_repeat('*', strlen($value));
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
