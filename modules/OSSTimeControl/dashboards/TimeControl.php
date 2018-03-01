@@ -74,7 +74,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 			if (!in_array($row['due_date'], $chartData['days'])) {
 				$chartData['labels'][] = substr($row['due_date'], -2);
-				$chartData['fullLabels'][] = \App\Fields\Date::getDayFromDate($row['due_date']) . ' ' . \App\Fields\Date::formatToDisplay($row['due_date']);
+				$chartData['fullLabels'][] = \App\Fields\DateTime::formatToDay($row['due_date'], true);
 				$chartData['days'][] = $row['due_date'];
 			}
 		}
