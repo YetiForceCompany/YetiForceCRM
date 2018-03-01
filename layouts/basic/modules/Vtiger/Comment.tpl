@@ -45,28 +45,24 @@
 					</div>
 					<div>
 						<span class="float-right pr-2">
-							<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
+							<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 						</span>
 					</div>
 				</div>
 			</div>
-			<div class="commentActionsContainer d-flex justify-content-between">
+			<div class="commentActionsContainer row m-0">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus visible-lg-block"  name="editStatus">
-					<div class="col-6">
-						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-6 editReason">
-							<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
-						</span>
-						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-							<span class="{if !empty($REASON_TO_EDIT)} col-6{/if}">
-								<span class="float-right">
-									<p class="muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
-								</span>
-							</span>
-						{/if}
-					</div>
+				<div class="col editedStatus d-none d-xl-block"  name="editStatus">
+					<span class="{if empty($REASON_TO_EDIT)}hide{/if} editReason text-muted">
+						<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
+					</span>
 				</div>
-				<div class="commentActionsDiv">
+				{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+					<div class="{if !empty($REASON_TO_EDIT)} col-2{/if} d-none d-xl-block">
+						<span class="text-muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></span>
+					</div>
+				{/if}
+				<div class="commentActionsDiv col p-0">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<div class="float-right commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}
@@ -97,7 +93,7 @@
 									<span class="fas fa-share"></span>
 								</button>
 							</span>
-							<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+							<span class="d-none hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="cursorPointer hideThread">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}" />
