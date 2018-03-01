@@ -3,7 +3,7 @@
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
 	{/if}
-	<nav aria-label="Page navigation">
+	<nav class="Vtiger-Pagination" aria-label="Page navigation">
 		<ul class="pagination m-0" data-total-count="{$LISTVIEW_COUNT}">
 			<li class="page-item {if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
 				<a class="page-link" href="#">{\App\Language::translate('LBL_FIRST')}</a>
