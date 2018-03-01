@@ -66,7 +66,7 @@
 								<a class="btn btn-light" href="javascript:void(0);" data-trigger="listSearch">
 									<span class="fas fa-search"></span>
 								</a>
-								<a class="btn btn-light float-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List{VIEW}" >
+								<a class="btn btn-light float-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List{$VIEW}" >
 									<span class="fas fa-times"></span>
 								</a>
 							</div>
