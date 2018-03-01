@@ -555,7 +555,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			anchor: 'center',
 			align: 'center',
 			formatter: function (value, context) {
-				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
+				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
 					// data presented in different format usually exists in alternative dataFormatted array
 					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 				}
@@ -1335,6 +1335,9 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		}
 		if (typeof options.tooltips.callbacks.label === 'undefined') {
 			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
+				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+				}
 				if (!isNaN(Number(tooltipItem.yLabel))) {
 					return app.parseNumberToShow(tooltipItem.yLabel);
 				}
