@@ -1795,7 +1795,8 @@ jQuery(document).ready(function () {
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController) {
-		pageController.registerEvents();
+		window.pageController = pageController;
+		window.pageController.registerEvents();
 	}
 });
 $.fn.getNumberFromValue = function () {
@@ -1804,3 +1805,4 @@ $.fn.getNumberFromValue = function () {
 $.fn.getNumberFromText = function () {
 	return app.parseNumberToFloat($(this).text());
 }
+jQuery.migrateMute = true;
