@@ -6,7 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 namespace App\Fields;
 
 /**
@@ -14,6 +13,7 @@ namespace App\Fields;
  */
 class Date
 {
+
 	public static $jsDateFormat = [
 		'dd-mm-yyyy' => 'd-m-Y',
 		'mm-dd-yyyy' => 'm-d-Y',
@@ -223,8 +223,11 @@ class Date
 	 *
 	 * @return string
 	 */
-	public static function getDayFromDate($date, $shortName = false)
+	public static function getDayFromDate($date, $shortName = false, $translated = false)
 	{
-		return \App\Language::translate(date($shortName ? 'D' : 'l', strtotime($date)), 'Calendar');
+		if ($translated) {
+			return \App\Language::translate(date($shortName ? 'D' : 'l', strtotime($date)), $shortName ? 'Vtiger' : 'Calendar');
+		}
+		return date($shortName ? 'D' : 'l', strtotime($date));
 	}
 }

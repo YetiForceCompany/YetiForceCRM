@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Tools for datetime class.
  *
@@ -120,7 +119,7 @@ class DateTime
 			$meridiem = '';
 		}
 		$formatedDate = $dateInUserFormat;
-		$dateDay = \App\Language::translate(Date::getDayFromDate($dateTime), 'Calendar');
+		$dateDay = Date::getDayFromDate($dateTime, false, true);
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
 			if (count($timeInUserFormat) === 3) {
