@@ -24,6 +24,22 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 			}
 		})
 	},
+	/**
+	 * Register events to preview password
+	 */
+	registerPreviewPassword: function () {
+		const container = this.getForm();
+		const button = container.find('.previewPassword');
+		button.on('mousedown', function (e) {
+			container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'text');
+		});
+		button.on('mouseup', function (e) {
+			container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
+		});
+		button.on('mouseout', function (e) {
+			container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
+		});
+	},
 	registerEvents: function () {
 		var form = this.getForm()
 		if (form.length) {
@@ -31,6 +47,7 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 			form.find("[data-inputmask]").inputmask();
 		}
 		this.registerSubmitForm();
+		this.registerPreviewPassword();
 		app.showPopoverElementView(form.find('.popoverTooltip'));
 
 		form.find(".saveSendMail").click(function () {
