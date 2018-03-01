@@ -95,6 +95,7 @@
 	.commentActionsDiv {
 		.btn {
 			@extend .btn-sm;
+			@extend .mt-1;
 		}
 	}
 }
