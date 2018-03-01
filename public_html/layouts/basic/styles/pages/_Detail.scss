@@ -84,3 +84,10 @@
 	border: 2px solid #d2d6de;
 	font-size: 32px;
 }
+.PreferenceDetailViewHeader {
+	.detailViewButtoncontainer {
+		.btn {
+			@extend .mr-1;
+		}
+	}
+}
