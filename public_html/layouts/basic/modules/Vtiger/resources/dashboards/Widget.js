@@ -1786,6 +1786,9 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 					}],
 				xAxes: [{
 						stacked: true,
+						ticks: {
+							minRotation: 0
+						}
 					}]
 			},
 			tooltips: {
