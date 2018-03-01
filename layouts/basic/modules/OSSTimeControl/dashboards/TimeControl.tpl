@@ -2,40 +2,57 @@
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{}, {
 		loadChart: function () {
-			var thisInstance = this;
-			var chartData = thisInstance.generateData();
-			var options = {
-				xaxis: {
-					minTickSize: 1,
-					ticks: chartData['ticks']
-				},
-				yaxis: {
-					min: 0,
-					tickDecimals: 0
-				},
-				grid: {
-					hoverable: true,
-					clickable: true
-				},
-				series: {
-					bars: {
-						show: true,
-						barWidth: 0.8,
-						dataLabels: false,
-						align: "center",
-						lineWidth: 0,
+		const thisInstance = this;
+		const options = {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: true
+			},
+			scales: {
+				yAxes: [{
+						stacked: true,
+						ticks:{
+							callback:function formatYAxisTick(value, index, values){
+								return app.formatToHourText(value,'short',false,false);
+							}
+						}
+					}],
+				xAxes: [{
+						stacked: true,
+						ticks:{
+							minRotation:0,
+						}
+					}]
+			},
+			tooltips: {
+				callbacks: {
+					label: function (tooltipItem, data) {
+						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
 					},
-					stack: true
-				},
-				legend: {
-					show: true,
-					labelFormatter: function (label, series) {
-						return('<b>' + label + '</b>: ' + app.parseNumberToShow(chartData['legend'][label]) + ' h');
+					title: function (tooltipItems, data) {
+						return data.fullLabels[tooltipItems[0].index];
 					}
 				}
-			};
-			thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
-		}
+			},
+			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+		};
+		thisInstance.applyDefaultAxesLabelsConfig(options);
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		data.datasets.forEach((dataset) => {
+			dataset.datalabels.display=false;
+		});
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: 'bar',
+					data: data,
+					options: options,
+				}
+		);
+	}
 	});
 </script>
 <div class="dashboardWidgetHeader">
