@@ -59,7 +59,6 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'fullLabels' => [],
 			'datasets' => [],
 			'show_chart' => false,
-			'names' => [] // names for link generation
 		];
 		while ($row = $dataReader->read()) {
 			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
