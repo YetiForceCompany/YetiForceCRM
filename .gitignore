@@ -4,9 +4,12 @@
 /.buildpath
 /_private
 /public_html/_private
+/cache/addressBook/mails_1.php
+/cache/addressBook/mails_5.php
 /user_privileges/cron.php
 /user_privileges/sharing_privileges_5.php
 /user_privileges/user_privileges_5.php
+/user_privileges/owners_colors.php
 /config/csrf_secret.php
 /config/config_override.php
 /cache/templates_c
