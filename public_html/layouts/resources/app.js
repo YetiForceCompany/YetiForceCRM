@@ -1730,6 +1730,54 @@ window.app = {
 			}
 		});
 	},
+	getRandomColor: function () {
+		var letters = '0123456789ABCDEF'.split('');
+		var color = '#';
+		for (var i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	},
+	getRandomColors: function (count) {
+		const colors = [];
+		for (let i = 0; i < count; i++) {
+			colors.push(this.getRandomColor());
+		}
+		return colors;
+	},
+	timeToDecimal: function (dateTime) {
+		const hms = dateTime.split(':');
+		return hms[0] + (hms[1] / 60) + (hms[2] / 3600);
+	},
+	secondsToDecimal: function (seconds) {
+		const h = Math.floor(seconds / 60 / 60);
+		const m = Math.floor((seconds - (h * 60 * 60)) / 60);
+		const s = seconds - (h * 60 * 60) - (m * 60);
+		return app.timeToDecimal(h.padStart(2, '0') + ':' + m.padStart(2, '0') + ':' + s.padStart(2, '0'));
+	},
+	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
+		const short = type === 'short';
+		const hour = Math.floor(decTime);
+		const min = Math.floor((decTime - hour) * 60);
+		const sec = Math.round(((decTime - hour) * 60 - min) * 60);
+		let result = '';
+		if (hour) {
+			result += short ? hour + app.vtranslate('JS_H') : `${hour} ` + app.vtranslate('JS_HOURS');
+		}
+		if ((hour || min) && withMinutes) {
+			result += short ? ` ${min}` + app.vtranslate('JS_M') : ` ${min} ` + app.vtranslate('JS_MINUTES');
+		}
+		if (withSeconds !== false) {
+			result += short ? ` ${sec}` + app.vtranslate('JS_S') : ` ${sec} ` + app.vtranslate('JS_SECONDS');
+		}
+		if (!hour && !min && withSeconds === false && withMinutes) {
+			result += short ? '0' + app.vtranslate('JS_M') : '0 ' + app.vtranslate('JS_MINUTES');
+		}
+		if (!hour && !min && withSeconds === false && !withMinutes) {
+			result += short ? '0' + app.vtranslate('JS_H') : '0 ' + app.vtranslate('JS_HOURS');
+		}
+		return result.trim();
+	}
 }
 jQuery(document).ready(function () {
 	app.changeSelectElementView();

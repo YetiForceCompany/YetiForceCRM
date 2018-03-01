@@ -467,16 +467,7 @@ var Settings_Index_Js = {
 			});
 		})
 	},
-	getRandomColor: function () {
-		var letters = '0123456789ABCDEF'.split('');
-		var color = '#';
-		for (var i = 0; i < 6; i++) {
-			color += letters[Math.floor(Math.random() * 16)];
-		}
-		return color;
-	},
 	getDataCharts: function (shortages, max) {
-
 		var k = 1;
 		var data = [];
 		var chartData = {
@@ -494,13 +485,13 @@ var Settings_Index_Js = {
 						align: 'start',
 					}
 				}
-			]
+			],
 		};
 		for (var i in shortages) {
 			var x = shortages[i] * 100 / max;
 			var langName = jQuery('select option[value="' + i + '"]').text();
 			data.push(Math.round(x * 100) / 100);
-			chartData.datasets[0].backgroundColor.push(this.getRandomColor());
+			chartData.datasets[0].backgroundColor.push(app.getRandomColor());
 			chartData.labels.push(langName);
 			++k;
 		}
@@ -512,7 +503,15 @@ var Settings_Index_Js = {
 	showCharts: function () {
 		var instance = Vtiger_Widget_Js.getInstance(jQuery('.chartBlock'), 'Bar');
 		instance.init(jQuery('.chartBlock'));
-		instance.loadChart();
+		instance.loadChart({
+			scales: {
+				xAxes: [{
+						ticks: {
+							minRotation: 0
+						}
+					}]
+			}
+		});
 	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();
