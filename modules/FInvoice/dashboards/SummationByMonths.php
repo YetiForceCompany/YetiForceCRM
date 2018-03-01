@@ -55,7 +55,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $owner)
 	{
-		$rawData = $data = $response = $years = [];
+		$rawData = $data = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
 		$displayDate = \App\Fields\Date::formatToDisplay($date);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
