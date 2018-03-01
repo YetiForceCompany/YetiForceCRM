@@ -5082,7 +5082,7 @@ button.bg-dark:focus {
 .my-1 {
   margin-top: 0.25rem !important; }
 
-.mr-1,
+.mr-1, .PreferenceDetailViewHeader .detailViewButtoncontainer .btn,
 .mx-1,
 .childrenMarginTopX > * {
   margin-right: 0.25rem !important; }
@@ -5180,7 +5180,8 @@ button.bg-dark:focus {
   padding-top: 0 !important; }
 
 .pr-0, .dashboardWidgetHeader .col-sm-6:nth-child(1), .col-md-6:nth-child(1),
-.px-0 {
+.px-0,
+.modalPermissionInspectorUserListModal .dataTables_wrapper {
   padding-right: 0 !important; }
 
 .pb-0,
@@ -5188,7 +5189,8 @@ button.bg-dark:focus {
   padding-bottom: 0 !important; }
 
 .pl-0,
-.px-0 {
+.px-0,
+.modalPermissionInspectorUserListModal .dataTables_wrapper {
   padding-left: 0 !important; }
 
 .p-1, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group, .bodyHeader .globalSearchInput .btn, .footerContainer .page-link {
@@ -9274,9 +9276,6 @@ html, body, .baseContainer {
 .dashboardHeading h2 {
   margin-bottom: 7px; }
 
-.modal-body .fieldLabel {
-  font-weight: 900; }
-
 .editViewContainer .btn-warning.pull-right {
   margin-left: 5px; }
 
@@ -9650,7 +9649,7 @@ html, body, .baseContainer {
   .knowledgePresentationText {
     font-size: 2em; } }
 @media only screen and (min-width: 768px) {
-  .width1per7 {
+  .grid1x7 {
     width: 14.28%; }
 
   .basePanel.menuOpen {
@@ -9667,8 +9666,6 @@ html, body, .baseContainer {
     top: 0;
     left: 0px;
     height: 100%;
-    border-right: 1px solid #ddd; }
-  .quickCreateContent .fieldLabel {
     border-right: 1px solid #ddd; }
 
   .detailViewTable .fieldsLabelValue .fieldLabel {
@@ -9711,7 +9708,7 @@ html, body, .baseContainer {
   .breadcrumbsLinks {
     font-size: 15px; } }
 @media only screen and (max-width: 768px) {
-  .width1per7 {
+  .grid1x7 {
     width: 100%; }
 
   .mainBody {
@@ -10056,7 +10053,7 @@ select.form-control {
     .detailViewHeaderFields .detailViewHeaderFieldsValue .badge a {
       color: inherit; }
 
-.width1per7 {
+.grid1x7 {
   float: left; }
 
 .quickCreateContent .addedNearCalendarEvent td {
@@ -10990,13 +10987,10 @@ header .headerLinksMails .select2-selection:hover {
       padding: 0.1rem 0.2rem; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .modal-full {
-  max-width: 95%; }
+  max-width: 72%; }
 
 .modal-fullscreen {
   max-width: 98%; }
-
-.modal-dialog {
-  min-width: fit-content; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
