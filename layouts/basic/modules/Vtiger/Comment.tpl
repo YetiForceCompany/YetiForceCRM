@@ -11,9 +11,9 @@
 -->*}
 {strip}
 	{assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
-	<div class="commentDiv">
+	<div class="Comment commentDiv">
 		<div class="singleComment">
-			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
+			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="float-left">
 					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 					{if $IMAGE_PATH}
@@ -22,10 +22,10 @@
 						<span class="fas fa-user userImage float-left"></span>
 					{/if}
 				</div>
-				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
+				<div class="commentTitle ml-5 d-flex justify-content-between" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="col-8 float-left commentorInfo">
+					<div class="commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<span class="commentorName float-left">
 							<strong>{$COMMENTOR->getName()}</strong>
@@ -43,15 +43,14 @@
 							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
 					</div>
-					<div class="inner">
-						<span class="float-right paddingRight15">
+					<div>
+						<span class="float-right pr-2">
 							<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 						</span>
-						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>
-			<div class="commentActionsContainer row no-margin">
+			<div class="commentActionsContainer d-flex justify-content-between">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="editedStatus visible-lg-block"  name="editStatus">
 					<div class="col-6">
@@ -80,7 +79,7 @@
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
+							<button type="button" class="btn btn-sm btn-primary editComment feedback ml-1">
 								<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
@@ -93,7 +92,7 @@
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-sm btn-info viewThread marginLeft5">
+								<button type="button" class="btn btn-sm btn-info viewThread ml-1">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<span class="fas fa-share"></span>
 								</button>
@@ -106,7 +105,7 @@
 							</span>
 						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-sm btn-info viewThread marginLeft5">
+								<button type="button" class="btn btn-sm btn-info viewThread ml-1">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<span class="fas fa-share"></span>
 								</button>
