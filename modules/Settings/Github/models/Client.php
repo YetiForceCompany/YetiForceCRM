@@ -136,7 +136,7 @@ class Settings_Github_Client_Model
 			->from('u_#__github')
 			->createCommand()->queryOne();
 		if (!empty($row)) {
-			$instance->setToken(base64_decode($row['token']));
+			$instance->setToken(App\Encryption::getInstance()->decrypt($row['token']));
 			$instance->setUsername($row['username']);
 		}
 
@@ -151,7 +151,7 @@ class Settings_Github_Client_Model
 	public function saveKeys()
 	{
 		return App\Db::getInstance()->createCommand()->update('u_#__github', [
-				'token' => base64_encode($this->clientToken),
+				'token' => App\Encryption::getInstance()->encrypt($this->clientToken),
 				'username' => $this->username,
 			])->execute();
 	}
