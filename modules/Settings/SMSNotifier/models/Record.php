@@ -137,6 +137,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 		if (!$this->changes) {
 			return $success;
 		}
+		if (isset($this->changes['api_key'])) {
+			$this->changes['api_key'] = App\Encryption::getInstance()->encrypt($this->changes['api_key']);
+		}
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getBaseIndex();
 		if (empty($this->getId())) {
@@ -200,6 +203,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->getModule()->getBaseTable())
 			->where([$instance->getModule()->getBaseIndex() => $id])
 			->one(App\Db::getInstance('admin'));
+		$data['api_key'] = App\Encryption::getInstance()->decrypt($data['api_key']);
 		$instance->setData($data);
 		$instance->isNew = false;
 		\App\Cache::staticSave($cacheName, $id, $instance);

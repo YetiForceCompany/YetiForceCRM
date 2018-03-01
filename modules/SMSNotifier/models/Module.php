@@ -138,7 +138,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 					$provider->set($k, $v);
 				}
 			}
-			$provider->set('api_key', $data['api_key']);
+			$provider->set('api_key', \App\Encryption::getInstance()->decrypt($data['api_key']));
 		}
 		\App\Cache::save('SMSNotifierConfig', 'activeProviderInstance', $provider, \App\Cache::LONG);
 
