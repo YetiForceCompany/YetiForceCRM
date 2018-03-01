@@ -18,14 +18,14 @@
 			<div class="commentTitle col-12 paddingTop10" >
 				<div class="addCommentBlock">
 					<div class="input-group">
-						<span class="input-group-addon">
-							<span class="fas fa-comments"></span>
+						<span class="input-group-prepend">
+							<div class="input-group-text"><span class="fas fa-comments"></span></div>
 						</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
 					<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="add">
 						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 					</button>
 				</div>
 			</div>
@@ -36,14 +36,14 @@
 			<div class="col-md-4"> </div>
 			<div class="col-md-4">
 				<div class="input-group">
-					<span class="input-group-addon" id="commentSearchAddon">
-						<span class="fas fa-search"></span> 
+					<span class="input-group-prepend" id="commentSearchAddon">
+						<div class="input-group-text"><span class="fas fa-search"></span> </div>
 					</span>
 					<input type="text" class="form-control commentSearch" placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}" aria-describedby="commentSearchAddon">
 				</div>
 			</div>
 			<div class="col-md-4">
-				<select class="chzn-select form-control commentsHierarchy" multiple>
+				<select class="select2 form-control commentsHierarchy" multiple>
 					{foreach key=NAME item=LABEL from=$HIERARCHY_LIST}
 						<option value="{$NAME}" {if in_array($NAME, $HIERARCHY)}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
 					{/foreach}
@@ -66,11 +66,11 @@
 					</div>
 					<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
-						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
 					<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="add">
 						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 					</button>
 				</div>
 			</div>
@@ -92,11 +92,11 @@
 					</div>
 					<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
-						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
 					<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="edit">
 						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 					</button>
 				</div>
 			</div>
