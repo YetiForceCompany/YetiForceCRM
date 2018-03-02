@@ -12,7 +12,7 @@
 {strip}
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
-	<div class="Users-PreferenceDetailViewHeader detailViewContainer">
+	<div class="PreferenceDetailViewHeader detailViewContainer">
 		<div class="detailViewTitle marginTop5" id="prefPageHeader">
 			<div class="row">
 				<div class="marginLeftZero col-md-8 row">
