@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'SSingleOrders' => 'Pedidos de Vendas',
-	'SINGLE_SSingleOrders' => 'Pedido de Venda',
+	'SSingleOrders' => 'Sales Orders',
+	'SINGLE_SSingleOrders' => 'Sales Order',
 	//BLOCKS
 	'LBL_SSINGLEORDERS_INFORMATION' => 'Informações Básicas',
 	'LBL_CUSTOM_INFORMATION' => 'Informação do Sistema',
