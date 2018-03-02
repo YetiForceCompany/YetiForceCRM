@@ -75,7 +75,7 @@
 						</div>
 					</div>
 				</div>
-				<div class=" hide errorMessage">
+				<div class=" d-none errorMessage">
 					<div class="alert alert-warning">
 						<strong>{\App\Language::translate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>  
 					</div>

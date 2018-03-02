@@ -29,7 +29,7 @@
 							</div>
 						</div>
 						<div class="col-12">
-							<div class="alert alert-danger errorMsg hide"></div>
+							<div class="alert alert-danger errorMsg d-none"></div>
 						</div>
 						<div class="col-12 marginBottom10px">
 							<span class="redColor">*</span>

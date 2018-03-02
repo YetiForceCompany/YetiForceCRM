@@ -7,7 +7,7 @@
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
 		<div class="actions">
-			<div class="{if !$ONLY_ONE}actionImages hide bg-light{/if}">
+			<div class="{if !$ONLY_ONE}actionImages d-none bg-light{/if}">
 				{foreach from=$LINKS item=LINK}
 					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{/foreach}
@@ -21,7 +21,7 @@
 	{/if}
 	<div>
 		{if in_array($MODULE, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && $MODULE_MODEL->isPermitted('TimeLineList')}
-			<a  data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="badgeIcon fa-fw timeLineIconList hide"></a>
+			<a  data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="badgeIcon fa-fw timeLineIconList d-none"></a>
 		{/if}
 		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
 			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">

@@ -27,7 +27,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="alert alert-info hide d-flex mt-2" id="moduleCacheAlert" role="alert">
+		<div class="alert alert-info d-none d-flex mt-2" id="moduleCacheAlert" role="alert">
 			<div class="mr-auto align-self-center">
 				{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
 			</div>

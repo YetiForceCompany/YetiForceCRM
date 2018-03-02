@@ -87,7 +87,7 @@
 												</td>
 											</tr>
 										{/foreach}
-										<tr class="hide newMapping listViewEntries">
+										<tr class="d-none newMapping listViewEntries">
 											<td>
 												<select class="sourceFields newSelect">
 													<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
@@ -144,7 +144,7 @@
 </form>
 </div>
 
-<div class="hide" id="defaultValuesElementsContainer">
+<div class="d-none" id="defaultValuesElementsContainer">
 	{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 		{foreach key=_FIELD_ID item=_FIELD_INFO from=$FIELDS}
 			{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}

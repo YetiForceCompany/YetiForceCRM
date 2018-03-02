@@ -62,7 +62,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="hide repeatUI" >
+	<div class="d-none repeatUI" >
 		<input type="hidden" name="typeSaving">
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="hidden" name="{$FIELD_MODEL->getFieldName()}" 
 			   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" />
@@ -89,7 +89,7 @@
 					{/for}
 				</select>
 			</div>
-			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'WEEKLY'}hide{/if} col-12 form-row repeatWeekUI">
+			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'WEEKLY'}d-none{/if} col-12 form-row repeatWeekUI">
 				<span class="col-md-4 mb-2">
 					<span class="medium">{\App\Language::translate('LBL_REAPEAT_IN', $MODULE)}</span>
 				</span>
@@ -127,7 +127,7 @@
 				</span>
 			</div>
 
-			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}hide{/if} col-12 form-row repeatMonthUI">
+			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}d-none{/if} col-12 form-row repeatMonthUI">
 				<span class="col-md-4">
 					<span class="medium">{\App\Language::translate('LBL_REAPEAT_BY', $MODULE)}</span>
 				</span>

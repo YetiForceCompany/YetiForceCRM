@@ -63,8 +63,8 @@
 							</select>
 							<div class="input-group-btn" id="basic-addon2">
 								<button type="button" class="btn btn-primary sortOrderButton" id="sortOrderButton">
-									<span class="fas fa-sort-amount-up{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
-									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
+									<span class="fas fa-sort-amount-up{if $SORT_ORDER eq 'DESC'} d-none{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
+									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} d-none{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
 								</button>
 							</div>
 						</div>

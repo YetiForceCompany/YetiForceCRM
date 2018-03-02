@@ -43,7 +43,7 @@
 						{/foreach}
 					</select>
 					{if !$ACCESS} 
-						<input type="text" class="fieldValue form-control hide" name="templatemodule" value="{$SOURCE_MODULE}" />
+						<input type="text" class="fieldValue form-control d-none" name="templatemodule" value="{$SOURCE_MODULE}" />
 					{/if}
 				</div>
 			</div>

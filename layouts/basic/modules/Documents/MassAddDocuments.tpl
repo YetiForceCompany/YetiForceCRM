@@ -13,7 +13,7 @@
 			<div class="col-md-12 uploadFileContainer">
 				<input type="file" name="file[]" multiple id="filesToUpload">
 			</div>
-			<div class="fileContainer hide">
+			<div class="fileContainer d-none">
 				<div class="fileItem">
 					<label>{\App\Language::translate('Title', $MODULE)}</label>
 					<div class="input-group">

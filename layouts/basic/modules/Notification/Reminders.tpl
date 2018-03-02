@@ -39,7 +39,7 @@
 									{/if}
 								</span>
 								{if $SHOW_BUTTON}
-									<span class="fullContent hide">
+									<span class="fullContent d-none">
 										{$FULL_TEXT}
 									</span>
 									&nbsp;<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>

@@ -33,7 +33,7 @@
 				   </button>
 				   &nbsp;
 				   {* button for copying password to clipboard *}
-				   <button type="button" class="btn btn-success btn-sm hide" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
+				   <button type="button" class="btn btn-success btn-sm d-none" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
 					   <span class="fas fa-download"></span>
 				   </button>
 			   {/if}

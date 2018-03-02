@@ -41,7 +41,7 @@
 		{/foreach}
 		{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl', $QUALIFIED_MODULE)}
 	</div><br />
-	<div class="row basicAddFieldContainer hide padding-bottom1per">
+	<div class="row basicAddFieldContainer d-none padding-bottom1per">
 		<span class="col-md-4">
 			<select name="fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" class="form-control">
 				<option></option>

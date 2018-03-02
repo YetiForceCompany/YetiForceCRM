@@ -11,12 +11,12 @@
 			<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
 				<div class="row blockHeader panel-heading no-margin">
 					<div class="iconCollapse">
-						<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-						<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+						<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+						<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 						<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 					</div>
 				</div>
-				<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
+				<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} d-none{/if}">
 					{assign var=COUNTER value=0}
 					<div class="col-12 paddingLRZero fieldRow">
 						{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
@@ -68,7 +68,7 @@
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 										</span>
 										{if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true'}
-											<span class="hide edit">
+											<span class="d-none edit">
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 												{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 													<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
@@ -93,7 +93,7 @@
 
     <div class="contentHeader row no-margin">
         <div class="float-right">
-            <button class="btn btn-success hide" data-copy-target="detailPassword" id="copy-button" type="button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
+            <button class="btn btn-success d-none" data-copy-target="detailPassword" id="copy-button" type="button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
             <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
         </div>
         <div class="clearfix"></div>

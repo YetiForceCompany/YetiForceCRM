@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 
-<div class="hide" id="defaultValuesElementsContainer">
+<div class="d-none" id="defaultValuesElementsContainer">
 	{foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
 		{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
 			<div id="{$_FIELD_NAME}_defaultvalue_container" name="{$_FIELD_NAME}_defaultvalue" class="small col-md-11">

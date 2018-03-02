@@ -162,7 +162,7 @@
 					</div>
 				</div>
 
-				<div class="newCustomBlockCopy hide marginBottom10px border1px blockSortable " data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;background: white">
+				<div class="newCustomBlockCopy d-none marginBottom10px border1px blockSortable " data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;background: white">
 					<div class="row layoutBlockHeader no-margin">
 						<div class="blockLabel col-md-5 padding10 ">
 							<span class="marginLeft20">
@@ -173,7 +173,7 @@
 
 							<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
-									<button class="btn btn-success btn-sm addCustomField hide" type="button"><span class="fas fa-plus"></span>&nbsp;
+									<button class="btn btn-success btn-sm addCustomField d-none" type="button"><span class="fas fa-plus"></span>&nbsp;
 										<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
@@ -285,7 +285,7 @@
 											<input type="checkbox" name="isdefault" >
 										</div>
 									</div>
-									<div class="form-group widgetFilter hide">
+									<div class="form-group widgetFilter d-none">
 										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 										</div>
@@ -297,7 +297,7 @@
 											</select>
 										</div>	
 									</div>	
-									<div class="form-group widgetFilter hide">
+									<div class="form-group widgetFilter d-none">
 										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</div>
@@ -309,7 +309,7 @@
 											</select>
 										</div>	
 									</div>
-									<div class="form-group widgetFilterDate hide">
+									<div class="form-group widgetFilterDate d-none">
 										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 										</div>
@@ -328,7 +328,7 @@
 					</div>
 				</div>
 
-				<li class="newCustomFieldCopy hide col-md-12">
+				<li class="newCustomFieldCopy d-none col-md-12">
 					<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
 						<div class="row padding1per">
 							<div class="float-left" style="word-wrap: break-word;">
@@ -338,7 +338,7 @@
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<div class="basicFieldOperations hide float-right" style="width: 375px;">
+								<div class="basicFieldOperations d-none float-right" style="width: 375px;">
 									<form class="form-horizontal fieldDetailsForm" method="POST">
 										<div class="modal-header contentsBackground">
 										</div>
@@ -392,7 +392,7 @@
 												</label>
 											</div>
 										</div>
-										<div class="widgetFilterAll hide">
+										<div class="widgetFilterAll d-none">
 											<div class="row padding1per">
 												<div class="col-md-5">
 													<select class="widgetFilter form-control" id="owner" name="default_owner">
@@ -417,7 +417,7 @@
 													{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 												</label>
 											</div>	
-											<div class="form-group hide">
+											<div class="form-group d-none">
 												<div class="col-sm-3 col-form-label">
 													{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 												</div>

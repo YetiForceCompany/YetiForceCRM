@@ -3,7 +3,7 @@
 	{assign var="AMODULE" value='Announcements'}
 	<div id="announcements">
 		{foreach item=ANNOUNCEMENT from=$ANNOUNCEMENTS->getAnnouncements()}
-			<div class="announcement hide" data-id="{$ANNOUNCEMENT->getId()}">
+			<div class="announcement d-none" data-id="{$ANNOUNCEMENT->getId()}">
 				<div class="modal fade">
 					<div class="modal-dialog">
 						<div class="modal-content">

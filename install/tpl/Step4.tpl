@@ -18,7 +18,7 @@
 			<div class="inner-container">
 				<h4>{\App\Language::translate('LBL_SYSTEM_CONFIGURATION', 'Install')} </h4>
 				<hr>
-				<div class="row hide" id="errorMessage"></div>
+				<div class="row d-none" id="errorMessage"></div>
 				<div class="row">
 					<div class="col-md-6">
 						<table class="config-table input-table">
@@ -53,10 +53,10 @@
 								<tr>
 									<td colspan="2"><input type="checkbox" name="create_db"/><div class="chkbox"></div><label for="checkbox-1">{\App\Language::translate('LBL_CREATE_NEW_DB','Install')}</label></td>
 								</tr>
-								<tr class="hide" id="root_user"><td>{\App\Language::translate('LBL_ROOT_USERNAME', 'Install')}<span class="no">*</span></td>
+								<tr class="d-none" id="root_user"><td>{\App\Language::translate('LBL_ROOT_USERNAME', 'Install')}<span class="no">*</span></td>
 									<td><input type="text" class="form-control" value="" name="db_root_username"></td>
 								</tr>
-								<tr class="hide" id="root_password"><td>{\App\Language::translate('LBL_ROOT_PASSWORD', 'Install')}</td>
+								<tr class="d-none" id="root_password"><td>{\App\Language::translate('LBL_ROOT_PASSWORD', 'Install')}</td>
 									<td><input type="password" class="form-control" value="" name="db_root_password"></td>
 								</tr>
 								<!--tr><td colspan="2"><input type="checkbox" checked name="populate"/><div class="chkbox"></div><label for="checkbox-1"> Populate database with demo data</label></td-->

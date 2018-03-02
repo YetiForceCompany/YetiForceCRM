@@ -20,7 +20,7 @@
 </div>
 {if $SHOW_FOOTER}
 	<div class="clearfix"></div>
-	<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}" />
+	<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}" />
 	{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 		<div class="infoUser">
 			{$USER_MODEL->getName()}&nbsp;(

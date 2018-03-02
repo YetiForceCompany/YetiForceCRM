@@ -55,7 +55,7 @@
 		<div class="commentsList commentsBody  col-md-12 paddingLRZero">
 			{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 		</div>
-		<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
+		<div class="d-none basicAddCommentBlock marginTop10 marginBottom10px">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="input-group">
@@ -76,7 +76,7 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
-		<div class="hide basicEditCommentBlock" >
+		<div class="d-none basicEditCommentBlock" >
 			<div class="row">
 				<div class="col-md-12 marginTop10 marginBottom10px">
 					<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control" />

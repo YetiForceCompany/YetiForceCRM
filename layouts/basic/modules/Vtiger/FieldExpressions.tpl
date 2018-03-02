@@ -28,7 +28,7 @@
 								</optgroup>	
 							</select>
 						</span>
-						<span class="col-md-4 hide useFieldContainer">
+						<span class="col-md-4 d-none useFieldContainer">
 							<span name="{$MODULE_MODEL->get('name')}" class="useFieldElement">
 								{assign var=MODULE_FIELDS value=$MODULE_MODEL->getFields()}
 								<select class="useField form-control" data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
@@ -54,7 +54,7 @@
 								</span>
 							{/if}
 						</span>
-						<span class="col-md-4 hide useFunctionContainer">
+						<span class="col-md-4 d-none useFunctionContainer">
 							<select class="useFunction form-control" data-placeholder="{\App\Language::translate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
 								<option></option>
 								<optgroup>
@@ -68,17 +68,17 @@
 					<div class="fieldValueContainer">
 						<textarea data-textarea="true" class="fieldValue form-control"></textarea>
 					</div><br />
-					<div id="rawtext_help" class="alert alert-info helpmessagebox hide">
+					<div id="rawtext_help" class="alert alert-info helpmessagebox d-none">
 						<p><h5>{\App\Language::translate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</h5></p>
 						<p>2000</p>
 						<p>{\App\Language::translate('LBL_VTIGER',$QUALIFIED_MODULE)}</p>
 					</div>
-					<div id="fieldname_help" class="helpmessagebox alert alert-info hide">
+					<div id="fieldname_help" class="helpmessagebox alert alert-info d-none">
 						<p><h5>{\App\Language::translate('LBL_EXAMPLE_FIELD_NAME',$QUALIFIED_MODULE)}</h5></p>
 						<p>{\App\Language::translate('LBL_ANNUAL_REVENUE',$QUALIFIED_MODULE)}</p>
 						<p>{\App\Language::translate('LBL_NOTIFY_OWNER',$QUALIFIED_MODULE)}</p>
 					</div>
-					<div id="expression_help" class="alert alert-info helpmessagebox hide">
+					<div id="expression_help" class="alert alert-info helpmessagebox d-none">
 						<p><h5>{\App\Language::translate('LBL_EXAMPLE_EXPRESSION',$QUALIFIED_MODULE)}</h5></p>
 						<p>{\App\Language::translate('LBL_ANNUAL_REVENUE',$QUALIFIED_MODULE)}/12</p>
 						<p>{\App\Language::translate('LBL_EXPRESSION_EXAMPLE2',$QUALIFIED_MODULE)}</p>

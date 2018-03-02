@@ -64,7 +64,7 @@
 							</div>
 						</div>
 						{if $XML_TPL_LIST}
-							<div class="col-md-6 hide xml-tpl">
+							<div class="col-md-6 d-none xml-tpl">
 								<label class="">{\App\Language::translate('LBL_XML_EXPORT_TPL',$MODULE)}</label>
 								<div class="">
 									<select class="select2" id="xmlExportType" name="xmlExportType">

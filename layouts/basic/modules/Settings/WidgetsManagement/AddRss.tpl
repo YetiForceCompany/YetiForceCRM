@@ -34,7 +34,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group margin0px padding1per newChannel hide">
+						<div class="form-group margin0px padding1per newChannel d-none">
 							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<div class="input-group">

@@ -131,7 +131,7 @@
 		<div class="btn btn-light deleteCondition">
 			<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
 		</div>
-		<span class="hide">
+		<span class="d-none">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}
 			{/if}

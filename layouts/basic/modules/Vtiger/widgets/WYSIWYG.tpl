@@ -10,7 +10,7 @@
 					{$FULL_TEXT|substr:0:600}
 				</span>
 				{if $FULL_TEXT|strlen > 600}
-					<span class="fullContent hide">
+					<span class="fullContent d-none">
 						{$FULL_TEXT}
 					</span>
 					<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>

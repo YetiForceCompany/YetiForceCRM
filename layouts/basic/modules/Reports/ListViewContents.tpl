@@ -30,7 +30,7 @@
 	<div class="listViewEntriesDiv">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
-		<p class="listViewLoadingMsg hide">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+		<p class="listViewLoadingMsg d-none">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
 			<thead>

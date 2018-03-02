@@ -34,7 +34,7 @@
 										<div data-parent="#leadAccordion" data-toggle="collapse" class="panel-heading paddingTBZero accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
 											<div class="form-control-plaintext checkbox">
 												<label>
-													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{App\Language::translate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
+													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} d-none{/if}" data-module="{App\Language::translate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
 													<span class="panel-title">&nbsp;{App\Language::translate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{App\Language::translate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>

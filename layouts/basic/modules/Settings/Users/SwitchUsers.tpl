@@ -33,7 +33,7 @@
 			<button class="btn btn-success saveItems"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<br />
-		<table class="table table-bordered cloneItem hide">
+		<table class="table table-bordered cloneItem d-none">
 			{assign var="SUSERS" value=[]}
 			{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=false}
 		</table>
