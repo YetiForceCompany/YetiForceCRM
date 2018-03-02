@@ -107,4 +107,3 @@ $jsLanguageStrings = [
 	'Strong' => 'Kuvvetli',
 	'Very Strong' => 'Çok güçlü',
 ];		
-248 -> 227
