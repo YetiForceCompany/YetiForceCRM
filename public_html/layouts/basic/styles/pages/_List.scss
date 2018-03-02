@@ -37,7 +37,7 @@
 			@extend .mb-0;
 		}
 	}
-	.nav-tabs .active {
-		@extend .bg-light;
-	}
+}
+.nav-tabs .active {
+	@extend .bg-light;
 }
