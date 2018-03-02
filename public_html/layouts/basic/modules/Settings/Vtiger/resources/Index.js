@@ -284,7 +284,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	reloadContent: function () {
-		jQuery('.massEditTabs li.active').trigger('click');
+		jQuery('.massEditTabs li .active').trigger('click');
 	},
 	resisterSaveKeys: function (modal) {
 		var thisInstance = this;
