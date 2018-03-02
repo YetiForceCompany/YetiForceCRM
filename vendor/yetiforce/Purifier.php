@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 /**
@@ -11,6 +10,7 @@ namespace App;
  */
 class Purifier
 {
+
 	/**
 	 * Default charset.
 	 *
@@ -142,6 +142,7 @@ class Purifier
 					$value = static::purifyHtml($value, false);
 				}
 			}
+			$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $value);
 			Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 		}
 		return $value;
