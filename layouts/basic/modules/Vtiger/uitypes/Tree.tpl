@@ -9,8 +9,10 @@
 	{assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}
 	<div class="input-group">
 		{if $FIELD_MODEL->get('displaytype') != 10}
-			<span class="input-group-addon clearTreeSelection cursorPointer">
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='fas fa-times-circle' title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
+			<span class="input-group-prepend clearTreeSelection cursorPointer">
+				<span class="input-group-text">
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='fas fa-times-circle' title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
+				</span>
 			</span>
 		{/if}
 		<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" class="{if (($VIEW eq 'Edit'))} col-md-7 {else} col-md-8 {/if}	marginLeftZero treeAutoComplete form-control" {if !empty($displayId)}readonly="true"{/if}
@@ -18,8 +20,10 @@
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if}
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 		{if $FIELD_MODEL->get('displaytype') != 10}
-			<span class="input-group-addon treePopup cursorPointer">
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
+			<span class="input-group-append treePopup cursorPointer">
+				<span class="input-group-text">
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
+				</span>
 			</span>
 		{/if}
 	</div>
