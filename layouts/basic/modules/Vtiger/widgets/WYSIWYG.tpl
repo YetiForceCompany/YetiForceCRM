@@ -5,11 +5,12 @@
 		</div>
 		<div class="defaultMarginP">
 			{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
+			{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600)}
 			<div class="moreContent table-responsive">
 				<span class="teaserContent">
-					{$FULL_TEXT|substr:0:600}
+					{$TRUNCATE_TEXT}
 				</span>
-				{if $FULL_TEXT|strlen > 600}
+				{if $FULL_TEXT != $TRUNCATE_TEXT}
 					<span class="fullContent hide">
 						{$FULL_TEXT}
 					</span>

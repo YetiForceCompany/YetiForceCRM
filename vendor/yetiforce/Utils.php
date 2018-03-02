@@ -52,23 +52,6 @@ class Utils
 		if (empty($arr)) {
 			return false;
 		}
-
 		return array_keys($arr) !== range(0, count($arr) - 1);
-	}
-
-	/**
-	 * Get text length.
-	 *
-	 * @param string $text
-	 *
-	 * @return int
-	 */
-	public static function getTextLength($text)
-	{
-		if (function_exists('mb_strlen')) {
-			return mb_strlen($text);
-		} else {
-			return strlen($text);
-		}
 	}
 }

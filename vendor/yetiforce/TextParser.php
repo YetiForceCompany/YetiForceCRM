@@ -1310,4 +1310,20 @@ class TextParser
 		}
 		return $text;
 	}
+
+	/**
+	 * Get text length.
+	 *
+	 * @param string $text
+	 *
+	 * @return int
+	 */
+	public static function getTextLength($text)
+	{
+		if (function_exists('mb_strlen')) {
+			return mb_strlen($text);
+		} else {
+			return strlen($text);
+		}
+	}
 }

@@ -34,7 +34,7 @@
 										{$FULL_TEXT}
 										{assign var=SHOW_BUTTON value=false}
 									{else}
-										{strip_tags($FULL_TEXT)|substr:0:200}
+										{\App\TextParser::htmlTruncate($FULL_TEXT,200)}
 										{assign var=SHOW_BUTTON value=true}
 									{/if}
 								</span>

@@ -29,7 +29,7 @@ class OSSMailView_Base_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value) && (is_string($value) && $fieldName !== 'uid' && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $fieldName . '||' . $value, 406);
 		}
-		if (App\Utils::getTextLength($value) > 255) {
+		if (App\TextParser::getTextLength($value) > 255) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $fieldName . '||' . $value, 406);
 		}
 		$this->validate = true;
