@@ -29,6 +29,10 @@ class ComposerStaticInitYT
 		[
 			'includes\\' => 9,
 		],
+		'U' =>
+		[
+			'Urodoz\\Truncate\\' => 16,
+		],
 		'T' =>
 		[
 			'Tests\\' => 6,
@@ -90,6 +94,10 @@ class ComposerStaticInitYT
 		'includes\\' =>
 		[
 			0 => __DIR__ . '/../..' . '/include',
+		],
+		'Urodoz\\Truncate\\' =>
+		[
+			0 => __DIR__ . '/..' . '/urodoz/truncate-html/src',
 		],
 		'Tests\\' =>
 		[

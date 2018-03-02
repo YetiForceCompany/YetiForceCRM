@@ -177,64 +177,6 @@
 		]
 	},
 	{
-		"name": "sabre/http",
-		"version": "4.2.3",
-		"version_normalized": "4.2.3.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/http.git",
-			"reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/http/zipball/0295f9a3ee39be97e0898592fc19e42421e0cd93",
-			"reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"ext-mbstring": "*",
-			"php": ">=5.4",
-			"sabre/event": ">=1.0.0,<4.0.0",
-			"sabre/uri": "~1.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "~4.3",
-			"sabre/cs": "~0.0.1"
-		},
-		"suggest": {
-			"ext-curl": " to make http requests with the Client class"
-		},
-		"time": "2017-06-12T07:53:04+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"lib/functions.php"
-			],
-			"psr-4": {
-				"Sabre\\HTTP\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			}
-		],
-		"description": "The sabre/http library provides utilities for dealing with http requests and responses. ",
-		"homepage": "https://github.com/fruux/sabre-http",
-		"keywords": [
-			"http"
-		]
-	},
-	{
 		"name": "sabre/dav",
 		"version": "3.1.3",
 		"version_normalized": "3.1.3.0",
@@ -925,67 +867,6 @@
 		]
 	},
 	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.6.0",
-		"version_normalized": "1.6.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-			"reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
-		},
-		"suggest": {
-			"ext-mbstring": "For best performance"
-		},
-		"time": "2017-10-11T12:05:26+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.6-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
-		]
-	},
-	{
 		"name": "giggsey/locale",
 		"version": "1.4",
 		"version_normalized": "1.4.0.0",
@@ -1194,53 +1075,6 @@
 		]
 	},
 	{
-		"name": "sensiolabs/security-checker",
-		"version": "v4.1.7",
-		"version_normalized": "4.1.7.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sensiolabs/security-checker.git",
-			"reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
-			"reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
-			"shasum": ""
-		},
-		"require": {
-			"composer/ca-bundle": "^1.0",
-			"symfony/console": "~2.7|~3.0|~4.0"
-		},
-		"time": "2018-01-11T05:54:03+00:00",
-		"bin": [
-			"security-checker"
-		],
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "4.1-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"SensioLabs\\Security": ""
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien.potencier@gmail.com"
-			}
-		],
-		"description": "A security checker for your composer.lock"
-	},
-	{
 		"name": "dg/rss-php",
 		"version": "v1.2",
 		"version_normalized": "1.2.0.0",
@@ -1282,76 +1116,6 @@
 			"atom",
 			"feed",
 			"rss"
-		]
-	},
-	{
-		"name": "giggsey/libphonenumber-for-php",
-		"version": "8.8.10",
-		"version_normalized": "8.8.10.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
-			"reference": "df46f26492f88fb6d226929cadf60d3111f868ce"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/df46f26492f88fb6d226929cadf60d3111f868ce",
-			"reference": "df46f26492f88fb6d226929cadf60d3111f868ce",
-			"shasum": ""
-		},
-		"require": {
-			"ext-mbstring": "*",
-			"giggsey/locale": "^1.2",
-			"php": ">=5.3.2"
-		},
-		"require-dev": {
-			"pear/pear-core-minimal": "^1.9",
-			"pear/pear_exception": "^1.0",
-			"pear/versioncontrol_git": "^0.5",
-			"phing/phing": "^2.7",
-			"phpunit/phpunit": "^4.8|^5.0",
-			"satooshi/php-coveralls": "^1.0",
-			"symfony/console": "^2.8|^3.0"
-		},
-		"time": "2018-01-24T14:12:25+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "8.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"libphonenumber\\": "src/"
-			},
-			"exclude-from-classmap": [
-				"/src/data/",
-				"/src/carrier/data/",
-				"/src/geocoding/data/",
-				"/src/timezone/data/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"Apache-2.0"
-		],
-		"authors": [
-			{
-				"name": "Joshua Gigg",
-				"email": "giggsey@gmail.com",
-				"homepage": "https://giggsey.com/"
-			}
-		],
-		"description": "PHP Port of Google's libphonenumber",
-		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
-		"keywords": [
-			"geocoding",
-			"geolocation",
-			"libphonenumber",
-			"mobile",
-			"phonenumber",
-			"validation"
 		]
 	},
 	{
@@ -1405,18 +1169,196 @@
 		]
 	},
 	{
-		"name": "phpoffice/phpspreadsheet",
-		"version": "1.0.0",
-		"version_normalized": "1.0.0.0",
+		"name": "symfony/polyfill-mbstring",
+		"version": "v1.7.0",
+		"version_normalized": "1.7.0.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-			"reference": "691b68de9b87cf6e398df46482741a4f667a9391"
+			"url": "https://github.com/symfony/polyfill-mbstring.git",
+			"reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/691b68de9b87cf6e398df46482741a4f667a9391",
-			"reference": "691b68de9b87cf6e398df46482741a4f667a9391",
+			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+			"reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.3"
+		},
+		"suggest": {
+			"ext-mbstring": "For best performance"
+		},
+		"time": "2018-01-30T19:27:44+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.7-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Polyfill\\Mbstring\\": ""
+			},
+			"files": [
+				"bootstrap.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony polyfill for the Mbstring extension",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"compatibility",
+			"mbstring",
+			"polyfill",
+			"portable",
+			"shim"
+		]
+	},
+	{
+		"name": "sensiolabs/security-checker",
+		"version": "v4.1.8",
+		"version_normalized": "4.1.8.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/sensiolabs/security-checker.git",
+			"reference": "dc270d5fec418cc6ac983671dba5d80ffaffb142"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/dc270d5fec418cc6ac983671dba5d80ffaffb142",
+			"reference": "dc270d5fec418cc6ac983671dba5d80ffaffb142",
+			"shasum": ""
+		},
+		"require": {
+			"composer/ca-bundle": "^1.0",
+			"symfony/console": "~2.7|~3.0|~4.0"
+		},
+		"time": "2018-02-28T22:10:01+00:00",
+		"bin": [
+			"security-checker"
+		],
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "4.1-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"SensioLabs\\Security": ""
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Fabien Potencier",
+				"email": "fabien.potencier@gmail.com"
+			}
+		],
+		"description": "A security checker for your composer.lock"
+	},
+	{
+		"name": "giggsey/libphonenumber-for-php",
+		"version": "8.9.0",
+		"version_normalized": "8.9.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
+			"reference": "e6f3cb4d3f141b0e09f680963b4e6d6e19f913fb"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/e6f3cb4d3f141b0e09f680963b4e6d6e19f913fb",
+			"reference": "e6f3cb4d3f141b0e09f680963b4e6d6e19f913fb",
+			"shasum": ""
+		},
+		"require": {
+			"ext-mbstring": "*",
+			"giggsey/locale": "^1.2",
+			"php": ">=5.3.2"
+		},
+		"require-dev": {
+			"pear/pear-core-minimal": "^1.9",
+			"pear/pear_exception": "^1.0",
+			"pear/versioncontrol_git": "^0.5",
+			"phing/phing": "^2.7",
+			"phpunit/phpunit": "^4.8|^5.0",
+			"satooshi/php-coveralls": "^1.0",
+			"symfony/console": "^2.8|^3.0"
+		},
+		"time": "2018-02-22T11:04:17+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "8.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"libphonenumber\\": "src/"
+			},
+			"exclude-from-classmap": [
+				"/src/data/",
+				"/src/carrier/data/",
+				"/src/geocoding/data/",
+				"/src/timezone/data/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"Apache-2.0"
+		],
+		"authors": [
+			{
+				"name": "Joshua Gigg",
+				"email": "giggsey@gmail.com",
+				"homepage": "https://giggsey.com/"
+			}
+		],
+		"description": "PHP Port of Google's libphonenumber",
+		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
+		"keywords": [
+			"geocoding",
+			"geolocation",
+			"libphonenumber",
+			"mobile",
+			"phonenumber",
+			"validation"
+		]
+	},
+	{
+		"name": "phpoffice/phpspreadsheet",
+		"version": "1.1.0",
+		"version_normalized": "1.1.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+			"reference": "a2771e562e3a17c0d512d2009e38fd628beece90"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a2771e562e3a17c0d512d2009e38fd628beece90",
+			"reference": "a2771e562e3a17c0d512d2009e38fd628beece90",
 			"shasum": ""
 		},
 		"require": {
@@ -1437,7 +1379,7 @@
 		},
 		"require-dev": {
 			"dompdf/dompdf": "^0.8.0",
-			"friendsofphp/php-cs-fixer": "^2.7",
+			"friendsofphp/php-cs-fixer": "@stable",
 			"jpgraph/jpgraph": "^4.0",
 			"mpdf/mpdf": "^7.0.0",
 			"phpunit/phpunit": "^5.7",
@@ -1452,7 +1394,7 @@
 			"mpdf/mpdf": "Option for rendering PDF with PDF Writer",
 			"tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
 		},
-		"time": "2017-12-25T01:53:53+00:00",
+		"time": "2018-01-28T12:37:15+00:00",
 		"type": "library",
 		"installation-source": "dist",
 		"autoload": {
@@ -1492,6 +1434,116 @@
 			"spreadsheet",
 			"xls",
 			"xlsx"
+		]
+	},
+	{
+		"name": "sabre/http",
+		"version": "v4.2.4",
+		"version_normalized": "4.2.4.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/sabre-io/http.git",
+			"reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/sabre-io/http/zipball/acccec4ba863959b2d10c1fa0fb902736c5c8956",
+			"reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956",
+			"shasum": ""
+		},
+		"require": {
+			"ext-ctype": "*",
+			"ext-mbstring": "*",
+			"php": ">=5.4",
+			"sabre/event": ">=1.0.0,<4.0.0",
+			"sabre/uri": "~1.0"
+		},
+		"require-dev": {
+			"phpunit/phpunit": "~4.3",
+			"sabre/cs": "~0.0.1"
+		},
+		"suggest": {
+			"ext-curl": " to make http requests with the Client class"
+		},
+		"time": "2018-02-23T11:10:29+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"files": [
+				"lib/functions.php"
+			],
+			"psr-4": {
+				"Sabre\\HTTP\\": "lib/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"BSD-3-Clause"
+		],
+		"authors": [
+			{
+				"name": "Evert Pot",
+				"email": "me@evertpot.com",
+				"homepage": "http://evertpot.com/",
+				"role": "Developer"
+			}
+		],
+		"description": "The sabre/http library provides utilities for dealing with http requests and responses. ",
+		"homepage": "https://github.com/fruux/sabre-http",
+		"keywords": [
+			"http"
+		]
+	},
+	{
+		"name": "urodoz/truncate-html",
+		"version": "1.0.1",
+		"version_normalized": "1.0.1.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/urodoz/truncateHTML.git",
+			"reference": "88fb29fd3a30c95b879f1642e08fd8746dd05bd7"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/urodoz/truncateHTML/zipball/88fb29fd3a30c95b879f1642e08fd8746dd05bd7",
+			"reference": "88fb29fd3a30c95b879f1642e08fd8746dd05bd7",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.3"
+		},
+		"require-dev": {
+			"phpunit/phpunit": "~4",
+			"symfony/dependency-injection": "~2.4",
+			"symfony/http-kernel": "~2.4",
+			"twig/twig": "~1"
+		},
+		"time": "2014-05-25T22:50:06+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Urodoz\\Truncate\\": "src"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Albert Lacarta",
+				"email": "urodoz@gmail.com",
+				"homepage": "http://www.rqlogic.com"
+			}
+		],
+		"description": "Handle truncate action on HTML strings",
+		"keywords": [
+			"content",
+			"html",
+			"shorten",
+			"truncate",
+			"truncating"
 		]
 	}
 ]

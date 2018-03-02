@@ -8,6 +8,7 @@ return [
 	'vtlib\\' => [$baseDir . '/vtlib/Vtiger'],
 	'libphonenumber\\' => [$vendorDir . '/giggsey/libphonenumber-for-php/src'],
 	'includes\\' => [$baseDir . '/include'],
+	'Urodoz\\Truncate\\' => [$vendorDir . '/urodoz/truncate-html/src'],
 	'Tests\\' => [$baseDir . '/tests'],
 	'Symfony\\Polyfill\\Mbstring\\' => [$vendorDir . '/symfony/polyfill-mbstring'],
 	'Symfony\\Component\\VarDumper\\' => [$vendorDir . '/symfony/var-dumper'],

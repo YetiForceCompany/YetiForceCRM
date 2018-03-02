@@ -46,7 +46,8 @@
 		"symfony/debug": "v3.3.6",
 		"giggsey/libphonenumber-for-php": "*",
 		"dg/rss-php": "^1.2",
-		"phpoffice/phpspreadsheet": "^1.0"
+		"phpoffice/phpspreadsheet": "^1.0",
+		"urodoz/truncate-html": "1.0.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "6.*",
