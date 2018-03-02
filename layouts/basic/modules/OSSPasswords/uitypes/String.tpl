@@ -43,7 +43,7 @@
 			   {else}
 				   <div id="passwordDescription">{\App\Language::translate('Password is hidden', $MODULE)}</div>
 			   {/if}
-			   <div id="passwordStrength" class="strength0"></div>
+			   <div id="passwordStrength" class="strength0 col-12"></div>
 		   </p>
 	{/if}
 	{/strip}
