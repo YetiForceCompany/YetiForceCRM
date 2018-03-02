@@ -53,7 +53,7 @@
 			<div class="commentActionsContainer row m-0">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="col editedStatus d-none d-xl-block"  name="editStatus">
-					<span class="{if empty($REASON_TO_EDIT)}hide{/if} editReason text-muted">
+					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
 						<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
 					</span>
 				</div>
