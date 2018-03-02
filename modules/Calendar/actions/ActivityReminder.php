@@ -11,6 +11,7 @@
 
 class Calendar_ActivityReminder_Action extends \App\Controller\Action
 {
+
 	use \App\Controller\ExposeMethod;
 
 	public function __construct()
@@ -41,5 +42,8 @@ class Calendar_ActivityReminder_Action extends \App\Controller\Action
 		$module = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $module);
 		$recordModel->updateReminderPostpone($time);
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 }
