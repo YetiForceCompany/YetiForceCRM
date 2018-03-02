@@ -84,14 +84,14 @@
 	border: 2px solid #d2d6de;
 	font-size: 32px;
 }
-.Users-PreferenceDetailViewHeader {
+.PreferenceDetailViewHeader {
 	.detailViewButtoncontainer {
 		.btn {
 			@extend .mr-1;
 		}
 	}
 }
-.Vtiger-Comment {
+.Comment {
 	.commentActionsDiv {
 		.btn {
 			@extend .btn-sm;

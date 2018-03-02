@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
-	<div class="Vtiger-Comment commentDiv">
+	<div class="Comment commentDiv">
 		<div class="singleComment">
 			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="float-left">
