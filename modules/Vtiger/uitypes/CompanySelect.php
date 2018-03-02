@@ -33,7 +33,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 			$namesOfCompany = $this->getPicklistValues()[$value[0]]['name'];
 		}
 		if (is_int($length)) {
-			$namesOfCompany = \vtlib\Functions::textLength($namesOfCompany, $length);
+			$namesOfCompany = \App\TextParser::textTruncate($namesOfCompany, $length);
 		}
 
 		return \App\Purifier::encodeHtml($namesOfCompany);

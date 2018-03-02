@@ -42,7 +42,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		}
 		$ownerName = \App\Fields\Owner::getLabel($value);
 		if (is_int($length)) {
-			$ownerName = \vtlib\Functions::textLength($ownerName, $length);
+			$ownerName = \App\TextParser::textTruncate($ownerName, $length);
 		}
 		if ($rawText) {
 			return $ownerName;

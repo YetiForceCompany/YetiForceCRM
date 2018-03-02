@@ -106,7 +106,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	{
 		$images = $this->getDisplayValue($value, $record, $recordModel, true);
 
-		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->getFieldModel()->get('maxlengthtext')) : $images;
+		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \App\TextParser::textTruncate($images, $this->getFieldModel()->get('maxlengthtext')) : $images;
 	}
 
 	/**

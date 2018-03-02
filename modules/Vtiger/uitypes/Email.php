@@ -40,7 +40,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value));
+			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value));
 			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
@@ -68,7 +68,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')));
+			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')));
 			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();

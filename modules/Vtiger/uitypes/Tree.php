@@ -32,7 +32,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
 			if (is_int($length)) {
-				$text = \vtlib\Functions::textLength($text, $length);
+				$text = \App\TextParser::textTruncate($text, $length);
 			}
 
 			return \App\Purifier::encodeHtml($text);
@@ -40,7 +40,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
 		$text = $value['name'];
 		if (is_int($length)) {
-			$text = \vtlib\Functions::textLength($text, $length);
+			$text = \App\TextParser::textTruncate($text, $length);
 		}
 		if (isset($value['icon'])) {
 			return $value['icon'] . '' . \App\Purifier::encodeHtml($text);

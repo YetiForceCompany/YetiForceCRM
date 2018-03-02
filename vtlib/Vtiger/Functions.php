@@ -8,11 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-
 namespace vtlib;
 
 class Functions
 {
+
 	// i18n
 	public static function getTranslatedString($str, $module = '')
 	{
@@ -242,9 +242,9 @@ class Functions
 		$cacheName = 'getModuleFieldInfosByName';
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
-				->from('vtiger_field')
-				->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
-				->createCommand()->query();
+					->from('vtiger_field')
+					->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
+					->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {
 				$fieldInfoByName[$row['fieldname']] = $row;
@@ -693,28 +693,6 @@ class Functions
 		return ['total' => $total, 'free' => $free, 'used' => $used];
 	}
 
-	public static function textLength($text, $length = false, $addDots = true)
-	{
-		if (!$length) {
-			$length = \AppConfig::main('listview_max_textlength');
-		}
-		if (function_exists('mb_strlen')) {
-			if (mb_strlen($text) > $length) {
-				$text = mb_substr($text, 0, $length, \AppConfig::main('default_charset'));
-				if ($addDots) {
-					$text .= '...';
-				}
-			}
-		} elseif (strlen($text) > $length) {
-			$text = substr($text, 0, $length);
-			if ($addDots) {
-				$text .= '...';
-			}
-		}
-
-		return $text;
-	}
-
 	public static function getDefaultCurrencyInfo()
 	{
 		$allCurrencies = self::getAllCurrency(true);
@@ -726,7 +704,6 @@ class Functions
 
 		return false;
 	}
-
 	/*
 	 * Checks if given date is working day, if not returns last working day
 	 * @param <Date> $date
@@ -831,7 +808,6 @@ class Functions
 
 		return $str;
 	}
-
 	/*
 	 * Function that returns conversion info from default system currency to chosen one
 	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency

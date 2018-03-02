@@ -11,6 +11,7 @@
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -62,7 +63,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	{
 		$uiType = $this->getFieldModel()->get('uitype');
 		if (is_int($length)) {
-			$value = \vtlib\Functions::textLength($value, $length);
+			if ($uiType === 300) {
+				$value = \App\TextParser::htmlTruncate($value, $length);
+			} else {
+				$value = \App\TextParser::textTruncate($value, $length);
+			}
 		}
 		if ($uiType === 300) {
 			return App\Purifier::purifyHtml($value);

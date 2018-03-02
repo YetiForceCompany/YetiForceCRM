@@ -52,7 +52,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $value;
 		}
-		$rawValue = \vtlib\Functions::textLength($rawValue, is_int($length) ? $length : false);
+		$rawValue = \App\TextParser::textTruncate($rawValue, is_int($length) ? $length : false);
 
 		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}

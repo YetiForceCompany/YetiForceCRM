@@ -32,7 +32,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
 			return $name;
 		}
-		$name = vtlib\Functions::textLength($name, \AppConfig::main('href_max_length'));
+		$name = App\TextParser::textTruncate($name, \AppConfig::main('href_max_length'));
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}

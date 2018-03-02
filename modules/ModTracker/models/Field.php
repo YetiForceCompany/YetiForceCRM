@@ -65,7 +65,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = App\TextParser::textTruncate($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$this->set('fullPreValue', $value);
 		}
@@ -84,7 +84,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = App\TextParser::textTruncate($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$this->set('fullPostValue', $value);
 		}

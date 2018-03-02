@@ -64,7 +64,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		}
 		$value = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValue));
 		if (is_int($length)) {
-			$value = \vtlib\Functions::textLength($value, $length);
+			$value = \App\TextParser::textTruncate($value, $length);
 		}
 
 		return \App\Purifier::encodeHtml($value);

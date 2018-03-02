@@ -68,7 +68,7 @@
 								</td>
 							{/if}
 							<td class="cellLabel">
-								<span>{\App\Purifier::encodeHtml(\vtlib\Functions::textLength($_FIELD_VALUE))}</span>
+								<span>{\App\Purifier::encodeHtml(\App\TextParser::textTruncate($_FIELD_VALUE))}</span>
 							</td>
 							<td class="cellLabel">
 								<input type="hidden" name="row_counter" value="{$_COUNTER}" />

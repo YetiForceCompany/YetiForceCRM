@@ -61,7 +61,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		}
 		$value = implode(', ', $names);
 		if (is_int($length)) {
-			$value = \vtlib\Functions::textLength($value, $length);
+			$value = \App\TextParser::textTruncate($value, $length);
 		}
 
 		return \App\Purifier::encodeHtml($value);

@@ -172,16 +172,16 @@ class Calendar_Calendar_Model extends App\Base
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+			$item['procl'] = App\TextParser::textTruncate($this->getLabel($labels, $record['process']));
 			// / migoi
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
+			$item['subprocl'] = App\TextParser::textTruncate($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
 			$item['linkextend'] = $record['linkextend'];
-			$item['linkexl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['linkextend']));
+			$item['linkexl'] = App\TextParser::textTruncate($this->getLabel($labels, $record['linkextend']));
 			$item['linkexm'] = $record['linkecrmmod'];
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
 				$findId = 0;

@@ -42,7 +42,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \vtlib\Functions::textLength($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
+		$displayValue = \App\TextParser::textTruncate($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
 		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->setId($value);

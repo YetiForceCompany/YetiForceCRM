@@ -107,10 +107,10 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
             }
             $body = trim(App\Purifier::purify($row['body']));
             if (!$request->getBoolean('isFullscreen')) {
-                $body = vtlib\Functions::textLength($body, 100);
+                $body = App\TextParser::textTruncate($body, 100);
             } else {
                 $body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], App\Purifier::decodeHtml(App\Purifier::purify($body)));
-                $body = nl2br(vtlib\Functions::textLength($body, 500), false);
+                $body = nl2br(App\TextParser::textTruncate($body, 500), false);
             }
             $row['body'] = $body;
             $history[] = $row;

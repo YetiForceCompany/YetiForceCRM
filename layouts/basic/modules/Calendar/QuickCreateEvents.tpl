@@ -25,7 +25,7 @@
 								<div class="cut-string">
 									<span class="fas fa-calendar-alt"></span>
 									<span class="px-1"><strong>{$EVENT['hour_start']}</strong></span>
-									<span>{vtlib\Functions::textLength($EVENT['title'], 16)}</span>
+									<span>{App\TextParser::textTruncate($EVENT['title'], 16)}</span>
 									<span class="HelpInfoPopover" title="" data-placement="top" data-content="
 										  <div><label class='px-1'>{App\Language::translate('Start Time', $MODULE_NAME)}:</label>{$EVENT['start_display']}</div>
 										  <div><label class='px-1'>{App\Language::translate('End Time', $MODULE_NAME)}:</label>{$EVENT['end_display']}</div>

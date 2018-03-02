@@ -97,7 +97,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$return[] = [
 				'id' => $row['ossmailviewid'],
 				'date' => $row['date'],
-				'firstLetter' => strtoupper(vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
+				'firstLetter' => strtoupper(App\TextParser::textTruncate(trim(strip_tags($from)), 1, false)),
 				'subjectRaw' => \App\Purifier::encodeHtml($row['subject']),
 				'subject' => $subject,
 				'attachments' => $row['attachments_exist'],
@@ -108,7 +108,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'to' => $to,
 				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 				'type' => $row['type'],
-				'teaser' => vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+				'teaser' => App\TextParser::textTruncate(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 				'body' => $content,
 				'bodyRaw' => $row['content'],
 			];

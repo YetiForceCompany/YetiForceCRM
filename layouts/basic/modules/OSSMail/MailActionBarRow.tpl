@@ -4,7 +4,7 @@
 		<a href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" title="{\App\Language::translate('SINGLE_'|cat:$RELATED['module'],$RELATED['module'])}: {$RELATED['label']}" target="_blank">
 			<span class="relatedModuleIcon userIcon-{$RELATED['module']}" aria-hidden="true"></span>
 			<span class="relatedName">
-				{vtlib\Functions::textLength($RELATED['label'],38)}
+				{App\TextParser::textTruncate($RELATED['label'],38)}
 			</span>
 		</a>
 		<div class="float-right rowActions">

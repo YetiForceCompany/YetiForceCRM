@@ -252,7 +252,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
 
-				return \vtlib\Functions::textLength($label);
+				return \App\TextParser::textTruncate($label);
 			default:
 				break;
 		}

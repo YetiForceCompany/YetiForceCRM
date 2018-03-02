@@ -677,7 +677,7 @@ class File
 	 */
 	public static function saveFromContent(self $file, $params = [])
 	{
-		$fileName = \vtlib\Functions::textLength($file->getName(), 50, false);
+		$fileName = \App\TextParser::textTruncate($file->getName(), 50, false);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		$record->setData($params);
 		$record->set('notes_title', $fileName);

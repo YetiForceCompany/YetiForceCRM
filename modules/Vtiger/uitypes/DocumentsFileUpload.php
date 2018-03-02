@@ -23,7 +23,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
+		return $this->getDisplayValue(\App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
 	}
 
 	/**
