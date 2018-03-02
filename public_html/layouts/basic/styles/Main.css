@@ -2126,7 +2126,7 @@ fieldset:disabled a.btn {
   line-height: 1.5;
   border-radius: 0.3rem; }
 
-.btn-sm, .btn-group-sm > .btn {
+.btn-sm, .btn-group-sm > .btn, .Comment .commentActionsDiv .btn {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -2356,7 +2356,7 @@ tbody.collapse.show {
   .dropdown-toggle-split::after {
     margin-left: 0; }
 
-.btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split {
+.btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .Comment .commentActionsDiv .btn + .dropdown-toggle-split {
   padding-right: 0.375rem;
   padding-left: 0.375rem; }
 
@@ -5078,7 +5078,7 @@ button.bg-dark:focus {
 .m-1 {
   margin: 0.25rem !important; }
 
-.mt-1,
+.mt-1, .Comment .commentActionsDiv .btn,
 .my-1 {
   margin-top: 0.25rem !important; }
 
@@ -5180,8 +5180,7 @@ button.bg-dark:focus {
   padding-top: 0 !important; }
 
 .pr-0, .dashboardWidgetHeader .col-sm-6:nth-child(1), .col-md-6:nth-child(1),
-.px-0,
-.modalPermissionInspectorUserListModal .dataTables_wrapper {
+.px-0 {
   padding-right: 0 !important; }
 
 .pb-0,
@@ -5189,8 +5188,7 @@ button.bg-dark:focus {
   padding-bottom: 0 !important; }
 
 .pl-0,
-.px-0,
-.modalPermissionInspectorUserListModal .dataTables_wrapper {
+.px-0 {
   padding-left: 0 !important; }
 
 .p-1, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group, .bodyHeader .globalSearchInput .btn, .footerContainer .page-link {
@@ -10212,7 +10210,7 @@ select.form-control {
   -o-transition: all 0.2s 0.15s ease-in-out;
   transition: all 0.2s 0.15s ease-in-out; }
 .singleComment:hover .commentActionsContainer .commentActions {
-  height: 22px; }
+  height: auto; }
 
 .announcement .alert {
   margin: 3px 3px 0;
@@ -10683,6 +10681,12 @@ header .headerLinksMails .select2-selection:hover {
   header .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
 
+.leaflet-popup-content {
+  width: 62px; }
+
+.awesome-marker [data-fa-i2svg] {
+  margin-top: 11px; }
+
 .conditionRow .select2-container--bootstrap4 {
   display: inline-block;
   vertical-align: middle; }
@@ -10692,6 +10696,9 @@ header .headerLinksMails .select2-selection:hover {
   cursor: pointer; }
   .customFilterMainSpan .select2-container {
     width: 95% !important; }
+
+.filterActionImgs {
+  margin-top: 3px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
@@ -11096,6 +11103,9 @@ header .headerLinksMails .select2-selection:hover {
           text-decoration: none; }
     .gridster > ul .widgetChartContainer {
       height: 100% !important; }
+
+.NotificationsItem .userImage {
+  width: 22px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .calendarViewContainer .widget_header {
