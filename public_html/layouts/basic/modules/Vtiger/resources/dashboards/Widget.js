@@ -1344,6 +1344,18 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				return tooltipItem.yLabel;
 			}
 		}
+		if (typeof options.tooltips.callbacks.title === 'undefined') {
+			options.tooltips.callbacks.title = function tooltipTitleCallback(tooltipItems, data) {
+				const tooltipItem = tooltipItems[0];
+				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+				}
+				if (!isNaN(Number(tooltipItem.xLabel))) {
+					return app.parseNumberToShow(tooltipItem.xLabel);
+				}
+				return tooltipItem.xLabel;
+			}
+		}
 		return options;
 	},
 	applyDefaultAxesLabelsConfig: function (options = {}) {
@@ -1357,12 +1369,10 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			if (typeof axis.ticks === 'undefined') {
 				axis.ticks = {};
 			}
-			if (typeof axis.ticks.minRotation === 'undefined') {
-				axis.ticks.minRotation = 70;
-			}
 			if (typeof axis.ticks.autoSkip === 'undefined') {
 				axis.ticks.autoSkip = false;
 			}
+			axis.ticks.maxRotation = 90;
 		});
 
 		if (typeof options.scales.yAxes === 'undefined') {
@@ -1409,16 +1419,117 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		this.applyDefaultAxesLabelsConfig(options);
 		return options;
 	},
+	getChartItems: function (data) {
+		if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+			for (let i = 0, len = data.datasets.length; i < len; i++) {
+				const meta = this.chartInstance.getDatasetMeta(i);
+				if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+					return meta.data;
+				}
+			}
+		}
+		return [];
+	},
+	hideDatalabelsIfNeeded: function (data) {
+		let items = this.getChartItems(data);
+		for (let i = 0, len = items.length; i < len; i++) {
+			const dataItem = items[i];
+			if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+				const model = dataItem.$datalabels._model;
+				const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+				if (dataItem._view.width < labelWidth) {
+					data.datasets.forEach((dataset) => {
+						if (typeof dataset.datalabels !== 'undefined') {
+							dataset.datalabels.display = false;
+						}
+					});
+					this.chartInstance.update();
+					break;
+				}
+
+			}
+		}
+	},
+	rotateXLabels90: function (data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.minRotation = 90;
+			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+				return value.substr(0, 10) + '...';
+			}
+		});
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.titleFormatted === 'undefined') {
+				dataset.titlesFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					dataset.titlesFormatted.push(data.labels[index]);
+				});
+			}
+		});
+		return options;
+	},
+	beforeDraw: function (chart) {
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						const ctx = metaDataItem._xScale.ctx;
+						const barWidth = metaDataItem._view.width;
+						const fullWidth = ctx.measureText(label).width;
+						if (barWidth < fullWidth) {
+							const shortened = label.substr(0, 12) + "...";
+							const shortenedWidth = ctx.measureText(shortened).width;
+							if (barWidth < shortenedWidth) {
+								chart.options = this.rotateXLabels90(chart.data, chart.options);
+								if (!dataset._updated) {
+									dataset._updated = true;
+									chart.update();
+									// recalculate left positions for smooth animation
+									dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+										metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									});
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+	},
 	loadChart: function (options = {}) {
 		const thisInstance = this;
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		options = thisInstance.applyDefaultOptions(options);
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'bar',
-					data: thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData()),
-					options: thisInstance.applyDefaultOptions(options),
+					data,
+					options,
+					plugins: [
+						{
+							beforeDraw: thisInstance.beforeDraw.bind(thisInstance)
+						}
+					]
 				}
 		);
+		// if datalabels are too long hide them
+		this.hideDatalabelsIfNeeded(data);
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
