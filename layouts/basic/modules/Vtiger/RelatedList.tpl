@@ -102,17 +102,17 @@
 										{/if}
 									</button>
 									<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
-										<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-											<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+										<li class="dropdown-item" {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
+											<a href="#" data-value="Active"><span class="fas fa-undo-alt mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 										</li>
-										<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-											<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+										<li class="dropdown-item" {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
+											<a href="#" data-value="Archived"><span class="fas fa-archive mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 										</li>
-										<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-											<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+										<li class="dropdown-item" {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
+											<a href="#" data-value="Trash"><span class="fas fa-trash-alt mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 										</li>
-										<li>
-											<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+										<li class="dropdown-item">
+											<a href="#" data-value="All"><span class="fas fa-bars mr-2"></span>{\App\Language::translate('LBL_ALL')}</a>
 										</li>
 									</ul>
 								</div>
