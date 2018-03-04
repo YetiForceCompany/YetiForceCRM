@@ -321,36 +321,6 @@ var Settings_Picklist_Js = {
 		})
 	},
 
-	duplicateItemNameCheck: function (container) {
-		var pickListValues = JSON.parse(jQuery('[name="pickListValues"]', container).val());
-		var pickListValuesArr = [];
-		jQuery.each(pickListValues, function (i, e) {
-			var decodedValue = app.getDecodedValue(e);
-			pickListValuesArr.push(jQuery.trim(decodedValue.toLowerCase()));
-		});
-
-		var mode = jQuery('[name="mode"]', container).val();
-		var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
-		var lowerCasedNewValue = newValue.toLowerCase();
-
-		//Checking the new picklist value is already exists
-		if (jQuery.inArray(lowerCasedNewValue, pickListValuesArr) != -1) {
-			//while renaming the picklist values
-			if (mode == 'rename') {
-				var oldValue = jQuery.trim(jQuery('[name="oldValue"]', container).val());
-				var lowerCasedOldValue = oldValue.toLowerCase();
-				//allow to rename when the new value should not be same as old value and the new value only with case diffrence
-				if (oldValue != newValue && lowerCasedOldValue == lowerCasedNewValue) {
-					return false;
-				}
-			}
-			//while adding or renaming with different existing value
-			return true;
-		} else {
-			return false;
-		}
-	},
-
 	registerChangeRoleEvent: function () {
 		jQuery('#rolesList').on('change', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({
@@ -383,15 +353,6 @@ var Settings_Picklist_Js = {
 			var form = jQuery(e.currentTarget);
 			var validationResult = form.validationEngine('validate');
 			if (validationResult == true) {
-				var duplicateCheckResult = Settings_Picklist_Js.duplicateItemNameCheck(container);
-				if (duplicateCheckResult == true) {
-					var errorMessage = app.vtranslate('JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE');
-					var newValueEle = jQuery('[name="newValue"]', container);
-					var newValue = newValueEle.val();
-					newValueEle.validationEngine('showPrompt', errorMessage + ' ' + '"' + newValue + '"', 'error', 'bottomLeft', true);
-					e.preventDefault();
-					return;
-				}
 				var invalidFields = form.data('jqv').InvalidFields;
 				if (invalidFields.length == 0) {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
@@ -402,48 +363,47 @@ var Settings_Picklist_Js = {
 				params.newValue = jQuery.trim(newValue);
 				AppConnector.request(params).then(function (data) {
 					data = data.result;
-					var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
-					var dragImagePath = jQuery('#dragImagePath').val();
-					var newElement = '<tr class="pickListValue cursorPointer"><td class="textOverflowEllipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
-					var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
-					newPickListValueRow.attr('data-key', newValue);
-					newPickListValueRow.attr('data-key-id', data['id']);
-					app.hideModalWindow();
-					var params = {
-						title: app.vtranslate('JS_MESSAGE'),
-						text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					//update the new item in the hidden picklist values array
-					var pickListValuesEle = jQuery('[name="pickListValues"]');
-					var pickListValuesArray = JSON.parse(pickListValuesEle.val());
-					pickListValuesArray[data['id']] = newValue;
-					pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-
+					if (data) {
+						var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
+						var dragImagePath = jQuery('#dragImagePath').val();
+						var newElement = '<tr class="pickListValue cursorPointer"><td class="textOverflowEllipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
+						var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
+						newPickListValueRow.attr('data-key', newValue);
+						newPickListValueRow.attr('data-key-id', data['id']);
+						app.hideModalWindow();
+						var params = {
+							title: app.vtranslate('JS_MESSAGE'),
+							text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
+							type: 'success'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+						//update the new item in the hidden picklist values array
+						var pickListValuesEle = jQuery('[name="pickListValues"]');
+						var pickListValuesArray = JSON.parse(pickListValuesEle.val());
+						pickListValuesArray[data['id']] = newValue;
+						pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+					} else {
+						form.find('[name="saveButton"]').attr('disabled', false);
+					}
 				});
 			}
 			e.preventDefault();
 		});
 	},
-
+	/**
+	 * Remene item
+	 */
 	registerRenameItemSaveEvent: function () {
 		jQuery('#renameItemForm').on('submit', function (e) {
+			e.preventDefault();
 			var form = jQuery(e.currentTarget);
 			var validationResult = form.validationEngine('validate');
 			if (validationResult == true) {
-				var duplicateCheckResult = Settings_Picklist_Js.duplicateItemNameCheck(form);
-				var newValueEle = jQuery('[name="newValue"]', form);
-				var newValue = jQuery.trim(newValueEle.val());
-				if (duplicateCheckResult == true) {
-					var errorMessage = app.vtranslate('JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE');
-					newValueEle.validationEngine('showPrompt', errorMessage + ' ' + '"' + newValue + '"', 'error', 'bottomLeft', true);
-					e.preventDefault();
-					return;
-				}
 				var oldElem = jQuery('[name="oldValue"]', form);
 				var oldValue = oldElem.val();
 				var id = oldElem.find('option[value="' + oldValue + '"]').data('id');
+				var newValueEle = jQuery('[name="newValue"]', form);
+				var newValue = jQuery.trim(newValueEle.val());
 				var params = jQuery(e.currentTarget).serializeFormData();
 				params.newValue = newValue;
 				params.id = id;
@@ -471,10 +431,11 @@ var Settings_Picklist_Js = {
 						var pickListValuesArray = JSON.parse(pickListValuesEle.val());
 						pickListValuesArray[id] = newValueEle.val();
 						pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+					} else {
+						form.find('[name="saveButton"]').attr('disabled', false);
 					}
 				});
 			}
-			e.preventDefault();
 		});
 	},
 
@@ -663,10 +624,10 @@ Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 	},
 
 	validateValue: function (fieldValue) {
-		var specialChars = /[<\>\"\,]/;
+		var specialChars = /[<\>\"\,#]/;
 
 		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , " + app.vtranslate('JS_NOT_ALLOWED');
+			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , # " + app.vtranslate('JS_NOT_ALLOWED');
 			this.setError(errorInfo);
 			return false;
 		}

@@ -41,6 +41,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		return $fields;
 	}
 
+	/**
+	 * Add value to picklist.
+	 *
+	 * @param Vtiger_Field_Model $fieldModel
+	 * @param string             $newValue
+	 * @param int[]              $rolesSelected
+	 *
+	 * @return int[]
+	 */
 	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [])
 	{
 		$db = App\Db::getInstance();
@@ -85,7 +94,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				])->execute();
 			}
 		}
-
+		$this->clearPicklistCache($pickListFieldName);
 		return ['picklistValueId' => $picklistValueId, 'id' => $id];
 	}
 
@@ -117,6 +126,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
 			}
 			$dataReader->close();
+			$this->clearPicklistCache($pickListFieldName);
 			$eventHandler = new App\EventHandler();
 			$eventHandler->setParams([
 				'fieldname' => $pickListFieldName,
@@ -170,6 +180,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 		$dbCommand->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
 			->execute();
+		$this->clearPicklistCache($pickListFieldName);
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams([
 			'fieldname' => $pickListFieldName,
@@ -305,5 +316,18 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		}
 
 		return $moduleModel;
+	}
+
+	/**
+	 * Clear cache.
+	 *
+	 * @param string $fieldName
+	 */
+	public function clearPicklistCache($fieldName)
+	{
+		\App\Cache::delete('getValuesName', $fieldName);
+		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
+		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
+		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 	}
 }

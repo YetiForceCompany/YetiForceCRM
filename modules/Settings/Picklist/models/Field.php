@@ -109,4 +109,29 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 
 		return $fieldModel;
 	}
+
+	/**
+	 * Verification of data.
+	 *
+	 * @param string $value
+	 * @param int    $id
+	 *
+	 * @throws Exception
+	 */
+	public function validate($value, $id = false)
+	{
+		if (preg_match('/[<\>\"#\,]/', $value)) {
+			throw new Exception(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
+		}
+		if (strlen($value) > $this->get('maximumlength')) {
+			throw new Exception(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
+		}
+		$picklistValues = \App\Fields\Picklist::getValuesName($this->getName());
+		if ($id) {
+			unset($picklistValues[$id]);
+		}
+		if (in_array(strtolower($value), array_map('strtolower', $picklistValues))) {
+			throw new Exception(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $value), 513);
+		}
+	}
 }

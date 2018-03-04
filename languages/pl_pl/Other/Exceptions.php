@@ -17,4 +17,7 @@ $languageStrings = [
 	'ERR_NOT_ACCESSIBLE' => 'Brak dostępu',
 	'ERR_NO_PERMISSIONS_FOR_THE_RECORD' => 'Próbujesz przeglądać/edytować rekord do którego nie masz wystarczających uprawnień. Jeśli powinieneś mieć do niego dostęp zgłoś problem administratorowi.',
 	'ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION' => 'Zawartość zmiennej (%s) nie może być wywołana jako funkcja',
+	'ERR_DUPLICATES_VALUES_FOUND' => 'Znaleziono zduplikowane wartości %s',
+	'ERR_EXCEEDED_NUMBER_CHARACTERS' => 'Niedozwolona liczba znaków',
+	'ERR_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Znaki specjalne takie jak %s są niedozwolone',
 ];
