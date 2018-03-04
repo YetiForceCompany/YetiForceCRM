@@ -14,8 +14,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close vtButton" data-dismiss="modal">×</button>
 					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_ROLE', $QUALIFIED_MODULE)} - {\App\Language::translate($RECORD_MODEL->getName(), $QUALIFIED_MODULE)}</h3>
+					<button class="btn btn-warning float-right" data-dismiss="modal">×</button>
 				</div>
 				<form class="form-horizontal" id="roleDeleteForm" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -24,18 +24,23 @@
 					<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 					<div class="modal-body">
 						<h5>{\App\Language::translate('LBL_TRANSFER_OWNERSHIP',$QUALIFIED_MODULE)}</h5>
-						<div class="form-group">
+						<div class="form-group row">
 							<div class="col-md-3"><span class="redColor">*</span>{\App\Language::translate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
 							<div class="controls col-md-9">
 								<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
 								<div class="input-group">
-									<span class="input-group-addon cursorPointer" id="clearRole">
-										<i class="fas fa-times-circle"></i>
-									</span>
+									<div class="input-group-prepend cursorPointer" id="clearRole">
+										<span class="input-group-text">
+											<span class="fas fa-times-circle"></span>
+										</span>
+									</div>
 									<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium form-control" required value="">
-									<span class="input-group-addon cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
-										<i class="fas fa-search"></i>
-									</span>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
+											<span class="fas fa-search"></span>
+										</button>
+									</div>
+
 								</div>
 							</div>
 						</div>
