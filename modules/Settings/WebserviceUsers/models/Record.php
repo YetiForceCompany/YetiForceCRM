@@ -223,7 +223,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'password_t':
 				$value = App\Encryption::getInstance()->encrypt($value);
-				// no break
+				break;
 			default:
 				break;
 		}
