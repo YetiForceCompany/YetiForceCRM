@@ -82,11 +82,26 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		);
 		return aDeferred.promise();
 	},
+	/**
+	 * Register buttons to copy password
+	 */
+	registerClipBoard: function () {
+		new Clipboard('.copyPassword', {
+			text: function (target) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				return target.getAttribute('data-clipboard-text');
+			}
+		});
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		this._super();
 		this.getContainer().find('li.tabApi').on('click', function (e) {
 			thisInstance.reloadTab({typeApi: jQuery(this).data('typeapi')});
-		})
+		});
+		this.registerClipBoard();
 	}
 })

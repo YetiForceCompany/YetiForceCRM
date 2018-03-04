@@ -27,4 +27,14 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 		parent::initializeListViewContents($request, $viewer);
 		$viewer->assign('TYPE_API', $typeApi);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				'libraries.clipboard.dist.clipboard'
+		]));
+	}
 }

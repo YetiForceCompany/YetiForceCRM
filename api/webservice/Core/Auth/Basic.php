@@ -34,7 +34,7 @@ class Basic extends AbstractAuth
 	{
 		$row = (new \App\Db\Query())->from('w_#__servers')->where(['name' => $name, 'status' => 1])->one();
 		if ($row) {
-			$status = $password === $row['pass'];
+			$status = $password === \App\Encryption::getInstance()->decrypt($row['pass']);
 			if ($status) {
 				$this->currentServer = $row;
 			}

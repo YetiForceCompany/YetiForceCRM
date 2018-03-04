@@ -4,10 +4,9 @@
 		<div class="col-md-6">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_WEBSERVICE_APPS_DESCRIPTION',$QUALIFIED_MODULE)}
-
 		</div>
 		<div class="col-md-6">
-			<button class="btn btn-primary float-right createKey float-right">{\App\Language::translate('LBL_ADD_APPLICATION',$QUALIFIED_MODULE)}</button>
+			<button class="btn btn-primary float-right createKey float-right mt-3"><span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_APPLICATION',$QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 	<div class="configContainer">

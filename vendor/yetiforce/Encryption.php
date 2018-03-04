@@ -21,6 +21,9 @@ class Encryption extends Base
 		's_#__mail_smtp' => ['columnName' => ['password', 'smtp_password'], 'index' => 'id', 'db' => 'admin'],
 		'a_#__smsnotifier_servers' => ['columnName' => ['api_key'], 'index' => 'id', 'db' => 'admin'],
 		'u_#__github' => ['columnName' => ['token'], 'index' => 'github_id', 'db' => 'base'],
+		'w_#__portal_user' => ['columnName' => ['password_t'], 'index' => 'id', 'db' => 'webservice'],
+		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
+		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 	];
 
 	/**
@@ -60,6 +63,7 @@ class Encryption extends Base
 		$dbAdmin = Db::getInstance('admin');
 		$transactionAdmin = $dbAdmin->beginTransaction();
 		$transactionBase = Db::getInstance()->beginTransaction();
+		$transactionWebservice = Db::getInstance('webservice')->beginTransaction();
 		try {
 			$passwords = [];
 			foreach (static::$mapPasswords as $tableName => $info) {
@@ -94,7 +98,7 @@ class Encryption extends Base
 			$config = new Configurator('securityKeys');
 			$config->set('encryptionMethod', $method);
 			$config->save();
-			Cache::delete('Encryption', 'Instance');
+			Cache::clear();
 			\AppConfig::set('securityKeys', 'encryptionMethod', $method);
 			\AppConfig::set('securityKeys', 'encryptionPass', $decryptInstance->get('pass'));
 			$encryptInstance = static::getInstance();
@@ -112,9 +116,11 @@ class Encryption extends Base
 					$dbCommand->update($tableName, $values, [static::$mapPasswords[$tableName]['index'] => $index])->execute();
 				}
 			}
+			$transactionWebservice->commit();
 			$transactionBase->commit();
 			$transactionAdmin->commit();
 		} catch (\Exception $e) {
+			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
 			$transactionAdmin->rollback();
 			if (isset($config)) {
@@ -122,6 +128,7 @@ class Encryption extends Base
 			}
 			throw $e;
 		} catch (\Error $e) {
+			$transactionWebservice->rollBack();
 			$transactionBase->rollBack();
 			$transactionAdmin->rollback();
 			if (isset($config)) {

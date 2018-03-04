@@ -1,5 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
+	/**
+	 * Register actions for record
+	 */
 	registerTableEvents: function () {
 		var thisInstance = this;
 		var container = $('.configContainer');
@@ -31,6 +34,9 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 			);
 		});
 	},
+	/**
+	 * Refresh tables with records
+	 */
 	loadTable: function () {
 		var thisInstance = this;
 		var params = {
@@ -45,6 +51,10 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 			thisInstance.registerTableEvents();
 		});
 	},
+	/**
+	 * Show forms to edit or create record
+	 * @param {int} id
+	 */
 	showFormToEditKey: function (id) {
 		var thisInstance = this;
 		var params = {
@@ -59,6 +69,29 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 		AppConnector.request(params).then(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			app.showModalWindow(data, function (container) {
+				const prevButton = container.find('.previewPassword');
+				const password = container.find('[name="pass"]');
+				prevButton.on('mousedown', function (e) {
+					password.attr('type', 'text');
+				});
+				prevButton.on('mouseup', function (e) {
+					password.attr('type', 'password');
+				});
+				prevButton.on('mouseout', function (e) {
+					password.attr('type', 'password');
+				});
+				const clipboard = new Clipboard('.copyPassword', {
+					text: function () {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+							type: 'success'
+						});
+						return password.val();
+					}
+				});
+				container.one('hidden.bs.modal', function () {
+					clipboard.destroy();
+				});
 				Vtiger_Edit_Js.getInstance().registerEvents();
 				var form = container.find('form');
 				form.validationEngine(app.validationEngineOptions);
@@ -72,7 +105,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 							url: container.find('[name="addressUrl"]').val(),
 							status: container.find('[name="status"]').is(':checked'),
 							type: container.find('.typeServer').val(),
-							pass: container.find('[name="pass"]').val(),
+							pass: password.val(),
 							accounts: container.find('[name="accountsid"]').val(),
 						};
 						if (id != '') {
@@ -87,14 +120,35 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 			});
 		});
 	},
+	/**
+	 * Register buttons to copy api key
+	 */
+	registerCopyApiKey: function () {
+		new Clipboard('.copyApiKey', {
+			text: function (target) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				return target.getAttribute('data-clipboard-text');
+			}
+		});
+	},
+	/**
+	 * Register button to create record
+	 */
 	registerAddButton: function () {
 		var thisInstance = this
 		$('.createKey').on('click', function () {
 			thisInstance.showFormToEditKey();
 		});
 	},
+	/**
+	 * Main function
+	 */
 	registerEvents: function () {
 		this.registerAddButton();
 		this.registerTableEvents();
+		this.registerCopyApiKey();
 	}
 })

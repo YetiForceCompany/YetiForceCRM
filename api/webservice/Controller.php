@@ -69,7 +69,7 @@ class Controller
 		}
 		$this->app = Core\Auth::init($this);
 		$this->headers = $this->request->getHeaders();
-		if ($this->headers['X-API-KEY'] !== $this->app['api_key']) {
+		if ($this->headers['X-API-KEY'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}
 		if (empty($this->request->get('action'))) {

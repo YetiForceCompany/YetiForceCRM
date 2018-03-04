@@ -27,6 +27,13 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		];
 	}
 
+	/**
+	 * Function to add key.
+	 *
+	 * @param array $params
+	 *
+	 * @return int
+	 */
 	public function addKey($params)
 	{
 		$query = new App\Db\Query();
@@ -46,7 +53,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->createCommand()->insert('dav_users', [
 				'username' => $userModel->get('user_name'),
 				'digesta1' => $digesta1,
-				'key' => $key,
+				'key' => App\Encryption::getInstance()->encrypt($key),
 				'userid' => $userID,
 			])->execute();
 		if (!$result) {
