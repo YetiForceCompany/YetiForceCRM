@@ -290,6 +290,8 @@ class CustomView
 		return $instance;
 	}
 
+	/** @var \Vtiger_Module_Model */
+	private $module;
 	private $moduleName;
 	private $user;
 	private $defaultViewId;
@@ -425,6 +427,9 @@ class CustomView
 		if (Cache::has('getAdvFilterByCvid', $cvId)) {
 			return Cache::get('getAdvFilterByCvid', $cvId);
 		}
+		if (!$this->module) {
+			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
+		}
 		$advftCriteria = [];
 		if (is_numeric($cvId)) {
 			$dataReaderGroup = (new Db\Query())->from('vtiger_cvadvfilter_grouping')
@@ -468,8 +473,11 @@ class CustomView
 		$comparator = $relCriteriaRow['comparator'];
 		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \AppConfig::main('default_charset'));
 		list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $relCriteriaRow['columnname']);
-		$tempVal = explode(',', $relCriteriaRow['value']);
+		if (strpos($advFilterVal, ',') !== false && in_array($this->module->getFieldByName($fieldName)->getFieldDataType(), ['picklist', 'multipicklist', 'sharedOwner', 'owner', 'userCreator', 'multiReferenceValue', 'tree', 'taxes', 'modules', 'country', 'companySelect', 'categoryMultipicklist'])) {
+			$advFilterVal = str_replace(',', '##', $advFilterVal);
+		}
 		if ($fieldType === 'D' || ($fieldType === 'T' && $columnName !== 'time_start' && $columnName !== 'time_end') || ($fieldType === 'DT')) {
+			$tempVal = explode(',', $relCriteriaRow['value']);
 			$val = [];
 			foreach ($tempVal as $key => $value) {
 				if ($fieldType === 'D') {
