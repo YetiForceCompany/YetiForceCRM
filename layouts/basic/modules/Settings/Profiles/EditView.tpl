@@ -16,11 +16,9 @@
 				<div class="col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div> 
-				<div class="col-md-4 btn-toolbar">
-					<div class="float-right"> 
-						<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
-						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
-					</div>
+				<div class="col-md-4 text-right mt-1">
+					<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
+					<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
 				</div> 
 			</div>
 			<input type="hidden" name="module" value="Profiles" />
@@ -31,16 +29,16 @@
 			{if $MODE}<input type="hidden" name="mode" value="{$MODE}" />{/if}
 			<input type="hidden" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}value="1"{else}value="0"{/if}  />
 			<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"{else}value="0"{/if} />
-			<div class="">
+			<div class="mt-2">
 				<div class="row">
 					<label class="col-md-2"><span class="redColor">*</span><strong>{\App\Language::translate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </strong></label>
-					<div class="col-md-6 ">
+					<div class="col-md-8">
 						<input type="text" class="fieldValue form-control" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
 					</div>
 				</div><br />
 				<div class="row">
 					<label class="col-md-2"><strong>{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
-					<div class="col-md-8 ">
+					<div class="col-md-8">
 						<textarea class="input-xxlarge fieldValue form-control" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
 					</div>
 				</div><br />
@@ -105,8 +103,8 @@
 
 									{if $PROFILE_MODULE->getFields()}
 										<tr class="hide">
-											<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
-												<div class="row" data-togglecontent="{$TABID}-fields">
+											<td colspan="6" data-toggle-visible="false">
+												<div data-togglecontent="{$TABID}-fields">
 													<div class="col-md-12">
 														<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {\App\Language::translate('LBL_OF', $MODULE_NAME)} {\App\Language::translate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
 														<div class="float-right">
@@ -131,7 +129,7 @@
 															{if $FIELD_MODEL->isActiveField()}
 																{assign var="FIELD_ID" value=$FIELD_MODEL->getId()}
 																{if $COUNTER % 3 == 0}
-																	<div class='col-md-12 paddingLRZero'>
+																	<div class='col-md-12 row'>
 																	{/if}
 																	<div class='col-md-4 col-sm-6 col-12 div-bordered padding10' style="border-left: 1px solid #DDD !important;">
 																		{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($PROFILE_MODULE, $FIELD_MODEL)}
@@ -157,7 +155,7 @@
 																{if $FIELD_MODEL->isActiveField()}
 																	{assign var="FIELD_ID" value=$FIELD_MODEL->getId()}
 																	{if $COUNTER % 3 == 0}
-																		<div class='col-md-12 paddingLRZero'>
+																		<div class="col-md-12 row">
 																		{/if}
 																		<div class='col-md-4 col-sm-6 col-12  padding10 div-bordered' style="border-left: 1px solid #DDD !important;">
 																			{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($EVENT_MODULE, $FIELD_MODEL)}
@@ -192,13 +190,13 @@
 									{/foreach}
 									{if $ALL_UTILITY_ACTIONS_ARRAY}
 										<tr class="hide">
-											<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
-												<div class="row" data-togglecontent="{$TABID}-fields">
+											<td colspan="6" data-toggle-visible="false">
+												<div data-togglecontent="{$TABID}-fields">
 													<div class="col-12 paddingLRZero"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 													<div class="col-md-12 paddingLRZero marginBottom10px">
 														{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
 															{if $smarty.foreach.actions.index % 3 == 0}
-																<div class='paddingLRZero col-md-12'>
+																<div class="col-md-12 row">
 																{/if}
 																{assign var=ACTIONID value=$ACTION_MODEL->get('actionid')}
 																<div class='col-md-4 col-sm-6 col-12 padding10' {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}

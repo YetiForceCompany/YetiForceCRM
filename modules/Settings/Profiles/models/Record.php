@@ -817,18 +817,21 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-primary btn-sm'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DUPLICATE_RECORD',
 				'linkurl' => $this->getDuplicateViewUrl(),
-				'linkicon' => 'icon-share',
+				'linkicon' => 'fas fa-clone',
+				'linkclass' => 'btn btn-primary btn-sm'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
 				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-danger btn-sm'
 			],
 		];
 		foreach ($recordLinks as $recordLink) {

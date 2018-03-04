@@ -8,15 +8,10 @@
 	<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
-	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
+	<input type='hidden' value="{$PAGE_NUMBER}" id="pageNumber">
+	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id="pageLimit">
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-
 	<div class="listViewEntriesDiv" style='overflow-x:auto;'>
-		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
-			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
-		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered table-sm listViewEntriesTable">
@@ -34,13 +29,9 @@
 			</thead>
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
-						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
-						>
+					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"{' '}
+						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}>
 						<td width="1%" nowrap class="{$WIDTHTYPE}">
-							{if $MODULE eq 'CronTasks'}
-								<img src="{\App\Layout::getImagePath('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
-							{/if}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -48,33 +39,24 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 								&nbsp;{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE}">
-									<div class="float-right actions">
-										<span class="actionImages">
-											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												{assign var="RECORD_LINK_LABEL" value=$RECORD_LINK->getLabel()}
-												{if $LISTVIEW_ENTRIES_COUNT == 1}
-													{if $RECORD_LINK_LABEL neq 'LBL_DELETE_RECORD'}
-														<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
-																	event.stopPropagation();{rdelim} else{ldelim}
-																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-															<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
-														</a>
+								</td>
+								<td nowrap class="{$WIDTHTYPE} rightRecordActions">
+									{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+									{if count($LINKS) > 0}
+										<div class="actions">
+											<div class="float-right">
+												{foreach from=$LINKS item=LINK}
+													{if $LISTVIEW_ENTRIES_COUNT === 1}
+														{if $LINK->getLabel() neq 'LBL_DELETE_RECORD'}
+															{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+														{/if}
+													{else}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
 													{/if}
-												{else}
-													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
-																event.stopPropagation();{rdelim} else{ldelim}
-																			event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
-													</a>
-												{/if}
-												{if !$RECORD_LINK@last}
-													&nbsp;
-												{/if}
-											{/foreach}
-										</span>
-									</div>
+												{/foreach}
+											</div>
+										</div>
+									{/if}
 								</td>
 							{/if}
 							</td>
