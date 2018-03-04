@@ -48,7 +48,7 @@ class Login extends \Api\Core\BaseAction
 		if (!$row) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		if ($row['password_t'] !== $this->controller->request->get('password')) {
+		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
 		$db->createCommand()->update('w_#__portal_user', ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();

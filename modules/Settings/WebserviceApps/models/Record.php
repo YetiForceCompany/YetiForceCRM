@@ -87,12 +87,12 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 			'status' => $this->get('status') ? 1 : 0,
 			'name' => $this->get('name'),
 			'acceptable_url' => $this->get('acceptable_url'),
-			'pass' => $this->get('pass'),
+			'pass' => App\Encryption::getInstance()->encrypt($this->get('pass')),
 			'accounts_id' => $this->get('accounts_id'),
 		];
 		if ($this->isEmpty('id')) {
 			$data['type'] = $this->get('type');
-			$data['api_key'] = \App\Encryption::generatePassword(self::KEY_LENGTH);
+			$data['api_key'] = App\Encryption::getInstance()->encrypt(\App\Encryption::generatePassword(self::KEY_LENGTH));
 			$db->createCommand()->insert('w_#__servers', $data)->execute();
 			$this->set('id', $db->getLastInsertID('w_#__servers_id_seq'));
 		} else {

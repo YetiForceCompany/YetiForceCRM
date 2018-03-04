@@ -147,6 +147,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->getModule()->getBaseTable())
 			->where([$instance->getModule()->getTableIndex() => $id])
 			->one(App\Db::getInstance('webservice'));
+		$data['password_t'] = App\Encryption::getInstance()->decrypt($data['password_t']);
 		$instance->setData($data);
 		\App\Cache::staticSave($cacheName, $id, $instance);
 
@@ -220,6 +221,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'user_id':
 				$value = (int) $value;
 				break;
+			case 'password_t':
+				$value = App\Encryption::getInstance()->encrypt($value);
+				// no break
 			default:
 				break;
 		}
@@ -269,6 +273,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$links = [];
 		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'FL_PASSWORD',
+				'linkicon' => 'fas fa-copy',
+				'linkclass' => 'btn btn-sm btn-primary copyPassword',
+				'linkdata' => ['clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password_t')))]
+			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',

@@ -79,11 +79,26 @@ jQuery.Class('Settings_DAV_Js', {}, {
 				}
 		);
 	},
+	/**
+	 * Register buttons to copy password
+	 */
+	registerClipBoard: function () {
+		new Clipboard('.copykey', {
+			text: function (target) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				return target.getAttribute('data-clipboard-text');
+			}
+		});
+	},
 	registerEvents: function (e) {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		container.find('.addKey').click(thisInstance.addKey);
 		container.find('.deleteKey').click(thisInstance.deleteKey);
+		this.registerClipBoard();
 	}
 });
 jQuery(document).ready(function () {

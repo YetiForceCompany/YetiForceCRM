@@ -52,7 +52,7 @@
 					<label class="col-12 col-lg-2 col-form-label">{App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}</label>
 					<div class="col-12 col-lg-4">
 						<div class="input-group">
-							<input type="password" name="password" class="form-control" {if !$ENCRYPT->isEmpty('method') && $MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')] === 0}disabled="disabled"{/if}data-validation-engine="{if $ENCRYPT->isEmpty('method')}validate[required]{else}validate[required,maxSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}],minSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}]]{/if}" value="{$ENCRYPT->get('vector')}">
+							<input type="password" name="password" class="form-control" {if !$ENCRYPT->isEmpty('method') && $MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')] === 0}disabled="disabled"{/if}data-validation-engine="{if $ENCRYPT->isEmpty('method')}validate[required]{else}validate[required,maxSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}],minSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}]]{/if}" value="{\App\Purifier::encodeHtml($ENCRYPT->get('vector'))}">
 							<span class="input-group-append">
 								<button class="btn btn-outline-secondary previewPassword" type="button">
 									<span class="fas fa-eye"></span>

@@ -8,6 +8,9 @@
  */
 class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		include 'config/api.php';
@@ -21,5 +24,15 @@ class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
 		$viewer->view('Keys.tpl', $qualifiedModuleName);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				'libraries.clipboard.dist.clipboard'
+		]));
 	}
 }

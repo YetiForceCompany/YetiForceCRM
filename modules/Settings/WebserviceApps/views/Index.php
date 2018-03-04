@@ -32,4 +32,14 @@ class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				'libraries.clipboard.dist.clipboard'
+		]));
+	}
 }
