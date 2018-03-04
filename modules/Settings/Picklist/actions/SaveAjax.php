@@ -68,6 +68,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		$response = new Vtiger_Response();
 		try {
+			$fieldModel->validate($newValue);
 			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected);
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
@@ -93,6 +94,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		if ($fieldModel->isEditable()) {
 			try {
+				$fieldModel->validate($newValue, $id);
 				if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
