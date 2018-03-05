@@ -567,9 +567,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			display: function (context) {
 				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
 					// data presented in different format usually exists in alternative dataFormatted array
-					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+					return typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined';
 				}
-				return context.dataset.data[context.dataIndex];
+				return typeof context.dataset.data[context.dataIndex] !== 'undefined';
 			}
 		};
 	},
