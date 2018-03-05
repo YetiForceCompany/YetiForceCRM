@@ -22,7 +22,7 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		$listSearchParams = [];
 		$conditions = [];
 		if (!empty($time)) {
-			$conditions[] = ['createdtime', 'bw', implode(',', $time)];
+			$conditions[] = ['createdtime', 'bw', \App\Fields\Date::formatToDb($time['start']) . ',' . \App\Fields\Date::formatToDb($time['end'])];
 		}
 		if (!empty($owner)) {
 			$conditions[] = ['smcreatorid', 'e', $owner];
