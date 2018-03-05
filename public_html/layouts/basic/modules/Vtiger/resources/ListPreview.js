@@ -71,7 +71,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			if (typeof recordUrl == 'undefined') {
 				return;
 			}
-			e.preventDefault();
 			$('.listViewEntriesTable .listViewEntries').removeClass('active');
 			$(this).addClass('active');
 			thisInstance.updatePreview(recordUrl);
@@ -99,7 +98,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		mainBody.scroll(function () {
 			var gutter = container.find('.gutter');
-			var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
+			var mainWindowHeightCss = {height: $(window).height() - ((gutter.offset().top + 33) + $('.infoUser').height())};
 			gutter.css(mainWindowHeightCss);
 			fixedList.css(mainWindowHeightCss);
 			wrappedPanels.css(mainWindowHeightCss);
@@ -131,12 +130,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 	},
 	/**
-	 * Registers split object and executes its events listeners.
+	 * Sets default windows size or from cache
 	 * @param {jQuery} container - current container for reference.
-	 * @returns {Split} A split object.
+	 * @return Array
 	 */
 	setSplitWindowsSize(container) {
-		const cachedParams = app.moduleCacheGet('splitParamsRelatedList');
+		const cachedParams = app.moduleCacheGet('splitParams');
 		if (cachedParams !== null) {
 			return cachedParams;
 		} else {
@@ -145,6 +144,57 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			return [thWidth, 100 - thWidth];
 		}
 	},
+	/**
+	 * Registers split's events.
+	 * @param {jQuery} container - current container for reference.
+	 * @param {Split} split - a split object.
+	 */
+	registerSplitEvents: function (container, split) {
+		var gutter = container.find('.gutter');
+		var fixedList = container.find('.fixedListInitial');
+		var wrappedPanel = container.find('.wrappedPanel');
+		var wrappedPanelLeft = container.find(wrappedPanel[0]);
+		var wrappedPanelRight = container.find(wrappedPanel[1]);
+		var minWidth = (15 / $(window).width()) * 100;
+		var maxWidth = 100 - minWidth;
+		var listPreview = container.find('.listPreview');
+		gutter.on("dblclick", function () {
+			if (split.getSizes()[0] < 25) {
+				split.setSizes([25, 75]);
+				wrappedPanelLeft.removeClass('wrappedPanelLeft');
+			} else if (split.getSizes()[1] < 25) {
+				split.setSizes([75, 25]);
+				wrappedPanelRight.removeClass('wrappedPanelRight');
+				listPreview.show();
+				gutter.css('right', 'initial');
+				fixedList.css('padding-right', '10px');
+			} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
+				split.setSizes([minWidth, maxWidth]);
+				wrappedPanelLeft.addClass('wrappedPanelLeft');
+			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
+				split.collapse(1);
+				wrappedPanelRight.addClass('wrappedPanelRight');
+				listPreview.hide();
+				fixedList.width(fixedList.width() - 10);
+			}
+		});
+		wrappedPanelLeft.on("dblclick", function () {
+			split.setSizes([25, 75]);
+			wrappedPanelLeft.removeClass('wrappedPanelLeft');
+		});
+		wrappedPanelRight.on("dblclick", function () {
+			split.setSizes([75, 25]);
+			wrappedPanelRight.removeClass('wrappedPanelRight');
+			listPreview.show();
+			gutter.css('right', 'initial');
+			fixedList.css('padding-right', '10px');
+		});
+	},
+	/**
+	 * Registers split object and executes its events listeners.
+	 * @param {jQuery} container - current container for reference.
+	 * @returns {Split} A split object.
+	 */
 	registerSplit: function (container) {
 		var thisInstance = this;
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
@@ -154,6 +204,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var wrappedPanel = container.find('.wrappedPanel');
 		var wrappedPanelLeft = container.find(wrappedPanel[0]);
 		var wrappedPanelRight = container.find(wrappedPanel[1]);
+		var listPreview = container.find('.listPreview');
 		var split = Split(['.fixedListInitial', '.listPreview'], {
 			sizes: thisInstance.setSplitWindowsSize(container),
 			minSize: 10,
@@ -170,11 +221,13 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				}
 				if (split.getSizes()[1] < 10) {
 					wrappedPanelRight.addClass('wrappedPanelRight');
+					listPreview.hide();
 					fixedList.width(fixedList.width() - 10);
 				} else {
 					wrappedPanelRight.removeClass('wrappedPanelRight');
+					listPreview.show();
 				}
-				app.moduleCacheSet('splitParamsRelatedList', split.getSizes());
+				app.moduleCacheSet('splitParams', split.getSizes());
 			}
 		});
 		var gutter = container.find('.gutter');
@@ -192,48 +245,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		return split;
 	},
 	/**
-	 * Registers split's events.
-	 * @param {jQuery} container - current container for reference.
-	 * @param {Split} split - a split object.
-	 */
-	registerSplitEvents: function (container, split) {
-		var gutter = container.find('.gutter');
-		var fixedList = container.find('.fixedListInitial');
-		var wrappedPanel = container.find('.wrappedPanel');
-		var wrappedPanelLeft = container.find(wrappedPanel[0]);
-		var wrappedPanelRight = container.find(wrappedPanel[1]);
-		var minWidth = (15 / $(window).width()) * 100;
-		var maxWidth = 100 - minWidth;
-		gutter.on("dblclick", function () {
-			if (split.getSizes()[0] < 25) {
-				split.setSizes([25, 75]);
-				wrappedPanelLeft.removeClass('wrappedPanelLeft');
-			} else if (split.getSizes()[1] < 25) {
-				split.setSizes([75, 25]);
-				wrappedPanelRight.removeClass('wrappedPanelRight');
-				gutter.css('right', 'initial');
-				fixedList.css('padding-right', '10px');
-			} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
-				split.setSizes([minWidth, maxWidth]);
-				wrappedPanelLeft.addClass('wrappedPanelLeft');
-			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
-				split.collapse(1);
-				wrappedPanelRight.addClass('wrappedPanelRight');
-				fixedList.width(fixedList.width() - 10);
-			}
-		});
-		wrappedPanelLeft.on("dblclick", function () {
-			split.setSizes([25, 75]);
-			wrappedPanelLeft.removeClass('wrappedPanelLeft');
-		});
-		wrappedPanelRight.on("dblclick", function () {
-			split.setSizes([75, 25]);
-			wrappedPanelRight.removeClass('wrappedPanelRight');
-			gutter.css('right', 'initial');
-			fixedList.css('padding-right', '10px');
-		});
-	},
-	/**
 	 * Adds the split and deletes it on resize.
 	 * @param {jQuery} container - current container for reference.
 	 */
@@ -247,7 +258,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		wrappedPanelLeft = container.find(wrappedPanelLeft);
 		var wrappedPanelRight = $('.wrappedPanel')[1];
 		wrappedPanelRight = container.find(wrappedPanelRight);
-		if ($(window).width() > 993) {
+		if ($(window).width() > 993 && !container.find('.gutter').length) {
 			var split = thisInstance.registerSplit(container);
 			splitsArray.push(split);
 		}
@@ -276,6 +287,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				var currentSplit = splitsArray[splitsArray.length - 1];
 				var minWidth = (15 / $(window).width()) * 100;
 				var maxWidth = 100 - minWidth;
+				if (typeof currentSplit === 'undefined')
+					return;
 				if (currentSplit.getSizes()[0] < minWidth + 5) {
 					currentSplit.setSizes([minWidth, maxWidth]);
 				} else if (currentSplit.getSizes()[1] < minWidth + 5) {

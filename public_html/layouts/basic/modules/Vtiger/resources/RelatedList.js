@@ -608,7 +608,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerRowsEvent: function () {
 		var thisInstance = this;
 		if (this.relatedView == 'List') {
-			this.content.find('.listViewEntries').click(function (e) {
+			this.content.find('.listViewEntries').on('click', function (e) {
 				var target = $(e.target);
 				if (target.is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
@@ -618,7 +618,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					}
 				}
 			});
-			this.content.find('.showInventoryRow').click(function (e) {
+			this.content.find('.showInventoryRow').on('click', function (e) {
 				var target = $(this);
 				var row = target.closest('tr');
 				var inventoryRow = row.next();
@@ -627,7 +627,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 		} else if (this.relatedView == 'ListPreview') {
-			this.content.find('.listViewEntries').click(function (e) {
+			this.content.find('.listViewEntries').on('click', function (e) {
 				if ($(e.target).closest('div').hasClass('actions'))
 					return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button'))
@@ -684,7 +684,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var contentHeight = this.content.find('.listPreview,.recordsListPreview');
 		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
 		this.content.find('.listPreviewframe').on('load', function () {
-			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+			if (thisInstance.frameProgress) {
+				thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+			}
 			contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 		});
 		this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
@@ -858,6 +860,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			});
 			mainBody.scroll(function () {
 				var gutter = container.find('.gutter');
+				if (!gutter.length) return;
 				var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
 				gutter.css(mainWindowHeightCss);
 				fixedList.css(mainWindowHeightCss);
@@ -902,21 +905,22 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerSplit: function (container) {
 		if ($(window).width() > 993) {
-			if (container.length && !container.find('.gutter').length) {
+			if (container.length && !container.find('.gutter').length && container.find('.fixedListInitial').length) {
 				var thisInstance = this;
+				var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 				var relatedHeader = container.find('.relatedHeader');
 				var fixedList = container.find('.fixedListInitial');
 				var wrappedPanel = container.find('.wrappedPanel');
 				var wrappedPanelLeft = container.find(wrappedPanel[0]);
 				var wrappedPanelRight = container.find(wrappedPanel[1]);
+				var listPreview = container.find('.listPreview');
 				var split = Split([container.find('.fixedListInitial')[0], container.find('.listPreview')[0]], {
 					sizes: thisInstance.setSplitWindowsSize(container),
 					minSize: 10,
 					gutterSize: 8,
 					snapOffset: 100,
 					onDrag: function () {
-						var rightWidth = (400 / $(window).width()) * 100;
-						if (split.getSizes()[1] < rightWidth) {
+						if (split.getSizes()[1] < rightSplitMaxWidth) {
 							split.collapse(1);
 						}
 						if (split.getSizes()[0] < 5) {
@@ -926,9 +930,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						}
 						if (split.getSizes()[1] < 10) {
 							wrappedPanelRight.addClass('wrappedPanelRight');
+							listPreview.hide();
 							fixedList.width(fixedList.width() - 10);
 						} else {
 							wrappedPanelRight.removeClass('wrappedPanelRight');
+							listPreview.show();
 						}
 						app.moduleCacheSet('splitParamsRelatedList', split.getSizes());
 						wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
@@ -1014,17 +1020,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						}
 						splitsArray.push(newSplit);
 					}
-					if (container.find('.gutter').length !== 1) {
-						var currentSplit = splitsArray[splitsArray.length - 1];
-						var minWidth = (15 / $(window).width()) * 100;
-						var maxWidth = 100 - minWidth;
-						if (currentSplit !== undefined) {
-							if (currentSplit.getSizes()[0] < minWidth + 5) {
-								currentSplit.setSizes([minWidth, maxWidth]);
-							} else if (currentSplit.getSizes()[1] < minWidth + 5) {
-								currentSplit.setSizes([maxWidth, minWidth]);
-							}
-						}
+					var currentSplit = splitsArray[splitsArray.length - 1];
+					var minWidth = (15 / $(window).width()) * 100;
+					var maxWidth = 100 - minWidth;
+					if (typeof currentSplit === 'undefined')
+						return;
+					if (currentSplit.getSizes()[0] < minWidth + 5) {
+						currentSplit.setSizes([minWidth, maxWidth]);
+					} else if (currentSplit.getSizes()[1] < minWidth + 5) {
+						currentSplit.setSizes([maxWidth, minWidth]);
 					}
 				}
 			});
