@@ -581,9 +581,41 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		chartData.datasets.forEach((dataset) => {
-			dataset.datalabels = this.getDefaultDatalabelsConfig();
+			dataset.datalabels = this.getDefaultDatalabelsConfig(dataset);
 		});
 		return chartData;
+	},
+	applyDefaultTooltipsConfig: function (options = {}) {
+		if (typeof options.tooltips === 'undefined') {
+			options.tooltips = {};
+		}
+		if (typeof options.tooltips.callbacks === 'undefined') {
+			options.tooltips.callbacks = {};
+		}
+		if (typeof options.tooltips.callbacks.label === 'undefined') {
+			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
+				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+				}
+				if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+				}
+				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+			}
+		}
+		if (typeof options.tooltips.callbacks.title === 'undefined') {
+			options.tooltips.callbacks.title = function tooltipTitleCallback(tooltipItems, data) {
+				const tooltipItem = tooltipItems[0];
+				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+				}
+				if (!isNaN(Number(data.labels[tooltipItem.index]))) {
+					return app.parseNumberToShow(data.labels[tooltipItem.index]);
+				}
+				return data.labels[tooltipItem.index];
+			}
+		}
+		return options;
 	},
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
@@ -696,51 +728,50 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	}
 });
 Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
+	getDefaultDatalabelsConfig: function (dataset) {
+		return {
+			font: {
+				size: 11
+			},
+			color: 'white',
+			backgroundColor: 'rgba(0,0,0,0.2)',
+			borderColor: 'white',
+			borderWidth: 2,
+			borderRadius: 10,
+			anchor: 'center',
+			align: 'center',
+			formatter: function (value, context) {
+				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+				}
+				if (!isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			},
+			display: function (context) {
+				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined';
+				}
+				return typeof context.dataset.data[context.dataIndex] !== 'undefined';
+			}
+		};
 	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.PieRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						sliceMargin: 2,
-						dataLabels: 'value'
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedPieLegendRenderer,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
+	loadChart: function (options = {}) {
+		const data = this.applyDefaultDatalabelsConfig(this.generateData());
+		options = this.applyDefaultTooltipsConfig(options);
+		this.chartInstance = new Chart(
+				this.getPlotContainer().getContext("2d"),
+				{
+					type: 'pie',
+					data,
+					options,
+				}
+		);
 	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
+
 });
 Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	/**
@@ -1329,38 +1360,6 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	}
 });
 Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	applyDefaultTooltipsConfig: function (options = {}) {
-		if (typeof options.tooltips === 'undefined') {
-			options.tooltips = {};
-		}
-		if (typeof options.tooltips.callbacks === 'undefined') {
-			options.tooltips.callbacks = {};
-		}
-		if (typeof options.tooltips.callbacks.label === 'undefined') {
-			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
-				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
-					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-				}
-				if (!isNaN(Number(tooltipItem.yLabel))) {
-					return app.parseNumberToShow(tooltipItem.yLabel);
-				}
-				return tooltipItem.yLabel;
-			}
-		}
-		if (typeof options.tooltips.callbacks.title === 'undefined') {
-			options.tooltips.callbacks.title = function tooltipTitleCallback(tooltipItems, data) {
-				const tooltipItem = tooltipItems[0];
-				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
-					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
-				}
-				if (!isNaN(Number(tooltipItem.xLabel))) {
-					return app.parseNumberToShow(tooltipItem.xLabel);
-				}
-				return tooltipItem.xLabel;
-			}
-		}
-		return options;
-	},
 	applyDefaultAxesLabelsConfig: function (options = {}) {
 		if (typeof options.scales === 'undefined') {
 			options.scales = {};
@@ -1970,52 +1969,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
-Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var colorData = [];
-		var urlData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.name, row.count];
-			chartData.push(rowData);
-			colorData.push(row.color);
-			urlData.push(row.url);
-		}
-
-		return {'chartData': chartData, color: colorData, url: urlData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.PieRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value'
-					}
-				},
-				seriesColors: chartData['color'],
-				legend: {
-					show: true,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var chartData = this.generateData();
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = chartData['url'][pointIndex];
-			window.location.href = url;
-		});
-	},
-});
+Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 	generateChartData: function () {
