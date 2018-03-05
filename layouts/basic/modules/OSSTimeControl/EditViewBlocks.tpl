@@ -59,12 +59,12 @@
 					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
 						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 							<div class="iconCollapse">
-								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
-						<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
+						<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}d-none{/if}">
 							<div class="col-md-12 paddingLRZero">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}

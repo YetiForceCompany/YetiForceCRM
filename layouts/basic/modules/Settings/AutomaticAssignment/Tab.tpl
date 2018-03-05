@@ -43,7 +43,7 @@
 						&nbsp;<input name="{$FIELD_NAME}" id="defaultUser" class="switchBtn saveValue noField" type="checkbox" {if $RECORD_MODEL->get($FIELD_NAME)}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 					</div>
 				</div>
-				<div class="form-group fieldToShowHide{if !$RECORD_MODEL->get($FIELD_NAME)} hide{/if}">
+				<div class="form-group fieldToShowHide{if !$RECORD_MODEL->get($FIELD_NAME)} d-none{/if}">
 					<label class="col-12">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}<span class="redColor"> *</span>
 					</label>

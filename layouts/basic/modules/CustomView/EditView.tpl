@@ -133,7 +133,7 @@
 					<span class="cursorPointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4>
 				</div>
-				<div class="card-body hide">
+				<div class="card-body d-none">
 					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 				</div>
 			</div>

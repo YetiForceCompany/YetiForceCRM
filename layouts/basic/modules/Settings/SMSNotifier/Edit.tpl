@@ -44,7 +44,7 @@
 </div>
 </form>
 
-<div class="providersFields hide">
+<div class="providersFields d-none">
 	{foreach from=$PROVIDERS item=PROVIDER}
 		{foreach from=$PROVIDER->getSettingsEditFieldsModel() item=FIELD_MODEL name=fields}
 			<div class="form-group" data-provider="{$PROVIDER->getName()}">

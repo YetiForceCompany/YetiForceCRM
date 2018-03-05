@@ -35,7 +35,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="mappingTable{if $CONVERSION['create_always']!='true'} hide{/if}">
+				<div class="mappingTable{if $CONVERSION['create_always']!='true'} d-none{/if}">
 					<br />
 					<input class="configField" type="hidden" data-type="conversion" name="mapping" value="">
 					<div class="paddingBottom10">
@@ -84,7 +84,7 @@
 									</td>
 								</tr>
 							{/foreach}
-							<tr class="hide newMapping listViewEntries">
+							<tr class="d-none newMapping listViewEntries">
 								<td>
 									<select class="leadsFields newSelect">
 										{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}

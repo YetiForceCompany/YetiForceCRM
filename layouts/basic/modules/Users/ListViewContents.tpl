@@ -38,7 +38,7 @@
 	<div class="listViewEntriesDiv" >
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
-		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
+		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>

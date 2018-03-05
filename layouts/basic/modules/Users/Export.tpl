@@ -34,7 +34,7 @@
 					</div>
                     <div class="well exportContents marginLeftZero">
                         <fieldset>
-                            <legend class="hide">{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}</legend>
+                            <legend class="d-none">{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}</legend>
 							<div class="row">
 								<div class="col-md-6 textAlignRight row">
 									<div class="col-md-8">{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>

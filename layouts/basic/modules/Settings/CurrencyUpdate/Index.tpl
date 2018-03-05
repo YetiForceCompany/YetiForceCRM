@@ -32,13 +32,13 @@
 							</div>
 							<div class="col-md-7 btn-toolbar">
 								{*<button class="btn btn-success float-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
-								<button class="btn btn-danger float-right {if count($UNSUPPORTED_CURRENCIES) eq 0}hide{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
+								<button class="btn btn-danger float-right {if count($UNSUPPORTED_CURRENCIES) eq 0}d-none{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
 								<button class="btn btn-info float-right" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
 							</div>
 						</div>
 					</td>
 				</tr>
-				<tr id="infoBlock" class="hide">
+				<tr id="infoBlock" class="d-none">
 					<td colspan="4">
 						<div class="alert alert-info">
 							<h4>{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}:</h4>
@@ -50,7 +50,7 @@
 						</div>
 					</td>
 				</tr>
-				<tr id="alertBlock" class="hide">
+				<tr id="alertBlock" class="d-none">
 					<td colspan="4">
 						<div class="alert alert-danger">
 							<h4>{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}:</h4>

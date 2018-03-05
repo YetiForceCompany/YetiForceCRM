@@ -45,7 +45,7 @@
 						</div>
 						<div class="col-lg-6 col-md-12 col-5 paddingTop10-md paddingLRZero float-right">
 							<button class="selectAllBtn btn btn-light btn-sm float-md-left float-lg-right float-sm-right">
-								<div class="selectAll hide">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
+								<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
 								<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
 							</button>
 						</div>

@@ -52,7 +52,7 @@
 								{/if}
 							</select>
 							{if \App\Privilege::isPermitted($MODULE, 'CreateCustomFilter')}
-								<div class="filterActionsDiv hide">
+								<div class="filterActionsDiv d-none">
 									<hr>
 									<ul class="filterActions list-unstyled m-2">
 										<li id="createFilter" data-value="create" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><a href="#"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</a></li>
@@ -68,7 +68,7 @@
 				<div class="col-12 col-md-5 d-flex flex-row-reverse">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
-				<span class="hide filterActionImages float-right">
+				<span class="d-none filterActionImages float-right">
 					<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="fas fa-exclamation-circle alignMiddle denyFilter filterActionImage float-right"></span>
 					<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="fas fa-check alignMiddle approveFilter filterActionImage float-right"></span>
 					<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>

@@ -39,7 +39,7 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
 								<a href="javascript:void(0);" class="listViewHeaderValues {if !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}
-									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE)}">{else}<img class="hide sortingImage" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE)}">{/if}</a>
+									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE)}">{else}<img class="d-none sortingImage" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE)}">{/if}</a>
 							</th>
 						{/foreach}
 					</tr>

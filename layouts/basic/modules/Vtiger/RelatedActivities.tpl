@@ -138,7 +138,7 @@
 						<span class="fas fa-info-circle"></span>
 					</span>
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
-						<span class="2 edit hide row">
+						<span class="2 edit d-none row">
 							{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
 							{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}

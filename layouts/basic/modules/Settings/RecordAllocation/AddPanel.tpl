@@ -31,8 +31,8 @@
 					</div>
 				</div>
 			</div>		
-			<div class="panel-body padding5 hide">
-				<div class="clearTables hide">
+			<div class="panel-body padding5 d-none">
+				<div class="clearTables d-none">
 					<div class="col-12 col-sm-5 paddingLRZero">
 						<div class="table-responsive">
 							<div class="col-12">

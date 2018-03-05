@@ -168,7 +168,7 @@
 					<input type="checkbox" name="save_send_mail" class="saveSendMail" value="1" {if $RECORD_MODEL->get('save_send_mail') eq 1} checked {/if}>
 				</div>
 			</div>
-			<div class="saveMailContent {if $RECORD_MODEL->get('save_send_mail') neq 1}hide{/if}">
+			<div class="saveMailContent {if $RECORD_MODEL->get('save_send_mail') neq 1}d-none{/if}">
 				<hr>
 				<div class="form-group row">
 					<div class="col-md-3">

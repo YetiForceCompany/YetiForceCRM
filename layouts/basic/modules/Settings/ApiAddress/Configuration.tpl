@@ -74,7 +74,7 @@
 				</div>
 				{foreach from=$CONFIG item=item key=key}
 					{if $key neq 'global'}
-						<div class="apiContainer col-12 paddingLRZero {if !$item["key"]}hide{/if} api_row {$key}">
+						<div class="apiContainer col-12 paddingLRZero {if !$item["key"]}d-none{/if} api_row {$key}">
 							{include file=\App\Layout::getTemplatePath($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
 						{/if}
 					</div>

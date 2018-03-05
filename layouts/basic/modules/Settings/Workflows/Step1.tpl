@@ -71,7 +71,7 @@
                             </div>
                         {/foreach}
                         {if $SCHEDULED_WORKFLOW_COUNT <= $MAX_ALLOWED_SCHEDULED_WORKFLOWS}
-                            <div id="scheduleBox" class='well contentsBackground {if $WORKFLOW_MODEL_OBJ->executionCondition neq 6} hide {/if}'>
+                            <div id="scheduleBox" class='well contentsBackground {if $WORKFLOW_MODEL_OBJ->executionCondition neq 6} d-none {/if}'>
                                 <div class='row'>
                                     <div class="col-md-2" style='position:relative;top:5px;'>{\App\Language::translate('LBL_RUN_WORKFLOW', $QUALIFIED_MODULE)}</div>
                                     <div class="col-md-6">
@@ -88,7 +88,7 @@
                                 </div>
 
                                 {* show weekdays for weekly option *}
-                                <div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 3} hide {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
+                                <div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 3} d-none {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
                                     <div class="col-md-2" style='position:relative;top:5px;'>{\App\Language::translate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}</div>
                                     <div class="col-md-6">
                                         {assign var=dayOfWeek value=\App\Json::decode($WORKFLOW_MODEL_OBJ->schdayofweek)}
@@ -105,7 +105,7 @@
                                 </div>
 
                                 {* show month view by dates *}
-                                <div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 5} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
+                                <div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 5} d-none {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
                                     <div class="col-md-2" style='position:relative;top:5px;'>{\App\Language::translate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}</div>
                                     <div class="col-md-6">
                                         {assign var=DAYS value=\App\Json::decode($WORKFLOW_MODEL_OBJ->schdayofmonth)}
@@ -118,7 +118,7 @@
                                 </div>
 
                                 {* show specific date *}
-                                <div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 4} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
+                                <div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 4} d-none {/if}' id='scheduleByDate' style="padding:5px 0px;">
                                     <div class="col-md-2" style='position:relative;top:5px;'>{\App\Language::translate('LBL_CHOOSE_DATE', $QUALIFIED_MODULE)}</div>
                                     <div class="col-md-6">
                                         <div class="date">
@@ -133,12 +133,12 @@
 								</div>
 
 								{* show month view by weekday *}
-								<div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 6} hide {/if}' id='scheduleMonthByWeekDays' style='padding:5px 0px;'>
+								<div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 6} d-none {/if}' id='scheduleMonthByWeekDays' style='padding:5px 0px;'>
 
 								</div>
 
 								{* show month view by anually *}
-								<div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 7} hide {/if}' id='scheduleAnually' style='padding:5px 0px;'>
+								<div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid neq 7} d-none {/if}' id='scheduleAnually' style='padding:5px 0px;'>
 									<div class="col-md-2" style='position:relative;top:5px;'>
 										{\App\Language::translate('LBL_SELECT_MONTH_AND_DAY', $QUALIFIED_MODULE)}
 									</div>
@@ -160,7 +160,7 @@
 									</div>
 								</div>
 								{* show time for all other than Hourly option*}
-								<div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid < 2} hide {/if}' id='scheduledTime' style='padding:5px 0px 10px 0px;'>
+								<div class='row {if $WORKFLOW_MODEL_OBJ->schtypeid < 2} d-none {/if}' id='scheduledTime' style='padding:5px 0px 10px 0px;'>
 									<div class="col-md-2" style='position:relative;top:5px;'>
 										{\App\Language::translate('LBL_AT_TIME', $QUALIFIED_MODULE)}
 									</div>

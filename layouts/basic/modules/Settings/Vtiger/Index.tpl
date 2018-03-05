@@ -24,7 +24,7 @@
 						<div class="modal-body">
 							<div class="warnings">
 								{foreach from=$WARNINGS item=ITEM}
-									<div class="warning hide" data-id="{get_class($ITEM)}">
+									<div class="warning d-none" data-id="{get_class($ITEM)}">
 										{if $ITEM->getTpl()}
 											{include file=$ITEM->getTpl()}
 										{else}

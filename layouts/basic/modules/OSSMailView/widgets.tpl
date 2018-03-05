@@ -92,7 +92,7 @@
 						{$ROW['teaser']}
 					</div>	
 				</div>
-				<div class="col-md-12 mailBody hide">
+				<div class="col-md-12 mailBody d-none">
 					<div class="mailBodyContent">{$ROW['body']}</div>
 				</div>
 				<div class="clearfix"></div>

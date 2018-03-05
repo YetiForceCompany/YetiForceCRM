@@ -66,7 +66,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="hide modalView">
+			<div class="d-none modalView">
 				<div class="modelContainer modal fade" tabindex="-1">
 					<div class="modal-dialog modal-blg">
 						<div class="modal-content">

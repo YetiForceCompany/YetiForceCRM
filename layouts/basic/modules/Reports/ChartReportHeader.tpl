@@ -90,7 +90,7 @@
 							</div>
 							<br />
 
-							<div class='hide'>
+							<div class='d-none'>
 								{include file=\App\Layout::getTemplatePath('chartReportHiddenContents.tpl', $MODULE)}
 							</div>
 						</div>

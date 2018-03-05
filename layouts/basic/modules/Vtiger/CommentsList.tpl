@@ -41,7 +41,7 @@
 			{/if}
 		</ul>
 	{/if}
-	<div class="summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}hide{/if}">
+	<div class="summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}">
 		<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}</p>
 	</div>
 {/strip}

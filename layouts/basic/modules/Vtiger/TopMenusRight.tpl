@@ -80,7 +80,7 @@
 		<li>
 			<div class="remindersNotice">
 				<span class="fas fa-bell"></span>
-				<span class="badge hide">0</span>
+				<span class="badge d-none">0</span>
 			</div>
 		</li>
 	</ul>
@@ -122,7 +122,7 @@
 			</div>
 		{/if}
 	{/if}
-	<div id="headerLinksCompact" class="hide">
+	<div id="headerLinksCompact" class="d-none">
 		<span id="dropdown-headerLinksBig" class="dropdown">
 			<a class="dropdown-toggle navbar-btn" data-toggle="dropdown" href="#">
 				<span class="icon-bar"></span>

@@ -110,7 +110,7 @@
 									{/if}
 								</td>
 							</tr>
-							<tr class="hide">
+							<tr class="d-none">
 								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 									<div class="row" data-togglecontent="{$TABID}-fields">
 										{if $PROFILE_MODULE->getFields()}
@@ -172,7 +172,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr class="hide">
+							<tr class="d-none">
 								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 									<div class="row" data-togglecontent="{$TABID}-fields">
 										<div class="col-md-12"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>

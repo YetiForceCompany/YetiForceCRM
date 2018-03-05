@@ -30,7 +30,7 @@
 														<option value="{$VALUE}">{\App\Language::translate($TYPE, $MODULE)}</option>
 													{/foreach}
 												</select>
-												<span class="input-group-addon hide isColorContainer">
+												<span class="input-group-addon d-none isColorContainer">
 													<input type="checkbox" class="isColor popoverTooltip" data-content="{\App\Language::translate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
 												</span>
 											</div>

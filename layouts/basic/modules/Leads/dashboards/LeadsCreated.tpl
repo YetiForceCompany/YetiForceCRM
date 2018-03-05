@@ -12,7 +12,7 @@
 
 <div class="dashboardWidgetHeader">
 	{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeader.tpl', $MODULE_NAME) SETTING_EXIST=true}
-	<div class="row filterContainer hide" style="position:absolute;z-index:100001">
+	<div class="row filterContainer d-none" style="position:absolute;z-index:100001">
 		<div class="row">
 			<span class="col-md-5">
 				<span class="float-right">

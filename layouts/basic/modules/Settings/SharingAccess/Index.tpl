@@ -13,7 +13,7 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-md-4">
-						<button class="btn btn-success float-right hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success float-right d-none" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
 				<table class="table tableRWD table-bordered table-sm sharingAccessDetails">
@@ -61,7 +61,7 @@
 										<div class="col-md-3">&nbsp;</div>
 										<div class="col-md-6">
 											<button type="button" class="btn btn-sm btn-light vtButton arrowDown row" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{\App\Layout::getImagePath('Arrow-down.png')}" alt=""></img></button>
-											<button type="button" class="btn btn-sm btn-light vtButton arrowUp row hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{\App\Layout::getImagePath('Arrow-up.png')}" alt=""></img></button>
+											<button type="button" class="btn btn-sm btn-light vtButton arrowUp row d-none" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{\App\Layout::getImagePath('Arrow-up.png')}" alt=""></img></button>
 										</div>
 									</div>
 								</td>
@@ -71,7 +71,7 @@
 				</table>
 				<div>
 					<div class="float-right">
-						<button class="btn btn-success hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success d-none" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
 			</form>

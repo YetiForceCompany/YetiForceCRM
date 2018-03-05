@@ -53,7 +53,7 @@
 																	<strong class="moreContent">
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
-																			<span class="fullContent hide">{$FIELDMODEL->get('fullPostValue')}</span>
+																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
 																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
@@ -93,7 +93,7 @@
 																	<strong class="moreContent">
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
 																		{if $FIELDMODEL->has('fullPreValue')}
-																			<span class="fullContent hide">{$FIELDMODEL->get('fullPreValue')}</span>
+																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPreValue')}</span>
 																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
@@ -109,7 +109,7 @@
 																	<strong class="moreContent">
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
-																			<span class="fullContent hide">{$FIELDMODEL->get('fullPostValue')}</span>
+																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
 																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
@@ -146,7 +146,7 @@
 														<strong class="moreContent">
 															<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue())}</span>
 															{if $RELATION->has('fullValue')}
-																<span class="fullContent hide">{$RELATION->get('fullValue')}</span>
+																<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
 																<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 															{/if}
 														</strong>
