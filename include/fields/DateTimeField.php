@@ -173,10 +173,11 @@ class DateTimeField
 	/**
 	 * @param string $date
 	 * @param string $format
+	 * @param string $actualFormat
 	 *
 	 * @return string
 	 */
-	public static function __convertToUserFormat($date, $format)
+	public static function __convertToUserFormat($date, $format, $actualFormat = '')
 	{
 		\App\Log::trace('Start ' . __METHOD__ . ' ' . serialize($date) . ' | ' . $format);
 		if (!is_array($date)) {
@@ -190,8 +191,7 @@ class DateTimeField
 		} elseif (strpos($date[0], '/') !== false) {
 			$separator = '/';
 		}
-		list($y, $m, $d) = array_pad(explode($separator, $date[0]), 3, null);
-
+		list($y, $m, $d) = App\Fields\Date::explode($date[0], $actualFormat);
 		switch ($format) {
 			case 'dd-mm-yyyy': $date[0] = $d . '-' . $m . '-' . $y;
 				break;
@@ -212,14 +212,12 @@ class DateTimeField
 			case 'yyyy/mm/dd': $date[0] = $y . '/' . $m . '/' . $d;
 				break;
 		}
-
 		if (isset($date[1]) && $date[1] != '') {
 			$userDate = $date[0] . ' ' . $date[1];
 		} else {
 			$userDate = $date[0];
 		}
 		\App\Log::trace('End ' . __METHOD__);
-
 		return $userDate;
 	}
 
