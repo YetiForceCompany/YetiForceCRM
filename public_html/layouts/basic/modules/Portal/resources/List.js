@@ -140,11 +140,11 @@ Vtiger_List_Js("Portal_List_Js", {
 		if (listViewEntriesCount != 0) {
 			var pageNumberText = pageStartRange + " (" + pageEndRange + ")";
 			pageNumbersTextElem.html(pageNumberText);
-			totalNumberOfRecords.removeClass('hide');
+			totalNumberOfRecords.removeClass('d-none');
 		} else {
 			pageNumbersTextElem.html("<span>&nbsp;</span>");
-			if (!totalNumberOfRecords.hasClass('hide')) {
-				totalNumberOfRecords.addClass('hide');
+			if (!totalNumberOfRecords.hasClass('d-none')) {
+				totalNumberOfRecords.addClass('d-none');
 			}
 		}
 	}

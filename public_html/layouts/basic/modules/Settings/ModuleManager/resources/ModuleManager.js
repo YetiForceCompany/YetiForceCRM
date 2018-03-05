@@ -200,7 +200,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 
 			if (currentTarget.is(':checked')) {
 				//show the settings button for the module.
-				actionButtons.removeClass('hide');
+				actionButtons.removeClass('d-none');
 
 				//changing opacity of the block if the module is enabled
 				moduleDetails.removeClass('dull');
@@ -222,7 +222,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 
 			} else {
 				//hide the settings button for the module.
-				actionButtons.addClass('hide');
+				actionButtons.addClass('d-none');
 
 				//changing opacity of the block if the module is disabled
 				moduleDetails.addClass('dull');

@@ -231,8 +231,8 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 							//if there are no custom rule entries, we have to hide headers also and show the empty message div
 							if (customRuleEntries.length < 1) {
 								customRuleTable.find('.customRuleHeaders').fadeOut('slow').remove();
-								customRuleTable.parent().find('.recordDetails').removeClass('hide');
-								customRuleTable.addClass('hide');
+								customRuleTable.parent().find('.recordDetails').removeClass('d-none');
+								customRuleTable.addClass('d-none');
 							}
 						} else {
 							Vtiger_Helper_Js.showPnotify(data.error.message);
@@ -250,7 +250,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	registerSharingAccessEdit: function () {
 		var contentContainer = this.getContentContainer();
 		contentContainer.one('click', 'input:radio', function (e) {
-			contentContainer.find('button:submit').removeClass('hide');
+			contentContainer.find('button:submit').removeClass('d-none');
 		});
 	},
 
@@ -295,14 +295,14 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 					customRuleListContainer.show();
 					jQuery('.ruleListContainer', customRuleListContainer).slideDown('slow');
 					trElement.addClass('collapseRow');
-					element.find('button.arrowDown').addClass('hide');
-					element.find('button.arrowUp').removeClass('hide').show();
+					element.find('button.arrowDown').addClass('d-none');
+					element.find('button.arrowUp').removeClass('d-none').show();
 				} else {
 					jQuery('.ruleListContainer', customRuleListContainer).slideUp('slow', function (e) {
 						customRuleListContainer.css('display', 'none');
 					});
-					element.find('button.arrowUp').addClass('hide');
-					element.find('button.arrowDown').removeClass('hide').show();
+					element.find('button.arrowUp').addClass('d-none');
+					element.find('button.arrowDown').removeClass('d-none').show();
 					trElement.removeClass('collapseRow');
 				}
 				return;
@@ -319,8 +319,8 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 					function (data) {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						thisInstance.showCustomRulesNextToElement(trElement, data);
-						element.find('button.arrowDown').addClass('hide');
-						element.find('button.arrowUp').removeClass('hide').show();
+						element.find('button.arrowDown').addClass('d-none');
+						element.find('button.arrowUp').removeClass('d-none').show();
 					},
 					function (error) {
 
@@ -350,7 +350,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var data = form.serializeFormData();
 			thisInstance.save(data).then(
 					function (data) {
-						contentContainer.find('button:submit').addClass('hide');
+						contentContainer.find('button:submit').addClass('d-none');
 						thisInstance.registerSharingAccessEdit();
 						var params = {
 							text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),

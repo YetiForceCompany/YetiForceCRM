@@ -13,9 +13,9 @@ jQuery.Class("Vtiger_Export_Js", {}, {
 		form.find('#exportType').on('change', function (e) {
 			if (xmlTpl.length) {
 				if (jQuery(this).val() == 'xml') {
-					xmlTpl.removeClass('hide');
+					xmlTpl.removeClass('d-none');
 				} else {
-					xmlTpl.addClass('hide');
+					xmlTpl.addClass('d-none');
 				}
 			}
 		});

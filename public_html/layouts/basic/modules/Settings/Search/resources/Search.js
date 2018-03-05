@@ -32,8 +32,8 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var tabId = target.data('tabid');
 		var closestTrElement = target.closest('tr');
-		jQuery('.elementLabels' + tabId).addClass('hide');
-		var e = jQuery('.elementEdit' + tabId).removeClass('hide');
+		jQuery('.elementLabels' + tabId).addClass('d-none');
+		var e = jQuery('.elementEdit' + tabId).removeClass('d-none');
 		Settings_Index_Js.registerSelectElement(e.find('select'));
 	},
 	save: function (e) {
@@ -118,7 +118,7 @@ var Settings_Index_Js = {
 		var layout = jQuery('.SearchFieldsEdit');
 		var saveButton = layout.find('.saveModuleSequence');
 		thisInstance.updatedBlockFieldsList = [];
-		saveButton.removeClass('hide');
+		saveButton.removeClass('d-none');
 	},
 	/**
 	 * Function which will hide the saveModuleSequence button
@@ -126,7 +126,7 @@ var Settings_Index_Js = {
 	hideSaveModuleSequenceButton: function () {
 		var layout = jQuery('.SearchFieldsEdit');
 		var saveButton = layout.find('.saveModuleSequence');
-		saveButton.addClass('hide');
+		saveButton.addClass('d-none');
 	},
 	/**
 	 * Function will save the field sequences
@@ -193,16 +193,16 @@ var Settings_Index_Js = {
 			element.selectize({plugins: ['drag_drop', 'remove_button'],
 				onChange: function (value) {
 					if (value.length > 1) {
-						jQuery(this.$control[0]).find('.remove').removeClass('hide');
+						jQuery(this.$control[0]).find('.remove').removeClass('d-none');
 					} else {
-						jQuery(this.$control[0]).find('.remove').addClass('hide');
+						jQuery(this.$control[0]).find('.remove').addClass('d-none');
 					}
 				},
 				onInitialize: function () {
 					if (this.items.length > 1) {
-						jQuery(this.$control[0]).find('.remove').removeClass('hide');
+						jQuery(this.$control[0]).find('.remove').removeClass('d-none');
 					} else {
-						jQuery(this.$control[0]).find('.remove').addClass('hide');
+						jQuery(this.$control[0]).find('.remove').addClass('d-none');
 					}
 				},
 			})

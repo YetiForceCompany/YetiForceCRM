@@ -151,7 +151,7 @@ window.app = {
 			if (select.hasClass('hideSelected')) {
 				var ns = [];
 				select.find('optgroup,option').each(function (n, e) {
-					if (jQuery(this).hasClass('hide')) {
+					if (jQuery(this).hasClass('d-none')) {
 						ns.push(n);
 					}
 				});
@@ -376,7 +376,7 @@ window.app = {
 		selectElement.each(function (e) {
 			var select = $(this);
 			if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-				var selectNew = select.clone().addClass('hide');
+				var selectNew = select.clone().addClass('d-none');
 				select.parent().append(selectNew);
 				select.prop('disabled', true);
 			}
@@ -1646,8 +1646,8 @@ window.app = {
 		container.on('click', function (e) {
 			var btn = jQuery(e.currentTarget);
 			var content = btn.closest('.moreContent');
-			content.find('.teaserContent').toggleClass('hide');
-			content.find('.fullContent').toggleClass('hide');
+			content.find('.teaserContent').toggleClass('d-none');
+			content.find('.fullContent').toggleClass('d-none');
 			if (btn.text() == btn.data('on')) {
 				btn.text(btn.data('off'));
 			} else {

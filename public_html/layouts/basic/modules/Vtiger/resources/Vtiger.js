@@ -198,7 +198,7 @@ var Vtiger_Index_Js = {
 					}
 					widgetContainer.html(data);
 					if (data == '') {
-						widgetContainer.closest('.quickWidget').addClass('hide');
+						widgetContainer.closest('.quickWidget').addClass('d-none');
 					} else {
 						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
 					}
@@ -379,7 +379,7 @@ var Vtiger_Index_Js = {
 		var badge = element.find('.badge');
 		var count = content.find('.panel:visible').length;
 		badge.text(count);
-		badge.removeClass('hide');
+		badge.removeClass('d-none');
 		if (count > 0 && element.hasClass('autoRefreshing')) {
 			element.effect("pulsate", 1500);
 			if (app.cacheGet(tag) != count) {
@@ -387,7 +387,7 @@ var Vtiger_Index_Js = {
 				app.cacheSet(tag, count);
 			}
 		} else {
-			badge.addClass('hide');
+			badge.addClass('d-none');
 		}
 	},
 	registerResizeEvent: function () {

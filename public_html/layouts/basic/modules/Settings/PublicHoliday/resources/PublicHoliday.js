@@ -66,7 +66,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			var translate = app.vtranslate('JS_ADD_NEW_HOLIDAY')
 			addBlockContainer.find('.modal-title').text(translate);
 			var callBackFunction = function (data) {
-				data.find('.addDateWindowModal').removeClass('hide').show();
+				data.find('.addDateWindowModal').removeClass('d-none').show();
 
 				var form = data.find('.addDateWindowForm');
 				jQuery('[name="holidayId"]').val('');
@@ -172,7 +172,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			addBlockContainer.find('.modal-title').text(translate);
 
 			var callBackFunction = function (data) {
-				data.find('.addDateWindowModal').removeClass('hide').show();
+				data.find('.addDateWindowModal').removeClass('d-none').show();
 
 				var form = data.find('.addDateWindowForm');
 

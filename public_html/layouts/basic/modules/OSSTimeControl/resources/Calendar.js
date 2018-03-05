@@ -12,7 +12,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
 		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
 		widgetContainer.find('.select2').on('change', function () {
-			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
+			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('d-none');
 		});
 	},
 	registerColorField: function (field, fieldClass) {
@@ -155,7 +155,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerRefreshEvent: function () {
 		var thisInstance = this;
 		$(".refreshCalendar").click(function () {
-			$(this).closest('.refreshHeader').addClass('hide');
+			$(this).closest('.refreshHeader').addClass('d-none');
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -166,14 +166,14 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
 
-			if (selectAllLabel.hasClass('hide')) {
-				selectAllLabel.removeClass('hide');
-				deselectAllLabel.addClass('hide');
+			if (selectAllLabel.hasClass('d-none')) {
+				selectAllLabel.removeClass('d-none');
+				deselectAllLabel.addClass('d-none');
 				$(this).closest('.quickWidget').find('select option').prop("selected", false);
 			} else {
 				$(this).closest('.quickWidget').find('select option').prop("selected", true);
-				deselectAllLabel.removeClass('hide');
-				selectAllLabel.addClass('hide');
+				deselectAllLabel.removeClass('d-none');
+				selectAllLabel.addClass('d-none');
 			}
 			$(this).closest('.quickWidget').find('select').trigger("change");
 		});

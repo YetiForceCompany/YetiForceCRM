@@ -85,9 +85,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerCheckSelectDateEvent: function () {
 		jQuery('[name="check_select_date"]').on('change', function (e) {
 			if (jQuery(e.currentTarget).is(':checked')) {
-				jQuery('#checkSelectDateContainer').removeClass('hide').addClass('show');
+				jQuery('#checkSelectDateContainer').removeClass('d-none').addClass('show');
 			} else {
-				jQuery('#checkSelectDateContainer').removeClass('show').addClass('hide');
+				jQuery('#checkSelectDateContainer').removeClass('show').addClass('d-none');
 			}
 		});
 	},
@@ -419,7 +419,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	registerAddFieldEvent: function () {
 		jQuery('#addFieldBtn').on('click', function (e) {
-			var newAddFieldContainer = jQuery('.basicAddFieldContainer').clone(true, true).removeClass('basicAddFieldContainer hide').addClass('conditionRow');
+			var newAddFieldContainer = jQuery('.basicAddFieldContainer').clone(true, true).removeClass('basicAddFieldContainer d-none').addClass('conditionRow');
 			jQuery('select', newAddFieldContainer).addClass('select2');
 			jQuery('#save_fieldvaluemapping').append(newAddFieldContainer);
 			//change in to chosen elements
@@ -562,7 +562,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var hideElementByClass = jQuery('.' + currentTarget.data('hide'));
 			var showElementByClass = jQuery('.' + currentTarget.data('show'));
 			var taskFields = app.getMainParams('taskFields', true);
-			hideElementByClass.addClass('hide').find('input,select').each(function (e, n) {
+			hideElementByClass.addClass('d-none').find('input,select').each(function (e, n) {
 				var element = jQuery(this);
 				var name = element.attr('name');
 				if ($.inArray(name, taskFields) >= 0) {
@@ -572,7 +572,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					element.prop('disabled', true);
 				}
 			});
-			showElementByClass.removeClass('hide').find('input,select').each(function (e, n) {
+			showElementByClass.removeClass('d-none').find('input,select').each(function (e, n) {
 				var element = jQuery(this);
 				var name = element.attr('name');
 				if ($.inArray(name, taskFields) >= 0) {
@@ -626,21 +626,21 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	changeRecurringTypesUIStyles: function (recurringType) {
 		var thisInstance = this;
 		if (recurringType == 'Daily' || recurringType == 'Yearly') {
-			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
-			jQuery('#repeatMonthUI').removeClass('show').addClass('hide');
+			jQuery('#repeatWeekUI').removeClass('show').addClass('d-none');
+			jQuery('#repeatMonthUI').removeClass('show').addClass('d-none');
 		} else if (recurringType == 'Weekly') {
-			jQuery('#repeatWeekUI').removeClass('hide').addClass('show');
-			jQuery('#repeatMonthUI').removeClass('show').addClass('hide');
+			jQuery('#repeatWeekUI').removeClass('d-none').addClass('show');
+			jQuery('#repeatMonthUI').removeClass('show').addClass('d-none');
 		} else if (recurringType == 'Monthly') {
-			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
-			jQuery('#repeatMonthUI').removeClass('hide').addClass('show');
+			jQuery('#repeatWeekUI').removeClass('show').addClass('d-none');
+			jQuery('#repeatMonthUI').removeClass('d-none').addClass('show');
 		}
 	},
 	checkHiddenStatusofCcandBcc: function () {
 		var ccLink = jQuery('#ccLink');
 		var bccLink = jQuery('#bccLink');
-		if (ccLink.hasClass('hide') && bccLink.hasClass('hide')) {
-			ccLink.closest('div.row').addClass('hide');
+		if (ccLink.hasClass('d-none') && bccLink.hasClass('d-none')) {
+			ccLink.closest('div.row').addClass('d-none');
 		}
 	},
 	/*
@@ -650,20 +650,20 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		var thisInstance = this;
 		jQuery('#ccLink').on('click', function (e) {
 			var ccContainer = jQuery('#ccContainer');
-			ccContainer.removeClass('hide');
+			ccContainer.removeClass('d-none');
 			var taskFieldElement = ccContainer.find('select.task-fields');
 			taskFieldElement.addClass('chzn-select');
 			app.changeSelectElementView(taskFieldElement);
-			jQuery(e.currentTarget).addClass('hide');
+			jQuery(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
 		});
 		jQuery('#bccLink').on('click', function (e) {
 			var bccContainer = jQuery('#bccContainer');
-			bccContainer.removeClass('hide');
+			bccContainer.removeClass('d-none');
 			var taskFieldElement = bccContainer.find('select.task-fields');
 			taskFieldElement.addClass('chzn-select');
 			app.changeSelectElementView(taskFieldElement);
-			jQuery(e.currentTarget).addClass('hide');
+			jQuery(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
 		});
 	},

@@ -76,8 +76,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var url = recordsCountBtn.data('url');
 			AppConnector.request(url).then(function (response) {
 				recordsCountBtn.find('.count').html(response.result.totalCount);
-				recordsCountBtn.find('span:not(.count)').addClass('hide');
-				recordsCountBtn.find('a').removeClass('hide');
+				recordsCountBtn.find('span:not(.count)').addClass('d-none');
+				recordsCountBtn.find('a').removeClass('d-none');
 			});
 		});
 	},
@@ -1653,10 +1653,10 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	registerChangeView: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
-		container.find('.fc-toolbar').addClass('hide');
+		container.find('.fc-toolbar').addClass('d-none');
 		var month = container.find('.fc-toolbar h2').text();
 		if (month) {
-			var headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>' + month + '</h3>');
+			var headerCalendar = container.find('.headerCalendar').removeClass('d-none').find('.month').append('<h3>' + month + '</h3>');
 			var button = container.find('.headerCalendar button');
 			button.each(function () {
 				var tag = jQuery(this).data('type');

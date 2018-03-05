@@ -144,7 +144,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var endAddress = container.find('.end').val();
 		var startAddress = container.find('.start').val();
 		if (endAddress.length > 0 && startAddress.length > 0) {
-			container.find('.calculateTrack').removeClass('hide');
+			container.find('.calculateTrack').removeClass('d-none');
 		}
 	},
 	registerCacheEvents: function (container) {
@@ -183,7 +183,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				});
 				var countRecords = container.find('.countRecords' + app.getModuleName());
 				countRecords.html(response.result);
-				countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('hide');
+				countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('d-none');
 			});
 		});
 		container.find('.deleteClipBoard').on('click', function (e) {
@@ -204,7 +204,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				Vtiger_Helper_Js.showMessage(params);
 				var countRecords = container.find('.countRecords' + moduleName);
 				countRecords.html('');
-				currentTarget.addClass('hide');
+				currentTarget.addClass('d-none');
 				countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').prop('checked', false);
 				countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').trigger('change');
 			});
@@ -230,7 +230,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				moduleContainer.find('.showRecordsFromCache').prop('checked', true);
 				moduleContainer.find('.showRecordsFromCache').trigger('change');
 				if (response.result.count != '0')
-					moduleContainer.find('.deleteClipBoard').removeClass('hide');
+					moduleContainer.find('.deleteClipBoard').removeClass('d-none');
 			});
 		});
 	},
@@ -528,7 +528,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var indirect = template.clone();
 			template.before(indirect);
 			indirect.removeClass('indirectTemplate');
-			indirect.removeClass('hide');
+			indirect.removeClass('d-none');
 			var coordinates = containerPopup.find('.coordinates');
 			description = description.replace(/\<br\>/gi, ", ");
 			if (typeof thisInstance.indirectPointLayer[description] != 'undefined') {
@@ -599,7 +599,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		container.find('.calculateTrack').on('click', function () {
 			var indirectLon = [];
 			var indirectLat = [];
-			container.find('.indirectContainer:not(.hide) input.indirect').each(function () {
+			container.find('.indirectContainer:not(.d-none) input.indirect').each(function () {
 				var currentTarget = $(this);
 				indirectLat.push(currentTarget.data('lat'));
 				indirectLon.push(currentTarget.data('lon'));
@@ -631,7 +631,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				var route = L.geoJson(response.result);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
-				container.find('.descriptionContainer').removeClass('hide');
+				container.find('.descriptionContainer').removeClass('d-none');
 				container.find('.descriptionContent .instruction').html(response.result.properties.description);
 				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.result.properties.distance));
 				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.result.properties.traveltime / 60));

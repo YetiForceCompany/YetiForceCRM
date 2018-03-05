@@ -313,9 +313,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					var currentTarget = $(e.currentTarget);
 					var value = currentTarget.val();
 					if (value == 'Barchat' || value == 'Horizontal') {
-						form.find('.isColorContainer').removeClass('hide');
+						form.find('.isColorContainer').removeClass('d-none');
 					} else {
-						form.find('.isColorContainer').addClass('hide');
+						form.find('.isColorContainer').addClass('d-none');
 					}
 					if (wizardContainer.find('#widgetStep').val() == 4) {
 						wizardContainer.find('.step3 .groupField').trigger('change');
@@ -392,7 +392,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					var selectedFieldLabel = form.find('.groupField').find(':selected').text();
 					var isColorValue = 0;
 					var isColor = form.find('.isColor');
-					if (!isColor.hasClass('hide') && isColor.is(':checked')) {
+					if (!isColor.hasClass('d-none') && isColor.is(':checked')) {
 						isColorValue = 1;
 					}
 					var data = {

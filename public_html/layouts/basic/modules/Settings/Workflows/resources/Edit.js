@@ -188,12 +188,12 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				}
 			}
 			var callBackFunction = function (data) {
-				data.find('.clonedPopupUi').removeClass('hide');
+				data.find('.clonedPopupUi').removeClass('d-none');
 				var moduleNameElement = conditionRow.find('[name="modulename"]');
 				if (moduleNameElement.length > 0) {
 					var moduleName = moduleNameElement.val();
-					data.find('.useFieldElement').addClass('hide');
-					data.find('[name="' + moduleName + '"]').removeClass('hide');
+					data.find('.useFieldElement').addClass('d-none');
+					data.find('[name="' + moduleName + '"]').removeClass('d-none');
 				}
 				app.changeSelectElementView(data);
 				app.registerEventForDatePickerFields(data);
@@ -277,30 +277,30 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			jQuery('.fieldValue', data).hide();
 			jQuery('[data-' + uiType + ']', data).show();
 			if (valueType == 'fieldname') {
-				useFieldContainer.removeClass('hide');
-				useFunctionContainer.addClass('hide');
+				useFieldContainer.removeClass('d-none');
+				useFunctionContainer.addClass('d-none');
 			} else if (valueType == 'expression') {
-				useFieldContainer.removeClass('hide');
-				useFunctionContainer.removeClass('hide');
+				useFieldContainer.removeClass('d-none');
+				useFunctionContainer.removeClass('d-none');
 			} else {
-				useFieldContainer.addClass('hide');
-				useFunctionContainer.addClass('hide');
+				useFieldContainer.addClass('d-none');
+				useFunctionContainer.addClass('d-none');
 			}
-			jQuery('.helpmessagebox', data).addClass('hide');
-			jQuery('#' + valueType + '_help', data).removeClass('hide');
+			jQuery('.helpmessagebox', data).addClass('d-none');
+			jQuery('#' + valueType + '_help', data).removeClass('d-none');
 			data.find('.fieldValue').val('');
 		});
 	},
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
-			jQuery('.useFieldContainer', data).removeClass('hide');
+			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
 		} else if (valueType == 'expression') {
-			jQuery('.useFieldContainer', data).removeClass('hide');
-			jQuery('.useFunctionContainer', data).removeClass('hide');
+			jQuery('.useFieldContainer', data).removeClass('d-none');
+			jQuery('.useFunctionContainer', data).removeClass('d-none');
 			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
 		}
-		jQuery('#' + valueType + '_help', data).removeClass('hide');
+		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');
 		jQuery('.fieldValue', data).hide();
 		jQuery('[data-' + uiType + ']', data).show();

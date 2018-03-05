@@ -5,7 +5,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 		var thisInstance = this;
 		jQuery('#activityStateModal button:not(.close)').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.modal').addClass('hide');
+			currentTarget.closest('.modal').addClass('d-none');
 			if (currentTarget.data('type') == '1') {
 				thisInstance.updateActivityState(currentTarget);
 			}
@@ -70,8 +70,8 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 									recentActivitiesTab.trigger('click');
 								}
 								if (app.getModuleName() == 'Calendar') {
-									recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.hide)') : jQuery('<div></div>'));
-									jQuery('.showModal.closeCalendarRekord').addClass('hide');
+									recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.d-none)') : jQuery('<div></div>'));
+									jQuery('.showModal.closeCalendarRekord').addClass('d-none');
 									recentActivitiesTab.trigger('click');
 								}
 							}

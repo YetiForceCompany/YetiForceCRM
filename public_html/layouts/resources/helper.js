@@ -288,13 +288,13 @@ jQuery.Class("Vtiger_Helper_Js", {
 		element.find('option').each(function (index, option) {
 			option = $(option);
 			if (value != option.data(attr)) {
-				option.addClass("hide");
+				option.addClass("d-none");
 				option.attr("disabled", "disabled");
 			} else {
 				if (opval == '') {
 					opval = option.val();
 				}
-				option.removeClass('hide');
+				option.removeClass('d-none');
 				option.removeAttr("disabled");
 			}
 		});

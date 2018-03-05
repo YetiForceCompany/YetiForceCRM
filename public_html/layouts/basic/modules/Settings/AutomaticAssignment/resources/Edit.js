@@ -84,10 +84,10 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 			var params = [];
 			if (element.hasClass('noField')) {
 				if (state) {
-					element.closest('form').find('.fieldToShowHide').removeClass('hide');
+					element.closest('form').find('.fieldToShowHide').removeClass('d-none');
 					return false;
 				} else {
-					element.closest('form').find('.fieldToShowHide').addClass('hide');
+					element.closest('form').find('.fieldToShowHide').addClass('d-none');
 				}
 			}
 			params[element.attr('name')] = Number(state)

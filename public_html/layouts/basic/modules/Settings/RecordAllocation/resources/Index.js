@@ -188,7 +188,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 					}
 				})
 			}
-			panel.find('.panel-body').removeClass('hide').append(bodyContainer.removeClass('clearTables hide').addClass('activePanel'));
+			panel.find('.panel-body').removeClass('d-none').append(bodyContainer.removeClass('clearTables d-none').addClass('activePanel'));
 			thisInstance.registerDataTables(bodyContainer);
 			thisInstance.registerDragDropEvent(bodyContainer);
 		});
