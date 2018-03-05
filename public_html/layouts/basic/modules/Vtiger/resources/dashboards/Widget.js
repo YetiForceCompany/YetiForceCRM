@@ -1484,12 +1484,13 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					// we have meta
 					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
 						const metaDataItem = dataset._meta[prop].data[i];
+						console.log(metaDataItem, dataset)
 						const label = metaDataItem._view.label;
 						const ctx = metaDataItem._xScale.ctx;
 						const barWidth = metaDataItem._view.width;
 						const fullWidth = ctx.measureText(label).width;
 						if (barWidth < fullWidth) {
-							const shortened = label.substr(0, 12) + "...";
+							const shortened = label.substr(0, 10) + "...";
 							const shortenedWidth = ctx.measureText(shortened).width;
 							if (barWidth < shortenedWidth) {
 								chart.options = this.rotateXLabels90(chart.data, chart.options);
@@ -1510,6 +1511,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 							}
 						}
 					}
+					dataset._updated = true;
 				}
 			}
 		});
