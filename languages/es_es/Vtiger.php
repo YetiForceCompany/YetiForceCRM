@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com, Itop.es
  * *********************************************************************************** */
 $languageStrings = [
+	'LBL_SHOW_LOCATION' => 'Mostrar localización',
 	'LBL_ATTENTION_BLOCK' => 'Notas',
 	'LBL_CONTACT_INFORMATIONS' => 'Información de contacto',
 	'LBL_NO_UNREAD_NOTIFICATIONS' => 'No hay Notificaciones',
