@@ -9,7 +9,7 @@ $languageStrings = [
 	'IGDN' => 'Albaranes de Venta',
 	'SINGLE_IGDN' => 'Albarán de Venta',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
-	'LBL_ATTENTION_BLOCK' => 'Comentarios',
+	'LBL_ATTENTION_BLOCK' => 'Notas',
 	// Fields
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',
 	'FL_ACCOUNT' => 'Empresa',

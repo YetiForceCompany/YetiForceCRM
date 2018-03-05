@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_INFORMATION' => 'Información adicional',
 	'LBL_BASIC_INFORMATION' => 'Información sobre la Incidencia Interna',
 	'LBL_TICKET_RESOLUTION' => 'Resolución de la Incidencia',
-	'LBL_ATTENTION_BLOCK' => 'Comentarios',
+	'LBL_ATTENTION_BLOCK' => 'Notas',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	//FIELDS
 	'FL_SUBJECT' => 'Asunto',

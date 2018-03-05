@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_STATUS' => 'Estado',
 	'Description' => 'Descripción básica',
 	'LBL_EXTENT_DESCRIPTION' => 'Descripción detallada',
-	'Attention' => 'Comentarios',
+	'Attention' => 'Notas',
 	'LBL_NO' => 'ID',
 	//pick list values
 	'Draft' => 'Borrador',

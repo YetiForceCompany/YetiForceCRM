@@ -83,8 +83,8 @@ $languageStrings = [
 	'ArchiveRecord' => 'Archivar registro',
 	'ActiveRecord' => 'Activar registro',
 	'TimeLineList' => 'Historial en la lista de registros',
-	'MoveToTrash' => 'Mover a la papelera de reciclaje',
-	'MassTrash' => 'Mover a la papelera de reciclaje en masa',
+	'MoveToTrash' => 'Mover a la papelera',
+	'MassTrash' => 'Mover a la papelera en masa',
 	//end Actions
 	'Profile Related to Sales' => 'Perfil relacionado con las ventas',
 	'Profile Related to Support' => 'Perfil relacionado con soporte',

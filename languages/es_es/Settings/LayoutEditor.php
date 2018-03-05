@@ -139,13 +139,13 @@ $languageStrings = [
 	'LBL_ITEM_NAME_DESC' => 'Campo obligatorio básico, especifica los módulos para seleccionar los registros. Además, incluye ajustes de límite para bloquear el ahorro de registros cuando se alcanza el límite de crédito.',
 	'LBL_QUANTITY_DESC' => 'Campo numérico utilizado para introducir la cantidad de cada registro, por ejemplo cantidad de producto. Su valor debe ser mayor que cero.',
 	'LBL_UNIT_PRICE_DESC' => 'Campo numérico utilizado para ingresar el precio por unidad para un registro dado, por ejemplo, precio por unidad de producto.',
-	'LBL_TOTAL_PRICE_DESC' => 'Campo no editable calculado automáticamente, contiene el precio neto para un elemento dado. (Cantidad * Precio unitario).',
-	'LBL_DISCOUNT_PRICE_DESC' => 'Campo no editable calculado automáticamente, contiene el precio neto después del descuento (Precio neto - Descuento).',
+	'LBL_TOTAL_PRICE_DESC' => 'Campo no editable calculado automáticamente, contiene el precio Total para un elemento dado. (Cantidad * Precio unitario).',
+	'LBL_DISCOUNT_PRICE_DESC' => 'Campo no editable calculado automáticamente, contiene el precio Total después del descuento (Precio Total - Descuento).',
 	'LBL_TAX_DESC' => 'Campo numérico utilizado para ingresar el valor del impuesto para un elemento dado, el impuesto puede ser seleccionado de la lista de impuestos disponibles. La suma puede personalizarse en la administración del sistema.',
 	'LBL_VALUE_DESC' => 'Campo adicional utilizado para ingresar cualquier valor por el usuario.',
 	'LBL_REFERENCE_DESC' => 'Campo adicional utilizado para relacionar un elemento dado con cualquier registro del sistema.',
 	'LBL_PURCHASE_DESC' => 'Campo numérico utilizado para introducir el valor de compra/adquisición de un elemento dado.',
-	'LBL_MARGIN_DESC' => 'Campo no editable calculado automáticamente, contiene el valor del beneficio para un elemento dado (Precio después del descuento – Compra), no incluye impuesto.',
+	'LBL_MARGIN_DESC' => 'Campo no editable calculado automáticamente, contiene el valor del beneficio para un elemento dado (Precio con dto. – Compra), no incluye impuesto.',
 	'LBL_MARGIN_PERCENT_DESC' => 'Campo no editable calculado automáticamente, contiene el valor del beneficio, expresado como un porcentaje.',
 	'LBL_ITEM_NUMBER' => 'Número de artículo',
 	'LBL_ITEM_NUMBER_DESC' => 'El campo contiene el número de artículo',
@@ -169,7 +169,7 @@ $languageStrings = [
 	'LBL_SUMMARY_BOTTOM_TYPE' => 'Resumen inferior',
 	'LBL_RELATED_VIEW_TYPE' => 'Mostrar posición',
 	'LBL_RELATED_VIEW_TYPE_DESC' => 'Seleccione al menos una posición de visualización para el bloque',
-	'LBL_CUSTOM_CONFIGURATION' => 'Custom configuration',
+	'LBL_CUSTOM_CONFIGURATION' => 'Configuración personalizada',
 ];
 
 $jsLanguageStrings = [
