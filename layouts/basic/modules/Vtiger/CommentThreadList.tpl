@@ -46,7 +46,7 @@
 				<div class="editedStatus visible-lg-block col-6"  name="editStatus">
 					<p class="col-6 marginLeftZero">
 						<small>
-							<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">
+							<span class="{if empty($REASON_TO_EDIT)}d-none{/if} marginLeftZero editReason">
 								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
 							</span>
 						</small>

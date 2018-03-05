@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div id="progressIndicator" class="row main-container hide">
+	<div id="progressIndicator" class="row main-container d-none">
 		<div class="inner-container">
 			<div class="inner-container">
 				<div >

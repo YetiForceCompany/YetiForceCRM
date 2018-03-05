@@ -72,11 +72,11 @@
 											{/if}
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
 											<button type="button" class="btn btn-light addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
-												<span class="fas fa-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
-												<span class="far fa-star {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
+												<span class="fas fa-star {if !$FAVORITES}d-none{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
+												<span class="far fa-star {if $FAVORITES}d-none{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
 											</button>
-											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
-											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
+											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} d-none{/if}"><span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
+											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} d-none{/if}"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 										</div>
 										<h4 class="panel-title">
 											<div class="relatedModuleLabel mainBlockTableLabel">

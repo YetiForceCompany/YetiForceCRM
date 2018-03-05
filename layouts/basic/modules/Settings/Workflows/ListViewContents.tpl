@@ -23,7 +23,7 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
 	<div class="listViewEntriesDiv">
-		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
+		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
@@ -68,9 +68,9 @@
 															event.stopPropagation();{rdelim} else{ldelim}
 																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}
 																									 class="{$RECORD_LINK->get('class')} {if $RECORD_LINK->getLabel() eq 'LBL_ACTIVATION_TASKS' && $ACTIVE_TASKS eq $ALL_TASKS}
-																									 hide 
+																									 d-none 
 																									 {else if $RECORD_LINK->getLabel() eq 'LBL_DEACTIVATION_TASKS' && $ACTIVE_TASKS eq 0}
-																										 hide
+																										 d-none
 																										 {/if}" >
 																											 <span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 																										 </a>

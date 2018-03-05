@@ -77,7 +77,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailcc)}hide {/if}" id="ccContainer">
+			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailcc)}d-none {/if}" id="ccContainer">
 				<span class="col-md-7 row">
 					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_CC',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
@@ -99,7 +99,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailbcc)}hide {/if}" id="bccContainer">
+			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailbcc)}d-none {/if}" id="bccContainer">
 				<span class="col-md-7 row">
 					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_BCC',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
@@ -121,12 +121,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="row padding-bottom1per {if (!empty($TASK_OBJECT->emailcc)) and (!empty($TASK_OBJECT->emailbcc))} hide {/if}">
+			<div class="row padding-bottom1per {if (!empty($TASK_OBJECT->emailcc)) and (!empty($TASK_OBJECT->emailbcc))} d-none {/if}">
 				<span class="col-md-8 row">
 					<span class="col-md-3">&nbsp;</span>
 					<span class="col-md-9">
-						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
-						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
+						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailcc))}d-none{/if}" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailbcc))}d-none{/if}" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
 					</span>
 				</span>
 			</div>

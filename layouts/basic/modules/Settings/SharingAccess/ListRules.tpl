@@ -58,7 +58,7 @@
 				{/foreach}
 			</tbody>
 		</table>
-		<div class="recordDetails hide">
+		<div class="recordDetails d-none">
 			<p class="textAlignCenter">{\App\Language::translate('LBL_CUSTOM_ACCESS_MESG', $QUALIFIED_MODULE)}.<!--<a href="">{\App\Language::translate('LBL_CLICK_HERE', $QUALIFIED_MODULE)}</a>&nbsp;{\App\Language::translate('LBL_CREATE_RULE_MESG', $QUALIFIED_MODULE)}--></p>
 		</div>
 	{else}

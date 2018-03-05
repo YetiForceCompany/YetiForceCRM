@@ -5,7 +5,7 @@
 			<span class="fas fa-chevron-left"></span>
 		</div>
 		<div class="siteBarContent paddingTop10">
-			<div class="alert alert-danger refreshHeader hide" role="alert">
+			<div class="alert alert-danger refreshHeader d-none" role="alert">
 				<div class="quickWidgetHeader calendarRightPanel clearfix">
 					<div class="col-12 paddingLRZero">
 						<div class="col-lg-6 col-md-12 paddingLRZero float-left">
@@ -28,7 +28,7 @@
 						</h4>
 						<div class="col-lg-6 col-md-12 col-5 paddingTop10-md paddingLRZero float-right">
 							<button class="selectAllBtn btn btn-light btn-sm  pull-left-md pull-right-lg pull-right-sm">
-								<div class="selectAll hide">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
+								<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
 								<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
 							</button>
 						</div>

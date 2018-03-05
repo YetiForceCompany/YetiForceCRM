@@ -28,7 +28,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
+				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
 					</label>
@@ -36,7 +36,7 @@
 						<input type="text" name="watermark_text" class="form-control" value="{$PDF_MODEL->get('watermark_text')}" id="watermark_text" />
 					</div>
 				</div>
-				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
+				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}
 					</label>
@@ -44,7 +44,7 @@
 						<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="0" max="99" />
 					</div>
 				</div>
-				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
+				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}
 					</label>
@@ -52,7 +52,7 @@
 						<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360" />
 					</div>
 				</div>
-				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}hide{/if}">
+				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}
 					</label>
@@ -65,10 +65,10 @@
 						<input type="file" name="watermark_image_file" accept="images/*" class="form-control" data-validation-engine='validate[required]' id="watermark_image" />
 					</div>
 				</div>
-				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}hide{/if}">
+				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
 					<label class="col-sm-3 col-form-label"></label>
 					<div class="col-sm-3 controls">
-						<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}hide{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
+						<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}d-none{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
 					</div>
 					<div class="col-sm-3 controls">
 						<button id="uploadWM" class="btn btn-success float-right">{\App\Language::translate('LBL_UPLOAD_WM', $QUALIFIED_MODULE)}</button>

@@ -16,7 +16,7 @@
 				<div class="uploadFileContainer">
 					<input id="fileupload" class="fileupload marginBottom5" type="file" name="files[]" multiple {if $FILE_TYPE eq 'image'}accept="image/x-png,image/gif,image/jpeg"{/if}>
 				</div>
-				<div class="fileContainer hide">
+				<div class="fileContainer d-none">
 					<div class="fileItem marginBottom5">
 						<div class="input-group input-group-sm">
 							<input type="text" name="nameFile[]" class="form-control" readonly>

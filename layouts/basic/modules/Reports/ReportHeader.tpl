@@ -45,7 +45,7 @@
 							{if $COUNT > 1000}
 								<span class="redColor" id="moreRecordsText"> ({\App\Language::translate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
 							{else}
-								<span class="redColor hide" id="moreRecordsText"> ({\App\Language::translate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
+								<span class="redColor d-none" id="moreRecordsText"> ({\App\Language::translate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
 							{/if}
 						</div>
 					</div>

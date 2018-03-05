@@ -45,7 +45,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-row pb-2" id="zipExtension" class="hide">
+		<div class="form-row pb-2" id="zipExtension" class="d-none">
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}</span></div>
 			<div class="col-md-6">
 				<select name="extension" class="chzn-select" id="extension" title="{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}">
@@ -53,7 +53,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-row pb-2" id="xml_tpl" class="hide">
+		<div class="form-row pb-2" id="xml_tpl" class="d-none">
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_XML_EXPORT_TPL', $MODULE)}</span></div>
 			<div class="col-md-6">
 				<select name="xml_import_tpl" class="chzn-select" id="xml_import_tpl" title="{\App\Language::translate('LBL_XML_EXPORT_TPL', $MODULE)}">

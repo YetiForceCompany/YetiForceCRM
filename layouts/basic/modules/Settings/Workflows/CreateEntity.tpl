@@ -106,7 +106,7 @@
 	{/if}
 </div><br />
 {if $RELATED_MODULE_MODEL}
-	<div class="row basicAddFieldContainer padding-bottom1per hide">
+	<div class="row basicAddFieldContainer padding-bottom1per d-none">
 		<div class="col-md-4">
 			{assign var=RELATED_MODULE_MODEL_NAME value=$RELATED_MODULE_MODEL->get('name')}
 			<select name="fieldname" class="form-control">

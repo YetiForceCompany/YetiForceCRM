@@ -7,7 +7,7 @@
 				<div class="panel-heading row blockHeader no-margin">
 					<div class="iconCollapse">
 						<span class="cursorPointer blockToggle fas fa-angle-right" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-						<span class="cursorPointer blockToggle fas fa-angle-down hide" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
+						<span class="cursorPointer blockToggle fas fa-angle-down d-none" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
 						<h4>
 							<span class="moduleIcon userIcon-{$RELATED_MODULE_NAME}"></span>
 							{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}
@@ -20,7 +20,7 @@
 						</h4>
 					</div>
 				</div>
-				<div class="panel-body col-12 blockContent hide"></div>
+				<div class="panel-body col-12 blockContent d-none"></div>
 			</div>
 		{/foreach}		
 	</div>	

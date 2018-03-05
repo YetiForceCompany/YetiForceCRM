@@ -20,7 +20,7 @@
 			</optgroup>
 		</select>
 	</span>
-	<span class="hide filterActionImages float-right">
+	<span class="d-none filterActionImages float-right">
 		<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>
 		<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-edit alignMiddle editFilter filterActionImage float-right"></span>
 	</span>

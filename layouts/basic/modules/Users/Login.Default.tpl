@@ -94,7 +94,7 @@
 				</div>
 			</div>	
 			{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
-				<div class="hide" id="forgotPasswordDiv">
+				<div class="d-none" id="forgotPasswordDiv">
 					<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
 						<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
 							<div class='marginLeft0  marginRight0 row col-sm-10'>	

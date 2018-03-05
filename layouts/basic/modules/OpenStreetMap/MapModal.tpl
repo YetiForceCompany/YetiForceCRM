@@ -77,7 +77,7 @@
 							</button>
 						</div>
 					</div>
-					<div class="input-group group-btn input-group-sm form-group indirectContainer indirectTemplate hide">
+					<div class="input-group group-btn input-group-sm form-group indirectContainer indirectTemplate d-none">
 						<input type="text" readonly="readonly" class="form-control indirect " />
 						<div class="input-group-btn">
 							<button class="btn btn-warning btn-sm setView">
@@ -103,7 +103,7 @@
 						</div>
 					</div>
 					<div class="form-group float-right">
-						<button class="btn btn-primary hide calculateTrack">{\App\Language::translate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
+						<button class="btn btn-primary d-none calculateTrack">{\App\Language::translate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
 					</div>
 				</div>
 			</div>
@@ -127,14 +127,14 @@
 							</div>
 							<div class="col-4">
 								<button class="btn btn-sm btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-download"></span></button>
-								<button class="btn btn-sm btn-danger deleteClipBoard float-right {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
+								<button class="btn btn-sm btn-danger deleteClipBoard float-right {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}d-none{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
 							</div>
 						</div>
 					{/foreach}
 					<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
 				</div>
 			</div>
-			<div class="card mt-3 hide descriptionContainer">
+			<div class="card mt-3 d-none descriptionContainer">
 				<div class="card-body descriptionContent">
 					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp;</b><span class="distance"></span><br />
 					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp;</b><span class="travelTime"></span><br />

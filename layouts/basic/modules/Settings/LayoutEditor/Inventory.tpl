@@ -111,7 +111,7 @@
 		</div>
 	</div>
 </div>
-<li class="hide newLiElement">
+<li class="d-none newLiElement">
 	<div class="opacity editFields border1px" data-column="" data-id="" data-sequence="" data-name="">
 		<a>
 			<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />

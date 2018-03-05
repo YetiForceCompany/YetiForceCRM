@@ -226,8 +226,8 @@
 																	<td class="{$WIDTHTYPE} text-center text-center font-larger">
 																		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 																		<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fas fa-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="far fa-star alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fas fa-star alignMiddle {if !$RECORD_IS_FAVORITE}d-none{/if}"></span>
+																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="far fa-star alignMiddle {if $RECORD_IS_FAVORITE}d-none{/if}"></span>
 																		</a>
 																	</td>
 																{/if}

@@ -14,7 +14,7 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
 	<div class="listViewEntriesDiv" style='overflow-x:auto;'>
-		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
+		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
@@ -55,7 +55,7 @@
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a class="{if $LISTVIEW_ENTRY->get('access') eq '0' && $RECORD_LINK->get('linklabel') eq 'LBL_DELETE'} hide {/if}"{if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
+												<a class="{if $LISTVIEW_ENTRY->get('access') eq '0' && $RECORD_LINK->get('linklabel') eq 'LBL_DELETE'} d-none {/if}"{if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
 															event.stopPropagation();{rdelim} else{ldelim}
 																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
 													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>

@@ -37,7 +37,7 @@
 						{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
 					{/foreach}
 				</div>
-				<div class="hide basic">
+				<div class="d-none basic">
 					{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
 				</div>
 				<div class="addCondition">
@@ -69,7 +69,7 @@
 						{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE CONDITION="or"}
 					{/foreach}
 				</div>
-				<div class="hide basic">
+				<div class="d-none basic">
 					{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=[] CONDITION="or" NOCHOSEN=true}
 				</div>
 				<div class="addCondition">

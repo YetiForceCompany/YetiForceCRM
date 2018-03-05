@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}" />
+	<input id='activityReminder' class='d-none noprint' type="hidden" value="{$ACTIVITY_REMINDER}" />
 	{if !$MAIN_PRODUCT_WHITELABEL}
 		<footer class="noprint">
 			<div class="vtFooter">

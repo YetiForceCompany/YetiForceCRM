@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
+	<div class="newCustomBlockCopy d-none marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
 		<div class="row layoutBlockHeader no-margin">
 			<div class="col-md-6 blockLabel padding10">
 				<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
@@ -18,7 +18,7 @@
 			<div class="col-md-6 marginLeftZero">
 				<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 					<div class="btn-group">
-						<button class="btn btn-success addCustomField hide" type="button">
+						<button class="btn btn-success addCustomField d-none" type="button">
 							<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</div>

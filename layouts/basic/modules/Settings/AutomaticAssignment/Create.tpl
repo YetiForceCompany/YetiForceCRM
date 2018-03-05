@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-success hide submitButton">{\App\Language::translate('BTN_NEXT', $QUALIFIED_MODULE)}</button>
+				<button type="submit" class="btn btn-success d-none submitButton">{\App\Language::translate('BTN_NEXT', $QUALIFIED_MODULE)}</button>
 				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('BTN_CLOSE', $QUALIFIED_MODULE)}</button>
 			</div>
 		</form>

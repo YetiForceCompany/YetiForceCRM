@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<li class="newCustomFieldCopy hide">
+	<li class="newCustomFieldCopy d-none">
 		<div class="marginLeftZero border1px" data-field-id="" data-sequence="">
 			<div class="row padding1per">
 				<span class="col-md-2">&nbsp;

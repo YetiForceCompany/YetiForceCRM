@@ -15,14 +15,14 @@
 	<table>
 		<tr style="run-in">
 		<fieldset>
-			<legend class="hide">{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
+			<legend class="d-none">{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
 			<td><strong>&nbsp;{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
 			<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{\App\Language::translate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 			<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{\App\Language::translate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 			<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{\App\Language::translate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 		</fieldset>
 		<fieldset>
-			<legend class="hide">{\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
+			<legend class="d-none">{\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
 			<td><strong><span>|&nbsp;&nbsp;</span> {\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
 			<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{\App\Language::translate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
 			<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{\App\Language::translate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>

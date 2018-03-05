@@ -46,7 +46,7 @@
 		<input type="hidden" id="requstedUnitPrice" name="{$BASE_CURRENCY_NAME}" value="">
 		{if $VIEW eq 'Edit'}
 			<a id="moreCurrencies" class="span cursorPointer">{\App\Language::translate('LBL_MORE_CURRENCIES', $MODULE)}>></a>
-			<span id="moreCurrenciesContainer" class="hide"></span>
+			<span id="moreCurrenciesContainer" class="d-none"></span>
 		{/if}
 	{else}
 		<div class="input-group">

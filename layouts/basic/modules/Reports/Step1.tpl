@@ -89,7 +89,7 @@
 						<strong>{\App\Language::translate('LBL_SCHEDULE_REPORTS',$MODULE)}</strong>
 					</div>
 				</div>
-				<div id="scheduleBox" class='well contentsBackground {if $SCHEDULEDREPORTS->get('scheduleid') eq ''} hide {/if}'>
+				<div id="scheduleBox" class='well contentsBackground {if $SCHEDULEDREPORTS->get('scheduleid') eq ''} d-none {/if}'>
 					<div class="row" style="padding:5px 0px;">
 						<div class="col-md-3 marginBottom5px" style="position:relative;top:5px;">{\App\Language::translate('LBL_FILE_TYPE', $MODULE)}</div>
 						<div class="col-md-4">
@@ -114,7 +114,7 @@
 					</div>
 
 					{* show weekdays for weekly option *}
-					<div class='row {if $scheduleid neq 2} hide {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
+					<div class='row {if $scheduleid neq 2} d-none {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{\App\Language::translate('LBL_ON_THESE_DAYS', $MODULE)}</div>
 						<div class='col-md-4'>
 							{assign var=dayOfWeek value=\App\Json::decode($SCHEDULEDREPORTS->get('schdayoftheweek'))}
@@ -131,7 +131,7 @@
 					</div>
 
 					{* show month view by dates *}
-					<div class='row {if $scheduleid neq 3} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
+					<div class='row {if $scheduleid neq 3} d-none {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{\App\Language::translate('LBL_ON_THESE_DAYS', $MODULE)}</div>
 						<div class='col-md-4'>
 							{assign var=dayOfMonth value=\App\Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
@@ -143,7 +143,7 @@
 						</div>
 					</div>
 					{* show specific date *}
-					<div class='row {if $scheduleid neq 5} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
+					<div class='row {if $scheduleid neq 5} d-none {/if}' id='scheduleByDate' style="padding:5px 0px;">
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'><span class="redColor">*</span>{\App\Language::translate('LBL_CHOOSE_DATE', $MODULE)}</div>
 						<div class='col-md-6'>
 							<div class='input-group date' style='width: 185px;'>
@@ -155,7 +155,7 @@
 						</div>
 					</div>
 					{* show month view by anually *}
-					<div class='row {if $scheduleid neq 4} hide {/if}' id='scheduleAnually' style='padding:5px 0px;'>
+					<div class='row {if $scheduleid neq 4} d-none {/if}' id='scheduleAnually' style='padding:5px 0px;'>
 						<div class='col-md-3 ' style='position:relative;top:5px;'>
 							{\App\Language::translate('LBL_SELECT_MONTH_AND_DAY', $MODULE)}
 						</div>

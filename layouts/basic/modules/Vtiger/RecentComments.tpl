@@ -68,7 +68,7 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-									<div class="float-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
+									<div class="float-left {if empty($REASON_TO_EDIT)}d-none {/if}editStatus"  name="editStatus">
 										<span class="float-left paddingRight10 visible-lg-block">
 											<p class="muted">
 												<small>
@@ -129,7 +129,7 @@
 			</div>
 		{/if}
 		{if !$IS_READ_ONLY}
-			<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
+			<div class="d-none basicAddCommentBlock marginTop10 marginBottom10px">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="input-group">
@@ -150,7 +150,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="hide basicEditCommentBlock" >
+			<div class="d-none basicEditCommentBlock" >
 				<div class="row">
 					<div class="col-md-12 marginTop10 marginBottom10px">
 						<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control" />

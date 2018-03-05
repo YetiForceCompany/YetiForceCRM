@@ -53,7 +53,7 @@
 						<br /><div>&nbsp;&nbsp;{\App\Language::translate('LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY',$QUALIFIED_MODULE)}</div>
 					</div>	
 				</div>		
-				<div id="createViewContents" class="hide">
+				<div id="createViewContents" class="d-none">
 					{include file=\App\Layout::getTemplatePath('CreateView.tpl', $QUALIFIED_MODULE)}
 				</div>
 			</div>
