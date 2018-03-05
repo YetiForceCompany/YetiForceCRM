@@ -57,7 +57,7 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="col-md-6">
+								<div class="col-sm-6">
 									<div class="form-row">
 										<div class="fieldLabel border-top border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 											<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
