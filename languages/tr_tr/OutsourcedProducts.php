@@ -1,17 +1,17 @@
-<?php		
-/**		
- * OutsourcedProducts turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
-	// Basic Strings	
+<?php
+/**
+ * OutsourcedProducts turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
+	// Basic Strings
 	'OutsourcedProducts' => 'Dış Kaynaklı Ürünler',
 	'SINGLE_OutsourcedProducts' => 'Dış Kaynaklı Ürün',
-	// Blocks	
+	// Blocks
 	'LBL_INFORMATION' => 'Dış Kaynaklı Ürünler',
-	//Field Labels	
+	//Field Labels
 	'Assigned To' => 'Atandı',
 	'LBL_RODZAJUMOWY' => 'Sözleşme türü',
 	'LBL_osservicesstatus' => 'Durum',
@@ -33,4 +33,4 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Uzantıyı üret',
 	'Active' => 'Aktif',
 	'Inactive' => 'Pasif',
-];		
+];

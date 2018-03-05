@@ -4,12 +4,12 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- */	
-$languageStrings = [		
+ */
+$languageStrings = [
 	'OSSOutsourcedServices' => 'Dış Kaynaklı Hizmetler',
-	'SINGLE_OSSOutsourcedServices' =>   'Dış Kaynaklı Hizmet',
+	'SINGLE_OSSOutsourcedServices' => 'Dış Kaynaklı Hizmet',
 	'LBL_INFORMATION' => 'Bilgi bloğu',
-	//fields	
+	//fields
 	'Assigned To' => 'Atandı',
 	'LBL_osservicesstatus' => 'Durum',
 	'Individual Agreement' => 'Bireysel Anlaşma',
@@ -30,4 +30,4 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Uzantı Üret',
 	'Active' => 'Aktif',
 	'Inactive' => 'Pasif',
-];		
+];

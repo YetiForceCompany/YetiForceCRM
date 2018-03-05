@@ -1,11 +1,11 @@
-<?php		
-/**		
- * OSSTimeControl turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
+<?php
+/**
+ * OSSTimeControl turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'PLL_HOLIDAY' => 'Tatil',
 	'PLL_BREAK_TIME' => 'İşten ayrılma',
 	'PLL_WORKING_TIME' => 'Çalışma zamanı',
@@ -37,7 +37,7 @@ $languageStrings = [
 	'Free' => 'Ücretsiz',
 	'LBL_CALENDAR_VIEW' => 'Takvim',
 	'LBL_TIMECONTROL_TYPE' => 'Tür',
-	// Settings	
+	// Settings
 	'SETTINGS' => 'Ayarlar',
 	'LBL_HELP_SETTINGS' => 'Yardım et',
 	'DELETE' => 'Sil',
@@ -51,7 +51,7 @@ $languageStrings = [
 	'1 hour' => '1 saat',
 	'MSG_EDIT_OK' => 'Yapılandırmada başarıyla değişiklik yaptınız.',
 	'MSG_EDIT_ERROR' => 'Değişiklikleri kaydetmek başarısız oldu.',
-	//YetiForce	
+	//YetiForce
 	'Calculations' => 'Hesaplamalar',
 	'As part of the order' => 'Hizmet sözleşmesinin bir parçası olarak',
 	'As part of the support' => 'Desteğin bir parçası olarak',
@@ -62,7 +62,7 @@ $languageStrings = [
 	'To approval' => 'Onay için',
 	'Accepted' => 'Kabul edildi',
 	'Brutto' => 'Brüt',
-	// subject	
+	// subject
 	'Telephone contact' => 'Telefon iletişim',
 	'Email contact' => 'E-posta iletişim',
 	'Data verification' => 'Veri doğrulama',
@@ -82,7 +82,7 @@ $languageStrings = [
 	'Office work' => 'Ofis çalışması',
 	'Administrative work' => 'İdari işler',
 	'Accounting work' => 'Muhasebe çalışmaları',
-	//widget	
+	//widget
 	'LBL_Holidays' => 'Tatiller',
 	'LBL_YEAR' => 'Yıl:',
 	'LBL_Used_Entitled' => 'Kullanılan/Başlıklı:',
@@ -102,8 +102,8 @@ $languageStrings = [
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Çalışma zamanı grafiği kullanıcılara bölünmüştür',
 	'LBL_TIME_CONTROL_LIST' => 'Zaman Kontrol Listesi',
 	'LBL_TIME_CONTROL_USER_GROUP' => 'Kullanıcılar hakkında ek bilgi içeren Zaman Kontrol Listesi',
-];		
-$jsLanguageStrings = [		
+];
+$jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'İzin verilen karakterler: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Bitiş tarihi, başlangıç tarihinden eşit veya daha önceki tarih olamaz',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Çalışma süresi 24 saati aşamaz',

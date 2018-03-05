@@ -1,21 +1,21 @@
-<?php		
-/**		
- * OSSPasswords turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
-	// Basic Strings	
+<?php
+/**
+ * OSSPasswords turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
+	// Basic Strings
 	'OSSPasswords' => 'Parolalar',
 	'SINGLE_OSSPasswords' => 'Parola',
 	'LBL_ADD_RECORD' => 'Kayıt ekle',
 	'LBL_RECORDS_LIST' => 'Parolalar listesi',
 	'LBL_PASS_CONFIGURATION' => 'Parolaları yapılandırma',
 	'LBL_HELP' => 'Yardım et',
-	// Blocks	
+	// Blocks
 	'LBL_OSSPASSWORD_INFORMATION' => 'Bilgi',
-	//Field Labels	
+	//Field Labels
 	'OSSPassword No' => 'Parola numarası',
 	'Key name' => 'Anahtar adı',
 	'Username' => 'Kullanıcı adı',
@@ -47,7 +47,7 @@ $languageStrings = [
 	'LBL_START_REGISTER' => 'Değişiklikleri kaydet',
 	'LBL_REGISTER_WARN1' => 'UYARI!',
 	'LBL_REGISTER_WARN2' => 'Aşağıdaki seçenek kontrol edilerek, parolaları daki değişiklikleri modtracker\'a kaydetmeyi kabul etmiş olursunuz. Yalnızca eski parolarlar gösterilir, yeni parolalar gizli olmaya devam edecektir.',
-	// configure password	
+	// configure password
 	'Encoding' => 'Kodlama',
 	'Edit Password Key' => 'Parola anahtarını düzenle',
 	'Stop Password Encryption' => 'Parola şifrelemeyi durdur',
@@ -83,7 +83,7 @@ $languageStrings = [
 	'LBL_ONLY_STARS' => 'Parola yalnızca yıldızlar içeremez - *.',
 	'Yes' => 'Evet',
 	'No' => 'Hayır',
-	// widget sidebar	
+	// widget sidebar
 	'LBL_GeneratePass' => 'Parola üret',
 	'LBL_ConfigurePass' => 'Parolayı yapılandır',
 	'LBL_ShowPassword' => 'Parolayı göster',
@@ -92,9 +92,9 @@ $languageStrings = [
 	'LBL_CopyToClipboardTitle' => 'Parolayı panoya kopyala',
 	'LBL_NotifPassCopied' => 'Parola panoya kopyalanmış',
 	'LBL_NotifPassTitle' => 'Parola',
-];		
-$jsLanguageStrings = [		
-	// notification	
+];
+$jsLanguageStrings = [
+	// notification
 	'LBL_NotifPassCopied' => 'Parola panoya kopyalanmış',
 	'LBL_NotifPassTitle' => 'Parola',
 	'LBL_ShowPassword' => 'Parolayı göster',
@@ -106,4 +106,4 @@ $jsLanguageStrings = [
 	'Medium' => 'Orta',
 	'Strong' => 'Kuvvetli',
 	'Very Strong' => 'Çok güçlü',
-];		
+];

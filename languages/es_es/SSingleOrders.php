@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Asunto',
 	'LBL_NUMBER' => 'ID',

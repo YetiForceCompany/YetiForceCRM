@@ -1,11 +1,11 @@
-<?php		
-/**		
- * OpenStreetMap turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
+<?php
+/**
+ * OpenStreetMap turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'OpenStreetMap' => 'OpenStreetMap',
 	'LBL_GROUP_BY' => 'Grup',
 	'LBL_GROUP_NEIGHBOURS' => 'Komşu öğeleri grupla',
@@ -23,6 +23,6 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'Panoya kopyala',
 	'LBL_CLIPBOARD' => 'Pano',
 	'LBL_INDIRECT_POINT' => 'Dolaylı nokta',
-	//Errors	
+	//Errors
 	'ERR_ADDRESS_NOT_FOUND' => 'Adres bulunamadı',
-];	
+];

@@ -1,16 +1,16 @@
-<?php		
-/**		
- * OSSSoldServices turkish translation.		
- *		
- * @copyright YetiForce Sp. z o.o		
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)		
- */		
-$languageStrings = [		
+<?php
+/**
+ * OSSSoldServices turkish translation.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+$languageStrings = [
 	'OSSSoldServices' => 'Satılan Hizmetler',
 	'SINGLE_OSSSoldServices' => 'Satılan Hizmet',
-	// Blocks	
+	// Blocks
 	'LBL_INFORMATION' => 'Bilgi bloğu',
-	// Field Labels	
+	// Field Labels
 	'Number' => 'Numara',
 	'Assigned To' => 'Atandı',
 	'LBL_RODZAJUMOWY' => 'Sözleşme türü',
@@ -29,7 +29,7 @@ $languageStrings = [
 	'LBL_ORDER_TIME' => 'Sipariş zamanı',
 	'FL_RENEWAL_INVOICE' => 'Yenileme faturası',
 	'FL_CONTACT' => 'İletişim',
-	// picklist values	
+	// picklist values
 	'FL_RENEWAL' => 'Yenileme',
 	'PLL_DRAFT' => 'Taslak',
 	'PLL_WAITING_FOR_VERIFICATION' => 'Doğrulama bekliyor',
@@ -45,4 +45,4 @@ $languageStrings = [
 	'PLL_RENEWED_VERIFICATION' => 'Yenilendi (doğrulama)',
 	'PLL_NOT_RENEWED_VERIFICATION' => 'Yenilenmedi (doğrulama)',
 	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Geçerli değil (doğrulama)',
-];		
+];
