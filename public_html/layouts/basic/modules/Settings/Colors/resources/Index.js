@@ -61,7 +61,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 		var colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
 		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
+			data.find('.editColorContainer').removeClass('d-none').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
@@ -147,7 +147,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 		var colorPreview = $('#calendarColorPreviewGroup' + target.data('record'));
 		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
+			data.find('.editColorContainer').removeClass('d-none').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
@@ -234,7 +234,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 		var colorPreview = $('#calendarColorPreviewModule' + target.data('record'));
 		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
+			data.find('.editColorContainer').removeClass('d-none').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
@@ -364,7 +364,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 		var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('fieldvalueid'));
 		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
+			data.find('.editColorContainer').removeClass('d-none').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
@@ -493,7 +493,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 
 		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
+			data.find('.editColorContainer').removeClass('d-none').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(closestTrElement.data('color'));
 			//register color picker

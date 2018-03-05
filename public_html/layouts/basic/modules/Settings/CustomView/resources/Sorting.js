@@ -11,11 +11,11 @@ jQuery.Class("Settings_CustomView_Sorting_Js", {}, {
 		form.find('button.sortOrderButton').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.find('[data-fa-i2svg]').each(function (n, e) {
-				if (jQuery(this).hasClass('hide')) {
-					jQuery(this).removeClass('hide');
+				if (jQuery(this).hasClass('d-none')) {
+					jQuery(this).removeClass('d-none');
 					form.find('[name="sortOrder"]').val(jQuery(this).data('val'));
 				} else {
-					jQuery(this).addClass('hide');
+					jQuery(this).addClass('d-none');
 				}
 			})
 		});

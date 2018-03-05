@@ -41,19 +41,19 @@ if (typeof (ImportJs) == 'undefined') {
 				case 'xml':
 					delimiterContainer.hide();
 					hasHeaderContainer.hide();
-					xmlTpl.removeClass('hide');
-					extension.addClass('hide');
+					xmlTpl.removeClass('d-none');
+					extension.addClass('d-none');
 					break;
 				case 'zip':
 					delimiterContainer.hide();
 					hasHeaderContainer.hide();
-					extension.removeClass('hide');
+					extension.removeClass('d-none');
 					break;
 				default:
 					delimiterContainer.show();
 					hasHeaderContainer.show();
-					extension.addClass('hide');
-					xmlTpl.addClass('hide');
+					extension.addClass('d-none');
+					xmlTpl.addClass('d-none');
 			}
 		},
 		uploadAndParse: function () {

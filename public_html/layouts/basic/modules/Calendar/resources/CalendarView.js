@@ -228,14 +228,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
 
-			if (selectAllLabel.hasClass('hide')) {
-				selectAllLabel.removeClass('hide');
-				deselectAllLabel.addClass('hide');
+			if (selectAllLabel.hasClass('d-none')) {
+				selectAllLabel.removeClass('d-none');
+				deselectAllLabel.addClass('d-none');
 				$(this).closest('.quickWidget').find('select option').prop("selected", false);
 			} else {
 				$(this).closest('.quickWidget').find('select option').prop("selected", true);
-				deselectAllLabel.removeClass('hide');
-				selectAllLabel.addClass('hide');
+				deselectAllLabel.removeClass('d-none');
+				selectAllLabel.addClass('d-none');
 			}
 			$(this).closest('.quickWidget').find('select').trigger("change");
 		});
@@ -605,11 +605,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (keys.length > 0) {
 			var alert = $('#moduleCacheAlert');
 			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
-				alert.removeClass('hide');
+				alert.removeClass('d-none');
 			});
 			alert.find('.cacheClear').click(function (e) {
 				app.moduleCacheClear();
-				alert.addClass('hide');
+				alert.addClass('d-none');
 				location.reload();
 			});
 		}

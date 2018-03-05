@@ -1540,7 +1540,7 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	performFilterImageActions: function (liElement) {
-		jQuery('.filterActionImages').clone(true, true).removeClass('filterActionImages').addClass('filterActionImgs').appendTo(liElement).removeClass('hide');
+		jQuery('.filterActionImages').clone(true, true).removeClass('filterActionImages').addClass('filterActionImgs').appendTo(liElement).removeClass('d-none');
 		var currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
 		var deletable = currentOptionElement.data('deletable');
 		if (deletable != '1') {
@@ -1817,7 +1817,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 
 			var select2Instance = filterSelectElement.data('select2');
-			jQuery('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('hide').on('click', function (e) {
+			jQuery('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('d-none').on('click', function (e) {
 				thisInstance.registerCreateFilterClickEvent(e);
 			});
 		}
@@ -1847,7 +1847,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var element = jQuery(e.currentTarget);
 			var totalRecordsElement = jQuery('#totalCount');
 			var totalNumberOfRecords = totalRecordsElement.val();
-			element.addClass('hide');
+			element.addClass('d-none');
 			element.parent().progressIndicator({});
 			if (totalNumberOfRecords == '') {
 				thisInstance.getPageCount().then(function (data) {
@@ -1931,7 +1931,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.type) {
-					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('hide')
+					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('d-none')
 							.on('click', function (e) {
 								var element = jQuery(e.currentTarget);
 								var url = element.data('url');

@@ -6,7 +6,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	 */
 	registerInfoButton: function (container) {
 		container.find('#supportedCurrencies').on('click', function () {
-			jQuery('#infoBlock').toggleClass('hide');
+			jQuery('#infoBlock').toggleClass('d-none');
 		});
 	},
 	/*
@@ -14,7 +14,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	 */
 	registerAlertButton: function (container) {
 		container.find('#unsupportedCurrencies').on('click', function () {
-			container.find('#alertBlock').toggleClass('hide');
+			container.find('#alertBlock').toggleClass('d-none');
 		});
 	},
 	/*
@@ -68,14 +68,14 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 					function (data) {
 						var response = data['result'];
 						if (jQuery.isEmptyObject(response)) {
-							if (!container.find('#unsupportedCurrencies').hasClass('hide')) {
-								container.find('#unsupportedCurrencies').addClass('hide');
+							if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
+								container.find('#unsupportedCurrencies').addClass('d-none');
 							}
-							if (!container.find('#alertBlock').hasClass('hide')) {
-								container.find('#alertBlock').addClass('hide')
+							if (!container.find('#alertBlock').hasClass('d-none')) {
+								container.find('#alertBlock').addClass('d-none')
 							}
 						} else {
-							container.find('#unsupportedCurrencies').removeClass('hide');
+							container.find('#unsupportedCurrencies').removeClass('d-none');
 						}
 						var html = '';
 						for (var name in response) {

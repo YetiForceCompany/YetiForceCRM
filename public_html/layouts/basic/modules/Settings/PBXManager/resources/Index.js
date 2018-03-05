@@ -45,7 +45,7 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 						);
 					} else {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						jQuery('.errorMessage', form).removeClass('hide');
+						jQuery('.errorMessage', form).removeClass('d-none');
 					}
 				},
 				function (error, errorThrown) {

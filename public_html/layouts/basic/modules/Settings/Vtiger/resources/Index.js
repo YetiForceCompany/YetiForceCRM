@@ -305,7 +305,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					container.progressIndicator({mode: 'hide'});
 					if (data.result.success == false) {
 						var errorDiv = container.find('.errorMsg');
-						errorDiv.removeClass('hide');
+						errorDiv.removeClass('d-none');
 						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
 					} else {
 						app.hideModalWindow();
@@ -378,7 +378,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var aletrsContainer = jQuery('#systemWarningAletrs');
 		if (aletrsContainer.length) {
 			app.showModalWindow(aletrsContainer, function (modal) {
-				aletrsContainer.find('.warning').first().removeClass('hide');
+				aletrsContainer.find('.warning').first().removeClass('d-none');
 				aletrsContainer.find('.warning .btn').click(function (e) {
 					var btn = $(this);
 					var save = true;
@@ -423,7 +423,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					if (save) {
 						aletrsContainer.find('.warning').first().remove();
 						if (aletrsContainer.find('.warning').length) {
-							aletrsContainer.find('.warning').first().removeClass('hide');
+							aletrsContainer.find('.warning').first().removeClass('d-none');
 						} else {
 							app.hideModalWindow(modal);
 						}

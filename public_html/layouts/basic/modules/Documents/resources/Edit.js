@@ -80,9 +80,9 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 			var fileNameElementTd = newFileNameElement.closest('.fieldValue');
 			var uploadFileDetails = fileNameElementTd.find('.uploadedFileDetails');
 			if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
-				uploadFileDetails.addClass('hide').removeClass('show');
+				uploadFileDetails.addClass('d-none').removeClass('show');
 			} else {
-				uploadFileDetails.addClass('show').removeClass('hide');
+				uploadFileDetails.addClass('show').removeClass('d-none');
 			}
 		});
 	},

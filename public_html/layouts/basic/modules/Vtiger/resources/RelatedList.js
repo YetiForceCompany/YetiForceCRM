@@ -623,7 +623,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				var row = target.closest('tr');
 				var inventoryRow = row.next();
 				if (inventoryRow.hasClass('listViewInventoryEntries')) {
-					inventoryRow.toggleClass('hide');
+					inventoryRow.toggleClass('d-none');
 				}
 			});
 		} else if (this.relatedView == 'ListPreview') {
@@ -754,10 +754,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					var state = element.data('state') ? 0 : 1;
 					element.data('state', state);
 					element.find('[data-fa-i2svg]').each(function () {
-						if (jQuery(this).hasClass('hide')) {
-							jQuery(this).removeClass('hide');
+						if (jQuery(this).hasClass('d-none')) {
+							jQuery(this).removeClass('d-none');
 						} else {
-							jQuery(this).addClass('hide');
+							jQuery(this).addClass('d-none');
 						}
 					})
 					progressInstance.progressIndicator({'mode': 'hide'});

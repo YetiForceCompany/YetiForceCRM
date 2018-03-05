@@ -22,9 +22,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			var element = jQuery(e.currentTarget);
 			var closestDiv = element.closest('div').next();
 			if (element.is(':checked')) {
-				closestDiv.removeClass('hide');
+				closestDiv.removeClass('d-none');
 			} else {
-				closestDiv.addClass('hide');
+				closestDiv.addClass('d-none');
 			}
 		});
 	},
@@ -39,17 +39,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			var repeatUI = form.find('.repeatUI');
 			var container = form.find('[name="followup"]').closest('.fieldValue');
 			if (element.is(':checked')) {
-				repeatUI.removeClass('hide');
+				repeatUI.removeClass('d-none');
 				container.find('[name="followup_display"]').attr('disabled', 'disabled');
 				container.find('button').attr('disabled', 'disabled');
 			} else {
 				container.find('[name="followup_display"]').removeAttr('disabled');
 				container.find('button').removeAttr('disabled');
-				repeatUI.addClass('hide');
+				repeatUI.addClass('d-none');
 			}
 		});
 		if (form.find('input[name="reapeat"]').is(':checked')) {
-			form.find('.repeatUI').removeClass('hide');
+			form.find('.repeatUI').removeClass('d-none');
 			var container = form.find('[name="followup"]').closest('.fieldValue');
 			container.find('[name="followup_display"]').attr('disabled', 'disabled');
 			container.find('button').attr('disabled', 'disabled');
@@ -88,14 +88,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	changeRecurringTypesUIStyles: function (recurringType) {
 		var container = this.getForm();
 		if (recurringType == 'DAILY' || recurringType == 'YEARLY') {
-			container.find('.repeatWeekUI').removeClass('show').addClass('hide');
-			container.find('.repeatMonthUI').removeClass('show').addClass('hide');
+			container.find('.repeatWeekUI').removeClass('show').addClass('d-none');
+			container.find('.repeatMonthUI').removeClass('show').addClass('d-none');
 		} else if (recurringType == 'WEEKLY') {
-			container.find('.repeatWeekUI').removeClass('hide').addClass('show');
-			container.find('.repeatMonthUI').removeClass('show').addClass('hide');
+			container.find('.repeatWeekUI').removeClass('d-none').addClass('show');
+			container.find('.repeatMonthUI').removeClass('show').addClass('d-none');
 		} else if (recurringType == 'MONTHLY') {
-			container.find('.repeatWeekUI').removeClass('show').addClass('hide');
-			container.find('.repeatMonthUI').removeClass('hide').addClass('show');
+			container.find('.repeatWeekUI').removeClass('show').addClass('d-none');
+			container.find('.repeatMonthUI').removeClass('d-none').addClass('show');
 		}
 	},
 	setDefaultEndTime: function (container) {
@@ -209,9 +209,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
 		var timeBetweenDates = secondDateInstance - new Date();
 		if (timeBetweenDates >= 0) {
-			container.find('.saveAndComplete').addClass('hide');
+			container.find('.saveAndComplete').addClass('d-none');
 		} else {
-			container.find('.saveAndComplete').removeClass('hide');
+			container.find('.saveAndComplete').removeClass('d-none');
 		}
 	},
 	registerEndDateTimeChangeLogger: function (container) {
@@ -517,7 +517,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					}
 				});
 				if (recordExist) {
-					var inviteRow = inviteesContent.find('.hide .inviteRow').clone(true, true);
+					var inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
 					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).then(function (email) {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);

@@ -26,7 +26,7 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 		var thisInstance = this;
 		content.find('button.saveMapping').on('click', function () {
 			var mapping = [];
-			jQuery('#convertLeadMapping tr.listViewEntries:not(.hide)').each(function () {
+			jQuery('#convertLeadMapping tr.listViewEntries:not(.d-none)').each(function () {
 				var leadName = jQuery(this).find('select.leadsFields').val();
 				var accountName = jQuery(this).find('select.accountsFields').val();
 				var relations = [];
@@ -62,9 +62,9 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 		content.find('[name="create_always"]').on('change', function (e) {
 			var mappingTable = jQuery('.mappingTable');
 			if (this.checked) {
-				mappingTable.removeClass('hide');
+				mappingTable.removeClass('d-none');
 			} else {
-				mappingTable.addClass('hide');
+				mappingTable.addClass('d-none');
 			}
 		});
 	},

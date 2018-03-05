@@ -125,8 +125,8 @@ var Settings_Index_Js = {
 		var element = jQuery(e);
 		var elementTd = element.closest('td');
 		var textarea = elementTd.find('textarea.ckEditorSource');
-		element.addClass('hide');
-		textarea.removeClass('hide');
+		element.addClass('d-none');
+		textarea.removeClass('d-none');
 		thisInstance.loadCkEditorElement(textarea);
 	},
 	/**
@@ -151,8 +151,8 @@ var Settings_Index_Js = {
 				}
 			}
 			ckeditor.destroy();
-			textarea.addClass('hide');
-			element.find('button.editButton').removeClass('hide');
+			textarea.addClass('d-none');
+			element.find('button.editButton').removeClass('d-none');
 		}
 	},
 	loadCkEditorElement: function (noteContentElement) {

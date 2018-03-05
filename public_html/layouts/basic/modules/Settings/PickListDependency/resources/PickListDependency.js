@@ -155,7 +155,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var dependencyGraph = jQuery('#dependencyGraph');
 		if (sourceFieldValue != '' && targetFieldValue != '') {
 			var result = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
-			form.find('.errorMessage').addClass('hide');
+			form.find('.errorMessage').addClass('d-none');
 			if (sourceFieldValue == targetFieldValue) {
 				select2TargetField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 				dependencyGraph.html('');
@@ -177,8 +177,8 @@ jQuery.Class('Settings_PickListDependency_Js', {
 								progressIndicatorElement.progressIndicator({'mode': 'hide'});
 							} else {
 								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								form.find('.errorMessage').removeClass('hide');
-								form.find('.cancelAddView').removeClass('hide');
+								form.find('.errorMessage').removeClass('d-none');
+								form.find('.cancelAddView').removeClass('d-none');
 								dependencyGraph.html('');
 							}
 						},
@@ -188,7 +188,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				);
 			}
 		} else {
-			form.find('.errorMessage').addClass('hide');
+			form.find('.errorMessage').addClass('d-none');
 			var result = app.vtranslate('JS_SELECT_SOME_VALUE');
 			if (sourceFieldValue == '') {
 				select2SourceField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
@@ -283,7 +283,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	registerCancelAddView: function (form) {
 		var thisInstance = this;
 		var cancelDiv = form.find('.cancelAddView');
-		cancelDiv.removeClass('hide');
+		cancelDiv.removeClass('d-none');
 		cancelDiv.find('.cancelLink').click(function () {
 			thisInstance.loadListViewContents(thisInstance.listViewForModule);
 		})
@@ -306,7 +306,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var form = jQuery('#pickListDependencyForm');
 		var dependencyGraph = jQuery('#dependencyGraph');
-		form.find('.cancelAddView').addClass('hide');
+		form.find('.cancelAddView').addClass('d-none');
 		thisInstance.registerTargetFieldsClickEvent(dependencyGraph);
 		thisInstance.registerTargetFieldsUnmarkAll(dependencyGraph);
 		thisInstance.registerSelectSourceValuesClick(dependencyGraph);
@@ -401,7 +401,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 			var selectSourceValues = dependencyGraph.find('.modalCloneCopy');
 			var clonedContainer = selectSourceValues.clone(true, true).removeClass('modalCloneCopy');
 			var callBackFunction = function (data) {
-				data.find('.sourcePicklistValuesModal').removeClass('hide');
+				data.find('.sourcePicklistValuesModal').removeClass('d-none');
 				data.find('[name="saveButton"]').click(function (e) {
 					thisInstance.selectedSourceValues = [];
 					var sourceValues = data.find('.sourceValue');

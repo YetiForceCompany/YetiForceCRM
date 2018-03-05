@@ -118,14 +118,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		relatedList.on('click', '.inActiveRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
-			relatedModule.find('.activeRelationModule').removeClass('hide').show();
+			relatedModule.find('.activeRelationModule').removeClass('d-none').show();
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), false);
 		});
 		relatedList.on('click', '.activeRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
-			relatedModule.find('.inActiveRelationModule').removeClass('hide').show();
+			relatedModule.find('.inActiveRelationModule').removeClass('d-none').show();
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), true);
 		});
@@ -264,10 +264,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				function (data) {
 					currentTarget.data('state', status);
 					currentTarget.find('[data-fa-i2svg]').each(function () {
-						if (jQuery(this).hasClass('hide')) {
-							jQuery(this).removeClass('hide');
+						if (jQuery(this).hasClass('d-none')) {
+							jQuery(this).removeClass('d-none');
 						} else {
-							jQuery(this).addClass('hide');
+							jQuery(this).addClass('d-none');
 						}
 					})
 					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_NOTIFY_OK')});
@@ -462,7 +462,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				thisInstance.updatedBlocksList = [];
 				thisInstance.updatedBlockFieldsList = [];
 			}
-			saveButton.removeClass('hide');
+			saveButton.removeClass('d-none');
 			saveButton.removeClass('invisible');
 			var params = {};
 			params['text'] = app.vtranslate('JS_SAVE_THE_CHANGES_TO_UPDATE_FIELD_SEQUENCE');
@@ -475,7 +475,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	hideSaveFieldSequenceButton: function () {
 		var layout = jQuery('#detailViewLayout');
 		var saveButton = layout.find('.saveFieldSequence');
-		saveButton.addClass('hide');
+		saveButton.addClass('d-none');
 	},
 	/**
 	 * Function to create the blocks list which are updated while sorting
@@ -587,7 +587,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		contents.find('.addCustomField').click(function (e) {
 			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
-			addFieldContainer.removeClass('hide').show();
+			addFieldContainer.removeClass('d-none').show();
 
 			var callBackFunction = function (data) {
 				//register all select2 Elements
@@ -730,7 +730,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	registerTableTypeChangeEvent: function (form) {
 		form.find('[name="fieldTypeList"]').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			form.find('[name="fieldName"]').closest('.form-group').toggleClass('hide');
+			form.find('[name="fieldName"]').closest('.form-group').toggleClass('d-none');
 		})
 	},
 	/**
@@ -755,16 +755,16 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var selectedOption = currentTarget.find('option:selected');
 
 			//hide all the elements like length, decimal,picklist
-			form.find('.supportedType').addClass('hide');
+			form.find('.supportedType').addClass('d-none');
 
 			if (selectedOption.data('lengthsupported')) {
-				form.find('.lengthsupported').removeClass('hide');
+				form.find('.lengthsupported').removeClass('d-none');
 				lengthInput.data('validator', maxLengthValidator);
 			}
 
 			if (selectedOption.data('decimalsupported')) {
 				var decimalFieldUi = form.find('.decimalsupported');
-				decimalFieldUi.removeClass('hide');
+				decimalFieldUi.removeClass('d-none');
 
 				var decimalInput = decimalFieldUi.find('[name="decimal"]');
 				var maxFloatingDigits = selectedOption.data('maxfloatingdigits');
@@ -783,20 +783,20 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 			if (selectedOption.data('predefinedvalueexists')) {
 				var pickListUi = form.find('.preDefinedValueExists');
-				pickListUi.removeClass('hide');
+				pickListUi.removeClass('d-none');
 			}
 			if (selectedOption.data('picklistoption')) {
 				var pickListOption = form.find('.picklistOption');
-				pickListOption.removeClass('hide');
+				pickListOption.removeClass('d-none');
 			}
 			if (selectedOption.val() == 'Related1M') {
-				form.find('.preDefinedModuleList').removeClass('hide');
+				form.find('.preDefinedModuleList').removeClass('d-none');
 			}
 			if (selectedOption.val() == 'Tree' || selectedOption.val() == 'CategoryMultipicklist') {
-				form.find('.preDefinedTreeList').removeClass('hide');
+				form.find('.preDefinedTreeList').removeClass('d-none');
 			}
 			if (selectedOption.val() == 'MultiReferenceValue') {
-				form.find('.preMultiReferenceValue').removeClass('hide');
+				form.find('.preMultiReferenceValue').removeClass('d-none');
 				thisInstance.loadMultiReferenceFields(form);
 			}
 		})
@@ -829,9 +829,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var length2 = sortable2.children().length;
 		// Deciding where to add the new field
 		if (length1 > length2) {
-			sortable2.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
+			sortable2.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
 		} else {
-			sortable1.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
+			sortable1.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
 		}
 		thisInstance.makeFieldsListSortable();
 	},
@@ -845,7 +845,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
 			var callBackFunction = function (data) {
-				data.find('.addBlockModal').removeClass('hide').show();
+				data.find('.addBlockModal').removeClass('d-none').show();
 				//register all select2 Elements
 				app.showSelect2ElementView(data.find('select'));
 
@@ -942,9 +942,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append(jQuery('<strong>' + result['label'] + '</strong>'));
 		newBlockCloneCopy.find('.blockVisibility').data('blockId', result['id']);
 		if (result['isAddCustomFieldEnabled']) {
-			newBlockCloneCopy.find('.addCustomField').removeClass('hide');
+			newBlockCloneCopy.find('.addCustomField').removeClass('d-none');
 		}
-		beforeBlock.after(newBlockCloneCopy.removeClass('hide newCustomBlockCopy').addClass('editFieldsTable block_' + result['id']));
+		beforeBlock.after(newBlockCloneCopy.removeClass('d-none newCustomBlockCopy').addClass('editFieldsTable block_' + result['id']));
 
 		newBlockCloneCopy.find('.blockFieldsList').sortable({'connectWith': '.blockFieldsList'});
 	},
@@ -989,10 +989,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var currentTarget = jQuery(e.currentTarget);
 			var oldDisplayStatus = currentTarget.data('visible');
 			if (oldDisplayStatus == '0') {
-				currentTarget.find('.fa-check').removeClass('hide');
+				currentTarget.find('.fa-check').removeClass('d-none');
 				currentTarget.data('visible', '1');
 			} else {
-				currentTarget.find('.fa-check').addClass('hide');
+				currentTarget.find('.fa-check').addClass('d-none');
 				currentTarget.data('visible', '0');
 			}
 			thisInstance.updateBlockStatus(currentTarget);
@@ -1055,7 +1055,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var inActiveFieldsContainer = contents.find('.inactiveFieldsModal').clone(true, true);
 
 				var callBackFunction = function (data) {
-					data.find('.inactiveFieldsModal').removeClass('hide').show();
+					data.find('.inactiveFieldsModal').removeClass('d-none').show();
 					thisInstance.reactiveFieldsList = [];
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
@@ -1516,12 +1516,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		container.find('.configButton').on('click', function (e) {
 			container.find('.defaultValueUi .input-group').each(function (n, e) {
 				var currentElement = $(e);
-				if (currentElement.hasClass('hide')) {
+				if (currentElement.hasClass('d-none')) {
 					currentElement.find('input,select').prop('disabled', false);
 				} else {
 					currentElement.find('input,select').prop('disabled', true);
 				}
-				currentElement.toggleClass('hide');
+				currentElement.toggleClass('d-none');
 			})
 		});
 		container.find('.varibleToParsers').on('click', function (e) {
@@ -1719,7 +1719,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					} else if (result) {
 						app.hideModalWindow();
 						var newLiElement = containerInventory.find('.newLiElement').clone(true, true);
-						newLiElement.removeClass('hide newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.invtype).attr('data-column', result.data.columnname).find('.fieldLabel').text(result.data.translate);
+						newLiElement.removeClass('d-none newLiElement').find('.editFields').attr('data-id', result.data.id).attr('data-sequence', result.data.sequence).attr('data-name', result.data.invtype).attr('data-column', result.data.columnname).find('.fieldLabel').text(result.data.translate);
 						containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
 
 					}

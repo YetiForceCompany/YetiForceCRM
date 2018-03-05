@@ -137,19 +137,19 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	registerMetatagsClickEvent: function (form) {
 		var metaTagsStatus = form.find('#metatags_status');
 		if (metaTagsStatus.is(':checked')) {
-			form.find('.metatags').addClass('hide');
+			form.find('.metatags').addClass('d-none');
 		} else {
-			form.find('.metatags').removeClass('hide');
+			form.find('.metatags').removeClass('d-none');
 		}
 
 		metaTagsStatus.on('change', function () {
 			var status = jQuery(this).is(':checked');
 			if (status) {
-				jQuery('.metatags', form).addClass('hide');
+				jQuery('.metatags', form).addClass('d-none');
 			} else {
 				jQuery('#set_subject', form).val(jQuery('#secondary_name', form).val());
 				jQuery('#set_title', form).val(jQuery('#primary_name', form).val());
-				jQuery('.metatags', form).removeClass('hide');
+				jQuery('.metatags', form).removeClass('d-none');
 			}
 		});
 	},

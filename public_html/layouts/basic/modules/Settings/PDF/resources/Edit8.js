@@ -76,8 +76,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 		var watermarkType = container.find('#watermark_type');
 
 		watermarkType.on('change', function () {
-			container.find('.watertext').toggleClass('hide')
-			container.find('.waterimage').toggleClass('hide')
+			container.find('.watertext').toggleClass('d-none')
+			container.find('.waterimage').toggleClass('d-none')
 		});
 	},
 	registerUploadButton: function (form) {
@@ -118,7 +118,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 
 					form.find('#watermark').html('<img src="storage/Pdf/watermark/' + uploadedImage + '" class="col-md-9" />');
 					form.find('[name="watermark_image"]').val('storage/Pdf/watermark/' + uploadedImage);
-					form.find('#deleteWM').removeClass('hide');
+					form.find('#deleteWM').removeClass('d-none');
 				}
 			};
 
@@ -144,7 +144,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 						if (response) {
 							form.find('#watermark').html('');
 							form.find('[name="watermark_image"]').val('');
-							form.find('#deleteWM').addClass('hide');
+							form.find('#deleteWM').addClass('d-none');
 						}
 					},
 					function (data, err) {
