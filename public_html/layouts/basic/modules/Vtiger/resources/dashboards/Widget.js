@@ -548,13 +548,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return eventData;
 	},
-	getDefaultDatalabelsConfig: function () {
+	getDefaultDatalabelsConfig: function (dataset, type = 'bar') {
+		let borderRadius = 2;
+		switch (type) {
+			case 'pie':
+				borderRadius = 5;
+				break;
+		}
 		return {
 			font: {
 				size: 11
 			},
 			color: 'white',
 			backgroundColor: 'rgba(0,0,0,0.2)',
+			borderColor: 'rgba(255,255,255,0.2)',
+			borderWidth: 2,
+			borderRadius: borderRadius,
 			anchor: 'center',
 			align: 'center',
 			formatter: function (value, context) {
@@ -576,12 +585,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		};
 	},
-	applyDefaultDatalabelsConfig: function (chartData) {
+	applyDefaultDatalabelsConfig: function (chartData, chartType) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
 		chartData.datasets.forEach((dataset) => {
-			dataset.datalabels = this.getDefaultDatalabelsConfig(dataset);
+			dataset.datalabels = this.getDefaultDatalabelsConfig(dataset, chartType);
 		});
 		return chartData;
 	},
@@ -728,39 +737,9 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	}
 });
 Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
-	getDefaultDatalabelsConfig: function (dataset) {
-		return {
-			font: {
-				size: 11
-			},
-			color: 'white',
-			backgroundColor: 'rgba(0,0,0,0.2)',
-			borderColor: 'white',
-			borderWidth: 2,
-			borderRadius: 10,
-			anchor: 'center',
-			align: 'center',
-			formatter: function (value, context) {
-				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
-					// data presented in different format usually exists in alternative dataFormatted array
-					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
-				}
-				if (!isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
-				}
-				return value;
-			},
-			display: function (context) {
-				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
-					// data presented in different format usually exists in alternative dataFormatted array
-					return typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined';
-				}
-				return typeof context.dataset.data[context.dataIndex] !== 'undefined';
-			}
-		};
-	},
+
 	loadChart: function (options = {}) {
-		const data = this.applyDefaultDatalabelsConfig(this.generateData());
+		const data = this.applyDefaultDatalabelsConfig(this.generateData(), 'pie');
 		options = this.applyDefaultTooltipsConfig(options);
 		this.chartInstance = new Chart(
 				this.getPlotContainer().getContext("2d"),
