@@ -10,33 +10,7 @@
 ************************************************************************************/
 -->*}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{
-		loadChart:function(){
-			const thisInstance = this;
-			const options = {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: false
-					},
-					events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-				};
-			const data = thisInstance.generateData();
-			thisInstance.applyDefaultDatalabelsConfig(data);
-			thisInstance.applyDefaultTooltipsConfig(options);
-			thisInstance.applyDefaultAxesLabelsConfig(options);
-			thisInstance.chartInstance = new Chart(
-					thisInstance.getPlotContainer().getContext("2d"),
-					{
-						type: 'bar',
-						data: data,
-						options: options,
-					}
-			);
-		}
-	});
+	YetiForce_Bar_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{});
 </script>
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}

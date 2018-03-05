@@ -18,7 +18,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		if (!empty($date)) {
 			$displayDate = \App\Fields\Date::formatToDisplay($date);
-			array_push($conditions, ['due_date', 'bw', $displayDate . ',' . $displayDate . '']);
+			array_push($conditions, ['due_date', 'bw', \App\Fields\Date::formatToDb($displayDate) . ',' . \App\Fields\Date::formatToDb($displayDate)]);
 		}
 		$listSearchParams[] = $conditions;
 
