@@ -17,7 +17,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dateStart) && !empty($dateEnd)) {
-			array_push($conditions, ['due_date', 'bw', $dateStart . ',' . $dateEnd . '']);
+			array_push($conditions, ['due_date', 'bw', \App\Fields\Date::formatToDb($dateStart) . ',' . \App\Fields\Date::formatToDb($dateEnd) . '']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
