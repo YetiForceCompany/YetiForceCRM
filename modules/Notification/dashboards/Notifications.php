@@ -11,22 +11,21 @@ class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 {
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUser->getId());
-		$limit = (int) $widget->get('limit');
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
+		$limit = $widget->getInteger('limit');
 		if (empty($limit)) {
 			$limit = 10;
 		}
-		$type = $request->get('type');
+		$type = $request->getByType('type');
 		$condition = false;
 		if (!empty($type)) {
 			$condition = ['u_#__notification.notification_type' => $type];
 		}
 		$notificationModel = Notification_Module_Model::getInstance($moduleName);
 		$notifications = $notificationModel->getEntries($limit, $condition);
-
 		$typesNotification = $notificationModel->getTypes();
 		array_unshift($typesNotification, \App\Language::translate('All'));
 		$viewer->assign('TYPES_NOTIFICATION', $typesNotification);
