@@ -44,10 +44,10 @@ $languageStrings = [
 	'PLL_NOT_APPLICABLE_VERIFICATION' => 'No aplicable (verificación)',
 	//YetiForce
 	'description' => 'Descripción',
-	'attentions' => 'Comentarios',
+	'attentions' => 'Notas',
 	'BLOCK_INFORMATION_TIME' => 'Información de Tiempos',
 	'LBL_GENERATE_EXTENSION' => 'Generar extensión',
-	'LBL_ORDER_TIME' => 'Tiempo de ejecución',
+	'LBL_ORDER_TIME' => 'Tiempo estimado',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Caducidad de productos vendidos',
 	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

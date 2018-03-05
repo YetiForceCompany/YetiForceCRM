@@ -6,24 +6,24 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'FInvoiceCost' => 'Costo de Facturas',
-	'SINGLE_FInvoiceCost' => 'Costo de Factura',
+	'FInvoiceCost' => 'Facturas de Gasto',
+	'SINGLE_FInvoiceCost' => 'Factura de Gasto',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_INVOICE_ADDRESS' => 'Dirección de facturación',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Información sobre la Dirección de Entrega',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
-	'LBL_ATTENTION_BLOCK' => 'Comentarios',
+	'LBL_ATTENTION_BLOCK' => 'Notas',
 	//FIELDS
 	'FL_SUBJECT' => 'Asunto',
 	'FL_PAYMENT_DATE' => 'Fecha de vencimiento',
-	'FL_SALE_DATE' => 'Fecha de venta',
+	'FL_SALE_DATE' => 'Fecha de factura',
 	'FL_FORM_PAYMENT' => 'Método de pago',
 	'FL_BANK_ACCOUNT' => 'Número de cuenta bancaria',
 	'FL_NUMBER' => 'ID Factura',
 	'FL_ACCOUNT' => 'Empresa',
-	'FL_TOTAL' => 'Neto',
-	'FL_GROSS' => 'Bruto',
+	'FL_TOTAL' => 'Total',
+	'FL_GROSS' => 'Subtotal',
 	'FL_STATUS' => 'Estado',
 	'FL_PAYMENT_STATUS' => 'Estado de pago',
 	'FL_INVOICE_TYPE' => 'Tipo de Factura',

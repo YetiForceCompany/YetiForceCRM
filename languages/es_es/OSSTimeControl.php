@@ -51,7 +51,7 @@ $languageStrings = [
 	'1 hour' => '1 hora',
 	'MSG_EDIT_OK' => 'Ha realizado cambios en la configuración correctamente.',
 	'MSG_EDIT_ERROR' => 'Error al guardar los cambios.',
-	//YetiForce
+	// YetiForce
 	'Calculations' => 'Cálculos',
 	'As part of the order' => 'Como parte del Contrato de servicio',
 	'As part of the support' => 'Como parte del Soporte',
@@ -60,7 +60,7 @@ $languageStrings = [
 	'LBL_PRODUCT_INFORMATION' => 'Información sobre el Producto',
 	'To approval' => 'Por Aprobar',
 	'Accepted' => 'Aceptado',
-	'Brutto' => 'Bruto',
+	'Brutto' => 'Subtotal',
 	// subject
 	'Telephone contact' => 'Teléfono de contacto',
 	'Email contact' => 'Correo de contacto',
@@ -99,8 +99,8 @@ $languageStrings = [
 	'LBL_WORKDAYS_INFO' => 'Días trabajados',
 	'LBL_SUM' => 'Suma',
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Gráfico de tiempo de trabajo dividido por usuarios',
-	'LBL_TIME_CONTROL_LIST' => 'Time Control List',
-	'LBL_TIME_CONTROL_USER_GROUP' => 'Time Control List with additional information about users',
+	'LBL_TIME_CONTROL_LIST' => 'Lista de control de tiempo',
+	'LBL_TIME_CONTROL_USER_GROUP' => 'Lista de control de tiempo con información adicional sobre los usuarios',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',

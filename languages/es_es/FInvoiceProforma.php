@@ -19,8 +19,8 @@ $languageStrings = [
 	'FL_BANK_ACCOUNT' => 'Número de cuenta bancaria',
 	'FL_NUMBER' => 'ID Factura',
 	'FL_ACCOUNT' => 'Empresa',
-	'FL_TOTAL' => 'Neto',
-	'FL_GROSS' => 'Bruto',
+	'FL_TOTAL' => 'Total',
+	'FL_GROSS' => 'Subtotal',
 	'FL_STATUS' => 'Estado',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'transferencia',

@@ -303,7 +303,7 @@ $languageStrings = [
 	'LBL_BASIC_EXPORT' => 'Exportar datos básicos',
 	'LBL_MASS_PASSWORD_EDITING' => 'Edición en masa de las contraseñas',
 	'LBL_MASS_PWD_EDIT' => 'Edición en masa de las contraseñas',
-	'Approval for email' => 'Permiso para enviar correos electrónicos',
+	'Approval for email' => '¿Acepta envío de correo?',
 	'LBL_GENERATED_COLOR' => 'Color generado',
 	'LBL_SAVE_COLOR' => 'Color guardado',
 	'LBL_EMAIL' => 'Correo',
@@ -350,9 +350,9 @@ $languageStrings = [
 	'LBL_NEW_PASSWORD_CRITERIA' => 'La nueva contraseña debe cumplir los siguientes criterios:',
 	'LBL_USERS_NEED_CHANGE_PASSWORD' => 'Usuarios que deben cambiar sus contraseñas',
 	'LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM' => 'No puede cambiar la contraseña, el usuario usa la autorización en un sistema externo',
-	'FL_VIEW_DATE_FORMAT' => 'Preview date format',
-	'PLL_FULL' => 'Full date and time',
-	'PLL_ELAPSED' => 'Time elapsed',
+	'FL_VIEW_DATE_FORMAT' => 'Vista previa del formato de fecha',
+	'PLL_FULL' => 'Fecha y hora completa',
+	'PLL_ELAPSED' => 'Tiempo transcurrido',
 ];
 
 $jsLanguageStrings = [
