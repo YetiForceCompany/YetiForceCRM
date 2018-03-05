@@ -135,6 +135,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * @param {jQuery} container - current container for reference.
 	 * @returns {Split} A split object.
 	 */
+	setSplitWindowsSize(container) {
+		const cachedParams = app.moduleCacheGet('splitParamsRelatedList');
+		if (cachedParams !== null) {
+			return cachedParams;
+		} else {
+			let thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
+			thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
+			return [thWidth, 100 - thWidth];
+		}
+	},
 	registerSplit: function (container) {
 		var thisInstance = this;
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
@@ -145,7 +155,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var wrappedPanelLeft = container.find(wrappedPanel[0]);
 		var wrappedPanelRight = container.find(wrappedPanel[1]);
 		var split = Split(['.fixedListInitial', '.listPreview'], {
-			sizes: [thWidth, 100 - thWidth],
+			sizes: thisInstance.setSplitWindowsSize(container),
 			minSize: 10,
 			gutterSize: 8,
 			snapOffset: 100,
@@ -164,6 +174,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				} else {
 					wrappedPanelRight.removeClass('wrappedPanelRight');
 				}
+				app.moduleCacheSet('splitParamsRelatedList', split.getSizes());
 			}
 		});
 		var gutter = container.find('.gutter');
