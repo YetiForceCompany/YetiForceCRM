@@ -26,10 +26,9 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ',' . $dates['end']]);
+			array_push($conditions, ['createdtime', 'bw', \App\Fields\Date::formatToDb($dates['start']) . ',' . \App\Fields\Date::formatToDb($dates['end'])]);
 		}
 		$listSearchParams[] = $conditions;
-
 		return '&search_params=' . App\Json::encode($listSearchParams);
 	}
 
@@ -57,7 +56,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
+			$query->andWhere(['between', 'createdtime', \App\Fields\Date::formatToDb($dateFilter['start']) . ' 00:00:00', \App\Fields\Date::formatToDb($dateFilter['end']) . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
@@ -110,29 +109,21 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$owner = '';
 		}
 		$createdTime = $request->getDateRange('createdtime');
-		//Date conversion from user to database format
-		$dates = [];
-		if (!empty($createdTime)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
-		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time !== false) {
-				$dates = $time;
-			}
+		if (empty($createdTime)) {
+			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $this->getAccountsByIndustry($owner, $dates);
+		$data = $this->getAccountsByIndustry($owner, $createdTime);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadSIndustryAmount = count($data['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
-			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $dates);
+			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $createdTime);
 		}
 		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DTIME', $dates);
+		$viewer->assign('DTIME', $createdTime);
 		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleUsersForModule());
 		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleGroupForModule());
 		$viewer->assign('OWNER', $ownerForwarded);

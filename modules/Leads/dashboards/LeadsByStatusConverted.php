@@ -19,10 +19,9 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59']);
+			array_push($conditions, ['createdtime', 'bw', \App\Fields\Date::formatToDb($dates['start']) . ' 00:00:00,' . \App\Fields\Date::formatToDb($dates['end']) . ' 23:59:59']);
 		}
 		$listSearchParams[] = $conditions;
-
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
@@ -48,7 +47,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
+			$query->andWhere(['between', 'createdtime', \App\Fields\Date::formatToDb($dateFilter['start']) . ' 00:00:00', \App\Fields\Date::formatToDb($dateFilter['end']) . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
 		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
@@ -97,28 +96,20 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		if ($owner == 'all') {
 			$owner = '';
 		}
-		$dates = [];
-		//Date conversion from user to database format
-		if (!empty($createdTime)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
-		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time !== false) {
-				$dates = $time;
-			}
+		if (empty($createdTime)) {
+			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 		}
-		$data = ($owner === false) ? [] : $this->getLeadsByStatusConverted($owner, $dates);
+		$data = ($owner === false) ? [] : $this->getLeadsByStatusConverted($owner, $createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$leadStatusAmount = count($data['names']);
 		for ($i = 0; $i < $leadStatusAmount; ++$i) {
-			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $dates);
+			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $createdTime);
 		}
 		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DTIME', $dates);
+		$viewer->assign('DTIME', $createdTime);
 		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Leads', $currentUserId)->getAccessibleUsersForModule());
 		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Leads', $currentUserId)->getAccessibleGroupForModule());
 		$viewer->assign('OWNER', $ownerForwarded);
