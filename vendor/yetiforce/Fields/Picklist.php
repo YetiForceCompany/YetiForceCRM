@@ -279,8 +279,7 @@ class Picklist
 		$colors = [];
 		foreach (static::getValues($fieldName) as $id => $value) {
 			if (empty($value['color'])) {
-				$hash = md5('color' . $id);
-				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
+				$color = \App\Colors::getRandomColor($id);
 			} else {
 				$color = substr($value['color'], 0, 1) === '#' ? $value['color'] : '#' . $value['color'];
 			}
