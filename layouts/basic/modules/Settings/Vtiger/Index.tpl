@@ -13,18 +13,21 @@
 	{if $WARNINGS}
 		<div id="systemWarningAletrs">
 			<div class="modal fade static">
-				<div class="modal-dialog">
+				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title" id="myModalLabel">
-								<span class="fas fa-exclamation-circle redColor"></span>&nbsp;&nbsp;
+							<h5 class="modal-title">
+								<span class="fas fa-exclamation-circle redColor mr-1"></span>
 								{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
-							</h4>
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
 						</div>
 						<div class="modal-body">
 							<div class="warnings">
 								{foreach from=$WARNINGS item=ITEM}
-									<div class="warning d-none" data-id="{get_class($ITEM)}">
+									<div class="warning d-none clearfix" data-id="{get_class($ITEM)}">
 										{if $ITEM->getTpl()}
 											{include file=$ITEM->getTpl()}
 										{else}
@@ -36,24 +39,23 @@
 											</p>
 											<div class="float-right">
 												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
-													<button type="button" class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
-														<span class="fas fa-minus-circle"></span>
-														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
-													</button>&nbsp;&nbsp;
+													<button class="btn btn-warning ajaxBtn" type="button" data-params="{$ITEM->getStatus()}">
+														<span class="fas fa-minus-circle mr-1"></span>
+														{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
+													</button>
 												{/if}
 												{if $ITEM->getLink()}
-													<a class="btn btn-success" href="{$ITEM->getLink()}" target="_blank">
-														<span class="fas fa-link"></span>
-														&nbsp;&nbsp;{$ITEM->linkTitle}
-													</a>&nbsp;&nbsp;
+													<a class="btn btn-success ml-1" href="{$ITEM->getLink()}" target="_blank">
+														<span class="fas fa-link mr-1"></span>
+														{$ITEM->linkTitle}
+													</a>
 												{/if}
-												<button type="button" class="btn btn-danger cancel">
-													<span class="fas fa-ban"></span>
-													&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
+												<button class="btn btn-danger cancel ml-1" type="button">
+													<span class="fas fa-ban mr-1"></span>
+													{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 												</button>
 											</div>
 										{/if}
-										<div class="clearfix"></div>
 									</div>
 								{/foreach}
 							</div>
