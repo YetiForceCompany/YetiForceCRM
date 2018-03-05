@@ -17,7 +17,7 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 				<div class="col-md-6">
-					<b class="float-right paddingTop10">
+					<b class="float-right pt-2">
 					{if $CRON_RECORD_MODEL->isDisabled() }{\App\Language::translate('LBL_DISABLED',$QUALIFIED_MODULE)}{/if}
 				{if $CRON_RECORD_MODEL->isRunning() }{\App\Language::translate('LBL_RUNNING',$QUALIFIED_MODULE)}{/if}
 				{if $CRON_RECORD_MODEL->isEnabled()}
@@ -37,19 +37,19 @@
 			</b>
 		</div>
 	</div>
-	<div class="listViewActionsDiv row">
+	<div class="listViewActionsDiv my-2 row">
 		<div class="col-md-4 btn-toolbar">
 			<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
 					{else} onclick='window.location.href = "{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
 							<i class="fas fa-plus"></i>&nbsp;
 							<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 						</button>
-						<button class="btn btn-light importButton" id="importButton" data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+						<button class="btn btn-outline-secondary ml-1 importButton" id="importButton" data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
 							<i class="fas fa-download"></i>
 						</button>
 					</div>
-					<div class="col-md-3 btn-toolbar marginLeftZero">
-						<select class="chzn-select form-control" id="moduleFilter" >
+					<div class="col-md-3 btn-toolbar ml-0">
+						<select class="select2 form-control" id="moduleFilter" >
 							<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 							{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 								<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
@@ -62,8 +62,10 @@
 							{/foreach}
 						</select>
 					</div>
-					<div class="col-md-5 ">
-						{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
+					<div class="col-md-5">
+						<div class="float-right">
+							{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
+						</div>
 					</div>
 			</div>
 		</div>
