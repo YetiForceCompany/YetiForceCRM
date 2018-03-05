@@ -1450,6 +1450,31 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			}
 		}
 	},
+	shortenXTicks: function (data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+				return value.substr(0, 10) + '...';
+			}
+		});
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.titleFormatted === 'undefined') {
+				dataset.titlesFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					dataset.titlesFormatted.push(data.labels[index]);
+				});
+			}
+		});
+		return options;
+	},
 	rotateXLabels90: function (data, options) {
 		if (typeof options.scales === 'undefined') {
 			options.scales = {};
@@ -1462,17 +1487,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				axis.ticks = {};
 			}
 			axis.ticks.minRotation = 90;
-			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
-				return value.substr(0, 10) + '...';
-			}
-		});
-		data.datasets.forEach((dataset) => {
-			if (typeof dataset.titleFormatted === 'undefined') {
-				dataset.titlesFormatted = [];
-				dataset.data.forEach((dataItem, index) => {
-					dataset.titlesFormatted.push(data.labels[index]);
-				});
-			}
 		});
 		return options;
 	},
@@ -1495,15 +1509,18 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 							const shortenedWidth = ctx.measureText(shortened).width;
 							if (barWidth < shortenedWidth) {
 								chart.options = this.rotateXLabels90(chart.data, chart.options);
-								if (!dataset._updated) {
-									dataset._updated = true;
-									chart.update();
-									// recalculate left positions for smooth animation
-									dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-										metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-									});
-									break;
-								}
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							} else {
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							}
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate left positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+								});
+								break;
 							}
 						}
 					}
