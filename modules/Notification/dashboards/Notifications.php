@@ -15,7 +15,7 @@ class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
-		$limit = $widget->getInteger('limit');
+		$limit = $widget->get('limit');
 		if (empty($limit)) {
 			$limit = 10;
 		}
