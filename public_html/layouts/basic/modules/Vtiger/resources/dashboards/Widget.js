@@ -456,27 +456,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerSectionClick: function () {
 		const thisInstance = this;
-		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.chartData.datasets === 'undefined' || thisInstance.chartData.datasets.length === 0 || typeof thisInstance.chartData.datasets[0].links === 'undefined' || thisInstance.chartData.datasets[0].links.length === 0) {
-			// if we doesn't have a links
-			return false;
-		}
 		let pointer = false;
 		$(thisInstance.chartInstance.canvas).on('click', function (e) {
 			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
 				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
 			}
 		}).on('mousemove', function (e) {
-			let eventData = thisInstance.getDataFromEvent(e);
-			if (eventData && !pointer) {
-				$(this).css('cursor', 'pointer');
-				pointer = true;
-			} else if (!eventData && pointer) {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
+				if (!pointer) {
+					$(this).css('cursor', 'pointer');
+					pointer = true;
+				}
+			} else {
+				if (pointer) {
+					$(this).css('cursor', 'auto');
+					pointer = false;
+				}
+			}
+		}).on('mouseout', function () {
+			if (pointer) {
 				$(this).css('cursor', 'auto');
 				pointer = false;
 			}
-		}).on('mouseout', function () {
-			$(this).css('cursor', 'auto');
-			pointer = false;
 		});
 	},
 	registerLoadMore: function () {
@@ -527,19 +528,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	getDataFromEvent: function (e, additionalFields) {
 		let chart = this.chartInstance;
-		var elements = chart.getElementsAtEvent(e);
+		const elements = chart.getElementAtEvent(e);
 		if (elements.length === 0) {
 			return false;
 		}
-		var dataIndex = elements[0]._index;
-		var eventData = {
+		const element = elements[0];
+		const dataIndex = element._index;
+		const datasetIndex = element._datasetIndex;
+		const eventData = {
 			label: chart.data.labels[dataIndex],
 			value: chart.data.datasets[0].data[dataIndex],
 		};
 		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
 			additionalFields.forEach((fieldName) => {
-				if (typeof chart.data.datasets[0][fieldName] !== 'undefined' && typeof chart.data.datasets[0][fieldName][dataIndex] !== 'undefined') {
-					eventData[fieldName] = chart.data.datasets[0][fieldName][dataIndex];
+				if (typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined') {
+					eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
 				}
 			});
 		}
@@ -2042,7 +2045,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 			this.getPlotContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				animate: !$.jqplot.use_excanvas,
-				seriesColors: data['colors'] != false ? data['colors'] : "",
+				seriesColors: data['colors'] !== false ? data['colors'] : "",
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
