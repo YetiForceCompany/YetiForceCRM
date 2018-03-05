@@ -1443,7 +1443,10 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				axis.ticks = {};
 			}
 			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
-				return value.substr(0, 10) + '...';
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
 			}
 		});
 		data.datasets.forEach((dataset) => {
@@ -1500,6 +1503,8 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 								// recalculate left positions for smooth animation
 								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
 									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
 								});
 								break;
 							}
