@@ -301,15 +301,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var queryParamComponents = queryParam.split('=');
 				keyValueMap[queryParamComponents[0]] = queryParamComponents[1];
 			}
-			var params = {
-				type: 'POST',
-				dataType: 'html',
-				data: keyValueMap
-			};
+			params = keyValueMap;
 		}
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		contentContainer.progressIndicator({});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request({
+			type: 'POST',
+			async: false,
+			dataType: 'html',
+			data: params
+		}).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
