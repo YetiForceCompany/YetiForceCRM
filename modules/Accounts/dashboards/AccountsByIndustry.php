@@ -70,10 +70,10 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 					'backgroundColor' => [],
 					'borderColor' => [],
 					'tooltips' => [],
+					'names' => [], // names for link generation,
 					'links' => [], // links generated in proccess method
 				],
 			],
-			'names' => [], // names for link generation,
 			'show_chart' => false,
 		];
 		while ($row = $dataReader->read()) {
@@ -81,7 +81,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['data'][] = $row['count'];
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['industryid']];
 			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
-			$chartData['names'][] = $row['industryvalue'];
+			$chartData['datasets'][0]['names'][] = $row['industryvalue'];
 			$chartData['show_chart'] = true;
 		}
 		$dataReader->close();
@@ -115,9 +115,9 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $this->getAccountsByIndustry($owner, $createdTime);
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$leadSIndustryAmount = count($data['names']);
+		$leadSIndustryAmount = count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
-			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $createdTime);
+			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}
 		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);

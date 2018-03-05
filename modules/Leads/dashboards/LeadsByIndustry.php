@@ -59,17 +59,17 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 					'data' => [],
 					'backgroundColor' => [],
 					'links' => [], // links generated in proccess method
+					'names' => [] // names for link generation
 				],
 			],
 			'show_chart' => false,
-			'names' => [] // names for link generation
 		];
 		$colors = \App\Fields\Picklist::getColors('industry');
 		while ($row = $dataReader->read()) {
 			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], 'Leads');
 			$chartData['datasets'][0]['data'][] = $row['count'];
 			$chartData['datasets'][0]['backgroundColor'][] = !empty($colors[$row['industryid']]) ? $colors[$row['industryid']] : \App\Colors::getRandomColor($row['industryvalue']);
-			$chartData['names'][] = $row['industryvalue'];
+			$chartData['datasets'][0]['names'][] = $row['industryvalue'];
 		}
 		$dataReader->close();
 		if (count($chartData['datasets'][0]['data']) > 0) {
@@ -99,9 +99,9 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$data = ($owner === false) ? [] : $this->getLeadsByIndustry($owner, $createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$leadSIndustryAmount = count($data['names']);
+		$leadSIndustryAmount = count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
-			$data['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($data['names'][$i], $owner, $createdTime);
+			$data['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}
 		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
