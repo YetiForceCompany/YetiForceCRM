@@ -860,7 +860,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			});
 			mainBody.scroll(function () {
 				var gutter = container.find('.gutter');
-				if (!gutter.length) return;
+				if (!gutter.length)
+					return;
 				var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
 				gutter.css(mainWindowHeightCss);
 				fixedList.css(mainWindowHeightCss);
@@ -893,7 +894,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			});
 		}
 	},
-	setSplitWindowsSize(container) {
+	getSplitWindowsSize(container) {
 		const cachedParams = app.moduleCacheGet('splitParamsRelatedList');
 		if (cachedParams !== null) {
 			return cachedParams;
@@ -914,8 +915,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				var wrappedPanelLeft = container.find(wrappedPanel[0]);
 				var wrappedPanelRight = container.find(wrappedPanel[1]);
 				var listPreview = container.find('.listPreview');
-				var split = Split([container.find('.fixedListInitial')[0], container.find('.listPreview')[0]], {
-					sizes: thisInstance.setSplitWindowsSize(container),
+				var split = Split([fixedList[0], listPreview[0]], {
+					sizes: thisInstance.getSplitWindowsSize(container),
 					minSize: 10,
 					gutterSize: 8,
 					snapOffset: 100,

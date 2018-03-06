@@ -9,7 +9,6 @@
  */
 class Vtiger_ListPreview_View extends Vtiger_List_View
 {
-
 	/**
 	 * {@inheritdoc}
 	 */
