@@ -73,6 +73,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 				type: 'bar',
 				data: data,
 				options: options,
+				plugins: thisInstance.getPlugins()
 			}
 		);
 	}
