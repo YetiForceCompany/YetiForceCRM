@@ -45,6 +45,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
+	options: {},
 	getContainer: function () {
 		return this.container;
 	},
@@ -136,9 +137,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
 		thisInstance.chartData = JSON.parse(jData);
+		console.log('data', thisInstance.chartData);
 		return thisInstance.chartData;
 	},
-	loadChart: function () {
+	loadChart: function (options = {}) {
 
 	},
 	positionNoDataMsg: function () {
@@ -155,7 +157,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	postLoadWidget: function () {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
-			this.loadChart();
+			this.loadChart(this.options);
 		} else {
 			this.positionNoDataMsg();
 		}
@@ -174,7 +176,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	postRefreshWidget: function () {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
-			this.loadChart();
+			this.loadChart(this.options);
 		} else {
 			this.positionNoDataMsg();
 		}
@@ -594,13 +596,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 		return chartData;
 	},
-	applyDefaultTooltipsConfig: function (options = {}) {
+	applyDefaultTooltipsConfig: function (data, options = {}) {
 		if (typeof options.tooltips === 'undefined') {
 			options.tooltips = {};
 		}
 		if (typeof options.tooltips.callbacks === 'undefined') {
 			options.tooltips.callbacks = {};
 		}
+		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
 		if (typeof options.tooltips.callbacks.label === 'undefined') {
 			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
 				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
@@ -625,6 +628,27 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		}
 		return options;
+	},
+	formatTooltipTitles: function (data) {
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.titlesFormatted === 'undefined') {
+				dataset.titlesFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let defaultLabel = data.labels[index];
+					if (!isNaN(Number(defaultLabel))) {
+						defaultLabel = app.parseNumberToShow(defaultLabel);
+					}
+					if (typeof dataset.label !== 'undefined') {
+						let label = dataset.label;
+						if (!isNaN(Number(label))) {
+							label = app.parseNumberToShow(label);
+						}
+						defaultLabel += ' (' + label + ')';
+					}
+					dataset.titlesFormatted.push(defaultLabel);
+				});
+			}
+		});
 	},
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
@@ -737,10 +761,9 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	}
 });
 Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
-
 	loadChart: function (options = {}) {
 		const data = this.applyDefaultDatalabelsConfig(this.generateData(), 'pie');
-		options = this.applyDefaultTooltipsConfig(options);
+		options = this.applyDefaultTooltipsConfig(data, options);
 		this.chartInstance = new Chart(
 				this.getPlotContainer().getContext("2d"),
 				{
@@ -1377,7 +1400,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		});
 		return options;
 	},
-	applyDefaultOptions: function (options = {}){
+	applyDefaultOptions: function (data, options = {}){
 		if (typeof options.maintainAspectRatio === 'undefined') {
 			options.maintainAspectRatio = false;
 		}
@@ -1396,7 +1419,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		if (typeof options.events === 'undefined') {
 			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
 		}
-		this.applyDefaultTooltipsConfig(options);
+		this.applyDefaultTooltipsConfig(data, options);
 		this.applyDefaultAxesLabelsConfig(options);
 		return options;
 	},
@@ -1447,14 +1470,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					return value.substr(0, 10) + '...';
 				}
 				return value;
-			}
-		});
-		data.datasets.forEach((dataset) => {
-			if (typeof dataset.titleFormatted === 'undefined') {
-				dataset.titlesFormatted = [];
-				dataset.data.forEach((dataItem, index) => {
-					dataset.titlesFormatted.push(data.labels[index]);
-				});
 			}
 		});
 		return options;
@@ -1518,7 +1533,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	loadChart: function (options = {}) {
 		const thisInstance = this;
 		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
-		options = thisInstance.applyDefaultOptions(options);
+		options = thisInstance.applyDefaultOptions(data, thisInstance.options);
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1537,40 +1552,19 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
-	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		var options = {
-			xaxis: {
-				minTickSize: 1,
-				ticks: chartData['ticks']
-			},
-			yaxis: {
-				min: 0,
-				tickDecimals: 0
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.9,
-					dataLabels: false,
-					align: "center",
-					lineWidth: 0
-				},
-				valueLabels: chartData['valueLabels'],
-				stack: true
-			},
-			legend: {
-				show: true,
-				sorted: 'reverse'
-			},
-		};
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
-	},
+	options: {
+		legend: {
+			display: true
+		},
+		scales: {
+			xAxes: [{
+					stacked: true
+				}],
+			yAxes: [{
+					stacked: true
+				}]
+		}
+	}
 });
 Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
@@ -1956,70 +1950,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
 Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		var color = [];
-		for (var index in data) {
-			var row = data[index];
-			row[0] = parseInt(row[0]);
-			xLabels.push(app.getDecodedValue(row[1]))
-			chartData.push([app.getDecodedValue(row[1]), row[0]]);
-			if (parseInt(row[0]) > yMaxValue) {
-				yMaxValue = parseInt(row[0]);
-			}
-			color.push(row[3]);
-		}
-		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels, 'colors': color};
-	},
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				animate: !$.jqplot.use_excanvas,
-				seriesColors: data['colors'] !== false ? data['colors'] : "",
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value',
-						barDirection: 'vertical',
-						varyBarColor: true
-					},
-					pointLabels: {show: true, edgeTolerance: -15}
-				},
-				axes: {
-					xaxis: {
-						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-						renderer: jQuery.jqplot.CategoryAxisRenderer,
-						tickOptions: {
-							angle: -45,
-							labelPosition: 'auto'
-						}
-					},
-					yaxis: {
-						min: 0,
-						max: data['yMaxValue'],
-						tickOptions: {
-							formatString: '%d'
-						},
-						pad: 1.2
-					}
-				},
-				legend: {
-					show: false,
-				}
-			});
-		}
-	},
-});
+YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	generateData: function () {
