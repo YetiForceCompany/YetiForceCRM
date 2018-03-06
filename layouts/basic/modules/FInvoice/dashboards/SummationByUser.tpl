@@ -1,26 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbyuser_Widget_Js',{}, {
-		loadChart: function () {
-			const thisInstance = this;
-			const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
-			thisInstance.chartInstance = new Chart(
-					thisInstance.getPlotContainer().getContext("2d"),
-					{
-						type: 'bar',
-						data: data,
-						options: thisInstance.applyDefaultOptions({
-							tooltips:{
-								callbacks:{
-									title: function tooltipsTitleCallback(tooltipItems,data){
-										return data.fullLabels[tooltipItems[0].index];
-									}
-								}
-							}
-						}),
+		options:{
+			tooltips:{
+				callbacks:{
+					title: function tooltipsTitleCallback(tooltipItems,data){
+						return data.fullLabels[tooltipItems[0].index];
 					}
-			);
-		}
+				}
+			}
+		},
 	});
 </script>
 <div class="dashboardWidgetHeader">
