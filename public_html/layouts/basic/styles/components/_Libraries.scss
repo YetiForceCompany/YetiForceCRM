@@ -7,6 +7,9 @@
 	.select2-selection__rendered {
 		@extend .pb-1;
 	}
+	ul.select2-selection__rendered {
+		@extend .py-2;
+	}
 	.select2-results__option,  .select2-results__option .select2-results__option, select2-results__group {
 		@extend .p-1;
 		font-size: inherit;
