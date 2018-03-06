@@ -542,7 +542,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		};
 		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
 			additionalFields.forEach((fieldName) => {
-				if (typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined') {
+				if (typeof chart.data.datasets[datasetIndex][fieldName] !== 'undefined' && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined') {
 					eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
 				}
 			});
@@ -577,13 +577,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				return value;
 			},
-			display: function (context) {
-				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined') {
-					// data presented in different format usually exists in alternative dataFormatted array
-					return typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined';
-				}
-				return typeof context.dataset.data[context.dataIndex] !== 'undefined';
-			}
 		};
 	},
 	applyDefaultDatalabelsConfig: function (chartData, chartType) {
@@ -648,6 +641,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				});
 			}
 		});
+	},
+	getPlugins: function () {
+		return [];
 	},
 });
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
@@ -1422,36 +1418,79 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		this.applyDefaultAxesLabelsConfig(options);
 		return options;
 	},
-	getChartItems: function (data) {
+	getDatasetsMeta: function (chart) {
+		const datasets = [];
+		const data = chart.data;
 		if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
 			for (let i = 0, len = data.datasets.length; i < len; i++) {
-				const meta = this.chartInstance.getDatasetMeta(i);
+				const meta = chart.getDatasetMeta(i);
 				if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
-					return meta.data;
+					datasets.push(meta);
 				}
 			}
 		}
-		return [];
+		return datasets;
 	},
-	hideDatalabelsIfNeeded: function (data) {
-		let items = this.getChartItems(data);
-		for (let i = 0, len = items.length; i < len; i++) {
-			const dataItem = items[i];
-			if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-				const model = dataItem.$datalabels._model;
-				const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-				if (dataItem._view.width < labelWidth) {
-					data.datasets.forEach((dataset) => {
-						if (typeof dataset.datalabels !== 'undefined') {
-							dataset.datalabels.display = false;
-						}
-					});
-					this.chartInstance.update();
-					break;
+	hideDatalabelsIfNeeded: function (chart) {
+		const data = chart.data;
+		let datasetsMeta = this.getDatasetsMeta(chart);
+		let datasets = chart.data.datasets;
+		for (let i = 0, len = datasets.length; i < len; i++) {
+			const dataset = datasets[i];
+			const metaData = datasetsMeta[i].data;
+			if (typeof dataset._models === 'undefined') {
+				dataset._models = {};
+			}
+			if (typeof dataset.datalabels === 'undefined') {
+				dataset.datalabels = {};
+			}
+			if (typeof dataset.datalabels.display === 'undefined') {
+				dataset.datalabels.display = true;
+				/*function (context) {
+				 const dataItem = metaData[context.dataIndex];
+				 console.log(dataItem);
+				 if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+				 let model = dataItem.$datalabels._model;
+				 if (model !== null) {
+				 dataset._models[context.dataIndex] = model;
+				 } else if (dataset._models[context.dataIndex] !== null) {
+				 model = dataset._models[context.dataIndex];
+				 } else {
+				 return false;
+				 }
+				 const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+				 const barWidth = dataItem._view.width;
+				 console.log(dataItem)
+				 if (barWidth < labelWidth) {
+				 return false;
+				 }
+				 }
+				 return true;
+				 };*/
+			}
+			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+				const dataItem = metaData[iItem];
+				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+					let model = dataItem.$datalabels._model;
+					if (model !== null && typeof model !== 'undefined') {
+						dataset._models[iItem] = model;
+					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+						model = dataset._models[iItem];
+					} else {
+						return false;
+					}
+					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+					const barHeight = dataItem.height();
+					if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
+						dataItem.$datalabels._model = null;
+					} else {
+						dataItem.$datalabels._model = model;
+					}
 				}
-
 			}
 		}
+
 	},
 	shortenXTicks: function (data, options) {
 		if (typeof options.scales === 'undefined') {
@@ -1489,6 +1528,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		return options;
 	},
 	beforeDraw: function (chart) {
+		this.hideDatalabelsIfNeeded(chart);
 		chart.data.datasets.forEach((dataset, index) => {
 			if (dataset._updated) {
 				return false;
@@ -1500,12 +1540,12 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 						const metaDataItem = dataset._meta[prop].data[i];
 						const label = metaDataItem._view.label;
 						const ctx = metaDataItem._xScale.ctx;
-						const barWidth = metaDataItem._view.width;
+						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
 						const fullWidth = ctx.measureText(label).width;
-						if (barWidth < fullWidth) {
+						if (categoryWidth < fullWidth) {
 							const shortened = label.substr(0, 10) + "...";
 							const shortenedWidth = ctx.measureText(shortened).width;
-							if (barWidth < shortenedWidth) {
+							if (categoryWidth < shortenedWidth) {
 								chart.options = this.rotateXLabels90(chart.data, chart.options);
 								chart.options = this.shortenXTicks(chart.data, chart.options);
 							} else {
@@ -1529,6 +1569,14 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			}
 		});
 	},
+	getPlugins: function () {
+		const thisInstance = this;
+		return[
+			{
+				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+			}
+		]
+	},
 	loadChart: function (options = {}) {
 		const thisInstance = this;
 		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
@@ -1539,15 +1587,10 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					type: 'bar',
 					data,
 					options,
-					plugins: [
-						{
-							beforeDraw: thisInstance.beforeDraw.bind(thisInstance)
-						}
-					]
+					plugins: thisInstance.getPlugins()
 				}
 		);
-		// if datalabels are too long hide them
-		this.hideDatalabelsIfNeeded(data);
+		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
