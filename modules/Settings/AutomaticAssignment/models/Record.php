@@ -9,6 +9,7 @@
  */
 class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_Model
 {
+
 	/**
 	 * Raw data.
 	 *
@@ -364,7 +365,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					foreach ($columns as $column) {
 						$conditionResult[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $index === 1 ? 0 : 1, ];
+							'groupjoin' => $condition['condition'], 'groupid' => $index === 1 ? 0 : 1,];
 					}
 				}
 			}
@@ -383,7 +384,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$fieldsToEdit = $this->getEditableFields();
 		foreach ($this->getData() as $key => $value) {
 			if (!in_array($key, $fieldsToEdit)) {
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 			}
 			$params[$key] = $this->getValueToSave($key, $value);
 		}

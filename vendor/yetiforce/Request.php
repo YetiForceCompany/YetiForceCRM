@@ -192,7 +192,7 @@ class Request
 		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
 			return $this->purifiedValuesByInteger[$key] = $value;
 		}
-		throw new \App\Exceptions\BadRequest("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
+		throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
 	}
 
 	/**

@@ -8,6 +8,7 @@
  */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
+
 	/**
 	 * Function to get Id of this record instance.
 	 *
@@ -32,7 +33,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$query = (new \App\Db\Query())->select('yetiforce_menu.*, vtiger_tab.name')->from('yetiforce_menu')
-			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
+				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 		$menu = [];
 		while ($row = $dataReader->read()) {
@@ -86,7 +87,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
 				if (!in_array($key, $editFields)) {
-					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+					throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
@@ -105,7 +106,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			foreach ($this->getData() as $key => $item) {
 				if (!in_array($key, $editFields)) {
-					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+					throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 				}
 				if (is_array($item)) {
 					$item = implode(',', $item);

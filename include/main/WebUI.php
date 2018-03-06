@@ -33,6 +33,7 @@ App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
+
 	/**
 	 * User privileges model instance.
 	 *
@@ -186,7 +187,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
 			} elseif ($e instanceof \App\Exceptions\Security || $e instanceof \App\Exceptions\Security) {
-				$tpl = 'BadRequest.tpl';
+				$tpl = 'IllegalValue.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);
 			if (!$request->isAjax()) {
