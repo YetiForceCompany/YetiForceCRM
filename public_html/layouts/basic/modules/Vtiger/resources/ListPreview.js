@@ -278,7 +278,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerPreviewEvent: function () {
 		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
-		$(".listPreviewframe").on('load', function () {
+		iframe.on('load', function () {
 			const container = thisInstance.getListViewContentContainer();
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height($(this).contents().find(".bodyContents").height() - 20);
