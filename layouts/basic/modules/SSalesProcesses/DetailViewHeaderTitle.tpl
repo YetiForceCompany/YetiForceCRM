@@ -26,6 +26,13 @@
 						</span>
 					{/if}
 				</h4>
+				{assign var=RELATED_TO value=$RECORD->get('related_to')}
+				{if !empty($RELATED_TO)}
+					<div class="paddingLeft5px">
+						<span class="muted"></span>
+						<h5 class="margin0px">{\App\Language::translate('SINGLE_Accounts',$MODULE_NAME)}: {$RECORD->getDisplayValue('related_to')}</h5>
+					</div>
+				{/if}
 				<span class="muted">
 					{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
