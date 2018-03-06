@@ -9,7 +9,7 @@
 				{assign var="TITLE" value="LBL_EDIT_RECORD"}
 			{/if}
 			<h3 class="modal-title">{\App\Language::translate($TITLE, $QUALIFIED_MODULE)}</h3>
-			<button class="btn btn-warning float-right" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+			<button class="btn btn-warning float-right" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
 		</div>
 		<div class="modal-body">
 			<div class="fieldsContainer">
