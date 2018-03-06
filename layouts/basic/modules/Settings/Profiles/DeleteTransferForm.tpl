@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
-					<button class="btn btn-warning" data-dismiss="modal">×</button>
+					<button class="btn btn-warning" data-dismiss="modal">&times;</button>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
