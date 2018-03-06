@@ -137,7 +137,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
 		thisInstance.chartData = JSON.parse(jData);
-		console.log('data', thisInstance.chartData);
 		return thisInstance.chartData;
 	},
 	loadChart: function (options = {}) {
