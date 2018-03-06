@@ -4182,14 +4182,14 @@ button.bg-danger:hover,
 button.bg-danger:focus {
   background-color: #bd2130 !important; }
 
-.bg-light, .listViewTopMenuDiv .nav-tabs .active {
+.bg-light, .nav-tabs .active {
   background-color: #f8f9fa !important; }
 
-a.bg-light:hover, .listViewTopMenuDiv .nav-tabs a.active:hover, a.bg-light:focus, .listViewTopMenuDiv .nav-tabs a.active:focus,
+a.bg-light:hover, .nav-tabs a.active:hover, a.bg-light:focus, .nav-tabs a.active:focus,
 button.bg-light:hover,
-.listViewTopMenuDiv .nav-tabs button.active:hover,
+.nav-tabs button.active:hover,
 button.bg-light:focus,
-.listViewTopMenuDiv .nav-tabs button.active:focus {
+.nav-tabs button.active:focus {
   background-color: #dae0e5 !important; }
 
 .bg-dark {
