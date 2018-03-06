@@ -35,7 +35,7 @@
 			</div>
 		</div>
 	{/if}
-	<div class="listViewActions paginationDiv mr-1">
+	<div class="listViewActions paginationDiv">
         {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
         {/if}
