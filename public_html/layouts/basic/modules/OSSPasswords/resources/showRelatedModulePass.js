@@ -44,7 +44,7 @@ function showRelatedListPassword(record) {
 						iconElement.removeClass('adminIcon-passwords-encryption');
 						iconElement.addClass('fas fa-lock');
 						// show copy to clipboard button
-						copybtn.removeClass('hide');
+						copybtn.removeClass('d-none');
 					}
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
@@ -63,7 +63,7 @@ function showRelatedListPassword(record) {
 		iconElement.removeClass('fas fa-lock');
 		iconElement.addClass('adminIcon-passwords-encryption');
 		// hide copy to clipboard button
-		copybtn.addClass('hide');
+		copybtn.addClass('d-none');
 	}
 }
 new Clipboard('.copy_pass', {

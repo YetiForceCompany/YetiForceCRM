@@ -154,11 +154,11 @@ var Vtiger_CustomView_Js = {
 			var blockHeader = jQuery(e.currentTarget);
 			var blockContents = blockHeader.next();
 			var iconToggle = blockHeader.find('.iconToggle');
-			if (blockContents.hasClass('hide')) {
-				blockContents.removeClass('hide');
+			if (blockContents.hasClass('d-none')) {
+				blockContents.removeClass('d-none');
 				iconToggle.removeClass(iconToggle.data('hide')).addClass(iconToggle.data('show'));
 			} else {
-				blockContents.addClass('hide');
+				blockContents.addClass('d-none');
 				iconToggle.removeClass(iconToggle.data('show')).addClass(iconToggle.data('hide'));
 			}
 		});

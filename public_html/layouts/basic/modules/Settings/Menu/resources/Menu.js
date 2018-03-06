@@ -45,7 +45,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 								if (showInfo) {
 									var modal = $('.modal.deleteAlert').clone(true, true);
 									var callBackFunction = function (data) {
-										data.find('.deleteAlert').removeClass('hide');
+										data.find('.deleteAlert').removeClass('d-none');
 										data.find('.btn-danger').click(function (e) {
 											thisInstance.removeMenu(ids, inst);
 										});

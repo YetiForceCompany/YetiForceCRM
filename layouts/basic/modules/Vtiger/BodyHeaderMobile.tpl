@@ -25,7 +25,7 @@
 					<div class="pull-right">
 						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
 							<span class="fas fa-calendar-alt"></span>
-							<span class="badge bgDanger hide">0</span>
+							<span class="badge bgDanger d-none">0</span>
 						</a>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 					<div class="pull-right">
 						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
 							<span class="fas fa-bell"></span>
-							<span class="badge hide">0</span>
+							<span class="badge d-none">0</span>
 						</a>
 					</div>
 				</div>

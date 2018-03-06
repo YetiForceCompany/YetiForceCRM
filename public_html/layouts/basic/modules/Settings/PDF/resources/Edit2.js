@@ -83,9 +83,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 			var status = jQuery(this).is(':checked');
 
 			if (status) {
-				container.find('.margin_inputs').addClass('hide');
+				container.find('.margin_inputs').addClass('d-none');
 			} else {
-				container.find('.margin_inputs').removeClass('hide');
+				container.find('.margin_inputs').removeClass('d-none');
 			}
 		});
 	},

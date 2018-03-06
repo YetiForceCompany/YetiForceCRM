@@ -67,10 +67,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		}
 	},
 	showLineItemsDeleteIcon: function () {
-		this.getInventoryItemsContainer().find('.deleteRow').removeClass('hide');
+		this.getInventoryItemsContainer().find('.deleteRow').removeClass('d-none');
 	},
 	hideLineItemsDeleteIcon: function () {
-		this.getInventoryItemsContainer().find('.deleteRow').addClass('hide');
+		this.getInventoryItemsContainer().find('.deleteRow').addClass('d-none');
 	},
 	getClosestRow: function (element) {
 		return element.closest(this.rowClass);
@@ -120,13 +120,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var items = thisInstance.getInventoryItemsContainer();
 		var newRow = $('#blackIthemTable').find('tbody');
 		if (thisInstance.isIndividualTaxMode()) {
-			groupTax.addClass('hide');
-			items.find('.changeTax').removeClass('hide');
-			newRow.find('.changeTax').removeClass('hide');
+			groupTax.addClass('d-none');
+			items.find('.changeTax').removeClass('d-none');
+			newRow.find('.changeTax').removeClass('d-none');
 		} else {
-			groupTax.removeClass('hide');
-			items.find('.changeTax').addClass('hide');
-			newRow.find('.changeTax').addClass('hide');
+			groupTax.removeClass('d-none');
+			items.find('.changeTax').addClass('d-none');
+			newRow.find('.changeTax').addClass('d-none');
 		}
 		thisInstance.setTax(items, 0);
 		thisInstance.setTaxParam(items, []);
@@ -150,13 +150,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var items = thisInstance.getInventoryItemsContainer();
 		var newRow = $('#blackIthemTable').find('tbody');
 		if (thisInstance.isIndividualDiscountMode()) {
-			groupDiscount.addClass('hide');
-			items.find('.changeDiscount').removeClass('hide');
-			newRow.find('.changeDiscount').removeClass('hide');
+			groupDiscount.addClass('d-none');
+			items.find('.changeDiscount').removeClass('d-none');
+			newRow.find('.changeDiscount').removeClass('d-none');
 		} else {
-			groupDiscount.removeClass('hide');
-			items.find('.changeDiscount').addClass('hide');
-			items.find('.changeDiscount').addClass('hide');
+			groupDiscount.removeClass('d-none');
+			items.find('.changeDiscount').addClass('d-none');
+			items.find('.changeDiscount').addClass('d-none');
 		}
 		thisInstance.setDiscount(items, 0);
 		thisInstance.setDiscountParam(items, []);
@@ -403,18 +403,18 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var conversionRate = selected.data('conversionRate');
 		var baseConversionRate = base.data('conversionRate');
 		if (conversionRate == baseConversionRate) {
-			container.addClass('hide');
+			container.addClass('d-none');
 			return;
 		}
 		conversionRate = parseFloat(baseConversionRate) / parseFloat(conversionRate);
-		container.removeClass('hide');
+		container.removeClass('d-none');
 		var taxs = thisInstance.getAllTaxs();
 		var sum = 0;
 		container.find('.panel-body').html('');
 		$.each(taxs, function (index, value) {
 			if (value != undefined) {
 				value = value * conversionRate;
-				var row = container.find('.hide .form-group').clone();
+				var row = container.find('.d-none .form-group').clone();
 				row.find('.percent').text(index + '%');
 				row.find('input').val(app.parseNumberToShow(value));
 				row.appendTo(container.find('.panel-body'));
@@ -430,7 +430,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		container.find('.panel-body').html('');
 		var sum = 0;
 		for (var index in taxs) {
-			var row = container.find('.hide .form-group').clone();
+			var row = container.find('.d-none .form-group').clone();
 			row.find('.percent').text(app.parseNumberToShow(app.parseNumberToFloat(index)) + '%');
 			row.find('input').val(app.parseNumberToShow(taxs[index]));
 			row.appendTo(container.find('.panel-body'));
@@ -832,7 +832,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.data('status', '1');
 		element.find('[data-fa-i2svg]').removeClass('fa-angle-down');
 		element.find('[data-fa-i2svg]').addClass('fa-angle-up');
-		inventoryRowExpanded.removeClass('hide');
+		inventoryRowExpanded.removeClass('d-none');
 
 		var listInstance = Vtiger_Edit_Js.getInstance();
 		$.each(inventoryRowExpanded.find('.ckEditorSource'), function (key, data) {
@@ -847,7 +847,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.data('status', '0');
 		element.find('[data-fa-i2svg]').removeClass('fa-angle-up');
 		element.find('[data-fa-i2svg]').addClass('fa-angle-down');
-		inventoryRowExpanded.addClass('hide');
+		inventoryRowExpanded.addClass('d-none');
 		$.each(inventoryRowExpanded.find('.ckEditorSource'), function (key, data) {
 			var editorInstance = CKEDITOR.instances[jQuery(data).attr('id')];
 			if (editorInstance) {

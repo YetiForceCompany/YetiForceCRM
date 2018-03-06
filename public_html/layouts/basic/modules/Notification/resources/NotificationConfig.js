@@ -7,9 +7,9 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 		app.showPopoverElementView(container.find('.infoPopover'));
 		container.on('switchChange.bootstrapSwitch', '.sendNotificationsSwitch', function (e, state) {
 			if (state) {
-				container.find('.schedule').removeClass('hide');
+				container.find('.schedule').removeClass('d-none');
 			} else {
-				container.find('.schedule').addClass('hide');
+				container.find('.schedule').addClass('d-none');
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function () {

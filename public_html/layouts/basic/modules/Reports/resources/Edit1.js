@@ -193,10 +193,10 @@ Reports_Edit_Js("Reports_Edit1_Js", {}, {
 			var scheduleBoxContainer = jQuery('#scheduleBox');
 			if (element.is(':checked')) {
 				element.val(element.is(':checked'));
-				scheduleBoxContainer.removeClass('hide');
+				scheduleBoxContainer.removeClass('d-none');
 			} else {
 				element.val(element.is(':checked'));
-				scheduleBoxContainer.addClass('hide');
+				scheduleBoxContainer.addClass('d-none');
 			}
 		});
 		app.registerEventForClockPicker();
@@ -292,43 +292,43 @@ Reports_Edit_Js("Reports_Edit1_Js", {}, {
 	},
 
 	hideScheduledTime: function () {
-		jQuery('#scheduledTime').addClass('hide');
+		jQuery('#scheduledTime').addClass('d-none');
 	},
 
 	showScheduledTime: function () {
-		jQuery('#scheduledTime').removeClass('hide');
+		jQuery('#scheduledTime').removeClass('d-none');
 	},
 
 	hideScheduledWeekList: function () {
-		jQuery('#scheduledWeekDay').addClass('hide');
+		jQuery('#scheduledWeekDay').addClass('d-none');
 	},
 
 	showScheduledWeekList: function () {
-		jQuery('#scheduledWeekDay').removeClass('hide');
+		jQuery('#scheduledWeekDay').removeClass('d-none');
 	},
 
 	hideScheduledMonthByDateList: function () {
-		jQuery('#scheduleMonthByDates').addClass('hide');
+		jQuery('#scheduleMonthByDates').addClass('d-none');
 	},
 
 	showScheduledMonthByDateList: function () {
-		jQuery('#scheduleMonthByDates').removeClass('hide');
+		jQuery('#scheduleMonthByDates').removeClass('d-none');
 	},
 
 	hideScheduledSpecificDate: function () {
-		jQuery('#scheduleByDate').addClass('hide');
+		jQuery('#scheduleByDate').addClass('d-none');
 	},
 
 	showScheduledSpecificDate: function () {
-		jQuery('#scheduleByDate').removeClass('hide');
+		jQuery('#scheduleByDate').removeClass('d-none');
 	},
 
 	hideScheduledAnually: function () {
-		jQuery('#scheduleAnually').addClass('hide');
+		jQuery('#scheduleAnually').addClass('d-none');
 	},
 
 	showScheduledAnually: function () {
-		jQuery('#scheduleAnually').removeClass('hide');
+		jQuery('#scheduleAnually').removeClass('d-none');
 	},
 
 	registerEvents: function () {

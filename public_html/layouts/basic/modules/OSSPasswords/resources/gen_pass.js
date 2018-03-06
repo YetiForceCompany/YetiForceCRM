@@ -77,7 +77,7 @@ function showPassword(record) {
 						var el = document.getElementById("OSSPasswords_editView_fieldName_password");
 						el.value = response['password'];
 						el.onchange();
-						$('#copy-button').removeClass('hide').show();
+						$('#copy-button').removeClass('d-none').show();
 					}
 				},
 				function (data, err) {
@@ -116,7 +116,7 @@ function showDetailsPassword(record) {
 					if (response['success']) {
 						var el = document.getElementById("detailPassword");
 						el.innerHTML = response['password'];
-						$('#copy-button').removeClass('hide').show();
+						$('#copy-button').removeClass('d-none').show();
 					}
 				},
 				function (data, err) {
@@ -150,7 +150,7 @@ function showPasswordQuickEdit(record) {
 					var el = document.getElementById("detailPassword");
 					el.innerHTML = response['password'];
 					$("input[name='password']").val(response['password']);
-					$('#copy-button').removeClass('hide').show();
+					$('#copy-button').removeClass('d-none').show();
 				}
 			},
 			function (data, err) {

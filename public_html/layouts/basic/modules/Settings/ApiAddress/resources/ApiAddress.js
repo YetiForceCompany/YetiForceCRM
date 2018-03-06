@@ -3,9 +3,9 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 	registerChangeApi: function (content) {
 		content.find('#change_api').on('change', function () {
 			var value = $(this).val();
-			content.find('.api_row').addClass('hide');
+			content.find('.api_row').addClass('d-none');
 			if (value) {
-				content.find('.' + value).removeClass('hide');
+				content.find('.' + value).removeClass('d-none');
 			}
 		});
 	},

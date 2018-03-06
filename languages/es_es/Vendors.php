@@ -34,8 +34,8 @@ $languageStrings = [
 	'Vendor No' => 'ID',
 	'Vendors' => 'Proveedores',
 	'Website' => 'Sitio web',
-	'LBL_BUILDING_NUMBER' => 'Número del edificio<br />(Ej: 32)',
-	'LBL_LOCAL_NUMBER' => 'Número de la Oficina<br />(Ej: 2B)',
+	'LBL_BUILDING_NUMBER' => 'Número',
+	'LBL_LOCAL_NUMBER' => 'Piso',
 ];
 
 $jsLanguageStrings = [

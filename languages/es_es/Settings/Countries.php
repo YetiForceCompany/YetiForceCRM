@@ -7,17 +7,17 @@
  * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 $languageStrings = [
-	'LBL_COUNTRY_NAME' => 'Country name',
-	'LBL_COUNTRY_SHORTNAME' => 'Country code',
-	'LBL_COUNTRY_TOGGLE_STATUS' => 'Is the country avalable globally in the system?',
-	'LBL_COUNTRY_TOGGLE_ALL_STATUSES' => 'Enable or disable all countries',
-	'LBL_VISIBLE_IN_PHONE' => 'Is the country visible in phone type field?',
-	'LBL_VISIBLE_IN_COUNTRY' => 'Is the country visible in "Country" address field?',
-	'LBL_ROW_TO_TOP' => 'Move row to the top',
-	'LBL_ROW_TO_BOTTOM' => 'Move row to the bottom',
-	'LBL_COUNTRY_SETTINGS' => 'Country settings',
-	'LBL_COUNTRY_DESCRIPTION' => 'Configure the availability of countries in the system',
+	'LBL_COUNTRY_NAME' => 'Nombre del país',
+	'LBL_COUNTRY_SHORTNAME' => 'Abreviatura',
+	'LBL_COUNTRY_TOGGLE_STATUS' => 'Activado / Desactivado',
+	'LBL_COUNTRY_TOGGLE_ALL_STATUSES' => 'Activar o desactivar todos los países',
+	'LBL_VISIBLE_IN_PHONE' => 'Visible en Teléfono',
+	'LBL_VISIBLE_IN_COUNTRY' => 'Visible en País',
+	'LBL_ROW_TO_TOP' => 'Mover hacia arriba',
+	'LBL_ROW_TO_BOTTOM' => 'Mover hacia abajo',
+	'LBL_COUNTRY_SETTINGS' => 'Configuración del país',
+	'LBL_COUNTRY_DESCRIPTION' => 'Configurando la disponibilidad de países en el sistema',
 ];
 $jsLanguageStrings = [
-	'JS_COUNTRY_SETTING' => 'Country settings',
+	'JS_COUNTRY_SETTING' => 'Configuración del país',
 ];

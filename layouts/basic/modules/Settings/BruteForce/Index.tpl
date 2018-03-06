@@ -39,7 +39,7 @@
 									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-9">
 										<input type="checkbox" id="sent" name="sent" class="switchBtn" {if $CONFIG.sent} checked {/if} title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}" data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
-										<div class="selectedUsersForm{if !$CONFIG.sent} hide{/if}">
+										<div class="selectedUsersForm{if !$CONFIG.sent} d-none{/if}">
 											<label class="col-form-label">{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 											<select class="chzn-select form-control" name="selectedUsers" multiple id="selectedUsers" title="{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}" >
 												{foreach key=KEY item=USER from=$ADMIN_USERS}

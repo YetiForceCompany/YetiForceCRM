@@ -216,9 +216,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var contents = jQuery('#layoutDashBoards');
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
 		newBlockCloneCopy.data('block-id', result['id']).find('.blockLabel span').append(jQuery('<strong>' + result['label'] + '</strong>'));
-		newBlockCloneCopy.find('.addCustomField').removeClass('hide').show();
+		newBlockCloneCopy.find('.addCustomField').removeClass('d-none').show();
 		newBlockCloneCopy.find('.specialWidget').data('block-id', result['id']);
-		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('newCustomBlockCopy hide').addClass('editFieldsTable block_' + result['id']).data('code', result['authorized']));
+		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('newCustomBlockCopy d-none').addClass('editFieldsTable block_' + result['id']).data('code', result['authorized']));
 	},
 	/*
 	 * Function to add clickoutside event on the element - By using outside events plugin
@@ -244,7 +244,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			});
 			var name = selectWidgets.find(':first-child').data('name');
 			if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled').show();
+				addFieldContainer.find('.widgetFilter').removeClass('d-none').find('select').removeAttr('disabled').show();
 				var restrictFilter = thisInstance.restrictFilter[name];
 				if (restrictFilter) {
 					for (var i in restrictFilter) {
@@ -253,7 +253,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				}
 			}
 			if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
-				addFieldContainer.find('.widgetFilterDate').removeClass('hide').find('select').removeAttr('disabled').show();
+				addFieldContainer.find('.widgetFilterDate').removeClass('d-none').find('select').removeAttr('disabled').show();
 			}
 
 			var callBackFunction = function (data) {
@@ -269,7 +269,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					data.find('.modal-body').append(elementsToFilterDate);
 					var name = jQuery(this).find(':selected').data('name');
 					if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-						elementsToFilter.removeClass('hide').find('select').prop('disabled', false);
+						elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
 						var restrictFilter = thisInstance.restrictFilter[name];
 						if (restrictFilter) {
 							for (var i in restrictFilter) {
@@ -278,13 +278,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						}
 						app.showSelect2ElementView(elementsToFilter.find('select'));
 					} else {
-						elementsToFilter.addClass('hide').find('select').prop('disabled', true);
+						elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
 					}
 					if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
-						elementsToFilterDate.removeClass('hide').find('select').prop('disabled', false);
+						elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
 						app.showSelect2ElementView(elementsToFilterDate.find('select'));
 					} else {
-						elementsToFilterDate.addClass('hide').find('select').prop('disabled', true);
+						elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
 					}
 				});
 
@@ -379,7 +379,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		if (!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
 		if (typeof result['default_owner'] != 'undefined')
-			fieldContainer.find('.widgetFilterAll').removeClass('hide').show();
+			fieldContainer.find('.widgetFilterAll').removeClass('d-none').show();
 
 		var block = relatedBlock.find('.blockFieldsList');
 		var sortable1 = block.find('ul[name=sortable1]');
@@ -389,9 +389,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 
 		// Deciding where to add the new field
 		if (length1 > length2) {
-			sortable2.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
+			sortable2.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
 		} else {
-			sortable1.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
+			sortable1.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
 		}
 		var form = fieldCopy.find('form.fieldDetailsForm');
 		thisInstance.setFieldDetails(result, form);
@@ -445,7 +445,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var basicDropDown = fieldRow.find('.basicFieldOperations');
 			var dropDownContainer = currentTarget.closest('.btn-group');
 			dropDownContainer.find('.dropdown-menu').remove();
-			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations hide').addClass('dropdown-menu');
+			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu');
 			dropDownContainer.append(dropDown);
 			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
 			var params = app.getvalidationEngineOptions(true);
@@ -602,7 +602,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var newRow = container.find('.newChannel').clone();
 					var formContainer = container.find('.formContainer');
 					formContainer.append(newRow);
-					newRow.removeClass('hide');
+					newRow.removeClass('d-none');
 					newRow.removeClass('newChannel');
 					newRow.find('input').removeAttr('disabled');
 					newRow.find('.removeChannel').on('click', function (e) {
@@ -670,9 +670,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var currentTarget = $(e.currentTarget);
 				var value = currentTarget.val();
 				if (value == 'Barchat' || value == 'Horizontal') {
-					form.find('.isColorContainer').removeClass('hide');
+					form.find('.isColorContainer').removeClass('d-none');
 				} else {
-					form.find('.isColorContainer').addClass('hide');
+					form.find('.isColorContainer').addClass('d-none');
 				}
 				if (wizardContainer.find('#widgetStep').val() == 4) {
 					wizardContainer.find('.step3 .groupField').trigger('change');
@@ -749,7 +749,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var selectedFieldLabel = form.find('.groupField').find(':selected').text();
 				var isColorValue = 0;
 				var isColor = form.find('.isColor');
-				if (!isColor.hasClass('hide') && isColor.is(':checked')) {
+				if (!isColor.hasClass('d-none') && isColor.is(':checked')) {
 					isColorValue = 1;
 				}
 				var data = {

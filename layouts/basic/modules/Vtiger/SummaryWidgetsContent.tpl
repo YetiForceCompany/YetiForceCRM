@@ -70,7 +70,7 @@
 		</div>
 	{else}
 		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
-			<div class="carousel slide" data-ride="carousel">
+			<div class="carousel slide" data-interval="false" data-ride="carousel">
 				<div class="carousel-inner" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
 						<div class="item {if $smarty.foreach.recordlist.first}active{/if}" data-id="{$RELATED_RECORD->getId()}">

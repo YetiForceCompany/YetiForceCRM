@@ -17,12 +17,12 @@ var Settings_Profiles_Js = {
 			var closestTrElement = container.closest('tr');
 
 			if (target.find('[data-fa-i2svg]').hasClass('fa-chevron-down')) {
-				closestTrElement.removeClass('hide');
+				closestTrElement.removeClass('d-none');
 				container.slideDown('slow');
 				target.find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
 			} else {
 				container.slideUp('slow', function () {
-					closestTrElement.addClass('hide');
+					closestTrElement.addClass('d-none');
 				});
 				target.find('.fa-chevron-up').removeClass('fa-chevron-up').addClass('fa-chevron-down');
 			}

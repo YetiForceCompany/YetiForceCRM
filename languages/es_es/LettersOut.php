@@ -7,10 +7,10 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersOut' => 'Outgoing correspondence',
-	'SINGLE_LettersOut' => 'Outgoing correspondence',
+	'LettersIn' => 'Entrega de Correspondencia',
+	'SINGLE_LettersIn' => 'Entrega de Correspondencia',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Correspondence information',
+	'LBL_MAIN_INFORMATION' => 'Información sobre la Correspondencia',
 	//Field Labels
 	'Number' => 'ID',
 	'Title' => 'Asunto',
@@ -21,12 +21,12 @@ $languageStrings = [
 	'Deadline for reply' => 'Plazo de respuesta',
 	'Document no' => 'Número de documento',
 	'No internal' => 'Número interno',
-	'Parent letters' => 'Correspondence related to',
+	'Parent letters' => 'Correspondencia relacionada a',
 	'Overall dimensions' => 'Dimensión',
 	'Notes' => 'Notas',
 	'Related' => 'Empresa / Oportunidad',
 	'Contact' => 'Contacto',
-	'FL_INCOMING_CORRESPONDENCE' => 'Incoming correspondence',
+	'FL_OUTGOING_CORRESPONDENCE' => 'Correspondencia entrante',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Recogida en persona',
 	'PLL_POST_OFFICE_PL' => 'Oficina de Correos de Polonia',

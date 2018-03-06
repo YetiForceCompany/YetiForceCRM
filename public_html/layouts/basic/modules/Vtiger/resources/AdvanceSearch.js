@@ -183,7 +183,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		};
 		var html = '<div class="row">' +
 				'<span class="col-md-4 searchHolder"></span>' +
-				'<span class="col-md-8 filterHolder marginLeftZero hide"></span>' +
+				'<span class="col-md-8 filterHolder marginLeftZero d-none"></span>' +
 				'</div>';
 		var jQhtml = jQuery(html);
 		jQuery('.searchHolder', jQhtml).html(data);
@@ -346,10 +346,10 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 
 		jQuery('#advanceIntiateSave').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			currentElement.addClass('hide');
+			currentElement.addClass('d-none');
 			var actionsContainer = currentElement.closest('.actions');
 			jQuery('input[name="viewname"]', actionsContainer).removeClass('zeroOpacity').focus();
-			jQuery('#advanceSave').removeClass('hide');
+			jQuery('#advanceSave').removeClass('d-none');
 		});
 
 		jQuery('#advanceSave').on('click', function (e) {

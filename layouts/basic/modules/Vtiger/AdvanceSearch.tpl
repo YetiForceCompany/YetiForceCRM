@@ -55,7 +55,7 @@
 								<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
 						{/if}
-						<button class="btn hide btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
+						<button class="btn d-none btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
 							<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
 					{/if}

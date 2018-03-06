@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'SSingleOrders' => 'Sales Orders',
-	'SINGLE_SSingleOrders' => 'Sales Order',
+	'SSingleOrders' => 'Órdenes de Venta',
+	'SINGLE_SSingleOrders' => 'Orden de venta',
 	//BLOCKS
 	'LBL_SSINGLEORDERS_INFORMATION' => 'Información sobre la Orden de venta',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
@@ -19,15 +19,15 @@ $languageStrings = [
 	'LBL_STATUS' => 'Estado',
 	'LBL_CLOSED_TIME' => 'Fecha de cierre',
 	'LBL_RESPONSE_TIME' => 'Tiempo de respuesta',
-	'LBL_REALIZATION_START_DATE' => 'Start date',
-	'LBL_REALIZATION_COMPLETION_DATE' => 'Completion date',
+	'LBL_REALIZATION_START_DATE' => 'Fecha inicio de la realización',
+	'LBL_REALIZATION_COMPLETION_DATE' => 'Fecha fin de la realización',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Fecha de finalización real',
 	'LBL_COMPANY_NAME' => 'Nombre de la Empresa',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
-	'FL_TOTAL_PRICE' => 'Neto',
+	'FL_TOTAL_PRICE' => 'Total',
 	'FL_MARGINP' => 'Porcentaje de margen total',
 	'FL_MARGIN' => 'Margen total',
-	'FL_SUM_GROSS' => 'Importe bruto',
+	'FL_SUM_GROSS' => 'Subtotal',
 	'FL_SUM_DISCOUNT' => 'Importe de descuento',
 	'FL_POS' => 'TPV',
 	'FL_NUMBER_TABLE' => 'Número de mesa',

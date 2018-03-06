@@ -88,7 +88,7 @@ jQuery.Class('Install_Index_Js', {
 				} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
 					if (true == config[field]) {
 						jQuery(formField).prop('checked', true);
-						jQuery('.config-table tr.hide').removeClass('hide');
+						jQuery('.config-table tr.d-none').removeClass('d-none');
 					}
 				} else {
 					jQuery(formField).val(config[field]);
@@ -100,11 +100,11 @@ jQuery.Class('Install_Index_Js', {
 			var userName = jQuery('#root_user');
 			var password = jQuery('#root_password');
 			if (jQuery(this).is(':checked')) {
-				userName.removeClass('hide');
-				password.removeClass('hide');
+				userName.removeClass('d-none');
+				password.removeClass('d-none');
 			} else {
-				userName.addClass('hide');
-				password.addClass('hide');
+				userName.addClass('d-none');
+				password.addClass('d-none');
 			}
 		});
 		function clearPasswordError() {
@@ -237,7 +237,7 @@ jQuery.Class('Install_Index_Js', {
 				alert(app.vtranslate('LBL_RESOLVE_ERROR'));
 				return false;
 			} else {
-				jQuery('#progressIndicator').removeClass('hide');
+				jQuery('#progressIndicator').removeClass('d-none');
 				jQuery('form[name="step5"]').submit().hide();
 			}
 		});
@@ -245,7 +245,7 @@ jQuery.Class('Install_Index_Js', {
 	registerEventForStep6: function () {
 		jQuery('input[name="step7"]').on('click', function () {
 			if ($('form[name="step6"]').validationEngine('validate')) {
-				jQuery('#progressIndicator').show().removeClass('hide');
+				jQuery('#progressIndicator').show().removeClass('d-none');
 				jQuery('form[name="step6"]').submit().hide();
 			}
 		});

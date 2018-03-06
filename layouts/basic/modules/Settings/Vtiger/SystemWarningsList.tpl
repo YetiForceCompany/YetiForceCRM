@@ -54,7 +54,7 @@
 							<button class="btn btn-primary btn-sm showDescription">
 								<span class="fas fa-info-circle"></span>
 							</button>
-							<span class="hide showDescriptionContent">
+							<span class="d-none showDescriptionContent">
 								<div class="modal fade">
 									<div class="modal-dialog">
 										<div class="modal-content">

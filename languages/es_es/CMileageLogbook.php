@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_INFORMATION' => 'Información adicional',
 	'LBL_BASIC_INFORMATION' => 'Información sobre el Cuaderno de Kilometraje',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
-	'LBL_ATTENTION_BLOCK' => 'Comentario',
+	'LBL_ATTENTION_BLOCK' => 'Notas',
 	//FIELDS
 	'FL_SUBJECT' => 'Asunto',
 	'FL_STATUS' => 'Estado',

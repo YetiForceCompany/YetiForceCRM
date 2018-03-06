@@ -21,6 +21,7 @@ $languageStrings = [
 	'LBL_SOLUTION' => 'Solución',
 	'Obsolete' => 'Obsoleta',
 	'Published' => 'Publicada',
+	'Reviewed' => 'Revisada',
 	'Question' => 'Pregunta',
 	'SINGLE_Faq' => 'FAQ',
 ];

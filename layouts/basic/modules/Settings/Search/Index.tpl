@@ -11,7 +11,7 @@
 		</div>
 		<div class="btn-toolbar">
 			<span class="float-right group-desc ">
-				<button class="btn btn-success saveModuleSequence hide" type="button">
+				<button class="btn btn-success saveModuleSequence d-none" type="button">
 					<strong>{\App\Language::translate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</span>
@@ -46,7 +46,7 @@
 										{if !$smarty.foreach.valueLoop.last},&nbsp;{/if}
 									{/foreach}
 								</div>
-								<div class="hide elementEdit{$KEY}">
+								<div class="d-none elementEdit{$KEY}">
 									<select multiple class="form-control fieldname" name="fieldname" data-tabid="{$KEY}">
 										{foreach from=$FIELDS item=fieldTab}
 											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
@@ -64,7 +64,7 @@
 										{if !$smarty.foreach.valueLoop.last},&nbsp;{/if}
 									{/foreach}
 								</div>
-								<div class="hide elementEdit{$KEY}">
+								<div class="d-none elementEdit{$KEY}">
 									<select multiple class="form-control searchcolumn" name="searchcolumn" data-tabid="{$KEY}">
 										{foreach from=$FIELDS item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>

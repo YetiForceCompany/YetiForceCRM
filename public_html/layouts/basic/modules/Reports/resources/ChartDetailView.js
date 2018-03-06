@@ -105,7 +105,7 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 			var classValue = icon.attr('class');
 			if (classValue.indexOf('fa-chevron-right') != -1) {
 				icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
-				filter.removeClass('hide').show('slow');
+				filter.removeClass('d-none').show('slow');
 			} else {
 				icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
 				filter.hide('slow');

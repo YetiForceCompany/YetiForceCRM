@@ -141,7 +141,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			filterField.empty();
 			filterField.append($('<option/>', {value: '-', text: app.vtranslate('None')}));
 			if (filters[relatedmodule] !== undefined) {
-				filterField.closest('.form-group').removeClass('hide');
+				filterField.closest('.form-group').removeClass('d-none');
 				$.each(filters[relatedmodule], function (index, value) {
 					if (typeof value === 'object') {
 						value = value.label;
@@ -154,7 +154,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				});
 				app.showSelect2ElementView(filterField);
 			} else {
-				filterField.closest('.form-group').addClass('hide');
+				filterField.closest('.form-group').addClass('d-none');
 			}
 		}
 	},
@@ -164,19 +164,19 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		relatedfields.find('optgroup').each(function (index, optgroup) {
 			optgroup = $(optgroup);
 			if (relatedModule != optgroup.data('module')) {
-				optgroup.addClass("hide");
+				optgroup.addClass("d-none");
 				optgroup.attr("disabled", "disabled");
 			} else {
-				optgroup.removeClass('hide');
+				optgroup.removeClass('d-none');
 				optgroup.removeAttr("disabled");
 			}
 			optgroup.find('option').each(function (index, option) {
 				option = $(option);
 				if (relatedModule != option.data('module')) {
-					option.addClass("hide");
+					option.addClass("d-none");
 					option.attr("disabled", "disabled");
 				} else {
-					option.removeClass('hide');
+					option.removeClass('d-none');
 					option.removeAttr("disabled");
 				}
 			});

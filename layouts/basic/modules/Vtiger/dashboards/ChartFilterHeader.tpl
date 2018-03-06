@@ -15,7 +15,7 @@
 					</button>&nbsp;
 					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
 						<span class="fas fa-signal"></span>
-						<a class="float-left hide" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
+						<a class="float-left d-none" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
 							<span class="count badge float-left"></span>
 						</a>
 					</button>

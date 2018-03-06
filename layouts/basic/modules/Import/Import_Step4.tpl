@@ -61,7 +61,7 @@
 							{/if}
 							{assign var="_COUNTER" value=$_COUNTER+1}
 							{if $PREFIX && is_numeric($_HEADER_NAME)} {continue} {/if}
-						<tr class="fieldIdentifier {if $PREFIX && in_array($_HEADER_NAME, $INVENTORY_FIELDS)} hide {/if}" id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
+						<tr class="fieldIdentifier {if $PREFIX && in_array($_HEADER_NAME, $INVENTORY_FIELDS)} d-none {/if}" id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
 							{if $HAS_HEADER eq true}
 								<td class="cellLabel">
 									<span name="header_name">{$_HEADER_NAME}</span>

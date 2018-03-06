@@ -134,7 +134,7 @@
 			</div>
 		</div>
 	</form>
-	<div id="progressIndicator" class="row main-container hide">
+	<div id="progressIndicator" class="row main-container d-none">
 		<div class="inner-container">
 			<div class="inner-container">
 				<div class="row">

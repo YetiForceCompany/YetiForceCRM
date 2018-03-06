@@ -9,9 +9,9 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 	showHideFields: function (typeElement) {
 		var elementContainer = this.getForm().find('[name="crmid"]').closest('.form-group');
 		if (typeElement.val() === '1') {
-			elementContainer.addClass('hide').find('.clearReferenceSelection').trigger('click');
+			elementContainer.addClass('d-none').find('.clearReferenceSelection').trigger('click');
 		} else {
-			elementContainer.removeClass('hide');
+			elementContainer.removeClass('d-none');
 		}
 	},
 	registerEvents: function () {

@@ -48,7 +48,7 @@
 					{/foreach}
 				</optgroup>
 				{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
-					<option value="{$OWNER_ID}" {if in_array(\App\Purifier::encodeHtml($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="hide">{\App\Purifier::encodeHtml($OWNER_NAME)}</option>
+					<option value="{$OWNER_ID}" {if in_array(\App\Purifier::encodeHtml($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="d-none">{\App\Purifier::encodeHtml($OWNER_NAME)}</option>
 				{/foreach}
 			{/if}
 

@@ -71,7 +71,7 @@
 													  data-lang="{$key}"
 													  data-type="php"
 													  name="{$lang_key}" 
-													  class="translation form-control {if $item == NULL}empty_value {/if}ckEditorSource ckEditorSmall hide" 
+													  class="translation form-control {if $item == NULL}empty_value {/if}ckEditorSource ckEditorSmall d-none" 
 													  {if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
 													  >{$item}</textarea>
 										</td>

@@ -46,7 +46,7 @@
 							{/foreach}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th {if !$FIELD->isEditable()}class="hide"{/if}>
+							<th {if !$FIELD->isEditable()}class="d-none"{/if}>
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -63,7 +63,7 @@
 						<tr>
 							<th style="width: 5%;">&nbsp;&nbsp;</th>
 								{foreach item=FIELD from=$FIELDS[1]}
-								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
+								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} textAlignCenter">
 									{\App\Language::translate($FIELD->get('label'), $MODULE)}
 								</th>
 							{/foreach}
@@ -85,7 +85,7 @@
 					<tr>
 						<td colspan="1" class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
+							<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} textAlignRight 
 								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 								{if $FIELD->isSummary()}
 									{assign var="SUM" value=0}
@@ -105,7 +105,7 @@
 		</div>
 		{include file=\App\Layout::getTemplatePath('EditViewInventorySummary.tpl', $MODULE)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
-		<table id="blackIthemTable" class="noValidate hide">
+		<table id="blackIthemTable" class="noValidate d-none">
 			<tbody>
 				{assign var="ROW_NO" value='_NUM_'}
 				{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}

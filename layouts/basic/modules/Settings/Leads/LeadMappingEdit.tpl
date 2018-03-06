@@ -70,7 +70,7 @@
 								</td>
 							</tr>
 						{/foreach}
-						<tr class="hide newMapping listViewEntries bg-warning">
+						<tr class="d-none newMapping listViewEntries bg-warning">
 							<td>
 								<select class="leadsFields newSelect">
 									<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>

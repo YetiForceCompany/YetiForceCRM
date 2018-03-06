@@ -78,7 +78,7 @@
 								</label>
 							</div>	
 						</div>
-						<div class="form-group transferCurrency hide">
+						<div class="form-group transferCurrency d-none">
 							<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;
 								{\App\Language::translate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls row">

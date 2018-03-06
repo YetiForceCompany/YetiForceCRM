@@ -298,9 +298,9 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			var btn = jQuery('.btn-convertLead');
 			var status = JSON.parse(jQuery('#conversion_available_status').val());
 			if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
-				btn.removeClass("hide");
+				btn.removeClass("d-none");
 			} else {
-				btn.addClass("hide");
+				btn.addClass("d-none");
 			}
 		}
 		return aDeferred.promise();

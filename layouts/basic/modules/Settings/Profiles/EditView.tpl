@@ -102,7 +102,7 @@
 									</tr>
 
 									{if $PROFILE_MODULE->getFields()}
-										<tr class="hide">
+										<tr class="d-none">
 											<td colspan="6" data-toggle-visible="false">
 												<div data-togglecontent="{$TABID}-fields">
 													<div class="col-md-12">
@@ -189,7 +189,7 @@
 										{/if}
 									{/foreach}
 									{if $ALL_UTILITY_ACTIONS_ARRAY}
-										<tr class="hide">
+										<tr class="d-none">
 											<td colspan="6" data-toggle-visible="false">
 												<div data-togglecontent="{$TABID}-fields">
 													<div class="col-12 paddingLRZero"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>

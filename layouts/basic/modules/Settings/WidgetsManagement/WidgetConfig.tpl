@@ -12,7 +12,7 @@
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 						<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 					</a>
-					<div class="basicFieldOperations hide float-right" style="width : 375px;">
+					<div class="basicFieldOperations d-none float-right" style="width : 375px;">
 						<form class="form-horizontal fieldDetailsForm" method="POST">
 							<input type="hidden" name="type" class="" value="{$WIDGET_MODEL->get('linklabel')}">
 							<div class="modal-header contentsBackground">

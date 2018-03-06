@@ -81,7 +81,7 @@
 						<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
 					</div>
 				</div>
-				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
+				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_TITLE', $QUALIFIED_MODULE)}
 					</label>
@@ -89,7 +89,7 @@
 						<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title" />
 					</div>
 				</div>
-				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
+				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 					</label>
@@ -105,7 +105,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
+				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
 					</label>
@@ -121,7 +121,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
+				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_SUBJECT', $QUALIFIED_MODULE)}
 					</label>
@@ -129,7 +129,7 @@
 						<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject" />
 					</div>
 				</div>
-				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
+				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_META_KEYWORDS', $QUALIFIED_MODULE)}
 					</label>

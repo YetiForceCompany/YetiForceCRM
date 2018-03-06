@@ -301,15 +301,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var queryParamComponents = queryParam.split('=');
 				keyValueMap[queryParamComponents[0]] = queryParamComponents[1];
 			}
-			var params = {
-				type: 'POST',
-				dataType: 'html',
-				data: keyValueMap
-			};
+			params = keyValueMap;
 		}
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		contentContainer.progressIndicator({});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request({
+			type: 'POST',
+			async: false,
+			dataType: 'html',
+			data: params
+		}).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
@@ -472,13 +473,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	getSelectedTab: function () {
 		var tabContainer = this.getTabContainer();
-		return tabContainer.find('.nav li.active:not(.hide)');
+		return tabContainer.find('.nav li.active:not(.d-none)');
 	},
 	getTabContainer: function () {
 		return jQuery('div.related');
 	},
 	getTabs: function () {
-		var topTabs = this.getTabContainer().find('li.baseLink:not(.hide)');
+		var topTabs = this.getTabContainer().find('li.baseLink:not(.d-none)');
 		var dropdownMenuTabs = this.getTabContainer().find('li:not(.baseLink)');
 		dropdownMenuTabs.each(function (n, e) {
 			var currentTarget = jQuery(this);
@@ -658,7 +659,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	getCommentBlock: function () {
 		var detailContentsHolder = this.getContentHolder();
-		var clonedCommentBlock = jQuery('.basicAddCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicAddCommentBlock hide').addClass('addCommentBlock');
+		var clonedCommentBlock = jQuery('.basicAddCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicAddCommentBlock d-none').addClass('addCommentBlock');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('commentcontent');
 		return clonedCommentBlock;
 	},
@@ -668,7 +669,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	getEditCommentBlock: function () {
 		var detailContentsHolder = this.getContentHolder();
-		var clonedCommentBlock = jQuery('.basicEditCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicEditCommentBlock hide').addClass('addCommentBlock');
+		var clonedCommentBlock = jQuery('.basicEditCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('addCommentBlock');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('commentcontent');
 		return clonedCommentBlock;
 	},
@@ -904,22 +905,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.find(".blockHeader").click(function () {
-			var currentTarget = $(this).find(".blockToggle").not(".hide");
+			var currentTarget = $(this).find(".blockToggle").not(".d-none");
 			var blockId = currentTarget.data("id");
 			var closestBlock = currentTarget.closest(".card");
 			var bodyContents = closestBlock.find(".blockContent");
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			if (data.mode === "show") {
-				bodyContents.addClass("hide");
+				bodyContents.addClass("d-none");
 				app.cacheSet(module + "." + blockId, 0);
-				currentTarget.addClass("hide");
-				closestBlock.find('[data-mode="hide"]').removeClass("hide");
+				currentTarget.addClass("d-none");
+				closestBlock.find('[data-mode="hide"]').removeClass("d-none");
 			} else {
-				bodyContents.removeClass("hide");
+				bodyContents.removeClass("d-none");
 				app.cacheSet(module + "." + blockId, 1);
-				currentTarget.addClass("hide");
-				closestBlock.find('[data-mode="show"]').removeClass("hide");
+				currentTarget.addClass("d-none");
+				closestBlock.find('[data-mode="show"]').removeClass("d-none");
 			}
 			app.event.trigger("DetailView.BlockToggle.PostLoad", bodyContents, data, thisInstance);
 		});
@@ -929,20 +930,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
-			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
+			var headerAnimationElement = currentBlock.find('.blockToggle').not('.d-none');
 			var bodyContents = currentBlock.closest('.card').find('.blockContent');
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
 			if (value != null) {
 				if (value == 1) {
-					headerAnimationElement.addClass('hide');
-					currentBlock.find("[data-mode='show']").removeClass('hide');
-					bodyContents.removeClass('hide');
+					headerAnimationElement.addClass('d-none');
+					currentBlock.find("[data-mode='show']").removeClass('d-none');
+					bodyContents.removeClass('d-none');
 				} else {
-					headerAnimationElement.addClass('hide');
-					currentBlock.find("[data-mode='hide']").removeClass('hide');
-					bodyContents.addClass('hide');
+					headerAnimationElement.addClass('d-none');
+					currentBlock.find("[data-mode='hide']").removeClass('d-none');
+					bodyContents.addClass('d-none');
 				}
 			}
 		});
@@ -977,9 +978,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (fieldElement.attr('data-inputmask')) {
 				fieldElement.inputmask();
 			}
-			detailViewValue.addClass('hide');
-			actionElement.addClass('hide');
-			editElement.removeClass('hide').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
+			detailViewValue.addClass('d-none');
+			actionElement.addClass('d-none');
+			editElement.removeClass('d-none').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 			var saveHandler = function (e) {
 				var element = jQuery(e.target);
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
@@ -1028,9 +1029,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				fieldElement.validationEngine('hide');
 				//Before saving ajax edit values we need to check if the value is changed then only we have to save
 				if (toStr(previousValue) === toStr(ajaxEditNewValue)) {
-					editElement.addClass('hide');
-					detailViewValue.removeClass('hide');
-					actionElement.removeClass('hide');
+					editElement.addClass('d-none');
+					detailViewValue.removeClass('d-none');
+					actionElement.removeClass('d-none');
 					readRecord.prop('disabled', false);
 					editElement.off('clickoutside');
 				} else {
@@ -1042,7 +1043,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						return;
 					}
 					currentTdElement.progressIndicator();
-					editElement.addClass('hide');
+					editElement.addClass('d-none');
 					var fieldNameValueMap = {};
 
 					fieldNameValueMap["value"] = fieldValue;
@@ -1052,8 +1053,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 						readRecord.prop('disabled', false);
 						var postSaveRecordDetails = response.result;
 						currentTdElement.progressIndicator({'mode': 'hide'});
-						detailViewValue.removeClass('hide');
-						actionElement.removeClass('hide');
+						detailViewValue.removeClass('d-none');
+						actionElement.removeClass('d-none');
 						var displayValue = postSaveRecordDetails[fieldName].display_value;
 						if (dateTimeField.length && dateTime) {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
@@ -1094,9 +1095,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
 					},
 							function (error) {
-								editElement.addClass('hide');
-								detailViewValue.removeClass('hide');
-								actionElement.removeClass('hide');
+								editElement.addClass('d-none');
+								detailViewValue.removeClass('d-none');
+								actionElement.removeClass('d-none');
 								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({'mode': 'hide'});
@@ -1383,11 +1384,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			url = url.replace('&type=current', '').replace('&type=history', '');
 			url += '&type=';
 			if (state) {
-				summaryWidgetContainer.find('.ativitiesPagination').removeClass('hide');
+				summaryWidgetContainer.find('.ativitiesPagination').removeClass('d-none');
 				url += 'current';
 				url = url.replace('&sortorder=DESC', '&sortorder=ASC');
 			} else {
-				summaryWidgetContainer.find('.ativitiesPagination').addClass('hide');
+				summaryWidgetContainer.find('.ativitiesPagination').addClass('d-none');
 				url += 'history';
 				url = url.replace('&sortorder=ASC', '&sortorder=DESC');
 			}
@@ -1426,7 +1427,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var formElement = thisInstance.getForm();
 		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.addClass('hide');
+			currentTarget.addClass('d-none');
 			var currentTdElement = currentTarget.closest('.fieldValue');
 			thisInstance.ajaxEditHandling(currentTdElement);
 		});
@@ -1462,8 +1463,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var detailViewElement = currentDiv.find('.value');
 
 			currentTarget.hide();
-			detailViewElement.addClass('hide');
-			editElement.removeClass('hide').show();
+			detailViewElement.addClass('d-none');
+			editElement.removeClass('d-none').show();
 
 			var fieldnameElement = jQuery('.fieldname', editElement);
 			var fieldName = fieldnameElement.val();
@@ -1478,8 +1479,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var moduleName = activityDiv.find('.activityModule').val();
 				var activityType = activityDiv.find('.activityType').val();
 				if (previousValue == ajaxEditNewValue) {
-					editElement.addClass('hide');
-					detailViewElement.removeClass('hide');
+					editElement.addClass('d-none');
+					detailViewElement.removeClass('d-none');
 					currentTarget.show();
 				} else {
 					var errorExists = fieldElement.validationEngine('validate');
@@ -1489,7 +1490,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						return;
 					}
 					currentDiv.progressIndicator();
-					editElement.addClass('hide');
+					editElement.addClass('d-none');
 					AppConnector.request({
 						action: 'SaveAjax',
 						record: activityId,
@@ -1500,7 +1501,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}).then(
 							function (data) {
 								currentDiv.progressIndicator({'mode': 'hide'});
-								detailViewElement.removeClass('hide');
+								detailViewElement.removeClass('d-none');
 								currentTarget.show();
 								detailViewElement.html(ajaxEditNewLable);
 								fieldnameElement.data('prevValue', ajaxEditNewValue);
@@ -1520,7 +1521,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 
 		jQuery('.changeDetailViewMode').on('click', function (e) {
-			thisInstance.getTabs().filter('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.hide)').trigger('click');
+			thisInstance.getTabs().filter('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.d-none)').trigger('click');
 		});
 
 		/*
@@ -1602,11 +1603,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery('#tagSearchModulesList').on('change', function (e) {
 			var modulesSelectElement = jQuery(e.currentTarget);
 			if (modulesSelectElement.val() == 'all') {
-				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
+				jQuery('[name="tagSearchModuleResults"]').removeClass('d-none');
 			} else {
-				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
+				jQuery('[name="tagSearchModuleResults"]').removeClass('d-none');
 				var selectedOptionValue = modulesSelectElement.val();
-				jQuery('[name="tagSearchModuleResults"]').filter(':not(#' + selectedOptionValue + ')').addClass('hide');
+				jQuery('[name="tagSearchModuleResults"]').filter(':not(#' + selectedOptionValue + ')').addClass('d-none');
 			}
 		});
 	},
@@ -1764,7 +1765,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', '.totalNumberOfRecords', function (e) {
 			var element = jQuery(e.currentTarget);
 			var totalNumberOfRecords = jQuery('#totalCount').val();
-			element.addClass('hide');
+			element.addClass('d-none');
 			element.parent().progressIndicator({});
 			if (totalNumberOfRecords == '') {
 				var selectedTabElement = thisInstance.getSelectedTab();
@@ -1798,7 +1799,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		detailContentsHolder.on('click', '.setReadRecord', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			currentElement.closest('.btn-group').addClass('hide');
+			currentElement.closest('.btn-group').addClass('d-none');
 			jQuery('#Accounts_detailView_fieldValue_was_read').find('.value').text(app.vtranslate('LBL_YES'));
 			var params = {
 				'module': app.getModuleName(),
@@ -1943,11 +1944,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentReason.html(data.result.reasontoedit);
 			modifiedTime.text(data.result.modifiedtime);
 			modifiedTime.attr('title', data.result.modifiedtimetitle)
-			if (commentEditStatus.hasClass('hide')) {
-				commentEditStatus.removeClass('hide');
+			if (commentEditStatus.hasClass('d-none')) {
+				commentEditStatus.removeClass('d-none');
 			}
 			if (data.result.reasontoedit != "") {
-				commentInfoBlock.find('.editReason').removeClass('hide')
+				commentInfoBlock.find('.editReason').removeClass('d-none')
 			}
 			commentInfoContent.show();
 			commentInfoBlock.find('.commentActionsContainer').show();
@@ -2037,17 +2038,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.find('.commentSearch').keyup(function (e) {
 			var text = $(this).val();
 			if (text) {
-				detailContentsHolder.find('.commentDetails').addClass('hide');
+				detailContentsHolder.find('.commentDetails').addClass('d-none');
 				var contains = detailContentsHolder.find(".commentRelatedTitle:contains(" + text + ")");
 				contains.each(function (e) {
-					$(this).closest('.commentDetails').removeClass('hide');
+					$(this).closest('.commentDetails').removeClass('d-none');
 				});
 				if (contains.length == 0) {
-					detailContentsHolder.find('.noCommentsMsgContainer').removeClass('hide');
+					detailContentsHolder.find('.noCommentsMsgContainer').removeClass('d-none');
 				}
 			} else {
-				detailContentsHolder.find('.commentDetails').removeClass('hide');
-				detailContentsHolder.find('.noCommentsMsgContainer').addClass('hide');
+				detailContentsHolder.find('.commentDetails').removeClass('d-none');
+				detailContentsHolder.find('.noCommentsMsgContainer').addClass('d-none');
 			}
 		});
 	},
@@ -2058,13 +2059,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var mailBody = row.find('.mailBody');
 			var mailTeaser = row.find('.mailTeaser');
 			var faCaretIcon = $(e.currentTarget).find('[data-fa-i2svg]');
-			if (mailBody.hasClass('hide')) {
-				mailBody.removeClass('hide');
-				mailTeaser.addClass('hide');
+			if (mailBody.hasClass('d-none')) {
+				mailBody.removeClass('d-none');
+				mailTeaser.addClass('d-none');
 				faCaretIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
 			} else {
-				mailBody.addClass('hide');
-				mailTeaser.removeClass('hide');
+				mailBody.addClass('d-none');
+				mailTeaser.removeClass('d-none');
 				faCaretIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
 			}
 		});
@@ -2089,13 +2090,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 		container.find('.expandAllMails').click(function (e) {
-			container.find('.mailBody').removeClass('hide');
-			container.find('.mailTeaser').addClass('hide');
+			container.find('.mailBody').removeClass('d-none');
+			container.find('.mailTeaser').addClass('d-none');
 			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-down").addClass("fa-caret-up");
 		});
 		container.find('.collapseAllMails').click(function (e) {
-			container.find('.mailBody').addClass('hide');
-			container.find('.mailTeaser').removeClass('hide');
+			container.find('.mailBody').addClass('d-none');
+			container.find('.mailTeaser').removeClass('d-none');
 			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-up").addClass("fa-caret-down");
 		});
 	},
@@ -2241,7 +2242,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 		detailContentsHolder.on('click', '.moreProductsService', function () {
-			jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.hide)').trigger('click');
+			jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.d-none)').trigger('click');
 		});
 		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
 			var widgetContainer = jQuery(this).closest('.widgetContentBlock');
@@ -2348,7 +2349,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			AppConnector.request(url).then(
 					function (data) {
 						currentTarget.prop('disabled', false);
-						currentTarget.addClass('hide');
+						currentTarget.addClass('d-none');
 						var currentPage = container.find('.currentPage').val();
 						container.find('.currentPage').remove();
 						container.find('.countActivities').remove();
@@ -2438,40 +2439,40 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var totalWidth = container.width();
 		var mainNavWidth = 0;
 		var freeSpace = 0;
-		moreBtn.removeClass('hide');
+		moreBtn.removeClass('d-none');
 		var widthMoreBtn = moreBtn.width() + margin;
-		moreBtn.addClass('hide');
+		moreBtn.addClass('d-none');
 		freeSpace = totalWidth - widthMoreBtn - widthScroll;
 		container.find('.nav > .mainNav').each(function (e) {
-			jQuery(this).removeClass('hide');
+			jQuery(this).removeClass('d-none');
 			if (freeSpace > jQuery(this).width()) {
-				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('hide');
+				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('d-none');
 				freeSpace -= Math.ceil(jQuery(this).width()) + margin;
 			} else {
-				jQuery(this).addClass('hide');
-				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
+				jQuery(this).addClass('d-none');
+				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('d-none');
 				freeSpace = 0;
 			}
 		});
 		if (freeSpace === 0) {
-			moreList.find('.relatedNav').removeClass('hide');
-			container.find('.spaceRelatedList').addClass('hide');
-			moreBtn.removeClass('hide');
+			moreList.find('.relatedNav').removeClass('d-none');
+			container.find('.spaceRelatedList').addClass('d-none');
+			moreBtn.removeClass('d-none');
 		} else {
-			freeSpace -= container.find('.spaceRelatedList').removeClass('hide').width() + margin;
+			freeSpace -= container.find('.spaceRelatedList').removeClass('d-none').width() + margin;
 			container.find('.nav > .relatedNav').each(function () {
-				jQuery(this).removeClass('hide');
+				jQuery(this).removeClass('d-none');
 				if (freeSpace > jQuery(this).width()) {
-					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('hide');
+					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('d-none');
 					freeSpace -= Math.ceil(jQuery(this).width()) + margin;
 				} else {
 					freeSpace = 0;
-					jQuery(this).addClass('hide');
-					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
+					jQuery(this).addClass('d-none');
+					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('d-none');
 				}
 			});
 			if (freeSpace === 0) {
-				moreBtn.removeClass('hide');
+				moreBtn.removeClass('d-none');
 			}
 		}
 	},

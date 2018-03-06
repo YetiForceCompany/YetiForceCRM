@@ -91,7 +91,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 			newMapping.find('select.leadsFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][lead]');
 			newMapping.find('select.accountsFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][account]');
 			newMapping.find('select.contactFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][contact]');
-			newMapping.removeClass('hide newMapping');
+			newMapping.removeClass('d-none newMapping');
 			newMapping.appendTo(convertLeadMappingTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');

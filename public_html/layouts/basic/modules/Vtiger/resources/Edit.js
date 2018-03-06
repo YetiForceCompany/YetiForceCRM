@@ -659,7 +659,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 
 		if (account_id == false) {
-			jQuery(".copyAddressFromAccount").addClass('hide');
+			jQuery(".copyAddressFromAccount").addClass('d-none');
 		} else {
 			jQuery('.copyAddressFromAccount').on('click', function (e) {
 				var element = jQuery(this);
@@ -684,7 +684,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			})
 		}
 		if (contact_id == false) {
-			jQuery(".copyAddressFromContact").addClass('hide');
+			jQuery(".copyAddressFromContact").addClass('d-none');
 		} else {
 			jQuery('.copyAddressFromContact').on('click', function (e) {
 				var element = jQuery(this);
@@ -707,7 +707,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			})
 		}
 		if (lead_id == false) {
-			jQuery(".copyAddressFromLead").addClass('hide');
+			jQuery(".copyAddressFromLead").addClass('d-none');
 		} else {
 			jQuery('.copyAddressFromLead').on('click', function (e) {
 				var element = jQuery(this);
@@ -730,7 +730,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			})
 		}
 		if (vendor_id == false) {
-			jQuery(".copyAddressFromVendor").addClass('hide');
+			jQuery(".copyAddressFromVendor").addClass('d-none');
 		} else {
 			jQuery('.copyAddressFromVendor').on('click', function (e) {
 				var element = jQuery(this);
@@ -756,12 +756,12 @@ jQuery.Class("Vtiger_Edit_Js", {
 		$("#EditView .blockContainer").each(function (index) {
 			var hideCopyAddressLabel = true;
 			$(this).find(".adressAction button").each(function (index) {
-				if ($(this).hasClass("hide") == false) {
+				if ($(this).hasClass("d-none") == false) {
 					hideCopyAddressLabel = false;
 				}
 			});
 			if (hideCopyAddressLabel) {
-				$(this).find(".copyAddressLabel").addClass('hide');
+				$(this).find(".copyAddressLabel").addClass('d-none');
 			}
 		});
 		jQuery('.copyAddressFromMain').on('click', function (e) {
@@ -1118,29 +1118,29 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (jQuery(e.target).is('input') || jQuery(e.target).is('button') || jQuery(e.target).parents().is('button')) {
 				return false;
 			}
-			var currentTarget = jQuery(e.currentTarget).find('.blockToggle').not('.hide');
+			var currentTarget = jQuery(e.currentTarget).find('.blockToggle').not('.d-none');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.blockContainer');
 			var bodyContents = closestBlock.find('.blockContent');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function () {
-				bodyContents.addClass('hide');
+				bodyContents.addClass('d-none');
 				app.cacheSet(module + '.' + blockId, 0)
 			}
 			var showHandler = function () {
-				bodyContents.removeClass('hide');
+				bodyContents.removeClass('d-none');
 				thisInstance.registerEventForCkEditor(bodyContents);
 				app.cacheSet(module + '.' + blockId, 1)
 			}
 			if (data.mode == 'show') {
 				hideHandler();
-				currentTarget.addClass('hide');
-				closestBlock.find('[data-mode="hide"]').removeClass('hide');
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="hide"]').removeClass('d-none');
 			} else {
 				showHandler();
-				currentTarget.addClass('hide');
-				closestBlock.find("[data-mode='show']").removeClass('hide');
+				currentTarget.addClass('d-none');
+				closestBlock.find("[data-mode='show']").removeClass('d-none');
 			}
 		});
 
@@ -1150,20 +1150,20 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
-			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
+			var headerAnimationElement = currentBlock.find('.blockToggle').not('.d-none');
 			var bodyContents = currentBlock.find('.blockContent')
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
 			if (value != null) {
 				if (value == 1) {
-					headerAnimationElement.addClass('hide');
-					currentBlock.find("[data-mode='show']").removeClass('hide');
-					bodyContents.removeClass('hide');
+					headerAnimationElement.addClass('d-none');
+					currentBlock.find("[data-mode='show']").removeClass('d-none');
+					bodyContents.removeClass('d-none');
 				} else {
-					headerAnimationElement.addClass('hide');
-					currentBlock.find("[data-mode='hide']").removeClass('hide');
-					bodyContents.addClass('hide');
+					headerAnimationElement.addClass('d-none');
+					currentBlock.find("[data-mode='hide']").removeClass('d-none');
+					bodyContents.addClass('d-none');
 				}
 			}
 		});
@@ -1370,7 +1370,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (fieldDisplay.val() == '') {
 			fieldValue.find('input').removeAttr('readonly');
 		}
-		fieldValue.find('.referenceModulesListGroup').removeClass('hide');
+		fieldValue.find('.referenceModulesListGroup').removeClass('d-none');
 		var placeholder = fieldDisplay.attr('placeholderDisabled');
 		fieldDisplay.removeAttr('placeholderDisabled');
 		fieldDisplay.attr('placeholder', placeholder);
@@ -1382,7 +1382,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
 		fieldValue.find('input').attr('readonly', 'readonly');
 		fieldValue.find('button').attr('disabled', 'disabled');
-		fieldValue.find('.referenceModulesListGroup').addClass('hide');
+		fieldValue.find('.referenceModulesListGroup').addClass('d-none');
 		var placeholder = fieldDisplay.attr('placeholder');
 		fieldDisplay.removeAttr('placeholder');
 		fieldDisplay.attr('placeholderDisabled', placeholder);
@@ -1461,9 +1461,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 	checkSubProcessModulesList: function (element) {
 		var option = element.find('option:selected');
 		if (option.data('is-quickcreate') != 1) {
-			element.closest('.fieldValue').find('.createReferenceRecord').addClass('hide');
+			element.closest('.fieldValue').find('.createReferenceRecord').addClass('d-none');
 		} else {
-			element.closest('.fieldValue').find('.createReferenceRecord').removeClass('hide');
+			element.closest('.fieldValue').find('.createReferenceRecord').removeClass('d-none');
 		}
 	},
 	checkReferenceModulesList: function (container) {

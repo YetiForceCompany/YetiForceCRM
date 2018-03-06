@@ -15,17 +15,17 @@
 	<div class="card row blockContainer mx-1 mb-2" data-label="{$BLOCK_LABEL}">
 		<div class="blockHeader card-header bg-light">
 			<div class="col-md-8 form-row">
-				<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide"></span>
-				<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show"></span>
+				<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" data-mode="hide"></span>
+				<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-mode="show"></span>
 				<h4>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE)}</h4>
 			</div>
 			<div class="col-md-4 fieldRow">
 				<input type="text" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE)}" placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE)}" class="form-control inviteesSearch" />
 			</div>
 		</div>
-		<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
+		<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}d-none{/if}">
 			<div class="inviteesContent">
-				<div class="hide">
+				<div class="d-none">
 					{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE)}
 				</div>
 				{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}

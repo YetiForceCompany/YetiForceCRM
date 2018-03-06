@@ -145,9 +145,9 @@ jQuery.Class('Settings_Currency_Js', {
 		form.find('[name="currency_status"]').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			if (currentTarget.is(':checked')) {
-				form.find('div.transferCurrency').addClass('hide');
+				form.find('div.transferCurrency').addClass('d-none');
 			} else {
-				form.find('div.transferCurrency').removeClass('hide');
+				form.find('div.transferCurrency').removeClass('d-none');
 			}
 		})
 	},

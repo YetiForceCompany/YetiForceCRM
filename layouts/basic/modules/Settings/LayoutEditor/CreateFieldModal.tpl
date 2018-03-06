@@ -77,7 +77,7 @@
 								<input type="text" name="fieldLength" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control" />
 							</div>
 						</div>
-						<div class="form-group supportedType decimalsupported hide">
+						<div class="form-group supportedType decimalsupported d-none">
 							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_DECIMALS', $QUALIFIED_MODULE)}
@@ -86,7 +86,7 @@
 								<input type="text" name="decimal" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control" />
 							</div>
 						</div>
-						<div class="form-group supportedType preDefinedValueExists hide">
+						<div class="form-group supportedType preDefinedValueExists d-none">
 							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
@@ -97,7 +97,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preDefinedModuleList hide">
+						<div class="form-group supportedType preDefinedModuleList d-none">
 							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
@@ -110,7 +110,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
+						<div class="form-group supportedType preMultiReferenceValue d-none">
 							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_MODULES', $QUALIFIED_MODULE)}
@@ -123,7 +123,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
+						<div class="form-group supportedType preMultiReferenceValue d-none">
 							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FIELDS', $QUALIFIED_MODULE)}
@@ -146,7 +146,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
+						<div class="form-group supportedType preMultiReferenceValue d-none">
 							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD', $QUALIFIED_MODULE)}
 							</div>
@@ -161,7 +161,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
+						<div class="form-group supportedType preMultiReferenceValue d-none">
 							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE', $QUALIFIED_MODULE)}
 							</div>
@@ -170,7 +170,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType picklistOption hide">
+						<div class="form-group supportedType picklistOption d-none">
 							<div class="col-md-3 col-form-label">
 								&nbsp;
 							</div>
@@ -180,7 +180,7 @@
 								</label>
 							</div>
 						</div>
-						<div class="form-group supportedType preDefinedTreeList hide">
+						<div class="form-group supportedType preDefinedTreeList d-none">
 							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}

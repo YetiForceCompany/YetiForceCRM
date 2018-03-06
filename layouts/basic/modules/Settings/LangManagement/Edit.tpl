@@ -30,7 +30,7 @@
 					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{\App\Language::translate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
 				</label>
 			</div>
-			<button class="btn btn-primary add_translation col-md-2 float-right {if empty($SELECTED_LANGS)}hide{/if}">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-primary add_translation col-md-2 float-right {if empty($SELECTED_LANGS)}d-none{/if}">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 </div>

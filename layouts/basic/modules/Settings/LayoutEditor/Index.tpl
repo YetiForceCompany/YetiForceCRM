@@ -53,7 +53,7 @@
                                 <strong>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
                             <span class="float-right">
-                                <button class="btn btn-success saveFieldSequence hide" type="button">
+                                <button class="btn btn-success saveFieldSequence d-none" type="button">
                                     <strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
                                 </button>
                             </span>
@@ -89,7 +89,7 @@
                                                     <ul class="dropdown-menu float-right">
                                                         <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
                                                             <a href="javascript:void(0)">
-                                                                <span class="fas fa-check {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
+                                                                <span class="fas fa-check {if $BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
                                                                 {App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                                                             </a>
                                                         </li>

@@ -26,7 +26,7 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 	registerSwitchEvents: function () {
 		this.getContainer().find('.switchBtn[name="sent"]').on('switchChange.bootstrapSwitch', function (e, state) {
 			var element = jQuery(e.currentTarget);
-			element.closest('.form-group').find('.selectedUsersForm').toggleClass('hide');
+			element.closest('.form-group').find('.selectedUsersForm').toggleClass('d-none');
 		});
 	},
 	registerEvents: function () {

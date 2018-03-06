@@ -21,10 +21,10 @@ $languageStrings = [
 	'LBL_RESPONSE_TIME' => 'Tiempo de respuesta',
 	'LBL_COMPANY_NAME' => 'Nombre de la Empresa',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
-	'FL_TOTAL_PRICE' => 'Neto',
+	'FL_TOTAL_PRICE' => 'Total',
 	'FL_MARGINP' => 'Porcentaje de margen total',
 	'FL_MARGIN' => 'Margen total',
-	'FL_SUM_GROSS' => 'Importe bruto',
+	'FL_SUM_GROSS' => 'Subtotal',
 	'FL_SUM_DISCOUNT' => 'Importe de descuento',
 	'FL_VALID_UNTIL' => 'Válido hasta',
 	//PICKLIST VALUES
@@ -34,6 +34,6 @@ $languageStrings = [
 	'PLL_AWAITING_DECISION' => 'Esperando decisión',
 	'PLL_NEGOTIATIONS' => 'Negociaciones',
 	'PLL_CANCELLED' => 'Cancelado',
-	'PLL_ACCEPTED' => 'Aceptado',
+	'PLL_ACCEPTED' => 'Aceptada',
 	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

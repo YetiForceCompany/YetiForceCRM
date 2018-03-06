@@ -65,10 +65,10 @@
 								<span class="cursorPointer popoverTooltip" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
 									{if $ACTION['isPermitted']}
 										<span class="fas fa-check text-success" aria-hidden="true"></span>
-										<span class="hide" aria-hidden="true">1</span>
+										<span class="d-none" aria-hidden="true">1</span>
 									{else}
 										<span class="fas fa-times text-danger" aria-hidden="true"></span>
-										<span class="hide" aria-hidden="true">0</span>
+										<span class="d-none" aria-hidden="true">0</span>
 									{/if}
 								</span>
 							</td>

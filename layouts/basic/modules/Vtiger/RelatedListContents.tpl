@@ -114,7 +114,7 @@
 					</tr>
 					{if $IS_INVENTORY}
 						{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
-						<tr class="listViewInventoryEntries hide">
+						<tr class="listViewInventoryEntries d-none">
 							{if $RELATED_MODULE->isQuickSearchEnabled()}
 								{$COUNT = $COUNT+1}
 							{/if}

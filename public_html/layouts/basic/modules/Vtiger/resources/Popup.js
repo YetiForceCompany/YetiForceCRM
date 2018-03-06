@@ -716,7 +716,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var thisInstance = this;
 		jQuery('.totalNumberOfRecords').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
-			element.addClass('hide');
+			element.addClass('d-none');
 			element.parent().find('.pageNumbersText').progressIndicator({});
 			var totalRecordsElement = jQuery('#totalCount');
 			var totalNumberOfRecords = totalRecordsElement.val();
@@ -785,11 +785,11 @@ jQuery.Class("Vtiger_Popup_Js", {
 		if (listViewEntriesCount != 0) {
 			var pageNumberText = pageStartRange + " (" + pageEndRange + ")";
 			pageNumbersTextElem.html(pageNumberText);
-			totalNumberOfRecords.removeClass('hide');
+			totalNumberOfRecords.removeClass('d-none');
 		} else {
 			pageNumbersTextElem.html("<span>&nbsp;</span>");
-			if (!totalNumberOfRecords.hasClass('hide')) {
-				totalNumberOfRecords.addClass('hide');
+			if (!totalNumberOfRecords.hasClass('d-none')) {
+				totalNumberOfRecords.addClass('d-none');
 			}
 		}
 

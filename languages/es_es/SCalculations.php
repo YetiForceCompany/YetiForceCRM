@@ -20,7 +20,7 @@ $languageStrings = [
 	'LBL_CLOSED_TIME' => 'Fecha de cierre',
 	'LBL_RESPONSE_TIME' => 'Tiempo de respuesta',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
-	'FL_TOTAL_PRICE' => 'Neto',
+	'FL_TOTAL_PRICE' => 'Total',
 	'FL_MARGINP' => 'Porcentaje de margen total',
 	'FL_MARGIN' => 'Margen total',
 	//PICKLIST VALUES

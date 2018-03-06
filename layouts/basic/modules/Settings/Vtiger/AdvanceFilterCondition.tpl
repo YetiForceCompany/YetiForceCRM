@@ -125,7 +125,7 @@
 		<div class="col-md-4 fieldUiHolder">
 			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
-		<span class="hide">
+		<span class="d-none">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}
 			{/if}

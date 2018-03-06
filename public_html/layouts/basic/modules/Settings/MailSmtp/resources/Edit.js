@@ -51,10 +51,10 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 		app.showPopoverElementView(form.find('.popoverTooltip'));
 
 		form.find(".saveSendMail").click(function () {
-			if (form.find(".saveMailContent").hasClass("hide")) {
-				form.find(".saveMailContent").removeClass("hide");
+			if (form.find(".saveMailContent").hasClass("d-none")) {
+				form.find(".saveMailContent").removeClass("d-none");
 			} else {
-				form.find(".saveMailContent").addClass("hide");
+				form.find(".saveMailContent").addClass("d-none");
 			}
 		});
 	}

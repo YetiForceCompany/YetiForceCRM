@@ -126,14 +126,14 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		var thisInstance = this;
 		jQuery('#addMapping').on('click', function (e) {
 			var mappingToGenerateTable = jQuery('#mappingToGenerate');
-			var lastSequenceNumber = mappingToGenerateTable.find('tr:not(.hide)[sequence-number]').last();
+			var lastSequenceNumber = mappingToGenerateTable.find('tr:not(.d-none)[sequence-number]').last();
 			var newSequenceNumber = thisInstance.getSequenceNumber(lastSequenceNumber) + 1;
 			var newMapping = jQuery('.newMapping').clone(true, true);
 			newMapping.attr('sequence-number', newSequenceNumber);
 			newMapping.find('select.sourceFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][source]');
 			newMapping.find('select.targetFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][target]');
 			newMapping.find('input.mappingType').attr("name", 'mapping[' + newSequenceNumber + '][type]');
-			newMapping.removeClass('hide newMapping');
+			newMapping.removeClass('d-none newMapping');
 			newMapping.appendTo(mappingToGenerateTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');
@@ -250,7 +250,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	 */
 	validationMappingFields: function () {
 		var aDeferred = jQuery.Deferred();
-		var mappingTable = jQuery('#mappingToGenerate tr:not(.hide)');
+		var mappingTable = jQuery('#mappingToGenerate tr:not(.d-none)');
 
 		mappingTable.each(function (i, e) {
 			var breakSave = false;
