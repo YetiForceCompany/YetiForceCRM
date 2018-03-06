@@ -1446,27 +1446,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			}
 			if (typeof dataset.datalabels.display === 'undefined') {
 				dataset.datalabels.display = true;
-				/*function (context) {
-				 const dataItem = metaData[context.dataIndex];
-				 console.log(dataItem);
-				 if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-				 let model = dataItem.$datalabels._model;
-				 if (model !== null) {
-				 dataset._models[context.dataIndex] = model;
-				 } else if (dataset._models[context.dataIndex] !== null) {
-				 model = dataset._models[context.dataIndex];
-				 } else {
-				 return false;
-				 }
-				 const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-				 const barWidth = dataItem._view.width;
-				 console.log(dataItem)
-				 if (barWidth < labelWidth) {
-				 return false;
-				 }
-				 }
-				 return true;
-				 };*/
 			}
 			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 				const dataItem = metaData[iItem];
@@ -1985,8 +1964,10 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 					type: 'bar',
 					data: data,
 					options: options,
+					plugins: thisInstance.getPlugins()
 				}
 		);
+		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
