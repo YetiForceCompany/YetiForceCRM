@@ -8,7 +8,6 @@
  */
 class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 {
-
 	use \App\Controller\ExposeMethod;
 
 	/**

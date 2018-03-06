@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 /**
@@ -10,7 +11,6 @@ namespace App;
  */
 class Purifier
 {
-
 	/**
 	 * Default charset.
 	 *

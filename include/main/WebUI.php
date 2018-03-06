@@ -33,7 +33,6 @@ App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
-
 	/**
 	 * User privileges model instance.
 	 *

@@ -8,7 +8,6 @@
  */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
 	 * Function to get Id of this record instance.
 	 *
@@ -33,7 +32,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$query = (new \App\Db\Query())->select('yetiforce_menu.*, vtiger_tab.name')->from('yetiforce_menu')
-				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
+			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 		$menu = [];
 		while ($row = $dataReader->read()) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exceptions;
 
 /**
@@ -10,5 +11,4 @@ namespace App\Exceptions;
  */
 class IllegalValue extends Security
 {
-
 }
