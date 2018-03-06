@@ -12,9 +12,9 @@
 {strip}
 	<div class="">
 		<div class="widget_header row">
-			<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}</div>
+			<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}</div>
 			<div class="col-md-2">
-				<button class="btn btn-info float-right" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+				<button class="btn btn-info float-right mt-1" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -31,71 +31,71 @@
 						<label class="muted">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>&nbsp;
 						<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 					</div>
-				</div><br />
-				{assign var="ENABLE_IMAGE_PATH" value="{\App\Layout::getImagePath('Enable.png')}"}
-				{assign var="DISABLE_IMAGE_PATH" value="{\App\Layout::getImagePath('Disable.png')}"}
+				</div>
+				{assign var="ENABLE_CLASS_ICON" value="fas fa-check text-success"}
+				{assign var="DISABLE_CLASS_ICON" value="fas fa-times text-danger"}
 				<div class="summaryWidgetContainer">
-					<div class="row">
-						<div class="col-md-3 row">
-							<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
-							&nbsp;{\App\Language::translate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
+					<div class="row ">
+						<div class="col-md-3">
+							<span class="mr-2 mt-1 {if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
+							{\App\Language::translate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
 						</div>
-						<div class="col-md-9 row">
-							<i class="fas fa-info-circle"></i>
-							<span style="margin-left:2px">{\App\Language::translate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
+						<div class="col-md-9">
+							<i class="fas fa-info-circle mt-1"></i>
+							<span class="ml-2">{\App\Language::translate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>
-					<div  class="row" style="margin-top: 5px;">
-						<div class="col-md-3 row">
-							<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
-							&nbsp;{\App\Language::translate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
+					<div  class="row">
+						<div class="col-md-3">
+							<span class="mr-2 mt-1 {if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
+							{\App\Language::translate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
 						</div>
-						<div class="col-md-9 row">
-							<i class="fas fa-info-circle"></i>
-							<span style="margin-left:2px">{\App\Language::translate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
+						<div class="col-md-9">
+							<i class="fas fa-info-circle mt-1"></i>
+							<span class="ml-2">{\App\Language::translate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>
 				</div>
 				<table class="table customTableRWD table-striped table-bordered">
 					<thead>
 						<tr>
-							<th width="27%" style="border-left: 1px solid #DDD !important;">
+							<th width="27%">
 								{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}
 							</th>
-							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="11%">
 								<span class="horizontalAlignCenter">
 									&nbsp;{\App\Language::translate('LBL_VIEW_PRIVILEGE', $QUALIFIED_MODULE)}
 								</span>
 							</th>
-							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="12%">
 								<span class="horizontalAlignCenter" >
 									&nbsp;{\App\Language::translate('LBL_CREATE_PRIVILIGE',$QUALIFIED_MODULE)}
 								</span>
 							</th>
-							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="12%">
 								<span class="horizontalAlignCenter" >
 									&nbsp;{\App\Language::translate('LBL_EDIT_PRIVILIGE',$QUALIFIED_MODULE)}
 								</span>
 							</th>
-							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
+							<th data-hide="phone" width="11%">
 								<span class="horizontalAlignCenter" >{\App\Language::translate('LBL_DELETE_PRIVILIGE', $QUALIFIED_MODULE)}</span>
 							</th>
-							<th width="39%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{\App\Language::translate('LBL_FIELD_AND_TOOL_PRVILIGES', $QUALIFIED_MODULE)}</th>
+							<th width="39%" nowrap="nowrap">{\App\Language::translate('LBL_FIELD_AND_TOOL_PRVILIGES', $QUALIFIED_MODULE)}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$RECORD_MODEL->getModulePermissions() key=TABID item=PROFILE_MODULE}
 							<tr>
 								<td>
-									<img src="{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" class="alignMiddle" />&nbsp;
+									<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}" class="alignMiddle"></span>
 									{\App\Language::translate($PROFILE_MODULE->get('label'), $PROFILE_MODULE->getName())}
 								</td>
 								{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}
 								{foreach from=$BASIC_ACTION_ORDER item=ACTION_ID}
-									<td style="border-left: 1px solid #DDD !important;">
+									<td class="text-center">
 										{assign var="ACTION_MODEL" value=$ALL_BASIC_ACTIONS[$ACTION_ID]}
 										{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
-											<img style="margin-left: 40%" class="alignMiddle" src="{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_MODEL)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
+											<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_MODEL)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
 										{/if}
 									</td>
 								{/foreach}
@@ -111,8 +111,8 @@
 								</td>
 							</tr>
 							<tr class="d-none">
-								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
-									<div class="row" data-togglecontent="{$TABID}-fields">
+								<td colspan="6" data-toggle-visible="false">
+									<div data-togglecontent="{$TABID}-fields">
 										{if $PROFILE_MODULE->getFields()}
 											<div class="col-md-12">
 												<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
@@ -132,7 +132,7 @@
 												</div>
 												<div class="clearfix"></div>
 											</div>
-											<table class="table table-bordered table-striped">
+											<table class="table table-bordered table-striped col-12">
 												{assign var=COUNTER value=0}
 												{foreach from=$PROFILE_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
 													{if $FIELD_MODEL->isActiveField()}
@@ -173,8 +173,8 @@
 								</td>
 							</tr>
 							<tr class="d-none">
-								<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
-									<div class="row" data-togglecontent="{$TABID}-fields">
+								<td colspan="6" data-toggle-visible="false">
+									<div data-togglecontent="{$TABID}-fields">
 										<div class="col-md-12"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 										<table class="table table-bordered table-striped">
 											{assign var=UTILITY_ACTION_COUNT value=0}
@@ -193,7 +193,8 @@
 														{assign var="index" value=($smarty.foreach.actions.index+1) % 3}
 														{assign var="colspan" value=4-$index}
 														colspan="{$colspan}"
-													{/if}><img class="alignMiddle" src="{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_ID)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />&nbsp;&nbsp;{\App\Language::translate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
+													{/if}>
+														<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_ID)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>{\App\Language::translate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
 														{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
 														</div>
 													{/if}

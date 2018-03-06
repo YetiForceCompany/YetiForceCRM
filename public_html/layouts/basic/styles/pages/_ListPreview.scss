@@ -5,6 +5,9 @@
 	height: 600px;
 	padding-left: 0;
 	overflow: hidden;
+	[class^="modCT"] {
+		pointer-events: none;
+	}
 }
 .fixedListContent {
 	position: relative;
@@ -62,6 +65,7 @@
 }
 .wrappedPanel {
 	display: none;
+	cursor: pointer;
 	height: calc(100vh - 33px);
 	width: 20px;
 	position: absolute;

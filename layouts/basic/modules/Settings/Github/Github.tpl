@@ -5,17 +5,18 @@
 			<div class="modal-dialog ">
 				<div class="modal-content">
 					<div class="modal-header">
-						<div class="row no-margin">
-							<div class="col-md-7 col-10">
-								<h3 class="modal-title">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>
+						<div class="d-flex w-100 m-0">
+							<div>
+								<h5 class="modal-title">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
 							</div>
-							<div class="float-right">
-								<div class="float-right">
-									<button class="btn btn-success paddingRight15 saveKeys" type="button" aria-hidden="true">
-										{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
-									</button>
-									<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
-								</div>
+							<div class="ml-auto">
+								<button class="btn btn-sm btn-success saveKeys" type="button" aria-hidden="true">
+									<span class="fas fa-check mr-1"></span>
+									{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+								</button>
+								<button class="btn btn-sm btn-danger ml-1" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">
+									<span class="fas fa-times"></span>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -31,7 +32,7 @@
 						<div class="col-12">
 							<div class="alert alert-danger errorMsg d-none"></div>
 						</div>
-						<div class="col-12 marginBottom10px">
+						<div class="col-12 mb-2">
 							<span class="redColor">*</span>
 							{\App\Language::translate('LBL_USER_NAME', $QUALIFIED_MODULE)}
 							<input class="form-control" name="username" data-validation-engine="validate[required]" value="" type="text">
@@ -49,7 +50,7 @@
 	{if !$GITHUB_CLIENT_MODEL->isAuthorized()}
 		<div class="alert alert-danger" role="alert">
 			{\App\Language::translate('LBL_NOT_AUTHORIZED', $QUALIFIED_MODULE)}
-			<button class="btn btn-danger showModal marginLeft10">
+			<button class="btn btn-danger showModal ml-2">
 				{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}
 			</button>
 		</div>
@@ -61,17 +62,17 @@
 	{if $GITHUB_ISSUES !== false}
 		{if $GITHUB_CLIENT_MODEL->isAuthorized()}
 			<div class="float-left">
-				<button class="btn btn-primary addIssuesBtn marginRight10">
+				<button class="btn btn-primary addIssuesBtn mr-2">
 					{\App\Language::translate('LBL_ADD_ISSUES', $QUALIFIED_MODULE)}
 				</button>
 			</div>
 		{/if}
-		<div class="listViewActions float-right paginationDiv paddingLeft5px">
+		<div class="listViewActions float-right paginationDiv pl-1">
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl')}
 		</div>
 		<div class="col-sm-4 float-right">
 			{if $GITHUB_CLIENT_MODEL->isAuthorized()}
-				<div class="bootstrap-switch-container float-right marginLeft10">
+				<div class="bootstrap-switch-container float-right ml-2">
 					<input class="switchBtn switchAuthor" {if $IS_AUTHOR} checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}" data-on-text="{\App\Language::translate('LBL_ME', $QUALIFIED_MODULE)}">
 				</div>
 			{/if}
@@ -122,7 +123,7 @@
 		</tbody>
 	</table>
 {else}
-	<div class="alert alert-danger marginTop10">
+	<div class="alert alert-danger mt-2">
 		{\App\Language::translate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE)}
 	</div>
 {/if}

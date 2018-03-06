@@ -11210,6 +11210,8 @@ header .headerLinksMails .select2-selection:hover {
   height: 600px;
   padding-left: 0;
   overflow: hidden; }
+  .fixedListInitial [class^="modCT"] {
+    pointer-events: none; }
 
 .fixedListContent {
   position: relative;
@@ -11262,6 +11264,7 @@ header .headerLinksMails .select2-selection:hover {
 
 .wrappedPanel {
   display: none;
+  cursor: pointer;
   height: calc(100vh - 33px);
   width: 20px;
   position: absolute;

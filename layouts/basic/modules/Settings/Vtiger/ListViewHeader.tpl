@@ -11,12 +11,12 @@
 -->*}
 {strip}
 	<div class="">
-		<div class='widget_header row '>
+		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="listViewActionsDiv row">
+		<div class="listViewActionsDiv row mt-2 mb-2">
 			<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
 				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					{if $LINK->getLabel()}
@@ -53,7 +53,7 @@
 					</select>
 				</div>
 			{/if}
-			<div class="col-md-4">
+			<div class="col-12 col-sm-4 d-flex flex-row-reverse">
 				{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>

@@ -36,6 +36,7 @@ var Settings_Roles_Js = {
 
 		jQuery('#clearRole').on('click', function (e) {
 			jQuery('[name="transfer_record_display"]').val('');
+			jQuery('[name="transfer_record"]').val('');
 		});
 	},
 

@@ -14,7 +14,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close vtButton" data-dismiss="modal">×</button>
+					<button class="close vtButton" data-dismiss="modal">&times;</button>
 					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)} {\App\Language::translate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
