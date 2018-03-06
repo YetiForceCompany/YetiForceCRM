@@ -25,7 +25,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => '',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 			];
 			$basicLinks[] = [
@@ -33,7 +33,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_TASK',
 				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => '',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 			];
 		}
