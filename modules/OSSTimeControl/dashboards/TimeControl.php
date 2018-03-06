@@ -8,6 +8,7 @@
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
+
 	public function getSearchParams($assignedto, $date)
 	{
 		$conditions = [];
@@ -43,8 +44,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			['<=', 'vtiger_osstimecontrol.due_date', $date['end']],
 			['vtiger_osstimecontrol.deleted' => 0],
 		])->orderBy('due_date');
-
-		$days = [];
 		$timeTypes = [];
 		$colors = \App\Fields\Picklist::getColors('timecontrol_type');
 		$chartData = [
