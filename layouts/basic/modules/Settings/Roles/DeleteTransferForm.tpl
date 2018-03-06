@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_ROLE', $QUALIFIED_MODULE)} - {\App\Language::translate($RECORD_MODEL->getName(), $QUALIFIED_MODULE)}</h3>
-					<button class="btn btn-warning float-right" data-dismiss="modal">×</button>
+					<button class="btn btn-warning float-right" data-dismiss="modal">&times;</button>
 				</div>
 				<form class="form-horizontal" id="roleDeleteForm" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
