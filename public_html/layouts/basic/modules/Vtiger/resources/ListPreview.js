@@ -21,31 +21,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
 	},
 	/**
-	 * Sets initial iframe's height and fills the preview with first record's content.
-	 */
-	registerPreviewEvent: function () {
-		const thisInstance = this;
-		const iframe = $(".listPreviewframe");
-		$(".listPreviewframe").on('load', function () {
-			const container = thisInstance.getListViewContentContainer();
-			thisInstance.frameProgress.progressIndicator({mode: "hide"});
-			iframe.height($(this).contents().find(".bodyContents").height() - 20);
-			thisInstance.toggleSplit(container);
-			if ($(window).width() > 993) {
-				thisInstance.registerListEvents(container);
-			}
-		});
-		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
-	},
-	/**
-	 * Executes event listener.
-	 * @param {jQuery} container - current container for reference.
-	 */
-	postLoadListViewRecordsEvents: function (container) {
-		this._super(container);
-		this.registerPreviewEvent();
-	},
-	/**
 	 * Registers click events.
 	 */
 	registerRowClickEvent: function () {
@@ -298,12 +273,37 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 	},
 	/**
+	 * Sets initial iframe's height and fills the preview with first record's content.
+	 */
+	registerPreviewEvent: function () {
+		const thisInstance = this;
+		const iframe = $(".listPreviewframe");
+		$(".listPreviewframe").on('load', function () {
+			const container = thisInstance.getListViewContentContainer();
+			thisInstance.frameProgress.progressIndicator({mode: "hide"});
+			iframe.height($(this).contents().find(".bodyContents").height() - 20);
+			thisInstance.toggleSplit(container);
+			if ($(window).width() > 993) {
+				thisInstance.registerListEvents(container);
+			}
+		});
+		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
+	},
+	/**
 	 * Sets the correct parent iframe's size.
 	 * @param {jQuery} currentHeight - ifrmae's body height to be set.
 	 * @param {jQuery} frame - ifrmae's height to be changed.
 	 */
 	updateWindowHeight: function (height, frame) {
 		frame.height(height);
+	},
+	/**
+	 * Executes event listener.
+	 * @param {jQuery} container - current container for reference.
+	 */
+	postLoadListViewRecordsEvents: function (container) {
+		this._super(container);
+		this.registerPreviewEvent();
 	},
 	/**
 	 * Registers ListPreview's events.

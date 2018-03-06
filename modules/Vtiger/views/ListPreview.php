@@ -9,6 +9,7 @@
  */
 class Vtiger_ListPreview_View extends Vtiger_List_View
 {
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -16,9 +17,9 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->view('ListViewPreviewTop.tpl', $moduleName);
+		$viewer->view('List/Preview.tpl', $moduleName);
 		parent::process($request);
-		$viewer->view('ListViewPreviewBottom.tpl', $moduleName);
+		$viewer->view('Detail/Preview.tpl', $moduleName);
 	}
 
 	/**
