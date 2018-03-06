@@ -14,14 +14,14 @@
 	<input type="hidden" id="hiddenDays" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" />
 	<div class="calendarViewContainer rowContent col-md-12 col-12">
-		<div class="widget_header d-flex">
+		<div class="widget_header d-flex align-items-center">
 			<div class="px-2">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 			</div>
 			<div class="px-2 mr-auto">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
-			<div class="px-2 pt-2">
+			<div class="px-2">
 				<button class="btn btn-light btn-sm addButton marginRight10">
 					<span class="fas fa-plus"></span>
 				</button>
