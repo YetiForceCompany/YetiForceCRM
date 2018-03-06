@@ -1484,7 +1484,6 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 					// we have meta
 					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
 						const metaDataItem = dataset._meta[prop].data[i];
-						console.log(metaDataItem, dataset)
 						const label = metaDataItem._view.label;
 						const ctx = metaDataItem._xScale.ctx;
 						const barWidth = metaDataItem._view.width;
@@ -1956,8 +1955,8 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
 Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 	generateChartData: function () {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
