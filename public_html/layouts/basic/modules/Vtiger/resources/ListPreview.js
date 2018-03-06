@@ -109,7 +109,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * @param {jQuery} container - current container for reference.
 	 * @return Array
 	 */
-	setSplitWindowsSize(container) {
+	getSplitWindowsSize(container) {
 		const cachedParams = app.moduleCacheGet('splitParams');
 		if (cachedParams !== null) {
 			return cachedParams;
@@ -180,8 +180,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var wrappedPanelLeft = container.find(wrappedPanel[0]);
 		var wrappedPanelRight = container.find(wrappedPanel[1]);
 		var listPreview = container.find('.listPreview');
-		var split = Split(['.fixedListInitial', '.listPreview'], {
-			sizes: thisInstance.setSplitWindowsSize(container),
+		var split = Split([fixedList[0], listPreview[0]], {
+			sizes: thisInstance.getSplitWindowsSize(container),
 			minSize: 10,
 			gutterSize: 8,
 			snapOffset: 100,
