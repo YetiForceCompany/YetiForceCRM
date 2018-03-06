@@ -308,6 +308,7 @@ abstract class View extends Base
 			'~libraries/footable/dist/footable.js',
 			'~layouts/resources/jquery.additions.js',
 			'~layouts/resources/app.js',
+			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
