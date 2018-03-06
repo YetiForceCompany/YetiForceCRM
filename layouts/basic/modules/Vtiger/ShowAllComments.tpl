@@ -43,7 +43,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<select class="chzn-select form-control commentsHierarchy" multiple>
+				<select class="select2 form-control commentsHierarchy" multiple>
 					{foreach key=NAME item=LABEL from=$HIERARCHY_LIST}
 						<option value="{$NAME}" {if in_array($NAME, $HIERARCHY)}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
 					{/foreach}
