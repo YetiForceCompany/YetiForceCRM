@@ -28,7 +28,6 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
@@ -44,9 +43,8 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = 'HelpDesk';
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		$listViewUrl = $moduleModel->getListViewUrl();
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = (new App\Db\Query())->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'vtiger_crmentity.smownerid',
@@ -68,17 +66,29 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy('vtiger_crmentity.smownerid');
 		$dataReader = $query->createCommand()->query();
-		$response = [];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'links' => [],
+					'titlesFormatted' => [],
+				],
+			],
+			'show_chart' => false,
+		];
+		$chartData['show_chart'] = (bool) $dataReader->count();
 		while ($row = $dataReader->read()) {
-			$response[] = [
-				$row['count'],
-				\App\Fields\Owner::getLabel($row['smownerid']),
-				$listViewUrl . $this->getSearchParams($row['smownerid'], $time),
-			];
+			$label = \App\Fields\Owner::getLabel($row['smownerid']);
+			$chartData['labels'][] = vtlib\Functions::getInitials($label);
+			$chartData['datasets'][0]['titlesFormatted'][] = $label;
+			$chartData['datasets'][0]['data'][] = (int) $row['count'];
+			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor((int) $row['smownerid']);
+			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['smownerid'], $time);
 		}
 		$dataReader->close();
-
-		return $response;
+		return $chartData;
 	}
 
 	/**
@@ -88,20 +98,16 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
 		$time = $request->getDateRange('time');
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+				$time['start'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y'))));
+				$time['end'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y'))));
 			}
-			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
-			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		$data = $this->getTicketsByUser($time);
 		$viewer->assign('WIDGET', $widget);

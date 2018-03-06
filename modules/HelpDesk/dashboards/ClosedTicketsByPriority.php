@@ -50,6 +50,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$query = (new App\Db\Query())->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'priority',
+				'vtiger_ticketpriorities.ticketpriorities_id',
 				'vtiger_ticketpriorities.color',
 			])->from('vtiger_troubletickets')
 				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
@@ -72,6 +73,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['priority', 'vtiger_ticketpriorities.color']);
 		$dataReader = $query->createCommand()->query();
+		$colors = \App\Fields\Picklist::getColors('ticketpriorities');
 		$chartData = [
 			'labels' => [],
 			'datasets' => [
@@ -83,12 +85,12 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			],
 			'show_chart' => false,
 		];
+		$chartData['show_chart'] = (bool) $dataReader->count();
 		while ($row = $dataReader->read()) {
-			$chartData['show_chart'] = true;
 			$chartData['labels'][] = \App\Language::translate($row['priority'], $moduleName);
 			$chartData['datasets'][0]['data'][] = (int) $row['count'];
 			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner);
-			$chartData['datasets'][0]['backgroundColor'][] = !empty($row['color']) ? trim($row['color']) : \App\Colors::getRandomColor($row['priority']);
+			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['ticketpriorities_id']];
 		}
 		$dataReader->close();
 		return $chartData;
