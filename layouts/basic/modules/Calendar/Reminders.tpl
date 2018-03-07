@@ -8,9 +8,9 @@
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
 			<div class="card mb-2 picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
-				<div class="card-header p-1 picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
+				<div class="card-header p-2 d-flex justify-content-between picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
 					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
-					<div class="float-left mt-1">
+					<div>
 						{if $ACTIVITY_TYPE eq 'Task'}
 							<span class="far fa-check-square fa-lg"></span>
 						{elseif $ACTIVITY_TYPE eq 'Call'}
@@ -22,11 +22,13 @@
 							{$RECORD->getDisplayValue('subject')}
 						</a>
 					</div>
-					<button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-						<span class="fas fa-check"></span>
-					</button>
+					<div>
+						<button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+							<span class="fas fa-check"></span>
+						</button>
+					</div>
 				</div>
-				<div class="card-body small p-1">
+				<div class="card-body small p-2">
 					<div>
 						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
