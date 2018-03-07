@@ -113,20 +113,6 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 		});
 	},
 	/**
-	 * Register buttons to copy api key
-	 */
-	registerCopyApiKey: function () {
-		new ClipboardJS('.copyApiKey', {
-			text: function (target) {
-				Vtiger_Helper_Js.showPnotify({
-					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-					type: 'success'
-				});
-				return target.getAttribute('data-clipboard-text');
-			}
-		});
-	},
-	/**
 	 * Register button to create record
 	 */
 	registerAddButton: function () {
@@ -142,6 +128,5 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 		this.registerAddButton();
 		this.registerTableEvents();
 		App.Fields.Password.registerCopyClipboard();
-		this.registerCopyApiKey();
 	}
 })

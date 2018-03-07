@@ -17,8 +17,6 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('updateModuleStatus');
-		$this->exposeMethod('importUserModuleStep3');
-		$this->exposeMethod('updateUserModuleStep3');
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
 		$this->exposeMethod('deleteModule');
@@ -38,66 +36,6 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		} catch (\App\Exceptions\NotAllowedMethod $e) {
 			$response->setError($e->getMessage());
 		}
-		$response->emit();
-	}
-
-	public function importUserModuleStep3(\App\Request $request)
-	{
-		$importModuleName = $request->get('module_import_name');
-		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$uploadFileName = "$uploadDir/$uploadFile";
-		vtlib\Deprecated::checkFileAccess($uploadFileName);
-
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-		} elseif (strtolower($importType) == 'layout') {
-			$package = new vtlib\Layout();
-		} else {
-			$package = new vtlib\Package();
-		}
-
-		$package->import($uploadFileName);
-
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
-
-		$result = ['success' => true, 'importModuleName' => $importModuleName];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
-	}
-
-	public function updateUserModuleStep3(\App\Request $request)
-	{
-		$importModuleName = $request->get('module_import_name');
-		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$uploadFileName = "$uploadDir/$uploadFile";
-		vtlib\Deprecated::checkFileAccess($uploadFileName);
-
-		$importType = strtolower($request->get('module_import_type'));
-		if ($importType == 'language') {
-			$package = new vtlib\Language();
-		} elseif ($importType == 'layout') {
-			$package = new vtlib\Layout();
-		} else {
-			$package = new vtlib\Package();
-		}
-
-		if ($importType == 'language' || $importType == 'layout') {
-			$package->import($uploadFileName);
-		} else {
-			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
-		}
-
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
-
-		$result = ['success' => true, 'importModuleName' => $importModuleName];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
 		$response->emit();
 	}
 
