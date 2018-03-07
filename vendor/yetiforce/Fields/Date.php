@@ -6,6 +6,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
 namespace App\Fields;
 
 /**
@@ -13,7 +14,6 @@ namespace App\Fields;
  */
 class Date
 {
-
 	public static $jsDateFormat = [
 		'dd-mm-yyyy' => 'd-m-Y',
 		'mm-dd-yyyy' => 'm-d-Y',
@@ -58,13 +58,26 @@ class Date
 	 */
 	public static function formatToDisplay($value)
 	{
+		if (is_array($value)) {
+			if (!empty($value['start']) && !empty($value['end'])) {
+				return [
+					'start' => self::formatToDisplay($value['start']),
+					'end' => self::formatToDisplay($value['end'])
+				];
+			} elseif (count($value) === 2) {
+				return [
+					self::formatToDisplay($value[0]),
+					self::formatToDisplay($value[1])
+				];
+			}
+			return false;
+		}
 		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
 			return '';
 		}
 		if ($value === 'now') {
 			$value = null;
 		}
-
 		return (new \DateTimeField($value))->getDisplayDate();
 	}
 
