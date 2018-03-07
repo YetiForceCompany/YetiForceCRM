@@ -10,25 +10,25 @@
  * ********************************************************************************** */
 $languageStrings = [
 	// Basic Strings
-	'SINGLE_ProjectMilestone' => 'Project Milestone',
+	'SINGLE_ProjectMilestone' => 'Proje Kilometre Taşı',
 	// Blocks
-	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Project Milestone Details',
-	'LBL_PROJECTS_LIST' => 'Projects List',
-	'LBL_TASKS_LIST' => 'Tasks List',
-	'LBL_MILESTONES_LIST' => 'Milestones List',
-	'description' => 'Description',
-	'Related to' => 'Project',
+	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Proje Kilometre Taşı Detayları',
+	'LBL_PROJECTS_LIST' => 'Projeler Listesi',
+	'LBL_TASKS_LIST' => 'Görevler Listesi',
+	'LBL_MILESTONES_LIST' => 'Proje Kilometre Taşıları Listesi',
+	'description' => 'Açıklama',
+	'Related to' => 'Proje'
 	//Field Labels
-	'Project Milestone Name' => 'Project Milestone Name',
-	'Milestone Date' => 'Milestone Date',
-	'Project Milestone No' => 'Project Milestone Number',
-	'LBL_PRIORITY' => 'Priority',
-	'LBL_PROGRESS' => 'Progress',
+	'Project Milestone Name' => 'Proje Kilometre Taşı Adı',
+	'Milestone Date' => 'Kilometre Taşı Tarihi',
+	'Project Milestone No' => 'Proje Kilometre Taşı Numarası',
+	'LBL_PRIORITY' => 'Öncelik',
+	'LBL_PROGRESS' => 'İlerleme',
 	//PICKLIST
-	'PLL_INTERNAL' => 'Internal',
-	'PLL_EXTERNAL' => 'External',
-	'PLL_SHARED' => 'Shared',
-	'PLL_LOW' => 'Low',
+	'PLL_INTERNAL' => 'İç',
+	'PLL_EXTERNAL' => 'Harici',
+	'PLL_SHARED' => 'Paylaşılan',
+	'PLL_LOW' => 'Düşük',
 	'PLL_NORMAL' => 'Normal',
-	'PLL_HIGH' => 'High',
+	'PLL_HIGH' => 'Yüksek',
 ];
