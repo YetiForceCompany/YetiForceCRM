@@ -60,6 +60,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$query->groupBy(['smownerid']);
 		$dataReader = $query->createCommand()->query();
 		$data = [];
+		$time = \App\Fields\Date::formatToDisplay($time);
 		while ($row = $dataReader->read()) {
 			$data[] = [
 				$row['count'],
@@ -80,14 +81,14 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y'))));
-				$time['end'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y'))));
+				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
 		}
 		$viewer->assign('DATA', $this->getNotificationByRecipient($time));
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DTIME', $time);
+		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {

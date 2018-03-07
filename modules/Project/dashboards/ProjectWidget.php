@@ -55,35 +55,26 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
 		$owner = $request->getByType('owner', 2);
 		$dates = $request->getDateRange('expectedclosedate');
-
-		if (!empty($dates)) {
-			$dates['start'] = \App\Fields\Date::formatToDisplay($dates['start']);
-			$dates['end'] = \App\Fields\Date::formatToDisplay($dates['end']);
-		}
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
+		$dates = \App\Fields\Date::formatToDisplay($dates);
 		for ($i = 0; $i < $countData; ++$i) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);
 		}
-
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-
 		//Include special script and css needed for this widget
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
-		$viewer->assign('CURRENTUSER', $currentUser);
+		$viewer->assign('CURRENTUSER', $currentUserId);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CampaignsWidget.tpl', $moduleName);
 		} else {
