@@ -36,7 +36,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		];
 	}
 
-	public static function getDefaultDate($widgetModel)
+	/**
+	 * Get default date range.
+	 *
+	 * @param Vtiger_Widget_Model $widgetModel
+	 *
+	 * @return array range ['2018-03-02','2018-03-04']
+	 */
+	public static function getDefaultDateRange($widgetModel)
 	{
 		$defaultDate = $widgetModel->get('date');
 		if ($defaultDate === 'day') {
@@ -48,9 +55,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		} elseif ($defaultDate === 'year') {
 			$timeStart = date('Y-01-01');
 		} else {
-			return false;
+			$timeStart = date('Y-m-d', strtotime('-1 month'));
 		}
-		return ['start' => $timeStart, 'end' => date('Y-m-d')];
+		return [$timeStart, date('Y-m-d', mktime(23, 59, 59, (int) date('n'), (int) date('j'), (int) date('Y')))];
 	}
 
 	/**

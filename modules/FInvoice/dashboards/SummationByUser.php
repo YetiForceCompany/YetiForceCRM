@@ -18,20 +18,15 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
-		if ($request->has('time')) {
-			$time = $request->getDateRange('time');
-		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time === false) {
-				$time['start'] = date('Y-m-01');
-				$time['end'] = date('Y-m-t');
-			}
+		$time = $request->getDateRange('time');
+		if (empty($time)) {
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
 		$data = $this->getWidgetData($moduleName, $param, $time);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$param = \App\Json::decode($widget->get('data'));
-		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
+		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('PARAM', $param);
@@ -59,7 +54,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setField('assigned_user_id');
 		$queryGenerator->setCustomColumn(['s' => $s]);
-		$queryGenerator->addCondition('saledate', $time['start'] . ',' . $time['end'], 'bw');
+		$queryGenerator->addCondition('saledate', $time[0] . ',' . $time[1], 'bw');
 		$queryGenerator->setGroup('assigned_user_id');
 		$query = $queryGenerator->createQuery();
 		$query->orderBy(['s' => SORT_DESC]);
@@ -89,8 +84,8 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			} else {
 				$chartData['fullLabels'][] = '';
 			}
-			$chartData['show_chart'] = true;
 		}
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		$dataReader->close();
 		return $chartData;
 	}

@@ -19,7 +19,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59']);
+			array_push($conditions, ['createdtime', 'bw', $dates[0] . ' 00:00:00,' . $dates[1] . ' 23:59:59']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);
@@ -47,7 +47,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
+			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
 		$query->groupBy(['vtiger_leaddetails.leadsource']);
@@ -93,10 +93,10 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$owner = '';
 		}
 		if (empty($createdTime)) {
-			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
 		$data = ($owner === false) ? [] : $this->getLeadsBySource($owner, $createdTime);
-		$createdTime = \App\Fields\Date::formatToDisplay($createdTime);
+		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$leadSourceAmount = count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSourceAmount; ++$i) {

@@ -46,7 +46,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['closingdate', 'bw', $dates['start'] . ',' . $dates['end']]);
+			array_push($conditions, ['closingdate', 'bw', $dates[0] . ',' . $dates[1]]);
 		}
 		$listSearchParams[] = $conditions;
 
@@ -59,16 +59,19 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$owner = $request->getByType('owner', 2);
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		$dates = $request->getDateRange('expectedclosedate');
+		if (empty($dates)) {
+			$dates = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
-		$dates = \App\Fields\Date::formatToDisplay($dates);
+		$dates = \App\Fields\Date::formatRangeToDisplay($dates);
 		for ($i = 0; $i < $countData; ++$i) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);
 		}
-		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);

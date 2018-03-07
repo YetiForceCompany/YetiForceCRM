@@ -19,7 +19,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function getSearchParams($row, $time)
 	{
-		$listSearchParams = [[['estimated_date', 'bw', $time]]];
+		$listSearchParams = [[['estimated_date', 'bw', implode(',', $time)]]];
 		if (isset($row['assigned_user_id'])) {
 			$listSearchParams[0][] = ['assigned_user_id', 'e', $row['assigned_user_id']];
 		}
@@ -100,23 +100,23 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$compare = $request->getBoolean('compare');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
-			$time = ['start' => ''];
+			$time = [0 => ''];
 			$date = new \DateTime();
-			$time['end'] = $date->format('Y-m-d');
+			$time[1] = $date->format('Y-m-d');
 			$date->modify('-30 days');
-			$time['start'] = $date->format('Y-m-d');
-			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
-			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
+			$time[0] = $date->format('Y-m-d');
+			$time[0] = \App\Fields\Date::formatToDisplay($time[0]);
+			$time[1] = \App\Fields\Date::formatToDisplay($time[1]);
 		}
 		$timeSting = implode(',', $time);
 
 		$data = $this->getEstimatedValue($timeSting, $compare);
 		if ($compare) {
-			$start = new \DateTime(\DateTimeField::convertToDBFormat($time['start']));
+			$start = new \DateTime(\DateTimeField::convertToDBFormat($time[0]));
 			$endPeriod = clone $start;
-			$end = new \DateTime(\DateTimeField::convertToDBFormat($time['end']));
+			$end = new \DateTime(\DateTimeField::convertToDBFormat($time[1]));
 			$interval = (int) $start->diff($end)->format('%r%a');
-			if ($time['start'] !== $time['end']) {
+			if ($time[0] !== $time[1]) {
 				++$interval;
 			}
 			$endPeriod->modify('-1 days');

@@ -50,28 +50,12 @@ class Date
 	 * this due to the fact that this API tries to consider the where given date is in user date
 	 * format. we need a better gauge for this case.
 	 *
-	 * @global Users $current_user
+	 * @param string $value the date which should a changed to user date format
 	 *
-	 * @param Date $cur_date_val the date which should a changed to user date format
-	 *
-	 * @return Date
+	 * @return string
 	 */
 	public static function formatToDisplay($value)
 	{
-		if (is_array($value)) {
-			if (!empty($value['start']) && !empty($value['end'])) {
-				return [
-					'start' => self::formatToDisplay($value['start']),
-					'end' => self::formatToDisplay($value['end'])
-				];
-			} elseif (count($value) === 2) {
-				return [
-					self::formatToDisplay($value[0]),
-					self::formatToDisplay($value[1])
-				];
-			}
-			return false;
-		}
 		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
 			return '';
 		}
@@ -79,6 +63,27 @@ class Date
 			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDate();
+	}
+
+	/**
+	 * Convert date from database format to user format.
+	 *
+	 * @param array $range ['2018-02-03','2018-02-04']
+	 *
+	 * @return array|bool ['03.02.2018','04.02.2018'] or false
+	 */
+	public static function formatRangeToDisplay($range)
+	{
+		if (is_array($range)) {
+			if (!empty($range[0]) && !empty($range[1])) {
+				return [
+					static::formatToDisplay($range[0]),
+					static::formatToDisplay($range[1])
+				];
+			}
+			return false;
+		}
+		return false;
 	}
 
 	/**
