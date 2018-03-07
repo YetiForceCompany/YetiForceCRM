@@ -95,37 +95,39 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if ($fileExists) {
 			require $fileName;
 			if ($params['type'] === 'php') {
-				$langTab = $languageStrings;
+				$langTab = $languageStrings ?? null;
 			} else {
-				$langTab = $jsLanguageStrings;
+				$langTab = $jsLanguageStrings ?? null;
 			}
 			if (is_array($langTab) && array_key_exists($langkey, $langTab)) {
 				return ['success' => false, 'data' => 'LBL_KeyExists'];
 			}
 			$fileContent = file_get_contents($fileName);
 			if ($params['type'] == 'php') {
-				$to_replase = '$languageStrings = [';
+				$toReplace = '$languageStrings = [';
 			} else {
-				$to_replase = '$jsLanguageStrings = [';
+				$toReplace = '$jsLanguageStrings = [';
 			}
-			$new_translation = "'$langkey' => '$val',";
-			if (self::parseData($to_replase, $fileContent)) {
-				$fileContent = str_ireplace($to_replase, $to_replase . PHP_EOL . '	' . $new_translation, $fileContent);
+			$newTranslation = "'$langkey' => '$val',";
+			if (self::parseData($toReplace, $fileContent)) {
+				$fileContent = str_ireplace($toReplace, $toReplace . PHP_EOL . '	' . $newTranslation, $fileContent);
 			} else {
 				if (self::parseData('?>', $fileContent)) {
 					$fileContent = str_replace('?>', '', $fileContent);
 				}
-				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
+				$fileContent = $fileContent . PHP_EOL . $toReplace . PHP_EOL . '	' . $newTranslation . PHP_EOL . '];';
 			}
 			file_put_contents($fileName, $fileContent);
 		} else {
 			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
-				self::createCustomLangDirectory($params);
+				static::createCustomLangDirectory($params);
 			}
-			file_put_contents($fileName, '<?php' . PHP_EOL);
+			if (!file_put_contents($fileName, '<?php' . PHP_EOL) === false) {
+				throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
+			}
 		}
 		if (!$fileExists) {
-			return self::addTranslation($params);
+			return static::addTranslation($params);
 		}
 
 		return ['success' => true, 'data' => 'LBL_AddTranslationOK'];
@@ -160,9 +162,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if ($fileExists) {
 			require $fileName;
 			if ($params['type'] === 'php') {
-				$langTab = $languageStrings;
+				$langTab = $languageStrings ?? null;
 			} else {
-				$langTab = $jsLanguageStrings;
+				$langTab = $jsLanguageStrings ?? null;
 			}
 			if (!is_array($langTab) || !array_key_exists($langkey, $langTab)) {
 				if ($customType) {
@@ -188,12 +190,14 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			file_put_contents($fileName, implode('', $fileContentEdit));
 		} else {
 			if ($customType) {
-				self::createCustomLangDirectory($params);
+				static::createCustomLangDirectory($params);
 			}
-			file_put_contents($fileName, '<?php' . PHP_EOL);
+			if (file_put_contents($fileName, '<?php' . PHP_EOL) === false) {
+				throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
+			}
 		}
 		if (!$fileExists) {
-			self::updateTranslation($params);
+			return static::updateTranslation($params);
 		}
 
 		return ['success' => true, 'data' => 'LBL_UpdateTranslationOK'];
@@ -213,6 +217,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (count($mod) > 1) {
 			$folders[] = 'Settings';
 		}
+		$loc = '';
 		foreach ($folders as $key => $name) {
 			$loc .= DIRECTORY_SEPARATOR . $name;
 			if (!file_exists(ROOT_DIRECTORY . $loc)) {

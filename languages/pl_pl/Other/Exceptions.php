@@ -20,4 +20,5 @@ $languageStrings = [
 	'ERR_DUPLICATES_VALUES_FOUND' => 'Znaleziono zduplikowane wartości %s',
 	'ERR_EXCEEDED_NUMBER_CHARACTERS' => 'Niedozwolona liczba znaków',
 	'ERR_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Znaki specjalne takie jak %s są niedozwolone',
+	'ERR_CREATE_FILE_FAILURE' => 'Nie udało się utworzyć pliku',
 ];
