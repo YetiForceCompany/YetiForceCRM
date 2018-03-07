@@ -82,44 +82,37 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		];
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
 		$yearsData = [];
+		$chartData['show_chart'] = (bool) count($rawData);
+		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
+			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec'];
+		for ($i = 0; $i < 12; $i++) {
+			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
+		}
 		foreach ($rawData as $y => $raw) {
+			// raw = [month,sum]
 			$years[] = $y;
 			if (!isset($yearsData[$y])) {
 				$yearsData[$y] = [
 					'data' => [],
 					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 					'backgroundColor' => [],
-					'borderColor' => [],
 				];
 				for ($m = 0; $m < 12; $m++) {
-					$yearsData[$y]['data'][$m] = [];
+					$yearsData[$y]['data'][$m] = ['x' => $m, 'y' => 0];
 				}
 			}
 			foreach ($raw as $m => &$value) {
 				$yearsData[$y]['data'][$m] = ['y' => $value[1], 'x' => (int) $m + 1];
-				$hash = md5('color' . $y * 10);
-				$color = '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
-				$yearsData[$y]['backgroundColor'][] = $color;
-				$yearsData[$y]['borderColor'][] = $color;
+				$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				$yearsData[$y]['stack'] = (string) $y;
-				$chartData['show_chart'] = true;
 			}
 		}
 		$years = array_values(array_unique($years));
 		$chartData['years'] = $years;
-		foreach ($years as $y) {
-			foreach ($chartData['datasets'] as &$dataset) {
-				foreach ($dataset['data'] as $index => &$values) {
-					if (count($values) === 0) {
-						$values = ['x' => $index, 'y' => 0];
-					}
-				}
-			}
-		}
-		$chartData['datasets'] = [];
-		foreach ($yearsData as $y => $data) {
+		foreach ($yearsData as $year => $data) {
 			$chartData['datasets'][] = $data;
 		}
+
 		return $chartData;
 	}
 }
