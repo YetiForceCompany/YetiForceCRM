@@ -9,15 +9,15 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_TO' => 'Add to',
-	'LBL_EDIT_LIST_PRICE' => 'Edit list price',
-	'LBL_PRICEBOOK_INFORMATION' => 'Price Book details',
-	'LBL_UNIT_PRICE' => 'Unit price',
-	'Price Book Name' => 'Price Book name',
-	'PriceBook No' => 'Price Book number',
-	'PriceBooks' => 'Price Books',
-	'SINGLE_PriceBooks' => 'Price Book',
-	'yes' => 'Yes',
-	'no' => 'No',
-	'Unit Price' => 'Unit price',
+	'LBL_ADD_TO' =>	'Ekle',
+	'LBL_EDIT_LIST_PRICE' => 'Fiyat listesini düzenle',
+	'LBL_PRICEBOOK_INFORMATION' => 'Fiyat Listesi Ayrıntıları',
+	'LBL_UNIT_PRICE' => 'Birim fiyat',
+	'Price Book Name' => 'Fiyat Listesi Adı',
+	'PriceBook No' => 'Fiyat Listesi numarası',
+	'PriceBooks' => 'Fiyat Listeleri',
+	'SINGLE_PriceBooks' => 'Fiyat Listesi',
+	'yes' => 'Evet',
+	'no' => 'Hayır',
+	'Unit Price' => 'Birim fiyat',
 ];
