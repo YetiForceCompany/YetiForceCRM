@@ -45,7 +45,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
-	options: {},
+	getOptions: function () {
+		return {};
+	},
 	getContainer: function () {
 		return this.container;
 	},
@@ -755,16 +757,42 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		});
 	}
 });
-Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
-	loadChart: function (options = {}) {
-		const data = this.applyDefaultDatalabelsConfig(this.generateData(), 'pie');
-		options = this.applyDefaultTooltipsConfig(data, options);
-		this.chartInstance = new Chart(
-				this.getPlotContainer().getContext("2d"),
+Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
+	getPlugins: function () {
+		return [];
+	},
+	applyDefaultOptions: function (data, options = {}){
+		if (typeof options.maintainAspectRatio === 'undefined') {
+			options.maintainAspectRatio = false;
+		}
+		if (typeof options.title === 'undefined') {
+			options.title = {};
+		}
+		if (typeof options.title.display === 'undefined') {
+			options.title.display = false;
+		}
+		if (typeof options.legend === 'undefined') {
+			options.legend = {};
+		}
+		if (typeof options.legend.display === 'undefined') {
+			options.legend.display = true;
+		}
+		if (typeof options.events === 'undefined') {
+			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
+		}
+		this.applyDefaultTooltipsConfig(data, options);
+		return options;
+	},
+	loadChart: function () {
+		const thisInstance = this;
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'pie',
 					data,
-					options,
+					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
+					plugins: thisInstance.getPlugins()
 				}
 		);
 	},
@@ -1314,48 +1342,6 @@ Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
 		});
 	}
 });
-Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
-	loadChart: function () {
-		var thisInstance = this;
-		var chartData = thisInstance.generateData();
-		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
-			series: {
-				pie: {
-					show: true,
-					label: {
-						formatter: thisInstance.getLabelFormat
-					}
-				}
-			},
-			legend: {
-				show: false
-			},
-			grid: {
-				hoverable: true,
-				clickable: true
-			},
-		});
-	},
-	getLabelFormat: function (label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
-	},
-	registerSectionClick: function () {
-		var thisInstance = this;
-		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-			if (item) {
-				$(this).css('cursor', 'pointer');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
-			if (item) {
-				if (item.series.links)
-					window.location.href = item.series.links;
-			}
-		});
-	}
-});
 Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	applyDefaultAxesLabelsConfig: function (options = {}) {
 		if (typeof options.scales === 'undefined') {
@@ -1533,7 +1519,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 							if (!dataset._updated) {
 								dataset._updated = true;
 								chart.update();
-								// recalculate left positions for smooth animation
+								// recalculate positions for smooth animation
 								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
 									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
 									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
@@ -1556,16 +1542,15 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			}
 		]
 	},
-	loadChart: function (options = {}) {
+	loadChart: function () {
 		const thisInstance = this;
 		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
-		options = thisInstance.applyDefaultOptions(data, thisInstance.options);
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: 'bar',
 					data,
-					options,
+					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
 					plugins: thisInstance.getPlugins()
 				}
 		);
@@ -1573,18 +1558,20 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
-	options: {
-		legend: {
-			display: true
-		},
-		scales: {
-			xAxes: [{
-					stacked: true
-				}],
-			yAxes: [{
-					stacked: true
-				}]
-		}
+	getOptions: function () {
+		return {
+			legend: {
+				display: true
+			},
+			scales: {
+				xAxes: [{
+						stacked: true
+					}],
+				yAxes: [{
+						stacked: true
+					}]
+			}
+		};
 	}
 });
 Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
@@ -1971,7 +1958,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
-Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
+YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
