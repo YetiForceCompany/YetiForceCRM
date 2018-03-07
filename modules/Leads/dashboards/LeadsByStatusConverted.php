@@ -26,9 +26,10 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function returns Leads grouped by Status.
+	 * Function returns Leads grouped by Status (converted).
 	 *
-	 * @param type $data
+	 * @param int   $owner
+	 * @param array $dateFilter
 	 *
 	 * @return array
 	 */

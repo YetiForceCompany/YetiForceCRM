@@ -31,7 +31,8 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Leads grouped by Status.
 	 *
-	 * @param type $data
+	 * @param int   $owner
+	 * @param array $dateFilter
 	 *
 	 * @return array
 	 */

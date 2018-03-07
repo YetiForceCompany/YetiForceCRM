@@ -27,7 +27,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Tickets grouped by Status.
 	 *
-	 * @param type $data
+	 * @param int $owner
 	 *
 	 * @return array
 	 */

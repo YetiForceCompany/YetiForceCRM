@@ -12,16 +12,16 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	/**
 	 * Function to get search params in address listview.
 	 *
-	 * @param int    $owner  number id of user
-	 * @param string $status
+	 * @param int   $owner number id of user
+	 * @param array $time
 	 *
 	 * @return string
 	 */
-	public function getSearchParams($row, $time)
+	public function getSearchParams($owner, $time)
 	{
 		$listSearchParams = [[['estimated_date', 'bw', implode(',', $time)]]];
-		if (isset($row['assigned_user_id'])) {
-			$listSearchParams[0][] = ['assigned_user_id', 'e', $row['assigned_user_id']];
+		if (isset($owner)) {
+			$listSearchParams[0][] = ['assigned_user_id', 'e', $owner];
 		}
 
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
@@ -78,7 +78,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$data[$i] = [
 				$row['estimated'],
 				\App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				$listView . $this->getSearchParams($row, $time),
+				$listView . $this->getSearchParams($row['assigned_user_id'], $time),
 			];
 		}
 		$dataReader->close();

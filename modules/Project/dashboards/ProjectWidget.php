@@ -46,7 +46,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['closingdate', 'bw', $dates[0] . ',' . $dates[1]]);
+			array_push($conditions, ['closingdate', 'bw', implode(',', $dates)]);
 		}
 		$listSearchParams[] = $conditions;
 

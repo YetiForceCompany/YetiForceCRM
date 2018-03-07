@@ -28,7 +28,8 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Leads grouped by Source.
 	 *
-	 * @param type $data
+	 * @param int   $owner
+	 * @param array $dateFilter
 	 *
 	 * @return array
 	 */
