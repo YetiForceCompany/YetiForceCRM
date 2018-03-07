@@ -50,11 +50,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		} else {
 			return false;
 		}
-
-		return [
-			'start' => \App\Fields\Date::formatToDisplay($timeStart),
-			'end' => \App\Fields\Date::formatToDisplay(date('Y-m-d'))
-		];
+		return ['start' => $timeStart, 'end' => date('Y-m-d')];
 	}
 
 	/**
