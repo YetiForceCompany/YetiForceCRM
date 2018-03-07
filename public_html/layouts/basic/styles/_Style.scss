@@ -2939,14 +2939,6 @@ html, body, .baseContainer {
 	width: 20%;
 	min-width: 150px;
 }
-.listViewActionsDiv {
-	.btn-group button, .pagination > li > span, .pageInfo {
-		max-height: 35px;
-	}
-	.btn-toolbar > .dropdown-toggle + .dropdown-menu {
-		left: 20px;
-	}
-}
 .widget_header .dropdown-toggle + .dropdown-menu {
 	left: 15px;
 }
