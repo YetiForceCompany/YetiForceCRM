@@ -30,7 +30,7 @@
 							<div class="action">
 								*******************
 								<div class="float-right">
-									<button class="btn btn-primary btn-sm copyApiKey" data-clipboard-text="{\App\Encryption::getInstance()->decrypt($SERVER['api_key'])}">
+									<button class="btn btn-primary btn-sm clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{\App\Encryption::getInstance()->decrypt($SERVER['api_key'])}">
 										<span class="fas fa-copy cursorPointer"></span>
 									</button>
 									<button class="btn btn-primary btn-sm edit ml-2">

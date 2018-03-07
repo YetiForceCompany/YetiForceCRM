@@ -57,7 +57,7 @@
 									<td>{if $CALENDAR}{$CALENDAR}{else}0{/if}</td>
 									<td>
 										<button class="btn btn-danger deleteKey ml-2"><span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
-										<button class="btn btn-primary copykey" data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}"><span class="fas fa-copy mr-1"></span>{\App\Language::translate('LBL_KEY',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-primary clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}"><span class="fas fa-copy mr-1"></span>{\App\Language::translate('LBL_KEY',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}

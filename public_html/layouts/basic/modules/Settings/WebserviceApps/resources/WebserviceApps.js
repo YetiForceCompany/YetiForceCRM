@@ -80,15 +80,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 				prevButton.on('mouseout', function (e) {
 					password.attr('type', 'password');
 				});
-				const clipboard = new Clipboard('.copyPassword', {
-					text: function () {
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-							type: 'success'
-						});
-						return password.val();
-					}
-				});
+				const clipboard = App.Fields.Password.registerCopyClipboard('.copyPassword');
 				container.one('hidden.bs.modal', function () {
 					clipboard.destroy();
 				});
@@ -149,6 +141,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 	registerEvents: function () {
 		this.registerAddButton();
 		this.registerTableEvents();
+		App.Fields.Password.registerCopyClipboard();
 		this.registerCopyApiKey();
 	}
 })

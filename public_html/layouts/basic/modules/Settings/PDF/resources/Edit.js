@@ -37,7 +37,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		}
 	},
 	/*
-	 * Function to get the value of the step 
+	 * Function to get the value of the step
 	 * returns 1 or 2 or 3
 	 */
 	getStepValue: function () {
@@ -125,7 +125,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		});
 	},
 	/*
-	 * Function to register the click event for back step 
+	 * Function to register the click event for back step
 	 */
 	registerBackStepClickEvent: function () {
 		var thisInstance = this;
@@ -155,7 +155,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	},
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
-		app.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard();
 		this.registerFormSubmitEvent(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);

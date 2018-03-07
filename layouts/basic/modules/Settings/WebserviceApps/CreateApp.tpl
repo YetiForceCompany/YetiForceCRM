@@ -36,7 +36,7 @@
 								<button class="btn btn-outline-secondary previewPassword" type="button">
 									<span class="fas fa-eye"></span>
 								</button>
-								<button class="btn btn-outline-secondary copyPassword" type="button">
+								<button class="btn btn-outline-secondary copyPassword" data-copy-target='[name="pass"]' type="button">
 									<span class="fas fa-copy"></span>
 								</button>
 							</span>

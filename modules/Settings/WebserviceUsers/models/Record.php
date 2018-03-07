@@ -9,13 +9,14 @@
  */
 class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 {
+
 	/**
 	 * Edit fields.
 	 *
 	 * @var string[]
 	 */
 	private $editFields = ['Portal' => [
-			'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
+			'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER',],
 	];
 
 	/**
@@ -277,8 +278,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'FL_PASSWORD',
 				'linkicon' => 'fas fa-copy',
-				'linkclass' => 'btn btn-sm btn-primary copyPassword',
-				'linkdata' => ['clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password_t')))]
+				'linkclass' => 'btn btn-sm btn-primary clipboard',
+				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password_t')))]
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

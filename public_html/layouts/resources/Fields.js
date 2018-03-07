@@ -26,6 +26,41 @@ App.Fields = {
 			}
 			return colors;
 		}
+	},
+	Password: {
+		/**
+		 * Register clip
+		 * @param {string} key
+		 * @returns {Clipboard}
+		 */
+		registerCopyClipboard: function (key) {
+			if (key == undefined) {
+				key = '.clipboard';
+			}
+			return new Clipboard(key, {
+				text: function (trigger) {
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+						type: 'success'
+					});
+					trigger = jQuery(trigger);
+					var element = jQuery(trigger.data('copyTarget'));
+					var val;
+					if (typeof trigger.data('copyType') !== 'undefined') {
+						if (element.is("select")) {
+							val = element.find('option:selected').data(trigger.data('copyType'));
+						} else {
+							val = element.data(trigger.data('copyType'));
+						}
+					} else if (typeof trigger.data('copy-attribute') !== 'undefined') {
+						val = trigger.data(trigger.data('copy-attribute'));
+					} else {
+						val = element.val();
+					}
+					return val;
+				}
+			});
+		},
 	}
 }
 

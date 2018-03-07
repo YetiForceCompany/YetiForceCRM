@@ -38,6 +38,6 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	registerBasicEvents: function (container) {
 		this._super(container);
 		this.registerVariablePanelEvent(container);
-		app.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard();
 	}
 });
