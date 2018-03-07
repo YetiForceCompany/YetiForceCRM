@@ -26,7 +26,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', $dates[0] . ',' . $dates[1]]);
+			array_push($conditions, ['createdtime', 'bw', implode(',', $dates)]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . App\Json::encode($listSearchParams);

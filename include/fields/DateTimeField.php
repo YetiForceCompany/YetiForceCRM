@@ -291,7 +291,7 @@ class DateTimeField
 	/**
 	 * This function returns the date in user specified format.
 	 *
-	 * @global Users $current_user
+	 * @param App\User|null $user
 	 *
 	 * @return string
 	 */

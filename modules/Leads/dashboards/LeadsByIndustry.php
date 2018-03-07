@@ -28,7 +28,8 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Leads grouped by Industry.
 	 *
-	 * @param type $data
+	 * @param int   $owner
+	 * @param array $dateFilter
 	 *
 	 * @return array
 	 */

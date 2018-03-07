@@ -12,8 +12,8 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Return search params (use to in building address URL to listview).
 	 *
-	 * @param string $owner Name of user
-	 * @param array  $time
+	 * @param string|int $owner
+	 * @param array      $time
 	 *
 	 * @return string
 	 */
@@ -22,7 +22,7 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		$listSearchParams = [];
 		$conditions = [];
 		if (!empty($time)) {
-			$conditions[] = ['createdtime', 'bw', $time[0] . ',' . $time[1]];
+			$conditions[] = ['createdtime', 'bw', implode(',', $time)];
 		}
 		if (!empty($owner)) {
 			$conditions[] = ['smcreatorid', 'e', $owner];

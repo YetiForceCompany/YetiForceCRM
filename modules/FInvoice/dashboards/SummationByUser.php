@@ -43,7 +43,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param string $moduleName
 	 * @param array  $widgetParam
-	 * @param string $time
+	 * @param array  $time
 	 *
 	 * @return array
 	 */

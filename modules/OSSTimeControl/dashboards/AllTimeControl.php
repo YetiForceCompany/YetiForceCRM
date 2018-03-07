@@ -9,15 +9,15 @@
  */
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function getSearchParams($assignedto, $dateStart, $dateEnd)
+	public function getSearchParams($assignedto, $date)
 	{
 		$conditions = [];
 		$listSearchParams = [];
 		if ($assignedto != '') {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
-		if (!empty($dateStart) && !empty($dateEnd)) {
-			array_push($conditions, ['due_date', 'bw', $dateStart . ',' . $dateEnd . '']);
+		if (!empty($date)) {
+			array_push($conditions, ['due_date', 'bw', implode(',', $date)]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
@@ -106,7 +106,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 			foreach ($smOwners as $ownerId) {
 				foreach ($chartData['datasets'] as &$dataset) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($ownerId, $time[0], $time[1]);
+					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($ownerId, $time);
 				}
 			}
 		}

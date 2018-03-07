@@ -8,6 +8,14 @@
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
+	/**
+	 * Return search params (use to in building address URL to listview).
+	 *
+	 * @param int|string $owner
+	 * @param string     $date
+	 *
+	 * @return string
+	 */
 	public function getSearchParams($assignedto, $date)
 	{
 		$conditions = [];
