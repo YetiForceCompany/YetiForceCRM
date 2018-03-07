@@ -11,7 +11,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 
 	/**
 	 * Params
-	 * @var array
+	 * @var string[]
 	 */
 	public $dbParams = ['relatedmodule' => 'ModComments'];
 
