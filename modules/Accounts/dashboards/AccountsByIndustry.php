@@ -26,7 +26,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', \App\Fields\Date::formatToDb($dates['start']) . ',' . \App\Fields\Date::formatToDb($dates['end'])]);
+			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ',' . $dates['end']]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . App\Json::encode($listSearchParams);
@@ -56,7 +56,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', \App\Fields\Date::formatToDb($dateFilter['start']) . ' 00:00:00', \App\Fields\Date::formatToDb($dateFilter['end']) . ' 23:59:59']);
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
@@ -82,8 +82,8 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['industryid']];
 			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
 			$chartData['datasets'][0]['names'][] = $row['industryvalue'];
-			$chartData['show_chart'] = true;
 		}
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		$dataReader->close();
 		return $chartData;
 	}
@@ -114,6 +114,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $this->getAccountsByIndustry($owner, $createdTime);
+		$createdTime = \App\Fields\Date::formatToDisplay($createdTime);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadSIndustryAmount = count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {

@@ -312,7 +312,7 @@ class Purifier
 					$v = [];
 					foreach (explode(',', $input) as $i) {
 						list($y, $m, $d) = Fields\Date::explode($i, User::getCurrentUserModel()->getDetail('date_format'));
-						if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
+						if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 							$v[] = \DateTimeField::convertToDBFormat($i);
 						}
 					}

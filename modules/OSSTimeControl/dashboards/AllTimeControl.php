@@ -17,7 +17,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dateStart) && !empty($dateEnd)) {
-			array_push($conditions, ['due_date', 'bw', \App\Fields\Date::formatToDb($dateStart) . ',' . \App\Fields\Date::formatToDb($dateEnd) . '']);
+			array_push($conditions, ['due_date', 'bw', $dateStart . ',' . $dateEnd . '']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
@@ -28,8 +28,6 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (!$time) {
 			return ['show_chart' => false];
 		}
-		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($user == 'all') {
 			$user = array_keys(\App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers());
@@ -47,8 +45,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->andWhere([
 			'and',
-			['>=', 'vtiger_osstimecontrol.due_date', $timeDatabase['start']],
-			['<=', 'vtiger_osstimecontrol.due_date', $timeDatabase['end']],
+			['>=', 'vtiger_osstimecontrol.due_date', $time['start']],
+			['<=', 'vtiger_osstimecontrol.due_date', $time['end']],
 			['vtiger_osstimecontrol.deleted' => 0],
 		]);
 		$timeTypes = [];
@@ -60,6 +58,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'datasets' => [],
 			'show_chart' => false,
 		];
+		$time = \App\Fields\Date::formatToDisplay($time);
 		while ($row = $dataReader->read()) {
 			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
 			$workingTimeByType[$label] += (float) $row['sum_time'];
@@ -126,8 +125,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = App\Fields\Date::formatToDisplay('now');
-				$time['end'] = App\Fields\Date::formatToDisplay('now');
+				$time['start'] = 'now';
+				$time['end'] = 'now';
 			}
 		}
 		if (empty($user)) {
@@ -135,7 +134,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$viewer->assign('TCPMODULE_MODEL', Settings_TimeControlProcesses_Module_Model::getCleanInstance()->getConfigInstance());
 		$viewer->assign('USERID', $user);
-		$viewer->assign('DTIME', $time);
+		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
 		$viewer->assign('DATA', $this->getWidgetTimeControl($user, $time));
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

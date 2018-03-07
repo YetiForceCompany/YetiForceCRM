@@ -151,7 +151,6 @@ class Date
 			case 'yyyy/mm/dd': list($y, $m, $d) = explode('/', $date, 3);
 				break;
 		}
-
 		return [$y, $m, $d];
 	}
 
