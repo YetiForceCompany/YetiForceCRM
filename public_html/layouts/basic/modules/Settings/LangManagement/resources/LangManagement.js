@@ -491,7 +491,7 @@ var Settings_Index_Js = {
 			var x = shortages[i] * 100 / max;
 			var langName = jQuery('select option[value="' + i + '"]').text();
 			data.push(Math.round(x * 100) / 100);
-			chartData.datasets[0].backgroundColor.push(app.Fields.Colors.getRandomColor());
+			chartData.datasets[0].backgroundColor.push(App.Fields.Colors.getRandomColor());
 			chartData.labels.push(langName);
 			++k;
 		}

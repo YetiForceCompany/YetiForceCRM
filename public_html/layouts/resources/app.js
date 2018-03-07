@@ -7,7 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-window.app = {
+app = {
 	/**
 	 * variable stores client side language strings
 	 */
@@ -1781,3 +1781,6 @@ $.fn.getNumberFromText = function () {
 	return app.parseNumberToFloat($(this).text());
 }
 jQuery.migrateMute = true;
+App = {
+
+}
