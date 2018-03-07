@@ -89,7 +89,6 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
 		}
 		foreach ($rawData as $y => $raw) {
-			// raw = [month,sum]
 			$years[] = $y;
 			if (!isset($yearsData[$y])) {
 				$yearsData[$y] = [
