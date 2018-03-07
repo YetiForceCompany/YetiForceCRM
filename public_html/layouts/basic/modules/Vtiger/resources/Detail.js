@@ -313,6 +313,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
+			app.showSelect2ElementView(widgetContainer.find('.select2'));
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
@@ -2052,6 +2053,25 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
+	registerCommentEventsInDetail: function (widgetContainer) {
+		var thisInstance = this;
+		widgetContainer.find('.hierarchyComments').change(function (e) {
+			var progressIndicatorElement = jQuery.progressIndicator();
+			AppConnector.request({
+				module: app.getModuleName(),
+				view: 'Detail',
+				mode: 'showRecentComments',
+				hierarchy: $(this).val(),
+				record: app.getRecordId(),
+			}).then(function (data) {
+				var widgetDataContainer = widgetContainer.find('.widget_contents');
+				widgetDataContainer.html(data);
+				app.showSelect2ElementView(widgetDataContainer.find('.select2'));
+				thisInstance.registerCommentEventsInDetail(widgetContainer);
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
 	registerMailPreviewWidget: function (container) {
 		var thisInstance = this;
 		container.on('click', '.showMailBody', function (e) {
@@ -2337,6 +2357,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				thisInstance.reloadWidgetActivitesStats(container);
 			}
 		});
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			if (relatedModuleName === 'ModComments') {
+				var container = widgetContent.closest('.updatesWidgetContainer');
+				thisInstance.registerCommentEventsInDetail(container);
+			}
+		});
 		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
 			var currentTarget = $(e.currentTarget);
 			currentTarget.prop('disabled', true);
@@ -2553,12 +2579,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			// Not detail view page
 			return;
 		}
-		this.registerBasicEvents();
 		this.registerSetReadRecord(detailViewContainer);
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);
 		thisInstance.loadWidgets();
+		this.registerBasicEvents();
 
 		this.registerEventForTotalRecordsCount();
 	}
