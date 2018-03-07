@@ -116,7 +116,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 	 * Register buttons to copy api key
 	 */
 	registerCopyApiKey: function () {
-		new Clipboard('.copyApiKey', {
+		new ClipboardJS('.copyApiKey', {
 			text: function (target) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),

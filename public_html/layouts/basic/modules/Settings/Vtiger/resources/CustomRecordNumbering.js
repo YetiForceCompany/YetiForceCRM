@@ -157,7 +157,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	},
 
 	registerCopyClipboard: function (editViewForm) {
-		new Clipboard('#customVariableCopy', {
+		new ClipboardJS('#customVariableCopy', {
 			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),

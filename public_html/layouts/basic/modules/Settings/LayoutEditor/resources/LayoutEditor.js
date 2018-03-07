@@ -1867,7 +1867,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	 * Register label copy
 	 */
 	registerCopyClipboard: function (form) {
-		new Clipboard('.copyFieldLabel', {
+		new ClipboardJS('.copyFieldLabel', {
 			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),

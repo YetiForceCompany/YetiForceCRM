@@ -21,7 +21,7 @@ App.Fields = {
 		},
 		getRandomColors: function (count) {
 			const colors = [];
-			for (let i = 0; i < count; i++) {
+			for (var i = 0; i < count; i++) {
 				colors.push(this.getRandomColor());
 			}
 			return colors;
@@ -31,13 +31,13 @@ App.Fields = {
 		/**
 		 * Register clip
 		 * @param {string} key
-		 * @returns {Clipboard}
+		 * @returns {ClipboardJS}
 		 */
 		registerCopyClipboard: function (key) {
 			if (key == undefined) {
 				key = '.clipboard';
 			}
-			return new Clipboard(key, {
+			return new ClipboardJS(key, {
 				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),

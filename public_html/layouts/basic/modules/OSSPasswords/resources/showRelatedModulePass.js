@@ -66,7 +66,7 @@ function showRelatedListPassword(record) {
 		copybtn.addClass('d-none');
 	}
 }
-new Clipboard('.copy_pass', {
+new ClipboardJS('.copy_pass', {
 	text: function (trigger) {
 		Vtiger_Helper_Js.showPnotify({
 			text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
