@@ -55,7 +55,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['statusvalue', 'priority', 'vtiger_ticketpriorities.color', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
-		$status = $priorities = $tickets = $response = [];
+		$status = $priorities = $tickets = [];
 		$counter = 0;
 		$colors = \App\Fields\Picklist::getColors('ticketpriorities');
 		$chartData = [
