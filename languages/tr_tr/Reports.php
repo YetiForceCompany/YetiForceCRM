@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = [
-	'PRIMARY_MODULE' =>	'Birincil modül',
+	'PRIMARY_MODULE' => 'Birincil modül',
 	'Report Name' => 'Rapor Adı',
 	'Reports' => 'Raporlar',
 	'SINGLE_Reports' => 'Rapor',
