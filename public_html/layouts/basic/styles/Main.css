@@ -5172,7 +5172,7 @@ button.bg-dark:focus {
 .mx-5 {
   margin-left: 3rem !important; }
 
-.p-0 {
+.p-0, .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .row {
   padding: 0 !important; }
 
 .pt-0,
@@ -5217,6 +5217,7 @@ button.bg-dark:focus {
 
 .pt-2,
 .py-2,
+.select2-container--bootstrap4 ul.select2-selection__rendered,
 .dashboardViewContainer .select2-selection.select2-selection--single,
 header .select2-selection.select2-selection--single {
   padding-top: 0.5rem !important; }
@@ -5228,6 +5229,7 @@ header .select2-selection.select2-selection--single {
 
 .pb-2,
 .py-2,
+.select2-container--bootstrap4 ul.select2-selection__rendered,
 .dashboardViewContainer .select2-selection.select2-selection--single,
 header .select2-selection.select2-selection--single {
   padding-bottom: 0.5rem !important; }
@@ -9383,11 +9385,6 @@ html, body, .baseContainer {
   width: 20%;
   min-width: 150px; }
 
-.listViewActionsDiv .btn-group button, .listViewActionsDiv .pagination > li > span, .listViewActionsDiv .pageInfo {
-  max-height: 35px; }
-.listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu {
-  left: 20px; }
-
 .widget_header .dropdown-toggle + .dropdown-menu {
   left: 15px; }
 
@@ -10699,6 +10696,9 @@ header .headerLinksMails .select2-selection:hover {
 
 .filterActionImgs {
   margin-top: 3px; }
+
+.dataTables_wrapper table.dataTable {
+  margin: 0 !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
