@@ -23,14 +23,15 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = \App\Fields\Date::formatToDisplay(date('Y-m-01'));
-				$time['end'] = \App\Fields\Date::formatToDisplay(date('Y-m-t'));
+				$time['start'] = date('Y-m-01');
+				$time['end'] = date('Y-m-t');
 			}
 		}
+		$data = $this->getWidgetData($moduleName, $param, $time);
+		$time = \App\Fields\Date::formatToDisplay($time);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$param = \App\Json::decode($widget->get('data'));
-		$data = $this->getWidgetData($moduleName, $param, $time);
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
