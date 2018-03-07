@@ -1,39 +1,39 @@
 <?php
 /**
- * SQuotes english translation.
+ * SQuotes turkish translation.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'SQuotes' => 'Quotes',
-	'SINGLE_SQuotes' => 'Quote',
+	'SQuotes' => 'Alıntılar',
+	'SINGLE_SQuotes' => 'Alıntı',
 	//BLOCKS
-	'LBL_SQUOTES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
-	'LBL_STATISTICS' => 'Statistics',
+	'LBL_SQUOTES_INFORMATION' => 'Temel bilgiler',
+	'LBL_CUSTOM_INFORMATION' => 'Sistem bilgisi',
+	'LBL_DESCRIPTION_INFORMATION' => 'Açıklama ayrıntıları',
+	'LBL_STATISTICS' => 'İstatistik',
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_NUMBER' => 'Number',
-	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Closed time',
-	'LBL_RESPONSE_TIME' => 'Response time',
-	'LBL_COMPANY_NAME' => 'Company name',
-	'SINGLE_SSalesProcesses' => 'Opportunity',
-	'FL_TOTAL_PRICE' => 'Net Total',
-	'FL_MARGINP' => 'Total margin percentage',
-	'FL_MARGIN' => 'Total margin',
-	'FL_SUM_GROSS' => 'Gross amount',
-	'FL_SUM_DISCOUNT' => 'Discount amount',
-	'FL_VALID_UNTIL' => 'Valid until',
+	'LBL_SUBJECT' => 'Konu',
+	'LBL_NUMBER' => 'Numara',
+	'LBL_STATUS' => 'Durumu',
+	'LBL_CLOSED_TIME' => 'Kapanış saati',
+	'LBL_RESPONSE_TIME' => 'Yanıt Süresi',
+	'LBL_COMPANY_NAME' => 'Şirket Adı',
+	'SINGLE_SSalesProcesses' => 'Fırsat',
+	'FL_TOTAL_PRICE' => 'Net toplam',
+	'FL_MARGINP' => 'Toplam marj yüzdesi',
+	'FL_MARGIN' => 'Toplam marj',
+	'FL_SUM_GROSS' => 'Brüt miktar',
+	'FL_SUM_DISCOUNT' => 'İndirim tutarı',
+	'FL_VALID_UNTIL' => 'Kadar geçerli',
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_FOR_VERIFICATION' => 'For verification',
-	'PLL_AWAITING_DECISION' => 'Awaiting decision',
-	'PLL_NEGOTIATIONS' => 'Negotiations',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
-	'LBL_CHANGE_STATUS' => 'Change status',
+	'PLL_DRAFT' => 'Taslak',
+	'PLL_IN_REALIZATION' => 'Gerçekleşmede',
+	'PLL_FOR_VERIFICATION' => 'Doğrulama için',
+	'PLL_AWAITING_DECISION' => 'Kararı bekliyor',
+	'PLL_NEGOTIATIONS' => 'Müzakereler',
+	'PLL_CANCELLED' => 'İptal edildi',
+	'PLL_ACCEPTED' => 'Kabul edildi',
+	'LBL_CHANGE_STATUS' => 'Durumu değiştir',
 ];
