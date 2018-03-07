@@ -269,19 +269,8 @@ class Request
 	 */
 	public function getDateRange($key)
 	{
-		if (isset($this->purifiedValuesByDateRange[$key])) {
-			return $this->purifiedValuesByDateRange[$key];
-		}
-		if (isset($this->rawValues[$key])) {
-			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
-				return [];
-			}
-			$value = Purifier::purify(explode(',', $this->rawValues[$key]));
-
-			return $this->purifiedValuesByDateRange[$key] = ['start' => $value[0], 'end' => $value[1]];
-		}
-
-		return $value;
+		$date = $this->getByType($key, 'DateRangeUserFormat');
+		return ['start' => $date[0], 'end' => $date[1]];
 	}
 
 	/**
