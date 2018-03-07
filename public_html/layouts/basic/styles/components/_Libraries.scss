@@ -39,6 +39,7 @@ header {
 		}
 	}
 }
+
 //--- modal ---//
 .leaflet-popup-content{
 	width: 62px;
@@ -58,7 +59,6 @@ header {
 }
 
 //--- list ---//
-
 .customFilterMainSpan {
 	width: 100%;
 	cursor: pointer;
@@ -75,4 +75,15 @@ header {
 
 .filterActionImgs{
 	margin-top: 3px;
+}
+
+//--- dataTable ---//
+.dataTables_wrapper {
+	@extend .p-0;
+	.col-sm-12, .row {
+		@extend .p-0;
+	}
+	table.dataTable {
+		margin: 0 !important;
+	}
 }
