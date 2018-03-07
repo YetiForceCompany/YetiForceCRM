@@ -57,16 +57,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 					]
 				},
 				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-		};/*
-		data.labels=[];
-		for(let i=0;i<12;i++){
-			data.labels.push(app.vtranslate(months[i]));
-		}
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels = {
-				display:false
-			};
-		});*/
+		};
 		thisInstance.chartInstance = new Chart(
 			thisInstance.getPlotContainer().getContext("2d"),
 			{
