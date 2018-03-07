@@ -36,8 +36,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, 'HelpDesk');
 		$query->andWhere([
 			'and',
-			['>=', 'vtiger_osstimecontrol.due_date', $date['start']],
-			['<=', 'vtiger_osstimecontrol.due_date', $date['end']],
+			['>=', 'vtiger_osstimecontrol.due_date', $date[0]],
+			['<=', 'vtiger_osstimecontrol.due_date', $date[1]],
 			['vtiger_osstimecontrol.deleted' => 0],
 		])->orderBy('due_date');
 		$timeTypes = [];
@@ -110,11 +110,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$time = $request->getDateRange('time');
 		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time === false) {
-				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
-			}
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
 		if (empty($user)) {
 			$user = $currentUserId;
@@ -130,7 +126,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
-		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
+		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

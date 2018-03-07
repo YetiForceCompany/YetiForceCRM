@@ -263,14 +263,13 @@ class Request
 	/**
 	 * Function to get the date range values for a given key.
 	 *
-	 * @param string $key
+	 * @param string $key request param like 'createdtime'
 	 *
 	 * @return array
 	 */
 	public function getDateRange($key)
 	{
-		$date = $this->getByType($key, 'DateRangeUserFormat');
-		return empty($date) ? false : ['start' => $date[0], 'end' => $date[1]];
+		return $this->getByType($key, 'DateRangeUserFormat');
 	}
 
 	/**

@@ -22,7 +22,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$listSearchParams = [];
 		$conditions = [];
 		if (!empty($time)) {
-			$conditions[] = ['createdtime', 'bw', $time['start'] . ',' . $time['end']];
+			$conditions[] = ['createdtime', 'bw', $time[0] . ',' . $time[1]];
 		}
 		if (!empty($owner)) {
 			$conditions[] = ['assigned_user_id', 'e', $owner];
@@ -53,14 +53,14 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 				['setype' => $moduleName],
 				['deleted' => 0],
 				['smcreatorid' => array_keys($accessibleUsers)],
-				['>=', 'createdtime', $time['start'] . ' 00:00:00'],
-				['<=', 'createdtime', $time['end'] . ' 23:59:59'],
+				['>=', 'createdtime', $time[0] . ' 00:00:00'],
+				['<=', 'createdtime', $time[1] . ' 23:59:59'],
 		]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smownerid']);
 		$dataReader = $query->createCommand()->query();
 		$data = [];
-		$time = \App\Fields\Date::formatToDisplay($time);
+		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		while ($row = $dataReader->read()) {
 			$data[] = [
 				$row['count'],
@@ -79,16 +79,12 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), Users_Record_Model::getCurrentUserModel()->getId());
 		$time = $request->getDateRange('time');
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time === false) {
-				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
-			}
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
 		$viewer->assign('DATA', $this->getNotificationByRecipient($time));
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
+		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {

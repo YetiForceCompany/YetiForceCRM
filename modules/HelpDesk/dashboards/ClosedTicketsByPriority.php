@@ -61,8 +61,8 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($time)) {
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_crmentity.closedtime', $time['start']],
-				['<=', 'vtiger_crmentity.closedtime', $time['end']],
+				['>=', 'vtiger_crmentity.closedtime', $time[0]],
+				['<=', 'vtiger_crmentity.closedtime', $time[1]],
 			]);
 		}
 		if (!empty($owner) && $owner != 'all') {
@@ -84,7 +84,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$chartData['show_chart'] = (bool) $dataReader->count();
-		$time = \App\Fields\Date::formatToDisplay($time);
+		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		while ($row = $dataReader->read()) {
 			$chartData['labels'][] = \App\Language::translate($row['priority'], $moduleName);
 			$chartData['datasets'][0]['data'][] = (int) $row['count'];
@@ -106,17 +106,13 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if ($time === false) {
-				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
-			}
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
 		$data = $this->getTicketsByPriority($time, $owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
+		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
