@@ -22,11 +22,12 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$data = $this->getWidgetData($moduleName, $param, $time);
-		$viewer = $this->getViewer($request);
+		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		$moduleName = $request->getModule();
 		$param = \App\Json::decode($widget->get('data'));
-		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
+		$data = $this->getWidgetData($moduleName, $param, $time);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('DTIME', $time);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('PARAM', $param);
@@ -54,7 +55,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setField('assigned_user_id');
 		$queryGenerator->setCustomColumn(['s' => $s]);
-		$queryGenerator->addCondition('saledate', $time[0] . ',' . $time[1], 'bw');
+		$queryGenerator->addCondition('saledate', implode(',', $time), 'bw');
 		$queryGenerator->setGroup('assigned_user_id');
 		$query = $queryGenerator->createQuery();
 		$query->orderBy(['s' => SORT_DESC]);
