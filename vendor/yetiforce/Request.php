@@ -270,7 +270,7 @@ class Request
 	public function getDateRange($key)
 	{
 		$date = $this->getByType($key, 'DateRangeUserFormat');
-		return ['start' => $date[0], 'end' => $date[1]];
+		return empty($date) ? false : ['start' => $date[0], 'end' => $date[1]];
 	}
 
 	/**

@@ -43,8 +43,6 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	public function getTicketsByPriority($time, $owner)
 	{
 		$moduleName = 'HelpDesk';
-		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = (new App\Db\Query())->select([
@@ -86,6 +84,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$chartData['show_chart'] = (bool) $dataReader->count();
+		$time = \App\Fields\Date::formatToDisplay($time);
 		while ($row = $dataReader->read()) {
 			$chartData['labels'][] = \App\Language::translate($row['priority'], $moduleName);
 			$chartData['datasets'][0]['data'][] = (int) $row['count'];
@@ -109,15 +108,15 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y'))));
-				$time['end'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y'))));
+				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
 		}
 		$data = $this->getTicketsByPriority($time, $owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DTIME', $time);
+		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {

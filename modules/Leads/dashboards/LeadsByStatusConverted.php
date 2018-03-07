@@ -14,12 +14,13 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
+		$dates = \App\Fields\Date::formatToDisplay($dates);
 		$conditions = [['leadstatus', 'e', $value]];
 		if ($assignedto != '') {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', \App\Fields\Date::formatToDb($dates['start']) . ' 00:00:00,' . \App\Fields\Date::formatToDb($dates['end']) . ' 23:59:59']);
+			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);
@@ -47,7 +48,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', \App\Fields\Date::formatToDb($dateFilter['start']) . ' 00:00:00', \App\Fields\Date::formatToDb($dateFilter['end']) . ' 23:59:59']);
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
 		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
@@ -100,6 +101,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 		}
 		$data = ($owner === false) ? [] : $this->getLeadsByStatusConverted($owner, $createdTime);
+		$createdTime = \App\Fields\Date::formatToDisplay($createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$leadStatusAmount = count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadStatusAmount; ++$i) {

@@ -8,30 +8,26 @@
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function getSearchParams($assignedto, $date)
 	{
 		$conditions = [];
+		$date = \App\Fields\Date::formatToDisplay($date);
 		$listSearchParams = [];
 		if ($assignedto != '') {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($date)) {
-			$displayDate = \App\Fields\Date::formatToDisplay($date);
-			array_push($conditions, ['due_date', 'bw', \App\Fields\Date::formatToDb($displayDate) . ',' . \App\Fields\Date::formatToDb($displayDate)]);
+			array_push($conditions, ['due_date', 'bw', $date . ',' . $date]);
 		}
 		$listSearchParams[] = $conditions;
-
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function getWidgetTimeControl($user, $time)
+	public function getWidgetTimeControl($user, $date)
 	{
-		if (!$time) {
+		if (!$date) {
 			return ['show_chart' => false];
 		}
-		$date['start'] = Vtiger_Date_UIType::getDBInsertedValue($time['start']);
-		$date['end'] = Vtiger_Date_UIType::getDBInsertedValue($time['end']);
 		$query = (new App\Db\Query())->select(['sum_time', 'due_date', 'vtiger_osstimecontrol.timecontrol_type', 'timecontrol_typeid'])
 			->from('vtiger_osstimecontrol')
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
@@ -116,24 +112,25 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y'))));
-				$time['end'] = \App\Fields\Date::formatToDisplay(date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y'))));
+				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
 		}
 		if (empty($user)) {
 			$user = $currentUserId;
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		foreach ($data['datasets'] as &$dataset) {
-			foreach ($dataset['data'] as $index => $dataItem) {
-				$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($user, $data['days'][
-						$index]);
+		if (!empty($data['datasets'])) {
+			foreach ($data['datasets'] as &$dataset) {
+				foreach ($dataset['data'] as $index => $dataItem) {
+					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All' . $this->getSearchParams($user, $data['days'][$index]);
+				}
 			}
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
-		$viewer->assign('DTIME', $time);
+		$viewer->assign('DTIME', \App\Fields\Date::formatToDisplay($time));
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
