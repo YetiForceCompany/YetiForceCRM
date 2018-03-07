@@ -6,7 +6,7 @@
 			<span aria-hidden="true">&times;</span>
         </button>
 	</div>
-	<div class="modal-body px-0">
+	<div class="modal-body">
 		<table class="table dataTable">
 			<thead>
 				<tr>
