@@ -14,6 +14,7 @@
  */
 class ModComments_Record_Model extends Vtiger_Record_Model
 {
+
 	/**
 	 * Functions gets the comment id.
 	 */
@@ -164,47 +165,17 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function returns latest comments for parent record.
-	 *
-	 * @param int $parentRecordId - parent record for which latest comment need to retrieved
-	 * @param Vtiger_Paging_Model - paging model
-	 *
-	 * @return ModComments_Record_Model if exits or null
-	 */
-	public static function getRecentComments($parentRecordId, $pagingModel)
-	{
-		$recordInstances = [];
-		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(['id', 'parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'from_mailconverter']);
-		$queryGenerator->setSourceRecord($parentRecordId);
-		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
-		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
-		if ($pagingModel->get('limit') !== 0) {
-			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
-		}
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$recordInstance = new self();
-			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
-			$recordInstances[] = $recordInstance;
-		}
-		$dataReader->close();
-
-		return $recordInstances;
-	}
-
-	/**
 	 * Function returns all the parent comments model.
-	 *
-	 * @param <Integer> $parentId
-	 *
-	 * @return ModComments_Record_Model(s)
+	 * @param integer $parentId
+	 * @param int[] $hierarchy
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @return \ModComments_Record_Model[]
 	 */
-	public static function getAllParentComments($parentId, $hierarchy = false)
+	public static function getAllParentComments($parentId, $hierarchy = false, $pagingModel = false)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', ]);
+			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid',]);
 		$queryGenerator->setSourceRecord($parentId);
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
@@ -216,9 +187,11 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
 		}
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
-		$dataReader = $queryGenerator->createQuery()
-			->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC])
-			->createCommand()->query();
+		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
+		if ($pagingModel && $pagingModel->get('limit') !== 0) {
+			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
+		}
+		$dataReader = $query->createCommand()->query();
 		$recordInstances = [];
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
@@ -277,7 +250,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', ]);
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid',]);
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
