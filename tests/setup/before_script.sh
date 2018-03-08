@@ -14,4 +14,4 @@ cp tests/setup/debug.txt config/debug.php
 cp tests/setup/developer.txt config/developer.php
 cp tests/setup/api.txt config/api.php
 cp tests/setup/.htaccess .htaccess
-cp vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/phpunit_coverage.php phpunit_coverage.php
+# cp vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/phpunit_coverage.php phpunit_coverage.php
