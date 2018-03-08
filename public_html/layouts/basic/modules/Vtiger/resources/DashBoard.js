@@ -457,8 +457,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	registerMiniListWidget: function () {
 		var thisInstance = this;
-		$('.dashboardHeading').off('click', '.addFilter');
-		$('.dashboardHeading').on('click', '.addFilter', function (e) {
+		$('.dashboardHeading').off('click', '.addFilter').on('click', '.addFilter', function (e) {
 			var element = $(e.currentTarget);
 
 			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
