@@ -1626,4 +1626,11 @@ $jsLanguageStrings = [
 	'JS_CUSTOM' => 'Custom date range',
 	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
 	'JS_FRAME_IN_PROGRESS' => 'Preview is loading...',
+	'JS_IGNORE_EMPTY_VALUES' => 'Ignore empty values',
+	'JS_H' => 'h',
+	'JS_M' => 'm',
+	'JS_S' => 's',
+	'JS_H_LONG' => 'hours',
+	'JS_M_LONG' => 'minutes',
+	'JS_S_LONG' => 'seconds',
 ];
