@@ -16,7 +16,7 @@
 							</h4>
 						</div>
 					</div>
-					{if count($HIERARCHY_LIST) != 1}
+					{if count($WIDGET['hierarchyList']) != 1}
 						<div class="col-md-7 commentsHeader">
 							<select class="select2 form-control hierarchyComments" multiple="multiple">
 								{foreach key=NAME item=LABEL from=$WIDGET['hierarchyList']}

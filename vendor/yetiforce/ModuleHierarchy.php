@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 /**
@@ -11,6 +10,7 @@ namespace App;
  */
 class ModuleHierarchy
 {
+
 	protected static $hierarchy;
 	protected static $modulesByLevels = [];
 
@@ -223,7 +223,7 @@ class ModuleHierarchy
 	public static function getRelatedRecords($record, $hierarchy)
 	{
 		$moduleName = Record::getType($record);
-		$records = $recordsLevel1 = [];
+		$records = $recordsLevel1 = $recordsLevel2 = [];
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
@@ -243,7 +243,17 @@ class ModuleHierarchy
 		}
 		if ($level === 0) {
 			if (in_array(2, $hierarchy)) {
-				foreach ($recordsLevel1 as $record) {
+				$modules = static::getChildModules($moduleName, [1]);
+				if ($modules) {
+					$fields = Field::getRelatedFieldForModule(false, $moduleName);
+					foreach ($fields as $field) {
+						if (in_array($field['name'], $modules)) {
+							$recordsByField = static::getRelatedRecordsByField($record, $field);
+							$recordsLevel2 = array_merge($recordsLevel2, $recordsByField);
+						}
+					}
+				}
+				foreach ($recordsLevel2 as $record) {
 					$recordsByHierarchy = static::getRelatedRecords($record, $hierarchy);
 					$records = array_merge($records, $recordsByHierarchy);
 				}
