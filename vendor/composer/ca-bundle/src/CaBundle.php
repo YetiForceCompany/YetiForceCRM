@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
 namespace Composer\CaBundle;
 
 use Psr\Log\LoggerInterface;
@@ -18,13 +19,12 @@ use Symfony\Component\Process\PhpProcess;
  */
 class CaBundle
 {
-
 	private static $caPath;
 	private static $caFileValidity = [];
 	private static $useOpensslParse;
 
 	/**
-	 * Returns the system CA bundle path, or a path to the bundled one
+	 * Returns the system CA bundle path, or a path to the bundled one.
 	 *
 	 * This method was adapted from Sslurp.
 	 * https://github.com/EvanDotPro/Sslurp
@@ -57,8 +57,9 @@ class CaBundle
 	 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	 *
-	 * @param  LoggerInterface $logger optional logger for information about which CA files were loaded
-	 * @return string          path to a CA bundle file or directory
+	 * @param LoggerInterface $logger optional logger for information about which CA files were loaded
+	 *
+	 * @return string path to a CA bundle file or directory
 	 */
 	public static function getSystemCaRootBundlePath(LoggerInterface $logger = null)
 	{
@@ -121,7 +122,7 @@ class CaBundle
 	}
 
 	/**
-	 * Returns the path to the bundled CA file
+	 * Returns the path to the bundled CA file.
 	 *
 	 * In case you don't want to trust the user or the system, you can use this directly
 	 *
@@ -138,7 +139,7 @@ class CaBundle
 				$tempCaBundleFile = tempnam(sys_get_temp_dir(), 'openssl-ca-bundle-'), file_get_contents($caBundleFile)
 			);
 
-			register_shutdown_function(function() use ($tempCaBundleFile) {
+			register_shutdown_function(function () use ($tempCaBundleFile) {
 				@unlink($tempCaBundleFile);
 			});
 
@@ -149,7 +150,7 @@ class CaBundle
 	}
 
 	/**
-	 * Validates a CA file using opensl_x509_parse only if it is safe to use
+	 * Validates a CA file using opensl_x509_parse only if it is safe to use.
 	 *
 	 * @param string          $filename
 	 * @param LoggerInterface $logger   optional logger for information about which CA files were loaded
@@ -250,7 +251,7 @@ class CaBundle
 		// fixes the chances are on NIX systems the fix has been applied but
 		// it's not possible to verify that from the PHP version.
 		//
-        // To verify exec a new PHP process and run the issue testcase with
+		// To verify exec a new PHP process and run the issue testcase with
 		// known safe input that replicates the bug.
 		// Based on testcase in https://github.com/php/php-src/commit/c1224573c773b6845e83505f717fbf820fc18415
 		// changes in https://github.com/php/php-src/commit/76a7fd893b7d6101300cc656058704a73254d593
@@ -287,7 +288,7 @@ EOT;
 	}
 
 	/**
-	 * Resets the static caches
+	 * Resets the static caches.
 	 */
 	public static function reset()
 	{

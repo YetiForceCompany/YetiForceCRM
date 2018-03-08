@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Composer\Autoload;
 
 /**
@@ -35,12 +36,12 @@ namespace Composer\Autoload;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ *
  * @see    http://www.php-fig.org/psr/psr-0/
  * @see    http://www.php-fig.org/psr/psr-4/
  */
 class ClassLoader
 {
-
 	// PSR-4
 	private $prefixLengthsPsr4 = [];
 	private $prefixDirsPsr4 = [];
@@ -163,7 +164,7 @@ class ClassLoader
 			// Register directories for a new namespace.
 			$length = strlen($prefix);
 			if ('\\' !== $prefix[$length - 1]) {
-				throw new \InvalidArgumentException("A non-empty PSR-4 prefix must end with a namespace separator.");
+				throw new \InvalidArgumentException('A non-empty PSR-4 prefix must end with a namespace separator.');
 			}
 			$this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
 			$this->prefixDirsPsr4[$prefix] = (array) $paths;
@@ -212,7 +213,7 @@ class ClassLoader
 		} else {
 			$length = strlen($prefix);
 			if ('\\' !== $prefix[$length - 1]) {
-				throw new \InvalidArgumentException("A non-empty PSR-4 prefix must end with a namespace separator.");
+				throw new \InvalidArgumentException('A non-empty PSR-4 prefix must end with a namespace separator.');
 			}
 			$this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
 			$this->prefixDirsPsr4[$prefix] = (array) $paths;
@@ -302,7 +303,8 @@ class ClassLoader
 	/**
 	 * Loads the given class or interface.
 	 *
-	 * @param  string    $class The name of the class
+	 * @param string $class The name of the class
+	 *
 	 * @return bool|null True if loaded, null otherwise
 	 */
 	public function loadClass($class)

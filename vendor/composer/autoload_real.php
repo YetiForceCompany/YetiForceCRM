@@ -4,7 +4,6 @@
 
 class ComposerAutoloaderInitYT
 {
-
 	private static $loader;
 
 	public static function loadClassLoader($class)

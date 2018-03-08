@@ -38,7 +38,7 @@
 		"smarty/smarty": "3.1.31",
 		"phpmailer/phpmailer": "v5.2.25",
 		"ezyang/htmlpurifier": "v4.9.3",
-		"simshaun/recurr": "v3.0.2",
+		"simshaun/recurr": "v3.0.5",
 		"sensiolabs/security-checker": "*",
 		"doctrine/collections": "v1.4.0",
 		"symfony/var-dumper": "v3.3.6",

@@ -415,75 +415,6 @@
 		]
 	},
 	{
-		"name": "doctrine/collections",
-		"version": "v1.4.0",
-		"version_normalized": "1.4.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/doctrine/collections.git",
-			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
-			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
-			"shasum": ""
-		},
-		"require": {
-			"php": "^5.6 || ^7.0"
-		},
-		"require-dev": {
-			"doctrine/coding-standard": "~0.1@dev",
-			"phpunit/phpunit": "^5.7"
-		},
-		"time": "2017-01-03T10:49:41+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.3.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Doctrine\\Common\\Collections\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Roman Borschel",
-				"email": "roman@code-factory.org"
-			},
-			{
-				"name": "Benjamin Eberlei",
-				"email": "kontakt@beberlei.de"
-			},
-			{
-				"name": "Guilherme Blanco",
-				"email": "guilhermeblanco@gmail.com"
-			},
-			{
-				"name": "Jonathan Wage",
-				"email": "jonwage@gmail.com"
-			},
-			{
-				"name": "Johannes Schmitt",
-				"email": "schmittjoh@gmail.com"
-			}
-		],
-		"description": "Collections Abstraction library",
-		"homepage": "http://www.doctrine-project.org",
-		"keywords": [
-			"array",
-			"collections",
-			"iterator"
-		]
-	},
-	{
 		"name": "psr/log",
 		"version": "1.0.2",
 		"version_normalized": "1.0.2.0",
@@ -610,62 +541,6 @@
 			}
 		],
 		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-	},
-	{
-		"name": "simshaun/recurr",
-		"version": "v3.0.2",
-		"version_normalized": "3.0.2.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/simshaun/recurr.git",
-			"reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/simshaun/recurr/zipball/7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
-			"reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
-			"shasum": ""
-		},
-		"require": {
-			"doctrine/collections": "~1.3",
-			"php": ">=5.5.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "~4.5"
-		},
-		"time": "2017-08-03T23:25:58+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Recurr": "src/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Shaun Simmons",
-				"email": "shaun@envysphere.com",
-				"homepage": "http://envysphere.com"
-			}
-		],
-		"description": "PHP library for working with recurrence rules",
-		"homepage": "https://github.com/simshaun/recurr",
-		"keywords": [
-			"dates",
-			"events",
-			"recurrence",
-			"recurring",
-			"rrule"
-		]
 	},
 	{
 		"name": "symfony/debug",
@@ -1119,56 +994,6 @@
 		]
 	},
 	{
-		"name": "psr/simple-cache",
-		"version": "1.0.0",
-		"version_normalized": "1.0.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/php-fig/simple-cache.git",
-			"reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/php-fig/simple-cache/zipball/753fa598e8f3b9966c886fe13f370baa45ef0e24",
-			"reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.0"
-		},
-		"time": "2017-01-02T13:31:39+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Psr\\SimpleCache\\": "src/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "PHP-FIG",
-				"homepage": "http://www.php-fig.org/"
-			}
-		],
-		"description": "Common interfaces for simple caching",
-		"keywords": [
-			"cache",
-			"caching",
-			"psr",
-			"psr-16",
-			"simple-cache"
-		]
-	},
-	{
 		"name": "symfony/polyfill-mbstring",
 		"version": "v1.7.0",
 		"version_normalized": "1.7.0.0",
@@ -1275,166 +1100,6 @@
 			}
 		],
 		"description": "A security checker for your composer.lock"
-	},
-	{
-		"name": "giggsey/libphonenumber-for-php",
-		"version": "8.9.0",
-		"version_normalized": "8.9.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
-			"reference": "e6f3cb4d3f141b0e09f680963b4e6d6e19f913fb"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/e6f3cb4d3f141b0e09f680963b4e6d6e19f913fb",
-			"reference": "e6f3cb4d3f141b0e09f680963b4e6d6e19f913fb",
-			"shasum": ""
-		},
-		"require": {
-			"ext-mbstring": "*",
-			"giggsey/locale": "^1.2",
-			"php": ">=5.3.2"
-		},
-		"require-dev": {
-			"pear/pear-core-minimal": "^1.9",
-			"pear/pear_exception": "^1.0",
-			"pear/versioncontrol_git": "^0.5",
-			"phing/phing": "^2.7",
-			"phpunit/phpunit": "^4.8|^5.0",
-			"satooshi/php-coveralls": "^1.0",
-			"symfony/console": "^2.8|^3.0"
-		},
-		"time": "2018-02-22T11:04:17+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "8.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"libphonenumber\\": "src/"
-			},
-			"exclude-from-classmap": [
-				"/src/data/",
-				"/src/carrier/data/",
-				"/src/geocoding/data/",
-				"/src/timezone/data/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"Apache-2.0"
-		],
-		"authors": [
-			{
-				"name": "Joshua Gigg",
-				"email": "giggsey@gmail.com",
-				"homepage": "https://giggsey.com/"
-			}
-		],
-		"description": "PHP Port of Google's libphonenumber",
-		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
-		"keywords": [
-			"geocoding",
-			"geolocation",
-			"libphonenumber",
-			"mobile",
-			"phonenumber",
-			"validation"
-		]
-	},
-	{
-		"name": "phpoffice/phpspreadsheet",
-		"version": "1.1.0",
-		"version_normalized": "1.1.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-			"reference": "a2771e562e3a17c0d512d2009e38fd628beece90"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a2771e562e3a17c0d512d2009e38fd628beece90",
-			"reference": "a2771e562e3a17c0d512d2009e38fd628beece90",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"ext-dom": "*",
-			"ext-gd": "*",
-			"ext-iconv": "*",
-			"ext-libxml": "*",
-			"ext-mbstring": "*",
-			"ext-simplexml": "*",
-			"ext-xml": "*",
-			"ext-xmlreader": "*",
-			"ext-xmlwriter": "*",
-			"ext-zip": "*",
-			"ext-zlib": "*",
-			"php": "^5.6|^7.0",
-			"psr/simple-cache": "^1.0"
-		},
-		"require-dev": {
-			"dompdf/dompdf": "^0.8.0",
-			"friendsofphp/php-cs-fixer": "@stable",
-			"jpgraph/jpgraph": "^4.0",
-			"mpdf/mpdf": "^7.0.0",
-			"phpunit/phpunit": "^5.7",
-			"squizlabs/php_codesniffer": "^2.7",
-			"tecnickcom/tcpdf": "^6.2"
-		},
-		"suggest": {
-			"dompdf/dompdf": "Option for rendering PDF with PDF Writer",
-			"ext-dom": "Option to read and write HTML files",
-			"ext-gd": "Required for exact column width autocalculation",
-			"jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
-			"mpdf/mpdf": "Option for rendering PDF with PDF Writer",
-			"tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
-		},
-		"time": "2018-01-28T12:37:15+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL-2.1"
-		],
-		"authors": [
-			{
-				"name": "Maarten Balliauw",
-				"homepage": "http://blog.maartenballiauw.be"
-			},
-			{
-				"name": "Erik Tilt"
-			},
-			{
-				"name": "Franck Lefevre",
-				"homepage": "http://rootslabs.net"
-			},
-			{
-				"name": "Mark Baker",
-				"homepage": "http://markbakeruk.net"
-			}
-		],
-		"description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-		"homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
-		"keywords": [
-			"OpenXML",
-			"excel",
-			"gnumeric",
-			"ods",
-			"php",
-			"spreadsheet",
-			"xls",
-			"xlsx"
-		]
 	},
 	{
 		"name": "sabre/http",
@@ -1544,6 +1209,340 @@
 			"shorten",
 			"truncate",
 			"truncating"
+		]
+	},
+	{
+		"name": "giggsey/libphonenumber-for-php",
+		"version": "8.9.1",
+		"version_normalized": "8.9.1.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
+			"reference": "f50b45cc50d9058797c037fc15e34d0511a4423e"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f50b45cc50d9058797c037fc15e34d0511a4423e",
+			"reference": "f50b45cc50d9058797c037fc15e34d0511a4423e",
+			"shasum": ""
+		},
+		"require": {
+			"ext-mbstring": "*",
+			"giggsey/locale": "^1.2",
+			"php": ">=5.3.2"
+		},
+		"require-dev": {
+			"pear/pear-core-minimal": "^1.9",
+			"pear/pear_exception": "^1.0",
+			"pear/versioncontrol_git": "^0.5",
+			"phing/phing": "^2.7",
+			"phpunit/phpunit": "^4.8|^5.0",
+			"satooshi/php-coveralls": "^1.0",
+			"symfony/console": "^2.8|^3.0"
+		},
+		"time": "2018-03-07T12:33:46+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "8.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"libphonenumber\\": "src/"
+			},
+			"exclude-from-classmap": [
+				"/src/data/",
+				"/src/carrier/data/",
+				"/src/geocoding/data/",
+				"/src/timezone/data/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"Apache-2.0"
+		],
+		"authors": [
+			{
+				"name": "Joshua Gigg",
+				"email": "giggsey@gmail.com",
+				"homepage": "https://giggsey.com/"
+			}
+		],
+		"description": "PHP Port of Google's libphonenumber",
+		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
+		"keywords": [
+			"geocoding",
+			"geolocation",
+			"libphonenumber",
+			"mobile",
+			"phonenumber",
+			"validation"
+		]
+	},
+	{
+		"name": "psr/simple-cache",
+		"version": "1.0.1",
+		"version_normalized": "1.0.1.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/php-fig/simple-cache.git",
+			"reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+			"reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.0"
+		},
+		"time": "2017-10-23T01:57:42+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.0.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Psr\\SimpleCache\\": "src/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "PHP-FIG",
+				"homepage": "http://www.php-fig.org/"
+			}
+		],
+		"description": "Common interfaces for simple caching",
+		"keywords": [
+			"cache",
+			"caching",
+			"psr",
+			"psr-16",
+			"simple-cache"
+		]
+	},
+	{
+		"name": "phpoffice/phpspreadsheet",
+		"version": "1.2.0",
+		"version_normalized": "1.2.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+			"reference": "8380fb3ad28242093c18d0baa9b7e67fb429ea84"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/8380fb3ad28242093c18d0baa9b7e67fb429ea84",
+			"reference": "8380fb3ad28242093c18d0baa9b7e67fb429ea84",
+			"shasum": ""
+		},
+		"require": {
+			"ext-ctype": "*",
+			"ext-dom": "*",
+			"ext-gd": "*",
+			"ext-iconv": "*",
+			"ext-libxml": "*",
+			"ext-mbstring": "*",
+			"ext-simplexml": "*",
+			"ext-xml": "*",
+			"ext-xmlreader": "*",
+			"ext-xmlwriter": "*",
+			"ext-zip": "*",
+			"ext-zlib": "*",
+			"php": "^5.6|^7.0",
+			"psr/simple-cache": "^1.0"
+		},
+		"require-dev": {
+			"dompdf/dompdf": "^0.8.0",
+			"friendsofphp/php-cs-fixer": "@stable",
+			"jpgraph/jpgraph": "^4.0",
+			"mpdf/mpdf": "^7.0.0",
+			"phpunit/phpunit": "^5.7",
+			"squizlabs/php_codesniffer": "^2.7",
+			"tecnickcom/tcpdf": "^6.2"
+		},
+		"suggest": {
+			"dompdf/dompdf": "Option for rendering PDF with PDF Writer",
+			"jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+			"mpdf/mpdf": "Option for rendering PDF with PDF Writer",
+			"tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
+		},
+		"time": "2018-03-04T20:41:15+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL-2.1-or-later"
+		],
+		"authors": [
+			{
+				"name": "Maarten Balliauw",
+				"homepage": "http://blog.maartenballiauw.be"
+			},
+			{
+				"name": "Erik Tilt"
+			},
+			{
+				"name": "Franck Lefevre",
+				"homepage": "http://rootslabs.net"
+			},
+			{
+				"name": "Mark Baker",
+				"homepage": "http://markbakeruk.net"
+			}
+		],
+		"description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+		"homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
+		"keywords": [
+			"OpenXML",
+			"excel",
+			"gnumeric",
+			"ods",
+			"php",
+			"spreadsheet",
+			"xls",
+			"xlsx"
+		]
+	},
+	{
+		"name": "doctrine/collections",
+		"version": "v1.4.0",
+		"version_normalized": "1.4.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/doctrine/collections.git",
+			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
+			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
+			"shasum": ""
+		},
+		"require": {
+			"php": "^5.6 || ^7.0"
+		},
+		"require-dev": {
+			"doctrine/coding-standard": "~0.1@dev",
+			"phpunit/phpunit": "^5.7"
+		},
+		"time": "2017-01-03T10:49:41+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.3.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"Doctrine\\Common\\Collections\\": "lib/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Roman Borschel",
+				"email": "roman@code-factory.org"
+			},
+			{
+				"name": "Benjamin Eberlei",
+				"email": "kontakt@beberlei.de"
+			},
+			{
+				"name": "Guilherme Blanco",
+				"email": "guilhermeblanco@gmail.com"
+			},
+			{
+				"name": "Jonathan Wage",
+				"email": "jonwage@gmail.com"
+			},
+			{
+				"name": "Johannes Schmitt",
+				"email": "schmittjoh@gmail.com"
+			}
+		],
+		"description": "Collections Abstraction library",
+		"homepage": "http://www.doctrine-project.org",
+		"keywords": [
+			"array",
+			"collections",
+			"iterator"
+		]
+	},
+	{
+		"name": "simshaun/recurr",
+		"version": "v3.0.5",
+		"version_normalized": "3.0.5.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/simshaun/recurr.git",
+			"reference": "bff55c3baa5ab905c8f49c325daa6e9fcfccbfc1"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/simshaun/recurr/zipball/bff55c3baa5ab905c8f49c325daa6e9fcfccbfc1",
+			"reference": "bff55c3baa5ab905c8f49c325daa6e9fcfccbfc1",
+			"shasum": ""
+		},
+		"require": {
+			"doctrine/collections": "~1.3",
+			"php": ">=5.5.0"
+		},
+		"require-dev": {
+			"phpunit/phpunit": "~4.5"
+		},
+		"time": "2018-01-17T18:53:01+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "0.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Recurr\\": "src/Recurr/",
+				"Recurr\\Test\\": "tests/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Shaun Simmons",
+				"email": "shaun@envysphere.com",
+				"homepage": "http://envysphere.com"
+			}
+		],
+		"description": "PHP library for working with recurrence rules",
+		"homepage": "https://github.com/simshaun/recurr",
+		"keywords": [
+			"dates",
+			"events",
+			"recurrence",
+			"recurring",
+			"rrule"
 		]
 	}
 ]
