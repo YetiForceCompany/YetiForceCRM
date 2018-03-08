@@ -29,6 +29,7 @@ return [
 	'Psr\\SimpleCache\\' => [$vendorDir . '/psr/simple-cache/src'],
 	'Psr\\Log\\' => [$vendorDir . '/psr/log/Psr/Log'],
 	'PhpOffice\\PhpSpreadsheet\\' => [$vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'],
+	'PHPMailer\\PHPMailer\\' => [$vendorDir . '/phpmailer/phpmailer/src'],
 	'Giggsey\\Locale\\' => [$vendorDir . '/giggsey/locale/src'],
 	'Exception\\' => [$baseDir . '/include/exceptions'],
 	'DebugBar\\' => [$vendorDir . '/php-debugbar/src/DebugBar'],

@@ -56,6 +56,7 @@ class ComposerStaticInitYT
 			'Psr\\SimpleCache\\' => 16,
 			'Psr\\Log\\' => 8,
 			'PhpOffice\\PhpSpreadsheet\\' => 25,
+			'PHPMailer\\PHPMailer\\' => 20,
 		],
 		'G' => [
 			'Giggsey\\Locale\\' => 15,
@@ -145,6 +146,9 @@ class ComposerStaticInitYT
 		'PhpOffice\\PhpSpreadsheet\\' => [
 			0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
 		],
+		'PHPMailer\\PHPMailer\\' => [
+			0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+		],
 		'Giggsey\\Locale\\' => [
 			0 => __DIR__ . '/..' . '/giggsey/locale/src',
 		],
@@ -190,16 +194,8 @@ class ComposerStaticInitYT
 		],
 	];
 	public static $classMap = [
-		'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
 		'Feed' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
 		'FeedException' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
-		'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
-		'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
-		'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
-		'POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.pop3.php',
-		'SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.smtp.php',
-		'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
-		'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
 	];
 
 	public static function getInitializer(ClassLoader $loader)

@@ -20,7 +20,7 @@ class Mailer
 	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments', 'params'];
 	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params'];
 
-	/** @var \PHPMailer PHPMailer instance */
+	/** @var \PHPMailer\PHPMailer\PHPMailer PHPMailer instance */
 	protected $mailer;
 
 	/** @var array SMTP configuration */
@@ -34,7 +34,7 @@ class Mailer
 	 */
 	public function __construct()
 	{
-		$this->mailer = new \PHPMailer();
+		$this->mailer = new \PHPMailer\PHPMailer\PHPMailer(false);
 		if (\AppConfig::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function ($str, $level) {
@@ -61,7 +61,6 @@ class Mailer
 	{
 		$this->smtp = Mail::getSmtpById($smtpId);
 		$this->setSmtp();
-
 		return $this;
 	}
 
@@ -76,7 +75,6 @@ class Mailer
 	{
 		$this->smtp = $smtpInfo;
 		$this->setSmtp();
-
 		return $this;
 	}
 
@@ -128,7 +126,6 @@ class Mailer
 		if (!empty($template['email_template_priority'])) {
 			$params['priority'] = $template['email_template_priority'];
 		}
-
 		return static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
 	}
 
@@ -162,7 +159,6 @@ class Mailer
 			}
 		}
 		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
-
 		return true;
 	}
 
@@ -178,7 +174,6 @@ class Mailer
 		if ($key && isset($this->smtp[$key])) {
 			return $this->smtp[$key];
 		}
-
 		return $this->smtp;
 	}
 
@@ -230,7 +225,6 @@ class Mailer
 	public function subject($subject)
 	{
 		$this->mailer->Subject = $subject;
-
 		return $this;
 	}
 
@@ -247,7 +241,6 @@ class Mailer
 	{
 		$this->mailer->isHTML(true);
 		$this->mailer->msgHTML($message);
-
 		return $this;
 	}
 
@@ -263,7 +256,6 @@ class Mailer
 	{
 		$this->mailer->From = $address;
 		$this->mailer->FromName = $name;
-
 		return $this;
 	}
 
@@ -278,7 +270,6 @@ class Mailer
 	public function to($address, $name = '')
 	{
 		$this->mailer->addAddress($address, $name);
-
 		return $this;
 	}
 
@@ -295,7 +286,6 @@ class Mailer
 	public function cc($address, $name = '')
 	{
 		$this->mailer->addCC($address, $name);
-
 		return $this;
 	}
 
@@ -312,7 +302,6 @@ class Mailer
 	public function bcc($address, $name = '')
 	{
 		$this->mailer->addBCC($address, $name);
-
 		return $this;
 	}
 
@@ -327,7 +316,6 @@ class Mailer
 	public function replyTo($address, $name = '')
 	{
 		$this->mailer->addReplyTo($address, $name);
-
 		return $this;
 	}
 
@@ -342,7 +330,6 @@ class Mailer
 	public function attachment($path, $name = '')
 	{
 		$this->mailer->addAttachment($path, $name);
-
 		return $this;
 	}
 
@@ -365,7 +352,6 @@ class Mailer
 		} else {
 			Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
 		}
-
 		return false;
 	}
 
@@ -395,7 +381,6 @@ class Mailer
 		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
-
 		return ['result' => $this->send(), 'error' => implode(PHP_EOL, $this->error)];
 	}
 
@@ -480,7 +465,6 @@ class Mailer
 				unlink($file);
 			}
 		}
-
 		return $status;
 	}
 
@@ -529,7 +513,6 @@ class Mailer
 		}
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
 		imap_close($mbox);
-
 		return true;
 	}
 
@@ -542,7 +525,6 @@ class Mailer
 	{
 		$clonedThis = clone $this;
 		$clonedThis->mailer = clone $this->mailer;
-
 		return $clonedThis;
 	}
 }
