@@ -44,7 +44,7 @@
 		"symfony/var-dumper": "v3.3.6",
 		"symfony/console": "v3.3.6",
 		"symfony/debug": "v3.3.6",
-		"giggsey/libphonenumber-for-php": "*",
+		"giggsey/libphonenumber-for-php": "^8.8.11",
 		"dg/rss-php": "^1.2",
 		"phpoffice/phpspreadsheet": "^1.0",
 		"urodoz/truncate-html": "1.0.1"
