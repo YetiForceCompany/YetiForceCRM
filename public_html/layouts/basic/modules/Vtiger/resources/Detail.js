@@ -2056,6 +2056,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerCommentEventsInDetail: function (widgetContainer) {
 		var thisInstance = this;
 		widgetContainer.find('.hierarchyComments').change(function (e) {
+			var progressIndicatorElement = jQuery.progressIndicator();
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'Detail',
@@ -2063,10 +2064,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				hierarchy: $(this).val(),
 				record: app.getRecordId(),
 			}).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var widgetDataContainer = widgetContainer.find('.widget_contents');
 				widgetDataContainer.html(data);
 				app.showSelect2ElementView(widgetDataContainer.find('.select2'));
-				thisInstance.registerCommentEventsInDetail(widgetContainer);
 			});
 		});
 	},
