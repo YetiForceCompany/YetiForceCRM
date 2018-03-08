@@ -53,7 +53,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		return this.container;
 	},
 	getCurrentDashboard: function () {
-		return $('.selectDashboard li.active').data('id');
+		return $('.selectDashboard li a.active').closest('li').data('id');
 	},
 	getWidgetInstance: function (widgetContainer) {
 		var id = widgetContainer.attr('id');
@@ -457,6 +457,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	registerMiniListWidget: function () {
 		var thisInstance = this;
+		$('.dashboardHeading').off('click', '.addFilter');
 		$('.dashboardHeading').on('click', '.addFilter', function (e) {
 			var element = $(e.currentTarget);
 
