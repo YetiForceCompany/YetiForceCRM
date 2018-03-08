@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_TASKS_LIST' => 'Görevler Listesi',
 	'LBL_MILESTONES_LIST' => 'Proje Kilometre Taşıları Listesi',
 	'description' => 'Açıklama',
-	'Related to' => 'Proje'
+	'Related to' => 'Proje',
 	//Field Labels
 	'Project Milestone Name' => 'Proje Kilometre Taşı Adı',
 	'Milestone Date' => 'Kilometre Taşı Tarihi',
