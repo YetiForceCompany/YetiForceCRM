@@ -1,6 +1,6 @@
-sudo wget https://phar.phpunit.de/phpunit-6.2.phar
-sudo chmod +x phpunit-6.2.phar
-sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
+sudo wget https://phar.phpunit.de/phpunit-7.0.2.phar
+sudo chmod +x phpunit-7.0.2.phar
+sudo mv phpunit-7.0.2.phar /usr/local/bin/phpunit
 /usr/local/bin/phpunit --version
 composer install
 yarn install --force --modules-folder "./public_html/libraries"

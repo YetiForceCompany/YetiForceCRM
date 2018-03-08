@@ -35,7 +35,6 @@ class ComposerStaticInitYT
 		],
 		'S' => [
 			'Symfony\\Polyfill\\Mbstring\\' => 26,
-			'Symfony\\Component\\Debug\\' => 24,
 			'Symfony\\Component\\Console\\' => 26,
 			'Sabre\\Xml\\' => 10,
 			'Sabre\\VObject\\' => 14,
@@ -53,7 +52,6 @@ class ComposerStaticInitYT
 		],
 		'P' => [
 			'Psr\\SimpleCache\\' => 16,
-			'Psr\\Log\\' => 8,
 			'PhpOffice\\PhpSpreadsheet\\' => 25,
 			'PHPMailer\\PHPMailer\\' => 20,
 		],
@@ -94,9 +92,6 @@ class ComposerStaticInitYT
 		'Symfony\\Polyfill\\Mbstring\\' => [
 			0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
 		],
-		'Symfony\\Component\\Debug\\' => [
-			0 => __DIR__ . '/..' . '/symfony/debug',
-		],
 		'Symfony\\Component\\Console\\' => [
 			0 => __DIR__ . '/..' . '/symfony/console',
 		],
@@ -135,9 +130,6 @@ class ComposerStaticInitYT
 		],
 		'Psr\\SimpleCache\\' => [
 			0 => __DIR__ . '/..' . '/psr/simple-cache/src',
-		],
-		'Psr\\Log\\' => [
-			0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
 		],
 		'PhpOffice\\PhpSpreadsheet\\' => [
 			0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',

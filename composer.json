@@ -17,7 +17,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0.0",
+		"php": ">=7.1.0",
 		"ext-imap": "*",
 		"ext-openssl": "*",
 		"ext-mbstring": "*",
@@ -40,18 +40,13 @@
 		"ezyang/htmlpurifier": "v4.9.3",
 		"simshaun/recurr": "v3.0.5",
 		"sensiolabs/security-checker": "*",
-		"doctrine/collections": "v1.4.0",
-		"symfony/console": "v3.3.6",
-		"symfony/debug": "v3.3.6",
 		"giggsey/libphonenumber-for-php": "^8.8.11",
 		"dg/rss-php": "^1.2",
 		"phpoffice/phpspreadsheet": "^1.0",
 		"urodoz/truncate-html": "1.0.1"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "6.*",
-		"phpunit/phpunit-selenium": "4.1.0",
-		"doctrine/instantiator": "1.0.5"
+		"phpunit/phpunit": "7.*"
 	},
 	"archive": {
 		"exclude": [
