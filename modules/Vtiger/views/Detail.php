@@ -437,7 +437,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				unset($hierarchyList[2]);
 			}
 		}
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy, $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
