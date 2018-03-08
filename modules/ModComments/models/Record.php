@@ -166,9 +166,11 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns all the parent comments model.
-	 * @param integer $parentId
-	 * @param int[] $hierarchy
+	 *
+	 * @param int                 $parentId
+	 * @param int[]               $hierarchy
 	 * @param Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return \ModComments_Record_Model[]
 	 */
 	public static function getAllParentComments($parentId, $hierarchy = false, $pagingModel = false)
