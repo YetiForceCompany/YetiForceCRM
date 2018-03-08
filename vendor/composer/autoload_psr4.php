@@ -12,7 +12,6 @@ return [
 	'Urodoz\\Truncate\\' => [$vendorDir . '/urodoz/truncate-html/src'],
 	'Tests\\' => [$baseDir . '/tests'],
 	'Symfony\\Polyfill\\Mbstring\\' => [$vendorDir . '/symfony/polyfill-mbstring'],
-	'Symfony\\Component\\VarDumper\\' => [$vendorDir . '/symfony/var-dumper'],
 	'Symfony\\Component\\Debug\\' => [$vendorDir . '/symfony/debug'],
 	'Symfony\\Component\\Console\\' => [$vendorDir . '/symfony/console'],
 	'Sabre\\Xml\\' => [$vendorDir . '/sabre/xml/lib'],

@@ -1,5 +1,4 @@
 <?php
-
 chdir(__DIR__ . '/../');
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../');
 $requiredVendors = [
@@ -7,7 +6,6 @@ $requiredVendors = [
 	'vendor/smarty/smarty',
 	'vendor/phpmailer/phpmailer',
 	'vendor/ezyang/htmlpurifier',
-	'vendor/symfony/var-dumper',
 	'vendor/simshaun/recurr',
 ];
 foreach ($requiredVendors as $dir) {

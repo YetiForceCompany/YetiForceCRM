@@ -35,7 +35,6 @@ class ComposerStaticInitYT
 		],
 		'S' => [
 			'Symfony\\Polyfill\\Mbstring\\' => 26,
-			'Symfony\\Component\\VarDumper\\' => 28,
 			'Symfony\\Component\\Debug\\' => 24,
 			'Symfony\\Component\\Console\\' => 26,
 			'Sabre\\Xml\\' => 10,
@@ -94,9 +93,6 @@ class ComposerStaticInitYT
 		],
 		'Symfony\\Polyfill\\Mbstring\\' => [
 			0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-		],
-		'Symfony\\Component\\VarDumper\\' => [
-			0 => __DIR__ . '/..' . '/symfony/var-dumper',
 		],
 		'Symfony\\Component\\Debug\\' => [
 			0 => __DIR__ . '/..' . '/symfony/debug',
