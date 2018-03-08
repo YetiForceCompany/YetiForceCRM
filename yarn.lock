@@ -80,7 +80,7 @@ cardinal@^1.0.0:
     ansicolors "~0.2.1"
     redeyed "~1.0.0"
 
-chart.js@^2.6.0, chart.js@^2.7.2:
+chart.js@>2.1.0, chart.js@^2.6.0, chart.js@^2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
   dependencies:
@@ -99,6 +99,12 @@ chartjs-color@^2.1.0:
   dependencies:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
+
+chartjs-funnel@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/chartjs-funnel/-/chartjs-funnel-1.0.5.tgz#702fcc827860e675fddd0f14404bb9545efa821e"
+  dependencies:
+    chart.js ">2.1.0"
 
 chartjs-plugin-datalabels@^0.2.0:
   version "0.2.0"
