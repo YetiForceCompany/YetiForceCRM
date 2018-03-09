@@ -87,3 +87,21 @@ header {
 		margin: 0 !important;
 	}
 }
+
+//--- daterangepicker ---//
+.daterangepicker {
+	&.show-calendar {
+		@extend .p-0;
+	}
+	.left, .right {
+		@extend .mb-0;
+	}
+	.ranges {
+		li {
+			margin-bottom: 0.45rem;
+		}
+		li:last-child {
+			@extend .mb-0;
+		}
+	}
+}
