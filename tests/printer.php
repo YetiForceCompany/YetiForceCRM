@@ -42,13 +42,11 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 			$this->numAssertions++;
 		}
 		$this->lastTestFailed = false;
-		var_dump(get_class($test));
-		var_dump($test instanceof TestCase);
 		if ($test instanceof TestCase) {
-			if (!$test->hasExpectationOnOutput()) {
+			if (!$test->hasExpectationOnOutput() && ($out = $test->getActualOutput())) {
 				$this->write("++++++++++++++++++++++    Test Output:        ++++++++++++++++++++++++++++++++\n");
 				$this->write(\sprintf("%s\n", \PHPUnit\Util\Test::describeAsString($test)));
-				$this->write($test->getActualOutput());
+				$this->write($out);
 				$this->write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 			}
 		}
