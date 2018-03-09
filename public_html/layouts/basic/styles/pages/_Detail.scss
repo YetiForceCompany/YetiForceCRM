@@ -106,6 +106,17 @@
 		padding-left: 0;
 	}
 }
+.o-detail-widget {
+	@extend .card;
+	&__header {
+		@extend .card-header;
+	}
+	&__content {
+		@extend .card-body;
+	}
+}
+
+
 .summaryView {
 	border: 1px solid #eaeaea;
 	-webkit-box-shadow: 1px 1px 3px #dddddd;
