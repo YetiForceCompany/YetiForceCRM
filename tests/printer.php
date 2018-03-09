@@ -20,9 +20,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	 */
 	public function startTest(Test $test): void
 	{
-		if ($this->debug) {
-			$this->write("\n" . \get_class($test) . '::' . $test->getName());
-		}
+		$this->write(\get_class($test) . '::' . $test->getName());
 	}
 
 	/**
@@ -33,15 +31,24 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	 */
 	public function endTest(Test $test, float $time): void
 	{
-		$debug = $this->debug;
-		$this->debug = false;
-
-		parent::endTest($test, $time);
-
-		if ($this->debug) {
-			$this->write('  |');
+		if (!$this->lastTestFailed) {
+			$this->writeProgress('.');
 		}
-		$this->debug = $debug;
+		if ($test instanceof TestCase) {
+			$this->numAssertions += $test->getNumAssertions();
+		} elseif ($test instanceof PhptTestCase) {
+			$this->numAssertions++;
+		}
+		$this->lastTestFailed = false;
+		if ($test instanceof TestCase) {
+			if (!$test->hasExpectationOnOutput()) {
+				$this->write("++++++++++++++++++++++    Test Output:        ++++++++++++++++++++++++++++++++\n");
+				$this->write(\sprintf("%s\n", \PHPUnit\Util\Test::describeAsString($test)));
+				$this->write($test->getActualOutput());
+				$this->write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+			}
+		}
+		$this->write("\n");
 	}
 
 	/**
