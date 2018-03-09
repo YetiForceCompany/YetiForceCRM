@@ -4,11 +4,12 @@
 
 //-------- select2 --------//
 .select2-container--bootstrap4 {
-	.select2-selection__rendered {
+	span.select2-selection__rendered {
 		@extend .pb-1;
 	}
 	ul.select2-selection__rendered {
 		@extend .py-2;
+		@extend .px-1;
 	}
 	.select2-results__option,  .select2-results__option .select2-results__option, select2-results__group {
 		@extend .p-1;
@@ -37,6 +38,17 @@ header {
 		.select2-selection__rendered {
 			color: $white !important;
 		}
+	}
+}
+.input-group{
+	.select2-selection {
+			height: 38px !important;
+			padding-top: 3px;
+			@extend .border;
+			@extend .text-left;
+	}
+	.select2-selection__arrow{
+		@extend .mt-1;
 	}
 }
 
