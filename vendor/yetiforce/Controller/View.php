@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 /**
@@ -11,6 +10,7 @@ namespace App\Controller;
  */
 abstract class View extends Base
 {
+
 	/**
 	 * Viewer instance.
 	 *
@@ -206,7 +206,6 @@ abstract class View extends Base
 		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
-
 	/**
 	 * Retrieves css styles that need to loaded in the page.
 	 *
@@ -307,7 +306,6 @@ abstract class View extends Base
 			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
 			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',
-			'~layouts/resources/jquery.additions.js',
 			'~layouts/resources/app.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
