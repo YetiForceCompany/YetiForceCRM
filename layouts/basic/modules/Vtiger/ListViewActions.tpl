@@ -30,7 +30,7 @@
 					<a class="dropdown-item" data-value="Active" href="#" {if $COLOR['Active']}style="border-left: 7px solid {$COLOR['Active']};"{/if}><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 					<a class="dropdown-item" data-value="Archived" href="#" {if $COLOR['Archived']}style="border-left: 7px solid {$COLOR['Archived']};"{/if}><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 					<a class="dropdown-item" data-value="Trash" href="#" {if $COLOR['Trash']}style="border-left: 7px solid {$COLOR['Trash']};{/if}"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
-					<a class="dropdown-item" data-value="All" href="#"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+					<a class="dropdown-item" data-value="All" href="#" style="border-left: 7px solid transparent;"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 				</div>
 			</div>
 		</div>
