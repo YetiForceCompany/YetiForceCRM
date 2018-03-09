@@ -1,5 +1,4 @@
 <?php
-
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestResult;
 
@@ -13,6 +12,7 @@ use PHPUnit\Framework\TestResult;
 // @codeCoverageIgnoreStart
 class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 {
+
 	/**
 	 * A test started.
 	 *
@@ -22,8 +22,26 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	{
 		if ($this->debug) {
 			$this->write("\n" . \get_class($test) . '::' . $test->getName());
-			//$this->write(\sprintf("\n%s", \PHPUnit\Util\Test::describe($test)));
 		}
+	}
+
+	/**
+	 * A test ended.
+	 *
+	 * @param Test  $test
+	 * @param float $time
+	 */
+	public function endTest(Test $test, float $time): void
+	{
+		$debug = $this->debug;
+		$this->debug = false;
+
+		parent::endTest($test, $time);
+
+		if ($this->debug) {
+			$this->write('  |');
+		}
+		$this->debug = $debug;
 	}
 
 	/**

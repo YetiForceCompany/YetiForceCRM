@@ -51,7 +51,6 @@
 				<file>../modules/Leads/summary_blocks/TotalTimeWorked.php</file>
 				<file>../dav.php</file>
 				<file>../webservice.php</file>
-				<file>../tests/GuiBase.php</file>
 				<directory suffix=".php">../modules/Vtiger/pdfs</directory>
 				<directory suffix=".php">../modules/OSSMail</directory>
 				<directory suffix=".php">../modules/PBXManager</directory>
