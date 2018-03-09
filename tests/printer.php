@@ -1,6 +1,8 @@
 <?php
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\PhptTestCase;
 
 /**
  * Travis CI result printer class.
@@ -40,6 +42,8 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 			$this->numAssertions++;
 		}
 		$this->lastTestFailed = false;
+		var_dump(get_class($test));
+		var_dump($test instanceof TestCase);
 		if ($test instanceof TestCase) {
 			if (!$test->hasExpectationOnOutput()) {
 				$this->write("++++++++++++++++++++++    Test Output:        ++++++++++++++++++++++++++++++++\n");
