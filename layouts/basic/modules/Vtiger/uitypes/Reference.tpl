@@ -37,8 +37,8 @@
 	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 	<div class="input-group referenceGroup">
 		{if $REFERENCE_LIST_COUNT > 1}
-			<div class="input-group-addon noSpaces referenceModulesListGroup">
-				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="referenceModulesList" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
+			<div class="input-group-prepend noSpaces referenceModulesListGroup">
+				<select class="input-group-text" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="referenceModulesList" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
 					{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
 						<option value="{$REFERENCE}" title="{\App\Language::translate($REFERENCE, $REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{\App\Language::translate($REFERENCE, $REFERENCE)}</option>
 					{/foreach}
