@@ -19,8 +19,8 @@
 				{/if}
 			</div>
 			<div class="col-md-5">
-				<span class="btn-toolbar float-right margin0px">
-					<span class="btn-group">
+				<span class="btn-toolbar float-right mt-1">
+					<span class="btn-group mr-1">
 						<button class="btn btn-success createModule" type="button">
 							<span class="fas fa-desktop"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
@@ -37,7 +37,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="contents">
+		<div class="contents mt-2">
 			<table class="table tableRWD table-bordered table-sm themeTableColor confTable footable-loaded footable">
 				<thead>
 					<tr class="blockHeader">
@@ -112,8 +112,8 @@
 						</tr><tr>
 							{assign var=COUNTER value=0}
 						{/if}
-						<td class="opacity col-md-6">
-							<div class="moduleManagerBlock">
+						<td class="opacity">
+							<div class="moduleManagerBlock row">
 								<div class="col-md-1 col-2">
 									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 								</div>
@@ -121,19 +121,19 @@
 									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 								</div>
 								<div class="col-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
-									<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
+									<h4 class="m-0">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 								</div>
 								<div class="col-md-6 col-12">
 									{if $MODULE_MODEL->get('customized')}
-										<button class="deleteModule btn btn-danger btn-sm float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+										<button class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
-										<a class="btn btn-primary btn-sm float-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
+										<a class="btn btn-primary btn-sm float-right ml-2" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
 										{/if}
 										{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 										{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 										<div class="btn-group float-right actions {if !$MODULE_ACTIVE}d-none{/if}">
-											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
+											<button class="btn dropdown-toggle btn-outline-secondary" data-toggle="dropdown">
 												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 											</button>
 											<ul class="dropdown-menu float-right">
