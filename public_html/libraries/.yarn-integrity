@@ -1,12 +1,11 @@
 {
-  "nodeVersion": "v9.5.0",
+  "systemParams": "win32-x64-59",
   "modulesFolders": [
     "public_html\\libraries"
   ],
   "flags": [],
   "linkedModules": [],
   "topLevelPatterns": [
-    "Flot@https://github.com/flot/flot.git",
     "Font-Awesome@https://github.com/FortAwesome/Font-Awesome",
     "add@^2.0.6",
     "animate.css@^3.6.1",
@@ -30,7 +29,6 @@
     "datatables.net-bs4@^1.10.16",
     "datatables.net@^1.10.16",
     "dompurify@^1.0.3",
-    "flot-valuelabels@https://github.com/winne27/flot-valuelabels.git",
     "footable@^2.0.6",
     "fullcalendar@3.9.0",
     "gridster@^0.5.6",
@@ -64,7 +62,6 @@
     "updated-jqplot@^1.0.9-2"
   ],
   "lockfileEntries": {
-    "Flot@https://github.com/flot/flot.git": "https://github.com/flot/flot.git#958e5fd43c6dff4bab3e1fd5cb6109df5c1e8003",
     "Font-Awesome@https://github.com/FortAwesome/Font-Awesome": "https://github.com/FortAwesome/Font-Awesome#31281606f5205b0191c17c3b4d2d56e1ddbb2dc6",
     "add@^2.0.6": "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235",
     "almond@~0.3.1": "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20",
@@ -102,7 +99,6 @@
     "delegate@^3.1.2": "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166",
     "dompurify@^1.0.3": "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.3.tgz#3f2f6ecb6ecd27599a506b410ff47d6eb90fd05d",
     "esprima@~3.0.0": "https://registry.yarnpkg.com/esprima/-/esprima-3.0.0.tgz#53cf247acda77313e551c3aa2e73342d3fb4f7d9",
-    "flot-valuelabels@https://github.com/winne27/flot-valuelabels.git": "https://github.com/winne27/flot-valuelabels.git#1b4369db51d905b7330f9f884e5f388104fbec39",
     "footable@^2.0.6": "https://registry.yarnpkg.com/footable/-/footable-2.0.6.tgz#24e2d0c4a61648e03fc0313817be853aa59c09d0",
     "fullcalendar@3.9.0": "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.9.0.tgz#b608a9989f3416f0b1d526c6bdfeeaf2ac79eda5",
     "good-listener@^1.2.2": "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50",

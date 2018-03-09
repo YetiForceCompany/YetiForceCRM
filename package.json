@@ -19,7 +19,6 @@
 	"author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
 	"license": "YetiForce Public License v3",
 	"dependencies": {
-		"Flot": "https://github.com/flot/flot.git",
 		"Font-Awesome": "https://github.com/FortAwesome/Font-Awesome",
 		"add": "^2.0.6",
 		"animate.css": "^3.6.1",
@@ -43,7 +42,6 @@
 		"datatables.net": "^1.10.16",
 		"datatables.net-bs4": "^1.10.16",
 		"dompurify": "^1.0.3",
-		"flot-valuelabels": "https://github.com/winne27/flot-valuelabels.git",
 		"footable": "^2.0.6",
 		"fullcalendar": "3.9.0",
 		"gridster": "^0.5.6",

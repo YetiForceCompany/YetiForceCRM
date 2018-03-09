@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"Flot@https://github.com/flot/flot.git":
-  version "0.8.3"
-  resolved "https://github.com/flot/flot.git#958e5fd43c6dff4bab3e1fd5cb6109df5c1e8003"
-
 "Font-Awesome@https://github.com/FortAwesome/Font-Awesome":
   version "0.0.0"
   resolved "https://github.com/FortAwesome/Font-Awesome#31281606f5205b0191c17c3b4d2d56e1ddbb2dc6"
@@ -177,10 +173,6 @@ dompurify@^1.0.3:
 esprima@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.0.0.tgz#53cf247acda77313e551c3aa2e73342d3fb4f7d9"
-
-"flot-valuelabels@https://github.com/winne27/flot-valuelabels.git":
-  version "0.0.0"
-  resolved "https://github.com/winne27/flot-valuelabels.git#1b4369db51d905b7330f9f884e5f388104fbec39"
 
 footable@^2.0.6:
   version "2.0.6"
