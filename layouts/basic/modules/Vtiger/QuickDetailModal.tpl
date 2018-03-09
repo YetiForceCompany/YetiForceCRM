@@ -9,7 +9,7 @@
 						<span class="detailViewIcon userIcon-{$MODULE_NAME}"></span>
 					</div>
 					<div class="paddingLeft5px">
-						<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
+						<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
 							<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 						</h4>
 						{if $MODULE_NAME}

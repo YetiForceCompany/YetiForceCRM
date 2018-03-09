@@ -52,7 +52,7 @@
 					<div class="form-horizontal modalSummaryValues">
 						<div class="form-group row">
 							<label class="col-4 col-form-label col-form-label-sm">{\App\Language::translate('Subject',$MODULE_NAME)}:</label>
-							<div class="col-8 textOverflowEllipsis fieldVal" data-subject="{$RECORD->getDisplayValue('subject',false,false,true)}">
+							<div class="col-8 u-text-ellipsis fieldVal" data-subject="{$RECORD->getDisplayValue('subject',false,false,true)}">
 								{$RECORD->getDisplayValue('subject',false,false,100)}
 							</div>
 						</div>
@@ -81,7 +81,7 @@
 							{if $RECORD->get('linkextend') neq '' }
 								<div class="form-group row">
 									<label class="col-4 col-form-label col-form-label-sm">{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}: </label>
-									<div class="col-8 textOverflowEllipsis">
+									<div class="col-8 u-text-ellipsis">
 										{$RECORD->getDisplayValue('linkextend',false,false,true)}
 									</div>
 								</div>
@@ -89,7 +89,7 @@
 							{if $RECORD->get('link') neq '' }
 								<div class="form-group row">
 									<label class="col-4 col-form-label">{\App\Language::translate('FL_RELATION',$MODULE_NAME)}: </label>
-									<div class="col-8 textOverflowEllipsis">
+									<div class="col-8 u-text-ellipsis">
 										{$RECORD->getDisplayValue('link',false,false,true)}
 									</div>
 								</div>
@@ -97,7 +97,7 @@
 							{if $RECORD->get('process') neq '' }
 								<div class="form-group row">
 									<label class="col-4 col-form-label col-form-label-sm">{\App\Language::translate('Process',$MODULE_NAME)}: </label>
-									<div class="col-8 textOverflowEllipsis">
+									<div class="col-8 u-text-ellipsis">
 										{$RECORD->getDisplayValue('process',false,false,true)}
 									</div>
 								</div>
@@ -116,13 +116,13 @@
 							<hr />
 							<div class="form-group row">
 								<label class="col-4 col-form-label col-form-label-sm">{\App\Language::translate('Created By',$MODULE_NAME)}: </label>
-								<div class="col-8 textOverflowEllipsis">
+								<div class="col-8 u-text-ellipsis">
 									{$RECORD->getDisplayValue('created_user_id',false,false,true)}
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-4 col-form-label col-form-label-sm">{\App\Language::translate('Assigned To',$MODULE_NAME)}: </label>
-								<div class="col-8 textOverflowEllipsis">{$RECORD->getDisplayValue('assigned_user_id',false,false,true)}</div>
+								<div class="col-8 u-text-ellipsis">{$RECORD->getDisplayValue('assigned_user_id',false,false,true)}</div>
 							</div>
 							{if $RECORD->get('shownerid')}
 								<div class="form-group row">

@@ -41,7 +41,7 @@
 						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></span></a>
 					{/if}
 					{if $RECORD->get($FIELD->get('name'))}
-					<div class="pr-2 textOverflowEllipsis">{$RECORD->getDisplayValue($FIELD->get('name'))}</div>
+					<div class="pr-2 u-text-ellipsis">{$RECORD->getDisplayValue($FIELD->get('name'))}</div>
 					{else}
 						&nbsp;
 					{/if}

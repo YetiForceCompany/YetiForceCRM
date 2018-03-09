@@ -83,7 +83,7 @@
 												{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 											</small>   
 										</div>
-										<h5 class="textOverflowEllipsis mailTitle mainFrom">
+										<h5 class="u-text-ellipsis mailTitle mainFrom">
 											{$ROW['from']}
 										</h5>
 										<div class="float-right">
@@ -101,7 +101,7 @@
 											</span>
 											<span class="float-right smalSeparator"></span>
 										</div>
-										<h5 class="textOverflowEllipsis mailTitle mainSubject">
+										<h5 class="u-text-ellipsis mailTitle mainSubject">
 											{$ROW['subject']}
 										</h5>
 									</div>

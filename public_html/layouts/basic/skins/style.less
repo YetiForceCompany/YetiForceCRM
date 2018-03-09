@@ -401,7 +401,7 @@ tr.collapseRow{
 }
 
 //Mixin for textoverflow ellipsis
-.textOverflowEllipsisMixin(@width,@textOverflow : ellipsis){
+.u-text-ellipsisMixin(@width,@textOverflow : ellipsis){
 	overflow : hidden;
 	text-overflow : @textOverflow;
 	white-space : nowrap;
@@ -868,7 +868,7 @@ tr.collapseRow{
 	line-height: 26px;
 	margin-left: 7px;
 	cursor: pointer;
-	.textOverflowEllipsisMixin(135px,ellipsis);
+	.u-text-ellipsisMixin(135px,ellipsis);
 	.themeLinkColor;
 }
 
@@ -2321,12 +2321,12 @@ form[name="advanceFilterForm"]{
 	}
 }
 
-.textOverflowEllipsis{
-	.textOverflowEllipsisMixin(9em,ellipsis);
+.u-text-ellipsis{
+	.u-text-ellipsisMixin(9em,ellipsis);
 }
 /*//
-.widgetTextOverflowEllipsis{
-	.textOverflowEllipsisMixin(86%,ellipsis);
+.widgetu-text-ellipsis{
+	.u-text-ellipsisMixin(86%,ellipsis);
 }
 */
 #detailView,#EditView{

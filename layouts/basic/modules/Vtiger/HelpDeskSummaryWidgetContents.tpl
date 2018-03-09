@@ -15,7 +15,7 @@
 			<ul class="unstyled">
 				<li>
 					<div>
-						<div class="textOverflowEllipsis width27em">
+						<div class="u-text-ellipsis width27em">
 							<a href="{$RELATED_RECORD->getDetailViewUrl()}" title="{$RELATED_RECORD->getDisplayValue('ticket_title')}" id="{$MODULE}_{$RELATED_MODULE}_Related_Record_{$RELATED_RECORD->get('id')}">
 								{$RELATED_RECORD->getDisplayValue('ticket_title')}
 							</a>
@@ -24,7 +24,7 @@
 						{assign var=DESCRIPTION value="{$RELATED_RECORD->getDescriptionValue()}"}
 						{if !empty($DESCRIPTION)}
 							<div class="row">
-								<span class="col-md-8 textOverflowEllipsis width27em">{$DESCRIPTION}</span>
+								<span class="col-md-8 u-text-ellipsis width27em">{$DESCRIPTION}</span>
 								<span class="col-md-3"><a href="{$RELATED_RECORD->getDetailViewUrl()}">{\App\Language::translate('LBL_MORE',$MODULE)}</a></span>
 							</div>
 						{/if}

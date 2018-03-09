@@ -39,7 +39,7 @@
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
+					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="u-text-ellipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
 					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >

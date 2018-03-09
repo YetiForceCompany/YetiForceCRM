@@ -63,7 +63,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
 			$tplName = $widgetInstance->getConfigTplName();
-			$viewer->view("widgets/$tplName.tpl", 'Vtiger');
+			$viewer->view("Detail/Widget/$tplName.tpl", 'Vtiger');
 		}
 	}
 
@@ -90,7 +90,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
 			$tplName = $widgetInstance->getConfigTplName();
-			$viewer->view("widgets/$tplName.tpl", 'Vtiger');
+			$viewer->view("Detail/Widget/$tplName.tpl", 'Vtiger');
 		}
 	}
 }

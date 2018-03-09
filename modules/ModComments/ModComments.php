@@ -55,7 +55,7 @@ class ModComments extends ModCommentsCore
 	{
 		if ($name === 'DetailViewBlockCommentWidget' &&
 			\App\Privilege::isPermitted('ModComments', 'DetailView')) {
-			require_once dirname(__FILE__) . '/widgets/DetailViewBlockComment.php';
+			require_once dirname(__FILE__) . '/Detail/Widget/DetailViewBlockComment.php';
 
 			return new ModComments_DetailViewBlockCommentWidget();
 		}

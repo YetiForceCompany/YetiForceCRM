@@ -1075,7 +1075,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						fieldElement.data('selectedValue', ajaxEditNewValue);
 						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
 						if (thisInstance.targetPicklistChange) {
-							if (jQuery('.summaryView', thisInstance.getForm()).length > 0) {
+							if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
 								thisInstance.targetPicklist.find('.summaryViewEdit').trigger('click');
 							} else {
 								thisInstance.targetPicklist.trigger('click');
@@ -1435,7 +1435,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		/**
 		 * Function to handle actions after ajax save in summary view
 		 */
-		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.recordDetails', function (e, params) {
+		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function (e, params) {
+			window.console.log('general');
+			;
 			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 			if (updatesWidget.length) {
 				var params = thisInstance.getFiltersData(updatesWidget);

@@ -6,7 +6,7 @@
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px float-left">
-				<h4 style="color: #1560bd;" class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
+				<h4 style="color: #1560bd;" class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}

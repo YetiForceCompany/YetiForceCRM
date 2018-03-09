@@ -17,7 +17,7 @@
 			{/if}
 			{foreach from=$ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
 			<div class="row px-0">
-				<div class="col-4 textOverflowEllipsis">
+				<div class="col-4 u-text-ellipsis">
 					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
 							<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
@@ -26,10 +26,10 @@
 						{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
 					{/if}
 				</div>
-				<div class="col-4 textOverflowEllipsis">
+				<div class="col-4 u-text-ellipsis">
 					{$ACCOUNTS_MODEL['userModel']->getName()}
 				</div>
-				<div class="col-4 textOverflowEllipsis">
+				<div class="col-4 u-text-ellipsis">
 					{if is_null($ACCOUNTS_MODEL['crmactivity'])}
 						-
 					{else}

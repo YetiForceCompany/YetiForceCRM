@@ -19,7 +19,7 @@
 						<td class="fieldLabel {$WIDTHTYPE}" style="width:35%"><label class="muted">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}</label></td>
 						<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
 							<div class="row">
-								<div class="value textOverflowEllipsis col-10 paddingRightZero" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
+								<div class="value u-text-ellipsis col-10 paddingRightZero" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 								</div>
 								{if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->getUIType() neq 69}

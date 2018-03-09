@@ -29,7 +29,7 @@
 	<br />
 	<div class="row">
 		{if $SELECTED_PICKLIST_FIELDMODEL}
-			<div class="col-md-12 marginLeftZero textOverflowEllipsis">
+			<div class="col-md-12 marginLeftZero u-text-ellipsis">
 				{if $COLOR_NO_COLUMN}
 					<div class="alert alert-warning" role="alert">
 						<strong>{\App\Language::translate('LBL_WARNING',$QUALIFIED_MODULE)}!</strong> {\App\Language::translate('LBL_PICKLIST_COLOR_COL_NOT_FOUND',$QUALIFIED_MODULE)}
@@ -50,7 +50,7 @@
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 								<tr class="pickListValue">
-									<td class="textOverflowEllipsis">{\App\Language::translate($PICKLIST_VALUE['picklistValue'],$SELECTED_MODULE_NAME)}</td>
+									<td class="u-text-ellipsis">{\App\Language::translate($PICKLIST_VALUE['picklistValue'],$SELECTED_MODULE_NAME)}</td>
 									<td id="calendarColorPreviewPicklistValue{$PICKLIST_VALUE['picklistValueId']}" data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-color="{$PICKLIST_VALUE['color']}" class="calendarColor" style="background: #{$PICKLIST_VALUE['color']} !important;"></td>
 									<td>
 										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-danger marginLeft10 removePicklistValueColor"><span class="fas fa-trash-alt"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>

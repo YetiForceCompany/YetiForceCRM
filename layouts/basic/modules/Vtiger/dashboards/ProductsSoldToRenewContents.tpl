@@ -15,7 +15,7 @@
 	{foreach item=RECORD from=$WIDGET_RECORDS}
 		<div class="row rowAction cursorPointer">
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
-				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{\App\Purifier::encodeHtml($RECORD->get($FIELD->get('name')))}">
+				<div class="col-sm-{$SPANSIZE} u-text-ellipsis" title="{\App\Purifier::encodeHtml($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}
 						<span class="float-left">{$RECORD->getListViewDisplayValue($FIELD->get('name'))}</span>
 					{else}
