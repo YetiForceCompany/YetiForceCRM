@@ -4,13 +4,15 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					{if is_array($FIELD_INSTANCE)}
 						{assign var='FIELD_INSTANCE' value=current($FIELD_INSTANCE)}
-						<h4 class="modal-title">{\App\Language::translate('LBL_EDITING_INVENTORY_FIELD', $QUALIFIED_MODULE)}</h4>
+						<h5 class="modal-title">{\App\Language::translate('LBL_EDITING_INVENTORY_FIELD', $QUALIFIED_MODULE)}</h5>
 					{else}
-						<h4 class="modal-title">{\App\Language::translate('LBL_CREATING_INVENTORY_FIELD', $QUALIFIED_MODULE)}</h4>
+						<h5 class="modal-title">{\App\Language::translate('LBL_CREATING_INVENTORY_FIELD', $QUALIFIED_MODULE)}</h5>
 					{/if}
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal">
 					<div class="modal-body">

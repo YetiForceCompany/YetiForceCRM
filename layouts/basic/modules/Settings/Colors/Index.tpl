@@ -130,8 +130,10 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h5>
+						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal">

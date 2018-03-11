@@ -14,10 +14,12 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
 					<h3 id="exportCalendarHeader" class="modal-title">{\App\Language::translate('LBL_EXPORT_RECORDS', $MODULE)}</h3>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				<form id="exportForm" class="form-horizontal row" method="post" action="index.php">
+				<form id="exportForm" class="form-horizontal" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
 					<input type="hidden" name="action" value="ExportData" />
@@ -43,9 +45,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{\App\Language::translate('LBL_EXPORT', $MODULE)}</strong></button>
-						&nbsp;&nbsp;
-						<button class="btn btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+						<button type="button" class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{\App\Language::translate('LBL_EXPORT', $MODULE)}</strong></button>
+						<button type="button" class="btn btn-warning cancelLink" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 					</div>
 				</form>
 			</div>

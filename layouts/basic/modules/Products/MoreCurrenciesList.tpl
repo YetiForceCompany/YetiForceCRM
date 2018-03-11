@@ -14,8 +14,10 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="floatRight close" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_PRICES',$MODULE)}</h3>
+					<h5 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_PRICES',$MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="multiCurrencyContainer">
 					<div class="currencyContent">

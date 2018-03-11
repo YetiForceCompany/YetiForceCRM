@@ -122,7 +122,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				static::createCustomLangDirectory($params);
 			}
-			if (!file_put_contents($fileName, '<?php' . PHP_EOL) === false) {
+			if (file_put_contents($fileName, '<?php' . PHP_EOL) === false) {
 				throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 			}
 		}

@@ -3,8 +3,10 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_ADD_LANG',$QUALIFIED_MODULE)}</h3>
+				<h5 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_ADD_LANG',$QUALIFIED_MODULE)}</h5>
+				<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body form-horizontal">
 				<div class="form-group">

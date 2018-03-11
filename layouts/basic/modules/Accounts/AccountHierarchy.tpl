@@ -14,8 +14,10 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
 					<h3 class="modal-title">{\App\Language::translate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}</h3>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body maxHeightModal">
 					<div class="table-responsive">

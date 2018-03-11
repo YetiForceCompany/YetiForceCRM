@@ -1,8 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 class="modal-title">{App\Language::translate('LBL_CUSTOM_VARIABLES', $QUALIFIED_MODULE)}</h3>
+		<h5 class="modal-title">{App\Language::translate('LBL_CUSTOM_VARIABLES', $QUALIFIED_MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<div class="modal-body row">
 		<div class="col-md-12">
