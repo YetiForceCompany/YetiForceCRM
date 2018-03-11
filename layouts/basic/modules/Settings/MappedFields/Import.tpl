@@ -1,8 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-		<h3 class="modal-title">{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h3>
+		<h5 class="modal-title">{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<form name="importTemplate" action="index.php" method="post" class="form-horizontal" enctype="multipart/form-data">
 		<div class="modal-body">

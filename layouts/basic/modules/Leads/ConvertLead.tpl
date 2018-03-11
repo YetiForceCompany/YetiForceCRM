@@ -18,8 +18,10 @@
 					<input id="convertLeadError" class="convertLeadError" type="hidden" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR',$MODULE)}" />
 				{else}
 					<div class="modal-header contentsBackground">
-						<button data-dismiss="modal" class="close" title="{App\Language::translate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title">{App\Language::translate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
+						<h5 class="modal-title">{App\Language::translate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h5>
+						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<form class="form-horizontal" id="convertLeadForm" method="post" action="index.php">
 						<input type="hidden" name="module" value="{$MODULE}" />
@@ -38,7 +40,7 @@
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
 													<span class="panel-title">&nbsp;{App\Language::translate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{App\Language::translate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>
-												<span class="float-right"><i class="iconArrow fas {if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"}fa-chevron-up {else}fa-chevron-down {/if}alignBottom"></i></span>
+												<span class="float-right mr-2"><i class="iconArrow fas {if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"}fa-chevron-up {else}fa-chevron-down {/if}alignBottom"></i></span>
 											</div>
 										</div>
 									</div>

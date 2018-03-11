@@ -14,8 +14,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
+					<h5 class="modal-title">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal inactiveFieldsForm" method="POST">
 					<div class="modal-body">

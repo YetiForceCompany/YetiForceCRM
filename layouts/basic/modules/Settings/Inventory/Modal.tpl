@@ -12,12 +12,14 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close vtButton" data-dismiss="modal" aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</button>
 					{if $EDIT_VIEW}
-						<h3 class="modal-title">{\App\Language::translate('LBL_EDITING', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_EDITING', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
 					{else}
-						<h3 class="modal-title">{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
 					{/if}
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form id="formInventory" class="form-horizontal" method="POST">
 					<input type="hidden" name="id" value="{$ID}" />

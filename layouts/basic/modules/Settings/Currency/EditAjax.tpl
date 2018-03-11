@@ -19,12 +19,14 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					{if $CURRENCY_MODEL_EXISTS}
-						<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_CURRENCY', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_CURRENCY', $QUALIFIED_MODULE)}</h5>
 					{else}
-						<h3 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_CURRENCY', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_CURRENCY', $QUALIFIED_MODULE)}</h5>
 					{/if}
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form id="editCurrency" class="form-horizontal" method="POST">
 					<input type="hidden" name="record" value="{$CURRENCY_ID}" />

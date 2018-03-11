@@ -170,12 +170,14 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</h3>
+						<h5 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</h5>
+						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<div class="modal-body" >
 						<form class="modal-Fields">
-							<div class="row form-horizontal">
+							<div class="form-horizontal">
 								<div class="form-group">
 									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7">

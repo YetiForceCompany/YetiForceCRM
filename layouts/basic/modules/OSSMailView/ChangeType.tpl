@@ -4,8 +4,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_ChangeType', $MODULE)}</h3>
+					<h5 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_ChangeType', $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="alert alert-block alert-warning fade in" style="margin: 5px;">
 					<button type="button" class="close" data-dismiss="alert">×</button>
