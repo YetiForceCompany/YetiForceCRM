@@ -277,11 +277,12 @@ class Picklist
 	public static function getColors($fieldName)
 	{
 		$colors = [];
-		foreach (static::getValues($fieldName) as $id => $value) {
+		foreach (static::getValues($fieldName) as $id => &$value) {
+			$value['color'] = trim($value['color'], " #\s\t\n\r");
 			if (empty($value['color'])) {
 				$color = \App\Colors::getRandomColor($id);
 			} else {
-				$color = substr($value['color'], 0, 1) === '#' ? $value['color'] : '#' . $value['color'];
+				$color = '#' . $value['color'];
 			}
 			$colors[$id] = $color;
 		}
