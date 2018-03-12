@@ -270,7 +270,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'libraries.js.jstree.themes.proton.style',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
