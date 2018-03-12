@@ -10,6 +10,7 @@
 
 class ProjectTask extends CRMEntity
 {
+
 	public $table_name = 'vtiger_projecttask';
 	public $table_index = 'projecttaskid';
 	public $column_fields = [];
@@ -33,7 +34,7 @@ class ProjectTask extends CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_projecttask' => 'projecttaskid',
-		'vtiger_projecttaskcf' => 'projecttaskid', ];
+		'vtiger_projecttaskcf' => 'projecttaskid',];
 
 	/**
 	 * Mandatory for Listing (Related listview).
@@ -42,28 +43,30 @@ class ProjectTask extends CRMEntity
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Project Task Name' => ['projecttask', 'projecttaskname'],
+		'Status' => ['projecttask', 'projecttaskstatus'],
 		'Start Date' => ['projecttask', 'startdate'],
 		'End Date' => ['projecttask', 'enddate'],
-		'Type' => ['projecttask', 'projecttasktype'],
-		'Progress' => ['projecttask', 'projecttaskprogress'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_TOTAL_TIME_H' => ['projecttask', 'sum_time'],
+		'Progress' => ['projecttask', 'projecttaskprogress'],
+		'Type' => ['projecttask', 'projecttasktype'],
 	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Task Name' => 'projecttaskname',
+		'Status' => 'projecttaskstatus',
 		'Start Date' => 'startdate',
 		'End Date' => 'enddate',
-		'Type' => 'projecttasktype',
-		'Progress' => 'projecttaskprogress',
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time',
+		'Progress' => 'projecttaskprogress',
+		'Type' => 'projecttasktype',
 	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['projecttaskname', 'startdate', 'enddate', 'projecttasktype', 'projecttaskprogress', 'assigned_user_id', 'sum_time'];
+	public $relationFields = ['projecttaskname', 'projecttaskstatus', 'startdate', 'enddate', 'assigned_user_id', 'sum_time', 'projecttaskprogress', 'projecttasktype'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projecttaskname';
 	// For Popup listview and UI type support
@@ -71,16 +74,24 @@ class ProjectTask extends CRMEntity
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Project Task Name' => ['projecttask', 'projecttaskname'],
+		'Status' => ['projecttask', 'projecttaskstatus'],
 		'Start Date' => ['projecttask', 'startdate'],
-		'Type' => ['projecttask', 'projecttasktype'],
+		'End Date' => ['projecttask', 'enddate'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_TOTAL_TIME_H' => ['projecttask', 'sum_time'],
+		'Progress' => ['projecttask', 'projecttaskprogress'],
+		'Type' => ['projecttask', 'projecttasktype'],
 	];
 	public $search_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Task Name' => 'projecttaskname',
+		'Status' => 'projecttaskstatus',
 		'Start Date' => 'startdate',
-		'Type' => 'projecttasktype',
+		'End Date' => 'enddate',
 		'Assigned To' => 'assigned_user_id',
+		'FL_TOTAL_TIME_H' => 'sum_time',
+		'Progress' => 'projecttaskprogress',
+		'Type' => 'projecttasktype',
 	];
 	// For Popup window record selection
 	public $popup_fields = ['projecttaskname'];
