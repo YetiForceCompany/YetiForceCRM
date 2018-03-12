@@ -17,8 +17,13 @@
 						</div>
 					</div>
 					{if $WIDGET['level'] < 2}
-						<div class="col-8 col-md-4 col-sm-3 paddingBottom10">
-							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
+						<div class="btn-group btn-group-toggle hierarchyButtons" data-toggle="buttons">
+							<label class="btn btn-secondary active">
+								<input class="hierarchyComments" type="radio" name="options" id="option1" value="current" autocomplete="off" checked> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+							</label>
+							<label class="btn btn-secondary">
+								<input class="hierarchyComments" type="radio" name="options" id="option2" value="all" autocomplete="off"> {\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+							</label>
 						</div>
 					{/if}
 				</div>

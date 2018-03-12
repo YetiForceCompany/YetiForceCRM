@@ -43,18 +43,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 		$widget = [];
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
-			$this->Config['switchHeader'] = [];
 			$level = \App\ModuleHierarchy::getModuleLevel($this->Module);
-			if ($level === 0) {
-				$this->Config['switchHeader']['on'] = \App\Json::encode([0]);
-				$this->Config['switchHeader']['off'] = \App\Json::encode([1, 2]);
-			} elseif ($level === 1) {
-				$this->Config['switchHeader']['on'] = \App\Json::encode([1]);
-				$this->Config['switchHeader']['off'] = \App\Json::encode([2]);
-			}
-
-			$this->Config['switchHeaderLables']['on'] = \App\Language::translate('LBL_COMMENTS_0', 'ModComments');
-			$this->Config['switchHeaderLables']['off'] = \App\Language::translate('LBL_ALL_RECORDS', 'ModComments');
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['level'] = $level;
 			$this->Config['tpl'] = 'BasicComments.tpl';

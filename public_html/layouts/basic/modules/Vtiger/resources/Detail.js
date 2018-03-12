@@ -2053,6 +2053,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
+	registerCommentEventsInDetail: function (widgetContainer) {
+		var thisInstance = this;
+		widgetContainer.find('.hierarchyComments').change(function (e) {
+			var progressIndicatorElement = jQuery.progressIndicator();
+			AppConnector.request({
+				module: app.getModuleName(),
+				view: 'Detail',
+				mode: 'showRecentComments',
+				hierarchy: $(this).val(),
+				record: app.getRecordId(),
+			}).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var widgetDataContainer = widgetContainer.find('.widget_contents');
+				widgetDataContainer.html(data);
+				app.showSelect2ElementView(widgetDataContainer.find('.select2'));
+			});
+		});
+	},
 	registerMailPreviewWidget: function (container) {
 		var thisInstance = this;
 		container.on('click', '.showMailBody', function (e) {
@@ -2336,6 +2354,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (relatedModuleName === 'Calendar') {
 				var container = widgetContent.closest('.activityWidgetContainer');
 				thisInstance.reloadWidgetActivitesStats(container);
+			}
+		});
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			if (relatedModuleName === 'ModComments') {
+				var container = widgetContent.closest('.updatesWidgetContainer');
+				thisInstance.registerCommentEventsInDetail(container);
 			}
 		});
 		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {

@@ -424,11 +424,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pagingModel->set('limit', $limit);
 		}
 		$hierarchy = [];
-		if ($request->has('search_params')) {
-			$searchParams = $request->getArray('search_params');
-			$hierarchy = $searchParams[0];
+		if ($request->has('hierarchy')) {
+			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+			$hierarchyValue = $request->get('hierarchy');
+			if ($level === 0) {
+				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
+			} elseif ($level === 1) {
+				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
+			}
 		}
-
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy, $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
