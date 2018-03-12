@@ -8,15 +8,16 @@
  */
 class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 {
-
 	/**
-	 * Params
+	 * Params.
+	 *
 	 * @var string[]
 	 */
 	public $dbParams = ['relatedmodule' => 'ModComments'];
 
 	/**
-	 * Return url
+	 * Return url.
+	 *
 	 * @return string
 	 */
 	public function getUrl()
@@ -25,7 +26,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 	}
 
 	/**
-	 * Function return config template name
+	 * Function return config template name.
 	 */
 	public function getConfigTplName()
 	{
@@ -33,7 +34,8 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 	}
 
 	/**
-	 * Function return
+	 * Function return.
+	 *
 	 * @return array
 	 */
 	public function getWidget()
@@ -41,17 +43,9 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 		$widget = [];
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
-			$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
 			$level = \App\ModuleHierarchy::getModuleLevel($this->Module);
-			if ($level > 0) {
-				unset($hierarchyList[1]);
-				if ($level > 1) {
-					unset($hierarchyList[2]);
-				}
-			}
-			$this->Config['hierarchy'] = [];
-			$this->Config['hierarchyList'] = $hierarchyList;
 			$this->Config['url'] = $this->getUrl();
+			$this->Config['level'] = $level;
 			$this->Config['tpl'] = 'BasicComments.tpl';
 			$widget = $this->Config;
 		}

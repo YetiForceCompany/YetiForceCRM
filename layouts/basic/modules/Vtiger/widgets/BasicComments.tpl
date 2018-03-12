@@ -16,13 +16,14 @@
 							</h4>
 						</div>
 					</div>
-					{if count($WIDGET['hierarchyList']) != 1}
-						<div class="col-md-7 commentsHeader">
-							<select class="select2 form-control hierarchyComments" multiple="multiple">
-								{foreach key=NAME item=LABEL from=$WIDGET['hierarchyList']}
-									<option value="{$NAME}" {if in_array($NAME, $WIDGET['hierarchy'])}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
-								{/foreach}
-							</select>
+					{if $WIDGET['level'] < 2}
+						<div class="btn-group btn-group-toggle hierarchyButtons" data-toggle="buttons">
+							<label class="btn btn-secondary active">
+								<input class="hierarchyComments" type="radio" name="options" id="option1" value="current" autocomplete="off" checked> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+							</label>
+							<label class="btn btn-secondary">
+								<input class="hierarchyComments" type="radio" name="options" id="option2" value="all" autocomplete="off"> {\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+							</label>
 						</div>
 					{/if}
 				</div>
