@@ -43,15 +43,15 @@
 								{else}
 									<span class="fas fa-minus-circle"></span>
 								{/if}
-							</button>&nbsp;&nbsp;
+							</button>
 						{/if}
 						{if $ITEM->getLink()}
-							<a class="btn btn-success btn-sm {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
+							<a class="ml-1 btn btn-success btn-sm {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
 								<span class="fas fa-link"></span>
-							</a>&nbsp;&nbsp;
+							</a>
 						{/if}
 						{if $ITEM->getDescription()}
-							<button class="btn btn-primary btn-sm showDescription">
+							<button class="ml-1 btn btn-primary btn-sm showDescription">
 								<span class="fas fa-info-circle"></span>
 							</button>
 							<span class="d-none showDescriptionContent">
