@@ -16,13 +16,9 @@
 							</h4>
 						</div>
 					</div>
-					{if count($WIDGET['hierarchyList']) != 1}
-						<div class="col-md-7 commentsHeader">
-							<select class="select2 form-control hierarchyComments" multiple="multiple">
-								{foreach key=NAME item=LABEL from=$WIDGET['hierarchyList']}
-									<option value="{$NAME}" {if in_array($NAME, $WIDGET['hierarchy'])}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
-								{/foreach}
-							</select>
+					{if $WIDGET['level'] < 2}
+						<div class="col-8 col-md-4 col-sm-3 paddingBottom10">
+							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
 						</div>
 					{/if}
 				</div>

@@ -8,15 +8,16 @@
  */
 class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 {
-
 	/**
-	 * Params
+	 * Params.
+	 *
 	 * @var string[]
 	 */
 	public $dbParams = ['relatedmodule' => 'ModComments'];
 
 	/**
-	 * Return url
+	 * Return url.
+	 *
 	 * @return string
 	 */
 	public function getUrl()
@@ -25,7 +26,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 	}
 
 	/**
-	 * Function return config template name
+	 * Function return config template name.
 	 */
 	public function getConfigTplName()
 	{
@@ -33,7 +34,8 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 	}
 
 	/**
-	 * Function return
+	 * Function return.
+	 *
 	 * @return array
 	 */
 	public function getWidget()
@@ -41,17 +43,20 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 		$widget = [];
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
-			$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
+			$this->Config['switchHeader'] = [];
 			$level = \App\ModuleHierarchy::getModuleLevel($this->Module);
-			if ($level > 0) {
-				unset($hierarchyList[1]);
-				if ($level > 1) {
-					unset($hierarchyList[2]);
-				}
+			if ($level === 0) {
+				$this->Config['switchHeader']['on'] = \App\Json::encode([0]);
+				$this->Config['switchHeader']['off'] = \App\Json::encode([1, 2]);
+			} elseif ($level === 1) {
+				$this->Config['switchHeader']['on'] = \App\Json::encode([1]);
+				$this->Config['switchHeader']['off'] = \App\Json::encode([2]);
 			}
-			$this->Config['hierarchy'] = [];
-			$this->Config['hierarchyList'] = $hierarchyList;
+
+			$this->Config['switchHeaderLables']['on'] = \App\Language::translate('LBL_COMMENTS_0', 'ModComments');
+			$this->Config['switchHeaderLables']['off'] = \App\Language::translate('LBL_ALL_RECORDS', 'ModComments');
 			$this->Config['url'] = $this->getUrl();
+			$this->Config['level'] = $level;
 			$this->Config['tpl'] = 'BasicComments.tpl';
 			$widget = $this->Config;
 		}

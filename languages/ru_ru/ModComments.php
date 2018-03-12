@@ -34,6 +34,7 @@ $languageStrings = [
 	'LBL_COMMENTS_1' => 'Процесс',
 	'LBL_COMMENTS_2' => 'Субпроцесс',
 	'LBL_COMMENTS_SEARCH' => 'Поиск',
+	'LBL_ALL_RECORDS' => 'All records',
 ];
 $jsLanguageStrings = [
 ];

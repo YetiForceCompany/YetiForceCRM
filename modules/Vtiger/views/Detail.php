@@ -11,7 +11,6 @@
 
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
-
 	use \App\Controller\ExposeMethod;
 
 	/**
@@ -425,18 +424,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pagingModel->set('limit', $limit);
 		}
 		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$hierarchy = $request->get('hierarchy');
+		if ($request->has('search_params')) {
+			$searchParams = $request->getArray('search_params');
+			$hierarchy = $searchParams[0];
 		}
 
-		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
-		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
-		if ($level > 0) {
-			unset($hierarchyList[1]);
-			if ($level > 1) {
-				unset($hierarchyList[2]);
-			}
-		}
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy, $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -444,8 +436,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_RECORD', $parentId);
-		$viewer->assign('HIERARCHY', $hierarchy);
-		$viewer->assign('HIERARCHY_LIST', $hierarchyList);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('MODULE_NAME', $moduleName);

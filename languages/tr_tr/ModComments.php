@@ -35,4 +35,5 @@ $languageStrings = [
 	'LBL_COMMENTS_1' => 'Süreçler',
 	'LBL_COMMENTS_2' => 'Alt süreçler',
 	'LBL_COMMENTS_SEARCH' => 'Arama',
+	'LBL_ALL_RECORDS' => 'All records',
 ];
