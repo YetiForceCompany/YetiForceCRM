@@ -35,4 +35,5 @@ $languageStrings = [
 	'LBL_COMMENTS_1' => 'Processes',
 	'LBL_COMMENTS_2' => 'Subprocesses',
 	'LBL_COMMENTS_SEARCH' => 'Search',
+	'LBL_ALL_RECORDS' => 'All records',
 ];
