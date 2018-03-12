@@ -426,7 +426,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
 			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-			$hierarchyValue = $request->get('hierarchy');
+			$hierarchyValue = $request->getByType('hierarchy');
 			if ($level === 0) {
 				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
 			} elseif ($level === 1) {
