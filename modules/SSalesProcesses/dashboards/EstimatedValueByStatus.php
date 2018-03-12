@@ -43,7 +43,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		$moduleName = 'SSalesProcesses';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$query = (new \App\Db\Query())->select([
-				'SUM(u_#__ssalesprocesses.estimated) AS estimated',
+				'estimated' => new \yii\db\Expression('SUM(u_#__ssalesprocesses.estimated)'),
 				'u_#__ssalesprocesses.ssalesprocesses_status',
 				'vtiger_ssalesprocesses_status.ssalesprocesses_statusid',
 			])
@@ -51,7 +51,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_ssalesprocesses_status', 'u_#__ssalesprocesses.ssalesprocesses_status = vtiger_ssalesprocesses_status.ssalesprocesses_status')
 			->where(['and', ['<>', 'u_#__ssalesprocesses.ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['u_#__ssalesprocesses.ssalesprocesses_status' => null]]])
-			->orderBy(['sortorderid' => 'desc']);
+			->orderBy(['vtiger_ssalesprocesses_status.sortorderid' => 'desc']);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($owner)) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
