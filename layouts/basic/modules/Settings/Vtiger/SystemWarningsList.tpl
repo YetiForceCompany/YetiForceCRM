@@ -14,7 +14,7 @@
 			{foreach from=$WARNINGS_LIST item=ITEM}
 				<tr data-id="{get_class($ITEM)}" data-status="{$ITEM->getStatus()}">
 					<td>{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</td>
-					<td class="text-center {if $ITEM->getStatus() == 0}danger{elseif $ITEM->getStatus() == 1}success{/if}">
+					<td class="text-center {if $ITEM->getStatus() == 0}bg-danger{elseif $ITEM->getStatus() == 1}bg-success{/if}">
 						{if $ITEM->getStatus() == 0}
 							<span class="fas fa-times"></span>
 						{elseif $ITEM->getStatus() == 1}
