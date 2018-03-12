@@ -30,7 +30,8 @@ class ServerHttps extends \App\SystemWarnings\Template
 			$this->status = 0;
 		}
 		if ($this->status === 0) {
-			$this->link = 'https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html';
+			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$this->link = $requestUrl . '?parent=Settings&module=ConfReport&view=Index';
 			$this->linkTitle = \App\Language::translate('BTN_CONFIGURE_HTTPS', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translate('LBL_MISSING_HTTPS', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
 		}
