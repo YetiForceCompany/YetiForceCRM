@@ -73,7 +73,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		];
 		$i = 0;
 		while ($row = $dataReader->read()) {
-			$chartData['datasets'][0]['data'][] = ++$i;
+			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['ssalesprocesses_statusid']];
 			$chartData['datasets'][0]['links'][] = $moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status']);
 			$chartData['labels'][] = \App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'];
