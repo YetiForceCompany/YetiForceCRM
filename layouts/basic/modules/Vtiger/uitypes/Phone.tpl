@@ -22,7 +22,7 @@
 			<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
 				<div class="input-group phoneGroup">
 					<div class="input-group-addon noSpaces">
-						<select name="{$FIELD_MODEL->getFieldName()}_country" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select phoneCountryList" required="required">
+						<select name="{$FIELD_MODEL->getFieldName()}_country" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" required="required">
 							{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
 								{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
 								<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}">{$TRANSLATE}</option>
