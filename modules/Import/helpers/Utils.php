@@ -52,13 +52,13 @@ class Import_Utils_Helper
 	/**
 	 * The function takes the path of the file to be imported.
 	 *
-	 * @param Users_Record_Model $user
+	 * @param \App\User $user
 	 *
 	 * @return string
 	 */
-	public static function getImportFilePath(Users_Record_Model $user)
+	public static function getImportFilePath(\App\User $user)
 	{
-		return App\Fields\File::getTmpPath() . 'IMPORT_' . $user->id;
+		return App\Fields\File::getTmpPath() . 'IMPORT_' . $user->getId();
 	}
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
@@ -145,11 +145,11 @@ class Import_Utils_Helper
 	 */
 	public static function validateFileUpload(\App\Request $request)
 	{
-		$current_user = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 
 		$uploadMaxSize = self::getMaxUploadSize();
 		$importDirectory = App\Fields\File::getTmpPath();
-		$temporaryFileName = self::getImportFilePath($current_user);
+		$temporaryFileName = self::getImportFilePath($currentUser);
 
 		if ($_FILES['import_file']['error']) {
 			$request->set('error_message', self::fileUploadErrorMessage($_FILES['import_file']['error']));
@@ -179,7 +179,7 @@ class Import_Utils_Helper
 
 			return false;
 		}
-		$fileReader = Import_Module_Model::getFileReader($request, $current_user);
+		$fileReader = Import_Module_Model::getFileReader($request, $currentUser);
 
 		if ($fileReader === null) {
 			$request->set('error_message', \App\Language::translate('LBL_INVALID_FILE', 'Import'));

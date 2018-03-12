@@ -27,24 +27,33 @@ class Import_Main_View extends \App\Controller\View
 	{
 	}
 
-	public function __construct($request, $user)
+	/**
+	 * Constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param App\User     $user
+	 */
+	public function __construct(\App\Request $request, App\User $user)
 	{
 		$this->request = $request;
 		$this->user = $user;
 	}
 
-	public static function import($request, $user)
+	/**
+	 * Import data from file.
+	 *
+	 * @param \App\Request $request
+	 * @param App\User     $user
+	 */
+	public static function import(\App\Request $request, \App\User $user)
 	{
 		$importController = new self($request, $user);
-
 		$importController->saveMap();
 		$fileReadStatus = $importController->copyFromFileToDB();
 		if ($fileReadStatus) {
 			$importController->queueDataImport();
 		}
-
 		$isImportScheduled = $importController->request->get('is_scheduled');
-
 		if ($isImportScheduled) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($importController->user);
 			self::showScheduledStatus($importInfo);
@@ -57,7 +66,6 @@ class Import_Main_View extends \App\Controller\View
 	{
 		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
 		$importDataController = new Import_Data_Action($importInfo, $this->user);
-
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
 				Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
@@ -75,12 +83,12 @@ class Import_Main_View extends \App\Controller\View
 	/**
 	 * Show import status.
 	 *
-	 * @param array              $importInfo
-	 * @param Users_Record_Model $user
+	 * @param array     $importInfo
+	 * @param \App\User $user
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public static function showImportStatus($importInfo, $user)
+	public static function showImportStatus($importInfo, \App\User $user)
 	{
 		if (empty($importInfo)) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));

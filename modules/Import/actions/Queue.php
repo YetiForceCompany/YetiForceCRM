@@ -43,9 +43,9 @@ class Import_Queue_Action extends \App\Controller\Action
 	 * Adds status to the database.
 	 *
 	 * @param \App\Request $request
-	 * @param string       $user
+	 * @param \App\User    $user
 	 */
-	public static function add(\App\Request $request, $user)
+	public static function add(\App\Request $request, \App\User $user)
 	{
 		if ($request->get('is_scheduled')) {
 			$temp_status = self::$IMPORT_STATUS_SCHEDULED;
@@ -53,7 +53,7 @@ class Import_Queue_Action extends \App\Controller\Action
 			$temp_status = self::$IMPORT_STATUS_NONE;
 		}
 		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
-			'userid' => $user->id,
+			'userid' => $user->getId(),
 			'tabid' => \App\Module::getModuleId($request->getModule()),
 			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
 			'default_values' => \App\Json::encode($request->get('default_values')),
@@ -70,19 +70,31 @@ class Import_Queue_Action extends \App\Controller\Action
 		}
 	}
 
-	public static function removeForUser($user)
+	/**
+	 * Remove import for user.
+	 *
+	 * @param \App\User $user
+	 */
+	public static function removeForUser(\App\User $user)
 	{
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_import_queue', ['userid' => $user->id])->execute();
+			App\Db::getInstance()->createCommand()->delete('vtiger_import_queue', ['userid' => $user->getId()])->execute();
 		}
 	}
 
-	public static function getUserCurrentImportInfo($user)
+	/**
+	 * Function to get current import.
+	 *
+	 * @param \App\User $user
+	 *
+	 * @return array
+	 */
+	public static function getUserCurrentImportInfo(\App\User $user)
 	{
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$rowData = (new App\Db\Query())->from('vtiger_import_queue')->where(['userid' => $user->id])->one();
+			$rowData = (new App\Db\Query())->from('vtiger_import_queue')->where(['userid' => $user->getId()])->one();
 			if ($rowData) {
-				return self::getImportInfoFromResult($rowData);
+				return static::getImportInfoFromResult($rowData);
 			}
 		}
 
@@ -92,14 +104,14 @@ class Import_Queue_Action extends \App\Controller\Action
 	/**
 	 * Import info.
 	 *
-	 * @param string             $module
-	 * @param Users_Record_Model $user
+	 * @param string    $module
+	 * @param \App\User $user
 	 *
 	 * @return null|array
 	 */
-	public static function getImportInfo($module, $user)
+	public static function getImportInfo($module, \App\User $user)
 	{
-		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Module::getModuleId($module), 'userid' => $user->id])->one();
+		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Module::getModuleId($module), 'userid' => $user->getId()])->one();
 		if ($rowData) {
 			return self::getImportInfoFromResult($rowData);
 		}

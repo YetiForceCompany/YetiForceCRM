@@ -10,31 +10,31 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='widget_header row '>
+	<div class="widget_header row">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<div class="col-md-3 col-sm-2"></div>
 	<div class="col-md-6 col-sm-8 col-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4 class="panel-title">{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)} - {\App\Language::translate('LBL_UNDO_RESULT', $MODULE)}</h4>
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)} - {\App\Language::translate('LBL_UNDO_RESULT', $MODULE)}</h4>
 			</div>
-			<div class="panel-body form-horizontal font-larger">
+			<div class="card-body form-horizontal font-larger">
 				<input type="hidden" name="module" value="{$FOR_MODULE}" />
 				{if $ERROR_MESSAGE neq ''}
 					<div class="alert alert-warning">
 						{$ERROR_MESSAGE}
 					</div>
 				{/if}
-				<div class="form-group">
+				<div class="form-group row">
 					<div class="col-md-7 col-sm-6 col-8 textAlignRight fontBold">{\App\Language::translate('LBL_TOTAL_RECORDS', $MODULE)}:</div>
 					<div class="col-md-5 col-sm-6 col-4">
 						{$TOTAL_RECORDS}
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group row">
 					<div class="col-md-7 col-sm-6 col-8 textAlignRight fontBold">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DELETED', $MODULE)}:</div>
 					<div class="col-md-5 col-sm-6 col-4">
 						{$DELETED_RECORDS_COUNT}

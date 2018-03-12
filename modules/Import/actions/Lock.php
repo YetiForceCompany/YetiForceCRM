@@ -42,15 +42,15 @@ class Import_Lock_Action extends \App\Controller\Action
 	/**
 	 * Lock.
 	 *
-	 * @param int                $importId
-	 * @param string             $module
-	 * @param Users_Record_Model $user
+	 * @param int       $importId
+	 * @param string    $module
+	 * @param \App\User $user
 	 */
-	public static function lock($importId, $module, $user)
+	public static function lock($importId, $module, \App\User $user)
 	{
 		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_import_locks', [
-				'userid' => $user->id,
+				'userid' => $user->getId(),
 				'tabid' => \App\Module::getModuleId($module),
 				'importid' => $importId,
 				'locked_since' => date('Y-m-d H:i:s'),
@@ -60,13 +60,13 @@ class Import_Lock_Action extends \App\Controller\Action
 	/**
 	 * Unlock.
 	 *
-	 * @param Users_Record_Model $user
-	 * @param string             $module
+	 * @param \App\User $user
+	 * @param string    $module
 	 */
-	public static function unLock($user, $module = false)
+	public static function unLock(\App\User $user, $module = false)
 	{
 		$db = \App\Db::getInstance();
-		$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
+		$where = ['userid' => $user->getId()];
 		if ($module) {
 			$where['tabid'] = \App\Module::getModuleId($module);
 		}

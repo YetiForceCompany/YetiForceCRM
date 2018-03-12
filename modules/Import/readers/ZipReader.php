@@ -16,12 +16,12 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	/**
 	 * Construct.
 	 *
-	 * @param \App\Request       $request
-	 * @param Users_Record_Model $user
+	 * @param \App\Request $request
+	 * @param \App\User    $user
 	 */
-	public function __construct(\App\Request $request, Users_Record_Model $user)
+	public function __construct(\App\Request $request, \App\User $user)
 	{
-		$instance = Vtiger_Cache::get('ZipReader', $request->getModule() . $user->id);
+		$instance = Vtiger_Cache::get('ZipReader', $request->getModule() . $user->getId());
 		if (!empty($instance)) {
 			$this->setInstanceProperties($instance);
 			$this->request = $request;
@@ -29,10 +29,10 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 			return;
 		}
 		$this->moduleName = $request->getModule();
-		$this->extension = $request->get('extension');
+		$this->extension = $request->getByType('extension');
 		parent::__construct($request, $user);
 		$this->initialize($request, $user);
-		Vtiger_Cache::set('ZipReader', $this->moduleName . $user->id, $this);
+		Vtiger_Cache::set('ZipReader', $this->moduleName . $user->getId(), $this);
 	}
 
 	public function setInstanceProperties($instance)
@@ -46,10 +46,10 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	/**
 	 * Initialize zip file.
 	 *
-	 * @param \App\Request       $request
-	 * @param Users_Record_Model $user
+	 * @param \App\Request $request
+	 * @param \App\User    $user
 	 */
-	public function initialize(\App\Request $request, $user)
+	public function initialize(\App\Request $request, \App\User $user)
 	{
 		$zipfile = Import_Utils_Helper::getImportFilePath($user);
 		$this->importFolderLocation = "{$zipfile}_{$this->extension}";
@@ -150,7 +150,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	public function deleteFolder()
 	{
 		if (!empty($this->importFolderLocation)) {
-			\vtlib\Functions::recurseDelete($this->importFolderLocation);
+			\vtlib\Functions::recurseDelete($this->importFolderLocation, true);
 		}
 	}
 }

@@ -18,7 +18,13 @@ class Import_FileReader_Reader
 	public $request;
 	public $moduleModel;
 
-	public function __construct($request, $user)
+	/**
+	 * Constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param \App\User    $user
+	 */
+	public function __construct(\App\Request $request, \App\User $user)
 	{
 		$this->request = $request;
 		$this->user = $user;
