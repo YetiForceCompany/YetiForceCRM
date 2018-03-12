@@ -38,10 +38,16 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
+			$isInventory = $model->isInventory();
+			$this->Config['isInventory'] = $isInventory;
 			if ($this->Data['action'] == 1) {
 				$createPermission = $model->isPermitted('CreateView');
 				$this->Config['action'] = ($createPermission === true) ? 1 : 0;
-				$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
+				if ($isInventory) {
+					$this->Config['actionURL'] = "{$model->getCreateRecordUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}&relationOperation=true";
+				} else {
+					$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
+				}
 			}
 			if (isset($this->Data['showAll'])) {
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
