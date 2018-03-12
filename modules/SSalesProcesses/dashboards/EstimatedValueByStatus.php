@@ -28,7 +28,6 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 			$conditions[] = ['ssalesprocesses_status', 'e', $status];
 		}
 		$listSearchParams[] = $conditions;
-
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
@@ -43,29 +42,45 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 	{
 		$moduleName = 'SSalesProcesses';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$query = (new \App\Db\Query())->select('SUM(u_#__ssalesprocesses.estimated) AS estimated, u_#__ssalesprocesses.ssalesprocesses_status')
+		$query = (new \App\Db\Query())->select([
+				'SUM(u_#__ssalesprocesses.estimated) AS estimated',
+				'u_#__ssalesprocesses.ssalesprocesses_status',
+				'vtiger_ssalesprocesses_status.ssalesprocesses_statusid',
+			])
 			->from('u_yf_ssalesprocesses')
 			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
-			->where(['and', ['<>', 'ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['ssalesprocesses_status' => null]]]);
+			->innerJoin('vtiger_ssalesprocesses_status', 'u_#__ssalesprocesses.ssalesprocesses_status = vtiger_ssalesprocesses_status.ssalesprocesses_status')
+			->where(['and', ['<>', 'u_#__ssalesprocesses.ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['u_#__ssalesprocesses.ssalesprocesses_status' => null]]]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($owner)) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
 		$query->groupBy('u_#__ssalesprocesses.ssalesprocesses_status');
 		$dataReader = $query->createCommand()->query();
-		$data = [];
-		$i = 1;
 		$currencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
+		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'names' => [], // names for link generation
+					'links' => [], // links generated in proccess method
+				],
+			],
+			'show_chart' => false,
+		];
+		$i = 0;
 		while ($row = $dataReader->read()) {
-			$data[] = [
-				\App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
-				$i++,
-				$moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status']),
-			];
+			$chartData['datasets'][0]['data'][] = ++$i;
+			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['ssalesprocesses_statusid']];
+			$chartData['datasets'][0]['links'][] = $moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status']);
+			$chartData['labels'][] = \App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'];
 		}
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		$dataReader->close();
-
-		return $data;
+		return $chartData;
 	}
 
 	/**
