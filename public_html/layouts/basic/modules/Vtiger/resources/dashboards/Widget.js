@@ -711,51 +711,60 @@ Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 		this.registerRecordsCount();
 	},
 });
-Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		var container = this.getContainer();
-		container.on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css('cursor', 'pointer');
+Vtiger_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
+	applyDefaultOptions: function (data, options = {}){
+		if (typeof options.maintainAspectRatio === 'undefined') {
+			options.maintainAspectRatio = false;
+		}
+		if (typeof options.title === 'undefined') {
+			options.title = {};
+		}
+		if (typeof options.title.display === 'undefined') {
+			options.title.display = false;
+		}
+		if (typeof options.legend === 'undefined') {
+			options.legend = {};
+		}
+		if (typeof options.legend.display === 'undefined') {
+			options.legend.display = false;
+		}
+		if (typeof options.events === 'undefined') {
+			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
+		}
+		if (typeof options.sort === 'undefined') {
+			options.sort = 'desc';
+		}
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.yAxes === 'undefined') {
+			options.scales.yAxes = [{}];
+		}
+		options.scales.yAxes.forEach((axis) => {
+			axis.display = true;
 		});
-		container.on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css('cursor', 'auto');
+		this.applyDefaultTooltipsConfig(data, options);
+		return options;
+	},
+	applyDefaultDatalabelsConfig: function (data, type) {
+		data.datasets.forEach((dataset) => {
+			dataset.datalabels = {display: false};
 		});
+		return data;
 	},
 	loadChart: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		if (dataInfo.length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.FunnelRenderer,
-					rendererOptions: {
-						sectionMargin: 0,
-						widthRatio: 0.1,
-						showDataLabels: true,
-						dataLabelThreshold: 0,
-						dataLabels: 'value',
-						highlightMouseDown: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e',
+		const thisInstance = this;
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData(), 'funnel');
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: 'funnel',
+					data,
+					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
+					plugins: thisInstance.getPlugins()
 				}
-			});
-		}
+		);
 	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	}
 });
 Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	getPlugins: function () {
@@ -1544,7 +1553,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData(), 'bar');
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1962,39 +1971,10 @@ YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
-	generateData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		return dataInfo;
-	},
-	loadChart: function () {
-		var dataInfo = this.generateData();
-		if (dataInfo.length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.FunnelRenderer,
-					rendererOptions: {
-						sectionMargin: 0,
-						widthRatio: 0.3,
-						showDataLabels: true,
-						dataLabelThreshold: 0,
-						dataLabels: 'label',
-						highlightMouseDown: true
-					}
-				},
-				legend: {
-					show: false,
-					location: 'e',
-				}
-			});
-		}
-	}
-});
+YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
 		var container = this.getContainer();

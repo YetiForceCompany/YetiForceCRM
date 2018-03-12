@@ -143,8 +143,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/gridster/dist/jquery.gridster.js',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
+			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
-			'~libraries/chartjs-funnel/dist/chart.funnel.bundled.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
@@ -165,7 +165,6 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$headerCss = [
 			'~libraries/gridster/dist/jquery.gridster.css',
-			'~libraries/js/jqplot/jquery.jqplot.css',
 			'~libraries/fullcalendar/dist/fullcalendar.css',
 		];
 
