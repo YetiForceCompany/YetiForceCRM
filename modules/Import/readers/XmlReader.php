@@ -15,7 +15,13 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	protected $importedRecords = 0;
 	protected $relatedInventoryField = [];
 
-	public function __construct($request, $user)
+	/**
+	 * Constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param \App\User    $user
+	 */
+	public function __construct(\App\Request $request, \App\User $user)
 	{
 		$this->moduleName = $request->getModule();
 		parent::__construct($request, $user);

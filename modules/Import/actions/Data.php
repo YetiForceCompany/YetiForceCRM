@@ -35,10 +35,10 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 * Constructor.
 	 *
-	 * @param array              $importInfo
-	 * @param Users_Record_Model $user
+	 * @param array     $importInfo
+	 * @param \App\User $user
 	 */
-	public function __construct($importInfo, $user)
+	public function __construct($importInfo, \App\User $user)
 	{
 		$this->id = $importInfo['id'];
 		$this->module = $importInfo['module'];
@@ -136,16 +136,14 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
 		if ($lockInfo) {
-			if ($lockInfo['userid'] != $this->user->id) {
+			if ($lockInfo['userid'] != $this->user->getId()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
-
 				return false;
 			} else {
 				return true;
 			}
 		} else {
 			Import_Lock_Action::lock($this->id, $this->module, $this->user);
-
 			return true;
 		}
 	}
@@ -793,15 +791,12 @@ class Import_Data_Action extends \App\Controller\Action
 		$scheduledImports = self::getScheduledImport();
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$importDataController->batchImport = false;
-
 			if (!$importDataController->initializeImport()) {
 				continue;
 			}
 			$importDataController->importData();
-
 			$importStatusCount = $importDataController->getImportStatusCount();
-
-			$emailSubject = 'Yetiforce- Scheduled Data Import Report for ' . $importDataController->module;
+			$emailSubject = 'Yetiforce - Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
@@ -809,16 +804,11 @@ class Import_Data_Action extends \App\Controller\Action
 			$importResult = str_replace('align="center"', '', $importResult);
 			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
 				'Navigate to respective module, to check import result and/or data integrity';
-
-			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
-			$userEmail = $importDataController->user->email1;
 			\App\Mailer::addMail([
-				//'smtp_id' => 1,
-				'to' => [$userEmail => $userName],
+				'to' => [$importDataController->user->getDetail('email1') => $importDataController->user->getName()],
 				'subject' => $emailSubject,
 				'content' => $emailData,
 			]);
-
 			$importDataController->finishImport();
 		}
 	}
@@ -828,12 +818,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$scheduledImports = [];
 		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
-			$userId = $importInfo['user_id'];
-			$user = new Users();
-			$user->id = $userId;
-			$user->retrieveEntityInfo($userId, 'Users');
-
-			$scheduledImports[$importId] = new self($importInfo, $user);
+			$scheduledImports[$importId] = new self($importInfo, \App\User::getUserModel($importInfo['user_id']));
 		}
 
 		return $scheduledImports;
@@ -842,11 +827,11 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 *  Function to get Record details of import.
 	 *
-	 *  @parms User Record Model $user Current Users
+	 *  @parms \App\User $user Current Users
 	 * 	@parms string $forModule Imported module
 	 *  @returns array Import Records with the list of skipped records and failed records
 	 */
-	public static function getImportDetails($user, $forModule)
+	public static function getImportDetails(\App\User $user, $forModule)
 	{
 		$db = App\Db::getInstance();
 		$importRecords = [];
