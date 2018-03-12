@@ -38,7 +38,7 @@
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label text-right">{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</label>
 							<div class="col-sm-6 controls">
-								<select class="chzn-select form-control" title="{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype">
+								<select class="select2 form-control" title="{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype">
 									<option value="0" selected>{\App\Language::translate('LBL_BASE_MODULE', $QUALIFIED_MODULE)}</option>
 									<option value="1">{\App\Language::translate('LBL_INVENTORY_MODULE', $QUALIFIED_MODULE)}</option>
 								</select>
