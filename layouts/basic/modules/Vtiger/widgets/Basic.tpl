@@ -47,7 +47,7 @@
 									{if $WIDGET['data']['action'] eq 1 && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
 										{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-										<button class="btn btn-sm btn-light createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
+										<button class="btn btn-sm btn-light {if $WIDGET['isInventory']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if}" type="button" data-url="{$WIDGET['actionURL']}"
 												{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}">
 											<span class="fas fa-plus"></span>
 										</button>

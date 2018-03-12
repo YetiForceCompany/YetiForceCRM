@@ -1295,6 +1295,23 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 	},
+	registerFilterForAddingInventoryModuleRelatedRecordFromSummaryWidget: function () {
+		var thisInstance = this;
+		jQuery('.createInventoryRecordFromFilter').on('click', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			var createUrl = currentElement.data('url');
+			var autoCompleteFields = currentElement.data('acf');
+			var addidtionalParams = ''
+			if (typeof autoCompleteFields != "undefined") {
+				$.each(autoCompleteFields, function (index, value) {
+					addidtionalParams = '&' + index + '=' + value;
+					createUrl = createUrl.concat(addidtionalParams);
+
+				});
+			}
+			window.location.href = createUrl;
+		});
+	},
 	registerEmailEvent: function () {
 		var thisInstance = this;
 		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
@@ -1421,6 +1438,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerChangeFilterForWidget();
 		this.registerChangeSwitchForWidget(summaryViewContainer);
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
+		this.registerFilterForAddingInventoryModuleRelatedRecordFromSummaryWidget();
 		this.registerEmailEvent();
 		/**
 		 * Function to handle the ajax edit for summary view fields
