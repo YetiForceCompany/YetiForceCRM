@@ -1,7 +1,7 @@
 <?php
 /**
- * POS french translation
- * @package YetiForce.Language
+ * POS french translation.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/License.html or yetiforce.com)
  */
@@ -21,4 +21,3 @@ $jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION' => 'Etes-vous sûr de vouloir supprimer cette clé?',
 	'JS_THIS_USER_IS_EXIST' => 'Utilisateur sélectionné a déjà une clé.',
 ];
-

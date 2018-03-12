@@ -1,7 +1,7 @@
 <?php
 /**
- * New orders french translation
- * @package YetiForce.Language
+ * New orders french translation.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/License.html or yetiforce.com)
  */
