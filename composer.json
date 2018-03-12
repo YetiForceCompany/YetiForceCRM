@@ -37,7 +37,7 @@
 		"rmccue/requests": "v1.7.0",
 		"smarty/smarty": "3.1.31",
 		"phpmailer/phpmailer": "v6.0.3",
-		"ezyang/htmlpurifier": "v4.9.3",
+		"ezyang/htmlpurifier": "v4.10.0",
 		"simshaun/recurr": "v3.0.5",
 		"sensiolabs/security-checker": "*",
 		"giggsey/libphonenumber-for-php": "^8.8.11",
