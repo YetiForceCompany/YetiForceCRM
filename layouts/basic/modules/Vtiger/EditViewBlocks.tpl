@@ -78,7 +78,7 @@
 											<input value="" title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control float-right input " placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}" />
 										</div>
 									{/if}
-									<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center">
+									<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center mb-2">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
 								</div>
@@ -103,7 +103,7 @@
 									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										<label class="col-md-3 fieldLabel">
+										<label class="col-md-3 fieldLabel small font-weight-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 												<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
