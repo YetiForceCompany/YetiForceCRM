@@ -732,7 +732,7 @@ Vtiger_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
 		}
 		if (typeof options.sort === 'undefined') {
-			options.sort = false;
+			options.sort = 'data-desc';
 		}
 		if (typeof options.scales === 'undefined') {
 			options.scales = {};
