@@ -1295,7 +1295,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 	},
-	registerFilterForAddingInventoryModuleRelatedRecordFromSummaryWidget: function () {
+	registerAddingInventoryRecords: function () {
 		var thisInstance = this;
 		jQuery('.createInventoryRecordFromFilter').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
@@ -1438,7 +1438,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerChangeFilterForWidget();
 		this.registerChangeSwitchForWidget(summaryViewContainer);
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
-		this.registerFilterForAddingInventoryModuleRelatedRecordFromSummaryWidget();
+		this.registerAddingInventoryRecords();
 		this.registerEmailEvent();
 		/**
 		 * Function to handle the ajax edit for summary view fields
