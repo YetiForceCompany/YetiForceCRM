@@ -30,7 +30,7 @@
 						<div data-type="link">
 							<div class="col">
 								{\App\Language::translate('LBL_RELATIONS',$MODULE_NAME)}
-								<div class="float-right">
+								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
 									{if $ACCESS_LEVEL_0}
 										<select class="module">
@@ -74,7 +74,7 @@
 						<div data-type="link">
 							<div class="col">
 								{\App\Language::translate('LBL_RELATIONS_EXTEND',$MODULE_NAME)}
-								<div class="float-right">
+								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_3" value=\App\ModuleHierarchy::accessModulesByLevel(3)}
 									{if $ACCESS_LEVEL_3}
 										<select class="module">
@@ -118,7 +118,7 @@
 						<div data-type="process">
 							<div class="col">
 								{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}
-								<div class="float-right">
+								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
 									{if $ACCESS_LEVEL_1}
 										<select class="module">
@@ -162,7 +162,7 @@
 						<div data-type="subprocess">
 							<div class="col">
 								{\App\Language::translate('LBL_SUB_PROCESS',$MODULE_NAME)}
-								<div class="float-right">
+								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
 									{if $ACCESS_LEVEL_2}
 										<select class="module">
