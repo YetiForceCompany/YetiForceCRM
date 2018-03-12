@@ -1,6 +1,8 @@
 <?php
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\PhptTestCase;
 
 /**
  * Travis CI result printer class.
@@ -20,9 +22,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	 */
 	public function startTest(Test $test): void
 	{
-		if ($this->debug) {
-			$this->write("\n" . \get_class($test) . '::' . $test->getName());
-		}
+		$this->write(\get_class($test) . '::' . $test->getName());
 	}
 
 	/**
@@ -33,15 +33,23 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	 */
 	public function endTest(Test $test, float $time): void
 	{
-		$debug = $this->debug;
-		$this->debug = false;
-
-		parent::endTest($test, $time);
-
-		if ($this->debug) {
-			$this->write('  |');
+		if (!$this->lastTestFailed) {
+			$this->writeProgress('.');
 		}
-		$this->debug = $debug;
+		if ($test instanceof TestCase) {
+			$this->numAssertions += $test->getNumAssertions();
+		} elseif ($test instanceof PhptTestCase) {
+			$this->numAssertions++;
+		}
+		$this->lastTestFailed = false;
+		if ($test instanceof TestCase) {
+			if (!$test->hasExpectationOnOutput() && ($out = $test->getActualOutput())) {
+				$this->write("\n++++++++++++++++   Test output   ++++++++++++++++++++++++++++\n");
+				$this->write($out);
+				$this->write("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+			}
+		}
+		$this->write("\n");
 	}
 
 	/**

@@ -19,8 +19,8 @@
 				{/if}
 			</div>
 			<div class="col-md-5">
-				<span class="btn-toolbar float-right margin0px">
-					<span class="btn-group">
+				<span class="btn-toolbar float-right mt-1">
+					<span class="btn-group mr-1">
 						<button class="btn btn-success createModule" type="button">
 							<span class="fas fa-desktop"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
@@ -125,10 +125,10 @@
 								</div>
 								<div class="col-5 p-2">
 									{if $MODULE_MODEL->get('customized')}
-										<button class="deleteModule btn btn-danger btn-sm float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+										<button class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
-										<a class="btn btn-primary btn-sm float-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
+										<a class="btn btn-primary btn-sm float-right ml-2" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
 										{/if}
 										{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 										{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}

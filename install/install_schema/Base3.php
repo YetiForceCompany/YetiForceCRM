@@ -1,5 +1,4 @@
 <?php
-
 namespace Importers;
 
 /**
@@ -11,6 +10,7 @@ namespace Importers;
  */
 class Base3 extends \App\Db\Importers\Base
 {
+
 	public $dbType = 'base';
 
 	public function scheme()
@@ -2952,6 +2952,7 @@ class Base3 extends \App\Db\Importers\Base
 					[6, 'Italian', 'it_it', 'Italian', '2017-12-23 15:12:39', null, 0, 1],
 					[7, 'Spanish', 'es_es', 'ES Spanish', '2017-03-11 00:00:00', null, 0, 1],
 					[8, 'Turkish', 'tr_tr', 'Turkish', '2018-02-13 00:00:00', null, 0, 1],
+					[9, 'French', 'fr_fr', 'French', '2018-03-12 00:00:00', NULL, 0, 1],
 				]
 			],
 			'vtiger_language_seq' => [

@@ -27,7 +27,7 @@
 	<div class="row" >
 		<div class="col-md-12">
 			<div class="float-right">
-				<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{\App\Language::translate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{\App\Language::translate('LBL_COMMON',$MODULE_NAME)}" data-on-val="owner" data-off-val="common" data-urlparams="showtype">
+				<input class="switchBtn js-calcuations-switch" type="checkbox" checked="" data-js="bootstrapSwitch" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{\App\Language::translate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{\App\Language::translate('LBL_COMMON',$MODULE_NAME)}" data-on-val="owner" data-off-val="common" data-urlparams="showtype">
 			</div>
 		</div>
 	</div>

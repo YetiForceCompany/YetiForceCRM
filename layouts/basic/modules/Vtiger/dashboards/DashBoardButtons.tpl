@@ -4,7 +4,7 @@
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
 		{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 		{if $WIDGETS|count gt 0}
-			<button class="btn btn-outline-secondary addButton dropdown-toggle my-2" data-toggle="dropdown">
+			<button class="btn btn-outline-secondary addButton dropdown-toggle" data-toggle="dropdown">
 				<strong class="d-none d-md-inline">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 			</button>
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">

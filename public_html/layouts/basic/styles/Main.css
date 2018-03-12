@@ -4206,7 +4206,7 @@ button.bg-dark:focus {
 .bg-transparent {
   background-color: transparent !important; }
 
-.border {
+.border, .input-group .select2-selection {
   border: 1px solid #dee2e6 !important; }
 
 .border-top, .detailViewTable .fieldRow {
@@ -5066,7 +5066,7 @@ button.bg-dark:focus {
 .gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
-.mb-0, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
+.mb-0, .daterangepicker .left, .daterangepicker .right, .daterangepicker .ranges li:last-child, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
 .my-0 {
   margin-bottom: 0 !important; }
 
@@ -5078,7 +5078,7 @@ button.bg-dark:focus {
 .m-1 {
   margin: 0.25rem !important; }
 
-.mt-1, .Comment .commentActionsDiv .btn,
+.mt-1, .input-group .select2-selection__arrow, .Comment .commentActionsDiv .btn,
 .my-1 {
   margin-top: 0.25rem !important; }
 
@@ -5172,7 +5172,7 @@ button.bg-dark:focus {
 .mx-5 {
   margin-left: 3rem !important; }
 
-.p-0, .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .row {
+.p-0, .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .row, .daterangepicker.show-calendar {
   padding: 0 !important; }
 
 .pt-0,
@@ -5200,15 +5200,17 @@ button.bg-dark:focus {
 
 .pr-1,
 .px-1,
+.select2-container--bootstrap4 ul.select2-selection__rendered,
 .bodyHeader .rightHeader .headerButton {
   padding-right: 0.25rem !important; }
 
-.pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
+.pb-1,
 .py-1 {
   padding-bottom: 0.25rem !important; }
 
 .pl-1, .dashboardWidgetHeader .col-sm-6:nth-child(2), .col-md-6:nth-child(2),
 .px-1,
+.select2-container--bootstrap4 ul.select2-selection__rendered,
 .bodyHeader .rightHeader .headerButton {
   padding-left: 0.25rem !important; }
 
@@ -6318,7 +6320,7 @@ header .select2-selection.select2-selection--single {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
-.text-left {
+.text-left, .input-group .select2-selection {
   text-align: left !important; }
 
 .text-right {
@@ -10540,7 +10542,7 @@ select[readonly], select[disabled] {
 .tableBorderHeadBody thead, .tableBorderHeadBody tbody {
   border: 1px solid #ddd; }
 
-.listViewEntriesTable .listViewSummation td.border {
+.listViewEntriesTable .listViewSummation td.border, .listViewEntriesTable .listViewSummation .input-group td.select2-selection, .input-group .listViewEntriesTable .listViewSummation td.select2-selection {
   border: 1px solid #ddd; }
 
 .tableBorderHeadBody {
@@ -10659,6 +10661,8 @@ border1px {
   margin-left: 10px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.select2-container--bootstrap4 .select2-selection {
+  padding-top: 10px !important; }
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
@@ -10677,6 +10681,10 @@ header .headerLinksMails .select2-selection:hover {
   background: #343a40 !important; }
   header .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
+
+.input-group .select2-selection {
+  height: 38px !important;
+  padding-top: 3px; }
 
 .leaflet-popup-content {
   width: 62px; }
@@ -10699,6 +10707,9 @@ header .headerLinksMails .select2-selection:hover {
 
 .dataTables_wrapper table.dataTable {
   margin: 0 !important; }
+
+.daterangepicker .ranges li {
+  margin-bottom: 0.45rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
