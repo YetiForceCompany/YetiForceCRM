@@ -959,7 +959,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		readRecord.prop('disabled', true);
 		var detailViewValue = jQuery('.value', currentTdElement);
 		var editElement = jQuery('.edit', currentTdElement);
-		var actionElement = jQuery('.summaryViewEdit', currentTdElement);
+		var actionElement = jQuery('.js-detail-quick-edit', currentTdElement);
 		var fieldElement = jQuery('.fieldname', editElement);
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
@@ -1075,8 +1075,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 						fieldElement.data('selectedValue', ajaxEditNewValue);
 						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
 						if (thisInstance.targetPicklistChange) {
-							if (jQuery('.summaryView', thisInstance.getForm()).length > 0) {
-								thisInstance.targetPicklist.find('.summaryViewEdit').trigger('click');
+							if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
+								thisInstance.targetPicklist.find('.js-detail-quick-edit').trigger('click');
 							} else {
 								thisInstance.targetPicklist.trigger('click');
 							}
@@ -1444,7 +1444,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Function to handle the ajax edit for summary view fields
 		 */
 		var formElement = thisInstance.getForm();
-		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
+		summaryViewContainer.off('click').on('click', '.row .js-detail-quick-edit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('d-none');
 			var currentTdElement = currentTarget.closest('.fieldValue');
@@ -1453,7 +1453,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		/**
 		 * Function to handle actions after ajax save in summary view
 		 */
-		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.recordDetails', function (e, params) {
+		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function (e, params) {
 			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 			if (updatesWidget.length) {
 				var params = thisInstance.getFiltersData(updatesWidget);
@@ -1881,7 +1881,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerHelpInfo: function () {
 		var form = this.getForm();
-		app.showPopoverElementView(form.find('.HelpInfoPopover'));
+		app.showPopoverElementView(form.find('.js-help-info'));
 	},
 	registerRelatedModulesRecordCount: function (tabContainer) {
 		var thisInstance = this;

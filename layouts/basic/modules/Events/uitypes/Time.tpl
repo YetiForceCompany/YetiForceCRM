@@ -8,7 +8,7 @@
 	<div class="input-group time">
 		{if $FIELD_NAME neq 'time_end'}
 			<div class="input-group-prepend">
-				<span class="input-group-text"><span class="notEvent HelpInfoPopover" data-placement="top" data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">
+				<span class="input-group-text"><span class="notEvent js-help-info" data-placement="top" data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">
 						<input type="checkbox" class="autofill" />
 					</span>
 				</span>

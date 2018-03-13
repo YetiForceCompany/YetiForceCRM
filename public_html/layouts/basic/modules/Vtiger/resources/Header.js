@@ -170,7 +170,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		if (typeof container == 'undefined') {
 			container = jQuery('form[name="QuickCreate"]');
 		}
-		app.showPopoverElementView(container.find('.HelpInfoPopover'));
+		app.showPopoverElementView(container.find('.js-help-info'));
 	},
 	handleQuickCreateData: function (data, params) {
 		if (typeof params == 'undefined') {

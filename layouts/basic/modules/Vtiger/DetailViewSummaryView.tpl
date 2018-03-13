@@ -16,7 +16,7 @@
 		{foreach item=WIDGETCOLUMN from=$DETAILVIEW_WIDGETS}
 			<div class="col-md-{$span}">
 				{foreach key=key item=WIDGET from=$WIDGETCOLUMN}
-					{assign var=FILE value='widgets/'|cat:$WIDGET['tpl']}
+					{assign var=FILE value='Detail/Widget/'|cat:$WIDGET['tpl']}
 					{include file=\App\Layout::getTemplatePath($FILE, $MODULE_NAME)}
 				{/foreach}
 			</div>

@@ -118,7 +118,7 @@
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
 							<p class="float-right text-muted"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
-								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
+								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="u-text-ellipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 							</div>
 							<div class='font-x-small'><span>"{nl2br($HISTORY->getDisplayValue('commentcontent'))}"</span></div>
 						</div>

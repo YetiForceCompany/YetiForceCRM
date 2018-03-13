@@ -47,7 +47,7 @@
 					<p class="col-6 marginLeftZero">
 						<small>
 							<span class="{if empty($REASON_TO_EDIT)}d-none{/if} marginLeftZero editReason">
-								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
+								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span>
 							</span>
 						</small>
 					</p>

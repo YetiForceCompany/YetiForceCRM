@@ -1109,7 +1109,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerHelpInfo: function () {
 		var form = this.getForm();
-		app.showPopoverElementView(form.find('.HelpInfoPopover'));
+		app.showPopoverElementView(form.find('.js-help-info'));
 	},
 	registerBlockAnimationEvent: function () {
 		var thisInstance = this;

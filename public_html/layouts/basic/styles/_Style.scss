@@ -483,106 +483,7 @@ li.ui-timepicker-selected {
 		}
 	}
 }
-.summaryView {
-	border: 1px solid #eaeaea;
-	-webkit-box-shadow: 1px 1px 3px #dddddd;
-	-moz-box-shadow: 1px 1px 3px #dddddd;
-	box-shadow: 1px 1px 3px #dddddd;
-	border-radius: 2px;
-	background: #ffffff;
-	margin-bottom: 10px;
-	padding: 25px 20px 5px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-	.summary-table tr.summaryViewEntries:last-child {
-		.fieldValue, .fieldLabel {
-			border-bottom: 1px solid #dddddd;
-		}
-	}
-	.summaryViewEntries {
-		.fieldLabel {
-			vertical-align: top;
-			padding: 5px 0 5px 5%;
-			border-top: 1px solid #dddddd;
-			border-right: 1px solid #dddddd;
-			width: 35%;
-		}
-		.fieldValue {
-			vertical-align: top;
-			padding: 5px 0 5px 5px;
-			/*ie fix from 5px 0 5px 5%*/
-			border-top: 1px solid #dddddd;
-			width: 65%;
-		}
-		&:hover .summaryViewEdit {
-			opacity: 1;
-			/*for IE*/
-			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-			filter: alpha(opacity = 100);
-		}
-		.summaryViewEdit {
-			opacity: 0;
-			/*for IE*/
-			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-			filter: alpha(opacity = 0);
-		}
-	}
-	.toggleViewByMode {
-		margin: 8px 0;
-		padding-right: 0px;
-		.changeDetailViewMode {
-			white-space: normal !important;
-		}
-	}
-}
-.summaryWidgetContainer {
-	border-radius: 2px;
-	-webkit-box-shadow: 1px 1px 3px #dddddd;
-	-moz-box-shadow: 1px 1px 3px #dddddd;
-	box-shadow: 1px 1px 3px #dddddd;
-	border: 1px solid #eaeaea;
-	background: #ffffff;
-	margin-bottom: 10px;
-	padding: 15px;
-}
-.commentContainer .commentTitle {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-	margin-bottom: 10px;
-	textarea {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		word-wrap: break-word;
-	}
-}
-.recordDetails .squeezedWell {
-	padding: 3% 0%;
-	min-height: 105px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-}
-.recordEditView {
-	.contentHeader {
-		padding: 5px 0;
-	}
-	.table {
-		.fieldLabel, .fieldValue {
-			vertical-align: middle;
-		}
-		tbody tr:hover {
-			td, th {
-				background: #f7f7f9;
-			}
-		}
-	}
-}
+
 .commentContainer {
 	border-radius: 2px;
 	hr {
@@ -817,13 +718,13 @@ td.fieldValue {
 	filter: alpha(opacity = 100);
 }
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
-.summaryViewEntries .summaryViewEdit, .activityDescription .editDescription {
+.summaryViewEntries .js-detail-quick-edit, .activityDescription .editDescription {
 	opacity: 0;
 	/*for IE*/
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity = 0);
 }
-.summaryViewEntries:hover .fieldValue .summaryViewEdit, .activityDescription:hover .editDescription, .listViewEntriesTable tr:hover td .actions .actionImages {
+.summaryViewEntries:hover .fieldValue .js-detail-quick-edit, .activityDescription:hover .editDescription, .listViewEntriesTable tr:hover td .actions .actionImages {
 	opacity: 1;
 	/*for IE*/
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -1929,18 +1830,6 @@ textarea {
 	word-wrap: break-word;
 	width: 100%;
 }
-table.summary-table {
-	table-layout: fixed;
-	.summaryViewEdit {
-		padding-left: 0;
-	}
-}
-.textOverflowEllipsis {
-	overflow: hidden;
-	padding-bottom: 2px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
 .boxSizingBorderBox {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -2131,7 +2020,7 @@ table.dataTable .form-control {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-.detailViewTable .fieldValue:hover .summaryViewEdit {
+.detailViewTable .fieldValue:hover .js-detail-quick-edit {
 	display: inherit;
 }
 .icon-in-history-widget {
@@ -2974,7 +2863,7 @@ html, body, .baseContainer {
 	.selectSearch {
 		display: block;
 	}
-	.detailViewTable .fieldValue .summaryViewEdit {
+	.detailViewTable .fieldValue .js-detail-quick-edit {
 		display: none;
 	}
 }
@@ -3581,7 +3470,7 @@ html, body, .baseContainer {
 	background: $light;
 	padding-bottom: 8px;
 }
-.fieldLabel .HelpInfoPopover {
+.fieldLabel .js-help-info {
 	margin-left: 2px;
 }
 .jstree-node {
@@ -4125,9 +4014,6 @@ select.form-control {
 .multiImageContenDiv {
 	z-index: 1000;
 	margin-right: 5px;
-}
-.textOverflowEllipsis:hover {
-	overflow: initial;
 }
 .input-group-sm .input-group-addon.checkbox-addon {
 	padding: 4px 7px !important;
