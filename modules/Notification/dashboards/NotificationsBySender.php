@@ -42,32 +42,44 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
-		$listView = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = new \App\Db\Query();
-		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smcreatorid'])
+		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'vtiger_crmentity.smcreatorid'])
 			->from('vtiger_crmentity')
 			->where([
 				'and',
-				['setype' => $moduleName],
-				['deleted' => 0],
-				['smcreatorid' => array_keys($accessibleUsers)],
-				['>=', 'createdtime', $time[0] . ' 00:00:00'],
-				['<=', 'createdtime', $time[0] . ' 23:59:59'],
+				['vtiger_crmentity.setype' => $moduleName],
+				['vtiger_crmentity.deleted' => 0],
+				['vtiger_crmentity.smcreatorid' => array_keys($accessibleUsers)],
+				['>=', 'vtiger_crmentity.createdtime', $time[0] . ' 00:00:00'],
+				['<=', 'vtiger_crmentity.createdtime', $time[1] . ' 23:59:59'],
 		]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
-		$query->groupBy(['smcreatorid']);
+		$query->groupBy(['vtiger_crmentity.smcreatorid']);
 		$dataReader = $query->createCommand()->query();
-		$data = [];
 		$time = \App\Fields\Date::formatRangeToDisplay($time);
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		while ($row = $dataReader->read()) {
-			$data[] = [
-				$row['count'],
-				$accessibleUsers[$row['smcreatorid']],
-				$listView . $this->getSearchParams($accessibleUsers[$row['smcreatorid']], $time),
-			];
+			$label = $accessibleUsers[$row['smcreatorid']];
+			$chartData['labels'][] = vtlib\Functions::getInitials($label);
+			$chartData['datasets'][0]['titlesFormatted'][] = $label;
+			$chartData['datasets'][0]['data'][] = $row['count'];
+			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['smcreatorid'], $time);
+			$chartData['datasets'][0]['backgroundColor'][] = App\Fields\Owner::getColor($row['smcreatorid']);
 		}
+		$chartData['show_chart'] = (bool) $dataReader->count();
 		$dataReader->close();
-		return $data;
+		return $chartData;
 	}
 
 	public function process(\App\Request $request)

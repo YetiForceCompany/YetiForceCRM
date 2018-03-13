@@ -1992,8 +1992,8 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 		}
 	}
 });
-Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
