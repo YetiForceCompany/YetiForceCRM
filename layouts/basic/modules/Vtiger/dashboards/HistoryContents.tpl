@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div style='padding:5px;'>
+	<div class="p-1">
 		{if $HISTORIES neq false}
 			{foreach key=$index item=HISTORY from=$HISTORIES}
 				{assign var=MODELNAME value=get_class($HISTORY)}
@@ -79,7 +79,7 @@
 									{assign var=RELATION value=$HISTORY->getRelationInstance()}
 									{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getLinkedRecord()->getDetailViewUrl()}
 									{assign var=PARENT_DETAIL_URL value=$RELATION->getParent()->getParent()->getDetailViewUrl()}
-									<div class='' style='margin-top:5px'>
+									<div class="mt-1">
 										<strong>{$USER->getName()}&nbsp;</strong>
 										{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}&nbsp;
 										{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
@@ -102,7 +102,7 @@
 									</a>
 								</div>
 							{else}
-								<div style='margin-top:5px'>
+								<div class="mt-1">
 									<strong>{$USER->getName()}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
 									<a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 										&nbsp;{$PARENT->getName()}
