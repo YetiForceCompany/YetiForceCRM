@@ -29,11 +29,11 @@
 						{/if}
 					{/if}
 					{if $PROCEED}
-						<div class="row">
-							<div class='col-md-1 pl-1'>
+						<div class="d-flex">
+							<div class="">
 								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
-							<div class="col-md-11 pl-0">
+							<div class="w-100 ml-1">
 								<p class="ml-1 float-right muted">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
