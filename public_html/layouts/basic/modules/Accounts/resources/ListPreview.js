@@ -9,14 +9,13 @@ Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 			var thisInstance = this;
 			var hierarchyButton = $(thisInstance).contents().find(".detailViewTitle .hierarchy");
 			if (hierarchyButton) {
-				var params = {
+				AppConnector.request({
 					module: app.getModuleName(),
 					action: 'RelationAjax',
 					record: app.getRecordId(),
 					record: $(this).contents().find("#recordId").val(),
 					mode: 'getHierarchyCount',
-				};
-				AppConnector.request(params).then(function (response) {
+				}).then(function (response) {
 					if (response.success) {
 						$(thisInstance).contents().find(".detailViewTitle .hierarchy .badge").html(response.result);
 					}
