@@ -30,10 +30,10 @@
 					{/if}
 					{if $PROCEED}
 						<div class="row">
-							<div class='col-md-1'>
+							<div class='col-md-1 pl-1'>
 								<span class="userIcon-{$MOD_NAME}" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
-							<div class="col-md-11">
+							<div class="col-md-11 pl-0">
 								<p class="float-right muted">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
