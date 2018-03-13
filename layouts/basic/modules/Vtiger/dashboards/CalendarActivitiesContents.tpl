@@ -60,11 +60,11 @@
 						{if $ACTIVITY->get('location') neq '' }
 							<div>
 								<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
-									<span class="icon-map-marker"></span>&nbsp
+									<span class="fas fa-globe"></span>
 								</a>
 							</div>
 						{/if}
-						<div class="">
+						<div class="ml-1">
 							<small>
 								{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
 							</small>
