@@ -31,7 +31,7 @@
 					{if $PROCEED}
 						<div class="row">
 							<div class='col-md-1 pl-1'>
-								<span class="userIcon-{$MOD_NAME}" title="{$TRANSLATED_MODULE_NAME}"></span>
+								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
 							<div class="col-md-11 pl-0">
 								<p class="ml-1 float-right muted">
