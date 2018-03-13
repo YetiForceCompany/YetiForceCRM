@@ -34,7 +34,7 @@ class Install_InitSchema_Model
 		require_once 'include/fields/DateTimeRange.php';
 		require_once 'include/fields/CurrencyField.php';
 		require_once 'include/CRMEntity.php';
-		include_once 'modules/Vtiger/CRMEntity.php';
+		require_once 'modules/Vtiger/CRMEntity.php';
 		require_once 'include/runtime/Cache.php';
 		require_once 'modules/Vtiger/helpers/Util.php';
 		require_once 'modules/PickList/DependentPickListUtils.php';
