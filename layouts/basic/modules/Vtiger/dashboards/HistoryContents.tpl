@@ -126,11 +126,7 @@
 					{/if}
 						{/foreach}
 							{if $NEXTPAGE}
-								<div class="row">
-									<div class="col-md-12">
-										<button class="load-more badge badge-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
-									</div>
-								</div>
+								<button class="load-more badge badge-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
 							{/if}
 							{else}
 								<span class="noDataMsg">
