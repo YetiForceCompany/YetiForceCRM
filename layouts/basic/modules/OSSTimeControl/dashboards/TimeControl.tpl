@@ -1,71 +1,35 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{}, {
-		applyDefaultOptions: function (data, options = {}){
-			if (typeof options.maintainAspectRatio === 'undefined') {
-				options.maintainAspectRatio = false;
-			}
-			if (typeof options.title === 'undefined') {
-				options.title = {};
-			}
-			if (typeof options.title.display === 'undefined') {
-				options.title.display = false;
-			}
-			if (typeof options.legend === 'undefined') {
-				options.legend = {};
-			}
-			if (typeof options.legend.display === 'undefined') {
-				options.legend.display = false;
-			}
-			if (typeof options.events === 'undefined') {
-				options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-			}
-			if(typeof options.scales==='undefined'){
-				options.scales={};
-			}
-			if(typeof options.scales.yAxes==='undefined'){
-				options.scales.yAxes=[{}];
-			}
-			options.scales.yAxes.forEach((axis)=>{
-				if(typeof axis.stacked==='undefined'){
-					axis.stacked=true;
-				}
-				if(typeof axis.ticks==='undefined'){
-					axis.ticks={};
-				}
-				if(typeof axis.ticks.callback==='undefined'){
-					axis.ticks.callback = function formatYAxisTick(value, index, values){
-						return app.formatToHourText(value,'short',false,false);
+		getOptions:function getOptions(){
+			return {
+				scales: {
+					yAxes: [{
+							stacked: true,
+							ticks:{
+								callback:function formatYAxisTick(value, index, values){
+									return app.formatToHourText(value,'short',false,false);
+								}
+							}
+						}],
+					xAxes: [{
+							stacked: true,
+							ticks:{
+								minRotation:0,
+							}
+						}]
+				},
+				tooltips: {
+					callbacks: {
+						label: function (tooltipItem, data) {
+							return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+						},
+						title: function (tooltipItems, data) {
+							return data.fullLabels[tooltipItems[0].index];
+						}
 					}
-				}
-			});
-			if(typeof options.scales.xAxes==='undefined'){
-				options.scales.xAxes=[{}];
-			}
-			options.scales.xAxes.forEach((axis)=>{
-				if(typeof axis.stacked==='undefined'){
-					axis.stacked=true;
-				}
-			});
-			if(typeof options.tooltips==='undefined'){
-				options.tooltips={};
-			}
-			if(typeof options.tooltips.callbacks==='undefined'){
-				options.tooltips.callbacks={};
-			}
-			if(typeof options.tooltips.callbacks.label==='undefined'){
-				options.tooltips.callbacks.label=function tooltipsLabelCallback(tooltipItem, data) {
-					return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-				};
-			}
-			if(typeof options.tooltips.callbacks.title==='undefined'){
-				options.tooltips.callbacks.title= function tooltipsTitleCallback(tooltipItems, data) {
-					return data.fullLabels[tooltipItems[0].index];
-				}
-			}
-			this.applyDefaultTooltipsConfig(data, options);
-			this.applyDefaultAxesLabelsConfig(options);
-			return options;
+				},
+			};
 		},
 	});
 </script>
