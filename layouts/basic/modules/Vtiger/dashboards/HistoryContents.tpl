@@ -30,7 +30,7 @@
 					{/if}
 					{if $PROCEED}
 						<div class="d-flex">
-							<div class="">
+							<div>
 								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
 							<div class="w-100 ml-1">
@@ -111,7 +111,7 @@
 				{else if $MODELNAME == 'ModComments_Record_Model'}
 					{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
 					<div class="d-flex">
-						<div class="">
+						<div>
 							<span class="fas fa-comments fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 						</div>
 						<div class="w-100 ml-1">
