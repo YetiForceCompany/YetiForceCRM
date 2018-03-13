@@ -31,7 +31,7 @@
 									<td><input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
+									<td class="text-right">{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
 									<td>
 										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
 											<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
@@ -42,23 +42,23 @@
 									</td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_STREET', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
+									<td class="text-right">{App\Language::translate('LBL_STREET', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
 									<td><input type="text" name="company_street" class="form-control" data-validation-engine="validate[required]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_CITY', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
+									<td class="text-right">{App\Language::translate('LBL_CITY', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
 									<td><input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_CODE', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
+									<td class="text-right">{App\Language::translate('LBL_CODE', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
 									<td><input type="text" name="company_code" class="form-control" data-validation-engine="validate[required]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_STATE', 'Settings:Companies')}</td>
+									<td class="text-right">{App\Language::translate('LBL_STATE', 'Settings:Companies')}</td>
 									<td><input type="text" name="company_state" class="form-control"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
+									<td class="text-right">{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
 									<td>
 										<select class="select2 form-control" name="company_country" data-validation-engine="validate[required]">
 											{foreach from=Install_Utils_Model::getCountryList() item=ITEM}
@@ -68,36 +68,34 @@
 									</td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_PHONE', 'Settings:Companies')}</td>
+									<td class="text-right">{App\Language::translate('LBL_PHONE', 'Settings:Companies')}</td>
 									<td><input type="text" name="company_phone" class="form-control" data-validation-engine="validate[custom[phone]]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}</td>
+									<td class="text-right">{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}</td>
 									<td><input type="text" name="company_website" class="form-control" data-validation-engine="validate[custom[url]]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_EMAIL', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
+									<td class="text-right">{App\Language::translate('LBL_EMAIL', 'Settings:Companies')}&nbsp;<span class="no">*</span></td>
 									<td><input type="text" name="company_email" class="form-control" data-validation-engine="validate[required,custom[email]]"></td>
 								</tr>
 								<tr>
-									<td>{App\Language::translate('LBL_VATID', 'Settings:Companies')}</td>
+									<td class="text-right">{App\Language::translate('LBL_VATID', 'Settings:Companies')}</td>
 									<td><input type="text" name="company_vatid" class="form-control"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-light" value="{\App\Language::translate('LBL_BACK','Install')}" onclick="window.history.back()">
-								<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step7">
-							</div>
+					<div class="form-buttom-nav fixed-bottom button-container p-1">
+						<div class="text-center">
+							<input type="button" class="btn btn-sm btn-danger" value="{\App\Language::translate('LBL_BACK','Install')}" onclick="window.history.back()">
+							<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step7">
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
-		<div id="progressIndicator" class="row main-container d-none">
+		<div id="progressIndicator" class="main-container d-none">
 			<div class="inner-container">
 				<div class="inner-container">
 					<div class="row">
