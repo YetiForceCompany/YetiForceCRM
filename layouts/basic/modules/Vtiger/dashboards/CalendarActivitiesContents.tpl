@@ -70,9 +70,7 @@
 							</small>
 						</div>
 					</div>
-					<div class="clearfix"></div>
 				</div>
-				<div class="clearfix"></div>
 			</div>
 		{foreachelse}
 			<span class="noDataMsg">
