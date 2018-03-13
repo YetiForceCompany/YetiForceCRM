@@ -1863,7 +1863,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerHelpInfo: function () {
 		var form = this.getForm();
-		app.showPopoverElementView(form.find('.HelpInfoPopover'));
+		app.showPopoverElementView(form.find('.js-help-info'));
 	},
 	registerRelatedModulesRecordCount: function (tabContainer) {
 		var thisInstance = this;

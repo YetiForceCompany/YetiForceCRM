@@ -5,13 +5,13 @@
 		<tbody>
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 				{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
-					<tr class="table__row--hover">
+					<tr class="c-table__row--hover">
 						<td class=" {$WIDTHTYPE}" >
 							<label class="font-weight-bold">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 								{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-									<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
+									<a href="#" class="js-help-info pl-1" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 									{/if}
 							</label>
 						</td>
@@ -33,7 +33,7 @@
 											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}' />
 										{/if}
 									</div>
-									<div class="table__action--hover js-detail-quick-edit col-2 cursorPointer" data-js="click">
+									<div class="c-table__action--hover js-detail-quick-edit col-2 cursorPointer" data-js="click">
 										<div class="float-right">
 											<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 										</div>

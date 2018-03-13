@@ -117,15 +117,15 @@
 		@extend .mb-0;
 	} 
 }
-.table {
+.c-table {
 	&__row--hover {
-		.table__action--hover {
+		.c-table__action--hover {
 			opacity: 0;
 			/*for IE*/
 			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 			filter: alpha(opacity = 0);
 		}
-		&:hover .table__action--hover {
+		&:hover .c-table__action--hover {
 			opacity: 1;
 			/*for IE*/
 			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";

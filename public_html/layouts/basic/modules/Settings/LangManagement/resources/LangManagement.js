@@ -115,7 +115,7 @@ var Settings_Index_Js = {
 	},
 	registerHelpInfo: function () {
 		var form = jQuery('.LangManagement');
-		form.find('.HelpInfoPopover').popover({trigger: 'hover', html: 'true', })
+		form.find('.js-help-info').popover({trigger: 'hover', html: 'true', })
 	},
 	/**
 	 * Function to register event for ckeditor
@@ -143,11 +143,11 @@ var Settings_Index_Js = {
 				textarea.val(target);
 				if (target) {
 					Settings_Index_Js.changeTranslation(textarea, '#editHelpIcon');
-					element.find('.HelpInfoPopover').attr('data-content', target);
+					element.find('.js-help-info').attr('data-content', target);
 				} else {
 					Settings_Index_Js.deleteTranslation(textarea, '#editHelpIcon');
 					textarea.addClass('empty_value');
-					element.find('.HelpInfoPopover').attr('data-content', '');
+					element.find('.js-help-info').attr('data-content', '');
 				}
 			}
 			ckeditor.destroy();

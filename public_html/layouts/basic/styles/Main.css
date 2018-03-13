@@ -9886,7 +9886,7 @@ html, body, .baseContainer {
   background: #f8f9fa;
   padding-bottom: 8px; }
 
-.fieldLabel .HelpInfoPopover {
+.fieldLabel .js-help-info {
   margin-left: 2px; }
 
 .jstree-node .jstree-category, .jstree-node .jstree-edit {
@@ -11127,12 +11127,12 @@ header .headerLinksMails .select2-selection:hover {
 .c-detail-widget__header {
   background: inherit; }
 
-.table__row--hover .table__action--hover {
+.c-table__row--hover .c-table__action--hover {
   opacity: 0;
   /*for IE*/
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0); }
-.table__row--hover:hover .table__action--hover {
+.c-table__row--hover:hover .c-table__action--hover {
   opacity: 1;
   /*for IE*/
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
