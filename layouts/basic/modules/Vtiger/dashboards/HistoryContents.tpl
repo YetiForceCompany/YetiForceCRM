@@ -112,7 +112,7 @@
 					{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
 					<div class="row">
 						<div class="col-md-1">
-							<img width='24px' src="{\App\Layout::getImagePath('ModComments.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
+							<span class="fas fa-comments fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 						</div>
 						<div class="col-md-11">
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
