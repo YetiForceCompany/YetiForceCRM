@@ -11,7 +11,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 {
 	public function process(\App\Request $request, $widget = null)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		// Initialize Widget to the right-state of information
@@ -20,7 +20,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		} else {
 			$widgetId = $request->getInteger('widgetid');
 		}
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUserId);
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$viewer->assign('WIDGET', $widget);
