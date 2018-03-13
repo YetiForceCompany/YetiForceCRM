@@ -719,13 +719,13 @@ td.fieldValue {
 	filter: alpha(opacity = 100);
 }
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
-.summaryViewEntries .js-edit-row, .activityDescription .editDescription {
+.summaryViewEntries .js-detail-quick-edit, .activityDescription .editDescription {
 	opacity: 0;
 	/*for IE*/
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity = 0);
 }
-.summaryViewEntries:hover .fieldValue .js-edit-row, .activityDescription:hover .editDescription, .listViewEntriesTable tr:hover td .actions .actionImages {
+.summaryViewEntries:hover .fieldValue .js-detail-quick-edit, .activityDescription:hover .editDescription, .listViewEntriesTable tr:hover td .actions .actionImages {
 	opacity: 1;
 	/*for IE*/
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -2021,7 +2021,7 @@ table.dataTable .form-control {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-.detailViewTable .fieldValue:hover .js-edit-row {
+.detailViewTable .fieldValue:hover .js-detail-quick-edit {
 	display: inherit;
 }
 .icon-in-history-widget {
@@ -2864,7 +2864,7 @@ html, body, .baseContainer {
 	.selectSearch {
 		display: block;
 	}
-	.detailViewTable .fieldValue .js-edit-row {
+	.detailViewTable .fieldValue .js-detail-quick-edit {
 		display: none;
 	}
 }

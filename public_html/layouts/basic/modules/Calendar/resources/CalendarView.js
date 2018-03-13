@@ -162,7 +162,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
-				var link = new URL($(this).context.href);
+				var link = new URL($(this)[0].href);
 				var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
 				var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get("record");
 				var callbackFunction = function (data) {

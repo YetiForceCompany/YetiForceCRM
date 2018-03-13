@@ -33,7 +33,7 @@
 											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}' />
 										{/if}
 									</div>
-									<div class="table__action--hover js-edit-row col-2 cursorPointer" data-js="click">
+									<div class="table__action--hover js-detail-quick-edit col-2 cursorPointer" data-js="click">
 										<div class="float-right">
 											<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 										</div>

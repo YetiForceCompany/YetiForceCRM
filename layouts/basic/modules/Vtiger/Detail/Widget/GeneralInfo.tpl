@@ -6,6 +6,6 @@
 	<hr />
 	</div>
 	
-		{include file=\App\Layout::getTemplatePath('Detail/Widget/GeneralInfoTable.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/Widget/GeneralInfoContent.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

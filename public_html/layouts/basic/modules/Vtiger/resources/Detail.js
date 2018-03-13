@@ -959,7 +959,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		readRecord.prop('disabled', true);
 		var detailViewValue = jQuery('.value', currentTdElement);
 		var editElement = jQuery('.edit', currentTdElement);
-		var actionElement = jQuery('.js-edit-row', currentTdElement);
+		var actionElement = jQuery('.js-detail-quick-edit', currentTdElement);
 		var fieldElement = jQuery('.fieldname', editElement);
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
@@ -1076,7 +1076,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
 						if (thisInstance.targetPicklistChange) {
 							if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
-								thisInstance.targetPicklist.find('.js-edit-row').trigger('click');
+								thisInstance.targetPicklist.find('.js-detail-quick-edit').trigger('click');
 							} else {
 								thisInstance.targetPicklist.trigger('click');
 							}
@@ -1426,7 +1426,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Function to handle the ajax edit for summary view fields
 		 */
 		var formElement = thisInstance.getForm();
-		summaryViewContainer.off('click').on('click', '.row .js-edit-row', function (e) {
+		summaryViewContainer.off('click').on('click', '.row .js-detail-quick-edit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('d-none');
 			var currentTdElement = currentTarget.closest('.fieldValue');
