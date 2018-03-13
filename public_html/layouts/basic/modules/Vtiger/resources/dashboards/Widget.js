@@ -1875,7 +1875,7 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.find('.rowAction').on('click', function (e) {
-			if (jQuery(e.target).is('a') || thisInstance.modalView) {
+			if ($(e.target).closest('[href]').length || thisInstance.modalView) {
 				return;
 			}
 			var url = jQuery(this).data('url');
@@ -1972,8 +1972,8 @@ YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
