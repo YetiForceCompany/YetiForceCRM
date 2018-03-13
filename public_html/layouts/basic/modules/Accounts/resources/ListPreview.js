@@ -6,18 +6,18 @@ Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 	registerHierarchyRecordCount: function () {
 		const iframe = $(".listPreviewframe");
 		iframe.on('load', function () {
-			var thisInstance = this;
-			var hierarchyButton = $(thisInstance).contents().find(".detailViewTitle .hierarchy");
+			var contents = $(thisInstance).contents();
+			var hierarchyButton = contents.find(".detailViewTitle .hierarchy");
 			if (hierarchyButton) {
 				AppConnector.request({
 					module: app.getModuleName(),
 					action: 'RelationAjax',
 					record: app.getRecordId(),
-					record: $(this).contents().find("#recordId").val(),
+					record: contents.find("#recordId").val(),
 					mode: 'getHierarchyCount',
 				}).then(function (response) {
 					if (response.success) {
-						$(thisInstance).contents().find(".detailViewTitle .hierarchy .badge").html(response.result);
+						contents.find(".detailViewTitle .hierarchy .badge").html(response.result);
 					}
 				});
 			}
