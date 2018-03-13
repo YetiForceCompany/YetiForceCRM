@@ -959,7 +959,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		readRecord.prop('disabled', true);
 		var detailViewValue = jQuery('.value', currentTdElement);
 		var editElement = jQuery('.edit', currentTdElement);
-		var actionElement = jQuery('.summaryViewEdit', currentTdElement);
+		var actionElement = jQuery('.js-general-info-edit', currentTdElement);
 		var fieldElement = jQuery('.fieldname', editElement);
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
@@ -1076,7 +1076,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
 						if (thisInstance.targetPicklistChange) {
 							if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
-								thisInstance.targetPicklist.find('.summaryViewEdit').trigger('click');
+								thisInstance.targetPicklist.find('.js-general-info-edit').trigger('click');
 							} else {
 								thisInstance.targetPicklist.trigger('click');
 							}
@@ -1426,7 +1426,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Function to handle the ajax edit for summary view fields
 		 */
 		var formElement = thisInstance.getForm();
-		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
+		summaryViewContainer.off('click').on('click', '.row .js-general-info-edit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('d-none');
 			var currentTdElement = currentTarget.closest('.fieldValue');
@@ -1436,8 +1436,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Function to handle actions after ajax save in summary view
 		 */
 		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function (e, params) {
-			window.console.log('general');
-			;
 			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 			if (updatesWidget.length) {
 				var params = thisInstance.getFiltersData(updatesWidget);

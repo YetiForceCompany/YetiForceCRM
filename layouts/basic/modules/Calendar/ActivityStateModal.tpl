@@ -28,10 +28,10 @@
 								{/if}
 							{/if}
 							{if $RECORD->isEditable()}
-								<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light btn-sm"><span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
+								<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light btn-sm"><span class="fas fa-edit js-general-info-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 								{/if}
 								{if $RECORD->isViewable()}
-								<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light btn-sm"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span></a>
+								<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light btn-sm"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list js-general-info-edit"></span></a>
 								{/if}
 								{*<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>*}
 						</div>
