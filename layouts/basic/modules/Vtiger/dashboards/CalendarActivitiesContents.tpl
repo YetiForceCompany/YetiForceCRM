@@ -19,35 +19,30 @@
 		{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
 			<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
 				<div class="rowActivities">
-					<div>
-						<div class="float-left marginLeft5 marginTop5">
+					<div class="d-flex mb-1">
+						<div class="">
 							{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 							{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
 							<i class="
-								{if $ACTIVITY_TYPE eq 'Task'}
-									far fa-check-square
-								{elseif $ACTIVITY_TYPE eq 'Call'}
-									fas fa-phone
-								{else}
-									fas fa-user
-								{/if}
-							"></i>
+							   {if $ACTIVITY_TYPE eq 'Task'}
+								   far fa-check-square
+							   {elseif $ACTIVITY_TYPE eq 'Call'}
+								   fas fa-phone
+							   {else}
+								   fas fa-user
+							   {/if}
+							   {' '}fa-lg fa-fw"></i>
 						</div>
 						{assign var=START_DATE value=$ACTIVITY->get('date_start')}
 						{assign var=START_TIME value=$ACTIVITY->get('time_start')}
 
 						{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
 						{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
-						<p class="float-right muted paddingLR10 marginTop5">
-							<small>
-								{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
-							</small>
-						</p>
 						{assign var=LINK value=$ACTIVITY->get('link')}
 						{assign var=PROCESS value=$ACTIVITY->get('process')}
 						{assign var=SUBPROCESS value=$ACTIVITY->get('subprocess')}
 						{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}
-						<div class="activityContainer">
+						<div class="w-100 mx-1">
 							{$ACTIVITY->getDisplayName('subject')|truncate:$NAMELENGTH:'...'}				
 							{if $CONTRACTOR}
 								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
@@ -62,12 +57,19 @@
 								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
 							{/if}
 						</div>
+						{if $ACTIVITY->get('location') neq '' }
+							<div>
+								<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
+									<span class="icon-map-marker"></span>&nbsp
+								</a>
+							</div>
+						{/if}
+						<div class="">
+							<small>
+								{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
+							</small>
+						</div>
 					</div>
-					{if $ACTIVITY->get('location') neq '' }
-						<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
-							<span class="icon-map-marker"></span>&nbsp
-						</a>
-					{/if}
 					<div class="clearfix"></div>
 				</div>
 				<div class="clearfix"></div>
