@@ -11,14 +11,14 @@
 -->*}
 {strip}
 	<!DOCTYPE html>
-	<html  lang="{$HTMLLANG}">
+	<html lang="{$HTMLLANG}">
 		<head>
 			<title>YetiForce</title>
 			<link REL="SHORTCUT ICON" HREF="../{\App\Layout::getImagePath('favicon.ico')}">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			{foreach key=index item=cssModel from=$STYLES}
-				<link rel="{$cssModel->getRel()}" href="../{$cssModel->getHref()}" />
+				<link rel="{$cssModel->getRel()}" href="../{$cssModel->getHref()}">
 			{/foreach}
 			{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 				<script type="{$jsModel->getType()}" src="../{$jsModel->getSrc()}"></script>
@@ -29,16 +29,16 @@
 					.noprint { display:none; }
 				}
 			</style>
-			<!--[if IE]>	
-			<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>	
-			<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>	
+			<!--[if IE]>
+			<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>
+			<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>
 			<![endif]-->
 			{* ends *}
 		</head>
 		<body data-language="{$LANGUAGE}">
 			<div id="js_strings" class="d-none noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
-			<input type="hidden" id="start_day" value="" />
-			<input type="hidden" id="row_type" value="" />
-			<input type="hidden" id="current_user_id" value="" />
-			<div id="page">
-			{/strip}
+			<input type="hidden" id="start_day" value="">
+			<input type="hidden" id="row_type" value="">
+			<input type="hidden" id="current_user_id" value="">
+			<div class="container" style="padding-bottom:54px;">
+{/strip}
