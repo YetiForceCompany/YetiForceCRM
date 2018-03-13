@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="p-1">
+	<div>
 		{if $HISTORIES neq false}
 			{foreach key=$index item=HISTORY from=$HISTORIES}
 				{assign var=MODELNAME value=get_class($HISTORY)}
