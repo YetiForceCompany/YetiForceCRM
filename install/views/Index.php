@@ -37,10 +37,34 @@ class Install_Index_View extends \App\Controller\View
 		if (!$request->getByType('lang', 1)) {
 			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
-			if ('pl' === $lang) {
-				$request->set('lang', 'pl_pl');
-			} else {
-				$request->set('lang', 'en_us');
+			switch ($lang) {
+				case 'pl':
+					$request->set('lang', 'pl_pl');
+					break;
+				case 'es':
+					$request->set('lang', 'es_es');
+					break;
+				case 'de':
+					$request->set('lang', 'de_de');
+					break;
+				case 'it':
+					$request->set('lang', 'it_it');
+					break;
+				case 'pt':
+					$request->set('lang', 'pt_br');
+					break;
+				case 'ru':
+					$request->set('lang', 'ru_ru');
+					break;
+				case 'tr':
+					$request->set('lang', 'tr_tr');
+					break;
+				case 'fr':
+					$request->set('lang', 'fr_fr');
+					break;
+				default:
+					$request->set('lang', 'en_us');
+					break;
 			}
 
 			return $request;
@@ -164,6 +188,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
 		$this->viewer->assign('DB_NAME', $defaultParameters['db_name']);
 		$this->viewer->assign('ADMIN_NAME', $defaultParameters['admin_name']);
+		$this->viewer->assign('ADMIN_FIRSTNAME', $defaultParameters['admin_firstname']);
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);

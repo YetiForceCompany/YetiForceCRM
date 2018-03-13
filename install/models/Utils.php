@@ -23,6 +23,7 @@ class Install_Utils_Model
 			'db_password' => '',
 			'db_name' => '',
 			'admin_name' => 'admin' . rand(100, 999),
+			'admin_firstname' => '',
 			'admin_lastname' => 'Administrator',
 			'admin_password' => '',
 			'admin_email' => '',
