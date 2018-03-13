@@ -10,23 +10,21 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<br />
-	<center>
-		<footer class="noprint">
-			<div class="vtFooter">
-				<p>
-					{\App\Language::translate('POWEREDBY')} {$YETIFORCE_VERSION} &nbsp;
-					&copy; 2004 - {date('Y')}&nbsp;&nbsp;
-					<a href="http://yetiforce.com" target="_blank" rel="noreferrer">yetiforce.com</a>
-					&nbsp;|&nbsp;
-					<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{\App\Language::translate('LBL_READ_LICENSE')}</a>
-				</p>
+					<br>
+					<footer class="noprint text-center">
+						<div class="vtFooter">
+							<p>
+								{\App\Language::translate('POWEREDBY')} {$YETIFORCE_VERSION} &nbsp;
+								&copy; 2004 - {date('Y')}&nbsp;&nbsp;
+								<a href="https://yetiforce.com" target="_blank" rel="noreferrer">yetiforce.com</a>
+								&nbsp;|&nbsp;
+								<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{\App\Language::translate('LBL_READ_LICENSE')}</a>
+							</p>
+						</div>
+					</footer>
+					{include file='JSResources.tpl'}
+				</div>
 			</div>
-		</footer>
-	</center>
-	{include file='JSResources.tpl'}
-</div>
-</div>
-</body>
-</html>
+		</body>
+	</html>
 {/strip}

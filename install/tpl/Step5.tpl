@@ -10,23 +10,27 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<form class="form-horizontal" name="step5" method="post" action="Install.php">
-		<input type="hidden" name="mode" value="step6" />
-		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
-		<input type="hidden" name="lang" value="{$LANG}" />
-		<div class="row main-container">
-			<div class="inner-container">
-				<h4>{\App\Language::translate('LBL_CONFIRM_CONFIGURATION_SETTINGS','Install')}</h4>
+	<div class="main-container">
+		<div class="inner-container">
+			<form class="" name="step5" method="post" action="Install.php">
+				<input type="hidden" name="mode" value="step6">
+				<input type="hidden" name="auth_key" value="{$AUTH_KEY}">
+				<input type="hidden" name="lang" value="{$LANG}">
+				<div class="row">
+					<div class="col-12 text-center">
+						<h2>{\App\Language::translate('LBL_CONFIRM_CONFIGURATION_SETTINGS', 'Install')}</h2>
+					</div>
+				</div>
 				<hr>
 				{if $DB_CONNECTION_INFO['flag'] neq true}
-					<div class="offset2 row" id="errorMessage">
-						<div class="col-md-12">
-							<div class="alert alert-danger">
-								{$DB_CONNECTION_INFO['error_msg']}<br />
-								{$DB_CONNECTION_INFO['error_msg_info']}
-							</div>
+				<div class="offset2 row" id="errorMessage">
+					<div class="col-md-12">
+						<div class="alert alert-danger">
+							{$DB_CONNECTION_INFO['error_msg']}<br>
+							{$DB_CONNECTION_INFO['error_msg_info']}
 						</div>
 					</div>
+				</div>
 				{/if}
 				<div class="offset2 ">
 					<table class="config-table input-table">
@@ -37,40 +41,24 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_DATABASE_TYPE','Install')}
-								</td>
-								<td>
-									{\App\Language::translate('MySQL','Install')}
-								</td>
+								<td>{\App\Language::translate('LBL_DATABASE_TYPE','Install')}</td>
+								<td>{\App\Language::translate('MySQL','Install')}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_HOST_NAME','Install')}
-								</td><td>
-									{$INFORMATION['db_hostname']}
-								</td>
+								<td>{\App\Language::translate('LBL_HOST_NAME','Install')}</td>
+								<td>{$INFORMATION['db_hostname']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_HOST_PORT','Install')}
-								</td><td>
-									{$INFORMATION['db_port']}
-								</td>
+								<td>{\App\Language::translate('LBL_HOST_PORT','Install')}</td>
+								<td>{$INFORMATION['db_port']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_DB_NAME','Install')}
-								</td><td>
-									{$INFORMATION['db_name']}
-								</td>
+								<td>{\App\Language::translate('LBL_DB_NAME','Install')}</td>
+								<td>{$INFORMATION['db_name']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_USERNAME','Install')}
-								</td><td>
-									{$INFORMATION['db_username']}
-								</td>
+								<td>{\App\Language::translate('LBL_USERNAME','Install')}</td>
+								<td>{$INFORMATION['db_username']}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -82,20 +70,12 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_URL','Install')}
-								</td>
-								<td>
-									<a href="#">{$SITE_URL}</a>
-								</td>
+								<td>{\App\Language::translate('LBL_URL','Install')}</td>
+								<td><a href="#">{$SITE_URL}</a></td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_CURRENCY','Install')}
-								</td>
-								<td>
-									{$INFORMATION['currency_name']}
-								</td>
+								<td>{\App\Language::translate('LBL_CURRENCY','Install')}</td>
+								<td>{$INFORMATION['currency_name']}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -107,66 +87,41 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>
-									{\App\Language::translate('First Name','Install')}
-								</td>
-								<td>
-									{$INFORMATION['firstname']}
-								</td>
+								<td>{\App\Language::translate('First Name','Install')}</td>
+								<td>{$INFORMATION['firstname']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('Last Name','Install')}
-								</td>
-								<td>
-									{$INFORMATION['lastname']}
-								</td>
+								<td>{\App\Language::translate('Last Name','Install')}</td>
+								<td>{$INFORMATION['lastname']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_USERNAME','Install')}
-								</td>
-								<td>
-									{$INFORMATION['user_name']}
-								</td>
+								<td>{\App\Language::translate('LBL_USERNAME','Install')}</td>
+								<td>{$INFORMATION['user_name']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_EMAIL','Install')}
-								</td><td>
-									{$INFORMATION['admin_email']}
-								</td>
+								<td>{\App\Language::translate('LBL_EMAIL','Install')}</td>
+								<td>{$INFORMATION['admin_email']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_TIME_ZONE','Install')}
-								</td>
-								<td>
-									{$INFORMATION['timezone']}
-								</td>
+								<td>{\App\Language::translate('LBL_TIME_ZONE','Install')}</td>
+								<td>{$INFORMATION['timezone']}</td>
 							</tr>
 							<tr>
-								<td>
-									{\App\Language::translate('LBL_DATE_FORMAT','Install')}
-								</td>
-								<td>
-									{$INFORMATION['dateformat']}
-								</td>
+								<td>{\App\Language::translate('LBL_DATE_FORMAT','Install')}</td>
+								<td>{$INFORMATION['dateformat']}</td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-light" value="{\App\Language::translate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled"{else} onclick="window.history.back()"{/if} />
-								{if $DB_CONNECTION_INFO['flag'] eq true}
-									<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step6"/>
-								{/if}
-							</div>
+					<div class="form-buttom-nav fixed-bottom button-container p-1">
+						<div class="text-center">
+							<input type="button" class="btn btn-sm btn-danger" value="{\App\Language::translate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled"{else} onclick="window.history.back()"{/if}>
+							{if $DB_CONNECTION_INFO['flag'] eq true}
+							<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step6">
+							{/if}
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
-	</form>
+	</div>
 {/strip}
