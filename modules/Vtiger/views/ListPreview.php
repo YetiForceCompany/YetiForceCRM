@@ -45,7 +45,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	{
 		$moduleName = $request->getModule();
 		$scripts = parent::getFooterScripts($request);
-		unset($scripts['modules.Vtiger.resources.ListPreview']);
+		unset($scripts['modules.Vtiger.resources.ListPreview'], $scripts["modules.$moduleName.resources.ListPreview"]);
 
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
 				'~libraries/split.js/split.js',
