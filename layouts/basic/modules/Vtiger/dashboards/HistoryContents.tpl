@@ -34,7 +34,7 @@
 								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
 							<div class="w-100 ml-1">
-								<p class="ml-1 float-right muted">
+								<p class="ml-1 float-right text-muted">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
 								{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
@@ -116,7 +116,7 @@
 						</div>
 						<div class="col-md-11">
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
-							<p class="float-right muted"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
+							<p class="float-right text-muted"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
 								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 							</div>
