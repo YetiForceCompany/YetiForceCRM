@@ -44,18 +44,18 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$moduleName = 'Notification';
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = new \App\Db\Query();
-		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'vtiger_crmentity.smownerid'])
+		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smownerid'])
 			->from('vtiger_crmentity')
 			->where([
 				'and',
-				['vtiger_crmentity.setype' => $moduleName],
-				['vtiger_crmentity.deleted' => 0],
-				['vtiger_crmentity.smcreatorid' => array_keys($accessibleUsers)],
-				['>=', 'vtiger_crmentity.createdtime', $time[0] . ' 00:00:00'],
-				['<=', 'vtiger_crmentity.createdtime', $time[1] . ' 23:59:59'],
+				['setype' => $moduleName],
+				['deleted' => 0],
+				['smcreatorid' => array_keys($accessibleUsers)],
+				['>=', 'createdtime', $time[0] . ' 00:00:00'],
+				['<=', 'createdtime', $time[1] . ' 23:59:59'],
 		]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
-		$query->groupBy(['vtiger_crmentity.smownerid']);
+		$query->groupBy(['smownerid']);
 		$dataReader = $query->createCommand()->query();
 		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		$chartData = [
