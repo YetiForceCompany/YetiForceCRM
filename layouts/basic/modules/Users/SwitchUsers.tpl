@@ -1,7 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<h5 class="modal-title">{\App\Language::translate('LBL_SWITCH_USER', $MODULE_NAME)}</h5>
+		<h5 class="modal-title">
+			<span class="fas fa-exchange-alt mr-1"></span>
+			{\App\Language::translate('LBL_SWITCH_USER', $MODULE_NAME)}
+		</h5>
 		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
 	</div>
 	<form name="switchUsersForm" action="index.php" method="post">
