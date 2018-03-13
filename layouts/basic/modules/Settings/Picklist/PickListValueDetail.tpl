@@ -19,7 +19,7 @@
 			<br />
 			<div class="tab-pane active" id="allValuesLayout">	
 				<div class="row">
-					<div class="col-md-5 marginLeftZero textOverflowEllipsis">
+					<div class="col-md-5 marginLeftZero u-text-ellipsis">
 						<table id="pickListValuesTable" class="table table-bordered" style="table-layout: fixed">
 							<thead>
 								<tr class="listViewHeaders"><th>{\App\Language::translate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}&nbsp;{\App\Language::translate('LBL_ITEMS',$QUALIFIED_MODULE)}</th></tr>
@@ -29,7 +29,7 @@
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 								<tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}">
-									<td class="textOverflowEllipsis"><img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" />&nbsp;&nbsp;{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</td>
+									<td class="u-text-ellipsis"><img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" />&nbsp;&nbsp;{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</td>
 								</tr>
 							{/foreach}
 							</tbody>

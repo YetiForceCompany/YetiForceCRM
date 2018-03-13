@@ -34,7 +34,7 @@
 				<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}
 					{if $ITEM eq 'limit'}
 						{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
-						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{\App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {\App\Language::translate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
+						<a href="#" class="js-help-info" data-placement="top" data-content="{\App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {\App\Language::translate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>
 						</a>
 					{/if}:</label>

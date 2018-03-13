@@ -5,7 +5,7 @@
 			<div class="widget_header">
 				<div class="row">
 					<div class="col-9 col-md-5 col-sm-6">
-						<div class="widgetTitle textOverflowEllipsis">
+						<div class="widgetTitle u-text-ellipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
 								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							</h4>

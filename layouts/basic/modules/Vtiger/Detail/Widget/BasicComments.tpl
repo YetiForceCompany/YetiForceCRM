@@ -6,7 +6,7 @@
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="row">
 					<div class="col-xs-9 col-md-5 col-sm-6">
-						<div class="widgetTitle textOverflowEllipsis">
+						<div class="widgetTitle u-text-ellipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
 									{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}

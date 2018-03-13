@@ -79,7 +79,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$moduleName = \App\Module::getModuleName($module);
 
-		$dir = 'modules/Vtiger/widgets/';
+		$dir = 'modules/Vtiger/Detail/Widget/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {

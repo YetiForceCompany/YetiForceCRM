@@ -99,3 +99,126 @@
 		}
 	}
 }
+//--- Widgets ---
+.c-detail-widget {
+	@extend .card, .m-1;
+	&__header {
+		@extend .card-header;
+		@extend .py-0, .px-3, .border-bottom-0;
+		background: inherit;
+	}
+	&__content {
+		@extend .card-body, .px-3, .py-0;
+	}
+	&__table {
+		@extend .table, .mb-0;
+	}
+	p {
+		@extend .mb-0;
+	} 
+}
+.c-table {
+	&__row--hover {
+		.c-table__action--hover {
+			opacity: 0;
+			/*for IE*/
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+			filter: alpha(opacity = 0);
+		}
+		&:hover .c-table__action--hover {
+			opacity: 1;
+			/*for IE*/
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			filter: alpha(opacity = 100);
+		}
+	}
+}
+.summaryView {
+	border: 1px solid #eaeaea;
+	-webkit-box-shadow: 1px 1px 3px #dddddd;
+	-moz-box-shadow: 1px 1px 3px #dddddd;
+	box-shadow: 1px 1px 3px #dddddd;
+	border-radius: 2px;
+	background: #ffffff;
+	margin-bottom: 10px;
+	padding: 25px 20px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	.c-detail-widget__table tr.summaryViewEntries:last-child {
+		.fieldValue, .fieldLabel {
+			border-bottom: 1px solid #dddddd;
+		}
+	}
+	.summaryViewEntries {
+		.fieldLabel {
+			vertical-align: top;
+			padding: 5px 0 5px 5%;
+			border-top: 1px solid #dddddd;
+			border-right: 1px solid #dddddd;
+			width: 35%;
+		}
+		.fieldValue {
+			vertical-align: top;
+			padding: 5px 0 5px 5px;
+			/*ie fix from 5px 0 5px 5%*/
+			border-top: 1px solid #dddddd;
+			width: 65%;
+		}
+	}
+	.toggleViewByMode {
+		margin: 8px 0;
+		padding-right: 0px;
+		.changeDetailViewMode {
+			white-space: normal !important;
+		}
+	}
+}
+.summaryWidgetContainer {
+	border-radius: 2px;
+	-webkit-box-shadow: 1px 1px 3px #dddddd;
+	-moz-box-shadow: 1px 1px 3px #dddddd;
+	box-shadow: 1px 1px 3px #dddddd;
+	border: 1px solid #eaeaea;
+	background: #ffffff;
+	margin-bottom: 10px;
+	padding: 15px;
+}
+.commentContainer .commentTitle {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	margin-bottom: 10px;
+	textarea {
+		width: 100%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		word-wrap: break-word;
+	}
+}
+.recordDetails .squeezedWell {
+	padding: 3% 0%;
+	min-height: 105px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+}
+.recordEditView {
+	.contentHeader {
+		padding: 5px 0;
+	}
+	.table {
+		.fieldLabel, .fieldValue {
+			vertical-align: middle;
+		}
+		tbody tr:hover {
+			td, th {
+				background: #f7f7f9;
+			}
+		}
+	}
+}

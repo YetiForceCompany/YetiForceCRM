@@ -27,7 +27,7 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 		summaryParams['record'] = jQuery('#recordId').val();
 		AppConnector.request(summaryParams).then(
 				function (data) {
-					jQuery('.summaryView').html(data);
+					jQuery('.js-widget-general-info').html(data);
 				}
 		);
 	},

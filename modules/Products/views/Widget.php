@@ -28,6 +28,6 @@ class Products_Widget_View extends Vtiger_Index_View
 		$viewer->assign('RECORDID', $request->getInteger('record'));
 		$viewer->assign('SOURCE_MODULE', $fromModule);
 		$viewer->assign('RELATED_MODULE', $mod);
-		$viewer->view('widgets/ProductsServices.tpl', $moduleName);
+		$viewer->view('Detail/Widget/ProductsServices.tpl', $moduleName);
 	}
 }

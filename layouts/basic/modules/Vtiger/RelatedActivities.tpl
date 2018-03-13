@@ -39,7 +39,7 @@
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
+					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="u-text-ellipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
 					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
@@ -49,12 +49,12 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="fas fa-edit js-detail-quick-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list js-detail-quick-edit"></span>
 						</a>
 					{/if}
 				</div>

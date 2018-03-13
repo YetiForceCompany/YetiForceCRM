@@ -41,7 +41,7 @@
 						<form class="form-horizontal recordEditView" id="EditView" name="edit_pass_key" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings&parent=Settings">                
 							<input type="hidden" name="encrypt" value="edit" />
 							<div class="contentHeader row">
-								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('Change Password Key', $MODULENAME)}</span>
+								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Change Password Key', $MODULENAME)}</span>
 							</div>
 
 							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
@@ -84,7 +84,7 @@
 						<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">                
 							<input type="hidden" name="encrypt" value="stop" />
 							<div class="contentHeader row">
-								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('Cancel Encrypting Passwords', $MODULENAME)}</span>
+								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Cancel Encrypting Passwords', $MODULENAME)}</span>
 							</div>
 							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
@@ -116,7 +116,7 @@
 				<form class="form-horizontal recordEditView" id="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
 					<input type="hidden" name="encrypt" value="start" />
 					<div class="contentHeader row">
-						<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('Encrypt Passwords', $MODULENAME)}</span>
+						<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Encrypt Passwords', $MODULENAME)}</span>
 					</div>
 
 					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
@@ -150,7 +150,7 @@
 		<div class="editViewContainer tab-pane" id="confpass">
 			<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
 				<div class="contentHeader row">
-					<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</span>
+					<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
 
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">

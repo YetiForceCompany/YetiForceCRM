@@ -12,10 +12,10 @@
 					{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}
 					{foreach from=$USER_NAME_ARRAY item=NAME name=userNameIterator}
 						{if $smarty.foreach.userNameIterator.iteration <= 2}
-							<p class="noSpaces name textOverflowEllipsis">{$NAME}&nbsp;</p>
+							<p class="noSpaces name u-text-ellipsis">{$NAME}&nbsp;</p>
 						{/if}
 					{/foreach}
-					<p class="companyName noSpaces textOverflowEllipsis">{$COMPANY_DETAILS->get('name')}&nbsp;</p>
+					<p class="companyName noSpaces u-text-ellipsis">{$COMPANY_DETAILS->get('name')}&nbsp;</p>
 				</div>
 			</div>
 		</div>
