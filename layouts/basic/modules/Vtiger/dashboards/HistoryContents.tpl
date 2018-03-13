@@ -110,11 +110,11 @@
 				{/if}
 				{else if $MODELNAME == 'ModComments_Record_Model'}
 					{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
-					<div class="row">
-						<div class="col-md-1">
+					<div class="d-flex">
+						<div class="">
 							<span class="fas fa-comments fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 						</div>
-						<div class="col-md-11">
+						<div class="w-100 ml-1">
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
 							<p class="float-right text-muted"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
