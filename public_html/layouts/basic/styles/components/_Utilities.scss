@@ -1,0 +1,14 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.u-text-ellipsis {
+	overflow: hidden;
+	padding-bottom: 2px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	&:hover {
+		overflow: initial;
+	}
+}
+.u-cursor-pointer {
+	cursor: pointer;
+	text-decoration: none !important;
+}
