@@ -128,7 +128,7 @@
 							{if $NEXTPAGE}
 								<div class="row">
 									<div class="col-md-12">
-										<button class="load-more btn btn-sm btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
+										<button class="load-more badge badge-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
 									</div>
 								</div>
 							{/if}
