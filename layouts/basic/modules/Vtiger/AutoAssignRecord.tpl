@@ -6,10 +6,10 @@
 		</div>
 		<div class="float-right btn-group">
 			{if $RECORD->isEditable()}
-				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="fas fa-edit js-general-info-edit"></span></a>
+				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="fas fa-edit js-edit-row"></span></a>
 				{/if}
 				{if $RECORD->isViewable()}
-				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="fas fa-th-list js-general-info-edit"></span></a>
+				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="fas fa-th-list js-edit-row"></span></a>
 				{/if}
 		</div>
 		<div class="clearfix"></div>

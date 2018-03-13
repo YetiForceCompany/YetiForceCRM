@@ -89,7 +89,7 @@
 													{assign var=EDIT value=true}
 												{/if}
 												{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-													<span class="js-general-info-edit cursorPointer float-right ">
+													<span class="js-edit-row cursorPointer float-right ">
 														&nbsp;<i class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 													</span>
 													<span class="d-none edit">

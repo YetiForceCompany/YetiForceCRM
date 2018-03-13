@@ -117,6 +117,22 @@
 		@extend .mb-0;
 	} 
 }
+.table {
+	&__row--hover {
+		.table__action--hover {
+			opacity: 0;
+			/*for IE*/
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+			filter: alpha(opacity = 0);
+		}
+		&:hover .table__action--hover {
+			opacity: 1;
+			/*for IE*/
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			filter: alpha(opacity = 100);
+		}
+	}
+}
 .summaryView {
 	border: 1px solid #eaeaea;
 	-webkit-box-shadow: 1px 1px 3px #dddddd;
@@ -149,18 +165,6 @@
 			/*ie fix from 5px 0 5px 5%*/
 			border-top: 1px solid #dddddd;
 			width: 65%;
-		}
-		&:hover .js-general-info-edit {
-			opacity: 1;
-			/*for IE*/
-			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-			filter: alpha(opacity = 100);
-		}
-		.js-general-info-edit {
-			opacity: 0;
-			/*for IE*/
-			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-			filter: alpha(opacity = 0);
 		}
 	}
 	.toggleViewByMode {

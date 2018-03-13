@@ -49,12 +49,12 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="fas fa-edit js-general-info-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="fas fa-edit js-edit-row" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list js-general-info-edit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list js-edit-row"></span>
 						</a>
 					{/if}
 				</div>
