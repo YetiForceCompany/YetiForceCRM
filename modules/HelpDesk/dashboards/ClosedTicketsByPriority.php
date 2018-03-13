@@ -61,8 +61,8 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($time)) {
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_crmentity.closedtime', $time[0]],
-				['<=', 'vtiger_crmentity.closedtime', $time[1]],
+				['>=', 'vtiger_crmentity.closedtime', $time[0] . ' 00:00:00'],
+				['<=', 'vtiger_crmentity.closedtime', $time[1] . ' 23:59:59'],
 			]);
 		}
 		if (!empty($owner) && $owner != 'all') {
