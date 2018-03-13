@@ -34,13 +34,13 @@
 								<span class="userIcon-{$MOD_NAME}" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
 							<div class="col-md-11 pl-0">
-								<p class="float-right muted">
+								<p class="ml-1 float-right muted">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
 								{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
 								{if $HISTORY->isUpdate()}
 									{assign var=FIELDS value=$HISTORY->getFieldInstances()}
-									<div class="">
+									<div>
 										<div>
 											<strong>{$USER->getName()}&nbsp;</strong>
 											{\App\Language::translate('LBL_UPDATED','ModTracker')}&nbsp;
@@ -75,7 +75,7 @@
 									{assign var=RELATION value=$HISTORY->getRelationInstance()}
 									{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getLinkedRecord()->getDetailViewUrl()}
 									{assign var=PARENT_DETAIL_URL value=$RELATION->getParent()->getParent()->getDetailViewUrl()}
-									<div class="mt-1">
+									<div>
 										<strong>{$USER->getName()}&nbsp;</strong>
 										{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}&nbsp;
 										{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
@@ -98,7 +98,7 @@
 									</a>
 								</div>
 							{else}
-								<div class="mt-1">
+								<div>
 									<strong>{$USER->getName()}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
 									<a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 										&nbsp;{$PARENT->getName()}
