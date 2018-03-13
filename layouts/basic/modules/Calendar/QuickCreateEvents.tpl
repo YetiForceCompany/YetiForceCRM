@@ -1,19 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{foreach from=$DATES item=DATE name="iteration"}
-		<div class="grid1x7 px-0 small font-weight-bold" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
+		<div class="col float-left px-0 small font-weight-bold" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
 			<table class="table">
 				<tr>
 					{if $smarty.foreach.iteration.first}
-						<th class="p-1 d-none d-sm-none d-md-block">
+						<th class="p-1 d-none d-md-table-cell">
 							<button type="button" class="btn btn-sm btn-primary previousDayBtn"><</button>
 						</th>
 					{/if}
-					<th class="text-center taskPrevTwoDaysAgo">
+					<th class="text-center col-md-2 taskPrevTwoDaysAgo">
 						<span class="cursorPointer dateBtn" data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)})</span>
 					</th>
 					{if $smarty.foreach.iteration.last}
-						<th class="p-1 d-none d-sm-none d-md-block">
+						<th class="p-1 d-none d-md-table-cell">
 							<button type="button" class="btn btn-sm btn-primary nextDayBtn">></button>
 						</th>
 					{/if}
@@ -25,7 +25,7 @@
 								<div class="cut-string">
 									<span class="fas fa-calendar-alt"></span>
 									<span class="px-1"><strong>{$EVENT['hour_start']}</strong></span>
-									<span>{App\TextParser::textTruncate($EVENT['title'], 16)}</span>
+										<span>{App\TextParser::textTruncate($EVENT['title'], 16)}</span>
 									<span class="HelpInfoPopover" title="" data-placement="top" data-content="
 										  <div><label class='px-1'>{App\Language::translate('Start Time', $MODULE_NAME)}:</label>{$EVENT['start_display']}</div>
 										  <div><label class='px-1'>{App\Language::translate('End Time', $MODULE_NAME)}:</label>{$EVENT['end_display']}</div>
@@ -33,16 +33,16 @@
 										  <div><label class='px-1'>{App\Language::translate('LBL_STATE', $MODULE_NAME)}:</label>{$EVENT['labels']['state']}</div>
 										  <div><label class='px-1'>{App\Language::translate('LBL_STATUS', $MODULE_NAME)}:</label>{$EVENT['labels']['sta']}</div>
 										  <div><label class='px-1'>{App\Language::translate('Priority', $MODULE_NAME)}:</label>{$EVENT['labels']['pri']}</div>
-										  {if $EVENT['link'] neq 0}
+											{if $EVENT['link'] neq 0}
 											  <div><label class='px-1'>{App\Language::translate('FL_RELATION', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['linkl'])}</div>
-										  {/if}
-										  {if $EVENT['process'] neq 0}
+											{/if}
+											{if $EVENT['process'] neq 0}
 											  <div><label class='px-1'>{App\Language::translate('FL_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['procl'])}</div>
-										  {/if}
-										  {if $EVENT['subprocess'] neq 0}
+											{/if}
+											{if $EVENT['subprocess'] neq 0}
 											  <div><label class='px-1'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
-										  {/if}
-										  ">
+											{/if}
+										">
 										<i class="float-right fas fa-info-circle"></i>
 									</span>
 								</div>

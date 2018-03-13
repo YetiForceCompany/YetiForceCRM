@@ -19,27 +19,27 @@
             <div class="modal-content">
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
-						<div class="col-5 px-0">
-						<div class="float-left">
-							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
-						</div>
-						</div>
-						<div class="col-7 px-0">
-						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
-						<div class="quickCreateActions float-right pullRight">
-							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
-								&nbsp;&nbsp;
-							{/foreach}
-							{if $MODULE_NAME eq 'Calendar'}
-								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
-							{else}
-								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
-							{/if}
-							<button class="btn btn-light goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-							<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
-						</div>
+						<div class="w-100">
+							<div class="col-12 float-left px-0 mt-2">
+								<div class="modal-title col-12 col-sm-12 col-md-6 col-lg-3 float-left px-0 quickCreateTitle h3">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}</div><div class="font-weight-bold"> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</div>
+							</div>
+							{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
+							<div class="col-12 float-right px-0">
+								<div class="px-0 quickCreateActions float-right">
+									{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
+										&nbsp;&nbsp;
+									{/foreach}
+									{if $MODULE_NAME eq 'Calendar'}
+										{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
+									{else}
+										{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
+									{/if}
+									<button class="btn btn-light goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+									<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+									<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+								</div>
+							</div>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -58,7 +58,7 @@
 					{assign var="RAND_NUMBER" value=rand()}
 					<div class="modal-body m-0 tabbable">
 						<ul class="nav nav-pills">
-							 <li class="nav-item">
+							<li class="nav-item">
 								<a class="nav-link active show" href="javascript:void(0);" data-target=".EventsQuikcCreateContents_{$RAND_NUMBER}" data-toggle="tab" data-tab-name="Event">{\App\Language::translate('LBL_EVENT',$MODULE)}</a>
 							</li>
 							<li class="nav-item">
@@ -73,8 +73,8 @@
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
 									{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['moduleModel']}
 									<div class="quickCreateContent">
-										<div class="massEditTable px-1 mx-auto m-0">
-											<div class="col-12 px-0 mx-auto form-row">
+										<div class="massEditTable border-0 px-1 mx-auto m-0">
+											<div class="px-0 mx-auto form-row">
 												{assign var=COUNTER value=0}
 												{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 													{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -87,11 +87,11 @@
 													{else}
 														{assign var=COUNTER value=$COUNTER+1}
 													{/if}
-													<div class="col-12 col-md-6 py-2 form-row px-0 {$WIDTHTYPE}">
-														<div class="fieldLabel  col-12 col-sm-5">
+													<div class="col-12 col-sm-12 col-md-12 col-lg-6 py-2 form-row {$WIDTHTYPE}">
+														<div class="fieldLabel col-12 col-sm-12 col-md-3">
 															{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 															{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-															<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
+															<label class="muted small font-weight-bold text-right float-sm-left float-md-right float-lg-right">
 																{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 																{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 																	<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
@@ -99,7 +99,7 @@
 																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 															</label>
 														</div>
-														<div class="fieldValue col-12 col-sm-7">
+														<div class="fieldValue col-12 col-sm-12 col-md-9">
 															{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 														</div>
 													</div>
@@ -111,7 +111,7 @@
 											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
-											<div class="form-row d-flex px-0 mx-0 col-12 eventsTable"></div>
+											<div class="form-row px-0 mx-0 col-12 eventsTable"></div>
 										{/if}
 									</div>
 								</div>
