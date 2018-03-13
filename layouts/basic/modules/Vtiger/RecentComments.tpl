@@ -17,16 +17,18 @@
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="addCommentBlock">
 					<div class="input-group">
-						<span class="input-group-addon" >
-							<span class="fas fa-comments"></span>
-						</span>
+						<div class="input-group-prepend">
+							<span class="input-group-text">
+								<span class="fas fa-comments"></span>
+							</span>
+						</div>
 						<textarea name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
+						<div class="input-group-append">
+							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add">
+								<span class="fa fa-plus"></span> 
+							</button>
+						</div>
 					</div>
-					<button class="btn btn-success detailViewSaveComment  marginTop10 float-right" type="button" data-mode="add">
-						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
-					</button>
-					<div class="clearfix"></div>
 				</div>
 			{/if}
 		</div>
