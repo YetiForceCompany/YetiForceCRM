@@ -1823,7 +1823,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.find('.changeActivity').on('click', function (e) {
-			if (jQuery(e.target).is('a') || thisInstance.modalView) {
+			if ($(e.target).closest('[href]').length || thisInstance.modalView) {
 				return;
 			}
 			var url = jQuery(this).data('url');
