@@ -19,15 +19,15 @@
 		{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="card" data-label="{$BLOCK_LABEL_KEY}">
-					<div class="blockHeader card-header">
+				<div class="card mb-2" data-label="{$BLOCK_LABEL_KEY}">
+					<div class="blockHeader card-header px-0">
 						<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						<h4>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h4>
 					</div>
-					<div class="col-md-12 card-body blockContent py-0 px-3 {if $IS_HIDDEN}d-none{/if}">
+					<div class="col-md-12 card-body blockContent px-1 py-0 {if $IS_HIDDEN}d-none{/if}">
 						{assign var=COUNTER value=0}
-						<div class="row fieldRow">
+						<div class="form-row">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 								{if !$FIELD_MODEL->isViewableInDetailView()}
 									{continue}
@@ -36,15 +36,15 @@
 									{if $COUNTER neq 0}
 										{if $COUNTER eq 2}
 										</div>
-										<div class="row fieldRow">
+										<div class="px-0 form-row">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
-									<div class="col-md-6 fieldsLabelValue">
-										<div class="fieldLabel col-sm-5 {$WIDTHTYPE}">
-											<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
+									<div class="col-md-6 form-row pl-1">
+										<div class="fieldLabel col-sm-6 {$WIDTHTYPE}">
+											<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
 										</div>
-										<div class="fieldValue col-sm-7 {$WIDTHTYPE}">
+										<div class="fieldValue col-sm-6 {$WIDTHTYPE}">
 											<div id="imageContainer">
 												{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 													{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
@@ -63,24 +63,24 @@
 									{/if}
 									{if $COUNTER eq 2}
 									</div>
-									<div class="row fieldRow">
+									<div class="px-0 form-row px-0 py-0">
 										{assign var=COUNTER value=1}
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="col-md-6 fieldsLabelValue paddingLRZero">
-										<div class="row">
-											<div class="fieldLabel col-sm-5 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+									<div class="col-sm-6">
+										<div class="form-row">
+											<div class="fieldLabel border-left border-bottom col-sm-6 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 												{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-												<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
+												<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
 													{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 														<a href="#" class="js-help-info float-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 														{/if}
 												</label>
 											</div>
-											<div class="fieldValue col-sm-7 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
+											<div class="fieldValue  border-bottom border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
 												<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 												</span>
