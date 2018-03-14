@@ -666,7 +666,7 @@
         "Website: ": "Website: ",
         "Word of mouth": "Word of mouth",
         "WEBLOADTIME": "Page loading time",
-        "LBL_FOOTER_CONTENT": "Copyright &copy; YetiForce.com All rights reserved. %s<br \/> YetiForce was created thanks to %s called Vtiger CRM and other open source projects.",
+        "LBL_FOOTER_CONTENT": "YetiForce was created thanks to %s called Vtiger CRM and other open source projects.",
         "LBL_RELATED_ASSETS": "Products sold",
         "LBL_RELATED_OSSOS": "Services outsourced",
         "LBL_RELATED_OSSSS": "Services sold",
