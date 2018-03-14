@@ -156,12 +156,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getPlotContainer() === 'undefined') {
 			return false;
 		}
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
 					type: thisInstance.getType(),
 					data,
+					// each chart type should have default options as applyDefaultOptions method
+					// which adds default options only if not specified in instance(!)
 					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
 					plugins: thisInstance.getPlugins()
 				}
@@ -583,13 +585,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return eventData;
 	},
 	/**
-	 * Get default datalabels configuration - unified datalabels configuration for all chart types
+	 * Get datalabels configuration - unified datalabels configuration for all chart types - might be overrided
 	 *
 	 * @param {type} dataset
 	 * @param {type} type
-	 * @returns {WidgetAnonym$1.getDefaultDatalabelsConfig.WidgetAnonym$16}
+	 * @returns {object}
 	 */
-	getDefaultDatalabelsConfig: function getDefaultDatalabelsConfig(dataset, type = 'bar') {
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type = 'bar') {
 		let borderRadius = 2;
 		switch (type) {
 			case 'pie':
@@ -628,12 +630,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {string} chartType 'bar','pie' etc..
 	 * @returns {object} chartData
 	 */
-	applyDefaultDatalabelsConfig: function applyDefaultDatalabelsConfig(chartData, chartType) {
+	applyDatalabelsOptions: function applyDatalabelsOptions(chartData, chartType) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
 		chartData.datasets.forEach((dataset) => {
-			dataset.datalabels = this.getDefaultDatalabelsConfig(dataset, chartType);
+			dataset.datalabels = this.getDatalabelsOptions(dataset, chartType);
 		});
 		return chartData;
 	},
@@ -943,7 +945,7 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
 		thisInstance.chartInstance = new Chart(
 				thisInstance.getPlotContainer().getContext("2d"),
 				{
@@ -1156,7 +1158,7 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 		this.applyDefaultTooltipsConfig(data, options);
 		return options;
 	},
-	applyDefaultDatalabelsConfig: function (data, type) {
+	applyDatalabelsOptions: function (data, type) {
 		data.datasets.forEach((dataset) => {
 			dataset.datalabels = {display: false};
 		});
@@ -1919,7 +1921,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
 		};
 		const data = thisInstance.generateData();
-		thisInstance.applyDefaultDatalabelsConfig(data);
+		thisInstance.applyDatalabelsOptions(data);
 		thisInstance.applyDefaultAxesLabelsConfig(options);
 		data.datasets.forEach((dataset) => {
 			// https://chartjs-plugin-datalabels.netlify.com/options.html
