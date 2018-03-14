@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_COMMENTS_1' => 'Processus',
 	'LBL_COMMENTS_2' => 'Sous-processus',
 	'LBL_COMMENTS_SEARCH' => 'Chercher',
+	'LBL_ALL_RECORDS' => 'Related records',
 ];
 
 $jsLanguageStrings = [
