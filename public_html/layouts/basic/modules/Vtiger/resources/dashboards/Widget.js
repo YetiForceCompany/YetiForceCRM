@@ -636,8 +636,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		chartData.datasets.forEach((dataset) => {
-			// TODO: only if not specified!
-			dataset.datalabels = this.getDatalabelsOptions(dataset, chartType);
+			dataset.datalabels = this.mergeOptions(dataset.datalabels, this.getDatalabelsOptions(dataset, this.getType()));
 		});
 		return chartData;
 	},
@@ -736,6 +735,40 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	/**
+	 * Merge two objects with options and do not override existing properties
+	 * objects are not cloned in anyway - we are working on original object
+	 *
+	 * @param  {object} to
+	 * @param  {object} from
+	 * @return {object}
+	 */
+	mergeOptions: function mergeOptions(to={},from){
+		if (typeof from!=='object' && typeof to==='undefined') {
+			// if we are in recursive tree and from and to are primitives - just return from
+			return from;
+		}
+		for (let key in from) {
+        	if (from.hasOwnProperty(key)) {
+				if (typeof from[key]==='object' && !Array.isArray(from[key]) && from[key]!==null) {
+					// if property is an object - merge recursively
+					to[key] = this.mergeOptions(to[key],from[key]);
+				} else if(typeof from[key]==='object' && Array.isArray(from[key])) {
+					if (!to.hasOwnProperty(key)){
+						to[key]=[];
+					}
+					from[key].forEach((item,index)=>{
+						to[key][index]=this.mergeOptions(to[key][index],item);
+					});
+				} else {
+					if(!to.hasOwnProperty(key)){
+						to[key]=from[key];
+					}
+				}
+			}
+	    }
+		return to;
+	},
+	/**
 	 * Apply unified tooltips configuration
 	 *
 	 * @param {chartData} data - data from request
@@ -743,28 +776,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {object} options
 	 */
 	applyDefaultTooltipsOptions: function applyDefaultTooltipsOptions(data, options = {}) {
-		const defaultOptions = this.getTooltipsOptions(data);
-		if (typeof options.tooltips === 'undefined') {
-			options.tooltips = {};
-		}
-		if (typeof options.tooltips.callbacks === 'undefined') {
-			options.tooltips.callbacks = {};
-		}
-
 		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
 		this.formatTooltipLabels(data);// labels are now in dataset.dataFormatted
-
-		if (typeof options.tooltips.callbacks.label === 'undefined') {
-			options.tooltips.callbacks.label = defaultOptions.tooltips.callbacks.label;
-		}
-		if (typeof options.tooltips.callbacks.title === 'undefined') {
-			options.tooltips.callbacks.title = defaultOptions.tooltips.callbacks.title;
-		}
-		return options;
+		return options = this.mergeOptions(options,this.getTooltipsOptions(data));
 	},
 	/**
 	 * Placeholder for individual chart type options
-	 * If you want to customize default options this is the right place - override this
+	 * If you want to customize default options this is the right place - override this method in your class
 	 *
 	 * @returns {object} chart options
 	 */
@@ -783,7 +801,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Get chart type
-	 * We don't wan't to override loadChart method - it is good practice
+	 * We don't wan't to override loadChart method (good practice)
 	 * so we can extend some chart type and change its type only to show data in different manner
 	 *
 	 * @returns {String}
@@ -794,69 +812,47 @@ jQuery.Class('Vtiger_Widget_Js', {
 });
 Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	applyDefaultAxesLabelsConfig: function (options = {}) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			if (typeof axis.ticks.autoSkip === 'undefined') {
-				axis.ticks.autoSkip = false;
-			}
-			if (typeof axis.ticks.beginAtZero === 'undefined') {
-				axis.ticks.beginAtZero = true;
-			}
-			axis.ticks.maxRotation = 90;
-		});
-
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			if (typeof axis.ticks.callback === 'undefined') {
-				axis.ticks.callback = function defaultYTicksCallback(value, index, values) {
-					if (!isNaN(Number(value))) {
-						return app.parseNumberToShow(value);
+	getAxesLabelsConfig:function getAxesLabelsConfig(){
+		return {
+			scales: {
+				xAxes: [{
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						maxRotation: 90
 					}
-					return value;
-				}
+				}],
+				yAxes: [{
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						callback: function defaultYTicksCallback(value, index, values) {
+							if (!isNaN(Number(value))) {
+								return app.parseNumberToShow(value);
+							}
+							return value;
+						}
+					}
+				}]
 			}
-			if (typeof axis.ticks.autoSkip === 'undefined') {
-				axis.ticks.autoSkip = false;
+		};
+	},
+	applyDefaultAxesLabelsConfig: function (options = {}) {
+		return options = this.mergeOptions(options, this.getAxesLabelsConfig());
+	},
+	getDefaultChartOptions: function () {
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: false
 			}
-			if (typeof axis.ticks.beginAtZero === 'undefined') {
-				axis.ticks.beginAtZero = true;
-			}
-		});
-		return options;
+		};
 	},
 	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = false;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
+		this.mergeOptions(options,this.getDefaultChartOptions());
 		this.applyDefaultTooltipsOptions(data, options);
 		this.applyDefaultAxesLabelsConfig(options);
 		return options;
