@@ -32,10 +32,10 @@
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
 				<div class="row">
 					<span class="col-md-6">
-						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock fa-fw"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 					</span>
 					<span class="col-md-6 rightText">
-						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="far fa-clock fa-fw"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 					</span>
 				</div>
 				<div class="summaryViewEntries">
@@ -76,7 +76,7 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="fas fa-tags fa-fw"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span>
+										<span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
@@ -90,7 +90,7 @@
 							<input type="hidden" class="activityModule" value="Events" />
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="fas fa-tags fa-fw"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
+									<strong><span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check fa-fw"></span></span>
 										{/if}
@@ -101,7 +101,7 @@
 				</div>
 				<div class="activityDescription">
 					<div>
-						<span class="value"><span class="fas fa-align-justify fa-fw"></span>&nbsp;&nbsp;
+						<span class="value"><span class="fas fa-align-justify fa-fw mr-1"></span>
 							{if $RECORD->get('description') neq ''}
 								{$RECORD->getDisplayValue('description')|truncate:120:'...'}
 							{else}
