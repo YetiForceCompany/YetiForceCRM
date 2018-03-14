@@ -48,4 +48,32 @@ class Config
 	 * @var string
 	 */
 	public static $processName;
+
+	/**
+	 * Js configuratin.
+	 *
+	 * @var array
+	 */
+	private static $jsConf = [];
+
+	/**
+	 * Set js configuratin.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 */
+	public static function setJs($key, $value)
+	{
+		static::$jsConf[$key] = $value;
+	}
+
+	/**
+	 * Get all js configuratin in json.
+	 *
+	 * @return type
+	 */
+	public static function getJs()
+	{
+		return json_encode(static::$jsConf);
+	}
 }

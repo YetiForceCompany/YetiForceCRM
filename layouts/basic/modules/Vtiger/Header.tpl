@@ -34,6 +34,10 @@
 			{if $HEAD_LOCKS}
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
+			<script type="text/javascript">
+				var JsConfig = {\App\Config::getJs()};
+				var JsLang = {\App\Json::encode($LANGUAGE_STRINGS)};
+			</script>
 			{if \App\Debuger::isDebugBar()}
 				{\App\Debuger::getDebugBar()->getJavascriptRenderer(\App\Debuger::getJavascriptPath())->renderHead()}
 			{/if}
