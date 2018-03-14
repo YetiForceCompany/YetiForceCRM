@@ -114,3 +114,11 @@ header {
 		}
 	}
 }
+
+//--- autocomplete ---//
+.ui-autocomplete {
+	width: inherit !important;
+	a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
+		font-weight: inherit !important;
+	}
+}
