@@ -10,7 +10,7 @@
 jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
-	getInstance: function (container, widgetName, moduleName) {
+	getInstance: function getInstance(container, widgetName, moduleName) {
 		if (typeof moduleName == 'undefined') {
 			moduleName = app.getModuleName();
 		}
@@ -37,7 +37,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	chartInstance: false,
 	chartData: [],
 	paramCache: false,
-	init: function (container, reload, widgetClassName) {
+	init: function init(container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
 		if (!reload) {
@@ -45,24 +45,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
-	getOptions: function () {
-		return {};
-	},
-	getContainer: function () {
+
+	getContainer: function getContainer() {
 		return this.container;
 	},
-	setContainer: function (element) {
+	setContainer: function setContainer(element) {
 		this.container = element;
 		return this;
 	},
-	isEmptyData: function () {
+	isEmptyData: function isEmptyData() {
 		var container = this.getContainer();
 		return (container.find('.noDataMsg').length > 0) ? true : false;
 	},
-	getUserDateFormat: function () {
+	getUserDateFormat: function getUserDateFormat() {
 		return jQuery('#userDateFormat').val();
 	},
-	getPlotContainer: function (useCache) {
+	getPlotContainer: function getPlotContainer(useCache) {
 		if (typeof useCache == 'undefined') {
 			useCache = false;
 		}
@@ -72,7 +70,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return this.plotContainer;
 	},
-	registerRecordsCount: function () {
+	registerRecordsCount: function registerRecordsCount() {
 		var thisInstance = this;
 		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
 		recordsCountBtn.on('click', function () {
@@ -84,7 +82,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		});
 	},
-	loadScrollbar: function () {
+	loadScrollbar: function loadScrollbar() {
 		const container = this.getPlotContainer(false);
 		if (typeof container === 'undefined') { // if there is no data
 			return false;
@@ -102,7 +100,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		content.css('height', adjustedHeight + 'px');
 		app.showNewScrollbar(content, {wheelPropagation: true});
 	},
-	restrictContentDrag: function () {
+	restrictContentDrag: function restrictContentDrag() {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
 			var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
@@ -113,7 +111,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			e.stopPropagation();
 		});
 	},
-	convertToDateRangePicketFormat: function (userDateFormat) {
+	convertToDateRangePicketFormat: function convertToDateRangePicketFormat(userDateFormat) {
 		switch (userDateFormat) {
 			case 'yyyy-mm-dd':
 				return 'yyyy-MM-dd';
@@ -135,11 +133,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 				return 'dd/MM/yyyy';
 		}
 	},
-	generateData: function () {
+	/**
+	 * Get data from JSON encoded input value
+	 *
+	 * @return {object} data from request
+	 */
+	generateData: function generateData() {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
 		if (typeof jData === 'undefined') {
-			return false;
+			return jData;
 		}
 		thisInstance.chartData = JSON.parse(jData);
 		return thisInstance.chartData;
@@ -151,7 +154,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	loadChart: function loadChart() {
 		const thisInstance = this;
-		if (typeof thisInstance.getPlotContainer() === 'undefined') {
+		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getPlotContainer() === 'undefined') {
 			return false;
 		}
 		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
@@ -165,7 +168,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 		);
 	},
-	positionNoDataMsg: function () {
+	positionNoDataMsg: function positionNoDataMsg() {
 		var container = this.getContainer();
 		var widgetContentsContainer = container.find('.dashboardWidgetContent');
 		var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
@@ -176,7 +179,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
-	postLoadWidget: function () {
+	postLoadWidget: function postLoadWidget() {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart(this.options);
@@ -195,7 +198,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerUserList();
 		this.registerHeaderButtons();
 	},
-	postRefreshWidget: function () {
+	postRefreshWidget: function postRefreshWidget() {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart(this.options);
@@ -205,7 +208,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerSectionClick();
 		this.registerLoadMore();
 	},
-	setSortingButton: function (currentElement) {
+	setSortingButton: function setSortingButton(currentElement) {
 		if (currentElement.length) {
 			var container = this.getContainer();
 			var drefresh = container.find('a[name="drefresh"]');
@@ -229,7 +232,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			drefresh.data('url', url);
 		}
 	},
-	registerUserList: function () {
+	registerUserList: function registerUserList() {
 		var container = this.getContainer();
 		var header = container.find('.dashboardWidgetHeader');
 		var ownersFilter = header.find('.ownersFilter')
@@ -243,7 +246,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		}
 	},
-	registerHeaderButtons: function () {
+	registerHeaderButtons: function registerHeaderButtons() {
 		var container = this.getContainer();
 		var header = container.find('.dashboardWidgetHeader');
 		var downloadWidget = header.find('.downloadWidget');
@@ -272,7 +275,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a.remove();
 		});
 	},
-	registerChangeSorting: function () {
+	registerChangeSorting: function registerChangeSorting() {
 		var thisInstance = this;
 		var container = this.getContainer();
 		thisInstance.setSortingButton(container.find('.changeRecordSort'));
@@ -282,7 +285,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			drefresh.click();
 		});
 	},
-	registerWidgetSwitch: function () {
+	registerWidgetSwitch: function registerWidgetSwitch() {
 		var thisInstance = this;
 		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .js-calcuations-switch');
 		thisInstance.setUrlSwitch(switchButtons);
@@ -297,7 +300,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		});
 	},
-	setUrlSwitch: function (switchButtons) {
+	setUrlSwitch: function setUrlSwitch(switchButtons) {
 		var aDeferred = jQuery.Deferred();
 		switchButtons.each(function (index, e) {
 			var currentElement = jQuery(e);
@@ -323,14 +326,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 		return aDeferred.promise();
 	},
-	getFilterData: function () {
+	getFilterData: function getFilterData() {
 		return {};
 	},
 	/**
 	 * Refresh widget
 	 * @returns {undefined}
 	 */
-	refreshWidget: function () {
+	refreshWidget: function refreshWidget() {
 		var thisInstance = this;
 		var parent = this.getContainer();
 		var element = parent.find('a[name="drefresh"]');
@@ -438,7 +441,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 		);
 	},
-	registerFilter: function () {
+	registerFilter: function registerFilter() {
 		var thisInstance = this;
 		var container = this.getContainer();
 		var dateRangeElement = container.find('input.dateRangeField');
@@ -451,7 +454,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			container.find('a[name="drefresh"]').trigger('click');
 		});
 	},
-	registerFilterChangeEvent: function () {
+	registerFilterChangeEvent: function registerFilterChangeEvent() {
 		var container = this.getContainer();
 		container.on('change', '.widgetFilter', function (e) {
 			var widgetContainer = jQuery(e.currentTarget).closest('li');
@@ -465,20 +468,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		}
 	},
-	registerWidgetPostLoadEvent: function (container) {
+	registerWidgetPostLoadEvent: function registerWidgetPostLoadEvent(container) {
 		var thisInstance = this;
 		container.on(YetiForce_Widget_Js.widgetPostLoadEvent, function (e) {
 			thisInstance.postLoadWidget();
 		})
 	},
-	registerWidgetPostRefreshEvent: function (container) {
+	registerWidgetPostRefreshEvent: function registerWidgetPostRefreshEvent(container) {
 		var thisInstance = this;
 		container.off(YetiForce_Widget_Js.widgetPostRefereshEvent);
 		container.on(YetiForce_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
 	},
-	registerSectionClick: function () {
+	registerSectionClick: function registerSectionClick() {
 		const thisInstance = this;
 		let pointer = false;
 		$(thisInstance.chartInstance.canvas).on('click', function (e) {
@@ -504,7 +507,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		});
 	},
-	registerLoadMore: function () {
+	registerLoadMore: function registerLoadMore() {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
@@ -531,7 +534,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		});
 	},
-	setFilterToCache: function (url, data) {
+	setFilterToCache: function setFilterToCache(url, data) {
 		var paramCache = url;
 		var container = this.getContainer();
 		paramCache = paramCache.replace('&content=', '&notcontent=');
@@ -545,12 +548,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var name = container.data('name');
 		app.cacheSet(name + userId, paramCache);
 	},
-	registerCache: function (container) {
+	registerCache: function registerCache(container) {
 		if (container.data('cache') == 1) {
 			this.paramCache = true;
 		}
 	},
-	getDataFromEvent: function (e, additionalFields) {
+	/**
+	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
+	 *
+	 * @param {event obj} e
+	 * @param {array} additionalFields if element from event have additional
+	 * array in dataset like links for data then additionalFields will look like ['links']
+	 * @returns {object} {label,value,...additionalFields}
+	 */
+	getDataFromEvent: function getDataFromEvent(e, additionalFields) {
 		let chart = this.chartInstance;
 		const elements = chart.getElementAtEvent(e);
 		if (elements.length === 0) {
@@ -572,10 +583,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return eventData;
 	},
-	getDefaultDatalabelsConfig: function (dataset, type = 'bar') {
+	/**
+	 * Get default datalabels configuration - unified datalabels configuration for all chart types
+	 *
+	 * @param {type} dataset
+	 * @param {type} type
+	 * @returns {WidgetAnonym$1.getDefaultDatalabelsConfig.WidgetAnonym$16}
+	 */
+	getDefaultDatalabelsConfig: function getDefaultDatalabelsConfig(dataset, type = 'bar') {
 		let borderRadius = 2;
 		switch (type) {
 			case 'pie':
+			case 'donut':
+			case 'doughnut':
 				borderRadius = 5;
 				break;
 		}
@@ -602,7 +622,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			},
 		};
 	},
-	applyDefaultDatalabelsConfig: function (chartData, chartType) {
+	/**
+	 * Apply default datalabels config
+	 *
+	 * @param {object} chartData from request
+	 * @param {string} chartType 'bar','pie' etc..
+	 * @returns {object} chartData
+	 */
+	applyDefaultDatalabelsConfig: function applyDefaultDatalabelsConfig(chartData, chartType) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
@@ -611,7 +638,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 		return chartData;
 	},
-	applyDefaultTooltipsConfig: function (data, options = {}) {
+	/**
+	 * Apply unified tooltips configuration
+	 *
+	 * @param {chartData} data - data from request
+	 * @param {object} options - predefined options
+	 * @returns {object} options
+	 */
+	applyDefaultTooltipsConfig: function applyDefaultTooltipsConfig(data, options = {}) {
 		if (typeof options.tooltips === 'undefined') {
 			options.tooltips = {};
 		}
@@ -644,7 +678,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return options;
 	},
-	formatTooltipTitles: function (data) {
+	/**
+	 * Format tooltip titles to user number format
+	 *
+	 * @param {object} data - data from request
+	 * @returns {undefined}
+	 */
+	formatTooltipTitles: function formatTooltipTitles(data) {
 		data.datasets.forEach((dataset) => {
 			if (typeof dataset.titlesFormatted === 'undefined') {
 				dataset.titlesFormatted = [];
@@ -895,7 +935,26 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		});
 	},
 	getPlugins: function () {
-		return [];
+		const thisInstance = this;
+		return[
+			{
+				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+			}
+		]
+	},
+	loadChart: function () {
+		const thisInstance = this;
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: thisInstance.getType(),
+					data,
+					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
+					plugins: thisInstance.getPlugins()
+				}
+		);
+		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1063,11 +1122,6 @@ YetiForce_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
 		return 'funnel';
-	}
-});
-YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
-	getType: function getType() {
-		return 'pie';
 	},
 	applyDefaultOptions: function (data, options = {}){
 		if (typeof options.maintainAspectRatio === 'undefined') {
@@ -1103,6 +1157,42 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		this.applyDefaultTooltipsConfig(data, options);
 		return options;
 	},
+	applyDefaultDatalabelsConfig: function (data, type) {
+		data.datasets.forEach((dataset) => {
+			dataset.datalabels = {display: false};
+		});
+		return data;
+	},
+});
+YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
+	getType: function getType() {
+		return 'pie';
+	},
+	applyDefaultOptions: function (data, options = {}){
+		if (typeof options.maintainAspectRatio === 'undefined') {
+			options.maintainAspectRatio = false;
+		}
+		if (typeof options.title === 'undefined') {
+			options.title = {};
+		}
+		if (typeof options.title.display === 'undefined') {
+			options.title.display = false;
+		}
+		if (typeof options.legend === 'undefined') {
+			options.legend = {};
+		}
+		if (typeof options.legend.display === 'undefined') {
+			options.legend.display = true;
+		}
+		if (typeof options.events === 'undefined') {
+			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
+		}
+		if (typeof options.cutoutPercentage === 'undefined') {
+			options.cutoutPercentage = 0;
+		}
+		this.applyDefaultTooltipsConfig(data, options);
+		return options;
+	},
 });
 YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {
 	getType: function getType() {
@@ -1126,6 +1216,9 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {
 		}
 		if (typeof options.events === 'undefined') {
 			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
+		}
+		if (typeof options.cutoutPercentage === 'undefined') {
+			options.cutoutPercentage = 50;
 		}
 		this.applyDefaultTooltipsConfig(data, options);
 		return options;
@@ -1184,133 +1277,6 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
 			var url = links[seriesIndex][pointIndex];
 			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		for (var index in data) {
-			var row = data[index];
-			row[0] = parseInt(row[0]);
-			xLabels.push(app.getDecodedValue(row[1]))
-			chartData.push(row[0]);
-			if (parseInt(row[0]) > yMaxValue) {
-				yMaxValue = parseInt(row[0]);
-			}
-		}
-		// yMaxValue Should be 25% more than Maximum Value
-		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels};
-	},
-	loadChart: function () {
-		var isColored = false;
-		var container = this.getContainer();
-		var isColoredInput = container.find('.color');
-		if (isColoredInput.length) {
-			isColored = isColoredInput.val() == 0 ? false : true;
-		}
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				animate: !$.jqplot.use_excanvas,
-				seriesColors: (data['colors']) ? data['colors'] : false,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value',
-						barDirection: 'vertical',
-						varyBarColor: isColored
-					},
-					pointLabels: {show: true, edgeTolerance: -15}
-				},
-				axes: {
-					xaxis: {
-						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-						renderer: jQuery.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							angle: -45,
-							labelPosition: 'auto'
-						}
-					},
-					yaxis: {
-						min: 0,
-						max: data['yMaxValue'],
-						tickOptions: {
-							formatString: '%d'
-						},
-						pad: 1.2
-					}
-				},
-				legend: {
-					show: (data['data_labels']) ? true : false,
-					location: (data['location']) ? data['location'] : 'e',
-					placement: (data['placement']) ? data['placement'] : 'outside',
-					showLabels: (data['data_labels']) ? true : false,
-					showSwatch: (data['data_labels']) ? true : false,
-					labels: data['data_labels']
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
-	loadChart: function () {
-		var isColored = false;
-		var container = this.getContainer();
-		var isColoredInput = container.find('.color');
-		if (isColoredInput.length) {
-			isColored = isColoredInput.val() == 0 ? false : true;
-		}
-		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			title: data['title'],
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				showDataLabels: true,
-				pointLabels: {show: true, location: 'e', edgeTolerance: -15},
-				shadowAngle: 135,
-				rendererOptions: {
-					barDirection: 'horizontal',
-					varyBarColor: isColored
-				}
-			},
-			axes: {
-				yaxis: {
-					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-					ticks: data['labels'],
-					tickOptions: {
-						angle: -45
-					}
-				}
-			},
-			legend: {
-				show: false,
-				location: 'e',
-				placement: 'outside',
-				showSwatch: true,
-				showLabels: true,
-				labels: data['data_labels']
-			}
 		});
 	},
 });
@@ -1574,221 +1540,6 @@ YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
 		});
 	}
 });
-Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	applyDefaultAxesLabelsConfig: function (options = {}) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			if (typeof axis.ticks.autoSkip === 'undefined') {
-				axis.ticks.autoSkip = false;
-			}
-			axis.ticks.maxRotation = 90;
-		});
-
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			if (typeof axis.ticks.callback === 'undefined') {
-				axis.ticks.callback = function defaultYTicksCallback(value, index, values) {
-					if (!isNaN(Number(value))) {
-						return app.parseNumberToShow(value);
-					}
-					return value;
-				}
-			}
-			if (typeof axis.ticks.beginAtZero === 'undefined') {
-				axis.ticks.beginAtZero = true;
-			}
-		});
-		return options;
-	},
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = false;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		this.applyDefaultTooltipsConfig(data, options);
-		this.applyDefaultAxesLabelsConfig(options);
-		return options;
-	},
-	getDatasetsMeta: function (chart) {
-		const datasets = [];
-		const data = chart.data;
-		if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
-			for (let i = 0, len = data.datasets.length; i < len; i++) {
-				const meta = chart.getDatasetMeta(i);
-				if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
-					datasets.push(meta);
-				}
-			}
-		}
-		return datasets;
-	},
-	hideDatalabelsIfNeeded: function (chart) {
-		const data = chart.data;
-		let datasetsMeta = this.getDatasetsMeta(chart);
-		let datasets = chart.data.datasets;
-		for (let i = 0, len = datasets.length; i < len; i++) {
-			const dataset = datasets[i];
-			const metaData = datasetsMeta[i].data;
-			if (typeof dataset._models === 'undefined') {
-				dataset._models = {};
-			}
-			if (typeof dataset.datalabels === 'undefined') {
-				dataset.datalabels = {};
-			}
-			if (typeof dataset.datalabels.display === 'undefined') {
-				dataset.datalabels.display = true;
-			}
-			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
-				const dataItem = metaData[iItem];
-				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-					let model = dataItem.$datalabels._model;
-					if (model !== null && typeof model !== 'undefined') {
-						dataset._models[iItem] = model;
-					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
-						model = dataset._models[iItem];
-					} else {
-						return false;
-					}
-					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
-					const barHeight = dataItem.height();
-					if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
-						dataItem.$datalabels._model = null;
-					} else {
-						dataItem.$datalabels._model = model;
-					}
-				}
-			}
-		}
-
-	},
-	shortenXTicks: function (data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
-				if (value.length > 13) {
-					return value.substr(0, 10) + '...';
-				}
-				return value;
-			}
-		});
-		return options;
-	},
-	rotateXLabels90: function (data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.minRotation = 90;
-		});
-		return options;
-	},
-	beforeDraw: function (chart) {
-		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) => {
-			if (dataset._updated) {
-				return false;
-			}
-			for (let prop in dataset._meta) {
-				if (dataset._meta.hasOwnProperty(prop)) {
-					// we have meta
-					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-						const metaDataItem = dataset._meta[prop].data[i];
-						const label = metaDataItem._view.label;
-						const ctx = metaDataItem._xScale.ctx;
-						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
-						const fullWidth = ctx.measureText(label).width;
-						if (categoryWidth < fullWidth) {
-							const shortened = label.substr(0, 10) + "...";
-							const shortenedWidth = ctx.measureText(shortened).width;
-							if (categoryWidth < shortenedWidth) {
-								chart.options = this.rotateXLabels90(chart.data, chart.options);
-								chart.options = this.shortenXTicks(chart.data, chart.options);
-							} else {
-								chart.options = this.shortenXTicks(chart.data, chart.options);
-							}
-							if (!dataset._updated) {
-								dataset._updated = true;
-								chart.update();
-								// recalculate positions for smooth animation
-								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-								});
-								break;
-							}
-						}
-					}
-					dataset._updated = true;
-				}
-			}
-		});
-	},
-	getPlugins: function () {
-		const thisInstance = this;
-		return[
-			{
-				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-			}
-		]
-	},
-	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData(), 'bar');
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'bar',
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
-		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
-	},
-});
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 	getOptions: function () {
 		return {
@@ -2046,7 +1797,7 @@ YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.find('.changeActivity').on('click', function (e) {
-			if ($(e.target).closest('[href]').length || thisInstance.modalView) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
 				return;
 			}
 			var url = jQuery(this).data('url');
@@ -2098,7 +1849,7 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.find('.rowAction').on('click', function (e) {
-			if ($(e.target).closest('[href]').length || thisInstance.modalView) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
 				return;
 			}
 			var url = jQuery(this).data('url');
@@ -2194,39 +1945,10 @@ YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
-	generateData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		return dataInfo;
-	},
-	loadChart: function () {
-		var dataInfo = this.generateData();
-		if (dataInfo.length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.FunnelRenderer,
-					rendererOptions: {
-						sectionMargin: 0,
-						widthRatio: 0.3,
-						showDataLabels: true,
-						dataLabelThreshold: 0,
-						dataLabels: 'label',
-						highlightMouseDown: true
-					}
-				},
-				legend: {
-					show: false,
-					location: 'e',
-				}
-			});
-		}
-	}
-});
+YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
-YetiForce_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
