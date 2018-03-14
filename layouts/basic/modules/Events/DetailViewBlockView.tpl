@@ -14,21 +14,19 @@
 	{include file=\App\Layout::getTemplatePath('DetailViewBlockView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
     {assign var="IS_HIDDEN" value=false}
 	<div class="detailViewTable">
-		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">
-			<div class="row blockHeader panel-heading no-margin">
-				<div class="iconCollapse">
+		<div class="card row no-margin" data-label="{$BLOCK_LABEL}">
+			<div class="row blockHeader card-header m-0">
 					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
 					<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
 					<h4>{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</h4>
-				</div>
 			</div>
-			<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} d-none{/if}">
-				<div class="col-12 paddingLRZero fieldRow">
-					<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
-						<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}">
-							<label class="muted float-right marginRight10px">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
+			<div class="col-12 card-body p-0 blockContent {if $IS_HIDDEN} d-none{/if}">
+				<div class="w-100">
+					<div class="col-md-12 col-12 form-row m-0 fieldsLabelValue px-0">
+						<div class="fieldLabel col-sm-5 col-md-3 col-12 {$WIDTHTYPE}">
+							<label class="muted float-right">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
 						</div>
-						<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}">
+						<div class="fieldValue ccol-sm-12 col-md-9 col-12 {$WIDTHTYPE}">
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}
 								{assign var=LABEL value=''}
 								{assign var=TITLE value=''}
