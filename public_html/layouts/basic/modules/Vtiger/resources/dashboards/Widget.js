@@ -146,29 +146,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		thisInstance.chartData = JSON.parse(jData);
 		return thisInstance.chartData;
 	},
-	/**
-	 * Load and display chart into the view
-	 *
-	 * @return {undefined}
-	 */
-	loadChart: function loadChart() {
-		const thisInstance = this;
-		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getPlotContainer() === 'undefined') {
-			return false;
-		}
-		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: thisInstance.getType(),
-					data,
-					// each chart type should have default options as applyDefaultOptions method
-					// which adds default options only if not specified in instance(!)
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
-	},
 	positionNoDataMsg: function positionNoDataMsg() {
 		var container = this.getContainer();
 		var widgetContentsContainer = container.find('.dashboardWidgetContent');
@@ -555,6 +532,29 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 	},
 	/**
+	 * Load and display chart into the view
+	 *
+	 * @return {undefined}
+	 */
+	loadChart: function loadChart() {
+		const thisInstance = this;
+		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getPlotContainer() === 'undefined') {
+			return false;
+		}
+		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
+		// each chart type should have default options as getDefaultChartOptions method
+		const options = thisInstance.applyDefaultChartOptions(data, thisInstance.getOptions());
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: thisInstance.getType(),
+					data,
+					options,
+					plugins: thisInstance.getPlugins()
+				}
+		);
+	},
+	/**
 	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
 	 *
 	 * @param {event obj} e
@@ -585,14 +585,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return eventData;
 	},
 	/**
+	 * Apply default chart options
+	 * each chart type could have different default options returned from getDefaultChartOptions
+	 *
+	 * @param  {Object} data         chartData
+	 * @param  {Object} [options={}] instance options (getOptions)
+	 * @return {Object}              merged options
+	 */
+	applyDefaultChartOptions: function (data, options = {}){
+		options = this.mergeOptions(options,this.getDefaultChartOptions());
+		options = this.applyDefaultTooltipsOptions(data, options);
+		return options;
+	},
+	/**
 	 * Get datalabels configuration - unified datalabels configuration for all chart types - might be overrided
 	 * see: https://chartjs-plugin-datalabels.netlify.com/options
 	 *
-	 * @param {type} dataset
-	 * @param {type} type
-	 * @returns {object}
+	 * @param {Object} dataset
+	 * @param {String} type     chart type 'bar','pie' etc.
+	 * @param {Number} datasetIndex
+	 * @returns {Object}
 	 */
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type = 'bar') {
+	getDefaultDatalabelsOptions: function getDefaultDatalabelsOptions(dataset, type = 'bar', datasetIndex = 0) {
 		let borderRadius = 2;
 		switch (type) {
 			case 'pie':
@@ -635,8 +649,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
-		chartData.datasets.forEach((dataset) => {
-			dataset.datalabels = this.mergeOptions(dataset.datalabels, this.getDatalabelsOptions(dataset, this.getType()));
+		chartData.datasets.forEach((dataset, index) => {
+			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset,this.getType(),index));
+			dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
 		});
 		return chartData;
 	},
@@ -790,6 +805,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return {};
 	},
 	/**
+	 * Placeholder for individual chart type datalabels options
+	 *
+	 * @param  {object} dataset
+	 * @param  {String} type    chart type 'bar','pie' etc.
+	 * @param  {Number} datasetIndex
+	 * @return {Object} datalabels configurations
+	 */
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex){
+		return {};
+	},
+	/**
 	 * Placeholder for individual chart type plugins
 	 * You can add custom plugins for individual charts by overriding this method
 	 * see: http://www.chartjs.org/docs/latest/developers/plugins.html
@@ -812,8 +838,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 });
 Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	getAxesLabelsConfig:function getAxesLabelsConfig(){
+	getDefaultChartOptions: function () {
 		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: false
+			},
 			scales: {
 				xAxes: [{
 					ticks: {
@@ -836,26 +869,6 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				}]
 			}
 		};
-	},
-	applyDefaultAxesLabelsConfig: function (options = {}) {
-		return options = this.mergeOptions(options, this.getAxesLabelsConfig());
-	},
-	getDefaultChartOptions: function () {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false
-			}
-		};
-	},
-	applyDefaultOptions: function (data, options = {}){
-		this.mergeOptions(options,this.getDefaultChartOptions());
-		this.applyDefaultTooltipsOptions(data, options);
-		this.applyDefaultAxesLabelsConfig(options);
-		return options;
 	},
 	getDatasetsMeta: function (chart) {
 		const datasets = [];
@@ -994,20 +1007,6 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
 			}
 		]
-	},
-	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: thisInstance.getType(),
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
-		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1176,105 +1175,61 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
 		return 'funnel';
 	},
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = false;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		if (typeof options.sort === 'undefined') {
-			options.sort = 'data-desc';
-		}
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			axis.display = true;
-		});
-		this.applyDefaultTooltipsOptions(data, options);
-		return options;
+	getDefaultChartOptions: function (data, options = {}){
+		return {
+			maintainAspectRatio: false,
+			title:{
+				display: false
+			},
+			legend: {
+				display: false,
+			},
+			sort: 'data-desc',
+			scales: {
+				yAxes: [{
+					display: true
+				}]
+			},
+		};
 	},
-	applyDatalabelsOptions: function (data, type) {
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels = {display: false};
-		});
-		return data;
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex){
+		return {
+			display: false
+		};
 	},
 });
 YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	getType: function getType() {
 		return 'pie';
 	},
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = true;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		if (typeof options.cutoutPercentage === 'undefined') {
-			options.cutoutPercentage = 0;
-		}
-		this.applyDefaultTooltipsOptions(data, options);
-		return options;
+	getDefaultChartOptions: function (data, options = {}){
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: true
+			},
+			cutoutPercentage: 0,
+		};
 	},
 });
 YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
 		return 'doughnut';
 	},
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = true;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		if (typeof options.cutoutPercentage === 'undefined') {
-			options.cutoutPercentage = 50;
-		}
-		this.applyDefaultTooltipsOptions(data, options);
-		return options;
+	getDefaultChartOptions: function (data, options = {}){
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: true
+			},
+			cutoutPercentage: 50,
+		};
 	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
@@ -1934,13 +1889,8 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
-	loadChart: function () {
-		const thisInstance = this;
-		const options = {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
+	getOptions: function getOptions(){
+		return {
 			legend: {
 				display: true
 			},
@@ -1960,6 +1910,10 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 						}
 					}]
 			},
+		}
+	},
+	getTooltipsOptions: function getDatalabelsOptions(){
+		return {
 			tooltips: {
 				callbacks: {
 					label: function (tooltipItem, data) {
@@ -1970,28 +1924,15 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 					}
 				}
 			},
-			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-		};
-		const data = thisInstance.generateData();
-		thisInstance.applyDatalabelsOptions(data);
-		thisInstance.applyDefaultAxesLabelsConfig(options);
-		data.datasets.forEach((dataset) => {
-			// https://chartjs-plugin-datalabels.netlify.com/options.html
-			dataset.datalabels.formatter = function datalabelsFormatter(value, context) {
+		}
+	},
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex){
+		return {
+			formatter: function datalabelsFormatter(value, context) {
 				return app.formatToHourText(value);
-			};
-		});
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'bar',
-					data: data,
-					options: options,
-					plugins: thisInstance.getPlugins()
-				}
-		);
-		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
-	}
+			}
+		};
+	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
 YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
