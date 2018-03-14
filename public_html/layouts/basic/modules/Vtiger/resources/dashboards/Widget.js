@@ -16,9 +16,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		var widgetClassName = widgetName.toCamelCase();
 		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
-		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
+		var fallbackClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
-		var basicClass = Vtiger_Widget_Js;
+		var basicClass = YetiForce_Widget_Js;
 		var instance;
 		if (typeof moduleClass != 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
@@ -410,7 +410,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 							}
 						})
 					}
-					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+					contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});
@@ -446,14 +446,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerWidgetPostLoadEvent: function (container) {
 		var thisInstance = this;
-		container.on(Vtiger_Widget_Js.widgetPostLoadEvent, function (e) {
+		container.on(YetiForce_Widget_Js.widgetPostLoadEvent, function (e) {
 			thisInstance.postLoadWidget();
 		})
 	},
 	registerWidgetPostRefreshEvent: function (container) {
 		var thisInstance = this;
-		container.off(Vtiger_Widget_Js.widgetPostRefereshEvent);
-		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function (e) {
+		container.off(YetiForce_Widget_Js.widgetPostRefereshEvent);
+		container.on(YetiForce_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
 	},
@@ -644,11 +644,339 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		});
 	},
+	/**
+	 * Placeholder for individual chart type options
+	 * If you want to customize default options this is the right place - override this
+	 *
+	 * @returns {object} chart options
+	 */
+	getOptions: function getOptions() {
+		return {};
+	},
+	/**
+	 * Placeholder for individual chart type plugins
+	 * You can add custom plugins for individual charts by overriding this method
+	 * see: http://www.chartjs.org/docs/latest/developers/plugins.html
+	 *
+	 * @returns {Array} plugins
+	 */
+	getPlugins: function getPlugins() {
+		return [];
+	},
+	/**
+	 * Get chart type
+	 * We don't wan't to override loadChart method - it is good practice
+	 * so we can extend some chart type and change its type only to show data in different manner
+	 *
+	 * @returns {String}
+	 */
+	getType: function getType() {
+		return 'bar';
+	},
+});
+Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
+	applyDefaultAxesLabelsConfig: function (options = {}) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			if (typeof axis.ticks.autoSkip === 'undefined') {
+				axis.ticks.autoSkip = false;
+			}
+			if (typeof axis.ticks.beginAtZero === 'undefined') {
+				axis.ticks.beginAtZero = true;
+			}
+			axis.ticks.maxRotation = 90;
+		});
+
+		if (typeof options.scales.yAxes === 'undefined') {
+			options.scales.yAxes = [{}];
+		}
+		options.scales.yAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			if (typeof axis.ticks.callback === 'undefined') {
+				axis.ticks.callback = function defaultYTicksCallback(value, index, values) {
+					if (!isNaN(Number(value))) {
+						return app.parseNumberToShow(value);
+					}
+					return value;
+				}
+			}
+			if (typeof axis.ticks.autoSkip === 'undefined') {
+				axis.ticks.autoSkip = false;
+			}
+			if (typeof axis.ticks.beginAtZero === 'undefined') {
+				axis.ticks.beginAtZero = true;
+			}
+		});
+		return options;
+	},
+	applyDefaultOptions: function (data, options = {}){
+		if (typeof options.maintainAspectRatio === 'undefined') {
+			options.maintainAspectRatio = false;
+		}
+		if (typeof options.title === 'undefined') {
+			options.title = {};
+		}
+		if (typeof options.title.display === 'undefined') {
+			options.title.display = false;
+		}
+		if (typeof options.legend === 'undefined') {
+			options.legend = {};
+		}
+		if (typeof options.legend.display === 'undefined') {
+			options.legend.display = false;
+		}
+		if (typeof options.events === 'undefined') {
+			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
+		}
+		this.applyDefaultTooltipsConfig(data, options);
+		this.applyDefaultAxesLabelsConfig(options);
+		return options;
+	},
+	getDatasetsMeta: function (chart) {
+		const datasets = [];
+		const data = chart.data;
+		if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+			for (let i = 0, len = data.datasets.length; i < len; i++) {
+				const meta = chart.getDatasetMeta(i);
+				if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+					datasets.push(meta);
+				}
+			}
+		}
+		return datasets;
+	},
+	hideDatalabelsIfNeeded: function (chart) {
+		const data = chart.data;
+		let datasetsMeta = this.getDatasetsMeta(chart);
+		let datasets = chart.data.datasets;
+		for (let i = 0, len = datasets.length; i < len; i++) {
+			const dataset = datasets[i];
+			const metaData = datasetsMeta[i].data;
+			if (typeof dataset._models === 'undefined') {
+				dataset._models = {};
+			}
+			if (typeof dataset.datalabels === 'undefined') {
+				dataset.datalabels = {};
+			}
+			if (typeof dataset.datalabels.display === 'undefined') {
+				dataset.datalabels.display = true;
+			}
+			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+				const dataItem = metaData[iItem];
+				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+					let model = dataItem.$datalabels._model;
+					if (model !== null && typeof model !== 'undefined') {
+						dataset._models[iItem] = model;
+					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+						model = dataset._models[iItem];
+					} else {
+						return false;
+					}
+					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+					const barHeight = dataItem.height();
+					if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
+						dataItem.$datalabels._model = null;
+					} else {
+						dataItem.$datalabels._model = model;
+					}
+				}
+			}
+		}
+
+	},
+	shortenXTicks: function (data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
+			}
+		});
+		return options;
+	},
+	rotateXLabels90: function (data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.minRotation = 90;
+		});
+		return options;
+	},
+	beforeDraw: function (chart) {
+		this.hideDatalabelsIfNeeded(chart);
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						const ctx = metaDataItem._xScale.ctx;
+						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
+						const fullWidth = ctx.measureText(label).width;
+						if (categoryWidth < fullWidth) {
+							const shortened = label.substr(0, 10) + "...";
+							const shortenedWidth = ctx.measureText(shortened).width;
+							if (categoryWidth < shortenedWidth) {
+								chart.options = this.rotateXLabels90(chart.data, chart.options);
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							} else {
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							}
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+								});
+								break;
+							}
+						}
+					}
+					dataset._updated = true;
+				}
+			}
+		});
+	},
 	getPlugins: function () {
 		return [];
 	},
 });
-Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
+	getType: function () {
+		return 'horizontalBar';
+	},
+	hideDatalabelsIfNeeded: function (chart) {
+		const data = chart.data;
+		let datasetsMeta = this.getDatasetsMeta(chart);
+		let datasets = chart.data.datasets;
+		for (let i = 0, len = datasets.length; i < len; i++) {
+			const dataset = datasets[i];
+			const metaData = datasetsMeta[i].data;
+			if (typeof dataset._models === 'undefined') {
+				dataset._models = {};
+			}
+			if (typeof dataset.datalabels === 'undefined') {
+				dataset.datalabels = {};
+			}
+			if (typeof dataset.datalabels.display === 'undefined') {
+				dataset.datalabels.display = true;
+			}
+			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+				const dataItem = metaData[iItem];
+				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+					let model = dataItem.$datalabels._model;
+					if (model !== null && typeof model !== 'undefined') {
+						dataset._models[iItem] = model;
+					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+						model = dataset._models[iItem];
+					} else {
+						return false;
+					}
+					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+					const barWidth = dataItem.width;
+					if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
+						console.log('hide label', dataItem, model, labelWidth, labelHeight, barHeight);
+						dataItem.$datalabels._model = null;
+					} else {
+						dataItem.$datalabels._model = model;
+					}
+				}
+			}
+		}
+
+	},
+	shortenYTicks: function shortenYTicks(data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.yAxes === 'undefined') {
+			options.scales.yAxes = [{}];
+		}
+		options.scales.yAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.callback = function yAxisTickCallback(value, index, values) {
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
+			}
+		});
+		return options;
+	},
+	beforeDraw: function (chart) {
+		this.hideDatalabelsIfNeeded(chart);
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						if (label.length > 13) {
+							chart.options = this.shortenYTicks(chart.data, chart.options);
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+								});
+								break;
+							}
+						}
+					}
+					dataset._updated = true;
+				}
+			}
+		});
+	},
+});
+YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
 		this.registerLoadMore();
@@ -701,17 +1029,25 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	}
 
 });
-Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 	chartfilterInstance: false,
 	init: function (container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
 		var chartType = container.find('[name="typeChart"]').val();
 		var chartClassName = chartType.toCamelCase();
-		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
+		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
 		this.registerRecordsCount();
 	},
 });
-Vtiger_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
+	getType: function getType() {
+		return 'funnel';
+	}
+});
+YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
+	getType: function getType() {
+		return 'pie';
+	},
 	applyDefaultOptions: function (data, options = {}){
 		if (typeof options.maintainAspectRatio === 'undefined') {
 			options.maintainAspectRatio = false;
@@ -746,29 +1082,10 @@ Vtiger_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 		this.applyDefaultTooltipsConfig(data, options);
 		return options;
 	},
-	applyDefaultDatalabelsConfig: function (data, type) {
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels = {display: false};
-		});
-		return data;
-	},
-	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData(), 'funnel');
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'funnel',
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
-	},
 });
-Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
-	getPlugins: function () {
-		return [];
+YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {
+	getType: function getType() {
+		return 'doughnut';
 	},
 	applyDefaultOptions: function (data, options = {}){
 		if (typeof options.maintainAspectRatio === 'undefined') {
@@ -792,125 +1109,9 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		this.applyDefaultTooltipsConfig(data, options);
 		return options;
 	},
-	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'pie',
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
-	},
-
-});
-Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
+}, {});
+YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
 	 */
@@ -1090,9 +1291,10 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				labels: data['data_labels']
 			}
 		});
-	}
+	},
 });
-Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
+
+YetiForce_Barchat_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	loadChart: function () {
 		var data = this.generateChartData();
 		if (data['chartData'][0].length > 0) {
@@ -1129,7 +1331,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 		}
 	}
 });
-Vtiger_Barchat_Widget_Js('Vtiger_Lineplain_Widget_Js', {}, {
+YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
 	loadChart: function () {
 		var data = this.generateChartData();
 		if (data['chartData'][0].length > 0) {
@@ -1161,7 +1363,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Lineplain_Widget_Js', {}, {
 		}
 	}
 });
-Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
+YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
 	/**
 	 * Function which will give char related Data like data , x labels and legend labels as map
 	 */
@@ -1252,7 +1454,7 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 	}
 });
 // NOTE Widget-class name camel-case convention
-Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Minilist_Widget_Js', {}, {
 	postLoadWidget: function () {
 		app.hideModalWindow();
 		this.restrictContentDrag();
@@ -1263,7 +1465,7 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 		this.registerRecordsCount();
 	}
 });
-Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 	loadChart: function () {
 		var container = this.getContainer();
 		var chartType = container.find('[name="typeChart"]').val();
@@ -1277,7 +1479,7 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 	}
 });
 /* Notebook Widget */
-Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
+YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {
 }, {
 	// Override widget specific functions.
 	postLoadWidget: function () {
@@ -1317,7 +1519,7 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 		});
 	}
 });
-Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
 	generateChartData: function () {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
@@ -1583,7 +1785,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 		};
 	}
 });
-Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
 	weekDaysArray: {
@@ -1685,7 +1887,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
-			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
+			YetiForce_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
@@ -1808,7 +2010,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		refreshContainer.progressIndicator({'mode': 'hide'});
 	},
 });
-Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -1860,7 +2062,7 @@ YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
-Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -1971,10 +2173,39 @@ YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+	generateData: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		return dataInfo;
+	},
+	loadChart: function () {
+		var dataInfo = this.generateData();
+		if (dataInfo.length > 0) {
+			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.FunnelRenderer,
+					rendererOptions: {
+						sectionMargin: 0,
+						widthRatio: 0.3,
+						showDataLabels: true,
+						dataLabelThreshold: 0,
+						dataLabels: 'label',
+						highlightMouseDown: true
+					}
+				},
+				legend: {
+					show: false,
+					location: 'e',
+				}
+			});
+		}
+	}
+});
+YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
+YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
+YetiForce_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
