@@ -39,7 +39,14 @@
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="u-text-ellipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
+					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
+					{if $ACTIVITY_TYPE eq 'Task'}
+						<span class="far fa-check-square fa-fw"></span>
+					{elseif $ACTIVITY_TYPE eq 'Call'}
+						<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
+					{else}
+						<span class="fas fa-user fa-fw"></span>
+					{/if}
 					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
