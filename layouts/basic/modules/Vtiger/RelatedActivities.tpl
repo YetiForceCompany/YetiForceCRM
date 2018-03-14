@@ -79,7 +79,7 @@
 										<span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
+										<span class="editDefaultStatus float-right u-cursor-pointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
 											<span class="fas fa-check fa-fw"></span>
 										</span>
 									{/if}
@@ -92,7 +92,7 @@
 								<div>
 									<strong><span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check fa-fw"></span></span>
+										<span class="editDefaultStatus float-right u-cursor-pointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check fa-fw"></span></span>
 										{/if}
 								</div>
 							{/if}
@@ -109,7 +109,7 @@
 							{/if}
 						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
-							<span class="editDescription cursorPointer">
+							<span class="editDescription u-cursor-pointer">
 								<span class="fas fa-edit fa-fw" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
