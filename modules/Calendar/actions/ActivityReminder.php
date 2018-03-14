@@ -35,9 +35,14 @@ class Calendar_ActivityReminder_Action extends \App\Controller\Action
 		}
 	}
 
+	/**
+	 * Action to postpone activities.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function postpone(\App\Request $request)
 	{
-		$time = $request->get('time');
+		$time = $request->getByType('time', 'Alnum');
 		$module = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $module);
 		$recordModel->updateReminderPostpone($time);
