@@ -4,7 +4,7 @@
 
 //-------- select2 --------//
 .select2-container--bootstrap4 {
-	ul.select2-selection__rendered {
+	ul.select2-selection__rendered, span.select2-selection__rendered {
 		@extend .py-2;
 		@extend .px-1;
 	}
