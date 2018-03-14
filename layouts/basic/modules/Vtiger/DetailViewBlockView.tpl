@@ -69,8 +69,8 @@
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
 									<div class="col-sm-6">
-										<div class="form-row">
-											<div class="fieldLabel border-left border-bottom col-sm-6 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<div class="form-row  border-left">
+											<div class="fieldLabel border-right border-bottom  d-flex justify-content-sm-start justify-content-lg-end col-sm-12 col-lg-6 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 												{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 												<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
@@ -80,7 +80,7 @@
 														{/if}
 												</label>
 											</div>
-											<div class="fieldValue  border-bottom border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
+											<div class="fieldValue border-bottom  col-sm-12 col-lg-6   {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
 												<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 												</span>
@@ -111,7 +111,7 @@
 								{/if}
 							{/foreach}
 							{if $COUNTER eq 1}
-								<div class="col-md-6 fieldsLabelValue paddingLRZero"></div>
+								<div class="col-md-6 fieldsLabelValue"></div>
 							{/if}
 						</div>
 					</div>
