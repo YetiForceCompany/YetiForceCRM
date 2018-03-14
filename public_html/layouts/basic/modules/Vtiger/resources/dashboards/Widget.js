@@ -59,7 +59,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getUserDateFormat: function getUserDateFormat() {
 		return jQuery('#userDateFormat').val();
 	},
-	getPlotContainer: function getPlotContainer(useCache) {
+	getChartContainer: function getChartContainer(useCache) {
 		if (typeof useCache == 'undefined') {
 			useCache = false;
 		}
@@ -82,7 +82,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	loadScrollbar: function loadScrollbar() {
-		const container = this.getPlotContainer(false);
+		const container = this.getChartContainer(false);
 		if (typeof container === 'undefined') { // if there is no data
 			return false;
 		}
@@ -538,14 +538,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	loadChart: function loadChart() {
 		const thisInstance = this;
-		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getPlotContainer() === 'undefined') {
+		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getChartContainer() === 'undefined') {
 			return false;
 		}
 		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
 		// each chart type should have default options as getDefaultChartOptions method
 		const options = thisInstance.applyDefaultChartOptions(data, thisInstance.getOptions());
 		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
+				thisInstance.getChartContainer().getContext("2d"),
 				{
 					type: thisInstance.getType(),
 					data,
@@ -1250,7 +1250,7 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 			series[index] = {label: value};
 		});
 		if (data['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
+			this.chartInstance = this.getChartContainer(false).jqplot(data['chartData'], {
 				stackSeries: true,
 				captureRightClick: true,
 				seriesDefaults: {
@@ -1293,7 +1293,7 @@ YetiForce_Barchat_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	loadChart: function () {
 		var data = this.generateChartData();
 		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
+			this.getChartContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				legend: {
 					show: false,
@@ -1330,7 +1330,7 @@ YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
 	loadChart: function () {
 		var data = this.generateChartData();
 		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
+			this.getChartContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				axesDefaults: {
 					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
@@ -1404,7 +1404,7 @@ YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
 		var ticks = chartRelatedData.ticks;
 		var labels = chartRelatedData.labels;
 		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
-		this.getPlotContainer(false).jqplot(chartData, {
+		this.getChartContainer(false).jqplot(chartData, {
 			stackSeries: true,
 			captureRightClick: true,
 			seriesDefaults: {
@@ -1526,7 +1526,7 @@ YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
+		this.getChartContainer(false).jqplot(data['chartData'], {
 			animate: !$.jqplot.use_excanvas,
 			seriesDefaults: {
 				renderer: jQuery.jqplot.BarRenderer,
