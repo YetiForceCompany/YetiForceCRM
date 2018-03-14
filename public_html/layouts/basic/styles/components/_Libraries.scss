@@ -7,6 +7,10 @@
 	ul.select2-selection__rendered, span.select2-selection__rendered {
 		@extend .py-2;
 		@extend .px-1;
+		li.select2-selection__choice {
+			@extend .p-1;
+			@extend .my-auto;
+		}
 	}
 	.select2-results__option,  .select2-results__option .select2-results__option, select2-results__group {
 		@extend .p-1;
