@@ -11,7 +11,7 @@
 	</style>
 	<div class="remindersContent">
 		{foreach item=RECORD from=$RECORDS}
-			<div class="card ml-0 mr-3 mt-2 headingColor{$RECORD->get('notification_type')}" data-record="{$RECORD->getId()}">
+			<div class="card ml-0 mr-3 mt-2 headingColor{$RECORD->get('notification_type')} js-notification-panel" data-record="{$RECORD->getId()}">
 				<div class="card-body row p-0">
 					<div class="col-2 notificationIcon pl-3">
 						<span class="fas {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}fa-hdd{else}fa-user{/if}" aria-hidden="true"></span>
@@ -65,7 +65,7 @@
 								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div>
-								<button type="button" class="btn btn-success btn-sm" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+								<button type="button" class="btn btn-success btn-sm js-set-marked" data-js="click" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
 									<span class="fas fa-check" aria-hidden="true"></span>
 								</button>
 							</div>

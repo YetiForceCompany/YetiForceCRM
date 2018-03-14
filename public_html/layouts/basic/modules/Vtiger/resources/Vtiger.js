@@ -333,14 +333,14 @@ var Vtiger_Index_Js = {
 		AppConnector.request(url).then(function (data) {
 			content.html(data);
 			app.registerMoreContent(content.find('button.moreBtn'));
-			thisInstance.refreshReminderCount(content, element, 'countNotificationsReminder');
-			content.find('.setAsMarked').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var recordID = currentElement.closest('.panel').data('record');
+			thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
+			content.find('.js-set-marked').on('click', function (e) {
+				var currentElement = $(e.currentTarget);
+				var recordID = currentElement.closest('.js-notification-panel').data('record');
 				thisInstance.markNotifications(recordID).then(function (data) {
-					currentElement.closest('.panel').fadeOut(300, function () {
+					currentElement.closest('.js-notification-panel').fadeOut(300, function () {
 						$(this).remove();
-						thisInstance.refreshReminderCount(content, element, 'countNotificationsReminder');
+						thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
 					});
 				});
 			});
