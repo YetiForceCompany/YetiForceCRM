@@ -16,7 +16,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		var widgetClassName = widgetName.toCamelCase();
 		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
-		var fallbackClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
+		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
 		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		var basicClass = YetiForce_Widget_Js;
 		var instance;
@@ -45,7 +45,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
-
 	getContainer: function getContainer() {
 		return this.container;
 	},
@@ -142,7 +141,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
 		if (typeof jData === 'undefined') {
-			return jData;
+			return thisInstance.chartData = jData;
 		}
 		thisInstance.chartData = JSON.parse(jData);
 		return thisInstance.chartData;
@@ -1194,7 +1193,7 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		return options;
 	},
 });
-YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {
+YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
 		return 'doughnut';
 	},
@@ -1223,7 +1222,7 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {
 		this.applyDefaultTooltipsConfig(data, options);
 		return options;
 	},
-}, {});
+});
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 	/**
