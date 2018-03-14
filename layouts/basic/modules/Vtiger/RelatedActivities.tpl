@@ -39,14 +39,16 @@
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
-					{if $ACTIVITY_TYPE eq 'Task'}
-						<span class="far fa-check-square fa-fw"></span>
-					{elseif $ACTIVITY_TYPE eq 'Call'}
-						<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
-					{else}
-						<span class="fas fa-user fa-fw"></span>
-					{/if}
+					<span class="mr-1">
+						{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
+						{if $ACTIVITY_TYPE eq 'Task'}
+							<span class="far fa-check-square fa-fw"></span>
+						{elseif $ACTIVITY_TYPE eq 'Call'}
+							<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
+						{else}
+							<span class="fas fa-user fa-fw"></span>
+						{/if}
+					</span>
 					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
