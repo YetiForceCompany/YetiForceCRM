@@ -138,11 +138,32 @@ jQuery.Class('Vtiger_Widget_Js', {
 	generateData: function () {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
+		if (typeof jData === 'undefined') {
+			return false;
+		}
 		thisInstance.chartData = JSON.parse(jData);
 		return thisInstance.chartData;
 	},
-	loadChart: function (options = {}) {
-
+	/**
+	 * Load and display chart into the view
+	 *
+	 * @return {undefined}
+	 */
+	loadChart: function loadChart() {
+		const thisInstance = this;
+		if (typeof thisInstance.getPlotContainer() === 'undefined') {
+			return false;
+		}
+		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
+		thisInstance.chartInstance = new Chart(
+				thisInstance.getPlotContainer().getContext("2d"),
+				{
+					type: thisInstance.getType(),
+					data,
+					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
+					plugins: thisInstance.getPlugins()
+				}
+		);
 	},
 	positionNoDataMsg: function () {
 		var container = this.getContainer();
