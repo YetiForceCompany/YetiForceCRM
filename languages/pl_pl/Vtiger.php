@@ -1604,4 +1604,6 @@ $jsLanguageStrings = [
 	'JS_H_LONG' => 'godzin',
 	'JS_M_LONG' => 'minut',
 	'JS_S_LONG' => 'sekund',
+	'JS_APPLY' => 'Zatwierdź',
+	'JS_CANCEL' => 'Anuluj'
 ];

@@ -36,6 +36,22 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		switch ($this->getFieldModel()->getUIType()) {
+			case 79:
+				return (new \DateTimeField($value))->getDBInsertDateTimeValue();
+			default:
+				return parent::getDBValue($value);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -82,6 +98,11 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/DateTime.tpl';
+		switch ($this->getFieldModel()->getUIType()) {
+			case 79:
+				return 'uitypes/DateTimeField.tpl';
+			default:
+				return 'uitypes/DateTime.tpl';
+		}
 	}
 }

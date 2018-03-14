@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Zusätzlich (z.B. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Vorlage Baumstruktur',
 	'Tree' => 'Baumstruktur',
+	'DateTime' => 'Date and time',
 	'CategoryMultipicklist' => 'Strukturfeld (Mehrfachauswahl)',
 	'LBL_FIELD_MASK_INFO' => 'Standard Maskendefinition <br />9: Numerisch<br />a: Alphabetisch<br />*: Alphanumerisch<br /><br />Beispiel:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Werte aus dem verküpften Modul',

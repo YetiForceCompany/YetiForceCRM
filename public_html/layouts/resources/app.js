@@ -939,6 +939,70 @@ app = {
 		});
 
 	},
+	/*
+	 * Initialization datetime fields
+	 * @param {jQuery} parentElement
+	 * @param {jQuery} customParams
+	 */
+	registerDateTimePickerFields: function (parentElement, customParams) {
+		if (typeof parentElement == 'undefined') {
+			parentElement = jQuery('body');
+		} else {
+			parentElement = jQuery(parentElement);
+		}
+		if (parentElement.hasClass('dateTimePickerField')) {
+			var elements = parentElement;
+		} else {
+			var elements = jQuery('.dateTimePickerField', parentElement);
+		}
+		if (elements.length == 0) {
+			return;
+		}
+		var language = jQuery('body').data('language');
+		var dateFormat = elements.data('dateFormat').toUpperCase();
+		var timeFormat = elements.data('hourFormat');
+		var timePicker24Hour = true;
+		if (timeFormat === 24) {
+			timeFormat = 'hh:mm';
+		} else {
+			timePicker24Hour = false;
+			timeFormat = 'hh:mm A';
+		}
+		var format = dateFormat + ' ' + timeFormat
+		if ($.fn.datepicker.dates[language] == undefined) {
+			var langCodes = Object.keys($.fn.datepicker.dates);
+			language = langCodes[0];
+		}
+		var params = {
+			singleDatePicker: true,
+			showDropdowns: true,
+			timePicker: true,
+			timePicker24Hour: timePicker24Hour,
+			timePickerIncrement: 1,
+			autoUpdateInput: true,
+			autoApply: true,
+			opens: "left",
+			locale: {
+				separator: ',',
+				format: format,
+				applyLabel: app.vtranslate('JS_APPLY'),
+				cancelLabel: app.vtranslate('JS_CANCEL'),
+				monthNames: $.fn.datepicker.dates[language].months,
+				daysOfWeek: $.fn.datepicker.dates[language].daysMin,
+				firstDay: $.fn.datepicker.dates[language].weekStart
+			},
+		};
+		if (typeof customParams != 'undefined') {
+			params = jQuery.extend(params, customParams);
+		}
+		elements.each(function (index, element) {
+			element = $(element);
+			element.daterangepicker(params);
+			element.on('apply.daterangepicker', function (ev, picker) {
+				$(this).val(picker.startDate.format(format));
+			});
+		});
+	},
 	registerEventForDateFields: function (parentElement) {
 		if (typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');

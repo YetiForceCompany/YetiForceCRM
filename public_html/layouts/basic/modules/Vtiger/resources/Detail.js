@@ -2176,6 +2176,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEmailEvents(detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
 		app.registerEventForDatePickerFields(detailContentsHolder);
+		app.registerDateTimePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		app.showSelect2ElementView(detailContentsHolder.find('select.select2'));

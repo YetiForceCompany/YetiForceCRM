@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Adicional (ex. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Árvore',
 	'Tree' => 'Campos da árvore',
+	'DateTime' => 'Date and time',
 	'LBL_FIELD_MASK_INFO' => 'Definição de mascaras padrão <br />9: numérico<br />a: alfabético<br />*: Alfanumérico<br /><br />Examplo:<br />(99) 9999-9999<br />+55 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Valores a partir do módulo relacionado',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Módulo relacionado',

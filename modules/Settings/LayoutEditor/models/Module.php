@@ -109,7 +109,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'CategoryMultipicklist', //, 'MultiImage'
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime' //, 'MultiImage'
 		];
 	}
 
@@ -396,6 +396,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 309;
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
+				break;
+			case 'DateTime':
+				$uichekdata = 'DT~O';
+				$uitype = 358;
+				$type = $importerType->dateTime();
 				break;
 		}
 

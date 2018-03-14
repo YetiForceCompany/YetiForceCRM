@@ -70,6 +70,7 @@ $languageStrings = [
 	'Related1M' => '"rel_" - Relación 1:M',
 	'Editor' => '"wysi_" - Editor WYSIWYG',
 	'Tree' => '"tree_" - Árbol jerárquico',
+	'DateTime' => 'Date and time',
 	'MultiReferenceValue' => '"relv_" - Valores del módulo relacionado',
 	'MultiImage' => '"img_" - MultiImage',
 	'CategoryMultipicklist' => '"treem_" - Árbol jerárquico múltiple',
