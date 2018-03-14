@@ -246,7 +246,7 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('input[name="step7"]').on('click', function () {
 			if ($('form[name="step6"]').validationEngine('validate')) {
 				jQuery('#progressIndicator').show().removeClass('d-none');
-				jQuery('form[name="step6"]').submit().hide();
+				jQuery('form[name="step6"]').submit().parent().hide();
 			}
 		});
 	},
