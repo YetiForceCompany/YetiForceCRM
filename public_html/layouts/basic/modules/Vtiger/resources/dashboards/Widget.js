@@ -586,6 +586,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Get datalabels configuration - unified datalabels configuration for all chart types - might be overrided
+	 * see: https://chartjs-plugin-datalabels.netlify.com/options
 	 *
 	 * @param {type} dataset
 	 * @param {type} type
@@ -642,6 +643,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Get tooltips configuration - this method can be overrided if needed
+	 * see: http://www.chartjs.org/docs/latest/configuration/tooltip.html
 	 *
 	 * @param {object} data - chartData
 	 * @returns {object} default options
@@ -652,23 +654,29 @@ jQuery.Class('Vtiger_Widget_Js', {
 				callbacks: {
 
 					label: function tooltipLabelCallback(tooltipItem, data) {
+						// get already formatted data if exists
 						if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
 							return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
 						}
+						// if there is no formatted data so try to format it
 						if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
 							return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
 						}
+						// return raw data at idex
 						return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 					},
 
 					title: function tooltipTitleCallback(tooltipItems, data) {
 						const tooltipItem = tooltipItems[0];
+						// get already formatted title if exists
 						if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
 							return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
 						}
+						// if there is no formatted title so try to format it
 						if (!isNaN(Number(data.labels[tooltipItem.index]))) {
 							return app.parseNumberToShow(data.labels[tooltipItem.index]);
 						}
+						// return label at index
 						return data.labels[tooltipItem.index];
 					}
 
@@ -677,31 +685,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		};
 	},
 	/**
-	 * Apply unified tooltips configuration
-	 *
-	 * @param {chartData} data - data from request
-	 * @param {object} options - predefined options
-	 * @returns {object} options
-	 */
-	applyDefaultTooltipsOptions: function applyDefaultTooltipsOptions(data, options = {}) {
-		const defaultOptions = this.getTooltipsOptions(data);
-		if (typeof options.tooltips === 'undefined') {
-			options.tooltips = {};
-		}
-		if (typeof options.tooltips.callbacks === 'undefined') {
-			options.tooltips.callbacks = {};
-		}
-		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
-		if (typeof options.tooltips.callbacks.label === 'undefined') {
-			options.tooltips.callbacks.label = defaultOptions.tooltips.callbacks.label;
-		}
-		if (typeof options.tooltips.callbacks.title === 'undefined') {
-			options.tooltips.callbacks.title = defaultOptions.tooltips.callbacks.title;
-		}
-		return options;
-	},
-	/**
-	 * Format tooltip titles to user number format
+	 * Format tooltip titles to user number format and push this modification to titlesFormatted
+	 * it is better to parse tooltips at initialization phase than
+	 * in tooltip callback which is called after hover
 	 *
 	 * @param {object} data - data from request
 	 * @returns {undefined}
@@ -726,6 +712,55 @@ jQuery.Class('Vtiger_Widget_Js', {
 				});
 			}
 		});
+	},
+	/**
+	 * Format tooltip titles to user number format and push this modification to titlesFormatted
+	 * it is better to parse tooltips at initialization phase than
+	 * in tooltip callback which is called after hover
+	 *
+	 * @param {object} data - data from request
+	 * @returns {undefined}
+	 */
+	formatTooltipLabels: function formatTooltipTitles(data) {
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.dataFormatted === 'undefined') {
+				dataset.dataFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let dataFormatted = dataItem;
+					if (!isNaN(Number(dataItem))) {
+						dataFormatted = app.parseNumberToShow(dataItem);
+					}
+					dataset.dataFormatted.push(dataFormatted);
+				});
+			}
+		});
+	},
+	/**
+	 * Apply unified tooltips configuration
+	 *
+	 * @param {chartData} data - data from request
+	 * @param {object} options - predefined options
+	 * @returns {object} options
+	 */
+	applyDefaultTooltipsOptions: function applyDefaultTooltipsOptions(data, options = {}) {
+		const defaultOptions = this.getTooltipsOptions(data);
+		if (typeof options.tooltips === 'undefined') {
+			options.tooltips = {};
+		}
+		if (typeof options.tooltips.callbacks === 'undefined') {
+			options.tooltips.callbacks = {};
+		}
+
+		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
+		this.formatTooltipLabels(data);// labels are now in dataset.dataFormatted
+
+		if (typeof options.tooltips.callbacks.label === 'undefined') {
+			options.tooltips.callbacks.label = defaultOptions.tooltips.callbacks.label;
+		}
+		if (typeof options.tooltips.callbacks.title === 'undefined') {
+			options.tooltips.callbacks.title = defaultOptions.tooltips.callbacks.title;
+		}
+		return options;
 	},
 	/**
 	 * Placeholder for individual chart type options
