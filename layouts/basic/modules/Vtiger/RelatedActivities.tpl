@@ -164,7 +164,7 @@
 {if $PAGING_MODEL->isNextPageExists()}
 	<div class="row">
 		<div class="float-right">
-			<button type="button" class="btn btn-primary btn-sm moreRecentActivities marginTop10 marginRight10">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+			<button type="button" class="btn btn-primary btn-sm moreRecentActivities mt-2 mr-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 		</div>
 	</div>
 {/if}
