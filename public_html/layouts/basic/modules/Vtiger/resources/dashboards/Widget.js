@@ -635,9 +635,46 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		chartData.datasets.forEach((dataset) => {
+			// TODO: only if not specified!
 			dataset.datalabels = this.getDatalabelsOptions(dataset, chartType);
 		});
 		return chartData;
+	},
+	/**
+	 * Get tooltips configuration - this method can be overrided if needed
+	 *
+	 * @param {object} data - chartData
+	 * @returns {object} default options
+	 */
+	getTooltipsOptions: function getTooltipsOptions(data) {
+		return {
+			tooltips: {
+				callbacks: {
+
+					label: function tooltipLabelCallback(tooltipItem, data) {
+						if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+							return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+						}
+						if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+							return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+						}
+						return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+					},
+
+					title: function tooltipTitleCallback(tooltipItems, data) {
+						const tooltipItem = tooltipItems[0];
+						if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+							return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+						}
+						if (!isNaN(Number(data.labels[tooltipItem.index]))) {
+							return app.parseNumberToShow(data.labels[tooltipItem.index]);
+						}
+						return data.labels[tooltipItem.index];
+					}
+
+				}
+			}
+		};
 	},
 	/**
 	 * Apply unified tooltips configuration
@@ -646,7 +683,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {object} options - predefined options
 	 * @returns {object} options
 	 */
-	applyDefaultTooltipsConfig: function applyDefaultTooltipsConfig(data, options = {}) {
+	applyDefaultTooltipsOptions: function applyDefaultTooltipsOptions(data, options = {}) {
+		const defaultOptions = this.getTooltipsOptions(data);
 		if (typeof options.tooltips === 'undefined') {
 			options.tooltips = {};
 		}
@@ -655,27 +693,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
 		if (typeof options.tooltips.callbacks.label === 'undefined') {
-			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
-				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
-					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-				}
-				if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
-					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-				}
-				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-			}
+			options.tooltips.callbacks.label = defaultOptions.tooltips.callbacks.label;
 		}
 		if (typeof options.tooltips.callbacks.title === 'undefined') {
-			options.tooltips.callbacks.title = function tooltipTitleCallback(tooltipItems, data) {
-				const tooltipItem = tooltipItems[0];
-				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
-					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
-				}
-				if (!isNaN(Number(data.labels[tooltipItem.index]))) {
-					return app.parseNumberToShow(data.labels[tooltipItem.index]);
-				}
-				return data.labels[tooltipItem.index];
-			}
+			options.tooltips.callbacks.title = defaultOptions.tooltips.callbacks.title;
 		}
 		return options;
 	},
@@ -801,7 +822,7 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		if (typeof options.events === 'undefined') {
 			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
 		}
-		this.applyDefaultTooltipsConfig(data, options);
+		this.applyDefaultTooltipsOptions(data, options);
 		this.applyDefaultAxesLabelsConfig(options);
 		return options;
 	},
@@ -1155,7 +1176,7 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 		options.scales.yAxes.forEach((axis) => {
 			axis.display = true;
 		});
-		this.applyDefaultTooltipsConfig(data, options);
+		this.applyDefaultTooltipsOptions(data, options);
 		return options;
 	},
 	applyDatalabelsOptions: function (data, type) {
@@ -1191,7 +1212,7 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		if (typeof options.cutoutPercentage === 'undefined') {
 			options.cutoutPercentage = 0;
 		}
-		this.applyDefaultTooltipsConfig(data, options);
+		this.applyDefaultTooltipsOptions(data, options);
 		return options;
 	},
 });
@@ -1221,7 +1242,7 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 		if (typeof options.cutoutPercentage === 'undefined') {
 			options.cutoutPercentage = 50;
 		}
-		this.applyDefaultTooltipsConfig(data, options);
+		this.applyDefaultTooltipsOptions(data, options);
 		return options;
 	},
 });
