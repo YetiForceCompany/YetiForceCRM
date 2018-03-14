@@ -96,15 +96,11 @@
 			</form>
 		</div>
 		<div id="progressIndicator" class="main-container d-none">
-			<div class="inner-container">
-				<div class="inner-container">
-					<div class="row">
-						<div class="span12 welcome-div alignCenter">
-							<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-							<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}" alt="Install loading">
-							<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
-						</div>
-					</div>
+			<div class="inner-container py-5">
+				<div class="col-12 text-center py-5">
+					<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
+					<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}" alt="Install loading">
+					<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
 				</div>
 			</div>
 		</div>
