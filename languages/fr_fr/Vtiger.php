@@ -1633,6 +1633,6 @@ $jsLanguageStrings = [
 	'JS_RECORD_INFO' => 'Info d\'Enregistrement',
 	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Le temps de travail ne peut pas excéder 24 heures',
-	'JS_APPLY' => 'Zatwierdź',
-	'JS_CANCEL' => 'Anuluj'
+	'JS_APPLY' => 'Apply',
+	'JS_CANCEL' => 'Cancel'
 ];
