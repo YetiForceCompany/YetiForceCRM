@@ -67,11 +67,11 @@
 					{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 					{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
 					<p class="text-center">
-						<span class="d-none d-sm-inline ">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVR ,$FOOTOSP)}</span>
+						<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}<br />{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}</span>
 						<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
 					</p>
 				{else}
-					<p class="text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project')}</p>
+					<p class="text-center">Copyright &copy; YetiForce.com All rights reserved. [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]<br />{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}</p>
 				{/if}
 			</div>
 	</footer>
@@ -84,7 +84,7 @@
 				</div>
 				<div class="modal-body">
 					<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;" /></p>
-					<p>Copyright Â© YetiForce.com All rights reserved.</p>
+					<p>Copyright © YetiForce.com All rights reserved.</p>
 					<p>The Program is provided AS IS, without warranty. Licensed under <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a>.</p>
 					<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>
 					<p><span class="badge badge-secondary">License:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a></p>
