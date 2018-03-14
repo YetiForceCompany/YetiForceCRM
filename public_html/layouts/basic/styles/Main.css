@@ -4224,7 +4224,7 @@ button.bg-dark:focus {
 .bg-transparent {
   background-color: transparent !important; }
 
-.border, .input-group .select2-selection {
+.border, .select2-selection {
   border: 1px solid #dee2e6 !important; }
 
 .border-top, .detailViewTable .fieldRow {
@@ -5096,7 +5096,7 @@ button.bg-dark:focus {
 .m-1, .c-detail-widget {
   margin: 0.25rem !important; }
 
-.mt-1, .input-group .select2-selection__arrow, .Comment .commentActionsDiv .btn,
+.mt-1, .select2-selection__arrow, .Comment .commentActionsDiv .btn,
 .my-1 {
   margin-top: 0.25rem !important; }
 
@@ -5213,7 +5213,7 @@ button.bg-dark:focus {
 .px-0 {
   padding-left: 0 !important; }
 
-.p-1, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group, .bodyHeader .globalSearchInput .btn, .footerContainer .page-link {
+.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group, .bodyHeader .globalSearchInput .btn, .footerContainer .page-link {
   padding: 0.25rem !important; }
 
 .pt-1,
@@ -5328,7 +5328,8 @@ button.bg-dark:focus {
   margin: auto !important; }
 
 .mt-auto,
-.my-auto {
+.my-auto,
+.select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice {
   margin-top: auto !important; }
 
 .mr-auto,
@@ -5336,7 +5337,8 @@ button.bg-dark:focus {
   margin-right: auto !important; }
 
 .mb-auto,
-.my-auto {
+.my-auto,
+.select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice {
   margin-bottom: auto !important; }
 
 .ml-auto,
@@ -6342,7 +6344,7 @@ button.bg-dark:focus {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
-.text-left, .input-group .select2-selection {
+.text-left, .select2-selection {
   text-align: left !important; }
 
 .text-right {
@@ -10469,7 +10471,7 @@ select[readonly], select[disabled] {
 .tableBorderHeadBody thead, .tableBorderHeadBody tbody {
   border: 1px solid #ddd; }
 
-.listViewEntriesTable .listViewSummation td.border, .listViewEntriesTable .listViewSummation .input-group td.select2-selection, .input-group .listViewEntriesTable .listViewSummation td.select2-selection {
+.listViewEntriesTable .listViewSummation td.border, .listViewEntriesTable .listViewSummation td.select2-selection {
   border: 1px solid #ddd; }
 
 .tableBorderHeadBody {
@@ -10601,6 +10603,10 @@ border1px {
   margin-left: 10px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.select2-selection {
+  height: 2.5rem !important;
+  padding-top: 0.2rem; }
+
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
@@ -10619,10 +10625,6 @@ header .headerLinksMails .select2-selection:hover {
   background: #343a40 !important; }
   header .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
-
-.input-group .select2-selection {
-  height: 38px !important;
-  padding-top: 3px; }
 
 .leaflet-popup-content {
   width: 62px; }
@@ -10648,6 +10650,11 @@ header .headerLinksMails .select2-selection:hover {
 
 .daterangepicker .ranges li {
   margin-bottom: 0.45rem; }
+
+.ui-autocomplete {
+  width: inherit !important; }
+  .ui-autocomplete a.ui-menu-item-wrapper, .ui-autocomplete a.ui-menu-item-wrapper:hover {
+    font-weight: inherit !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv, .centerPanel {
@@ -11192,7 +11199,6 @@ header .headerLinksMails .select2-selection:hover {
   word-wrap: break-word;
   margin-bottom: 10px; }
   .commentContainer .commentTitle textarea {
-    width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
