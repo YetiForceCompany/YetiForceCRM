@@ -28,7 +28,7 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
-			<div class="activityEntries padding5">
+			<div class="activityEntries p-1">
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
 				<div class="row">
 					<span class="col-md-6">
