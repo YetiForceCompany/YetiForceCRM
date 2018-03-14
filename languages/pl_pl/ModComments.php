@@ -32,5 +32,5 @@ $languageStrings = [
 	'LBL_COMMENTS_1' => 'Procesy',
 	'LBL_COMMENTS_2' => 'Podprocesy',
 	'LBL_COMMENTS_SEARCH' => 'Szukaj',
-	'LBL_ALL_RECORDS' => 'Wszystkie rekordy',
+	'LBL_ALL_RECORDS' => 'Powiązane rekordy',
 ];
