@@ -33,8 +33,7 @@ class LanguageExport extends Package
 	public function __initExport($languageCode, $moduleInstance = null)
 	{
 		// Security check to ensure file is withing the web folder.
-		Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");
-
+		Utils::checkFileAccessForInclusion("languages/$languageCode/_Base.json");
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
 	}
