@@ -3,10 +3,6 @@
 <script type="text/javascript">
 YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 	getTooltipsOptions: function getTooltipsOptions(){
-		const months = [ "JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN",
-				"JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC" ];
-		const fullMonths = [ "JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE",
-				"JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER" ];
 		const data = this.chartData;
 		return {
 			tooltips:{
@@ -15,7 +11,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 						return app.parseNumberToShow(item.yLabel);
 					},
 					title:function(item){
-						return app.vtranslate(fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
+						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
 					},
 				}
 			},
