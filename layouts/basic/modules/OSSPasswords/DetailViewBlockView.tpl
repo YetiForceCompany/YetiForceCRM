@@ -59,12 +59,12 @@
 								{/if}
 								<div class="col-sm-6">
 									<div class="form-row">
-										<div class="fieldLabel border-top border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<div class="fieldLabel border-bottom border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 											<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
 												{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 											</label>
 										</div>
-										<div class="fieldValue  border-top border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
+										<div class="fieldValue  border-bottom border-left col-sm-6  {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
 											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getName() eq 'password'}id="detailPassword" {/if}>
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 											</span>
