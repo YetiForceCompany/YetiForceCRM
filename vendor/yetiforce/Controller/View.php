@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 /**
@@ -10,7 +11,6 @@ namespace App\Controller;
  */
 abstract class View extends Base
 {
-
 	/**
 	 * Viewer instance.
 	 *
@@ -206,6 +206,7 @@ abstract class View extends Base
 		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
+
 	/**
 	 * Retrieves css styles that need to loaded in the page.
 	 *
@@ -515,7 +516,6 @@ abstract class View extends Base
 		if ($moduleName === 'Settings:Users') {
 			$moduleName = 'Users';
 		}
-
-		return \Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
+		return \App\Language::getJsStrings($moduleName);
 	}
 }

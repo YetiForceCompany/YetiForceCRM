@@ -41,6 +41,13 @@ class Language
 	private static $pluralizeCache = [];
 
 	/**
+	 * Contains module language translations.
+	 *
+	 * @var array
+	 */
+	protected static $languageContainer;
+
+	/**
 	 * Function that returns current language.
 	 *
 	 * @return string -
@@ -93,21 +100,53 @@ class Language
 			return static::$shortLanguage;
 		}
 		preg_match('/^[a-z]+/i', static::getLanguage(), $match);
-
 		return static::$shortLanguage = (empty($match[0])) ? 'en' : $match[0];
 	}
 
 	/**
 	 * Functions that gets translated string.
 	 *
-	 * @param string $key        - string which need to be translated
-	 * @param string $moduleName - module scope in which the translation need to be check
+	 * @param string      $key        - string which need to be translated
+	 * @param string      $moduleName - module scope in which the translation need to be check
+	 * @param bool|string $language   - language of translation
 	 *
 	 * @return string - translated string
 	 */
-	public static function translate($key, $moduleName = 'Vtiger', $currentLanguage = false)
+	public static function translate($key, $moduleName = '_Base', $language = false)
 	{
-		return \Vtiger_Language_Handler::getTranslatedString($key, $moduleName, $currentLanguage);
+		if (empty($key)) { // nothing to translate
+			return $key;
+		}
+		if (!$language) {
+			$language = static::getLanguage();
+		}
+		if (is_array($moduleName)) {
+			Log::warning('Invalid module name - module: ' . var_export($moduleName, true));
+			return $key;
+		}
+		if (is_numeric($moduleName)) { // ok, we have a tab id, lets turn it into name
+			$moduleName = Module::getModuleName($moduleName);
+		} else {
+			$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
+		}
+		static::loadLanguageFile($language, $moduleName);
+		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
+			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
+		}
+		// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
+		if (strpos($moduleName, 'Settings') === 0) {
+			$base = 'Settings' . DIRECTORY_SEPARATOR . '_Base';
+			static::loadLanguageFile($language, $base);
+			if (isset(static::$languageContainer[$language][$base]['php'][$key])) {
+				return Purifier::encodeHtml(static::$languageContainer[$language][$base]['php'][$key]);
+			}
+		}
+		static::loadLanguageFile($language);
+		if (isset(static::$languageContainer[$language]['_Base']['php'][$key])) {
+			return Purifier::encodeHtml(static::$languageContainer[$language]['_Base']['php'][$key]);
+		}
+		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
+		return $key;
 	}
 
 	/**
@@ -118,7 +157,7 @@ class Language
 	 *
 	 * @return string - translated string with encoding html
 	 */
-	public static function translateEncodeHtml($key, $moduleName = 'Vtiger', $currentLanguage = false)
+	public static function translateEncodeHtml($key, $moduleName = '_Base', $currentLanguage = false)
 	{
 		return \App\Purifier::encodeHtml(static::translate($key, $moduleName, $currentLanguage));
 	}
@@ -131,37 +170,14 @@ class Language
 	 *
 	 * @return string - translated string
 	 */
-	public static function translateArgs($key, $moduleName = 'Vtiger')
+	public static function translateArgs($key, $moduleName = '_Base')
 	{
 		$formattedString = static::translate($key, $moduleName);
 		$args = array_slice(func_get_args(), 2);
 		if (is_array($args) && !empty($args)) {
 			$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
 		}
-
 		return $formattedString;
-	}
-
-	/**
-	 * Translation function based on only one file.
-	 *
-	 * @param string      $key
-	 * @param string      $moduleName
-	 * @param string|bool $language
-	 *
-	 * @return string
-	 */
-	public static function translateSingleMod($key, $moduleName = 'Vtiger', $language = false)
-	{
-		if (!$language) {
-			$language = static::getLanguage();
-		}
-		$commonStrings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $moduleName);
-		if (!empty($commonStrings['languageStrings'][$key])) {
-			return stripslashes($commonStrings['languageStrings'][$key]);
-		}
-
-		return $key;
 	}
 
 	/**
@@ -178,26 +194,34 @@ class Language
 	 */
 	public static function translatePluralized($key, $moduleName, $count)
 	{
-		$currentLanguage = static::getLanguage();
 		if (isset(static::$pluralizeCache[$count])) {
 			$postfix = static::$pluralizeCache[$count];
 		} else {
 			$postfix = static::getPluralized((int) $count);
 		}
-		$translatedString = \Vtiger_Language_Handler::getLanguageTranslatedString($currentLanguage, $key . $postfix, $moduleName);
-		// label not found in users language pack, then check in the default language pack(config.inc.php)
-		if ($translatedString === null) {
-			$defaultLanguage = \AppConfig::main('default_language');
-			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
-				$translatedString = \Vtiger_Language_Handler::getLanguageTranslatedString($defaultLanguage, $key . $postfix, $moduleName);
-			}
-		}
-		// If translation is not found then return label
-		if ($translatedString === null) {
-			$translatedString = $key . $postfix;
-		}
+		return vsprintf(static::translate($key . $postfix, $moduleName), [$count]);
+	}
 
-		return vsprintf($translatedString, [$count]);
+	/**
+	 * Translation function based on only one file.
+	 *
+	 * @param string      $key
+	 * @param string      $moduleName
+	 * @param string|bool $language
+	 *
+	 * @return string
+	 */
+	public static function translateSingleMod($key, $moduleName = '_Base', $language = false)
+	{
+		if (!$language) {
+			$language = static::getLanguage();
+		}
+		$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
+		static::loadLanguageFile($language, $moduleName);
+		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
+			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
+		}
+		return $key;
 	}
 
 	/**
@@ -222,6 +246,90 @@ class Language
 	public static function translateSingularModuleName($moduleName)
 	{
 		return static::translate("SINGLE_$moduleName", $moduleName);
+	}
+
+	/**
+	 * Load language file.
+	 *
+	 * @param string $language
+	 * @param string $moduleName
+	 */
+	public static function loadLanguageFile($language, $moduleName = '_Base')
+	{
+		if (!isset(static::$languageContainer[$language][$moduleName])) {
+			if (Cache::has('LanguageFiles', $language . $moduleName)) {
+				static::$languageContainer[$language][$moduleName] = Cache::get('LanguageFiles', $language . $moduleName);
+			} else {
+				$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.json';
+				$translation = [];
+				if (file_exists($file)) {
+					$translation = json_decode(file_get_contents($file), true);
+				} else {
+					\App\Log::warning("Language file does not exist, module: $moduleName ,language: $language");
+				}
+				static::$languageContainer[$language][$moduleName] = $translation;
+				if (\AppConfig::performance('LOAD_CUSTOM_LANGUAGE')) {
+					$custom = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.json';
+					if (file_exists($custom)) {
+						$translation = json_decode(file_get_contents($custom), true);
+						if ($translation) {
+							foreach ($translation as $type => $rows) {
+								foreach ($rows as $key => $val) {
+									static::$languageContainer[$language][$moduleName][$type][$key] = $val;
+								}
+							}
+						}
+					}
+				}
+				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer, Cache::LONG);
+			}
+		}
+	}
+
+	/**
+	 * Get language from file.
+	 *
+	 * @param string $moduleName
+	 * @param string $language
+	 *
+	 * @return array
+	 */
+	public static function getFromFile($moduleName, $language)
+	{
+		static::loadLanguageFile($language, $moduleName);
+		if (isset(static::$languageContainer[$language][$moduleName])) {
+			return static::$languageContainer[$language][$moduleName];
+		}
+	}
+
+	/**
+	 * Functions that gets translated string.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string[]
+	 */
+	public static function getJsStrings($moduleName)
+	{
+		$language = static::getLanguage();
+		$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
+		static::loadLanguageFile($language, $moduleName);
+		$return = [];
+		if (isset(static::$languageContainer[$language][$moduleName]['js'])) {
+			$return = static::$languageContainer[$language][$moduleName]['js'];
+		}
+		if (strpos($moduleName, 'Settings') === 0) {
+			$base = 'Settings' . DIRECTORY_SEPARATOR . '_Base';
+			static::loadLanguageFile($language, $base);
+			if (isset(static::$languageContainer[$language][$base]['js'])) {
+				$return = array_merge(static::$languageContainer[$language][$base]['js'], $return);
+			}
+		}
+		static::loadLanguageFile($language);
+		if (isset(static::$languageContainer[$language]['_Base']['js'])) {
+			$return = array_merge(static::$languageContainer[$language]['_Base']['js'], $return);
+		}
+		return $return;
 	}
 
 	/**
@@ -469,9 +577,7 @@ class Language
 			return Cache::get('getLanguageLabel', $name);
 		}
 		$label = (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
-		Cache::save('getLanguageLabel', $name, $label);
-
-		return $label;
+		return Cache::save('getLanguageLabel', $name, $label);
 	}
 
 	/**
@@ -497,8 +603,6 @@ class Language
 		} else {
 			$output = $query->select(['prefix', 'label'])->createCommand()->queryAllByGroup();
 		}
-		Cache::save('getAll', $cacheKey, $output);
-
-		return $output;
+		return Cache::save('getAll', $cacheKey, $output);
 	}
 }

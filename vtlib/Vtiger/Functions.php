@@ -13,12 +13,6 @@ namespace vtlib;
 
 class Functions
 {
-	// i18n
-	public static function getTranslatedString($str, $module = '')
-	{
-		return \Vtiger_Language_Handler::getTranslatedString($str, $module);
-	}
-
 	protected static function getCurrencyInfo($currencyid)
 	{
 		if (\App\Cache::has('AllCurrency', 'All')) {

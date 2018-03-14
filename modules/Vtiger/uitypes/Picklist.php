@@ -20,7 +20,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
+		$dispalyValue = \App\Language::translate($value, $moduleName);
 		if (is_int($length)) {
 			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
 		}

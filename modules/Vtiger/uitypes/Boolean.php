@@ -43,9 +43,9 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->getFieldModel()->getModuleName());
+			return App\Language::translate('LBL_YES', $this->getFieldModel()->getModuleName());
 		} elseif ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->getFieldModel()->getModuleName());
+			return App\Language::translate('LBL_NO', $this->getFieldModel()->getModuleName());
 		}
 
 		return \App\Purifier::encodeHtml($value);
