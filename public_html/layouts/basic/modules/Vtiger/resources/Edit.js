@@ -558,6 +558,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerTimeFields: function (container) {
 		app.registerEventForClockPicker();
 		app.registerEventForDatePickerFields(container);
+		App.Fields.DateTime.register(container);
 	},
 	referenceCreateHandler: function (container) {
 		var thisInstance = this;
