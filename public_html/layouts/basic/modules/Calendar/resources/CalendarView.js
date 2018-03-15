@@ -246,7 +246,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var types = [];
-		var formatDate = app.getMainParams('userDateFormat').toUpperCase();
+		var formatDate = CONFIG.dateFormat.toUpperCase();
 		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
 		if (types.length == 0) {
 			allEvents = true;
