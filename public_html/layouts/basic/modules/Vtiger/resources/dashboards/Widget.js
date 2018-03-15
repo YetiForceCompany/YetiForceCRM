@@ -97,7 +97,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (!content.length)
 			return;
 		content.css('height', adjustedHeight + 'px');
-		app.showNewScrollbar(content, {wheelPropagation: true});
+		app.showNewScrollbar(content, {
+			wheelPropagation: true
+		});
 	},
 	restrictContentDrag: function restrictContentDrag() {
 		this.getContainer().on('mousedown.draggable', function (e) {
@@ -219,7 +221,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (owners) {
 				var select = ownersFilter.find('select');
 				$.each(jQuery.parseJSON(owners), function (key, value) {
-					select.append($('<option>', {value: key}).text(value));
+					select.append($('<option>', {
+						value: key
+					}).text(value));
 				});
 			}
 		}
@@ -243,12 +247,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 				print.close();
 			}, 1000);
 		});
-		downloadWidget.click({chart: $(this)}, function (e) {
+		downloadWidget.click({
+			chart: $(this)
+		}, function (e) {
 			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var a = $("<a>")
-					.attr("href", imgEl.attr('src'))
-					.attr("download", header.find('.dashboardTitle').text() + ".png")
-					.appendTo(container);
+				.attr("href", imgEl.attr('src'))
+				.attr("download", header.find('.dashboardTitle').text() + ".png")
+				.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
@@ -399,24 +405,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(
-				function (data) {
-					var data = jQuery(data);
-					var footer = data.filter('.widgetFooterContent');
-					refreshContainer.progressIndicator({'mode': 'hide'});
-					if (footer.length) {
-						footer = footer.clone(true, true);
-						refreshContainerFooter.html(footer);
-						data.each(function (n, e) {
-							if (jQuery(this).hasClass('widgetFooterContent')) {
-								data.splice(n, 1);
-							}
-						})
-					}
-					contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-				},
-				function () {
-					refreshContainer.progressIndicator({'mode': 'hide'});
+			function (data) {
+				var data = jQuery(data);
+				var footer = data.filter('.widgetFooterContent');
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				if (footer.length) {
+					footer = footer.clone(true, true);
+					refreshContainerFooter.html(footer);
+					data.each(function (n, e) {
+						if (jQuery(this).hasClass('widgetFooterContent')) {
+							data.splice(n, 1);
+						}
+					})
 				}
+				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
+			},
+			function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			}
 		);
 	},
 	registerFilter: function registerFilter() {
@@ -427,7 +437,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return;
 		}
 		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
-		app.registerDateRangePickerFields(dateRangeElement, {opens: "auto"});
+		app.registerDateRangePickerFields(dateRangeElement, {
+			opens: "auto"
+		});
 		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
 			container.find('a[name="drefresh"]').trigger('click');
 		});
@@ -506,7 +518,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			contentContainer.progressIndicator();
 			AppConnector.request(url).then(function (data) {
-				contentContainer.progressIndicator({'mode': 'hide'});
+				contentContainer.progressIndicator({
+					'mode': 'hide'
+				});
 				jQuery(parent).find('.dashboardWidgetContent').append(data);
 				element.parent().remove();
 			});
@@ -545,13 +559,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 		// each chart type should have default options as getDefaultChartOptions method
 		const options = thisInstance.applyDefaultChartOptions(data, thisInstance.getOptions());
 		thisInstance.chartInstance = new Chart(
-				thisInstance.getChartContainer().getContext("2d"),
-				{
-					type: thisInstance.getType(),
-					data,
-					options,
-					plugins: thisInstance.getPlugins()
-				}
+			thisInstance.getChartContainer().getContext("2d"), {
+				type: thisInstance.getType(),
+				data,
+				options,
+				plugins: thisInstance.getPlugins()
+			}
 		);
 	},
 	/**
@@ -592,8 +605,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} [options={}] instance options (getOptions)
 	 * @return {Object}              merged options
 	 */
-	applyDefaultChartOptions: function (data, options = {}){
-		options = this.mergeOptions(options,this.getDefaultChartOptions());
+	applyDefaultChartOptions: function (data, options = {}) {
+		options = this.mergeOptions(options, this.getDefaultChartOptions());
 		options = this.applyDefaultTooltipsOptions(data, options);
 		return options;
 	},
@@ -608,11 +621,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	getDefaultDatalabelsOptions: function getDefaultDatalabelsOptions(dataset, type = 'bar', datasetIndex = 0) {
 		let borderRadius = 2;
+		let align = 'center';
+		let anchor = 'center';
+		let backgroundColor = 'rgba(0,0,0,0.2)';
+		let borderColor = 'rgba(255,255,255,0.2)';
 		switch (type) {
 			case 'pie':
 			case 'donut':
 			case 'doughnut':
 				borderRadius = 5;
+				align = 'center';
+				anchor = 'end';
+				backgroundColor = 'rgba(0,0,0,0.5)';
+				borderColor = 'rgba(255,255,255,0.5)';
 				break;
 		}
 		return {
@@ -620,12 +641,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				size: 11
 			},
 			color: 'white',
-			backgroundColor: 'rgba(0,0,0,0.2)',
-			borderColor: 'rgba(255,255,255,0.2)',
+			backgroundColor: backgroundColor,
+			borderColor: borderColor,
 			borderWidth: 2,
 			borderRadius: borderRadius,
-			anchor: 'center',
-			align: 'center',
+			anchor: anchor,
+			align: align,
 			formatter: function (value, context) {
 				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
 					// data presented in different format usually exists in alternative dataFormatted array
@@ -650,7 +671,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		chartData.datasets.forEach((dataset, index) => {
-			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset,this.getType(),index));
+			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset, this.getType(), index));
 			dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
 		});
 		return chartData;
@@ -757,30 +778,30 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {object} from
 	 * @return {object}
 	 */
-	mergeOptions: function mergeOptions(to={},from){
-		if (typeof from!=='object' && typeof to==='undefined') {
+	mergeOptions: function mergeOptions(to = {}, from) {
+		if (typeof from !== 'object' && typeof to === 'undefined') {
 			// if we are in recursive tree and from and to are primitives - just return from
 			return from;
 		}
 		for (let key in from) {
-        	if (from.hasOwnProperty(key)) {
-				if (typeof from[key]==='object' && !Array.isArray(from[key]) && from[key]!==null) {
+			if (from.hasOwnProperty(key)) {
+				if (typeof from[key] === 'object' && !Array.isArray(from[key]) && from[key] !== null) {
 					// if property is an object - merge recursively
-					to[key] = this.mergeOptions(to[key],from[key]);
-				} else if(typeof from[key]==='object' && Array.isArray(from[key])) {
-					if (!to.hasOwnProperty(key)){
-						to[key]=[];
+					to[key] = this.mergeOptions(to[key], from[key]);
+				} else if (typeof from[key] === 'object' && Array.isArray(from[key])) {
+					if (!to.hasOwnProperty(key)) {
+						to[key] = [];
 					}
-					from[key].forEach((item,index)=>{
-						to[key][index]=this.mergeOptions(to[key][index],item);
+					from[key].forEach((item, index) => {
+						to[key][index] = this.mergeOptions(to[key][index], item);
 					});
 				} else {
-					if(!to.hasOwnProperty(key)){
-						to[key]=from[key];
+					if (!to.hasOwnProperty(key)) {
+						to[key] = from[key];
 					}
 				}
 			}
-	    }
+		}
 		return to;
 	},
 	/**
@@ -791,9 +812,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {object} options
 	 */
 	applyDefaultTooltipsOptions: function applyDefaultTooltipsOptions(data, options = {}) {
-		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
-		this.formatTooltipLabels(data);// labels are now in dataset.dataFormatted
-		return options = this.mergeOptions(options,this.getTooltipsOptions(data));
+		this.formatTooltipTitles(data); // titles are now in dataset.titlesFormatted
+		this.formatTooltipLabels(data); // labels are now in dataset.dataFormatted
+		return options = this.mergeOptions(options, this.getTooltipsOptions(data));
 	},
 	/**
 	 * Placeholder for individual chart type options
@@ -812,7 +833,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Number} datasetIndex
 	 * @return {Object} datalabels configurations
 	 */
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex){
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
 		return {};
 	},
 	/**
@@ -1002,11 +1023,9 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 	getPlugins: function () {
 		const thisInstance = this;
-		return[
-			{
-				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-			}
-		]
+		return [{
+			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+		}]
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1129,7 +1148,10 @@ YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
 			var params = url;
 			var widgetFilters = parent.find('.widgetFilter');
 			if (widgetFilters.length > 0) {
-				params = {url: url, data: {}};
+				params = {
+					url: url,
+					data: {}
+				};
 				widgetFilters.each(function (index, domElement) {
 					var widgetFilter = jQuery(domElement);
 					var filterName = widgetFilter.attr('name');
@@ -1141,7 +1163,10 @@ YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
 			var filterData = thisInstance.getFilterData();
 			if (!jQuery.isEmptyObject(filterData)) {
 				if (typeof params == 'string') {
-					params = {url: url, data: {}};
+					params = {
+						url: url,
+						data: {}
+					};
 				}
 				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
 			}
@@ -1151,11 +1176,15 @@ YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
 			var refreshContainer = parent.find('.dashboardWidgetContent');
 			refreshContainer.progressIndicator();
 			AppConnector.request(params).then(function (data) {
-				refreshContainer.progressIndicator({'mode': 'hide'});
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
 				loadMoreHandler.replaceWith(data);
 				thisInstance.registerLoadMore();
 			}, function () {
-				refreshContainer.progressIndicator({'mode': 'hide'});
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
 			});
 		});
 	}
@@ -1175,10 +1204,10 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
 		return 'funnel';
 	},
-	getDefaultChartOptions: function (data, options = {}){
+	getDefaultChartOptions: function (data, options = {}) {
 		return {
 			maintainAspectRatio: false,
-			title:{
+			title: {
 				display: false
 			},
 			legend: {
@@ -1192,7 +1221,7 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 			},
 		};
 	},
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex){
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
 		return {
 			display: false
 		};
@@ -1202,7 +1231,7 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	getType: function getType() {
 		return 'pie';
 	},
-	getDefaultChartOptions: function (data, options = {}){
+	getDefaultChartOptions: function (data, options = {}) {
 		return {
 			maintainAspectRatio: false,
 			title: {
@@ -1212,6 +1241,11 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 				display: true
 			},
 			cutoutPercentage: 0,
+			layout: {
+				padding: {
+					bottom: 12
+				}
+			}
 		};
 	},
 });
@@ -1219,7 +1253,7 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
 		return 'doughnut';
 	},
-	getDefaultChartOptions: function (data, options = {}){
+	getDefaultChartOptions: function (data, options = {}) {
 		return {
 			maintainAspectRatio: false,
 			title: {
@@ -1229,6 +1263,11 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 				display: true
 			},
 			cutoutPercentage: 50,
+			layout: {
+				padding: {
+					bottom: 12
+				}
+			}
 		};
 	},
 });
@@ -1247,7 +1286,9 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 		var data = this.generateData();
 		var series = [];
 		$.each(data['divided'], function (index, value) {
-			series[index] = {label: value};
+			series[index] = {
+				label: value
+			};
 		});
 		if (data['chartData'].length > 0) {
 			this.chartInstance = this.getChartContainer(false).jqplot(data['chartData'], {
@@ -1259,7 +1300,9 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 						highlightMouseOver: true,
 						varyBarColor: true
 					},
-					pointLabels: {show: true}
+					pointLabels: {
+						show: true
+					}
 				},
 				series: series,
 				axes: {
@@ -1417,7 +1460,10 @@ YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
 					highlightMouseDown: true,
 					highlightMouseOver: true
 				},
-				pointLabels: {show: true, hideZeros: true}
+				pointLabels: {
+					show: true,
+					hideZeros: true
+				}
 			},
 			axes: {
 				xaxis: {
@@ -1474,15 +1520,16 @@ YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 	}
 });
 /* Notebook Widget */
-YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {
-}, {
+YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
 	// Override widget specific functions.
 	postLoadWidget: function () {
 		this.reinitNotebookView();
 	},
 	reinitNotebookView: function () {
 		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {'height': '200px'});
+		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
+			'height': '200px'
+		});
 		jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
 			self.editNotebookContent();
 		});
@@ -1508,7 +1555,9 @@ YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {
 		var refreshContainer = this.container.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
 		AppConnector.request(params).then(function (data) {
-			refreshContainer.progressIndicator({'mode': 'hide'});
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
 			jQuery('.dashboardWidgetContent', self.container).html(data);
 			self.reinitNotebookView();
 		});
@@ -1522,7 +1571,15 @@ YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
 		var chartData = [];
 		var xLabels = [];
 		var yMaxValue = 0;
-		return {'chartData': [[[data['result'], data['all']]]], 'yMaxValue': data['maxValue'], 'labels': ''};
+		return {
+			'chartData': [
+				[
+					[data['result'], data['all']]
+				]
+			],
+			'yMaxValue': data['maxValue'],
+			'labels': ''
+		};
 	},
 	loadChart: function () {
 		var data = this.generateChartData();
@@ -1556,11 +1613,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-						stacked: true
-					}],
+					stacked: true
+				}],
 				yAxes: [{
-						stacked: true
-					}]
+					stacked: true
+				}]
 			}
 		};
 	}
@@ -1622,17 +1679,21 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')
+			],
 			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')],
+				app.vtranslate('JS_DEC')
+			],
 			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
 				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')],
+				app.vtranslate('JS_SATURDAY')
+			],
 			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
 				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
+				app.vtranslate('JS_SAT')
+			],
 			buttonText: {
 				today: app.vtranslate('JS_TODAY'),
 				month: app.vtranslate('JS_MONTH'),
@@ -1645,25 +1706,30 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				element = '<div class="cell-calendar">';
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
-							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
-							'</a>\n';
+						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+						'</a>\n';
 				}
 				element += '</div>';
 				return element;
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
-				.mouseenter(function () {
-					jQuery('<span class="plus pull-left fas fa-plus"></span>')
-							.prependTo($(this))
-				}).mouseleave(function () {
-			$(this).find(".plus").remove();
-		});
+			.mouseenter(function () {
+				jQuery('<span class="plus pull-left fas fa-plus"></span>')
+					.prependTo($(this))
+			}).mouseleave(function () {
+				$(this).find(".plus").remove();
+			});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
-			var params = {noCache: true};
-			params.data = {date_start: date, due_date: date};
+			var params = {
+				noCache: true
+			};
+			params.data = {
+				date_start: date,
+				due_date: date
+			};
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
@@ -1710,7 +1776,11 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (this.paramCache) {
 			var drefresh = this.getContainer().find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			var paramCache = {owner: user, customFilter: customFilter, start: start_date};
+			var paramCache = {
+				owner: user,
+				customFilter: customFilter,
+				start: start_date
+			};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
 		AppConnector.request(params).then(function (events) {
@@ -1721,8 +1791,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-					events.result
-					);
+				events.result
+			);
 			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
@@ -1787,7 +1857,9 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
 		thisInstance.loadCalendarData();
-		refreshContainer.progressIndicator({'mode': 'hide'});
+		refreshContainer.progressIndicator({
+			'mode': 'hide'
+		});
 	},
 });
 YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
@@ -1889,30 +1961,30 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
-	getOptions: function getOptions(){
+	getOptions: function getOptions() {
 		return {
 			legend: {
 				display: true
 			},
 			scales: {
 				yAxes: [{
-						stacked: true,
-						ticks: {
-							callback: function formatYAxisTick(value, index, values) {
-								return app.formatToHourText(value, 'short', false, false);
-							}
+					stacked: true,
+					ticks: {
+						callback: function formatYAxisTick(value, index, values) {
+							return app.formatToHourText(value, 'short', false, false);
 						}
-					}],
+					}
+				}],
 				xAxes: [{
-						stacked: true,
-						ticks: {
-							minRotation: 0
-						}
-					}]
+					stacked: true,
+					ticks: {
+						minRotation: 0
+					}
+				}]
 			},
 		}
 	},
-	getTooltipsOptions: function getDatalabelsOptions(){
+	getTooltipsOptions: function getDatalabelsOptions() {
 		return {
 			tooltips: {
 				callbacks: {
@@ -1926,7 +1998,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 		}
 	},
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex){
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
 		return {
 			formatter: function datalabelsFormatter(value, context) {
 				return app.formatToHourText(value);
@@ -1948,22 +2020,41 @@ YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
-		var chartData = [[], [], [], []];
+		var chartData = [
+			[],
+			[],
+			[],
+			[]
+		];
 		var yMaxValue = 0;
 		if (data.hasOwnProperty('compare')) {
 			for (var index in data) {
 				var parseData = thisInstance.parseChartData(data[index], chartData);
 				chartData[0].push(parseData[0]);
 				chartData[3].push(parseData[3]);
-				chartData = [chartData[0], parseData[1], parseData[2], chartData[3], ['#CC6600', '#208CB3']];
+				chartData = [chartData[0], parseData[1], parseData[2], chartData[3],
+					['#CC6600', '#208CB3']
+				];
 			}
 		} else {
 			var parseData = thisInstance.parseChartData(data, chartData);
-			chartData = [[parseData[0]], parseData[1], parseData[2], [parseData[3]], ['#208CB3']];
+			chartData = [
+				[parseData[0]], parseData[1], parseData[2],
+				[parseData[3]],
+				['#208CB3']
+			];
 		}
 		var yMaxValue = chartData[1];
 		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': chartData[0], 'yMaxValue': yMaxValue, 'labels': chartData[2], data_labels: chartData[3], placement: 'inside', location: 'n', colors: chartData[4]};
+		return {
+			'chartData': chartData[0],
+			'yMaxValue': yMaxValue,
+			'labels': chartData[2],
+			data_labels: chartData[3],
+			placement: 'inside',
+			location: 'n',
+			colors: chartData[4]
+		};
 	},
 	parseChartData: function (data, chartDataGlobal) {
 		var chartData = [];
