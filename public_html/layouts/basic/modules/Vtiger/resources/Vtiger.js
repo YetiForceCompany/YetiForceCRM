@@ -185,25 +185,25 @@ var Vtiger_Index_Js = {
 			"dataType": "html", "data": url
 		}
 		AppConnector.request(listViewWidgetParams).then(
-			function (data) {
+				function (data) {
 
-				if (typeof open == 'undefined')
-					open = true;
-				if (open) {
-					widgetContainer.progressIndicator({'mode': 'hide'});
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('downimage');
-					imageEle.attr('src', imagePath);
-					widgetContainer.css('height', 'auto');
+					if (typeof open == 'undefined')
+						open = true;
+					if (open) {
+						widgetContainer.progressIndicator({'mode': 'hide'});
+						var imageEle = widgetContainer.parent().find('.imageElement');
+						var imagePath = imageEle.data('downimage');
+						imageEle.attr('src', imagePath);
+						widgetContainer.css('height', 'auto');
+					}
+					widgetContainer.html(data);
+					if (data == '') {
+						widgetContainer.closest('.quickWidget').addClass('d-none');
+					} else {
+						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
+					}
+					jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 				}
-				widgetContainer.html(data);
-				if (data == '') {
-					widgetContainer.closest('.quickWidget').addClass('d-none');
-				} else {
-					var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-				}
-				jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
-			}
 		);
 	},
 	loadWidgetsOnLoad: function () {
@@ -226,19 +226,19 @@ var Vtiger_Index_Js = {
 			var params = {
 				'module': 'Users',
 				'action': 'SaveAjax',
-				'record': jQuery('#current_user_id').val(),
+				'record': CONFIG.userId,
 				'field': 'theme',
 				'value': currentElement.data('skinName')
 			}
 			AppConnector.request(params).then(function (data) {
-					if (data.success && data.result) {
-						progressElement.progressIndicator({'mode': 'hide'});
-						jQuery('.settingIcons').removeClass('open');
-						window.location.reload();
-					}
-				},
-				function (error, err) {
-				});
+				if (data.success && data.result) {
+					progressElement.progressIndicator({'mode': 'hide'});
+					jQuery('.settingIcons').removeClass('open');
+					window.location.reload();
+				}
+			},
+					function (error, err) {
+					});
 		})
 	},
 	markNotifications: function (id) {
@@ -251,32 +251,32 @@ var Vtiger_Index_Js = {
 			ids: id
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
-				Vtiger_Helper_Js.showPnotify({
-					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_MARKED_AS_READ'),
-					type: 'info'
-				});
-				if (row.length) {
-					row.fadeOut(300, function () {
-						var entries = row.closest('.notificationEntries')
-						row.remove();
-						entries.each(function (index) {
-							var block = $(this);
-							if (block.find(".noticeRow").length == 0) {
-								block.closest('.panel').hide();
-							}
-						});
+				function (data) {
+					var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_MARKED_AS_READ'),
+						type: 'info'
 					});
-					thisInstance.getNotificationsForReminder();
-				}
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				app.errorLog(textStatus, errorThrown);
-				aDeferred.reject(textStatus, errorThrown);
-			});
+					if (row.length) {
+						row.fadeOut(300, function () {
+							var entries = row.closest('.notificationEntries')
+							row.remove();
+							entries.each(function (index) {
+								var block = $(this);
+								if (block.find(".noticeRow").length == 0) {
+									block.closest('.panel').hide();
+								}
+							});
+						});
+						thisInstance.getNotificationsForReminder();
+					}
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					app.errorLog(textStatus, errorThrown);
+					aDeferred.reject(textStatus, errorThrown);
+				});
 		return aDeferred.promise();
 	},
 	markAllNotifications: function (element) {
@@ -678,7 +678,7 @@ var Vtiger_Index_Js = {
 		var aDeferred = jQuery.Deferred();
 		element = jQuery(element);
 		if (userId == undefined) {
-			userId = app.getMainParams('current_user_id');
+			userId = CONFIG.userId;
 		}
 		var params = {
 			module: element.data('module'),
@@ -711,7 +711,7 @@ var Vtiger_Index_Js = {
 	},
 	registerUserPasswordChangeModal: function (timer) {
 		if (app.getMainParams('showUserPasswordChange')) {
-			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + app.getMainParams('current_user_id'));
+			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}
 	},
 	registerEvents: function () {

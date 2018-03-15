@@ -1333,7 +1333,7 @@ app = {
 				default :
 					serverWidth = 'medium';
 			}
-			var userid = jQuery('#current_user_id').val();
+			var userid = CONFIG.userId;
 			var params = {
 				'module': 'Users',
 				'action': 'SaveAjax',

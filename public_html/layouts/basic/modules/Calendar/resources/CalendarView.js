@@ -254,7 +254,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var user = [];
 		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
 		if (user.length == 0) {
-			user = [app.getMainParams('current_user_id')];
+			user = [CONFIG.userId];
 		}
 		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user);
 		var filters = [];
