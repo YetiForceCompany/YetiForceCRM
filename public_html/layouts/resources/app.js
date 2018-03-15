@@ -1318,7 +1318,7 @@ app = {
 		return jQuery('<div></div>').html(value).text();
 	},
 	updateRowHeight: function () {
-		var rowType = jQuery('#row_type').val();
+		var rowType = CONFIG.rowHeight;
 		if (rowType.length <= 0) {
 			//Need to update the row height
 			var widthType = app.cacheGet('widthType', 'mediumWidthType');
