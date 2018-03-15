@@ -51,14 +51,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
-
-	/**
 	 * Get query for records list from request.
 	 *
 	 * @param \App\Request $request

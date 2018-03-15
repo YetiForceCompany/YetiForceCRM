@@ -35,12 +35,4 @@ class CustomView_Approve_Action extends \App\Controller\Action
 		$listViewUrl = $moduleModel->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }
