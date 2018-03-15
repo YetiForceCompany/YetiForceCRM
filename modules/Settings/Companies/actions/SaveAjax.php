@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
 	 * Constructor.
@@ -27,9 +27,8 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	 */
 	public function updateCompany(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$recordModel = Settings_Companies_Record_Model::getInstance($recordId);
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_Companies_Record_Model::getInstance($request->getInteger('record'));
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
@@ -39,11 +38,11 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$logoDetails = $recordModel->saveCompanyLogos();
 			$columns = Settings_Companies_Module_Model::getColumnNames();
 			if ($columns) {
-				if (empty(($request->get('default')))) {
+				if ($request->isEmpty('default')) {
 					$columns = array_diff($columns, ['default']);
 				}
 				foreach ($columns as $fieldName) {
-					$fieldValue = $request->get($fieldName);
+					$fieldValue = $request->getByType($fieldName, 'Text');
 					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
 						if (!empty($logoDetails[$fieldName]['name'])) {
 							$fieldValue = ltrim(basename(' ' . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
@@ -52,7 +51,7 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 						}
 					}
 					if ('default' === $fieldName) {
-						$fieldValue = $request->get('default');
+						$fieldValue = $request->getBoolean('default');
 					}
 					$recordModel->set($fieldName, $fieldValue);
 				}
@@ -65,15 +64,5 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	/**
-	 * Validate Request.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

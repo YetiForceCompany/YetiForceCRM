@@ -10,6 +10,9 @@
 
 class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
@@ -18,12 +21,15 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule(false));
 		$fieldsList = $recordModel->getModule()->getEditableFieldsList();
 		foreach ($fieldsList as $fieldName) {
-			$fieldValue = $request->get($fieldName);
+			$fieldValue = $request->getByType($fieldName, 'Alnum');
 			if (isset($fieldValue)) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
@@ -32,10 +38,5 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		$response->setResult([true]);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }
