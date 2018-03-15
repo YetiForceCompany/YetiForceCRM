@@ -8,13 +8,13 @@ Vtiger_Detail_Js("Calendar_Detail_Js", {
 					var currentTarget = $(e.currentTarget);
 					app.hideModalWindow();
 					AppConnector.request(deleteRecordActionUrl + '&ajaxDelete=true&typeRemove=' + currentTarget.data('value')).then(
-							function (data) {
-								if (data.success == true) {
-									window.location.href = data.result;
-								} else {
-									Vtiger_Helper_Js.showPnotify(data.error.message);
-								}
+						function (data) {
+							if (data.success == true) {
+								window.location.href = data.result;
+							} else {
+								Vtiger_Helper_Js.showPnotify(data.error.message);
 							}
+						}
 					);
 				});
 			});

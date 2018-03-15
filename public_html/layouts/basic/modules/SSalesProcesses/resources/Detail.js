@@ -14,11 +14,11 @@ Vtiger_Detail_Js("SSalesProcesses_Detail_Js", {}, {
 			aDeferred.resolve(thisInstance.hierarchyResponseCache);
 		} else {
 			AppConnector.request(params).then(
-					function (data) {
-						//store it in the cache, so that we dont do multiple request
-						thisInstance.hierarchyResponseCache = data;
-						aDeferred.resolve(thisInstance.hierarchyResponseCache);
-					}
+				function (data) {
+					//store it in the cache, so that we dont do multiple request
+					thisInstance.hierarchyResponseCache = data;
+					aDeferred.resolve(thisInstance.hierarchyResponseCache);
+				}
 			);
 		}
 		return aDeferred.promise();

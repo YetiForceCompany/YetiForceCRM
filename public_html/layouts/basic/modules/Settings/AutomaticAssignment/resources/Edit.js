@@ -104,13 +104,13 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 			return false;
 		}
 		AppConnector.request(tabContainer.data('url')).then(
-				function (data) {
-					tabContainer.html(data);
-					thisInstance.registerBasicEvents(tabContainer);
-				},
-				function (textStatus, errorThrown) {
-					app.errorLog(textStatus, errorThrown);
-				}
+			function (data) {
+				tabContainer.html(data);
+				thisInstance.registerBasicEvents(tabContainer);
+			},
+			function (textStatus, errorThrown) {
+				app.errorLog(textStatus, errorThrown);
+			}
 		);
 	},
 	registerEvents: function () {

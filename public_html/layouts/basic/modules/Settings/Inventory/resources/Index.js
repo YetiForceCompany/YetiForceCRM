@@ -18,33 +18,33 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		});
 
 		AppConnector.request(url).then(
-				function (data) {
-					var callBackFunction = function (data) {
-						//cache should be empty when modal opened 
-						thisInstance.duplicateCheckCache = {};
-						var form = jQuery('#formInventory');
-						var params = app.validationEngineOptions;
-						params.onValidationComplete = function (form, valid) {
-							if (valid) {
-								thisInstance.saveDetails(form, currentTrElement);
-								return valid;
-							}
+			function (data) {
+				var callBackFunction = function (data) {
+					//cache should be empty when modal opened
+					thisInstance.duplicateCheckCache = {};
+					var form = jQuery('#formInventory');
+					var params = app.validationEngineOptions;
+					params.onValidationComplete = function (form, valid) {
+						if (valid) {
+							thisInstance.saveDetails(form, currentTrElement);
+							return valid;
 						}
-						form.validationEngine(params);
-						form.submit(function (e) {
-							e.preventDefault();
-						})
 					}
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					app.showModalWindow(data, function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
-					}, {});
-				},
-				function (error) {
-					aDeferred.reject(error);
+					form.validationEngine(params);
+					form.submit(function (e) {
+						e.preventDefault();
+					})
 				}
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				app.showModalWindow(data, function (data) {
+					if (typeof callBackFunction == 'function') {
+						callBackFunction(data);
+					}
+				}, {});
+			},
+			function (error) {
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -60,47 +60,47 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			params = {};
 		}
 		thisInstance.validateName(params).then(
-				function (data) {
-					if (typeof data == 'undefined') {
-						saveButton.prop('disabled', false);
-						return false;
-					}
-					var progressIndicatorElement = jQuery.progressIndicator({
-						'position': 'html',
-						'blockInfo': {
-							'enabled': true
-						}
-					});
-
-					params.module = app.getModuleName();
-					params.parent = app.getParentModuleName();
-					params.action = 'SaveAjax';
-					params.view = app.getViewName();
-					AppConnector.request(params).then(
-							function (data) {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								app.hideModalWindow();
-								if (typeof data == 'string') {
-									data = JSON.parse(data);
-								}
-								//Adding or update details in the list
-								if (form.find('.addView').val() == 'true') {
-									thisInstance.addDetails(data['result']);
-								} else {
-									thisInstance.updateDetails(data['result'], currentTrElement);
-								}
-								//show notification after details saved
-								var params = {
-									text: app.vtranslate('JS_SAVE_CHANGES')
-								};
-								Settings_Vtiger_Index_Js.showMessage(params);
-							}
-					);
-				},
-				function (data, err) {
+			function (data) {
+				if (typeof data == 'undefined') {
 					saveButton.prop('disabled', false);
 					return false;
 				}
+				var progressIndicatorElement = jQuery.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+
+				params.module = app.getModuleName();
+				params.parent = app.getParentModuleName();
+				params.action = 'SaveAjax';
+				params.view = app.getViewName();
+				AppConnector.request(params).then(
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+						if (typeof data == 'string') {
+							data = JSON.parse(data);
+						}
+						//Adding or update details in the list
+						if (form.find('.addView').val() == 'true') {
+							thisInstance.addDetails(data['result']);
+						} else {
+							thisInstance.updateDetails(data['result'], currentTrElement);
+						}
+						//show notification after details saved
+						var params = {
+							text: app.vtranslate('JS_SAVE_CHANGES')
+						};
+						Settings_Vtiger_Index_Js.showMessage(params);
+					}
+				);
+			},
+			function (data, err) {
+				saveButton.prop('disabled', false);
+				return false;
+			}
 		);
 	},
 	/*
@@ -116,7 +116,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		}
 		var table = jQuery('.inventoryTable', container);
 		var trElement =
-				jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
+			jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
 					<td class="textAlignCenter ' + details.row_type + '"><label class="name">' + details.name + '</label></td>\n\
 					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
 					<td class="textAlignCenter ' + details.row_type + '"><input class="status" checked type="checkbox">\n\
@@ -159,18 +159,18 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		var nameElement = form.find('[name="name"]');
 		if (!(name in thisInstance.duplicateCheckCache)) {
 			thisInstance.checkDuplicateName(data).then(
-					function (data) {
-						thisInstance.duplicateCheckCache[name] = data['success'];
-						if (data['success']) {
-							thisInstance.duplicateCheckCache['message'] = data['message'];
-							nameElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
-							aDeferred.reject(data);
-						}
-						aDeferred.resolve(data);
-					},
-					function (data, err) {
+				function (data) {
+					thisInstance.duplicateCheckCache[name] = data['success'];
+					if (data['success']) {
+						thisInstance.duplicateCheckCache['message'] = data['message'];
+						nameElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
 						aDeferred.reject(data);
 					}
+					aDeferred.resolve(data);
+				},
+				function (data, err) {
+					aDeferred.reject(data);
+				}
 			);
 		} else {
 			if (thisInstance.duplicateCheckCache[name] == true) {
@@ -202,17 +202,17 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		}
 
 		AppConnector.request(params).then(
-				function (data) {
-					if (typeof data == 'string') {
-						data = JSON.parse(data);
-					}
-					var response = data['result'];
-					var result = response['success'];
-					aDeferred.resolve(response);
-				},
-				function (error, err) {
-					aDeferred.reject();
+			function (data) {
+				if (typeof data == 'string') {
+					data = JSON.parse(data);
 				}
+				var response = data['result'];
+				var result = response['success'];
+				aDeferred.resolve(response);
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -243,14 +243,14 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		}
 
 		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.resolve(data);
+			},
+			function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -258,17 +258,17 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		var thisInstance = this;
 		var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var params = {};
-					params['view'] = app.getViewName();
-					params['id'] = inventoryElement.data('id');
-					app.saveAjax('deleteInventory', params).then(function (data) {
-						Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-						inventoryElement.remove();
-					});
-				},
-				function (error, err) {
-				}
+			function (e) {
+				var params = {};
+				params['view'] = app.getViewName();
+				params['id'] = inventoryElement.data('id');
+				app.saveAjax('deleteInventory', params).then(function (data) {
+					Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+					inventoryElement.remove();
+				});
+			},
+			function (error, err) {
+			}
 		)
 	},
 	/*
@@ -303,14 +303,14 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			var currentTarget = jQuery(e.currentTarget);
 
 			thisInstance.updateStatus(currentTarget).then(
-					function (data) {
-						var params = {};
-						params.text = app.vtranslate('JS_SAVE_CHANGES');
-						Settings_Vtiger_Index_Js.showMessage(params);
-					},
-					function (error) {
+				function (data) {
+					var params = {};
+					params.text = app.vtranslate('JS_SAVE_CHANGES');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
 
-					}
+				}
 			);
 		});
 

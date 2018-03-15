@@ -109,12 +109,12 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['view'] = app.getViewName();
 		params['roleid'] = selectedRole;
 		AppConnector.requestPjax(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -138,12 +138,12 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var thisInstance = this;
 		var contentsDiv = $('.contentsDiv');
 		thisInstance.getMenuData($('[name="roleMenu"]').val()).then(
-				function (data) {
-					contentsDiv.html(data);
-					app.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
-					thisInstance.registerEvents();
-					progress.progressIndicator({'mode': 'hide'});
-				}
+			function (data) {
+				contentsDiv.html(data);
+				app.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
+				thisInstance.registerEvents();
+				progress.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 	registerEditMenu: function (container) {
@@ -226,12 +226,12 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['mode'] = mode;
 		params['mdata'] = data;
 		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -334,16 +334,16 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['fromRole'] = fromRole;
 		params['toRole'] = toRole;
 		AppConnector.request(params).then(
-				function (data) {
-					app.hideModalWindow();
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					thisInstance.loadContent();
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
+			function (data) {
+				app.hideModalWindow();
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				thisInstance.loadContent();
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},

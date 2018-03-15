@@ -14,16 +14,16 @@ jQuery.Class('Settings_ModTracker_Js', {}, {
 			params['status'] = currentTarget.attr('checked') == 'checked';
 
 			AppConnector.request(params).then(
-					function (data) {
-						var params = {};
-						params['text'] = data.result.message;
-						Settings_Vtiger_Index_Js.showMessage(params);
-					},
-					function (error) {
-						var params = {};
-						params['text'] = error;
-						Settings_Vtiger_Index_Js.showMessage(params);
-					}
+				function (data) {
+					var params = {};
+					params['text'] = data.result.message;
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					var params = {};
+					params['text'] = error;
+					Settings_Vtiger_Index_Js.showMessage(params);
+				}
 			);
 		})
 	},

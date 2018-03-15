@@ -64,20 +64,20 @@ var Settings_Index_Js = {
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-					progress.progressIndicator({'mode': 'hide'});
-				},
-				function (data, err) {
-					app.errorLog(data, err);
-					progress.progressIndicator({'mode': 'hide'});
-				}
+			function (data) {
+				var response = data['result'];
+				var params = {
+					text: response['message'],
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				resp = response['success'];
+				progress.progressIndicator({'mode': 'hide'});
+			},
+			function (data, err) {
+				app.errorLog(data, err);
+				progress.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 	/**
@@ -147,15 +147,15 @@ var Settings_Index_Js = {
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var params = {};
-					params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var params = {};
+				params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
+				Settings_Vtiger_Index_Js.showMessage(params);
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 	/**
@@ -190,7 +190,8 @@ var Settings_Index_Js = {
 	registerSelectElement: function (element) {
 		var value = element.val();
 		if (!element.hasClass('selectized')) {
-			element.selectize({plugins: ['drag_drop', 'remove_button'],
+			element.selectize({
+				plugins: ['drag_drop', 'remove_button'],
 				onChange: function (value) {
 					if (value.length > 1) {
 						jQuery(this.$control[0]).find('.remove').removeClass('d-none');

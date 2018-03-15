@@ -108,18 +108,18 @@ Reports_Edit_Js("Reports_Edit1_Js", {}, {
 		};
 
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var result = response['success'];
-					if (result == true) {
-						aDeferred.reject(response);
-					} else {
-						aDeferred.resolve(response);
-					}
-				},
-				function (error, err) {
-					aDeferred.reject();
+			function (data) {
+				var response = data['result'];
+				var result = response['success'];
+				if (result == true) {
+					aDeferred.reject(response);
+				} else {
+					aDeferred.resolve(response);
 				}
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -146,31 +146,31 @@ Reports_Edit_Js("Reports_Edit1_Js", {}, {
 			'reportId': reportId,
 			'isDuplicate': formData.isDuplicate
 		}).then(
-				function (data) {
-					AppConnector.request(formData).then(
-							function (data) {
-								form.hide();
-								progressIndicatorElement.progressIndicator({
-									'mode': 'hide'
-								});
-								aDeferred.resolve(data);
-							},
-							function (error, err) {
+			function (data) {
+				AppConnector.request(formData).then(
+					function (data) {
+						form.hide();
+						progressIndicatorElement.progressIndicator({
+							'mode': 'hide'
+						});
+						aDeferred.resolve(data);
+					},
+					function (error, err) {
 
-							}
-					);
-				},
-				function (data, err) {
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					});
-					params = {
-						title: app.vtranslate('JS_DUPLICATE_RECORD'),
-						text: data['message']
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					aDeferred.reject();
-				}
+					}
+				);
+			},
+			function (data, err) {
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
+				});
+				params = {
+					title: app.vtranslate('JS_DUPLICATE_RECORD'),
+					text: data['message']
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},

@@ -16,7 +16,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			}
 			thisInstance.jstreeLastID = thisInstance.jstreeLastID + 1;
 			var ref = jstreeInstance.jstree(true),
-					sel = ref.get_selected();
+				sel = ref.get_selected();
 			ref.create_node('#', {
 				id: thisInstance.jstreeLastID,
 				text: newElement.val(),
@@ -82,7 +82,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							label: app.vtranslate('JS_JSTREE_RENAME'),
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference),
-										obj = inst.get_node(data.reference);
+									obj = inst.get_node(data.reference);
 								inst.edit(obj);
 							}
 						},
@@ -110,7 +110,10 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 								$.each(id, function (index, value) {
 									var menu = inst.get_node(value);
 									if (menu.children.length > 0) {
-										Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'), type: 'error'})
+										Settings_Vtiger_Index_Js.showMessage({
+											text: app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'),
+											type: 'error'
+										})
 										status = false;
 									}
 								});
@@ -123,7 +126,8 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 										}
 									})
 								}
-							}},
+							}
+						},
 						ccp: {
 							label: app.vtranslate('JS_JSTREE_CCP'),
 							submenu: {
@@ -131,7 +135,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									label: app.vtranslate('JS_JSTREE_CUT'),
 									"action": function (data) {
 										var inst = $.jstree.reference(data.reference),
-												obj = inst.get_node(data.reference);
+											obj = inst.get_node(data.reference);
 										if (inst.is_selected(obj)) {
 											inst.cut(inst.get_top_selected());
 										} else {
@@ -143,7 +147,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									label: app.vtranslate('JS_JSTREE_PASTE'),
 									"action": function (data) {
 										var inst = $.jstree.reference(data.reference),
-												obj = inst.get_node(data.reference);
+											obj = inst.get_node(data.reference);
 										inst.paste(obj);
 									}
 								},
@@ -164,7 +168,10 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			data = thisInstance.checkChildren(id, data);
 		});
 		if (data.length == 0) {
-			Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'), type: 'error'})
+			Settings_Vtiger_Index_Js.showMessage({
+				text: app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'),
+				type: 'error'
+			})
 			aDeferred.resolve();
 			return aDeferred.promise();
 		}

@@ -20,9 +20,9 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text('');
 			thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
+				function (data) {
+					thisInstance.updatePagination();
+				}
 			);
 		});
 	},

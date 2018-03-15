@@ -54,16 +54,16 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 			}
 		});
 		AppConnector.request(formData).then(
-				function (data) {
-					form.hide();
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-					aDeferred.resolve(data);
-				},
-				function (error, err) {
+			function (data) {
+				form.hide();
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
+				})
+				aDeferred.resolve(data);
+			},
+			function (error, err) {
 
-				}
+			}
 		);
 		return aDeferred.promise();
 	},

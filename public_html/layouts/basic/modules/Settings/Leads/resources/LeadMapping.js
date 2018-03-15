@@ -23,16 +23,16 @@ jQuery.Class("Settings_LeadMapping_Js", {
 		});
 
 		AppConnector.request(editUrl).then(
-				function (data) {
-					var detailContentsHolder = jQuery('.contentsDiv');
-					detailContentsHolder.html(data);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var leadMappingInstance = new Settings_LeadMapping_Js();
-					leadMappingInstance.registerEventsForEditView();
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
+			function (data) {
+				var detailContentsHolder = jQuery('.contentsDiv');
+				detailContentsHolder.html(data);
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var leadMappingInstance = new Settings_LeadMapping_Js();
+				leadMappingInstance.registerEventsForEditView();
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -46,20 +46,20 @@ jQuery.Class("Settings_LeadMapping_Js", {
 		var mappingId = mappingContainer.data('cfmid');
 		var deleteUrl = url + '&mappingId=' + mappingId;
 		AppConnector.request(deleteUrl).then(
-				function (data) {
-					var message = data.result[0];
-					var params = {
-						text: message
-					};
-					if (data.success) {
-						mappingContainer.remove();
-					} else {
-						params['type'] = 'error';
-					}
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
+			function (data) {
+				var message = data.result[0];
+				var params = {
+					text: message
+				};
+				if (data.success) {
+					mappingContainer.remove();
+				} else {
+					params['type'] = 'error';
 				}
+				Settings_Vtiger_Index_Js.showMessage(params);
+			},
+			function (error) {
+			}
 		);
 	}
 }, {
@@ -175,38 +175,38 @@ jQuery.Class("Settings_LeadMapping_Js", {
 			});
 
 			AppConnector.request(params).then(
-					function (data) {
-						if (data.success) {
-							var detailViewParams = {
-								'module': app.getModuleName(),
-								'parent': app.getParentModuleName(),
-								'view': 'MappingDetail'
-							};
-							AppConnector.request(detailViewParams).then(function (data) {
-								var detailContentsHolder = jQuery('.contentsDiv');
-								detailContentsHolder.html(data);
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							});
-						}
-						if (!data.result.status) {
-							var notifyParams = {
-								title: app.vtranslate('JS_INVALID_MAPPING'),
-								text: data.result,
-								type: 'error',
-								width: '25%'
-							};
-						} else {
-							notifyParams = {
-								title: app.vtranslate('JS_MAPPING_SAVED_SUCCESSFULLY'),
-								type: 'info',
-								width: '25%'
-							};
-						}
-						Vtiger_Helper_Js.showPnotify(notifyParams);
-					},
-					function (error) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				function (data) {
+					if (data.success) {
+						var detailViewParams = {
+							'module': app.getModuleName(),
+							'parent': app.getParentModuleName(),
+							'view': 'MappingDetail'
+						};
+						AppConnector.request(detailViewParams).then(function (data) {
+							var detailContentsHolder = jQuery('.contentsDiv');
+							detailContentsHolder.html(data);
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						});
 					}
+					if (!data.result.status) {
+						var notifyParams = {
+							title: app.vtranslate('JS_INVALID_MAPPING'),
+							text: data.result,
+							type: 'error',
+							width: '25%'
+						};
+					} else {
+						notifyParams = {
+							title: app.vtranslate('JS_MAPPING_SAVED_SUCCESSFULLY'),
+							type: 'info',
+							width: '25%'
+						};
+					}
+					Vtiger_Helper_Js.showPnotify(notifyParams);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}
 			);
 		})
 	},

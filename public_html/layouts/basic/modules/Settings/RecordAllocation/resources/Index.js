@@ -42,8 +42,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		contentData.find('.dragDrop' + index).draggable({
 			appendTo: 'body',
 			helper: 'clone',
-			start: function (e, ui)
-			{
+			start: function (e, ui) {
 				var width = $(ui.helper.context).width();
 				$(ui.helper).css('width', width).addClass('dataTableDragDrop bg-primary');
 			},
@@ -147,17 +146,17 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		params['mode'] = 'getPanel';
 		params['type'] = app.getMainParams('fieldType');
 		AppConnector.request(params).then(
-				function (data) {
-					var elements = thisInstance.getContainer().find('.panelsContainer').append(data);
-					app.changeSelectElementView(elements.find('.chzn-select'));
-					app.hideModalWindow();
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
+			function (data) {
+				var elements = thisInstance.getContainer().find('.panelsContainer').append(data);
+				app.changeSelectElementView(elements.find('.chzn-select'));
+				app.hideModalWindow();
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -204,15 +203,15 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 			};
 			var message = app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						app.saveAjax('removePanel', data).then(function () {
-							panel.fadeOut(300, function () {
-								$(this).remove();
-							});
-						})
-					},
-					function (error, err) {
-					}
+				function (e) {
+					app.saveAjax('removePanel', data).then(function () {
+						panel.fadeOut(300, function () {
+							$(this).remove();
+						});
+					})
+				},
+				function (error, err) {
+				}
 			);
 		});
 		this.registerLoadData();

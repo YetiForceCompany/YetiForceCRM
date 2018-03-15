@@ -241,18 +241,18 @@ jQuery.Class("Vtiger_Popup_Js", {
 		if (typeof dataUrl != 'undefined') {
 			dataUrl = dataUrl + '&currency_id=' + jQuery('#currencyId').val();
 			AppConnector.request(dataUrl).then(
-					function (data) {
-						for (var id in data) {
-							if (typeof data[id] == "object") {
-								var recordData = data[id];
-							}
+				function (data) {
+					for (var id in data) {
+						if (typeof data[id] == "object") {
+							var recordData = data[id];
 						}
-						thisInstance.done(recordData, thisInstance.getEventName());
-						e.preventDefault();
-					},
-					function (error, err) {
-
 					}
+					thisInstance.done(recordData, thisInstance.getEventName());
+					e.preventDefault();
+				},
+				function (error, err) {
+
+				}
 			);
 		} else {
 			var id = row.data('id');
@@ -293,22 +293,22 @@ jQuery.Class("Vtiger_Popup_Js", {
 				if (typeof dataUrl != 'undefined') {
 					dataUrl = dataUrl + '&idlist=' + jsonRecorIds + '&currency_id=' + jQuery('#currencyId').val();
 					AppConnector.request(dataUrl).then(
-							function (data) {
-								for (var id in data) {
-									if (typeof data[id] == "object") {
-										var recordData = data[id];
-									}
+						function (data) {
+							for (var id in data) {
+								if (typeof data[id] == "object") {
+									var recordData = data[id];
 								}
-								var recordDataLength = Object.keys(recordData).length;
-								if (recordDataLength == 1) {
-									recordData = recordData[0];
-								}
-								thisInstance.done(recordData, thisInstance.getEventName());
-								e.preventDefault();
-							},
-							function (error, err) {
-
 							}
+							var recordDataLength = Object.keys(recordData).length;
+							if (recordDataLength == 1) {
+								recordData = recordData[0];
+							}
+							thisInstance.done(recordData, thisInstance.getEventName());
+							e.preventDefault();
+						},
+						function (error, err) {
+
+						}
 					);
 				} else {
 					thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
@@ -404,19 +404,19 @@ jQuery.Class("Vtiger_Popup_Js", {
 			}
 		});
 		Vtiger_BaseList_Js.getPageRecords(params).then(
-				function (data) {
-					jQuery('#popupContents').html(data);
-					Vtiger_Helper_Js.showHorizontalTopScrollBar();
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-					thisInstance.calculatePages().then(function (data) {
-						aDeferred.resolve(data);
-					});
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
+			function (data) {
+				jQuery('#popupContents').html(data);
+				Vtiger_Helper_Js.showHorizontalTopScrollBar();
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
+				})
+				thisInstance.calculatePages().then(function (data) {
+					aDeferred.resolve(data);
+				});
+			},
+			function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -464,12 +464,12 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var completeParams = this.getCompleteParams();
 		completeParams['page'] = 1;
 		return this.getPageRecords(completeParams).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				});
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			});
 	},
 
 	/**
@@ -490,12 +490,12 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var completeParams = this.getCompleteParams();
 		jQuery.extend(completeParams, sortingParams);
 		return this.getPageRecords(completeParams).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			}
 		);
 	},
 
@@ -531,14 +531,14 @@ jQuery.Class("Vtiger_Popup_Js", {
 			var completeParams = this.getCompleteParams();
 			jQuery.extend(completeParams, pagingParams);
 			this.getPageRecords(completeParams).then(
-					function (data) {
-						jQuery('#pageNumber').val(nextPageNumber);
-						jQuery('#pageToJump').val(nextPageNumber);
-						aDeferred.resolve(data);
-					},
-					function (textStatus, errorThrown) {
-						aDeferred.reject(textStatus, errorThrown);
-					}
+				function (data) {
+					jQuery('#pageNumber').val(nextPageNumber);
+					jQuery('#pageToJump').val(nextPageNumber);
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 			);
 		}
 		return aDeferred.promise();
@@ -558,14 +558,14 @@ jQuery.Class("Vtiger_Popup_Js", {
 			var completeParams = this.getCompleteParams();
 			jQuery.extend(completeParams, pagingParams);
 			this.getPageRecords(completeParams).then(
-					function (data) {
-						jQuery('#pageNumber').val(previousPageNumber);
-						jQuery('#pageToJump').val(previousPageNumber);
-						aDeferred.resolve(data);
-					},
-					function (textStatus, errorThrown) {
-						aDeferred.reject(textStatus, errorThrown);
-					}
+				function (data) {
+					jQuery('#pageNumber').val(previousPageNumber);
+					jQuery('#pageToJump').val(previousPageNumber);
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 			);
 		}
 		return aDeferred.promise();
@@ -651,14 +651,14 @@ jQuery.Class("Vtiger_Popup_Js", {
 					var completeParams = thisInstance.getCompleteParams();
 					jQuery.extend(completeParams, pagingParams);
 					thisInstance.getPageRecords(completeParams).then(
-							function (data) {
-								currentPageElement.val(newPageNumber);
-								thisInstance.updatePagination();
-								thisInstance.registerListSearch();
-								element.closest('.btn-group ').removeClass('open');
-							},
-							function (textStatus, errorThrown) {
-							}
+						function (data) {
+							currentPageElement.val(newPageNumber);
+							thisInstance.updatePagination();
+							thisInstance.registerListSearch();
+							element.closest('.btn-group ').removeClass('open');
+						},
+						function (textStatus, errorThrown) {
+						}
 					);
 				}
 				return false;
@@ -692,18 +692,18 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var completeParams = this.getCompleteParams();
 		jQuery.extend(completeParams, pageJumpParams);
 		AppConnector.request(completeParams).then(
-				function (data) {
-					var response;
-					if (typeof data != "object") {
-						response = JSON.parse(data);
-					} else {
-						response = data;
-					}
-					aDeferred.resolve(response);
-				},
-				function (error, err) {
-
+			function (data) {
+				var response;
+				if (typeof data != "object") {
+					response = JSON.parse(data);
+				} else {
+					response = data;
 				}
+				aDeferred.resolve(response);
+			},
+			function (error, err) {
+
+			}
 		);
 		return aDeferred.promise();
 	},

@@ -16,21 +16,21 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 			var currentTrElement = removeButton.closest('tr');
 			var message = app.vtranslate('JS_DELETE_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						var params = {
-							module: app.getModuleName(),
-							parent: app.getParentModuleName(),
-							action: 'Delete',
-							id: currentTrElement.data('id')
-						};
-						var progress = jQuery.progressIndicator();
-						AppConnector.request(params).then(function (data) {
-							progress.progressIndicator({'mode': 'hide'});
-							thisInstance.loadTable();
-						});
-					},
-					function (error, err) {
-					}
+				function (e) {
+					var params = {
+						module: app.getModuleName(),
+						parent: app.getParentModuleName(),
+						action: 'Delete',
+						id: currentTrElement.data('id')
+					};
+					var progress = jQuery.progressIndicator();
+					AppConnector.request(params).then(function (data) {
+						progress.progressIndicator({'mode': 'hide'});
+						thisInstance.loadTable();
+					});
+				},
+				function (error, err) {
+				}
 			);
 		});
 	},

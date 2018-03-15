@@ -14,14 +14,14 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				mode: 'acceptanceRecord',
 				id: id
 			}).then(
-					function (data) {
-						progressIndicator.progressIndicator({'mode': 'hide'});
-						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
-						$(elem).remove()
-					},
-					function (error) {
-						progressIndicator.progressIndicator({'mode': 'hide'});
-					}
+				function (data) {
+					progressIndicator.progressIndicator({'mode': 'hide'});
+					Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
+					$(elem).remove()
+				},
+				function (error) {
+					progressIndicator.progressIndicator({'mode': 'hide'});
+				}
 			);
 		});
 	},
@@ -35,38 +35,41 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				var cvId = listInstance.getCurrentCvId();
 				var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
 				Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-						function (e) {
-							var params = {};
-							params['module'] = app.getModuleName();
-							params['parent'] = app.getParentModuleName();
-							params['action'] = 'MassDelete';
-							params['selected_ids'] = selectedIds;
-							var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
-							var progressIndicatorElement = jQuery.progressIndicator({
-								'message': deleteMessage,
-								'position': 'html',
-								'blockInfo': {
-									'enabled': true
+					function (e) {
+						var params = {};
+						params['module'] = app.getModuleName();
+						params['parent'] = app.getParentModuleName();
+						params['action'] = 'MassDelete';
+						params['selected_ids'] = selectedIds;
+						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
+						var progressIndicatorElement = jQuery.progressIndicator({
+							'message': deleteMessage,
+							'position': 'html',
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+						AppConnector.request(params).then(
+							function (data) {
+								progressIndicatorElement.progressIndicator({
+									'mode': 'hide'
+								});
+								listInstance.postMassDeleteRecords();
+								if (data.error) {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate(data.error.message),
+										title: app.vtranslate('JS_LBL_PERMISSION')
+									});
 								}
-							});
-							AppConnector.request(params).then(
-									function (data) {
-										progressIndicatorElement.progressIndicator({
-											'mode': 'hide'
-										});
-										listInstance.postMassDeleteRecords();
-										if (data.error) {
-											Vtiger_Helper_Js.showPnotify({text: app.vtranslate(data.error.message), title: app.vtranslate('JS_LBL_PERMISSION')});
-										}
-									},
-									function (error) {
-										console.log('Error: ' + error)
-									}
-							);
-						},
-						function (error, err) {
-							Vtiger_List_Js.clearList();
-						})
+							},
+							function (error) {
+								console.log('Error: ' + error)
+							}
+						);
+					},
+					function (error, err) {
+						Vtiger_List_Js.clearList();
+					})
 
 			} else {
 				listInstance.noRecordSelectedAlert();
@@ -90,9 +93,9 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
 			thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
+				function (data) {
+					thisInstance.updatePagination();
+				}
 			);
 		});
 	},
@@ -124,18 +127,18 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				var params = thisInstance.getParams();
 				jQuery('#totalPageCount').text("");
 				thisInstance.getListViewRecords(params).then(
-						function (data) {
-							thisInstance.updatePagination();
-						}
+					function (data) {
+						thisInstance.updatePagination();
+					}
 				);
 			}
 		});
 		listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
 			var params = thisInstance.getParams();
 			thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
+				function (data) {
+					thisInstance.updatePagination();
+				}
 			);
 		});
 	},
@@ -146,9 +149,9 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			listViewContainer.on('change', '.listViewEntriesTable select', function (e) {
 				var params = thisInstance.getParams();
 				thisInstance.getListViewRecords(params).then(
-						function (data) {
-							thisInstance.updatePagination();
-						}
+					function (data) {
+						thisInstance.updatePagination();
+					}
 				);
 			});
 		}

@@ -46,41 +46,40 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 			var form = thisInstance.getForm();
 			var result = form.validationEngine('validate');
 			if (result === true) {
-				var progressIndicatorElement = jQuery.progressIndicator({
-				});
+				var progressIndicatorElement = jQuery.progressIndicator({});
 				AppConnector.request(postData).then(
-						function (data) {
-							progressIndicatorElement.progressIndicator({mode: 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
-							thisInstance.getContentHolder().find('#reportContentsDiv').html(data);
-							Vtiger_Helper_Js.showHorizontalTopScrollBar();
+					function (data) {
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
+						Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
+						thisInstance.getContentHolder().find('#reportContentsDiv').html(data);
+						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 
-							// To get total records count
-							var count = parseInt(jQuery('#updatedCount').val());
-							if (count < 1000) {
-								jQuery('#countValue').text(count);
-								jQuery('#moreRecordsText').hide();
-							} else {
-								jQuery('#countValue').html('<img src="layouts/basic/images/loading.gif">');
-								var params = {
-									'module': app.getModuleName(),
-									'advanced_filter': advFilterCondition,
-									'record': recordId,
-									'action': "DetailAjax",
-									'mode': "getRecordsCount"
-								};
-								AppConnector.request(params).then(
-										function (data) {
-											var count = parseInt(data.result);
-											jQuery('#countValue').text(count);
-											if (count > 1000)
-												jQuery('#moreRecordsText').show();
-											else
-												jQuery('#moreRecordsText').hide();
-										}
-								);
-							}
+						// To get total records count
+						var count = parseInt(jQuery('#updatedCount').val());
+						if (count < 1000) {
+							jQuery('#countValue').text(count);
+							jQuery('#moreRecordsText').hide();
+						} else {
+							jQuery('#countValue').html('<img src="layouts/basic/images/loading.gif">');
+							var params = {
+								'module': app.getModuleName(),
+								'advanced_filter': advFilterCondition,
+								'record': recordId,
+								'action': "DetailAjax",
+								'mode': "getRecordsCount"
+							};
+							AppConnector.request(params).then(
+								function (data) {
+									var count = parseInt(data.result);
+									jQuery('#countValue').text(count);
+									if (count > 1000)
+										jQuery('#moreRecordsText').show();
+									else
+										jQuery('#moreRecordsText').hide();
+								}
+							);
 						}
+					}
 				);
 			}
 		});

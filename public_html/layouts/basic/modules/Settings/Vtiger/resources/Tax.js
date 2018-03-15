@@ -27,36 +27,36 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		});
 
 		AppConnector.request(url).then(
-				function (data) {
-					var callBackFunction = function (data) {
-						//cache should be empty when modal opened
-						thisInstance.duplicateCheckCache = {};
-						var form = jQuery('#editTax');
+			function (data) {
+				var callBackFunction = function (data) {
+					//cache should be empty when modal opened
+					thisInstance.duplicateCheckCache = {};
+					var form = jQuery('#editTax');
 
-						var params = app.validationEngineOptions;
-						params.onValidationComplete = function (form, valid) {
-							if (valid) {
-								thisInstance.saveTaxDetails(form, currentTrElement);
-								return valid;
-							}
+					var params = app.validationEngineOptions;
+					params.onValidationComplete = function (form, valid) {
+						if (valid) {
+							thisInstance.saveTaxDetails(form, currentTrElement);
+							return valid;
 						}
-						form.validationEngine(params);
-
-						form.submit(function (e) {
-							e.preventDefault();
-						})
 					}
+					form.validationEngine(params);
 
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					app.showModalWindow(data, function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
-					}, {'width': '500px'});
-				},
-				function (error) {
-					aDeferred.reject(error);
+					form.submit(function (e) {
+						e.preventDefault();
+					})
 				}
+
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				app.showModalWindow(data, function (data) {
+					if (typeof callBackFunction == 'function') {
+						callBackFunction(data);
+					}
+				}, {'width': '500px'});
+			},
+			function (error) {
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -72,37 +72,37 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 			params = {};
 		}
 		thisInstance.validateTaxName(params).then(
-				function (data) {
-					var progressIndicatorElement = jQuery.progressIndicator({
-						'position': 'html',
-						'blockInfo': {
-							'enabled': true
-						}
-					});
+			function (data) {
+				var progressIndicatorElement = jQuery.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
 
-					params.module = app.getModuleName();
-					params.parent = app.getParentModuleName();
-					params.action = 'TaxAjax';
-					AppConnector.request(params).then(
-							function (data) {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								app.hideModalWindow();
-								//Adding or update the tax details in the list
-								if (form.find('.addTaxView').val() == "true") {
-									thisInstance.addTaxDetails(data['result']);
-								} else {
-									thisInstance.updateTaxDetails(data['result'], currentTrElement);
-								}
-								//show notification after tax details saved
-								var params = {
-									text: app.vtranslate('JS_TAX_SAVED_SUCCESSFULLY')
-								};
-								Settings_Vtiger_Index_Js.showMessage(params);
-							}
-					);
-				},
-				function (data, err) {
-				}
+				params.module = app.getModuleName();
+				params.parent = app.getParentModuleName();
+				params.action = 'TaxAjax';
+				AppConnector.request(params).then(
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+						//Adding or update the tax details in the list
+						if (form.find('.addTaxView').val() == "true") {
+							thisInstance.addTaxDetails(data['result']);
+						} else {
+							thisInstance.updateTaxDetails(data['result'], currentTrElement);
+						}
+						//show notification after tax details saved
+						var params = {
+							text: app.vtranslate('JS_TAX_SAVED_SUCCESSFULLY')
+						};
+						Settings_Vtiger_Index_Js.showMessage(params);
+					}
+				);
+			},
+			function (data, err) {
+			}
 		);
 	},
 
@@ -120,7 +120,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		}
 
 		var trElementForTax =
-				jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' + details.type + '">\n\
+			jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' + details.type + '">\n\
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><label class="taxLabel">' + details.taxlabel + '</label></td>\n\
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><span class="taxPercentage">' + details.percentage + '%</span></td>\n\
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><input class="editTaxStatus" type="checkbox" checked>\n\
@@ -159,16 +159,16 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 
 		if (!(taxName in thisInstance.duplicateCheckCache)) {
 			thisInstance.checkDuplicateName(data).then(
-					function (data) {
-						thisInstance.duplicateCheckCache[taxName] = data['success'];
-						aDeferred.resolve();
-					},
-					function (data, err) {
-						thisInstance.duplicateCheckCache[taxName] = data['success'];
-						thisInstance.duplicateCheckCache['message'] = data['message'];
-						taxLabelElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
-						aDeferred.reject(data);
-					}
+				function (data) {
+					thisInstance.duplicateCheckCache[taxName] = data['success'];
+					aDeferred.resolve();
+				},
+				function (data, err) {
+					thisInstance.duplicateCheckCache[taxName] = data['success'];
+					thisInstance.duplicateCheckCache['message'] = data['message'];
+					taxLabelElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
+					aDeferred.reject(data);
+				}
 			);
 		} else {
 			if (thisInstance.duplicateCheckCache[taxName] == true) {
@@ -201,18 +201,18 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		}
 
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var result = response['success'];
-					if (result == true) {
-						aDeferred.reject(response);
-					} else {
-						aDeferred.resolve(response);
-					}
-				},
-				function (error, err) {
-					aDeferred.reject();
+			function (data) {
+				var response = data['result'];
+				var result = response['success'];
+				if (result == true) {
+					aDeferred.reject(response);
+				} else {
+					aDeferred.resolve(response);
 				}
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -245,14 +245,14 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		}
 
 		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.resolve(data);
+			},
+			function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -283,18 +283,18 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 			var currentTarget = jQuery(e.currentTarget);
 
 			thisInstance.updateTaxStatus(currentTarget).then(
-					function (data) {
-						var params = {};
-						if (currentTarget.is(':checked')) {
-							params.text = app.vtranslate('JS_TAX_ENABLED');
-						} else {
-							params.text = app.vtranslate('JS_TAX_DISABLED');
-						}
-						Settings_Vtiger_Index_Js.showMessage(params);
-					},
-					function (error) {
-
+				function (data) {
+					var params = {};
+					if (currentTarget.is(':checked')) {
+						params.text = app.vtranslate('JS_TAX_ENABLED');
+					} else {
+						params.text = app.vtranslate('JS_TAX_DISABLED');
 					}
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+
+				}
 			);
 		});
 

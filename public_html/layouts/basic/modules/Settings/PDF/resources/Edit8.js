@@ -49,21 +49,21 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 8;
 		AppConnector.request(saveData).then(
-				function (data) {
-					if (data.success == true) {
-						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+			function (data) {
+				if (data.success == true) {
+					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-						setTimeout(function () {
-							window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
-							});
-						}, 1000);
-					}
-				},
-				function (error, err) {
-					app.errorLog(error, err);
+					setTimeout(function () {
+						window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
+						progressIndicatorElement.progressIndicator({
+							'mode': 'hide'
+						});
+					}, 1000);
 				}
+			},
+			function (error, err) {
+				app.errorLog(error, err);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -139,17 +139,17 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response) {
-							form.find('#watermark').html('');
-							form.find('[name="watermark_image"]').val('');
-							form.find('#deleteWM').addClass('d-none');
-						}
-					},
-					function (data, err) {
-						app.errorLog(data, err);
+				function (data) {
+					var response = data['result'];
+					if (response) {
+						form.find('#watermark').html('');
+						form.find('[name="watermark_image"]').val('');
+						form.find('#deleteWM').addClass('d-none');
 					}
+				},
+				function (data, err) {
+					app.errorLog(data, err);
+				}
 			);
 		});
 	},

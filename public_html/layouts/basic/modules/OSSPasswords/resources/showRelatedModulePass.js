@@ -31,23 +31,23 @@ function showRelatedListPassword(record) {
 			}
 		});
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						// show password
-						element.html(response['password']);
-						// change button title to 'Hide Password'
-						btn.on('show.bs.popover', function () {
-							this.dataset.content = hidePassText;
-						})
-						// change icon
-						iconElement.removeClass('adminIcon-passwords-encryption');
-						iconElement.addClass('fas fa-lock');
-						// show copy to clipboard button
-						copybtn.removeClass('d-none');
-					}
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					// show password
+					element.html(response['password']);
+					// change button title to 'Hide Password'
+					btn.on('show.bs.popover', function () {
+						this.dataset.content = hidePassText;
+					})
+					// change icon
+					iconElement.removeClass('adminIcon-passwords-encryption');
+					iconElement.addClass('fas fa-lock');
+					// show copy to clipboard button
+					copybtn.removeClass('d-none');
 				}
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 		);
 	}
 	// if password is not hashed, hide it
@@ -66,6 +66,7 @@ function showRelatedListPassword(record) {
 		copybtn.addClass('d-none');
 	}
 }
+
 new ClipboardJS('.copy_pass', {
 	text: function (trigger) {
 		Vtiger_Helper_Js.showPnotify({

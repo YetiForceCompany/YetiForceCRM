@@ -40,18 +40,18 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 						'groupname': formData.groupname,
 						'record': formData.record
 					}).then(
-							function (data) {
-								form.data('submit', 'true');
-								form.data('performCheck', 'true');
-								form.submit();
-							},
-							function (data, err) {
-								var params = {};
-								params['text'] = data['message'];
-								params['type'] = 'error';
-								Settings_Vtiger_Index_Js.showMessage(params);
-								return false;
-							}
+						function (data) {
+							form.data('submit', 'true');
+							form.data('performCheck', 'true');
+							form.submit();
+						},
+						function (data, err) {
+							var params = {};
+							params['text'] = data['message'];
+							params['type'] = 'error';
+							Settings_Vtiger_Index_Js.showMessage(params);
+							return false;
+						}
 					);
 				} else {
 					//If validation fails, form should submit again
@@ -80,18 +80,18 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 		}
 
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var result = response['success'];
-					if (result == true) {
-						aDeferred.reject(response);
-					} else {
-						aDeferred.resolve(response);
-					}
-				},
-				function (error, err) {
-					aDeferred.reject();
+			function (data) {
+				var response = data['result'];
+				var result = response['success'];
+				if (result == true) {
+					aDeferred.reject(response);
+				} else {
+					aDeferred.resolve(response);
 				}
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},

@@ -8,8 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-Vtiger_Edit_Js("Products_Edit_Js", {
-}, {
+Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	baseCurrency: '',
 	baseCurrencyName: '',
 	//Container which stores the multi currency element
@@ -194,13 +193,13 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 			};
 
 			AppConnector.request(moreCurrenciesParams).then(
-					function (data) {
-						moreCurrenciesContainer.html(data);
-						aDeferred.resolve(data);
-					},
-					function (textStatus, errorThrown) {
-						aDeferred.reject(textStatus, errorThrown);
-					}
+				function (data) {
+					moreCurrenciesContainer.html(data);
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 			);
 		} else {
 			aDeferred.resolve();

@@ -18,16 +18,16 @@ var Vtiger_CustomView_Js = {
 	loadFilterView: function (url) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		AppConnector.request(url).then(
-				function (data) {
-					app.hideModalWindow();
-					var contents = jQuery(".contentsDiv").html(data);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					Vtiger_CustomView_Js.registerEvents();
-					Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', contents));
-				},
-				function (error, err) {
+			function (data) {
+				app.hideModalWindow();
+				var contents = jQuery(".contentsDiv").html(data);
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				Vtiger_CustomView_Js.registerEvents();
+				Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', contents));
+			},
+			function (error, err) {
 
-				}
+			}
 		);
 	},
 	loadDateFilterValues: function () {
@@ -82,38 +82,38 @@ var Vtiger_CustomView_Js = {
 		var aDeferred = jQuery.Deferred();
 		var formData = jQuery("#CustomView").serializeFormData();
 		AppConnector.request(formData, true).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject(error);
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
 	saveAndViewFilter: function () {
 		Vtiger_CustomView_Js.saveFilter().then(
-				function (response) {
-					if (response.success) {
-						var url;
-						if (app.getParentModuleName() == 'Settings') {
-							url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
-						} else {
-							url = response['result']['listviewurl'];
-						}
-						window.location.href = url;
+			function (response) {
+				if (response.success) {
+					var url;
+					if (app.getParentModuleName() == 'Settings') {
+						url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 					} else {
-						$.unblockUI();
-						var params = {
-							title: app.vtranslate('JS_DUPLICATE_RECORD'),
-							text: response.error['message']
-						};
-						Vtiger_Helper_Js.showPnotify(params);
+						url = response['result']['listviewurl'];
 					}
-				},
-				function (error) {
-
+					window.location.href = url;
+				} else {
+					$.unblockUI();
+					var params = {
+						title: app.vtranslate('JS_DUPLICATE_RECORD'),
+						text: response.error['message']
+					};
+					Vtiger_Helper_Js.showPnotify(params);
 				}
+			},
+			function (error) {
+
+			}
 		);
 	},
 	/**
@@ -121,7 +121,10 @@ var Vtiger_CustomView_Js = {
 	 */
 	registerSelect2ElementForColumnsSelection: function () {
 		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		return app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: 12});
+		return app.changeSelectElementView(selectElement, 'selectize', {
+			plugins: ['drag_drop', 'remove_button'],
+			maxItems: 12
+		});
 	},
 	registerIconEvents: function () {
 		var container = this.getContentsContainer();

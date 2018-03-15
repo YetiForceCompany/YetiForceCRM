@@ -17,43 +17,43 @@ Vtiger_List_Js("Reports_List_Js", {
 		var params = url;
 		var progressIndicatorElement = jQuery.progressIndicator();
 		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var callBackFunction = function (data) {
-						jQuery('#addFolder').validationEngine({
-							// to prevent the page reload after the validation has completed
-							'onValidationComplete': function (form, valid) {
-								return valid;
-							}
-						});
-						Reports_List_Js.listInstance.folderSubmit().then(function (data) {
-							if (data.success) {
-								var result = data.result;
-								if (result.success) {
-									app.hideModalWindow();
-									var info = result.info;
-									Reports_List_Js.listInstance.updateCustomFilter(info);
-								} else {
-									result = result.message;
-									var folderNameElement = jQuery('#foldername');
-									folderNameElement.validationEngine('showPrompt', result, 'error', 'topLeft', true);
-								}
-							} else {
-								app.hideModalWindow();
-								var params = {
-									title: app.vtranslate('JS_ERROR'),
-									text: data.error.message
-								};
-								Vtiger_Helper_Js.showPnotify(params);
-							}
-						});
-					};
-					app.showModalWindow(data, function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var callBackFunction = function (data) {
+					jQuery('#addFolder').validationEngine({
+						// to prevent the page reload after the validation has completed
+						'onValidationComplete': function (form, valid) {
+							return valid;
 						}
 					});
-				}
+					Reports_List_Js.listInstance.folderSubmit().then(function (data) {
+						if (data.success) {
+							var result = data.result;
+							if (result.success) {
+								app.hideModalWindow();
+								var info = result.info;
+								Reports_List_Js.listInstance.updateCustomFilter(info);
+							} else {
+								result = result.message;
+								var folderNameElement = jQuery('#foldername');
+								folderNameElement.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+							}
+						} else {
+							app.hideModalWindow();
+							var params = {
+								title: app.vtranslate('JS_ERROR'),
+								text: data.error.message
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						}
+					});
+				};
+				app.showModalWindow(data, function (data) {
+					if (typeof callBackFunction == 'function') {
+						callBackFunction(data);
+					}
+				});
+			}
 		);
 	},
 	massDelete: function (url) {
@@ -67,28 +67,28 @@ Vtiger_List_Js("Reports_List_Js", {
 
 			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
-						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
-						var progressIndicatorElement = jQuery.progressIndicator({
-							'message': deleteMessage,
-							'position': 'html',
-							'blockInfo': {
-								'enabled': true
+				function (e) {
+					var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
+					var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
+					var progressIndicatorElement = jQuery.progressIndicator({
+						'message': deleteMessage,
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
+					AppConnector.request(deleteURL).then(
+						function (data) {
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							});
+							if (data) {
+								listInstance.massActionPostOperations(data);
 							}
 						});
-						AppConnector.request(deleteURL).then(
-								function (data) {
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									});
-									if (data) {
-										listInstance.massActionPostOperations(data);
-									}
-								});
-					},
-					function (error, err) {
-					}
+				},
+				function (error, err) {
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -114,19 +114,19 @@ Vtiger_List_Js("Reports_List_Js", {
 			};
 			var progressIndicatorElement = jQuery.progressIndicator();
 			AppConnector.request(params).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						var callBackFunction = function (data) {
-							var reportsListInstance = new Reports_List_Js();
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var callBackFunction = function (data) {
+						var reportsListInstance = new Reports_List_Js();
 
-							reportsListInstance.moveReports().then(function (data) {
-								if (data) {
-									listInstance.massActionPostOperations(data);
-								}
-							});
-						};
-						app.showModalWindow(data, callBackFunction);
-					}
+						reportsListInstance.moveReports().then(function (data) {
+							if (data) {
+								listInstance.massActionPostOperations(data);
+							}
+						});
+					};
+					app.showModalWindow(data, callBackFunction);
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -145,9 +145,9 @@ Vtiger_List_Js("Reports_List_Js", {
 			if (validationResult == true) {
 				var formData = jQuery(e.currentTarget).serializeFormData();
 				AppConnector.request(formData).then(
-						function (data) {
-							aDeferred.resolve(data);
-						}
+					function (data) {
+						aDeferred.resolve(data);
+					}
 				);
 			}
 			e.preventDefault();
@@ -159,9 +159,9 @@ Vtiger_List_Js("Reports_List_Js", {
 		jQuery('#moveReports').on('submit', function (e) {
 			var formData = jQuery(e.currentTarget).serializeFormData();
 			AppConnector.request(formData).then(
-					function (data) {
-						aDeferred.resolve(data);
-					}
+				function (data) {
+					aDeferred.resolve(data);
+				}
 			);
 			e.preventDefault();
 		});
@@ -199,17 +199,17 @@ Vtiger_List_Js("Reports_List_Js", {
 		if (data.success) {
 			var module = app.getModuleName();
 			AppConnector.request('index.php?module=' + module + '&view=List&viewname=' + cvId).then(
-					function (data) {
-						jQuery('#recordsCount').val('');
-						jQuery('#totalPageCount').text('');
-						app.hideModalWindow();
-						var listViewContainer = thisInstance.getListViewContentContainer();
-						listViewContainer.html(data);
-						jQuery('#deSelectAllMsg').trigger('click');
-						thisInstance.calculatePages().then(function () {
-							thisInstance.updatePagination();
-						});
+				function (data) {
+					jQuery('#recordsCount').val('');
+					jQuery('#totalPageCount').text('');
+					app.hideModalWindow();
+					var listViewContainer = thisInstance.getListViewContentContainer();
+					listViewContainer.html(data);
+					jQuery('#deSelectAllMsg').trigger('click');
+					thisInstance.calculatePages().then(function () {
+						thisInstance.updatePagination();
 					});
+				});
 		} else {
 			app.hideModalWindow();
 			var params = {
@@ -225,35 +225,35 @@ Vtiger_List_Js("Reports_List_Js", {
 	deleteFolder: function (event, url) {
 		var thisInstance = this;
 		AppConnector.request(url).then(
-				function (data) {
-					if (data.success) {
-						var response = data.result;
-						if (response.success) {
-							var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-							var deleteUrl = currentOptionElement.data('deleteurl');
-							var newEle = '<form action="index.php?module=Reports&view=List" method="POST">';
-							if (typeof csrfMagicName !== 'undefined') {
-								newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
-							}
-							newEle += '</form>';
-							var formElement = jQuery(newEle);
-							formElement.appendTo('body').submit();
-						} else {
-							var params = {
-								title: app.vtranslate('JS_INFORMATION'),
-								text: response.message
-							};
-							Vtiger_Helper_Js.showPnotify(params);
+			function (data) {
+				if (data.success) {
+					var response = data.result;
+					if (response.success) {
+						var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+						var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+						var deleteUrl = currentOptionElement.data('deleteurl');
+						var newEle = '<form action="index.php?module=Reports&view=List" method="POST">';
+						if (typeof csrfMagicName !== 'undefined') {
+							newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 						}
+						newEle += '</form>';
+						var formElement = jQuery(newEle);
+						formElement.appendTo('body').submit();
 					} else {
-						app.hideModalWindow();
-						Vtiger_Helper_Js.showPnotify({
+						var params = {
 							title: app.vtranslate('JS_INFORMATION'),
-							text: data.error.message
-						});
+							text: response.message
+						};
+						Vtiger_Helper_Js.showPnotify(params);
 					}
+				} else {
+					app.hideModalWindow();
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate('JS_INFORMATION'),
+						text: data.error.message
+					});
 				}
+			}
 		);
 	},
 	/*
@@ -283,13 +283,13 @@ Vtiger_List_Js("Reports_List_Js", {
 			var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-						var deleteUrl = currentOptionElement.data('deleteurl');
-						thisInstance.deleteFolder(event, deleteUrl);
-					},
-					function (error, err) {
-					}
+				function (e) {
+					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+					var deleteUrl = currentOptionElement.data('deleteurl');
+					thisInstance.deleteFolder(event, deleteUrl);
+				},
+				function (error, err) {
+				}
 			);
 			event.stopPropagation();
 		});

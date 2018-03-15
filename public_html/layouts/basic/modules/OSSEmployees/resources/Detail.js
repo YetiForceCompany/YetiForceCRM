@@ -4,9 +4,9 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js", {
 	employeeHierarchyResponseCache: {},
 	triggerEmployeeHierarchy: function (HierarchyUrl) {
 		OSSEmployees_Detail_Js.getEmployeeHierarchyResponseData(HierarchyUrl).then(
-				function (data) {
-					app.showModalWindow(data);
-				}
+			function (data) {
+				app.showModalWindow(data);
+			}
 		);
 	},
 	getEmployeeHierarchyResponseData: function (params) {
@@ -15,10 +15,10 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js", {
 			aDeferred.resolve(OSSEmployees_Detail_Js.employeeHierarchyResponseCache);
 		} else {
 			AppConnector.request(params).then(
-					function (data) {
-						OSSEmployees_Detail_Js.employeeHierarchyResponseCache = data;
-						aDeferred.resolve(OSSEmployees_Detail_Js.employeeHierarchyResponseCache);
-					}
+				function (data) {
+					OSSEmployees_Detail_Js.employeeHierarchyResponseCache = data;
+					aDeferred.resolve(OSSEmployees_Detail_Js.employeeHierarchyResponseCache);
+				}
 			);
 		}
 		return aDeferred.promise();

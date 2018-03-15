@@ -46,24 +46,24 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {
 				AppConnector.request(container.serializeFormData()).then(
-						function (data) {
-							var response = data['result'];
-							if (response['success']) {
-								var params = {
-									text: response['data'],
-									type: 'info',
-								};
-								Vtiger_Helper_Js.showPnotify(params);
-							} else {
-								var params = {
-									text: response['data'],
-								};
-								Vtiger_Helper_Js.showPnotify(params);
-							}
-						},
-						function (data, err) {
-							app.errorLog(data, err);
+					function (data) {
+						var response = data['result'];
+						if (response['success']) {
+							var params = {
+								text: response['data'],
+								type: 'info',
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						} else {
+							var params = {
+								text: response['data'],
+							};
+							Vtiger_Helper_Js.showPnotify(params);
 						}
+					},
+					function (data, err) {
+						app.errorLog(data, err);
+					}
 				);
 			}
 		});

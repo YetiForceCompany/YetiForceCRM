@@ -26,9 +26,9 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 		summaryParams['mode'] = "showModuleSummaryView";
 		summaryParams['record'] = jQuery('#recordId').val();
 		AppConnector.request(summaryParams).then(
-				function (data) {
-					jQuery('.js-widget-general-info').html(data);
-				}
+			function (data) {
+				jQuery('.js-widget-general-info').html(data);
+			}
 		);
 	},
 	registerEvents: function () {

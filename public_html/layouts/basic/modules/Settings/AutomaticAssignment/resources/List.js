@@ -4,15 +4,15 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 		var aDeferred = jQuery.Deferred();
 		var message = app.vtranslate('JS_STATE_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					app.saveAjax('save', {active: state}, {record: recordId}).then(function (respons) {
-						var listInstance = Settings_AutomaticAssignment_List_Js.getInstance();
-						listInstance.getListViewRecords();
-					});
-				},
-				function (error, err) {
-					app.errorLog(error, err);
-				}
+			function (e) {
+				app.saveAjax('save', {active: state}, {record: recordId}).then(function (respons) {
+					var listInstance = Settings_AutomaticAssignment_List_Js.getInstance();
+					listInstance.getListViewRecords();
+				});
+			},
+			function (error, err) {
+				app.errorLog(error, err);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -35,9 +35,9 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
 			thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
+				function (data) {
+					thisInstance.updatePagination();
+				}
 			);
 		});
 	},
@@ -60,16 +60,16 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 			var element = jQuery(e.currentTarget);
 			var getFieldsUrl = url + '&tabid=' + element.val();
 			AppConnector.request(getFieldsUrl).then(
-					function (fields) {
-						data.find('.fieldList').html(fields);
-						app.showSelect2ElementView(data.find('.fieldList select'));
-						submitButton.removeClass('d-none');
-						progress.progressIndicator({'mode': 'hide'});
-					},
-					function (textStatus, errorThrown) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.errorLog(textStatus, errorThrown);
-					}
+				function (fields) {
+					data.find('.fieldList').html(fields);
+					app.showSelect2ElementView(data.find('.fieldList select'));
+					submitButton.removeClass('d-none');
+					progress.progressIndicator({'mode': 'hide'});
+				},
+				function (textStatus, errorThrown) {
+					progress.progressIndicator({'mode': 'hide'});
+					app.errorLog(textStatus, errorThrown);
+				}
 			);
 		})
 		form.on('submit', function (e) {

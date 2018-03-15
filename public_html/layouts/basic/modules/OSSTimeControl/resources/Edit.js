@@ -94,46 +94,46 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							var sourceD = response.sourceData;
+				function (data) {
+					var response = data['result'];
+					if (response['success']) {
+						var sourceD = response.sourceData;
 
-							if (moduleName == 'HelpDesk') {
-								if ('contact_id' in sourceD) {
-									jQuery('[name="contactid"]').val(sourceD.contact_id);
-									jQuery('[name="contactid_display"]').val(thisInstance.replaceAll(sourceD.contact_label, '&oacute;', 'ó')).prop('readonly', true);
-								}
-								if ('parent_id' in sourceD) {
-									jQuery('[name="accountid"]').val(sourceD.parent_id);
-									jQuery('[name="accountid_display"]').val(thisInstance.replaceAll(sourceD.account_label, '&oacute;', 'ó')).prop('readonly', true);
-								}
-							} else if (moduleName == 'Project') {
-								if ('contact_label' in sourceD) {
-									jQuery('[name="contactid"]').val(sourceD.contact_id);
-									jQuery('[name="contactid_display"]').val(thisInstance.replaceAll(sourceD.contact_label, '&oacute;', 'ó')).prop('readonly', true);
-								}
-								if ('account_label' in sourceD) {
-									jQuery('[name="accountid"]').val(sourceD.linktoaccountscontacts);
-									jQuery('[name="accountid_display"]').val(thisInstance.replaceAll(sourceD.account_label, '&oacute;', 'ó')).prop('readonly', true);
-								}
+						if (moduleName == 'HelpDesk') {
+							if ('contact_id' in sourceD) {
+								jQuery('[name="contactid"]').val(sourceD.contact_id);
+								jQuery('[name="contactid_display"]').val(thisInstance.replaceAll(sourceD.contact_label, '&oacute;', 'ó')).prop('readonly', true);
 							}
-
-						} else {
-							var params = {
-								text: app.vtranslate('message'),
-								type: 'error',
-							};
-							Vtiger_Helper_Js.showPnotify(params);
+							if ('parent_id' in sourceD) {
+								jQuery('[name="accountid"]').val(sourceD.parent_id);
+								jQuery('[name="accountid_display"]').val(thisInstance.replaceAll(sourceD.account_label, '&oacute;', 'ó')).prop('readonly', true);
+							}
+						} else if (moduleName == 'Project') {
+							if ('contact_label' in sourceD) {
+								jQuery('[name="contactid"]').val(sourceD.contact_id);
+								jQuery('[name="contactid_display"]').val(thisInstance.replaceAll(sourceD.contact_label, '&oacute;', 'ó')).prop('readonly', true);
+							}
+							if ('account_label' in sourceD) {
+								jQuery('[name="accountid"]').val(sourceD.linktoaccountscontacts);
+								jQuery('[name="accountid_display"]').val(thisInstance.replaceAll(sourceD.account_label, '&oacute;', 'ó')).prop('readonly', true);
+							}
 						}
-					},
-					function (data, err) {
-						var parametry = {
-							text: app.vtranslate('JS_ERROR_CONNECTING'),
-							type: 'error'
+
+					} else {
+						var params = {
+							text: app.vtranslate('message'),
+							type: 'error',
 						};
-						Vtiger_Helper_Js.showPnotify(parametry);
+						Vtiger_Helper_Js.showPnotify(params);
 					}
+				},
+				function (data, err) {
+					var parametry = {
+						text: app.vtranslate('JS_ERROR_CONNECTING'),
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				}
 			);
 		}
 	},
