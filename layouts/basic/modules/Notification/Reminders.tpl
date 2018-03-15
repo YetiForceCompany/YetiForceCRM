@@ -11,7 +11,7 @@
 	</style>
 	<div class="remindersContent">
 		{foreach item=RECORD from=$RECORDS}
-			<div class="card ml-0 mr-3 mt-2 headingColor{$RECORD->get('notification_type')} js-notification-panel" data-record="{$RECORD->getId()}">
+			<div class="js-toggle-panel card ml-0 mr-3 mt-2 headingColor{$RECORD->get('notification_type')} js-notification-panel" data-js="click" data-record="{$RECORD->getId()}">
 				<div class="card-body row p-0">
 					<div class="col-2 notificationIcon pl-3">
 						<span class="fas {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}fa-hdd{else}fa-user{/if}" aria-hidden="true"></span>

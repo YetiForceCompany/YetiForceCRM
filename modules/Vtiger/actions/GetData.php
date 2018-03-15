@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
+class Vtiger_GetData_Action extends App\Controller\Action
 {
 	/**
 	 * Check permission.

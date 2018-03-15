@@ -116,14 +116,4 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$response->setResult(true);
 		$response->emit();
 	}
-
-	/**
-	 * Validating access request.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

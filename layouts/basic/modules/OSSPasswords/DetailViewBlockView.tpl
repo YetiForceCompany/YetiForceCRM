@@ -8,7 +8,7 @@
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if $BLOCKS_HIDE}
 		<div class="detailViewTable">
-			<div class="card mb-2" data-label="{$BLOCK_LABEL}">					
+			<div class="js-toggle-panel c-panel__content" data-js="click" data-label="{$BLOCK_LABEL}">					
 				<div class="blockHeader card-header px-0">
 					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>

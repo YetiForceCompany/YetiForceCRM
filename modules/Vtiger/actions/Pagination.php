@@ -50,9 +50,4 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		$response->setResult($data);
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

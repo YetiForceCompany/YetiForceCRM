@@ -38,7 +38,7 @@
 				</div>
 			{/if}
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
-				<div class="card border-info mb-3 quickWidget">
+				<div class="js-toggle-panel c-panel__content border-info quickWidget" data-js="click">
 					<div class="card-header quickWidgetHeader calendarRightPanel clearfix bg-info">
 						<div class="card-title h6 text-white col-lg-6 col-md-12 col-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 							{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}

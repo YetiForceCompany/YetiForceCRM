@@ -107,9 +107,4 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		return $request->validateWriteAccess();
-	}
 }

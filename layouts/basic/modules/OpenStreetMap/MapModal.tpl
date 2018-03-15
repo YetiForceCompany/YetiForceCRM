@@ -64,7 +64,7 @@
 					<button class="btn btn-primary groupBy">{\App\Language::translate('LBL_GROUP_BY', $MODULE_NAME)}</button>
 				</div>
 			</div>
-			<div class="card mb-3">
+			<div class="js-toggle-panel c-panel__content" data-js="click">
 				<div class="card-header">
 					{\App\Language::translate('LBL_CALCULATE_ROUTE_HEADER_BLOCK', $MODULE_NAME)}
 				</div>
