@@ -127,7 +127,7 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div class="recordsListPreview d-flex">
+				<div class="js-list-preview d-flex" data-js="container, size-source">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
 					<div class="wrappedPanel">
 						<div class="rotatedText">

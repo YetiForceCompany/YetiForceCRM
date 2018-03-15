@@ -33,7 +33,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		if (fixedListHeight > currentHeight) {
 			currentHeight = fixedListHeight;
 		}
-		relatedContents.find(".gutter,.wrappedPanel,.fixedListInitial,.listPreview,.recordsListPreview").height(currentHeight);
+		relatedContents.find(".gutter,.wrappedPanel,.fixedListInitial,.listPreview,.js-list-preview").height(currentHeight);
 		if (window.frameElement) {
 			thisInstance.updateParentFrame();
 		}
