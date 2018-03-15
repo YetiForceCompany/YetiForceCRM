@@ -36,6 +36,22 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		switch ($this->getFieldModel()->getUIType()) {
+			case 79:
+				return App\Fields\DateTime::formatToDb($value);
+			default:
+				return parent::getDBValue($value);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -66,22 +82,15 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get the datetime value in user preferred hour format.
-	 *
-	 * @param <type> $dateTime
-	 *
-	 * @return string date and time with hour format
-	 */
-	public static function getDateTimeValue($dateTime)
-	{
-		return App\Fields\DateTime::formatToDisplay($dateTime);
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/DateTime.tpl';
+		switch ($this->getFieldModel()->getUIType()) {
+			case 79:
+				return 'uitypes/DateTimeField.tpl';
+			default:
+				return 'uitypes/DateTime.tpl';
+		}
 	}
 }

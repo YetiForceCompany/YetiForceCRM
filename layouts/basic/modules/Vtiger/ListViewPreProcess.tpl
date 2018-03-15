@@ -14,12 +14,12 @@
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				<div class="widget_header row mb-2">
+				<div class="widget_header row align-items-center mb-2">
 					<div class="col-sm-6 col-12">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-sm-6 col-12">
-						<div class="float-right pt-1 pb-1">
+						<div class="float-right">
 							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader'}
 							{/foreach}

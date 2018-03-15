@@ -3,10 +3,23 @@
 //-------- general --------//
 
 //-------- select2 --------//
+.select2-selection {
+	height: 2.5rem !important;
+	padding-top: 0.2rem;
+	@extend .border;
+	@extend .text-left;
+}
+.select2-selection__arrow{
+	@extend .mt-1;
+}
 .select2-container--bootstrap4 {
 	ul.select2-selection__rendered {
 		@extend .py-2;
 		@extend .px-1;
+		li.select2-selection__choice {
+			@extend .p-1;
+			@extend .my-auto;
+		}
 	}
 	.select2-results__option,  .select2-results__option .select2-results__option, select2-results__group {
 		@extend .p-1;
@@ -35,17 +48,6 @@ header {
 		.select2-selection__rendered {
 			color: $white !important;
 		}
-	}
-}
-.input-group{
-	.select2-selection {
-			height: 38px !important;
-			padding-top: 3px;
-			@extend .border;
-			@extend .text-left;
-	}
-	.select2-selection__arrow{
-		@extend .mt-1;
 	}
 }
 
@@ -112,5 +114,13 @@ header {
 		li:last-child {
 			@extend .mb-0;
 		}
+	}
+}
+
+//--- autocomplete ---//
+.ui-autocomplete {
+	width: inherit !important;
+	a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
+		font-weight: inherit !important;
 	}
 }

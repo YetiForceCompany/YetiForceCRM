@@ -20,18 +20,18 @@
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
 						<div class="w-100">
-							<div class="col-12 col-md-6 col-lg-6 float-left d-flex justify-content-center justify-content-sm-center justify-content-md-start justify-content-xl-start px-0 mt-2">
-								<div class="modal-title"> 
-									<span class="px-0 mr-2 quickCreateTitle h3">
+							<div class="col-12 col-md-6 col-lg-6 float-left d-flex justify-content-start justify-content-sm-start justify-content-md-start justify-content-xl-start px-0 mt-2">
+								<div class="modal-title form-row d-flex justify-content-center justify-content-sm-start justify-content-md-start"> 
+									<span class="pl-2 mr-1 d-flex justify-content-center justify-content-sm-start justify-content-md-start">
 										{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
 									</span>
-									<span class="font-weight-bold">
+									<span class="font-weight-bold d-flex justify-content-center justify-content-sm-start justify-content-md-start">
 										{\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}
 									</span>
 								</div>
 							</div>
 							{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
-							<div class="col-12 col-md-6 col-lg-6 float-right d-flex justify-content-center justify-content-sm-center justify-content-md-end px-0">
+							<div class="col-12 col-md-6 col-lg-6 float-right d-flex justify-content-start justify-content-sm-start justify-content-md-end px-0">
 								<div class="px-0 quickCreateActions float-right">
 									{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
@@ -44,7 +44,7 @@
 									{/if}
 									<button class="btn btn-light border goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
 									<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-									<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+									<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 								</div>
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 						</ul>
 						<div class="tab-content overflowVisible">
 							{foreach item=MODULE_DETAILS key=MODULE_NAME from=$QUICK_CREATE_CONTENTS}
-								<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active show {/if}fade">
+								<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active {/if}fade">
 									<input type="hidden" name="mode" value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}" />
 									{assign var="RECORD_STRUCTURE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructureModel']}
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}

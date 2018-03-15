@@ -28,18 +28,27 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
-			<div class="activityEntries padding5">
+			<div class="activityEntries p-1">
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
 				<div class="row">
 					<span class="col-md-6">
-						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 					</span>
 					<span class="col-md-6 rightText">
-						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="far fa-clock"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="u-text-ellipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
+					<span class="mr-1">
+						{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
+						{if $ACTIVITY_TYPE eq 'Task'}
+							<span class="far fa-check-square fa-fw"></span>
+						{elseif $ACTIVITY_TYPE eq 'Call'}
+							<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
+						{else}
+							<span class="fas fa-user fa-fw"></span>
+						{/if}
+					</span>
 					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
@@ -49,12 +58,12 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="fas fa-edit js-detail-quick-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="fas fa-edit fa-fw js-detail-quick-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list js-detail-quick-edit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list fa-fw js-detail-quick-edit"></span>
 						</a>
 					{/if}
 				</div>
@@ -67,11 +76,11 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="fas fa-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span>
+										<span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
-											<span class="fas fa-check"></span>
+										<span class="editDefaultStatus float-right u-cursor-pointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
+											<span class="fas fa-check fa-fw"></span>
 										</span>
 									{/if}
 								</div>
@@ -81,9 +90,9 @@
 							<input type="hidden" class="activityModule" value="Events" />
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="fas fa-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
+									<strong><span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check"></span></span>
+										<span class="editDefaultStatus float-right u-cursor-pointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check fa-fw"></span></span>
 										{/if}
 								</div>
 							{/if}
@@ -92,7 +101,7 @@
 				</div>
 				<div class="activityDescription">
 					<div>
-						<span class="value"><span class="fas fa-align-justify"></span>&nbsp;&nbsp;
+						<span class="value"><span class="fas fa-align-justify fa-fw mr-1"></span>
 							{if $RECORD->get('description') neq ''}
 								{$RECORD->getDisplayValue('description')|truncate:120:'...'}
 							{else}
@@ -100,13 +109,13 @@
 							{/if}
 						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
-							<span class="editDescription cursorPointer">
-								<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="editDescription u-cursor-pointer">
+								<span class="fas fa-edit fa-fw" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
 						{if $RECORD->get('location')}
 							<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->getDisplayValue('location'))}" class="float-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->getDisplayValue('location')}">
-								<span class="fas fa-map-marker-alt"></span>&nbsp
+								<span class="fas fa-map-marker-alt fa-fw"></span>&nbsp
 							</a>
 						{/if}
 						<span class="float-right popoverTooltip delay0" data-placement="left" data-class="activities" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
@@ -135,7 +144,7 @@
 								  {/foreach}
 							  {/if}
 						{/if}">
-						<span class="fas fa-info-circle"></span>
+						<span class="fas fa-info-circle fa-fw"></span>
 					</span>
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<span class="2 edit d-none row">
@@ -164,7 +173,7 @@
 {if $PAGING_MODEL->isNextPageExists()}
 	<div class="row">
 		<div class="float-right">
-			<button type="button" class="btn btn-primary btn-sm moreRecentActivities marginTop10 marginRight10">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+			<button type="button" class="btn btn-primary btn-sm moreRecentActivities mt-2 mr-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 		</div>
 	</div>
 {/if}

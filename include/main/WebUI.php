@@ -33,6 +33,7 @@ App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
+
 	/**
 	 * User privileges model instance.
 	 *
@@ -142,16 +143,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (!empty($action)) {
 				$componentType = 'Action';
 				$componentName = $action;
+				\App\Config::setJs('action', $action);
 			} else {
 				$componentType = 'View';
 				if (empty($view)) {
 					$view = 'Index';
 				}
 				$componentName = $view;
+				\App\Config::setJs('view', $view);
 			}
-
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
+			\App\Config::setJs('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}

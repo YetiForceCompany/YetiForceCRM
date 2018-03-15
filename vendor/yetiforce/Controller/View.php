@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 /**
@@ -10,7 +11,6 @@ namespace App\Controller;
  */
 abstract class View extends Base
 {
-
 	/**
 	 * Viewer instance.
 	 *
@@ -143,6 +143,7 @@ abstract class View extends Base
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$pageTitle = $this->getPageTitle($request);
+		$this->loadJsConfig($request);
 		if (\AppConfig::performance('BROWSING_HISTORY_WORKING')) {
 			\Vtiger_BrowsingHistory_Helper::saveHistory($pageTitle);
 		}
@@ -206,6 +207,7 @@ abstract class View extends Base
 		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
+
 	/**
 	 * Retrieves css styles that need to loaded in the page.
 	 *
@@ -515,7 +517,51 @@ abstract class View extends Base
 		if ($moduleName === 'Settings:Users') {
 			$moduleName = 'Users';
 		}
+		return \App\Language::getJsStrings($moduleName);
+	}
 
-		return \Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
+	/**
+	 * Load js config.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function loadJsConfig(\App\Request $request)
+	{
+		$userModel = \App\User::getCurrentUserModel();
+		foreach ([
+		'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
+		'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
+		'langPrefix' => \App\Language::getLanguage(),
+		'langKey' => \App\Language::getShortLanguageName(),
+		'parentModule' => $request->getByType('parent', 2),
+		'dateFormat' => $userModel->getDetail('date_format'),
+		'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+		'hourFormat' => $userModel->getDetail('hour_format'),
+		'startHour' => $userModel->getDetail('start_hour'),
+		'endHour' => $userModel->getDetail('end_hour'),
+		'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
+		'timeZone' => $userModel->getDetail('time_zone'),
+		'currencyId' => $userModel->getDetail('currency_id'),
+		'currencyName' => $userModel->getDetail('currency_name'),
+		'currencyCode' => $userModel->getDetail('currency_code'),
+		'currencySymbol' => $userModel->getDetail('currency_symbol'),
+		'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
+		'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+		'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
+		'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
+		'noOfCurrencyDecimals' => $userModel->getDetail('no_of_currency_decimals'),
+		'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
+		'rowHeight' => $userModel->getDetail('rowheight'),
+		'userId' => $userModel->getId(),
+		'backgroundClosingModal' => \AppConfig::main('backgroundClosingModal'),
+		'globalSearchAutocompleteActive' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
+		'globalSearchAutocompleteMinLength' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
+		'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+		'sounds' => \AppConfig::sounds(),
+		'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+		'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
+		] as $key => $value) {
+			\App\Config::setJs($key, $value);
+		}
 	}
 }

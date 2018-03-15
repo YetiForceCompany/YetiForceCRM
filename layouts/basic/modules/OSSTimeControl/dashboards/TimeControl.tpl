@@ -1,58 +1,47 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{}, {
-		loadChart: function () {
-		const thisInstance = this;
-		const options = {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: true
-			},
-			scales: {
-				yAxes: [{
-						stacked: true,
-						ticks:{
-							callback:function formatYAxisTick(value, index, values){
-								return app.formatToHourText(value,'short',false,false);
-							}
+		getTooltipsOptions: function getTooltipsOptions(){
+			return {
+				tooltips: {
+					callbacks: {
+						label: function (tooltipItem, data) {
+							return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+						},
+						title: function (tooltipItems, data) {
+							return data.fullLabels[tooltipItems[0].index];
 						}
-					}],
-				xAxes: [{
-						stacked: true,
-						ticks:{
-							minRotation:0,
-						}
-					}]
-			},
-			tooltips: {
-				callbacks: {
-					label: function (tooltipItem, data) {
-						return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-					},
-					title: function (tooltipItems, data) {
-						return data.fullLabels[tooltipItems[0].index];
 					}
-				}
-			},
-			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-		};
-		thisInstance.applyDefaultAxesLabelsConfig(options);
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels.display=false;
-		});
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'bar',
-					data: data,
-					options: options,
-				}
-		);
-	}
+				},
+			};
+		},
+		getOptions:function getOptions(){
+			return {
+				maintainAspectRatio: false,
+				title: {
+					display: false
+				},
+				legend: {
+					display: true
+				},
+				scales: {
+					yAxes: [{
+							stacked: true,
+							ticks:{
+								callback:function formatYAxisTick(value, index, values){
+									return app.formatToHourText(value,'short',false,false);
+								}
+							}
+						}],
+					xAxes: [{
+							stacked: true,
+							ticks:{
+								minRotation:0,
+							}
+						}]
+				},
+			};
+		},
 	});
 </script>
 <div class="dashboardWidgetHeader">

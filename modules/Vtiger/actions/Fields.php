@@ -154,7 +154,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		}
 		$labels = \App\Record::getLabel($ids);
 		foreach ($modules as $moduleName => &$rows) {
-			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
+			$data[] = ['name' => App\Language::translateSingleMod($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as $id) {
 				$data[] = ['id' => $id, 'name' => $labels[$id]];
 			}

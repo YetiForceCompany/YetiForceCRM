@@ -79,7 +79,6 @@ class Cache
 		if (!static::$pool->save("$nameSpace-$key", $value, $duration)) {
 			Log::warning("Error writing to cache. Key: $nameSpace-$keym | Value: " . var_export($value, true));
 		}
-
 		return $value;
 	}
 

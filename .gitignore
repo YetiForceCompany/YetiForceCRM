@@ -1,6 +1,7 @@
 /.gitignore
 /.settings
 /.project
+/.idea
 /.buildpath
 /_private
 /public_html/_private

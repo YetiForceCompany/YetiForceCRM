@@ -35,13 +35,11 @@ class Vtiger_Menu_Model
 
 	public static function vtranslateMenu($key, $module)
 	{
-		$language = \App\Language::getLanguage();
-		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
-		if (isset($moduleStrings['languageStrings'][$key])) {
-			return stripslashes($moduleStrings['languageStrings'][$key]);
+		$string = \App\Language::translateSingleMod($key, 'Other.Menu');
+		if ($string !== $key) {
+			return $string;
 		}
-
-		return Vtiger_Language_Handler::getTranslatedString($key, $module);
+		return \App\Language::translate($key, $module);
 	}
 
 	public static function getBreadcrumbs($pageTitle = false)

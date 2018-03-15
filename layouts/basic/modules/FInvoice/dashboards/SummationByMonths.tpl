@@ -2,72 +2,49 @@
 {assign var=CONF_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
-	registerSectionClick:function(){},
-	loadChart: function () {
-		const thisInstance = this;
-		const chartData = thisInstance.generateData();
-		const chartArea = thisInstance.getPlotContainer(false);
-		const months = [ "JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN",
-				"JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC" ];
-		const fullMonths = [ "JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE",
-				"JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER" ];
-		const data = thisInstance.generateData();
-		const options = {
-				maintainAspectRatio: false,
-				layout:{
-					padding:{
-						top:-30
-					}
-				},
-				tooltips:{
-					callbacks:{
-						label:function(item){
-							return app.parseNumberToShow(item.yLabel);
-						},
-						title:function(item){
-							return app.vtranslate(fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
-						},
-					}
-				},
-				title: {
-					display: true
-				},
-				legend: {
-					display: true,
-				},
-				scales: {
-					 yAxes: [{
-						stacked:true,
-						ticks:{
-							callback:function(label,index,labels){
-								return app.parseNumberToShow(label);
-							},
-							{if $CONF_DATA['plotTickSize']}
-								stepValue: {$CONF_DATA['plotTickSize']},
-							{/if}
-							{if $CONF_DATA['plotLimit']}
-								max: {$CONF_DATA['plotLimit']},
-							{/if}
-						},
-					}],
-					xAxes:[
-						{
-							stacked:true
-						}
-					]
-				},
-				events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
+	getTooltipsOptions: function getTooltipsOptions(){
+		const data = this.chartData;
+		return {
+			tooltips: {
+				callbacks: {
+					label: function tooltipLabelCallback(item) {
+						return app.parseNumberToShow(item.yLabel);
+					},
+					title: function tooltipTitleCallback(item) {
+						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
+					},
+				}
+			},
 		};
-		thisInstance.chartInstance = new Chart(
-			thisInstance.getPlotContainer().getContext("2d"),
-			{
-				type: 'bar',
-				data: data,
-				options: options,
-				plugins: thisInstance.getPlugins()
-			}
-		);
-	}
+	},
+	getOptions: function getOptions(){
+		return {
+			legend: {
+				display:true,
+			},
+			scales: {
+				 yAxes: [{
+					stacked:true,
+					ticks: {
+						callback: function yAxisTickCallback(label,index,labels) {
+							return app.parseNumberToShow(label);
+						},
+						{if $CONF_DATA['plotTickSize']}
+							stepValue: {$CONF_DATA['plotTickSize']},
+						{/if}
+						{if $CONF_DATA['plotLimit']}
+							max: {$CONF_DATA['plotLimit']},
+						{/if}
+					},
+				}],
+				xAxes: [
+					{
+						stacked: true
+					}
+				]
+			},
+		};
+	},
 });
 </script>
 <div class="dashboardWidgetHeader">
@@ -95,4 +72,3 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 <div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/SummationByMonthsContents.tpl', $MODULE_NAME)}
 </div>
-

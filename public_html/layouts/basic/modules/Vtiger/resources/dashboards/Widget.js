@@ -10,7 +10,7 @@
 jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
-	getInstance: function (container, widgetName, moduleName) {
+	getInstance: function getInstance(container, widgetName, moduleName) {
 		if (typeof moduleName == 'undefined') {
 			moduleName = app.getModuleName();
 		}
@@ -18,7 +18,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
 		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
 		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
-		var basicClass = Vtiger_Widget_Js;
+		var basicClass = YetiForce_Widget_Js;
 		var instance;
 		if (typeof moduleClass != 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
@@ -37,7 +37,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	chartInstance: false,
 	chartData: [],
 	paramCache: false,
-	init: function (container, reload, widgetClassName) {
+	init: function init(container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
 		if (!reload) {
@@ -45,24 +45,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
-	getOptions: function () {
-		return {};
-	},
-	getContainer: function () {
+	getContainer: function getContainer() {
 		return this.container;
 	},
-	setContainer: function (element) {
+	setContainer: function setContainer(element) {
 		this.container = element;
 		return this;
 	},
-	isEmptyData: function () {
+	isEmptyData: function isEmptyData() {
 		var container = this.getContainer();
 		return (container.find('.noDataMsg').length > 0) ? true : false;
 	},
-	getUserDateFormat: function () {
+	getUserDateFormat: function getUserDateFormat() {
 		return jQuery('#userDateFormat').val();
 	},
-	getPlotContainer: function (useCache) {
+	getChartContainer: function getChartContainer(useCache) {
 		if (typeof useCache == 'undefined') {
 			useCache = false;
 		}
@@ -72,7 +69,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return this.plotContainer;
 	},
-	registerRecordsCount: function () {
+	registerRecordsCount: function registerRecordsCount() {
 		var thisInstance = this;
 		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
 		recordsCountBtn.on('click', function () {
@@ -84,8 +81,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		});
 	},
-	loadScrollbar: function () {
-		const container = this.getPlotContainer(false);
+	loadScrollbar: function loadScrollbar() {
+		const container = this.getChartContainer(false);
 		if (typeof container === 'undefined') { // if there is no data
 			return false;
 		}
@@ -100,9 +97,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (!content.length)
 			return;
 		content.css('height', adjustedHeight + 'px');
-		app.showNewScrollbar(content, {wheelPropagation: true});
+		app.showNewScrollbar(content, {
+			wheelPropagation: true
+		});
 	},
-	restrictContentDrag: function () {
+	restrictContentDrag: function restrictContentDrag() {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
 			var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
@@ -113,38 +112,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 			e.stopPropagation();
 		});
 	},
-	convertToDateRangePicketFormat: function (userDateFormat) {
-		switch (userDateFormat) {
-			case 'yyyy-mm-dd':
-				return 'yyyy-MM-dd';
-			case 'mm-dd-yyyy':
-				return 'MM-dd-yyyy';
-			case 'dd-mm-yyyy':
-				return 'dd-MM-yyyy';
-			case 'yyyy.mm.dd':
-				return 'yyyy.MM.dd';
-			case 'mm.dd.yyyy':
-				return 'MM.dd.yyyy';
-			case 'dd.mm.yyyy':
-				return 'dd.MM.yyyy';
-			case 'yyyy/mm/dd':
-				return 'yyyy/MM/dd';
-			case 'mm/dd/yyyy':
-				return 'MM/dd/yyyy';
-			case 'dd/mm/yyyy':
-				return 'dd/MM/yyyy';
-		}
-	},
-	generateData: function () {
+	/**
+	 * Get data from JSON encoded input value
+	 *
+	 * @return {object} data from request
+	 */
+	generateData: function generateData() {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
+		if (typeof jData === 'undefined') {
+			return thisInstance.chartData = jData;
+		}
 		thisInstance.chartData = JSON.parse(jData);
 		return thisInstance.chartData;
 	},
-	loadChart: function (options = {}) {
-
-	},
-	positionNoDataMsg: function () {
+	positionNoDataMsg: function positionNoDataMsg() {
 		var container = this.getContainer();
 		var widgetContentsContainer = container.find('.dashboardWidgetContent');
 		var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
@@ -155,7 +137,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
-	postLoadWidget: function () {
+	postLoadWidget: function postLoadWidget() {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart(this.options);
@@ -174,7 +156,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerUserList();
 		this.registerHeaderButtons();
 	},
-	postRefreshWidget: function () {
+	postRefreshWidget: function postRefreshWidget() {
 		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart(this.options);
@@ -184,7 +166,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerSectionClick();
 		this.registerLoadMore();
 	},
-	setSortingButton: function (currentElement) {
+	setSortingButton: function setSortingButton(currentElement) {
 		if (currentElement.length) {
 			var container = this.getContainer();
 			var drefresh = container.find('a[name="drefresh"]');
@@ -208,7 +190,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			drefresh.data('url', url);
 		}
 	},
-	registerUserList: function () {
+	registerUserList: function registerUserList() {
 		var container = this.getContainer();
 		var header = container.find('.dashboardWidgetHeader');
 		var ownersFilter = header.find('.ownersFilter')
@@ -217,12 +199,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (owners) {
 				var select = ownersFilter.find('select');
 				$.each(jQuery.parseJSON(owners), function (key, value) {
-					select.append($('<option>', {value: key}).text(value));
+					select.append($('<option>', {
+						value: key
+					}).text(value));
 				});
 			}
 		}
 	},
-	registerHeaderButtons: function () {
+	registerHeaderButtons: function registerHeaderButtons() {
 		var container = this.getContainer();
 		var header = container.find('.dashboardWidgetHeader');
 		var downloadWidget = header.find('.downloadWidget');
@@ -241,17 +225,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 				print.close();
 			}, 1000);
 		});
-		downloadWidget.click({chart: $(this)}, function (e) {
+		downloadWidget.click({
+			chart: $(this)
+		}, function (e) {
 			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var a = $("<a>")
-					.attr("href", imgEl.attr('src'))
-					.attr("download", header.find('.dashboardTitle').text() + ".png")
-					.appendTo(container);
+				.attr("href", imgEl.attr('src'))
+				.attr("download", header.find('.dashboardTitle').text() + ".png")
+				.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
 	},
-	registerChangeSorting: function () {
+	registerChangeSorting: function registerChangeSorting() {
 		var thisInstance = this;
 		var container = this.getContainer();
 		thisInstance.setSortingButton(container.find('.changeRecordSort'));
@@ -261,7 +247,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			drefresh.click();
 		});
 	},
-	registerWidgetSwitch: function () {
+	registerWidgetSwitch: function registerWidgetSwitch() {
 		var thisInstance = this;
 		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .js-calcuations-switch');
 		thisInstance.setUrlSwitch(switchButtons);
@@ -276,7 +262,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		});
 	},
-	setUrlSwitch: function (switchButtons) {
+	setUrlSwitch: function setUrlSwitch(switchButtons) {
 		var aDeferred = jQuery.Deferred();
 		switchButtons.each(function (index, e) {
 			var currentElement = jQuery(e);
@@ -302,14 +288,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 		return aDeferred.promise();
 	},
-	getFilterData: function () {
+	getFilterData: function getFilterData() {
 		return {};
 	},
 	/**
 	 * Refresh widget
 	 * @returns {undefined}
 	 */
-	refreshWidget: function () {
+	refreshWidget: function refreshWidget() {
 		var thisInstance = this;
 		var parent = this.getContainer();
 		var element = parent.find('a[name="drefresh"]');
@@ -397,27 +383,31 @@ jQuery.Class('Vtiger_Widget_Js', {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(
-				function (data) {
-					var data = jQuery(data);
-					var footer = data.filter('.widgetFooterContent');
-					refreshContainer.progressIndicator({'mode': 'hide'});
-					if (footer.length) {
-						footer = footer.clone(true, true);
-						refreshContainerFooter.html(footer);
-						data.each(function (n, e) {
-							if (jQuery(this).hasClass('widgetFooterContent')) {
-								data.splice(n, 1);
-							}
-						})
-					}
-					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-				},
-				function () {
-					refreshContainer.progressIndicator({'mode': 'hide'});
+			function (data) {
+				var data = jQuery(data);
+				var footer = data.filter('.widgetFooterContent');
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				if (footer.length) {
+					footer = footer.clone(true, true);
+					refreshContainerFooter.html(footer);
+					data.each(function (n, e) {
+						if (jQuery(this).hasClass('widgetFooterContent')) {
+							data.splice(n, 1);
+						}
+					})
 				}
+				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
+			},
+			function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			}
 		);
 	},
-	registerFilter: function () {
+	registerFilter: function registerFilter() {
 		var thisInstance = this;
 		var container = this.getContainer();
 		var dateRangeElement = container.find('input.dateRangeField');
@@ -425,12 +415,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return;
 		}
 		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
-		app.registerDateRangePickerFields(dateRangeElement, {opens: "auto"});
+		app.registerDateRangePickerFields(dateRangeElement, {
+			opens: "auto"
+		});
 		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
 			container.find('a[name="drefresh"]').trigger('click');
 		});
 	},
-	registerFilterChangeEvent: function () {
+	registerFilterChangeEvent: function registerFilterChangeEvent() {
 		var container = this.getContainer();
 		container.on('change', '.widgetFilter', function (e) {
 			var widgetContainer = jQuery(e.currentTarget).closest('li');
@@ -444,20 +436,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		}
 	},
-	registerWidgetPostLoadEvent: function (container) {
+	registerWidgetPostLoadEvent: function registerWidgetPostLoadEvent(container) {
 		var thisInstance = this;
-		container.on(Vtiger_Widget_Js.widgetPostLoadEvent, function (e) {
+		container.on(YetiForce_Widget_Js.widgetPostLoadEvent, function (e) {
 			thisInstance.postLoadWidget();
 		})
 	},
-	registerWidgetPostRefreshEvent: function (container) {
+	registerWidgetPostRefreshEvent: function registerWidgetPostRefreshEvent(container) {
 		var thisInstance = this;
-		container.off(Vtiger_Widget_Js.widgetPostRefereshEvent);
-		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function (e) {
+		container.off(YetiForce_Widget_Js.widgetPostRefereshEvent);
+		container.on(YetiForce_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
 	},
-	registerSectionClick: function () {
+	registerSectionClick: function registerSectionClick() {
 		const thisInstance = this;
 		let pointer = false;
 		$(thisInstance.chartInstance.canvas).on('click', function (e) {
@@ -483,7 +475,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		});
 	},
-	registerLoadMore: function () {
+	registerLoadMore: function registerLoadMore() {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
@@ -504,13 +496,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			contentContainer.progressIndicator();
 			AppConnector.request(url).then(function (data) {
-				contentContainer.progressIndicator({'mode': 'hide'});
+				contentContainer.progressIndicator({
+					'mode': 'hide'
+				});
 				jQuery(parent).find('.dashboardWidgetContent').append(data);
 				element.parent().remove();
 			});
 		});
 	},
-	setFilterToCache: function (url, data) {
+	setFilterToCache: function setFilterToCache(url, data) {
 		var paramCache = url;
 		var container = this.getContainer();
 		paramCache = paramCache.replace('&content=', '&notcontent=');
@@ -524,12 +518,42 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var name = container.data('name');
 		app.cacheSet(name + userId, paramCache);
 	},
-	registerCache: function (container) {
+	registerCache: function registerCache(container) {
 		if (container.data('cache') == 1) {
 			this.paramCache = true;
 		}
 	},
-	getDataFromEvent: function (e, additionalFields) {
+	/**
+	 * Load and display chart into the view
+	 *
+	 * @return {undefined}
+	 */
+	loadChart: function loadChart() {
+		const thisInstance = this;
+		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getChartContainer() === 'undefined') {
+			return false;
+		}
+		const data = thisInstance.loadDatalabelsOptions(thisInstance.generateData());
+		// each chart type should have default options as getDefaultChartOptions method
+		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
+		thisInstance.chartInstance = new Chart(
+			thisInstance.getChartContainer().getContext("2d"), {
+				type: thisInstance.getType(),
+				data,
+				options,
+				plugins: thisInstance.getPlugins()
+			}
+		);
+	},
+	/**
+	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
+	 *
+	 * @param {event obj} e
+	 * @param {array} additionalFields if element from event have additional
+	 * array in dataset like links for data then additionalFields will look like ['links']
+	 * @returns {object} {label,value,...additionalFields}
+	 */
+	getDataFromEvent: function getDataFromEvent(e, additionalFields) {
 		let chart = this.chartInstance;
 		const elements = chart.getElementAtEvent(e);
 		if (elements.length === 0) {
@@ -551,11 +575,43 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return eventData;
 	},
-	getDefaultDatalabelsConfig: function (dataset, type = 'bar') {
+	/**
+	 * Apply default chart options
+	 * each chart type could have different default options returned from getDefaultChartOptions
+	 *
+	 * @param  {Object} data         chartData
+	 * @param  {Object} [options={}] instance options (getOptions)
+	 * @return {Object}              merged options
+	 */
+	loadDefaultChartOptions: function (data, options = {}) {
+		options = this.mergeOptions(options, this.getDefaultChartOptions());
+		options = this.loadDefaultTooltipsOptions(data, options);
+		return options;
+	},
+	/**
+	 * Get datalabels configuration - unified datalabels configuration for all chart types - might be overrided
+	 * see: https://chartjs-plugin-datalabels.netlify.com/options
+	 *
+	 * @param {Object} dataset
+	 * @param {String} type     chart type 'bar','pie' etc.
+	 * @param {Number} datasetIndex
+	 * @returns {Object}
+	 */
+	getDefaultDatalabelsOptions: function getDefaultDatalabelsOptions(dataset, type = 'bar', datasetIndex = 0) {
 		let borderRadius = 2;
+		let align = 'center';
+		let anchor = 'center';
+		let backgroundColor = 'rgba(0,0,0,0.2)';
+		let borderColor = 'rgba(255,255,255,0.2)';
 		switch (type) {
 			case 'pie':
+			case 'donut':
+			case 'doughnut':
 				borderRadius = 5;
+				align = 'center';
+				anchor = 'end';
+				backgroundColor = 'rgba(0,0,0,0.5)';
+				borderColor = 'rgba(255,255,255,0.5)';
 				break;
 		}
 		return {
@@ -563,12 +619,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				size: 11
 			},
 			color: 'white',
-			backgroundColor: 'rgba(0,0,0,0.2)',
-			borderColor: 'rgba(255,255,255,0.2)',
+			backgroundColor: backgroundColor,
+			borderColor: borderColor,
 			borderWidth: 2,
 			borderRadius: borderRadius,
-			anchor: 'center',
-			align: 'center',
+			anchor: anchor,
+			align: align,
 			formatter: function (value, context) {
 				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
 					// data presented in different format usually exists in alternative dataFormatted array
@@ -581,49 +637,75 @@ jQuery.Class('Vtiger_Widget_Js', {
 			},
 		};
 	},
-	applyDefaultDatalabelsConfig: function (chartData, chartType) {
+	/**
+	 * Apply default datalabels config
+	 *
+	 * @param {object} chartData from request
+	 * @param {string} chartType 'bar','pie' etc..
+	 * @returns {object} chartData
+	 */
+	loadDatalabelsOptions: function loadDatalabelsOptions(chartData, chartType) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
-		chartData.datasets.forEach((dataset) => {
-			dataset.datalabels = this.getDefaultDatalabelsConfig(dataset, chartType);
+		chartData.datasets.forEach((dataset, index) => {
+			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset, this.getType(), index));
+			dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
 		});
 		return chartData;
 	},
-	applyDefaultTooltipsConfig: function (data, options = {}) {
-		if (typeof options.tooltips === 'undefined') {
-			options.tooltips = {};
-		}
-		if (typeof options.tooltips.callbacks === 'undefined') {
-			options.tooltips.callbacks = {};
-		}
-		this.formatTooltipTitles(data);// titles are now in dataset.titlesFormatted
-		if (typeof options.tooltips.callbacks.label === 'undefined') {
-			options.tooltips.callbacks.label = function tooltipLabelCallback(tooltipItem, data) {
-				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
-					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+	/**
+	 * Get tooltips configuration - this method can be overrided if needed
+	 * see: http://www.chartjs.org/docs/latest/configuration/tooltip.html
+	 *
+	 * @param {object} data - chartData
+	 * @returns {object} default options
+	 */
+	getTooltipsOptions: function getTooltipsOptions(data) {
+		return {
+			tooltips: {
+				callbacks: {
+
+					label: function tooltipLabelCallback(tooltipItem, data) {
+						// get already formatted data if exists
+						if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+							return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+						}
+						// if there is no formatted data so try to format it
+						if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+							return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+						}
+						// return raw data at idex
+						return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+					},
+
+					title: function tooltipTitleCallback(tooltipItems, data) {
+						const tooltipItem = tooltipItems[0];
+						// get already formatted title if exists
+						if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+							return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+						}
+						// if there is no formatted title so try to format it
+						if (!isNaN(Number(data.labels[tooltipItem.index]))) {
+							return app.parseNumberToShow(data.labels[tooltipItem.index]);
+						}
+						// return label at index
+						return data.labels[tooltipItem.index];
+					}
+
 				}
-				if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
-					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-				}
-				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 			}
-		}
-		if (typeof options.tooltips.callbacks.title === 'undefined') {
-			options.tooltips.callbacks.title = function tooltipTitleCallback(tooltipItems, data) {
-				const tooltipItem = tooltipItems[0];
-				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
-					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
-				}
-				if (!isNaN(Number(data.labels[tooltipItem.index]))) {
-					return app.parseNumberToShow(data.labels[tooltipItem.index]);
-				}
-				return data.labels[tooltipItem.index];
-			}
-		}
-		return options;
+		};
 	},
-	formatTooltipTitles: function (data) {
+	/**
+	 * Format tooltip titles to user number format and push this modification to titlesFormatted
+	 * it is better to parse tooltips at initialization phase than
+	 * in tooltip callback which is called after hover
+	 *
+	 * @param {object} data - data from request
+	 * @returns {undefined}
+	 */
+	formatTooltipTitles: function formatTooltipTitles(data) {
 		data.datasets.forEach((dataset) => {
 			if (typeof dataset.titlesFormatted === 'undefined') {
 				dataset.titlesFormatted = [];
@@ -644,774 +726,148 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		});
 	},
-	getPlugins: function () {
-		return [];
-	},
-});
-Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		this.registerLoadMore();
-	},
-	postRefreshWidget: function () {
-		this._super();
-		this.registerLoadMore();
-	},
-	registerLoadMore: function () {
-		var thisInstance = this;
-		var parent = thisInstance.getContainer();
-		var contentContainer = parent.find('.dashboardWidgetContent');
-		var loadMoreHandler = contentContainer.find('.load-more');
-		loadMoreHandler.click(function () {
-			var parent = thisInstance.getContainer();
-			var element = parent.find('a[name="drefresh"]');
-			var url = element.data('url');
-			var params = url;
-			var widgetFilters = parent.find('.widgetFilter');
-			if (widgetFilters.length > 0) {
-				params = {url: url, data: {}};
-				widgetFilters.each(function (index, domElement) {
-					var widgetFilter = jQuery(domElement);
-					var filterName = widgetFilter.attr('name');
-					var filterValue = widgetFilter.val();
-					params.data[filterName] = filterValue;
+	/**
+	 * Format tooltip titles to user number format and push this modification to titlesFormatted
+	 * it is better to parse tooltips at initialization phase than
+	 * in tooltip callback which is called after hover
+	 *
+	 * @param {object} data - data from request
+	 * @returns {undefined}
+	 */
+	formatTooltipLabels: function formatTooltipTitles(data) {
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.dataFormatted === 'undefined') {
+				dataset.dataFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let dataFormatted = dataItem;
+					if (!isNaN(Number(dataItem))) {
+						dataFormatted = app.parseNumberToShow(dataItem);
+					}
+					dataset.dataFormatted.push(dataFormatted);
 				});
 			}
-
-			var filterData = thisInstance.getFilterData();
-			if (!jQuery.isEmptyObject(filterData)) {
-				if (typeof params == 'string') {
-					params = {url: url, data: {}};
+		});
+	},
+	/**
+	 * Merge two objects with options and do not override existing properties
+	 * objects are not cloned in anyway - we are working on original object
+	 *
+	 * @param  {object} to
+	 * @param  {object} from
+	 * @return {object}
+	 */
+	mergeOptions: function mergeOptions(to = {}, from) {
+		if (typeof from !== 'object' && typeof to === 'undefined') {
+			// if we are in recursive tree and from and to are primitives - just return from
+			return from;
+		}
+		for (let key in from) {
+			if (from.hasOwnProperty(key)) {
+				if (typeof from[key] === 'object' && !Array.isArray(from[key]) && from[key] !== null) {
+					// if property is an object - merge recursively
+					to[key] = this.mergeOptions(to[key], from[key]);
+				} else if (typeof from[key] === 'object' && Array.isArray(from[key])) {
+					if (!to.hasOwnProperty(key)) {
+						to[key] = [];
+					}
+					from[key].forEach((item, index) => {
+						to[key][index] = this.mergeOptions(to[key][index], item);
+					});
+				} else {
+					if (!to.hasOwnProperty(key)) {
+						to[key] = from[key];
+					}
 				}
-				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
 			}
-
-			// Next page.
-			params.data['page'] = loadMoreHandler.data('nextpage');
-			var refreshContainer = parent.find('.dashboardWidgetContent');
-			refreshContainer.progressIndicator();
-			AppConnector.request(params).then(function (data) {
-				refreshContainer.progressIndicator({'mode': 'hide'});
-				loadMoreHandler.replaceWith(data);
-				thisInstance.registerLoadMore();
-			}, function () {
-				refreshContainer.progressIndicator({'mode': 'hide'});
-			});
-		});
-	}
-
-});
-Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
-	chartfilterInstance: false,
-	init: function (container, reload, widgetClassName) {
-		this.setContainer(jQuery(container));
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
-		this.registerRecordsCount();
+		}
+		return to;
 	},
-});
-Vtiger_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = false;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		if (typeof options.sort === 'undefined') {
-			options.sort = 'data-desc';
-		}
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			axis.display = true;
-		});
-		this.applyDefaultTooltipsConfig(data, options);
-		return options;
+	/**
+	 * Apply unified tooltips configuration
+	 *
+	 * @param {chartData} data - data from request
+	 * @param {object} options - predefined options
+	 * @returns {object} options
+	 */
+	loadDefaultTooltipsOptions: function loadDefaultTooltipsOptions(data, options = {}) {
+		this.formatTooltipTitles(data); // titles are now in dataset.titlesFormatted
+		this.formatTooltipLabels(data); // labels are now in dataset.dataFormatted
+		return options = this.mergeOptions(options, this.getTooltipsOptions(data));
 	},
-	applyDefaultDatalabelsConfig: function (data, type) {
-		data.datasets.forEach((dataset) => {
-			dataset.datalabels = {display: false};
-		});
-		return data;
+	/**
+	 * Placeholder for individual chart type options
+	 * If you want to customize default options this is the right place - override this method in your class
+	 *
+	 * @returns {object} chart options
+	 */
+	getOptions: function getOptions() {
+		return {};
 	},
-	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData(), 'funnel');
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'funnel',
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
+	/**
+	 * Placeholder for individual chart type datalabels options
+	 *
+	 * @param  {object} dataset
+	 * @param  {String} type    chart type 'bar','pie' etc.
+	 * @param  {Number} datasetIndex
+	 * @return {Object} datalabels configurations
+	 */
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+		return {};
 	},
-});
-Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
-	getPlugins: function () {
+	/**
+	 * Placeholder for individual chart type plugins
+	 * You can add custom plugins for individual charts by overriding this method
+	 * see: http://www.chartjs.org/docs/latest/developers/plugins.html
+	 *
+	 * @returns {Array} plugins
+	 */
+	getPlugins: function getPlugins() {
 		return [];
 	},
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = true;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		this.applyDefaultTooltipsConfig(data, options);
-		return options;
-	},
-	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData());
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'pie',
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
-				}
-		);
-	},
-
-});
-Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	/**
-	 * Function which will give chart related Data
+	 * Get chart type
+	 * We don't wan't to override loadChart method (good practice)
+	 * so we can extend some chart type and change its type only to show data in different manner
+	 *
+	 * @returns {String}
 	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
+	getType: function getType() {
+		return 'bar';
 	},
 });
-Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		return data;
-	},
-	loadChart: function () {
-		var data = this.generateData();
-		var series = [];
-		$.each(data['divided'], function (index, value) {
-			series[index] = {label: value};
-		});
-		if (data['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
-				stackSeries: true,
-				captureRightClick: true,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						highlightMouseOver: true,
-						varyBarColor: true
-					},
-					pointLabels: {show: true}
-				},
-				series: series,
-				axes: {
-					xaxis: {
-						renderer: $.jqplot.CategoryAxisRenderer,
-						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-						ticks: data['group'],
-						tickOptions: {
-							angle: -65,
-						}
-					}
-				},
-				legend: {
-					show: true,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var data = this.generateData();
-		var links = data['links'];
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
-			var url = links[seriesIndex][pointIndex];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		for (var index in data) {
-			var row = data[index];
-			row[0] = parseInt(row[0]);
-			xLabels.push(app.getDecodedValue(row[1]))
-			chartData.push(row[0]);
-			if (parseInt(row[0]) > yMaxValue) {
-				yMaxValue = parseInt(row[0]);
-			}
-		}
-		// yMaxValue Should be 25% more than Maximum Value
-		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels};
-	},
-	loadChart: function () {
-		var isColored = false;
-		var container = this.getContainer();
-		var isColoredInput = container.find('.color');
-		if (isColoredInput.length) {
-			isColored = isColoredInput.val() == 0 ? false : true;
-		}
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				animate: !$.jqplot.use_excanvas,
-				seriesColors: (data['colors']) ? data['colors'] : false,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						dataLabels: 'value',
-						barDirection: 'vertical',
-						varyBarColor: isColored
-					},
-					pointLabels: {show: true, edgeTolerance: -15}
-				},
-				axes: {
-					xaxis: {
-						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-						renderer: jQuery.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							angle: -45,
-							labelPosition: 'auto'
-						}
-					},
-					yaxis: {
-						min: 0,
-						max: data['yMaxValue'],
-						tickOptions: {
-							formatString: '%d'
-						},
-						pad: 1.2
-					}
-				},
-				legend: {
-					show: (data['data_labels']) ? true : false,
-					location: (data['location']) ? data['location'] : 'e',
-					placement: (data['placement']) ? data['placement'] : 'outside',
-					showLabels: (data['data_labels']) ? true : false,
-					showSwatch: (data['data_labels']) ? true : false,
-					labels: data['data_labels']
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
-	loadChart: function () {
-		var isColored = false;
-		var container = this.getContainer();
-		var isColoredInput = container.find('.color');
-		if (isColoredInput.length) {
-			isColored = isColoredInput.val() == 0 ? false : true;
-		}
-		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			title: data['title'],
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				showDataLabels: true,
-				pointLabels: {show: true, location: 'e', edgeTolerance: -15},
-				shadowAngle: 135,
-				rendererOptions: {
-					barDirection: 'horizontal',
-					varyBarColor: isColored
-				}
-			},
-			axes: {
-				yaxis: {
-					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-					ticks: data['labels'],
-					tickOptions: {
-						angle: -45
-					}
-				}
-			},
-			legend: {
-				show: false,
-				location: 'e',
-				placement: 'outside',
-				showSwatch: true,
-				showLabels: true,
-				labels: data['data_labels']
-			}
-		});
-	}
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				legend: {
-					show: false,
-					labels: data['labels'],
-					location: 'ne',
-					showSwatch: true,
-					showLabels: true,
-					placement: 'outside'
-				},
-				seriesDefaults: {
-					pointLabels: {
-						show: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 1,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
-	}
-});
-Vtiger_Barchat_Widget_Js('Vtiger_Lineplain_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getPlotContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				axesDefaults: {
-					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-				},
-				seriesDefaults: {
-					rendererOptions: {
-						smooth: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 0,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
-	}
-});
-Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
-	/**
-	 * Function which will give char related Data like data , x labels and legend labels as map
-	 */
-	getCharRelatedData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var users = [];
-		var stages = [];
-		var count = [];
-		for (var i = 0; i < data.length; i++) {
-			if ($.inArray(data[i].last_name, users) == -1) {
-				users.push(data[i].last_name);
-			}
-			if ($.inArray(data[i].sales_stage, stages) == -1) {
-				stages.push(data[i].sales_stage);
-			}
-		}
-
-		for (var j in stages) {
-			var salesStageCount = [];
-			for (i in users) {
-				var salesCount = 0;
-				for (var k in data) {
-					var userData = data[k];
-					if (userData.sales_stage == stages[j] && userData.last_name == users[i]) {
-						salesCount = parseInt(userData.count);
-						break;
-					}
-				}
-				salesStageCount.push(salesCount);
-			}
-			count.push(salesStageCount);
-		}
+Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
+	getDefaultChartOptions: function () {
 		return {
-			'data': count,
-			'ticks': users,
-			'labels': stages
-		}
-	},
-	loadChart: function () {
-		var chartRelatedData = this.getCharRelatedData();
-		var chartData = chartRelatedData.data;
-		var ticks = chartRelatedData.ticks;
-		var labels = chartRelatedData.labels;
-		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
-		this.getPlotContainer(false).jqplot(chartData, {
-			stackSeries: true,
-			captureRightClick: true,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: {
-					// Put a 30 pixel margin between bars.
-					barMargin: 10,
-					// Highlight bars when mouse button pressed.
-					// Disables default highlighting on mouse over.
-					highlightMouseDown: true,
-					highlightMouseOver: true
-				},
-				pointLabels: {show: true, hideZeros: true}
-			},
-			axes: {
-				xaxis: {
-					renderer: $.jqplot.CategoryAxisRenderer,
-					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-					tickOptions: {
-						angle: -45,
-						pt2px: 4.0
-					},
-					ticks: ticks
-				},
-				yaxis: {
-					// Don't pad out the bottom of the data range.  By default,
-					// axes scaled as if data extended 10% above and below the
-					// actual range to prevent data points right on grid boundaries.
-					// Don't want to do that here.
-					padMin: 0,
-					min: 0
-				}
+			maintainAspectRatio: false,
+			title: {
+				display: false
 			},
 			legend: {
-				show: true,
-				location: 'e',
-				renderer: $.jqplot.EnhancedLegendRenderer,
-				placement: 'outside',
-				labels: labels
-			}
-		});
-	}
-});
-// NOTE Widget-class name camel-case convention
-Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
-	postLoadWidget: function () {
-		app.hideModalWindow();
-		this.restrictContentDrag();
-		this.registerFilterChangeEvent();
-		this.registerRecordsCount();
-	},
-	postRefreshWidget: function () {
-		this.registerRecordsCount();
-	}
-});
-Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
-	loadChart: function () {
-		var container = this.getContainer();
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		var chartClass = window["Report_" + chartClassName + "_Js"];
-		var instance = false;
-		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container, true);
-			instance.loadChart();
-		}
-	}
-});
-/* Notebook Widget */
-Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
-}, {
-	// Override widget specific functions.
-	postLoadWidget: function () {
-		this.reinitNotebookView();
-	},
-	reinitNotebookView: function () {
-		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {'height': '200px'});
-		jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
-			self.editNotebookContent();
-		});
-		jQuery('.dashboard_notebookWidget_save', this.container).click(function () {
-			self.saveNotebookContent();
-		});
-	},
-	editNotebookContent: function () {
-		jQuery('.dashboard_notebookWidget_text', this.container).show();
-		jQuery('.dashboard_notebookWidget_view', this.container).hide();
-		$('body').on('click', function (e) {
-			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
-				$('.dashboard_notebookWidget_save').trigger('click');
-			}
-		});
-	},
-	saveNotebookContent: function () {
-		$('body').off('click');
-		var self = this;
-		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-		var url = this.container.data('url');
-		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-		var refreshContainer = this.container.find('.dashboardWidgetContent');
-		refreshContainer.progressIndicator();
-		AppConnector.request(params).then(function (data) {
-			refreshContainer.progressIndicator({'mode': 'hide'});
-			jQuery('.dashboardWidgetContent', self.container).html(data);
-			self.reinitNotebookView();
-		});
-	}
-});
-Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		return {'chartData': [[[data['result'], data['all']]]], 'yMaxValue': data['maxValue'], 'labels': ''};
-	},
-	loadChart: function () {
-		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: jQuery.jqplot.BarRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value',
-					barDirection: 'horizontal'
-				},
+				display: false
 			},
-			axes: {
-				xaxis: {
-					min: 0,
-					max: data['yMaxValue'],
-				},
-				yaxis: {
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-				}
-			}
-		});
-	}
-});
-Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	applyDefaultAxesLabelsConfig: function (options = {}) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			if (typeof axis.ticks.autoSkip === 'undefined') {
-				axis.ticks.autoSkip = false;
-			}
-			axis.ticks.maxRotation = 90;
-		});
-
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			if (typeof axis.ticks.callback === 'undefined') {
-				axis.ticks.callback = function defaultYTicksCallback(value, index, values) {
-					if (!isNaN(Number(value))) {
-						return app.parseNumberToShow(value);
+			scales: {
+				xAxes: [{
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						maxRotation: 90
 					}
-					return value;
-				}
+				}],
+				yAxes: [{
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						callback: function defaultYTicksCallback(value, index, values) {
+							if (!isNaN(Number(value))) {
+								return app.parseNumberToShow(value);
+							}
+							return value;
+						}
+					}
+				}]
 			}
-			if (typeof axis.ticks.beginAtZero === 'undefined') {
-				axis.ticks.beginAtZero = true;
-			}
-		});
-		return options;
-	},
-	applyDefaultOptions: function (data, options = {}){
-		if (typeof options.maintainAspectRatio === 'undefined') {
-			options.maintainAspectRatio = false;
-		}
-		if (typeof options.title === 'undefined') {
-			options.title = {};
-		}
-		if (typeof options.title.display === 'undefined') {
-			options.title.display = false;
-		}
-		if (typeof options.legend === 'undefined') {
-			options.legend = {};
-		}
-		if (typeof options.legend.display === 'undefined') {
-			options.legend.display = false;
-		}
-		if (typeof options.events === 'undefined') {
-			options.events = ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"];
-		}
-		this.applyDefaultTooltipsConfig(data, options);
-		this.applyDefaultAxesLabelsConfig(options);
-		return options;
+		};
 	},
 	getDatasetsMeta: function (chart) {
 		const datasets = [];
@@ -1545,26 +1001,586 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	},
 	getPlugins: function () {
 		const thisInstance = this;
-		return[
-			{
-				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+		return [{
+			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+		}]
+	},
+});
+YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
+	getType: function () {
+		return 'horizontalBar';
+	},
+	hideDatalabelsIfNeeded: function (chart) {
+		const data = chart.data;
+		let datasetsMeta = this.getDatasetsMeta(chart);
+		let datasets = chart.data.datasets;
+		for (let i = 0, len = datasets.length; i < len; i++) {
+			const dataset = datasets[i];
+			const metaData = datasetsMeta[i].data;
+			if (typeof dataset._models === 'undefined') {
+				dataset._models = {};
 			}
-		]
+			if (typeof dataset.datalabels === 'undefined') {
+				dataset.datalabels = {};
+			}
+			if (typeof dataset.datalabels.display === 'undefined') {
+				dataset.datalabels.display = true;
+			}
+			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+				const dataItem = metaData[iItem];
+				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+					let model = dataItem.$datalabels._model;
+					if (model !== null && typeof model !== 'undefined') {
+						dataset._models[iItem] = model;
+					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+						model = dataset._models[iItem];
+					} else {
+						return false;
+					}
+					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+					const barWidth = dataItem.width;
+					if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
+						dataItem.$datalabels._model = null;
+					} else {
+						dataItem.$datalabels._model = model;
+					}
+				}
+			}
+		}
+
+	},
+	shortenYTicks: function shortenYTicks(data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.yAxes === 'undefined') {
+			options.scales.yAxes = [{}];
+		}
+		options.scales.yAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.callback = function yAxisTickCallback(value, index, values) {
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
+			}
+		});
+		return options;
+	},
+	beforeDraw: function (chart) {
+		this.hideDatalabelsIfNeeded(chart);
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						if (label.length > 13) {
+							chart.options = this.shortenYTicks(chart.data, chart.options);
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+								});
+								break;
+							}
+						}
+					}
+					dataset._updated = true;
+				}
+			}
+		});
+	},
+});
+YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	registerLoadMore: function () {
+		var thisInstance = this;
+		var parent = thisInstance.getContainer();
+		var contentContainer = parent.find('.dashboardWidgetContent');
+		var loadMoreHandler = contentContainer.find('.load-more');
+		loadMoreHandler.click(function () {
+			var parent = thisInstance.getContainer();
+			var element = parent.find('a[name="drefresh"]');
+			var url = element.data('url');
+			var params = url;
+			var widgetFilters = parent.find('.widgetFilter');
+			if (widgetFilters.length > 0) {
+				params = {
+					url: url,
+					data: {}
+				};
+				widgetFilters.each(function (index, domElement) {
+					var widgetFilter = jQuery(domElement);
+					var filterName = widgetFilter.attr('name');
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
+				});
+			}
+
+			var filterData = thisInstance.getFilterData();
+			if (!jQuery.isEmptyObject(filterData)) {
+				if (typeof params == 'string') {
+					params = {
+						url: url,
+						data: {}
+					};
+				}
+				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
+			}
+
+			// Next page.
+			params.data['page'] = loadMoreHandler.data('nextpage');
+			var refreshContainer = parent.find('.dashboardWidgetContent');
+			refreshContainer.progressIndicator();
+			AppConnector.request(params).then(function (data) {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				loadMoreHandler.replaceWith(data);
+				thisInstance.registerLoadMore();
+			}, function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			});
+		});
+	}
+
+});
+YetiForce_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
+	chartfilterInstance: false,
+	init: function (container, reload, widgetClassName) {
+		this.setContainer(jQuery(container));
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
+		this.registerRecordsCount();
+	},
+});
+YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
+	getType: function getType() {
+		return 'funnel';
+	},
+	getDefaultChartOptions: function (data, options = {}) {
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: false,
+			},
+			sort: 'data-desc',
+			scales: {
+				yAxes: [{
+					display: true
+				}]
+			},
+		};
+	},
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+		return {
+			display: false
+		};
+	},
+});
+YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
+	getType: function getType() {
+		return 'pie';
+	},
+	getDefaultChartOptions: function (data, options = {}) {
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: true
+			},
+			cutoutPercentage: 0,
+			layout: {
+				padding: {
+					bottom: 12
+				}
+			}
+		};
+	},
+});
+YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
+	getType: function getType() {
+		return 'doughnut';
+	},
+	getDefaultChartOptions: function (data, options = {}) {
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: true
+			},
+			cutoutPercentage: 50,
+			layout: {
+				padding: {
+					bottom: 12
+				}
+			}
+		};
+	},
+});
+YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
+	/**
+	 * Function which will give chart related Data
+	 */
+	generateData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		return data;
 	},
 	loadChart: function () {
-		const thisInstance = this;
-		const data = thisInstance.applyDefaultDatalabelsConfig(thisInstance.generateData(), 'bar');
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'bar',
-					data,
-					options: thisInstance.applyDefaultOptions(data, thisInstance.getOptions()),
-					plugins: thisInstance.getPlugins()
+		var data = this.generateData();
+		var series = [];
+		$.each(data['divided'], function (index, value) {
+			series[index] = {
+				label: value
+			};
+		});
+		if (data['chartData'].length > 0) {
+			this.chartInstance = this.getChartContainer(false).jqplot(data['chartData'], {
+				stackSeries: true,
+				captureRightClick: true,
+				seriesDefaults: {
+					renderer: jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						highlightMouseOver: true,
+						varyBarColor: true
+					},
+					pointLabels: {
+						show: true
+					}
+				},
+				series: series,
+				axes: {
+					xaxis: {
+						renderer: $.jqplot.CategoryAxisRenderer,
+						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+						ticks: data['group'],
+						tickOptions: {
+							angle: -65,
+						}
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e'
 				}
-		);
-		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
+			});
+		}
 	},
+	registerSectionClick: function () {
+		var data = this.generateData();
+		var links = data['links'];
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
+			var url = links[seriesIndex][pointIndex];
+			window.location.href = url;
+		});
+	},
+});
+
+YetiForce_Barchat_Widget_Js('YetiForce_Line_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getChartContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				legend: {
+					show: false,
+					labels: data['labels'],
+					location: 'ne',
+					showSwatch: true,
+					showLabels: true,
+					placement: 'outside'
+				},
+				seriesDefaults: {
+					pointLabels: {
+						show: true
+					}
+				},
+				axes: {
+					xaxis: {
+						min: 0,
+						pad: 1,
+						renderer: $.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							formatString: '%b %#d'
+						}
+					}
+				},
+				cursor: {
+					show: true
+				}
+			});
+		}
+	}
+});
+YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getChartContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				axesDefaults: {
+					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+				},
+				seriesDefaults: {
+					rendererOptions: {
+						smooth: true
+					}
+				},
+				axes: {
+					xaxis: {
+						min: 0,
+						pad: 0,
+						renderer: $.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							formatString: '%b %#d'
+						}
+					}
+				},
+				cursor: {
+					show: true
+				}
+			});
+		}
+	}
+});
+YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
+	/**
+	 * Function which will give char related Data like data , x labels and legend labels as map
+	 */
+	getCharRelatedData: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var users = [];
+		var stages = [];
+		var count = [];
+		for (var i = 0; i < data.length; i++) {
+			if ($.inArray(data[i].last_name, users) == -1) {
+				users.push(data[i].last_name);
+			}
+			if ($.inArray(data[i].sales_stage, stages) == -1) {
+				stages.push(data[i].sales_stage);
+			}
+		}
+
+		for (var j in stages) {
+			var salesStageCount = [];
+			for (i in users) {
+				var salesCount = 0;
+				for (var k in data) {
+					var userData = data[k];
+					if (userData.sales_stage == stages[j] && userData.last_name == users[i]) {
+						salesCount = parseInt(userData.count);
+						break;
+					}
+				}
+				salesStageCount.push(salesCount);
+			}
+			count.push(salesStageCount);
+		}
+		return {
+			'data': count,
+			'ticks': users,
+			'labels': stages
+		}
+	},
+	loadChart: function () {
+		var chartRelatedData = this.getCharRelatedData();
+		var chartData = chartRelatedData.data;
+		var ticks = chartRelatedData.ticks;
+		var labels = chartRelatedData.labels;
+		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
+		this.getChartContainer(false).jqplot(chartData, {
+			stackSeries: true,
+			captureRightClick: true,
+			seriesDefaults: {
+				renderer: $.jqplot.BarRenderer,
+				rendererOptions: {
+					// Put a 30 pixel margin between bars.
+					barMargin: 10,
+					// Highlight bars when mouse button pressed.
+					// Disables default highlighting on mouse over.
+					highlightMouseDown: true,
+					highlightMouseOver: true
+				},
+				pointLabels: {
+					show: true,
+					hideZeros: true
+				}
+			},
+			axes: {
+				xaxis: {
+					renderer: $.jqplot.CategoryAxisRenderer,
+					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+					tickOptions: {
+						angle: -45,
+						pt2px: 4.0
+					},
+					ticks: ticks
+				},
+				yaxis: {
+					// Don't pad out the bottom of the data range.  By default,
+					// axes scaled as if data extended 10% above and below the
+					// actual range to prevent data points right on grid boundaries.
+					// Don't want to do that here.
+					padMin: 0,
+					min: 0
+				}
+			},
+			legend: {
+				show: true,
+				location: 'e',
+				renderer: $.jqplot.EnhancedLegendRenderer,
+				placement: 'outside',
+				labels: labels
+			}
+		});
+	}
+});
+// NOTE Widget-class name camel-case convention
+YetiForce_Widget_Js('YetiForce_Minilist_Widget_Js', {}, {
+	postLoadWidget: function () {
+		app.hideModalWindow();
+		this.restrictContentDrag();
+		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function () {
+		this.registerRecordsCount();
+	}
+});
+YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
+	loadChart: function () {
+		var container = this.getContainer();
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		var chartClass = window["Report_" + chartClassName + "_Js"];
+		var instance = false;
+		if (typeof chartClass != 'undefined') {
+			instance = new chartClass(container, true);
+			instance.loadChart();
+		}
+	}
+});
+/* Notebook Widget */
+YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
+	// Override widget specific functions.
+	postLoadWidget: function () {
+		this.reinitNotebookView();
+	},
+	reinitNotebookView: function () {
+		var self = this;
+		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
+			'height': '200px'
+		});
+		jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
+			self.editNotebookContent();
+		});
+		jQuery('.dashboard_notebookWidget_save', this.container).click(function () {
+			self.saveNotebookContent();
+		});
+	},
+	editNotebookContent: function () {
+		jQuery('.dashboard_notebookWidget_text', this.container).show();
+		jQuery('.dashboard_notebookWidget_view', this.container).hide();
+		$('body').on('click', function (e) {
+			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
+				$('.dashboard_notebookWidget_save').trigger('click');
+			}
+		});
+	},
+	saveNotebookContent: function () {
+		$('body').off('click');
+		var self = this;
+		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
+		var url = this.container.data('url');
+		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
+		var refreshContainer = this.container.find('.dashboardWidgetContent');
+		refreshContainer.progressIndicator();
+		AppConnector.request(params).then(function (data) {
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
+			jQuery('.dashboardWidgetContent', self.container).html(data);
+			self.reinitNotebookView();
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
+	generateChartData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = [];
+		var yMaxValue = 0;
+		return {
+			'chartData': [
+				[
+					[data['result'], data['all']]
+				]
+			],
+			'yMaxValue': data['maxValue'],
+			'labels': ''
+		};
+	},
+	loadChart: function () {
+		var data = this.generateChartData();
+		this.getChartContainer(false).jqplot(data['chartData'], {
+			animate: !$.jqplot.use_excanvas,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					showDataLabels: true,
+					dataLabels: 'value',
+					barDirection: 'horizontal'
+				},
+			},
+			axes: {
+				xaxis: {
+					min: 0,
+					max: data['yMaxValue'],
+				},
+				yaxis: {
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+				}
+			}
+		});
+	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 	getOptions: function () {
@@ -1574,16 +1590,16 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-						stacked: true
-					}],
+					stacked: true
+				}],
 				yAxes: [{
-						stacked: true
-					}]
+					stacked: true
+				}]
 			}
 		};
 	}
 });
-Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
 	weekDaysArray: {
@@ -1640,17 +1656,21 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')
+			],
 			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')],
+				app.vtranslate('JS_DEC')
+			],
 			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
 				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')],
+				app.vtranslate('JS_SATURDAY')
+			],
 			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
 				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
+				app.vtranslate('JS_SAT')
+			],
 			buttonText: {
 				today: app.vtranslate('JS_TODAY'),
 				month: app.vtranslate('JS_MONTH'),
@@ -1663,29 +1683,34 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				element = '<div class="cell-calendar">';
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
-							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
-							'</a>\n';
+						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+						'</a>\n';
 				}
 				element += '</div>';
 				return element;
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
-				.mouseenter(function () {
-					jQuery('<span class="plus pull-left fas fa-plus"></span>')
-							.prependTo($(this))
-				}).mouseleave(function () {
-			$(this).find(".plus").remove();
-		});
+			.mouseenter(function () {
+				jQuery('<span class="plus pull-left fas fa-plus"></span>')
+					.prependTo($(this))
+			}).mouseleave(function () {
+				$(this).find(".plus").remove();
+			});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
-			var params = {noCache: true};
-			params.data = {date_start: date, due_date: date};
+			var params = {
+				noCache: true
+			};
+			params.data = {
+				date_start: date,
+				due_date: date
+			};
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
-			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
+			YetiForce_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
@@ -1728,7 +1753,11 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (this.paramCache) {
 			var drefresh = this.getContainer().find('a[name="drefresh"]');
 			var url = drefresh.data('url');
-			var paramCache = {owner: user, customFilter: customFilter, start: start_date};
+			var paramCache = {
+				owner: user,
+				customFilter: customFilter,
+				start: start_date
+			};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
 		AppConnector.request(params).then(function (events) {
@@ -1739,8 +1768,8 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-					events.result
-					);
+				events.result
+			);
 			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
@@ -1805,10 +1834,12 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
 		thisInstance.loadCalendarData();
-		refreshContainer.progressIndicator({'mode': 'hide'});
+		refreshContainer.progressIndicator({
+			'mode': 'hide'
+		});
 	},
 });
-Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -1823,7 +1854,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.find('.changeActivity').on('click', function (e) {
-			if ($(e.target).closest('[href]').length || thisInstance.modalView) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
 				return;
 			}
 			var url = jQuery(this).data('url');
@@ -1860,7 +1891,7 @@ YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
-Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -1875,7 +1906,7 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 		var thisInstance = this;
 		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 		refreshContainer.find('.rowAction').on('click', function (e) {
-			if ($(e.target).closest('[href]').length || thisInstance.modalView) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
 				return;
 			}
 			var url = jQuery(this).data('url');
@@ -1907,32 +1938,31 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
-	loadChart: function () {
-		const thisInstance = this;
-		const options = {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
+	getOptions: function getOptions() {
+		return {
 			legend: {
 				display: true
 			},
 			scales: {
 				yAxes: [{
-						stacked: true,
-						ticks: {
-							callback: function formatYAxisTick(value, index, values) {
-								return app.formatToHourText(value, 'short', false, false);
-							}
+					stacked: true,
+					ticks: {
+						callback: function formatYAxisTick(value, index, values) {
+							return app.formatToHourText(value, 'short', false, false);
 						}
-					}],
+					}
+				}],
 				xAxes: [{
-						stacked: true,
-						ticks: {
-							minRotation: 0
-						}
-					}]
+					stacked: true,
+					ticks: {
+						minRotation: 0
+					}
+				}]
 			},
+		}
+	},
+	getTooltipsOptions: function getDatalabelsOptions() {
+		return {
 			tooltips: {
 				callbacks: {
 					label: function (tooltipItem, data) {
@@ -1943,28 +1973,15 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 					}
 				}
 			},
-			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend"],
-		};
-		const data = thisInstance.generateData();
-		thisInstance.applyDefaultDatalabelsConfig(data);
-		thisInstance.applyDefaultAxesLabelsConfig(options);
-		data.datasets.forEach((dataset) => {
-			// https://chartjs-plugin-datalabels.netlify.com/options.html
-			dataset.datalabels.formatter = function datalabelsFormatter(value, context) {
+		}
+	},
+	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+		return {
+			formatter: function datalabelsFormatter(value, context) {
 				return app.formatToHourText(value);
-			};
-		});
-		thisInstance.chartInstance = new Chart(
-				thisInstance.getPlotContainer().getContext("2d"),
-				{
-					type: 'bar',
-					data: data,
-					options: options,
-					plugins: thisInstance.getPlugins()
-				}
-		);
-		thisInstance.hideDatalabelsIfNeeded(thisInstance.chartInstance);
-	}
+			}
+		};
+	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
 YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
@@ -1972,30 +1989,49 @@ YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
+YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
+YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
-		var chartData = [[], [], [], []];
+		var chartData = [
+			[],
+			[],
+			[],
+			[]
+		];
 		var yMaxValue = 0;
 		if (data.hasOwnProperty('compare')) {
 			for (var index in data) {
 				var parseData = thisInstance.parseChartData(data[index], chartData);
 				chartData[0].push(parseData[0]);
 				chartData[3].push(parseData[3]);
-				chartData = [chartData[0], parseData[1], parseData[2], chartData[3], ['#CC6600', '#208CB3']];
+				chartData = [chartData[0], parseData[1], parseData[2], chartData[3],
+					['#CC6600', '#208CB3']
+				];
 			}
 		} else {
 			var parseData = thisInstance.parseChartData(data, chartData);
-			chartData = [[parseData[0]], parseData[1], parseData[2], [parseData[3]], ['#208CB3']];
+			chartData = [
+				[parseData[0]], parseData[1], parseData[2],
+				[parseData[3]],
+				['#208CB3']
+			];
 		}
 		var yMaxValue = chartData[1];
 		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': chartData[0], 'yMaxValue': yMaxValue, 'labels': chartData[2], data_labels: chartData[3], placement: 'inside', location: 'n', colors: chartData[4]};
+		return {
+			'chartData': chartData[0],
+			'yMaxValue': yMaxValue,
+			'labels': chartData[2],
+			data_labels: chartData[3],
+			placement: 'inside',
+			location: 'n',
+			colors: chartData[4]
+		};
 	},
 	parseChartData: function (data, chartDataGlobal) {
 		var chartData = [];

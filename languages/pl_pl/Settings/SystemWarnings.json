@@ -1,0 +1,28 @@
+{
+    "php": {
+        "SystemRequirements": "Wymagania systemowe",
+        "LBL_LIBRARY_PDF": "Biblioteka mPDF",
+        "LBL_LIBRARY_ROUNDCUBE": "Biblioteka Roundcube",
+        "LBL_LIBRARY_PHPEXCEL": "Biblioteka PHPExcel",
+        "LBL_CONFIG_REPORT": "Konfiguracja serwera",
+        "LBL_CONFIG_REPORT_LINK": "Poka\u017c brakuj\u0105c\u0105 konfiguracj\u0119",
+        "LBL_CONFIG_REPORT_DESC": "Konfiguracja serwera nie zosta\u0142a poprawnie ustawiona. Mog\u0105 wyst\u0105pi\u0107 problemy z dzia\u0142aniem systemu, lub wprowadzane dane mog\u0105 zosta\u0107 uszkodzone, lub usuni\u0119te. Wi\u0119cej informacji znajduje si\u0119 w artykule <a target=\"_blank\" rel=\"noreferrer\" href=\"https:\/\/yetiforce.com\/pl\/baza-wiedzy\/dokumentacja\/dokumentacja-wdrozeniowa\/item\/wymagania-dla-serwera-www\"><u>Wymagania dla serwera WWW na stronie yetiforce.com<\/u><\/a>",
+        "LBL_NEWSLETTER": "Newsletter",
+        "LBL_NEWSLETTER_DESC": "Zapisz si\u0119 do darmowego newslettera YetiForce. B\u0105d\u017a na bie\u017c\u0105co z nowo\u015bciami w systemie i poznaj lepiej bran\u017c\u0119 CRM. B\u0119dziemy dzieli\u0107 si\u0119 z Tob\u0105 informacjami o nowych wersjach, aktualizacjach, wydarzeniach, nowinkach w systemie i nie tylko.<br \/>Przy\u0142\u0105cz si\u0119 do naszej spo\u0142eczno\u015bci i nie pozostawaj w tyle.<br \/>Wys\u0142anie zg\u0142oszenia wymaga po\u0142\u0105czenia z Internetem.",
+        "LBL_STATS": "Wy\u015blij informacje statystyczne",
+        "LBL_STATS_DESC": "Pom\u00f3\u017c nam ulepsza\u0107 YetiForce i oferowane przez nas us\u0142ugi poprzez przesy\u0142anie nam anonimowych informacji dotycz\u0105cych u\u017cywanej przez Ciebie wersji systemu.<br \/>Zbierane przez nas dane obejmuj\u0105 poni\u017csze informacje: <ul><li>unikalny klucz twojej instancji generowany tylko na potrzeby newslettera<\/li><li>wersja systemu<\/li><li>j\u0119zyk<\/li><li>strefa czasowa<\/li><\/ul>Kwestie bezpiecze\u0144stwa traktujemy niezwykle powa\u017cnie i zapewniamy, \u017ce dane zbierane s\u0105 wy\u0142\u0105cznie w celach statystycznych.<br \/>Przy\u0142\u0105cz si\u0119 do budowania spo\u0142eczno\u015bci YetiForce.",
+        "LBL_SAVE_TO_NEWSLETTER": "Zapisz si\u0119 do newslettera",
+        "LBL_REMIND_LATER": "Przypomnij p\u00f3\u017aniej",
+        "LBL_DATA_SAVE_OK": "Dane zosta\u0142y zapisane poprawnie",
+        "LBL_DATA_SAVE_FAIL": "Wyst\u0105pi\u0142 b\u0142\u0105d w trakcie zapisu, sprawd\u017a logi",
+        "BTN_SET_IGNORE": "Ignoruj",
+        "BTN_REMOVE_IGNORE": "Usu\u0144 z ignorowanych",
+        "LBL_MISSING_LIBRARY": "Wykryto, \u017ce nie zosta\u0142a zainstalowana biblioteka. Cz\u0119\u015b\u0107 funkcjonalno\u015bci zosta\u0142a zablokowana, w celu odblokowania nale\u017cy pobra\u0107 bibliotek\u0119. Je\u015bli CRM nie ma po\u0142\u0105czenia z internetem mo\u017cesz pobra\u0107 pliki i skopiowa\u0107 do folderu: %s",
+        "BTN_DOWNLOAD_LIBRARY": "Pobierz bibliotek\u0119",
+        "LBL_SERVER_HTTPS": "Szyfrowanie HTTPS",
+        "BTN_CONFIGURE_HTTPS": "Zalecana konfiguracja",
+        "LBL_MISSING_HTTPS": "Wykryto, \u017ce po\u0142\u0105czenie z serwerem nie jest szyfrowane. Je\u015bli po\u0142\u0105czenie z serwerem nie zosta\u0142o nawi\u0105zane za pomoc\u0105 protoko\u0142u HTTPS komunikacja mo\u017ce zosta\u0107 pods\u0142uchana lub zmieniona przez osoby postronne. Zalecan\u0105 konfiguracj\u0119 mo\u017cna znale\u017a\u0107 w dokumentacji w temacie \"Wymagania dla serwera WWW.\"",
+        "LBL_DISK_USAGE": "Ilo\u015b\u0107 wolnego miejsca",
+        "LBL_DISK_FULL": "Ma\u0142o wolnego miejsca na dysku (%s z %s), brak wystarczaj\u0105cej ilo\u015bci miejsca na dysku spowoduje \u017ce system przestanie dzia\u0142a\u0107. \u015acie\u017cka do katalodu: %s"
+    }
+}

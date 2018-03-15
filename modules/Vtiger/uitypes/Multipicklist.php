@@ -60,7 +60,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		$moduleName = $this->getFieldModel()->getModuleName();
 		$countValue = count($values);
 		for ($i = 0; $i < $countValue; ++$i) {
-			$trValue[] = Vtiger_Language_Handler::getTranslatedString($values[$i], $moduleName);
+			$trValue[] = App\Language::translate($values[$i], $moduleName);
 		}
 		$value = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValue));
 		if (is_int($length)) {

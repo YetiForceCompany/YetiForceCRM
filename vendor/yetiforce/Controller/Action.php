@@ -20,4 +20,12 @@ abstract class Action extends Base
 	{
 		return true;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }
