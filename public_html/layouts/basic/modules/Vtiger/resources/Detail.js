@@ -908,7 +908,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.find(".blockHeader").click(function () {
 			var currentTarget = $(this).find(".blockToggle").not(".d-none");
 			var blockId = currentTarget.data("id");
-			var closestBlock = currentTarget.closest(".card");
+			var closestBlock = currentTarget.closest(".js-toggle-panel");
 			var bodyContents = closestBlock.find(".blockContent");
 			var data = currentTarget.data();
 			var module = app.getModuleName();
