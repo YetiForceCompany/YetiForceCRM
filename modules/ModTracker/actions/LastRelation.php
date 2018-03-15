@@ -47,16 +47,4 @@ class ModTracker_LastRelation_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
-
-	/**
-	 * Validate request.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return type
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		return $request->validateWriteAccess();
-	}
 }

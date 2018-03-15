@@ -97,12 +97,4 @@ class CustomView_Save_Action extends \App\Controller\Action
 
 		return $customViewModel->setData($customViewData);
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

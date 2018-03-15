@@ -34,12 +34,4 @@ class CustomView_Deny_Action extends \App\Controller\Action
 		$listViewUrl = $moduleModel->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

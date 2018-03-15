@@ -65,12 +65,4 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 
 		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

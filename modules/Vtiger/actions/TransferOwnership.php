@@ -95,9 +95,4 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 
 		return [];
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

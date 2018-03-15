@@ -57,9 +57,4 @@ class Vtiger_NoteBook_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

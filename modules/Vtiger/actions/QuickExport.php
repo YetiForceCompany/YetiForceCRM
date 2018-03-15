@@ -8,7 +8,6 @@
  */
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
-
 	use \App\Controller\ExposeMethod;
 
 	/**
@@ -122,10 +121,5 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		fpassthru($fp);
 		fclose($fp);
 		unlink($tempFileName);
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

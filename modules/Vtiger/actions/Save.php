@@ -121,9 +121,4 @@ class Vtiger_Save_Action extends \App\Controller\Action
 
 		return $this->record;
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		return $request->validateWriteAccess();
-	}
 }
