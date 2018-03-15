@@ -5,12 +5,12 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 	getTooltipsOptions: function getTooltipsOptions(){
 		const data = this.chartData;
 		return {
-			tooltips:{
-				callbacks:{
-					label:function(item){
+			tooltips: {
+				callbacks: {
+					label: function tooltipLabelCallback(item) {
 						return app.parseNumberToShow(item.yLabel);
 					},
-					title:function(item){
+					title: function tooltipTitleCallback(item) {
 						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
 					},
 				}
@@ -25,8 +25,8 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 			scales: {
 				 yAxes: [{
 					stacked:true,
-					ticks:{
-						callback:function(label,index,labels){
+					ticks: {
+						callback: function yAxisTickCallback(label,index,labels) {
 							return app.parseNumberToShow(label);
 						},
 						{if $CONF_DATA['plotTickSize']}
@@ -37,9 +37,9 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 						{/if}
 					},
 				}],
-				xAxes:[
+				xAxes: [
 					{
-						stacked:true
+						stacked: true
 					}
 				]
 			},
