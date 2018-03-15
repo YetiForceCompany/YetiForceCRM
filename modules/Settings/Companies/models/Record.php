@@ -44,16 +44,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Delete Action Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDeleteActionUrl()
-	{
-		return 'index.php?module=Companies&parent=Settings&action=DeleteAjax&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get the Detail Url.
 	 *
 	 * @return string URL
@@ -185,7 +175,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => $this->getDeleteActionUrl(),
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-xs btn-danger',
 			];

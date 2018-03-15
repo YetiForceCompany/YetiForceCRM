@@ -55,9 +55,4 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 
 		header("Location: {$recordModel->getDetailViewUrl()}");
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

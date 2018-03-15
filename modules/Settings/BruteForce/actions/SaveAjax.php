@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
-class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_View
+class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 	/**
 	 * Constructor.

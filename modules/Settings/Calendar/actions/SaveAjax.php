@@ -6,8 +6,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -15,6 +18,11 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('updateNotWorkingDays');
 	}
 
+	/**
+	 * Action to update calendar configuration.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function updateCalendarConfig(\App\Request $request)
 	{
 		Settings_Calendar_Module_Model::updateCalendarConfig($request->getArray('params', 'Alnum'));
@@ -26,6 +34,11 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
+	/**
+	 * Action to change not working days.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function updateNotWorkingDays(\App\Request $request)
 	{
 		Settings_Calendar_Module_Model::updateNotWorkingDays($request->getArray('param', 'Alnum'));

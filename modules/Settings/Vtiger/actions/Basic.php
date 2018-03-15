@@ -48,9 +48,4 @@ class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 		$response->setResult(['SUCCESS' => 'OK']);
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

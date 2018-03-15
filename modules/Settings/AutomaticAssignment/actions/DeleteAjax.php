@@ -18,19 +18,8 @@ class Settings_AutomaticAssignment_DeleteAjax_Action extends Settings_Vtiger_Del
 	{
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
 		$recordModel->delete();
-
 		$responceToEmit = new Vtiger_Response();
 		$responceToEmit->setResult($recordModel->getId());
 		$responceToEmit->emit();
-	}
-
-	/**
-	 * Validating incoming request.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateReadAccess();
 	}
 }

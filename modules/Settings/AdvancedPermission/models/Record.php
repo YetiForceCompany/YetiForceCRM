@@ -45,16 +45,6 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	}
 
 	/**
-	 * Function to get the Delete Action Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDeleteActionUrl()
-	{
-		return 'index.php?module=AdvancedPermission&parent=Settings&action=DeleteAjax&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get the Detail Url.
 	 *
 	 * @return string URL
@@ -212,7 +202,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => $this->getDeleteActionUrl(),
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
 			],
 		];

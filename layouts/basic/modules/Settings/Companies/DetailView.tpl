@@ -7,16 +7,16 @@
 				{App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 			{/if}
 		</div>
-		<div class="col-md-4 ">
-			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right marginLeft5">
-				<span class="fas fa-edit"></span>&nbsp;
+		<div class="col-md-4">
+			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2">
+				<span class="fas fa-edit mr-1"></span>
 				<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 			</a>
 			{if $RECORD_MODEL->get('default') eq 0}
-				<a href="{$RECORD_MODEL->getDeleteActionUrl()}" class="btn btn-danger float-right">
-					<span class="fas fa-trash-alt"></span>&nbsp;
+				<button type="button" class="btn btn-danger float-right js-remove" data-js="click" data-record-id="{$RECORD_MODEL->getId()}">
+					<span class="fas fa-trash-alt mr-1"></span>
 					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
-				</a>
+				</button>
 			{/if}
 		</div>
 	</div>
