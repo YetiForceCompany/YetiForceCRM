@@ -112,28 +112,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			e.stopPropagation();
 		});
 	},
-	convertToDateRangePicketFormat: function convertToDateRangePicketFormat(userDateFormat) {
-		switch (userDateFormat) {
-			case 'yyyy-mm-dd':
-				return 'yyyy-MM-dd';
-			case 'mm-dd-yyyy':
-				return 'MM-dd-yyyy';
-			case 'dd-mm-yyyy':
-				return 'dd-MM-yyyy';
-			case 'yyyy.mm.dd':
-				return 'yyyy.MM.dd';
-			case 'mm.dd.yyyy':
-				return 'MM.dd.yyyy';
-			case 'dd.mm.yyyy':
-				return 'dd.MM.yyyy';
-			case 'yyyy/mm/dd':
-				return 'yyyy/MM/dd';
-			case 'mm/dd/yyyy':
-				return 'MM/dd/yyyy';
-			case 'dd/mm/yyyy':
-				return 'dd/MM/yyyy';
-		}
-	},
 	/**
 	 * Get data from JSON encoded input value
 	 *
