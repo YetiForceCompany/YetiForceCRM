@@ -299,7 +299,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 			}
 		}
-
 		return ['chartData' => $data, 'divided' => array_flip($raw['divided']), 'group' => array_flip($raw['group']), 'links' => $links];
 	}
 
@@ -310,8 +309,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRows()
 	{
-		$filterId = $this->widgetModel->get('filterid');
-		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$sectors = $this->extraData['sectorField'];
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
@@ -319,7 +316,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupData = $sectorValues = [];
 		while ($row = $dataReader->read()) {
 			if (!empty($row[$fieldName])) {
-				if ($showOwnerFilter) {
+				if (!empty($this->extraData['showOwnerFilter'])) {
 					$this->owners[] = $row['assigned_user_id'];
 				}
 				if ($sectors) {
@@ -337,11 +334,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if ($sectorId != 0) {
 					$searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
 				}
-				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
+				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 			}
 		}
 		$dataReader->close();
-
 		return $groupData;
 	}
 
@@ -378,7 +374,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$searchParams = array_merge($this->searchParams, [[$this->extraData['groupField'], 'e', $row[$this->extraData['groupField']]]]);
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 		}
-
 		return $groupData;
 	}
 
@@ -422,8 +417,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRowsFunnel()
 	{
-		$filterId = $this->widgetModel->get('filterid');
-		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$count = $groupData = [];
@@ -431,7 +424,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$sectorId = $this->getSector($sectors, $row[$fieldName]);
-			if ($showOwnerFilter) {
+			if (!empty($this->extraData['showOwnerFilter'])) {
 				$this->owners[] = $row['assigned_user_id'];
 			}
 			if ($sectorId !== false) {
@@ -450,10 +443,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if ($sectorId != 0) {
 				$searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
 			}
-			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
+			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 		}
 		$dataReader->close();
-
 		return $groupData;
 	}
 
@@ -464,13 +456,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRowsDivided()
 	{
-		$filterId = $this->widgetModel->get('filterid');
-		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
 		$divideFieldName = $divideFieldModel->getFieldName();
-
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$data = $groupFields = $dividedFields = [];
 		$dividedFieldCounter = $groupFieldsCounter = 0;
@@ -489,18 +478,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				} else {
 					++$data[$displayValue][$divideValue]['count'];
 				}
-				if ($showOwnerFilter) {
+				if (!empty($this->extraData['showOwnerFilter'])) {
 					$this->owners[] = $row['assigned_user_id'];
 				}
 				if (!isset($data[$displayValue][$divideValue]['link'])) {
 					$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
 					$searchParams = array_merge($searchParams, [[$divideFieldName, 'e', $row[$divideFieldName]]]);
-					$data[$displayValue][$divideValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
+					$data[$displayValue][$divideValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 				}
 			}
 		}
 		$dataReader->close();
-
 		return ['data' => $data, 'group' => $groupFields, 'divided' => $dividedFields];
 	}
 
@@ -524,14 +512,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$time = $this->get('time');
 			$timeFieldModel = Vtiger_Field_Model::getInstance($this->extraData['timeRange'], $this->getTargetModuleModel());
 			if ($timeFieldModel) {
-				$queryGenerator->addCondition($timeFieldModel->getName(), $time['start'] . ',' . $time['end'], 'bw');
-				$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', $time['start'] . ',' . $time['end']];
+				$queryGenerator->addCondition($timeFieldModel->getName(), "{$time[0]} 00:00:00 , {$time[1]} 23:59:59", 'bw');
+				$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', "{$time[0]} , {$time[1]}"];
 			}
 		}
 		if (!empty($this->extraData['showOwnerFilter'])) {
 			$queryGenerator->setField('assigned_user_id');
 		}
-
 		return $queryGenerator->createQuery();
 	}
 
@@ -551,7 +538,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				break;
 			}
 		}
-
 		return $sectorId;
 	}
 
@@ -593,7 +579,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$this->widgetModel = $widgetModel;
 		$this->extraData = $this->widgetModel->get('data');
-
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
@@ -633,7 +618,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!$this->targetModuleModel) {
 			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
 		}
-
 		return $this->targetModuleModel;
 	}
 
@@ -657,10 +641,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$suffix .= ' - ' . \App\Language::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
 				}
 			}
-
 			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
-
 		return $title;
 	}
 
