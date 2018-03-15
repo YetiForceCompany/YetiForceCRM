@@ -55,6 +55,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $owners = [];
 
 	/**
+	 * Colors from picklist.
+	 *
+	 * @var [type]
+	 */
+	private $colors;
+
+	/**
 	 * Get instance.
 	 *
 	 * @param int $linkId
@@ -139,6 +146,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$chartData['datasets'][0]['data'][] = $value['count'];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['backgroundColor'][]=$this->colors[$value['picklist_id']];
+			}
 		}
 		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
 		return $chartData;
@@ -170,6 +180,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$chartData['datasets'][0]['data'][] = $value['count'];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['backgroundColor'][]=$this->colors[$value['picklist_id']];
+			}
 		}
 		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
 		return $chartData;
@@ -196,6 +209,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$chartData['datasets'][0]['data'][] = $value['count'];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['backgroundColor'][]=$this->colors[$value['picklist_id']];
+			}
 		}
 		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
 		return $chartData;
@@ -222,6 +238,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$chartData['datasets'][0]['data'][] = $value['count'];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['backgroundColor'][]=$this->colors[$value['picklist_id']];
+			}
 		}
 		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
 		return $chartData;
@@ -312,7 +331,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$sectors = $this->extraData['sectorField'];
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
-		$dataReader = $this->getQuery()->createCommand()->query();
+		$query = $this->getQuery();
+		$dataReader = $query->createCommand()->query();
 		$groupData = $sectorValues = [];
 		while ($row = $dataReader->read()) {
 			if (!empty($row[$fieldName])) {
@@ -374,6 +394,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$searchParams = array_merge($this->searchParams, [[$this->extraData['groupField'], 'e', $row[$this->extraData['groupField']]]]);
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 		}
+		$groupData[$displayValue]['picklist_id']=$row['picklist_id'];
 		return $groupData;
 	}
 
@@ -501,7 +522,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
-		$queryGenerator->setField($this->extraData['groupField']);
+		$fieldModel = $this->groupFieldModel;
 		if (!empty($this->extraData['groupField'])) {
 			$queryGenerator->setField($this->extraData['groupField']);
 		}
@@ -518,6 +539,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		if (!empty($this->extraData['showOwnerFilter'])) {
 			$queryGenerator->setField('assigned_user_id');
+		}
+		if (!empty($fieldModel)) {
+			$moduleName = $queryGenerator->getModuleModel()->getName();
+			$picklists = \App\Fields\Picklist::getModulesPicklists($moduleName)[$moduleName];
+			$fieldName = $fieldModel->getName();
+			if (in_array($fieldName, $picklists, true)) {
+				$this->colors = \App\Fields\Picklist::getColors($fieldName);
+				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
+				$fieldTable = 'vtiger_' . $fieldModel->getName();
+				$queryGenerator->addJoin(['INNER JOIN', $fieldTable, "{$fieldModel->table}.{$fieldModel->column} = {$fieldTable}.{$fieldName}"]);
+				$queryGenerator->setCustomColumn(['picklist_id'=>"$fieldTable.$primaryKey"]);
+			}
 		}
 		return $queryGenerator->createQuery();
 	}
