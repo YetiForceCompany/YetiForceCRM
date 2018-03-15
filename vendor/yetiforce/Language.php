@@ -281,7 +281,7 @@ class Language
 						}
 					}
 				}
-				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer, Cache::LONG);
+				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer[$language][$moduleName], Cache::LONG);
 			}
 		}
 	}
