@@ -1,5 +1,4 @@
 <?php
-
 namespace Importers;
 
 /**
@@ -11,6 +10,7 @@ namespace Importers;
  */
 class Base4 extends \App\Db\Importers\Base
 {
+
 	public $dbType = 'base';
 
 	public function scheme()
@@ -9638,7 +9638,6 @@ class Base4 extends \App\Db\Importers\Base
 					[51, 310, 'companySelect'],
 					[52, 342, 'recurrence'],
 					[56, 311, 'multiImage'],
-					[57, 79, 'dateTime'],
 				]
 			],
 			'vtiger_ws_operation' => [

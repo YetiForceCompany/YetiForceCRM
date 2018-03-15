@@ -243,6 +243,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 69: $fieldDataType = 'image';
 						break;
+					case 79: $fieldDataType = 'dateTime';
+						break;
 					case 80: $fieldDataType = 'datetime';
 						break;
 					case 98: $fieldDataType = 'userRole';
@@ -1053,7 +1055,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					'params' => ['duedate'], ];
 				array_push($validator, $funcName2);
 
-				// no break
+			// no break
 			case 'start_period':
 				$funcName = ['name' => 'lessThanDependentField',
 					'params' => ['end_period'], ];

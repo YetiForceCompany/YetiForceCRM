@@ -43,7 +43,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		switch ($this->getFieldModel()->getUIType()) {
 			case 79:
-				return (new \DateTimeField($value))->getDBInsertDateTimeValue();
+				return App\Fields\DateTime::formatToDb($value);
 			default:
 				return parent::getDBValue($value);
 		}
@@ -79,18 +79,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 
 		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
-	}
-
-	/**
-	 * Function to get the datetime value in user preferred hour format.
-	 *
-	 * @param <type> $dateTime
-	 *
-	 * @return string date and time with hour format
-	 */
-	public static function getDateTimeValue($dateTime)
-	{
-		return App\Fields\DateTime::formatToDisplay($dateTime);
 	}
 
 	/**

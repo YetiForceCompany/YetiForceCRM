@@ -399,7 +399,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			case 'DateTime':
 				$uichekdata = 'DT~O';
-				$uitype = 358;
+				$uitype = 79;
 				$type = $importerType->dateTime();
 				break;
 		}
