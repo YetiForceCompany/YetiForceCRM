@@ -41,37 +41,12 @@
 	@extend .py-0;
 	@extend .col-md-12;
 }
-.c-row-border__bottom{
-	@extend .form-row;
-	@extend .border-bottom; 
-}
-.c-row-border__right{
-	@extend .form-row;
-	@extend .border-right; 
-}
-.c-label__content{
+.c-panel-label{
 	@extend .border-right;
 	@extend .d-flex;
 	@extend .justify-content-sm-start;
 	@extend .justify-content-lg-end;
 	@extend .col-sm-12;
-}
-.c-font-label{
-	@extend .small;
-	@extend .font-weight-bold;
-	@extend .float-sm-left;
-	@extend .float-md-right;
-	@extend .float-lg-right;
-}
-@media only screen and (max-width: 990px) {
-    .c-border-bottom-label {
-       border-bottom:  1px solid #dee2e6;
-    }
-}
-@media only screen and (max-width: 575px) {
-    .c-border-bottom-value {
-        border-bottom:  1px solid #dee2e6;
-    }
 }
 .timeline {
 	position: relative;
