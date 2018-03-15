@@ -104,19 +104,32 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 	},
+	searchDomElements() {
+//		this.listColumntFirst
+//		=
+	},
+	setDefaultGutterPosition(container) {
+		let thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
+		window.console.log(thWidth);
+		window.console.log('thWidth.width()', thWidth.width());
+		window.console.log('thWidth.next()', thWidth.next());
+		window.console.log('thWidth.next().width()', thWidth.next().width());
+		window.console.log('$(window).width()', $(window).width());
+		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
+		window.console.log([thWidth, 100 - thWidth]);
+		return [thWidth, 100 - thWidth];
+	},
 	/**
 	 * Sets default windows size or from cache
 	 * @param {jQuery} container - current container for reference.
 	 * @return Array
 	 */
 	getSplitWindowsSize(container) {
-		const cachedParams = app.moduleCacheGet('splitParams');
+		const cachedParams = app.moduleCacheGet('userSplitSet');
 		if (cachedParams !== null) {
 			return cachedParams;
 		} else {
-			let thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
-			thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
-			return [thWidth, 100 - thWidth];
+			this.setDefaultGutterPosition(container);
 		}
 	},
 	/**
@@ -125,6 +138,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * @param {Split} split - a split object.
 	 */
 	registerSplitEvents: function (container, split) {
+		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 		var gutter = container.find('.gutter');
 		var fixedList = container.find('.fixedListInitial');
 		var wrappedPanel = container.find('.wrappedPanel');
@@ -133,32 +147,57 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var minWidth = (15 / $(window).width()) * 100;
 		var maxWidth = 100 - minWidth;
 		var listPreview = container.find('.listPreview');
-		gutter.on("dblclick", function () {
-			if (split.getSizes()[0] < 25) {
-				split.setSizes([25, 75]);
+		gutter.on("dblclick", () => {
+			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
+			if (split.getSizes()[0] < 10) {
 				wrappedPanelLeft.removeClass('wrappedPanelLeft');
-			} else if (split.getSizes()[1] < 25) {
-				split.setSizes([75, 25]);
+				if (gutterMidPosition[0] > 11) {
+					split.setSizes(gutterMidPosition);
+				} else {
+					window.console.log('default');
+					split.setSizes(this.setDefaultGutterPosition(container));
+				}
+			} else if (split.getSizes()[1] < 20) {
+				if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
+					split.setSizes(gutterMidPosition);
+				} else {
+					window.console.log('default');
+					split.setSizes(this.setDefaultGutterPosition(container));
+				}
 				wrappedPanelRight.removeClass('wrappedPanelRight');
 				listPreview.show();
 				gutter.css('right', 'initial');
 				fixedList.css('padding-right', '10px');
-			} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
+			} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
 				split.setSizes([minWidth, maxWidth]);
 				wrappedPanelLeft.addClass('wrappedPanelLeft');
+				app.moduleCacheSet('userSplitSet', split.getSizes());
 			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
 				split.collapse(1);
 				wrappedPanelRight.addClass('wrappedPanelRight');
 				listPreview.hide();
 				fixedList.width(fixedList.width() - 10);
+				app.moduleCacheSet('userSplitSet', split.getSizes());
 			}
 		});
-		wrappedPanelLeft.on("dblclick", function () {
-			split.setSizes([25, 75]);
+		wrappedPanelLeft.on("dblclick", () => {
+			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
+			if (gutterMidPosition[0] > 11) {
+				window.console.log('normal');
+				split.setSizes(gutterMidPosition);
+			} else {
+				window.console.log('default');
+				split.setSizes(this.setDefaultGutterPosition(container));
+			}
 			wrappedPanelLeft.removeClass('wrappedPanelLeft');
 		});
-		wrappedPanelRight.on("dblclick", function () {
-			split.setSizes([75, 25]);
+		wrappedPanelRight.on("dblclick", () => {
+			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
+			if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
+				split.setSizes(gutterMidPosition);
+			} else {
+				split.setSizes(this.setDefaultGutterPosition(container));
+			}
 			wrappedPanelRight.removeClass('wrappedPanelRight');
 			listPreview.show();
 			gutter.css('right', 'initial');
@@ -202,7 +241,10 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					wrappedPanelRight.removeClass('wrappedPanelRight');
 					listPreview.show();
 				}
-				app.moduleCacheSet('splitParams', split.getSizes());
+				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
+					app.moduleCacheSet('gutterMidPosition', split.getSizes());
+				}
+				app.moduleCacheSet('userSplitSet', split.getSizes());
 			}
 		});
 		var gutter = container.find('.gutter');
@@ -216,6 +258,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		rotatedText.css({
 			width: wrappedPanelLeft.height(),
 			height: wrappedPanelLeft.height()
+		});
+		fixedList.on('click', '.listViewEntries', function (e) {
+			if (split.getSizes()[1] < 10) {
+				split.setSizes([75, 25]);
+				listPreview.show();
+				wrappedPanelRight.removeClass('wrappedPanelRight');
+			}
+			window.console.log('split');
 		});
 		return split;
 	},
@@ -303,6 +353,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
+		window.console.log('postload');
 		this.registerPreviewEvent();
 	},
 	/**
@@ -310,6 +361,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerEvents: function () {
 		this._super();
+		window.console.log('registerevents');
 		this.registerPreviewEvent();
 	}
 });
