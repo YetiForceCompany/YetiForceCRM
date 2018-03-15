@@ -567,15 +567,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 			value: chart.data.datasets[0].data[dataIndex],
 		};
 		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
-			additionalFields.forEach((fieldName) = > {
-				if(
-				typeof chart.data.datasets[datasetIndex][fieldName] !== 'undefined' && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined'
-		)
-			{
-				eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
-			}
-		})
-			;
+			additionalFields.forEach(function (fieldName) {
+				if (typeof chart.data.datasets[datasetIndex][fieldName] !== 'undefined' && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined') {
+					eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
+				}
+			});
 		}
 		return eventData;
 	},
