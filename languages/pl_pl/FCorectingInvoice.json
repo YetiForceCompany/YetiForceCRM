@@ -1,23 +1,23 @@
 {
-    "php": {
-        "FCorectingInvoice": "Faktury Korekta",
-        "SINGLE_FCorectingInvoice": "Faktura Korekta",
-        "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
-        "LBL_INVOICE_ADDRESS": "Adres do faktury",
-        "LBL_ADDRESS_DELIVERY_INFORMATION": "Adres do dostawy",
-        "FL_SUBJECT": "Temat",
-        "FL_PAYMENT_DATE": "Data p\u0142atno\u015bci",
-        "FL_SALE_DATE": "Data sprzeda\u017cy",
-        "FL_FORM_PAYMENT": "Forma p\u0142atno\u015bci",
-        "FL_BANK_ACCOUNT": "Numer konta bankowego",
-        "FL_NUMBER": "Numer faktury",
-        "FL_ACCOUNT": "Kontrahent",
-        "FL_TOTAL": "Netto",
-        "FL_GROSS": "Brutto",
-        "FL_STATUS": "Status",
-        "PLL_TRANSFER": "przelew",
-        "PLL_CASH": "got\u00f3wka",
-        "LBL_YEAR": "Rok",
-        "FL_INVOICE": "Faktura"
-    }
+  "php": {
+	"FCorectingInvoice": "Faktury Korekta",
+	"SINGLE_FCorectingInvoice": "Faktura Korekta",
+	"LBL_CUSTOM_INFORMATION": "Informacje systemowe",
+	"LBL_INVOICE_ADDRESS": "Adres do faktury",
+	"LBL_ADDRESS_DELIVERY_INFORMATION": "Adres do dostawy",
+	"FL_SUBJECT": "Temat",
+	"FL_PAYMENT_DATE": "Data p\u0142atno\u015bci",
+	"FL_SALE_DATE": "Data sprzeda\u017cy",
+	"FL_FORM_PAYMENT": "Forma p\u0142atno\u015bci",
+	"FL_BANK_ACCOUNT": "Numer konta bankowego",
+	"FL_NUMBER": "Numer faktury",
+	"FL_ACCOUNT": "Kontrahent",
+	"FL_TOTAL": "Netto",
+	"FL_GROSS": "Brutto",
+	"FL_STATUS": "Status",
+	"PLL_TRANSFER": "przelew",
+	"PLL_CASH": "got\u00f3wka",
+	"LBL_YEAR": "Rok",
+	"FL_INVOICE": "Faktura"
+  }
 }

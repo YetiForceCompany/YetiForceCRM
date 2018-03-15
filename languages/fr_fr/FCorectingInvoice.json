@@ -1,24 +1,24 @@
 {
-    "php": {
-        "FCorectingInvoice": "Factures de correction",
-        "SINGLE_FCorectingInvoice": "Facture de correction",
-        "LBL_CUSTOM_INFORMATION": "Information syst\u00e8me",
-        "LBL_INVOICE_ADDRESS": "Adresse de facturation",
-        "LBL_ADDRESS_DELIVERY_INFORMATION": "Adresse de livraison",
-        "FL_SUBJECT": "Sujet",
-        "FL_PAYMENT_DATE": "Date d\u00fbe",
-        "FL_SALE_DATE": "Date de vente",
-        "FL_FORM_PAYMENT": "M\u00e9thode de paiement",
-        "FL_BANK_ACCOUNT": "N\u00b0 de compte",
-        "FL_NUMBER": "N\u00b0 de facture",
-        "FL_ACCOUNT": "Organisation",
-        "FL_TOTAL": "HT",
-        "FL_GROSS": "TTC",
-        "FL_STATUS": "Statut",
-        "PLL_TRANSFER": "Virement",
-        "PLL_CASH": "Cash",
-        "LBL_YEAR": "Ann\u00e9e",
-        "FL_INVOICE": "Facture"
-    },
-    "js": []
+  "php": {
+	"FCorectingInvoice": "Factures de correction",
+	"SINGLE_FCorectingInvoice": "Facture de correction",
+	"LBL_CUSTOM_INFORMATION": "Information syst\u00e8me",
+	"LBL_INVOICE_ADDRESS": "Adresse de facturation",
+	"LBL_ADDRESS_DELIVERY_INFORMATION": "Adresse de livraison",
+	"FL_SUBJECT": "Sujet",
+	"FL_PAYMENT_DATE": "Date d\u00fbe",
+	"FL_SALE_DATE": "Date de vente",
+	"FL_FORM_PAYMENT": "M\u00e9thode de paiement",
+	"FL_BANK_ACCOUNT": "N\u00b0 de compte",
+	"FL_NUMBER": "N\u00b0 de facture",
+	"FL_ACCOUNT": "Organisation",
+	"FL_TOTAL": "HT",
+	"FL_GROSS": "TTC",
+	"FL_STATUS": "Statut",
+	"PLL_TRANSFER": "Virement",
+	"PLL_CASH": "Cash",
+	"LBL_YEAR": "Ann\u00e9e",
+	"FL_INVOICE": "Facture"
+  },
+  "js": []
 }

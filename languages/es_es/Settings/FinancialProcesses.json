@@ -1,7 +1,7 @@
 {
-    "php": {
-        "LBL_GENERAL": "General",
-        "FinancialProcesses": "Procesos financieros"
-    },
-    "js": []
+  "php": {
+	"LBL_GENERAL": "General",
+	"FinancialProcesses": "Procesos financieros"
+  },
+  "js": []
 }
