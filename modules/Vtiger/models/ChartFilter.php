@@ -125,13 +125,23 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getDataBarchat()
 	{
-		$groupData = $this->getRows();
-		$data = [];
-		foreach ($groupData as $fieldName => $value) {
-			$data[] = [$value['count'], $fieldName, $value['link']];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
 		}
-
-		return $data;
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**
@@ -146,19 +156,23 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		} else {
 			$groupData = $this->getRowsFunnel();
 		}
-		uasort($groupData, function ($first, $second) {
-			if ($first['count'] == $second['count']) {
-				return 0;
-			}
-
-			return ($first['count'] < $second['count']) ? 1 : -1;
-		});
-		$data = [];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		foreach ($groupData as $fieldName => $value) {
-			$data[] = [$fieldName, $value['count'], $value['link']];
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
 		}
-
-		return $data;
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**
@@ -168,12 +182,23 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getDataPie()
 	{
-		$data = [];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
 		}
-
-		return $data;
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**
@@ -183,12 +208,23 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getDataDonut()
 	{
-		$data = [];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
 		}
-
-		return $data;
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**
@@ -198,12 +234,23 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getDataAxis()
 	{
-		$data = [];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
 		}
-
-		return $data;
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**
@@ -213,12 +260,23 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getDataArea()
 	{
-		$data = [];
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
 		}
-
-		return $data;
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**

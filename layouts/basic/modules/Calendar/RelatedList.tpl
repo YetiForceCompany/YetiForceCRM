@@ -131,7 +131,7 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div class="recordsListPreview">
+				<div class="js-list-preview" data-js="container, size-source">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
 					<div class="col-md-3" id="recordsList">
 						{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}

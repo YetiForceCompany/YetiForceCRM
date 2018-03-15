@@ -681,7 +681,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var contentHeight = this.content.find('.listPreview,.recordsListPreview');
+		var contentHeight = this.content.find('.listPreview,.js-list-preview');
 		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
 		this.content.find('.listPreviewframe').on('load', function () {
 			if (thisInstance.frameProgress) {
@@ -943,9 +943,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				});
 				wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 				var gutter = container.find('.gutter');
-				var recordsListPreview = container.find(".recordsListPreview");
-				gutter.height(recordsListPreview.height() - 33);
-				fixedList.height(recordsListPreview.height() - 33);
+				var listPreviewContainer = container.find(".js-list-preview");
+				gutter.height(listPreviewContainer.height() - 33);
+				fixedList.height(listPreviewContainer.height() - 33);
 				var leftWidth = (15 / $(window).width()) * 100;
 				var rightWidth = 100 - leftWidth;
 				gutter.on("dblclick", function () {

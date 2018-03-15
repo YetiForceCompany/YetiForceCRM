@@ -6,7 +6,7 @@ Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 	registerHierarchyRecordCount: function () {
 		const iframe = $(".listPreviewframe");
 		iframe.on('load', function () {
-			var contents = $(this).contents();
+			var contents = iframe.contents();
 			var hierarchyButton = contents.find(".detailViewTitle .hierarchy");
 			if (hierarchyButton) {
 				AppConnector.request({

@@ -11294,7 +11294,7 @@ header .headerLinksMails .select2-selection:hover {
     background: transparent; }
   .gutter.gutter-horizontal {
     cursor: ew-resize;
-    background-image: url("images/vertical.png");
+    background-image: url("../images/vertical.png");
     height: calc(100vh - 33px);
     float: left; }
 

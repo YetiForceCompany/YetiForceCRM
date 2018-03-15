@@ -1148,16 +1148,8 @@ app = {
 	 * Function returns translated string
 	 */
 	vtranslate: function (key) {
-		if (app.languageString[key] != undefined) {
-			return app.languageString[key];
-		} else {
-			var strings = jQuery('#js_strings').text();
-			if (strings != '') {
-				app.languageString = JSON.parse(strings);
-				if (key in app.languageString) {
-					return app.languageString[key];
-				}
-			}
+		if (key in LANG) {
+			return LANG[key];
 		}
 		return key;
 	},
@@ -1459,6 +1451,9 @@ app = {
 		return newchar = chars.substring(rand, rand + 1);
 	},
 	getMainParams: function (param, json) {
+		if (param in CONFIG) {
+			return CONFIG[param];
+		}
 		if (app.cacheParams[param] == undefined) {
 			var value = $('#' + param).val();
 			app.cacheParams[param] = value;

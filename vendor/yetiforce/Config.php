@@ -6,7 +6,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 namespace App;
 
 /**
@@ -14,6 +13,7 @@ namespace App;
  */
 class Config
 {
+
 	/**
 	 * Requesrt start time.
 	 *
@@ -74,6 +74,6 @@ class Config
 	 */
 	public static function getJs()
 	{
-		return json_encode(static::$jsConf);
+		return Json::encode(static::$jsConf);
 	}
 }
