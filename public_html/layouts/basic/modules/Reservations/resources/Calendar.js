@@ -176,7 +176,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var end_date = view.end.format();
 		var user;
 		if (jQuery('#calendarUserList').length == 0) {
-			user = jQuery('#current_user_id').val();
+			user = CONFIG.userId;
 		} else {
 			user = jQuery('#calendarUserList').val();
 		}

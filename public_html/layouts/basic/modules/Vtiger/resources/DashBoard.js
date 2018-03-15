@@ -106,7 +106,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		if (mode == 'open') {
 			var name = widgetContainer.data('name');
 			var cache = widgetContainer.data('cache');
-			var userId = app.getMainParams('current_user_id');
+			var userId = CONFIG.userId;
 			if (cache == 1) {
 				var cecheUrl = app.cacheGet(name + userId, false);
 				urlParams = cecheUrl ? cecheUrl : urlParams;
