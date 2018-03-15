@@ -362,10 +362,10 @@ var Vtiger_Index_Js = {
 			app.registerModal(content);
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
-				var recordID = currentElement.closest('.card').data('record');
+				var recordID = currentElement.closest('.js-toggle-panel').data('record');
 				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
 				AppConnector.request(url).then(function (data) {
-					currentElement.closest('.card').fadeOut(300, function () {
+					currentElement.closest('.js-toggle-panel').fadeOut(300, function () {
 						$(this).remove();
 						thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 					});

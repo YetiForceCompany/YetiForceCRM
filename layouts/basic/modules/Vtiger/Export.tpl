@@ -30,7 +30,7 @@
             <input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 
             <div class="col-md-8">
-				<div class="p-3 card bg-light exportContents ml-0 my-2">
+				<div class="p-3 js-toggle-panel card bg-light exportContents ml-0 my-2">
 					<div class="radio">
 						<label title="{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS')}">
 							<input class="mr-1" type="radio" name="mode" id="optionsRadios1" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}>
