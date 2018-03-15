@@ -14,21 +14,19 @@
 	{include file=\App\Layout::getTemplatePath('DetailViewBlockView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
     {assign var="IS_HIDDEN" value=false}
 	<div class="detailViewTable">
-		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">
-			<div class="row blockHeader panel-heading no-margin">
-				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
-					<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
-					<h4>{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</h4>
-				</div>
+		<div class="js-toggle-panel c-panel__content" data-js="click" data-label="{$BLOCK_LABEL}">
+			<div class="blockHeader c-panel__header">
+				<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
+				<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
+				<h4>{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</h4>
 			</div>
-			<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} d-none{/if}">
-				<div class="col-12 paddingLRZero fieldRow">
-					<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
-						<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}">
-							<label class="muted float-right marginRight10px">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
+			<div class="blockContent c-panel__body {if $IS_HIDDEN} d-none{/if}">
+				<div class="w-100">
+					<div class="form-row border-right">
+						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel_label col-lg-3 {$WIDTHTYPE}">
+							<label class="u-text-small-bold">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
 						</div>
-						<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}">
+						<div class="fieldValue col-sm-12 col-lg-9 {$WIDTHTYPE}">
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}
 								{assign var=LABEL value=''}
 								{assign var=TITLE value=''}

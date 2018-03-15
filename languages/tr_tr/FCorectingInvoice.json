@@ -1,23 +1,23 @@
 {
-    "php": {
-        "FCorectingInvoice": "Faturalar\u0131 D\u00fczeltme",
-        "SINGLE_FCorectingInvoice": "Fatura D\u00fczeltme",
-        "LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
-        "LBL_INVOICE_ADDRESS": "Fatura adresi",
-        "LBL_ADDRESS_DELIVERY_INFORMATION": "Teslimat adresi",
-        "FL_SUBJECT": "Konu",
-        "FL_PAYMENT_DATE": "Teslim tarihi",
-        "FL_SALE_DATE": "Sat\u0131\u015f tarihi",
-        "FL_FORM_PAYMENT": "\u00d6deme y\u00f6ntemi",
-        "FL_BANK_ACCOUNT": "Banka hesap numaras\u0131",
-        "FL_NUMBER": "Fatura numaras\u0131",
-        "FL_ACCOUNT": "Hesap",
-        "FL_TOTAL": "Net",
-        "FL_GROSS": "Br\u00fct",
-        "FL_STATUS": "Durum",
-        "PLL_TRANSFER": "transfer",
-        "PLL_CASH": "nakit",
-        "LBL_YEAR": "Y\u0131l",
-        "FL_INVOICE": "Fatura"
-    }
+  "php": {
+	"FCorectingInvoice": "Faturalar\u0131 D\u00fczeltme",
+	"SINGLE_FCorectingInvoice": "Fatura D\u00fczeltme",
+	"LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
+	"LBL_INVOICE_ADDRESS": "Fatura adresi",
+	"LBL_ADDRESS_DELIVERY_INFORMATION": "Teslimat adresi",
+	"FL_SUBJECT": "Konu",
+	"FL_PAYMENT_DATE": "Teslim tarihi",
+	"FL_SALE_DATE": "Sat\u0131\u015f tarihi",
+	"FL_FORM_PAYMENT": "\u00d6deme y\u00f6ntemi",
+	"FL_BANK_ACCOUNT": "Banka hesap numaras\u0131",
+	"FL_NUMBER": "Fatura numaras\u0131",
+	"FL_ACCOUNT": "Hesap",
+	"FL_TOTAL": "Net",
+	"FL_GROSS": "Br\u00fct",
+	"FL_STATUS": "Durum",
+	"PLL_TRANSFER": "transfer",
+	"PLL_CASH": "nakit",
+	"LBL_YEAR": "Y\u0131l",
+	"FL_INVOICE": "Fatura"
+  }
 }

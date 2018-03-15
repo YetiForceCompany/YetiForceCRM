@@ -12,3 +12,27 @@
 	cursor: pointer;
 	text-decoration: none !important;
 }
+.u-text-small-bold{
+	@extend .small;
+	@extend .font-weight-bold;
+}
+@media only screen and (max-width: 990px) {
+    .u-border-bottom-label-md {
+       border-bottom:  1px solid #dee2e6;
+    }
+}
+@media only screen and (max-width: 575px) {
+    .u-border-bottom-value-sm {
+        border-bottom:  1px solid #dee2e6;
+    }
+}
+@media only screen and (max-width: 991px) {
+    .u-border-right-0-md {
+       border-right:  none !important;
+    }
+}
+@media only screen and (max-width: 575px) {
+    .u-border-bottom-0-sm {
+        border-bottom:  none !important;
+    }
+}
