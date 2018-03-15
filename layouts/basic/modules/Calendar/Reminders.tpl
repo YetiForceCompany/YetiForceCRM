@@ -7,7 +7,7 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
-			<div class="js-toggle-panel c-panel__content picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
+			<div class="js-toggle-panel c-panel__content picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-js="click" data-record="{$RECORD_ID}">
 				<div class="card-header p-2 d-flex justify-content-between picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
 					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 					<div>

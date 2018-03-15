@@ -56,7 +56,7 @@
 		</div>
 		{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 		<div class="childrenMarginTopX">
-			<div class="js-toggle-panel c-panel__content blockContainer">
+			<div class="js-toggle-panel c-panel__content blockContainer" data-js="click">
 				<div class="blockHeader card-header">
 					<span class="cursorPointer iconToggle fas fa-chevron-down m-1" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h4>
@@ -128,7 +128,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="js-toggle-panel c-panel__content blockContainer">
+			<div class="js-toggle-panel c-panel__content blockContainer" data-js="click">
 				<div class="blockHeader card-header">
 					<span class="cursorPointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4>
@@ -137,7 +137,7 @@
 					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 				</div>
 			</div>
-			<div class="js-toggle-panel c-panel__content blockContainer">
+			<div class="js-toggle-panel c-panel__content blockContainer" data-js="click">
 				<div class="blockHeader card-header">
 					<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4>
