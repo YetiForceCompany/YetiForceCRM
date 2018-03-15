@@ -880,7 +880,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		detailContentsHolder.find('.detailViewBlockLink .blockHeader').click(function () {
-			var block = $(this).closest('.card');
+			var block = $(this).closest('.js-toggle-panel');
 			var blockContent = block.find('.blockContent');
 			var isEmpty = blockContent.is(':empty');
 			if (!blockContent.is(':visible')) {
@@ -932,7 +932,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.d-none');
-			var bodyContents = currentBlock.closest('.card').find('.blockContent');
+			var bodyContents = currentBlock.closest('.js-toggle-panel').find('.blockContent');
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
