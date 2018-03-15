@@ -533,9 +533,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getChartContainer() === 'undefined') {
 			return false;
 		}
-		const data = thisInstance.applyDatalabelsOptions(thisInstance.generateData());
+		const data = thisInstance.loadDatalabelsOptions(thisInstance.generateData());
 		// each chart type should have default options as getDefaultChartOptions method
-		const options = thisInstance.applyDefaultChartOptions(data, thisInstance.getOptions());
+		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
 		thisInstance.chartInstance = new Chart(
 			thisInstance.getChartContainer().getContext("2d"), {
 				type: thisInstance.getType(),
@@ -583,9 +583,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} [options={}] instance options (getOptions)
 	 * @return {Object}              merged options
 	 */
-	applyDefaultChartOptions: function (data, options = {}) {
+	loadDefaultChartOptions: function (data, options = {}) {
 		options = this.mergeOptions(options, this.getDefaultChartOptions());
-		options = this.applyDefaultTooltipsOptions(data, options);
+		options = this.loadDefaultTooltipsOptions(data, options);
 		return options;
 	},
 	/**
@@ -644,7 +644,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {string} chartType 'bar','pie' etc..
 	 * @returns {object} chartData
 	 */
-	applyDatalabelsOptions: function applyDatalabelsOptions(chartData, chartType) {
+	loadDatalabelsOptions: function loadDatalabelsOptions(chartData, chartType) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
@@ -789,7 +789,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {object} options - predefined options
 	 * @returns {object} options
 	 */
-	applyDefaultTooltipsOptions: function applyDefaultTooltipsOptions(data, options = {}) {
+	loadDefaultTooltipsOptions: function loadDefaultTooltipsOptions(data, options = {}) {
 		this.formatTooltipTitles(data); // titles are now in dataset.titlesFormatted
 		this.formatTooltipLabels(data); // labels are now in dataset.dataFormatted
 		return options = this.mergeOptions(options, this.getTooltipsOptions(data));
@@ -1042,7 +1042,6 @@ YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
 					const barWidth = dataItem.width;
 					if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
-						console.log('hide label', dataItem, model, labelWidth, labelHeight, barHeight);
 						dataItem.$datalabels._model = null;
 					} else {
 						dataItem.$datalabels._model = model;
