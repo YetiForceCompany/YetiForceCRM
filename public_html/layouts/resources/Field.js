@@ -256,9 +256,9 @@ Vtiger_Field_Js('Vtiger_Date_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<div class="date input-group">' +
-				'<input class="dateField form-control" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-				'<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>' +
-				'</div>';
+			'<input class="dateField form-control" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
+			'<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>' +
+			'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -273,9 +273,9 @@ Vtiger_Field_Js('Vtiger_Currency_Field_Js', {}, {
 	},
 	getUi: function () {
 		var html = '<div class="input-group">' +
-				'<span class="input-group-addon">' + this.getCurrencySymbol() + '</span>' +
-				'<input type="text" class="form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
-				'</div>';
+			'<span class="input-group-addon">' + this.getCurrencySymbol() + '</span>' +
+			'<input type="text" class="form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
+			'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -313,29 +313,21 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 	}
 });
 
-Vtiger_Multipicklist_Field_Js('Vtiger_Multireferencevalue_Field_Js', {}, {
-});
+Vtiger_Multipicklist_Field_Js('Vtiger_Multireferencevalue_Field_Js', {}, {});
 
-Vtiger_Multipicklist_Field_Js('Vtiger_Sharedowner_Field_Js', {}, {
-});
+Vtiger_Multipicklist_Field_Js('Vtiger_Sharedowner_Field_Js', {}, {});
 
-Vtiger_Picklist_Field_Js('Vtiger_Tree_Field_Js', {}, {
-});
+Vtiger_Picklist_Field_Js('Vtiger_Tree_Field_Js', {}, {});
 
-Vtiger_Tree_Field_Js('Vtiger_Categorymultipicklist_Field_Js', {}, {
-});
+Vtiger_Tree_Field_Js('Vtiger_Categorymultipicklist_Field_Js', {}, {});
 
-Vtiger_Picklist_Field_Js('Vtiger_Modules_Field_Js', {}, {
-});
+Vtiger_Picklist_Field_Js('Vtiger_Modules_Field_Js', {}, {});
 
-Vtiger_Date_Field_Js('Vtiger_Datetime_Field_Js', {}, {
-});
+Vtiger_Date_Field_Js('Vtiger_Datetime_Field_Js', {}, {});
 
-Vtiger_Picklist_Field_Js('Vtiger_Taxs_Field_Js', {}, {
-});
+Vtiger_Picklist_Field_Js('Vtiger_Taxs_Field_Js', {}, {});
 
-Vtiger_Picklist_Field_Js('Vtiger_InventoryLimit_Field_Js', {}, {
-});
+Vtiger_Picklist_Field_Js('Vtiger_InventoryLimit_Field_Js', {}, {});
 
 Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	/**
@@ -350,9 +342,9 @@ Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<div class="input-group time">' +
-				'<input class="timepicker-default form-control" type="text" data-format="' + this.getTimeFormat() + '" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
-				'<span class="input-group-addon"><i class="far fa-clock"></i></span>' +
-				'</div>';
+			'<input class="timepicker-default form-control" type="text" data-format="' + this.getTimeFormat() + '" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
+			'<span class="input-group-addon"><i class="far fa-clock"></i></span>' +
+			'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -377,9 +369,9 @@ Vtiger_Field_Js('Vtiger_Percentage_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<div class="input-group">' +
-				'<input type="number" class="form-control" min="0" max="100" name="' + this.getName() + '" value="' + this.getValue() + '" step="any"/>' +
-				'<span class="input-group-addon">%</span>' +
-				'</div>';
+			'<input type="number" class="form-control" min="0" max="100" name="' + this.getName() + '" value="' + this.getValue() + '" step="any"/>' +
+			'<span class="input-group-addon">%</span>' +
+			'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
