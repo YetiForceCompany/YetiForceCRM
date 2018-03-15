@@ -21,8 +21,8 @@
 			<div class="detailViewTable">
 				<div class="js-toggle-panel c-panel__content" data-js="click" data-label="{$BLOCK_LABEL_KEY}">
 					<div class="blockHeader c-panel__header">
-						<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
-						<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+						<span class="u-cursor-pointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+						<span class="u-cursor-pointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						<h4>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h4>
 					</div>
 					<div class="c-panel__body blockContent {if $IS_HIDDEN}d-none{/if}">
