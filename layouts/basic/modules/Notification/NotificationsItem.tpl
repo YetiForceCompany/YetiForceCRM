@@ -3,7 +3,7 @@
 	<div class="NotificationsItem media noticeRow" data-id="{$ROW->getId()}" data-type="{\App\Purifier::encodeHtml($ROW->get('type'))}">
 		{assign var=ICON value=$ROW->getIcon()}
 		<div class="media-body wordBreakAll">
-			<div class="js-toggle-panel c-panel__content">
+			<div class="js-toggle-panel c-panel__content" data-js="click">
 				<div class="card-header p-2">
 					{if $ICON}
 						<div class="float-left">
