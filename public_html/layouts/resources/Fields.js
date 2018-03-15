@@ -68,7 +68,7 @@ App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {jQuery} customParams
 		 */
-		registerDateTime: function (parentElement, customParams) {
+		register: function (parentElement, customParams) {
 			if (typeof parentElement == 'undefined') {
 				parentElement = jQuery('body');
 			} else {
