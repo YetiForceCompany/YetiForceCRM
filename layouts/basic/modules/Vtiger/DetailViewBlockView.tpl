@@ -21,13 +21,13 @@
 			<div class="detailViewTable">
 				<div class="js-toggle-panel c-panel__content" data-js="click" data-label="{$BLOCK_LABEL_KEY}">
 					<div class="blockHeader c-panel__header">
-						<span class="u-cursor-pointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
-						<span class="u-cursor-pointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+						<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+						<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						<h4>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h4>
 					</div>
 					<div class="c-panel__body blockContent {if $IS_HIDDEN}d-none{/if}">
 						{assign var=COUNTER value=0}
-						<div class="form-row border-bottom">
+						<div class="form-row border-bottom u-border-bottom-0-sm">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 								{if !$FIELD_MODEL->isViewableInDetailView()}
 									{continue}
@@ -42,7 +42,7 @@
 									{/if}
 									<div class="col-md-6 form-row pl-1">
 										<div class="fieldLabel col-sm-6 {$WIDTHTYPE}">
-											<label class="u-text-weight">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
+											<label class="u-text-small-bold">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
 										</div>
 										<div class="fieldValue col-sm-6 {$WIDTHTYPE}">
 											<div id="imageContainer">
@@ -63,24 +63,24 @@
 									{/if}
 									{if $COUNTER eq 2}
 									</div>
-									<div class="form-row border-bottom">
+									<div class="form-row border-bottom u-border-bottom-0-sm">
 										{assign var=COUNTER value=1}
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
 									<div class="{if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-sm-12 {else} col-sm-6 {/if}">
-										<div class="form-row border-right">
-											<div class="fieldLabel u-border-bottom-label c-panel-label {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else}  col-lg-6  {/if}  {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<div class="form-row border-right u-border-right-0-md">
+											<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel_label {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else}  col-lg-6  {/if}  {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 												{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-												<label class="u-text-weight">
+												<label class="u-text-small-bold">
 													{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 														<a href="#" class="js-help-info float-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 														{/if}
 												</label>
 											</div>
-											<div class="fieldValue u-border-bottom-value col-sm-12 {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-lg-9 {else}  col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
+											<div class="fieldValue u-border-bottom-value-sm col-sm-12 {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-lg-9 {else}  col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
 												<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 												</span>
