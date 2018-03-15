@@ -35,12 +35,11 @@
 			<![endif]-->
 			{* ends *}
 			<script type="text/javascript">
-				var JsConfig = {\App\Config::getJs()};
-				var JsLang = {\App\Json::encode($LANGUAGE_STRINGS)};
+				var CONFIG = {\App\Config::getJs()};
+				var LANG = {\App\Json::encode($LANGUAGE_STRINGS)};
 			</script>
 		</head>
 		<body data-language="{$LANGUAGE}">
-			<div id="js_strings" class="d-none noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
 			<input type="hidden" id="start_day" value="">
 			<input type="hidden" id="row_type" value="">
 			<input type="hidden" id="current_user_id" value="">
