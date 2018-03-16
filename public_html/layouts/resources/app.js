@@ -12,7 +12,6 @@ app = {
 	 * variable stores client side language strings
 	 */
 	languageString: [],
-	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	cacheParams: [],
 	event: new function () {
 		this.el = jQuery({});
@@ -384,19 +383,19 @@ app = {
 				params.tags = true;
 			}
 			select.select2(params)
-				.on("select2:open", function (e) {
-					if (select.data('unselecting')) {
-						select.removeData('unselecting');
-						setTimeout(function (e) {
-							select.each(function () {
-								jQuery(this).select2('close');
-							});
-						}, 1);
-					}
-					var element = jQuery(e.currentTarget);
-					var instance = element.data('select2');
-					instance.$dropdown.css('z-index', 1000002);
-				}).on("select2:unselect", function (e) {
+					.on("select2:open", function (e) {
+						if (select.data('unselecting')) {
+							select.removeData('unselecting');
+							setTimeout(function (e) {
+								select.each(function () {
+									jQuery(this).select2('close');
+								});
+							}, 1);
+						}
+						var element = jQuery(e.currentTarget);
+						var instance = element.data('select2');
+						instance.$dropdown.css('z-index', 1000002);
+					}).on("select2:unselect", function (e) {
 				select.data('unselecting', true);
 			});
 		})
@@ -575,11 +574,11 @@ app = {
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop
-					.on('focusin.bs.modal', $.proxy(function (e) {
-						if ($(e.target).hasClass('select2-search__field')) {
-							return true;
-						}
-					}, this))
+						.on('focusin.bs.modal', $.proxy(function (e) {
+							if ($(e.target).hasClass('select2-search__field')) {
+								return true;
+							}
+						}, this))
 			};
 			var modalContainer = container.find('.modal:first');
 			modalContainer.modal(params);
@@ -866,11 +865,11 @@ app = {
 		}
 		var language = jQuery('body').data('language');
 		//Default first day of the week
-		var defaultFirstDay = jQuery('#start_day').val();
+		var defaultFirstDay = CONFIG.firstDayOfWeek;
 		if (defaultFirstDay == '' || typeof (defaultFirstDay) == 'undefined') {
 			var convertedFirstDay = 1
 		} else {
-			convertedFirstDay = this.weekDaysArray[defaultFirstDay];
+			convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		}
 		var params = {
 			todayBtn: "linked",
@@ -961,7 +960,7 @@ app = {
 	registerEventForClockPicker: function (object) {
 		if (typeof object === 'undefined') {
 			var elementClockBtn = $('.clockPicker');
-			var formatTime = app.getMainParams('userTimeFormat');
+			var formatTime = CONFIG.hourFormat;
 		} else {
 			elementClockBtn = object;
 			var formatTime = elementClockBtn.data('format');
@@ -1318,7 +1317,7 @@ app = {
 		return jQuery('<div></div>').html(value).text();
 	},
 	updateRowHeight: function () {
-		var rowType = jQuery('#row_type').val();
+		var rowType = CONFIG.rowHeight;
 		if (rowType.length <= 0) {
 			//Need to update the row height
 			var widthType = app.cacheGet('widthType', 'mediumWidthType');
@@ -1333,7 +1332,7 @@ app = {
 				default :
 					serverWidth = 'medium';
 			}
-			var userid = jQuery('#current_user_id').val();
+			var userid = CONFIG.userId;
 			var params = {
 				'module': 'Users',
 				'action': 'SaveAjax',
@@ -1392,11 +1391,11 @@ app = {
 	},
 	formatDate: function (date) {
 		var y = date.getFullYear(),
-			m = date.getMonth() + 1,
-			d = date.getDate(),
-			h = date.getHours(),
-			i = date.getMinutes(),
-			s = date.getSeconds();
+				m = date.getMonth() + 1,
+				d = date.getDate(),
+				h = date.getHours(),
+				i = date.getMinutes(),
+				s = date.getSeconds();
 		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
 	},
 	formatDateZ: function (i) {
@@ -1424,12 +1423,12 @@ app = {
 			}
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -1472,9 +1471,9 @@ app = {
 		if (val == undefined) {
 			val = 0;
 		}
-		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
-		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
-		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
+		var decimalSeparator = CONFIG.currencyDecimalSeparator;
+		var groupSeparator = CONFIG.currencyGroupingSeparator;
 		var groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
 		var a = val.toString().split('.');
@@ -1495,9 +1494,9 @@ app = {
 		return integer + decimalSeparator + decimal;
 	},
 	parseNumberToFloat: function (val) {
-		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
-		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
-		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
+		var groupSeparator = CONFIG.currencyGroupingSeparator;
+		var decimalSeparator = CONFIG.currencyDecimalSeparator;
 		if (val == undefined || val == '') {
 			val = 0;
 		}

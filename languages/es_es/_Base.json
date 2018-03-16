@@ -1618,6 +1618,8 @@
 	"JS_LAST_30_DAYS": "\u00daltimos 30 d\u00edas",
 	"JS_CURRENT_MONTH": "Mes actual",
 	"JS_LAST_MONTH": "Mes pasado",
+	"JS_LAST_3_MONTHS": "Last 3 months",
+	"JS_LAST_6_MONTHS": "Last 6 months",
 	"JS_CUSTOM": "Personalizado",
 	"JS_CALCULATING_IN_PROGRESS": "Calculo en progreso",
 	"JS_FRAME_IN_PROGRESS": "La vista previa est\u00e1 cargando...",

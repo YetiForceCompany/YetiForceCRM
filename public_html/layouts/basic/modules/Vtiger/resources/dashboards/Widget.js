@@ -1602,15 +1602,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
-	weekDaysArray: {
-		Sunday: 0,
-		Monday: 1,
-		Tuesday: 2,
-		Wednesday: 3,
-		Thursday: 4,
-		Friday: 5,
-		Saturday: 6
-	},
+	
 	registerCalendar: function () {
 		var thisInstance = this;
 		var userDefaultActivityView = 'month';
@@ -1624,8 +1616,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		}
 
 		//Default first day of the week
-		var defaultFirstDay = jQuery('#start_day').val();
-		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
 		var defaultFirstHour = jQuery('#start_hour').val();
 		var explodedTime = defaultFirstHour.split(':');
@@ -1726,7 +1717,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var formatDate = app.getMainParams('userDateFormat').toUpperCase();
+		var formatDate = CONFIG.dateFormat;.toUpperCase();
 		var start_date = view.start.format(formatDate);
 		var end_date = view.end.format(formatDate);
 		var parent = thisInstance.getContainer();

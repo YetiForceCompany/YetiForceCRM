@@ -155,7 +155,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 
 			var start = thisInstance.getDateInstance(container, 'start');
 			var end = thisInstance.getDateInstance(container, 'end');
-			var dateFormat = $('#userDateFormat').val().toUpperCase();
+			var dateFormat = CONFIG.dateFormat.toUpperCase();
 			container.find('.autofill:visible').trigger('change');
 			if (start > end) {
 				end = start;
@@ -251,7 +251,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			rule += ';COUNT=' + form.find('.countEvents').val();
 		} else if (endValue === 'until') {
 			var date = form.find('.calendarUntil').val();
-			date = app.getDateInDBInsertFormat(app.getMainParams('userDateFormat'), date);
+			date = app.getDateInDBInsertFormat(CONFIG.dateFormat, date);
 			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T000000';
 		}
 		if (freq === 'WEEKLY') {
@@ -268,7 +268,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		}
 		if (freq === 'MONTHLY') {
 			var dayOfWeek = Vtiger_Helper_Js.getDay(form.find('[name="date_start"]').val());
-			var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), app.getMainParams('userDateFormat'));
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), CONFIG.dateFormat);
 			var dayOfMonth = dateInstance.getDate();
 			var option = form.find('.calendarMontlyType:checked').val();
 			if (option == 'DAY') {
@@ -442,7 +442,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var startTime = startTimeElement.val();
 		var endTime = endTimeElement.val();
 		var endDate = endDateElement.val();
-		var dateFormat = $('#userDateFormat').val();
+		var dateFormat = CONFIG.dateFormat;
 		if (type == 'start') {
 			return Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
 		}

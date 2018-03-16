@@ -226,7 +226,7 @@ var Vtiger_Index_Js = {
 			var params = {
 				'module': 'Users',
 				'action': 'SaveAjax',
-				'record': jQuery('#current_user_id').val(),
+				'record': CONFIG.userId,
 				'field': 'theme',
 				'value': currentElement.data('skinName')
 			}
@@ -678,7 +678,7 @@ var Vtiger_Index_Js = {
 		var aDeferred = jQuery.Deferred();
 		element = jQuery(element);
 		if (userId == undefined) {
-			userId = app.getMainParams('current_user_id');
+			userId = CONFIG.userId;
 		}
 		var params = {
 			module: element.data('module'),
@@ -711,7 +711,7 @@ var Vtiger_Index_Js = {
 	},
 	registerUserPasswordChangeModal: function (timer) {
 		if (app.getMainParams('showUserPasswordChange')) {
-			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + app.getMainParams('current_user_id'));
+			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}
 	},
 	registerEvents: function () {

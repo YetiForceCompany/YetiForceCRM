@@ -1552,6 +1552,8 @@
 	"JS_LAST_30_DAYS": "Letzten 30 Tage",
 	"JS_CURRENT_MONTH": "Aktueller Monat",
 	"JS_LAST_MONTH": "Letzter Monat",
+	"JS_LAST_3_MONTHS": "Last 3 months",
+	"JS_LAST_6_MONTHS": "Last 6 months",
 	"JS_CUSTOM": "Benutzerdefinierter Datumsbereich",
 	"JS_CALCULATING_IN_PROGRESS": "Kalkulation wird gerade durchgef\u00fchrt",
 	"JS_FRAME_IN_PROGRESS": "Vorschau wird geladen ...",
