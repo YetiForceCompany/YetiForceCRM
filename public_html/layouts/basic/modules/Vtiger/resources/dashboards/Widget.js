@@ -230,9 +230,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}, function (e) {
 			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var a = $("<a>")
-				.attr("href", imgEl.attr('src'))
-				.attr("download", header.find('.dashboardTitle').text() + ".png")
-				.appendTo(container);
+					.attr("href", imgEl.attr('src'))
+					.attr("download", header.find('.dashboardTitle').text() + ".png")
+					.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
@@ -383,28 +383,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				var data = jQuery(data);
-				var footer = data.filter('.widgetFooterContent');
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-				if (footer.length) {
-					footer = footer.clone(true, true);
-					refreshContainerFooter.html(footer);
-					data.each(function (n, e) {
-						if (jQuery(this).hasClass('widgetFooterContent')) {
-							data.splice(n, 1);
-						}
-					})
+				function (data) {
+					var data = jQuery(data);
+					var footer = data.filter('.widgetFooterContent');
+					refreshContainer.progressIndicator({
+						'mode': 'hide'
+					});
+					if (footer.length) {
+						footer = footer.clone(true, true);
+						refreshContainerFooter.html(footer);
+						data.each(function (n, e) {
+							if (jQuery(this).hasClass('widgetFooterContent')) {
+								data.splice(n, 1);
+							}
+						})
+					}
+					contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
+				},
+				function () {
+					refreshContainer.progressIndicator({
+						'mode': 'hide'
+					});
 				}
-				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-			},
-			function () {
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-			}
 		);
 	},
 	registerFilter: function registerFilter() {
@@ -537,12 +537,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 		// each chart type should have default options as getDefaultChartOptions method
 		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
 		thisInstance.chartInstance = new Chart(
-			thisInstance.getChartContainer().getContext("2d"), {
-				type: thisInstance.getType(),
-				data,
-				options,
-				plugins: thisInstance.getPlugins()
-			}
+				thisInstance.getChartContainer().getContext("2d"), {
+			type: thisInstance.getType(),
+			data,
+			options,
+			plugins: thisInstance.getPlugins()
+		}
 		);
 	},
 	/**
@@ -848,24 +848,24 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						maxRotation: 90
-					}
-				}],
-				yAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						callback: function defaultYTicksCallback(value, index, values) {
-							if (!isNaN(Number(value))) {
-								return app.parseNumberToShow(value);
-							}
-							return value;
+						ticks: {
+							autoSkip: false,
+							beginAtZero: true,
+							maxRotation: 90
 						}
-					}
-				}]
+					}],
+				yAxes: [{
+						ticks: {
+							autoSkip: false,
+							beginAtZero: true,
+							callback: function defaultYTicksCallback(value, index, values) {
+								if (!isNaN(Number(value))) {
+									return app.parseNumberToShow(value);
+								}
+								return value;
+							}
+						}
+					}]
 			}
 		};
 	},
@@ -1002,8 +1002,8 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getPlugins: function () {
 		const thisInstance = this;
 		return [{
-			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-		}]
+				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+			}]
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1190,11 +1190,11 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 			legend: {
 				display: false,
 			},
-			sort: 'data-desc',
+			sort: 'desc',
 			scales: {
 				yAxes: [{
-					display: true
-				}]
+						display: true
+					}]
 			},
 		};
 	},
@@ -1590,11 +1590,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-					stacked: true
-				}],
+						stacked: true
+					}],
 				yAxes: [{
-					stacked: true
-				}]
+						stacked: true
+					}]
 			}
 		};
 	}
@@ -1683,21 +1683,21 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				element = '<div class="cell-calendar">';
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
-						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
-						'</a>\n';
+							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+							'</a>\n';
 				}
 				element += '</div>';
 				return element;
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
-			.mouseenter(function () {
-				jQuery('<span class="plus pull-left fas fa-plus"></span>')
-					.prependTo($(this))
-			}).mouseleave(function () {
-				$(this).find(".plus").remove();
-			});
+				.mouseenter(function () {
+					jQuery('<span class="plus pull-left fas fa-plus"></span>')
+							.prependTo($(this))
+				}).mouseleave(function () {
+			$(this).find(".plus").remove();
+		});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {
@@ -1768,8 +1768,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-				events.result
-			);
+					events.result
+					);
 			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
@@ -1945,19 +1945,19 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 			scales: {
 				yAxes: [{
-					stacked: true,
-					ticks: {
-						callback: function formatYAxisTick(value, index, values) {
-							return app.formatToHourText(value, 'short', false, false);
+						stacked: true,
+						ticks: {
+							callback: function formatYAxisTick(value, index, values) {
+								return app.formatToHourText(value, 'short', false, false);
+							}
 						}
-					}
-				}],
+					}],
 				xAxes: [{
-					stacked: true,
-					ticks: {
-						minRotation: 0
-					}
-				}]
+						stacked: true,
+						ticks: {
+							minRotation: 0
+						}
+					}]
 			},
 		}
 	},
@@ -1988,7 +1988,13 @@ YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
+YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+	getOptions: function getOptions() {
+		return {
+			sort: 'data-desc'
+		};
+	}
+});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
