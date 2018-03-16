@@ -45,6 +45,247 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
+	/**
+	 * Predefined functions that will replace options function type
+	 * @type {Object}
+	 */
+	globalChartFunctions: {
+		scales: {
+			formatAxesLabels: function formatAxesLabels(value, index, values) {
+				if (!isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			}
+		}
+	},
+	/**
+	 * Get string to put in options instead of function
+	 * that will be replaced by proper function after initialization
+	 * @param  {String} functionName
+	 * @return {String} function replacement string
+	 */
+	getFunctionReplacementString: function getFunctionReplacementString(functionPath) {
+		return `function:${functionPath}`;
+	},
+	/**
+	 * Get function from global functions from replacement string
+	 * @param  {String} str replacement string from getFunctionReplacementString method
+	 * @return {Function}
+	 */
+	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
+		const [fn, functionName] = replacementStr.split(':');
+		let finalFunction = functionName.split('.').reduce((pervious, current) => {
+			return previous[current];
+		}, this.globalChartFunctions);
+		return finalFunction.bind(this);
+	},
+	/**
+	 * Should options property be replaced by function?
+	 * @param  {String}  str
+	 * @return {Boolean}
+	 */
+	isReplacementString: function isReplacementString(str) {
+		if (typeof str !== 'string') {
+			return false;
+		}
+		return str.substr(0, 9) === 'function:';
+	},
+	/**
+	 * Recursively parse options and replace function replacement strings to functions
+	 * @param  {Object} options
+	 * @return {Object} options with replaced string functions
+	 */
+	parseOptionsObject: function parseOptionsObject(options) {
+		let result = {};
+		for (let propertyName in options) {
+			let value = options[propertyName];
+			if (this.isReplacementString(value)) {
+				result[propertyName] = this.getFunctionFromReplacementString(value);
+			} else if (Array.isArray(value)) {
+				result[propertyName] = this.parseOptionsArray(value);
+			} else if (typeof value === 'object' && value !== null) {
+				result[propertyName] = this.parseOptionsObject(value);
+			}
+		}
+		return result;
+	},
+	/**
+	 * Recursively parse options in array form and replace function replacement string with functions
+	 * @param  {Array} arr
+	 * @return {Array}
+	 */
+	parseOptionsArray: function parseOptionsArray(arr) {
+		return arr.map((item, index) => {
+			if (this.isReplacementString(item)) {
+				return this.getFunctionFromReplacementString(value);
+			} else if (Array.isArray(item)) {
+				return this.parseOptionsArray(item);
+			} else if (typeof item === 'object' && item !== null) {
+				return this.parseOptionsObject(item);
+			}
+			return item;
+		});
+	},
+	/**
+	 * Recursively parse options object and replace function replacement strings with global functions
+	 * @param  {Object} options
+	 * @return {Object}
+	 */
+	parseOptions: function parseOptions(options) {
+		if (Array.isArray(options)) {
+			return this.parseOptionsArray(options);
+		} else if (typeof options === 'object' && options !== null) {
+			return this.parseOptionsObject(options);
+		}
+		throw new Error('Unknown options format [' + typeof options + '] - should be object.');
+	},
+	/**
+	 * Get global charts default configuration - may be loaded from database in the future
+	 * We can modify something basing on chartData received from server (some custom options etc.)
+	 *
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartData) {
+		const thisInstance = this;
+		return {
+			bar: {
+				basic: function basicBarChartOptionsCallback(chartData) {
+					return {
+						maintainAspectRatio: false,
+						title: {
+							display: false
+						},
+						legend: {
+							display: false
+						},
+						scales: {
+							xAxes: [{
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									maxRotation: 90
+								}
+							}],
+							yAxes: [{
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}]
+						}
+					};
+				},
+				dataset: function datasetBarChartOptionsCallback(chartData, dataset, datasetIndex) {
+					return {};
+				},
+				tooltips: function tooltipsBarChartOptionsCallback(chartData) {
+					return {};
+				},
+				plugins: function pluginsBarChartOptionsCallback(chartData) {
+					return [];
+				},
+			},
+			pie: {
+				basic: function basicPieChartOptionsCallback(chartData) {
+					return {};
+				},
+				dataset: function datasetPieChartOptionsCallback(chartData, dataset, datasetIndex) {
+					return {};
+				},
+				tooltips: function tooltipsPieChartOptionsCallback(chartData) {
+					return {};
+				},
+				plugins: function pluginsPieChartOptionsCallback(chartData) {
+					return [];
+				},
+			},
+			donut: {
+				basic: function basicDonutChartOptionsCallback(chartData) {
+					return {};
+				},
+				dataset: function datasetDonutChartOptionsCallback(chartData, dataset, datasetIndex) {
+					return {};
+				},
+				tooltips: function tooltipsDonutChartOptionsCallback(chartData) {
+					return {};
+				},
+				plugins: function pluginsDonutChartOptionsCallback(chartData) {
+					return [];
+				},
+			},
+			line: {
+				basic: function basicLineChartOptionsCallback(chartData) {
+					return {};
+				},
+				dataset: function datasetLineChartOptionsCallback(chartData, dataset, datasetIndex) {
+					return {};
+				},
+				tooltips: function tooltipsLineChartOptionsCallback(chartData) {
+					return {};
+				},
+				plugins: function pluginsLineChartOptionsCallback(chartData) {
+					return [];
+				},
+			},
+			funnel: {
+				basic: function basicFunnelChartOptionsCallback(chartData) {
+					return {};
+				},
+				dataset: function datasetFunnelChartOptionsCallback(chartData, dataset, datasetIndex) {
+					return {};
+				},
+				tooltips: function tooltipsFunnelChartOptionsCallback(chartData) {
+					return {};
+				},
+				plugins: function pluginsFunnelChartOptionsCallback(chartData) {
+					return [];
+				},
+			},
+		};
+	},
+	/**
+	 * Get default chart basic options for specified chart type
+	 *
+	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultBasciOptionsFor: function getDefaultBasciOptionsFor(chartType, chartData) {
+		return getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].basic.apply(this, [chartData]);
+	},
+	/**
+	 * Get default dataset options for specified chart type
+	 *
+	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultDatasetOptionsFor: function getDefaultDatasetOptionsFor(chartType, chartData, dataset, datasetIndex) {
+		return getGlobalDefaultChartsOptions()[chartType.toLowerCase()].dataset.apply(this, [chartData, dataset, datasetIndex]);
+	},
+	/**
+	 * Get default tootip options for specified chart type
+	 *
+	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultTooltipsOptionsFor: function getDefaultTooltipsOptionsFor(chartType, chartData) {
+		return getGlobalDefaultChartsOptions()[chartType.toLowerCase()].tooltips.apply(this, [chartData]);
+	},
+	/**
+	 * Get default plugins for specified chart type
+	 *
+	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultPluginsFor: function getDefaultPluginsFor(chartType, chartData) {
+		return getGlobalDefaultChartsOptions()[chartType.toLowerCase()].plugins.apply(this, [chartData]);
+	},
 	getContainer: function getContainer() {
 		return this.container;
 	},
@@ -230,9 +471,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}, function (e) {
 			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var a = $("<a>")
-					.attr("href", imgEl.attr('src'))
-					.attr("download", header.find('.dashboardTitle').text() + ".png")
-					.appendTo(container);
+				.attr("href", imgEl.attr('src'))
+				.attr("download", header.find('.dashboardTitle').text() + ".png")
+				.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
@@ -383,28 +624,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(
-				function (data) {
-					var data = jQuery(data);
-					var footer = data.filter('.widgetFooterContent');
-					refreshContainer.progressIndicator({
-						'mode': 'hide'
-					});
-					if (footer.length) {
-						footer = footer.clone(true, true);
-						refreshContainerFooter.html(footer);
-						data.each(function (n, e) {
-							if (jQuery(this).hasClass('widgetFooterContent')) {
-								data.splice(n, 1);
-							}
-						})
-					}
-					contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-				},
-				function () {
-					refreshContainer.progressIndicator({
-						'mode': 'hide'
-					});
+			function (data) {
+				var data = jQuery(data);
+				var footer = data.filter('.widgetFooterContent');
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				if (footer.length) {
+					footer = footer.clone(true, true);
+					refreshContainerFooter.html(footer);
+					data.each(function (n, e) {
+						if (jQuery(this).hasClass('widgetFooterContent')) {
+							data.splice(n, 1);
+						}
+					})
 				}
+				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
+			},
+			function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			}
 		);
 	},
 	registerFilter: function registerFilter() {
@@ -537,12 +778,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 		// each chart type should have default options as getDefaultChartOptions method
 		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
 		thisInstance.chartInstance = new Chart(
-				thisInstance.getChartContainer().getContext("2d"), {
-			type: thisInstance.getType(),
-			data,
-			options,
-			plugins: thisInstance.getPlugins()
-		}
+			thisInstance.getChartContainer().getContext("2d"), {
+				type: thisInstance.getType(),
+				data,
+				options,
+				plugins: thisInstance.getPlugins()
+			}
 		);
 	},
 	/**
@@ -620,8 +861,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 					size: 11
 				},
 				color: 'white',
-				backgroundColor: backgroundColor,
-				borderColor: borderColor,
+				backgroundColor,
+				borderColor,
 				borderWidth: 2,
 				borderRadius: borderRadius,
 				anchor: anchor,
@@ -652,6 +893,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		chartData.datasets.forEach((dataset, index) => {
 			let datasetOptions = this.mergeOptions(this.getDatasetOptions(dataset, this.getType(), index), this.getDefaultDatasetOptions(dataset, this.getType(), index));
+			// merge with those dataset options from server if needed
 			chartData.datasets[index] = this.mergeOptions(dataset, datasetOptions);
 		});
 		return chartData;
@@ -680,7 +922,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 						// return raw data at idex
 						return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 					},
-
 					title: function tooltipTitleCallback(tooltipItems, data) {
 						const tooltipItem = tooltipItems[0];
 						// get already formatted title if exists
@@ -850,24 +1091,24 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-						ticks: {
-							autoSkip: false,
-							beginAtZero: true,
-							maxRotation: 90
-						}
-					}],
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						maxRotation: 90
+					}
+				}],
 				yAxes: [{
-						ticks: {
-							autoSkip: false,
-							beginAtZero: true,
-							callback: function defaultYTicksCallback(value, index, values) {
-								if (!isNaN(Number(value))) {
-									return app.parseNumberToShow(value);
-								}
-								return value;
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						callback: function defaultYTicksCallback(value, index, values) {
+							if (!isNaN(Number(value))) {
+								return app.parseNumberToShow(value);
 							}
+							return value;
 						}
-					}]
+					}
+				}]
 			}
 		};
 	},
@@ -1004,8 +1245,8 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getPlugins: function () {
 		const thisInstance = this;
 		return [{
-				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-			}]
+			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+		}]
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1195,8 +1436,8 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 			sort: 'desc',
 			scales: {
 				yAxes: [{
-						display: true
-					}]
+					display: true
+				}]
 			},
 		};
 	},
@@ -1312,7 +1553,6 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 		});
 	},
 });
-
 YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	getType: function getType() {
 		return 'line';
@@ -1328,25 +1568,30 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-						ticks: {
-							autoSkip: false,
-							beginAtZero: true,
-							maxRotation: 90
-						}
-					}],
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						maxRotation: 90
+					}
+				}],
 				yAxes: [{
-						ticks: {
-							autoSkip: false,
-							beginAtZero: true,
-							callback: function defaultYTicksCallback(value, index, values) {
-								if (!isNaN(Number(value))) {
-									return app.parseNumberToShow(value);
-								}
-								return value;
+					ticks: {
+						autoSkip: false,
+						beginAtZero: true,
+						callback: function defaultYTicksCallback(value, index, values) {
+							if (!isNaN(Number(value))) {
+								return app.parseNumberToShow(value);
 							}
+							return value;
 						}
-					}]
+					}
+				}]
 			}
+		};
+	},
+	getDefaultDatasetOptions: function getDefaultDatasetOptions() {
+		return {
+
 		};
 	},
 	shortenXTicks: function (data, options) {
@@ -1385,6 +1630,7 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 		return options;
 	},
 	beforeDraw: function (chart) {
+		console.log('line chart before draw', chart);
 		chart.data.datasets.forEach((dataset, index) => {
 			if (dataset._updated) {
 				return false;
@@ -1428,8 +1674,8 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	getPlugins: function () {
 		const thisInstance = this;
 		return [{
-				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-			}]
+			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+		}]
 	},
 });
 YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
@@ -1676,11 +1922,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-						stacked: true
-					}],
+					stacked: true
+				}],
 				yAxes: [{
-						stacked: true
-					}]
+					stacked: true
+				}]
 			}
 		};
 	}
@@ -1769,21 +2015,21 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				element = '<div class="cell-calendar">';
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
-							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
-							'</a>\n';
+						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+						'</a>\n';
 				}
 				element += '</div>';
 				return element;
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
-				.mouseenter(function () {
-					jQuery('<span class="plus pull-left fas fa-plus"></span>')
-							.prependTo($(this))
-				}).mouseleave(function () {
-			$(this).find(".plus").remove();
-		});
+			.mouseenter(function () {
+				jQuery('<span class="plus pull-left fas fa-plus"></span>')
+					.prependTo($(this))
+			}).mouseleave(function () {
+				$(this).find(".plus").remove();
+			});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {
@@ -1854,8 +2100,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-					events.result
-					);
+				events.result
+			);
 			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
@@ -2031,19 +2277,19 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 			scales: {
 				yAxes: [{
-						stacked: true,
-						ticks: {
-							callback: function formatYAxisTick(value, index, values) {
-								return app.formatToHourText(value, 'short', false, false);
-							}
+					stacked: true,
+					ticks: {
+						callback: function formatYAxisTick(value, index, values) {
+							return app.formatToHourText(value, 'short', false, false);
 						}
-					}],
+					}
+				}],
 				xAxes: [{
-						stacked: true,
-						ticks: {
-							minRotation: 0
-						}
-					}]
+					stacked: true,
+					ticks: {
+						minRotation: 0
+					}
+				}]
 			},
 		}
 	},
