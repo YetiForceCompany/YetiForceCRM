@@ -18,15 +18,15 @@ jQuery.Class('Settings_Mail_Config_Js', {}, {
 			params['val'] = val;
 
 			AppConnector.request(params).then(
-				function (data) {
-					progressIndicator.progressIndicator({'mode': 'hide'});
-					var params = {};
-					params['text'] = data.result.message;
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
-					progressIndicator.progressIndicator({'mode': 'hide'});
-				}
+					function (data) {
+						progressIndicator.progressIndicator({'mode': 'hide'});
+						var params = {};
+						params['text'] = data.result.message;
+						Settings_Vtiger_Index_Js.showMessage(params);
+					},
+					function (error) {
+						progressIndicator.progressIndicator({'mode': 'hide'});
+					}
 			);
 		});
 	},
@@ -47,15 +47,15 @@ jQuery.Class('Settings_Mail_Config_Js', {}, {
 			params['mode'] = 'updateSignature';
 			params['val'] = editor.getData();
 			AppConnector.request(params).then(
-				function (data) {
-					progressIndicator.progressIndicator({'mode': 'hide'});
-					var params = {};
-					params['text'] = data.result.message;
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
-					progressIndicator.progressIndicator({'mode': 'hide'});
-				}
+					function (data) {
+						progressIndicator.progressIndicator({'mode': 'hide'});
+						var params = {};
+						params['text'] = data.result.message;
+						Settings_Vtiger_Index_Js.showMessage(params);
+					},
+					function (error) {
+						progressIndicator.progressIndicator({'mode': 'hide'});
+					}
 			);
 		});
 	},

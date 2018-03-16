@@ -43,17 +43,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 		};
 
 		AppConnector.request(actionParams).then(
-			function (data) {
-				if (data) {
-					app.showModalWindow(data, {'text-align': 'left'});
-					if (typeof callBackFunction == 'function') {
-						callBackFunction(data);
+				function (data) {
+					if (data) {
+						app.showModalWindow(data, {'text-align': 'left'});
+						if (typeof callBackFunction == 'function') {
+							callBackFunction(data);
+						}
 					}
-				}
-			},
-			function (error, err) {
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 	},
 	/*
@@ -73,29 +73,29 @@ jQuery.Class("Vtiger_Detail_Js", {
 			"data": {}
 		};
 		AppConnector.request(actionParams).then(
-			function (data) {
-				if (data) {
-					var callback = function (data) {
-						var params = app.validationEngineOptions;
-						params.onValidationComplete = function (form, valid) {
-							if (valid) {
-								if (form.attr("name") == "changeOwner") {
-									thisInstance.transferOwnershipSave(form)
+				function (data) {
+					if (data) {
+						var callback = function (data) {
+							var params = app.validationEngineOptions;
+							params.onValidationComplete = function (form, valid) {
+								if (valid) {
+									if (form.attr("name") == "changeOwner") {
+										thisInstance.transferOwnershipSave(form)
+									}
 								}
+								return false;
 							}
-							return false;
+							jQuery('#changeOwner').validationEngine(app.validationEngineOptions);
 						}
-						jQuery('#changeOwner').validationEngine(app.validationEngineOptions);
+						app.showModalWindow(data, function (data) {
+							var selectElement = thisInstance.getRelatedModuleContainer();
+							app.changeSelectElementView(selectElement, 'select2');
+							if (typeof callback == 'function') {
+								callback(data);
+							}
+						});
 					}
-					app.showModalWindow(data, function (data) {
-						var selectElement = thisInstance.getRelatedModuleContainer();
-						app.changeSelectElementView(selectElement, 'select2');
-						if (typeof callback == 'function') {
-							callback(data);
-						}
-					});
 				}
-			}
 		);
 	},
 	transferOwnershipSave: function (form) {
@@ -111,26 +111,26 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'related_modules': relatedModules
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				if (data.success) {
-					app.hideModalWindow();
-					var params = {
-						title: app.vtranslate('JS_MESSAGE'),
-						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-						type: 'info'
-					};
-					var oldvalue = jQuery('.assigned_user_id').val();
-					var element = jQuery(".assigned_user_id ");
+				function (data) {
+					if (data.success) {
+						app.hideModalWindow();
+						var params = {
+							title: app.vtranslate('JS_MESSAGE'),
+							text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
+							type: 'info'
+						};
+						var oldvalue = jQuery('.assigned_user_id').val();
+						var element = jQuery(".assigned_user_id ");
 
-					element.find('option[value="' + oldvalue + '"]').removeAttr("selected");
-					element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
-					element.trigger("liszt:updated");
-					var Fieldname = element.find('option[value="' + transferOwner + '"]').data("picklistvalue");
-					element.closest(".row-fluid").find(".value").html('<a href="index.php?module=Users&amp;parent=Settings&amp;view=Detail&amp;record=' + transferOwner + '">' + Fieldname + '</a>');
+						element.find('option[value="' + oldvalue + '"]').removeAttr("selected");
+						element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
+						element.trigger("liszt:updated");
+						var Fieldname = element.find('option[value="' + transferOwner + '"]').data("picklistvalue");
+						element.closest(".row-fluid").find(".value").html('<a href="index.php?module=Users&amp;parent=Settings&amp;view=Detail&amp;record=' + transferOwner + '">' + Fieldname + '</a>');
 
-					Vtiger_Helper_Js.showPnotify(params);
+						Vtiger_Helper_Js.showPnotify(params);
+					}
 				}
-			}
 		);
 	},
 	/*
@@ -187,37 +187,37 @@ jQuery.Class("Vtiger_Detail_Js", {
 						ids: ids
 					}
 					AppConnector.request(postData).then(
-						function (data) {
-							var params = {
-								title: app.vtranslate('JS_MESSAGE'),
-								text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
-								type: 'success',
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							app.hideModalWindow();
-							detailInstance.loadWidgets();
-						},
-						function (error, err) {
-							var params = {
-								title: app.vtranslate('JS_ERROR'),
-								text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
-								type: 'error',
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							app.hideModalWindow();
-						}
+							function (data) {
+								var params = {
+									title: app.vtranslate('JS_MESSAGE'),
+									text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
+									type: 'success',
+								};
+								Vtiger_Helper_Js.showPnotify(params);
+								app.hideModalWindow();
+								detailInstance.loadWidgets();
+							},
+							function (error, err) {
+								var params = {
+									title: app.vtranslate('JS_ERROR'),
+									text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
+									type: 'error',
+								};
+								Vtiger_Helper_Js.showPnotify(params);
+								app.hideModalWindow();
+							}
 					);
 				}
 			});
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				if (data) {
-					app.showModalWindow(data, '', callback);
+				function (data) {
+					if (data) {
+						app.showModalWindow(data, '', callback);
+					}
+				},
+				function (error, err) {
 				}
-			},
-			function (error, err) {
-			}
 		);
 	}
 }, {
@@ -534,9 +534,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-			function (reponseData) {
-				aDeferred.resolve(reponseData);
-			}
+				function (reponseData) {
+					aDeferred.resolve(reponseData);
+				}
 		);
 
 		return aDeferred.promise();
@@ -559,12 +559,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 	getCommentThread: function (url) {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.request(url).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
 
-			}
+				}
 		)
 		return aDeferred.promise();
 	},
@@ -645,12 +645,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'record': commentId
 		}
 		AppConnector.request(postData).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -709,15 +709,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		var SendSmsUrl = form.serializeFormData();
 		AppConnector.request(SendSmsUrl).then(
-			function (data) {
-				app.hideModalWindow();
-				progressInstance.progressIndicator({
-					'mode': 'hide'
-				});
-			},
-			function (error, err) {
+				function (data) {
+					app.hideModalWindow();
+					progressInstance.progressIndicator({
+						'mode': 'hide'
+					});
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 	},
 	/**
@@ -842,12 +842,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		var relatedListInstance = Vtiger_RelatedList_Js.getInstance(this.getRecordId(), app.getModuleName(), this.getSelectedTab(), this.getRelatedModuleName());
 		relatedListInstance.loadRelatedList(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -1024,11 +1024,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 					return;
 				}
-
 				function toStr(v) {
 					return v === undefined || v === null ? '' : (v + '');
 				}
-
 				fieldElement.validationEngine('hide');
 				//Before saving ajax edit values we need to check if the value is changed then only we have to save
 				if (toStr(previousValue) === toStr(ajaxEditNewValue)) {
@@ -1039,10 +1037,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					editElement.off('clickoutside');
 				} else {
 					var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
-					fieldElement.trigger(preFieldSaveEvent, {
-						'fieldValue': fieldValue,
-						'recordId': thisInstance.getRecordId()
-					});
+					fieldElement.trigger(preFieldSaveEvent, {'fieldValue': fieldValue, 'recordId': thisInstance.getRecordId()});
 					if (preFieldSaveEvent.isDefaultPrevented()) {
 						//Stop the save
 						readRecord.prop('disabled', false);
@@ -1056,58 +1051,58 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap["field"] = fieldName;
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).then(function (response) {
-							readRecord.prop('disabled', false);
-							var postSaveRecordDetails = response.result;
-							currentTdElement.progressIndicator({'mode': 'hide'});
-							detailViewValue.removeClass('d-none');
-							actionElement.removeClass('d-none');
-							var displayValue = postSaveRecordDetails[fieldName].display_value;
-							if (dateTimeField.length && dateTime) {
-								displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
-							}
-							detailViewValue.html(displayValue);
-							if (postSaveRecordDetails['isEditable'] == false) {
-								var progressIndicatorElement = jQuery.progressIndicator({
-									'position': 'html',
-									'blockInfo': {
-										'enabled': true
-									}
-								});
-								window.location.reload();
-							}
-							fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
-							elementTarget.data('prevValue', ajaxEditNewValue);
-							fieldElement.data('selectedValue', ajaxEditNewValue);
-							//After saving source field value, If Target field value need to change by user, show the edit view of target field.
-							if (thisInstance.targetPicklistChange) {
-								if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
-									thisInstance.targetPicklist.find('.js-detail-quick-edit').trigger('click');
-								} else {
-									thisInstance.targetPicklist.trigger('click');
-								}
-								thisInstance.targetPicklistChange = false;
-								thisInstance.targetPicklist = false;
-							}
-							var selectedTabElement = thisInstance.getSelectedTab();
-							if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-								var detailContentsHolder = thisInstance.getContentHolder();
-								thisInstance.reloadTabContent();
-								thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
-								thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
-								thisInstance.registerEventForRelatedList();
-							} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
-								thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
-							}
-							thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
-						},
-						function (error) {
-							editElement.addClass('d-none');
-							detailViewValue.removeClass('d-none');
-							actionElement.removeClass('d-none');
-							editElement.off('clickoutside');
-							readRecord.prop('disabled', false);
-							currentTdElement.progressIndicator({'mode': 'hide'});
+						readRecord.prop('disabled', false);
+						var postSaveRecordDetails = response.result;
+						currentTdElement.progressIndicator({'mode': 'hide'});
+						detailViewValue.removeClass('d-none');
+						actionElement.removeClass('d-none');
+						var displayValue = postSaveRecordDetails[fieldName].display_value;
+						if (dateTimeField.length && dateTime) {
+							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
+						detailViewValue.html(displayValue);
+						if (postSaveRecordDetails['isEditable'] == false) {
+							var progressIndicatorElement = jQuery.progressIndicator({
+								'position': 'html',
+								'blockInfo': {
+									'enabled': true
+								}
+							});
+							window.location.reload();
+						}
+						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
+						elementTarget.data('prevValue', ajaxEditNewValue);
+						fieldElement.data('selectedValue', ajaxEditNewValue);
+						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
+						if (thisInstance.targetPicklistChange) {
+							if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
+								thisInstance.targetPicklist.find('.js-detail-quick-edit').trigger('click');
+							} else {
+								thisInstance.targetPicklist.trigger('click');
+							}
+							thisInstance.targetPicklistChange = false;
+							thisInstance.targetPicklist = false;
+						}
+						var selectedTabElement = thisInstance.getSelectedTab();
+						if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+							var detailContentsHolder = thisInstance.getContentHolder();
+							thisInstance.reloadTabContent();
+							thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
+							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
+							thisInstance.registerEventForRelatedList();
+						} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
+							thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
+						}
+						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
+					},
+							function (error) {
+								editElement.addClass('d-none');
+								detailViewValue.removeClass('d-none');
+								actionElement.removeClass('d-none');
+								editElement.off('clickoutside');
+								readRecord.prop('disabled', false);
+								currentTdElement.progressIndicator({'mode': 'hide'});
+							}
 					)
 				}
 			}
@@ -1176,12 +1171,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 					'data': urlParams
 				};
 				AppConnector.request(params).then(
-					function (data) {
-						var activitiesWidget = widgetContainer.find('.widget_contents');
-						activitiesWidget.html(data);
-						app.changeSelectElementView(activitiesWidget);
-						thisInstance.registerEventForActivityWidget();
-					}
+						function (data) {
+							var activitiesWidget = widgetContainer.find('.widget_contents');
+							activitiesWidget.html(data);
+							app.changeSelectElementView(activitiesWidget);
+							thisInstance.registerEventForActivityWidget();
+						}
 				);
 				thisInstance.loadWidgets();
 			}
@@ -1523,13 +1518,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 						module: moduleName,
 						activitytype: activityType
 					}).then(
-						function (data) {
-							currentDiv.progressIndicator({'mode': 'hide'});
-							detailViewElement.removeClass('d-none');
-							currentTarget.show();
-							detailViewElement.html(ajaxEditNewLable);
-							fieldnameElement.data('prevValue', ajaxEditNewValue);
-						}
+							function (data) {
+								currentDiv.progressIndicator({'mode': 'hide'});
+								detailViewElement.removeClass('d-none');
+								currentTarget.show();
+								detailViewElement.html(ajaxEditNewLable);
+								fieldnameElement.data('prevValue', ajaxEditNewValue);
+							}
 					);
 				}
 			}
@@ -1592,19 +1587,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModule);
 		relatedController.addRelations(relatedModuleRecordId).then(
-			function (data) {
-				var summaryViewContainer = thisInstance.getContentHolder();
-				var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
-				if (updatesWidget.length > 0) {
-					var params = thisInstance.getFiltersData(updatesWidget);
-					updatesWidget.find('.btnChangesReviewedOn').parent().remove();
-					thisInstance.loadWidget(updatesWidget, params['params']);
+				function (data) {
+					var summaryViewContainer = thisInstance.getContentHolder();
+					var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
+					if (updatesWidget.length > 0) {
+						var params = thisInstance.getFiltersData(updatesWidget);
+						updatesWidget.find('.btnChangesReviewedOn').parent().remove();
+						thisInstance.loadWidget(updatesWidget, params['params']);
+					}
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
 				}
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			}
 		)
 		return aDeferred.promise();
 	},
@@ -2323,11 +2318,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentPage = container.find('#updatesCurrentPage').val();
 			var nextPage = parseInt(currentPage) + 1;
 			if (container.closest('.summaryWidgetContainer').length) {
-				var data = thisInstance.getFiltersData(e, {
-					'page': nextPage,
-					'tab_label': 'LBL_UPDATES',
-					'newChange': newChange
-				}, container.find('#updates'));
+				var data = thisInstance.getFiltersData(e, {'page': nextPage, 'tab_label': 'LBL_UPDATES', 'newChange': newChange}, container.find('#updates'));
 				var url = data['params'];
 			} else {
 				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
@@ -2338,15 +2329,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 			}
 			AppConnector.request(url).then(
-				function (data) {
-					var dataContainer = jQuery(data);
-					container.find('#newChange').val(dataContainer.find('#newChange').val());
-					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
-					container.find('#moreLink').html(dataContainer.find('#moreLink').html());
-					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
-					app.registerMoreContent(container.find('button.moreBtn'));
-					app.event.trigger("DetailView.UpdatesWidget.AddMore", data, thisInstance);
-				}
+					function (data) {
+						var dataContainer = jQuery(data);
+						container.find('#newChange').val(dataContainer.find('#newChange').val());
+						container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
+						container.find('#moreLink').html(dataContainer.find('#moreLink').html());
+						container.find('#updates ul').append(dataContainer.find('#updates ul').html());
+						app.registerMoreContent(container.find('button.moreBtn'));
+						app.event.trigger("DetailView.UpdatesWidget.AddMore", data, thisInstance);
+					}
 			);
 		});
 		detailContentsHolder.on('click', '.btnChangesReviewedOn', function (e) {
@@ -2358,20 +2349,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 			var url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
 			AppConnector.request(url).then(
-				function (data) {
-					progressInstance.progressIndicator({mode: 'hide'});
-					jQuery(e.currentTarget).parent().remove();
-					thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).find('.count.badge').text('');
-					if (selectedTabElement.data('labelKey') == thisInstance.detailViewRecentUpdatesTabLabel) {
-						thisInstance.reloadTabContent();
-					} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-						var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
-						if (updatesWidget.length > 0) {
-							var params = thisInstance.getFiltersData(updatesWidget);
-							thisInstance.loadWidget(updatesWidget, params['params']);
+					function (data) {
+						progressInstance.progressIndicator({mode: 'hide'});
+						jQuery(e.currentTarget).parent().remove();
+						thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).find('.count.badge').text('');
+						if (selectedTabElement.data('labelKey') == thisInstance.detailViewRecentUpdatesTabLabel) {
+							thisInstance.reloadTabContent();
+						} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+							var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
+							if (updatesWidget.length > 0) {
+								var params = thisInstance.getFiltersData(updatesWidget);
+								thisInstance.loadWidget(updatesWidget, params['params']);
+							}
 						}
 					}
-				}
 			);
 		});
 		detailContentsHolder.on('click', '.moreRecentDocuments', function () {
@@ -2400,17 +2391,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			url = url.replace('&page=1', '&page=' + page);
 			url += '&totalCount=' + container.find('.totaltActivities').val();
 			AppConnector.request(url).then(
-				function (data) {
-					currentTarget.prop('disabled', false);
-					currentTarget.addClass('d-none');
-					var currentPage = container.find('.currentPage').val();
-					container.find('.currentPage').remove();
-					container.find('.countActivities').remove();
-					container.find('.widget_contents').append(data);
-					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
-					thisInstance.reloadWidgetActivitesStats(container);
-					app.showPopoverElementView(container.find('.popoverTooltip'));
-				}
+					function (data) {
+						currentTarget.prop('disabled', false);
+						currentTarget.addClass('d-none');
+						var currentPage = container.find('.currentPage').val();
+						container.find('.currentPage').remove();
+						container.find('.countActivities').remove();
+						container.find('.widget_contents').append(data);
+						container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
+						thisInstance.reloadWidgetActivitesStats(container);
+						app.showPopoverElementView(container.find('.popoverTooltip'));
+					}
 			);
 		});
 		detailContentsHolder.on('click', '.widgetFullscreen', function (e) {
@@ -2562,25 +2553,25 @@ jQuery.Class("Vtiger_Detail_Js", {
 		};
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var btnToolbar = jQuery('.detailViewToolbar .btn-toolbar');
-				if (response.valid == false) {
-					var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
-					if (btn.length) {
-						btn.remove();
+				function (data) {
+					var response = data['result'];
+					var btnToolbar = jQuery('.detailViewToolbar .btn-toolbar');
+					if (response.valid == false) {
+						var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
+						if (btn.length) {
+							btn.remove();
+						}
+					} else {
+						var btnGroup = btnToolbar.find('.btn-group:eq(1)');
+						var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
+						if (btn.length == 0) {
+							btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
+						}
 					}
-				} else {
-					var btnGroup = btnToolbar.find('.btn-group:eq(1)');
-					var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
-					if (btn.length == 0) {
-						btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
-					}
+				},
+				function (data, err) {
+					app.errorLog(data, err);
 				}
-			},
-			function (data, err) {
-				app.errorLog(data, err);
-			}
 		);
 	},
 	updateWindowHeight: function (currentHeight, frame) {

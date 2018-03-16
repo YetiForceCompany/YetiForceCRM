@@ -71,32 +71,32 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 			}
 		});
 		AppConnector.request(formData).then(
-			function (data) {
-				form.hide();
-				if (data.result) {
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WORKFLOW_SAVED_SUCCESSFULLY')});
-					var workflowRecordElement = jQuery('[name="record"]', form);
-					if (workflowRecordElement.val() == '') {
-						workflowRecordElement.val(data.result.id);
+				function (data) {
+					form.hide();
+					if (data.result) {
+						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WORKFLOW_SAVED_SUCCESSFULLY')});
+						var workflowRecordElement = jQuery('[name="record"]', form);
+						if (workflowRecordElement.val() == '') {
+							workflowRecordElement.val(data.result.id);
+						}
+						var params = {
+							module: app.getModuleName(),
+							parent: app.getParentModuleName(),
+							view: 'Edit',
+							mode: 'step3',
+							record: data.result.id
+						}
+						AppConnector.request(params).then(function (data) {
+							aDeferred.resolve(data);
+						});
 					}
-					var params = {
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						view: 'Edit',
-						mode: 'step3',
-						record: data.result.id
-					}
-					AppConnector.request(params).then(function (data) {
-						aDeferred.resolve(data);
-					});
-				}
-				progressIndicatorElement.progressIndicator({
-					'mode': 'hide'
-				})
-			},
-			function (error, err) {
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					})
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 		return aDeferred.promise();
 	},

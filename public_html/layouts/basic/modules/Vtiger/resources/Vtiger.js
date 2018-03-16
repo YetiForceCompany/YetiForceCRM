@@ -185,25 +185,25 @@ var Vtiger_Index_Js = {
 			"dataType": "html", "data": url
 		}
 		AppConnector.request(listViewWidgetParams).then(
-			function (data) {
+				function (data) {
 
-				if (typeof open == 'undefined')
-					open = true;
-				if (open) {
-					widgetContainer.progressIndicator({'mode': 'hide'});
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('downimage');
-					imageEle.attr('src', imagePath);
-					widgetContainer.css('height', 'auto');
+					if (typeof open == 'undefined')
+						open = true;
+					if (open) {
+						widgetContainer.progressIndicator({'mode': 'hide'});
+						var imageEle = widgetContainer.parent().find('.imageElement');
+						var imagePath = imageEle.data('downimage');
+						imageEle.attr('src', imagePath);
+						widgetContainer.css('height', 'auto');
+					}
+					widgetContainer.html(data);
+					if (data == '') {
+						widgetContainer.closest('.quickWidget').addClass('d-none');
+					} else {
+						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
+					}
+					jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 				}
-				widgetContainer.html(data);
-				if (data == '') {
-					widgetContainer.closest('.quickWidget').addClass('d-none');
-				} else {
-					var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-				}
-				jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
-			}
 		);
 	},
 	loadWidgetsOnLoad: function () {
@@ -231,14 +231,14 @@ var Vtiger_Index_Js = {
 				'value': currentElement.data('skinName')
 			}
 			AppConnector.request(params).then(function (data) {
-					if (data.success && data.result) {
-						progressElement.progressIndicator({'mode': 'hide'});
-						jQuery('.settingIcons').removeClass('open');
-						window.location.reload();
-					}
-				},
-				function (error, err) {
-				});
+				if (data.success && data.result) {
+					progressElement.progressIndicator({'mode': 'hide'});
+					jQuery('.settingIcons').removeClass('open');
+					window.location.reload();
+				}
+			},
+					function (error, err) {
+					});
 		})
 	},
 	markNotifications: function (id) {
@@ -251,32 +251,32 @@ var Vtiger_Index_Js = {
 			ids: id
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
-				Vtiger_Helper_Js.showPnotify({
-					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_MARKED_AS_READ'),
-					type: 'info'
-				});
-				if (row.length) {
-					row.fadeOut(300, function () {
-						var entries = row.closest('.notificationEntries')
-						row.remove();
-						entries.each(function (index) {
-							var block = $(this);
-							if (block.find(".noticeRow").length == 0) {
-								block.closest('.panel').hide();
-							}
-						});
+				function (data) {
+					var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_MARKED_AS_READ'),
+						type: 'info'
 					});
-					thisInstance.getNotificationsForReminder();
-				}
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				app.errorLog(textStatus, errorThrown);
-				aDeferred.reject(textStatus, errorThrown);
-			});
+					if (row.length) {
+						row.fadeOut(300, function () {
+							var entries = row.closest('.notificationEntries')
+							row.remove();
+							entries.each(function (index) {
+								var block = $(this);
+								if (block.find(".noticeRow").length == 0) {
+									block.closest('.panel').hide();
+								}
+							});
+						});
+						thisInstance.getNotificationsForReminder();
+					}
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					app.errorLog(textStatus, errorThrown);
+					aDeferred.reject(textStatus, errorThrown);
+				});
 		return aDeferred.promise();
 	},
 	markAllNotifications: function (element) {
@@ -477,7 +477,6 @@ var Vtiger_Index_Js = {
 		var topMenuBarWidth = menuBarWrapper.parent().outerWidth();
 		var optionalBarItems = jQuery('.opttabs', menuBarWrapper), optionalBarItemsCount = optionalBarItems.length;
 		var optionalBarItemIndex = optionalBarItemsCount;
-
 		function enableOptionalTopMenuItem() {
 			var opttab = (optionalBarItemIndex > 0) ? optionalBarItems[optionalBarItemIndex - 1] : null;
 			if (opttab) {
@@ -487,7 +486,6 @@ var Vtiger_Index_Js = {
 			}
 			return opttab;
 		}
-
 		// Loop and enable hidden menu item until the tolerant width is reached.
 		var stopLoop = false;
 		do {
@@ -582,7 +580,6 @@ var Vtiger_Index_Js = {
 				lastPopover.popover('hide');
 			}
 		}
-
 		references.each(function (index, el) {
 			jQuery(el).hoverIntent({
 				interval: 100,
@@ -592,7 +589,6 @@ var Vtiger_Index_Js = {
 				out: hideAllTooltipViews
 			});
 		});
-
 		function registerToolTipDestroy() {
 			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
 				var lastPopover = lastPopovers.pop();

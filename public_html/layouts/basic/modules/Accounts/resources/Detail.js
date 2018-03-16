@@ -22,11 +22,11 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
 		} else {
 			AppConnector.request(params).then(
-				function (data) {
-					//store it in the cache, so that we dont do multiple request
-					thisInstance.accountHierarchyResponseCache = data;
-					aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
-				}
+					function (data) {
+						//store it in the cache, so that we dont do multiple request
+						thisInstance.accountHierarchyResponseCache = data;
+						aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
+					}
 			);
 		}
 		return aDeferred.promise();
@@ -43,22 +43,22 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 				action: 'SaveAjax'
 			};
 			AppConnector.request(params).then(
-				function (data) {
-					if (currentTarget.hasClass('btn-warning')) {
-						currentTarget.removeClass('btn-warning');
-						currentTarget.addClass('btn-success');
-					} else {
-						currentTarget.addClass('btn-warning');
-						currentTarget.removeClass('btn-success');
+					function (data) {
+						if (currentTarget.hasClass('btn-warning')) {
+							currentTarget.removeClass('btn-warning');
+							currentTarget.addClass('btn-success');
+						} else {
+							currentTarget.addClass('btn-warning');
+							currentTarget.removeClass('btn-success');
+						}
+						currentTarget.html(data.result[fieldname].display_value);
+						var params = {
+							title: app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+							type: 'success',
+						};
+						Vtiger_Helper_Js.showMessage(params);
 					}
-					currentTarget.html(data.result[fieldname].display_value);
-					var params = {
-						title: app.vtranslate('JS_LBL_PERMISSION'),
-						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-						type: 'success',
-					};
-					Vtiger_Helper_Js.showMessage(params);
-				}
 			);
 		});
 	},

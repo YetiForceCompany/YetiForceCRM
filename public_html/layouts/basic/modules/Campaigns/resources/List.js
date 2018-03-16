@@ -129,14 +129,14 @@ Vtiger_List_Js("Campaigns_List_Js", {}, {
 				'tab_label': tab_label
 			};
 			AppConnector.request(postData).then(
-				function (data) {
-					jQuery("#recordsCount").val(data['result']['count']);
-					count = data['result']['count'];
-					aDeferred.resolve(count);
-				},
-				function (error, err) {
+					function (data) {
+						jQuery("#recordsCount").val(data['result']['count']);
+						count = data['result']['count'];
+						aDeferred.resolve(count);
+					},
+					function (error, err) {
 
-				}
+					}
 			);
 		}
 

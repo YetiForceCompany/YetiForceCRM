@@ -567,7 +567,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			value: chart.data.datasets[0].data[dataIndex],
 		};
 		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
-			additionalFields.forEach(function (fieldName) {
+			additionalFields.forEach((fieldName) => {
 				if (typeof chart.data.datasets[datasetIndex][fieldName] !== 'undefined' && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined') {
 					eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
 				}
@@ -648,11 +648,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
-		chartData.datasets.forEach((dataset, index) = > {
+		chartData.datasets.forEach((dataset, index) => {
 			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset, this.getType(), index));
-		dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
-	})
-		;
+			dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
+		});
 		return chartData;
 	},
 	/**
@@ -707,29 +706,25 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {undefined}
 	 */
 	formatTooltipTitles: function formatTooltipTitles(data) {
-		data.datasets.forEach((dataset) = > {
-			if(typeof dataset.titlesFormatted === 'undefined'
-	)
-		{
-			dataset.titlesFormatted = [];
-			dataset.data.forEach((dataItem, index) = > {
-				let defaultLabel = data.labels[index];
-			if (!isNaN(Number(defaultLabel))) {
-				defaultLabel = app.parseNumberToShow(defaultLabel);
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.titlesFormatted === 'undefined') {
+				dataset.titlesFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let defaultLabel = data.labels[index];
+					if (!isNaN(Number(defaultLabel))) {
+						defaultLabel = app.parseNumberToShow(defaultLabel);
+					}
+					if (typeof dataset.label !== 'undefined') {
+						let label = dataset.label;
+						if (!isNaN(Number(label))) {
+							label = app.parseNumberToShow(label);
+						}
+						defaultLabel += ' (' + label + ')';
+					}
+					dataset.titlesFormatted.push(defaultLabel);
+				});
 			}
-			if (typeof dataset.label !== 'undefined') {
-				let label = dataset.label;
-				if (!isNaN(Number(label))) {
-					label = app.parseNumberToShow(label);
-				}
-				defaultLabel += ' (' + label + ')';
-			}
-			dataset.titlesFormatted.push(defaultLabel);
-		})
-			;
-		}
-	})
-		;
+		});
 	},
 	/**
 	 * Format tooltip titles to user number format and push this modification to titlesFormatted
@@ -740,22 +735,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {undefined}
 	 */
 	formatTooltipLabels: function formatTooltipTitles(data) {
-		data.datasets.forEach((dataset) = > {
-			if(typeof dataset.dataFormatted === 'undefined'
-	)
-		{
-			dataset.dataFormatted = [];
-			dataset.data.forEach((dataItem, index) = > {
-				let dataFormatted = dataItem;
-			if (!isNaN(Number(dataItem))) {
-				dataFormatted = app.parseNumberToShow(dataItem);
+		data.datasets.forEach((dataset) => {
+			if (typeof dataset.dataFormatted === 'undefined') {
+				dataset.dataFormatted = [];
+				dataset.data.forEach((dataItem, index) => {
+					let dataFormatted = dataItem;
+					if (!isNaN(Number(dataItem))) {
+						dataFormatted = app.parseNumberToShow(dataItem);
+					}
+					dataset.dataFormatted.push(dataFormatted);
+				});
 			}
-			dataset.dataFormatted.push(dataFormatted);
-		})
-			;
-		}
-	})
-		;
+		});
 	},
 	/**
 	 * Merge two objects with options and do not override existing properties
@@ -779,10 +770,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 					if (!to.hasOwnProperty(key)) {
 						to[key] = [];
 					}
-					from[key].forEach((item, index) = > {
+					from[key].forEach((item, index) => {
 						to[key][index] = this.mergeOptions(to[key][index], item);
-				})
-					;
+					});
 				} else {
 					if (!to.hasOwnProperty(key)) {
 						to[key] = from[key];
@@ -939,20 +929,17 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		if (typeof options.scales.xAxes === 'undefined') {
 			options.scales.xAxes = [{}];
 		}
-		options.scales.xAxes.forEach((axis) = > {
-			if(typeof axis.ticks === 'undefined'
-	)
-		{
-			axis.ticks = {};
-		}
-		axis.ticks.callback = function xAxisTickCallback(value, index, values) {
-			if (value.length > 13) {
-				return value.substr(0, 10) + '...';
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
 			}
-			return value;
-		}
-	})
-		;
+			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
+			}
+		});
 		return options;
 	},
 	rotateXLabels90: function (data, options) {
@@ -962,62 +949,55 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		if (typeof options.scales.xAxes === 'undefined') {
 			options.scales.xAxes = [{}];
 		}
-		options.scales.xAxes.forEach((axis) = > {
-			if(typeof axis.ticks === 'undefined'
-	)
-		{
-			axis.ticks = {};
-		}
-		axis.ticks.minRotation = 90;
-	})
-		;
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.minRotation = 90;
+		});
 		return options;
 	},
 	beforeDraw: function (chart) {
 		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) = > {
-			if(dataset._updated
-	)
-		{
-			return false;
-		}
-		for (let prop in dataset._meta) {
-			if (dataset._meta.hasOwnProperty(prop)) {
-				// we have meta
-				for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-					const metaDataItem = dataset._meta[prop].data[i];
-					const label = metaDataItem._view.label;
-					const ctx = metaDataItem._xScale.ctx;
-					const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
-					const fullWidth = ctx.measureText(label).width;
-					if (categoryWidth < fullWidth) {
-						const shortened = label.substr(0, 10) + "...";
-						const shortenedWidth = ctx.measureText(shortened).width;
-						if (categoryWidth < shortenedWidth) {
-							chart.options = this.rotateXLabels90(chart.data, chart.options);
-							chart.options = this.shortenXTicks(chart.data, chart.options);
-						} else {
-							chart.options = this.shortenXTicks(chart.data, chart.options);
-						}
-						if (!dataset._updated) {
-							dataset._updated = true;
-							chart.update();
-							// recalculate positions for smooth animation
-							dataset._meta[prop].data.forEach((metaDataItem, dataIndex) = > {
-								metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-							metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-							metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-						})
-							;
-							break;
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						const ctx = metaDataItem._xScale.ctx;
+						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
+						const fullWidth = ctx.measureText(label).width;
+						if (categoryWidth < fullWidth) {
+							const shortened = label.substr(0, 10) + "...";
+							const shortenedWidth = ctx.measureText(shortened).width;
+							if (categoryWidth < shortenedWidth) {
+								chart.options = this.rotateXLabels90(chart.data, chart.options);
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							} else {
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							}
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+								});
+								break;
+							}
 						}
 					}
+					dataset._updated = true;
 				}
-				dataset._updated = true;
 			}
-		}
-	})
-		;
+		});
 	},
 	getPlugins: function () {
 		const thisInstance = this;
@@ -1078,57 +1058,50 @@ YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 		if (typeof options.scales.yAxes === 'undefined') {
 			options.scales.yAxes = [{}];
 		}
-		options.scales.yAxes.forEach((axis) = > {
-			if(typeof axis.ticks === 'undefined'
-	)
-		{
-			axis.ticks = {};
-		}
-		axis.ticks.callback = function yAxisTickCallback(value, index, values) {
-			if (value.length > 13) {
-				return value.substr(0, 10) + '...';
+		options.scales.yAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
 			}
-			return value;
-		}
-	})
-		;
+			axis.ticks.callback = function yAxisTickCallback(value, index, values) {
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
+			}
+		});
 		return options;
 	},
 	beforeDraw: function (chart) {
 		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) = > {
-			if(dataset._updated
-	)
-		{
-			return false;
-		}
-		for (let prop in dataset._meta) {
-			if (dataset._meta.hasOwnProperty(prop)) {
-				// we have meta
-				for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-					const metaDataItem = dataset._meta[prop].data[i];
-					const label = metaDataItem._view.label;
-					if (label.length > 13) {
-						chart.options = this.shortenYTicks(chart.data, chart.options);
-						if (!dataset._updated) {
-							dataset._updated = true;
-							chart.update();
-							// recalculate positions for smooth animation
-							dataset._meta[prop].data.forEach((metaDataItem, dataIndex) = > {
-								metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-							metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-							metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-						})
-							;
-							break;
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						if (label.length > 13) {
+							chart.options = this.shortenYTicks(chart.data, chart.options);
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+								});
+								break;
+							}
 						}
 					}
+					dataset._updated = true;
 				}
-				dataset._updated = true;
 			}
-		}
-	})
-		;
+		});
 	},
 });
 YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
@@ -1723,8 +1696,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				jQuery('<span class="plus pull-left fas fa-plus"></span>')
 					.prependTo($(this))
 			}).mouseleave(function () {
-			$(this).find(".plus").remove();
-		});
+				$(this).find(".plus").remove();
+			});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {

@@ -1,5 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
+jQuery.Class('Settings_QuickCreateEditor_Js', {
+
+}, {
 	updatedBlockSequence: {},
 
 	updatedBlockFieldsList: [],
@@ -154,16 +156,16 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				//window.location.reload();
-				var params = {};
-				params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					//window.location.reload();
+					var params = {};
+					params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}
 		);
 	},
 
@@ -198,10 +200,10 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
 			thisInstance.getModuleQuickCreateEditor(selectedModule).then(
-				function (data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
-				}
+					function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					}
 			);
 		});
 
@@ -226,14 +228,14 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		params['sourceModule'] = selectedModule;
 
 		AppConnector.requestPjax(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject();
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},

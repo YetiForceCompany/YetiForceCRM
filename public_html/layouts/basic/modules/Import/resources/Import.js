@@ -371,15 +371,15 @@ if (typeof (ImportJs) == 'undefined') {
 				};
 
 				AppConnector.request(postData).then(
-					function (data) {
-						jQuery('#savedMapsContainer').html(data);
-						status.hide();
-						var parent = jQuery("#saved_maps");
-						app.changeSelectElementView(parent);
-					},
-					function (error, err) {
+						function (data) {
+							jQuery('#savedMapsContainer').html(data);
+							status.hide();
+							var parent = jQuery("#saved_maps");
+							app.changeSelectElementView(parent);
+						},
+						function (error, err) {
 
-					}
+						}
 				);
 			}
 		},

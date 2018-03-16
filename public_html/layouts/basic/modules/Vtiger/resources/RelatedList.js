@@ -68,24 +68,24 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			} else {
 				AppConnector.request(actionParams).then(
-					function (responseData) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						if (responseData && responseData.result !== null) {
-							if (responseData.result.notify) {
-								Vtiger_Helper_Js.showMessage(responseData.result.notify);
+						function (responseData) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							if (responseData && responseData.result !== null) {
+								if (responseData.result.notify) {
+									Vtiger_Helper_Js.showMessage(responseData.result.notify);
+								}
+								if (responseData.result.reloadList) {
+									Vtiger_Detail_Js.reloadRelatedList();
+								}
+								if (responseData.result.procesStop) {
+									progressIndicatorElement.progressIndicator({'mode': 'hide'});
+									return false;
+								}
 							}
-							if (responseData.result.reloadList) {
-								Vtiger_Detail_Js.reloadRelatedList();
-							}
-							if (responseData.result.procesStop) {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								return false;
-							}
+						},
+						function (error, err) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						}
-					},
-					function (error, err) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					}
 				);
 			}
 		} else {
@@ -472,9 +472,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 		var postQuickCreateSave = function (data) {
 			thisInstance.loadRelatedList().then(
-				function (data) {
-					aDeferred.resolve(data);
-				})
+					function (data) {
+						aDeferred.resolve(data);
+					})
 		}
 
 		//If url contains params then seperate them and make them as relatedParams

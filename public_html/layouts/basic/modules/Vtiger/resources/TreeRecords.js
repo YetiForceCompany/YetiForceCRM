@@ -61,10 +61,7 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 	getRecordsList: function () {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
-		var progressIndicator = jQuery.progressIndicator({
-			message: app.vtranslate('JS_LOADING_OF_RECORDS'),
-			blockInfo: {enabled: true}
-		});
+		var progressIndicator = jQuery.progressIndicator({message: app.vtranslate('JS_LOADING_OF_RECORDS'), blockInfo: {enabled: true}});
 
 		$.extend($.fn.dataTable.defaults, {
 			language: {

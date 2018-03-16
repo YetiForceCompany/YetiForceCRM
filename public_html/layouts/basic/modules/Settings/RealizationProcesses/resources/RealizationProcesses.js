@@ -1,6 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-jQuery.Class('Settings_RealizationProcesses_Js', {}, {
+jQuery.Class('Settings_RealizationProcesses_Js', {
+}, {
 	/**
 	 * Saves config to database
 	 */
@@ -20,22 +21,22 @@ jQuery.Class('Settings_RealizationProcesses_Js', {}, {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						var params = {
-							text: app.vtranslate(response.message),
-							type: 'success'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					} else {
-						var params = {
-							text: app.vtranslate(response.message),
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
+					function (data) {
+						var response = data['result'];
+						if (response['success']) {
+							var params = {
+								text: app.vtranslate(response.message),
+								type: 'success'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						} else {
+							var params = {
+								text: app.vtranslate(response.message),
+								type: 'error'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						}
 					}
-				}
 			);
 		});
 	},

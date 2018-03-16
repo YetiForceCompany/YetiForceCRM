@@ -1,7 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery(document).ready(function ($) {
 	if (window.loadInRelationTomeControl == undefined) {
-		jQuery.Class("OSSTimeControl_Calendar_Js", {}, {
+		jQuery.Class("OSSTimeControl_Calendar_Js", {
+		}, {
 			chart: false,
 			loadChart: function () {
 				var data = $('.sumaryRelatedTimeControl .widgetData').val();
@@ -30,15 +31,15 @@ jQuery(document).ready(function ($) {
 							callbacks: {
 								labelColor: function (tooltipItem, chart) {
 									return {
-										borderColor: jdata.datasets[0].backgroundColor[tooltipItem['index']],
-										backgroundColor: jdata.datasets[0].borderColor[tooltipItem['index']]
+										borderColor: jdata.datasets[0].backgroundColor[ tooltipItem['index'] ],
+										backgroundColor: jdata.datasets[0].borderColor[ tooltipItem['index'] ]
 									}
 								},
 								title: function ([tooltipItem], chart) {
-									return jdata.datasets[0].tooltips[tooltipItem['index']];
+									return jdata.datasets[0].tooltips[ tooltipItem['index'] ];
 								},
 								label: function (tooltipItem, chart) {
-									return jdata.datasets[0].data[tooltipItem['index']];
+									return jdata.datasets[0].data[ tooltipItem['index'] ];
 								}
 							}
 						},
@@ -53,10 +54,10 @@ jQuery(document).ready(function ($) {
 						maintainAspectRatio: false,
 						scales: {
 							yAxes: [{
-								ticks: {
-									beginAtZero: true
-								}
-							}]
+									ticks: {
+										beginAtZero: true
+									}
+								}]
 						}
 					}
 				});

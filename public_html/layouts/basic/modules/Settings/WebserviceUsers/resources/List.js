@@ -25,12 +25,12 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 			urlParams = {};
 		}
 		this.reloadTab(urlParams).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				});
 		return aDeferred.promise();
 	},
 	updatePagination: function (pageNumber) {
@@ -69,16 +69,16 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		var defaultParams = this.getDefaultParams();
 		var params = jQuery.extend(defaultParams, urlParams);
 		AppConnector.request(params).then(
-			function (data) {
-				tabContainer.html(data);
-				Vtiger_Header_Js.getInstance().registerFooTable();
-				thisInstance.registerPageNavigationEvents();
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				app.errorLog(textStatus, errorThrown);
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					tabContainer.html(data);
+					Vtiger_Header_Js.getInstance().registerFooTable();
+					thisInstance.registerPageNavigationEvents();
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					app.errorLog(textStatus, errorThrown);
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},

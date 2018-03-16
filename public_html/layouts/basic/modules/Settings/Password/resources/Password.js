@@ -21,17 +21,17 @@ var Settings_Password_Js = {
 			vale: vale
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response,
-					type: 'info',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-			},
-			function (data, err) {
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response,
+						type: 'info',
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (data, err) {
 
-			}
+				}
 		);
 	},
 	registerEvents: function () {

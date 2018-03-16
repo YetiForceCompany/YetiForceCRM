@@ -21,17 +21,17 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 				};
 				params.async = false;
 				AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							var el = document.getElementById("OSSPasswords_editView_fieldName_password");
-							el.value = response['password'];
-							el.onchange();
-						}
-					},
-					function (data, err) {
+						function (data) {
+							var response = data['result'];
+							if (response['success']) {
+								var el = document.getElementById("OSSPasswords_editView_fieldName_password");
+								el.value = response['password'];
+								el.onchange();
+							}
+						},
+						function (data, err) {
 
-					}
+						}
 				);
 
 				// validate password
@@ -44,24 +44,24 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-				function (data) {
-					if (data.result.success == false) {
-						var params = {
-							text: data.result.message,
-							sticker: false,
-							sticker_hover: false,
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
+					function (data) {
+						if (data.result.success == false) {
+							var params = {
+								text: data.result.message,
+								sticker: false,
+								sticker_hover: false,
+								type: 'error'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+							send = false;
+						} else {
+							send = true;
+							form.submit();
+						}
+					},
+					function (data, err) {
 						send = false;
-					} else {
-						send = true;
-						form.submit();
 					}
-				},
-				function (data, err) {
-					send = false;
-				}
 			);
 
 			if (send == false)

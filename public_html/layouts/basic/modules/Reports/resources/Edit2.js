@@ -140,16 +140,16 @@ Reports_Edit_Js("Reports_Edit2_Js", {}, {
 			}
 		});
 		AppConnector.request(formData).then(
-			function (data) {
-				form.hide();
-				progressIndicatorElement.progressIndicator({
-					'mode': 'hide'
-				});
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
+				function (data) {
+					form.hide();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					});
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -160,10 +160,7 @@ Reports_Edit_Js("Reports_Edit2_Js", {}, {
 	registerSelect2ElementForReportColumns: function () {
 		var selectElement = this.getReportsColumnsList();
 		var selectedFields = JSON.parse(this.getSelectedFields().val());
-		selectElement = app.changeSelectElementView(selectElement, 'selectize', {
-			plugins: ['drag_drop', 'remove_button'],
-			maxItems: app.getMainParams('maxReportColumn')
-		});
+		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: app.getMainParams('maxReportColumn')});
 		var selectizeInstance = selectElement[0].selectize;
 		selectizeInstance.clear();
 		for (var i in selectedFields) {

@@ -189,7 +189,8 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			containment: "#page",
 			appendTo: "body",
 			helper: "clone",
-			start: function (e, ui) {
+			start: function (e, ui)
+			{
 				$(ui.helper).addClass(classes);
 			},
 			zIndex: 99999
@@ -222,7 +223,8 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			}
 		});
 	},
-	registerReAlign: function () {
+	registerReAlign: function ()
+	{
 
 		var params = {
 			'mode': 'realignSettingsShortCutBlock',
@@ -300,26 +302,26 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				};
 				container.progressIndicator({});
 				AppConnector.request(params).then(function (data) {
-						container.progressIndicator({mode: 'hide'});
-						if (data.result.success == false) {
-							var errorDiv = container.find('.errorMsg');
-							errorDiv.removeClass('d-none');
-							errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
-						} else {
-							app.hideModalWindow();
-							thisInstance.reloadContent();
-							var params = {
-								title: app.vtranslate('JS_LBL_PERMISSION'),
-								text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
-								type: 'success',
-							};
-							Vtiger_Helper_Js.showMessage(params);
-						}
-					},
-					function (error, err) {
-						container.progressIndicator({mode: 'hide'});
+					container.progressIndicator({mode: 'hide'});
+					if (data.result.success == false) {
+						var errorDiv = container.find('.errorMsg');
+						errorDiv.removeClass('d-none');
+						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
+					} else {
 						app.hideModalWindow();
-					});
+						thisInstance.reloadContent();
+						var params = {
+							title: app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
+							type: 'success',
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+				},
+						function (error, err) {
+							container.progressIndicator({mode: 'hide'});
+							app.hideModalWindow();
+						});
 			}
 
 		});
@@ -500,10 +502,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var thisInstance = this;
 		var selected = thisInstance.getSelectedFolders();
 		var container = $('#warningsContent');
-		var progressIndicator = jQuery.progressIndicator({
-			message: app.vtranslate('JS_LOADING_OF_RECORDS'),
-			blockInfo: {enabled: true}
-		});
+		var progressIndicator = jQuery.progressIndicator({message: app.vtranslate('JS_LOADING_OF_RECORDS'), blockInfo: {enabled: true}});
 		var active = $('.warningsIndexPage input.switchBtn').bootstrapSwitch('state');
 		AppConnector.request({
 			module: app.getModuleName(),

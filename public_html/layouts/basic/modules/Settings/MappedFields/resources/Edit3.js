@@ -60,9 +60,9 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 		var saveData = form.serializeFormData();
 		saveData['step'] = 3;
 		app.saveAjax('step1', saveData).then(function (data) {
-				if (data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
-					AppConnector.request(formData).then(
+			if (data.success == true) {
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
+				AppConnector.request(formData).then(
 						function (data) {
 							form.hide();
 							progressIndicatorElement.progressIndicator({
@@ -73,9 +73,9 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 						function (error, err) {
 							app.errorLog(error, err);
 						}
-					);
-				}
+				);
 			}
+		}
 		);
 		return aDeferred.promise();
 	},

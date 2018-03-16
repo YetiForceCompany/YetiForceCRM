@@ -9,18 +9,18 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 	},
 	saveAjax: function (mode, params) {
 		app.saveAjax(mode, params).then(
-			function (data) {
-				var response = data.result;
-				var params = {
-					text: app.vtranslate(response.message),
-					type: 'info'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-			},
-			function (textStatus, errorThrown) {
-				Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION')});
-				app.errorLog(textStatus, errorThrown);
-			}
+				function (data) {
+					var response = data.result;
+					var params = {
+						text: app.vtranslate(response.message),
+						type: 'info'
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (textStatus, errorThrown) {
+					Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION')});
+					app.errorLog(textStatus, errorThrown);
+				}
 		);
 	},
 	registerSwitchEvents: function () {

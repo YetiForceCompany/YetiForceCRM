@@ -269,7 +269,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			html += '</select>';
 			return jQuery(html);
 		} else {
-			return jQuery(fieldModel.getUiTypeSpecificHtml());
+			return  jQuery(fieldModel.getUiTypeSpecificHtml());
 		}
 	},
 	/**
@@ -305,7 +305,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'categoryMultipicklist']) > -1) {
 			fieldName = fieldName + "[]";
 		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1) &&
-			fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
+				fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
 			fieldName = fieldName + "[]";
 		}
 
@@ -384,15 +384,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			//data attribute will not be present while attaching validation engine events . so we are
 			//depending on the fallback option which is class
 			fieldSpecificElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-				.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-				.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
+					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
+					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
 			if (typeof validator != 'undefined') {
 				fieldSpecificElement.attr('data-validator', validator);
 			}
 		} else {
 			fieldSpecificElement.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-				.removeAttr('data-validation-engine')
-				.removeAttr('data-fieldinfo');
+					.removeAttr('data-validation-engine')
+					.removeAttr('data-fieldinfo');
 		}
 		return this;
 	},
@@ -632,21 +632,29 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	}
 });
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Modules_Field_Js', {}, {});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Modules_Field_Js', {}, {
+});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {
+});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Filelocationtype_Field_Js', {}, {});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Filelocationtype_Field_Js', {}, {
+});
 
-Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {});
+Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {
+});
 
-Vtiger_Multipicklist_Field_Js('AdvanceFilter_Categorymultipicklist_Field_Js', {}, {});
+Vtiger_Multipicklist_Field_Js('AdvanceFilter_Categorymultipicklist_Field_Js', {}, {
+});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Languages_Field_Js', {}, {});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Languages_Field_Js', {}, {
+});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Currencylist_Field_Js', {}, {});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Currencylist_Field_Js', {}, {
+});
 
-AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Taxes_Field_Js', {}, {});
+AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Taxes_Field_Js', {}, {
+});
 
 Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	getUi: function () {
@@ -690,11 +698,14 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	}
 });
 
-Vtiger_Multireferencevalue_Field_Js('AdvanceFilter_Multireferencevalue_Field_Js', {}, {});
+Vtiger_Multireferencevalue_Field_Js('AdvanceFilter_Multireferencevalue_Field_Js', {}, {
+});
 
-AdvanceFilter_Owner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {});
+AdvanceFilter_Owner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {
+});
 
-AdvanceFilter_Owner_Field_Js('AdvanceFilter_Usercreator_Field_Js', {}, {});
+AdvanceFilter_Owner_Field_Js('AdvanceFilter_Usercreator_Field_Js', {}, {
+});
 Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 	/**
 	 * Function to get the ui
@@ -746,7 +757,7 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 			if (dateValue[1] == '00:00:00') {
 				dateTimeFieldValue = dateValue[0];
 			} else if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n' ||
-				comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
+					comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
 				var dateTimeArray = dateTimeFieldValue.split(' ');
 				dateTimeFieldValue = dateTimeArray[0];
 			}
@@ -757,4 +768,5 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 });
 
 
-AdvanceFilter_Date_Field_Js('AdvanceFilter_Datetime_Field_Js', {}, {});
+AdvanceFilter_Date_Field_Js('AdvanceFilter_Datetime_Field_Js', {}, {
+});

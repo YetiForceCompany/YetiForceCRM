@@ -85,8 +85,7 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 		}
 		yMaxValue = yMaxValue + (yMaxValue * 0.15);
 
-		return {
-			'chartData': chartData,
+		return {'chartData': chartData,
 			'yMaxValue': yMaxValue,
 			'labels': data['labels'],
 			'data_labels': data['data_labels'],
@@ -152,12 +151,7 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 			chartData[i].push(data['labels'][i]);
 			chartData[i].push(values[i]);
 		}
-		return {
-			'chartData': chartData,
-			'labels': data['labels'],
-			'data_labels': data['data_labels'],
-			'title': data['graph_label']
-		};
+		return {'chartData': chartData, 'labels': data['labels'], 'data_labels': data['data_labels'], 'title': data['graph_label']};
 	}
 
 });
@@ -184,8 +178,7 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 		}
 		yMaxValue = yMaxValue + yMaxValue * 0.15;
 
-		return {
-			'chartData': chartData,
+		return {'chartData': chartData,
 			'yMaxValue': yMaxValue,
 			'labels': data['labels'],
 			'data_labels': data['data_labels'],
@@ -270,8 +263,7 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 		}
 		yMaxValue = yMaxValue + (yMaxValue * 0.15);
 
-		return {
-			'chartData': chartData,
+		return {'chartData': chartData,
 			'yMaxValue': yMaxValue,
 			'labels': data['labels'],
 			'data_labels': data['data_labels'],

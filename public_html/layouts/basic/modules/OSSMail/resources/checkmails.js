@@ -10,7 +10,6 @@ jQuery(function () {
 		registerUserList();
 	}
 });
-
 function registerUserList() {
 	var selectUsers = $('#OSSMailBoxInfo select');
 	if (selectUsers.data('select2')) {
@@ -23,13 +22,13 @@ function registerUserList() {
 				'user': $(this).val(),
 			};
 			AppConnector.request(params).then(
-				function (response) {
-					if (app.getModuleName() == 'OSSMail') {
-						location.reload();
-					} else {
-						window.location.href = "index.php?module=OSSMail&view=Index";
+					function (response) {
+						if (app.getModuleName() == 'OSSMail') {
+							location.reload();
+						} else {
+							window.location.href = "index.php?module=OSSMail&view=Index";
+						}
 					}
-				}
 			);
 		});
 	}
@@ -63,7 +62,6 @@ function registerUserList() {
 		selectUsers.trigger('change');
 	});
 }
-
 function startCheckMails() {
 	var users = [];
 	var timeCheckingMails = $('#OSSMailBoxInfo').data('interval');
@@ -81,7 +79,6 @@ function startCheckMails() {
 		}, timeCheckingMails * 1000);
 	}
 }
-
 function checkMails(users) {
 	var params = {
 		'module': 'OSSMail',
@@ -90,39 +87,38 @@ function checkMails(users) {
 	};
 	var reloadSelect = false;
 	AppConnector.request(params).then(
-		function (response) {
-			if (response.success && response.success.error != true && response.result.error != true) {
-				var result = response.result;
-				$("#OSSMailBoxInfo .noMails").each(function (index) {
-					var element = jQuery(this);
-					var id = element.data('id');
-					if (jQuery.inArray(id, result)) {
-						var num = result[id];
-						if (element.is('option')) {
-							element.data('nomail', num);
-							reloadSelect = true;
-						} else {
-							var text = '';
-							if (num > 0) {
-								text = '(' + num + ')';
+			function (response) {
+				if (response.success && response.success.error != true && response.result.error != true) {
+					var result = response.result;
+					$("#OSSMailBoxInfo .noMails").each(function (index) {
+						var element = jQuery(this);
+						var id = element.data('id');
+						if (jQuery.inArray(id, result)) {
+							var num = result[id];
+							if (element.is('option')) {
+								element.data('nomail', num);
+								reloadSelect = true;
+							} else {
+								var text = '';
+								if (num > 0) {
+									text = '(' + num + ')';
+								}
+								element.text(text);
 							}
-							element.text(text);
 						}
+					});
+					if (reloadSelect) {
+						registerUserList();
 					}
-				});
-				if (reloadSelect) {
-					registerUserList();
+				} else {
+					window.stopScanMails = true;
 				}
-			} else {
+			},
+			function (data, err) {
 				window.stopScanMails = true;
 			}
-		},
-		function (data, err) {
-			window.stopScanMails = true;
-		}
 	);
 }
-
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {

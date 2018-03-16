@@ -6,7 +6,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_Popup_Js("Products_PriceBookProductPopup_Js", {}, {
+Vtiger_Popup_Js("Products_PriceBookProductPopup_Js", {
+
+}, {
 	/**
 	 * Function to register event for enabling list price
 	 */
@@ -87,16 +89,16 @@ Vtiger_Popup_Js("Products_PriceBookProductPopup_Js", {}, {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		this._super(params).then(
-			function (data) {
-				thisInstance.popupSlimScroll();
-				var form = jQuery('#popupPage');
-				form.validationEngine('detach');
-				form.validationEngine('attach');
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					thisInstance.popupSlimScroll();
+					var form = jQuery('#popupPage');
+					form.validationEngine('detach');
+					form.validationEngine('attach');
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -111,15 +113,15 @@ Vtiger_Popup_Js("Products_PriceBookProductPopup_Js", {}, {
 			return;
 		}
 		this._super(headerElement).then(
-			function (data) {
-				thisInstance.popupSlimScroll();
-				var form = jQuery('#popupPage');
-				form.validationEngine('detach');
-				form.validationEngine('attach');
-			},
-			function (textStatus, errorThrown) {
+				function (data) {
+					thisInstance.popupSlimScroll();
+					var form = jQuery('#popupPage');
+					form.validationEngine('detach');
+					form.validationEngine('attach');
+				},
+				function (textStatus, errorThrown) {
 
-			}
+				}
 		);
 	},
 

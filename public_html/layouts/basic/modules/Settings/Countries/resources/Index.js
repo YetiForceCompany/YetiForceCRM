@@ -37,7 +37,7 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				if (data.success && data.result) {
 					element.data('status', status)
 					element.toggleClass('btn-success')
-						.toggleClass('btn-danger');
+							.toggleClass('btn-danger');
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
@@ -63,7 +63,7 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				if (data.success && data.result) {
 					element.data('phone', phone)
 					element.toggleClass('btn-success')
-						.toggleClass('btn-danger');
+							.toggleClass('btn-danger');
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
@@ -89,7 +89,7 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				if (data.success && data.result) {
 					element.data('uitype', uitype)
 					element.toggleClass('btn-success')
-						.toggleClass('btn-danger');
+							.toggleClass('btn-danger');
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),

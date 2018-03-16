@@ -331,21 +331,21 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			Vtiger_Helper_Js.showConfirmationBox({
 				'message': message
 			}).then(
-				function () {
-					var currentElement = jQuery(e.currentTarget);
-					var deleteUrl = currentElement.data('deleteurl');
-					AppConnector.request(deleteUrl).then(function (data) {
-						if (data.result == 'ok') {
-							thisInstance.getTaskList();
-							var params = {
-								title: app.vtranslate('JS_MESSAGE'),
-								text: app.vtranslate('JS_TASK_DELETED_SUCCESSFULLY'),
-								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						}
+					function () {
+						var currentElement = jQuery(e.currentTarget);
+						var deleteUrl = currentElement.data('deleteurl');
+						AppConnector.request(deleteUrl).then(function (data) {
+							if (data.result == 'ok') {
+								thisInstance.getTaskList();
+								var params = {
+									title: app.vtranslate('JS_MESSAGE'),
+									text: app.vtranslate('JS_TASK_DELETED_SUCCESSFULLY'),
+									type: 'success'
+								};
+								Vtiger_Helper_Js.showPnotify(params);
+							}
+						});
 					});
-				});
 		});
 	},
 	registerFillTaskFromEmailFieldEvent: function () {
@@ -544,7 +544,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	 */
 	getFieldSpecificUi: function (fieldSelectElement) {
 		var fieldModel = this.fieldModelInstance;
-		return jQuery(fieldModel.getUiTypeSpecificHtml())
+		return  jQuery(fieldModel.getUiTypeSpecificHtml())
 	},
 	registerVTCreateEventTaskEvents: function () {
 		app.registerEventForClockPicker();

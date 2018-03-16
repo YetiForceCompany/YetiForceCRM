@@ -30,26 +30,26 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 		data.action = 'SaveAjax';
 
 		AppConnector.request(data).then(
-			function (data) {
-				if (data['success']) {
-					var OutgoingServerDetailUrl = form.data('detailUrl');
-					//after save, load detail view contents and register events
-					thisInstance.loadContents(OutgoingServerDetailUrl).then(
-						function (data) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							thisInstance.registerDetailViewEvents();
-						},
-						function (error, err) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						}
-					);
-				} else {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					jQuery('.errorMessage', form).removeClass('d-none');
+				function (data) {
+					if (data['success']) {
+						var OutgoingServerDetailUrl = form.data('detailUrl');
+						//after save, load detail view contents and register events
+						thisInstance.loadContents(OutgoingServerDetailUrl).then(
+								function (data) {
+									progressIndicatorElement.progressIndicator({'mode': 'hide'});
+									thisInstance.registerDetailViewEvents();
+								},
+								function (error, err) {
+									progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								}
+						);
+					} else {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						jQuery('.errorMessage', form).removeClass('d-none');
+					}
+				},
+				function (error, errorThrown) {
 				}
-			},
-			function (error, errorThrown) {
-			}
 		);
 	},
 
@@ -64,9 +64,9 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 		//To Auto-Generate Vtiger Secret Key
 		var url = 'index.php?module=PBXManager&parent=Settings&action=Gateway&mode=getSecretKey';
 		AppConnector.request(url).then(
-			function (data) {
-				jQuery("input[name='vtigersecretkey']").attr("value", data.result);
-			}
+				function (data) {
+					jQuery("input[name='vtigersecretkey']").attr("value", data.result);
+				}
 		);
 		//END
 
@@ -96,14 +96,14 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 			});
 
 			thisInstance.loadContents(OutgoingServerDetailUrl).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					//after loading contents, register the events
-					thisInstance.registerDetailViewEvents();
-				},
-				function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						//after loading contents, register the events
+						thisInstance.registerDetailViewEvents();
+					},
+					function (error, err) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					}
 			);
 		});
 		//END
@@ -128,14 +128,14 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 			});
 
 			thisInstance.loadContents(url).then(
-				function (data) {
-					//after load the contents register the edit view events
-					thisInstance.registerEditViewEvents();
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				},
-				function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
+					function (data) {
+						//after load the contents register the edit view events
+						thisInstance.registerEditViewEvents();
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					},
+					function (error, err) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					}
 			);
 		});
 	},
@@ -146,13 +146,13 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 	loadContents: function (url) {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.requestPjax(url).then(
-			function (data) {
-				jQuery('.contentsDiv').html(data);
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
-				aDeferred.reject();
-			}
+				function (data) {
+					jQuery('.contentsDiv').html(data);
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},

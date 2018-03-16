@@ -87,12 +87,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		var aDeferred = jQuery.Deferred();
 		var quickCreateSaveUrl = form.serializeFormData();
 		AppConnector.request(quickCreateSaveUrl).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -445,9 +445,9 @@ jQuery.Class("Vtiger_Header_Js", {
 				},
 				_renderItem: function (ul, item) {
 					return $("<li>")
-						.data("item.autocomplete", item)
-						.append($("<a href='#'></a>").html(item.label))
-						.appendTo(ul);
+							.data("item.autocomplete", item)
+							.append($("<a href='#'></a>").html(item.label))
+							.appendTo(ul);
 				},
 			});
 			jQuery('.globalSearchValue').gsAutocomplete({
@@ -697,7 +697,8 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		$('textarea').on('keyup', function () {
 			var elem = $(this);
-			if (!elem.data('has-scroll')) {
+			if (!elem.data('has-scroll'))
+			{
 				elem.data('has-scroll', true);
 				elem.bind('scroll keyup', function () {
 					thisInstance.resizeTextArea($(this));
@@ -760,10 +761,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.registerMobileEvents();
 
 		if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({
-				'max-height': '350px',
-				'overflow-y': 'scroll'
-			});
+			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({'max-height': '350px', 'overflow-y': 'scroll'});
 		} else {
 			app.showScrollBar(jQuery('#basicSearchModulesList_chosen').find('.chzn-results'), {
 				height: '450px',

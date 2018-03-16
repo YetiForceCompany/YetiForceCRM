@@ -393,12 +393,12 @@ jQuery.Class("Vtiger_Edit_Js", {
 		}
 
 		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		)
 		return aDeferred.promise();
 	},
@@ -542,16 +542,16 @@ jQuery.Class("Vtiger_Edit_Js", {
 			url += '&parent=Settings';
 		}
 		AppConnector.request(url).then(
-			function (data) {
-				if (data['success']) {
-					aDeferred.resolve(data);
-				} else {
-					aDeferred.reject(data['message']);
+				function (data) {
+					if (data['success']) {
+						aDeferred.resolve(data);
+					} else {
+						aDeferred.reject(data['message']);
+					}
+				},
+				function (error) {
+					aDeferred.reject();
 				}
-			},
-			function (error) {
-				aDeferred.reject();
-			}
 		)
 		return aDeferred.promise();
 	},
@@ -860,13 +860,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 	copyAddressDetailsRef: function (data, container) {
 		var thisInstance = this;
 		thisInstance.getRecordDetails(data).then(
-			function (data) {
-				var response = data['result'];
-				thisInstance.mapAddressDetails(response, container);
-			},
-			function (error, err) {
+				function (data) {
+					var response = data['result'];
+					thisInstance.mapAddressDetails(response, container);
+				},
+				function (error, err) {
 
-			});
+				});
 	},
 	mapAddressDetails: function (result, container) {
 		for (var key in result) {
@@ -1173,7 +1173,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 
 		if (apiData["opencage_data"]) {
-			return jQuery.ajax({
+			return  jQuery.ajax({
 				url: apiData["opencage_data"].geoCodeURL,
 				data: {
 					format: "json",
@@ -1315,9 +1315,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 			jQuery(this).autocomplete({
 				source: function (request, response) {
 					jQuery.when(
-						thisInstance.getDataFromOG(request, apiData),
-						thisInstance.getDataFromGM(request, apiData)
-					).then(function (og, gm) {
+							thisInstance.getDataFromOG(request, apiData),
+							thisInstance.getDataFromGM(request, apiData)
+
+							).then(function (og, gm) {
 
 						var result = thisInstance.addressDataOG.concat(thisInstance.addressDataGM);
 
@@ -1340,10 +1341,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 				}
 			}).data("ui-autocomplete")._renderItem = function (ul, item) {
 				return jQuery("<li>")
-					.data("item.autocomplete", item)
-					.append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/basic/images/' +
-						item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
-					.appendTo(ul);
+						.data("item.autocomplete", item)
+						.append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/basic/images/' +
+								item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
+						.appendTo(ul);
 			};
 		});
 	},

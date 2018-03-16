@@ -307,9 +307,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			},
 			_renderItem: function (ul, item) {
 				return $("<li>")
-					.data("item.autocomplete", item)
-					.append($("<a></a>").html(item.label))
-					.appendTo(ul);
+						.data("item.autocomplete", item)
+						.append($("<a></a>").html(item.label))
+						.appendTo(ul);
 			},
 		});
 		searchValue.ivAutocomplete({

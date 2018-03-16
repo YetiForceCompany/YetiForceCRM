@@ -80,15 +80,15 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		}
 		var progressInstance = jQuery.progressIndicator();
 		AppConnector.request(searchableModulesParams).then(
-			function (data) {
-				progressInstance.hide();
-				//add to cache
-				Vtiger_AdvanceSearch_Js.cache[searchModule] = data;
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
-				aDeferred.reject(error);
-			}
+				function (data) {
+					progressInstance.hide();
+					//add to cache
+					Vtiger_AdvanceSearch_Js.cache[searchModule] = data;
+					aDeferred.resolve(data);
+				},
+				function (error, err) {
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -106,16 +106,16 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			aDeferred.resolve();
 		};
 		thisInstance.getAdvanceSearch().then(
-			function (data) {
-				var params = {};
-				params.data = data;
-				params.cb = postLoad;
-				app.hideModalWindow();
-				app.showModalWindow(params);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					var params = {};
+					params.data = data;
+					params.cb = postLoad;
+					app.hideModalWindow();
+					app.showModalWindow(params);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -182,9 +182,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			aDeferred.resolve(data);
 		};
 		var html = '<div class="row">' +
-			'<span class="col-md-4 searchHolder"></span>' +
-			'<span class="col-md-8 filterHolder marginLeftZero d-none"></span>' +
-			'</div>';
+				'<span class="col-md-4 searchHolder"></span>' +
+				'<span class="col-md-8 filterHolder marginLeftZero d-none"></span>' +
+				'</div>';
 		var jQhtml = jQuery(html);
 		jQuery('.searchHolder', jQhtml).html(data);
 
@@ -227,13 +227,13 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	 */
 	saveAndViewFilter: function (params) {
 		this.saveFilter(params).then(
-			function (response) {
-				var url = response['result']['listviewurl'];
-				window.location.href = url;
-			},
-			function (error) {
+				function (response) {
+					var url = response['result']['listviewurl'];
+					window.location.href = url;
+				},
+				function (error) {
 
-			}
+				}
 		);
 	},
 	/**
@@ -331,16 +331,16 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			//If no module is selected
 			if (searchModule.length <= 0) {
 				app.getChosenElementFromSelect(jQuery('#searchModuleList'))
-					.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true)
+						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true)
 				return;
 			}
 			thisInstance.performValidation().then(
-				function () {
-					thisInstance.performSearch();
-				},
-				function () {
+					function () {
+						thisInstance.performSearch();
+					},
+					function () {
 
-				}
+					}
 			);
 		});
 
@@ -365,7 +365,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			//If no module is selected
 			if (searchModule.length <= 0) {
 				app.getChosenElementFromSelect(jQuery('#searchModuleList'))
-					.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true)
+						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true)
 				return;
 			}
 

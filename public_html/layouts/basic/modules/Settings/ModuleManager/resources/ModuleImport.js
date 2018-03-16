@@ -6,7 +6,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-jQuery.Class('Settings_Module_Import_Js', {}, {
+jQuery.Class('Settings_Module_Import_Js', {
+
+}, {
 	/**
 	 * Function to get import module step1 params
 	 */
@@ -32,14 +34,14 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 		});
 
 		AppConnector.request(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -146,6 +148,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 		this.registerEventForStep1();
 	}
 });
+
 
 
 jQuery(document).ready(function () {

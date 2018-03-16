@@ -63,14 +63,14 @@ jQuery.Class("Vtiger_CkEditor_Js", {}, {
 					editor.on('blur', function () {
 						editor.updateElement();
 					});
-				}
-			}
+				}}
 		};
 
 		if (typeof customConfig != 'undefined') {
 			config = jQuery.extend(config, customConfig);
 		}
-		if (instance) {
+		if (instance)
+		{
 			CKEDITOR.remove(instance);
 		}
 		CKEDITOR.replace(elementName, config);

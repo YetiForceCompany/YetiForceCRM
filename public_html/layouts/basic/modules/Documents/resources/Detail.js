@@ -18,9 +18,9 @@ Vtiger_Detail_Js("Documents_Detail_Js", {
 	 */
 	checkFileIntegrity: function (checkFileIntegrityUrl) {
 		Documents_Detail_Js.getFileIntegrityResponse(checkFileIntegrityUrl).then(
-			function (data) {
-				Documents_Detail_Js.displayCheckFileIntegrityResponse(data);
-			}
+				function (data) {
+					Documents_Detail_Js.displayCheckFileIntegrityResponse(data);
+				}
 		);
 	},
 
@@ -35,11 +35,11 @@ Vtiger_Detail_Js("Documents_Detail_Js", {
 			aDeferred.resolve(Documents_Detail_Js.checkFileIntegrityResponseCache);
 		} else {
 			AppConnector.request(params).then(
-				function (data) {
-					//store it in the cache, so that we dont do multiple request
-					Documents_Detail_Js.checkFileIntegrityResponseCache = data;
-					aDeferred.resolve(Documents_Detail_Js.checkFileIntegrityResponseCache);
-				}
+					function (data) {
+						//store it in the cache, so that we dont do multiple request
+						Documents_Detail_Js.checkFileIntegrityResponseCache = data;
+						aDeferred.resolve(Documents_Detail_Js.checkFileIntegrityResponseCache);
+					}
 			);
 		}
 		return aDeferred.promise();

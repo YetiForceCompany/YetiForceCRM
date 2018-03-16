@@ -61,12 +61,12 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		params['view'] = 'IndexAjax';
 		params['mode'] = 'showRules';
 		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject(error);
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -85,14 +85,14 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		}
 
 		AppConnector.request(data).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error, errorThrown) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error, errorThrown) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject(error);
+				}
 		)
 
 		return aDeferred.promise();
@@ -121,13 +121,13 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		data.mode = 'saveRule';
 
 		AppConnector.request(data).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.hideModalWindow();
-				thisInstance.displaySaveCustomRuleResponse(data);
-				var moduleName = jQuery('[name="for_module"]', form).val();
-				thisInstance.loadCustomRulesList(moduleName);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					app.hideModalWindow();
+					thisInstance.displaySaveCustomRuleResponse(data);
+					var moduleName = jQuery('[name="for_module"]', form).val();
+					thisInstance.loadCustomRulesList(moduleName);
+				}
 		);
 	},
 
@@ -139,13 +139,13 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		var contentTable = this.getContentTable();
 
 		thisInstance.getCustomRules(moduleName).then(
-			function (data) {
-				var customRuleListContainer = jQuery('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
-				customRuleListContainer.find('td.customRuleContainer').html(data);
-			},
-			function (error) {
+				function (data) {
+					var customRuleListContainer = jQuery('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
+					customRuleListContainer.find('td.customRuleContainer').html(data);
+				},
+				function (error) {
 
-			}
+				}
 		);
 	},
 
@@ -212,7 +212,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		var currentRow = deleteElement.closest('tr.customRuleEntries');
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(deleteUrl).then(
+			AppConnector.request(deleteUrl).then(
 					function (data) {
 						if (data.success == true) {
 							currentRow.fadeOut('slow');
@@ -238,9 +238,9 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 							Vtiger_Helper_Js.showPnotify(data.error.message);
 						}
 					});
-			},
-			function (error, err) {
-			}
+		},
+				function (error, err) {
+				}
 		);
 	},
 
@@ -316,15 +316,15 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			});
 
 			thisInstance.getCustomRules(moduleName).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					thisInstance.showCustomRulesNextToElement(trElement, data);
-					element.find('button.arrowDown').addClass('d-none');
-					element.find('button.arrowUp').removeClass('d-none').show();
-				},
-				function (error) {
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						thisInstance.showCustomRulesNextToElement(trElement, data);
+						element.find('button.arrowDown').addClass('d-none');
+						element.find('button.arrowUp').removeClass('d-none').show();
+					},
+					function (error) {
 
-				}
+					}
 			);
 		});
 
@@ -349,17 +349,17 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var form = jQuery(e.currentTarget);
 			var data = form.serializeFormData();
 			thisInstance.save(data).then(
-				function (data) {
-					contentContainer.find('button:submit').addClass('d-none');
-					thisInstance.registerSharingAccessEdit();
-					var params = {
-						text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),
-						type: 'success'
-					};
-					thisInstance.showNotify(params);
-				},
-				function (error, err) {
-				}
+					function (data) {
+						contentContainer.find('button:submit').addClass('d-none');
+						thisInstance.registerSharingAccessEdit();
+						var params = {
+							text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),
+							type: 'success'
+						};
+						thisInstance.showNotify(params);
+					},
+					function (error, err) {
+					}
 			);
 		});
 	}

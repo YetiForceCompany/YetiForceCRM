@@ -384,19 +384,19 @@ app = {
 				params.tags = true;
 			}
 			select.select2(params)
-				.on("select2:open", function (e) {
-					if (select.data('unselecting')) {
-						select.removeData('unselecting');
-						setTimeout(function (e) {
-							select.each(function () {
-								jQuery(this).select2('close');
-							});
-						}, 1);
-					}
-					var element = jQuery(e.currentTarget);
-					var instance = element.data('select2');
-					instance.$dropdown.css('z-index', 1000002);
-				}).on("select2:unselect", function (e) {
+					.on("select2:open", function (e) {
+						if (select.data('unselecting')) {
+							select.removeData('unselecting');
+							setTimeout(function (e) {
+								select.each(function () {
+									jQuery(this).select2('close');
+								});
+							}, 1);
+						}
+						var element = jQuery(e.currentTarget);
+						var instance = element.data('select2');
+						instance.$dropdown.css('z-index', 1000002);
+					}).on("select2:unselect", function (e) {
 				select.data('unselecting', true);
 			});
 		})
@@ -575,11 +575,11 @@ app = {
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop
-					.on('focusin.bs.modal', $.proxy(function (e) {
-						if ($(e.target).hasClass('select2-search__field')) {
-							return true;
-						}
-					}, this))
+						.on('focusin.bs.modal', $.proxy(function (e) {
+							if ($(e.target).hasClass('select2-search__field')) {
+								return true;
+							}
+						}, this))
 			};
 			var modalContainer = container.find('.modal:first');
 			modalContainer.modal(params);
@@ -1349,15 +1349,19 @@ app = {
 	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(" " + c_name + "=");
-		if (c_start == -1) {
+		if (c_start == -1)
+		{
 			c_start = c_value.indexOf(c_name + "=");
 		}
-		if (c_start == -1) {
+		if (c_start == -1)
+		{
 			c_value = null;
-		} else {
+		} else
+		{
 			c_start = c_value.indexOf("=", c_start) + 1;
 			var c_end = c_value.indexOf(";", c_start);
-			if (c_end == -1) {
+			if (c_end == -1)
+			{
 				c_end = c_value.length;
 			}
 			c_value = unescape(c_value.substring(c_start, c_end));
@@ -1392,11 +1396,11 @@ app = {
 	},
 	formatDate: function (date) {
 		var y = date.getFullYear(),
-			m = date.getMonth() + 1,
-			d = date.getDate(),
-			h = date.getHours(),
-			i = date.getMinutes(),
-			s = date.getSeconds();
+				m = date.getMonth() + 1,
+				d = date.getDate(),
+				h = date.getHours(),
+				i = date.getMinutes(),
+				s = date.getSeconds();
 		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
 	},
 	formatDateZ: function (i) {
@@ -1424,12 +1428,12 @@ app = {
 			}
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -1729,7 +1733,7 @@ jQuery(document).ready(function () {
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
-		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+		return  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 	}
 	// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
@@ -1794,4 +1798,6 @@ jQuery(document).ready(function () {
 	}
 })(jQuery);
 jQuery.migrateMute = true;
-App = {}
+App = {
+
+}

@@ -28,22 +28,22 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 				};
 				params.dataType = 'json';
 				AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (data['success']) {
-							var records = response.ok;
-							thisInstance.summary(container, response);
-							document.progressLoader.progressIndicator({'mode': 'hide'});
-							if (method.val() == 1) {
-								for (var i in records) {
-									var win = window.open(actionUrl + records[i], '_blank');
+						function (data) {
+							var response = data['result'];
+							if (data['success']) {
+								var records = response.ok;
+								thisInstance.summary(container, response);
+								document.progressLoader.progressIndicator({'mode': 'hide'});
+								if (method.val() == 1) {
+									for (var i in records) {
+										var win = window.open(actionUrl + records[i], '_blank');
+									}
 								}
 							}
+						},
+						function (data, err) {
+							app.errorLog(data, err);
 						}
-					},
-					function (data, err) {
-						app.errorLog(data, err);
-					}
 				);
 			}
 		});

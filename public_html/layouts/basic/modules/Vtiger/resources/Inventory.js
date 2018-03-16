@@ -503,11 +503,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateDiscount: function (row, modal) {
 		var netPriceBeforeDiscount = app.parseNumberToFloat(modal.find('.valueTotalPrice').text()),
-			valuePrices = netPriceBeforeDiscount,
-			globalDiscount = 0,
-			groupDiscount = 0,
-			individualDiscount = 0,
-			valueDiscount = 0;
+				valuePrices = netPriceBeforeDiscount,
+				globalDiscount = 0,
+				groupDiscount = 0,
+				individualDiscount = 0,
+				valueDiscount = 0;
 
 		var discountsType = modal.find('.discountsType').val();
 
@@ -557,11 +557,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateTax: function (row, modal) {
 		var netPriceWithoutTax = app.parseNumberToFloat(modal.find('.valueNetPrice').text()),
-			valuePrices = netPriceWithoutTax,
-			globalTax = 0,
-			groupTax = 0,
-			regionalTax = 0,
-			individualTax = 0;
+				valuePrices = netPriceWithoutTax,
+				globalTax = 0,
+				groupTax = 0,
+				regionalTax = 0,
+				individualTax = 0;
 
 		var taxType = modal.find('.taxsType').val();
 		if (taxType == '0' || taxType == '1') {
@@ -679,20 +679,20 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var progressInstace = jQuery.progressIndicator();
 		}
 		AppConnector.request(subProrductParams).then(
-			function (data) {
-				var responseData = data.result;
-				thisInstance.subProductsCashe[recordId] = responseData;
-				thisInstance.addSubProducts(parentRow, responseData);
-				if (progressInstace) {
-					progressInstace.hide();
+				function (data) {
+					var responseData = data.result;
+					thisInstance.subProductsCashe[recordId] = responseData;
+					thisInstance.addSubProducts(parentRow, responseData);
+					if (progressInstace) {
+						progressInstace.hide();
+					}
+				},
+				function (error, err) {
+					if (progressInstace) {
+						progressInstace.hide();
+					}
+					console.error(error, err);
 				}
-			},
-			function (error, err) {
-				if (progressInstace) {
-					progressInstace.hide();
-				}
-				console.error(error, err);
-			}
 		);
 	},
 	removeSubProducts: function (parentRow) {
@@ -946,18 +946,17 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		params.dataType = 'json';
 		var progressInstace = jQuery.progressIndicator();
 		AppConnector.request(params).then(
-			function (data) {
-				progressInstace.hide();
-				if (data.result.status == false) {
-					app.showModalWindow(data.result.html, function (data) {
-					});
-					response = false;
+				function (data) {
+					progressInstace.hide();
+					if (data.result.status == false) {
+						app.showModalWindow(data.result.html, function (data) {});
+						response = false;
+					}
+				},
+				function (error, err) {
+					progressInstace.hide();
+					console.error(error, err);
 				}
-			},
-			function (error, err) {
-				progressInstace.hide();
-				console.error(error, err);
-			}
 		);
 		return response;
 	},
@@ -1212,17 +1211,17 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			var progressInstace = jQuery.progressIndicator();
 			AppConnector.request(params).then(
-				function (data) {
-					app.showModalWindow(data, function (data) {
-						thisInstance.initDiscountsParameters(parentRow, $(data));
-						thisInstance.registerChangeDiscountModal(data, parentRow, params);
-					});
-					progressInstace.hide();
-				},
-				function (error, err) {
-					progressInstace.hide();
-					console.error(error, err);
-				}
+					function (data) {
+						app.showModalWindow(data, function (data) {
+							thisInstance.initDiscountsParameters(parentRow, $(data));
+							thisInstance.registerChangeDiscountModal(data, parentRow, params);
+						});
+						progressInstace.hide();
+					},
+					function (error, err) {
+						progressInstace.hide();
+						console.error(error, err);
+					}
 			);
 		});
 	},
@@ -1297,17 +1296,17 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 			var progressInstace = jQuery.progressIndicator();
 			AppConnector.request(params).then(
-				function (data) {
-					app.showModalWindow(data, function (data) {
-						thisInstance.initTaxParameters(parentRow, $(data));
-						thisInstance.registerChangeTaxModal(data, parentRow, params);
-					});
-					progressInstace.hide();
-				},
-				function (error, err) {
-					progressInstace.hide();
-					console.error(error, err);
-				}
+					function (data) {
+						app.showModalWindow(data, function (data) {
+							thisInstance.initTaxParameters(parentRow, $(data));
+							thisInstance.registerChangeTaxModal(data, parentRow, params);
+						});
+						progressInstace.hide();
+					},
+					function (error, err) {
+						progressInstace.hide();
+						console.error(error, err);
+					}
 			);
 		});
 	},

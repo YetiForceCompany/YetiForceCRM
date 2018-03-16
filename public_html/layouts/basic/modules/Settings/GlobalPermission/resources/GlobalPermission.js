@@ -13,16 +13,15 @@ var Settings_GlobalPermission_Js = {
 			'checked': checked
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-					type: 'success',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-			},
-			function (error, err) {
-			}
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						type: 'success',
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (error, err) {}
 		);
 	},
 	registerEvents: function () {

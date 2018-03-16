@@ -44,10 +44,7 @@ var Settings_Roles_Js = {
 		jQuery('.roleEle').click(function (e) {
 			var target = $(e.currentTarget);
 			// jquery_windowmsg plugin expects second parameter to be string.
-			jQuery.triggerParentEvent('postSelection', JSON.stringify({
-				value: target.closest('li').data('roleid'),
-				label: target.text()
-			}));
+			jQuery.triggerParentEvent('postSelection', JSON.stringify({value: target.closest('li').data('roleid'), label: target.text()}));
 			self.close();
 		});
 	},
@@ -178,23 +175,23 @@ var Settings_Roles_Js = {
 						'rolename': formData.rolename,
 						'record': formData.record
 					}).then(
-						function (data) {
-							form.data('submit', 'true');
-							form.data('performCheck', 'true');
-							form.submit();
-							jQuery.progressIndicator({
-								'blockInfo': {
-									'enabled': true
-								}
-							});
-						},
-						function (data, err) {
-							var params = {};
-							params['text'] = data['message'];
-							params['type'] = 'error';
-							Settings_Vtiger_Index_Js.showMessage(params);
-							return false;
-						}
+							function (data) {
+								form.data('submit', 'true');
+								form.data('performCheck', 'true');
+								form.submit();
+								jQuery.progressIndicator({
+									'blockInfo': {
+										'enabled': true
+									}
+								});
+							},
+							function (data, err) {
+								var params = {};
+								params['text'] = data['message'];
+								params['type'] = 'error';
+								Settings_Vtiger_Index_Js.showMessage(params);
+								return false;
+							}
 					);
 				} else {
 					//If validation fails, form should submit again
@@ -224,18 +221,18 @@ var Settings_Roles_Js = {
 		}
 
 		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var result = response['success'];
-				if (result == true) {
-					aDeferred.reject(response);
-				} else {
-					aDeferred.resolve(response);
+				function (data) {
+					var response = data['result'];
+					var result = response['success'];
+					if (result == true) {
+						aDeferred.reject(response);
+					} else {
+						aDeferred.resolve(response);
+					}
+				},
+				function (error, err) {
+					aDeferred.reject();
 				}
-			},
-			function (error, err) {
-				aDeferred.reject();
-			}
 		);
 		return aDeferred.promise();
 	},

@@ -37,16 +37,16 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			}
 
 			AppConnector.request(params).then(
-				function (data) {
-					if (data) {
-						editViewForm.find('[name="prefix"]').val(data.result.prefix);
-						editViewForm.find('[name="postfix"]').val(data.result.postfix);
-						editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
-						editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.sequenceNumber);
-					}
-				},
-				function (jqXHR, textStatus, errorThrown) {
-				})
+					function (data) {
+						if (data) {
+							editViewForm.find('[name="prefix"]').val(data.result.prefix);
+							editViewForm.find('[name="postfix"]').val(data.result.postfix);
+							editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
+							editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.sequenceNumber);
+						}
+					},
+					function (jqXHR, textStatus, errorThrown) {
+					})
 		})
 	},
 
@@ -90,25 +90,25 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 
 		jQuery('.saveButton').attr("disabled", "disabled");
 		AppConnector.request(params).then(
-			function (data) {
-				var params;
-				var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
-				if (data.success == true) {
-					params = {
-						text: successfullSaveMessage
-					};
-					Settings_Vtiger_Index_Js.showMessage(params);
-				} else {
-					var errorMessage = currentPrefix + " " + app.vtranslate(data.error.message);
-					params = {
-						text: errorMessage,
-						type: 'error'
-					};
-					Settings_Vtiger_Index_Js.showMessage(params);
-				}
-			},
-			function (jqXHR, textStatus, errorThrown) {
-			})
+				function (data) {
+					var params;
+					var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
+					if (data.success == true) {
+						params = {
+							text: successfullSaveMessage
+						};
+						Settings_Vtiger_Index_Js.showMessage(params);
+					} else {
+						var errorMessage = currentPrefix + " " + app.vtranslate(data.error.message);
+						params = {
+							text: errorMessage,
+							type: 'error'
+						};
+						Settings_Vtiger_Index_Js.showMessage(params);
+					}
+				},
+				function (jqXHR, textStatus, errorThrown) {
+				})
 	},
 
 	/**
@@ -130,19 +130,19 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			}
 
 			AppConnector.request(params).then(
-				function (data) {
-					var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
-					if (data.success == true) {
-						var params = {
-							text: successfullSaveMessage
-						};
-						Settings_Vtiger_Index_Js.showMessage(params);
-					} else {
-						Settings_Vtiger_Index_Js.showMessage(data.error.message);
-					}
-				},
-				function (jqXHR, textStatus, errorThrown) {
-				})
+					function (data) {
+						var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
+						if (data.success == true) {
+							var params = {
+								text: successfullSaveMessage
+							};
+							Settings_Vtiger_Index_Js.showMessage(params);
+						} else {
+							Settings_Vtiger_Index_Js.showMessage(data.error.message);
+						}
+					},
+					function (jqXHR, textStatus, errorThrown) {
+					})
 		})
 	},
 

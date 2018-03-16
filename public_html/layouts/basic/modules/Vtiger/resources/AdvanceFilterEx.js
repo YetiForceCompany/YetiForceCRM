@@ -456,7 +456,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Date_Field_Js', {}, {
 			}
 		} else {
 			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			var element = jQuery(html);
 			return this.addValidationToElement(element);
 		}
@@ -490,7 +490,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Datetime_Field_Js', {}, {
 			var element = jQuery(html);
 		} else {
 			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			var element = jQuery(html);
 		}
 		return element;
@@ -510,7 +510,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Datetime_Field_Js', {}, {
 Vtiger_Currency_Field_Js('AdvanceFilterEx_Currency_Field_Js', {}, {
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi marginLeftZero form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
-			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -524,7 +524,7 @@ Vtiger_Time_Field_Js('AdvanceFilterEx_Time_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi time form-control" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
-			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -537,7 +537,7 @@ Vtiger_Field_Js('Vtiger_Percentage_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi form-control" name="' + this.getName() + '" value="' + this.getValue() + '" />' +
-			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -550,7 +550,7 @@ Vtiger_Field_Js('Vtiger_Text_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi form-control" name="' + this.getName() + '" value="' + this.getValue() + '" />' +
-			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -563,7 +563,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi form-control boolean" name="' + this.getName() + '" value="' + this.getValue() + '" />' +
-			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -594,4 +594,5 @@ Vtiger_Owner_Field_Js('AdvanceFilterEx_Owner_Field_Js', {}, {
 	}
 });
 
-Vtiger_Picklist_Field_Js('AdvanceFilterEx_Picklist_Field_Js', {}, {});
+Vtiger_Picklist_Field_Js('AdvanceFilterEx_Picklist_Field_Js', {}, {
+});

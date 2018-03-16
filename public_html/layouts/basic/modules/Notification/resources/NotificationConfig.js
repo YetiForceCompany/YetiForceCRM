@@ -35,15 +35,15 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 			};
 			var progress = jQuery.progressIndicator();
 			AppConnector.request(params).then(
-				function (data) {
-					progress.progressIndicator({'mode': 'hide'});
-					app.hideModalWindow();
-				},
-				function (textStatus, errorThrown) {
-					progress.progressIndicator({'mode': 'hide'});
-					app.hideModalWindow();
-					app.errorLog(textStatus, errorThrown);
-				}
+					function (data) {
+						progress.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+					},
+					function (textStatus, errorThrown) {
+						progress.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+						app.errorLog(textStatus, errorThrown);
+					}
 			);
 		});
 		container.find('.selectAllModules').on('click', function (e) {

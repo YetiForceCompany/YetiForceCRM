@@ -7,38 +7,45 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-#passwordStrength {
-	height: 10px;
-	display: block;
-	float: left;
+#passwordStrength
+{
+	height:10px;
+	display:block;
+	float:left;
 }
 
-.strength0 {
-	width: 250px;
-	background: #cccccc;
+.strength0
+{
+	width:250px;
+	background:#cccccc;
 }
 
-.strength1 {
-	width: 50px;
-	background: #ff0000;
+.strength1
+{
+	width:50px;
+	background:#ff0000;
 }
 
-.strength2 {
-	width: 100px;
-	background: #ff5f5f;
+.strength2
+{
+	width:100px;    
+	background:#ff5f5f;
 }
 
-.strength3 {
-	width: 150px;
-	background: #56e500;
+.strength3
+{
+	width:150px;
+	background:#56e500;
 }
 
-.strength4 {
-	background: #4dcd00;
-	width: 200px;
+.strength4
+{
+	background:#4dcd00;
+	width:200px;
 }
 
-.strength5 {
-	background: #399800;
-	width: 250px;
+.strength5
+{
+	background:#399800;
+	width:250px;
 }

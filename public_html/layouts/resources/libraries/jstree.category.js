@@ -28,9 +28,9 @@
 			this._data.category.selected = [];
 			this.element.on('model.jstree', $.proxy(function (e, data) {
 				var m = this._model.data,
-					p = m[data.parent],
-					dpc = data.nodes,
-					i, j;
+						p = m[data.parent],
+						dpc = data.nodes,
+						i, j;
 				for (i = 0, j = dpc.length; i < j; i++) {
 					if (m[dpc[i]].original.type == 'category') {
 						m[dpc[i]].category = [];
@@ -99,12 +99,7 @@
 					}
 					this.trigger('select_node', {'node': obj, 'selected': this._data.core.selected, 'event': e});
 					if (!supress_event) {
-						this.trigger('changed', {
-							'action': 'select_node',
-							'node': obj,
-							'selected': this._data.core.selected,
-							'event': e
-						});
+						this.trigger('changed', {'action': 'select_node', 'node': obj, 'selected': this._data.core.selected, 'event': e});
 					}
 				}
 			}
@@ -141,12 +136,7 @@
 					}
 					this.trigger('deselect_node', {'node': obj, 'selected': this._data.core.selected, 'event': e});
 					if (!supress_event) {
-						this.trigger('changed', {
-							'action': 'deselect_node',
-							'node': obj,
-							'selected': this._data.core.selected,
-							'event': e
-						});
+						this.trigger('changed', {'action': 'deselect_node', 'node': obj, 'selected': this._data.core.selected, 'event': e});
 					}
 				}
 			}
@@ -159,12 +149,7 @@
 				this._data.category.selected.push(obj.id);
 				if (dom && dom.length) {
 					dom.children('.jstree-anchor').find('.jstree-category').addClass(options.checkClass).removeClass(options.uncheckClass);
-					this.trigger('changed', {
-						action: 'select_node',
-						node: obj,
-						selected: this._data.core.selected,
-						event: e
-					});
+					this.trigger('changed', {action: 'select_node', node: obj, selected: this._data.core.selected, event: e});
 				}
 			}
 
@@ -176,12 +161,7 @@
 				this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
 				if (dom && dom.length) {
 					dom.children('.jstree-anchor').find('.jstree-category').removeClass(options.checkClass).addClass(options.uncheckClass);
-					this.trigger('changed', {
-						action: 'deselect_node',
-						node: obj,
-						selected: this._data.core.selected,
-						event: e
-					});
+					this.trigger('changed', {action: 'deselect_node', node: obj, selected: this._data.core.selected, event: e});
 				}
 			}
 		};

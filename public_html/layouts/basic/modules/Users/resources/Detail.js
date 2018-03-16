@@ -16,7 +16,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 	triggerDeleteUser: function (deleteUserUrl) {
 		var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(deleteUserUrl).then(
+			AppConnector.request(deleteUserUrl).then(
 					function (data) {
 						if (data) {
 							var callback = function (data) {
@@ -36,9 +36,9 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 							});
 						}
 					});
-			},
-			function (error, err) {
-			}
+		},
+				function (error, err) {
+				}
 		);
 	},
 	deleteUser: function (form) {
@@ -54,20 +54,20 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			'permanent': form.find('[name="deleteUserPermanent"]:checked').val()
 		};
 		AppConnector.request(params).then(
-			function (data) {
-				if (data.success) {
-					app.hideModalWindow();
-					Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
-					var url = data.result.listViewUrl;
-					window.location.href = url;
+				function (data) {
+					if (data.success) {
+						app.hideModalWindow();
+						Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
+						var url = data.result.listViewUrl;
+						window.location.href = url;
+					}
 				}
-			}
 		);
 	},
 	triggerTransferOwner: function (transferOwnerUrl) {
 		var message = app.vtranslate('LBL_TRANSFEROWNER_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(transferOwnerUrl).then(
+			AppConnector.request(transferOwnerUrl).then(
 					function (data) {
 						if (data) {
 							var callback = function (data) {
@@ -87,9 +87,9 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 							});
 						}
 					});
-			},
-			function (error, err) {
-			}
+		},
+				function (error, err) {
+				}
 		);
 	},
 	transferOwner: function (form) {
@@ -104,14 +104,14 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			'userid': userid
 		};
 		AppConnector.request(params).then(
-			function (data) {
-				if (data.success) {
-					app.hideModalWindow();
-					Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
-					var url = data.result.listViewUrl;
-					window.location.href = url;
+				function (data) {
+					if (data.success) {
+						app.hideModalWindow();
+						Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
+						var url = data.result.listViewUrl;
+						window.location.href = url;
+					}
 				}
-			}
 		);
 	},
 	triggerChangeAccessKey: function (url) {
@@ -174,12 +174,12 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			data = fieldDetailList;
 			if (data['field'] == 'email1') {
 				thisInstance.usersEditInstance.checkEmail(data['value']).then(
-					function (data) {
-					},
-					function (data, error) {
-						lock = true;
-						aDeferred.reject();
-					}
+						function (data) {
+						},
+						function (data, error) {
+							lock = true;
+							aDeferred.reject();
+						}
 				);
 			}
 		}
@@ -193,9 +193,9 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-				function (reponseData) {
-					aDeferred.resolve(reponseData);
-				}
+					function (reponseData) {
+						aDeferred.resolve(reponseData);
+					}
 			);
 		}
 		return aDeferred.promise();

@@ -35,18 +35,18 @@ var Settings_UserColors_Js = {
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-					type: 'success'
-				};
-				app.hideModalWindow();
-				Vtiger_Helper_Js.showPnotify(params);
-				return response;
-			},
-			function (data, err) {
-			}
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						type: 'success'
+					};
+					app.hideModalWindow();
+					Vtiger_Helper_Js.showPnotify(params);
+					return response;
+				},
+				function (data, err) {
+				}
 		);
 	},
 	registerSaveWorkingDays: function (content) {

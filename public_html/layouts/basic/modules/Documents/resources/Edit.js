@@ -136,12 +136,12 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 				contentType: false
 			};
 			AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				});
+					function (data) {
+						aDeferred.resolve(data);
+					},
+					function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					});
 		}
 		return aDeferred.promise();
 	},
