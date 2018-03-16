@@ -58,7 +58,7 @@
 	"LBL_SHITCH_HEADER_INFO": "El interruptor se puede encontrar en la cabecera del widget.",
 	"HistoryRelation": "Cronograma",
 	"CountRecords": "N\u00famero de registros",
-	"LBL_LIST_WITH_SUMMARY": "Lis with summary"
+	"LBL_LIST_WITH_SUMMARY": "List with summary"
   },
   "js": {
 	"Loading data": "Cargando...",
