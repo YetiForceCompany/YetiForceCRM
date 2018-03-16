@@ -60,7 +60,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 }, {
 	calendarView: false,
 	calendarCreateView: false,
-	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	renderCalendar: function () {
 		var thisInstance = this;
 		var eventLimit = app.getMainParams('eventLimit');
@@ -94,8 +93,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			userDefaultTimeFormat = 'h:mmt';
 		}
 		//Default first day of the week
-		var defaultFirstDay = CONFIG.firstDayOfWeek;
-		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
+		var convertedFirstDay = CONFIG.firstDayOfWeek;
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
 		var hiddenDays = [];
