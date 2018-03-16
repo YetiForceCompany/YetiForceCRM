@@ -93,7 +93,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			userDefaultTimeFormat = 'h:mmt';
 		}
 		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeek;
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
 		var hiddenDays = [];

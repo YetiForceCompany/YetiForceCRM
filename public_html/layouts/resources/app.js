@@ -868,7 +868,7 @@ app = {
 		if (defaultFirstDay == '' || typeof (defaultFirstDay) == 'undefined') {
 			var convertedFirstDay = 1
 		} else {
-			convertedFirstDay = CONFIG.firstDayOfWeek;
+			convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		}
 		var params = {
 			todayBtn: "linked",

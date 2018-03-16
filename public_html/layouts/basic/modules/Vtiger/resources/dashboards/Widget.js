@@ -1616,7 +1616,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		}
 
 		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeek;
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
 		var defaultFirstHour = jQuery('#start_hour').val();
 		var explodedTime = defaultFirstHour.split(':');
