@@ -1,54 +1,54 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.contentsDiv,.centerPanel {
-	padding: 0 10px;
+.contentsDiv, .centerPanel {
+  padding: 0 10px;
 }
 .massEditTable {
-	th + th, td + td, th + td, td + th {
-		border-left: 0;
-	}
+  th + th, td + td, th + td, td + th {
+	border-left: 0;
+  }
 }
 .massEditContent {
-	border-top: 3px solid #404952;
+  border-top: 3px solid #404952;
 }
 .baseContainer {
-	.basePanel {
-		width: 100%;
-		position: relative;
-		left: 0;
-		z-index: 1030;
-		-webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
-		transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
-		background: $white;
-		min-height: 100%;
-		transition-delay: 0.5s;
-		&:after {
-			content: "";
-			display: block;
-			position: fixed;
-			top: 0;
-			z-index: -1;
-			width: 100%;
-			height: 100%;
-		}
+  .basePanel {
+	width: 100%;
+	position: relative;
+	left: 0;
+	z-index: 1030;
+	-webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
+	transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
+	background: $white;
+	min-height: 100%;
+	transition-delay: 0.5s;
+	&:after {
+	  content: "";
+	  display: block;
+	  position: fixed;
+	  top: 0;
+	  z-index: -1;
+	  width: 100%;
+	  height: 100%;
 	}
-	&:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader {
-		left: 230px;
-		-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-		transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-		+ .basePanel {
-			left: 180px;
-			z-index: 0;
-			-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-			transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-		}
+  }
+  &:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader {
+	left: 230px;
+	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	+ .basePanel {
+	  left: 180px;
+	  z-index: 0;
+	  -webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	  transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 	}
-	&:not(.leftPanelOpen) {
-		margin-left: 50px;
-	}
+  }
+  &:not(.leftPanelOpen) {
+	margin-left: 50px;
+  }
 }
 .bodyHeader.open, .footerContainer.open {
-	left: 210px;
-	-webkit-transition: left ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s;
+  left: 210px;
+  -webkit-transition: left ease-in-out 0.3s;
+  transition: left ease-in-out 0.3s;
 }

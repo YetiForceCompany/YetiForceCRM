@@ -8211,8 +8211,6 @@ td.fieldValue input, td.fieldValue .input-group {
     position: fixed;
     bottom: 50px;
     left: -30px;
-    left: 0\9;
-    bottom: 100px\9;
     background: #2C2C2C;
     color: white;
     padding: 7px 15px;
@@ -10430,7 +10428,7 @@ select.form-control {
   overflow: hidden; }
 
 .bottom_margin .fc-basic-view .fc-body .fc-row {
-  min-height: 9em  !important; }
+  min-height: 9em !important; }
 
 .Home_DashBoard .widget_header {
   margin-bottom: 0px; }

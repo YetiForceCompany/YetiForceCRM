@@ -1,172 +1,170 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-
 .leftPanel {
-	&:after {
-		content: "";
-		position: fixed;
-		bottom: 33px;
-		z-index: -2;
-		width: 230px;
-		height: 100%;
-		background: $primary;
-	}
+  &:after {
+	content: "";
 	position: fixed;
-	left: 0;
-	top: 0;
 	bottom: 33px;
+	z-index: -2;
 	width: 230px;
-	color: $light;
-	z-index: 1030;
+	height: 100%;
 	background: $primary;
-	.menuContainer .modulesList .menuIcon {
-		padding-right: 18px;
-		font-size: 24px;
-		height: 100%;
+  }
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 33px;
+  width: 230px;
+  color: $light;
+  z-index: 1030;
+  background: $primary;
+  .menuContainer .modulesList .menuIcon {
+	padding-right: 18px;
+	font-size: 24px;
+	height: 100%;
+  }
+  .row {
+	padding: 0;
+	margin: 0;
+  }
+  .tm-sidebar-nav:not(.uk-open) .uk-dropdown {
+	-webkit-transition: left ease-in-out 0.35s;
+	transition: left ease-in-out 0.35s;
+	&:before {
+	  -webkit-transition: left ease-in-out 0.35s;
+	  transition: left ease-in-out 0.35s;
 	}
-	.row {
-		padding: 0;
-		margin: 0;
+  }
+  .nav li {
+	position: static;
+	&:hover {
+	  > .subMenu {
+		display: block;
+		position: fixed;
+		left: 230px;
+		top: 50px;
+		height: calc(100% - 50px);
+	  }
 	}
-	.tm-sidebar-nav:not(.uk-open) .uk-dropdown {
-		-webkit-transition: left ease-in-out 0.35s;
-		transition: left ease-in-out 0.35s;
-		&:before {
-			-webkit-transition: left ease-in-out 0.35s;
-			transition: left ease-in-out 0.35s;
+  }
+  a {
+	&:hover {
+	  text-decoration: none;
+	  cursor: pointer;
+	}
+	&:active, &:focus {
+	  outline: 0;
+	}
+	color: $light;
+	&:hover {
+	  color: $primary;
+	}
+  }
+  .menuContainer {
+	a {
+	  border-radius: 0;
+	  vertical-align: text-top;
+	  padding: 6px 15px 6px 55px;
+	  word-wrap: break-word;
+	  font-size: 16px;
+	  &:hover, &:focus {
+		background: $light;
+	  }
+	  &.hasIcon {
+		padding: 5px 12px;
+		display: inline-flex;
+		width: 100%;
+	  }
+	  .menuName {
+		top: -1px;
+		position: relative;
+		word-wrap: break-word;
+	  }
+	}
+	.subMenu {
+	  &:after {
+		content: "";
+		display: block;
+		position: absolute;
+		bottom: 33px;
+		top: 0;
+		z-index: -1;
+		width: 300px;
+		min-height: 830px;
+		background: $light;
+		border-right: 1px solid #dddddd;
+	  }
+	  li {
+		width: 300px;
+		&.menuLabel > a {
+		  font-weight: 600;
+		  text-transform: uppercase;
 		}
-	}
-	.nav li {
-		position: static;
-		&:hover {
-			> .subMenu {
-				display: block;
-				position: fixed;
-				left: 230px;
-				top: 50px;
-				height: calc(100% - 50px);
-			}
+	  }
+	  display: none;
+	  a {
+		font-size: 16px;
+	  }
+	  button {
+		border-width: 0;
+		border-radius: 0;
+		background: #f0f1f1;
+		text-align: left;
+		padding-left: 50px;
+	  }
+	  a, .menuLabel {
+		color: $primary;
+		&:hover, &:focus {
+		  color: $light;
+		  background: $primary;
 		}
+		&.hasIcon {
+		  padding: 8px 10px;
+		}
+		.menuName, button .menuName {
+		  top: 2px;
+		}
+	  }
+	  button {
+		&:hover, &:focus {
+		  color: $light;
+		  background: $primary;
+		}
+	  }
+	  button .hasIcon {
+		padding: 8px 10px;
+	  }
+
+	  .menuLabel a {
+		padding: 0 !important;
+	  }
 	}
 	a {
-		&:hover {
-			text-decoration: none;
-			cursor: pointer;
-		}
-		&:active, &:focus {
-			outline: 0;
-		}
-		color: $light;
-		&:hover {
-			color: $primary;
-		}
+	  &.hasIcon img {
+		height: 20px;
+	  }
+	  .glyphicon, .fa, &.hasIcon img {
+		margin-right: 12px;
+		font-size: 20px;
+		padding-right: 7px;
+		padding-left: 3px;
+	  }
+	  .fa {
+		position: relative;
+		top: 2px;
+	  }
 	}
-	.menuContainer {
-		a {
-			border-radius: 0;
-			vertical-align: text-top;
-			padding: 6px 15px 6px 55px;
-			word-wrap: break-word;
-			font-size: 16px;
-			&:hover, &:focus {
-				background: $light;
-			}
-			&.hasIcon {
-				padding: 5px 12px;
-				display: inline-flex;
-				width: 100%;
-			}
-			.menuName {
-				top: -1px;
-				position: relative;
-				word-wrap: break-word;
-			}
-		}
-		.subMenu {
-			&:after {
-				content: "";
-				display: block;
-				position: absolute;
-				bottom: 33px;
-				top: 0;
-				z-index: -1;
-				width: 300px;
-				min-height: 830px;
-				background: $light;
-				border-right: 1px solid #dddddd;
-			}
-			li {
-				width: 300px;
-				&.menuLabel > a {
-					font-weight: 600;
-					text-transform: uppercase;
-				}
-			}
-			display: none;
-			a {
-				font-size: 16px;
-			}
-			button {
-				border-width: 0;
-				border-radius: 0;
-				background: #f0f1f1;
-				text-align: left;
-				padding-left: 50px;
-			}
-			a, .menuLabel {
-				color: $primary;
-				&:hover, &:focus {
-					color: $light;
-					background: $primary;
-				}
-				&.hasIcon {
-					padding: 8px 10px;
-				}
-				.menuName, button .menuName {
-					top: 2px;
-				}
-			}
-			button {
-				&:hover, &:focus {
-					color: $light;
-					background: $primary;
-				}
-			}
-			button .hasIcon {
-				padding: 8px 10px;
-			}
-
-			.menuLabel a {
-				padding: 0 !important;
-			}
-		}
-		a {
-			&.hasIcon img {
-				height: 20px;
-			}
-			.glyphicon, .fa, &.hasIcon img {
-				margin-right: 12px;
-				font-size: 20px;
-				padding-right: 7px;
-				padding-left: 3px;
-			}
-			.fa {
-				position: relative;
-				top: 2px;
-			}
-		}
-	}
+  }
 }
-
 @media only screen and (max-width: 768px) {
-	.baseContainer:not(.leftPanelOpen) {
-		margin-left: 0px;
-	}
-    .leftPanel {
-		display: none;
-	}
-	.mobileLeftPanel {
-		display: block;
-	}
+  .baseContainer:not(.leftPanelOpen) {
+	margin-left: 0px;
+  }
+  .leftPanel {
+	display: none;
+  }
+  .mobileLeftPanel {
+	display: block;
+  }
 
 }

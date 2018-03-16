@@ -1,38 +1,38 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .u-text-ellipsis {
-	overflow: hidden;
-	padding-bottom: 2px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	&:hover {
-		overflow: initial;
-	}
+  overflow: hidden;
+  padding-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &:hover {
+	overflow: initial;
+  }
 }
 .u-cursor-pointer {
-	cursor: pointer;
-	text-decoration: none !important;
+  cursor: pointer;
+  text-decoration: none !important;
 }
-.u-text-small-bold{
-	@extend .small;
-	@extend .font-weight-bold;
+.u-text-small-bold {
+  @extend .small;
+  @extend .font-weight-bold;
 }
 @media only screen and (max-width: 990px) {
-    .u-border-bottom-label-md {
-       border-bottom:  1px solid #dee2e6;
-    }
+  .u-border-bottom-label-md {
+	border-bottom: 1px solid #dee2e6;
+  }
 }
 @media only screen and (max-width: 575px) {
-    .u-border-bottom-value-sm {
-        border-bottom:  1px solid #dee2e6;
-    }
+  .u-border-bottom-value-sm {
+	border-bottom: 1px solid #dee2e6;
+  }
 }
 @media only screen and (max-width: 991px) {
-    .u-border-right-0-md {
-       border-right:  none !important;
-    }
+  .u-border-right-0-md {
+	border-right: none !important;
+  }
 }
 @media only screen and (max-width: 575px) {
-    .u-border-bottom-0-sm {
-        border-bottom:  none !important;
-    }
+  .u-border-bottom-0-sm {
+	border-bottom: none !important;
+  }
 }
