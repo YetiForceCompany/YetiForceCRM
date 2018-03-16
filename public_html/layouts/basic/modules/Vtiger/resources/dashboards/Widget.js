@@ -49,118 +49,324 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * Predefined functions that will replace options function type
 	 * @type {Object}
 	 */
-	getGlobalChartFunctions: function getGlobalChartFunctions() {
-		return {
-			/**
-			 * Functions for x or y axas scales xAxes:[{here}]
-			 */
-			scales: {
-				formatAxesLabels: function formatAxesLabels(value, index, values) {
-					if (!isNaN(Number(value))) {
-						return app.parseNumberToShow(value);
-					}
-					return value;
-				},
-			},
-			/**
-			 * Functions for datalabels
-			 */
-			datalabels: {
-				formatter: function datalabelsFormatter(value, context) {
-					if (
-						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
-						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
-					) {
-						// data presented in different format usually exists in alternative dataFormatted array
-						return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
-					}
-					if (!isNaN(Number(value))) {
-						return app.parseNumberToShow(value);
-					}
-					return value;
+	globalChartFunctions: {
+		/**
+		 * Functions for x or y axas scales xAxes:[{here}]
+		 */
+		scales: {
+			formatAxesLabels: function formatAxesLabels(value, index, values) {
+				if (!isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
 				}
+				return value;
 			},
-			/**
-			 * Tooltips functions
-			 */
-			tooltips: {
-				label: function tooltipLabelCallback(tooltipItem, data) {
-					// get already formatted data if exists
-					if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
-						return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-					}
-					// if there is no formatted data so try to format it
-					if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
-						return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-					}
-					// return raw data at idex
-					return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-				},
-				title: function tooltipTitleCallback(tooltipItems, data) {
-					const tooltipItem = tooltipItems[0];
-					// get already formatted title if exists
-					if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
-						return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
-					}
-					// if there is no formatted title so try to format it
-					if (!isNaN(Number(data.labels[tooltipItem.index]))) {
-						return app.parseNumberToShow(data.labels[tooltipItem.index]);
-					}
-					// return label at index
-					return data.labels[tooltipItem.index];
+		},
+		/**
+		 * Functions for datalabels
+		 */
+		datalabels: {
+			formatter: function datalabelsFormatter(value, context) {
+				if (
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+				) {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 				}
+				if (!isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			}
+		},
+		/**
+		 * Tooltips functions
+		 */
+		tooltips: {
+			label: function tooltipLabelCallback(tooltipItem, data) {
+				// get already formatted data if exists
+				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+				}
+				// if there is no formatted data so try to format it
+				if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+				}
+				// return raw data at idex
+				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 			},
+			title: function tooltipTitleCallback(tooltipItems, data) {
+				const tooltipItem = tooltipItems[0];
+				// get already formatted title if exists
+				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+				}
+				// if there is no formatted title so try to format it
+				if (!isNaN(Number(data.labels[tooltipItem.index]))) {
+					return app.parseNumberToShow(data.labels[tooltipItem.index]);
+				}
+				// return label at index
+				return data.labels[tooltipItem.index];
+			}
+		},
 
+		/**
+		 * plugins
+		 */
+		plugins: {
 			/**
-			 * plugins
+			 * If datalabels doesn't fit - hide them individually
+			 * @param  {Chart} chart chart instance
+			 * @return {undefined}
 			 */
-			plugins: {
-				bar: {
-					beforeDraw: function beforeDraw(chart) {
-						this.hideDatalabelsIfNeeded(chart);
-						chart.data.datasets.forEach((dataset, index) => {
-							if (dataset._updated) {
+			hideVerticalBarDatalabelsIfNeeded: function (chart) {
+				let getDatasetsMeta = function (chart) {
+					const datasets = [];
+					const data = chart.data;
+					if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+						for (let i = 0, len = data.datasets.length; i < len; i++) {
+							const meta = chart.getDatasetMeta(i);
+							if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+								datasets.push(meta);
+							}
+						}
+					}
+					return datasets;
+				};
+				const data = chart.data;
+				let datasetsMeta = getDatasetsMeta(chart);
+				let datasets = chart.data.datasets;
+				for (let i = 0, len = datasets.length; i < len; i++) {
+					const dataset = datasets[i];
+					const metaData = datasetsMeta[i].data;
+					if (typeof dataset._models === 'undefined') {
+						dataset._models = {};
+					}
+					if (typeof dataset.datalabels === 'undefined') {
+						dataset.datalabels = {};
+					}
+					if (typeof dataset.datalabels.display === 'undefined') {
+						dataset.datalabels.display = true;
+					}
+					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+						const dataItem = metaData[iItem];
+						if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+							let model = dataItem.$datalabels._model;
+							if (model !== null && typeof model !== 'undefined') {
+								dataset._models[iItem] = model;
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+								model = dataset._models[iItem];
+							} else {
 								return false;
 							}
-							for (let prop in dataset._meta) {
-								if (dataset._meta.hasOwnProperty(prop)) {
-									// we have meta
-									for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-										const metaDataItem = dataset._meta[prop].data[i];
-										const label = metaDataItem._view.label;
-										const ctx = metaDataItem._xScale.ctx;
-										const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
-										const fullWidth = ctx.measureText(label).width;
-										if (categoryWidth < fullWidth) {
-											const shortened = label.substr(0, 10) + "...";
-											const shortenedWidth = ctx.measureText(shortened).width;
-											if (categoryWidth < shortenedWidth) {
-												chart.options = this.rotateXLabels90(chart.data, chart.options);
-												chart.options = this.shortenXTicks(chart.data, chart.options);
-											} else {
-												chart.options = this.shortenXTicks(chart.data, chart.options);
-											}
-											if (!dataset._updated) {
-												dataset._updated = true;
-												chart.update();
-												// recalculate positions for smooth animation
-												dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-													metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-												});
-												break;
-											}
-										}
+							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+							const barHeight = dataItem.height();
+							if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
+								dataItem.$datalabels._model = null;
+							} else {
+								dataItem.$datalabels._model = model;
+							}
+						}
+					}
+				}
+			},
+			/**
+			 * If datalabels doesn't fit - hide them individually
+			 * @param  {Chart} chart  Chart instance
+			 * @return {undefined}
+			 */
+			hideHorizontalBarDatalabelsIfNeeded: function hideHorizontalBarDatalabelsIfNeeded(chart) {
+				let getDatasetsMeta = function (chart) {
+					const datasets = [];
+					const data = chart.data;
+					if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+						for (let i = 0, len = data.datasets.length; i < len; i++) {
+							const meta = chart.getDatasetMeta(i);
+							if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+								datasets.push(meta);
+							}
+						}
+					}
+					return datasets;
+				};
+				const data = chart.data;
+				let datasetsMeta = getDatasetsMeta(chart);
+				let datasets = chart.data.datasets;
+				for (let i = 0, len = datasets.length; i < len; i++) {
+					const dataset = datasets[i];
+					const metaData = datasetsMeta[i].data;
+					if (typeof dataset._models === 'undefined') {
+						dataset._models = {};
+					}
+					if (typeof dataset.datalabels === 'undefined') {
+						dataset.datalabels = {};
+					}
+					if (typeof dataset.datalabels.display === 'undefined') {
+						dataset.datalabels.display = true;
+					}
+					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+						const dataItem = metaData[iItem];
+						if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+							let model = dataItem.$datalabels._model;
+							if (model !== null && typeof model !== 'undefined') {
+								dataset._models[iItem] = model;
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+								model = dataset._models[iItem];
+							} else {
+								return false;
+							}
+							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+							const barWidth = dataItem.width;
+							if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
+								dataItem.$datalabels._model = null;
+							} else {
+								dataItem.$datalabels._model = model;
+							}
+						}
+					}
+				}
+			},
+			/**
+			 * Fix to long axis labels
+			 * @param  {Chart}  chart	Chart instance
+			 * @return {Boolean}       [description]
+			 */
+			fixXAxisLabels: function fixXAxisLabels(chart) {
+				let shortenXTicks = function shortenXTicks(data, options) {
+					if (typeof options.scales === 'undefined') {
+						options.scales = {};
+					}
+					if (typeof options.scales.xAxes === 'undefined') {
+						options.scales.xAxes = [{}];
+					}
+					options.scales.xAxes.forEach((axis) => {
+						if (typeof axis.ticks === 'undefined') {
+							axis.ticks = {};
+						}
+						axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+							if (value.length > 13) {
+								return value.substr(0, 10) + '...';
+							}
+							return value;
+						}
+					});
+					return options;
+				};
+				let rotateXLabels90 = function rotateXLabels90(data, options) {
+					if (typeof options.scales === 'undefined') {
+						options.scales = {};
+					}
+					if (typeof options.scales.xAxes === 'undefined') {
+						options.scales.xAxes = [{}];
+					}
+					options.scales.xAxes.forEach((axis) => {
+						if (typeof axis.ticks === 'undefined') {
+							axis.ticks = {};
+						}
+						axis.ticks.minRotation = 90;
+					});
+					return options;
+				};
+
+				chart.data.datasets.forEach((dataset, index) => {
+					if (dataset._updated) {
+						return false;
+					}
+					for (let prop in dataset._meta) {
+						if (dataset._meta.hasOwnProperty(prop)) {
+							// we have meta
+							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+								const metaDataItem = dataset._meta[prop].data[i];
+								const label = metaDataItem._view.label;
+								const ctx = metaDataItem._xScale.ctx;
+								const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
+								const fullWidth = ctx.measureText(label).width;
+								if (categoryWidth < fullWidth) {
+									const shortened = label.substr(0, 10) + "...";
+									const shortenedWidth = ctx.measureText(shortened).width;
+									if (categoryWidth < shortenedWidth) {
+										chart.options = rotateXLabels90(chart.data, chart.options);
+										chart.options = shortenXTicks(chart.data, chart.options);
+									} else {
+										chart.options = shortenXTicks(chart.data, chart.options);
 									}
-									dataset._updated = true;
+									if (!dataset._updated) {
+										dataset._updated = true;
+										chart.update();
+										// recalculate positions for smooth animation
+										dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+											metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+											metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+											metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+										});
+										break;
+									}
 								}
 							}
-						});
-					},
-				}
-			}
-		};
+							dataset._updated = true;
+						}
+					}
+				});
+			},
+			/**
+			 * Fix too long axis labels  - try to shorten and rotate
+			 * @param  {Chart}  chart	Chart instance
+			 * @return {Boolean}
+			 */
+			fixYAxisLabels: function fixYAxisLabels(chart) {
+				let shortenYTicks = function shortenYTicks(data, options) {
+					if (typeof options.scales === 'undefined') {
+						options.scales = {};
+					}
+					if (typeof options.scales.yAxes === 'undefined') {
+						options.scales.yAxes = [{}];
+					}
+					options.scales.yAxes.forEach((axis) => {
+						if (typeof axis.ticks === 'undefined') {
+							axis.ticks = {};
+						}
+						axis.ticks.callback = function yAxisTickCallback(value, index, values) {
+							if (value.length > 13) {
+								return value.substr(0, 10) + '...';
+							}
+							return value;
+						}
+					});
+					return options;
+				};
+				chart.data.datasets.forEach((dataset, index) => {
+					if (dataset._updated) {
+						return false;
+					}
+					for (let prop in dataset._meta) {
+						if (dataset._meta.hasOwnProperty(prop)) {
+							// we have meta
+							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+								const metaDataItem = dataset._meta[prop].data[i];
+								const label = metaDataItem._view.label;
+								if (label.length > 13) {
+									chart.options = shortenYTicks(chart.data, chart.options);
+									if (!dataset._updated) {
+										dataset._updated = true;
+										chart.update();
+										// recalculate positions for smooth animation
+										dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+											metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+											metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+											metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+										});
+										break;
+									}
+								}
+							}
+							dataset._updated = true;
+						}
+					}
+				});
+			},
+		}
 	},
 	/**
 	 * Get string to put in options instead of function
@@ -180,7 +386,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const [fn, functionName] = replacementStr.split(':');
 		let finalFunction = functionName.split('.').reduce((previous, current) => {
 			return previous[current];
-		}, this.getGlobalChartFunctions());
+		}, this.globalChartFunctions);
+		if (typeof finalFunction !== 'function') {
+			console.error("Global function does not exists: " + functionName);
+		}
 		return finalFunction.bind(this);
 	},
 	/**
@@ -252,7 +461,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartData) {
+	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartData, chartType) {
 		const options = this.parseOptions({
 			bar: {
 				basic: {
@@ -268,7 +477,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
-								maxRotation: 90
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
 							}
 						}],
 						yAxes: [{
@@ -302,7 +512,63 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.bar.beforeDraw'
+					beforeDraw: 'function:plugins.fixXAxisLabels',
+				}, {
+					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+				}],
+			},
+			horizontalbar: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels'
+				}, {
+					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
 				}],
 			},
 			pie: {
@@ -312,60 +578,65 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: true
 					},
-					scales: {
-						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}],
-						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
+					cutoutPercentage: 0,
+					layout: {
+						padding: {
+							bottom: 12
+						}
 					},
 					tooltips: {},
 				},
-				dataset: {},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
 				plugins: [],
 			},
 			donut: {
 				basic: {
-					cutoutPercentage: 50,
 					maintainAspectRatio: false,
 					title: {
 						display: false
 					},
 					legend: {
-						display: false
+						display: true
 					},
-					scales: {
-						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels',
-							}
-						}],
-						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
+					cutoutPercentage: 50,
+					layout: {
+						padding: {
+							bottom: 12
+						}
 					},
 					tooltips: {},
 				},
-				dataset: {},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
 				plugins: [],
 			},
 			line: {
@@ -382,7 +653,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
-								maxRotation: 90
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
 							}
 						}],
 						yAxes: [{
@@ -395,8 +667,24 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					tooltips: {},
 				},
-				dataset: {},
-				plugins: [],
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
 			},
 			funnel: {
 				basic: {
@@ -407,29 +695,34 @@ jQuery.Class('Vtiger_Widget_Js', {
 					legend: {
 						display: false
 					},
+					sort: 'desc',
 					scales: {
-						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90
-							}
-						}],
 						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
+							display: true,
+							beginAtZero: true,
+						}],
+						xAxes: [{
+							display: false,
+							beginAtZero: true,
 						}]
 					},
 					tooltips: {},
 				},
-				dataset: {},
-				plugins: [],
+				dataset: {
+					datalabels: {
+						display: false
+					}
+				},
+				plugins: [{
+					//beforeDraw: 'function:plugins.fixYAxisLabels',
+				}],
 			},
 		});
-		return options;
+		chartType = chartType.toLowerCase();
+		if (typeof options[chartType] !== 'undefined') {
+			return options[chartType];
+		}
+		throw new Error(chartType + ' chart doesn\'t exists! ' + Object.keys(options).toString());
 	},
 	/**
 	 * Get default chart basic options for specified chart type
@@ -439,7 +732,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	getDefaultBasicOptions: function getDefaultBasicOptions(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].basic;
+		return this.getGlobalDefaultChartsOptions(chartData, chartType).basic;
 	},
 	/**
 	 * Get default dataset options for specified chart type
@@ -449,7 +742,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	getDefaultDatasetOptions: function getDefaultDatasetOptions(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].dataset;
+		return this.getGlobalDefaultChartsOptions(chartData, chartType).dataset;
 	},
 	/**
 	 * Get default plugins for specified chart type
@@ -459,7 +752,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	getDefaultPlugins: function getDefaultPlugins(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].plugins;
+		return this.getGlobalDefaultChartsOptions(chartData, chartType).plugins;
 	},
 	getContainer: function getContainer() {
 		return this.container;
@@ -1022,6 +1315,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 			);
 		});
 	},
+	/**
+	 * Load plugins from configuration
+	 * @param  {Object} chartData from the request
+	 * @return {Object}
+	 */
 	loadPlugins: function loadPlugins(chartData) {
 		return this.mergeOptions(
 			this.getPlugins(chartData),
@@ -1079,6 +1377,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		});
 	},
+	/**
+	 * Same as mergeOptionsObject but in array ;)
+	 * @param  {Array} to
+	 * @param  {Array} fromArray
+	 * @return {Array}
+	 */
 	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
 		if (typeof to === 'undefined') {
 			to = [];
@@ -1095,6 +1399,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return to[index];
 		}).filter((item) => typeof item !== 'undefined');
 	},
+	/**
+	 * Merge options object and do not override exisisting properties
+	 * @param  {Object} to   object to extend
+	 * @param  {Object} from copy properties from this object
+	 * @return {Object}      mixed properties
+	 */
 	mergeOptionsObject: function mergeOptionsObject(to, from) {
 		if (typeof to === 'undefined') {
 			to = {};
@@ -1120,7 +1430,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Merge two objects with options and do not override existing properties
-	 * objects are not cloned in anyway - we are working on original object
 	 *
 	 * @param  {Object} to
 	 * @param  {Array} fromArray
@@ -1187,191 +1496,11 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 	getType: function getType() {
 		return 'bar';
 	},
-	getDatasetsMeta: function (chart) {
-		const datasets = [];
-		const data = chart.data;
-		if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
-			for (let i = 0, len = data.datasets.length; i < len; i++) {
-				const meta = chart.getDatasetMeta(i);
-				if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
-					datasets.push(meta);
-				}
-			}
-		}
-		return datasets;
-	},
-	hideDatalabelsIfNeeded: function (chart) {
-		const data = chart.data;
-		let datasetsMeta = this.getDatasetsMeta(chart);
-		let datasets = chart.data.datasets;
-		for (let i = 0, len = datasets.length; i < len; i++) {
-			const dataset = datasets[i];
-			const metaData = datasetsMeta[i].data;
-			if (typeof dataset._models === 'undefined') {
-				dataset._models = {};
-			}
-			if (typeof dataset.datalabels === 'undefined') {
-				dataset.datalabels = {};
-			}
-			if (typeof dataset.datalabels.display === 'undefined') {
-				dataset.datalabels.display = true;
-			}
-			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
-				const dataItem = metaData[iItem];
-				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-					let model = dataItem.$datalabels._model;
-					if (model !== null && typeof model !== 'undefined') {
-						dataset._models[iItem] = model;
-					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
-						model = dataset._models[iItem];
-					} else {
-						return false;
-					}
-					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
-					const barHeight = dataItem.height();
-					if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
-						dataItem.$datalabels._model = null;
-					} else {
-						dataItem.$datalabels._model = model;
-					}
-				}
-			}
-		}
-
-	},
-	shortenXTicks: function (data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
-				if (value.length > 13) {
-					return value.substr(0, 10) + '...';
-				}
-				return value;
-			}
-		});
-		return options;
-	},
-	rotateXLabels90: function (data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.minRotation = 90;
-		});
-		return options;
-	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 	getType: function () {
 		return 'horizontalBar';
-	},
-	hideDatalabelsIfNeeded: function (chart) {
-		const data = chart.data;
-		let datasetsMeta = this.getDatasetsMeta(chart);
-		let datasets = chart.data.datasets;
-		for (let i = 0, len = datasets.length; i < len; i++) {
-			const dataset = datasets[i];
-			const metaData = datasetsMeta[i].data;
-			if (typeof dataset._models === 'undefined') {
-				dataset._models = {};
-			}
-			if (typeof dataset.datalabels === 'undefined') {
-				dataset.datalabels = {};
-			}
-			if (typeof dataset.datalabels.display === 'undefined') {
-				dataset.datalabels.display = true;
-			}
-			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
-				const dataItem = metaData[iItem];
-				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-					let model = dataItem.$datalabels._model;
-					if (model !== null && typeof model !== 'undefined') {
-						dataset._models[iItem] = model;
-					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
-						model = dataset._models[iItem];
-					} else {
-						return false;
-					}
-					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
-					const barWidth = dataItem.width;
-					if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
-						dataItem.$datalabels._model = null;
-					} else {
-						dataItem.$datalabels._model = model;
-					}
-				}
-			}
-		}
-
-	},
-	shortenYTicks: function shortenYTicks(data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.callback = function yAxisTickCallback(value, index, values) {
-				if (value.length > 13) {
-					return value.substr(0, 10) + '...';
-				}
-				return value;
-			}
-		});
-		return options;
-	},
-	beforeDraw: function (chart) {
-		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) => {
-			if (dataset._updated) {
-				return false;
-			}
-			for (let prop in dataset._meta) {
-				if (dataset._meta.hasOwnProperty(prop)) {
-					// we have meta
-					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-						const metaDataItem = dataset._meta[prop].data[i];
-						const label = metaDataItem._view.label;
-						if (label.length > 13) {
-							chart.options = this.shortenYTicks(chart.data, chart.options);
-							if (!dataset._updated) {
-								dataset._updated = true;
-								chart.update();
-								// recalculate positions for smooth animation
-								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-								});
-								break;
-							}
-						}
-					}
-					dataset._updated = true;
-				}
-			}
-		});
 	},
 });
 YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
@@ -1451,51 +1580,10 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
 		return 'funnel';
 	},
-	getDefaultChartOptions: function (data, options = {}) {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false,
-			},
-			sort: 'desc',
-			scales: {
-				yAxes: [{
-					display: true
-				}]
-			},
-		};
-	},
-	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
-		return {
-			datalabels: {
-				display: false
-			}
-		};
-	},
 });
 YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	getType: function getType() {
 		return 'pie';
-	},
-	getDefaultChartOptions: function (data, options = {}) {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: true
-			},
-			cutoutPercentage: 0,
-			layout: {
-				padding: {
-					bottom: 12
-				}
-			}
-		};
 	},
 });
 YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
@@ -1505,63 +1593,9 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		return data;
-	},
-	loadChart: function () {
-		var data = this.generateData();
-		var series = [];
-		$.each(data['divided'], function (index, value) {
-			series[index] = {
-				label: value
-			};
-		});
-		if (data['chartData'].length > 0) {
-			this.chartInstance = this.getChartContainer(false).jqplot(data['chartData'], {
-				stackSeries: true,
-				captureRightClick: true,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						highlightMouseOver: true,
-						varyBarColor: true
-					},
-					pointLabels: {
-						show: true
-					}
-				},
-				series: series,
-				axes: {
-					xaxis: {
-						renderer: $.jqplot.CategoryAxisRenderer,
-						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-						ticks: data['group'],
-						tickOptions: {
-							angle: -65,
-						}
-					}
-				},
-				legend: {
-					show: true,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var data = this.generateData();
-		var links = data['links'];
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
-			var url = links[seriesIndex][pointIndex];
-			window.location.href = url;
-		});
-	},
+	getType: function getType() {
+		return 'bar';
+	}
 });
 YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	getType: function getType() {
@@ -1643,43 +1677,10 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 			}
 		});
 	},
-	getPlugins: function () {
-		const thisInstance = this;
-		return [{
-			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-		}]
-	},
 });
 YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getChartContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				axesDefaults: {
-					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-				},
-				seriesDefaults: {
-					rendererOptions: {
-						smooth: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 0,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
+	getType: function () {
+		return 'line';
 	}
 });
 YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
