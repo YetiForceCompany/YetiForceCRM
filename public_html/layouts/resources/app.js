@@ -865,6 +865,7 @@ app = {
 		}
 		var language = jQuery('body').data('language');
 		//Default first day of the week
+		var defaultFirstDay = CONFIG.firstDayOfWeek;
 		if (defaultFirstDay == '' || typeof (defaultFirstDay) == 'undefined') {
 			var convertedFirstDay = 1
 		} else {
