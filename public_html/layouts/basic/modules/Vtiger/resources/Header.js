@@ -402,8 +402,7 @@ jQuery.Class("Vtiger_Header_Js", {
 
 		});
 		//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
-		var liElements = tabElements.closest('li');
-		liElements.filter(':not(.active)').find('a').each(function (e) {
+		tabElements.filter('a:not(.active)').each(function (e) {
 			quickCreateTabOnHide(jQuery(this).attr('data-target'));
 		});
 	},
