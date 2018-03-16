@@ -50,8 +50,29 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @type {Object}
 	 */
 	globalChartFunctions: {
+		/**
+		 * Functions for x or y axas scales xAxes:[{here}]
+		 */
 		scales: {
 			formatAxesLabels: function formatAxesLabels(value, index, values) {
+				if (!isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			},
+		},
+		/**
+		 * Functions for datalabels
+		 */
+		datalabels: {
+			formatter: function datalabelsFormatter(value, context) {
+				if (
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+				) {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+				}
 				if (!isNaN(Number(value))) {
 					return app.parseNumberToShow(value);
 				}
@@ -75,7 +96,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
 		const [fn, functionName] = replacementStr.split(':');
-		let finalFunction = functionName.split('.').reduce((pervious, current) => {
+		let finalFunction = functionName.split('.').reduce((previous, current) => {
 			return previous[current];
 		}, this.globalChartFunctions);
 		return finalFunction.bind(this);
@@ -106,6 +127,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 				result[propertyName] = this.parseOptionsArray(value);
 			} else if (typeof value === 'object' && value !== null) {
 				result[propertyName] = this.parseOptionsObject(value);
+			} else {
+				result[propertyName] = value;
 			}
 		}
 		return result;
@@ -148,103 +171,172 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartData) {
-		const thisInstance = this;
-		return {
+		return this.parseOptions({
 			bar: {
-				basic: function basicBarChartOptionsCallback(chartData) {
-					return {
-						maintainAspectRatio: false,
-						title: {
-							display: false
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					}
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
 						},
-						legend: {
-							display: false
-						},
-						scales: {
-							xAxes: [{
-								ticks: {
-									autoSkip: false,
-									beginAtZero: true,
-									maxRotation: 90
-								}
-							}],
-							yAxes: [{
-								ticks: {
-									autoSkip: false,
-									beginAtZero: true,
-									callback: 'function:scales.formatAxesLabels'
-								}
-							}]
-						}
-					};
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
 				},
-				dataset: function datasetBarChartOptionsCallback(chartData, dataset, datasetIndex) {
-					return {};
-				},
-				tooltips: function tooltipsBarChartOptionsCallback(chartData) {
-					return {};
-				},
-				plugins: function pluginsBarChartOptionsCallback(chartData) {
-					return [];
-				},
+				tooltips: {},
+				plugins: [],
 			},
 			pie: {
-				basic: function basicPieChartOptionsCallback(chartData) {
-					return {};
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					}
 				},
-				dataset: function datasetPieChartOptionsCallback(chartData, dataset, datasetIndex) {
-					return {};
-				},
-				tooltips: function tooltipsPieChartOptionsCallback(chartData) {
-					return {};
-				},
-				plugins: function pluginsPieChartOptionsCallback(chartData) {
-					return [];
-				},
+				dataset: {},
+				tooltips: {},
+				plugins: [],
 			},
 			donut: {
-				basic: function basicDonutChartOptionsCallback(chartData) {
-					return {};
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					}
 				},
-				dataset: function datasetDonutChartOptionsCallback(chartData, dataset, datasetIndex) {
-					return {};
-				},
-				tooltips: function tooltipsDonutChartOptionsCallback(chartData) {
-					return {};
-				},
-				plugins: function pluginsDonutChartOptionsCallback(chartData) {
-					return [];
-				},
+				dataset: {},
+				tooltips: {},
+				plugins: [],
 			},
 			line: {
-				basic: function basicLineChartOptionsCallback(chartData) {
-					return {};
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					}
 				},
-				dataset: function datasetLineChartOptionsCallback(chartData, dataset, datasetIndex) {
-					return {};
-				},
-				tooltips: function tooltipsLineChartOptionsCallback(chartData) {
-					return {};
-				},
-				plugins: function pluginsLineChartOptionsCallback(chartData) {
-					return [];
-				},
+				dataset: {},
+				tooltips: {},
+				plugins: [],
 			},
 			funnel: {
-				basic: function basicFunnelChartOptionsCallback(chartData) {
-					return {};
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					}
 				},
-				dataset: function datasetFunnelChartOptionsCallback(chartData, dataset, datasetIndex) {
-					return {};
-				},
-				tooltips: function tooltipsFunnelChartOptionsCallback(chartData) {
-					return {};
-				},
-				plugins: function pluginsFunnelChartOptionsCallback(chartData) {
-					return [];
-				},
+				dataset: {},
+				tooltips: {},
+				plugins: [],
 			},
-		};
+		});
 	},
 	/**
 	 * Get default chart basic options for specified chart type
@@ -253,8 +345,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultBasciOptionsFor: function getDefaultBasciOptionsFor(chartType, chartData) {
-		return getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].basic.apply(this, [chartData]);
+	getDefaultBasicOptions: function getDefaultBasicOptions(chartType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].basic;
 	},
 	/**
 	 * Get default dataset options for specified chart type
@@ -263,8 +355,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultDatasetOptionsFor: function getDefaultDatasetOptionsFor(chartType, chartData, dataset, datasetIndex) {
-		return getGlobalDefaultChartsOptions()[chartType.toLowerCase()].dataset.apply(this, [chartData, dataset, datasetIndex]);
+	getDefaultDatasetOptions: function getDefaultDatasetOptions(chartType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].dataset;
 	},
 	/**
 	 * Get default tootip options for specified chart type
@@ -273,8 +365,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultTooltipsOptionsFor: function getDefaultTooltipsOptionsFor(chartType, chartData) {
-		return getGlobalDefaultChartsOptions()[chartType.toLowerCase()].tooltips.apply(this, [chartData]);
+	getDefaultTooltipsOptions: function getDefaultTooltipsOptions(chartType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].tooltips;
 	},
 	/**
 	 * Get default plugins for specified chart type
@@ -283,8 +375,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultPluginsFor: function getDefaultPluginsFor(chartType, chartData) {
-		return getGlobalDefaultChartsOptions()[chartType.toLowerCase()].plugins.apply(this, [chartData]);
+	getDefaultPluginsr: function getDefaultPlugins(chartType, chartData) {
+		return this.getGlobalDefaultChartsOptions()[chartType.toLowerCase()].plugins;
 	},
 	getContainer: function getContainer() {
 		return this.container;
@@ -767,22 +859,37 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Load and display chart into the view
 	 *
-	 * @return {undefined}
+	 * @return {Chart} chartInstance
 	 */
 	loadChart: function loadChart() {
-		const thisInstance = this;
-		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getChartContainer() === 'undefined') {
+		if (typeof this.chartData === 'undefined' || typeof this.getChartContainer() === 'undefined') {
 			return false;
 		}
-		const data = thisInstance.loadDatasetOptions(thisInstance.generateData());
-		// each chart type should have default options as getDefaultChartOptions method
-		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
-		thisInstance.chartInstance = new Chart(
-			thisInstance.getChartContainer().getContext("2d"), {
-				type: thisInstance.getType(),
+		const type = this.getType();
+		let data = this.generateData();
+		const datasetOptions = this.mergeOptions(
+			data.dataset,
+			this.getDatasetOptions(data),
+			this.getDefaultDatasetOptions(data),
+		);
+		data = this.loadDatasetOptions(data, datasetOptions);
+		const options = this.mergeOptions(
+			data,
+			this.getBasicOptions(data),
+			this.getDefaultBasicOptions(data),
+			this.getTooltipsOptions(data),
+			this.getDefaultTooltipsOptions(data),
+		);
+		const plugins = this.mergeOptions(
+			this.getPlugins(data),
+			this.getDefaultPlugins(data),
+		);
+		return this.chartInstance = new Chart(
+			this.getChartContainer().getContext("2d"), {
+				type,
 				data,
 				options,
-				plugins: thisInstance.getPlugins()
+				plugins
 			}
 		);
 	},
@@ -825,74 +932,25 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}              merged options
 	 */
 	loadDefaultChartOptions: function (data, options = {}) {
-		options = this.mergeOptions(options, this.getDefaultChartOptions());
+		options = this.mergeOptions(options, this.getDefaultBasciOptionsFor(this.getType(), chartData));
 		options = this.loadDefaultTooltipsOptions(data, options);
 		return options;
-	},
-	/**
-	 * Get datalabels configuration - unified datalabels configuration for all chart types - might be overrided
-	 * see: https://chartjs-plugin-datalabels.netlify.com/options
-	 *
-	 * @param {Object} dataset
-	 * @param {String} type     chart type 'bar','pie' etc.
-	 * @param {Number} datasetIndex
-	 * @returns {Object}
-	 */
-	getDefaultDatasetOptions: function getDefaultDatasetOptions(dataset, type = 'bar', datasetIndex = 0) {
-		let borderRadius = 2;
-		let align = 'center';
-		let anchor = 'center';
-		let backgroundColor = 'rgba(0,0,0,0.2)';
-		let borderColor = 'rgba(255,255,255,0.2)';
-		switch (type) {
-			case 'pie':
-			case 'donut':
-			case 'doughnut':
-				borderRadius = 5;
-				align = 'center';
-				anchor = 'end';
-				backgroundColor = 'rgba(0,0,0,0.5)';
-				borderColor = 'rgba(255,255,255,0.5)';
-				break;
-		}
-		return {
-			datalabels: {
-				font: {
-					size: 11
-				},
-				color: 'white',
-				backgroundColor,
-				borderColor,
-				borderWidth: 2,
-				borderRadius: borderRadius,
-				anchor: anchor,
-				align: align,
-				formatter: function (value, context) {
-					if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
-						// data presented in different format usually exists in alternative dataFormatted array
-						return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
-					}
-					if (!isNaN(Number(value))) {
-						return app.parseNumberToShow(value);
-					}
-					return value;
-				},
-			},
-		};
 	},
 	/**
 	 * Apply default dataset options (usually datalabels configuration)
 	 *
 	 * @param {object} chartData from request
-	 * @param {string} chartType 'bar','pie' etc..
 	 * @returns {object} chartData
 	 */
-	loadDatasetOptions: function loadDatasetOptions(chartData, chartType) {
+	loadDatasetOptions: function loadDatasetOptions(chartData) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
 		chartData.datasets.forEach((dataset, index) => {
-			let datasetOptions = this.mergeOptions(this.getDatasetOptions(dataset, this.getType(), index), this.getDefaultDatasetOptions(dataset, this.getType(), index));
+			let datasetOptions = this.mergeOptions(
+				this.getDatasetOptions(this.getType(), chartData),
+				this.getDefaultDatasetOptionsFor(this.getType(), chartData)
+			);
 			// merge with those dataset options from server if needed
 			chartData.datasets[index] = this.mergeOptions(dataset, datasetOptions);
 		});
@@ -991,31 +1049,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		});
 	},
-	/**
-	 * Merge two objects with options and do not override existing properties
-	 * objects are not cloned in anyway - we are working on original object
-	 *
-	 * @param  {object} to
-	 * @param  {object} from
-	 * @return {object}
-	 */
-	mergeOptions: function mergeOptions(to = {}, from) {
-		if (typeof from !== 'object' && typeof to === 'undefined') {
-			// if we are in recursive tree and from and to are primitives - just return from
-			return from;
-		}
+	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
+		return fromArray.map((from) => {
+			return this.mergeOptions(to, from);
+		});
+	},
+	mergeOptionsObject: function mergeOptionsObject(to, from) {
 		for (let key in from) {
 			if (from.hasOwnProperty(key)) {
-				if (typeof from[key] === 'object' && !Array.isArray(from[key]) && from[key] !== null) {
-					// if property is an object - merge recursively
-					to[key] = this.mergeOptions(to[key], from[key]);
-				} else if (typeof from[key] === 'object' && Array.isArray(from[key])) {
+				if (Array.isArray(from[key])) {
 					if (!to.hasOwnProperty(key)) {
-						to[key] = [];
+						to[key] = this.mergeOptionsArray(from[key]);
 					}
-					from[key].forEach((item, index) => {
-						to[key][index] = this.mergeOptions(to[key][index], item);
-					});
+				} else if (typeof from[key] === 'object' && from[key] !== null) {
+					// if property is an object - merge recursively
+					to[key] = this.mergeOptionsOject(to[key], from[key]);
 				} else {
 					if (!to.hasOwnProperty(key)) {
 						to[key] = from[key];
@@ -1024,6 +1072,24 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		}
 		return to;
+	},
+	/**
+	 * Merge two objects with options and do not override existing properties
+	 * objects are not cloned in anyway - we are working on original object
+	 *
+	 * @param  {Object} to
+	 * @param  {Array} fromArray
+	 * @return {object}
+	 */
+	mergeOptions: function mergeOptions(to = {}, ...fromArray) {
+		return fromArray.reduce((prev, curr) => {
+			if (Array.isArray(curr)) {
+				return this.mergeOptionsArray(prev, curr);
+			}
+			if (typeof curr == 'object' && curr !== null) {
+				return this.mergeOptionsObject(prev, curr);
+			}
+		}, to);
 	},
 	/**
 	 * Apply unified tooltips configuration
@@ -1035,7 +1101,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	loadDefaultTooltipsOptions: function loadDefaultTooltipsOptions(data, options = {}) {
 		this.formatTooltipTitles(data); // titles are now in dataset.titlesFormatted
 		this.formatTooltipLabels(data); // labels are now in dataset.dataFormatted
-		return options = this.mergeOptions(options, this.getTooltipsOptions(data));
+		return options = this.mergeOptions(options, , this.getTooltipsOptions(data));
 	},
 	/**
 	 * Placeholder for individual chart type options
@@ -1080,37 +1146,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 });
 Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	getDefaultChartOptions: function () {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false
-			},
-			scales: {
-				xAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						maxRotation: 90
-					}
-				}],
-				yAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						callback: function defaultYTicksCallback(value, index, values) {
-							if (!isNaN(Number(value))) {
-								return app.parseNumberToShow(value);
-							}
-							return value;
-						}
-					}
-				}]
-			}
-		};
+	getType: function getType() {
+		return 'bar';
 	},
 	getDatasetsMeta: function (chart) {
 		const datasets = [];
@@ -1241,12 +1278,6 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				}
 			}
 		});
-	},
-	getPlugins: function () {
-		const thisInstance = this;
-		return [{
-			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-		}]
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1630,7 +1661,6 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 		return options;
 	},
 	beforeDraw: function (chart) {
-		console.log('line chart before draw', chart);
 		chart.data.datasets.forEach((dataset, index) => {
 			if (dataset._updated) {
 				return false;
