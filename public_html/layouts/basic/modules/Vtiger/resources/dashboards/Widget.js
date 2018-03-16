@@ -533,7 +533,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getChartContainer() === 'undefined') {
 			return false;
 		}
-		const data = thisInstance.loadDatalabelsOptions(thisInstance.generateData());
+		const data = thisInstance.loadDatasetOptions(thisInstance.generateData());
 		// each chart type should have default options as getDefaultChartOptions method
 		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
 		thisInstance.chartInstance = new Chart(
@@ -597,7 +597,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {Number} datasetIndex
 	 * @returns {Object}
 	 */
-	getDefaultDatalabelsOptions: function getDefaultDatalabelsOptions(dataset, type = 'bar', datasetIndex = 0) {
+	getDefaultDatasetOptions: function getDefaultDatasetOptions(dataset, type = 'bar', datasetIndex = 0) {
 		let borderRadius = 2;
 		let align = 'center';
 		let anchor = 'center';
@@ -615,42 +615,44 @@ jQuery.Class('Vtiger_Widget_Js', {
 				break;
 		}
 		return {
-			font: {
-				size: 11
-			},
-			color: 'white',
-			backgroundColor: backgroundColor,
-			borderColor: borderColor,
-			borderWidth: 2,
-			borderRadius: borderRadius,
-			anchor: anchor,
-			align: align,
-			formatter: function (value, context) {
-				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
-					// data presented in different format usually exists in alternative dataFormatted array
-					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
-				}
-				if (!isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
-				}
-				return value;
+			datalabels: {
+				font: {
+					size: 11
+				},
+				color: 'white',
+				backgroundColor: backgroundColor,
+				borderColor: borderColor,
+				borderWidth: 2,
+				borderRadius: borderRadius,
+				anchor: anchor,
+				align: align,
+				formatter: function (value, context) {
+					if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
+						// data presented in different format usually exists in alternative dataFormatted array
+						return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+					}
+					if (!isNaN(Number(value))) {
+						return app.parseNumberToShow(value);
+					}
+					return value;
+				},
 			},
 		};
 	},
 	/**
-	 * Apply default datalabels config
+	 * Apply default dataset options (usually datalabels configuration)
 	 *
 	 * @param {object} chartData from request
 	 * @param {string} chartType 'bar','pie' etc..
 	 * @returns {object} chartData
 	 */
-	loadDatalabelsOptions: function loadDatalabelsOptions(chartData, chartType) {
+	loadDatasetOptions: function loadDatasetOptions(chartData, chartType) {
 		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
 			return false;
 		}
 		chartData.datasets.forEach((dataset, index) => {
-			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset, this.getType(), index));
-			dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
+			let datasetOptions = this.mergeOptions(this.getDatasetOptions(dataset, this.getType(), index), this.getDefaultDatasetOptions(dataset, this.getType(), index));
+			chartData.datasets[index] = this.mergeOptions(dataset, datasetOptions);
 		});
 		return chartData;
 	},
@@ -811,7 +813,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Number} datasetIndex
 	 * @return {Object} datalabels configurations
 	 */
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
 		return {};
 	},
 	/**
@@ -1198,9 +1200,11 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 			},
 		};
 	},
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
 		return {
-			display: false
+			datalabels: {
+				display: false
+			}
 		};
 	},
 });
@@ -1309,42 +1313,124 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 	},
 });
 
-YetiForce_Barchat_Widget_Js('YetiForce_Line_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getChartContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				legend: {
-					show: false,
-					labels: data['labels'],
-					location: 'ne',
-					showSwatch: true,
-					showLabels: true,
-					placement: 'outside'
-				},
-				seriesDefaults: {
-					pointLabels: {
-						show: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 1,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
+YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
+	getType: function getType() {
+		return 'line';
+	},
+	getDefaultChartOptions: function getDefaultChartOptions() {
+		return {
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: false
+			},
+			scales: {
+				xAxes: [{
+						ticks: {
+							autoSkip: false,
+							beginAtZero: true,
+							maxRotation: 90
+						}
+					}],
+				yAxes: [{
+						ticks: {
+							autoSkip: false,
+							beginAtZero: true,
+							callback: function defaultYTicksCallback(value, index, values) {
+								if (!isNaN(Number(value))) {
+									return app.parseNumberToShow(value);
+								}
+								return value;
+							}
+						}
+					}]
+			}
+		};
+	},
+	shortenXTicks: function (data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+				if (value.length > 13) {
+					return value.substr(0, 10) + '...';
+				}
+				return value;
+			}
+		});
+		return options;
+	},
+	rotateXLabels90: function (data, options) {
+		if (typeof options.scales === 'undefined') {
+			options.scales = {};
+		}
+		if (typeof options.scales.xAxes === 'undefined') {
+			options.scales.xAxes = [{}];
+		}
+		options.scales.xAxes.forEach((axis) => {
+			if (typeof axis.ticks === 'undefined') {
+				axis.ticks = {};
+			}
+			axis.ticks.minRotation = 90;
+		});
+		return options;
+	},
+	beforeDraw: function (chart) {
+		chart.data.datasets.forEach((dataset, index) => {
+			if (dataset._updated) {
+				return false;
+			}
+			for (let prop in dataset._meta) {
+				if (dataset._meta.hasOwnProperty(prop)) {
+					// we have meta
+					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+						const metaDataItem = dataset._meta[prop].data[i];
+						const label = metaDataItem._view.label;
+						const ctx = metaDataItem._xScale.ctx;
+						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
+						const fullWidth = ctx.measureText(label).width;
+						if (categoryWidth < fullWidth) {
+							const shortened = label.substr(0, 10) + "...";
+							const shortenedWidth = ctx.measureText(shortened).width;
+							if (categoryWidth < shortenedWidth) {
+								chart.options = this.rotateXLabels90(chart.data, chart.options);
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							} else {
+								chart.options = this.shortenXTicks(chart.data, chart.options);
+							}
+							if (!dataset._updated) {
+								dataset._updated = true;
+								chart.update();
+								// recalculate positions for smooth animation
+								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+								});
+								break;
+							}
 						}
 					}
-				},
-				cursor: {
-					show: true
+					dataset._updated = true;
 				}
-			});
-		}
-	}
+			}
+		});
+	},
+	getPlugins: function () {
+		const thisInstance = this;
+		return [{
+				beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
+			}]
+	},
 });
 YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
 	loadChart: function () {
@@ -1961,7 +2047,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 		}
 	},
-	getTooltipsOptions: function getDatalabelsOptions() {
+	getTooltipsOptions: function getTooltipsOptions() {
 		return {
 			tooltips: {
 				callbacks: {
@@ -1975,11 +2061,13 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 		}
 	},
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
 		return {
-			formatter: function datalabelsFormatter(value, context) {
-				return app.formatToHourText(value);
-			}
+			datalabels: {
+				formatter: function datalabelsFormatter(value, context) {
+					return app.formatToHourText(value);
+				}
+			},
 		};
 	},
 });
