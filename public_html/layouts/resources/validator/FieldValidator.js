@@ -798,7 +798,7 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 			return response;
 		}
 		var fieldValue = this.getFieldValue();
-		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		var decimalSeparator = CONFIG.currencyDecimalSeparator;
 		var groupSeparator = CONFIG.currencyGroupingSeparator;
 		fieldValue = fieldValue.split(groupSeparator).join("");
 
