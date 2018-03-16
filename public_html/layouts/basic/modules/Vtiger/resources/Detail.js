@@ -2397,14 +2397,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var container = widgetContent.closest('.activityWidgetContainer');
 				thisInstance.reloadWidgetActivitesStats(container);
 			}
-		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
 			if (relatedModuleName === 'ModComments') {
 				var container = widgetContent.closest('.updatesWidgetContainer');
 				thisInstance.registerCommentEventsInDetail(container);
 			}
-		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
 			if (widgetContent.find('[name="relatedModule"]').length) {
 				thisInstance.registerShowSummary(widgetContent);
 			}
