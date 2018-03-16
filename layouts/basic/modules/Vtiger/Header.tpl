@@ -44,13 +44,6 @@
 		</head>
 		<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
 			<div id="configuration">
-				<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
-				<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
-				<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
-				<input type="hidden" id="userDateFormat" value="{$USER_MODEL->get('date_format')}" />
-				<input type="hidden" id="userTimeFormat" value="{$USER_MODEL->get('hour_format')}" />
-				<input type="hidden" id="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
-				<input type="hidden" id="currencyGroupingSeparator" value="{$USER_MODEL->get('currency_grouping_separator')}" />
 				<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
 				<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
 				<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
