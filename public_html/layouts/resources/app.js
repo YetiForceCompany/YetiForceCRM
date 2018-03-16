@@ -961,7 +961,7 @@ app = {
 	registerEventForClockPicker: function (object) {
 		if (typeof object === 'undefined') {
 			var elementClockBtn = $('.clockPicker');
-			var formatTime = app.getMainParams('userTimeFormat');
+			var formatTime = CONFIG.hourFormat;
 		} else {
 			elementClockBtn = object;
 			var formatTime = elementClockBtn.data('format');
