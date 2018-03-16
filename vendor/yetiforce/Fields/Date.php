@@ -27,6 +27,21 @@ class Date
 	];
 
 	/**
+	 * ISO-8601 numeric representation of the day of the week.
+	 *
+	 * @var array
+	 */
+	public static $dayOfWeek = [
+		'Monday' => 1,
+		'Tuesday' => 2,
+		'Wednesday' => 3,
+		'Thursday' => 4,
+		'Friday' => 5,
+		'Saturday' => 6,
+		'Sunday' => 7,
+	];
+
+	/**
 	 * Current user JS date format.
 	 *
 	 * @param bool $format
@@ -137,23 +152,32 @@ class Date
 			$format = 'yyyy-mm-dd';
 		}
 		switch ($format) {
-			case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $date, 3);
+			case 'dd-mm-yyyy':
+				list($d, $m, $y) = explode('-', $date, 3);
 				break;
-			case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $date, 3);
+			case 'mm-dd-yyyy':
+				list($m, $d, $y) = explode('-', $date, 3);
 				break;
-			case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $date, 3);
+			case 'yyyy-mm-dd':
+				list($y, $m, $d) = explode('-', $date, 3);
 				break;
-			case 'dd.mm.yyyy': list($d, $m, $y) = explode('.', $date, 3);
+			case 'dd.mm.yyyy':
+				list($d, $m, $y) = explode('.', $date, 3);
 				break;
-			case 'mm.dd.yyyy': list($m, $d, $y) = explode('.', $date, 3);
+			case 'mm.dd.yyyy':
+				list($m, $d, $y) = explode('.', $date, 3);
 				break;
-			case 'yyyy.mm.dd': list($y, $m, $d) = explode('.', $date, 3);
+			case 'yyyy.mm.dd':
+				list($y, $m, $d) = explode('.', $date, 3);
 				break;
-			case 'dd/mm/yyyy': list($d, $m, $y) = explode('/', $date, 3);
+			case 'dd/mm/yyyy':
+				list($d, $m, $y) = explode('/', $date, 3);
 				break;
-			case 'mm/dd/yyyy': list($m, $d, $y) = explode('/', $date, 3);
+			case 'mm/dd/yyyy':
+				list($m, $d, $y) = explode('/', $date, 3);
 				break;
-			case 'yyyy/mm/dd': list($y, $m, $d) = explode('/', $date, 3);
+			case 'yyyy/mm/dd':
+				list($y, $m, $d) = explode('/', $date, 3);
 				break;
 		}
 		return [$y, $m, $d];
