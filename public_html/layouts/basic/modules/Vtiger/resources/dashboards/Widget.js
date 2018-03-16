@@ -49,36 +49,118 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * Predefined functions that will replace options function type
 	 * @type {Object}
 	 */
-	globalChartFunctions: {
-		/**
-		 * Functions for x or y axas scales xAxes:[{here}]
-		 */
-		scales: {
-			formatAxesLabels: function formatAxesLabels(value, index, values) {
-				if (!isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
-				}
-				return value;
+	getGlobalChartFunctions: function getGlobalChartFunctions() {
+		return {
+			/**
+			 * Functions for x or y axas scales xAxes:[{here}]
+			 */
+			scales: {
+				formatAxesLabels: function formatAxesLabels(value, index, values) {
+					if (!isNaN(Number(value))) {
+						return app.parseNumberToShow(value);
+					}
+					return value;
+				},
 			},
-		},
-		/**
-		 * Functions for datalabels
-		 */
-		datalabels: {
-			formatter: function datalabelsFormatter(value, context) {
-				if (
-					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
-					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
-				) {
-					// data presented in different format usually exists in alternative dataFormatted array
-					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+			/**
+			 * Functions for datalabels
+			 */
+			datalabels: {
+				formatter: function datalabelsFormatter(value, context) {
+					if (
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+					) {
+						// data presented in different format usually exists in alternative dataFormatted array
+						return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+					}
+					if (!isNaN(Number(value))) {
+						return app.parseNumberToShow(value);
+					}
+					return value;
 				}
-				if (!isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
+			},
+			/**
+			 * Tooltips functions
+			 */
+			tooltips: {
+				label: function tooltipLabelCallback(tooltipItem, data) {
+					// get already formatted data if exists
+					if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+						return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+					}
+					// if there is no formatted data so try to format it
+					if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+						return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+					}
+					// return raw data at idex
+					return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+				},
+				title: function tooltipTitleCallback(tooltipItems, data) {
+					const tooltipItem = tooltipItems[0];
+					// get already formatted title if exists
+					if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+						return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+					}
+					// if there is no formatted title so try to format it
+					if (!isNaN(Number(data.labels[tooltipItem.index]))) {
+						return app.parseNumberToShow(data.labels[tooltipItem.index]);
+					}
+					// return label at index
+					return data.labels[tooltipItem.index];
 				}
-				return value;
+			},
+
+			/**
+			 * plugins
+			 */
+			plugins: {
+				bar: {
+					beforeDraw: function beforeDraw(chart) {
+						this.hideDatalabelsIfNeeded(chart);
+						chart.data.datasets.forEach((dataset, index) => {
+							if (dataset._updated) {
+								return false;
+							}
+							for (let prop in dataset._meta) {
+								if (dataset._meta.hasOwnProperty(prop)) {
+									// we have meta
+									for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+										const metaDataItem = dataset._meta[prop].data[i];
+										const label = metaDataItem._view.label;
+										const ctx = metaDataItem._xScale.ctx;
+										const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
+										const fullWidth = ctx.measureText(label).width;
+										if (categoryWidth < fullWidth) {
+											const shortened = label.substr(0, 10) + "...";
+											const shortenedWidth = ctx.measureText(shortened).width;
+											if (categoryWidth < shortenedWidth) {
+												chart.options = this.rotateXLabels90(chart.data, chart.options);
+												chart.options = this.shortenXTicks(chart.data, chart.options);
+											} else {
+												chart.options = this.shortenXTicks(chart.data, chart.options);
+											}
+											if (!dataset._updated) {
+												dataset._updated = true;
+												chart.update();
+												// recalculate positions for smooth animation
+												dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+													metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+												});
+												break;
+											}
+										}
+									}
+									dataset._updated = true;
+								}
+							}
+						});
+					},
+				}
 			}
-		}
+		};
 	},
 	/**
 	 * Get string to put in options instead of function
@@ -98,7 +180,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const [fn, functionName] = replacementStr.split(':');
 		let finalFunction = functionName.split('.').reduce((previous, current) => {
 			return previous[current];
-		}, this.globalChartFunctions);
+		}, this.getGlobalChartFunctions());
 		return finalFunction.bind(this);
 	},
 	/**
@@ -171,7 +253,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartData) {
-		return this.parseOptions({
+		const options = this.parseOptions({
 			bar: {
 				basic: {
 					maintainAspectRatio: false,
@@ -196,7 +278,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels'
 							}
 						}]
-					}
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 				},
 				dataset: {
 					datalabels: {
@@ -213,8 +301,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 						formatter: 'function:datalabels.formatter',
 					},
 				},
-				tooltips: {},
-				plugins: [],
+				plugins: [{
+					beforeDraw: 'function:plugins.bar.beforeDraw'
+				}],
 			},
 			pie: {
 				basic: {
@@ -230,7 +319,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
-								maxRotation: 90
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
 							}
 						}],
 						yAxes: [{
@@ -240,14 +330,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels'
 							}
 						}]
-					}
+					},
+					tooltips: {},
 				},
 				dataset: {},
-				tooltips: {},
 				plugins: [],
 			},
 			donut: {
 				basic: {
+					cutoutPercentage: 50,
 					maintainAspectRatio: false,
 					title: {
 						display: false
@@ -260,7 +351,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
-								maxRotation: 90
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
 							}
 						}],
 						yAxes: [{
@@ -270,10 +362,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels'
 							}
 						}]
-					}
+					},
+					tooltips: {},
 				},
 				dataset: {},
-				tooltips: {},
 				plugins: [],
 			},
 			line: {
@@ -300,10 +392,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels'
 							}
 						}]
-					}
+					},
+					tooltips: {},
 				},
 				dataset: {},
-				tooltips: {},
 				plugins: [],
 			},
 			funnel: {
@@ -330,13 +422,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels'
 							}
 						}]
-					}
+					},
+					tooltips: {},
 				},
 				dataset: {},
-				tooltips: {},
 				plugins: [],
 			},
 		});
+		return options;
 	},
 	/**
 	 * Get default chart basic options for specified chart type
@@ -359,24 +452,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].dataset;
 	},
 	/**
-	 * Get default tootip options for specified chart type
-	 *
-	 * @param  {String} chartType 'bar','pie'...
-	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
-	 * @return {Object}
-	 */
-	getDefaultTooltipsOptions: function getDefaultTooltipsOptions(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].tooltips;
-	},
-	/**
 	 * Get default plugins for specified chart type
 	 *
 	 * @param  {String} chartType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultPluginsr: function getDefaultPlugins(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions()[chartType.toLowerCase()].plugins;
+	getDefaultPlugins: function getDefaultPlugins(chartType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartData)[chartType.toLowerCase()].plugins;
 	},
 	getContainer: function getContainer() {
 		return this.container;
@@ -866,24 +949,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		const type = this.getType();
-		let data = this.generateData();
-		const datasetOptions = this.mergeOptions(
-			data.dataset,
-			this.getDatasetOptions(data),
-			this.getDefaultDatasetOptions(data),
-		);
-		data = this.loadDatasetOptions(data, datasetOptions);
-		const options = this.mergeOptions(
-			data,
-			this.getBasicOptions(data),
-			this.getDefaultBasicOptions(data),
-			this.getTooltipsOptions(data),
-			this.getDefaultTooltipsOptions(data),
-		);
-		const plugins = this.mergeOptions(
-			this.getPlugins(data),
-			this.getDefaultPlugins(data),
-		);
+		const data = this.generateData();
+		data.datasets = this.loadDatasetOptions(data);
+		const options = this.loadBasicOptions(data);
+		const plugins = this.loadPlugins(data);
 		return this.chartInstance = new Chart(
 			this.getChartContainer().getContext("2d"), {
 				type,
@@ -925,16 +994,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Apply default chart options
-	 * each chart type could have different default options returned from getDefaultChartOptions
+	 * basic and tooltip options share the same space
 	 *
-	 * @param  {Object} data         chartData
-	 * @param  {Object} [options={}] instance options (getOptions)
+	 * @param  {Object} chartData
 	 * @return {Object}              merged options
 	 */
-	loadDefaultChartOptions: function (data, options = {}) {
-		options = this.mergeOptions(options, this.getDefaultBasciOptionsFor(this.getType(), chartData));
-		options = this.loadDefaultTooltipsOptions(data, options);
-		return options;
+	loadBasicOptions: function loadBasicOptions(chartData) {
+		this.formatTooltipTitles(chartData);
+		this.formatTooltipLabels(chartData);
+		return this.mergeOptions(
+			this.getBasicOptions(chartData),
+			this.getDefaultBasicOptions(this.getType(), chartData),
+		);
 	},
 	/**
 	 * Apply default dataset options (usually datalabels configuration)
@@ -943,60 +1014,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {object} chartData
 	 */
 	loadDatasetOptions: function loadDatasetOptions(chartData) {
-		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
-			return false;
-		}
-		chartData.datasets.forEach((dataset, index) => {
-			let datasetOptions = this.mergeOptions(
-				this.getDatasetOptions(this.getType(), chartData),
-				this.getDefaultDatasetOptionsFor(this.getType(), chartData)
+		return chartData.datasets.map((dataset, index) => {
+			return this.mergeOptions(
+				dataset,
+				this.getDatasetOptions(chartData),
+				this.getDefaultDatasetOptions(this.getType(), chartData)
 			);
-			// merge with those dataset options from server if needed
-			chartData.datasets[index] = this.mergeOptions(dataset, datasetOptions);
 		});
-		return chartData;
 	},
-	/**
-	 * Get tooltips configuration - this method can be overrided if needed
-	 * see: http://www.chartjs.org/docs/latest/configuration/tooltip.html
-	 *
-	 * @param {object} data - chartData
-	 * @returns {object} default options
-	 */
-	getTooltipsOptions: function getTooltipsOptions(data) {
-		return {
-			tooltips: {
-				callbacks: {
-
-					label: function tooltipLabelCallback(tooltipItem, data) {
-						// get already formatted data if exists
-						if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
-							return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-						}
-						// if there is no formatted data so try to format it
-						if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
-							return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-						}
-						// return raw data at idex
-						return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-					},
-					title: function tooltipTitleCallback(tooltipItems, data) {
-						const tooltipItem = tooltipItems[0];
-						// get already formatted title if exists
-						if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
-							return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
-						}
-						// if there is no formatted title so try to format it
-						if (!isNaN(Number(data.labels[tooltipItem.index]))) {
-							return app.parseNumberToShow(data.labels[tooltipItem.index]);
-						}
-						// return label at index
-						return data.labels[tooltipItem.index];
-					}
-
-				}
-			}
-		};
+	loadPlugins: function loadPlugins(chartData) {
+		return this.mergeOptions(
+			this.getPlugins(chartData),
+			this.getDefaultPlugins(this.getType(), chartData)
+		);
 	},
 	/**
 	 * Format tooltip titles to user number format and push this modification to titlesFormatted
@@ -1050,20 +1080,35 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
-		return fromArray.map((from) => {
-			return this.mergeOptions(to, from);
-		});
+		if (typeof to === 'undefined') {
+			to = [];
+		}
+		return fromArray.map((from, index) => {
+			if (Array.isArray(from) && (typeof to[index] === 'undefined' || Array.isArray(to[index]))) {
+				return this.mergeOptionsArray(to[index], from);
+			}
+			if (typeof from === 'object' && from !== null &&
+				(typeof to[index] === 'undefined' ||
+					(typeof to[index] === 'object' && to[index] !== null))) {
+				return this.mergeOptionsObject(to[index], from);
+			}
+			return to[index];
+		}).filter((item) => typeof item !== 'undefined');
 	},
 	mergeOptionsObject: function mergeOptionsObject(to, from) {
+		if (typeof to === 'undefined') {
+			to = {};
+		}
 		for (let key in from) {
 			if (from.hasOwnProperty(key)) {
 				if (Array.isArray(from[key])) {
 					if (!to.hasOwnProperty(key)) {
-						to[key] = this.mergeOptionsArray(from[key]);
+						to[key] = this.mergeOptionsArray(to[key], from[key]);
 					}
-				} else if (typeof from[key] === 'object' && from[key] !== null) {
+				} else if (typeof from[key] === 'object' && from[key] !== null &&
+					(typeof from[key] === typeof to[key] || typeof to[key] === 'undefined')) {
 					// if property is an object - merge recursively
-					to[key] = this.mergeOptionsOject(to[key], from[key]);
+					to[key] = this.mergeOptionsObject(to[key], from[key]);
 				} else {
 					if (!to.hasOwnProperty(key)) {
 						to[key] = from[key];
@@ -1086,22 +1131,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (Array.isArray(curr)) {
 				return this.mergeOptionsArray(prev, curr);
 			}
-			if (typeof curr == 'object' && curr !== null) {
+			if (typeof curr === 'object' && curr !== null) {
 				return this.mergeOptionsObject(prev, curr);
 			}
+			console.error('Options should be an Object.');
+			return curr;
 		}, to);
-	},
-	/**
-	 * Apply unified tooltips configuration
-	 *
-	 * @param {chartData} data - data from request
-	 * @param {object} options - predefined options
-	 * @returns {object} options
-	 */
-	loadDefaultTooltipsOptions: function loadDefaultTooltipsOptions(data, options = {}) {
-		this.formatTooltipTitles(data); // titles are now in dataset.titlesFormatted
-		this.formatTooltipLabels(data); // labels are now in dataset.dataFormatted
-		return options = this.mergeOptions(options, , this.getTooltipsOptions(data));
 	},
 	/**
 	 * Placeholder for individual chart type options
@@ -1109,7 +1144,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 *
 	 * @returns {object} chart options
 	 */
-	getOptions: function getOptions() {
+	getBasicOptions: function getBasicOptions(chartData) {
 		return {};
 	},
 	/**
@@ -1120,7 +1155,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {Number} datasetIndex
 	 * @return {Object} datalabels configurations
 	 */
-	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
+	getDatasetOptions: function getDatasetOptions(chartData) {
 		return {};
 	},
 	/**
@@ -1130,7 +1165,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 *
 	 * @returns {Array} plugins
 	 */
-	getPlugins: function getPlugins() {
+	getPlugins: function getPlugins(chartData) {
+		// TODO if array is declared it will not be overrided! - mergeOptions
+		// so loadPlugins won't work
+		// make default results as undefined?
 		return [];
 	},
 	/**
@@ -1236,48 +1274,6 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			axis.ticks.minRotation = 90;
 		});
 		return options;
-	},
-	beforeDraw: function (chart) {
-		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) => {
-			if (dataset._updated) {
-				return false;
-			}
-			for (let prop in dataset._meta) {
-				if (dataset._meta.hasOwnProperty(prop)) {
-					// we have meta
-					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-						const metaDataItem = dataset._meta[prop].data[i];
-						const label = metaDataItem._view.label;
-						const ctx = metaDataItem._xScale.ctx;
-						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
-						const fullWidth = ctx.measureText(label).width;
-						if (categoryWidth < fullWidth) {
-							const shortened = label.substr(0, 10) + "...";
-							const shortenedWidth = ctx.measureText(shortened).width;
-							if (categoryWidth < shortenedWidth) {
-								chart.options = this.rotateXLabels90(chart.data, chart.options);
-								chart.options = this.shortenXTicks(chart.data, chart.options);
-							} else {
-								chart.options = this.shortenXTicks(chart.data, chart.options);
-							}
-							if (!dataset._updated) {
-								dataset._updated = true;
-								chart.update();
-								// recalculate positions for smooth animation
-								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-								});
-								break;
-							}
-						}
-					}
-					dataset._updated = true;
-				}
-			}
-		});
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
@@ -1506,23 +1502,6 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
 		return 'doughnut';
 	},
-	getDefaultChartOptions: function (data, options = {}) {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: true
-			},
-			cutoutPercentage: 50,
-			layout: {
-				padding: {
-					bottom: 12
-				}
-			}
-		};
-	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
@@ -1587,43 +1566,6 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	getType: function getType() {
 		return 'line';
-	},
-	getDefaultChartOptions: function getDefaultChartOptions() {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false
-			},
-			scales: {
-				xAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						maxRotation: 90
-					}
-				}],
-				yAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						callback: function defaultYTicksCallback(value, index, values) {
-							if (!isNaN(Number(value))) {
-								return app.parseNumberToShow(value);
-							}
-							return value;
-						}
-					}
-				}]
-			}
-		};
-	},
-	getDefaultDatasetOptions: function getDefaultDatasetOptions() {
-		return {
-
-		};
 	},
 	shortenXTicks: function (data, options) {
 		if (typeof options.scales === 'undefined') {
@@ -1945,7 +1887,7 @@ YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
-	getOptions: function () {
+	getBasicOptions: function () {
 		return {
 			legend: {
 				display: true
@@ -2300,7 +2242,7 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
-	getOptions: function getOptions() {
+	getBasicOptions: function getBasicOptions() {
 		return {
 			legend: {
 				display: true
@@ -2321,10 +2263,6 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 					}
 				}]
 			},
-		}
-	},
-	getTooltipsOptions: function getTooltipsOptions() {
-		return {
 			tooltips: {
 				callbacks: {
 					label: function (tooltipItem, data) {
@@ -2353,7 +2291,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
 YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
-	getOptions: function getOptions() {
+	getBasicOptions: function getBasicOptions() {
 		return {
 			sort: 'data-desc'
 		};
