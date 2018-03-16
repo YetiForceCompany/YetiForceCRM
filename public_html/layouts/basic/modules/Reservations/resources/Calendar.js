@@ -66,7 +66,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		}
 
 		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeek;
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 
 		//Default first hour of the day
 		var defaultFirstHour = jQuery('#start_hour').val();
