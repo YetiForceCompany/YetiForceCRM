@@ -1474,7 +1474,7 @@ app = {
 		}
 		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
-		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupSeparator = CONFIG.currencyGroupingSeparator;
 		var groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
 		var a = val.toString().split('.');
@@ -1496,7 +1496,7 @@ app = {
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
-		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupSeparator = CONFIG.currencyGroupingSeparator;
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
 		if (val == undefined || val == '') {
 			val = 0;

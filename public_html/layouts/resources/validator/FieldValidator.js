@@ -5,7 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce Sp. z o.o. 
+ * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
 Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 	/**
@@ -799,7 +799,7 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		}
 		var fieldValue = this.getFieldValue();
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
-		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupSeparator = CONFIG.currencyGroupingSeparator;
 		fieldValue = fieldValue.split(groupSeparator).join("");
 
 		var spacePattern = /\s/;
