@@ -48,12 +48,12 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			params = jQuery.extend(params, customParams);
 		}
 		data.find('.calendarColorPicker').colorpicker(params)
-				.on('changeColor', function (e) {
-					selectedColor.val(e.color.toHex());
-					if (!colorObject.contents().length) {
-						colorObject.data('color', e.color.toHex());
-					}
-				});
+			.on('changeColor', function (e) {
+				selectedColor.val(e.color.toHex());
+				if (!colorObject.contents().length) {
+					colorObject.data('color', e.color.toHex());
+				}
+			});
 	},
 	updateUserColor: function (e, thisInstance) {
 		var target = $(e.currentTarget);
@@ -81,13 +81,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					'color': selectedColor.val(),
 					'record': target.data('record')
 				}).then(
-						function (data) {
-							Vtiger_Helper_Js.showPnotify({
-								text: data['result']['message'],
-								type: 'success'
-							});
-							return data['result'];
-						}
+					function (data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+						return data['result'];
+					}
 				);
 				colorPreview.css('background', selectedColor.val());
 				target.data('color', selectedColor.val());
@@ -111,14 +111,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'updateUserColor',
 			record: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', data['result'].color);
-					colorPreview.data('color', data['result'].color);
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', data['result'].color);
+				colorPreview.data('color', data['result'].color);
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 	},
 	removeUserColor: function (e) {
@@ -131,14 +131,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'removeUserColor',
 			record: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', '');
-					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', '');
+				colorPreview.data('color', '');
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 	},
 	updateGroupColor: function (e, thisInstance) {
@@ -168,13 +168,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					'color': selectedColor.val(),
 					'record': target.data('record')
 				}).then(
-						function (data) {
-							Vtiger_Helper_Js.showPnotify({
-								text: data['result']['message'],
-								type: 'success'
-							});
-							return data['result'];
-						}
+					function (data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+						return data['result'];
+					}
 				);
 				colorPreview.css('background', selectedColor.val());
 				target.data('color', selectedColor.val());
@@ -198,14 +198,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'updateGroupColor',
 			record: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', data['result'].color);
-					colorPreview.data('color', data['result'].color);
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', data['result'].color);
+				colorPreview.data('color', data['result'].color);
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 	},
 	removeGroupColor: function (e) {
@@ -218,14 +218,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'removeGroupColor',
 			record: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', '');
-					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', '');
+				colorPreview.data('color', '');
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 	},
 	updateModuleColor: function (e, thisInstance) {
@@ -255,13 +255,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					'color': selectedColor.val(),
 					'record': target.data('record')
 				}).then(
-						function (data) {
-							Vtiger_Helper_Js.showPnotify({
-								text: data['result']['message'],
-								type: 'success'
-							});
-							return data['result'];
-						}
+					function (data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+						return data['result'];
+					}
 				);
 				colorPreview.css('background', selectedColor.val());
 				target.data('color', selectedColor.val());
@@ -285,14 +285,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'updateModuleColor',
 			record: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', data['result'].color);
-					colorPreview.data('color', data['result'].color);
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', data['result'].color);
+				colorPreview.data('color', data['result'].color);
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 	},
 	removeModuleColor: function (e) {
@@ -305,14 +305,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'removeModuleColor',
 			record: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', '');
-					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', '');
+				colorPreview.data('color', '');
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 	},
 	activeModuleColor: function (e) {
@@ -327,14 +327,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			color: colorPreview.data('color'),
 			record: target.data('record')
 		}).then(
-				function (data) {
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-					colorPreview.css('background', data['result'].color);
-					colorPreview.data('color', data['result'].color);
-				}
+			function (data) {
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+				colorPreview.css('background', data['result'].color);
+				colorPreview.data('color', data['result'].color);
+			}
 		);
 	},
 	addPicklistColorColumn: function (e) {
@@ -348,13 +348,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			picklistModule: target.data('fieldmodule'),
 			fieldId: target.data('fieldid')
 		}).then(
-				function (data) {
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-					container.find('.modulePickList').trigger('change');
-				}
+			function (data) {
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+				container.find('.modulePickList').trigger('change');
+			}
 		);
 	},
 	updatePicklistValueColor: function (e, thisInstance) {
@@ -387,13 +387,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					fieldId: target.data('fieldid'),
 					fieldValueId: target.data('fieldvalueid')
 				}).then(
-						function (data) {
-							Vtiger_Helper_Js.showPnotify({
-								text: data['result']['message'],
-								type: 'success'
-							});
-							return data['result'];
-						}
+					function (data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+						return data['result'];
+					}
 				);
 				colorPreview.css('background', selectedColor.val());
 				target.data('color', selectedColor.val());
@@ -425,14 +425,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			fieldId: target.data('fieldid'),
 			fieldValueId: target.data('fieldvalueid')
 		}).then(
-				function (data) {
-					colorPreview.css('background', data['result'].color);
-					colorPreview.data('color', data['result'].color);
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', data['result'].color);
+				colorPreview.data('color', data['result'].color);
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 		progress.progressIndicator({'mode': 'hide'});
 		app.hideModalWindow();
@@ -455,14 +455,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			fieldId: target.data('fieldid'),
 			fieldValueId: target.data('fieldvalueid')
 		}).then(
-				function (data) {
-					colorPreview.css('background', '');
-					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', '');
+				colorPreview.data('color', '');
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 		progress.progressIndicator({'mode': 'hide'});
 		app.hideModalWindow();
@@ -479,11 +479,11 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			table: closestTrElement.data('table'),
 			field: closestTrElement.data('field')
 		}).then(
-				function (data) {
-					Settings_Colors_Index_Js.showMessage({type: 'success', text: data.result.message});
-					closestTrElement.find('.calendarColor').css('background', data.result.color);
-					closestTrElement.data('color', data.result.color);
-				}
+			function (data) {
+				Settings_Colors_Index_Js.showMessage({type: 'success', text: data.result.message});
+				closestTrElement.find('.calendarColor').css('background', data.result.color);
+				closestTrElement.data('color', data.result.color);
+			}
 		);
 	},
 	updateCalendarColor: function (e, thisInstance) {
@@ -516,13 +516,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 					table: closestTrElement.data('table'),
 					field: closestTrElement.data('field')
 				}).then(
-						function (data) {
-							Vtiger_Helper_Js.showPnotify({
-								text: data['result']['message'],
-								type: 'success'
-							});
-							return data['result'];
-						}
+					function (data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+						return data['result'];
+					}
 				);
 				closestTrElement.find('.calendarColor').css('background', selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
@@ -553,14 +553,14 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			mode: 'removeCalendarColor',
 			id: target.data('record')
 		}).then(
-				function (data) {
-					colorPreview.css('background', '');
-					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify({
-						text: data['result']['message'],
-						type: 'success'
-					});
-				}
+			function (data) {
+				colorPreview.css('background', '');
+				colorPreview.data('color', '');
+				Vtiger_Helper_Js.showPnotify({
+					text: data['result']['message'],
+					type: 'success'
+				});
+			}
 		);
 		progress.progressIndicator({'mode': 'hide'});
 		app.hideModalWindow();

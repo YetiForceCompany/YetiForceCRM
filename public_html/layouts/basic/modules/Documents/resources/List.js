@@ -35,36 +35,36 @@ Vtiger_List_Js("Documents_List_Js", {
 			};
 			var progressIndicatorElement = jQuery.progressIndicator();
 			AppConnector.request(params).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						var callBackFunction = function (data) {
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					var callBackFunction = function (data) {
 
-							listInstance.moveDocuments().then(function (data) {
-								if (data) {
-									var result = data.result;
-									if (result.success) {
-										app.hideModalWindow();
-										Vtiger_Helper_Js.showPnotify({
-											title: app.vtranslate('JS_MOVE_DOCUMENTS'),
-											text: result.message,
-											delay: '2000',
-											type: 'success'
-										});
-										var urlParams = listInstance.getDefaultParams();
-										listInstance.getListViewRecords(urlParams);
-									} else {
-										Vtiger_Helper_Js.showPnotify({
-											title: app.vtranslate('JS_OPERATION_DENIED'),
-											text: result.message,
-											delay: '2000',
-											type: 'error'
-										});
-									}
+						listInstance.moveDocuments().then(function (data) {
+							if (data) {
+								var result = data.result;
+								if (result.success) {
+									app.hideModalWindow();
+									Vtiger_Helper_Js.showPnotify({
+										title: app.vtranslate('JS_MOVE_DOCUMENTS'),
+										text: result.message,
+										delay: '2000',
+										type: 'success'
+									});
+									var urlParams = listInstance.getDefaultParams();
+									listInstance.getListViewRecords(urlParams);
+								} else {
+									Vtiger_Helper_Js.showPnotify({
+										title: app.vtranslate('JS_OPERATION_DENIED'),
+										text: result.message,
+										delay: '2000',
+										type: 'error'
+									});
 								}
-							});
-						};
-						app.showModalWindow(data, callBackFunction);
-					}
+							}
+						});
+					};
+					app.showModalWindow(data, callBackFunction);
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -78,9 +78,9 @@ Vtiger_List_Js("Documents_List_Js", {
 		jQuery('#moveDocuments').on('submit', function (e) {
 			var formData = jQuery(e.currentTarget).serializeFormData();
 			AppConnector.request(formData).then(
-					function (data) {
-						aDeferred.resolve(data);
-					}
+				function (data) {
+					aDeferred.resolve(data);
+				}
 			);
 			e.preventDefault();
 		});
@@ -102,35 +102,35 @@ Vtiger_List_Js("Documents_List_Js", {
 						return;
 					} else {
 						Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-								function (e) {
-									var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-									var folderId = currentOptionElement.data('folderid');
-									var params = {
-										module: app.getModuleName(),
-										mode: 'delete',
-										action: 'Folder',
-										folderid: folderId
-									};
-									AppConnector.request(params).then(function (data) {
-										if (data.success) {
-											currentOptionElement.remove();
-											thisInstance.getFilterSelectElement().trigger('change');
-										}
-									});
-								},
-								function (error, err) {
-								}
+							function (e) {
+								var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+								var folderId = currentOptionElement.data('folderid');
+								var params = {
+									module: app.getModuleName(),
+									mode: 'delete',
+									action: 'Folder',
+									folderid: folderId
+								};
+								AppConnector.request(params).then(function (data) {
+									if (data.success) {
+										currentOptionElement.remove();
+										thisInstance.getFilterSelectElement().trigger('change');
+									}
+								});
+							},
+							function (error, err) {
+							}
 						);
 					}
 
 				} else {
 					Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-							function (e) {
-								var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-								AppConnector.requestForm(currentOptionElement.data('deleteurl'));
-							},
-							function (error, err) {
-							}
+						function (e) {
+							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+							AppConnector.requestForm(currentOptionElement.data('deleteurl'));
+						},
+						function (error, err) {
+						}
 					);
 				}
 			});

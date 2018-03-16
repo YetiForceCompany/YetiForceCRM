@@ -62,21 +62,21 @@ jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 			'action': currentTarget.data('action')
 		}
 		app.saveAjax('setFilterPermissions', params, {type: container.find('#type').val()}).then(
-				function (data) {
-					if (data.success) {
-						if (data.result.success) {
-							thisInstance.move(currentTarget);
-							thisInstance.registerDisabledButtons();
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
-						} else {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'error'});
-						}
+			function (data) {
+				if (data.success) {
+					if (data.result.success) {
+						thisInstance.move(currentTarget);
+						thisInstance.registerDisabledButtons();
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
 					} else {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'error'});
 					}
+				} else {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
+			}
 		);
 	},
 	getForm: function () {

@@ -31,12 +31,12 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 			'updatedFields': JSON.stringify(updatedFields)
 		}
 		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error, err) {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -47,12 +47,12 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 	loadContents: function (url) {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.requestPjax(url).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error, err) {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -79,26 +79,26 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 					}
 				});
 				thisInstance.saveConfigEditor(form).then(
-						function (data) {
-							var params = {};
-							if (data['success']) {
-								params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
-								thisInstance.loadContents(detailUrl).then(
-										function (data) {
-											progressIndicatorElement.progressIndicator({'mode': 'hide'});
-											jQuery('.contentsDiv').html(data);
-											thisInstance.registerDetailViewEvents();
-										}
-								);
-							} else {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								params['text'] = data['error']['message'];
-								params['type'] = 'error';
-							}
-							Settings_Vtiger_Index_Js.showMessage(params);
-						}, function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
+					function (data) {
+						var params = {};
+						if (data['success']) {
+							params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
+							thisInstance.loadContents(detailUrl).then(
+								function (data) {
+									progressIndicatorElement.progressIndicator({'mode': 'hide'});
+									jQuery('.contentsDiv').html(data);
+									thisInstance.registerDetailViewEvents();
+								}
+							);
+						} else {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							params['text'] = data['error']['message'];
+							params['type'] = 'error';
+						}
+						Settings_Vtiger_Index_Js.showMessage(params);
+					}, function (error, err) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					}
 				);
 				return valid;
 			}
@@ -119,11 +119,11 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 				}
 			});
 			thisInstance.loadContents(detailUrl).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'})
-						jQuery('.contentsDiv').html(data);
-						thisInstance.registerDetailViewEvents();
-					}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'})
+					jQuery('.contentsDiv').html(data);
+					thisInstance.registerDetailViewEvents();
+				}
 			);
 		})
 	},
@@ -146,13 +146,13 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 				}
 			});
 			thisInstance.loadContents(url).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						jQuery('.contentsDiv').html(data);
-						thisInstance.registerEditViewEvents();
-					}, function (error, err) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					jQuery('.contentsDiv').html(data);
+					thisInstance.registerEditViewEvents();
+				}, function (error, err) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}
 			);
 		});
 	},

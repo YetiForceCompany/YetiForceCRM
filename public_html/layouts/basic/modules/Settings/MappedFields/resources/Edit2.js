@@ -59,16 +59,16 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 						}
 						formData['record'] = data.result.id;
 						AppConnector.request(formData).then(
-								function (data) {
-									form.hide();
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									})
-									aDeferred.resolve(data);
-								},
-								function (error, err) {
-									app.errorLog(error, err);
-								}
+							function (data) {
+								form.hide();
+								progressIndicatorElement.progressIndicator({
+									'mode': 'hide'
+								})
+								aDeferred.resolve(data);
+							},
+							function (error, err) {
+								app.errorLog(error, err);
+							}
 						);
 					}
 				});

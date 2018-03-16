@@ -43,17 +43,17 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						var html = '';
-						for (var name in response) {
-							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
-						}
-						container.find('#infoSpan').html(html);
-					},
-					function (data, err) {
-
+				function (data) {
+					var response = data['result'];
+					var html = '';
+					for (var name in response) {
+						html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
 					}
+					container.find('#infoSpan').html(html);
+				},
+				function (data, err) {
+
+				}
 			);
 
 			params.data = {
@@ -65,27 +65,27 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (jQuery.isEmptyObject(response)) {
-							if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
-								container.find('#unsupportedCurrencies').addClass('d-none');
-							}
-							if (!container.find('#alertBlock').hasClass('d-none')) {
-								container.find('#alertBlock').addClass('d-none')
-							}
-						} else {
-							container.find('#unsupportedCurrencies').removeClass('d-none');
+				function (data) {
+					var response = data['result'];
+					if (jQuery.isEmptyObject(response)) {
+						if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
+							container.find('#unsupportedCurrencies').addClass('d-none');
 						}
-						var html = '';
-						for (var name in response) {
-							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
+						if (!container.find('#alertBlock').hasClass('d-none')) {
+							container.find('#alertBlock').addClass('d-none')
 						}
-						container.find('#alertSpan').html(html);
-					},
-					function (data, err) {
-
+					} else {
+						container.find('#unsupportedCurrencies').removeClass('d-none');
 					}
+					var html = '';
+					for (var name in response) {
+						html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
+					}
+					container.find('#alertSpan').html(html);
+				},
+				function (data, err) {
+
+				}
 			);
 
 			var bankId = jQuery('#bank option:selected').val();
@@ -97,27 +97,27 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 			};
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							var params = {
-								text: response['message'],
-								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						} else {
-							var params = {
-								text: response['message'],
-								hide: false,
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						}
-						infoProgress.progressIndicator({'mode': 'hide'});
-					},
-					function (data, err) {
-
+				function (data) {
+					var response = data['result'];
+					if (response['success']) {
+						var params = {
+							text: response['message'],
+							type: 'success'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+					} else {
+						var params = {
+							text: response['message'],
+							hide: false,
+							type: 'error'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
 					}
+					infoProgress.progressIndicator({'mode': 'hide'});
+				},
+				function (data, err) {
+
+				}
 			);
 		});
 	},

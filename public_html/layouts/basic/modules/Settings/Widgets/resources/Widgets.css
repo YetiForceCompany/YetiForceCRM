@@ -7,32 +7,36 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-.state-highlight{ 
-	height: 2em; line-height: 2em; border: 1px solid #FFD600;background-color:#F9FFB3; border-style: dashed;
+.state-highlight {
+	height: 2em;
+	line-height: 2em;
+	border: 1px solid #FFD600;
+	background-color: #F9FFB3;
+	border-style: dashed;
 }
-.blocks-content{
+.blocks-content {
 	background: white;
 	border: 1px solid #dddddd;
 }
-.modal-Fields .col-md-7{
+.modal-Fields .col-md-7 {
 	margin-bottom: 9px;
 }
-.ui-sortable-helper{
+.ui-sortable-helper {
 	background: white;
 	-webkit-box-shadow: 0 0 3px -1px #dddddd;
 	-moz-box-shadow: 0 0 3px -1px #dddddd;
 	box-shadow: 0 0 3px -1px #dddddd;
 }
-.js-help-info .fa-info-circle{
+.js-help-info .fa-info-circle {
 	margin-left: 3px;
 }
-.form-switch-mini .control-label{
+.form-switch-mini .control-label {
 	padding-top: 2px !important;
 }
-.form-horizontal .form-container-sm .form-group{
+.form-horizontal .form-container-sm .form-group {
 	margin-bottom: 3px;
 }
-.form-group-sm .form-control-static{
+.form-group-sm .form-control-static {
 	padding-right: 15px;
 	padding-left: 15px;
 }

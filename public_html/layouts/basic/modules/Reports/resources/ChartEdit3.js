@@ -36,7 +36,10 @@ Reports_Edit3_Js("Reports_ChartEdit3_Js", {
 		if (selectedChartType == 'pieChart') {
 			dataFields.attr('multiple', false).select2().val(dataFieldsValue).trigger('change');
 		} else if (dataFieldsValue && dataFieldsValue[0]) {
-			dataFields.attr('multiple', true).select2({maximumSelectionLength: 3, closeOnSelect: false}).val(dataFieldsValue).trigger('change');
+			dataFields.attr('multiple', true).select2({
+				maximumSelectionLength: 3,
+				closeOnSelect: false
+			}).val(dataFieldsValue).trigger('change');
 		}
 
 		if (selectedChartType) {

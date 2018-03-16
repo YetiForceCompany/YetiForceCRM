@@ -13,7 +13,10 @@ var Settings_Picklist_Js = {
 			var element = jQuery(e.currentTarget);
 			var selectedModule = jQuery(e.currentTarget).val();
 			if (selectedModule.length <= 0) {
-				Settings_Vtiger_Index_Js.showMessage({'type': 'error', 'text': app.vtranslate('JS_PLEASE_SELECT_MODULE')});
+				Settings_Vtiger_Index_Js.showMessage({
+					'type': 'error',
+					'text': app.vtranslate('JS_PLEASE_SELECT_MODULE')
+				});
 				return;
 			}
 			var params = {
@@ -145,7 +148,10 @@ var Settings_Picklist_Js = {
 			AppConnector.request(params).then(function (data) {
 				if (typeof data.result != 'undefined') {
 					app.hideModalWindow();
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_VALUE_ASSIGNED_SUCCESSFULLY'), type: 'success'})
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_VALUE_ASSIGNED_SUCCESSFULLY'),
+						type: 'success'
+					})
 				}
 			});
 			e.preventDefault();
@@ -201,7 +207,10 @@ var Settings_Picklist_Js = {
 				if (typeof data.result != 'undefined') {
 					jQuery(e.currentTarget).attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_LIST_UPDATED_SUCCESSFULLY'), type: 'success'})
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_LIST_UPDATED_SUCCESSFULLY'),
+						type: 'success'
+					})
 				}
 			});
 		});
@@ -281,7 +290,10 @@ var Settings_Picklist_Js = {
 			})
 			var pickListValues = jQuery('.pickListValue', pickListValuesTable);
 			if (pickListValues.length == selectedListItem.length) {
-				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_VALUES'), type: 'error'})
+				Settings_Vtiger_Index_Js.showMessage({
+					text: app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_VALUES'),
+					type: 'error'
+				})
 				return;
 			}
 			var params = {
@@ -312,6 +324,7 @@ var Settings_Picklist_Js = {
 				replaceValueElement.trigger('chosen:updated');
 			}
 		}
+
 		jQuery('[name="delete_value[]"]').on("change", function (e) {
 			result({
 				val: e.val,
@@ -453,7 +466,10 @@ var Settings_Picklist_Js = {
 			var form = data.find('#deleteItemForm');
 			thisInstance.registerScrollForNonEditablePicklistValues(form);
 			var maximumSelectionSize = jQuery('#pickListValuesCount').val() - 1;
-			app.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {maximumSelectionLength: maximumSelectionSize, dropdownCss: {'z-index': 100001}});
+			app.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {
+				maximumSelectionLength: maximumSelectionSize,
+				dropdownCss: {'z-index': 100001}
+			});
 			Settings_Picklist_Js.registerDeleteOptionEvent();
 
 			var params = app.getvalidationEngineOptions(true);
@@ -560,7 +576,10 @@ var Settings_Picklist_Js = {
 				if (typeof data.result != 'undefined') {
 					jQuery('#saveSequence').attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SEQUENCE_UPDATED_SUCCESSFULLY'), type: 'success'})
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_SEQUENCE_UPDATED_SUCCESSFULLY'),
+						type: 'success'
+					})
 				}
 			});
 		});

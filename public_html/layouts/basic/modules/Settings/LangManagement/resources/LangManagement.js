@@ -115,7 +115,7 @@ var Settings_Index_Js = {
 	},
 	registerHelpInfo: function () {
 		var form = jQuery('.LangManagement');
-		form.find('.js-help-info').popover({trigger: 'hover', html: 'true', })
+		form.find('.js-help-info').popover({trigger: 'hover', html: 'true',})
 	},
 	/**
 	 * Function to register event for ckeditor
@@ -169,7 +169,8 @@ var Settings_Index_Js = {
 					{name: 'document', groups: ['mode', 'document', 'doctools']},
 					{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
 					{name: 'clipboard', groups: ['clipboard', 'undo']}
-				]}
+				]
+			}
 			var ckEditorInstance = new Vtiger_CkEditor_Js();
 			ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
 		}
@@ -365,20 +366,20 @@ var Settings_Index_Js = {
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-				function (data) {
-					response = data['result'];
-					var params = {
-						text: response['message'],
-					};
-					if (response['success'] == true) {
-						params.type = 'info';
-					}
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-				},
-				function (data, err) {
-
+			function (data) {
+				response = data['result'];
+				var params = {
+					text: response['message'],
+				};
+				if (response['success'] == true) {
+					params.type = 'info';
 				}
+				Vtiger_Helper_Js.showPnotify(params);
+				resp = response['success'];
+			},
+			function (data, err) {
+
+			}
 		);
 		return {resp: resp, params: params.data.params, result: response};
 	},
@@ -395,14 +396,14 @@ var Settings_Index_Js = {
 				langs: langs
 			}
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success'] && response['data'].length !== 0) {
-							thisInstance.showStats(response['data'], response['modules']);
-						}
-					},
-					function (data, err) {
+				function (data) {
+					var response = data['result'];
+					if (response['success'] && response['data'].length !== 0) {
+						thisInstance.showStats(response['data'], response['modules']);
 					}
+				},
+				function (data, err) {
+				}
 			);
 		})
 	},
@@ -451,12 +452,12 @@ var Settings_Index_Js = {
 			var element = jQuery(e.currentTarget);
 			var row = element.closest('.moduleRow');
 			var url =
-					'index.php?module=' + app.getModuleName() +
-					'&parent=' + app.getParentModuleName() +
-					'&view=GetLabels' +
-					'&langBase=' + jQuery('[name="langs_basic"]').val() +
-					'&lang=' + element.data('lang') +
-					'&sourceModule=' + row.data('module');
+				'index.php?module=' + app.getModuleName() +
+				'&parent=' + app.getParentModuleName() +
+				'&view=GetLabels' +
+				'&langBase=' + jQuery('[name="langs_basic"]').val() +
+				'&lang=' + element.data('lang') +
+				'&sourceModule=' + row.data('module');
 			app.showModalWindow(null, url, function (data) {
 				progress.progressIndicator({'mode': 'hide'});
 				data.find('button:not(.close)').on('click', function (e) {
@@ -506,10 +507,10 @@ var Settings_Index_Js = {
 		instance.loadChart({
 			scales: {
 				xAxes: [{
-						ticks: {
-							minRotation: 0
-						}
-					}]
+					ticks: {
+						minRotation: 0
+					}
+				}]
 			}
 		});
 	},

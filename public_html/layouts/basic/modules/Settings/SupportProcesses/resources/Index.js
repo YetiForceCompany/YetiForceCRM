@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-jQuery.Class('Settings_SupportProcesses_Index_Js', {
-}, {
+jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
 	registerChangeVal: function (content) {
 		var thisInstance = this;
 		content.find('.configField').change(function (e) {

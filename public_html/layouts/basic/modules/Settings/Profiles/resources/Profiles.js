@@ -262,7 +262,8 @@ var Settings_Profiles_Js = {
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
-				}});
+				}
+			});
 			if (form.data('submit') == 'true' && form.data('performCheck') == 'true') {
 				return true;
 			} else {
@@ -272,20 +273,20 @@ var Settings_Profiles_Js = {
 						'profileName': formData.profilename,
 						'profileId': formData.record
 					}).then(
-							function (data) {
-								form.data('submit', 'true');
-								form.data('performCheck', 'true');
-								form.submit();
-							},
-							function (data, err) {
-								progressIndicatorInstance.progressIndicator({mode: 'hide'});
-								button.attr('disabled', false);
-								var params = {};
-								params['text'] = data['message'];
-								params['type'] = 'error';
-								Settings_Vtiger_Index_Js.showMessage(params);
-								return false;
-							}
+						function (data) {
+							form.data('submit', 'true');
+							form.data('performCheck', 'true');
+							form.submit();
+						},
+						function (data, err) {
+							progressIndicatorInstance.progressIndicator({mode: 'hide'});
+							button.attr('disabled', false);
+							var params = {};
+							params['text'] = data['message'];
+							params['type'] = 'error';
+							Settings_Vtiger_Index_Js.showMessage(params);
+							return false;
+						}
 					);
 				} else {
 					progressIndicatorInstance.progressIndicator({mode: 'hide'});
@@ -319,18 +320,18 @@ var Settings_Profiles_Js = {
 		}
 
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var result = response['success'];
-					if (result == true) {
-						aDeferred.reject(response);
-					} else {
-						aDeferred.resolve(response);
-					}
-				},
-				function (error, err) {
-					aDeferred.reject();
+			function (data) {
+				var response = data['result'];
+				var result = response['success'];
+				if (result == true) {
+					aDeferred.reject(response);
+				} else {
+					aDeferred.resolve(response);
 				}
+			},
+			function (error, err) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},

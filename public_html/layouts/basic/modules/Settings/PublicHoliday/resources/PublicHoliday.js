@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-jQuery.Class('Settings_PublicHoliday_Js', {
-}, {
+jQuery.Class('Settings_PublicHoliday_Js', {}, {
 
 	/**
 	 * Function that deletes holiday from list
@@ -34,25 +33,25 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 		params['id'] = holidayId;
 
 		AppConnector.request(params).then(
-				function (data) {
-					var params = {};
-					params['module'] = app.getModuleName();
-					params['view'] = 'Configuration';
-					params['parent'] = app.getParentModuleName();
-					params['async'] = false;
-					AppConnector.request(params).then(function (data) {
-						jQuery('.contentsDiv').html(data);
-						thisInstance.registerEvents();
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					});
-
-					params = {};
-					params['text'] = data.result.message;
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
+			function (data) {
+				var params = {};
+				params['module'] = app.getModuleName();
+				params['view'] = 'Configuration';
+				params['parent'] = app.getParentModuleName();
+				params['async'] = false;
+				AppConnector.request(params).then(function (data) {
+					jQuery('.contentsDiv').html(data);
+					thisInstance.registerEvents();
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				}
+				});
+
+				params = {};
+				params['text'] = data.result.message;
+				Settings_Vtiger_Index_Js.showMessage(params);
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 	/**
@@ -79,29 +78,29 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					});
 
 					thisInstance.saveNewDate(form).then(
-							function (data) {
-								var params = {};
-								if (data['success']) {
-									var result = data['result'];
+						function (data) {
+							var params = {};
+							if (data['success']) {
+								var result = data['result'];
 
-									params['text'] = result['message'];
-									Settings_Vtiger_Index_Js.showMessage(params);
-									var params = {};
-									params['module'] = app.getModuleName();
-									params['view'] = 'Configuration';
-									params['parent'] = app.getParentModuleName();
-									AppConnector.request(params).then(function (data) {
-										jQuery('.contentsDiv').html(data);
-										thisInstance.registerEvents();
-										progressIndicatorElement.progressIndicator({'mode': 'hide'});
-									});
-								} else {
+								params['text'] = result['message'];
+								Settings_Vtiger_Index_Js.showMessage(params);
+								var params = {};
+								params['module'] = app.getModuleName();
+								params['view'] = 'Configuration';
+								params['parent'] = app.getParentModuleName();
+								AppConnector.request(params).then(function (data) {
+									jQuery('.contentsDiv').html(data);
+									thisInstance.registerEvents();
 									progressIndicatorElement.progressIndicator({'mode': 'hide'});
-									params['text'] = data['result']['message'];
-									params['type'] = 'error';
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}
+								});
+							} else {
+								progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								params['text'] = data['result']['message'];
+								params['type'] = 'error';
+								Settings_Vtiger_Index_Js.showMessage(params);
 							}
+						}
 					);
 					app.hideModalWindow();
 					return true;
@@ -184,29 +183,29 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 						}
 					});
 					thisInstance.saveNewDate(form).then(
-							function (data) {
-								var params = {};
-								if (data['success']) {
-									var result = data['result'];
+						function (data) {
+							var params = {};
+							if (data['success']) {
+								var result = data['result'];
 
-									params['text'] = result['message'];
-									Settings_Vtiger_Index_Js.showMessage(params);
-									var params = {};
-									params['module'] = app.getModuleName();
-									params['view'] = 'Configuration';
-									params['parent'] = app.getParentModuleName();
-									AppConnector.request(params).then(function (data) {
-										jQuery('.contentsDiv').html(data);
-										thisInstance.registerEvents();
-										progressIndicatorElement.progressIndicator({'mode': 'hide'});
-									});
-								} else {
+								params['text'] = result['message'];
+								Settings_Vtiger_Index_Js.showMessage(params);
+								var params = {};
+								params['module'] = app.getModuleName();
+								params['view'] = 'Configuration';
+								params['parent'] = app.getParentModuleName();
+								AppConnector.request(params).then(function (data) {
+									jQuery('.contentsDiv').html(data);
+									thisInstance.registerEvents();
 									progressIndicatorElement.progressIndicator({'mode': 'hide'});
-									params['text'] = data['result']['message'];
-									params['type'] = 'error';
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}
+								});
+							} else {
+								progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								params['text'] = data['result']['message'];
+								params['type'] = 'error';
+								Settings_Vtiger_Index_Js.showMessage(params);
 							}
+						}
 					);
 					app.hideModalWindow();
 					return true;
@@ -295,12 +294,12 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 		} else {
 			var aDeferred = jQuery.Deferred();
 			AppConnector.request(params).then(
-					function (data) {
-						aDeferred.resolve(data);
-					},
-					function (error) {
-						aDeferred.reject(error);
-					}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject(error);
+				}
 			);
 			return aDeferred.promise();
 		}

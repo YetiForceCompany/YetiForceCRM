@@ -14,16 +14,16 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 			params['view'] = app.getViewName();
 			params['srcModule'] = jQuery(e.currentTarget).val();
 			AppConnector.requestPjax(params).then(
-					function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						container.html(data);
-						app.changeSelectElementView(container);
-						thisInstance.registerEvents();
-					},
-					function (textStatus, errorThrown) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.errorLog(textStatus, errorThrown);
-					}
+				function (data) {
+					progress.progressIndicator({'mode': 'hide'});
+					container.html(data);
+					app.changeSelectElementView(container);
+					thisInstance.registerEvents();
+				},
+				function (textStatus, errorThrown) {
+					progress.progressIndicator({'mode': 'hide'});
+					app.errorLog(textStatus, errorThrown);
+				}
 			);
 		});
 	},
@@ -55,35 +55,35 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 			});
 		});
 		container.find('.addUser, .wrapperExceptions').on('click', function (e) {
-			e.stopPropagation();
-			e.preventDefault();
-			var reload = true;
-			var element = jQuery(e.currentTarget);
-			var url =
+				e.stopPropagation();
+				e.preventDefault();
+				var reload = true;
+				var element = jQuery(e.currentTarget);
+				var url =
 					'index.php?module=' + app.getModuleName() +
 					'&parent=' + app.getParentModuleName() +
 					'&srcModule=' + container.find('#supportedModule').val() +
 					'&view=Members';
-			if (element.hasClass('wrapperExceptions')) {
-				url += '&mode=' + element.data('mode') + '&member=' + element.closest('tr').data('value');
-				reload = false
-			}
-			app.showModalWindow(null, url, function (data) {
-				var form = data.find('form');
-				form.on('submit', function (e) {
-					e.preventDefault();
-					var progress = thisInstance.progress();
-					var params = form.serializeFormData();
-					app.saveAjax(params.mode, null, params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-						if (reload) {
-							thisInstance.refreshView();
-						}
+				if (element.hasClass('wrapperExceptions')) {
+					url += '&mode=' + element.data('mode') + '&member=' + element.closest('tr').data('value');
+					reload = false
+				}
+				app.showModalWindow(null, url, function (data) {
+					var form = data.find('form');
+					form.on('submit', function (e) {
+						e.preventDefault();
+						var progress = thisInstance.progress();
+						var params = form.serializeFormData();
+						app.saveAjax(params.mode, null, params).then(function (data) {
+							progress.progressIndicator({'mode': 'hide'});
+							app.hideModalWindow();
+							if (reload) {
+								thisInstance.refreshView();
+							}
+						});
 					});
 				});
-			});
-		}
+			}
 		);
 	},
 	refreshView: function () {

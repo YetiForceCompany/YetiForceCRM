@@ -78,7 +78,8 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function (e) {
-			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [], categoryToRemove = []
+			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [],
+				categoryToRemove = []
 			var saveButton = $(this);
 			saveButton.attr('disabled', 'disabled');
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {

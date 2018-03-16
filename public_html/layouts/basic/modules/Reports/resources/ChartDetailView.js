@@ -13,7 +13,7 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 	 */
 	displayNoDataMessage: function () {
 		$('.chartcontent').html('<div>' + app.vtranslate('JS_NO_CHART_DATA_AVAILABLE') + '</div>').css(
-				{'text-align': 'center', 'position': 'relative', 'top': '100px'});
+			{'text-align': 'center', 'position': 'relative', 'top': '100px'});
 	},
 	/**
 	 * Function returns if there is no data from the server
@@ -78,11 +78,11 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 			e.preventDefault();
 
 			AppConnector.request(postData).then(
-					function (data) {
-						element.progressIndicator({'mode': 'hide'});
-						reportChartContents.html(data);
-						thisInstance.registerEventForChartGeneration();
-					}
+				function (data) {
+					element.progressIndicator({'mode': 'hide'});
+					reportChartContents.html(data);
+					thisInstance.registerEventForChartGeneration();
+				}
 			);
 		});
 

@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class('Settings_CustomView_Index_Js', {
-}, {
+jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	container: false,
 	contents: false,
 	initEvants: function (container) {
@@ -118,17 +117,17 @@ jQuery.Class('Settings_CustomView_Index_Js', {
 			sourceModule: jQuery(e.currentTarget).val()
 		}
 		AppConnector.requestPjax(params).then(
-				function (data) {
-					var contents = thisInstance.getContents().html(data);
-					app.showBtnSwitch(contents.find('.switchBtn'));
-					thisInstance.makeFilterListSortable(contents);
-					thisInstance.getContainer().find('.createFilter').data('editurl', contents.find('#addFilterUrl').val());
-					progress.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
+			function (data) {
+				var contents = thisInstance.getContents().html(data);
+				app.showBtnSwitch(contents.find('.switchBtn'));
+				thisInstance.makeFilterListSortable(contents);
+				thisInstance.getContainer().find('.createFilter').data('editurl', contents.find('#addFilterUrl').val());
+				progress.progressIndicator({'mode': 'hide'});
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},

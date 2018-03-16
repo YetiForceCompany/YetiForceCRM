@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class('Settings_Widgets_Index_Js', {
-}, {
+jQuery.Class('Settings_Widgets_Index_Js', {}, {
 	getTabId: function () {
 		return $(".WidgetsManage [name='tabid']").val();
 	},
@@ -93,11 +92,11 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		params['parent'] = 'Settings';
 		params['source'] = $("input[name='tabid']").val();
 		AppConnector.request(params).then(
-				function (data) {
-					var container = jQuery('div.contentsDiv').html(data);
-					thisInstance.registerEvents(container);
-					Indicator.progressIndicator({'mode': 'hide'});
-				}
+			function (data) {
+				var container = jQuery('div.contentsDiv').html(data);
+				thisInstance.registerEvents(container);
+				Indicator.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 	registerSaveEvent: function (mode, data) {
@@ -117,18 +116,18 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		}
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-				},
-				function (data, err) {
+			function (data) {
+				var response = data['result'];
+				var params = {
+					text: response['message'],
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				resp = response['success'];
+			},
+			function (data, err) {
 
-				}
+			}
 		);
 	},
 	loadFilters: function (contener) {

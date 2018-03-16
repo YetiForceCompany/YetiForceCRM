@@ -31,17 +31,17 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 			save_params.data = {module: 'OSSMailView', action: 'ChangeType', data: selectedIds, mail_type: mail_type};
 			save_params.async = false;
 			AppConnector.request(save_params).done(
-					function (data) {
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: data.result,
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						Vtiger_List_Js.clearList();
-						listInstance.getListViewRecords();
-						app.hideModalWindow();
-					}
+				function (data) {
+					var params = {
+						title: app.vtranslate('JS_MESSAGE'),
+						text: data.result,
+						type: 'info'
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+					Vtiger_List_Js.clearList();
+					listInstance.getListViewRecords();
+					app.hideModalWindow();
+				}
 			);
 			event.preventDefault();
 		});
@@ -59,13 +59,13 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 				"data": {}
 			};
 			AppConnector.request(actionParams).then(
-					function (data) {
-						if (data) {
-							app.showModalWindow(data, function (data) {
-								thisInstance.triggerChangeTypeForm();
-							});
-						}
+				function (data) {
+					if (data) {
+						app.showModalWindow(data, function (data) {
+							thisInstance.triggerChangeTypeForm();
+						});
 					}
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();

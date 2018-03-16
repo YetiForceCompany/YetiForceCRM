@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 // Function to generate new password
-function passwordStrength(password, translations)
-{
+function passwordStrength(password, translations) {
 	if (password == '')
 		password = document.getElementById('OSSPasswords_editView_fieldName_password').value;
 
@@ -71,18 +71,18 @@ function showPassword(record) {
 		};
 
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						var el = document.getElementById("OSSPasswords_editView_fieldName_password");
-						el.value = response['password'];
-						el.onchange();
-						$('#copy-button').removeClass('d-none').show();
-					}
-				},
-				function (data, err) {
-
+			function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					var el = document.getElementById("OSSPasswords_editView_fieldName_password");
+					el.value = response['password'];
+					el.onchange();
+					$('#copy-button').removeClass('d-none').show();
 				}
+			},
+			function (data, err) {
+
+			}
 		);
 
 		// validate password
@@ -111,17 +111,17 @@ function showDetailsPassword(record) {
 		};
 
 		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						var el = document.getElementById("detailPassword");
-						el.innerHTML = response['password'];
-						$('#copy-button').removeClass('d-none').show();
-					}
-				},
-				function (data, err) {
-
+			function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					var el = document.getElementById("detailPassword");
+					el.innerHTML = response['password'];
+					$('#copy-button').removeClass('d-none').show();
 				}
+			},
+			function (data, err) {
+
+			}
 		);
 
 		// change buttons label
@@ -144,18 +144,18 @@ function showPasswordQuickEdit(record) {
 	};
 
 	AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var el = document.getElementById("detailPassword");
-					el.innerHTML = response['password'];
-					$("input[name='password']").val(response['password']);
-					$('#copy-button').removeClass('d-none').show();
-				}
-			},
-			function (data, err) {
-
+		function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var el = document.getElementById("detailPassword");
+				el.innerHTML = response['password'];
+				$("input[name='password']").val(response['password']);
+				$('#copy-button').removeClass('d-none').show();
 			}
+		},
+		function (data, err) {
+
+		}
 	);
 
 	// change buttons label

@@ -3,11 +3,11 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerUserListWidget: function () {
 		var widgetContainer = $('.widgetContainer');
 		widgetContainer.hover(
-				function () {
-					$(this).css('overflow', 'visible');
-				}, function () {
-			$(this).css('overflow', 'hidden');
-		}
+			function () {
+				$(this).css('overflow', 'visible');
+			}, function () {
+				$(this).css('overflow', 'hidden');
+			}
 		);
 		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
 		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
@@ -116,16 +116,16 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 					placement: 'auto',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
-							'<div><span class="fas fa-bars"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
-							'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
-							(event.status ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + event.status + '</div>' : '') +
-							(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
-							(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-							(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-							(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-							(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
+					'<div><span class="fas fa-bars"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
+					'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
+					(event.status ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + event.status + '</div>' : '') +
+					(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
+					(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+					(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+					(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+					(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -229,17 +229,17 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			delta: delta._data
 		};
 		AppConnector.request(params).then(function (response) {
-			if (!response['result']) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-				revertFunc();
-			}
-			progressInstance.hide();
-		},
-				function (error) {
-					progressInstance.hide();
+				if (!response['result']) {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 					revertFunc();
-				});
+				}
+				progressInstance.hide();
+			},
+			function (error) {
+				progressInstance.hide();
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+				revertFunc();
+			});
 	},
 	selectDay: function (date) {
 		var thisInstance = this;
@@ -286,10 +286,12 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			data.find('[name="time_end"]').val(endTimeString);
 
 			var headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
+			headerInstance.handleQuickCreateData(data, {
+				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
 
-				}});
+				}
+			});
 			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
@@ -329,14 +331,14 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		}
 		var progressInstance = jQuery.progressIndicator();
 		this.loadCalendarCreateView().then(
-				function (data) {
-					progressInstance.hide();
-					thisInstance.calendarCreateView = data;
-					aDeferred.resolve(data.clone(true, true));
-				},
-				function () {
-					progressInstance.hide();
-				}
+			function (data) {
+				progressInstance.hide();
+				thisInstance.calendarCreateView = data;
+				aDeferred.resolve(data.clone(true, true));
+			},
+			function () {
+				progressInstance.hide();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -346,12 +348,12 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 		var headerInstance = Vtiger_Header_Js.getInstance();
 		headerInstance.getQuickCreateForm(url, moduleName).then(
-				function (data) {
-					aDeferred.resolve(jQuery(data));
-				},
-				function () {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(jQuery(data));
+			},
+			function () {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},

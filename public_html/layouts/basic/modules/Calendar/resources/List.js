@@ -11,14 +11,14 @@ Vtiger_List_Js("Calendar_List_Js", {
 	triggerImportAction: function (importUrl) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		AppConnector.request(importUrl).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (data) {
-						app.showModalWindow(data, function (data) {
-							jQuery('#ical_import').validationEngine(app.validationEngineOptions);
-						});
-					}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (data) {
+					app.showModalWindow(data, function (data) {
+						jQuery('#ical_import').validationEngine(app.validationEngineOptions);
+					});
 				}
+			}
 		);
 	},
 	triggerExportAction: function (exportActionUrl) {
@@ -44,13 +44,13 @@ Vtiger_List_Js("Calendar_List_Js", {
 			}
 		}
 		AppConnector.request(exportActionUrl).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (data) {
-						app.showModalWindow(data, function (data) {
-						});
-					}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (data) {
+					app.showModalWindow(data, function (data) {
+					});
 				}
+			}
 		);
 	}
 }, {});

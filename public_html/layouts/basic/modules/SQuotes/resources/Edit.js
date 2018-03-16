@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-Vtiger_Edit_Js("SQuotes_Edit_Js", {
-}, {
+Vtiger_Edit_Js("SQuotes_Edit_Js", {}, {
 	getPopUpParams: function (container) {
 		var params = this._super(container);
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - first step.

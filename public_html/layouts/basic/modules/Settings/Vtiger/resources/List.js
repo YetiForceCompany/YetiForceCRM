@@ -56,16 +56,16 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 		var css = jQuery.extend({'text-align': 'left'}, css);
 
 		AppConnector.request(url).then(
-				function (data) {
-					if (data) {
-						app.showModalWindow(data, function (container) {
-							thisInstance.postDeleteAction(container);
-						});
-					}
-				},
-				function (error, err) {
-
+			function (data) {
+				if (data) {
+					app.showModalWindow(data, function (container) {
+						thisInstance.postDeleteAction(container);
+					});
 				}
+			},
+			function (error, err) {
+
+			}
 		);
 	},
 
@@ -79,21 +79,21 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 			e.preventDefault();
 			var deleteActionUrl = deleteConfirmForm.serializeFormData();
 			AppConnector.request(deleteActionUrl).then(
-					function () {
-						app.hideModalWindow();
-						var params = {
-							text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
-						};
-						Settings_Vtiger_Index_Js.showMessage(params);
-						jQuery('#recordsCount').val('');
-						jQuery('#totalPageCount').text('');
-						thisInstance.getListViewRecords().then(function () {
-							thisInstance.updatePagination();
-						});
-					},
-					function (error, err) {
-						app.hideModalWindow();
-					}
+				function () {
+					app.hideModalWindow();
+					var params = {
+						text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
+					};
+					Settings_Vtiger_Index_Js.showMessage(params);
+					jQuery('#recordsCount').val('');
+					jQuery('#totalPageCount').text('');
+					thisInstance.getListViewRecords().then(function () {
+						thisInstance.updatePagination();
+					});
+				},
+				function (error, err) {
+					app.hideModalWindow();
+				}
 			);
 		})
 	},

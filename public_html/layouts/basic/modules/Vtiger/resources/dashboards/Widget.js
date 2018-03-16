@@ -1696,8 +1696,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				jQuery('<span class="plus pull-left fas fa-plus"></span>')
 					.prependTo($(this))
 			}).mouseleave(function () {
-				$(this).find(".plus").remove();
-			});
+			$(this).find(".plus").remove();
+		});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {

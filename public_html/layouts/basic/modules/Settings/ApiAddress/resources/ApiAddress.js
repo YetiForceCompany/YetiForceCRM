@@ -22,21 +22,21 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						var parametres = {
-							text: response['message'],
-							type: 'success'
-						};
-						Vtiger_Helper_Js.showPnotify(parametres);
-					},
-					function (data, err) {
-						var parametres = {
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(parametres);
-					}
+				function (data) {
+					var response = data['result'];
+					var parametres = {
+						text: response['message'],
+						type: 'success'
+					};
+					Vtiger_Helper_Js.showPnotify(parametres);
+				},
+				function (data, err) {
+					var parametres = {
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametres);
+				}
 			);
 		});
 		content.find('.save').on('click', function () {
@@ -62,68 +62,72 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							if (elements['key']) {
-								thisInstance.registerReload();
-							}
-							var parametry = {
-								text: response['message'],
-								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						} else {
-							var parametry = {
-								text: response['message'],
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
+				function (data) {
+					var response = data['result'];
+					if (response['success']) {
+						if (elements['key']) {
+							thisInstance.registerReload();
 						}
-					},
-					function (data, err) {
 						var parametry = {
-							text: app.vtranslate('JS_ERROR'),
+							text: response['message'],
+							type: 'success'
+						};
+						Vtiger_Helper_Js.showPnotify(parametry);
+					} else {
+						var parametry = {
+							text: response['message'],
 							type: 'error'
 						};
 						Vtiger_Helper_Js.showPnotify(parametry);
 					}
+				},
+				function (data, err) {
+					var parametry = {
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				}
 			);
 		});
 	},
 	registerRemoveConnection: function (content) {
 		var thisInstance = this;
 		content.find('.delete').on('click', function () {
-			var elements = {'key': '0', 'nominatim': '0', api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')};
+			var elements = {
+				'key': '0',
+				'nominatim': '0',
+				api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')
+			};
 			var params = {}
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							thisInstance.registerReload();
-							var parametry = {
-								text: response['message'],
-								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						} else {
-							var parametry = {
-								text: response['message'],
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						}
-					},
-					function (data, err) {
+				function (data) {
+					var response = data['result'];
+					if (response['success']) {
+						thisInstance.registerReload();
 						var parametry = {
-							text: app.vtranslate('JS_ERROR'),
+							text: response['message'],
+							type: 'success'
+						};
+						Vtiger_Helper_Js.showPnotify(parametry);
+					} else {
+						var parametry = {
+							text: response['message'],
 							type: 'error'
 						};
 						Vtiger_Helper_Js.showPnotify(parametry);
 					}
+				},
+				function (data, err) {
+					var parametry = {
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				}
 			);
 		});
 	},

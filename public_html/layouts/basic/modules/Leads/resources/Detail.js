@@ -25,15 +25,15 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		instance.convertLeadModules = false;
 		if (jQuery.isEmptyObject(Leads_Detail_Js.cache)) {
 			AppConnector.request(convertLeadUrl).then(
-					function (data) {
-						if (data) {
-							Leads_Detail_Js.cache = data;
-							instance.displayConvertLeadModel(data, buttonElement);
-						}
-					},
-					function (error, err) {
-
+				function (data) {
+					if (data) {
+						Leads_Detail_Js.cache = data;
+						instance.displayConvertLeadModel(data, buttonElement);
 					}
+				},
+				function (error, err) {
+
+				}
 			);
 		} else {
 			instance.displayConvertLeadModel(Leads_Detail_Js.cache, buttonElement);
@@ -290,9 +290,9 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		data['action'] = 'SaveAjax';
 
 		AppConnector.request(data).then(
-				function (reponseData) {
-					aDeferred.resolve(reponseData);
-				}
+			function (reponseData) {
+				aDeferred.resolve(reponseData);
+			}
 		);
 		if (fieldDetailList.field == 'leadstatus') {
 			var btn = jQuery('.btn-convertLead');

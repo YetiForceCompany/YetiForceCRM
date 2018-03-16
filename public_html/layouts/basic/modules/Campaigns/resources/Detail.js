@@ -40,32 +40,32 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 					delete urlAttributes.callback;
 				}
 				thisInstance.loadContents(url, urlAttributes).then(
-						function (data) {
-							thisInstance.deSelectAllrelatedTabs();
-							thisInstance.markTabAsSelected(tabElement);
-							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
-							Vtiger_Helper_Js.showHorizontalTopScrollBar();
-							thisInstance.registerHelpInfo();
-							app.registerModal(detailContentsHolder);
-							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
-							element.progressIndicator({'mode': 'hide'});
-							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
-							if (emailEnabledModule) {
-								var listInstance = new Campaigns_List_Js();
-								listInstance.registerEvents();
-							}
-							if (typeof callBack == 'function') {
-								callBack(data);
-							}
-							//Summary tab is clicked
-							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-								thisInstance.loadWidgets();
-							}
-							thisInstance.registerBasicEvents();
-						},
-						function () {
-							element.progressIndicator({'mode': 'hide'});
+					function (data) {
+						thisInstance.deSelectAllrelatedTabs();
+						thisInstance.markTabAsSelected(tabElement);
+						app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
+						Vtiger_Helper_Js.showHorizontalTopScrollBar();
+						thisInstance.registerHelpInfo();
+						app.registerModal(detailContentsHolder);
+						app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
+						element.progressIndicator({'mode': 'hide'});
+						var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
+						if (emailEnabledModule) {
+							var listInstance = new Campaigns_List_Js();
+							listInstance.registerEvents();
 						}
+						if (typeof callBack == 'function') {
+							callBack(data);
+						}
+						//Summary tab is clicked
+						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+							thisInstance.loadWidgets();
+						}
+						thisInstance.registerBasicEvents();
+					},
+					function () {
+						element.progressIndicator({'mode': 'hide'});
+					}
 				);
 			}
 		});

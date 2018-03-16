@@ -38,28 +38,28 @@ jQuery.Class('Settings_Currency_Js', {
 		var currentTrEle = currentTarget.closest('tr');
 		var instance = Settings_Currency_Js.currencyInstance;
 		instance.transformEdit(id).then(
-				function (data) {
-					var callBackFunction = function (data) {
-						var form = jQuery('#transformCurrency');
+			function (data) {
+				var callBackFunction = function (data) {
+					var form = jQuery('#transformCurrency');
 
-						//register all select2 Elements
-						app.showSelect2ElementView(form.find('select.select2'));
+					//register all select2 Elements
+					app.showSelect2ElementView(form.find('select.select2'));
 
-						form.submit(function (e) {
-							e.preventDefault();
-							var transferCurrencyEle = form.find('select[name="transform_to_id"]');
-							instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
-						})
+					form.submit(function (e) {
+						e.preventDefault();
+						var transferCurrencyEle = form.find('select[name="transform_to_id"]');
+						instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
+					})
+				}
+
+				app.showModalWindow(data, function (data) {
+					if (typeof callBackFunction == 'function') {
+						callBackFunction(data);
 					}
+				}, {'width': '500px'});
+			}, function (error, err) {
 
-					app.showModalWindow(data, function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
-					}, {'width': '500px'});
-				}, function (error, err) {
-
-		}
+			}
 		);
 	}
 
@@ -92,46 +92,46 @@ jQuery.Class('Settings_Currency_Js', {
 		params['record'] = id;
 
 		AppConnector.request(params).then(
-				function (data) {
-					var callBackFunction = function (data) {
-						var form = jQuery('#editCurrency');
-						var record = form.find('[name="record"]').val();
+			function (data) {
+				var callBackFunction = function (data) {
+					var form = jQuery('#editCurrency');
+					var record = form.find('[name="record"]').val();
 
-						//register all select2 Elements
-						app.showSelect2ElementView(form.find('select.select2'));
-						var currencyStatus = form.find('[name="currency_status"]').is(':checked');
-						if (record != '' && currencyStatus) {
-							//While editing currency, register the status change event
-							thisInstance.registerCurrencyStatusChangeEvent(form);
-						}
-						//If we change the currency name, change the code and symbol for that currency
-						thisInstance.registerCurrencyNameChangeEvent(form);
-
-						var params = app.validationEngineOptions;
-						params.onValidationComplete = function (form, valid) {
-							if (valid) {
-								thisInstance.saveCurrencyDetails(form);
-								return valid;
-							}
-						}
-						form.validationEngine(params);
-
-						form.submit(function (e) {
-							e.preventDefault();
-						})
+					//register all select2 Elements
+					app.showSelect2ElementView(form.find('select.select2'));
+					var currencyStatus = form.find('[name="currency_status"]').is(':checked');
+					if (record != '' && currencyStatus) {
+						//While editing currency, register the status change event
+						thisInstance.registerCurrencyStatusChangeEvent(form);
 					}
+					//If we change the currency name, change the code and symbol for that currency
+					thisInstance.registerCurrencyNameChangeEvent(form);
 
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					app.showModalWindow(data, function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
+					var params = app.validationEngineOptions;
+					params.onValidationComplete = function (form, valid) {
+						if (valid) {
+							thisInstance.saveCurrencyDetails(form);
+							return valid;
 						}
-					}, {'width': '600px'});
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
+					}
+					form.validationEngine(params);
+
+					form.submit(function (e) {
+						e.preventDefault();
+					})
 				}
+
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				app.showModalWindow(data, function (data) {
+					if (typeof callBackFunction == 'function') {
+						callBackFunction(data);
+					}
+				}, {'width': '600px'});
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -183,19 +183,19 @@ jQuery.Class('Settings_Currency_Js', {
 		data['action'] = 'SaveAjax';
 
 		AppConnector.request(data).then(
-				function (data) {
-					if (data['success']) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-						var params = {};
-						params.text = app.vtranslate('JS_CURRENCY_DETAILS_SAVED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						thisInstance.loadListViewContents();
-					}
-				},
-				function (error) {
+			function (data) {
+				if (data['success']) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					app.hideModalWindow();
+					var params = {};
+					params.text = app.vtranslate('JS_CURRENCY_DETAILS_SAVED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+					thisInstance.loadListViewContents();
 				}
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 
@@ -217,14 +217,14 @@ jQuery.Class('Settings_Currency_Js', {
 		params['view'] = 'List';
 
 		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					//replace the new list view contents
-					jQuery('#listViewContents').html(data);
-					//thisInstance.triggerDisplayTypeEvent();
-				}, function (error, err) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-		}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				//replace the new list view contents
+				jQuery('#listViewContents').html(data);
+				//thisInstance.triggerDisplayTypeEvent();
+			}, function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}
 		);
 	},
 
@@ -241,11 +241,11 @@ jQuery.Class('Settings_Currency_Js', {
 		params['record'] = id;
 
 		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				}, function (error, err) {
-			aDeferred.reject();
-		});
+			function (data) {
+				aDeferred.resolve(data);
+			}, function (error, err) {
+				aDeferred.reject();
+			});
 		return aDeferred.promise();
 	},
 
@@ -262,15 +262,15 @@ jQuery.Class('Settings_Currency_Js', {
 		params['transform_to_id'] = transferCurrencyId;
 
 		AppConnector.request(params).then(
-				function (data) {
-					app.hideModalWindow();
-					var params = {};
-					params.text = app.vtranslate('JS_CURRENCY_DELETED_SUCCESSFULLY');
-					Settings_Vtiger_Index_Js.showMessage(params);
-					currentTrEle.fadeOut('slow').remove();
-				}, function (error, err) {
+			function (data) {
+				app.hideModalWindow();
+				var params = {};
+				params.text = app.vtranslate('JS_CURRENCY_DELETED_SUCCESSFULLY');
+				Settings_Vtiger_Index_Js.showMessage(params);
+				currentTrEle.fadeOut('slow').remove();
+			}, function (error, err) {
 
-		});
+			});
 	},
 
 	triggerDisplayTypeEvent: function () {

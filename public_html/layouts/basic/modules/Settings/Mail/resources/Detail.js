@@ -13,14 +13,14 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 				mode: 'acceptanceRecord',
 				id: $('#recordId').val()
 			}).then(
-					function (data) {
-						progressIndicator.progressIndicator({'mode': 'hide'});
-						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
-						$(elem).remove()
-					},
-					function (error) {
-						progressIndicator.progressIndicator({'mode': 'hide'});
-					}
+				function (data) {
+					progressIndicator.progressIndicator({'mode': 'hide'});
+					Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
+					$(elem).remove()
+				},
+				function (error) {
+					progressIndicator.progressIndicator({'mode': 'hide'});
+				}
 			);
 		});
 	},
@@ -35,15 +35,15 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 				action: 'SendManuallyAjax',
 				id: container.find('#recordId').val()
 			}).then(
-					function (data) {
-						progressIndicator.progressIndicator({'mode': 'hide'});
-						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
-						container.find('.sendManually').remove()
-						container.find('.deleteButton').remove()
-					},
-					function (error) {
-						progressIndicator.progressIndicator({'mode': 'hide'});
-					}
+				function (data) {
+					progressIndicator.progressIndicator({'mode': 'hide'});
+					Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
+					container.find('.sendManually').remove()
+					container.find('.deleteButton').remove()
+				},
+				function (error) {
+					progressIndicator.progressIndicator({'mode': 'hide'});
+				}
 			);
 		});
 	},

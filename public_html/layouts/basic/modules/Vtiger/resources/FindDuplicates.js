@@ -31,18 +31,18 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 		var ignoreEmpty = jQuery('#ignoreEmpty').val();
 		var url = 'module=' + moduleName + '&view=FindDuplicates&fields=' + fields + '&ignoreEmpty=' + ignoreEmpty;
 		AppConnector.requestPjax(url + '&page=' + pageNumber).then(
-				function (data) {
-					jQuery('#listViewContents').html(data);
-					jQuery('#recordsCount').val('');
-					jQuery('#totalPageCount').text('');
-					var selectedIds = [];
-					thisInstance.writeSelectedIds(selectedIds);
-					thisInstance.calculatePages().then(function () {
-						thisInstance.updatePagination();
-					});
-					thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
-					aDeferred.resolve();
-				}
+			function (data) {
+				jQuery('#listViewContents').html(data);
+				jQuery('#recordsCount').val('');
+				jQuery('#totalPageCount').text('');
+				var selectedIds = [];
+				thisInstance.writeSelectedIds(selectedIds);
+				thisInstance.calculatePages().then(function () {
+					thisInstance.updatePagination();
+				});
+				thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
+				aDeferred.resolve();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -82,13 +82,13 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 				jQuery('#pageNumber').val(previousPageNumber);
 				jQuery('#pageToJump').val(previousPageNumber);
 				AppConnector.requestPjax(url + '&page=' + previousPageNumber).then(
-						function (data) {
-							jQuery('#listViewContents').html(data);
-							thisInstance.calculatePages().then(function () {
-								thisInstance.updatePagination(previousPageNumber);
-							});
-							thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
-						}
+					function (data) {
+						jQuery('#listViewContents').html(data);
+						thisInstance.calculatePages().then(function () {
+							thisInstance.updatePagination(previousPageNumber);
+						});
+						thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
+					}
 				);
 			}
 		});
@@ -103,15 +103,15 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 			jQuery('#pageNumber').val(previousPageNumber);
 			jQuery('#pageToJump').val(previousPageNumber);
 			AppConnector.requestPjax(url + '&page=' + pageNumber).then(
-					function (data) {
-						jQuery('#listViewContents').html(data);
-						thisInstance.calculatePages().then(function () {
-							thisInstance.updatePagination(pageNumber);
-						});
-						thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
-					},
-					function (textStatus, errorThrown) {
-					}
+				function (data) {
+					jQuery('#listViewContents').html(data);
+					thisInstance.calculatePages().then(function () {
+						thisInstance.updatePagination(pageNumber);
+					});
+					thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
+				},
+				function (textStatus, errorThrown) {
+				}
 			);
 		});
 
@@ -176,12 +176,12 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 					currentPageElement.val(newPageNumber);
 
 					AppConnector.requestPjax(url + '&page=' + newPageNumber).then(
-							function (data) {
-								jQuery('#listViewContents').html(data);
-								thisInstance.updatePagination(newPageNumber);
-								element.closest('.btn-group').removeClass('open');
-								thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
-							}
+						function (data) {
+							jQuery('#listViewContents').html(data);
+							thisInstance.updatePagination(newPageNumber);
+							element.closest('.btn-group').removeClass('open');
+							thisInstance.registerMergeRecordEvent(thisInstance.mergeRecordPopupCallback);
+						}
 					);
 				}
 				return false;
@@ -293,14 +293,14 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 				"fields": fields, "ignoreEmpty": ignoreEmpty
 			}
 			AppConnector.request(postData).then(
-					function (data) {
-						var response = JSON.parse(data);
-						jQuery("#recordsCount").val(response['result']['count']);
-						count = response['result']['count'];
-						aDeferred.resolve(count);
-					},
-					function (error, err) {
-					}
+				function (data) {
+					var response = JSON.parse(data);
+					jQuery("#recordsCount").val(response['result']['count']);
+					count = response['result']['count'];
+					aDeferred.resolve(count);
+				},
+				function (error, err) {
+				}
 			);
 		}
 		return aDeferred.promise();

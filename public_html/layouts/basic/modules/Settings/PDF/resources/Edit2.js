@@ -48,28 +48,28 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 2;
 		AppConnector.request(saveData).then(
-				function (data) {
-					data = JSON.parse(data);
-					if (data.success == true) {
-						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+			function (data) {
+				data = JSON.parse(data);
+				if (data.success == true) {
+					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-						AppConnector.request(formData).then(
-								function (data) {
-									form.hide();
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									})
-									aDeferred.resolve(data);
-								},
-								function (error, err) {
-									app.errorLog(error, err);
-								}
-						);
-					}
-				},
-				function (error, err) {
-					app.errorLog(error, err);
+					AppConnector.request(formData).then(
+						function (data) {
+							form.hide();
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							})
+							aDeferred.resolve(data);
+						},
+						function (error, err) {
+							app.errorLog(error, err);
+						}
+					);
 				}
+			},
+			function (error, err) {
+				app.errorLog(error, err);
+			}
 		);
 		return aDeferred.promise();
 	},

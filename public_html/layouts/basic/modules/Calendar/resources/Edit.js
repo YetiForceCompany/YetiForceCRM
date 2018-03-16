@@ -7,8 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Vtiger_Edit_Js("Calendar_Edit_Js", {
-}, {
+Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	isEvents: function () {
 		var form = this.getForm();
 		var moduleName = form.find('[name="module"]').val();
@@ -477,9 +476,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			},
 			_renderItem: function (ul, item) {
 				return $("<li>")
-						.data("item.autocomplete", item)
-						.append($("<a></a>").html(item.label))
-						.appendTo(ul);
+					.data("item.autocomplete", item)
+					.append($("<a></a>").html(item.label))
+					.appendTo(ul);
 			},
 		});
 		inviteesSearch.ivAutocomplete({
