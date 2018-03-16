@@ -86,6 +86,11 @@ App.Fields = {
 			if (elements.length == 0) {
 				return;
 			}
+			var parentDateElem = elements.closest('.dateTime');
+			jQuery('.input-group-text', parentDateElem).on('click', function (e) {
+				var elem = jQuery(e.currentTarget);
+				elem.closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
+			});
 			var language = jQuery('body').data('language');
 			var dateFormat = elements.data('dateFormat').toUpperCase();
 			var timeFormat = elements.data('hourFormat');
