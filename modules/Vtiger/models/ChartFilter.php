@@ -268,6 +268,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$chartData['datasets'][0]['data'][] = $value['count'];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['picklist_id']];
+			}
 		}
 		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
 		return $chartData;
@@ -294,6 +297,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$chartData['datasets'][0]['data'][] = $value['count'];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['picklist_id']];
+			}
 		}
 		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
 		return $chartData;
@@ -549,7 +555,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$this->colors = \App\Fields\Picklist::getColors($fieldName);
 				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 				$fieldTable = 'vtiger_' . $fieldModel->getName();
-				$queryGenerator->addJoin(['INNER JOIN', $fieldTable, "{$fieldModel->table}.{$fieldModel->column} = {$fieldTable}.{$fieldName}"]);
+				$on = "{$fieldModel->table}.{$fieldModel->column} = {$fieldTable}.{$fieldName}";
+				//var_dump($on);
+				$queryGenerator->addJoin(['INNER JOIN', $fieldTable, $on]);
 				$queryGenerator->setCustomColumn(['picklist_id' => "$fieldTable.$primaryKey"]);
 			}
 		}
