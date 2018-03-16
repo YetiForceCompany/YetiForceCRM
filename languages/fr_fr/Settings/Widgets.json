@@ -58,7 +58,7 @@
 	"LBL_SHITCH_HEADER_INFO": "Basculer peut \u00eatre trouv\u00e9 dans l'en-t\u00eate du widget.",
 	"HistoryRelation": "Chronologie",
 	"CountRecords": "Nombre d'enregistrements",
-	"LBL_LIST_WITH_SUMMARY": "Lis with summary"
+	"LBL_LIST_WITH_SUMMARY": "List with summary"
   },
   "js": {
 	"Loading data": "Chargement...",
