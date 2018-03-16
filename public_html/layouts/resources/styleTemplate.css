@@ -1,88 +1,88 @@
-.font-small{
+.font-small {
 	font-size: small;
 }
-.dispaly-inline{
+.dispaly-inline {
 	display: inline;
 }
-.modal-full{
+.modal-full {
 	width: 95% !important;
 	max-width: 1250px;
 }
 .modal-blg {
 	width: 90%;
 }
-.danger-color{
+.danger-color {
 	color: #d9534f !important;
 }
-.info-color{
+.info-color {
 	color: #5bc0de !important;
 }
-.bgBlue{
+.bgBlue {
 	background: #337ab7 !important;
 	color: #fff !important;
 }
-.bgWarning{
+.bgWarning {
 	background: #fcf8e3 !important;
 }
-.bgDanger{
+.bgDanger {
 	color: #fff !important;
 	background-color: #d9534f !important;
 }
-.bgGreen{
+.bgGreen {
 	background: #5cb85c !important;
 	color: #fff !important;
 }
-.bgOrange{
+.bgOrange {
 	background: #f0ad4e !important;
 	color: #fff !important;
 }
-.bgAzure{
+.bgAzure {
 	background: #3EB1F7 !important;
 	color: #fff !important;
 }
-.bgDarkBlue{
+.bgDarkBlue {
 	background: #001f3f !important;
 	color: #fff !important;
 }
-.fs30{
+.fs30 {
 	font-size: 30px;
 }
-.fs40{
+.fs40 {
 	font-size: 40px;
 }
 .btn-black {
-    color: #fff;
-    background-color: #000;
+	color: #fff;
+	background-color: #000;
 }
 .btn-black:hover {
-    color: #fff;
+	color: #fff;
 }
-.paddingLeftMd{
+.paddingLeftMd {
 	padding-left: 15px;
 }
-.marginRight10{
+.marginRight10 {
 	margin-right: 10px;
 }
-.marginRight20{
+.marginRight20 {
 	margin-right: 20px;
 }
-.marginRightMinus20{
-	margin-right:-20px;
+.marginRightMinus20 {
+	margin-right: -20px;
 }
-.marginTop2{
+.marginTop2 {
 	margin-top: 2px !important;
 }
-.marginTop5{
+.marginTop5 {
 	margin-top: 5px !important;
 }
-.marginTopMinus10{
-	margin-top:-10px;
+.marginTopMinus10 {
+	margin-top: -10px;
 }
-.paddingLR10{
-	padding-left:10px !important;
+.paddingLR10 {
+	padding-left: 10px !important;
 	padding-right: 10px !important;
 }
-.paddingLeft5px{
+.paddingLeft5px {
 	padding-left: 5px;
 }
 .marginBottom5px {
@@ -98,13 +98,13 @@
 .paddingRightZero {
 	padding-right: 0 !important;
 }
-.paddingRight10{
+.paddingRight10 {
 	padding-right: 10px !important;
 }
-.paddingRight15{
+.paddingRight15 {
 	padding-right: 15px !important;
 }
-.padding5{
+.padding5 {
 	padding: 5px !important;
 }
 .alignTop {
@@ -125,10 +125,10 @@
 .padding-bottom1per {
 	padding-bottom: 1%;
 }
-.paddingBottom20{
+.paddingBottom20 {
 	padding-bottom: 20px;
 }
-.paddingBottom10{
+.paddingBottom10 {
 	padding-bottom: 10px;
 }
 .marginBottom10px {
@@ -168,17 +168,17 @@
 .pushDown {
 	margin-top: 7px;
 }
-.marginTB3{
+.marginTB3 {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-.marginLeft5{
-	margin-left:5px;
+.marginLeft5 {
+	margin-left: 5px;
 }
-.marginLeft10{
-	margin-left:10px;
+.marginLeft10 {
+	margin-left: 10px;
 }
-.marginLeft20{
+.marginLeft20 {
 	margin-left: 20px;
 }
 .marginbottomZero {
