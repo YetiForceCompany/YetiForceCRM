@@ -54,6 +54,7 @@
 									<select name="viewtype" class="select2">
 										<option value="List" {if $WIDGETINFO['data']['viewtype'] == 'List'}selected{/if}>{\App\Language::translate('LBL_LIST', $QUALIFIED_MODULE)}</option>
 										<option value="Summary" {if $WIDGETINFO['data']['viewtype'] == 'Summary'}selected{/if}>{\App\Language::translate('LBL_SUMMARY', $QUALIFIED_MODULE)}</option>
+										<option value="ListWithSummary" {if $WIDGETINFO['data']['viewtype'] == 'ListWithSummary'}selected{/if}>{\App\Language::translate('LBL_LIST_WITH_SUMMARY', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>		

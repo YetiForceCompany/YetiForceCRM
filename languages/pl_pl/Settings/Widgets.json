@@ -57,7 +57,8 @@
 	"LBL_SHITCH_HEADER": "Prze\u0142\u0105cznik w nag\u0142\u00f3wku",
 	"LBL_SHITCH_HEADER_INFO": "Prze\u0142\u0105cznik (switch) umieszczony w nag\u0142\u00f3wku widgetu.",
 	"HistoryRelation": "O\u015b czasu",
-	"CountRecords": "Ilo\u015b\u0107 rekord\u00f3w"
+	"CountRecords": "Ilo\u015b\u0107 rekord\u00f3w",
+	"LBL_LIST_WITH_SUMMARY": "Lista z podsumowaniem"
   },
   "js": {
 	"Loading data": "\u0141adowanie danych...",
