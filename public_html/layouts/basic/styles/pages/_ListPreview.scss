@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .fixedListInitial {
+	float: left;
 	position: relative;
 	padding-right: 10px;
 	height: 600px;
@@ -30,6 +31,8 @@
 	padding-left: 10px;
 	padding-right: 0;
 	margin-top: 2px;
+	position: relative;
+    min-height: 1px;
 }
 .listPreviewframe {
 	width: 100%;
@@ -69,7 +72,7 @@
 	height: calc(100vh - 33px);
 	width: 20px;
 	position: absolute;
-	top: 2px;
+	margin-top: 2px;
 	background: $light;
 }
 .wrappedPanelLeft {
@@ -116,4 +119,7 @@
 		margin-right: 0;
 		margin-bottom: 10px;
 	}
+}
+.js-hide-underneath {
+	z-index: -1;
 }

@@ -8,7 +8,7 @@
 </div>
 <div class="wrappedPanel">
 	<div class="rotatedText">
-		<div class="textCenter">
+		<div class="textCenter small font-weight-bold">
 			{\App\Language::translate('LBL_VIEW_DETAIL')}
 		</div>
 	</div>

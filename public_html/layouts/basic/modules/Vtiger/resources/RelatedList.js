@@ -68,24 +68,24 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			} else {
 				AppConnector.request(actionParams).then(
-					function (responseData) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						if (responseData && responseData.result !== null) {
-							if (responseData.result.notify) {
-								Vtiger_Helper_Js.showMessage(responseData.result.notify);
+						function (responseData) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							if (responseData && responseData.result !== null) {
+								if (responseData.result.notify) {
+									Vtiger_Helper_Js.showMessage(responseData.result.notify);
+								}
+								if (responseData.result.reloadList) {
+									Vtiger_Detail_Js.reloadRelatedList();
+								}
+								if (responseData.result.procesStop) {
+									progressIndicatorElement.progressIndicator({'mode': 'hide'});
+									return false;
+								}
 							}
-							if (responseData.result.reloadList) {
-								Vtiger_Detail_Js.reloadRelatedList();
-							}
-							if (responseData.result.procesStop) {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								return false;
-							}
+						},
+						function (error, err) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						}
-					},
-					function (error, err) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					}
 				);
 			}
 		} else {
@@ -472,9 +472,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 		var postQuickCreateSave = function (data) {
 			thisInstance.loadRelatedList().then(
-				function (data) {
-					aDeferred.resolve(data);
-				})
+					function (data) {
+						aDeferred.resolve(data);
+					})
 		}
 
 		//If url contains params then seperate them and make them as relatedParams
@@ -836,52 +836,52 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 		if (!this.content.find('.gutter').length) {
-			thisInstance.updateSplit(this.content);
-			thisInstance.registerListPreviewScroll(this.content);
+			this.getDomParams(this.content);
+			this.updateSplit(this.content);
+			this.registerListPreviewScroll(this.content);
 		}
 	},
 	registerListPreviewScroll: function (container) {
 		if (container.find('.fixedListInitial').length) {
 			var thisInstance = this;
-			var fixedList = container.find('.fixedListInitial');
 			var listPreview = container.find('.listPreview');
 			var mainBody = container.closest('.mainBody');
 			var wrappedPanels = container.find('.wrappedPanel');
 			var listViewEntriesDiv = container.find('.listViewEntriesDiv');
 			var commActHeight = $('.commonActionsContainer').height();
 			var paddingTop = 6;
-			var offset = fixedList.offset().top - commActHeight - paddingTop;
+			var offset = this.list.offset().top - commActHeight - paddingTop;
 			app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
-			app.showNewLeftScrollbar(fixedList);
-			$(window).resize(function () {
-				if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
+			app.showNewLeftScrollbar(this.list);
+			$(window).on('resize', () => {
+				if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 					container.find('.gutter').css('left', listPreview.offset().left - 8);
 				}
 			});
-			mainBody.scroll(function () {
+			mainBody.on('scroll', () => {
 				var gutter = container.find('.gutter');
 				if (!gutter.length)
 					return;
 				var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
 				gutter.css(mainWindowHeightCss);
-				fixedList.css(mainWindowHeightCss);
+				this.list.css(mainWindowHeightCss);
 				wrappedPanels.css(mainWindowHeightCss);
-				if ($(this).scrollTop() >= (fixedList.offset().top + commActHeight - paddingTop)) {
+				if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight - paddingTop)) {
 					if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
-						fixedList.css('top', $(this).scrollTop() - offset);
+						this.list.css('top', mainBody.scrollTop() - offset);
 						if ($(window).width() > 993) {
 							wrappedPanels.addClass('wrappedPanelOnScroll');
 							gutter.addClass('gutterOnScroll');
 							gutter.css('left', listPreview.offset().left - 8);
-							gutter.on('mousedown', function () {
-								$(this).on('mousemove', function (e) {
-									$(this).css('left', listPreview.offset().left - 8);
+							gutter.on('mousedown', () => {
+								gutter.on('mousemove', () => {
+									gutter.css('left', listPreview.offset().left - 8);
 								});
 							});
 						}
 					}
 				} else {
-					fixedList.css('top', 'initial');
+					this.list.css('top', 'initial');
 					if ($(window).width() > 993) {
 						var gutter = container.find('.gutter');
 						wrappedPanels.removeClass('wrappedPanelOnScroll');
@@ -894,87 +894,158 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			});
 		}
 	},
-	getSplitWindowsSize(container) {
-		const cachedParams = app.moduleCacheGet('splitParamsRelatedList');
-		if (cachedParams !== null) {
+	getSecondColMinWidth: function (container) {
+		let maxWidth, thisWidth;
+		container.find('.listViewEntries').each(function (i) {
+			thisWidth = $(this).find('.listViewEntryValue a').first().width();
+			if (i === 0) {
+				maxWidth = thisWidth;
+			} else {
+				thisWidth > maxWidth ? maxWidth = thisWidth : maxWidth;
+			}
+		});
+		return maxWidth;
+	},
+	getDomParams: function (container) {
+		this.listColumntFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
+		this.listColumntSecondWidth = this.getSecondColMinWidth(container);
+		this.windowMinWidth = (15 / $(window).width()) * 100;
+		this.windowMaxWidth = 100 - this.minWidth;
+		this.sidePanels = container.find('.wrappedPanel');
+		this.sidePanelLeft = container.find(this.sidePanels[0]);
+		this.sidePanelRight = container.find(this.sidePanels[1]);
+		this.list = container.find('.fixedListInitial');
+	},
+	getDefaultSplitSizes: function () {
+		window.console.log(this.listColumntFirstWidth);
+		window.console.log(this.listColumntSecondWidth);
+		window.console.log($(window).width());
+		let thWidth = ((this.listColumntFirstWidth + this.listColumntSecondWidth + 62) / $(window).width()) * 100;
+		window.console.log(thWidth, 100 - thWidth);
+		return [thWidth, 100 - thWidth];
+	},
+	/**
+	 * Sets default windows size or from cache
+	 * @param {jQuery} container - current container for reference.
+	 * @return Array
+	 */
+	getSplitSizes: function () {
+		const cachedParams = app.moduleCacheGet('userSplitRelatedSet');
+		if (cachedParams[0] != null) {
+			window.console.log('cache');
 			return cachedParams;
 		} else {
-			let thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
-			thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
-			return [thWidth, 100 - thWidth];
+			window.console.log(this.getDefaultSplitSizes());
+			return this.getDefaultSplitSizes();
 		}
 	},
 	registerSplit: function (container) {
 		if ($(window).width() > 993) {
 			if (container.length && !container.find('.gutter').length && container.find('.fixedListInitial').length) {
-				var thisInstance = this;
 				var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 				var relatedHeader = container.find('.relatedHeader');
-				var fixedList = container.find('.fixedListInitial');
-				var wrappedPanel = container.find('.wrappedPanel');
-				var wrappedPanelLeft = container.find(wrappedPanel[0]);
-				var wrappedPanelRight = container.find(wrappedPanel[1]);
 				var listPreview = container.find('.listPreview');
-				var split = Split([fixedList[0], listPreview[0]], {
-					sizes: thisInstance.getSplitWindowsSize(container),
+				const splitSizes = this.getSplitSizes();
+				window.console.log(splitSizes);
+				var split = Split([this.list[0], listPreview[0]], {
+					sizes: splitSizes,
 					minSize: 10,
 					gutterSize: 8,
 					snapOffset: 100,
-					onDrag: function () {
-						if (split.getSizes()[1] < rightSplitMaxWidth) {
+					onDrag: () => {
+						if (split.getSizes()[1] < rightSplitMaxWidth)
+						{
 							split.collapse(1);
 						}
 						if (split.getSizes()[0] < 5) {
-							wrappedPanelLeft.addClass('wrappedPanelLeft');
+							this.sidePanelLeft.addClass('wrappedPanelLeft');
 						} else {
-							wrappedPanelLeft.removeClass('wrappedPanelLeft');
+							this.sidePanelLeft.removeClass('wrappedPanelLeft');
 						}
 						if (split.getSizes()[1] < 10) {
-							wrappedPanelRight.addClass('wrappedPanelRight');
+							this.sidePanelRight.addClass('wrappedPanelRight');
 							listPreview.hide();
-							fixedList.width(fixedList.width() - 10);
+							this.list.width(this.list.width() - 10);
 						} else {
-							wrappedPanelRight.removeClass('wrappedPanelRight');
+							this.sidePanelRight.removeClass('wrappedPanelRight');
 							listPreview.show();
 						}
-						app.moduleCacheSet('splitParamsRelatedList', split.getSizes());
-						wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
+						if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
+							app.moduleCacheSet('gutterRelatedMidPosition', split.getSizes());
+						}
+						app.moduleCacheSet('userSplitRelatedSet', split.getSizes());
+						this.sidePanels.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 					}
 				});
-				wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
+				window.console.log(split);
+				if (splitSizes[0] < 10) {
+					this.sidePanelLeft.addClass('wrappedPanelLeft');
+					split.setSizes([this.windowMinWidth, this.windowMaxWidth]);
+				} else if (splitSizes[1] < rightSplitMaxWidth) {
+					this.sidePanelRight.addClass('wrappedPanelRight');
+					listPreview.hide();
+					split.setSizes([this.windowMaxWidth, this.windowMinWidth]);
+				}
+				this.sidePanels.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 				var gutter = container.find('.gutter');
 				var listPreviewContainer = container.find(".js-list-preview");
 				gutter.height(listPreviewContainer.height() - 33);
-				fixedList.height(listPreviewContainer.height() - 33);
+				this.list.height(listPreviewContainer.height() - 33);
 				var leftWidth = (15 / $(window).width()) * 100;
 				var rightWidth = 100 - leftWidth;
-				gutter.on("dblclick", function () {
-					if (split.getSizes()[0] < 25) {
-						split.setSizes([25, 75]);
-						wrappedPanelLeft.removeClass('wrappedPanelLeft');
-					} else if (split.getSizes()[1] < 25) {
-						split.setSizes([75, 25]);
-						wrappedPanelRight.removeClass('wrappedPanelRight');
+				gutter.on("dblclick", () => {
+					let gutterMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
+					if (split.getSizes()[0] < 10) {
+						this.sidePanelLeft.removeClass('wrappedPanelLeft');
+						if (gutterMidPosition !== null && gutterMidPosition[0] > 11) {
+							split.setSizes(gutterMidPosition);
+						} else {
+							split.setSizes(this.getDefaultSplitSizes());
+						}
+					} else if (split.getSizes()[1] < 20) {
+						if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
+							split.setSizes(gutterMidPosition);
+						} else {
+							split.setSizes(this.getDefaultSplitSizes());
+						}
+						this.sidePanelRight.removeClass('wrappedPanelRight');
+						listPreview.show();
 						gutter.css('right', 'initial');
-						fixedList.css('padding-right', '10px');
-					} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
-						split.setSizes([leftWidth, rightWidth]);
-						wrappedPanelLeft.addClass('wrappedPanelLeft');
+						this.list.css('padding-right', '10px');
+					} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
+						split.setSizes([this.windowMinWidth, this.windowMaxWidth]);
+						this.sidePanelLeft.addClass('wrappedPanelLeft');
 					} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
 						split.collapse(1);
-						wrappedPanelRight.addClass('wrappedPanelRight');
-						fixedList.width(fixedList.width() - 10);
+						this.sidePanelRight.addClass('wrappedPanelRight');
+						listPreview.hide();
+						this.list.width(this.list.width() - 10);
 					}
+					app.moduleCacheSet('userSplitRelatedSet', split.getSizes());
 				});
-				wrappedPanelLeft.on("dblclick", function () {
-					split.setSizes([25, 75]);
-					wrappedPanelLeft.removeClass('wrappedPanelLeft');
+				this.sidePanelLeft.on("dblclick", () => {
+					let gutterMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
+					if (gutterMidPosition !== null && gutterMidPosition[0] > 11) {
+						split.setSizes(gutterMidPosition);
+					} else {
+
+						split.setSizes(this.getDefaultSplitSizes());
+					}
+					this.sidePanelLeft.removeClass('wrappedPanelLeft');
+					app.moduleCacheSet('userSplitRelatedSet', split.getSizes());
 				});
-				wrappedPanelRight.on("dblclick", function () {
-					split.setSizes([75, 25]);
-					wrappedPanelRight.removeClass('wrappedPanelRight');
+				this.sidePanelRight.on("dblclick", () => {
+					let gutterMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
+					if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
+						split.setSizes(gutterMidPosition);
+					} else {
+						split.setSizes(this.getDefaultSplitSizes());
+					}
+					this.sidePanelRight.removeClass('wrappedPanelRight');
+					listPreview.show();
 					gutter.css('right', 'initial');
-					fixedList.css('padding-right', '10px');
+					this.list.css('padding-right', '10px');
+					app.moduleCacheSet('userSplitRelatedSet', split.getSizes());
 				});
 				return split;
 			}
@@ -983,34 +1054,30 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	updateSplit: function (container) {
 		if (container.find('.fixedListInitial').length) {
 			var thisInstance = this;
-			var fixedList = container.find('.fixedListInitial');
 			var commactHeight = container.closest('.commonActionsContainer').height();
 			var listPreview = container.find('.listPreview');
 			var splitsArray = [];
 			var mainBody = container.closest('.mainBody');
-			var wrappedPanel = container.find('.wrappedPanel');
-			var wrappedPanelLeft = container.find(wrappedPanel[0]);
-			var wrappedPanelRight = container.find(wrappedPanel[1]);
-			var split = thisInstance.registerSplit(container);
+			this.split = thisInstance.registerSplit(container);
 			var rotatedText = container.find('.rotatedText');
 			rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
 			rotatedText.css({
-				width: wrappedPanelLeft.height(),
-				height: wrappedPanelLeft.height()
+				width: this.sidePanelLeft.height(),
+				height: this.sidePanelLeft.height()
 			});
-			splitsArray.push(split);
-			$(window).resize(function () {
+			splitsArray.push(this.split);
+			$(window).on('resize', () => {
 				if ($(window).width() < 993) {
 					if (container.find('.gutter').length) {
 						splitsArray[splitsArray.length - 1].destroy();
-						wrappedPanelRight.removeClass('wrappedPanelRight');
-						wrappedPanelLeft.removeClass('wrappedPanelLeft');
+						this.sidePanelRight.removeClass('wrappedPanelRight');
+						this.sidePanelLeft.removeClass('wrappedPanelLeft');
 					}
 				} else {
 					if (container.find('.gutter').length !== 1) {
-						var newSplit = thisInstance.registerSplit(container);
+						this.split = thisInstance.registerSplit(container);
 						var gutter = container.find('.gutter');
-						if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
+						if (mainBody.scrollTop() >= (this.list.offset().top + commactHeight)) {
 							gutter.addClass('gutterOnScroll');
 							gutter.css('left', listPreview.offset().left - 8);
 							gutter.on('mousedown', function () {
@@ -1019,17 +1086,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 								});
 							});
 						}
-						splitsArray.push(newSplit);
+						splitsArray.push(this.split);
 					}
 					var currentSplit = splitsArray[splitsArray.length - 1];
-					var minWidth = (15 / $(window).width()) * 100;
-					var maxWidth = 100 - minWidth;
 					if (typeof currentSplit === 'undefined')
 						return;
-					if (currentSplit.getSizes()[0] < minWidth + 5) {
-						currentSplit.setSizes([minWidth, maxWidth]);
-					} else if (currentSplit.getSizes()[1] < minWidth + 5) {
-						currentSplit.setSizes([maxWidth, minWidth]);
+					if (currentSplit.getSizes()[0] < this.windowMinWidth + 5) {
+						currentSplit.setSizes([this.windowMinWidth, this.windowMinWidth]);
+					} else if (currentSplit.getSizes()[1] < this.windowMinWidth + 5) {
+						currentSplit.setSizes([this.windowMinWidth, this.windowMinWidth]);
 					}
 				}
 			});
