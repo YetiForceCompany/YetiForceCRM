@@ -59,8 +59,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		var paddingTop = 6;
-		var offset = this.list.offset().top - commActHeight - paddingTop;
 		app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
 		app.showNewLeftScrollbar(this.list);
 		$(window).on('resize', () => {
@@ -68,27 +66,30 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
 			}
 		});
-		let listOffsetTop = this.list.offset().top - 44;
+		let listOffsetTop = this.list.offset().top - 48;
 		let initialH = this.sidePanels.height();
-		window.console.log(listOffsetTop);
+		let mainViewPortHeight = mainBody.height();
+		window.console.log(mainBody.height());
 		mainBody.on('scroll', () => {
-			window.console.log(listOffsetTop);
 			var gutter = container.find('.gutter');
-			gutter.css({heigh: this.mainViewPortHeight});
-			this.list.css({heigh: this.mainViewPortHeight});
-			this.sidePanels.css({heigh: this.mainViewPortHeight});
+			gutter.css({heigh: mainViewPortHeight});
+			this.list.css({heigh: mainViewPortHeight});
+			this.sidePanels.css({heigh: mainViewPortHeight});
 			//if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight - paddingTop)) {
 			//if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
 			if (mainBody.scrollTop() >= listOffsetTop) {
+				window.console.log('offset');
 				this.list.css('top', mainBody.scrollTop() - listOffsetTop);
 				let offsetTop = {top: mainBody.scrollTop() - listOffsetTop}
 				this.sidePanels.css(offsetTop);
 				gutter.css(offsetTop);
+				window.console.log(mainViewPortHeight);
+				this.sidePanels.css({height: mainViewPortHeight});
+				gutter.css({height: mainViewPortHeight});
 				this.rotatedText.css({
-					width: this.sidePanelLeft.height(),
-					height: this.sidePanelLeft.height()
+					width: mainViewPortHeight,
+					height: mainViewPortHeight
 				});
-				//}
 			} else {
 				window.console.log(mainBody.scrollTop());
 				this.list.css('top', 'initial');
@@ -102,6 +103,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					height: initialH + mainBody.scrollTop(),
 				});
 			}
+
 		});
 		this.list.on('click', '.listViewEntries', () => {
 			if (this.split.getSizes()[1] < 10) {
@@ -135,10 +137,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.sidePanelRight = container.find('.wrappedPanel').last();
 		this.list = container.find('.fixedListInitial');
 		this.rotatedText = container.find('.rotatedText');
-		this.footerH = $('.js-footer');
-		this.headerH = $('.js-header');
+		this.footerH = $('.js-footer').height();
+		this.headerH = $('.js-header').height();
 		this.infoUser = $('.infoUser');
-		this.mainViewPortHeight = $(window).height() - ($('.js-footer').height() + $('.js-header').height() + $('.infoUser').height());
 	},
 	getDefaultSplitSizes: function () {
 		let thWidth = ((this.listColumntFirstWidth + this.listColumntSecondWidth + 62) / $(window).width()) * 100;
@@ -201,7 +202,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
-		this.sidePanelLeft.on("dblclick", () => {
+		this.sidePanelLeft.on("click", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (gutterMidPosition[0] > 11) {
 				split.setSizes(gutterMidPosition);
@@ -211,7 +212,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			this.sidePanelLeft.removeClass('wrappedPanelLeft');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
-		this.sidePanelRight.on("dblclick", () => {
+		this.sidePanelRight.on("click", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
 				split.setSizes(gutterMidPosition);
