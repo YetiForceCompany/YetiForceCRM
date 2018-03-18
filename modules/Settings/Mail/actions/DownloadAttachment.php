@@ -31,8 +31,8 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$id = $request->get('record');
-		$selectedFile = (int) $request->get('selectedFile');
+		$id = $request->getInteger('record');
+		$selectedFile = $request->getInteger('selectedFile');
 		$filePath = Settings_Mail_Module_Model::getAttachmentPath($id, $selectedFile);
 		if (file_exists($filePath)) {
 			header('Content-Description: File Transfer');
@@ -44,15 +44,5 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 			header('Content-Length: ' . filesize($filePath));
 			readfile($filePath);
 		}
-	}
-
-	/**
-	 * Validate Request.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateReadAccess();
 	}
 }

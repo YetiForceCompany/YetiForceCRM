@@ -2,60 +2,76 @@
 jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	container: false,
 	contents: false,
-	initEvants: function (container) {
+	/**
+	 * Register events
+	 * @param {jQuery} container
+	 */
+	initEvents: function (container) {
 		var thisInstance = this;
-		container.on('click', '.delete', function (e) {
+		container.on('click', '.js-delete-filter', function (e) {
 			thisInstance.deleteFilter(e);
 		});
-		container.on('switchChange.bootstrapSwitch', '.updateField', function (e, state) {
+		container.on('switchChange.bootstrapSwitch', '.js-update-field', function (e, state) {
 			thisInstance.updateField(e, state);
 		});
-		container.on('click', '.update,.createFilter', function (e) {
+		container.on('click', '.js-update,.js-create-filter', function (e) {
 			thisInstance.update(e);
 		});
-		container.on('change', '#moduleFilter', function (e) {
+		container.on('change', '.js-module-filter', function (e) {
 			thisInstance.registerFilterChange(e);
 		});
 	},
+	/**
+	 * Load form to edit filter
+	 * @param {object} e
+	 */
 	update: function (e) {
 		var target = $(e.currentTarget);
 		var editUrl = target.data('editurl');
 		Vtiger_CustomView_Js.loadFilterView(editUrl);
 	},
+	/**
+	 * Update parameter
+	 * @param {object} e
+	 */
 	updateField: function (e) {
 		var thisInstance = this;
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var progress = $.progressIndicator({
-			'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-			'blockInfo': {
-				'enabled': true
+		var closestTrElement = target.closest('.js-filter-row');
+		$.progressIndicator({
+			message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+			blockInfo: {
+				enabled: true
 			}
 		});
 		var params = {
-			'cvid': closestTrElement.data('cvid'),
-			'mod': closestTrElement.data('mod'),
-			'name': target.attr('name'),
-			'value': target.prop('checked') ? 1 : 0,
+			cvid: closestTrElement.data('cvid'),
+			mod: closestTrElement.data('mod'),
+			name: target.attr('name'),
+			value: target.prop('checked') ? 1 : 0,
 		};
-		app.saveAjax('updateField', params).then(function (data) {
-			thisInstance.getContainer().find('#moduleFilter').trigger('change');
+		app.saveAjax('updateField', {}, params).then(function (data) {
+			thisInstance.getContainer().find('.js-module-filter').trigger('change');
 		});
 	},
+	/**
+	 * Delete filter
+	 * @param {object} e
+	 */
 	deleteFilter: function (e) {
 		var thisInstance = this;
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var progress = $.progressIndicator({
-			'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-			'blockInfo': {
-				'enabled': true
+		var closestTrElement = target.closest('.js-filter-row');
+		$.progressIndicator({
+			message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+			blockInfo: {
+				enabled: true
 			}
 		});
-		app.saveAjax('delete', {
-			'cvid': closestTrElement.data('cvid'),
-		}).then(function (data) {
-			thisInstance.getContainer().find('#moduleFilter').trigger('change');
+		app.saveAjax('delete', {}, {
+			cvid: closestTrElement.data('cvid'),
+		}).then(function () {
+			thisInstance.getContainer().find('.js-module-filter').trigger('change');
 		});
 	},
 	/**
@@ -68,11 +84,11 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 		if (tbody.children().length > 1) {
 			tbody.each(function () {
 				jQuery(this).sortable({
-					'containment': 'tbody',
-					'revert': true,
-					'tolerance': 'pointer',
-					'cursor': 'move',
-					'helper': function (e, ui) {
+					containment: 'tbody',
+					revert: true,
+					tolerance: 'pointer',
+					cursor: 'move',
+					helper: function (e, ui) {
 						//while dragging helper elements td element will take width as contents width
 						//so we are explicitly saying that it has to be same width so that element will not
 						//look like disturbed
@@ -82,17 +98,20 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 						})
 						return ui;
 					},
-					'update': function (e, ui) {
+					update: function (e, ui) {
 						thisInstance.updateSequence();
 					}
 				});
 			});
 		}
 	},
+	/**
+	 * Update sequences
+	 */
 	updateSequence: function () {
 		var sequences = [];
-		this.getContents().find('tbody tr').each(function (n, row) {
-			var cvId = jQuery(row).data('cvid');
+		this.getContents().find('.js-filter-row').each(function (n, row) {
+			var cvId = $(row).data('cvid');
 			sequences.push(cvId);
 		});
 		app.saveAjax('upadteSequences', sequences).then(function (data) {
@@ -101,33 +120,37 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 			}
 		});
 	},
+	/**
+	 * Load list of filter for module
+	 * @param {object} e
+	 */
 	registerFilterChange: function (e) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var progress = $.progressIndicator({
-			'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
-			'blockInfo': {
-				'enabled': true
+			message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+			blockInfo: {
+				enabled: true
 			}
 		});
 		var params = {
 			module: app.getModuleName(),
 			view: app.getViewName(),
 			parent: app.getParentModuleName(),
-			sourceModule: jQuery(e.currentTarget).val()
+			sourceModule: $(e.currentTarget).val()
 		}
 		AppConnector.requestPjax(params).then(
-			function (data) {
-				var contents = thisInstance.getContents().html(data);
-				app.showBtnSwitch(contents.find('.switchBtn'));
-				thisInstance.makeFilterListSortable(contents);
-				thisInstance.getContainer().find('.createFilter').data('editurl', contents.find('#addFilterUrl').val());
-				progress.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					var contents = thisInstance.getContents().html(data);
+					app.showBtnSwitch(contents.find('.switchBtn'));
+					thisInstance.makeFilterListSortable(contents);
+					thisInstance.getContainer().find('.js-create-filter').data('editurl', contents.find('#js-add-filter-url').val());
+					progress.progressIndicator({mode: 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -143,9 +166,12 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 		}
 		return this.contents;
 	},
+	/**
+	 * Main function
+	 */
 	registerEvents: function () {
 		var container = this.getContainer();
-		this.initEvants(container);
+		this.initEvents(container);
 		this.makeFilterListSortable(container);
 	}
 

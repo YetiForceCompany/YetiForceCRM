@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	public function __construct()
 	{
@@ -17,10 +17,15 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('acceptanceRecord');
 	}
 
+	/**
+	 * Action to set users.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function updateUsers(\App\Request $request)
 	{
-		$id = $request->get('id');
-		$user = $request->get('user');
+		$id = $request->getInteger('id');
+		$user = $request->getArray('user', 'Integer');
 		Settings_Mail_Autologin_Model::updateUsersAutologin($id, $user);
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -30,11 +35,16 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
+	/**
+	 * Action to set configuration.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function updateConfig(\App\Request $request)
 	{
-		$name = $request->get('name');
-		$val = $request->get('val');
-		$type = $request->get('type');
+		$name = $request->getByType('name');
+		$val = $request->getByType('val', 'Alnum');
+		$type = $request->getByType('type');
 		Settings_Mail_Config_Model::updateConfig($name, $val, $type);
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -44,6 +54,11 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
+	/**
+	 * Action to update signature.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function updateSignature(\App\Request $request)
 	{
 		$val = $request->getForHtml('val');
@@ -56,9 +71,14 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
+	/**
+	 * Action to accept mail.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function acceptanceRecord(\App\Request $request)
 	{
-		Settings_Mail_Config_Model::acceptanceRecord($request->get('id'));
+		Settings_Mail_Config_Model::acceptanceRecord($request->getInteger('id'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

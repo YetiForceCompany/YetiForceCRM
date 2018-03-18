@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{\App\Language::translate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-4"><button class="btn btn-primary addKey float-right marginTop20"><span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+			<div class="col-md-4"><button class="btn btn-primary js-add-key float-right mt-3" data-js="click"><span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<div class="contents mt-3">
 			{if $ENABLEDAV}
@@ -44,7 +44,7 @@
 							{foreach from=$MODULE_MODEL->getAllKeys() item=RECORD}
 								{assign var=ADDRESSBOOK value=$AMOUNT_DATA['addressbook'][$RECORD['addressbooksid']]}
 								{assign var=CALENDAR value=$AMOUNT_DATA['calendar'][$RECORD['calendarsid']]}
-								<tr data-user="{$RECORD['userid']}" data-name="{$RECORD['user_name']}">
+								<tr data-user="{$RECORD['userid']}" class="js-tr-row">
 									<td>{$RECORD['user_name']}</td>
 									<td>**********</td>
 									<td>{$RECORD['displayname']}</td>
@@ -56,7 +56,7 @@
 									<td>{if $ADDRESSBOOK}{$ADDRESSBOOK}{else}0{/if}</td>
 									<td>{if $CALENDAR}{$CALENDAR}{else}0{/if}</td>
 									<td>
-										<button class="btn btn-danger deleteKey ml-2"><span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-danger js-delete-key ml-2" data-js="click"><span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
 										<button class="btn btn-primary clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}"><span class="fas fa-copy mr-1"></span>{\App\Language::translate('LBL_KEY',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>

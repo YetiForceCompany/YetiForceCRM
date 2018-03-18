@@ -8,8 +8,11 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,21 +22,35 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('setFilterPermissions');
 	}
 
+	/**
+	 * Action to delete filter.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function delete(\App\Request $request)
 	{
-		$params = $request->get('param');
-		Settings_CustomView_Module_Model::delete($params);
+		Settings_CustomView_Module_Model::delete($request->getInteger('cvid'));
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => $saveResp['success'],
+			'success' => true,
 			'message' => \App\Language::translate('Delete CustomView', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
 
+	/**
+	 * Action to update parameter in the filter.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function updateField(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = [
+			'cvid' => $request->getInteger('cvid'),
+			'mod' => $request->getByType('mod'),
+			'name' => $request->getByType('name'),
+			'value' => $request->getByType('value', 'Text')
+		];
 		Settings_CustomView_Module_Model::updateField($params);
 		Settings_CustomView_Module_Model::updateOrderAndSort($params);
 		$response = new Vtiger_Response();
@@ -43,9 +60,14 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
+	/**
+	 * Action to update sequences.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function upadteSequences(\App\Request $request)
 	{
-		$params = $request->get('param');
+		$params = $request->getArray('param', 'Integer');
 		Settings_CustomView_Module_Model::upadteSequences($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -54,19 +76,26 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
+	/**
+	 * Action to set permissions.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function setFilterPermissions(\App\Request $request)
 	{
-		$params = $request->get('param');
-		$type = $request->get('type');
-		if ($type == 'default') {
-			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($params['tabid'], $params['cvid'], $params['user'], $params['action']);
-		} elseif ($type == 'featured') {
-			$result = Settings_CustomView_Module_Model::setFeaturedFilterView($params['cvid'], $params['user'], $params['action']);
+		$tabid = $request->getInteger('tabid');
+		$cvid = $request->getInteger('cvid');
+		$user = $request->getByType('user', 'Text');
+		$type = $request->getByType('type');
+		$operator = $request->getByType('operator');
+		if ($type === 'default') {
+			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($tabid, $cvid, $user, $operator);
+		} elseif ($type === 'featured') {
+			$result = Settings_CustomView_Module_Model::setFeaturedFilterView($cvid, $user, $operator);
 		}
-
 		if (!empty($result)) {
 			$data = [
-				'message' => \App\Language::translate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), \App\Language::translate($result, $params['tabid'])),
+				'message' => \App\Language::translate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), \App\Language::translate($result, $tabid)),
 				'success' => false,
 			];
 		} else {

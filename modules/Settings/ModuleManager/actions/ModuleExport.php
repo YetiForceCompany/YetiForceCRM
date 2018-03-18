@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
@@ -18,17 +18,20 @@ class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAj
 		$this->exposeMethod('exportModule');
 	}
 
+	/**
+	 * Action to export module.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
 	protected function exportModule(\App\Request $request)
 	{
-		$moduleName = $request->get('forModule');
-
+		$moduleName = $request->getByType('forModule', 2);
 		$moduleModel = \vtlib\Module::getInstance($moduleName);
 		if (!$moduleModel->isExportable()) {
-			echo 'Module not exportable!';
-
-			return;
+			throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE');
 		}
-
 		$package = new vtlib\PackageExport();
 		$package->export($moduleModel, '', sprintf('%s-%s.zip', $moduleModel->name, $moduleModel->version), true);
 	}
