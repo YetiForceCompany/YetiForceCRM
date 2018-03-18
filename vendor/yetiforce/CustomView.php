@@ -447,7 +447,7 @@ class CustomView
 				if (!$dataReader->count()) {
 					continue;
 				}
-				$key = $relCriteriaGroup['groupid'] === 1 ? 'and' : 'or';
+				$key = (int) $relCriteriaGroup['groupid'] === 1 ? 'and' : 'or';
 				while ($relCriteriaRow = $dataReader->read()) {
 					$advftCriteria[$key][] = $this->getAdvftCriteria($relCriteriaRow);
 				}
@@ -541,10 +541,11 @@ class CustomView
 				if (!$viewId) {
 					$viewId = $this->getDefaultCvId();
 				}
+			} else {
+				$viewId = (int) $viewId;
 			}
 		}
 		$this->defaultViewId = $viewId;
-
 		return $viewId;
 	}
 
@@ -572,21 +573,18 @@ class CustomView
 			$group = 'Groups:' . $groupId;
 			if (isset($data[$group])) {
 				Cache::save('GetDefaultCvId', $cacheName, $data[$group]);
-
 				return $data[$group];
 			}
 		}
 		$role = 'Roles:' . $this->user->getRole();
 		if (isset($data[$role])) {
 			Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
-
 			return $data[$role];
 		}
 		foreach ($this->user->getParentRoles() as $roleId) {
 			$role = 'RoleAndSubordinates:' . $roleId;
 			if (isset($data[$role])) {
 				Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
-
 				return $data[$role];
 			}
 		}
@@ -594,7 +592,6 @@ class CustomView
 		foreach ($info as &$values) {
 			if ($values['setdefault'] === 1) {
 				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
-
 				return $values['cvid'];
 			}
 		}
@@ -674,7 +671,6 @@ class CustomView
 				return false;
 			}
 		}
-
 		return ['status' => $this->cvStatus, 'userid' => $this->cvUserId];
 	}
 
@@ -712,7 +708,6 @@ class CustomView
 				return $values['cvid'];
 			}
 		}
-
 		return false;
 	}
 
@@ -734,8 +729,16 @@ class CustomView
 		} else {
 			$info = $query->where(['entitytype' => $mixed])->all();
 		}
+		$info['cvid'] = (int) $info['cvid'];
+		$info['setdefault'] = (int) $info['setdefault'];
+		$info['setmetrics'] = (int) $info['setmetrics'];
+		$info['status'] = (int) $info['status'];
+		$info['privileges'] = (int) $info['privileges'];
+		$info['featured'] = (int) $info['featured'];
+		$info['presence'] = (int) $info['presence'];
+		$info['sequence'] = (int) $info['sequence'];
+		$info['userid'] = (int) $info['userid'];
 		Cache::save('CustomViewInfo', $mixed, $info);
-
 		return $info;
 	}
 

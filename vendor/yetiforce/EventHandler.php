@@ -43,7 +43,7 @@ class EventHandler
 		}
 		if ($active) {
 			foreach ($handlers as $key => &$handler) {
-				if ($handler['is_active'] !== 1) {
+				if ((int) $handler['is_active'] !== 1) {
 					unset($handlers[$key]);
 				}
 			}
