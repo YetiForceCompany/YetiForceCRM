@@ -10690,8 +10690,11 @@ header .headerLinksMails .select2-selection:hover {
 .dataTables_wrapper table.dataTable {
   margin: 0 !important; }
 
-.daterangepicker .ranges li {
-  margin-bottom: 0.45rem; }
+.daterangepicker .ranges {
+  float: none !important;
+  text-align: center !important; }
+  .daterangepicker .ranges li {
+    margin-bottom: 0.45rem; }
 
 .ui-autocomplete {
   width: inherit !important; }
