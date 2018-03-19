@@ -6,7 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	public function __construct()
 	{

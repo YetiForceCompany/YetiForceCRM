@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Settings_OSSMailScanner_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_OSSMailScanner_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	public function __construct()
 	{

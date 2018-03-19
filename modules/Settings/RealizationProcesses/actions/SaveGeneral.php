@@ -23,8 +23,8 @@ class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_I
 	public function save(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$status = $request->get('status');
-		$moduleId = $request->get('moduleId');
+		$status = $request->getByType('status', 'Text');
+		$moduleId = $request->getInteger('moduleId');
 		$moduleName = $request->getModule(false);
 		try {
 			if (Settings_RealizationProcesses_Module_Model::updateStatusNotModify($moduleId, $status)) {

@@ -72,9 +72,4 @@ class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		}
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }
