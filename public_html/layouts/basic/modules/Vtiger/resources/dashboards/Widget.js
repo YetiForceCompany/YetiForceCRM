@@ -456,7 +456,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		} else if (typeof options === 'object' && options !== null) {
 			return this.parseOptionsObject(options);
 		}
-		throw new Error('Unknown options format [' + typeof options + '] - should be object.');
+		const errorMsg = 'Unknown options format [' + typeof options + '] - should be object.';
+		console.error(errorMsg);
+		throw new Error(errorMsg);
 	},
 	/**
 	 * Get global charts default configuration - may be loaded from database in the future
@@ -610,7 +612,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				},
 				plugins: [],
 			},
-			donut: {
+			doughnut: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -625,7 +627,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 							bottom: 12
 						}
 					},
-					tooltips: {},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 				},
 				dataset: {
 					datalabels: {
@@ -645,6 +652,60 @@ jQuery.Class('Vtiger_Widget_Js', {
 				plugins: [],
 			},
 			line: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+				},
+				dataset: {
+					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			lineplain: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -734,7 +795,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
 		}
-		throw new Error(chartSubType + ' chart doesn\'t exists! ' + Object.keys(options).toString());
+		const errorMsg = chartSubType + ' chart does not exists!';
+		console.error(errorMsg);
+		throw new Error(errorMsg);
 	},
 	/**
 	 * Get default chart basic options for specified chart type
@@ -1320,11 +1383,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	loadDatasetOptions: function loadDatasetOptions(chartData) {
 		return chartData.datasets.map((dataset, index) => {
-			return this.mergeOptions(
+			let result = this.mergeOptions(
 				dataset,
 				this.getDatasetOptions(chartData),
 				this.getDefaultDatasetOptions(this.getSubType(), chartData)
 			);
+			return result;
 		});
 	},
 	/**
@@ -1455,7 +1519,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (typeof curr === 'object' && curr !== null) {
 				return this.mergeOptionsObject(prev, curr);
 			}
-			console.error('Options should be an Object.');
 			return curr;
 		}, to);
 	},
@@ -1487,9 +1550,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {Array} plugins
 	 */
 	getPlugins: function getPlugins(chartData) {
-		// TODO if array is declared it will not be overrided! - mergeOptions
-		// so loadPlugins won't work
-		// make default results as undefined?
 		return [];
 	},
 	/**
