@@ -1,40 +1,40 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 %removeDropdownIcon {
-	.dropdown-toggle::after {
-		display: none;
-	}	
+  .dropdown-toggle::after {
+	display: none;
+  }
 }
 %input-groupSelect2 {
-	.input-group {
-		flex-wrap: nowrap;
-	}
+  .input-group {
+	flex-wrap: nowrap;
+  }
 }
 .badgeIcon {
-	@extend .position-absolute;
-	@extend .rounded-circle;
-	@extend .text-white;
-	@extend .text-center;
-	width: 32px;
-	height: 32px;
-	line-height: 30px;
-	font-size: 17px;
+  @extend .position-absolute;
+  @extend .rounded-circle;
+  @extend .text-white;
+  @extend .text-center;
+  width: 32px;
+  height: 32px;
+  line-height: 30px;
+  font-size: 17px;
 }
 .childrenMarginRight > * {
-	@extend .mr-2;
+  @extend .mr-2;
 }
 .childrenMarginTopX > * {
-	@extend .mt-2;
-	@extend .mx-1;
+  @extend .mt-2;
+  @extend .mx-1;
 }
 .card {
-	.blockHeader {
-		@extend .d-inline-flex;
-	}
-	.blockToggle, .iconToggle {
-		@extend .m-2;
-	}
+  .blockHeader {
+	@extend .d-inline-flex;
+  }
+  .blockToggle, .iconToggle {
+	@extend .m-2;
+  }
 }
 .ml-10px {
-	margin-left: 10px;
+  margin-left: 10px;
 }

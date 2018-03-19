@@ -32,7 +32,7 @@ class RecordSearch
 		if (!$limit) {
 			$limit = 20;
 		}
-		$this->limit = $limit;
+		$this->limit = (int) $limit;
 		$this->userId = \App\User::getCurrentUserId();
 	}
 
@@ -55,7 +55,6 @@ class RecordSearch
 		if ($this->useCache) {
 			Cache::save('RecordSearch', $cacheKey, $crmIds, Cache::LONG);
 		}
-
 		return $crmIds;
 	}
 

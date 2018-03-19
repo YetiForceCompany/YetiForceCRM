@@ -197,10 +197,10 @@ class Functions
 				->where(['in', 'crmid', $missing]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
+				$row['deleted'] = (int) $row['deleted'];
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
 		}
-
 		$result = [];
 		foreach ($ids as $id) {
 			if (isset(self::$crmRecordIdMetadataCache[$id])) {
@@ -209,7 +209,6 @@ class Functions
 				$result[$id] = null;
 			}
 		}
-
 		return $multimode ? $result : array_shift($result);
 	}
 

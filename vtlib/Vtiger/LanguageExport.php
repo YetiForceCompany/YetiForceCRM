@@ -58,23 +58,18 @@ class LanguageExport extends Package
 		}
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Zip($zipfilename);
-
+		$zip = \App\Zip::createFile($zipfilename);
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
-
 		// Copy module directory
-		$zip->copyDirectoryFromDisk("languages/$languageCode", 'modules');
-
-		$zip->save();
-
-		if ($todir) {
-			copy($zipfilename, $todir);
-		}
-
+		$zip->addDirectory("languages/$languageCode", 'modules');
 		if ($directDownload) {
-			$zip->forceDownload($zipfilename);
-			unlink($zipfilename);
+			$zip->download();
+		} else {
+			$zip->close();
+			if ($todir) {
+				copy($zipfilename, $todir);
+			}
 		}
 		$this->__cleanupExport();
 	}

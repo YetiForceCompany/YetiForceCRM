@@ -1586,6 +1586,8 @@
 	"JS_LAST_30_DAYS": "Last 30 days",
 	"JS_CURRENT_MONTH": "Current month",
 	"JS_LAST_MONTH": "Last month",
+	"JS_LAST_3_MONTHS": "Last 3 months",
+	"JS_LAST_6_MONTHS": "Last 6 months",
 	"JS_CUSTOM": "Custom date range",
 	"JS_CALCULATING_IN_PROGRESS": "Calculating in progress",
 	"JS_FRAME_IN_PROGRESS": "Preview is loading...",

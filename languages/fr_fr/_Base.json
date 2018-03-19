@@ -1328,6 +1328,8 @@
 	"JS_LAST_30_DAYS": "30 derniers jours",
 	"JS_CURRENT_MONTH": "Mois courant",
 	"JS_LAST_MONTH": "Mois dernier",
+	"JS_LAST_3_MONTHS": "Last 3 months",
+	"JS_LAST_6_MONTHS": "Last 6 months",
 	"JS_CUSTOM": "P\u00e9riode personnalis\u00e9e",
 	"JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE": "Au moins un des fichiers joints est trop grand",
 	"JS_CALCULATING_IN_PROGRESS": "Calcul en cours",

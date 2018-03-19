@@ -57,7 +57,8 @@
 	"LBL_SHITCH_HEADER": "Interruptor no cabe\u00e7alho",
 	"LBL_SHITCH_HEADER_INFO": "Interruptor pode ser achado no cabe\u00e7alho do widget.",
 	"HistoryRelation": "Linha do Tempo",
-	"CountRecords": "N\u00famero de Registros"
+	"CountRecords": "N\u00famero de Registros",
+	"LBL_LIST_WITH_SUMMARY": "List with summary"
   },
   "js": {
 	"JS_EDIT_WIDGET": "Editar widget",

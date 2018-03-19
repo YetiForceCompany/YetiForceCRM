@@ -60,7 +60,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 }, {
 	calendarView: false,
 	calendarCreateView: false,
-	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	renderCalendar: function () {
 		var thisInstance = this;
 		var eventLimit = app.getMainParams('eventLimit');
@@ -94,8 +93,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			userDefaultTimeFormat = 'h:mmt';
 		}
 		//Default first day of the week
-		var defaultFirstDay = app.getMainParams('start_day');
-		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
 		var hiddenDays = [];
@@ -246,7 +244,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var types = [];
-		var formatDate = app.getMainParams('userDateFormat').toUpperCase();
+		var formatDate = CONFIG.dateFormat.toUpperCase();
 		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
 		if (types.length == 0) {
 			allEvents = true;
@@ -254,7 +252,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var user = [];
 		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
 		if (user.length == 0) {
-			user = [app.getMainParams('current_user_id')];
+			user = [CONFIG.userId];
 		}
 		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user);
 		var filters = [];

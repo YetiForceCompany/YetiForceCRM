@@ -4265,19 +4265,19 @@ button.bg-dark:focus {
 .border-left {
   border-left: 1px solid #dee2e6 !important; }
 
-.border-0 {
+.border-0, .fc-head-container.fc-widget-header {
   border: 0 !important; }
 
 .border-top-0 {
   border-top: 0 !important; }
 
-.border-right-0 {
+.border-right-0, .fc-body > tr > .fc-widget-content {
   border-right: 0 !important; }
 
 .border-bottom-0, .c-detail-widget__header {
   border-bottom: 0 !important; }
 
-.border-left-0 {
+.border-left-0, .fc-body > tr > .fc-widget-content {
   border-left: 0 !important; }
 
 .border-primary {
@@ -6386,7 +6386,7 @@ button.bg-dark:focus {
 .text-right {
   text-align: right !important; }
 
-.text-center, .badgeIcon {
+.text-center, .dashboardWidgetCalendar .cell-calendar, .badgeIcon {
   text-align: center !important; }
 
 @media (min-width: 576px) {
@@ -8215,8 +8215,6 @@ td.fieldValue input, td.fieldValue .input-group {
     position: fixed;
     bottom: 50px;
     left: -30px;
-    left: 0\9;
-    bottom: 100px\9;
     background: #2C2C2C;
     color: white;
     padding: 7px 15px;
@@ -9206,11 +9204,14 @@ html, body, .baseContainer {
 
 .dashboardWidgetCalendar .small-badge {
   padding: 3% 6%; }
+.dashboardWidgetCalendar .medium-badge {
+  padding: 6% 11%;
+  margin: 1px 0;
+  border-radius: 1.25rem !important; }
 .dashboardWidgetCalendar .big-badge {
   padding: 6% 12%;
   margin: 1px 0; }
 .dashboardWidgetCalendar .cell-calendar {
-  padding: 1px;
   margin-top: -5px; }
 
 .breadCrumbs {
@@ -10434,7 +10435,7 @@ select.form-control {
   overflow: hidden; }
 
 .bottom_margin .fc-basic-view .fc-body .fc-row {
-  min-height: 9em  !important; }
+  min-height: 9em !important; }
 
 .Home_DashBoard .widget_header {
   margin-bottom: 0px; }
@@ -10696,13 +10697,23 @@ header .headerLinksMails .select2-selection:hover {
 .dataTables_wrapper table.dataTable {
   margin: 0 !important; }
 
-.daterangepicker .ranges li {
-  margin-bottom: 0.45rem; }
+.daterangepicker .ranges {
+  float: none !important;
+  text-align: center !important; }
+  .daterangepicker .ranges li {
+    margin-bottom: 0.45rem; }
 
 .ui-autocomplete {
   width: inherit !important; }
   .ui-autocomplete a.ui-menu-item-wrapper, .ui-autocomplete a.ui-menu-item-wrapper:hover {
     font-weight: inherit !important; }
+
+.fc-day-grid .fc-row.fc-week {
+  min-height: 3.1rem !important;
+  height: 3.1rem !important; }
+
+.fc-widget-content .fc-scroller.fc-day-grid-container {
+  height: 18.6rem !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .massEditTable th + th, .massEditTable td + td, .massEditTable th + td, .massEditTable td + th {

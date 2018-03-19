@@ -2171,6 +2171,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 			mapView.registerDetailView(container);
 		}
 	},
+	registerShowSummary: function (container) {
+		container.on('click', '.showSummaryRelRecord', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var id = currentTarget.data('id');
+			var summaryView = container.find('.summaryRelRecordView' + id);
+			container.find('.listViewEntriesTable').css('display', 'none');
+			summaryView.show();
+		});
+		container.on('click', '.hideSummaryRelRecordView', function (e) {
+			var summaryView = container.find(".summaryRelRecordView");
+			container.find('.listViewEntriesTable').css('display', 'table');
+			summaryView.hide();
+		});
+	},
 	registerBasicEvents: function () {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
@@ -2383,11 +2397,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var container = widgetContent.closest('.activityWidgetContainer');
 				thisInstance.reloadWidgetActivitesStats(container);
 			}
-		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
 			if (relatedModuleName === 'ModComments') {
 				var container = widgetContent.closest('.updatesWidgetContainer');
 				thisInstance.registerCommentEventsInDetail(container);
+			}
+			if (widgetContent.find('[name="relatedModule"]').length) {
+				thisInstance.registerShowSummary(widgetContent);
 			}
 		});
 		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {

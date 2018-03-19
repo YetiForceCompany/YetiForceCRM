@@ -1,12 +1,11 @@
 @font-face {
 	font-family: 'adminIcon';
-	src:url('adminIcons.eot?5bzxui');
-	src:url('adminIcons.eot?5bzxui#iefix') format('embedded-opentype'),
-		url('adminIcons.ttf?5bzxui') format('truetype'),
-		url('adminIcons.woff?5bzxui') format('woff'),
-		url('adminIcons.svg?5bzxui#icomoon') format('svg');
+	src: url('adminIcons.eot?5bzxui');
+	src: url('adminIcons.eot?5bzxui#iefix') format('embedded-opentype'),
+	url('adminIcons.ttf?5bzxui') format('truetype'),
+	url('adminIcons.woff?5bzxui') format('woff'),
+	url('adminIcons.svg?5bzxui#icomoon') format('svg');
 }
-
 [class^="adminIcon-"], [class*=" adminIcon-"] {
 	/* use !important to prevent issues with browser extensions that change fonts */
 	font-family: 'adminIcon' !important;
@@ -21,7 +20,6 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
 .adminIcon-webservice-users:before {
 	content: "\e964";
 }

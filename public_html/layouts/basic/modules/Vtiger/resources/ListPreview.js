@@ -298,6 +298,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			} else {
 				if (container.find('.gutter').length !== 1) {
 					this.split = thisInstance.registerSplit(container);
+
 					this.gutter = container.find('.gutter');
 					this.gutter.addClass('js-fixed');
 					if (mainBody.scrollTop() >= (this.list.offset().top)) {

@@ -59,22 +59,12 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->view('Step6.tpl', $qualifiedModuleName);
 				break;
 			case 'step5':
-				$insertOperations = [
-					'PAGENO' => 'PAGENO',
-					'PAGENUM' => 'nb',
-				];
-				$viewer->assign('INSERT', $insertOperations);
 				$viewer->view('Step5.tpl', $qualifiedModuleName);
 				break;
 			case 'step4':
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 			case 'step3':
-				$insertOperations = [
-					'PAGENO' => 'PAGENO',
-					'PAGENUM' => 'nb',
-				];
-				$viewer->assign('INSERT', $insertOperations);
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':

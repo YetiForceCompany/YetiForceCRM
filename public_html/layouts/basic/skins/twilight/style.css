@@ -1,15 +1,15 @@
-.infoUser{
+.infoUser {
 	border-top: 1px solid #fff;
 	background: #4979aa;
 }
-.leftPanel .ps-scrollbar-y-rail{
-	display:none !important;
+.leftPanel .ps-scrollbar-y-rail {
+	display: none !important;
 }
-.userInfoFooter .leftPanel{
+.userInfoFooter .leftPanel {
 	bottom: 50px;
 }
 input[type=checkbox] {
-	border: 1px solid rgba(0,0,0,0.54);
+	border: 1px solid rgba(0, 0, 0, 0.54);
 	width: 17px;
 	margin: 0px 0 0;
 	transition: 0.25s;
@@ -22,8 +22,8 @@ input[type=checkbox] {
 	border-radius: 3px;
 	border-color: #d7d7d7;
 }
-input[type=checkbox]:checked::after, 
-.checkbox input[type=checkbox]:checked::after, 
+input[type=checkbox]:checked::after,
+.checkbox input[type=checkbox]:checked::after,
 .checkbox-inline input[type=checkbox]:checked::after {
 	box-sizing: border-box;
 	-webkit-transform: rotate(45deg);
@@ -46,7 +46,7 @@ input[type=checkbox]:checked {
 	background-color: #4a5364;
 	border-color: #384150;
 }
-.bootstrap-switch input[type='radio'], .bootstrap-switch input[type='checkbox']{
+.bootstrap-switch input[type='radio'], .bootstrap-switch input[type='checkbox'] {
 	opacity: 0 !important;
 }
 input[type=checkbox]:checked:disabled {
@@ -54,7 +54,7 @@ input[type=checkbox]:checked:disabled {
 }
 input[type=checkbox]:focus {
 	outline: none;
-	box-shadow: inset 0 1px 1px rgba(255,255,255,0.075), 0 0px 2px #384150;
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0px 2px #384150;
 }
 input[type="radio"] {
 	position: relative;
@@ -92,7 +92,7 @@ input[type="radio"]:checked:before {
 }
 input[type="radio"]:focus {
 	outline: none;
-	box-shadow: inset 0 1px 1px rgba(255,255,255,0.075), 0 0px 2px #404958;
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0px 2px #404958;
 }
 input[type="radio"]:checked {
 	border: 2px solid #4a5364;

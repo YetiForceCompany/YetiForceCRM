@@ -663,7 +663,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 *
-	 * @return <type>
+	 * @return string
 	 */
 	public function showRelatedRecords(\App\Request $request)
 	{
@@ -725,6 +725,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
+		$viewer = $this->getViewer($request);
+		if (!$request->isEmpty('viewType')) {
+			$viewType = $request->getByType('viewType');
+			$viewer->assign('TYPE_VIEW', $viewType);
+			if ($viewType === 'ListWithSummary') {
+				$viewer->assign('RELATED_SUMMARY_HEADERS', $relationListView->getHeaders());
+			}
+		}
 		if ($request->has('fields')) {
 			$relationListView->setFields($request->getExploded('fields'));
 		}
@@ -737,7 +745,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-		$viewer = $this->getViewer($request);
+
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
 		if (!$request->isEmpty('viewType')) {

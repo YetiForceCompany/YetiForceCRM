@@ -222,7 +222,6 @@ class Module
 			$actionId = (int) $actionId;
 		}
 		Cache::save('getActionId', $action, $actionId, Cache::LONG);
-
 		return $actionId;
 	}
 
@@ -237,18 +236,16 @@ class Module
 		Cache::delete('moduleTabs', 'all');
 		$allModules = \vtlib\Functions::getAllModules(false, true);
 		foreach ($allModules as $moduleInfo) {
-			$tabid = (int) $moduleInfo['tabid'];
-			$tabNames[$moduleInfo['name']] = $tabid;
-			$tabPresence[$tabid] = (int) $moduleInfo['presence'];
-			$tabOwned[$tabid] = (int) $moduleInfo['ownedby'];
+			$tabNames[$moduleInfo['name']] = $tabId = (int) $moduleInfo['tabid'];
+			$tabPresence[$tabId] = (int) $moduleInfo['presence'];
+			$tabOwned[$tabId] = (int) $moduleInfo['ownedby'];
 		}
 		//Constructing the actionname=>actionid array
 		$actionAll = [];
 		$dataReader = (new Db\Query())->from(['vtiger_actionmapping'])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$actionname = $row['actionname'];
-			$actionid = (int) $row['actionid'];
-			$actionAll[$actionname] = $actionid;
+			$actionAll[$actionname] = $actionid = (int) $row['actionid'];
 			if ((int) $row['securitycheck'] === 0) {
 				$actionSecure[$actionid] = $actionname;
 			}

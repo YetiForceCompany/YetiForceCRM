@@ -2,23 +2,19 @@
 
 @charset 'UTF-8';
 @import '../../../libraries/bootstrap/scss/bootstrap';
-@import	'../../../libraries/select2-bootstrap4-theme/src/select2-bootstrap4';
-
+@import '../../../libraries/select2-bootstrap4-theme/src/select2-bootstrap4';
 @import '_Style';
-
 //-------- base --------//
 @import 'components/_Variables';
 @import 'components/_Utilities';
 @import 'components/_Global';
 @import 'components/_Libraries';
-
 //-------- layout --------//
 @import 'layout/_Base';
 @import 'layout/_Header';
 @import 'layout/_Nav';
 @import 'layout/_Footer';
 @import 'layout/_Modal';
-
 //-------- pages --------//
 @import 'pages/_Dashboard';
 @import 'pages/_Calendar';

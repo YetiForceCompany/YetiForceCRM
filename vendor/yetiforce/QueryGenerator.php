@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 /**
@@ -11,7 +12,6 @@ namespace App;
  */
 class QueryGenerator
 {
-
 	const STRING_TYPE = ['string', 'text', 'email', 'reference'];
 	const NUMERIC_TYPE = ['integer', 'double', 'currency'];
 	const DATE_TYPE = ['date', 'datetime'];
@@ -516,7 +516,6 @@ class QueryGenerator
 		if (empty($viewId) || $viewId === 0) {
 			return false;
 		}
-
 		return $this->getCustomViewQueryById($viewId);
 	}
 
@@ -647,7 +646,7 @@ class QueryGenerator
 			return false;
 		}
 		foreach ($advFilterList as $group => &$filters) {
-			$and = ($group === 'and' || $group === 1);
+			$and = ($group === 'and' || (int) $group === 1);
 			if (isset($filters['columns'])) {
 				$filters = $filters['columns'];
 			}

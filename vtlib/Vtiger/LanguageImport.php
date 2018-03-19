@@ -78,7 +78,7 @@ class LanguageImport extends LanguageExport
 			return;
 		}
 		$vtiger6format = false;
-		$zip = new \App\Zip($zipfile);
+		$zip = \App\Zip::openFile($zipfile);
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
 			$fileName = $zip->getNameIndex($i);
 			if ($zip->isdir($fileName)) {

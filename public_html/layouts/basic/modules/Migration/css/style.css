@@ -8,25 +8,21 @@
 html {
 	height: 100%;
 }
-
 body {
 	background: #F5FAEE !important;
 	color: #555 !important;
 	font-size: 85% !important;
 	height: 98% !important;
 }
-
 .page-container {
 	width: 70%;
 	margin: 10px auto;
 	min-height: 600px;
 	min-width: 1100px;
 }
-
 .error {
 	border: 1px solid red !important;
 }
-
 .main-container {
 	background: #fff;
 	border: 1px solid #ddd;
@@ -35,36 +31,28 @@ body {
 	min-height: 375px;
 	*padding: 0 15px;
 }
-
 .logo {
 	padding: 15px 0;
 }
-
 .head {
 	padding-top: 15px;
 }
-
 .inner-container {
 	padding: 15px 2%;
 	*padding: 15px 0 0;
 }
-
 .welcome-image {
 	text-align: right;
 }
-
 .alignCenter {
 	text-align: center;
 }
-
 .welcome-div {
 	padding: 10% 0;
 }
-
 .mig-div {
 	padding: 10% 0;
 }
-
 .vLinks {
 	margin: 6% 0;
 	padding: 4% 10%;
@@ -72,16 +60,13 @@ body {
 	border-radius: 4px;
 	border: 1px solid #ddd;
 }
-
 .marginTopZero {
 	margin-top: 0;
 }
-
 hr {
 	border: 1px solid #ddd;
 	margin: 13px 0;
 }
-
 .row .group-container {
 	background: #eee;
 	border: 1px solid #ddd;
@@ -93,17 +78,14 @@ hr {
 	*margin: 0px !important;
 	*padding: 5px 0;
 }
-
 .group-heading {
 	color: #2c69a7;
 	text-shadow: 0px 0px 1px #BBB;
 }
-
 .group-desc {
 	padding-bottom: 9px;
 	min-height: 130px;
 }
-
 .module_list {
 	background: #146bae;
 	border-radius: 3px 0;
@@ -116,13 +98,11 @@ hr {
 	text-shadow: 0 0 1px #000;
 	z-index: 605;
 }
-
 .module_list a {
 	cursor: pointer;
 	text-decoration: none;
 	color: #fff;
 }
-
 .reveal_modules {
 	position: absolute;
 	height: 0;
@@ -136,17 +116,14 @@ hr {
 	visibility: hidden;
 	border-radius: 3px;
 }
-
 .reveal_modules > div {
 	padding-left: 30px;
 }
-
 .reveal_modules > div > p {
 	margin: 0 30px 10px 0;
 	vertical-align: top;
 	display: inline-block;
 }
-
 .config-table {
 	width: 100%;
 	border: 1px solid #ddd;
@@ -156,67 +133,53 @@ hr {
 	padding: 0;
 	background: #fff;
 }
-
 .config-table tr td, .config-table tr th {
 	padding: 8px;
 	background: #EEF6FE;
 }
-
 .config-table tr th:last-child {
 	border-radius: 0 3px 0 0;
 }
-
 .config-table tr th:first-child {
 	border-radius: 3px 0 0 0;
 	text-align: left;
 }
-
 .config-table tr td:first-child {
 	text-align: left;
 }
-
 .config-table th {
 	background: #ddd;
 }
-
 .config-table tr:hover {
 	background: #efefef;
 }
-
 .config-table td, .config-table th {
 	text-align: center;
 	width: 33%;
 }
-
 .config-table tr td.no, p.no, span.no {
 	color: red;
 	font-weight: bold;
 }
-
 .config-table tr td.yes, p.yes, span.yes {
 	color: green;
 	font-weight: bold;
 
 }
-
 .config-table td span img {
 	margin-left: 10px;
 }
-
 .button-container a {
 	text-decoration: none;
 }
-
 .button-container {
 	float: right;
 }
-
 .button-container .btn {
 	margin-left: 15px;
 	min-width: 100px;
 	font-weight: bold;
 }
-
 .license {
 	padding: 10px;
 	height: 330px;
@@ -225,7 +188,6 @@ hr {
 	border: 1px solid #ddd;
 	font-size: 12px;
 }
-
 #overlay {
 	background-color: black;
 	position: fixed;

@@ -87,12 +87,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		var aDeferred = jQuery.Deferred();
 		var quickCreateSaveUrl = form.serializeFormData();
 		AppConnector.request(quickCreateSaveUrl).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -402,8 +402,7 @@ jQuery.Class("Vtiger_Header_Js", {
 
 		});
 		//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
-		var liElements = tabElements.closest('li');
-		liElements.filter(':not(.active)').find('a').each(function (e) {
+		tabElements.filter('a:not(.active)').each(function (e) {
 			quickCreateTabOnHide(jQuery(this).attr('data-target'));
 		});
 	},
@@ -444,10 +443,11 @@ jQuery.Class("Vtiger_Header_Js", {
 					return this._renderItem(ul, item).data("ui-autocomplete-item", item);
 				},
 				_renderItem: function (ul, item) {
+					var url = 'index.php?module=' + item.module + '&view=Detail&record=' + item.id;
 					return $("<li>")
-						.data("item.autocomplete", item)
-						.append($("<a href='#'></a>").html(item.label))
-						.appendTo(ul);
+							.data("item.autocomplete", item)
+							.append($("<a href='" + url + "'></a>").html(item.label))
+							.appendTo(ul);
 				},
 			});
 			jQuery('.globalSearchValue').gsAutocomplete({
