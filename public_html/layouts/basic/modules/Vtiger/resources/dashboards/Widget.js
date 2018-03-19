@@ -55,7 +55,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		 */
 		scales: {
 			formatAxesLabels: function formatAxesLabels(value, index, values) {
-				if (!isNaN(Number(value))) {
+				if (String(value).length > 0 && !isNaN(Number(value))) {
 					return app.parseNumberToShow(value);
 				}
 				return value;
@@ -73,7 +73,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					// data presented in different format usually exists in alternative dataFormatted array
 					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 				}
-				if (!isNaN(Number(value))) {
+				if (String(value).length > 0 && isNaN(Number(value))) {
 					return app.parseNumberToShow(value);
 				}
 				return value;
@@ -89,7 +89,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
 				}
 				// if there is no formatted data so try to format it
-				if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+				if (String(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).length > 0 && !isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
 					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
 				}
 				// return raw data at idex
@@ -102,7 +102,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
 				}
 				// if there is no formatted title so try to format it
-				if (!isNaN(Number(data.labels[tooltipItem.index]))) {
+				if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
 					return app.parseNumberToShow(data.labels[tooltipItem.index]);
 				}
 				// return label at index
@@ -230,7 +230,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			},
 			/**
 			 * Fix to long axis labels
-			 * @param  {Chart}  chart	Chart instance
+			 * @param  {Chart}  chart    Chart instance
 			 * @return {Boolean}       [description]
 			 */
 			fixXAxisLabels: function fixXAxisLabels(chart) {
@@ -250,7 +250,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 								return value.substr(0, 10) + '...';
 							}
 							return value;
-						}
+						};
 					});
 					return options;
 				};
@@ -279,9 +279,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 							// we have meta
 							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
 								const metaDataItem = dataset._meta[prop].data[i];
-								const label = metaDataItem._view.label;
+								const label = metaDataItem._xScale.ticks[i];
 								const ctx = metaDataItem._xScale.ctx;
-								const categoryWidth = metaDataItem._xScale.width / dataset._meta[prop].data.length;
+								let categoryWidth = metaDataItem._xScale.width / dataset._meta[prop].data.length;
+								if (typeof metaDataItem._xScale.options.categoryPercentage !== 'undefined') {
+									// if it is bar chart there is category percentage option that we should use
+									categoryWidth *= metaDataItem._xScale.options.categoryPercentage;
+								}
 								const fullWidth = ctx.measureText(label).width;
 								if (categoryWidth < fullWidth) {
 									const shortened = label.substr(0, 10) + "...";
@@ -312,7 +316,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			},
 			/**
 			 * Fix too long axis labels  - try to shorten and rotate
-			 * @param  {Chart}  chart	Chart instance
+			 * @param  {Chart}  chart    Chart instance
 			 * @return {Boolean}
 			 */
 			fixYAxisLabels: function fixYAxisLabels(chart) {
@@ -655,7 +659,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 								autoSkip: false,
 								beginAtZero: true,
 								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
 							}
 						}],
 						yAxes: [{
@@ -666,11 +671,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 							}
 						}]
 					},
-					tooltips: {},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 				},
 				dataset: {
-					fill:false,
-					pointRadius:4,
+					fill: false,
 					datalabels: {
 						font: {
 							size: 11
@@ -1310,7 +1319,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {object} chartData
 	 */
 	loadDatasetOptions: function loadDatasetOptions(chartData) {
-		console.log('datasetoptions',this.getSubType(),chartData);
 		return chartData.datasets.map((dataset, index) => {
 			return this.mergeOptions(
 				dataset,
@@ -1344,12 +1352,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				dataset.titlesFormatted = [];
 				dataset.data.forEach((dataItem, index) => {
 					let defaultLabel = data.labels[index];
-					if (!isNaN(Number(defaultLabel))) {
+					if (String(defaultLabel).length > 0 && !isNaN(Number(defaultLabel))) {
 						defaultLabel = app.parseNumberToShow(defaultLabel);
 					}
 					if (typeof dataset.label !== 'undefined') {
 						let label = dataset.label;
-						if (!isNaN(Number(label))) {
+						if (String(label).length > 0 && !isNaN(Number(label))) {
 							label = app.parseNumberToShow(label);
 						}
 						defaultLabel += ' (' + label + ')';
@@ -1373,7 +1381,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				dataset.dataFormatted = [];
 				dataset.data.forEach((dataItem, index) => {
 					let dataFormatted = dataItem;
-					if (!isNaN(Number(dataItem))) {
+					if (String(dataItem).length > 0 && !isNaN(Number(dataItem))) {
 						dataFormatted = app.parseNumberToShow(dataItem);
 					}
 					dataset.dataFormatted.push(dataFormatted);
@@ -1609,7 +1617,7 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
-	getSubType:function getSubType(){
+	getSubType: function getSubType() {
 		return 'barDivided';
 	}
 });
@@ -1619,12 +1627,12 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	},
 });
 YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
-	getSubType:function getSubType(){
+	getSubType: function getSubType() {
 		return 'linePlain';
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
-	getSubType:function getSubType(){
+	getSubType: function getSubType() {
 		return 'multiBarChart';
 	}
 });
@@ -1853,8 +1861,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				jQuery('<span class="plus pull-left fas fa-plus"></span>')
 					.prependTo($(this))
 			}).mouseleave(function () {
-				$(this).find(".plus").remove();
-			});
+			$(this).find(".plus").remove();
+		});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {
