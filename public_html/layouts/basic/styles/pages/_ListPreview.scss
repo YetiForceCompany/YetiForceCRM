@@ -41,8 +41,6 @@
 	z-index: 300;
 	border-right: 8px solid white;
 	border-left: 8px solid white;
-	transition: .1s linear, height .1s ease-in-out;
-	-webkit-transition: .1s linear, height .1s ease-in-out;
 	&:active:before {
 		content: "";
 		position: fixed;
@@ -53,6 +51,8 @@
 		background: transparent;
 	}
 	&:hover {
+		transition: .2s linear, height .2s ease-in-out;
+		-webkit-transition: .2s linear, height .2s ease-in-out;
 		border-right: 4px solid white;
 		border-left: 4px solid white;
 		border-radius: 30px;

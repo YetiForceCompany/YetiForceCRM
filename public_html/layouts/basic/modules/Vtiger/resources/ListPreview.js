@@ -214,7 +214,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerSplit: function (container) {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-		var splitMinWidth = (16 / $(window).width()) * 100;
+		var splitMinWidth = (23 / $(window).width()) * 100;
 		var splitMaxWidth = 100 - splitMinWidth;
 		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
 		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
