@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	public function process(\App\Request $request)
 	{

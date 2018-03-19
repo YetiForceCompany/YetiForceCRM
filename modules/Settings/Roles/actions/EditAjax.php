@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Roles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Roles_EditAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
@@ -20,8 +20,8 @@ class Settings_Roles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function checkDuplicate(\App\Request $request)
 	{
-		$roleName = $request->get('rolename');
-		$recordId = $request->get('record');
+		$roleName = $request->getByType('rolename', 'Text');
+		$recordId = $request->getByType('record', 2);
 
 		$recordModel = Settings_Roles_Record_Model::getInstanceByName($roleName, [$recordId]);
 
