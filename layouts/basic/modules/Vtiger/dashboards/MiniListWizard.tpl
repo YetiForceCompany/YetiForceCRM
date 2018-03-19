@@ -15,7 +15,10 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}</h3>
+						<h3 class="modal-title" id="massEditHeader">
+							<span class="fas fa-filter mr-1"></span>
+							{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}
+						</h3>
 						<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
