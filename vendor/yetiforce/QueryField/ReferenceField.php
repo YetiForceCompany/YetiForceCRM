@@ -57,12 +57,10 @@ class ReferenceField extends BaseField
 			if (strpos($this->value, '##') === false) {
 				return [$this->getColumnName() => $this->value];
 			}
-			$values = explode('##', $this->value);
 			$condition = ['or'];
-			foreach ($values as $value) {
+			foreach (explode('##', $this->value) as $value) {
 				$condition[] = [$this->getColumnName() => $value];
 			}
-
 			return $condition;
 		}
 
