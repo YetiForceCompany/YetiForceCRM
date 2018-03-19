@@ -54,7 +54,16 @@ class ReferenceField extends BaseField
 	public function operatorA()
 	{
 		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			return ['=', $this->getColumnName(), $this->getValue()];
+			if (strpos($this->value, '##') === false) {
+				return [$this->getColumnName() => $this->value];
+			}
+			$values = explode('##', $this->value);
+			$condition = ['or'];
+			foreach ($values as $value) {
+				$condition[] = [$this->getColumnName() => $value];
+			}
+
+			return $condition;
 		}
 
 		return parent::operatorA();
