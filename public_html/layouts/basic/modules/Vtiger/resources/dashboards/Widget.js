@@ -11,7 +11,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
 	getInstance: function getInstance(container, widgetName, moduleName) {
-		if (typeof moduleName == 'undefined') {
+		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
 		var widgetClassName = widgetName.toCamelCase();
@@ -20,11 +20,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		var basicClass = YetiForce_Widget_Js;
 		var instance;
-		if (typeof moduleClass != 'undefined') {
+		if (typeof moduleClass !== 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
-		} else if (typeof fallbackClass != 'undefined') {
+		} else if (typeof fallbackClass !== 'undefined') {
 			instance = new fallbackClass(container, false, widgetClassName);
-		} else if (typeof yetiClass != 'undefined') {
+		} else if (typeof yetiClass !== 'undefined') {
 			instance = new yetiClass(container, false, widgetClassName);
 		} else {
 			instance = new basicClass(container, false, widgetClassName);
@@ -371,7 +371,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Get string to put in options instead of function
 	 * that will be replaced by proper function after initialization
-	 * @param  {String} functionName
+	 * @param  {String} functionPath
 	 * @return {String} function replacement string
 	 */
 	getFunctionReplacementString: function getFunctionReplacementString(functionPath) {
@@ -379,7 +379,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Get function from global functions from replacement string
-	 * @param  {String} str replacement string from getFunctionReplacementString method
+	 * @param  {String} replacementStr replacement string from getFunctionReplacementString method
 	 * @return {Function}
 	 */
 	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
@@ -459,9 +459,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * We can modify something basing on chartData received from server (some custom options etc.)
 	 *
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @param  {String} chartSubType 'bar','pie' etc..
 	 * @return {Object}
 	 */
-	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartData, chartType) {
+	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartSubType, chartData) {
 		const options = this.parseOptions({
 			bar: {
 				basic: {
@@ -718,41 +719,41 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 		});
-		chartType = chartType.toLowerCase();
-		if (typeof options[chartType] !== 'undefined') {
-			return options[chartType];
+		chartSubType = chartSubType.toLowerCase();
+		if (typeof options[chartSubType] !== 'undefined') {
+			return options[chartSubType];
 		}
-		throw new Error(chartType + ' chart doesn\'t exists! ' + Object.keys(options).toString());
+		throw new Error(chartSubType + ' chart doesn\'t exists! ' + Object.keys(options).toString());
 	},
 	/**
 	 * Get default chart basic options for specified chart type
 	 *
-	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {String} chartSubType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultBasicOptions: function getDefaultBasicOptions(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData, chartType).basic;
+	getDefaultBasicOptions: function getDefaultBasicOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).basic;
 	},
 	/**
 	 * Get default dataset options for specified chart type
 	 *
-	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {String} chartSubType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultDatasetOptions: function getDefaultDatasetOptions(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData, chartType).dataset;
+	getDefaultDatasetOptions: function getDefaultDatasetOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).dataset;
 	},
 	/**
 	 * Get default plugins for specified chart type
 	 *
-	 * @param  {String} chartType 'bar','pie'...
+	 * @param  {String} chartSubType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
 	 * @return {Object}
 	 */
-	getDefaultPlugins: function getDefaultPlugins(chartType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartData, chartType).plugins;
+	getDefaultPlugins: function getDefaultPlugins(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).plugins;
 	},
 	getContainer: function getContainer() {
 		return this.container;
@@ -800,7 +801,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const footer = widget.find('.dashboardWidgetFooter');
 		const header = widget.find('.dashboardWidgetHeader');
 		const headerHeight = header.outerHeight();
-		const adjustedHeight = widget.height() - headerHeight;
+		let adjustedHeight = widget.height() - headerHeight;
 		if (footer.length)
 			adjustedHeight -= footer.outerHeight();
 		if (!content.length)
@@ -1258,7 +1259,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
 	 *
-	 * @param {event obj} e
+	 * @param {Object} e
 	 * @param {array} additionalFields if element from event have additional
 	 * array in dataset like links for data then additionalFields will look like ['links']
 	 * @returns {object} {label,value,...additionalFields}
@@ -1297,7 +1298,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.formatTooltipLabels(chartData);
 		return this.mergeOptions(
 			this.getBasicOptions(chartData),
-			this.getDefaultBasicOptions(this.getType(), chartData),
+			this.getDefaultBasicOptions(this.getSubType(), chartData),
 		);
 	},
 	/**
@@ -1307,11 +1308,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {object} chartData
 	 */
 	loadDatasetOptions: function loadDatasetOptions(chartData) {
+		console.log('datasetoptions',this.getSubType(),chartData);
 		return chartData.datasets.map((dataset, index) => {
 			return this.mergeOptions(
 				dataset,
 				this.getDatasetOptions(chartData),
-				this.getDefaultDatasetOptions(this.getType(), chartData)
+				this.getDefaultDatasetOptions(this.getSubType(), chartData)
 			);
 		});
 	},
@@ -1323,7 +1325,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	loadPlugins: function loadPlugins(chartData) {
 		return this.mergeOptions(
 			this.getPlugins(chartData),
-			this.getDefaultPlugins(this.getType(), chartData)
+			this.getDefaultPlugins(this.getSubType(), chartData)
 		);
 	},
 	/**
@@ -1400,7 +1402,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}).filter((item) => typeof item !== 'undefined');
 	},
 	/**
-	 * Merge options object and do not override exisisting properties
+	 * Merge options object and do not override existing properties
 	 * @param  {Object} to   object to extend
 	 * @param  {Object} from copy properties from this object
 	 * @return {Object}      mixed properties
@@ -1490,6 +1492,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getType: function getType() {
 		return 'bar';
 	},
+	/**
+	 * Get sub type of a chart.
+	 * For example 'bar' is main type and barDivided is a subset of bar with little different options.
+	 * By default we are using standard type.
+	 *
+	 * @returns {string}
+	 */
+	getSubType: function getSubType() {
+		return this.getType();
+	}
 });
 Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
@@ -1592,9 +1604,9 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
-YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
-	getType: function getType() {
-		return 'bar';
+YetiForce_Bar_Js('YetiForce_Bardivided_Widget_Js', {}, {
+	getSubType:function getSubType(){
+		return 'barDivided';
 	}
 });
 YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
@@ -1678,102 +1690,14 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 		});
 	},
 });
-YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
-	getType: function () {
-		return 'line';
+YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
+	getSubType:function getSubType(){
+		return 'linePlain';
 	}
 });
-YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
-	/**
-	 * Function which will give char related Data like data , x labels and legend labels as map
-	 */
-	getCharRelatedData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var users = [];
-		var stages = [];
-		var count = [];
-		for (var i = 0; i < data.length; i++) {
-			if ($.inArray(data[i].last_name, users) == -1) {
-				users.push(data[i].last_name);
-			}
-			if ($.inArray(data[i].sales_stage, stages) == -1) {
-				stages.push(data[i].sales_stage);
-			}
-		}
-
-		for (var j in stages) {
-			var salesStageCount = [];
-			for (i in users) {
-				var salesCount = 0;
-				for (var k in data) {
-					var userData = data[k];
-					if (userData.sales_stage == stages[j] && userData.last_name == users[i]) {
-						salesCount = parseInt(userData.count);
-						break;
-					}
-				}
-				salesStageCount.push(salesCount);
-			}
-			count.push(salesStageCount);
-		}
-		return {
-			'data': count,
-			'ticks': users,
-			'labels': stages
-		}
-	},
-	loadChart: function () {
-		var chartRelatedData = this.getCharRelatedData();
-		var chartData = chartRelatedData.data;
-		var ticks = chartRelatedData.ticks;
-		var labels = chartRelatedData.labels;
-		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
-		this.getChartContainer(false).jqplot(chartData, {
-			stackSeries: true,
-			captureRightClick: true,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: {
-					// Put a 30 pixel margin between bars.
-					barMargin: 10,
-					// Highlight bars when mouse button pressed.
-					// Disables default highlighting on mouse over.
-					highlightMouseDown: true,
-					highlightMouseOver: true
-				},
-				pointLabels: {
-					show: true,
-					hideZeros: true
-				}
-			},
-			axes: {
-				xaxis: {
-					renderer: $.jqplot.CategoryAxisRenderer,
-					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-					tickOptions: {
-						angle: -45,
-						pt2px: 4.0
-					},
-					ticks: ticks
-				},
-				yaxis: {
-					// Don't pad out the bottom of the data range.  By default,
-					// axes scaled as if data extended 10% above and below the
-					// actual range to prevent data points right on grid boundaries.
-					// Don't want to do that here.
-					padMin: 0,
-					min: 0
-				}
-			},
-			legend: {
-				show: true,
-				location: 'e',
-				renderer: $.jqplot.EnhancedLegendRenderer,
-				placement: 'outside',
-				labels: labels
-			}
-		});
+YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
+	getSubType:function getSubType(){
+		return 'multiBarChart';
 	}
 });
 // NOTE Widget-class name camel-case convention
