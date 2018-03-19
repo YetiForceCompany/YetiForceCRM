@@ -479,6 +479,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 					legend: {
 						display: false
 					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 					scales: {
 						xAxes: [{
 							ticks: {
@@ -496,11 +502,61 @@ jQuery.Class('Vtiger_Widget_Js', {
 							}
 						}]
 					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels',
+				}, {
+					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+				}],
+			},
+			bardivided: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
 					tooltips: {
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
 						}
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
 					},
 				},
 				dataset: {
@@ -533,6 +589,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 					legend: {
 						display: false
 					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 					scales: {
 						xAxes: [{
 							ticks: {
@@ -549,12 +611,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels'
 							}
 						}]
-					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
-						}
 					},
 				},
 				dataset: {
@@ -594,6 +650,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						}
 					},
 					tooltips: {},
+					scales: {},
 				},
 				dataset: {
 					datalabels: {
@@ -633,6 +690,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 							title: 'function:tooltips.title'
 						}
 					},
+					scales: {},
 				},
 				dataset: {
 					datalabels: {
@@ -661,6 +719,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 					legend: {
 						display: false
 					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 					scales: {
 						xAxes: [{
 							ticks: {
@@ -679,12 +743,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 							}
 						}]
 					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
-						}
-					},
 				},
 				dataset: {
 					fill: false,
@@ -694,8 +752,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 							size: 11
 						},
 						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.2)',
-						borderColor: 'rgba(255,255,255,0.2)',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
 						borderWidth: 2,
 						borderRadius: 2,
 						anchor: 'bottom',
@@ -717,8 +775,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 					legend: {
 						display: false
 					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 					scales: {
-						xAxes: [{
+						xAxes: {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
@@ -726,19 +790,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels',
 								labelOffset: 0,
 							}
-						}],
-						yAxes: [{
+						},
+						yAxes: {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
 								callback: 'function:scales.formatAxesLabels'
 							}
-						}]
-					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
 						}
 					},
 				},
@@ -749,8 +807,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 							size: 11
 						},
 						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.2)',
-						borderColor: 'rgba(255,255,255,0.2)',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
 						borderWidth: 2,
 						borderRadius: 2,
 						anchor: 'bottom',
@@ -772,6 +830,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					sort: 'desc',
+					tooltips: {},
 					scales: {
 						yAxes: [{
 							display: true,
@@ -782,7 +841,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 							beginAtZero: true,
 						}]
 					},
-					tooltips: {},
 				},
 				dataset: {
 					datalabels: {
@@ -790,7 +848,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					}
 				},
 				plugins: [{
-					//beforeDraw: 'function:plugins.fixYAxisLabels',
+					beforeDraw: 'function:plugins.fixYAxisLabels',
 				}],
 			},
 		});
@@ -803,7 +861,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		throw new Error(errorMsg);
 	},
 	/**
-	 * Get default chart basic options for specified chart type
+	 * Get default chart basic options for specified chart subtype
 	 *
 	 * @param  {String} chartSubType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
@@ -813,7 +871,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).basic;
 	},
 	/**
-	 * Get default dataset options for specified chart type
+	 * Get default scales options for specified chart subtype for each scale as object
+	 * @param {string} chartSubType
+	 * @param {object} chartData
+	 */
+	getDefaultScalesOptions: function getDefaultScalesOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).scales;
+	},
+	/**
+	 * Get default dataset options for specified chart subtype
 	 *
 	 * @param  {String} chartSubType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
@@ -823,7 +889,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).dataset;
 	},
 	/**
-	 * Get default plugins for specified chart type
+	 * Get default plugins for specified chart subtype
 	 *
 	 * @param  {String} chartSubType 'bar','pie'...
 	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
@@ -840,19 +906,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this;
 	},
 	isEmptyData: function isEmptyData() {
-		var container = this.getContainer();
-		return (container.find('.noDataMsg').length > 0) ? true : false;
+		return this.getContainer().find('.noDataMsg').length > 0;
 	},
 	getUserDateFormat: function getUserDateFormat() {
 		return jQuery('#userDateFormat').val();
 	},
 	getChartContainer: function getChartContainer(useCache) {
-		if (typeof useCache == 'undefined') {
+		if (typeof useCache === 'undefined') {
 			useCache = false;
 		}
-		if (this.plotContainer == false || !useCache) {
-			var container = this.getContainer();
-			this.plotContainer = container.find('.widgetChartContainer').find('canvas').get(0);
+		if (this.plotContainer === false || !useCache) {
+			this.plotContainer = this.getContainer().find('.widgetChartContainer').find('canvas').get(0);
 		}
 		return this.plotContainer;
 	},
@@ -1322,6 +1386,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const type = this.getType();
 		const data = this.generateData();
 		data.datasets = this.loadDatasetOptions(data);
+		console.log('loading chart',this.getSubType(),data);
 		const options = this.loadBasicOptions(data);
 		const plugins = this.loadPlugins(data);
 		return this.chartInstance = new Chart(
@@ -1364,7 +1429,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return eventData;
 	},
 	/**
-	 * Apply default chart options
+	 * Get default chart options for current chart subtype
 	 * basic and tooltip options share the same space
 	 *
 	 * @param  {Object} chartData
@@ -1679,7 +1744,10 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
+	getType: function getType() {
+		return 'bar';
+	},
 	getSubType: function getSubType() {
 		return 'barDivided';
 	}

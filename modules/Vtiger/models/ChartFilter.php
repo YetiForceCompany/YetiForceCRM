@@ -118,12 +118,31 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getDataLine()
 	{
-		return $this->getDataBarchat();
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
+			if (!empty($value['picklist_id']) && !empty($this->colors[$value['picklist_id']])) {
+				$chartData['datasets'][0]['pointBackgroundColor'][] = $this->colors[$value['picklist_id']];
+			}
+		}
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	protected function getDataLineplain()
 	{
-		return $this->getDataBarchat();
+		return $this->getDataLine();
 	}
 
 	/**
@@ -312,20 +331,36 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getDataBardivided()
 	{
+		$chartData = [
+			'labels' => [],
+			'datasets' => [],
+			'show_chart' => false,
+		];
 		$raw = $this->getRowsDivided();
-		$data = $links = [];
-		foreach ($raw['data'] as $groupOptions) {
-			foreach ($raw['divided'] as $value => $key) {
-				if (isset($groupOptions[$value])) {
-					$data[$key][] = $groupOptions[$value]['count'];
-					$links[$key][] = $groupOptions[$value]['link'];
+		$i = 0;
+		foreach ($raw['data'] as $name => $groupOptions) {
+			$chartData['labels'][] = $name;
+			$chartData['datasets'][] = [
+				'data' => [],
+				'links' => [],
+			];
+			$dataset = &$chartData['datasets'][$i];
+			foreach ($raw['divided'] as $key => $value) {
+				if (isset($groupOptions[$key])) {
+					$dataset['data'][] = $groupOptions[$key]['count'];
+					$dataset['links'][] = $groupOptions[$key]['link'];
 				} else {
-					$data[$key][] = 0;
-					$links[$key][] = '';
+					$dataset['data'][] = 0;
+					$dataset['links'][] = null;
+				}
+				if (!empty($raw['data'][$key][$key]['picklist_id']) && !empty($this->colors[$raw['data'][$key][$key]['picklist_id']])) {
+					$chartData['datasets'][$i]['backgroundColor'][] = $this->colors[$raw['data'][$key][$key]['picklist_id']];
 				}
 			}
+			$i++;
 		}
-		return ['chartData' => $data, 'divided' => array_flip($raw['divided']), 'group' => array_flip($raw['group']), 'links' => $links];
+		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		return $chartData;
 	}
 
 	/**
@@ -356,7 +391,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($sectors && $sectorValues) {
 			foreach ($sectors as $sectorId => $sectorValue) {
 				$displayValue = $this->groupFieldModel->getDisplayValue($sectorValue);
-				$groupData[$displayValue]['count'] = (int) $sectorValues[$sectorId];
+				$groupData[$displayValue]['count'] = (int)$sectorValues[$sectorId];
 				$searchParams = array_merge($this->searchParams, [[$fieldName, 'm', $sectorValue]]);
 				if ($sectorId != 0) {
 					$searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
@@ -391,9 +426,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			case 'sum':
 				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				if (!isset($groupData[$displayValue]['count'])) {
-					$groupData[$displayValue]['count'] = (int) $row[$this->extraData['groupField']];
+					$groupData[$displayValue]['count'] = (int)$row[$this->extraData['groupField']];
 				} else {
-					$groupData[$displayValue]['count'] += (int) $row[$this->extraData['groupField']];
+					$groupData[$displayValue]['count'] += (int)$row[$this->extraData['groupField']];
 				}
 				break;
 		}
@@ -427,9 +462,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					break;
 				case 'sum':
 					if (!isset($sectorValues[$sectorId])) {
-						$sectorValues[$sectorId] = (int) $value;
+						$sectorValues[$sectorId] = (int)$value;
 					} else {
-						$sectorValues[$sectorId] += (int) $value;
+						$sectorValues[$sectorId] += (int)$value;
 					}
 					break;
 			}
@@ -445,7 +480,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRowsFunnel()
 	{
-		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+		$groupFieldModel = $this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$count = $groupData = [];
 		$sectors = $this->extraData['sectorField'];
@@ -465,8 +500,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		foreach ($sectors as $sectorId => &$sectorValue) {
 			$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
-			$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
-			$groupData[$displayValue]['count'] = (int) $sectorValue;
+			$displayValue .= ' - (' . (int)$count[$sectorId] . ')';
+			$groupData[$displayValue]['count'] = (int)$sectorValue;
 			$searchParams = array_merge($this->searchParams, [[$fieldName, 'm', $sectorValue]]);
 			if ($sectorId != 0) {
 				$searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
@@ -484,7 +519,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRowsDivided()
 	{
-		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+		$groupFieldModel = $this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
 		$divideFieldName = $divideFieldModel->getFieldName();
@@ -513,6 +548,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
 					$searchParams = array_merge($searchParams, [[$divideFieldName, 'e', $row[$divideFieldName]]]);
 					$data[$displayValue][$divideValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
+				}
+				if (!isset($data[$displayValue][$divideValue]['picklist_id'])) {
+					$data[$displayValue][$divideValue]['picklist_id'] = $row['picklist_id'];
 				}
 			}
 		}
@@ -555,9 +593,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$this->colors = \App\Fields\Picklist::getColors($fieldName);
 				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 				$fieldTable = 'vtiger_' . $fieldModel->getName();
-				$on = "{$fieldModel->table}.{$fieldModel->column} = {$fieldTable}.{$fieldName}";
-				//var_dump($on);
-				$queryGenerator->addJoin(['INNER JOIN', $fieldTable, $on]);
+				$queryGenerator->addJoin(['INNER JOIN', $fieldTable, "{$fieldModel->table}.{$fieldModel->column} = {$fieldTable}.{$fieldName}"]);
 				$queryGenerator->setCustomColumn(['picklist_id' => "$fieldTable.$primaryKey"]);
 			}
 		}
