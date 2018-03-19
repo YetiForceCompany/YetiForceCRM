@@ -157,9 +157,7 @@
 	"B": "B",
 	"A": "A",
 	"DEMY": "Demy",
-	"ROYAL": "Rotyal",
-	"LBL_ALL_PAGES": "Liczba wszystkich stron",
-	"LBL_CURRENT_PAGE": "Numer aktualnej strony"
+	"ROYAL": "Rotyal"
   },
   "js": {
 	"JS_PDF_SAVED_SUCCESSFULLY": "Szablon pdf zosta\u0142 zapisany.",

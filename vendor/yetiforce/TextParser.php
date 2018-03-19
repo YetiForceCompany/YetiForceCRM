@@ -64,8 +64,6 @@ class TextParser
 		'LBL_USER_TIMEZONE' => '$(general : UserTimeZone)$',
 		'LBL_SITE_URL' => '$(general : SiteUrl)$',
 		'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
-		'LBL_ALL_PAGES' => '{nb}',
-		'LBL_CURRENT_PAGE' => '{PAGENO}',
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 	];
 
