@@ -117,17 +117,17 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 			sourceModule: jQuery(e.currentTarget).val()
 		}
 		AppConnector.requestPjax(params).then(
-			function (data) {
-				var contents = thisInstance.getContents().html(data);
-				app.showBtnSwitch(contents.find('.switchBtn'));
-				thisInstance.makeFilterListSortable(contents);
-				thisInstance.getContainer().find('.createFilter').data('editurl', contents.find('#addFilterUrl').val());
-				progress.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					var contents = thisInstance.getContents().html(data);
+					app.showBtnSwitch(contents.find('.switchBtn'));
+					thisInstance.makeFilterListSortable(contents);
+					thisInstance.getContainer().find('.createFilter').data('editurl', contents.find('#addFilterUrl').val());
+					progress.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
