@@ -1485,9 +1485,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Get chart type
 	 * We don't wan't to override loadChart method (good practice)
-	 * so we can extend some chart type and change its type only to show data in different manner
+	 * so we can extend some chart type and change its type only to show data in different manner.
+	 * Get type is used to set up Chartjs chart type.
 	 *
-	 * @returns {String}
+	 * @returns {string}
 	 */
 	getType: function getType() {
 		return 'bar';
@@ -1496,6 +1497,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * Get sub type of a chart.
 	 * For example 'bar' is main type and barDivided is a subset of bar with little different options.
 	 * By default we are using standard type.
+	 * GetSubType is used to get properties - it does not set up Chartjs chart type per se (getType is used for this purpose)
 	 *
 	 * @returns {string}
 	 */
@@ -1604,7 +1606,7 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
-YetiForce_Bar_Js('YetiForce_Bardivided_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 	getSubType:function getSubType(){
 		return 'barDivided';
 	}
