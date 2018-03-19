@@ -287,7 +287,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 
-		return $viewer->view('Detail/Widget/ModuleSummaryBlockView.tpl', $moduleName, true);
+		return $viewer->view('Detail/Widget/GeneralInfo.tpl', $moduleName, true);
 	}
 
 	/**
