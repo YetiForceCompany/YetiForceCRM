@@ -917,11 +917,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.list = container.find('.fixedListInitial');
 	},
 	getDefaultSplitSizes: function () {
-		window.console.log(this.listColumntFirstWidth);
-		window.console.log(this.listColumntSecondWidth);
-		window.console.log($(window).width());
 		let thWidth = ((this.listColumntFirstWidth + this.listColumntSecondWidth + 62) / $(window).width()) * 100;
-		window.console.log(thWidth, 100 - thWidth);
 		return [thWidth, 100 - thWidth];
 	},
 	/**
@@ -931,11 +927,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 */
 	getSplitSizes: function () {
 		const cachedParams = app.moduleCacheGet('userSplitRelatedSet');
-		if (cachedParams[0] != null) {
-			window.console.log('cache');
+		if (cachedParams != null) {
 			return cachedParams;
 		} else {
-			window.console.log(this.getDefaultSplitSizes());
 			return this.getDefaultSplitSizes();
 		}
 	},
@@ -946,7 +940,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				var relatedHeader = container.find('.relatedHeader');
 				var listPreview = container.find('.listPreview');
 				const splitSizes = this.getSplitSizes();
-				window.console.log(splitSizes);
 				var split = Split([this.list[0], listPreview[0]], {
 					sizes: splitSizes,
 					minSize: 10,
@@ -977,7 +970,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						this.sidePanels.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 					}
 				});
-				window.console.log(split);
 				if (splitSizes[0] < 10) {
 					this.sidePanelLeft.addClass('wrappedPanelLeft');
 					split.setSizes([this.windowMinWidth, this.windowMaxWidth]);

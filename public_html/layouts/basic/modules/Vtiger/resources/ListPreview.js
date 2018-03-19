@@ -110,8 +110,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		return maxWidth;
 	},
 	getDomParams: function (container) {
-		this.listColumntFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
-		this.listColumntwindowMinWidthSecondWidth = this.getSecondColMinWidth(container);
+		this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
+		this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 		this.windowMinWidth = (15 / $(window).width()) * 100;
 		this.windowMaxWidth = 100 - this.minWidth;
 		this.sidePanels = container.find('.wrappedPanel');
@@ -124,7 +124,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.infoUser = $('.infoUser');
 	},
 	getDefaultSplitSizes: function () {
-		let thWidth = ((this.listColumntFirstWidth + this.listColumntSecondWidth + 62) / $(window).width()) * 100;
+		let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 62) / $(window).width()) * 100;
 		return [thWidth, 100 - thWidth];
 	},
 	/**
