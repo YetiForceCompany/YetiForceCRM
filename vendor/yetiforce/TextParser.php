@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 /**
@@ -12,6 +11,7 @@ namespace App;
  */
 class TextParser
 {
+
 	/**
 	 * Examples of supported variables.
 	 *
@@ -479,7 +479,7 @@ class TextParser
 			$employee = Cache::get('TextParserEmployeeDetailRows', $userId);
 		} else {
 			$employee = (new Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $userId])
-				->limit(1)->scalar();
+					->limit(1)->scalar();
 			Cache::save('TextParserEmployeeDetailRows', $userId, $employee, Cache::LONG);
 		}
 		$value = '';
@@ -1142,8 +1142,8 @@ class TextParser
 	{
 		$variables = [
 			'LBL_ENTITY_VARIABLES' => array_map(function ($value) {
-				return Language::translate($value, 'Other.TextParser');
-			}, array_flip(static::$variableGeneral)),
+					return Language::translate($value, 'Other.TextParser');
+				}, array_flip(static::$variableGeneral)),
 		];
 		$companyDetails = Company::getInstanceById()->getData();
 		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
