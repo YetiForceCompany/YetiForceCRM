@@ -201,10 +201,10 @@ class Module extends ModuleBasic
 				}
 			}
 			$languages = \App\Language::getAll(false);
-			$langFile = 'languages/en_us/' . $this->name . '.php';
+			$langFile = 'languages/en_us/' . $this->name . '.json';
 			foreach ($languages as $prefix => $language) {
 				if ($prefix !== 'en_us') {
-					copy($langFile, 'languages/' . $prefix . '/' . $this->name . '.php');
+					copy($langFile, 'languages/' . $prefix . '/' . $this->name . '.json');
 				}
 			}
 		}
