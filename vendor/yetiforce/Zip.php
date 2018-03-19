@@ -47,7 +47,7 @@ class Zip extends \ZipArchive
 	 */
 	public static function openFile($fileName = false, $options = [])
 	{
-		if ($fileName) {
+		if (!$fileName) {
 			throw new \App\Exceptions\AppException('No file name');
 		}
 		$zip = new self($fileName, $options);
