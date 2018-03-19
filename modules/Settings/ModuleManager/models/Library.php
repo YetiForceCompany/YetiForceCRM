@@ -135,7 +135,7 @@ class Settings_ModuleManager_Library_Model
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
-			$zip = new \App\Zip($path, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($path, ['checkFiles' => false]);
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
 		} else {

@@ -145,74 +145,58 @@ class PackageExport
 		if (file_exists($this->zipFileName)) {
 			throw new \Exception('File already exists: ' . $this->zipFileName);
 		}
-
-		$zip = new Zip($this->zipFileName);
-
+		$zip = \App\Zip::createFile(zipFileName);
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
-
 		// Copy module directory
-		$zip->copyDirectoryFromDisk("modules/$module");
-
+		$zip->addDirectory("modules/$module");
 		// Copy Settings/module directory
 		if (is_dir("modules/Settings/$module")) {
-			$zip->copyDirectoryFromDisk("modules/Settings/$module", 'settings/');
+			$zip->addDirectory("modules/Settings/$module", 'settings');
 		}
-
 		// Copy cron files of the module (if any)
 		if (is_dir("cron/modules/$module")) {
-			$zip->copyDirectoryFromDisk("cron/modules/$module", 'cron');
+			$zip->addDirectory("cron/modules/$module", 'cron');
 		}
-
 		//Copy module templates files
 		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module)) {
-			$zip->copyDirectoryFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 		}
-
 		//Copy Settings module templates files, if any
 		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module")) {
-			$zip->copyDirectoryFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
+			$zip->addDirectory('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", 'settings/templates');
 		}
-
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
-
 		foreach ($layoutDirectories as $key => $layoutName) {
 			if ($layoutName != 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {
-					$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
+					$zip->addDirectory($moduleLayout, $moduleLayout);
 				}
-
 				$settingsLayout = $layoutName . "/modules/Settings/$module";
 				if (is_dir($settingsLayout)) {
-					$zip->copyDirectoryFromDisk($settingsLayout, $settingsLayout);
+					$zip->addDirectory($settingsLayout, $settingsLayout);
 				}
 			}
 		}
-
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);
-
 		//Copy image file
 		if (file_exists('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
-			$zip->copyFileFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/images', '', "$module.png");
+			$zip->addFile('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png", "$module.png");
 		}
-
-		// Copty config files
+		// Copy config files
 		if (file_exists("config/modules/$module.php")) {
-			$zip->copyFileFromDisk('config/modules/', 'config/', "$module.php");
+			$zip->addFile("config/modules/$module.php", "config/$module.php");
 		}
-
-		$zip->save();
-
-		if ($todir) {
-			copy($this->zipFileName, $todir);
-		}
-
 		if ($directDownload) {
-			$zip->forceDownload($this->zipFileName);
-			unlink($this->zipFileName);
+			$zip->download();
+		} else {
+			$zip->close();
+			if ($todir) {
+				copy($this->zipFileName, $todir);
+			}
 		}
 		$this->__cleanupExport();
 	}

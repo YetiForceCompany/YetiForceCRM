@@ -36,21 +36,49 @@ class Zip extends \ZipArchive
 	protected $checkFiles = true;
 
 	/**
-	 * Construct.
+	 * Open file and initialization unpack.
+	 *
+	 * @param bool  $fileName
+	 * @param array $options
+	 *
+	 * @throws Exceptions\AppException
+	 *
+	 * @return Zip|bool
 	 */
-	public function __construct($fileName = false, $options = [])
+	public static function openFile($fileName = false, $options = [])
 	{
 		if ($fileName) {
-			if (!file_exists($fileName) || !$this->open($fileName)) {
-				throw new \App\Exceptions\AppException('Unable to open the zip file');
-			}
-			if (!$this->checkFreeSpace()) {
-				throw new \App\Exceptions\AppException('The content of the zip file is too large');
-			}
-			foreach ($options as $key => $value) {
-				$this->$key = $value;
-			}
+			throw new \App\Exceptions\AppException('No file name');
 		}
+		$zip = new self($fileName, $options);
+		if (!file_exists($fileName) || !$zip->open($fileName)) {
+			throw new \App\Exceptions\AppException('Unable to open the zip file');
+		}
+		if (!$zip->checkFreeSpace()) {
+			throw new \App\Exceptions\AppException('The content of the zip file is too large');
+		}
+		foreach ($options as $key => $value) {
+			$zip->$key = $value;
+		}
+		return $zip;
+	}
+
+	/**
+	 * Open file for create zip file.
+	 *
+	 * @param string $fileName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \App\Zip
+	 */
+	public static function createFile($fileName)
+	{
+		$zip = new self();
+		if ($zip->open($fileName, self::CREATE | self::OVERWRITE) !== true) {
+			throw new \App\Exceptions\AppException('Unable to create the zip file');
+		}
+		return $zip;
 	}
 
 	/**
@@ -109,7 +137,6 @@ class Zip extends \ZipArchive
 			$this->extractTo($toDir, $fileList);
 		}
 		$this->close();
-
 		return $fileList;
 	}
 
@@ -149,7 +176,6 @@ class Zip extends \ZipArchive
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -165,7 +191,6 @@ class Zip extends \ZipArchive
 		if (substr($filePath, -1, 1) === '/') {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -207,7 +232,46 @@ class Zip extends \ZipArchive
 			$stat = $this->statIndex($i);
 			$size += $stat['size'];
 		}
-
 		return $df > $size;
+	}
+
+	/**
+	 * Copy the directory on the disk into zip file.
+	 *
+	 * @param string $dir
+	 * @param string $localName
+	 */
+	public function addDirectory($dir, $localName = '')
+	{
+		$dir = realpath($dir);
+		$dirLen = \strlen($dir);
+		if ($localName) {
+			$localName .= \DIRECTORY_SEPARATOR;
+		}
+		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::LEAVES_ONLY);
+		foreach ($files as $name => $file) {
+			if (!$file->isDir()) {
+				$filePath = $file->getRealPath();
+				$this->addFile($filePath, $localName . substr($filePath, $dirLen + 1));
+			}
+		}
+	}
+
+	/**
+	 * Push out the file content for download.
+	 */
+	public function download()
+	{
+		$fileName = $this->filename;
+		$this->close();
+		header('Cache-Control: private, max-age=120, must-revalidate');
+		header('Pragma: no-cache');
+		header('Expires: 0');
+		header('Content-Type: application/zip');
+		header('Content-Disposition: attachment; filename="' . $fileName . '";');
+		header('Accept-Ranges: bytes');
+		header('Content-Length: ' . filesize($fileName));
+		echo readfile($fileName);
+		unlink($fileName);
 	}
 }

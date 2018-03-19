@@ -259,7 +259,7 @@ class PackageImport extends PackageExport
 		$modulename = null;
 		$language_modulename = null;
 
-		$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+		$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 		$this->__parseManifestFile($zip);
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
 			$fileName = $zip->getNameIndex($i);
@@ -417,7 +417,7 @@ class PackageImport extends PackageExport
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module !== null) {
 			$defaultLayout = \Vtiger_Viewer::getDefaultLayoutName();
-			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", "layouts/$defaultLayout/images/$module.png");
 			}
@@ -527,7 +527,7 @@ class PackageImport extends PackageExport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module !== null) {
-			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
 				$this->__parseManifestFile($zip);
