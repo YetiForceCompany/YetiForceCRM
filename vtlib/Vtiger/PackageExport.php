@@ -204,16 +204,16 @@ class PackageExport
 	/**
 	 * Function copies language files to zip.
 	 *
-	 * @param \vtlib\Zip $zip
-	 * @param string     $module
+	 * @param \App\Zip $zip
+	 * @param string   $module
 	 */
-	public function __copyLanguageFiles(Zip $zip, $module)
+	public function __copyLanguageFiles(\App\Zip $zip, $module)
 	{
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			// @var $item \SplFileInfo
-			if ($item->isFile() && $item->getFilename() === $module . '.php') {
-				$path = $item->getPath() . DIRECTORY_SEPARATOR;
-				$zip->copyFileFromDisk($path, $path, $item->getFilename());
+			if ($item->isFile() && $item->getFilename() === $module . '.json') {
+				$path = $item->getPath();
+				$zip->addFile($path, $path . DIRECTORY_SEPARATOR . $item->getFilename());
 			}
 		}
 	}
