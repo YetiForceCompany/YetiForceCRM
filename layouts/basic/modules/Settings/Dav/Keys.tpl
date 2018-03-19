@@ -44,7 +44,7 @@
 							{foreach from=$MODULE_MODEL->getAllKeys() item=RECORD}
 								{assign var=ADDRESSBOOK value=$AMOUNT_DATA['addressbook'][$RECORD['addressbooksid']]}
 								{assign var=CALENDAR value=$AMOUNT_DATA['calendar'][$RECORD['calendarsid']]}
-								<tr data-user="{$RECORD['userid']}" class="js-tr-row">
+								<tr data-user="{$RECORD['userid']}" class="js-tr-row" data-js="container">
 									<td>{$RECORD['user_name']}</td>
 									<td>**********</td>
 									<td>{$RECORD['displayname']}</td>

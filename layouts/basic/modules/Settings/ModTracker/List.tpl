@@ -18,7 +18,7 @@
 					</thead>
 					<tbody>
 						{foreach from=$MODULE_MODEL->getModTrackerModules() item=item key=key}
-							<tr data-id="{$item.id}" class="js-row">
+							<tr data-id="{$item.id}" class="js-row" data-js="container">
 								<td>{\App\Language::translate($item.module,$item.module)}</td>
 								<td>
 									<input class="js-active-modtracker" data-js="change" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>

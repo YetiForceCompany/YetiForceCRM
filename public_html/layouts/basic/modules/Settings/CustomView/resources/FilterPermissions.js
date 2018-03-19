@@ -45,7 +45,7 @@ jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 	},
 	/**
 	 * Saves permission for filter
-	 * @param {jQuery} e
+	 * @param {jQuery.Event} e
 	 */
 	setDefaultPreferences: function (e) {
 		var thisInstance = this;
@@ -66,23 +66,21 @@ jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 			operator: currentTarget.data('operator'),
 			type: container.find('#type').val()
 		};
-		app.saveAjax('setFilterPermissions', {}, params).then(
-				function (data) {
-					if (data.success) {
-						if (data.result.success) {
-							thisInstance.move(currentTarget);
-							thisInstance.registerDisabledButtons();
-							progressIndicatorElement.progressIndicator({mode: 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
-						} else {
-							progressIndicatorElement.progressIndicator({mode: 'hide'});
-							Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'error'});
-						}
-					} else {
-						progressIndicatorElement.progressIndicator({mode: 'hide'});
-					}
+		app.saveAjax('setFilterPermissions', {}, params).then(function (data) {
+			if (data.success) {
+				if (data.result.success) {
+					thisInstance.move(currentTarget);
+					thisInstance.registerDisabledButtons();
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
+				} else {
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'error'});
 				}
-		);
+			} else {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+			}
+		});
 	},
 	getForm: function () {
 		if (this.formElement == false) {

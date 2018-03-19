@@ -23,7 +23,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	},
 	/**
 	 * Load form to edit filter
-	 * @param {object} e
+	 * @param {jQuery.Event} e
 	 */
 	update: function (e) {
 		var target = $(e.currentTarget);
@@ -32,7 +32,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	},
 	/**
 	 * Update parameter
-	 * @param {object} e
+	 * @param {jQuery.Event} e
 	 */
 	updateField: function (e) {
 		var thisInstance = this;
@@ -56,7 +56,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	},
 	/**
 	 * Delete filter
-	 * @param {object} e
+	 * @param {jQuery.Event} e
 	 */
 	deleteFilter: function (e) {
 		var thisInstance = this;
@@ -122,7 +122,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	},
 	/**
 	 * Load list of filter for module
-	 * @param {object} e
+	 * @param {jQuery.Event} e
 	 */
 	registerFilterChange: function (e) {
 		var thisInstance = this;
@@ -139,19 +139,16 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 			parent: app.getParentModuleName(),
 			sourceModule: $(e.currentTarget).val()
 		}
-		AppConnector.requestPjax(params).then(
-				function (data) {
-					var contents = thisInstance.getContents().html(data);
-					app.showBtnSwitch(contents.find('.switchBtn'));
-					thisInstance.makeFilterListSortable(contents);
-					thisInstance.getContainer().find('.js-create-filter').data('editurl', contents.find('#js-add-filter-url').val());
-					progress.progressIndicator({mode: 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
-		);
+		AppConnector.requestPjax(params).then(function (data) {
+			var contents = thisInstance.getContents().html(data);
+			app.showBtnSwitch(contents.find('.switchBtn'));
+			thisInstance.makeFilterListSortable(contents);
+			thisInstance.getContainer().find('.js-create-filter').data('editurl', contents.find('#js-add-filter-url').val());
+			progress.progressIndicator({mode: 'hide'});
+			aDeferred.resolve(data);
+		}, function (error) {
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	getContainer: function () {

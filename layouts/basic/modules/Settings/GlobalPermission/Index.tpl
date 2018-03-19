@@ -19,7 +19,7 @@
 				</thead>
 				<tbody>
 					{foreach from=$GLOBALPERMISSIONS item=item key=key}
-						<tr data-pid="{$key}" class="js-row">
+						<tr data-pid="{$key}" class="js-row" data-js="container">
 							<td>{$item['profilename']}</td>
 							<td>{$item['description']}</td>
 							<td class="textAlignCenter">

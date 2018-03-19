@@ -29,7 +29,7 @@
 						{\App\Language::translate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
 					</label>
 					<div class="col-md-9 col-sm-10 col-12">
-						<div class="input-group js-sort-container">
+						<div class="input-group js-sort-container" data-js="container">
 							<div class="input-group-prepend" id="basic-addon1">
 								<button type="button" class="btn btn-danger js-clear" data-js="click" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
 									<span class="fas fa-times-circle"></span>

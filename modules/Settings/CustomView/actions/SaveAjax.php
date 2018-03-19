@@ -47,8 +47,8 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		$params = [
 			'cvid' => $request->getInteger('cvid'),
-			'mod' => $request->getByType('mod'),
-			'name' => $request->getByType('name'),
+			'mod' => $request->getByType('mod', 2),
+			'name' => $request->getByType('name', 2),
 			'value' => $request->getByType('value', 'Text')
 		];
 		Settings_CustomView_Module_Model::updateField($params);

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<input id="js-add-filter-url" type="hidden" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}" />
+	<input id="js-add-filter-url" type="hidden" data-js="url" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}" />
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-sm listViewEntriesTable">
 			<thead>
@@ -17,7 +17,7 @@
 			</thead>
 			<tbody>
 				{foreach from=$MODULE_MODEL->getCustomViews($SOURCE_MODULE_ID) item=item key=key}
-					<tr class="js-filter-row" data-cvid="{$key}" data-mod="{$item['entitytype']}">
+					<tr class="js-filter-row" data-js="container" data-cvid="{$key}" data-mod="{$item['entitytype']}">
 						<td>
 							<img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 						</td>
