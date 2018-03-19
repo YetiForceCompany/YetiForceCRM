@@ -651,6 +651,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				},
 				plugins: [],
 			},
+			// hard edges line
 			line: {
 				basic: {
 					maintainAspectRatio: false,
@@ -687,6 +688,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				},
 				dataset: {
 					fill: false,
+					lineTension: 0,
 					datalabels: {
 						font: {
 							size: 11
@@ -705,6 +707,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.fixXAxisLabels'
 				}],
 			},
+			// smooth line
 			lineplain: {
 				basic: {
 					maintainAspectRatio: false,
