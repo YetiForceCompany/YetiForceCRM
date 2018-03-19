@@ -7,7 +7,7 @@
 	"LBL_IMPORT_MODULE": "Modul importieren",
 	"LBL_IMPORTED_UPDATE": "System wurde erfolgreich aktualisiert.",
 	"LBL_IMPORTED_EXTENSION": "Erweiterung wurde erfolgreich installiert.",
-	"LBL_IMPORTED_LANGUAGE": "Sprache wude erfolgreich installiert.",
+	"LBL_IMPORTED_LANGUAGE": "Sprache wurde erfolgreich installiert.",
 	"LBL_PUBLISHER": "Hersteller",
 	"LBL_LICENSE": "Lizenz",
 	"LBL_PUBLISHED_ON": "Ver\u00f6ffentlicht am",
@@ -73,7 +73,7 @@
 	"LBL_LIBRARY_NO_DOWNLOAD": "Nicht heruntergeladen",
 	"LBL_LIBRARY_NEEDS_UPDATING": "Update erforderlich",
 	"LBL_NO_PERMISSION_TO_DIR": "Keine Berechtigung f\u00fcr die Verzeichnisse",
-	"LBL_ERROR_NO_VALID_PREFIX": "Invalid language prefix"
+	"LBL_ERROR_NO_VALID_PREFIX": "Umg\u00fcltiges Sprachpräfix"
   },
   "js": {
 	"JS_UPDATED_MODULE": "Update Erfolgreich",
