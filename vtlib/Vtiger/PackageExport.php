@@ -145,7 +145,7 @@ class PackageExport
 		if (file_exists($this->zipFileName)) {
 			throw new \Exception('File already exists: ' . $this->zipFileName);
 		}
-		$zip = \App\Zip::createFile(zipFileName);
+		$zip = \App\Zip::createFile($this->zipFileName);
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 		// Copy module directory
@@ -212,8 +212,7 @@ class PackageExport
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			// @var $item \SplFileInfo
 			if ($item->isFile() && $item->getFilename() === $module . '.json') {
-				$path = $item->getPath();
-				$zip->addFile($path, $path . DIRECTORY_SEPARATOR . $item->getFilename());
+				$zip->addFile($item->getPath() . DIRECTORY_SEPARATOR . $item->getFilename());
 			}
 		}
 	}
