@@ -281,7 +281,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 								const metaDataItem = dataset._meta[prop].data[i];
 								const label = metaDataItem._view.label;
 								const ctx = metaDataItem._xScale.ctx;
-								const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
+								const categoryWidth = metaDataItem._xScale.width / dataset._meta[prop].data.length;
 								const fullWidth = ctx.measureText(label).width;
 								if (categoryWidth < fullWidth) {
 									const shortened = label.substr(0, 10) + "...";
@@ -669,17 +669,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 					tooltips: {},
 				},
 				dataset: {
+					fill:false,
+					pointRadius:4,
 					datalabels: {
 						font: {
 							size: 11
 						},
 						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						borderColor: 'rgba(255,255,255,0.5)',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
 						borderWidth: 2,
 						borderRadius: 2,
-						anchor: 'center',
-						align: 'center',
+						anchor: 'bottom',
+						align: 'bottom',
 						formatter: 'function:datalabels.formatter',
 					},
 				},
