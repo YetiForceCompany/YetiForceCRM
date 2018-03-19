@@ -39,7 +39,7 @@
 									<tr>
 										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_SELECT_MODULE')}</td>
 										<td class="fieldValue">
-											<select class="form-control" name="module">
+											<select class="form-control select2" name="module">
 												<option></option>
 												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
 													<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
