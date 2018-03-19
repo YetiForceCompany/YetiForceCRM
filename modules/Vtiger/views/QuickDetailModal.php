@@ -28,7 +28,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 
 	public function getSize(\App\Request $request)
 	{
-		return 'modalRightSiteBar';
+		return 'modal-lg modalRightSiteBar';
 	}
 
 	/**
