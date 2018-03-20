@@ -57,7 +57,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Colors from picklist.
 	 *
-	 * @var [type]
+	 * @var array
 	 */
 	private $colors;
 
