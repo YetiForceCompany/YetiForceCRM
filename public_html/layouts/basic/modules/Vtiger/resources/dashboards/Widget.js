@@ -67,9 +67,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		datalabels: {
 			formatter: function datalabelsFormatter(value, context) {
 				if (
-					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
-					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
-				) {
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+						) {
 					// data presented in different format usually exists in alternative dataFormatted array
 					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 				}
@@ -357,9 +357,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 										chart.update();
 										// recalculate positions for smooth animation
 										dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-											metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-											metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-											metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+											if (typeof metaDataItem._xScale !== 'undefined') {
+												metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+												metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+												metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+											}
 										});
 										break;
 									}
@@ -373,26 +375,24 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 	},
 	/**
-	 * Get string to put in options instead of function
-	 * that will be replaced by proper function after initialization
-	 * @param  {String} functionPath
-	 * @return {String} function replacement string
-	 */
-	getFunctionReplacementString: function getFunctionReplacementString(functionPath) {
-		return `function:${functionPath}`;
-	},
-	/**
 	 * Get function from global functions from replacement string
 	 * @param  {String} replacementStr replacement string from getFunctionReplacementString method
 	 * @return {Function}
 	 */
 	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
-		const [fn, functionName] = replacementStr.split(':');
-		let finalFunction = functionName.split('.').reduce((previous, current) => {
+		const splitted = replacementStr.split(':');
+		if (splitted.length !== 2) {
+			const errorMsg = "Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'";
+			console.error(errorMsg);
+			throw new Error(errorMsg);
+		}
+		let finalFunction = splitted[1].split('.').reduce((previous, current) => {
 			return previous[current];
 		}, this.globalChartFunctions);
 		if (typeof finalFunction !== 'function') {
-			console.error("Global function does not exists: " + functionName);
+			const errorMsg = "Global function does not exists: " + splitted[1];
+			console.error(errorMsg);
+			throw new Error(errorMsg);
 		}
 		return finalFunction.bind(this);
 	},
@@ -487,20 +487,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					scales: {
 						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}],
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									maxRotation: 90,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}],
 						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}]
 					},
 				},
 				dataset: {
@@ -519,10 +519,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.fixXAxisLabels',
-				}, {
-					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
-				}],
+						beforeDraw: 'function:plugins.fixXAxisLabels',
+					}, {
+						beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+					}],
 			},
 			bardivided: {
 				basic: {
@@ -541,22 +541,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					scales: {
 						xAxes: [{
-							stacked: true,
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}],
+								stacked: true,
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									maxRotation: 90,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}],
 						yAxes: [{
-							stacked: true,
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
+								stacked: true,
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}]
 					},
 				},
 				dataset: {
@@ -575,10 +575,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.fixXAxisLabels',
-				}, {
-					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
-				}],
+						beforeDraw: 'function:plugins.fixXAxisLabels',
+					}, {
+						beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+					}],
 			},
 			horizontalbar: {
 				basic: {
@@ -597,20 +597,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					scales: {
 						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}],
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									maxRotation: 90,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}],
 						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}]
 					},
 				},
 				dataset: {
@@ -629,10 +629,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.fixYAxisLabels'
-				}, {
-					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
-				}],
+						beforeDraw: 'function:plugins.fixYAxisLabels'
+					}, {
+						beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
+					}],
 			},
 			pie: {
 				basic: {
@@ -727,21 +727,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					scales: {
 						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels',
-								labelOffset: 0,
-							}
-						}],
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									maxRotation: 90,
+									callback: 'function:scales.formatAxesLabels',
+									labelOffset: 0,
+								}
+							}],
 						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
+								ticks: {
+									autoSkip: false,
+									beginAtZero: true,
+									callback: 'function:scales.formatAxesLabels'
+								}
+							}]
 					},
 				},
 				dataset: {
@@ -762,8 +762,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.fixXAxisLabels'
-				}],
+						beforeDraw: 'function:plugins.fixXAxisLabels'
+					}],
 			},
 			// smooth line
 			lineplain: {
@@ -817,8 +817,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.fixXAxisLabels'
-				}],
+						beforeDraw: 'function:plugins.fixXAxisLabels'
+					}],
 			},
 			funnel: {
 				basic: {
@@ -833,13 +833,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 					tooltips: {},
 					scales: {
 						yAxes: [{
-							display: true,
-							beginAtZero: true,
-						}],
-						xAxes: [{
-							display: false,
-							beginAtZero: true,
-						}]
+								display: true,
+								beginAtZero: true,
+							}],
 					},
 				},
 				dataset: {
@@ -848,8 +844,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 					}
 				},
 				plugins: [{
-					beforeDraw: 'function:plugins.fixYAxisLabels',
-				}],
+						beforeDraw: 'function:plugins.fixYAxisLabels',
+					}],
 			},
 		});
 		chartSubType = chartSubType.toLowerCase();
@@ -1081,9 +1077,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}, function (e) {
 			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var a = $("<a>")
-				.attr("href", imgEl.attr('src'))
-				.attr("download", header.find('.dashboardTitle').text() + ".png")
-				.appendTo(container);
+					.attr("href", imgEl.attr('src'))
+					.attr("download", header.find('.dashboardTitle').text() + ".png")
+					.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
@@ -1234,28 +1230,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				var data = jQuery(data);
-				var footer = data.filter('.widgetFooterContent');
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-				if (footer.length) {
-					footer = footer.clone(true, true);
-					refreshContainerFooter.html(footer);
-					data.each(function (n, e) {
-						if (jQuery(this).hasClass('widgetFooterContent')) {
-							data.splice(n, 1);
-						}
-					})
+				function (data) {
+					var data = jQuery(data);
+					var footer = data.filter('.widgetFooterContent');
+					refreshContainer.progressIndicator({
+						'mode': 'hide'
+					});
+					if (footer.length) {
+						footer = footer.clone(true, true);
+						refreshContainerFooter.html(footer);
+						data.each(function (n, e) {
+							if (jQuery(this).hasClass('widgetFooterContent')) {
+								data.splice(n, 1);
+							}
+						})
+					}
+					contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
+				},
+				function () {
+					refreshContainer.progressIndicator({
+						'mode': 'hide'
+					});
 				}
-				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-			},
-			function () {
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-			}
 		);
 	},
 	registerFilter: function registerFilter() {
@@ -1386,16 +1382,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const type = this.getType();
 		const data = this.generateData();
 		data.datasets = this.loadDatasetOptions(data);
-		console.log('loading chart',this.getSubType(),data);
 		const options = this.loadBasicOptions(data);
 		const plugins = this.loadPlugins(data);
 		return this.chartInstance = new Chart(
-			this.getChartContainer().getContext("2d"), {
-				type,
-				data,
-				options,
-				plugins
-			}
+				this.getChartContainer().getContext("2d"), {
+			type,
+			data,
+			options,
+			plugins
+		}
 		);
 	},
 	/**
@@ -1439,9 +1434,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.formatTooltipTitles(chartData);
 		this.formatTooltipLabels(chartData);
 		return this.mergeOptions(
-			this.getBasicOptions(chartData),
-			this.getDefaultBasicOptions(this.getSubType(), chartData),
-		);
+				this.getBasicOptions(chartData),
+				this.getDefaultBasicOptions(this.getSubType(), chartData),
+				);
 	},
 	/**
 	 * Apply default dataset options (usually datalabels configuration)
@@ -1452,10 +1447,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	loadDatasetOptions: function loadDatasetOptions(chartData) {
 		return chartData.datasets.map((dataset, index) => {
 			let result = this.mergeOptions(
-				dataset,
-				this.getDatasetOptions(chartData),
-				this.getDefaultDatasetOptions(this.getSubType(), chartData)
-			);
+					dataset,
+					this.getDatasetOptions(chartData),
+					this.getDefaultDatasetOptions(this.getSubType(), chartData)
+					);
 			return result;
 		});
 	},
@@ -1465,10 +1460,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	loadPlugins: function loadPlugins(chartData) {
-		return this.mergeOptions(
-			this.getPlugins(chartData),
-			this.getDefaultPlugins(this.getSubType(), chartData)
-		);
+		return this.mergeOptionsArray(
+				this.getPlugins(chartData),
+				this.getDefaultPlugins(this.getSubType(), chartData)
+				);
 	},
 	/**
 	 * Format tooltip titles to user number format and push this modification to titlesFormatted
@@ -1528,20 +1523,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Array}
 	 */
 	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
-		if (typeof to === 'undefined') {
-			to = [];
+		if (typeof to !== 'undefined') {
+			return to;
 		}
-		return fromArray.map((from, index) => {
-			if (Array.isArray(from) && (typeof to[index] === 'undefined' || Array.isArray(to[index]))) {
+		to = [];
+		let result = fromArray.map((from, index) => {
+			if (Array.isArray(from) && !to.hasOwnProperty(key)) {
 				return this.mergeOptionsArray(to[index], from);
 			}
-			if (typeof from === 'object' && from !== null &&
-				(typeof to[index] === 'undefined' ||
-					(typeof to[index] === 'object' && to[index] !== null))) {
+			if (typeof from === 'object' && from !== null && (typeof to[index] === 'undefined' || (typeof to[index] === 'object' && to[index] !== null))) {
 				return this.mergeOptionsObject(to[index], from);
 			}
 			return to[index];
 		}).filter((item) => typeof item !== 'undefined');
+		return result;
 	},
 	/**
 	 * Merge options object and do not override existing properties
@@ -1557,10 +1552,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (from.hasOwnProperty(key)) {
 				if (Array.isArray(from[key])) {
 					if (!to.hasOwnProperty(key)) {
-						to[key] = this.mergeOptionsArray(to[key], from[key]);
+						to[key] = this.mergeOptionsArray(undefined, from[key]);
 					}
-				} else if (typeof from[key] === 'object' && from[key] !== null &&
-					(typeof from[key] === typeof to[key] || typeof to[key] === 'undefined')) {
+				} else if (typeof from[key] === 'object' && from[key] !== null && (!to.hasOwnProperty(key) || (typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))) {
 					// if property is an object - merge recursively
 					to[key] = this.mergeOptionsObject(to[key], from[key]);
 				} else {
@@ -1580,15 +1574,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {object}
 	 */
 	mergeOptions: function mergeOptions(to = {}, ...fromArray) {
-		return fromArray.reduce((prev, curr) => {
-			if (Array.isArray(curr)) {
-				return this.mergeOptionsArray(prev, curr);
+		for (let i = 0, len = fromArray.length; i < len; i++) {
+			if (typeof fromArray[i] !== 'object' || Array.isArray(fromArray[i])) {
+				const errorMsg = 'Options argument should be an object! Chart subType: ' + this.getSubType() + ' [' + fromArray[i].toString() + ']';
+				console.error(errorMsg);
+				throw new Error(errorMsg);
+			} else {
+				to = this.mergeOptionsObject(to, fromArray[i]);
 			}
-			if (typeof curr === 'object' && curr !== null) {
-				return this.mergeOptionsObject(prev, curr);
-			}
-			return curr;
-		}, to);
+		}
+		return to;
 	},
 	/**
 	 * Placeholder for individual chart type options
@@ -1618,7 +1613,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {Array} plugins
 	 */
 	getPlugins: function getPlugins(chartData) {
-		return [];
+		// do not return anything - undefined
 	},
 	/**
 	 * Get chart type
@@ -1762,11 +1757,7 @@ YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
 		return 'linePlain';
 	}
 });
-YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
-	getSubType: function getSubType() {
-		return 'multiBarChart';
-	}
-});
+YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {});
 // NOTE Widget-class name camel-case convention
 YetiForce_Widget_Js('YetiForce_Minilist_Widget_Js', {}, {
 	postLoadWidget: function () {
@@ -1886,11 +1877,11 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 			},
 			scales: {
 				xAxes: [{
-					stacked: true
-				}],
+						stacked: true
+					}],
 				yAxes: [{
-					stacked: true
-				}]
+						stacked: true
+					}]
 			}
 		};
 	}
@@ -1970,19 +1961,19 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				element = '<div class="cell-calendar">';
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
-						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
-						'</a>\n';
+							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+							'</a>\n';
 				}
 				element += '</div>';
 				return element;
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
-			.mouseenter(function () {
-				jQuery('<span class="plus pull-left fas fa-plus"></span>')
-					.prependTo($(this))
-			}).mouseleave(function () {
+				.mouseenter(function () {
+					jQuery('<span class="plus pull-left fas fa-plus"></span>')
+							.prependTo($(this))
+				}).mouseleave(function () {
 			$(this).find(".plus").remove();
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
@@ -2055,8 +2046,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				events.result[i]['height'] = height;
 			}
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
-				events.result
-			);
+					events.result
+					);
 			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
@@ -2232,19 +2223,19 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 			scales: {
 				yAxes: [{
-					stacked: true,
-					ticks: {
-						callback: function formatYAxisTick(value, index, values) {
-							return app.formatToHourText(value, 'short', false, false);
+						stacked: true,
+						ticks: {
+							callback: function formatYAxisTick(value, index, values) {
+								return app.formatToHourText(value, 'short', false, false);
+							}
 						}
-					}
-				}],
+					}],
 				xAxes: [{
-					stacked: true,
-					ticks: {
-						minRotation: 0
-					}
-				}]
+						stacked: true,
+						ticks: {
+							minRotation: 0
+						}
+					}]
 			},
 			tooltips: {
 				callbacks: {
@@ -2278,6 +2269,9 @@ YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 		return {
 			sort: 'data-desc'
 		};
+	},
+	getPlugins: function getPlugins() {
+		return [];
 	}
 });
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
