@@ -7,7 +7,7 @@
 				<div class="textCenter small font-weight-bold"></div>
 			</div>
 		</div>
-		<div class="fixedListInitial W-25 js-fixed" data-js="scroll">
+		<div class="fixedListInitial W-25 js-fixed-scroll" data-js="scroll">
 			<div class="fixedListContent">
 				<div id="recordsList">
 				{/strip}
