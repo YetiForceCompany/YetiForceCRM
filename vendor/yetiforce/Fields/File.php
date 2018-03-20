@@ -878,4 +878,23 @@ class File
 			return false;
 		}
 	}
+
+	/**
+	 * Get crm pathname.
+	 *
+	 * @param string $path Absolute pathname
+	 *
+	 * @return string Local pathname
+	 */
+	public static function getLocalPath($path)
+	{
+		if (strpos($path, ROOT_DIRECTORY) === 0) {
+			$index = strlen(ROOT_DIRECTORY) + 1;
+			if (strrpos(ROOT_DIRECTORY, '/') === strlen(ROOT_DIRECTORY) - 1) {
+				$index -= 1;
+			}
+			$path = substr($path, $index);
+		}
+		return $path;
+	}
 }
