@@ -6,9 +6,9 @@
 <div class="Detail-Preview listPreview W-75">
 	<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 </div>
-<div class="wrappedPanel">
+<div class="wrappedPanel js-fixed-scroll" data-js="scroll">
 	<div class="rotatedText">
-		<div class="textCenter">
+		<div class="textCenter small font-weight-bold">
 			{\App\Language::translate('LBL_VIEW_DETAIL')}
 		</div>
 	</div>

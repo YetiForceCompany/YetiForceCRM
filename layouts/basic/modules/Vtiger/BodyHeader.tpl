@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
     {assign var='count' value=0}
-	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 bodyHeader{if $LEFTPANELHIDE} menuOpen{/if}">
+	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header bodyHeader{if $LEFTPANELHIDE} menuOpen{/if}" data-js="height">
 		{if AppConfig::performance('GLOBAL_SEARCH')}
 			<div class="searchMenuBtn d-xl-none">
 				<div class="quickAction">

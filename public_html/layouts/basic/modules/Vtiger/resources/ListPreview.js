@@ -59,8 +59,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		var paddingTop = 6;
-		var offset = this.list.offset().top - commActHeight - paddingTop;
 		app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
 		app.showNewLeftScrollbar(this.list);
 		$(window).on('resize', () => {
@@ -68,36 +66,25 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
 			}
 		});
+		let listOffsetTop = this.list.offset().top - this.headerH;
+		let initialH = this.sidePanels.height();
+		let mainViewPortHeightCss = {height: mainBody.height()};
+		let mainViewPortWidthCss = {width: mainBody.height()};
+		this.gutter.addClass('js-fixed-scroll');
+		let fixedElements = container.find('.js-fixed-scroll');
 		mainBody.on('scroll', () => {
-			var gutter = container.find('.gutter');
-			var mainWindowHeightCss = {height: $(window).height() - ((gutter.offset().top + 33) + $('.infoUser').height())};
-			gutter.css(mainWindowHeightCss);
-			this.list.css(mainWindowHeightCss);
-			this.sidePanels.css(mainWindowHeightCss);
-			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight - paddingTop)) {
-				if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
-					this.list.css('top', mainBody.scrollTop() - offset);
-					if ($(window).width() > 993) {
-						this.sidePanels.addClass('wrappedPanelOnScroll');
-						gutter.addClass('gutterOnScroll');
-						gutter.css('left', listPreview.offset().left - 8);
-						gutter.on('mousedown', function () {
-							$(this).on('mousemove', function (e) {
-								$(this).css('left', listPreview.offset().left - 8);
-							});
-						});
-					}
-				}
+			if (mainBody.scrollTop() >= listOffsetTop) {
+				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
+				fixedElements.css(mainViewPortHeightCss);
+				this.rotatedText.css(mainViewPortHeightCss);
+				this.rotatedText.css(mainViewPortWidthCss);
 			} else {
-				this.list.css('top', 'initial');
-				if ($(window).width() > 993) {
-					var gutter = container.find('.gutter');
-					this.sidePanels.removeClass('wrappedPanelOnScroll');
-					gutter.removeClass('gutterOnScroll');
-					gutter.css('left', 0);
-					gutter.off('mousedown');
-					gutter.off('mousemove');
-				}
+				fixedElements.css({top: 'initial'});
+				fixedElements.css({height: initialH + mainBody.scrollTop()})
+				this.rotatedText.css({
+					width: initialH + mainBody.scrollTop(),
+					height: initialH + mainBody.scrollTop(),
+				});
 			}
 		});
 		this.list.on('click', '.listViewEntries', () => {
@@ -110,7 +97,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 	},
-	getSecondColMinWidth(container) {
+	getSecondColMinWidth: function (container) {
 		let maxWidth, thisWidth;
 		container.find('.listViewEntries').each(function (i) {
 			thisWidth = $(this).find('.listViewEntryValue a').first().width();
@@ -122,18 +109,22 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		return maxWidth;
 	},
-	getDomParams(container) {
-		this.listColumntFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
-		this.listColumntSecondWidth = this.getSecondColMinWidth(container);
+	getDomParams: function (container) {
+		this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
+		this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 		this.windowMinWidth = (15 / $(window).width()) * 100;
 		this.windowMaxWidth = 100 - this.minWidth;
 		this.sidePanels = container.find('.wrappedPanel');
-		this.sidePanelLeft = container.find(this.sidePanels[0]);
-		this.sidePanelRight = container.find(this.sidePanels[1]);
+		this.sidePanelLeft = container.find('.wrappedPanel').first();
+		this.sidePanelRight = container.find('.wrappedPanel').last();
 		this.list = container.find('.fixedListInitial');
+		this.rotatedText = container.find('.rotatedText');
+		this.footerH = $('.js-footer').outerHeight();
+		this.headerH = $('.js-header').outerHeight();
+		this.infoUser = $('.infoUser');
 	},
-	getDefaultSplitSizes() {
-		let thWidth = ((this.listColumntFirstWidth + this.listColumntSecondWidth + 62) / $(window).width()) * 100;
+	getDefaultSplitSizes: function () {
+		let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 62) / $(window).width()) * 100;
 		return [thWidth, 100 - thWidth];
 	},
 	/**
@@ -141,12 +132,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * @param {jQuery} container - current container for reference.
 	 * @return Array
 	 */
-	getSplitSizes() {
+	getSplitSizes: function () {
 		const cachedParams = app.moduleCacheGet('userSplitSet');
 		if (cachedParams !== null) {
 			return cachedParams;
 		} else {
-			this.getDefaultSplitSizes();
+			return this.getDefaultSplitSizes();
 		}
 	},
 	/**
@@ -156,12 +147,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerSplitEvents: function (container, split) {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-		var gutter = container.find('.gutter');
 		var minWindowWidth = (15 / $(window).width()) * 100;
 		var maxWindowWidth = 100 - minWindowWidth;
 		var listPreview = container.find('.listPreview');
-		gutter.on("dblclick", () => {
+		this.gutter.on("dblclick", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
+			if (isNaN(this.split.getSizes()[0])) {
+				this.split.setSizes(gutterMidPosition);
+			}
 			if (split.getSizes()[0] < 10) {
 				this.sidePanelLeft.removeClass('wrappedPanelLeft');
 				if (gutterMidPosition[0] > 11) {
@@ -177,7 +170,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				}
 				this.sidePanelRight.removeClass('wrappedPanelRight');
 				listPreview.show();
-				gutter.css('right', 'initial');
+				this.gutter.css('right', 'initial');
 				this.list.css('padding-right', '10px');
 			} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
 				split.setSizes([minWindowWidth, maxWindowWidth]);
@@ -190,7 +183,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
-		this.sidePanelLeft.on("dblclick", () => {
+		this.sidePanelLeft.on("click", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (gutterMidPosition[0] > 11) {
 				split.setSizes(gutterMidPosition);
@@ -200,7 +193,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			this.sidePanelLeft.removeClass('wrappedPanelLeft');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
-		this.sidePanelRight.on("dblclick", () => {
+		this.sidePanelRight.on("click", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
 				split.setSizes(gutterMidPosition);
@@ -209,7 +202,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 			this.sidePanelRight.removeClass('wrappedPanelRight');
 			listPreview.show();
-			gutter.css('right', 'initial');
+			this.gutter.css('right', 'initial');
 			this.list.css('padding-right', '10px');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
@@ -221,6 +214,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerSplit: function (container) {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
+		var splitMinWidth = (23 / $(window).width()) * 100;
+		var splitMaxWidth = 100 - splitMinWidth;
 		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
 		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
 		var listPreview = container.find('.listPreview');
@@ -228,7 +223,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var split = Split([this.list[0], listPreview[0]], {
 			sizes: splitSizes,
 			minSize: 10,
-			gutterSize: 8,
+			gutterSize: 24,
 			snapOffset: 100,
 			onDrag: () => {
 				if (split.getSizes()[1] < rightSplitMaxWidth) {
@@ -236,8 +231,10 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				}
 				if (split.getSizes()[0] < 5) {
 					this.sidePanelLeft.addClass('wrappedPanelLeft');
+					this.list.addClass('js-hide-underneath');
 				} else {
 					this.sidePanelLeft.removeClass('wrappedPanelLeft');
+					this.list.removeClass('js-hide-underneath');
 				}
 				if (split.getSizes()[1] < 10) {
 					this.sidePanelRight.addClass('wrappedPanelRight');
@@ -254,22 +251,25 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 		if (splitSizes[0] < 10) {
+			listPreview.width(listPreview.width() - 150);
 			this.sidePanelLeft.addClass('wrappedPanelLeft');
-			split.setSizes([this.windowMinWidth, this.windowMaxWidth]);
+			split.setSizes([splitMinWidth, splitMaxWidth]);
+			this.list.addClass('js-hide-underneath');
 		} else if (splitSizes[1] < rightSplitMaxWidth) {
 			this.sidePanelRight.addClass('wrappedPanelRight');
 			listPreview.hide();
-			split.setSizes([this.windowMaxWidth, this.windowMinWidth]);
+			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
-		var gutter = container.find('.gutter');
-		var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
-		var rotatedText = container.find('.rotatedText');
-		gutter.css(mainWindowHeightCss);
-		this.list.css(mainWindowHeightCss)
+		this.gutter = container.find('.gutter');
+		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + 33)};
+		this.gutter.css(mainWindowHeightCss);
+		this.list.css(mainWindowHeightCss);
 		this.sidePanels.css(mainWindowHeightCss);
 		this.registerSplitEvents(container, split);
-		rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
-		rotatedText.css({
+		const breadcrumbsContainer = $('.breadcrumbsContainer');
+		breadcrumbsContainer
+		this.rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .js-text-content').text());
+		this.rotatedText.css({
 			width: this.sidePanelLeft.height(),
 			height: this.sidePanelLeft.height()
 		});
@@ -298,7 +298,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			} else {
 				if (container.find('.gutter').length !== 1) {
 					this.split = thisInstance.registerSplit(container);
-					var gutter = container.find('.gutter');
+
+					this.gutter = container.find('.gutter');
+					this.gutter.addClass('js-fixed-scroll');
 					if (mainBody.scrollTop() >= (this.list.offset().top)) {
 						gutter.addClass('gutterOnScroll');
 						gutter.css('left', listPreview.offset().left - 8);

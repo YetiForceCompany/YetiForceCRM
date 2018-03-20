@@ -31,7 +31,7 @@
 			)
 		</div>
 	{/if}
-	<footer class="footerContainer fixed-bottom">
+	<footer class="footerContainer fixed-bottom js-footer" data-js="height">
 		<div class="container-fluid px-1">
 			<ul class="float-left pagination border-0">
 				<li class="page-item">
@@ -84,7 +84,7 @@
 				</div>
 				<div class="modal-body">
 					<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;" /></p>
-					<p>Copyright © YetiForce.com All rights reserved.</p>
+					<p>Copyright ï¿½ YetiForce.com All rights reserved.</p>
 					<p>The Program is provided AS IS, without warranty. Licensed under <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a>.</p>
 					<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>
 					<p><span class="badge badge-secondary">License:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a></p>
