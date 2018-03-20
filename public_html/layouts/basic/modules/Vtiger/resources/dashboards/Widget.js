@@ -1190,7 +1190,7 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 			legend: {
 				display: false,
 			},
-			sort: 'data-desc',
+			sort: 'desc',
 			scales: {
 				yAxes: [{
 					display: true
@@ -1602,7 +1602,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
-	
+
 	registerCalendar: function () {
 		var thisInstance = this;
 		var userDefaultActivityView = 'month';
@@ -1675,7 +1675,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
 						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' medium-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
 						'</a>\n';
 				}
 				element += '</div>';
@@ -1687,8 +1687,8 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				jQuery('<span class="plus pull-left fas fa-plus"></span>')
 					.prependTo($(this))
 			}).mouseleave(function () {
-			$(this).find(".plus").remove();
-		});
+				$(this).find(".plus").remove();
+			});
 		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {
@@ -1979,7 +1979,13 @@ YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
+YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+	getOptions: function getOptions() {
+		return {
+			sort: 'data-desc'
+		};
+	}
+});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
