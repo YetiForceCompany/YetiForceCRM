@@ -300,7 +300,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					this.split = thisInstance.registerSplit(container);
 
 					this.gutter = container.find('.gutter');
-					this.gutter.addClass('js-fixed');
+					this.gutter.addClass('js-fixed-scroll');
 					if (mainBody.scrollTop() >= (this.list.offset().top)) {
 						gutter.addClass('gutterOnScroll');
 						gutter.css('left', listPreview.offset().left - 8);
