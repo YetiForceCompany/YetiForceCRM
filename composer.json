@@ -67,5 +67,9 @@
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
 		}
+	},
+	"scripts": {
+		"post-update-cmd": "App\\Installer\\Composer::install",
+		"post-install-cmd": "App\\Installer\\Composer::install"
 	}
 }
