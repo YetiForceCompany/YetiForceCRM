@@ -6,11 +6,11 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
 namespace Tests\Settings;
 
 class ModuleManager extends \Tests\Base
 {
-
 	/**
 	 * Zip file name.
 	 *
@@ -291,7 +291,7 @@ class ModuleManager extends \Tests\Base
 		}
 		$zip->close();
 		$this->assertContains('manifest.xml', $zipFiles);
-		$this->assertContains('modules/Test/Test.php', $zipFiles);
+		$this->assertContains('modules' . DIRECTORY_SEPARATOR . 'Test' . DIRECTORY_SEPARATOR . 'Test.php', $zipFiles);
 
 		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
@@ -313,7 +313,6 @@ class ModuleManager extends \Tests\Base
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertFileNotExists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pathToFile);
 		}
-
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(), 'The tree was not removed');
 	}
@@ -332,7 +331,6 @@ class ModuleManager extends \Tests\Base
 		$this->assertFalse($package->isModuleBundle(static::$zipFileName), 'The module is a bundle type');
 
 		$package->import(static::$zipFileName);
-
 		$this->assertSame('LBL_INVENTORY_MODULE', $package->getTypeName());
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module does not exist in the database');

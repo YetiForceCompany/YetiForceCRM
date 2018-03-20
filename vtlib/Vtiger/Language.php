@@ -32,11 +32,11 @@ class Language extends LanguageImport
 	{
 		$query = (new \App\Db\Query())->select(['prefix'])->from('vtiger_language');
 		foreach ($query->column() as $lang) {
-			$langFilePath = "languages/$lang/{$moduleInstance->name}.php";
+			$langFilePath = "languages/$lang/{$moduleInstance->name}.json";
 			if (file_exists($langFilePath)) {
 				unlink($langFilePath);
 			}
-			$langFilePath = "languages/$lang/Settings/{$moduleInstance->name}.php";
+			$langFilePath = "languages/$lang/Settings/{$moduleInstance->name}.json";
 			if (file_exists($langFilePath)) {
 				unlink($langFilePath);
 			}
