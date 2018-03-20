@@ -171,24 +171,22 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 										if (jQuery.inArray(widgetName, nonReversableWidgets) == -1) {
 											Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
 											jQuery('.widgetsList').prev('button').css('visibility', 'visible');
-											var data = '<li>';
+											var data = '<li class="d-flex flex-row-reverse align-items-center">';
 											if (response.result.deleteFromList) {
 												data += '<button ';
 												data += 'data-widget-id="' + response.result.id + '" ';
-												data += 'class="removeWidgetFromList btn btn-xs btn-danger pull-left" '
-												data += 'style="width:25px;height:25px;margin:2px;" '
+												data += 'class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1" '
 												data += '>'
 												data += '<span class="fas fa-trash-alt"></span>';
 												data += '</button>';
 											}
 											data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
 											data += 'href="javascript:void(0);" ';
-											data += 'class="pull-left" ';
+											data += 'class="dropdown-item pl-1" ';
 											data += 'data-linkid="' + response.result.linkid + '" ';
 											data += 'data-name="' + response.result.name + '" ';
 											data += 'data-width="' + width + '" ';
 											data += 'data-height="' + height + '" ';
-											data += 'style="height:30px;width:100%;margin:0;padding:5px;" ';
 											data += '>';
 											data += response.result.title + '</a>';
 											data += '</li>';
@@ -471,7 +469,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				});
 				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
 				var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
-				app.showSelect2ElementView(filteridSelectDOM, {dropdownParent: wizardContainer});
 				var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
 
 				var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
