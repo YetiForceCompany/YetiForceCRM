@@ -471,14 +471,14 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				});
 				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
 				var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
-				app.showSelect2ElementView(filteridSelectDOM, {dropdownParent: wizardContainer});
 				var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
 
 				var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
 					placeholder: app.vtranslate('JS_SELECT_MODULE')
 				});
 				var filteridSelect2 = app.showSelect2ElementView(filteridSelectDOM, {
-					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
+					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+					dropdownParent: wizardContainer
 				});
 				var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
 					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
