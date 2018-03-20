@@ -22,7 +22,7 @@
 							</a>
 						</li>
 					{elseif $item@last}
-						<li class="breadcrumb-item active js-text-content" data-js="fetch-text" aria-current="page">{$item['name']}</li>
+						<li class="breadcrumb-item active js-text-content" data-js="text" aria-current="page">{$item['name']}</li>
 						{else}
 						<li class="breadcrumb-item"><a href="#">{$item['name']}</a></li>
 						{/if}
