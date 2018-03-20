@@ -293,7 +293,7 @@ class ModuleManager extends \Tests\Base
 		$this->assertContains('manifest.xml', $zipFiles);
 		$this->assertContains('modules/Test/Test.php', $zipFiles);
 
-		$langFileToCheck = $this->getLangPathToFile('Test.php');
+		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
 			$pathToFile = str_replace('./', '', $pathToFile);
 			$this->assertContains($pathToFile, $zipFiles);
@@ -310,7 +310,7 @@ class ModuleManager extends \Tests\Base
 		$moduleInstance->delete();
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 
-		$langFileToCheck = $this->getLangPathToFile('Test.php');
+		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertFileNotExists($pathToFile);
 		}
