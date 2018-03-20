@@ -26,12 +26,4 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 		$responce->setResult(['success' => $success]);
 		$responce->emit();
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

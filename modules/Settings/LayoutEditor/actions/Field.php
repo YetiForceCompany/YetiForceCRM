@@ -159,9 +159,4 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->setResult($picklistValues);
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

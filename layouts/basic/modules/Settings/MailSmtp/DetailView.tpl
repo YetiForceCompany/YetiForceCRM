@@ -5,16 +5,16 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_MAILSMTP_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
 		</div>
-		<div class="col-md-4 marginbottomZero">
-			<div class="float-right btn-toolbar"><span class="actionImages">
-					<a class="btn btn-info" href="{$RECORD_MODEL->getEditViewUrl()}">
-						<span class="fas fa-edit"></span>&nbsp;
-						<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
-					</a>
-					<a class="btn btn-danger marginLeft5" href="{$RECORD_MODEL->getDeleteActionUrl()}">
-						<span class="fas fa-trash-alt"></span>&nbsp;
-						<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
-					</a>
+		<div class="col-md-4 mt-3">
+			<div class="float-right btn-toolbar">
+				<a class="btn btn-info" href="{$RECORD_MODEL->getEditViewUrl()}">
+					<span class="fas fa-edit"></span>
+					<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
+				</a>
+				<button type="button" class="btn btn-danger ml-2 js-remove" data-js="click" data-record-id="{$RECORD_MODEL->getId()}">
+					<span class="fas fa-trash-alt mr-1"></span>
+					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
+				</button>
 			</div>
 		</div>
 	</div>

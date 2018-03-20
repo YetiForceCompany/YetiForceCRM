@@ -70,7 +70,7 @@
 			{if $TASK_OBJECT->startTime neq ''}
 				{assign var=START_TIME value=$TASK_OBJECT->startTime}
 			{else}
-				{assign var=DATE_TIME_VALUE value=Vtiger_Datetime_UIType::getDateTimeValue('now')}
+				{assign var=DATE_TIME_VALUE value=App\Fields\DateTime::formatToDisplay('now')}
 				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 				{assign var=START_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
@@ -109,7 +109,7 @@
 			{if $TASK_OBJECT->endTime neq ''}
 				{assign var=END_TIME value=$TASK_OBJECT->endTime}
 			{else}
-				{assign var=DATE_TIME_VALUE value=Vtiger_Datetime_UIType::getDateTimeValue('now')}
+				{assign var=DATE_TIME_VALUE value=App\Fields\DateTime::formatToDisplay('now')}
 				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 				{assign var=END_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}

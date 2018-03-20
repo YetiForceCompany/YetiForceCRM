@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
 	 * Class constructor.

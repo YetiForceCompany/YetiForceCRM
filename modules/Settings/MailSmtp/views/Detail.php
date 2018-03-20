@@ -40,4 +40,14 @@ class Settings_MailSmtp_Detail_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				"modules.Settings.{$request->getModule()}.resources.Detail",
+		]));
+	}
 }

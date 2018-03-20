@@ -9,6 +9,9 @@
  */
 class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$title = $request->get('title');
@@ -19,10 +22,5 @@ class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 		$responce = new Vtiger_Response();
 		$responce->setResult(['success' => $success]);
 		$responce->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

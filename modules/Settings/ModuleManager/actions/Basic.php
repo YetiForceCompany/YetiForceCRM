@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
@@ -37,11 +37,6 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 			$response->setError($e->getMessage());
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 
 	/**

@@ -7,11 +7,11 @@
 			{\App\Language::translate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
-		<li class="active"><a href="#conversiontoaccount" data-toggle="tab">{\App\Language::translate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
-		<li ><a href="#lead_configuration" data-toggle="tab">{\App\Language::translate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
+	<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
+		<li class="nav-item"><a class="nav-link active" href="#conversiontoaccount" data-toggle="tab">{\App\Language::translate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
+		<li class="nav-item"><a class="nav-link" href="#lead_configuration" data-toggle="tab">{\App\Language::translate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
 	</ul>
-	<div class="tab-content layoutContent" style="padding-top: 10px;">
+	<div class="tab-content">
 		<div class="tab-pane active" id="conversiontoaccount">
 			{assign var=CONVERSION value=$MODULE_MODEL->getConfig('conversion')}
 			<div class="well">
@@ -132,7 +132,7 @@
 				<tbody>
 					<tr>
 						<td><label>{\App\Language::translate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-md-6">
+						<td class="w-50">
 							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance('Leads')->getAccessibleGroups()}
 							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
@@ -145,7 +145,7 @@
 					</tr>
 					<tr>
 						<td><label>{\App\Language::translate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-md-6">
+						<td class="w-50">
 							<select class="chzn-select configField" multiple data-type="lead" name="status">
 								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
@@ -155,7 +155,7 @@
 					</tr>
 					<tr>
 						<td><label>{\App\Language::translate('LBL_LEAD_CONVERT_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td class="col-md-6">
+						<td class="w-50">
 							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
 								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>

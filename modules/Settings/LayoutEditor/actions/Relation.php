@@ -127,9 +127,4 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		}
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

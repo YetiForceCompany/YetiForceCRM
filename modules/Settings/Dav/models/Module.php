@@ -30,15 +30,14 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to add key.
 	 *
-	 * @param array $params
+	 * @param string[] $type
+	 * @param int      $userID
 	 *
 	 * @return int
 	 */
-	public function addKey($params)
+	public function addKey($type, $userID)
 	{
 		$query = new App\Db\Query();
-		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
-		$userID = $params['user'];
 		$query->select('id')
 			->from('dav_users')
 			->where(['userid' => $userID]);
@@ -86,7 +85,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 			$db->createCommand()->update('vtiger_activity', ['dav_status' => 1])->execute();
 		}
 		if (in_array('WebDav', $type)) {
-			$this->createUserDirectory($params);
+			$this->createUserDirectory($userID);
 		}
 
 		return $key;
@@ -95,15 +94,15 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to delete key.
 	 *
-	 * @param array $params
+	 * @param int $userId
 	 */
-	public function deleteKey($params)
+	public function deleteKey($userId)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
-		$dbCommand->delete('dav_calendars', ['principaluri' => (new \App\Db\Query())->select(['uri'])->from('dav_principals')->where(['userid' => $params['user']])])->execute();
-		$dbCommand->delete('dav_users', ['userid' => $params['user']])->execute();
-		$dbCommand->delete('dav_principals', ['userid' => $params['user']])->execute();
-		$userName = App\User::getUserModel($params['user'])->getDetail('user_name');
+		$dbCommand->delete('dav_calendars', ['principaluri' => (new \App\Db\Query())->select(['uri'])->from('dav_principals')->where(['userid' => $userId])])->execute();
+		$dbCommand->delete('dav_users', ['userid' => $userId])->execute();
+		$dbCommand->delete('dav_principals', ['userid' => $userId])->execute();
+		$userName = App\User::getUserModel($userId)->getDetail('user_name');
 		$davStorageDir = AppConfig::main('davStorageDir');
 		vtlib\Functions::recurseDelete($davStorageDir . '/' . $userName);
 	}
@@ -113,8 +112,13 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		return ['CalDav', 'CardDav', 'WebDav'];
 	}
 
-	public function createUserDirectory($params)
+	/**
+	 * Create directory for WebDav.
+	 *
+	 * @param int $userId
+	 */
+	public function createUserDirectory($userId)
 	{
-		@mkdir(AppConfig::main('davStorageDir') . '/' . App\User::getUserModel($params['user'])->getDetail('user_name') . '/');
+		@mkdir(AppConfig::main('davStorageDir') . '/' . App\User::getUserModel($userId)->getDetail('user_name') . '/');
 	}
 }
