@@ -124,7 +124,7 @@ jQuery.Class("Vtiger_List_Js", {
 									}
 									return false;
 								}
-								jQuery('#changeOwner').validationEngine(app.validationEngineOptions);
+								data.find('#changeOwner').validationEngine(app.validationEngineOptions);
 							}
 							app.showModalWindow(data, function (data) {
 								var selectElement = thisInstance.getRelatedModuleContainer();
@@ -1245,7 +1245,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
 				breadCrumbsLastSpan.text(': ' + text);
 			} else {
-				breadCrumbs.append('<small class="breadCrumbsFilter hideToHistory p-1 js-text-content" data-js="fetch-text"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</small>');
+				breadCrumbs.append('<small class="breadCrumbsFilter hideToHistory p-1 js-text-content" data-js="text"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</small>');
 			}
 		}
 	},
