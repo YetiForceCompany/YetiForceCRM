@@ -31,7 +31,7 @@ class PackageUpdate extends PackageImport
 			return false;
 		}
 		if ($module !== null) {
-			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
@@ -75,14 +75,12 @@ class PackageUpdate extends PackageImport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module !== null) {
-			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
 				$this->__parseManifestFile($zip);
 			}
-
-			$buildModuleArray = [];
-			$installSequenceArray = [];
+			$installSequenceArray = $buildModuleArray = [];
 			$moduleBundle = (bool) $this->_modulexml->modulebundle;
 			if ($moduleBundle === true) {
 				$moduleList = (array) $this->_modulexml->modulelist;

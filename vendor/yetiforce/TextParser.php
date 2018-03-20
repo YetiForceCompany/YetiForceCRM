@@ -871,7 +871,7 @@ class TextParser
 			case 'time':
 				$userModel = \Users_Privileges_Model::getCurrentUserModel();
 				$value = \DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
-				if ($userModel->get('hour_format') === '12') {
+				if ((int) $userModel->get('hour_format') === 12) {
 					if ($value) {
 						list($hours, $minutes, $seconds) = explode(':', $value);
 						$format = '$(translate : PM)$';

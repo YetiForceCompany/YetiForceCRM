@@ -135,7 +135,7 @@
 	"LBL_MARGIN_DESC": "Nicht editierbares Feld welches autoamtisch berechnet wird. Enth\u00e4lt den Wert eines vorgegebenes Element (Preis inkl Rabatt - Einkaufspreis), enth\u00e4lt keine Steuer.",
 	"LBL_MARGIN_PERCENT_DESC": "Nicht editierbare Felder werden automatisch berechnet, enthalten den prozentualen Gewinnwert.",
 	"LBL_ITEM_NUMBER": "Item Nummer",
-	"LBL_ITEM_NUMBER_DESC": "Feld enth\u00e4lt die Item Number",
+	"LBL_ITEM_NUMBER_DESC": "Feld enth\u00e4lt die Item Nummer",
 	"LBL_PICKLIST_FIELD": "W\u00e4hle Feld",
 	"LBL_PICKLIST_FIELD_DESC": "Selektionsliste mit Werten aus irgendeinem Feld in dem selektierten Modul",
 	"LBL_DEACTIVATE_FAVORITES": "Funktion deaktivieren: Zu Favoriten hinzuf\u00fcgen",

@@ -25,7 +25,7 @@ class PrivilegeUtil
 		$relTabName = Module::getModuleName($tabid);
 		$fnName = 'get' . $relTabName . 'Related' . $parentTabName;
 		$entId = static::$fnName($recordId);
-		if ($entId != '') {
+		if ($entId !== '') {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
 				$ownerId = $recordMetaData['smownerid'];
@@ -34,7 +34,6 @@ class PrivilegeUtil
 			}
 		}
 		Log::trace('Exiting getParentRecordOwner method ...');
-
 		return $parentRecOwner;
 	}
 
@@ -47,7 +46,9 @@ class PrivilegeUtil
 	 */
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
-		return (new Db\Query())->select(['parent_id'])->from('vtiger_troubletickets')->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.parent_id = vtiger_crmentity.crmid')->where(['ticketid' => $recordId, 'vtiger_crmentity.setype' => 'Accounts'])->scalar();
+		return (new Db\Query())->select(['parent_id'])->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.parent_id = vtiger_crmentity.crmid')
+			->where(['ticketid' => $recordId, 'vtiger_crmentity.setype' => 'Accounts'])->scalar();
 	}
 
 	protected static $datashareRelatedCache = false;
@@ -75,7 +76,6 @@ class PrivilegeUtil
 			}
 			static::$datashareRelatedCache = $relModSharArr;
 		}
-
 		return static::$datashareRelatedCache;
 	}
 
@@ -90,9 +90,8 @@ class PrivilegeUtil
 	{
 		if (static::$defaultSharingActionCache === false) {
 			Log::trace('getAllDefaultSharingAction');
-			static::$defaultSharingActionCache = (new \App\Db\Query())->select(['tabid', 'permission'])->from('vtiger_def_org_share')->createCommand()->queryAllByGroup(0);
+			static::$defaultSharingActionCache = array_map('intval', (new \App\Db\Query())->select(['tabid', 'permission'])->from('vtiger_def_org_share')->createCommand()->queryAllByGroup(0));
 		}
-
 		return static::$defaultSharingActionCache;
 	}
 
@@ -111,7 +110,6 @@ class PrivilegeUtil
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->column();
 		$users = array_map('intval', $users);
 		Cache::save('getUsersByRole', $roleId, $users);
-
 		return $users;
 	}
 
@@ -135,7 +133,6 @@ class PrivilegeUtil
 			}
 		}
 		Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
-
 		return $users;
 	}
 
@@ -153,7 +150,6 @@ class PrivilegeUtil
 			->from('vtiger_user2role')->where(['userid' => $userId])
 			->scalar();
 		Cache::save('getRoleByUsers', $userId, $roleId);
-
 		return $roleId;
 	}
 
@@ -172,7 +168,6 @@ class PrivilegeUtil
 		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_users2group')->where(['userid' => $userId])->column();
 		$groupIds = array_map('intval', $groupIds);
 		Cache::save('UserGroups', $userId, $groupIds);
-
 		return $groupIds;
 	}
 
@@ -196,7 +191,6 @@ class PrivilegeUtil
 			->column();
 		$profiles = array_map('intval', $profiles);
 		Cache::staticSave('getProfilesByRole', $roleId, $profiles);
-
 		return $profiles;
 	}
 
@@ -243,7 +237,6 @@ class PrivilegeUtil
 			}
 			static::$membersCache = $members;
 		}
-
 		return static::$membersCache;
 	}
 
@@ -277,7 +270,6 @@ class PrivilegeUtil
 		}
 		$users = array_unique($users);
 		Cache::save('getUserByMember', $member, $users, Cache::LONG);
-
 		return $users;
 	}
 
@@ -342,7 +334,6 @@ class PrivilegeUtil
 		$users = array_unique($users);
 		$return = ($subGroups === false ? $users : ['users' => $users, 'subGroups' => $subGroups]);
 		Cache::save('getUsersByGroup', $cacheKey, $return, Cache::LONG);
-
 		return $return;
 	}
 
@@ -388,7 +379,6 @@ class PrivilegeUtil
 			$row['immediateParent'] = $immediateParent;
 		}
 		Cache::save('RoleDetail', $roleId, $row);
-
 		return $row;
 	}
 
@@ -402,7 +392,6 @@ class PrivilegeUtil
 	public static function getRoleName($roleId)
 	{
 		$roleInfo = static::getRoleDetail($roleId);
-
 		return $roleInfo['rolename'];
 	}
 
@@ -416,7 +405,6 @@ class PrivilegeUtil
 	public static function getParentRole($roleId)
 	{
 		$roleInfo = static::getRoleDetail($roleId);
-
 		return $roleInfo['parentRoles'];
 	}
 
@@ -438,9 +426,7 @@ class PrivilegeUtil
 			->from('vtiger_role')
 			->where(['like', 'parentrole', $roleDetails['parentrole'] . '::%', false])
 			->column();
-
 		Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, Cache::LONG);
-
 		return $roleSubordinates;
 	}
 
@@ -461,7 +447,6 @@ class PrivilegeUtil
 		$profileData = array_map('intval', $profileData);
 		Cache::save('getProfileTabsPermission', $profileid, $profileData);
 		Log::trace('Exiting getProfileTabsPermission method ...');
-
 		return $profileData;
 	}
 
@@ -477,10 +462,10 @@ class PrivilegeUtil
 		if (Cache::has('getProfileGlobalPermission', $profileid)) {
 			return Cache::get('getProfileGlobalPermission', $profileid);
 		}
-		$profileData = (new Db\Query())->select(['globalactionid', 'globalactionpermission'])->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileid])->createCommand()->queryAllByGroup(0);
+		$profileData = (new Db\Query())->select(['globalactionid', 'globalactionpermission'])->from('vtiger_profile2globalpermissions')
+			->where(['profileid' => $profileid])->createCommand()->queryAllByGroup(0);
 		$profileData = array_map('intval', $profileData);
 		Cache::save('getProfileGlobalPermission', $profileid, $profileData);
-
 		return $profileData;
 	}
 
@@ -514,7 +499,6 @@ class PrivilegeUtil
 			}
 		}
 		Cache::staticSave('getCombinedUserGlobalPermissions', $userId, $userGlobalPerrArr);
-
 		return $userGlobalPerrArr;
 	}
 
@@ -551,7 +535,6 @@ class PrivilegeUtil
 			$userTabPerrArr[$homeTabid] = 0;
 		}
 		Cache::staticSave('getCombinedUserModulesPermissions', $userId, $userTabPerrArr);
-
 		return $userTabPerrArr;
 	}
 
@@ -565,14 +548,11 @@ class PrivilegeUtil
 	public static function getUtilityPermissions($profileid)
 	{
 		$permissions = [];
-		$dataReader = (new Db\Query())
-			->from('vtiger_profile2utility')
-			->where(['profileid' => $profileid])
-			->createCommand()->query();
+		$dataReader = (new Db\Query())->from('vtiger_profile2utility')
+			->where(['profileid' => $profileid])->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$permissions[$row['tabid']][$row['activityid']] = $row['permission'];
+			$permissions[$row['tabid']][$row['activityid']] = (int) $row['permission'];
 		}
-
 		return $permissions;
 	}
 
@@ -586,14 +566,11 @@ class PrivilegeUtil
 	public static function getStandardPermissions($profileid)
 	{
 		$permissions = [];
-		$dataReader = (new Db\Query())
-			->from('vtiger_profile2standardpermissions')
-			->where(['profileid' => $profileid])
-			->createCommand()->query();
+		$dataReader = (new Db\Query())->from('vtiger_profile2standardpermissions')
+			->where(['profileid' => $profileid])->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$permissions[$row['tabid']][$row['operation']] = $row['permissions'];
+			$permissions[$row['tabid']][$row['operation']] = (int) $row['permissions'];
 		}
-
 		return $permissions;
 	}
 
@@ -614,12 +591,11 @@ class PrivilegeUtil
 		foreach ($utilityActions as $tabid => $utilityAction) {
 			$actionTabs = $allActions[$tabid];
 			foreach ($utilityAction as $utilityId => $utilityPermission) {
-				$actionTabs[$utilityId] = $utilityPermission;
+				$actionTabs[$utilityId] = (int) $utilityPermission;
 			}
 			$allActions[$tabid] = $actionTabs;
 		}
 		Cache::staticSave(__METHOD__, $profileid, $allActions);
-
 		return $allActions;
 	}
 
@@ -653,7 +629,6 @@ class PrivilegeUtil
 				}
 			}
 		}
-
 		return $actionPermissions;
 	}
 
@@ -699,7 +674,6 @@ class PrivilegeUtil
 		}
 		$rows = $query->all();
 		Cache::staticSave('getDatashare', $cacheKey, $rows);
-
 		return $rows;
 	}
 
@@ -728,15 +702,14 @@ class PrivilegeUtil
 		if ($modDefOrgShare === 3 || $modDefOrgShare === 0) {
 			$roleWritePer = $roleWritePer = $rsWritePer = $grpReadPer = $grpWritePer = $roleReadPer = [];
 			//Retreiving from vtiger_role to vtiger_role
-			$rows = static::getDatashare('role2role', $modTabId, $currentUserRoles);
-			foreach ($rows as $row) {
+			foreach (static::getDatashare('role2role', $modTabId, $currentUserRoles) as $row) {
 				$shareRoleId = $row['share_roleid'];
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				$shareIdRoles[] = $shareRoleId;
 				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
 				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -745,7 +718,7 @@ class PrivilegeUtil
 					if (!isset($role_write_per[$shareRoleId])) {
 						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
@@ -767,7 +740,7 @@ class PrivilegeUtil
 				$shareIdRoles[] = $shareRoleId;
 				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
 				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -776,7 +749,7 @@ class PrivilegeUtil
 					if (!isset($role_write_per[$shareRoleId])) {
 						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
@@ -796,7 +769,7 @@ class PrivilegeUtil
 					$shareIdRoles[] = $shareRoleId;
 					$shareIdRoleMembers['ROLE'] = $shareIdRoles;
 					$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
-					if ($row['permission'] === 1) {
+					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -805,7 +778,7 @@ class PrivilegeUtil
 						if (!isset($role_write_per[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -822,7 +795,7 @@ class PrivilegeUtil
 					$shareIdRoles[] = $shareRoleId;
 					$shareIdRoleMembers['ROLE'] = $shareIdRoles;
 					$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
-					if ($row['permission'] === 1) {
+					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -831,7 +804,7 @@ class PrivilegeUtil
 						if (!isset($role_write_per[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -847,7 +820,7 @@ class PrivilegeUtil
 				$shareIdRoles = [$row['share_roleandsubid']];
 				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
-					if ($row['permission'] === 1) {
+					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -856,7 +829,7 @@ class PrivilegeUtil
 						if (!isset($role_write_per[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -874,7 +847,7 @@ class PrivilegeUtil
 				$shareIdRoles = [$share_rsid];
 				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
-					if ($row['permission'] === 1) {
+					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -883,7 +856,7 @@ class PrivilegeUtil
 						if (!isset($role_write_per[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -900,7 +873,7 @@ class PrivilegeUtil
 				$shareIdRoles = [$share_rsid];
 				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
-					if ($row['permission'] === 1) {
+					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -909,7 +882,7 @@ class PrivilegeUtil
 						if (!isset($role_write_per[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -927,7 +900,7 @@ class PrivilegeUtil
 				$shareIdRoles = [$share_rsid];
 				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
-					if ($row['permission'] === 1) {
+					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
@@ -936,7 +909,7 @@ class PrivilegeUtil
 						if (!isset($role_write_per[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -955,7 +928,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
 							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
@@ -982,7 +955,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -1007,7 +980,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
 							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
@@ -1034,7 +1007,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -1059,7 +1032,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
 							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
@@ -1086,7 +1059,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -1111,7 +1084,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
 							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
@@ -1138,7 +1111,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -1163,7 +1136,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareUserId])) {
 							$grpReadPer[$shareUserId] = [$shareUserId];
@@ -1172,7 +1145,7 @@ class PrivilegeUtil
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
@@ -1187,7 +1160,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareUserId])) {
 							$grpReadPer[$shareUserId] = [$shareUserId];
@@ -1196,7 +1169,7 @@ class PrivilegeUtil
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
@@ -1211,7 +1184,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareUserId])) {
 							$grpReadPer[$shareUserId] = [$shareUserId];
@@ -1220,7 +1193,7 @@ class PrivilegeUtil
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
@@ -1236,7 +1209,7 @@ class PrivilegeUtil
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ($row['permission'] === 1) {
+				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareUserId])) {
 							$grpReadPer[$shareUserId] = [$shareUserId];
@@ -1245,7 +1218,7 @@ class PrivilegeUtil
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}

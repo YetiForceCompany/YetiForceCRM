@@ -26,7 +26,7 @@
 	"LBL_PENDING_ACCEPTANCE": "Wartet auf Best\u00e4tigung",
 	"LBL_WAITING_TO_BE_SENT": "Wartet auf Versenden",
 	"LBL_ERROR_DURING_SENDING": "Fehler beim Senden",
-	"LBL_EMAIL_DETAIL": "E-Mail message details",
+	"LBL_EMAIL_DETAIL": "E-Mail Nachrichten Detail",
 	"LBL_ACCEPTANCE_RECORD": "Datensatz best\u00e4tigen",
 	"LBL_ATTACHMENTS": "Anh\u00e4nge",
 	"LBL_FROM": "Von",

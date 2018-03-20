@@ -620,10 +620,10 @@ var Vtiger_Index_Js = {
 		}
 		bootbox.dialog({
 			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
-			title: app.vtranslate('JS_WATCHING_TITLE'),
+			title: '<span class="fas fa-eye mr-1"></span>' + app.vtranslate('JS_WATCHING_TITLE'),
 			buttons: {
 				success: {
-					label: app.vtranslate('LBL_YES'),
+					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('LBL_YES'),
 					className: "btn-success",
 					callback: function () {
 						Vtiger_Index_Js.updateWatching(module, value, user, record).then(function (data) {
@@ -645,8 +645,8 @@ var Vtiger_Index_Js = {
 					}
 				},
 				danger: {
-					label: app.vtranslate('LBL_NO'),
-					className: "btn-warning",
+					label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('LBL_NO'),
+					className: "btn-danger",
 					callback: function () {
 					}
 				}

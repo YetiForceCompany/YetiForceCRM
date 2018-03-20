@@ -44,6 +44,8 @@
 	"LBL_GROSS_AMOUNT_IN_WORDS": "Kwota brutto s\u0142ownie",
 	"LBL_TABLE_DISCOUNT_SUMMARY": "Podsumowanie rabatu dla bloku zaawansowanego",
 	"LBL_OVERDUE_DEADLINES": "Przeterminowane wydarzenia",
-	"LBL_TABLE_TAX_SUMMARY": "Podsumowanie podatku dla bloku zaawansowanego"
+	"LBL_TABLE_TAX_SUMMARY": "Podsumowanie podatku dla bloku zaawansowanego",
+	"LBL_ALL_PAGES": "Liczba wszystkich stron",
+	"LBL_CURRENT_PAGE": "Numer aktualnej strony"
   }
 }

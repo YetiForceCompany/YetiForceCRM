@@ -2663,12 +2663,17 @@ html, body, .baseContainer {
   .small-badge {
 	padding: 3% 6%;
   }
+  .medium-badge {
+	padding: 6% 11%;
+	margin: 1px 0;
+	border-radius: 1.25rem !important;
+  }
   .big-badge {
 	padding: 6% 12%;
 	margin: 1px 0;
   }
   .cell-calendar {
-	padding: 1px;
+	@extend .text-center;
 	margin-top: -5px;
   }
 }

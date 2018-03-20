@@ -48,6 +48,8 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	 *
 	 * @param \App\Request $request
 	 * @param \App\User    $user
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function initialize(\App\Request $request, \App\User $user)
 	{
@@ -59,7 +61,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
 			mkdir($this->importFolderLocation);
-			$zip = new \App\Zip($zipfile, ['onlyExtensions' => [$this->extension]]);
+			$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => [$this->extension]]);
 			$this->filelist = $zip->unzip($this->importFolderLocation);
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
