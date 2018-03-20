@@ -753,7 +753,7 @@ class QueryGenerator
 	 * Sort joins taking usage into account
 	 * If some joined table is used before it was joined it must be joined first.
 	 */
-	private function sortJoins()
+	private function sortJoinsByUsage()
 	{
 		usort($this->joins, function ($a, $b) {
 			$fieldTable = $a[1];
@@ -846,7 +846,7 @@ class QueryGenerator
 			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
 			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
-		$this->sortJoins();
+		$this->sortJoinsByUsage();
 		foreach ($this->joins as $join) {
 			$on = $join[2] ?? '';
 			$params = $join[3] ?? [];
