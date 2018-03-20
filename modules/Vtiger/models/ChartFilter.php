@@ -583,6 +583,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!empty($this->extraData['showOwnerFilter'])) {
 			$queryGenerator->setField('assigned_user_id');
 		}
+		$query = $queryGenerator->createQuery();
 		if (!empty($this->groupFieldModel)) {
 			$moduleName = $queryGenerator->getModuleModel()->getName();
 			$picklists = \App\Fields\Picklist::getModulesPicklists($moduleName)[$moduleName];
@@ -591,11 +592,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$this->colors = \App\Fields\Picklist::getColors($fieldName);
 				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 				$fieldTable = 'vtiger_' . $this->groupFieldModel->getName();
-				$queryGenerator->addJoin(['LEFT JOIN', $fieldTable, "{$this->groupFieldModel->table}.{$this->groupFieldModel->column} = {$fieldTable}.{$fieldName}"]);
-				$queryGenerator->setCustomColumn(['picklist_id' => "$fieldTable.$primaryKey"]);
+				$query->leftJoin($fieldTable, "{$this->groupFieldModel->table}.{$this->groupFieldModel->column} = {$fieldTable}.{$fieldName}");
+				$query->addSelect(['picklist_id' => "$fieldTable.$primaryKey"]);
 			}
 		}
-		return $queryGenerator->createQuery();
+		return $query;
 	}
 
 	/**
