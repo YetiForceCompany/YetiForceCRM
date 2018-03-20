@@ -2,7 +2,7 @@
 {strip}
 	<div class="List-Preview js-list-preview" data-js="container, size-source">
 		<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
-		<div class="wrappedPanel js-fixed" data-js="scroll">
+		<div class="wrappedPanel js-fixed-scroll" data-js="scroll">
 			<div class="rotatedText">
 				<div class="textCenter small font-weight-bold"></div>
 			</div>
