@@ -17,7 +17,7 @@
 			</thead>
 			<tbody>
 				{foreach from=$MODULE_MODEL->getCustomViews($SOURCE_MODULE_ID) item=item key=key}
-					<tr class="js-filter-row" data-js="container" data-cvid="{$key}" data-mod="{$item['entitytype']}">
+					<tr class="js-filter-row" data-js="data" data-cvid="{$key}" data-mod="{$item['entitytype']}">
 						<td>
 							<img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 						</td>
