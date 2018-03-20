@@ -19,7 +19,7 @@
 	"LBL_COMPLETED": "Fertiggestellt",
 	"LBL_INACTIVE": "Inaktiv",
 	"LBL_RUNNING": "L\u00e4uft",
-	"LBL_IS_RUNNING": "läuft",
+	"LBL_IS_RUNNING": "l\u00e4uft",
 	"LBL_HAD_TIMEOUT": "abgebrochen",
 	"LBL_TOTAL_LAST_DURATION": "Gesamtzeit",
 	"LBL_LAST_START": "letzter Start",
