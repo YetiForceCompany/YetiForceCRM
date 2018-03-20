@@ -830,7 +830,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					sort: 'desc',
-					tooltips: {},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 					scales: {
 						yAxes: [{
 								display: true,
