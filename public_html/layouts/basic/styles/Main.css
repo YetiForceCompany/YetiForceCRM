@@ -8394,7 +8394,7 @@ textarea.col-md-11 {
     margin-right: 7px; }
 
 .ui-autocomplete-loading {
-  background: #f8f9fa url("./images/load.gif") no-repeat right center; }
+  background: #f8f9fa url("../images/load.gif") no-repeat right center; }
 
 .ui-autocomplete {
   height: auto !important;
