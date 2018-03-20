@@ -1182,6 +1182,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			if (thisInstance.getInventoryItemsContainer().find('.inventoryRow').length === 0) {
 				$('#inventoryItemsNo').val(0);
 			}
+			thisInstance.updateRowSequence();
 		});
 	},
 	registerChangeDiscount: function (container) {
