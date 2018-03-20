@@ -6,11 +6,11 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 namespace Tests\Settings;
 
 class ModuleManager extends \Tests\Base
 {
+
 	/**
 	 * Zip file name.
 	 *
@@ -311,7 +311,7 @@ class ModuleManager extends \Tests\Base
 
 		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
-			$this->assertFileNotExists($pathToFile);
+			$this->assertFileNotExists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pathToFile);
 		}
 
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
@@ -430,7 +430,7 @@ class ModuleManager extends \Tests\Base
 		$langFileToCheck = [];
 		$allLang = \App\Language::getAll();
 		foreach ($allLang as $key => $lang) {
-			$langFileToCheck[] = ROOT_DIRECTORY . '/languages/' . $key . '/' . $fileName;
+			$langFileToCheck[] = 'languages' . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . $fileName;
 		}
 		return $langFileToCheck;
 	}
