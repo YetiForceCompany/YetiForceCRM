@@ -586,7 +586,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$query = $queryGenerator->createQuery();
 		if (!empty($this->groupFieldModel)) {
 			$moduleName = $queryGenerator->getModuleModel()->getName();
-			$picklists = \App\Fields\Picklist::getModulesPicklists($moduleName)[$moduleName];
+			$picklists = \App\Fields\Picklist::getModulesByName($moduleName);
 			$fieldName = $this->groupFieldModel->getName();
 			if (in_array($fieldName, $picklists, true)) {
 				$this->colors = \App\Fields\Picklist::getColors($fieldName);
