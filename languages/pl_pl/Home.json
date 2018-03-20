@@ -38,7 +38,7 @@
 		"LBL_FILTER_BY_OWNER": "Filtruj po w\u0142ascicielu",
 		"LBL_ALL_OWNERS": "Wszyscy",
 		"LBL_BAR_DIVIDED_FIELD": "Pole dzielenia warto\u015bci",
-		"LBL_WIDGET_DOWNLOAD": "Pobierz wid\u017cet",
-		"LBL_WIDGET_PRINT": "Drukuj wid\u017cet"
+		"LBL_WIDGET_DOWNLOAD": "Pobierz wykres",
+		"LBL_WIDGET_PRINT": "Drukuj wykres"
 	}
 }
