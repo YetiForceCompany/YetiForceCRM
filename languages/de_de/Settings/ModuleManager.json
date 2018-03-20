@@ -73,7 +73,7 @@
 	"LBL_LIBRARY_NO_DOWNLOAD": "Nicht heruntergeladen",
 	"LBL_LIBRARY_NEEDS_UPDATING": "Update erforderlich",
 	"LBL_NO_PERMISSION_TO_DIR": "Keine Berechtigung f\u00fcr die Verzeichnisse",
-	"LBL_ERROR_NO_VALID_PREFIX": "Umg\u00fcltiges Sprachpräfix"
+	"LBL_ERROR_NO_VALID_PREFIX": "Umg\u00fcltiges Sprachpr\u00e4fix"
   },
   "js": {
 	"JS_UPDATED_MODULE": "Update Erfolgreich",
