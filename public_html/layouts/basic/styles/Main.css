@@ -5247,7 +5247,7 @@ button.bg-dark:focus {
 .c-panel__header {
   padding-left: 0 !important; }
 
-.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group, .bodyHeader .globalSearchInput .btn, .footerContainer .page-link {
+.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .bodyHeader .globalSearchInput .btn, .footerContainer .page-link {
   padding: 0.25rem !important; }
 
 .pt-1,
@@ -10656,9 +10656,11 @@ border1px {
   height: 2.5rem !important;
   padding-top: 0.2rem; }
 
-.select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
+.select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option {
   font-size: inherit; }
 .select2-container--bootstrap4 .select2-results__group {
+  padding-top: 0.33rem;
+  padding-bottom: 0.25rem;
   font-size: inherit; }
 
 .select2Wrapper {
