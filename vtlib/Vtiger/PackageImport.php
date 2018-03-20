@@ -294,20 +294,18 @@ class PackageImport extends PackageExport
 				}
 			}
 			// Language file present in en_us folder
-			$pattern = '/languages\/' . \AppConfig::main('default_language') . '\/([^\/]+)\.php/';
+			$pattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]([^\/]+)\.json/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
-
 			// or Language file may be present in en_us/Settings folder
-			$settingsPattern = '/languages\/' . \AppConfig::main('default_language') . '\/Settings\/([^\/]+)\.php/';
+			$settingsPattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
 		}
-
 		// Verify module language file.
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
@@ -321,7 +319,6 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-
 			if (\App\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
@@ -331,7 +328,6 @@ class PackageImport extends PackageExport
 				$this->_errorText = $_errorText;
 			}
 		}
-
 		$validzip = false;
 		if ($manifestxml_found && $languagefile_found && $moduleVersionFound) {
 			$validzip = true;
@@ -367,7 +363,6 @@ class PackageImport extends PackageExport
 		if ($zip) {
 			$zip->close();
 		}
-
 		return $validzip;
 	}
 
@@ -379,7 +374,6 @@ class PackageImport extends PackageExport
 		if (!$this->checkZip($zipfile)) {
 			return null;
 		}
-
 		return (string) $this->_modulexml->name;
 	}
 
