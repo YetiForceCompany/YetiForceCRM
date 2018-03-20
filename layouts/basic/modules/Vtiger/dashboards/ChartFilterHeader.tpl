@@ -36,7 +36,7 @@
 								<span class="fas fa-calendar-alt iconMiddle"></span>
 							</span>
 						</div>
-						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 					</div>
 				</div>
 			{/if}

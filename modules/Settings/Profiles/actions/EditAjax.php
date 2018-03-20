@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
@@ -18,11 +18,14 @@ class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('checkDuplicate');
 	}
 
+	/**
+	 * Action to check duplicate records.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function checkDuplicate(\App\Request $request)
 	{
-		$profileName = $request->get('profilename');
-		$recordId = $request->get('record');
-		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, false, $recordId);
+		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($request->getByType('profilename', 'Text'), false, $request->getInteger('record'));
 		$response = new Vtiger_Response();
 		if (!empty($recordModel)) {
 			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);

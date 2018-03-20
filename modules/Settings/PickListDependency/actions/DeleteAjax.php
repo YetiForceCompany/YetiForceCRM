@@ -26,9 +26,4 @@ class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Inde
 		}
 		$response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

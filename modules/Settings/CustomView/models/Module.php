@@ -95,12 +95,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to delete filter.
 	 *
-	 * @param array $params
+	 * @param int $cvId
 	 */
-	public static function delete($params)
+	public static function delete($cvId)
 	{
 		$db = \App\Db::getInstance();
-		$cvId = $params['cvid'];
 		if (is_numeric($cvId)) {
 			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
 			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
@@ -109,19 +108,25 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Function to update parameter.
+	 *
+	 * @param array $params
+	 *
+	 * @return bool
+	 */
 	public static function updateField($params)
 	{
 		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
-		$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
 		$mod = $params['mod'];
 		if (is_numeric($cvid) && in_array($name, $authorizedFields)) {
 			if ($name == 'setdefault' && $params['value'] == 1) {
-				$db->createCommand()->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $mod])->execute();
+				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $mod])->execute();
 			}
-			$db->createCommand()->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
-
+			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
 			return true;
 		} else {
 			return false;

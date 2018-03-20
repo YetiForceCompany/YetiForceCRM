@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{if $LIST neq false}
-		<table class="table table-bordered">
+		<table class="table table-bordered table-sm">
 			<tr>
 				{foreach from=$COLUMN_LIST item=col key=col_key}
 					<th>

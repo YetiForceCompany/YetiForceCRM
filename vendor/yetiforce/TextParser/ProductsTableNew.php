@@ -55,6 +55,7 @@ class ProductsTableNew extends Base
 			$html .= '</tr>
 				</thead>
 				<tbody>';
+			$counter = 1;
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
@@ -62,7 +63,7 @@ class ProductsTableNew extends Base
 						continue;
 					}
 					if ($field->getName() == 'ItemNumber') {
-						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
+						$html .= '<td><strong>' . $counter++ . '</strong></td>';
 					} elseif ($field->get('columnname') == 'ean') {
 						$code = $inventoryRow[$field->get('columnname')];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';

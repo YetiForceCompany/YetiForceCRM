@@ -5148,7 +5148,9 @@ button.bg-dark:focus {
   margin-top: 0.5rem !important; }
 
 .mr-2, .childrenMarginRight > *,
-.mx-2 {
+.mx-2,
+.contentsDiv,
+.centerPanel {
   margin-right: 0.5rem !important; }
 
 .mb-2, .c-panel__content,
@@ -5156,7 +5158,9 @@ button.bg-dark:focus {
   margin-bottom: 0.5rem !important; }
 
 .ml-2, .bodyHeader .rightHeader .headerButton,
-.mx-2 {
+.mx-2,
+.contentsDiv,
+.centerPanel {
   margin-left: 0.5rem !important; }
 
 .m-3 {
@@ -8390,7 +8394,7 @@ textarea.col-md-11 {
     margin-right: 7px; }
 
 .ui-autocomplete-loading {
-  background: #f8f9fa url("./images/load.gif") no-repeat right center; }
+  background: #f8f9fa url("../images/load.gif") no-repeat right center; }
 
 .ui-autocomplete {
   height: auto !important;
@@ -10712,9 +10716,6 @@ header .headerLinksMails .select2-selection:hover {
   height: 18.6rem !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.contentsDiv, .centerPanel {
-  padding: 0 10px; }
-
 .massEditTable th + th, .massEditTable td + td, .massEditTable th + td, .massEditTable td + th {
   border-left: 0; }
 
@@ -11300,8 +11301,8 @@ header .headerLinksMails .select2-selection:hover {
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .fixedListInitial {
+  float: left;
   position: relative;
-  padding-right: 10px;
   height: 600px;
   padding-left: 0;
   overflow: hidden; }
@@ -11310,22 +11311,18 @@ header .headerLinksMails .select2-selection:hover {
 
 .fixedListContent {
   position: relative;
-  margin-top: 2px;
   height: max-content; }
   .fixedListContent #recordsList {
     padding-left: 0;
     padding-right: 0;
     float: none; }
-  .fixedListContent .contents-topscroll {
-    margin-top: -2px; }
   .fixedListContent .listViewSummation td {
     padding: 0; }
 
 .listPreview {
   float: right;
-  padding-left: 10px;
-  padding-right: 0;
-  margin-top: 2px; }
+  position: relative;
+  min-height: 1px; }
 
 .listPreviewframe {
   width: 100%;
@@ -11337,8 +11334,9 @@ header .headerLinksMails .select2-selection:hover {
   background-repeat: no-repeat;
   background-position: 50%;
   position: relative;
-  margin-top: 2px;
-  z-index: 300; }
+  z-index: 300;
+  border-right: 8px solid white;
+  border-left: 8px solid white; }
   .gutter:active:before {
     content: "";
     position: fixed;
@@ -11347,6 +11345,13 @@ header .headerLinksMails .select2-selection:hover {
     bottom: 0;
     right: 0;
     background: transparent; }
+  .gutter:hover {
+    transition: .2s linear, height .2s ease-in-out;
+    -webkit-transition: .2s linear, height .2s ease-in-out;
+    border-right: 4px solid white;
+    border-left: 4px solid white;
+    border-radius: 30px;
+    background-repeat: repeat-x; }
   .gutter.gutter-horizontal {
     cursor: ew-resize;
     background-image: url("../images/vertical.png");
@@ -11363,7 +11368,6 @@ header .headerLinksMails .select2-selection:hover {
   height: calc(100vh - 33px);
   width: 20px;
   position: absolute;
-  top: 2px;
   background: #f8f9fa; }
 
 .wrappedPanelLeft {
@@ -11397,7 +11401,6 @@ header .headerLinksMails .select2-selection:hover {
   .listPreview {
     padding-left: 0;
     padding-right: 0;
-    margin-top: 2px;
     width: 100%;
     height: 100%; }
 
@@ -11409,5 +11412,7 @@ header .headerLinksMails .select2-selection:hover {
   .fixedListContent {
     margin-right: 0;
     margin-bottom: 10px; } }
+.js-hide-underneath {
+  z-index: -1; }
 
 /*# sourceMappingURL=Main.css.map */

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
@@ -157,10 +157,5 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$response->setResult(['for_workflow' => $workflowId]);
 			$response->emit();
 		}
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

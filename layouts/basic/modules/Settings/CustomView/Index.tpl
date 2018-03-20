@@ -12,7 +12,7 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-md-4 col-sm-4 col-6">
-						<select class="chzn-select" id="moduleFilter" name="moduleFilter">
+						<select class="chzn-select js-module-filter" data-js="change" name="moduleFilter">
 							{foreach item=SUPPORTED_MODULE_NAME from=$SUPPORTED_MODULE_MODELS}
 								<option {if $SOURCE_MODULE eq $SUPPORTED_MODULE_NAME} selected="" {/if} value="{$SUPPORTED_MODULE_NAME}">
 									{App\Language::translate($SUPPORTED_MODULE_NAME, $SUPPORTED_MODULE_NAME)}
@@ -21,7 +21,7 @@
 						</select>
 					</div>
 					<div class="col-md-8 col-sm-8 col-6">
-						<button class="btn btn-success float-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="fas fa-plus"></span> {App\Language::translate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success float-right js-create-filter" data-js="click" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="fas fa-plus"></span> {App\Language::translate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
 					</div>
 
 				</div>

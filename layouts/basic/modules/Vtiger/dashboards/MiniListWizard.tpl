@@ -15,8 +15,13 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}</h3>
-						<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+						<h5 class="modal-title" id="massEditHeader">
+							<span class="fas fa-filter mr-1"></span>
+							{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
@@ -34,7 +39,7 @@
 									<tr>
 										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_SELECT_MODULE')}</td>
 										<td class="fieldValue">
-											<select class="form-control" name="module">
+											<select class="form-control select2" name="module">
 												<option></option>
 												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
 													<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>

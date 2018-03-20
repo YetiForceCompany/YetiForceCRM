@@ -61,11 +61,11 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 			case 'logout_time':
 				$value = $this->get($fieldName);
 				if ($value && $value !== '0000-00-00 00:00:00') {
-					return Vtiger_Datetime_UIType::getDateTimeValue($value);
+					return App\Fields\DateTime::formatToDisplay($value);
 				} else {
 					return '--';
 				}
-				// no break
+			// no break
 			case 'user_name':
 				return $this->getForHtml($fieldName);
 			case 'status':

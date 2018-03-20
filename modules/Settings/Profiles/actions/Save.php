@@ -10,7 +10,6 @@
 
 class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
@@ -29,10 +28,5 @@ class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 
 		$redirectUrl = $recordModel->getDetailViewUrl();
 		header("Location: $redirectUrl");
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

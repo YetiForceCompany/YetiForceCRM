@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
+class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	public function __construct()
 	{

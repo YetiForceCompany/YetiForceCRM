@@ -31,9 +31,4 @@ class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 
 		return $response->emit();
 	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

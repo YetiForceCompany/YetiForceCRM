@@ -20,7 +20,7 @@ class Settings_QuickCreateEditor_SaveSequenceNumber_Action extends Settings_Vtig
 	 */
 	public function move(\App\Request $request)
 	{
-		$updatedFieldsList = $request->get('updatedFields');
+		$updatedFieldsList = $request->getArray('updatedFields', 'Integer');
 		$result = Settings_QuickCreateEditor_Module_Model::updateFieldSequenceNumber($updatedFieldsList);
 
 		$response = new Vtiger_Response();

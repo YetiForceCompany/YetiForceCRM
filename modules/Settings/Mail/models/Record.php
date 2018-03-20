@@ -30,16 +30,6 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Delete Action Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDeleteActionUrl()
-	{
-		return 'index.php?module=Mail&parent=Settings&action=DeleteAjax&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get the Acceptance Action Url.
 	 *
 	 * @return string URL
@@ -107,11 +97,9 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 							$name = 'LBL_FILE';
 						}
 						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record={$this->getId()}&selectedFile=$fileCounter";
-						$value .= "<a href=\"$actionPath\" title=\"$path\">$name</a>, ";
+						$value .= '<form action="' . $actionPath . '" method="POST"><button class="btn btn-sm btn-outline-secondary" title="' . $name . '" data-selected-file="' . $fileCounter . '">' . $name . '</button></form>';
 						++$fileCounter;
 					}
-
-					$value = rtrim($value, ', ');
 				}
 				break;
 		}
@@ -175,7 +163,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 		$recordLinks[] = [
 			'linktype' => 'LISTVIEWRECORD',
 			'linklabel' => 'LBL_DELETE_RECORD',
-			'linkurl' => $this->getDeleteActionUrl(),
+			'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 			'linkicon' => 'fas fa-trash-alt',
 			'linkclass' => 'btn btn-xs btn-danger',
 		];

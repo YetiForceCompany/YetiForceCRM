@@ -85,15 +85,19 @@
 							<td class="text-center">
 								<span class="btn-group">
 									{if $LIBRARY['status'] === 0}
-										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
-											<span class="fas fa-download"></span>&nbsp;&nbsp;
-											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
-										</a>
+										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
+											<button type="submit" class="btn btn-primary btn-sm">
+												<span class="fas fa-download mr-1"></span>
+												<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+											</button>
+										</form>
 									{else}
-										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-											<span class="fas fa-redo-alt"></span>&nbsp;&nbsp;
-											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
-										</a>
+										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
+											<button type="submit" class="btn btn-primary btn-sm">
+												<span class="fas fa-redo-alt mr-1"></span>
+												<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
+											</button>
+										</form>
 									{/if}
 								</span>
 							</td>
@@ -128,10 +132,12 @@
 										<button class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
-										<a class="btn btn-primary btn-sm float-right ml-2" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
-										{/if}
-										{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
-										{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
+										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
+											<button type="submit" class="btn btn-primary btn-sm float-right ml-2"><i class="far fa-arrow-alt-circle-down"></i></button>
+										</form>
+									{/if}
+									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
+									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 										<div class="dropdown {if !$MODULE_ACTIVE}d-none{/if}">
 											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
 												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>

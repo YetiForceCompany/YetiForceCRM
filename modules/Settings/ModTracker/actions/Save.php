@@ -16,13 +16,11 @@ class Settings_ModTracker_Save_Action extends Settings_Vtiger_Index_Action
 
 	public function changeActiveStatus(\App\Request $request)
 	{
-		$id = $request->get('id');
-		$status = $request->get('status');
+		$status = $request->getBoolean('status');
 		$moduleModel = new Settings_ModTracker_Module_Model();
-		$moduleModel->changeActiveStatus($id, $status == 'true' ? 1 : 0);
-
+		$moduleModel->changeActiveStatus($request->getInteger('id'), (int) $status);
 		$response = new Vtiger_Response();
-		if ($status == 'true') {
+		if ($status) {
 			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))]);
 		} else {
 			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))]);

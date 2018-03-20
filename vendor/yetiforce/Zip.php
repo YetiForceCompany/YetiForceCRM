@@ -243,16 +243,14 @@ class Zip extends \ZipArchive
 	 */
 	public function addDirectory($dir, $localName = '')
 	{
-		$dir = realpath($dir);
-		$dirLen = \strlen($dir);
 		if ($localName) {
 			$localName .= \DIRECTORY_SEPARATOR;
 		}
-		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir), \RecursiveIteratorIterator::LEAVES_ONLY);
+		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($dir)), \RecursiveIteratorIterator::LEAVES_ONLY);
 		foreach ($files as $name => $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				$this->addFile($filePath, $localName . substr($filePath, $dirLen + 1));
+				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
 			}
 		}
 	}

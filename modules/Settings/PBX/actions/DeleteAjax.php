@@ -23,14 +23,4 @@ class Settings_PBX_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 		$responceToEmit->setResult($result);
 		$responceToEmit->emit();
 	}
-
-	/**
-	 * Validating incoming request.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

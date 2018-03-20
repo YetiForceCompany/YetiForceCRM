@@ -25,14 +25,4 @@ class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_
 		$responceToEmit->setResult($result);
 		$responceToEmit->emit();
 	}
-
-	/**
-	 * Validating incoming request.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateReadAccess();
-	}
 }

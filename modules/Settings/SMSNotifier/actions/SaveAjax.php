@@ -18,11 +18,9 @@ class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-
-		if ($recordId) {
-			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		if (!$request->isEmpty('record')) {
+			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($request->getInteger('record'), $qualifiedModuleName);
 		} else {
 			$recordModel = Settings_SMSNotifier_Record_Model::getCleanInstance($qualifiedModuleName);
 		}
