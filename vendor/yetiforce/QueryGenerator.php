@@ -57,13 +57,6 @@ class QueryGenerator
 	/** @var array Joins */
 	private $joins = [];
 
-	/**
-	 * Which tables are already in joins.
-	 *
-	 * @var array alreadyJoined
-	 */
-	private $alreadyJoined = [];
-
 	/** @var string[] Tables list */
 	private $tablesList = [];
 	private $queryFields = [];
@@ -365,11 +358,10 @@ class QueryGenerator
 	 */
 	public function addJoin($join)
 	{
-		if (in_array($join[1], $this->alreadyJoined)) {
+		if (isset($this->joins[$join[1]])) {
 			return false;
 		}
-		$this->alreadyJoined[] = $join[1];
-		$this->joins[] = $join;
+		$this->joins[$join[1]] = $join;
 	}
 
 	/**
@@ -749,24 +741,6 @@ class QueryGenerator
 	}
 
 	/**
-	 * Sort joins taking usage into account
-	 * If some joined table is used before it was joined it must be joined first.
-	 */
-	private function sortJoinsByUsage()
-	{
-		usort($this->joins, function ($a, $b) {
-			$fieldTable = $a[1];
-			$on = $b[2];
-			if (strpos($on, $fieldTable) !== false) {
-				// we are using this field elsewhere in join so it must go first
-				return -1;
-			} else {
-				return +1;
-			}
-		});
-	}
-
-	/**
 	 * Sets the JOINs part of the query.
 	 */
 	public function loadJoin()
@@ -845,7 +819,6 @@ class QueryGenerator
 			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
 			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
-		$this->sortJoinsByUsage();
 		foreach ($this->joins as $join) {
 			$on = $join[2] ?? '';
 			$params = $join[3] ?? [];
