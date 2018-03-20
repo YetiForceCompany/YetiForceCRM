@@ -97,11 +97,11 @@ class Zip extends \ZipArchive
 			foreach ($toDir as $dirname => $target) {
 				for ($i = 0; $i < $this->numFiles; ++$i) {
 					$path = $this->getNameIndex($i);
-					if (strpos($path, "{$dirname}/") !== 0 || ($this->checkFiles && $this->checkFile($path))) {
+					if (strpos($path, $dirname . DIRECTORY_SEPARATOR) !== 0 || ($this->checkFiles && $this->checkFile($path))) {
 						continue;
 					}
 					// Determine output filename (removing the $source prefix)
-					$file = $target . '/' . substr($path, strlen($dirname) + 1);
+					$file = $target . DIRECTORY_SEPARATOR . substr($path, strlen($dirname) + 1);
 					// Create the directories if necessary
 					$dir = dirname($file);
 					if (!is_dir($dir)) {
