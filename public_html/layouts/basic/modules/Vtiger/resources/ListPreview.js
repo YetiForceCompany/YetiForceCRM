@@ -70,8 +70,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		let initialH = this.sidePanels.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};
 		let mainViewPortWidthCss = {width: mainBody.height()};
-		this.gutter.addClass('js-fixed');
-		let fixedElements = container.find('.js-fixed');
+		this.gutter.addClass('js-fixed-scroll');
+		let fixedElements = container.find('.js-fixed-scroll');
 		mainBody.on('scroll', () => {
 			if (mainBody.scrollTop() >= listOffsetTop) {
 				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
