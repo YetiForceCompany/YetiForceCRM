@@ -479,8 +479,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRowsFunnel()
 	{
-		$groupFieldModel = $this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-		$fieldName = $groupFieldModel->getFieldName();
+		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+		$fieldName = $this->groupFieldModel->getFieldName();
 		$count = $groupData = [];
 		$sectors = $this->extraData['sectorField'];
 		$dataReader = $this->getQuery()->createCommand()->query();
@@ -498,7 +498,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		foreach ($sectors as $sectorId => &$sectorValue) {
-			$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
+			$displayValue = $this->groupFieldModel->getDisplayValue($sectorValue);
 			$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
 			$groupData[$displayValue]['count'] = (int) $sectorValue;
 			$searchParams = array_merge($this->searchParams, [[$fieldName, 'm', $sectorValue]]);
@@ -518,8 +518,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRowsDivided()
 	{
-		$groupFieldModel = $this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-		$fieldName = $groupFieldModel->getFieldName();
+		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+		$fieldName = $this->groupFieldModel->getFieldName();
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
 		$divideFieldName = $divideFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
@@ -527,7 +527,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$dividedFieldCounter = $groupFieldsCounter = 0;
 		while ($row = $dataReader->read()) {
 			if (!empty($row[$fieldName]) && !empty($row[$divideFieldName])) {
-				$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
+				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				$divideValue = $divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
 				if (!isset($groupFields[$displayValue])) {
 					$groupFields[$displayValue] = $groupFieldsCounter++;
@@ -566,7 +566,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
-		$fieldModel = $this->groupFieldModel;
 		if (!empty($this->extraData['groupField'])) {
 			$queryGenerator->setField($this->extraData['groupField']);
 		}
@@ -584,15 +583,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!empty($this->extraData['showOwnerFilter'])) {
 			$queryGenerator->setField('assigned_user_id');
 		}
-		if (!empty($fieldModel)) {
+		if (!empty($this->groupFieldModel)) {
 			$moduleName = $queryGenerator->getModuleModel()->getName();
 			$picklists = \App\Fields\Picklist::getModulesPicklists($moduleName)[$moduleName];
-			$fieldName = $fieldModel->getName();
+			$fieldName = $this->groupFieldModel->getName();
 			if (in_array($fieldName, $picklists, true)) {
 				$this->colors = \App\Fields\Picklist::getColors($fieldName);
 				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
-				$fieldTable = 'vtiger_' . $fieldModel->getName();
-				$queryGenerator->addJoin(['LEFT JOIN', $fieldTable, "{$fieldModel->table}.{$fieldModel->column} = {$fieldTable}.{$fieldName}"]);
+				$fieldTable = 'vtiger_' . $this->groupFieldModel->getName();
+				$queryGenerator->addJoin(['LEFT JOIN', $fieldTable, "{$this->groupFieldModel->table}.{$this->groupFieldModel->column} = {$fieldTable}.{$fieldName}"]);
 				$queryGenerator->setCustomColumn(['picklist_id' => "$fieldTable.$primaryKey"]);
 			}
 		}
