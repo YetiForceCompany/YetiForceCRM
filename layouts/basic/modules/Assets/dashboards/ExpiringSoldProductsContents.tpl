@@ -9,9 +9,9 @@
 			</div>
 			{foreach item=ROW from=$DATA}
 				<div class="row">
-					<div class="col p-1 u-text-ellipsis"><a class="modCT_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW['id']}">{\App\Purifier::encodeHtml($ROW['assetname'])}</a></div>
-					<div class="col p-1 u-text-ellipsis">{DateTimeField::convertToUserFormat($ROW['dateinservice'])}</div>
-					<div class="col p-1 u-text-ellipsis">
+					<div class="col-4 p-1 u-text-ellipsis"><a class="modCT_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW['id']}">{\App\Purifier::encodeHtml($ROW['assetname'])}</a></div>
+					<div class="col-4 p-1 u-text-ellipsis">{DateTimeField::convertToUserFormat($ROW['dateinservice'])}</div>
+					<div class="col-4 p-1 u-text-ellipsis">
 						{if $ROW['parent_id'] gt 0 }
 							{assign var="CRMTYPE" value=\App\Record::getType($ROW['parent_id'])}
 							<a class="modCT_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW['parent_id']}" title="{\App\Language::translateSingularModuleName($CRMTYPE)}">{\App\Record::getLabel($ROW['parent_id'])}</a>
