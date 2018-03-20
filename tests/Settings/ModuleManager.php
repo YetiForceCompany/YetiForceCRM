@@ -295,7 +295,6 @@ class ModuleManager extends \Tests\Base
 
 		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
-			$pathToFile = str_replace('./', '', $pathToFile);
 			$this->assertContains($pathToFile, $zipFiles);
 		}
 	}
@@ -431,7 +430,7 @@ class ModuleManager extends \Tests\Base
 		$langFileToCheck = [];
 		$allLang = \App\Language::getAll();
 		foreach ($allLang as $key => $lang) {
-			$langFileToCheck[] = './languages/' . $key . '/' . $fileName;
+			$langFileToCheck[] = ROOT_DIRECTORY . '/languages/' . $key . '/' . $fileName;
 		}
 		return $langFileToCheck;
 	}
