@@ -276,7 +276,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					}
 					for (let prop in dataset._meta) {
 						if (dataset._meta.hasOwnProperty(prop)) {
-							// we have meta
 							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
 								const metaDataItem = dataset._meta[prop].data[i];
 								const label = metaDataItem._xScale.ticks[i];
@@ -299,11 +298,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 									if (!dataset._updated) {
 										dataset._updated = true;
 										chart.update();
-										// recalculate positions for smooth animation
-										dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-											metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-											metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-											metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+										// recalculate positions for smooth animation (for all datasets)
+										chart.data.datasets.forEach((dataset, index) => {
+											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+												metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+												metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+												metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+											});
 										});
 										break;
 									}
@@ -355,13 +356,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 									if (!dataset._updated) {
 										dataset._updated = true;
 										chart.update();
-										// recalculate positions for smooth animation
-										dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-											if (typeof metaDataItem._xScale !== 'undefined') {
-												metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-												metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-												metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-											}
+										// recalculate positions for smooth animation (for all datasets)
+										chart.data.datasets.forEach((dataset, index) => {
+											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+												if (typeof metaDataItem._xScale !== 'undefined') {
+													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+													metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+												}
+											});
 										});
 										break;
 									}
