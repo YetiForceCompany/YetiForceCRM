@@ -1428,7 +1428,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * basic and tooltip options share the same space
 	 *
 	 * @param  {Object} chartData
-	 * @return {Object}              merged options
+	 * @return {Object} merged options
 	 */
 	loadBasicOptions: function loadBasicOptions(chartData) {
 		this.formatTooltipTitles(chartData);
@@ -1570,7 +1570,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * Merge two objects with options and do not override existing properties
 	 *
 	 * @param  {Object} to
-	 * @param  {Array} fromArray
+	 * @param  {Array|arguments} fromArray
 	 * @return {object}
 	 */
 	mergeOptions: function mergeOptions(to = {}, ...fromArray) {
@@ -1589,17 +1589,16 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * Placeholder for individual chart type options
 	 * If you want to customize default options this is the right place - override this method in your class
 	 *
+	 * @param {object} chartData
 	 * @returns {object} chart options
 	 */
 	getBasicOptions: function getBasicOptions(chartData) {
 		return {};
 	},
 	/**
-	 * Placeholder for individual chart type datalabels options
+	 * Placeholder for individual chart type dataset options
 	 *
-	 * @param  {object} dataset
-	 * @param  {String} type    chart type 'bar','pie' etc.
-	 * @param  {Number} datasetIndex
+	 * @param  {object} chartData
 	 * @return {Object} datalabels configurations
 	 */
 	getDatasetOptions: function getDatasetOptions(chartData) {
@@ -1610,7 +1609,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * You can add custom plugins for individual charts by overriding this method
 	 * see: http://www.chartjs.org/docs/latest/developers/plugins.html
 	 *
-	 * @returns {Array} plugins
+	 * @param {object} chartData
+	 * @returns {Array|undefined} plugins
 	 */
 	getPlugins: function getPlugins(chartData) {
 		// do not return anything - undefined
@@ -1621,9 +1621,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * so we can extend some chart type and change its type only to show data in different manner.
 	 * Get type is used to set up Chartjs chart type.
 	 *
+	 * @param {object} chartData
 	 * @returns {string}
 	 */
-	getType: function getType() {
+	getType: function getType(chartData) {
 		return 'bar';
 	},
 	/**
@@ -1632,9 +1633,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * By default we are using standard type.
 	 * GetSubType is used to get properties - it does not set up Chartjs chart type per se (getType is used for this purpose)
 	 *
+	 * @param {object}  chartData
 	 * @returns {string}
 	 */
-	getSubType: function getSubType() {
+	getSubType: function getSubType(chartData) {
 		return this.getType();
 	}
 });
