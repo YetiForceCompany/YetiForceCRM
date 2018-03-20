@@ -21,7 +21,7 @@
 	  @extend .my-auto;
 	}
   }
-  .select2-results__option, .select2-results__option .select2-results__option, select2-results__group {
+  .select2-results__option, .select2-results__option .select2-results__option {
 	@extend .p-1;
 	font-size: inherit;
   }
