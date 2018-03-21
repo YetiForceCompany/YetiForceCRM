@@ -102,20 +102,18 @@ class PackageImport extends PackageExport
 			}
 		}
 		$packagetype = $this->type();
-
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'language') {
+			if ($lcasetype === 'language') {
 				return true;
 			}
 		}
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'layout') {
+			if ($lcasetype === 'layout') {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -130,14 +128,12 @@ class PackageImport extends PackageExport
 			}
 		}
 		$packagetype = $this->type();
-
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
 			if ($lcasetype === 'extension') {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -268,14 +264,12 @@ class PackageImport extends PackageExport
 				$manifestxml_found = true;
 				$modulename = (string) $this->_modulexml->name;
 				$isModuleBundle = (string) $this->_modulexml->modulebundle;
-
 				if ($isModuleBundle === 'true' && (!empty($this->_modulexml)) &&
 					(!empty($this->_modulexml->dependencies)) &&
 					(!empty($this->_modulexml->dependencies->vtiger_version))) {
 					$languagefile_found = true;
 					break;
 				}
-
 				// Do we need to check the zip further?
 				if ($this->isLanguageType()) {
 					$languagefile_found = true; // No need to search for module language file.
@@ -314,7 +308,6 @@ class PackageImport extends PackageExport
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $_errorText);
 			$this->_errorText = $_errorText;
 		}
-
 		if (!empty($this->_modulexml) &&
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
@@ -345,7 +338,6 @@ class PackageImport extends PackageExport
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
 		}
-
 		if ($validzip) {
 			if (!empty($this->_modulexml->license)) {
 				if (!empty($this->_modulexml->license->inline)) {
