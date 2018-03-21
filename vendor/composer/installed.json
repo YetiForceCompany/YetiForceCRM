@@ -497,6 +497,55 @@
         ]
     },
     {
+        "name": "psr/log",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-10-10T12:19:37+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    },
+    {
         "name": "psr/simple-cache",
         "version": "1.0.1",
         "version_normalized": "1.0.1.0",
@@ -599,17 +648,17 @@
     },
     {
         "name": "sabre/dav",
-        "version": "3.1.3",
-        "version_normalized": "3.1.3.0",
+        "version": "3.2.2",
+        "version_normalized": "3.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sabre-io/dav.git",
-            "reference": "8a266c7b5e140da79529414b9cde2a2d058b536b"
+            "reference": "e987775e619728f12205606c9cc3ee565ffb1516"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sabre-io/dav/zipball/8a266c7b5e140da79529414b9cde2a2d058b536b",
-            "reference": "8a266c7b5e140da79529414b9cde2a2d058b536b",
+            "url": "https://api.github.com/repos/sabre-io/dav/zipball/e987775e619728f12205606c9cc3ee565ffb1516",
+            "reference": "e987775e619728f12205606c9cc3ee565ffb1516",
             "shasum": ""
         },
         "require": {
@@ -623,22 +672,24 @@
             "ext-spl": "*",
             "lib-libxml": ">=2.7.0",
             "php": ">=5.5.0",
+            "psr/log": "^1.0",
             "sabre/event": ">=2.0.0, <4.0.0",
             "sabre/http": "^4.2.1",
-            "sabre/uri": "~1.0",
-            "sabre/vobject": "~4.0",
-            "sabre/xml": "~1.0"
+            "sabre/uri": "^1.0.1",
+            "sabre/vobject": "^4.1.0",
+            "sabre/xml": "^1.4.0"
         },
         "require-dev": {
             "evert/phpdoc-md": "~0.1.0",
-            "phpunit/phpunit": "> 4.8, <=6.0.0",
-            "sabre/cs": "~0.0.5"
+            "monolog/monolog": "^1.18",
+            "phpunit/phpunit": "> 4.8, <6.0.0",
+            "sabre/cs": "^1.0.0"
         },
         "suggest": {
             "ext-curl": "*",
             "ext-pdo": "*"
         },
-        "time": "2016-04-07T01:02:57+00:00",
+        "time": "2017-02-15T03:06:08+00:00",
         "bin": [
             "bin/sabredav",
             "bin/naturalselection"

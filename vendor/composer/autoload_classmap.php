@@ -5,7 +5,7 @@
 $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
-return array(
-    'Feed' => $vendorDir . '/dg/rss-php/src/Feed.php',
-    'FeedException' => $vendorDir . '/dg/rss-php/src/Feed.php',
-);
+return [
+	'Feed' => $vendorDir . '/dg/rss-php/src/Feed.php',
+	'FeedException' => $vendorDir . '/dg/rss-php/src/Feed.php',
+];
