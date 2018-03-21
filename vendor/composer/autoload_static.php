@@ -6,197 +6,253 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitYT
 {
-	public static $files = [
-		'383eaff206634a77a1be54e64e6459c7' => __DIR__ . '/..' . '/sabre/uri/lib/functions.php',
-		'2b9d0f43f9552984cfa82fee95491826' => __DIR__ . '/..' . '/sabre/event/lib/coroutine.php',
-		'd81bab31d3feb45bfe2f283ea3c8fdf7' => __DIR__ . '/..' . '/sabre/event/lib/Loop/functions.php',
-		'a1cce3d26cc15c00fcd0b3354bd72c88' => __DIR__ . '/..' . '/sabre/event/lib/Promise/functions.php',
-		'3569eecfeed3bcf0bad3c998a494ecb8' => __DIR__ . '/..' . '/sabre/xml/lib/Deserializer/functions.php',
-		'93aa591bc4ca510c520999e34229ee79' => __DIR__ . '/..' . '/sabre/xml/lib/Serializer/functions.php',
-		'ebdb698ed4152ae445614b69b5e4bb6a' => __DIR__ . '/..' . '/sabre/http/lib/functions.php',
-		'2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-		'f084d01b0a599f67676cffef638aa95b' => __DIR__ . '/..' . '/smarty/smarty/libs/bootstrap.php',
-	];
-	public static $prefixLengthsPsr4 = [
-		'v' => [
-			'vtlib\\' => 6,
-		],
-		'l' => [
-			'libphonenumber\\' => 15,
-		],
-		'i' => [
-			'includes\\' => 9,
-		],
-		'U' => [
-			'Urodoz\\Truncate\\' => 16,
-		],
-		'T' => [
-			'Tests\\' => 6,
-		],
-		'S' => [
-			'Symfony\\Polyfill\\Mbstring\\' => 26,
-			'Symfony\\Component\\Console\\' => 26,
-			'Sabre\\Xml\\' => 10,
-			'Sabre\\VObject\\' => 14,
-			'Sabre\\Uri\\' => 10,
-			'Sabre\\HTTP\\' => 11,
-			'Sabre\\Event\\' => 12,
-			'Sabre\\DAV\\' => 10,
-			'Sabre\\DAVACL\\' => 13,
-			'Sabre\\CardDAV\\' => 14,
-			'Sabre\\CalDAV\\' => 13,
-		],
-		'R' => [
-			'Recurr\\Test\\' => 12,
-			'Recurr\\' => 7,
-		],
-		'P' => [
-			'Psr\\SimpleCache\\' => 16,
-			'PhpOffice\\PhpSpreadsheet\\' => 25,
-			'PHPMailer\\PHPMailer\\' => 20,
-		],
-		'G' => [
-			'Giggsey\\Locale\\' => 15,
-		],
-		'E' => [
-			'Exception\\' => 10,
-		],
-		'D' => [
-			'DebugBar\\' => 9,
-		],
-		'C' => [
-			'CsrfMagic\\' => 10,
-			'Cron\\' => 5,
-			'Composer\\CaBundle\\' => 18,
-		],
-		'A' => [
-			'App\\' => 4,
-			'Api\\' => 4,
-		],
-	];
-	public static $prefixDirsPsr4 = [
-		'vtlib\\' => [
-			0 => __DIR__ . '/../..' . '/vtlib/Vtiger',
-		],
-		'libphonenumber\\' => [
-			0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
-		],
-		'includes\\' => [
-			0 => __DIR__ . '/../..' . '/include',
-		],
-		'Urodoz\\Truncate\\' => [
-			0 => __DIR__ . '/..' . '/urodoz/truncate-html/src',
-		],
-		'Tests\\' => [
-			0 => __DIR__ . '/../..' . '/tests',
-		],
-		'Symfony\\Polyfill\\Mbstring\\' => [
-			0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-		],
-		'Symfony\\Component\\Console\\' => [
-			0 => __DIR__ . '/..' . '/symfony/console',
-		],
-		'Sabre\\Xml\\' => [
-			0 => __DIR__ . '/..' . '/sabre/xml/lib',
-		],
-		'Sabre\\VObject\\' => [
-			0 => __DIR__ . '/..' . '/sabre/vobject/lib',
-		],
-		'Sabre\\Uri\\' => [
-			0 => __DIR__ . '/..' . '/sabre/uri/lib',
-		],
-		'Sabre\\HTTP\\' => [
-			0 => __DIR__ . '/..' . '/sabre/http/lib',
-		],
-		'Sabre\\Event\\' => [
-			0 => __DIR__ . '/..' . '/sabre/event/lib',
-		],
-		'Sabre\\DAV\\' => [
-			0 => __DIR__ . '/..' . '/sabre/dav/lib/DAV',
-		],
-		'Sabre\\DAVACL\\' => [
-			0 => __DIR__ . '/..' . '/sabre/dav/lib/DAVACL',
-		],
-		'Sabre\\CardDAV\\' => [
-			0 => __DIR__ . '/..' . '/sabre/dav/lib/CardDAV',
-		],
-		'Sabre\\CalDAV\\' => [
-			0 => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV',
-		],
-		'Recurr\\Test\\' => [
-			0 => __DIR__ . '/..' . '/simshaun/recurr/tests',
-		],
-		'Recurr\\' => [
-			0 => __DIR__ . '/..' . '/simshaun/recurr/src/Recurr',
-		],
-		'Psr\\SimpleCache\\' => [
-			0 => __DIR__ . '/..' . '/psr/simple-cache/src',
-		],
-		'PhpOffice\\PhpSpreadsheet\\' => [
-			0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
-		],
-		'PHPMailer\\PHPMailer\\' => [
-			0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-		],
-		'Giggsey\\Locale\\' => [
-			0 => __DIR__ . '/..' . '/giggsey/locale/src',
-		],
-		'Exception\\' => [
-			0 => __DIR__ . '/../..' . '/include/exceptions',
-		],
-		'DebugBar\\' => [
-			0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
-		],
-		'CsrfMagic\\' => [
-			0 => __DIR__ . '/..' . '/yetiforce/csrf-magic/src',
-		],
-		'Cron\\' => [
-			0 => __DIR__ . '/../..' . '/cron',
-		],
-		'Composer\\CaBundle\\' => [
-			0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
-		],
-		'App\\' => [
-			0 => __DIR__ . '/../..' . '/app',
-		],
-		'Api\\' => [
-			0 => __DIR__ . '/../..' . '/api/webservice',
-		],
-	];
-	public static $prefixesPsr0 = [
-		'S' => [
-			'SensioLabs\\Security' => [
-				0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
-			],
-		],
-		'R' => [
-			'Requests' => [
-				0 => __DIR__ . '/..' . '/rmccue/requests/library',
-			],
-		],
-		'H' => [
-			'HTMLPurifier' => [
-				0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
-			],
-		],
-		'D' => [
-			'Doctrine\\Common\\Collections\\' => [
-				0 => __DIR__ . '/..' . '/doctrine/collections/lib',
-			],
-		],
-	];
-	public static $classMap = [
-		'Feed' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
-		'FeedException' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
-	];
+    public static $files = array (
+        '383eaff206634a77a1be54e64e6459c7' => __DIR__ . '/..' . '/sabre/uri/lib/functions.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '2b9d0f43f9552984cfa82fee95491826' => __DIR__ . '/..' . '/sabre/event/lib/coroutine.php',
+        'd81bab31d3feb45bfe2f283ea3c8fdf7' => __DIR__ . '/..' . '/sabre/event/lib/Loop/functions.php',
+        'a1cce3d26cc15c00fcd0b3354bd72c88' => __DIR__ . '/..' . '/sabre/event/lib/Promise/functions.php',
+        '3569eecfeed3bcf0bad3c998a494ecb8' => __DIR__ . '/..' . '/sabre/xml/lib/Deserializer/functions.php',
+        '93aa591bc4ca510c520999e34229ee79' => __DIR__ . '/..' . '/sabre/xml/lib/Serializer/functions.php',
+        'ebdb698ed4152ae445614b69b5e4bb6a' => __DIR__ . '/..' . '/sabre/http/lib/functions.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        'f084d01b0a599f67676cffef638aa95b' => __DIR__ . '/..' . '/smarty/smarty/libs/bootstrap.php',
+    );
 
-	public static function getInitializer(ClassLoader $loader)
-	{
-		return \Closure::bind(function () use ($loader) {
-			$loader->prefixLengthsPsr4 = ComposerStaticInitYT::$prefixLengthsPsr4;
-			$loader->prefixDirsPsr4 = ComposerStaticInitYT::$prefixDirsPsr4;
-			$loader->prefixesPsr0 = ComposerStaticInitYT::$prefixesPsr0;
-			$loader->classMap = ComposerStaticInitYT::$classMap;
-		}, null, ClassLoader::class);
-	}
+    public static $prefixLengthsPsr4 = array (
+        'v' => 
+        array (
+            'vtlib\\' => 6,
+        ),
+        'l' => 
+        array (
+            'libphonenumber\\' => 15,
+        ),
+        'i' => 
+        array (
+            'includes\\' => 9,
+        ),
+        'U' => 
+        array (
+            'Urodoz\\Truncate\\' => 16,
+        ),
+        'T' => 
+        array (
+            'Tests\\' => 6,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Console\\' => 26,
+            'Sabre\\Xml\\' => 10,
+            'Sabre\\VObject\\' => 14,
+            'Sabre\\Uri\\' => 10,
+            'Sabre\\HTTP\\' => 11,
+            'Sabre\\Event\\' => 12,
+            'Sabre\\DAV\\' => 10,
+            'Sabre\\DAVACL\\' => 13,
+            'Sabre\\CardDAV\\' => 14,
+            'Sabre\\CalDAV\\' => 13,
+        ),
+        'R' => 
+        array (
+            'Recurr\\Test\\' => 12,
+            'Recurr\\' => 7,
+        ),
+        'P' => 
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
+        'G' => 
+        array (
+            'Giggsey\\Locale\\' => 15,
+        ),
+        'E' => 
+        array (
+            'Exception\\' => 10,
+        ),
+        'D' => 
+        array (
+            'DebugBar\\' => 9,
+        ),
+        'C' => 
+        array (
+            'CsrfMagic\\' => 10,
+            'Cron\\' => 5,
+            'Composer\\CaBundle\\' => 18,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
+            'Api\\' => 4,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'vtlib\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/vtlib/Vtiger',
+        ),
+        'libphonenumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
+        ),
+        'includes\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/include',
+        ),
+        'Urodoz\\Truncate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/urodoz/truncate-html/src',
+        ),
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Sabre\\Xml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/xml/lib',
+        ),
+        'Sabre\\VObject\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/vobject/lib',
+        ),
+        'Sabre\\Uri\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/uri/lib',
+        ),
+        'Sabre\\HTTP\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/http/lib',
+        ),
+        'Sabre\\Event\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/event/lib',
+        ),
+        'Sabre\\DAV\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/dav/lib/DAV',
+        ),
+        'Sabre\\DAVACL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/dav/lib/DAVACL',
+        ),
+        'Sabre\\CardDAV\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/dav/lib/CardDAV',
+        ),
+        'Sabre\\CalDAV\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV',
+        ),
+        'Recurr\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/simshaun/recurr/tests',
+        ),
+        'Recurr\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/simshaun/recurr/src/Recurr',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Giggsey\\Locale\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/locale/src',
+        ),
+        'Exception\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/include/exceptions',
+        ),
+        'DebugBar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
+        ),
+        'CsrfMagic\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yetiforce/csrf-magic/src',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/cron',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/api/webservice',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'SensioLabs\\Security' => 
+            array (
+                0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
+            ),
+        ),
+        'R' => 
+        array (
+            'Requests' => 
+            array (
+                0 => __DIR__ . '/..' . '/rmccue/requests/library',
+            ),
+        ),
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+        ),
+    );
+
+    public static $classMap = array (
+        'Feed' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
+        'FeedException' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
+    );
+
+    public static function getInitializer(ClassLoader $loader)
+    {
+        return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitYT::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitYT::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitYT::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitYT::$classMap;
+
+        }, null, ClassLoader::class);
+    }
 }

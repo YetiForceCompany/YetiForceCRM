@@ -43,16 +43,10 @@ yarn-error.log
 !/public_html/libraries/js/
 
 # IDEs and editors
-/.idea
 /.buildpath
 .c9/
 .classpath
 .project
 *.launch
-/nbproject/
 .settings/
 *.sublime-workspace
-
-# System Files
-.DS_Store
-Thumbs.db
