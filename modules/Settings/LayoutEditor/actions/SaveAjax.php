@@ -16,6 +16,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveInventoryField');
 		$this->exposeMethod('saveSequence');
 		$this->exposeMethod('delete');
+		$this->exposeMethod('contextHelp');
 	}
 
 	public function setInventory(\App\Request $request)
@@ -90,6 +91,34 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => $status]);
+		$response->emit();
+	}
+
+	/**
+	 * Set context help.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 * @throws \App\Exceptions\Security
+	 */
+	public function contextHelp(\App\Request $request)
+	{
+		$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($request->getInteger('field'));
+		if (!\App\Privilege::isPermitted($fieldModel->getModuleName())) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+		if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
+			throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
+		}
+
+		$views = $request->getArray('views', 'Standard');
+		$fieldModel->set('helpinfo', implode(',', $views));
+		$fieldModel->save();
+		$label = $fieldModel->getModuleName() . '|' . $fieldModel->getFieldLabel();
+		\App\Language::translationModify($request->getByType('lang'), 'HelpInfo', 'php', $label, $request->getForHtml('context'));
+		$response = new Vtiger_Response();
+		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 }

@@ -13,6 +13,7 @@
 	"ERR_DUPLICATES_VALUES_FOUND": "Znaleziono zduplikowane warto\u015bci %s",
 	"ERR_EXCEEDED_NUMBER_CHARACTERS": "Niedozwolona liczba znak\u00f3w",
 	"ERR_SPECIAL_CHARACTERS_NOT_ALLOWED": "Znaki specjalne takie jak %s s\u0105 niedozwolone",
-	"ERR_CREATE_FILE_FAILURE": "Nie uda\u0142o si\u0119 utworzy\u0107 pliku"
+	"ERR_CREATE_FILE_FAILURE": "Nie uda\u0142o si\u0119 utworzy\u0107 pliku",
+	"ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Brak uprawnie\u0144 do tworzenia katalog\u00f3w"
   }
 }
