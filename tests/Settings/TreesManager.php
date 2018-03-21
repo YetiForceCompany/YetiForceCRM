@@ -3,8 +3,8 @@
  * TreesManager test class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
 namespace Tests\Settings;
@@ -48,6 +48,25 @@ class TreesManager extends \Tests\Base
 		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
 
 		return static::$treesId[$key];
+	}
+
+	/**
+	 * Count item in tree.
+	 *
+	 * @param array $tree
+	 *
+	 * @return int
+	 */
+	private static function countItems($tree)
+	{
+		$cnt = count($tree);
+		foreach ($tree as $item) {
+			if (is_array($item['children'])) {
+				$cnt += static::countItems($item['children']);
+			}
+		}
+
+		return $cnt;
 	}
 
 	/**
@@ -119,6 +138,29 @@ class TreesManager extends \Tests\Base
 	}
 
 	/**
+	 * Create item for tree array.
+	 *
+	 * @param string $itemName
+	 * @param int    $id
+	 *
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	private function createItemForTree($itemName, $id, $children = [])
+	{
+		return [
+			'id' => $id,
+			'text' => $itemName,
+			'icon' => '1',
+			'li_attr' => ['id' => $id],
+			'a_attr' => ['href' => '#', 'id' => $id . '_anchor'],
+			'state' => ['loaded' => '1', 'opened' => false, 'selected' => false, 'disabled' => false],
+			'data' => [],
+			'children' => $children,
+		];
+	}
+
+	/**
 	 * Data provider for testEditTree.
 	 *
 	 * @return array
@@ -143,47 +185,5 @@ class TreesManager extends \Tests\Base
 			[3, [], []],
 			[4, [], []],
 		];
-	}
-
-	/**
-	 * Create item for tree array.
-	 *
-	 * @param string $itemName
-	 * @param int    $id
-	 *
-	 * @return array
-	 * @codeCoverageIgnore
-	 */
-	private function createItemForTree($itemName, $id, $children = [])
-	{
-		return [
-			'id' => $id,
-			'text' => $itemName,
-			'icon' => '1',
-			'li_attr' => ['id' => $id],
-			'a_attr' => ['href' => '#', 'id' => $id . '_anchor'],
-			'state' => ['loaded' => '1', 'opened' => false, 'selected' => false, 'disabled' => false],
-			'data' => [],
-			'children' => $children,
-		];
-	}
-
-	/**
-	 * Count item in tree.
-	 *
-	 * @param array $tree
-	 *
-	 * @return int
-	 */
-	private static function countItems($tree)
-	{
-		$cnt = count($tree);
-		foreach ($tree as $item) {
-			if (is_array($item['children'])) {
-				$cnt += static::countItems($item['children']);
-			}
-		}
-
-		return $cnt;
 	}
 }

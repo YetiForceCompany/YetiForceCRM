@@ -3,8 +3,8 @@
  * Inventory test class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
 namespace Tests\Settings;
@@ -15,6 +15,26 @@ class Inventory extends \Tests\Base
 	 * Inventory id.
 	 */
 	private static $id;
+
+	/**
+	 * Testing taxes creation.
+	 */
+	public function testAddTaxes()
+	{
+		$type = 'Taxes';
+		$name = 'test';
+		$value = 3.14;
+		$status = 0;
+		static::$id = $this->save(0, $type, $name, $value, $status);
+		$this->assertNotNull(static::$id, 'Id is null');
+
+		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertSame($row['name'], $name);
+		$this->assertSame($row['value'], $value);
+		$this->assertSame($row['status'], $status);
+	}
 
 	/**
 	 * Save to database.
@@ -46,26 +66,6 @@ class Inventory extends \Tests\Base
 		$recordModel->setType($type);
 
 		return $recordModel->save();
-	}
-
-	/**
-	 * Testing taxes creation.
-	 */
-	public function testAddTaxes()
-	{
-		$type = 'Taxes';
-		$name = 'test';
-		$value = 3.14;
-		$status = 0;
-		static::$id = $this->save(0, $type, $name, $value, $status);
-		$this->assertNotNull(static::$id, 'Id is null');
-
-		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
 	}
 
 	/**

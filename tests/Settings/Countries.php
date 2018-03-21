@@ -3,8 +3,8 @@
  * Countries test class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 
 namespace Tests\Settings;
@@ -63,6 +63,16 @@ class Countries extends \Tests\Base
 	}
 
 	/**
+	 * Get all rows.
+	 *
+	 * @return array
+	 */
+	private function getAllRows()
+	{
+		return (new \App\Db\Query())->from('u_#__countries')->all();
+	}
+
+	/**
 	 * Testing update status.
 	 */
 	public function testUpdateStatus()
@@ -74,6 +84,19 @@ class Countries extends \Tests\Base
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'status');
 		$this->assertSame($status, $status2, 'There is none any changes after update');
+	}
+
+	/**
+	 * Get value of field as scalar.
+	 *
+	 * @param int    $id
+	 * @param string $fieldName
+	 *
+	 * @return string
+	 */
+	private function getValueOfField($id, $fieldName)
+	{
+		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
 	}
 
 	/**
@@ -112,28 +135,5 @@ class Countries extends \Tests\Base
 		$allRecords = \Settings_Countries_Record_Model::getAll();
 		$count = (new \App\Db\Query())->from('u_#__countries')->count();
 		$this->assertCount($count, $allRecords, 'Count of all record is different than should be');
-	}
-
-	/**
-	 * Get value of field as scalar.
-	 *
-	 * @param int    $id
-	 * @param string $fieldName
-	 *
-	 * @return string
-	 */
-	private function getValueOfField($id, $fieldName)
-	{
-		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
-	}
-
-	/**
-	 * Get all rows.
-	 *
-	 * @return array
-	 */
-	private function getAllRows()
-	{
-		return (new \App\Db\Query())->from('u_#__countries')->all();
 	}
 }

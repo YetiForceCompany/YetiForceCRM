@@ -68,10 +68,11 @@
 		</whitelist>
 	</filter>
 	<listeners>
-		<listener class="YtTimes" file="./times.php" />
+		<listener class="YtTimes" file="./times.php"/>
 	</listeners>
 	<logging>
-		<log type="coverage-html" target="./coverageHtml/" title="YetiForce coverage" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" charset="UTF-8" />
+		<log type="coverage-html" target="./coverageHtml/" title="YetiForce coverage" yui="true" highlight="true"
+			 lowUpperBound="35" highLowerBound="70" charset="UTF-8"/>
 		<log type="coverage-clover" target="coverage.xml"/>
 	</logging>
 </phpunit>

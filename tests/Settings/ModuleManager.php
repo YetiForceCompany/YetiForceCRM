@@ -3,8 +3,8 @@
  * ModuleManager test class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\Settings;
@@ -90,6 +90,23 @@ class ModuleManager extends \Tests\Base
 			$this->assertFileExists($pathToFile);
 		}
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
+	}
+
+	/**
+	 * @param string $fileName
+	 *
+	 * @throws Exception
+	 *
+	 * @return array
+	 */
+	private function getLangPathToFile($fileName)
+	{
+		$langFileToCheck = [];
+		$allLang = \App\Language::getAll();
+		foreach ($allLang as $key => $lang) {
+			$langFileToCheck[] = 'languages' . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . $fileName;
+		}
+		return $langFileToCheck;
 	}
 
 	/**
@@ -184,6 +201,27 @@ class ModuleManager extends \Tests\Base
 	}
 
 	/**
+	 * Get Id of MultiReferenceValue field.
+	 *
+	 * @return int
+	 */
+	private function getMRVField()
+	{
+		$source_Module = \vtlib\Module::getInstance('Test');
+		$moduleInstance = \vtlib\Module::getInstance('Contacts');
+		$source_Module->setRelatedList($moduleInstance, 'TestRel123', ['ADD', 'SELECT'], 'getRelatedList');
+
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+		$fields = [];
+		foreach ($moduleModel->getRelations() as $value) {
+			foreach ($value->getFields() as $valF) {
+				$fields[] = $valF->getId();
+			}
+		}
+		return $fields[0];
+	}
+
+	/**
 	 * Data provider for testCreateNewField and testDeleteNewField.
 	 *
 	 * @return array
@@ -219,7 +257,7 @@ class ModuleManager extends \Tests\Base
 	/**
 	 * Testing the deletion of a new field.
 	 *
-	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
+	 * @link         https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForField
 	 */
 	public function testDeleteNewField($type, $param, $suffix = '')
@@ -300,24 +338,6 @@ class ModuleManager extends \Tests\Base
 	}
 
 	/**
-	 * Testing module removal.
-	 */
-	public function testDeleteModule()
-	{
-		\App\Db::getInstance()->getSchema()->refresh();
-		$moduleInstance = \vtlib\Module::getInstance('Test');
-		$moduleInstance->delete();
-		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
-
-		$langFileToCheck = $this->getLangPathToFile('Test.json');
-		foreach ($langFileToCheck as $pathToFile) {
-			$this->assertFileNotExists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pathToFile);
-		}
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(), 'The tree was not removed');
-	}
-
-	/**
 	 * Testing module import.
 	 */
 	public function testImportModule()
@@ -345,6 +365,24 @@ class ModuleManager extends \Tests\Base
 	public function testDeleteImportedModule()
 	{
 		$this->testDeleteModule();
+	}
+
+	/**
+	 * Testing module removal.
+	 */
+	public function testDeleteModule()
+	{
+		\App\Db::getInstance()->getSchema()->refresh();
+		$moduleInstance = \vtlib\Module::getInstance('Test');
+		$moduleInstance->delete();
+		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+
+		$langFileToCheck = $this->getLangPathToFile('Test.json');
+		foreach ($langFileToCheck as $pathToFile) {
+			$this->assertFileNotExists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pathToFile);
+		}
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(), 'The tree was not removed');
 	}
 
 	/**
@@ -393,43 +431,5 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
-	}
-
-	/**
-	 * Get Id of MultiReferenceValue field.
-	 *
-	 * @return int
-	 */
-	private function getMRVField()
-	{
-		$source_Module = \vtlib\Module::getInstance('Test');
-		$moduleInstance = \vtlib\Module::getInstance('Contacts');
-		$source_Module->setRelatedList($moduleInstance, 'TestRel123', ['ADD', 'SELECT'], 'getRelatedList');
-
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
-		$fields = [];
-		foreach ($moduleModel->getRelations() as $value) {
-			foreach ($value->getFields() as $valF) {
-				$fields[] = $valF->getId();
-			}
-		}
-		return $fields[0];
-	}
-
-	/**
-	 * @param string $fileName
-	 *
-	 * @throws Exception
-	 *
-	 * @return array
-	 */
-	private function getLangPathToFile($fileName)
-	{
-		$langFileToCheck = [];
-		$allLang = \App\Language::getAll();
-		foreach ($allLang as $key => $lang) {
-			$langFileToCheck[] = 'languages' . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . $fileName;
-		}
-		return $langFileToCheck;
 	}
 }
