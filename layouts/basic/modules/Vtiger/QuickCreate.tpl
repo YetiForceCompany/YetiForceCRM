@@ -44,17 +44,17 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
-								<div class="px-0 form-row mx-auto">
+								<div class="px-0 form-row align-items-center mx-auto">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 										{if $COUNTER eq 2}
 										</div>
-										<div class="col-12 form-row px-0 m-auto">
+										<div class="col-12 form-row align-items-center px-0 m-auto">
 											{assign var=COUNTER value=1}
 										{else}
 											{assign var=COUNTER value=$COUNTER+1}
 										{/if}
-										<div class="col-md-6 py-2 form-row {$WIDTHTYPE} ">
+										<div class="col-md-6 py-2 form-row align-items-center {$WIDTHTYPE} ">
 											<div class="fieldLabel col-sm-3 pl-0">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 												{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
@@ -72,7 +72,7 @@
 											</div>
 											{/foreach}
 												{if $COUNTER eq 1}
-													<div class="col-md-6 form-row p-1 {$WIDTHTYPE} px-0"></div>
+													<div class="col-md-6 form-row align-items-center p-1 {$WIDTHTYPE} px-0"></div>
 												{/if}
 											</div>
 										</div>
