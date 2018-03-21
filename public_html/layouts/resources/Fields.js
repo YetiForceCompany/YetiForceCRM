@@ -189,7 +189,7 @@ App.Fields = {
 		/*
 		 * Initialization CkEditor
 		 * @param {jQuery} parentElement
-		 * @param {Object} customParams
+		 * @param {Object} params
 		 */
 		registerCkEditor: function (parentElement, params) {
 			if (typeof parentElement == 'undefined') {

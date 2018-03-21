@@ -1902,59 +1902,57 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		container.on('click', '.js-context-help', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({blockInfo: {enabled: true}});
 			const element = $(e.currentTarget);
-			let params = {
+			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				view: 'HelpInfo',
 				field: element.data('field-id')
-			};
-			AppConnector.request(params).then(
-					function (data) {
-						app.showModalWindow(data, function (modalContainer) {
-							const customConfig = {
-								toolbar: 'Min',
-								toolbarGroups: [
-									{name: 'document', groups: ['document', 'doctools']},
-									{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-									{name: 'clipboard', groups: ['clipboard', 'undo']}
-								]
-							};
-							App.Fields.Text.registerCkEditor(modalContainer, customConfig);
-							app.showPopoverElementView(modalContainer.find('.js-help-info'));
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							modalContainer.find('.js-lang').on('change', function (e) {
-								let previous = modalContainer.find('.js-ckeditor:not([disabled])');
-								App.Fields.Text.destroyCkEditor(previous);
-								previous.closest('.js-context-block').addClass('d-none');
-								previous.prop('disabled', true);
+			}).then(function (data) {
+				app.showModalWindow(data, function (modalContainer) {
+					const customConfig = {
+						toolbar: 'Min',
+						toolbarGroups: [
+							{name: 'document', groups: ['document', 'doctools']},
+							{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+							{name: 'clipboard', groups: ['clipboard', 'undo']}
+						]
+					};
+					App.Fields.Text.registerCkEditor(modalContainer, customConfig);
+					app.showPopoverElementView(modalContainer.find('.js-help-info'));
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					modalContainer.find('.js-lang').on('change', function (e) {
+						let previous = modalContainer.find('.js-ckeditor:not([disabled])');
+						App.Fields.Text.destroyCkEditor(previous);
+						previous.closest('.js-context-block').addClass('d-none');
+						previous.prop('disabled', true);
 
-								let element = $(e.currentTarget).val();
-								let textArea = modalContainer.find('#' + element + '.js-context-area');
-								textArea.prop('disabled', false);
-								textArea.closest('.js-context-block').removeClass('d-none');
-								modalContainer.find('.js-help-info').attr('data-content', textArea.val());
-								App.Fields.Text.registerCkEditor(textArea, customConfig);
+						let element = $(e.currentTarget).val();
+						let textArea = modalContainer.find('#' + element + '.js-context-area');
+						textArea.prop('disabled', false);
+						textArea.closest('.js-context-block').removeClass('d-none');
+						modalContainer.find('.js-help-info').attr('data-content', textArea.val());
+						App.Fields.Text.registerCkEditor(textArea, customConfig);
 
+					});
+					modalContainer.find('form').on('submit', function (e) {
+						e.preventDefault();
+						var form = $(e.currentTarget);
+						var params = form.serializeFormData();
+						if (typeof params.views === 'undefined') {
+							params.views = form.find('[name="views"]').val();
+						}
+						app.saveAjax('contextHelp', '', params).then(function (data) {
+							Vtiger_Helper_Js.showPnotify({
+								type: 'success',
+								text: app.vtranslate('JS_SAVE_CHANGES')
 							});
-							modalContainer.find('form').on('submit', function (e) {
-								e.preventDefault();
-								var form = $(e.currentTarget);
-								var params = form.serializeFormData();
-								if (typeof params.views === 'undefined') {
-									params.views = form.find('[name="views"]').val();
-								}
-								app.saveAjax('contextHelp', '', params).then(function (data) {
-									Vtiger_Helper_Js.showPnotify({
-										type: 'success',
-										text: app.vtranslate('JS_SAVE_CHANGES')
-									});
-									let prefix = form.find('.js-lang').val();
-									let textArea = form.find('#' + prefix + '.js-context-area');
-									form.find('.js-help-info').attr('data-content', textArea.val());
-								});
-							})
+							let prefix = form.find('.js-lang').val();
+							let textArea = form.find('#' + prefix + '.js-context-area');
+							form.find('.js-help-info').attr('data-content', textArea.val());
 						});
-					}
+					})
+				});
+			}
 			);
 		});
 	},

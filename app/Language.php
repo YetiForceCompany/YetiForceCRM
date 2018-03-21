@@ -632,7 +632,6 @@ class Language
 	{
 		$fileLocation = explode('__', $fileName, 2);
 		array_unshift($fileLocation, 'custom', 'languages', $language);
-		$translation = addslashes($translation);
 		$fileDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $fileLocation) . '.' . static::FORMAT;
 		if (file_exists($fileDirectory)) {
 			$translations = Json::decode(file_get_contents($fileDirectory), true);
