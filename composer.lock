@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b02d92f9c9f4241d489c1adccb4b8803",
+    "content-hash": "f8d415006260564e17162fbf05b430fd",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1321,16 +1321,16 @@
         },
         {
             "name": "yetiforce/csrf-magic",
-            "version": "dev-master",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/csrf-magic.git",
-                "reference": "033c6e9c9458ccd9a906a25c606b54f2d1b67273"
+                "reference": "8834d25bb7c48eaf7b098c0de079b188a6e88ba3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/033c6e9c9458ccd9a906a25c606b54f2d1b67273",
-                "reference": "033c6e9c9458ccd9a906a25c606b54f2d1b67273",
+                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/8834d25bb7c48eaf7b098c0de079b188a6e88ba3",
+                "reference": "8834d25bb7c48eaf7b098c0de079b188a6e88ba3",
                 "shasum": ""
             },
             "type": "library",
@@ -1362,7 +1362,7 @@
                 "php",
                 "security"
             ],
-            "time": "2018-03-21T11:53:44+00:00"
+            "time": "2018-03-21T14:17:44+00:00"
         }
     ],
     "packages-dev": [
@@ -2823,9 +2823,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "yetiforce/csrf-magic": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

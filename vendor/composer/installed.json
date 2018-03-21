@@ -1358,20 +1358,20 @@
     },
     {
         "name": "yetiforce/csrf-magic",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/YetiForceCompany/csrf-magic.git",
-            "reference": "e46f8574af11e547031ca865adf8c2a6dd89ae0a"
+            "reference": "8834d25bb7c48eaf7b098c0de079b188a6e88ba3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/e46f8574af11e547031ca865adf8c2a6dd89ae0a",
-            "reference": "e46f8574af11e547031ca865adf8c2a6dd89ae0a",
+            "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/8834d25bb7c48eaf7b098c0de079b188a6e88ba3",
+            "reference": "8834d25bb7c48eaf7b098c0de079b188a6e88ba3",
             "shasum": ""
         },
-        "time": "2018-03-21T13:05:15+00:00",
+        "time": "2018-03-21T14:17:44+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
