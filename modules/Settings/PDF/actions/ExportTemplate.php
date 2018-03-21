@@ -59,4 +59,12 @@ class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 		$xml->appendChild($xmlTemplate);
 		echo $xml->saveXML();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
+	}
 }
