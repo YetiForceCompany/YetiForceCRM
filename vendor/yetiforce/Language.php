@@ -9,9 +9,20 @@ namespace App;
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Language
 {
+	/**
+	 * Allowed types of language variables.
+	 */
+	const LANG_TYPE = ['php', 'js'];
+
+	/**
+	 * Language files format.
+	 */
+	const FORMAT = 'json';
+
 	/**
 	 * Current language.
 	 *
@@ -604,5 +615,45 @@ class Language
 			$output = $query->select(['prefix', 'label'])->createCommand()->queryAllByGroup();
 		}
 		return Cache::save('getAll', $cacheKey, $output);
+	}
+
+	/**
+	 * Translation modification.
+	 *
+	 * @param string $language
+	 * @param string $fileName
+	 * @param string $type
+	 * @param string $label
+	 * @param string $translation
+	 *
+	 * @throws Exceptions\AppException
+	 */
+	public static function translationModify(string $language, string $fileName, string $type, string $label, string $translation)
+	{
+		$fileLocation = explode('__', $fileName, 2);
+		array_unshift($fileLocation, 'custom', 'languages', $language);
+		$translation = addslashes($translation);
+		$fileDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $fileLocation) . '.' . static::FORMAT;
+		if (file_exists($fileDirectory)) {
+			$translations = Json::decode(file_get_contents($fileDirectory), true);
+		} else {
+			$loc = '';
+			array_pop($fileLocation);
+			foreach ($fileLocation as $key => $name) {
+				$loc .= DIRECTORY_SEPARATOR . $name;
+				if (!file_exists(ROOT_DIRECTORY . $loc)) {
+					if (!mkdir(ROOT_DIRECTORY . $loc)) {
+						throw new Exceptions\AppException('ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES');
+					}
+				}
+			}
+		}
+		if (!$translations || !isset($translations[$type])) {
+			$translations[$type] = [];
+		}
+		$translations[$type][$label] = $translation;
+		if (file_put_contents($fileDirectory, Json::encode($translations, JSON_PRETTY_PRINT)) === false) {
+			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
+		}
 	}
 }

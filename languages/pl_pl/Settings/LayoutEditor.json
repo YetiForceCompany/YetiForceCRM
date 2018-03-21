@@ -156,7 +156,10 @@
 	"LBL_SUMMARY_BOTTOM_TYPE": "Podsumowanie d\u00f3\u0142",
 	"LBL_RELATED_VIEW_TYPE": "Miejsce wy\u015bwietlania",
 	"LBL_RELATED_VIEW_TYPE_DESC": "Wybierz przynajmniej jedno miejsce wy\u015bwietlania bloku",
-	"LBL_CUSTOM_CONFIGURATION": "Konfiguracja niestandardowa"
+	"LBL_CUSTOM_CONFIGURATION": "Konfiguracja niestandardowa",
+	"LBL_CONTEXT_HELP": "Pomoc kontekstowa",
+	"LBL_SHOW_IN_VIEWS": "Poka\u017c w widokach",
+	"LBL_CHOOSE_LANGUAGE": "J\u0119zyk"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "Nazwa bloku ju\u017c istnieje",
