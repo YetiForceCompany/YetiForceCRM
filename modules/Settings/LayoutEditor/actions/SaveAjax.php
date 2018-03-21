@@ -101,6 +101,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 * @throws \App\Exceptions\Security
+	 * @throws \App\Exceptions\IllegalValue
 	 */
 	public function contextHelp(\App\Request $request)
 	{
@@ -111,8 +112,10 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
 			throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 		}
-
 		$views = $request->getArray('views', 'Standard');
+		if ($views && array_diff($views, \App\Field::HELP_INFO_VIEWS)) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+		}
 		$fieldModel->set('helpinfo', implode(',', $views));
 		$fieldModel->save();
 		$label = $fieldModel->getModuleName() . '|' . $fieldModel->getFieldLabel();

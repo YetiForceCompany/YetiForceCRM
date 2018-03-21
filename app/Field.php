@@ -13,6 +13,11 @@ namespace App;
 class Field
 {
 	/**
+	 * Help info views.
+	 */
+	const HELP_INFO_VIEWS = ['Edit', 'Detail', 'QuickCreateAjax'];
+
+	/**
 	 * Function gets the list of fields that the user has permissions to.
 	 *
 	 * @param int  $tabId    Module ID
