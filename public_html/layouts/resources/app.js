@@ -899,7 +899,11 @@ app = {
 			return;
 		}
 		var language = jQuery('body').data('language');
-		var format = elements.data('dateFormat').toUpperCase();
+		let format = CONFIG.dateFormat.toUpperCase();
+		const elementDateFormat =elements.data('dateFormat');
+		if(typeof elementDateFormat!=='undefined'){
+			format = elementDateFormat.toUpperCase();
+		}
 		var ranges = {};
 		ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
 		ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
