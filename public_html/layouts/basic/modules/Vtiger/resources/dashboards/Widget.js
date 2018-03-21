@@ -1256,7 +1256,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return;
 		}
 		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
-		app.registerDateRangePickerFields(dateRangeElement, {
+		App.Fields.Date.registerDateRangePickerFields(dateRangeElement, {
 			opens: "auto"
 		});
 		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
