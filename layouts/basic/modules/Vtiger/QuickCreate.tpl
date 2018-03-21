@@ -19,7 +19,7 @@
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header d-flex justify-content-between pb-1">
-						<div class="divQuickCreate">
+						<div>
 							<h5 class="modal-title">
 								<span class="fas fa-plus mr-1"></span>
 								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
@@ -27,7 +27,7 @@
 								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
 							</h5>
 						</div>
-						<div class="quickCreateActions pullRight">
+						<div>
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
