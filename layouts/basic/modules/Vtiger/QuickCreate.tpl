@@ -44,12 +44,12 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
-								<div class="px-0 form-row align-items-center mx-auto">
+								<div class="px-0 form-row align-items-start mx-auto">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 										{if $COUNTER eq 2}
 										</div>
-										<div class="col-12 form-row align-items-center px-0 m-auto">
+										<div class="col-12 form-row align-items-start px-0 m-auto">
 											{assign var=COUNTER value=1}
 										{else}
 											{assign var=COUNTER value=$COUNTER+1}
