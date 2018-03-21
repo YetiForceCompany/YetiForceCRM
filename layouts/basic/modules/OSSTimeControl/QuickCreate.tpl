@@ -61,7 +61,7 @@
 											<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="js-help-info float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
+													<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
 												{/if}
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>

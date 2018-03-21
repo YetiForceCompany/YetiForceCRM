@@ -143,6 +143,9 @@
 																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
+																	<button class="btn btn-info btn-sm js-context-help marginLeft5" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}" data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
+																		<span class="fas fa-info-circle" title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}"></span>
+																	</button>
 																</span>
 															</div>
 														</div>
@@ -186,6 +189,9 @@
 																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
+																	<button class="btn btn-info btn-sm js-context-help marginLeft5" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}" data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
+																		<span class="fas fa-info-circle" title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}"></span>
+																	</button>
 																</span>
 															</div>
 														</div>
