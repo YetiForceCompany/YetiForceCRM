@@ -1995,9 +1995,9 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
-	registerListScroll: function () {
+	registerListScroll: function (container) {
 		if (CONFIG.view !== 'ListPreview') {
-			app.showNewBottomTopScrollbar(listViewContainer);
+			app.showNewBottomTopScrollbar(container);
 		}
 	},
 	registerEvents: function () {
@@ -2031,7 +2031,7 @@ jQuery.Class("Vtiger_List_Js", {
 		//Just reset all the checkboxes on page load: added for chrome issue.
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
-		this.registerListScroll();
+		this.registerListScroll(listViewContainer);
 		this.getListSearchInstance(false);
 		this.registerListViewSpecialOptiopn();
 		this.registerFeaturedElementsEvent();
