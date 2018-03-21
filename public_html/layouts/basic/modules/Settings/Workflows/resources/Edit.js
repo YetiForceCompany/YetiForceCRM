@@ -196,7 +196,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 					data.find('[name="' + moduleName + '"]').removeClass('d-none');
 				}
 				app.changeSelectElementView(data);
-				App.Fields.Date.register(data);
+				App.Fields.Date.registerDatePickerFields(data);
 				app.registerEventForClockPicker(data);
 				thisInstance.postShowModalAction(data, valueType);
 				thisInstance.registerChangeFieldEvent(data);

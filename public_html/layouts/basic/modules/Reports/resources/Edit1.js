@@ -200,7 +200,7 @@ Reports_Edit_Js("Reports_Edit1_Js", {}, {
 			}
 		});
 		app.registerEventForClockPicker();
-		App.Fields.Date.register('#scheduleByDate', true);
+		App.Fields.Date.registerDatePickerFields('#scheduleByDate', true);
 
 		jQuery('#annualDates').chosen();
 		jQuery('#schdayoftheweek').chosen();
