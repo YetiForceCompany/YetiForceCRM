@@ -416,7 +416,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			//Make select box more usability
 			app.changeSelectElementView(detailContentsHolder);
 			//Attach date picker event to date fields
-			app.registerEventForDatePickerFields(detailContentsHolder);
+			App.Fields.Date.register(detailContentsHolder);
 			thisInstance.getForm().validationEngine();
 			app.event.trigger("DetailView.LoadContents.AfterLoad", responseData);
 			aDeferred.resolve(responseData);
@@ -2194,8 +2194,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
-		app.registerEventForDatePickerFields(detailContentsHolder);
-		App.Fields.DateTime.register(detailContentsHolder)
+		App.Fields.Date.register(detailContentsHolder);
+		App.Fields.DateTime.register(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		app.showSelect2ElementView(detailContentsHolder.find('select.select2'));

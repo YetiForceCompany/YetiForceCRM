@@ -3,6 +3,54 @@ App.Fields = {
 	'Date': {
 		months: ["JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN", "JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC"],
 		fullMonths: ["JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE", "JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER"],
+
+		register(parentElement, registerForAddon, customParams) {
+			if (typeof parentElement == 'undefined') {
+				parentElement = jQuery('body');
+			} else {
+				parentElement = jQuery(parentElement);
+			}
+			if (typeof registerForAddon == 'undefined') {
+				registerForAddon = true;
+			}
+			if (parentElement.hasClass('dateField')) {
+				var element = parentElement;
+			} else {
+				var element = jQuery('.dateField', parentElement);
+			}
+			if (element.length == 0) {
+				return;
+			}
+			if (registerForAddon == true) {
+				var parentDateElem = element.closest('.date');
+				jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function (e) {
+					var elem = jQuery(e.currentTarget);
+					//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
+					//which is stopping from getting focus to input element
+					elem.closest('.date').find('input.dateField').get(0).focus();
+				});
+			}
+			var language = jQuery('body').data('language');
+			//Default first day of the week
+			var defaultFirstDay = CONFIG.firstDayOfWeek;
+			if (defaultFirstDay == '' || typeof (defaultFirstDay) == 'undefined') {
+				var convertedFirstDay = 1
+			} else {
+				convertedFirstDay = CONFIG.firstDayOfWeekNo;
+			}
+			var params = {
+				todayBtn: "linked",
+				clearBtn: true,
+				language: language,
+				starts: convertedFirstDay,
+				autoclose: true,
+				todayHighlight: true
+			}
+			if (typeof customParams != 'undefined') {
+				params = jQuery.extend(params, customParams);
+			}
+			element.datepicker(params);
+		},
 	},
 	Colors: {
 		/**

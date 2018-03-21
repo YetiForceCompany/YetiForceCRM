@@ -588,7 +588,7 @@ app = {
 			app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
 			app.showSelectizeElementView(modalContainer.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
-			app.registerEventForDatePickerFields(modalContainer);
+			App.Fields.Date.register(modalContainer);
 
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
@@ -837,53 +837,6 @@ app = {
 
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForDatePickerFields: function (parentElement, registerForAddon, customParams) {
-		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
-		} else {
-			parentElement = jQuery(parentElement);
-		}
-		if (typeof registerForAddon == 'undefined') {
-			registerForAddon = true;
-		}
-		if (parentElement.hasClass('dateField')) {
-			var element = parentElement;
-		} else {
-			var element = jQuery('.dateField', parentElement);
-		}
-		if (element.length == 0) {
-			return;
-		}
-		if (registerForAddon == true) {
-			var parentDateElem = element.closest('.date');
-			jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function (e) {
-				var elem = jQuery(e.currentTarget);
-				//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
-				//which is stopping from getting focus to input element
-				elem.closest('.date').find('input.dateField').get(0).focus();
-			});
-		}
-		var language = jQuery('body').data('language');
-		//Default first day of the week
-		var defaultFirstDay = CONFIG.firstDayOfWeek;
-		if (defaultFirstDay == '' || typeof (defaultFirstDay) == 'undefined') {
-			var convertedFirstDay = 1
-		} else {
-			convertedFirstDay = CONFIG.firstDayOfWeekNo;
-		}
-		var params = {
-			todayBtn: "linked",
-			clearBtn: true,
-			language: language,
-			starts: convertedFirstDay,
-			autoclose: true,
-			todayHighlight: true
-		}
-		if (typeof customParams != 'undefined') {
-			params = jQuery.extend(params, customParams);
-		}
-		element.datepicker(params);
-	},
 	registerDateRangePickerFields: function (parentElement, customParams) {
 		if (typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');
@@ -900,8 +853,8 @@ app = {
 		}
 		var language = jQuery('body').data('language');
 		let format = CONFIG.dateFormat.toUpperCase();
-		const elementDateFormat =elements.data('dateFormat');
-		if(typeof elementDateFormat!=='undefined'){
+		const elementDateFormat = elements.data('dateFormat');
+		if (typeof elementDateFormat !== 'undefined') {
 			format = elementDateFormat.toUpperCase();
 		}
 		var ranges = {};

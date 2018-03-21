@@ -1571,7 +1571,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		app.registerEventForDatePickerFields(contents);
+		App.Fields.Date.register(contents);
 		app.registerEventForClockPicker(contents);
 		app.changeSelectElementView(contents);
 
