@@ -51,14 +51,14 @@ class Json
 	 * NOTE: Only public variables will be encoded
 	 *
 	 * @param mixed $valueToEncode
-	 * @param bool  $cycleCheck    Optional; whether or not to check for object recursion; off by default
+	 * @param int   $options       Optional; whether or not to check for object recursion; off by default
 	 *
 	 * @return string JSON encoded object
 	 */
-	public static function encode($valueToEncode, $cycleCheck = false)
+	public static function encode($valueToEncode, $options = 0)
 	{
 		if (function_exists('json_encode')) {
-			return json_encode($valueToEncode);
+			return json_encode($valueToEncode, $options);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
 	}

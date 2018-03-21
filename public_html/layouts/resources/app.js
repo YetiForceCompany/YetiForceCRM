@@ -584,12 +584,6 @@ app = {
 			modalContainer.modal(params);
 			jQuery('body').append(container);
 			app.changeSelectElementView(modalContainer);
-			//register all select2 Elements
-			app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
-			app.showSelectizeElementView(modalContainer.find('select.selectize'));
-			//register date fields event to show mini calendar on click of element
-			App.Fields.Date.register(modalContainer);
-
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -599,6 +593,12 @@ app = {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
+
+				//register all select2 Elements
+				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+				app.showSelectizeElementView(modalContainer.find('select.selectize'));
+				//register date fields event to show mini calendar on click of element
+				App.Fields.Date.register(modalContainer);
 			})
 		}
 		if (data) {
@@ -1483,7 +1483,7 @@ app = {
 		if (typeof container == 'undefined') {
 			container = jQuery('body');
 		}
-		container.off('click', 'button.showModal, a.showModal').on('click', 'button.showModal, a.showModal', function (e) {
+		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 			e.preventDefault();
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');

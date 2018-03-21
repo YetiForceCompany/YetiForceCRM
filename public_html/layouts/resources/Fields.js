@@ -184,5 +184,40 @@ App.Fields = {
 				});
 			});
 		},
+	},
+	Text: {
+		/*
+		 * Initialization CkEditor
+		 * @param {jQuery} parentElement
+		 * @param {Object} customParams
+		 */
+		registerCkEditor: function (parentElement, params) {
+			if (typeof parentElement == 'undefined') {
+				parentElement = jQuery('body');
+			} else {
+				parentElement = jQuery(parentElement);
+			}
+			if (parentElement.hasClass('js-ckeditor') && !parentElement.prop('disabled')) {
+				var elements = parentElement;
+			} else {
+				var elements = jQuery('.js-ckeditor:not([disabled])', parentElement);
+			}
+			if (elements.length == 0) {
+				return;
+			}
+			$.each(elements, function (key, element) {
+				var ckEditorInstance = new Vtiger_CkEditor_Js();
+				ckEditorInstance.loadCkEditor($(element), params);
+			});
+		},
+		/**
+		 * Destroy ckEditor
+		 * @param {jQuery} element
+		 */
+		destroyCkEditor: function (element) {
+			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
+				CKEDITOR.instances[element.attr('id')].destroy();
+			}
+		},
 	}
 }
