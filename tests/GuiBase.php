@@ -58,8 +58,8 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 			$this->byTag('form')->submit();
 
 			$this->url('index.php?module=Home&view=DashBoard');
-			$this->assertSame('Home', $this->byId('module')->value());
-			$this->assertSame('DashBoard', $this->byId('view')->value());
+			$this->assertEquals('Home', $this->byId('module')->value());
+			$this->assertEquals('DashBoard', $this->byId('view')->value());
 
 			static::$isLogin = true;
 		}

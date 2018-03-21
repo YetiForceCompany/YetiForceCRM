@@ -31,9 +31,9 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -82,9 +82,9 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -115,9 +115,9 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -134,9 +134,9 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -167,9 +167,9 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -186,9 +186,9 @@ class Inventory extends \Tests\Base
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], $name);
-		$this->assertSame($row['value'], $value);
-		$this->assertSame($row['status'], $status);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**

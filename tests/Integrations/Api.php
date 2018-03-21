@@ -81,10 +81,10 @@ class Api extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => static::$serverId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$serverId);
-		$this->assertSame($row['type'], 'Portal');
-		$this->assertSame($row['status'], 1);
-		$this->assertSame($row['name'], 'portal');
-		$this->assertSame($row['pass'], 'portal');
+		$this->assertEquals($row['type'], 'Portal');
+		$this->assertEquals($row['status'], 1);
+		$this->assertEquals($row['name'], 'portal');
+		$this->assertEquals($row['pass'], 'portal');
 		static::$requestHeaders['X-API-KEY'] = $row['api_key'];
 
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
@@ -103,10 +103,10 @@ class Api extends \Tests\Base
 		static::$apiUserId = $webserviceUsers->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => static::$apiUserId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$apiUserId);
-		$this->assertSame($row['server_id'], static::$serverId);
-		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
-		$this->assertSame($row['password_t'], 'demo');
-		$this->assertSame($row['language'], 'pl_pl');
+		$this->assertEquals($row['server_id'], static::$serverId);
+		$this->assertEquals($row['user_name'], 'demo@yetiforce.com');
+		$this->assertEquals($row['password_t'], 'demo');
+		$this->assertEquals($row['language'], 'pl_pl');
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Api extends \Tests\Base
 		]), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 0);
 		$this->logs = $request->raw;
-		$this->assertSame($response->status, 1, (string) $response->error->message);
+		$this->assertEquals($response->status, 1, (string) $response->error->message);
 		static::$authUserParams = $response->result;
 		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
 	}
@@ -140,7 +140,7 @@ class Api extends \Tests\Base
 		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 		static::$recordId = $response['result']['id'];
 	}
 
@@ -156,7 +156,7 @@ class Api extends \Tests\Base
 		$request = \Requests::put(static::$url . 'Accounts/Record/' . static::$recordId, static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Api extends \Tests\Base
 		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Api extends \Tests\Base
 		$request = \Requests::get(static::$url . 'Accounts/Fields', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['fields']));
 		$this->assertTrue(!empty($response['result']['blocks']));
 	}
@@ -191,7 +191,7 @@ class Api extends \Tests\Base
 		$request = \Requests::get(static::$url . 'Accounts/Privileges', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['standardActions']));
 	}
 
@@ -203,7 +203,7 @@ class Api extends \Tests\Base
 		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['Accounts']));
 	}
 
@@ -215,7 +215,7 @@ class Api extends \Tests\Base
 		$request = \Requests::get(static::$url . 'Methods', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$this->assertEquals($response['status'], 1, (string) $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['BaseAction']));
 		$this->assertTrue(!empty($response['result']['BaseModule']));
 		$this->assertTrue(!empty($response['result']['Users']));

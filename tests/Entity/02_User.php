@@ -59,11 +59,11 @@ class User extends \Tests\Base
 		$this->assertInternalType('int', static::$id);
 		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['user_name'], 'testuser');
-		$this->assertSame($row['email1'], 'testuser@yetiforce.com');
-		$this->assertSame($row['first_name'], 'Test');
-		$this->assertSame($row['last_name'], 'YetiForce');
-		$this->assertSame((new App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
+		$this->assertEquals($row['user_name'], 'testuser');
+		$this->assertEquals($row['email1'], 'testuser@yetiforce.com');
+		$this->assertEquals($row['first_name'], 'Test');
+		$this->assertEquals($row['last_name'], 'YetiForce');
+		$this->assertEquals((new App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
 	}
 
 	/**
@@ -81,11 +81,11 @@ class User extends \Tests\Base
 		$user->save();
 		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['user_name'], 'testuseredit');
-		$this->assertSame($row['email1'], 'testuser-edit@yetiforce.com');
-		$this->assertSame($row['first_name'], 'Test edit');
-		$this->assertSame($row['last_name'], 'YetiForce edit');
-		$this->assertSame((new App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
+		$this->assertEquals($row['user_name'], 'testuseredit');
+		$this->assertEquals($row['email1'], 'testuser-edit@yetiforce.com');
+		$this->assertEquals($row['first_name'], 'Test edit');
+		$this->assertEquals($row['last_name'], 'YetiForce edit');
+		$this->assertEquals((new App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
 	}
 
 	/**

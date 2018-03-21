@@ -60,9 +60,9 @@ class LogIn extends \Tests\Base
 		$this->assertTrue(Users_Module_Model::checkMailExist('demo@yetiforce.com'));
 		$this->assertFalse(Users_Module_Model::checkMailExist('demo@yetiforce.com', TESTS_USER_ID));
 		$this->assertFalse(Users_Module_Model::checkMailExist('xxx@yetiforce.com'));
-		$this->assertSame(Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
-		$this->assertSame(Users_Module_Model::checkUserName('demo', TESTS_USER_ID), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
-		$this->assertSame(Users_Module_Model::checkUserName('test', 1), \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users'));
+		$this->assertEquals(Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
+		$this->assertEquals(Users_Module_Model::checkUserName('demo', TESTS_USER_ID), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
+		$this->assertEquals(Users_Module_Model::checkUserName('test', 1), \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users'));
 	}
 
 	/**
