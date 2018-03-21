@@ -584,11 +584,6 @@ app = {
 			modalContainer.modal(params);
 			jQuery('body').append(container);
 			app.changeSelectElementView(modalContainer);
-			//register all select2 Elements
-			app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
-			app.showSelectizeElementView(modalContainer.find('select.selectize'));
-			//register date fields event to show mini calendar on click of element
-			app.registerEventForDatePickerFields(modalContainer);
 
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
@@ -599,6 +594,12 @@ app = {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
+
+				//register all select2 Elements
+				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+				app.showSelectizeElementView(modalContainer.find('select.selectize'));
+				//register date fields event to show mini calendar on click of element
+				app.registerEventForDatePickerFields(modalContainer);
 			})
 		}
 		if (data) {
