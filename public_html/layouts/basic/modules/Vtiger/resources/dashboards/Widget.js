@@ -385,17 +385,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
 		const splitted = replacementStr.split(':');
 		if (splitted.length !== 2) {
-			const errorMsg = "Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'";
-			console.error(errorMsg);
-			throw new Error(errorMsg);
+			app.errorLog(new Error("Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'"));
 		}
 		let finalFunction = splitted[1].split('.').reduce((previous, current) => {
 			return previous[current];
 		}, this.globalChartFunctions);
 		if (typeof finalFunction !== 'function') {
-			const errorMsg = "Global function does not exists: " + splitted[1];
-			console.error(errorMsg);
-			throw new Error(errorMsg);
+			app.errorLog(new Error("Global function does not exists: " + splitted[1]));
 		}
 		return finalFunction.bind(this);
 	},
@@ -459,9 +455,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		} else if (typeof options === 'object' && options !== null) {
 			return this.parseOptionsObject(options);
 		}
-		const errorMsg = 'Unknown options format [' + typeof options + '] - should be object.';
-		console.error(errorMsg);
-		throw new Error(errorMsg);
+		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 	},
 	/**
 	 * Get global charts default configuration - may be loaded from database in the future
@@ -860,9 +854,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
 		}
-		const errorMsg = chartSubType + ' chart does not exists!';
-		console.error(errorMsg);
-		throw new Error(errorMsg);
+		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
 	},
 	/**
 	 * Get default chart basic options for specified chart subtype
@@ -1584,9 +1576,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	mergeOptions: function mergeOptions(to = {}, ...fromArray) {
 		for (let i = 0, len = fromArray.length; i < len; i++) {
 			if (typeof fromArray[i] !== 'object' || Array.isArray(fromArray[i])) {
-				const errorMsg = 'Options argument should be an object! Chart subType: ' + this.getSubType() + ' [' + fromArray[i].toString() + ']';
-				console.error(errorMsg);
-				throw new Error(errorMsg);
+				app.errorLog(new Error('Options argument should be an object! Chart subType: ' + this.getSubType() + ' [' + fromArray[i].toString() + ']'));
+
 			} else {
 				to = this.mergeOptionsObject(to, fromArray[i]);
 			}
