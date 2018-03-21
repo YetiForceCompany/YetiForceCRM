@@ -49,7 +49,7 @@
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{if $BLOCKS_HIDE}
 					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
-						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+						<div class="row blockHeader panel-heading marginLeftZero marginRightZero js-block-header" data-js="each">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
@@ -61,7 +61,7 @@
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
-						<div class="col-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}d-none{/if}">
+						<div class="col-12 paddingLRZero panel-body blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							<div class="col-12 paddingLRZero">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}

@@ -60,7 +60,7 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
 					<div class="js-toggle-panel c-panel__content row blockContainer mx-1" data-js="click" data-label="{$BLOCK_LABEL}">
-						<div class="blockHeader card-header bg-light">
+						<div class="blockHeader card-header bg-light js-block-header" data-js="each">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
@@ -70,7 +70,7 @@
 							<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
-						<div class="col-md-12 card-body blockContent pt-2 {if $IS_HIDDEN}d-none{/if}">
+						<div class="col-md-12 card-body blockContent pt-2 js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="col-md-12 adressAction">
 									{if $APIADDRESFIELD}
