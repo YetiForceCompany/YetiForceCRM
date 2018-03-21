@@ -966,10 +966,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'enabled': true
 					}
 				});
-				var blocks = editViewForm.find('.blockHeader');
+				var blocks = editViewForm.find('.js-block-header');
 				blocks.each(function (index, block) {
 					var currentBlock = jQuery(block);
-					currentBlock.closest('.js-toggle-panel').find('.blockContent').removeClass('d-none');
+					currentBlock.closest('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
 					currentBlock.find("[data-mode='hide']").removeClass('d-none');
 				});
 				var module = jQuery(e.currentTarget).find('[name="module"]').val();

@@ -49,7 +49,7 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
 					<div class="card js-toggle-panel row mx-0 blockContainer mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
-						<div class="row blockHeader card-header mx-0">
+						<div class="row blockHeader card-header mx-0 js-block-header" data-js="each">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
@@ -60,7 +60,7 @@
 							<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<h4>{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h4>
 						</div>
-						<div class="col-md-12 px-0 card-body blockContent {if $IS_HIDDEN}d-none{/if}">
+						<div class="col-md-12 px-0 card-body blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							<div class="col-md-12 px-0 form-row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
