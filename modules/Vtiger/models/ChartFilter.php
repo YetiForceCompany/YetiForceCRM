@@ -442,8 +442,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		if (!empty($row['picklist_id'])) {
 			$groupData[$displayValue]['color_id'] = $row['picklist_id'];
+		} elseif (!empty($row['assigned_user_id'])) {
+			$groupData[$displayValue]['color_id'] = $row['assigned_user_id'];
+			$this->colors[$row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
+		} elseif (!empty($row['id'])) {
+			$groupData[$displayValue]['color_id'] = $row['id'];
+			$this->colors[$row['id']] = \App\Colors::getRandomColor($row['id']);
+		} else {
+			$colorNr = count($this->colors);
+			$groupData[$displayValue]['color_id'] = $colorNr;
+			$this->colors[$row['id']] = \App\Colors::getRandomColor($colorNr);
 		}
-
 		return $groupData;
 	}
 
@@ -476,7 +485,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					break;
 			}
 		}
-
 		return $sectorValues;
 	}
 
