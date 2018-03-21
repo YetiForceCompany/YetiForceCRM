@@ -966,12 +966,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'enabled': true
 					}
 				});
-				var blocks = editViewForm.find('.js-block-header');
-				blocks.each(function (index, block) {
-					var currentBlock = jQuery(block);
-					currentBlock.closest('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
-					currentBlock.find("[data-mode='hide']").removeClass('d-none');
-				});
+				editViewForm.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
 				var module = jQuery(e.currentTarget).find('[name="module"]').val();
 				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element
