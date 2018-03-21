@@ -135,7 +135,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['pointBackgroundColor'][] = $this->colors[$value['color_id']];
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -169,7 +169,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['color_id']];
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -203,7 +203,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['color_id']];
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -236,7 +236,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['backgroundColor'] = \App\Colors::getRandomColor($fieldName . $value);
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -265,7 +265,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['color_id']];
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -294,7 +294,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['color_id']];
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -323,7 +323,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['color_id']];
 			}
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -362,7 +362,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$i++;
 		}
-		$chartData['show_chart'] = !empty($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 

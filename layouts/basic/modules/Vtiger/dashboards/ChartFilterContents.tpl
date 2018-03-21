@@ -6,7 +6,7 @@
 		<input class="widgetOwners" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_OWNERS))}" />
 	{/if}
 	<input class="widgetData" name="data" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}" />
-	{if count($CHART_DATA) gt 0 }
+	{if $CHART_DATA['show_chart'] }
 		<div class="widgetChartContainer chartcontent"><canvas></canvas></div>
 	{else}
 		<span class="noDataMsg">
