@@ -164,10 +164,10 @@ class Picklist
 	 *
 	 * @return array associative array [$moduleName=>[...$fieldNames]]
 	 */
-	public static function getModulesByName($moduleName = false)
+	public static function getModulesByName($moduleName = '')
 	{
 		if (\App\Cache::has('getPicklistModulesByName', $moduleName)) {
-			return \App\Cache::get('getPicklistModulesByName', $fieldName);
+			return \App\Cache::get('getPicklistModulesByName', $moduleName);
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'vtiger_tab.name'])
 			->from('vtiger_field')
