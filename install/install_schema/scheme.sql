@@ -340,6 +340,29 @@ CREATE TABLE `dav_calendarchanges` (
   KEY `calendarid_synctoken` (`calendarid`,`synctoken`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `dav_calendarinstances` */
+
+CREATE TABLE `dav_calendarinstances` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `calendarid` int(10) unsigned NOT NULL,
+  `principaluri` varbinary(100) DEFAULT NULL,
+  `access` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 = owner, 2 = read, 3 = readwrite',
+  `displayname` varchar(100) DEFAULT NULL,
+  `uri` varbinary(200) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `calendarorder` int(11) unsigned NOT NULL DEFAULT 0,
+  `calendarcolor` varbinary(10) DEFAULT NULL,
+  `timezone` text DEFAULT NULL,
+  `transparent` tinyint(1) NOT NULL DEFAULT 0,
+  `share_href` varbinary(100) DEFAULT NULL,
+  `share_displayname` varchar(100) DEFAULT NULL,
+  `share_invitestatus` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1 = noresponse, 2 = accepted, 3 = declined, 4 = invalid',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `principaluri` (`principaluri`,`uri`),
+  UNIQUE KEY `calendarid` (`calendarid`,`principaluri`),
+  UNIQUE KEY `calendarid_2` (`calendarid`,`share_href`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*Table structure for table `dav_calendarobjects` */
 
 CREATE TABLE `dav_calendarobjects` (
@@ -364,19 +387,10 @@ CREATE TABLE `dav_calendarobjects` (
 
 CREATE TABLE `dav_calendars` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `principaluri` varbinary(100) DEFAULT NULL,
-  `displayname` varchar(100) DEFAULT NULL,
-  `uri` varbinary(200) DEFAULT NULL,
   `synctoken` int(10) unsigned NOT NULL DEFAULT 1,
-  `description` text DEFAULT NULL,
-  `calendarorder` int(10) unsigned NOT NULL DEFAULT 0,
-  `calendarcolor` varbinary(10) DEFAULT NULL,
-  `timezone` text DEFAULT NULL,
   `components` varbinary(21) DEFAULT NULL,
-  `transparent` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `principaluri` (`principaluri`,`uri`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Table structure for table `dav_calendarsubscriptions` */
 
