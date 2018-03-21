@@ -30,6 +30,7 @@ return [
 	'Giggsey\\Locale\\' => [$vendorDir . '/giggsey/locale/src'],
 	'Exception\\' => [$baseDir . '/include/exceptions'],
 	'DebugBar\\' => [$vendorDir . '/php-debugbar/src/DebugBar'],
+	'CsrfMagic\\' => [$vendorDir . '/yetiforce/csrf-magic/src'],
 	'Cron\\' => [$baseDir . '/cron'],
 	'Composer\\CaBundle\\' => [$vendorDir . '/composer/ca-bundle/src'],
 	'App\\' => [$baseDir . '/app'],

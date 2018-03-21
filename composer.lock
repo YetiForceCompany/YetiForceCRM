@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "533b81e1f0ab4ad8cdf0148a7acee827",
+    "content-hash": "b02d92f9c9f4241d489c1adccb4b8803",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1318,6 +1318,51 @@
                 "truncating"
             ],
             "time": "2014-05-25T22:50:06+00:00"
+        },
+        {
+            "name": "yetiforce/csrf-magic",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YetiForceCompany/csrf-magic.git",
+                "reference": "033c6e9c9458ccd9a906a25c606b54f2d1b67273"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/033c6e9c9458ccd9a906a25c606b54f2d1b67273",
+                "reference": "033c6e9c9458ccd9a906a25c606b54f2d1b67273",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CsrfMagic\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "YetiForceCompany",
+                    "email": "info@yetiforce.com",
+                    "homepage": "https://yetiforce.com/"
+                },
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "ezyang@mit.edu",
+                    "homepage": "https://github.com/ezyang"
+                }
+            ],
+            "description": "Cross Site Request Forgery security library",
+            "homepage": "https://github.com/YetiForceCompany/csrf-magic",
+            "keywords": [
+                "csrf",
+                "php",
+                "security"
+            ],
+            "time": "2018-03-21T11:53:44+00:00"
         }
     ],
     "packages-dev": [
@@ -2778,7 +2823,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "yetiforce/csrf-magic": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

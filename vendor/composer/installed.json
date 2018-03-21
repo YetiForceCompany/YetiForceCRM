@@ -1355,5 +1355,52 @@
 			"truncate",
 			"truncating"
 		]
+	},
+	{
+		"name": "yetiforce/csrf-magic",
+		"version": "dev-master",
+		"version_normalized": "9999999-dev",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/YetiForceCompany/csrf-magic.git",
+			"reference": "033c6e9c9458ccd9a906a25c606b54f2d1b67273"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/033c6e9c9458ccd9a906a25c606b54f2d1b67273",
+			"reference": "033c6e9c9458ccd9a906a25c606b54f2d1b67273",
+			"shasum": ""
+		},
+		"time": "2018-03-21T11:53:44+00:00",
+		"type": "library",
+		"installation-source": "source",
+		"autoload": {
+			"psr-4": {
+				"CsrfMagic\\": "src/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"BSD-2-Clause"
+		],
+		"authors": [
+			{
+				"name": "YetiForceCompany",
+				"email": "info@yetiforce.com",
+				"homepage": "https://yetiforce.com/"
+			},
+			{
+				"name": "Edward Z. Yang",
+				"email": "ezyang@mit.edu",
+				"homepage": "https://github.com/ezyang"
+			}
+		],
+		"description": "Cross Site Request Forgery security library",
+		"homepage": "https://github.com/YetiForceCompany/csrf-magic",
+		"keywords": [
+			"csrf",
+			"php",
+			"security"
+		]
 	}
 ]

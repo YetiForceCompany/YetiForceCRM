@@ -65,6 +65,7 @@ class ComposerStaticInitYT
 			'DebugBar\\' => 9,
 		],
 		'C' => [
+			'CsrfMagic\\' => 10,
 			'Cron\\' => 5,
 			'Composer\\CaBundle\\' => 18,
 		],
@@ -145,6 +146,9 @@ class ComposerStaticInitYT
 		],
 		'DebugBar\\' => [
 			0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
+		],
+		'CsrfMagic\\' => [
+			0 => __DIR__ . '/..' . '/yetiforce/csrf-magic/src',
 		],
 		'Cron\\' => [
 			0 => __DIR__ . '/../..' . '/cron',
