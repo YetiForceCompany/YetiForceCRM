@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 /**
@@ -10,7 +11,6 @@ namespace App;
  */
 class ModuleHierarchy
 {
-
 	protected static $hierarchy;
 	protected static $modulesByLevels = [];
 

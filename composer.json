@@ -60,7 +60,7 @@
 		"psr-4": {
 			"vtlib\\": "vtlib/Vtiger/",
 			"includes\\": "include/",
-			"App\\": "vendor/yetiforce/",
+			"App\\": "app/",
 			"Api\\": "api/webservice/",
 			"Cron\\": "cron/",
 			"Tests\\": "tests/",

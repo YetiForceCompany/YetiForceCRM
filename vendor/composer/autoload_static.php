@@ -153,7 +153,7 @@ class ComposerStaticInitYT
 			0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
 		],
 		'App\\' => [
-			0 => __DIR__ . '/..' . '/yetiforce',
+			0 => __DIR__ . '/../..' . '/app',
 		],
 		'Api\\' => [
 			0 => __DIR__ . '/../..' . '/api/webservice',

@@ -32,6 +32,6 @@ return [
 	'DebugBar\\' => [$vendorDir . '/php-debugbar/src/DebugBar'],
 	'Cron\\' => [$baseDir . '/cron'],
 	'Composer\\CaBundle\\' => [$vendorDir . '/composer/ca-bundle/src'],
-	'App\\' => [$vendorDir . '/yetiforce'],
+	'App\\' => [$baseDir . '/app'],
 	'Api\\' => [$baseDir . '/api/webservice'],
 ];
