@@ -49,7 +49,7 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
 					<div class="card js-toggle-panel row mx-0 blockContainer mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
-						<div class="row blockHeader card-header mx-0 js-block-header" data-js="each">
+						<div class="row blockHeader card-header mx-0">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
