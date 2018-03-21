@@ -55,7 +55,7 @@
 											{assign var=COUNTER value=$COUNTER+1}
 										{/if}
 										<div class="col-md-6 py-2 form-row {$WIDTHTYPE} ">
-											<div class="fieldLabel col-sm-3">
+											<div class="fieldLabel col-sm-3 pl-0">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 												{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 
