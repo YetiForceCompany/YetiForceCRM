@@ -20,12 +20,12 @@
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header d-flex justify-content-between">
 						<div class="divQuickCreate">
-							<h3 class="modal-title quickCreateTitle">
+							<h5 class="modal-title">
 								<span class="fas fa-plus mr-1"></span>
 								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
 								<span class="userIcon-{$MODULE} mx-1"></span>
 								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
-							</h3>
+							</h5>
 						</div>
 						<div class="quickCreateActions pullRight">
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
