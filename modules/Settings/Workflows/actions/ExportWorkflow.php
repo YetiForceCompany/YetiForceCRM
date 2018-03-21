@@ -90,4 +90,12 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 		$xml->appendChild($xmlTemplate);
 		echo $xml->saveXML();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
+	}
 }
