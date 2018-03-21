@@ -126,7 +126,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	 */
 	registerEvents: function () {
 		var container = jQuery('#currencyUpdateContainer');
-		app.registerEventForDatePickerFields('#datepicker', false, {});
+		App.Fields.Date.register('#datepicker', false, {});
 		this.registerInfoButton(container);
 		this.registerAlertButton(container);
 		this.registerBankChange(container);

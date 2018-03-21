@@ -17,6 +17,7 @@ class Composer
 	 * @var atring[]
 	 */
 	public static $publicPackage = [
+		'yetiforce/csrf-magic'
 	];
 
 	/**
@@ -26,7 +27,7 @@ class Composer
 	 */
 	public static function install(\Composer\Script\Event $event)
 	{
-		$rootDir = realpath(__DIR__ . '/../../../') . DIRECTORY_SEPARATOR;
+		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
 		foreach (static::$publicPackage as $package) {
 			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {

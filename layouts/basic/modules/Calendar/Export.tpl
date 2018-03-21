@@ -45,8 +45,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{\App\Language::translate('LBL_EXPORT', $MODULE)}</strong></button>
-						<button type="button" class="btn btn-warning cancelLink" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+						<button type="submit" class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{\App\Language::translate('LBL_EXPORT', $MODULE)}</strong></button>
+						<button type="reset" class="btn btn-warning cancelLink" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 					</div>
 				</form>
 			</div>

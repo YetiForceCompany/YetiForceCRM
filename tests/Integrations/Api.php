@@ -3,14 +3,14 @@
  * Api integrations test class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
 namespace Tests\Integrations;
 
 class Api extends \Tests\Base
 {
-
 	/**
 	 * Server address.
 	 *
@@ -57,6 +57,7 @@ class Api extends \Tests\Base
 	 * @var array
 	 */
 	private static $authUserParams;
+	private static $recordId;
 
 	public function setUp()
 	{
@@ -114,17 +115,15 @@ class Api extends \Tests\Base
 	public function testLogIn()
 	{
 		$request = \Requests::post(static::$url . 'Users/Login', static::$requestHeaders, \App\Json::encode([
-					'userName' => 'demo@yetiforce.com',
-					'password' => 'demo',
-				]), static::$requestOptions);
+			'userName' => 'demo@yetiforce.com',
+			'password' => 'demo',
+		]), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 0);
 		$this->logs = $request->raw;
 		$this->assertEquals($response->status, 1, (string) $response->error->message);
 		static::$authUserParams = $response->result;
 		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
 	}
-
-	private static $recordId;
 
 	/**
 	 * Testing add record.

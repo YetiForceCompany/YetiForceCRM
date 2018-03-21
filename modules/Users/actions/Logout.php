@@ -37,4 +37,12 @@ class Users_Logout_Action extends \App\Controller\Action
 		//End
 		header('Location: index.php');
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
+	}
 }

@@ -105,7 +105,7 @@ class Install_InitSchema_Model
 		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
 		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);
 		$userRecordModel->save();
-		require_once 'vendor/yetiforce/UserPrivilegesFile.php';
+		require_once 'app/UserPrivilegesFile.php';
 		\App\UserPrivilegesFile::createUserPrivilegesfile(1);
 	}
 

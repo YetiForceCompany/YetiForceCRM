@@ -32,27 +32,21 @@
 # dependencies COMPOSER
 /vendor/*
 !/vendor/php-debugbar
-!/vendor/yetiforce
 !/vendor/yii
+/public_html/vendor/*
+!/public_html/vendor/php-debugbar
 
 # dependencies YARN
 yarn-error.log
 /node_modules/
 /public_html/libraries/*
-!/public_html/libraries/csrf-magic/
 !/public_html/libraries/js/
 
 # IDEs and editors
-/.idea
 /.buildpath
 .c9/
 .classpath
 .project
 *.launch
-/nbproject/
 .settings/
 *.sublime-workspace
-
-# System Files
-.DS_Store
-Thumbs.db

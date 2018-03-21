@@ -160,7 +160,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			if (start > end) {
 				end = start;
 				endDateElement.val(moment(end).format(dateFormat));
-				app.registerEventForDatePickerFields(container);
+				App.Fields.Date.register(container);
 				thisInstance.setVisibilityBtnSaveAndClose(container);
 			}
 			var timeStartElement = startDateElement.closest('.fieldValue').find('[name="time_start"]');

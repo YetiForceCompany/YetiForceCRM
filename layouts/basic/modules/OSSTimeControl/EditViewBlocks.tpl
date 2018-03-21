@@ -64,7 +64,7 @@
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
-						<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}d-none{/if}">
+						<div class="col-md-12 paddingLRZero panel-body blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							<div class="col-md-12 paddingLRZero">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}

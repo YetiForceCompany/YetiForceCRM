@@ -63,4 +63,12 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 		$xml->appendChild($xmlTemplate);
 		echo $xml->saveXML();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
+	}
 }

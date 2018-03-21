@@ -76,7 +76,7 @@
 												<label class="u-text-small-bold">
 													{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-														<a href="#" class="js-help-info float-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
+														<a href="#" class="js-help-info float-right cursorPointer" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 														{/if}
 												</label>
 											</div>

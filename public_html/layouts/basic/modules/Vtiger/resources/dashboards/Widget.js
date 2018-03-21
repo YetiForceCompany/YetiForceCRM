@@ -11,20 +11,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
 	getInstance: function getInstance(container, widgetName, moduleName) {
-		if (typeof moduleName == 'undefined') {
+		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
-		var widgetClassName = widgetName.toCamelCase();
-		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
-		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
-		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
-		var basicClass = YetiForce_Widget_Js;
-		var instance;
-		if (typeof moduleClass != 'undefined') {
+		const widgetClassName = widgetName.toCamelCase();
+		const moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
+		const fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
+		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
+		const basicClass = YetiForce_Widget_Js;
+		let instance;
+		if (typeof moduleClass !== 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
-		} else if (typeof fallbackClass != 'undefined') {
+		} else if (typeof fallbackClass !== 'undefined') {
 			instance = new fallbackClass(container, false, widgetClassName);
-		} else if (typeof yetiClass != 'undefined') {
+		} else if (typeof yetiClass !== 'undefined') {
 			instance = new yetiClass(container, false, widgetClassName);
 		} else {
 			instance = new basicClass(container, false, widgetClassName);
@@ -45,6 +45,847 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerCache(container);
 	},
+	/**
+	 * Predefined functions that will replace options function type
+	 * @type {Object}
+	 */
+	globalChartFunctions: {
+		/**
+		 * Functions for x or y axes scales xAxes:[{here}]
+		 */
+		scales: {
+			formatAxesLabels: function formatAxesLabels(value, index, values) {
+				if (String(value).length > 0 && !isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			},
+		},
+		/**
+		 * Functions for datalabels
+		 */
+		datalabels: {
+			formatter: function datalabelsFormatter(value, context) {
+				if (
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+				) {
+					// data presented in different format usually exists in alternative dataFormatted array
+					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
+				}
+				if (String(value).length > 0 && isNaN(Number(value))) {
+					return app.parseNumberToShow(value);
+				}
+				return value;
+			}
+		},
+		/**
+		 * Tooltips functions
+		 */
+		tooltips: {
+			label: function tooltipLabelCallback(tooltipItem, data) {
+				// get already formatted data if exists
+				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+				}
+				// if there is no formatted data so try to format it
+				if (String(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).length > 0 && !isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
+					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+				}
+				// return raw data at idex
+				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+			},
+			title: function tooltipTitleCallback(tooltipItems, data) {
+				const tooltipItem = tooltipItems[0];
+				// get already formatted title if exists
+				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
+				}
+				// if there is no formatted title so try to format it
+				if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
+					return app.parseNumberToShow(data.labels[tooltipItem.index]);
+				}
+				// return label at index
+				return data.labels[tooltipItem.index];
+			}
+		},
+
+		/**
+		 * plugins
+		 */
+		plugins: {
+			/**
+			 * If datalabels doesn't fit - hide them individually
+			 * @param  {Chart} chart chart instance
+			 * @return {undefined}
+			 */
+			hideVerticalBarDatalabelsIfNeeded: function (chart) {
+				let getDatasetsMeta = function (chart) {
+					const datasets = [];
+					const data = chart.data;
+					if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+						for (let i = 0, len = data.datasets.length; i < len; i++) {
+							const meta = chart.getDatasetMeta(i);
+							if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+								datasets.push(meta);
+							}
+						}
+					}
+					return datasets;
+				};
+				const data = chart.data;
+				let datasetsMeta = getDatasetsMeta(chart);
+				let datasets = chart.data.datasets;
+				for (let i = 0, len = datasets.length; i < len; i++) {
+					const dataset = datasets[i];
+					const metaData = datasetsMeta[i].data;
+					if (typeof dataset._models === 'undefined') {
+						dataset._models = {};
+					}
+					if (typeof dataset.datalabels === 'undefined') {
+						dataset.datalabels = {};
+					}
+					if (typeof dataset.datalabels.display === 'undefined') {
+						dataset.datalabels.display = true;
+					}
+					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+						const dataItem = metaData[iItem];
+						if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+							let model = dataItem.$datalabels._model;
+							if (model !== null && typeof model !== 'undefined') {
+								dataset._models[iItem] = model;
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+								model = dataset._models[iItem];
+							} else {
+								return false;
+							}
+							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+							const barHeight = dataItem.height();
+							if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
+								dataItem.$datalabels._model = null;
+							} else {
+								dataItem.$datalabels._model = model;
+							}
+						}
+					}
+				}
+			},
+			/**
+			 * If datalabels doesn't fit - hide them individually
+			 * @param  {Chart} chart  Chart instance
+			 * @return {undefined}
+			 */
+			hideHorizontalBarDatalabelsIfNeeded: function hideHorizontalBarDatalabelsIfNeeded(chart) {
+				let getDatasetsMeta = function (chart) {
+					const datasets = [];
+					const data = chart.data;
+					if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+						for (let i = 0, len = data.datasets.length; i < len; i++) {
+							const meta = chart.getDatasetMeta(i);
+							if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+								datasets.push(meta);
+							}
+						}
+					}
+					return datasets;
+				};
+				const data = chart.data;
+				let datasetsMeta = getDatasetsMeta(chart);
+				let datasets = chart.data.datasets;
+				for (let i = 0, len = datasets.length; i < len; i++) {
+					const dataset = datasets[i];
+					const metaData = datasetsMeta[i].data;
+					if (typeof dataset._models === 'undefined') {
+						dataset._models = {};
+					}
+					if (typeof dataset.datalabels === 'undefined') {
+						dataset.datalabels = {};
+					}
+					if (typeof dataset.datalabels.display === 'undefined') {
+						dataset.datalabels.display = true;
+					}
+					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
+						const dataItem = metaData[iItem];
+						if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+							let model = dataItem.$datalabels._model;
+							if (model !== null && typeof model !== 'undefined') {
+								dataset._models[iItem] = model;
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+								model = dataset._models[iItem];
+							} else {
+								return false;
+							}
+							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
+							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
+							const barWidth = dataItem.width;
+							if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
+								dataItem.$datalabels._model = null;
+							} else {
+								dataItem.$datalabels._model = model;
+							}
+						}
+					}
+				}
+			},
+			/**
+			 * Fix to long axis labels
+			 * @param  {Chart}  chart    Chart instance
+			 * @return {Boolean}       [description]
+			 */
+			fixXAxisLabels: function fixXAxisLabels(chart) {
+				let shortenXTicks = function shortenXTicks(data, options) {
+					if (typeof options.scales === 'undefined') {
+						options.scales = {};
+					}
+					if (typeof options.scales.xAxes === 'undefined') {
+						options.scales.xAxes = [{}];
+					}
+					options.scales.xAxes.forEach((axis) => {
+						if (typeof axis.ticks === 'undefined') {
+							axis.ticks = {};
+						}
+						axis.ticks.callback = function xAxisTickCallback(value, index, values) {
+							if (value.length > 13) {
+								return value.substr(0, 10) + '...';
+							}
+							return value;
+						};
+					});
+					return options;
+				};
+				let rotateXLabels90 = function rotateXLabels90(data, options) {
+					if (typeof options.scales === 'undefined') {
+						options.scales = {};
+					}
+					if (typeof options.scales.xAxes === 'undefined') {
+						options.scales.xAxes = [{}];
+					}
+					options.scales.xAxes.forEach((axis) => {
+						if (typeof axis.ticks === 'undefined') {
+							axis.ticks = {};
+						}
+						axis.ticks.minRotation = 90;
+					});
+					return options;
+				};
+
+				chart.data.datasets.forEach((dataset, index) => {
+					if (dataset._updated) {
+						return false;
+					}
+					for (let prop in dataset._meta) {
+						if (dataset._meta.hasOwnProperty(prop)) {
+							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+								const metaDataItem = dataset._meta[prop].data[i];
+								const label = metaDataItem._xScale.ticks[i];
+								const ctx = metaDataItem._xScale.ctx;
+								let categoryWidth = metaDataItem._xScale.width / dataset._meta[prop].data.length;
+								if (typeof metaDataItem._xScale.options.categoryPercentage !== 'undefined') {
+									// if it is bar chart there is category percentage option that we should use
+									categoryWidth *= metaDataItem._xScale.options.categoryPercentage;
+								}
+								const fullWidth = ctx.measureText(label).width;
+								if (categoryWidth < fullWidth) {
+									const shortened = label.substr(0, 10) + "...";
+									const shortenedWidth = ctx.measureText(shortened).width;
+									if (categoryWidth < shortenedWidth) {
+										chart.options = rotateXLabels90(chart.data, chart.options);
+										chart.options = shortenXTicks(chart.data, chart.options);
+									} else {
+										chart.options = shortenXTicks(chart.data, chart.options);
+									}
+									if (!dataset._updated) {
+										dataset._updated = true;
+										chart.update();
+										// recalculate positions for smooth animation (for all datasets)
+										chart.data.datasets.forEach((dataset, index) => {
+											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+												metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+												metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+												metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+											});
+										});
+										break;
+									}
+								}
+							}
+							dataset._updated = true;
+						}
+					}
+				});
+			},
+			/**
+			 * Fix too long axis labels  - try to shorten and rotate
+			 * @param  {Chart}  chart    Chart instance
+			 * @return {Boolean}
+			 */
+			fixYAxisLabels: function fixYAxisLabels(chart) {
+				let shortenYTicks = function shortenYTicks(data, options) {
+					if (typeof options.scales === 'undefined') {
+						options.scales = {};
+					}
+					if (typeof options.scales.yAxes === 'undefined') {
+						options.scales.yAxes = [{}];
+					}
+					options.scales.yAxes.forEach((axis) => {
+						if (typeof axis.ticks === 'undefined') {
+							axis.ticks = {};
+						}
+						axis.ticks.callback = function yAxisTickCallback(value, index, values) {
+							if (value.length > 13) {
+								return value.substr(0, 10) + '...';
+							}
+							return value;
+						}
+					});
+					return options;
+				};
+				chart.data.datasets.forEach((dataset, index) => {
+					if (dataset._updated) {
+						return false;
+					}
+					for (let prop in dataset._meta) {
+						if (dataset._meta.hasOwnProperty(prop)) {
+							// we have meta
+							for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
+								const metaDataItem = dataset._meta[prop].data[i];
+								const label = metaDataItem._view.label;
+								if (label.length > 13) {
+									chart.options = shortenYTicks(chart.data, chart.options);
+									if (!dataset._updated) {
+										dataset._updated = true;
+										chart.update();
+										// recalculate positions for smooth animation (for all datasets)
+										chart.data.datasets.forEach((dataset, index) => {
+											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
+												if (typeof metaDataItem._xScale !== 'undefined') {
+													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
+													metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
+												}
+											});
+										});
+										break;
+									}
+								}
+							}
+							dataset._updated = true;
+						}
+					}
+				});
+			},
+		}
+	},
+	/**
+	 * Get function from global functions from replacement string
+	 * @param  {String} replacementStr replacement string from getFunctionReplacementString method
+	 * @return {Function}
+	 */
+	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
+		const splitted = replacementStr.split(':');
+		if (splitted.length !== 2) {
+			app.errorLog(new Error("Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'"));
+		}
+		let finalFunction = splitted[1].split('.').reduce((previous, current) => {
+			return previous[current];
+		}, this.globalChartFunctions);
+		if (typeof finalFunction !== 'function') {
+			app.errorLog(new Error("Global function does not exists: " + splitted[1]));
+		}
+		return finalFunction.bind(this);
+	},
+	/**
+	 * Should options property be replaced by function?
+	 * @param  {String}  str
+	 * @return {Boolean}
+	 */
+	isReplacementString: function isReplacementString(str) {
+		if (typeof str !== 'string') {
+			return false;
+		}
+		return str.substr(0, 9) === 'function:';
+	},
+	/**
+	 * Recursively parse options and replace function replacement strings to functions
+	 * @param  {Object} options
+	 * @return {Object} options with replaced string functions
+	 */
+	parseOptionsObject: function parseOptionsObject(options) {
+		let result = {};
+		for (let propertyName in options) {
+			let value = options[propertyName];
+			if (this.isReplacementString(value)) {
+				result[propertyName] = this.getFunctionFromReplacementString(value);
+			} else if (Array.isArray(value)) {
+				result[propertyName] = this.parseOptionsArray(value);
+			} else if (typeof value === 'object' && value !== null) {
+				result[propertyName] = this.parseOptionsObject(value);
+			} else {
+				result[propertyName] = value;
+			}
+		}
+		return result;
+	},
+	/**
+	 * Recursively parse options in array form and replace function replacement string with functions
+	 * @param  {Array} arr
+	 * @return {Array}
+	 */
+	parseOptionsArray: function parseOptionsArray(arr) {
+		return arr.map((item, index) => {
+			if (this.isReplacementString(item)) {
+				return this.getFunctionFromReplacementString(value);
+			} else if (Array.isArray(item)) {
+				return this.parseOptionsArray(item);
+			} else if (typeof item === 'object' && item !== null) {
+				return this.parseOptionsObject(item);
+			}
+			return item;
+		});
+	},
+	/**
+	 * Recursively parse options object and replace function replacement strings with global functions
+	 * @param  {Object} options
+	 * @return {Object}
+	 */
+	parseOptions: function parseOptions(options) {
+		if (Array.isArray(options)) {
+			return this.parseOptionsArray(options);
+		} else if (typeof options === 'object' && options !== null) {
+			return this.parseOptionsObject(options);
+		}
+		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
+	},
+	/**
+	 * Get global charts default configuration - may be loaded from database in the future
+	 * We can modify something basing on chartData received from server (some custom options etc.)
+	 *
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @param  {String} chartSubType 'bar','pie' etc..
+	 * @return {Object}
+	 */
+	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartSubType, chartData) {
+		const options = this.parseOptions({
+			bar: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels',
+				}, {
+					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+				}],
+			},
+			bardivided: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels',
+				}, {
+					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
+				}],
+			},
+			horizontalbar: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels'
+				}, {
+					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
+				}],
+			},
+			pie: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true
+					},
+					cutoutPercentage: 0,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [],
+			},
+			doughnut: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true
+					},
+					cutoutPercentage: 50,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [],
+			},
+			// hard edges line
+			line: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					lineTension: 0,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			// smooth line
+			lineplain: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: {
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						},
+						yAxes: {
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}
+					},
+				},
+				dataset: {
+					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			funnel: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					sort: 'desc',
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						yAxes: [{
+							display: true,
+							beginAtZero: true,
+						}],
+					},
+				},
+				dataset: {
+					datalabels: {
+						display: false
+					}
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels',
+				}],
+			},
+		});
+		chartSubType = chartSubType.toLowerCase();
+		if (typeof options[chartSubType] !== 'undefined') {
+			return options[chartSubType];
+		}
+		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
+	},
+	/**
+	 * Get default chart basic options for specified chart subtype
+	 *
+	 * @param  {String} chartSubType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultBasicOptions: function getDefaultBasicOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).basic;
+	},
+	/**
+	 * Get default dataset options for specified chart subtype
+	 *
+	 * @param  {String} chartSubType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultDatasetOptions: function getDefaultDatasetOptions(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).dataset;
+	},
+	/**
+	 * Get default plugins for specified chart subtype
+	 *
+	 * @param  {String} chartSubType 'bar','pie'...
+	 * @param  {Object} chartData received from request ['labels':[],'datasets':['data':[]]] etc
+	 * @return {Object}
+	 */
+	getDefaultPlugins: function getDefaultPlugins(chartSubType, chartData) {
+		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).plugins;
+	},
 	getContainer: function getContainer() {
 		return this.container;
 	},
@@ -53,19 +894,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this;
 	},
 	isEmptyData: function isEmptyData() {
-		var container = this.getContainer();
-		return (container.find('.noDataMsg').length > 0) ? true : false;
+		return this.getContainer().find('.noDataMsg').length > 0;
 	},
 	getUserDateFormat: function getUserDateFormat() {
 		return jQuery('#userDateFormat').val();
 	},
 	getChartContainer: function getChartContainer(useCache) {
-		if (typeof useCache == 'undefined') {
+		if (typeof useCache === 'undefined') {
 			useCache = false;
 		}
-		if (this.plotContainer == false || !useCache) {
-			var container = this.getContainer();
-			this.plotContainer = container.find('.widgetChartContainer').find('canvas').get(0);
+		if (this.plotContainer === false || !useCache) {
+			this.plotContainer = this.getContainer().find('.widgetChartContainer').find('canvas').get(0);
 		}
 		return this.plotContainer;
 	},
@@ -91,7 +930,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const footer = widget.find('.dashboardWidgetFooter');
 		const header = widget.find('.dashboardWidgetHeader');
 		const headerHeight = header.outerHeight();
-		const adjustedHeight = widget.height() - headerHeight;
+		let adjustedHeight = widget.height() - headerHeight;
 		if (footer.length)
 			adjustedHeight -= footer.outerHeight();
 		if (!content.length)
@@ -206,30 +1045,34 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		}
 	},
+	getChartImage() {
+		const base64Image = this.chartInstance.toBase64Image();
+		const image = new Image();
+		image.src = base64Image;
+		return image;
+	},
 	registerHeaderButtons: function registerHeaderButtons() {
-		var container = this.getContainer();
-		var header = container.find('.dashboardWidgetHeader');
-		var downloadWidget = header.find('.downloadWidget');
-		var printWidget = header.find('.printWidget');
-		printWidget.click(function (e) {
-			var imgEl = $(this.chartInstance.jqplotToImageElem());
-			var print = window.open('', 'PRINT', 'height=400,width=600');
+		const container = this.getContainer();
+		const header = container.find('.dashboardWidgetHeader');
+		const downloadWidget = header.find('.downloadWidget');
+		const printWidget = header.find('.printWidget');
+		printWidget.click((e) => {
+			const imgEl = this.getChartImage();
+			const print = window.open('', 'PRINT', 'height=400,width=600');
 			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
 			print.document.write('</head><body >');
-			print.document.write($('<div>').append(imgEl.clone()).html());
+			print.document.write($('<div>').append(imgEl).html());
 			print.document.write('</body></html>');
 			print.document.close(); // necessary for IE >= 10
-			print.focus(); // necessary for IE >= 10*/
+			print.focus(); // necessary for IE >= 10
 			setTimeout(function () {
 				print.print();
 				print.close();
 			}, 1000);
 		});
-		downloadWidget.click({
-			chart: $(this)
-		}, function (e) {
-			var imgEl = $(this.chartInstance.jqplotToImageElem());
-			var a = $("<a>")
+		downloadWidget.click((e) => {
+			const imgEl = $(this.getChartImage());
+			const a = $("<a>")
 				.attr("href", imgEl.attr('src'))
 				.attr("download", header.find('.dashboardTitle').text() + ".png")
 				.appendTo(container);
@@ -382,8 +1225,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (this.paramCache && widgetFilters.length > 0) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).then(function (data) {
 				var data = jQuery(data);
 				var footer = data.filter('.widgetFooterContent');
 				refreshContainer.progressIndicator({
@@ -399,8 +1241,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					})
 				}
 				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-			},
-			function () {
+			}, function () {
 				refreshContainer.progressIndicator({
 					'mode': 'hide'
 				});
@@ -526,29 +1367,30 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Load and display chart into the view
 	 *
-	 * @return {undefined}
+	 * @return {Chart} chartInstance
 	 */
 	loadChart: function loadChart() {
-		const thisInstance = this;
-		if (typeof thisInstance.chartData === 'undefined' || typeof thisInstance.getChartContainer() === 'undefined') {
+		if (typeof this.chartData === 'undefined' || typeof this.getChartContainer() === 'undefined') {
 			return false;
 		}
-		const data = thisInstance.loadDatalabelsOptions(thisInstance.generateData());
-		// each chart type should have default options as getDefaultChartOptions method
-		const options = thisInstance.loadDefaultChartOptions(data, thisInstance.getOptions());
-		thisInstance.chartInstance = new Chart(
-			thisInstance.getChartContainer().getContext("2d"), {
-				type: thisInstance.getType(),
+		const type = this.getType();
+		const data = this.generateData();
+		data.datasets = this.loadDatasetOptions(data);
+		const options = this.loadBasicOptions(data);
+		const plugins = this.loadPlugins(data);
+		return this.chartInstance = new Chart(
+			this.getChartContainer().getContext("2d"), {
+				type,
 				data,
 				options,
-				plugins: thisInstance.getPlugins()
+				plugins
 			}
 		);
 	},
 	/**
 	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
 	 *
-	 * @param {event obj} e
+	 * @param {Object} e
 	 * @param {array} additionalFields if element from event have additional
 	 * array in dataset like links for data then additionalFields will look like ['links']
 	 * @returns {object} {label,value,...additionalFields}
@@ -576,126 +1418,46 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return eventData;
 	},
 	/**
-	 * Apply default chart options
-	 * each chart type could have different default options returned from getDefaultChartOptions
+	 * Get default chart options for current chart subtype
+	 * basic and tooltip options share the same space
 	 *
-	 * @param  {Object} data         chartData
-	 * @param  {Object} [options={}] instance options (getOptions)
-	 * @return {Object}              merged options
+	 * @param  {Object} chartData
+	 * @return {Object} merged options
 	 */
-	loadDefaultChartOptions: function (data, options = {}) {
-		options = this.mergeOptions(options, this.getDefaultChartOptions());
-		options = this.loadDefaultTooltipsOptions(data, options);
-		return options;
+	loadBasicOptions: function loadBasicOptions(chartData) {
+		this.formatTooltipTitles(chartData);
+		this.formatTooltipLabels(chartData);
+		return this.mergeOptions(
+			this.getBasicOptions(chartData),
+			this.getDefaultBasicOptions(this.getSubType(), chartData),
+		);
 	},
 	/**
-	 * Get datalabels configuration - unified datalabels configuration for all chart types - might be overrided
-	 * see: https://chartjs-plugin-datalabels.netlify.com/options
-	 *
-	 * @param {Object} dataset
-	 * @param {String} type     chart type 'bar','pie' etc.
-	 * @param {Number} datasetIndex
-	 * @returns {Object}
-	 */
-	getDefaultDatalabelsOptions: function getDefaultDatalabelsOptions(dataset, type = 'bar', datasetIndex = 0) {
-		let borderRadius = 2;
-		let align = 'center';
-		let anchor = 'center';
-		let backgroundColor = 'rgba(0,0,0,0.2)';
-		let borderColor = 'rgba(255,255,255,0.2)';
-		switch (type) {
-			case 'pie':
-			case 'donut':
-			case 'doughnut':
-				borderRadius = 5;
-				align = 'center';
-				anchor = 'end';
-				backgroundColor = 'rgba(0,0,0,0.5)';
-				borderColor = 'rgba(255,255,255,0.5)';
-				break;
-		}
-		return {
-			font: {
-				size: 11
-			},
-			color: 'white',
-			backgroundColor: backgroundColor,
-			borderColor: borderColor,
-			borderWidth: 2,
-			borderRadius: borderRadius,
-			anchor: anchor,
-			align: align,
-			formatter: function (value, context) {
-				if (typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' && typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex]) {
-					// data presented in different format usually exists in alternative dataFormatted array
-					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
-				}
-				if (!isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
-				}
-				return value;
-			},
-		};
-	},
-	/**
-	 * Apply default datalabels config
+	 * Apply default dataset options (usually datalabels configuration)
 	 *
 	 * @param {object} chartData from request
-	 * @param {string} chartType 'bar','pie' etc..
 	 * @returns {object} chartData
 	 */
-	loadDatalabelsOptions: function loadDatalabelsOptions(chartData, chartType) {
-		if (typeof chartData === 'undefined' || typeof chartData.datasets === 'undefined' || chartData.datasets.length === 0) {
-			return false;
-		}
-		chartData.datasets.forEach((dataset, index) => {
-			let datalabelsOptions = this.mergeOptions(this.getDatalabelsOptions(dataset, this.getType(), index), this.getDefaultDatalabelsOptions(dataset, this.getType(), index));
-			dataset.datalabels = this.mergeOptions(dataset.datalabels, datalabelsOptions);
+	loadDatasetOptions: function loadDatasetOptions(chartData) {
+		return chartData.datasets.map((dataset, index) => {
+			let result = this.mergeOptions(
+				dataset,
+				this.getDatasetOptions(chartData),
+				this.getDefaultDatasetOptions(this.getSubType(), chartData)
+			);
+			return result;
 		});
-		return chartData;
 	},
 	/**
-	 * Get tooltips configuration - this method can be overrided if needed
-	 * see: http://www.chartjs.org/docs/latest/configuration/tooltip.html
-	 *
-	 * @param {object} data - chartData
-	 * @returns {object} default options
+	 * Load plugins from configuration
+	 * @param  {Object} chartData from the request
+	 * @return {Object}
 	 */
-	getTooltipsOptions: function getTooltipsOptions(data) {
-		return {
-			tooltips: {
-				callbacks: {
-
-					label: function tooltipLabelCallback(tooltipItem, data) {
-						// get already formatted data if exists
-						if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
-							return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-						}
-						// if there is no formatted data so try to format it
-						if (!isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
-							return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-						}
-						// return raw data at idex
-						return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-					},
-
-					title: function tooltipTitleCallback(tooltipItems, data) {
-						const tooltipItem = tooltipItems[0];
-						// get already formatted title if exists
-						if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
-							return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
-						}
-						// if there is no formatted title so try to format it
-						if (!isNaN(Number(data.labels[tooltipItem.index]))) {
-							return app.parseNumberToShow(data.labels[tooltipItem.index]);
-						}
-						// return label at index
-						return data.labels[tooltipItem.index];
-					}
-
-				}
-			}
-		};
+	loadPlugins: function loadPlugins(chartData) {
+		return this.mergeOptionsArray(
+			this.getPlugins(chartData),
+			this.getDefaultPlugins(this.getSubType(), chartData)
+		);
 	},
 	/**
 	 * Format tooltip titles to user number format and push this modification to titlesFormatted
@@ -711,12 +1473,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				dataset.titlesFormatted = [];
 				dataset.data.forEach((dataItem, index) => {
 					let defaultLabel = data.labels[index];
-					if (!isNaN(Number(defaultLabel))) {
+					if (String(defaultLabel).length > 0 && !isNaN(Number(defaultLabel))) {
 						defaultLabel = app.parseNumberToShow(defaultLabel);
 					}
 					if (typeof dataset.label !== 'undefined') {
 						let label = dataset.label;
-						if (!isNaN(Number(label))) {
+						if (String(label).length > 0 && !isNaN(Number(label))) {
 							label = app.parseNumberToShow(label);
 						}
 						defaultLabel += ' (' + label + ')';
@@ -740,7 +1502,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				dataset.dataFormatted = [];
 				dataset.data.forEach((dataItem, index) => {
 					let dataFormatted = dataItem;
-					if (!isNaN(Number(dataItem))) {
+					if (String(dataItem).length > 0 && !isNaN(Number(dataItem))) {
 						dataFormatted = app.parseNumberToShow(dataItem);
 					}
 					dataset.dataFormatted.push(dataFormatted);
@@ -749,30 +1511,46 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	/**
-	 * Merge two objects with options and do not override existing properties
-	 * objects are not cloned in anyway - we are working on original object
-	 *
-	 * @param  {object} to
-	 * @param  {object} from
-	 * @return {object}
+	 * Same as mergeOptionsObject but in array ;)
+	 * @param  {Array} to
+	 * @param  {Array} fromArray
+	 * @return {Array}
 	 */
-	mergeOptions: function mergeOptions(to = {}, from) {
-		if (typeof from !== 'object' && typeof to === 'undefined') {
-			// if we are in recursive tree and from and to are primitives - just return from
-			return from;
+	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
+		if (typeof to !== 'undefined') {
+			return to;
+		}
+		to = [];
+		let result = fromArray.map((from, index) => {
+			if (Array.isArray(from) && !to.hasOwnProperty(key)) {
+				return this.mergeOptionsArray(to[index], from);
+			}
+			if (typeof from === 'object' && from !== null && (typeof to[index] === 'undefined' || (typeof to[index] === 'object' && to[index] !== null))) {
+				return this.mergeOptionsObject(to[index], from);
+			}
+			return to[index];
+		}).filter((item) => typeof item !== 'undefined');
+		return result;
+	},
+	/**
+	 * Merge options object and do not override existing properties
+	 * @param  {Object} to   object to extend
+	 * @param  {Object} from copy properties from this object
+	 * @return {Object}      mixed properties
+	 */
+	mergeOptionsObject: function mergeOptionsObject(to, from) {
+		if (typeof to === 'undefined') {
+			to = {};
 		}
 		for (let key in from) {
 			if (from.hasOwnProperty(key)) {
-				if (typeof from[key] === 'object' && !Array.isArray(from[key]) && from[key] !== null) {
-					// if property is an object - merge recursively
-					to[key] = this.mergeOptions(to[key], from[key]);
-				} else if (typeof from[key] === 'object' && Array.isArray(from[key])) {
+				if (Array.isArray(from[key])) {
 					if (!to.hasOwnProperty(key)) {
-						to[key] = [];
+						to[key] = this.mergeOptionsArray(undefined, from[key]);
 					}
-					from[key].forEach((item, index) => {
-						to[key][index] = this.mergeOptions(to[key][index], item);
-					});
+				} else if (typeof from[key] === 'object' && from[key] !== null && (!to.hasOwnProperty(key) || (typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))) {
+					// if property is an object - merge recursively
+					to[key] = this.mergeOptionsObject(to[key], from[key]);
 				} else {
 					if (!to.hasOwnProperty(key)) {
 						to[key] = from[key];
@@ -783,35 +1561,40 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return to;
 	},
 	/**
-	 * Apply unified tooltips configuration
+	 * Merge two objects with options and do not override existing properties
 	 *
-	 * @param {chartData} data - data from request
-	 * @param {object} options - predefined options
-	 * @returns {object} options
+	 * @param  {Object} to
+	 * @param  {Array|arguments} fromArray
+	 * @return {object}
 	 */
-	loadDefaultTooltipsOptions: function loadDefaultTooltipsOptions(data, options = {}) {
-		this.formatTooltipTitles(data); // titles are now in dataset.titlesFormatted
-		this.formatTooltipLabels(data); // labels are now in dataset.dataFormatted
-		return options = this.mergeOptions(options, this.getTooltipsOptions(data));
+	mergeOptions: function mergeOptions(to = {}, ...fromArray) {
+		for (let i = 0, len = fromArray.length; i < len; i++) {
+			if (typeof fromArray[i] !== 'object' || Array.isArray(fromArray[i])) {
+				app.errorLog(new Error('Options argument should be an object! Chart subType: ' + this.getSubType() + ' [' + fromArray[i].toString() + ']'));
+
+			} else {
+				to = this.mergeOptionsObject(to, fromArray[i]);
+			}
+		}
+		return to;
 	},
 	/**
 	 * Placeholder for individual chart type options
 	 * If you want to customize default options this is the right place - override this method in your class
 	 *
+	 * @param {object} chartData
 	 * @returns {object} chart options
 	 */
-	getOptions: function getOptions() {
+	getBasicOptions: function getBasicOptions(chartData) {
 		return {};
 	},
 	/**
-	 * Placeholder for individual chart type datalabels options
+	 * Placeholder for individual chart type dataset options
 	 *
-	 * @param  {object} dataset
-	 * @param  {String} type    chart type 'bar','pie' etc.
-	 * @param  {Number} datasetIndex
+	 * @param  {object} chartData
 	 * @return {Object} datalabels configurations
 	 */
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+	getDatasetOptions: function getDatasetOptions(chartData) {
 		return {};
 	},
 	/**
@@ -819,289 +1602,47 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * You can add custom plugins for individual charts by overriding this method
 	 * see: http://www.chartjs.org/docs/latest/developers/plugins.html
 	 *
-	 * @returns {Array} plugins
+	 * @param {object} chartData
+	 * @returns {Array|undefined} plugins
 	 */
-	getPlugins: function getPlugins() {
-		return [];
+	getPlugins: function getPlugins(chartData) {
+		// do not return anything - undefined
 	},
 	/**
 	 * Get chart type
 	 * We don't wan't to override loadChart method (good practice)
-	 * so we can extend some chart type and change its type only to show data in different manner
+	 * so we can extend some chart type and change its type only to show data in different manner.
+	 * Get type is used to set up Chartjs chart type.
 	 *
-	 * @returns {String}
+	 * @param {object} chartData
+	 * @returns {string}
 	 */
-	getType: function getType() {
+	getType: function getType(chartData) {
 		return 'bar';
 	},
+	/**
+	 * Get sub type of a chart.
+	 * For example 'bar' is main type and barDivided is a subset of bar with little different options.
+	 * By default we are using standard type.
+	 * GetSubType is used to get properties - it does not set up Chartjs chart type per se (getType is used for this purpose)
+	 *
+	 * @param {object}  chartData
+	 * @returns {string}
+	 */
+	getSubType: function getSubType(chartData) {
+		return this.getType();
+	}
 });
 Vtiger_Widget_Js('YetiForce_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
-	getDefaultChartOptions: function () {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false
-			},
-			scales: {
-				xAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						maxRotation: 90
-					}
-				}],
-				yAxes: [{
-					ticks: {
-						autoSkip: false,
-						beginAtZero: true,
-						callback: function defaultYTicksCallback(value, index, values) {
-							if (!isNaN(Number(value))) {
-								return app.parseNumberToShow(value);
-							}
-							return value;
-						}
-					}
-				}]
-			}
-		};
-	},
-	getDatasetsMeta: function (chart) {
-		const datasets = [];
-		const data = chart.data;
-		if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
-			for (let i = 0, len = data.datasets.length; i < len; i++) {
-				const meta = chart.getDatasetMeta(i);
-				if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
-					datasets.push(meta);
-				}
-			}
-		}
-		return datasets;
-	},
-	hideDatalabelsIfNeeded: function (chart) {
-		const data = chart.data;
-		let datasetsMeta = this.getDatasetsMeta(chart);
-		let datasets = chart.data.datasets;
-		for (let i = 0, len = datasets.length; i < len; i++) {
-			const dataset = datasets[i];
-			const metaData = datasetsMeta[i].data;
-			if (typeof dataset._models === 'undefined') {
-				dataset._models = {};
-			}
-			if (typeof dataset.datalabels === 'undefined') {
-				dataset.datalabels = {};
-			}
-			if (typeof dataset.datalabels.display === 'undefined') {
-				dataset.datalabels.display = true;
-			}
-			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
-				const dataItem = metaData[iItem];
-				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-					let model = dataItem.$datalabels._model;
-					if (model !== null && typeof model !== 'undefined') {
-						dataset._models[iItem] = model;
-					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
-						model = dataset._models[iItem];
-					} else {
-						return false;
-					}
-					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
-					const barHeight = dataItem.height();
-					if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
-						dataItem.$datalabels._model = null;
-					} else {
-						dataItem.$datalabels._model = model;
-					}
-				}
-			}
-		}
-
-	},
-	shortenXTicks: function (data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.callback = function xAxisTickCallback(value, index, values) {
-				if (value.length > 13) {
-					return value.substr(0, 10) + '...';
-				}
-				return value;
-			}
-		});
-		return options;
-	},
-	rotateXLabels90: function (data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.xAxes === 'undefined') {
-			options.scales.xAxes = [{}];
-		}
-		options.scales.xAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.minRotation = 90;
-		});
-		return options;
-	},
-	beforeDraw: function (chart) {
-		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) => {
-			if (dataset._updated) {
-				return false;
-			}
-			for (let prop in dataset._meta) {
-				if (dataset._meta.hasOwnProperty(prop)) {
-					// we have meta
-					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-						const metaDataItem = dataset._meta[prop].data[i];
-						const label = metaDataItem._view.label;
-						const ctx = metaDataItem._xScale.ctx;
-						const categoryWidth = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage;
-						const fullWidth = ctx.measureText(label).width;
-						if (categoryWidth < fullWidth) {
-							const shortened = label.substr(0, 10) + "...";
-							const shortenedWidth = ctx.measureText(shortened).width;
-							if (categoryWidth < shortenedWidth) {
-								chart.options = this.rotateXLabels90(chart.data, chart.options);
-								chart.options = this.shortenXTicks(chart.data, chart.options);
-							} else {
-								chart.options = this.shortenXTicks(chart.data, chart.options);
-							}
-							if (!dataset._updated) {
-								dataset._updated = true;
-								chart.update();
-								// recalculate positions for smooth animation
-								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-								});
-								break;
-							}
-						}
-					}
-					dataset._updated = true;
-				}
-			}
-		});
-	},
-	getPlugins: function () {
-		const thisInstance = this;
-		return [{
-			beforeDraw: thisInstance.beforeDraw.bind(thisInstance),
-		}]
+	getType: function getType() {
+		return 'bar';
 	},
 });
 YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 	getType: function () {
 		return 'horizontalBar';
-	},
-	hideDatalabelsIfNeeded: function (chart) {
-		const data = chart.data;
-		let datasetsMeta = this.getDatasetsMeta(chart);
-		let datasets = chart.data.datasets;
-		for (let i = 0, len = datasets.length; i < len; i++) {
-			const dataset = datasets[i];
-			const metaData = datasetsMeta[i].data;
-			if (typeof dataset._models === 'undefined') {
-				dataset._models = {};
-			}
-			if (typeof dataset.datalabels === 'undefined') {
-				dataset.datalabels = {};
-			}
-			if (typeof dataset.datalabels.display === 'undefined') {
-				dataset.datalabels.display = true;
-			}
-			for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
-				const dataItem = metaData[iItem];
-				if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
-					let model = dataItem.$datalabels._model;
-					if (model !== null && typeof model !== 'undefined') {
-						dataset._models[iItem] = model;
-					} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
-						model = dataset._models[iItem];
-					} else {
-						return false;
-					}
-					const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-					const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
-					const barWidth = dataItem.width;
-					if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
-						dataItem.$datalabels._model = null;
-					} else {
-						dataItem.$datalabels._model = model;
-					}
-				}
-			}
-		}
-
-	},
-	shortenYTicks: function shortenYTicks(data, options) {
-		if (typeof options.scales === 'undefined') {
-			options.scales = {};
-		}
-		if (typeof options.scales.yAxes === 'undefined') {
-			options.scales.yAxes = [{}];
-		}
-		options.scales.yAxes.forEach((axis) => {
-			if (typeof axis.ticks === 'undefined') {
-				axis.ticks = {};
-			}
-			axis.ticks.callback = function yAxisTickCallback(value, index, values) {
-				if (value.length > 13) {
-					return value.substr(0, 10) + '...';
-				}
-				return value;
-			}
-		});
-		return options;
-	},
-	beforeDraw: function (chart) {
-		this.hideDatalabelsIfNeeded(chart);
-		chart.data.datasets.forEach((dataset, index) => {
-			if (dataset._updated) {
-				return false;
-			}
-			for (let prop in dataset._meta) {
-				if (dataset._meta.hasOwnProperty(prop)) {
-					// we have meta
-					for (let i = 0, len = dataset._meta[prop].data.length; i < len; i++) {
-						const metaDataItem = dataset._meta[prop].data[i];
-						const label = metaDataItem._view.label;
-						if (label.length > 13) {
-							chart.options = this.shortenYTicks(chart.data, chart.options);
-							if (!dataset._updated) {
-								dataset._updated = true;
-								chart.update();
-								// recalculate positions for smooth animation
-								dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-									metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
-									metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
-									metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
-								});
-								break;
-							}
-						}
-					}
-					dataset._updated = true;
-				}
-			}
-		});
 	},
 });
 YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
@@ -1181,296 +1722,37 @@ YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
 		return 'funnel';
 	},
-	getDefaultChartOptions: function (data, options = {}) {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false,
-			},
-			sort: 'data-desc',
-			scales: {
-				yAxes: [{
-					display: true
-				}]
-			},
-		};
-	},
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
-		return {
-			display: false
-		};
-	},
 });
 YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	getType: function getType() {
 		return 'pie';
-	},
-	getDefaultChartOptions: function (data, options = {}) {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: true
-			},
-			cutoutPercentage: 0,
-			layout: {
-				padding: {
-					bottom: 12
-				}
-			}
-		};
 	},
 });
 YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
 		return 'doughnut';
 	},
-	getDefaultChartOptions: function (data, options = {}) {
-		return {
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: true
-			},
-			cutoutPercentage: 50,
-			layout: {
-				padding: {
-					bottom: 12
-				}
-			}
-		};
-	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		return data;
+	getType: function getType() {
+		return 'bar';
 	},
-	loadChart: function () {
-		var data = this.generateData();
-		var series = [];
-		$.each(data['divided'], function (index, value) {
-			series[index] = {
-				label: value
-			};
-		});
-		if (data['chartData'].length > 0) {
-			this.chartInstance = this.getChartContainer(false).jqplot(data['chartData'], {
-				stackSeries: true,
-				captureRightClick: true,
-				seriesDefaults: {
-					renderer: jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						highlightMouseOver: true,
-						varyBarColor: true
-					},
-					pointLabels: {
-						show: true
-					}
-				},
-				series: series,
-				axes: {
-					xaxis: {
-						renderer: $.jqplot.CategoryAxisRenderer,
-						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-						ticks: data['group'],
-						tickOptions: {
-							angle: -65,
-						}
-					}
-				},
-				legend: {
-					show: true,
-					location: 'e'
-				}
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var data = this.generateData();
-		var links = data['links'];
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
-			var url = links[seriesIndex][pointIndex];
-			window.location.href = url;
-		});
-	},
-});
-
-YetiForce_Barchat_Widget_Js('YetiForce_Line_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getChartContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				legend: {
-					show: false,
-					labels: data['labels'],
-					location: 'ne',
-					showSwatch: true,
-					showLabels: true,
-					placement: 'outside'
-				},
-				seriesDefaults: {
-					pointLabels: {
-						show: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 1,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
+	getSubType: function getSubType() {
+		return 'barDivided';
 	}
 });
-YetiForce_Barchat_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
-	loadChart: function () {
-		var data = this.generateChartData();
-		if (data['chartData'][0].length > 0) {
-			this.getChartContainer(false).jqplot(data['chartData'], {
-				title: data['title'],
-				axesDefaults: {
-					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-				},
-				seriesDefaults: {
-					rendererOptions: {
-						smooth: true
-					}
-				},
-				axes: {
-					xaxis: {
-						min: 0,
-						pad: 0,
-						renderer: $.jqplot.CategoryAxisRenderer,
-						ticks: data['labels'],
-						tickOptions: {
-							formatString: '%b %#d'
-						}
-					}
-				},
-				cursor: {
-					show: true
-				}
-			});
-		}
-	}
-});
-YetiForce_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {
-	/**
-	 * Function which will give char related Data like data , x labels and legend labels as map
-	 */
-	getCharRelatedData: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var users = [];
-		var stages = [];
-		var count = [];
-		for (var i = 0; i < data.length; i++) {
-			if ($.inArray(data[i].last_name, users) == -1) {
-				users.push(data[i].last_name);
-			}
-			if ($.inArray(data[i].sales_stage, stages) == -1) {
-				stages.push(data[i].sales_stage);
-			}
-		}
-
-		for (var j in stages) {
-			var salesStageCount = [];
-			for (i in users) {
-				var salesCount = 0;
-				for (var k in data) {
-					var userData = data[k];
-					if (userData.sales_stage == stages[j] && userData.last_name == users[i]) {
-						salesCount = parseInt(userData.count);
-						break;
-					}
-				}
-				salesStageCount.push(salesCount);
-			}
-			count.push(salesStageCount);
-		}
-		return {
-			'data': count,
-			'ticks': users,
-			'labels': stages
-		}
+YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
+	getType: function getType() {
+		return 'line';
 	},
-	loadChart: function () {
-		var chartRelatedData = this.getCharRelatedData();
-		var chartData = chartRelatedData.data;
-		var ticks = chartRelatedData.ticks;
-		var labels = chartRelatedData.labels;
-		$.jqplot.CanvasAxisTickRenderer.pt2px = 2.4;
-		this.getChartContainer(false).jqplot(chartData, {
-			stackSeries: true,
-			captureRightClick: true,
-			seriesDefaults: {
-				renderer: $.jqplot.BarRenderer,
-				rendererOptions: {
-					// Put a 30 pixel margin between bars.
-					barMargin: 10,
-					// Highlight bars when mouse button pressed.
-					// Disables default highlighting on mouse over.
-					highlightMouseDown: true,
-					highlightMouseOver: true
-				},
-				pointLabels: {
-					show: true,
-					hideZeros: true
-				}
-			},
-			axes: {
-				xaxis: {
-					renderer: $.jqplot.CategoryAxisRenderer,
-					tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-					tickOptions: {
-						angle: -45,
-						pt2px: 4.0
-					},
-					ticks: ticks
-				},
-				yaxis: {
-					// Don't pad out the bottom of the data range.  By default,
-					// axes scaled as if data extended 10% above and below the
-					// actual range to prevent data points right on grid boundaries.
-					// Don't want to do that here.
-					padMin: 0,
-					min: 0
-				}
-			},
-			legend: {
-				show: true,
-				location: 'e',
-				renderer: $.jqplot.EnhancedLegendRenderer,
-				placement: 'outside',
-				labels: labels
-			}
-		});
+});
+YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
+	getSubType: function getSubType() {
+		return 'linePlain';
 	}
 });
+YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {});
 // NOTE Widget-class name camel-case convention
 YetiForce_Widget_Js('YetiForce_Minilist_Widget_Js', {}, {
 	postLoadWidget: function () {
@@ -1583,7 +1865,7 @@ YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
-	getOptions: function () {
+	getBasicOptions: function () {
 		return {
 			legend: {
 				display: true
@@ -1602,7 +1884,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
-	
+
 	registerCalendar: function () {
 		var thisInstance = this;
 		var userDefaultActivityView = 'month';
@@ -1675,7 +1957,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				for (var key in event.event) {
 					element += '<a class="" href="javascript:;"' +
 						' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' medium-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
+						'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary">' + event.event[key].count + '</span>' +
 						'</a>\n';
 				}
 				element += '</div>';
@@ -1929,7 +2211,7 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
-	getOptions: function getOptions() {
+	getBasicOptions: function getBasicOptions() {
 		return {
 			legend: {
 				display: true
@@ -1950,10 +2232,6 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 					}
 				}]
 			},
-		}
-	},
-	getTooltipsOptions: function getDatalabelsOptions() {
-		return {
 			tooltips: {
 				callbacks: {
 					label: function (tooltipItem, data) {
@@ -1966,11 +2244,13 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 			},
 		}
 	},
-	getDatalabelsOptions: function getDatalabelsOptions(dataset, type, datasetIndex) {
+	getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
 		return {
-			formatter: function datalabelsFormatter(value, context) {
-				return app.formatToHourText(value);
-			}
+			datalabels: {
+				formatter: function datalabelsFormatter(value, context) {
+					return app.formatToHourText(value);
+				}
+			},
 		};
 	},
 });
@@ -1979,7 +2259,16 @@ YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {});
+YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+	getBasicOptions: function getBasicOptions() {
+		return {
+			sort: 'data-desc'
+		};
+	},
+	getPlugins: function getPlugins() {
+		return [];
+	}
+});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
 YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {

@@ -17,6 +17,7 @@ class ComposerStaticInitYT
 		'2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
 		'f084d01b0a599f67676cffef638aa95b' => __DIR__ . '/..' . '/smarty/smarty/libs/bootstrap.php',
 	];
+
 	public static $prefixLengthsPsr4 = [
 		'v' => [
 			'vtlib\\' => 6,
@@ -52,6 +53,7 @@ class ComposerStaticInitYT
 		],
 		'P' => [
 			'Psr\\SimpleCache\\' => 16,
+			'Psr\\Log\\' => 8,
 			'PhpOffice\\PhpSpreadsheet\\' => 25,
 			'PHPMailer\\PHPMailer\\' => 20,
 		],
@@ -65,6 +67,7 @@ class ComposerStaticInitYT
 			'DebugBar\\' => 9,
 		],
 		'C' => [
+			'CsrfMagic\\' => 10,
 			'Cron\\' => 5,
 			'Composer\\CaBundle\\' => 18,
 		],
@@ -73,6 +76,7 @@ class ComposerStaticInitYT
 			'Api\\' => 4,
 		],
 	];
+
 	public static $prefixDirsPsr4 = [
 		'vtlib\\' => [
 			0 => __DIR__ . '/../..' . '/vtlib/Vtiger',
@@ -131,6 +135,9 @@ class ComposerStaticInitYT
 		'Psr\\SimpleCache\\' => [
 			0 => __DIR__ . '/..' . '/psr/simple-cache/src',
 		],
+		'Psr\\Log\\' => [
+			0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+		],
 		'PhpOffice\\PhpSpreadsheet\\' => [
 			0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
 		],
@@ -146,6 +153,9 @@ class ComposerStaticInitYT
 		'DebugBar\\' => [
 			0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
 		],
+		'CsrfMagic\\' => [
+			0 => __DIR__ . '/..' . '/yetiforce/csrf-magic/src',
+		],
 		'Cron\\' => [
 			0 => __DIR__ . '/../..' . '/cron',
 		],
@@ -153,12 +163,13 @@ class ComposerStaticInitYT
 			0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
 		],
 		'App\\' => [
-			0 => __DIR__ . '/..' . '/yetiforce',
+			0 => __DIR__ . '/../..' . '/app',
 		],
 		'Api\\' => [
 			0 => __DIR__ . '/../..' . '/api/webservice',
 		],
 	];
+
 	public static $prefixesPsr0 = [
 		'S' => [
 			'SensioLabs\\Security' => [
@@ -181,6 +192,7 @@ class ComposerStaticInitYT
 			],
 		],
 	];
+
 	public static $classMap = [
 		'Feed' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
 		'FeedException' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',

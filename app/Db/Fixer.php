@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Db;
 
 /**
@@ -10,7 +11,6 @@ namespace App\Db;
  */
 class Fixer
 {
-
 	/**
 	 * Add missing entries in vtiger_def_org_field.
 	 */

@@ -383,19 +383,19 @@ app = {
 				params.tags = true;
 			}
 			select.select2(params)
-					.on("select2:open", function (e) {
-						if (select.data('unselecting')) {
-							select.removeData('unselecting');
-							setTimeout(function (e) {
-								select.each(function () {
-									jQuery(this).select2('close');
-								});
-							}, 1);
-						}
-						var element = jQuery(e.currentTarget);
-						var instance = element.data('select2');
-						instance.$dropdown.css('z-index', 1000002);
-					}).on("select2:unselect", function (e) {
+				.on("select2:open", function (e) {
+					if (select.data('unselecting')) {
+						select.removeData('unselecting');
+						setTimeout(function (e) {
+							select.each(function () {
+								jQuery(this).select2('close');
+							});
+						}, 1);
+					}
+					var element = jQuery(e.currentTarget);
+					var instance = element.data('select2');
+					instance.$dropdown.css('z-index', 1000002);
+				}).on("select2:unselect", function (e) {
 				select.data('unselecting', true);
 			});
 		})
@@ -574,22 +574,16 @@ app = {
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop
-						.on('focusin.bs.modal', $.proxy(function (e) {
-							if ($(e.target).hasClass('select2-search__field')) {
-								return true;
-							}
-						}, this))
+					.on('focusin.bs.modal', $.proxy(function (e) {
+						if ($(e.target).hasClass('select2-search__field')) {
+							return true;
+						}
+					}, this))
 			};
 			var modalContainer = container.find('.modal:first');
 			modalContainer.modal(params);
 			jQuery('body').append(container);
 			app.changeSelectElementView(modalContainer);
-			//register all select2 Elements
-			app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
-			app.showSelectizeElementView(modalContainer.find('select.selectize'));
-			//register date fields event to show mini calendar on click of element
-			app.registerEventForDatePickerFields(modalContainer);
-
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -599,6 +593,12 @@ app = {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
+
+				//register all select2 Elements
+				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+				app.showSelectizeElementView(modalContainer.find('select.selectize'));
+				//register date fields event to show mini calendar on click of element
+				App.Fields.Date.register(modalContainer);
 			})
 		}
 		if (data) {
@@ -837,53 +837,6 @@ app = {
 
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForDatePickerFields: function (parentElement, registerForAddon, customParams) {
-		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
-		} else {
-			parentElement = jQuery(parentElement);
-		}
-		if (typeof registerForAddon == 'undefined') {
-			registerForAddon = true;
-		}
-		if (parentElement.hasClass('dateField')) {
-			var element = parentElement;
-		} else {
-			var element = jQuery('.dateField', parentElement);
-		}
-		if (element.length == 0) {
-			return;
-		}
-		if (registerForAddon == true) {
-			var parentDateElem = element.closest('.date');
-			jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function (e) {
-				var elem = jQuery(e.currentTarget);
-				//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
-				//which is stopping from getting focus to input element
-				elem.closest('.date').find('input.dateField').get(0).focus();
-			});
-		}
-		var language = jQuery('body').data('language');
-		//Default first day of the week
-		var defaultFirstDay = CONFIG.firstDayOfWeek;
-		if (defaultFirstDay == '' || typeof (defaultFirstDay) == 'undefined') {
-			var convertedFirstDay = 1
-		} else {
-			convertedFirstDay = CONFIG.firstDayOfWeekNo;
-		}
-		var params = {
-			todayBtn: "linked",
-			clearBtn: true,
-			language: language,
-			starts: convertedFirstDay,
-			autoclose: true,
-			todayHighlight: true
-		}
-		if (typeof customParams != 'undefined') {
-			params = jQuery.extend(params, customParams);
-		}
-		element.datepicker(params);
-	},
 	registerDateRangePickerFields: function (parentElement, customParams) {
 		if (typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');
@@ -899,7 +852,11 @@ app = {
 			return;
 		}
 		var language = jQuery('body').data('language');
-		var format = elements.data('dateFormat').toUpperCase();
+		let format = CONFIG.dateFormat.toUpperCase();
+		const elementDateFormat = elements.data('dateFormat');
+		if (typeof elementDateFormat !== 'undefined') {
+			format = elementDateFormat.toUpperCase();
+		}
 		var ranges = {};
 		ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
 		ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
@@ -1391,11 +1348,11 @@ app = {
 	},
 	formatDate: function (date) {
 		var y = date.getFullYear(),
-				m = date.getMonth() + 1,
-				d = date.getDate(),
-				h = date.getHours(),
-				i = date.getMinutes(),
-				s = date.getSeconds();
+			m = date.getMonth() + 1,
+			d = date.getDate(),
+			h = date.getHours(),
+			i = date.getMinutes(),
+			s = date.getSeconds();
 		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
 	},
 	formatDateZ: function (i) {
@@ -1423,12 +1380,12 @@ app = {
 			}
 		}
 		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -1526,7 +1483,7 @@ app = {
 		if (typeof container == 'undefined') {
 			container = jQuery('body');
 		}
-		container.off('click', 'button.showModal, a.showModal').on('click', 'button.showModal, a.showModal', function (e) {
+		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 			e.preventDefault();
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');

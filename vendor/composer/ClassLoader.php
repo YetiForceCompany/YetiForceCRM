@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Composer.
  *
@@ -46,9 +47,11 @@ class ClassLoader
 	private $prefixLengthsPsr4 = [];
 	private $prefixDirsPsr4 = [];
 	private $fallbackDirsPsr4 = [];
+
 	// PSR-0
 	private $prefixesPsr0 = [];
 	private $fallbackDirsPsr0 = [];
+
 	private $useIncludePath = false;
 	private $classMap = [];
 	private $classMapAuthoritative = false;
@@ -109,11 +112,13 @@ class ClassLoader
 		if (!$prefix) {
 			if ($prepend) {
 				$this->fallbackDirsPsr0 = array_merge(
-					(array) $paths, $this->fallbackDirsPsr0
+					(array) $paths,
+					$this->fallbackDirsPsr0
 				);
 			} else {
 				$this->fallbackDirsPsr0 = array_merge(
-					$this->fallbackDirsPsr0, (array) $paths
+					$this->fallbackDirsPsr0,
+					(array) $paths
 				);
 			}
 
@@ -128,11 +133,13 @@ class ClassLoader
 		}
 		if ($prepend) {
 			$this->prefixesPsr0[$first][$prefix] = array_merge(
-				(array) $paths, $this->prefixesPsr0[$first][$prefix]
+				(array) $paths,
+				$this->prefixesPsr0[$first][$prefix]
 			);
 		} else {
 			$this->prefixesPsr0[$first][$prefix] = array_merge(
-				$this->prefixesPsr0[$first][$prefix], (array) $paths
+				$this->prefixesPsr0[$first][$prefix],
+				(array) $paths
 			);
 		}
 	}
@@ -153,11 +160,13 @@ class ClassLoader
 			// Register directories for the root namespace.
 			if ($prepend) {
 				$this->fallbackDirsPsr4 = array_merge(
-					(array) $paths, $this->fallbackDirsPsr4
+					(array) $paths,
+					$this->fallbackDirsPsr4
 				);
 			} else {
 				$this->fallbackDirsPsr4 = array_merge(
-					$this->fallbackDirsPsr4, (array) $paths
+					$this->fallbackDirsPsr4,
+					(array) $paths
 				);
 			}
 		} elseif (!isset($this->prefixDirsPsr4[$prefix])) {
@@ -171,12 +180,14 @@ class ClassLoader
 		} elseif ($prepend) {
 			// Prepend directories for an already registered namespace.
 			$this->prefixDirsPsr4[$prefix] = array_merge(
-				(array) $paths, $this->prefixDirsPsr4[$prefix]
+				(array) $paths,
+				$this->prefixDirsPsr4[$prefix]
 			);
 		} else {
 			// Append directories for an already registered namespace.
 			$this->prefixDirsPsr4[$prefix] = array_merge(
-				$this->prefixDirsPsr4[$prefix], (array) $paths
+				$this->prefixDirsPsr4[$prefix],
+				(array) $paths
 			);
 		}
 	}

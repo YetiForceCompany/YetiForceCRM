@@ -11,8 +11,8 @@ use Sabre\CalDAV;
  * sqlite or MySQL
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @author Evert Pot (http://evertpot.com/)
- * @license http://sabre.io/license/ Modified BSD License
+ * @author    Evert Pot (http://evertpot.com/)
+ * @license   http://sabre.io/license/ Modified BSD License
  */
 class CalDAV_Backend_PDO extends CalDAV\Backend\PDO
 {
@@ -23,6 +23,15 @@ class CalDAV_Backend_PDO extends CalDAV\Backend\PDO
 	 */
 	public $calendarTableName = 'dav_calendars';
 
+	/**
+	 * The table name that will be used for calendars instances.
+	 *
+	 * A single calendar can have multiple instances, if the calendar is
+	 * shared.
+	 *
+	 * @var string
+	 */
+	public $calendarInstancesTableName = 'dav_calendarinstances';
 	/**
 	 * The table name that will be used for calendar objects.
 	 *

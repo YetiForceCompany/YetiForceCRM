@@ -557,7 +557,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerTimeFields: function (container) {
 		app.registerEventForClockPicker();
-		app.registerEventForDatePickerFields(container);
+		App.Fields.Date.register(container);
 		App.Fields.DateTime.register(container);
 	},
 	referenceCreateHandler: function (container) {
@@ -966,7 +966,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'enabled': true
 					}
 				});
-
+				editViewForm.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
 				var module = jQuery(e.currentTarget).find('[name="module"]').val();
 				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element

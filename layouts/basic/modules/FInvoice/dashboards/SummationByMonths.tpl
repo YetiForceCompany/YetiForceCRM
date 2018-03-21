@@ -2,22 +2,7 @@
 {assign var=CONF_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
-	getTooltipsOptions: function getTooltipsOptions(){
-		const data = this.chartData;
-		return {
-			tooltips: {
-				callbacks: {
-					label: function tooltipLabelCallback(item) {
-						return app.parseNumberToShow(item.yLabel);
-					},
-					title: function tooltipTitleCallback(item) {
-						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+data.years[item[0].datasetIndex];
-					},
-				}
-			},
-		};
-	},
-	getOptions: function getOptions(){
+	getBasicOptions: function getBasicOptions(chartData){
 		return {
 			legend: {
 				display:true,
@@ -42,6 +27,16 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 						stacked: true
 					}
 				]
+			},
+			tooltips: {
+				callbacks: {
+					label: function tooltipLabelCallback(item) {
+						return app.parseNumberToShow(item.yLabel);
+					},
+					title: function tooltipTitleCallback(item) {
+						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+chartData.years[item[0].datasetIndex];
+					},
+				}
 			},
 		};
 	},
