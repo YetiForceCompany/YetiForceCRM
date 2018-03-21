@@ -310,7 +310,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	registerChangeDate: function () {
 		var thisInstance = this;
 		var dateFilter = jQuery('.dateFilter');
-		app.registerDateRangePickerFields(dateFilter, {ranges: false});
+		App.Fields.DateTime.register(dateFilter, {ranges: false});
 		dateFilter.on('apply.daterangepicker', function (ev, picker) {
 			var format = jQuery(ev.currentTarget).data('dateFormat').toUpperCase();
 			$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
