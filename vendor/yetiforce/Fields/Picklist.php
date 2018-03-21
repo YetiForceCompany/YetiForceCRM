@@ -153,8 +153,41 @@ class Picklist
 	public static function getModules()
 	{
 		return (new \App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
-			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33]])
+			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33, 115]])
 			->andWhere((['<>', 'vtiger_tab.name', 'Events']))->distinct('vtiger_tab.tabid')->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(1);
+	}
+
+	/**
+	 * Get modules with field names which are picklists.
+	 *
+	 * @param string $moduleName if you want only one module picklist fieldnames
+	 *
+	 * @return array associative array [$moduleName=>[...$fieldNames]]
+	 */
+	public static function getModulesByName($moduleName = false)
+	{
+		if (\App\Cache::has('getPicklistModulesByName', $moduleName)) {
+			return \App\Cache::get('getPicklistModulesByName', $fieldName);
+		}
+		$query = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'vtiger_tab.name'])
+			->from('vtiger_field')
+			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+			->where(['uitype' => [15, 15, 33, 115]])
+			->andWhere((['<>', 'vtiger_tab.name', 'Events']));
+		if ($moduleName) {
+			$query = $query->andWhere(['vtiger_tab.name' => $moduleName]);
+		}
+		$rows = $query->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAll();
+		$modules = [];
+		foreach ($rows as $row) {
+			if (!isset($modules[$row['name']])) {
+				$modules[$row['name']] = [];
+			}
+			$modules[$row['name']][] = $row['fieldname'];
+		}
+		$result = $modules[$moduleName] ?: $modules;
+		\App\Cache::save('getPicklistModulesByName', $moduleName, $result);
+		return $result;
 	}
 
 	/**

@@ -1,21 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{}, {
-		getTooltipsOptions: function getTooltipsOptions(){
-			return {
-				tooltips: {
-					callbacks: {
-						label: function (tooltipItem, data) {
-							return data.datasets[tooltipItem.datasetIndex].original_label + ': ' + data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-						},
-						title: function (tooltipItems, data) {
-							return data.fullLabels[tooltipItems[0].index];
-						}
-					}
-				},
-			};
-		},
-		getOptions:function getOptions(){
+		getBasicOptions:function getBasicOptions(chartData){
 			return {
 				maintainAspectRatio: false,
 				title: {
@@ -39,6 +25,16 @@
 								minRotation:0,
 							}
 						}]
+				},
+				tooltips: {
+					callbacks: {
+						label: function (tooltipItem, data) {
+							return chartData.datasets[tooltipItem.datasetIndex].original_label + ': ' + chartData.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
+						},
+						title: function (tooltipItems, data) {
+							return chartData.fullLabels[tooltipItems[0].index];
+						}
+					}
 				},
 			};
 		},
@@ -83,7 +79,7 @@
 						<span class="fas fa-calendar-alt iconMiddle "></span></span>
 				</span>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}" />
-			</div>	
+			</div>
 		</div>
 		<div class="col-md-6">
 			{if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
@@ -98,7 +94,7 @@
 						<span class="fas fa-user iconMiddle"></span></span>
 				</span>
 				<div class="select2Wrapper">
-					<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" title="{\App\Language::translate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
+					<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" title="{\App\Language::translate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;"
 							{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 								data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 							{/if}>
