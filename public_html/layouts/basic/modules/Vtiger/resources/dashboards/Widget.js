@@ -1225,8 +1225,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (this.paramCache && widgetFilters.length > 0) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).then(function (data) {
 				var data = jQuery(data);
 				var footer = data.filter('.widgetFooterContent');
 				refreshContainer.progressIndicator({
@@ -1242,8 +1241,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					})
 				}
 				contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-			},
-			function () {
+			}, function () {
 				refreshContainer.progressIndicator({
 					'mode': 'hide'
 				});
