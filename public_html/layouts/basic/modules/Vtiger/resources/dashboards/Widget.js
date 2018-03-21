@@ -14,12 +14,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
-		var widgetClassName = widgetName.toCamelCase();
-		var moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
-		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
-		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
-		var basicClass = YetiForce_Widget_Js;
-		var instance;
+		const widgetClassName = widgetName.toCamelCase();
+		const moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
+		const fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
+		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
+		const basicClass = YetiForce_Widget_Js;
+		let instance;
 		if (typeof moduleClass !== 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
 		} else if (typeof fallbackClass !== 'undefined') {
@@ -51,7 +51,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	globalChartFunctions: {
 		/**
-		 * Functions for x or y axas scales xAxes:[{here}]
+		 * Functions for x or y axes scales xAxes:[{here}]
 		 */
 		scales: {
 			formatAxesLabels: function formatAxesLabels(value, index, values) {
@@ -867,14 +867,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).basic;
 	},
 	/**
-	 * Get default scales options for specified chart subtype for each scale as object
-	 * @param {string} chartSubType
-	 * @param {object} chartData
-	 */
-	getDefaultScalesOptions: function getDefaultScalesOptions(chartSubType, chartData) {
-		return this.getGlobalDefaultChartsOptions(chartSubType, chartData).scales;
-	},
-	/**
 	 * Get default dataset options for specified chart subtype
 	 *
 	 * @param  {String} chartSubType 'bar','pie'...
@@ -1053,30 +1045,34 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 		}
 	},
+	getChartImage() {
+		const base64Image = this.chartInstance.toBase64Image();
+		const image = new Image();
+		image.src = base64Image;
+		return image;
+	},
 	registerHeaderButtons: function registerHeaderButtons() {
-		var container = this.getContainer();
-		var header = container.find('.dashboardWidgetHeader');
-		var downloadWidget = header.find('.downloadWidget');
-		var printWidget = header.find('.printWidget');
-		printWidget.click(function (e) {
-			var imgEl = $(this.chartInstance.jqplotToImageElem());
-			var print = window.open('', 'PRINT', 'height=400,width=600');
+		const container = this.getContainer();
+		const header = container.find('.dashboardWidgetHeader');
+		const downloadWidget = header.find('.downloadWidget');
+		const printWidget = header.find('.printWidget');
+		printWidget.click((e) => {
+			const imgEl = this.getChartImage();
+			const print = window.open('', 'PRINT', 'height=400,width=600');
 			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
 			print.document.write('</head><body >');
-			print.document.write($('<div>').append(imgEl.clone()).html());
+			print.document.write($('<div>').append(imgEl).html());
 			print.document.write('</body></html>');
 			print.document.close(); // necessary for IE >= 10
-			print.focus(); // necessary for IE >= 10*/
+			print.focus(); // necessary for IE >= 10
 			setTimeout(function () {
 				print.print();
 				print.close();
 			}, 1000);
 		});
-		downloadWidget.click({
-			chart: $(this)
-		}, function (e) {
-			var imgEl = $(this.chartInstance.jqplotToImageElem());
-			var a = $("<a>")
+		downloadWidget.click((e) => {
+			const imgEl = $(this.getChartImage());
+			const a = $("<a>")
 				.attr("href", imgEl.attr('src'))
 				.attr("download", header.find('.dashboardTitle').text() + ".png")
 				.appendTo(container);
