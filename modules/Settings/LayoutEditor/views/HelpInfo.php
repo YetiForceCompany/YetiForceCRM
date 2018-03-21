@@ -23,7 +23,7 @@ class Settings_LayoutEditor_HelpInfo_View extends Settings_Vtiger_BasicModal_Vie
 		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('HELP_INFO_VIEWS', ['Edit', 'Detail', 'QuickCreateAjax']);
+		$viewer->assign('HELP_INFO_VIEWS', \App\Field::HELP_INFO_VIEWS);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('LANG_DEFAULT', \App\Language::getLanguage());
 		$viewer->assign('LANGUAGES', \App\Language::getAll());
