@@ -16,16 +16,26 @@ class CSRFConfig
 	public static function startup()
 	{
 		//Override the default expire time of token
-		CSRF::$expires = 259200;
+		\CsrfMagic\Csrf::$expires = 259200;
+		\CsrfMagic\Csrf::$callback = function ($tokens) {
+			throw new \App\Exceptions\AppException('Invalid request - Response For Illegal Access');
+		};
+		$js = 'vendor/yetiforce/csrf-magic/src/csrf.js';
+		if (!IS_PUBLIC_DIR) {
+			$js = 'public_html/' . $js;
+		}
+		\CsrfMagic\Csrf::$dirSecret = __DIR__;
+		\CsrfMagic\Csrf::$rewriteJs = $js;
+		\CsrfMagic\Csrf::$cspToken = \App\Session::get('CSP_TOKEN');
 
-		/*		 * if an ajax request initiated, then if php serves content with <html> tags
+		/* 		  if an ajax request initiated, then if php serves content with <html> tags
 		 * as a response, then unnecessarily we are injecting csrf magic javascipt
 		 * in the response html at <head> and <body> using csrf_ob_handler().
 		 * So, to overwride above rewriting we need following config.
 		 */
 		if (static::isAjax()) {
-			CSRF::$frameBreaker = false;
-			CSRF::$rewriteJs = null;
+			\CsrfMagic\Csrf::$frameBreaker = false;
+			\CsrfMagic\Csrf::$rewriteJs = null;
 		}
 	}
 

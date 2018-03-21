@@ -33,7 +33,6 @@ App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
-
 	/**
 	 * User privileges model instance.
 	 *
@@ -108,7 +107,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			//skipping the csrf checking for the forgot(reset) password
 			if (AppConfig::main('csrfProtection') && $request->getMode() !== 'reset' && $request->getByType('action', 1) !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
 				require_once 'config/csrf_config.php';
-				require_once 'libraries/csrf-magic/csrf-magic.php';
+				\CsrfMagic\Csrf::init();
 			}
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
