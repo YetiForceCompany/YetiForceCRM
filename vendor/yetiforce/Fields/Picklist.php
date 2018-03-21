@@ -166,8 +166,8 @@ class Picklist
 	 */
 	public static function getModulesByName($moduleName = false)
 	{
-		if (\App\Cache::has('getModulesByName', $moduleName)) {
-			return \App\Cache::get('getNonEditablePicklistValues', $fieldName);
+		if (\App\Cache::has('getPicklistModulesByName', $moduleName)) {
+			return \App\Cache::get('getPicklistModulesByName', $fieldName);
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'vtiger_tab.name'])
 			->from('vtiger_field')
@@ -186,7 +186,7 @@ class Picklist
 			$modules[$row['name']][] = $row['fieldname'];
 		}
 		$result = $modules[$moduleName] ?: $modules;
-		\App\Cache::save('getModulesByName', $moduleName, $result);
+		\App\Cache::save('getPicklistModulesByName', $moduleName, $result);
 		return $result;
 	}
 
