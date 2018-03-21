@@ -18,7 +18,7 @@
 		<div class="modal-dialog modal-lg modal-full">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header d-flex justify-content-between">
+					<div class="modal-header d-flex justify-content-between pb-1">
 						<div class="divQuickCreate">
 							<h5 class="modal-title">
 								<span class="fas fa-plus mr-1"></span>
