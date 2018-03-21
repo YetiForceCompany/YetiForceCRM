@@ -595,7 +595,7 @@ class Request
 			}
 		}
 		$this->validateReadAccess();
-		if (class_exists('CSRF') && !\CSRF::check(false)) {
+		if (class_exists('CSRFConfig') && !\CsrfMagic\Csrf::check(false)) {
 			throw new \App\Exceptions\Csrf('Unsupported request');
 		}
 	}
