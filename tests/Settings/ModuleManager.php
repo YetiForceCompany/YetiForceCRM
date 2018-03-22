@@ -338,6 +338,24 @@ class ModuleManager extends \Tests\Base
 	}
 
 	/**
+	 * Testing module removal.
+	 */
+	public function testDeleteModule()
+	{
+		\App\Db::getInstance()->getSchema()->refresh();
+		$moduleInstance = \vtlib\Module::getInstance('Test');
+		$moduleInstance->delete();
+		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+
+		$langFileToCheck = $this->getLangPathToFile('Test.json');
+		foreach ($langFileToCheck as $pathToFile) {
+			$this->assertFileNotExists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pathToFile);
+		}
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(), 'The tree was not removed');
+	}
+
+	/**
 	 * Testing module import.
 	 */
 	public function testImportModule()
@@ -357,32 +375,6 @@ class ModuleManager extends \Tests\Base
 
 		unlink(static::$zipFileName);
 		$this->assertFileNotExists(static::$zipFileName);
-	}
-
-	/**
-	 * Testing imported module removal.
-	 */
-	public function testDeleteImportedModule()
-	{
-		$this->testDeleteModule();
-	}
-
-	/**
-	 * Testing module removal.
-	 */
-	public function testDeleteModule()
-	{
-		\App\Db::getInstance()->getSchema()->refresh();
-		$moduleInstance = \vtlib\Module::getInstance('Test');
-		$moduleInstance->delete();
-		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
-
-		$langFileToCheck = $this->getLangPathToFile('Test.json');
-		foreach ($langFileToCheck as $pathToFile) {
-			$this->assertFileNotExists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pathToFile);
-		}
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(), 'The tree was not removed');
 	}
 
 	/**
