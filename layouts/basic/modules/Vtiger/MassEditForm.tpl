@@ -18,36 +18,43 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title"><i class="fa fa-edit"></i> {\App\Language::translate('LBL_MASS_EDITING', $MODULE)} {\App\Language::translate($MODULE, $MODULE)}</h5>
+					<h5 class="modal-title"><i
+								class="fa fa-edit"></i> {\App\Language::translate('LBL_MASS_EDITING', $MODULE)} {\App\Language::translate($MODULE, $MODULE)}
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				
+
 				<form id="massEdit" name="MassEdit" method="post" action="index.php">
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
+						<input type="hidden" name="mappingRelatedField"
+							   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
 					{/if}
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
+						<input type="hidden" name="picklistDependency"
+							   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 					{/if}
-					<input type="hidden" name="module" value="{$MODULE}" />
-					<input type="hidden" name="action" value="MassSave" />
-					<input type="hidden" name="viewname" value="{$CVID}" />
+					<input type="hidden" name="module" value="{$MODULE}"/>
+					<input type="hidden" name="action" value="MassSave"/>
+					<input type="hidden" name="viewname" value="{$CVID}"/>
 					<input type="hidden" name="selected_ids" value={\App\Json::encode($SELECTED_IDS)}>
 					<input type="hidden" name="excluded_ids" value={\App\Json::encode($EXCLUDED_IDS)}>
-					<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
-					<input type="hidden" name="operator" value="{$OPERATOR}" />
-					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
-					<input type="hidden" id="massEditFieldsNameList" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}' />
-					
+					<input type="hidden" name="search_key" value="{$SEARCH_KEY}"/>
+					<input type="hidden" name="operator" value="{$OPERATOR}"/>
+					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
+					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}'/>
+					<input type="hidden" id="massEditFieldsNameList"
+						   data-value='{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}'/>
+
 					<div class="modal-body">
 						<ul class="nav nav-tabs">
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 								{if $BLOCK_FIELDS|@count gt 0}
 									<li class="nav-item">
-										<a class="nav-link{if $smarty.foreach.blockIterator.iteration eq 1} active{/if}" href="#block_{$smarty.foreach.blockIterator.iteration}" data-toggle="tab"><strong>{\App\Language::translate($BLOCK_LABEL, $MODULE)}</strong></a>
+										<a class="nav-link{if $smarty.foreach.blockIterator.iteration eq 1} active{/if}"
+										   href="#block_{$smarty.foreach.blockIterator.iteration}"
+										   data-toggle="tab"><strong>{\App\Language::translate($BLOCK_LABEL, $MODULE)}</strong></a>
 									</li>
 								{/if}
 							{/foreach}
@@ -56,25 +63,35 @@
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 								{if $BLOCK_FIELDS|@count gt 0}
 									{assign var=BLOCK_INDEX value=$smarty.foreach.blockIterator.iteration}
-									<div class="tab-pane fade{if $BLOCK_INDEX eq 1} show active{/if}" id="block_{$BLOCK_INDEX}" role="tabpanel">
+									<div class="tab-pane fade{if $BLOCK_INDEX eq 1} show active{/if}"
+										 id="block_{$BLOCK_INDEX}" role="tabpanel">
 										<div class="p-3">
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 												{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
 													<div class="form-row">
-															<div class="col">
-																<label class="btn btn-sm" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
-																	<span class="float-left">
-																		<input data-toggle="button" aria-pressed="false" autocomplete="off" type="checkbox" id="selectRow{$FIELD_MODEL->getName()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" data-field-name="{$FIELD_MODEL->getName()}" class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
-																	</span>
-																	{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}:
+														<div class="col">
+															<div class="btn-group-toggle float-right" data-toggle="buttons">
+																<label class="btn btn-sm btn-outline-secondary" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
+																	<input data-toggle="button" aria-pressed="false"
+																		   autocomplete="off" type="checkbox"
+																		   id="selectRow{$FIELD_MODEL->getName()}"
+																		   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+																		   data-field-name="{$FIELD_MODEL->getName()}"
+																		   class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
+																	{if $FIELD_MODEL->isMandatory() eq true}
+																		<span class="redColor">*</span>
+																	{/if}
+																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+																	:
 																</label>
 															</div>
-															<div class="col-md-8">
-																<div class="fieldValue" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-input">
-																	{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}
-																</div>
+														</div>
+														<div class="col-md-8">
+															<div class="fieldValue"
+																 id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-input">
+																{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}
 															</div>
+														</div>
 
 													</div>
 												{/if}
@@ -85,10 +102,10 @@
 							{/foreach}
 						</div>
 					</div>
-					
+
 					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
-				
+
 			</div>
 		</div>
 	</div>
