@@ -27,7 +27,7 @@
 				{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
 					<tr data-id="{$USER_ID}">
 						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
-							<th scope="row" class="text-left">
+							<th scope="row" class="text-center">
 								{if $WATCHDOG}
 									{if $ITEM['watchdog']['active']}
 										<button type="button" class="btn btn-info btn-xs"
