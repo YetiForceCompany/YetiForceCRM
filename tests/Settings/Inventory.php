@@ -168,7 +168,7 @@ class Inventory extends \Tests\Base
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
-		$this->assertSame((float) $row['value'], $value);
+		$this->assertSame((int) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
 	}
 
@@ -187,7 +187,7 @@ class Inventory extends \Tests\Base
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
-		$this->assertSame((float) $row['value'], $value);
+		$this->assertSame((int) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
 	}
 
