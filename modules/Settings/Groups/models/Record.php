@@ -363,12 +363,14 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn-sm btn-primary'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
 				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn-sm btn-danger'
 			],
 		];
 		foreach ($recordLinks as $recordLink) {
