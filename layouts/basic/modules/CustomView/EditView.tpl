@@ -58,7 +58,7 @@
 		<div class="childrenMarginTopX">
 			<div class="js-toggle-panel c-panel__content" data-js="click">
 				<div class="blockHeader card-header">
-					<span class="cursorPointer iconToggle fas fa-chevron-down m-1" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<span class="u-cursor-pointer iconToggle fas fa-chevron-down m-1" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h4>
 				</div>
 				<div class="card-body">
@@ -130,7 +130,7 @@
 			</div>
 			<div class="js-toggle-panel c-panel__content" data-js="click">
 				<div class="blockHeader card-header">
-					<span class="cursorPointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<span class="u-cursor-pointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4>
 				</div>
 				<div class="card-body d-none">
@@ -139,7 +139,7 @@
 			</div>
 			<div class="js-toggle-panel c-panel__content" data-js="click">
 				<div class="blockHeader card-header">
-					<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<span class="u-cursor-pointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 					<h4 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4>
 				</div>
 				<div class="card-body">
