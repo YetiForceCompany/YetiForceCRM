@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar;
 
 /**
- * HTTP driver for native php
+ * HTTP driver for native php.
  */
 class PhpHttpDriver implements HttpDriverInterface
 {
-
 	/**
 	 * @param array $headers
 	 */
@@ -44,6 +44,7 @@ class PhpHttpDriver implements HttpDriverInterface
 
 	/**
 	 * @param string $name
+	 *
 	 * @return bool
 	 */
 	public function hasSessionValue($name)
@@ -53,6 +54,7 @@ class PhpHttpDriver implements HttpDriverInterface
 
 	/**
 	 * @param string $name
+	 *
 	 * @return mixed
 	 */
 	public function getSessionValue($name)

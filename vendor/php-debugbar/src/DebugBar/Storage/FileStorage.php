@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\Storage;
 
 /**
- * Stores collected data into files
+ * Stores collected data into files.
  */
 class FileStorage implements StorageInterface
 {
-
 	protected $dirname;
 
 	/**
@@ -53,10 +53,10 @@ class FileStorage implements StorageInterface
 		$files = [];
 		foreach (new \DirectoryIterator($this->dirname) as $file) {
 			if ($file->getExtension() == 'json') {
-				$files[] = array(
+				$files[] = [
 					'time' => $file->getMTime(),
 					'id' => $file->getBasename('.json')
-				);
+				];
 			}
 		}
 
@@ -90,9 +90,10 @@ class FileStorage implements StorageInterface
 
 	/**
 	 * Filter the metadata for matches.
-	 * 
-	 * @param  array $meta
-	 * @param  array $filters
+	 *
+	 * @param array $meta
+	 * @param array $filters
+	 *
 	 * @return bool
 	 */
 	protected function filter($meta, $filters)
@@ -118,11 +119,12 @@ class FileStorage implements StorageInterface
 	}
 
 	/**
-	 * @param  string $id
-	 * @return string 
+	 * @param string $id
+	 *
+	 * @return string
 	 */
 	public function makeFilename($id)
 	{
-		return $this->dirname . basename($id) . ".json";
+		return $this->dirname . basename($id) . '.json';
 	}
 }

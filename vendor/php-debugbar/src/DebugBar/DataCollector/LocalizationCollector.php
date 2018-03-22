@@ -7,16 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataCollector;
 
 /**
- * Collects info about the current localization state
+ * Collects info about the current localization state.
  */
 class LocalizationCollector extends DataCollector implements Renderable
 {
-
 	/**
-	 * Get the current locale
+	 * Get the current locale.
 	 *
 	 * @return string
 	 */
@@ -26,7 +26,7 @@ class LocalizationCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Get the current translations domain
+	 * Get the current translations domain.
 	 *
 	 * @return string
 	 */
@@ -40,10 +40,10 @@ class LocalizationCollector extends DataCollector implements Renderable
 	 */
 	public function collect()
 	{
-		return array(
+		return [
 			'locale' => $this->getLocale(),
 			'domain' => $this->getDomain(),
-		);
+		];
 	}
 
 	/**
@@ -59,15 +59,15 @@ class LocalizationCollector extends DataCollector implements Renderable
 	 */
 	public function getWidgets()
 	{
-		return array(
-			'domain' => array(
+		return [
+			'domain' => [
 				'icon' => 'bookmark',
 				'map' => 'localization.domain',
-			),
-			'locale' => array(
+			],
+			'locale' => [
 				'icon' => 'flag',
 				'map' => 'localization.locale',
-			)
-		);
+			]
+		];
 	}
 }

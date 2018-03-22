@@ -7,16 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataCollector;
 
 use DebugBar\DataFormatter\DataFormatterInterface;
 
 /**
- * Provides a way to log messages
+ * Provides a way to log messages.
  */
 class MessagesCollector implements DataCollectorInterface, MessagesAggregateInterface, Renderable
 {
-
 	protected $name;
 	protected $messages = [];
 	protected $aggregates = [];
@@ -31,9 +31,10 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	}
 
 	/**
-	 * Sets the data formater instance used by this collector
+	 * Sets the data formater instance used by this collector.
 	 *
 	 * @param DataFormatterInterface $formater
+	 *
 	 * @return $this
 	 */
 	public function setDataFormatter(DataFormatterInterface $formater)
@@ -54,11 +55,11 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	}
 
 	/**
-	 * Adds a message
+	 * Adds a message.
 	 *
 	 * A message can be anything from an object to a string
 	 *
-	 * @param mixed $message
+	 * @param mixed  $message
 	 * @param string $label
 	 */
 	public function addMessage($message, $label = 'info', $isString = true)
@@ -67,16 +68,16 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 			$message = $this->getDataFormatter()->formatVar($message);
 			$isString = false;
 		}
-		$this->messages[] = array(
+		$this->messages[] = [
 			'message' => $message,
 			'is_string' => $isString,
 			'label' => $label,
 			'time' => microtime(true)
-		);
+		];
 	}
 
 	/**
-	 * Aggregates messages from other collectors
+	 * Aggregates messages from other collectors.
 	 *
 	 * @param MessagesAggregateInterface $messages
 	 */
@@ -121,7 +122,7 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	}
 
 	/**
-	 * Deletes all messages
+	 * Deletes all messages.
 	 */
 	public function clear()
 	{
@@ -134,10 +135,10 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	public function collect()
 	{
 		$messages = $this->getMessages();
-		return array(
+		return [
 			'count' => count($messages),
 			'messages' => $messages
-		);
+		];
 	}
 
 	/**
@@ -154,17 +155,17 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	public function getWidgets()
 	{
 		$name = $this->getName();
-		return array(
-			"$name" => array(
+		return [
+			"$name" => [
 				'icon' => 'list-alt',
-				"widget" => "PhpDebugBar.Widgets.MessagesWidget",
-				"map" => "$name.messages",
-				"default" => "[]"
-			),
-			"$name:badge" => array(
-				"map" => "$name.count",
-				"default" => "null"
-			)
-		);
+				'widget' => 'PhpDebugBar.Widgets.MessagesWidget',
+				'map' => "$name.messages",
+				'default' => '[]'
+			],
+			"$name:badge" => [
+				'map' => "$name.count",
+				'default' => 'null'
+			]
+		];
 	}
 }

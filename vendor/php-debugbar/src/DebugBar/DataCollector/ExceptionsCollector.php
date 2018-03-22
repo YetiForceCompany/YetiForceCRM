@@ -7,24 +7,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataCollector;
 
 use Exception;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
- * Collects info about exceptions
+ * Collects info about exceptions.
  */
 class ExceptionsCollector extends DataCollector implements Renderable
 {
-
 	protected $exceptions = [];
 	protected $chainExceptions = false;
 
 	/**
-	 * Adds an exception to be profiled in the debug bar
+	 * Adds an exception to be profiled in the debug bar.
 	 *
 	 * @param Exception $e
+	 *
 	 * @deprecated in favor on addThrowable
 	 */
 	public function addException(Exception $e)
@@ -33,7 +33,7 @@ class ExceptionsCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Adds a Throwable to be profiled in the debug bar
+	 * Adds a Throwable to be profiled in the debug bar.
 	 *
 	 * @param \Throwable $e
 	 */
@@ -56,7 +56,7 @@ class ExceptionsCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Returns the list of exceptions being profiled
+	 * Returns the list of exceptions being profiled.
 	 *
 	 * @return array[\Throwable]
 	 */
@@ -67,17 +67,19 @@ class ExceptionsCollector extends DataCollector implements Renderable
 
 	public function collect()
 	{
-		return array(
+		return [
 			'count' => count($this->exceptions),
-			'exceptions' => array_map(array($this, 'formatThrowableData'), $this->exceptions)
-		);
+			'exceptions' => array_map([$this, 'formatThrowableData'], $this->exceptions)
+		];
 	}
 
 	/**
-	 * Returns exception data as an array
+	 * Returns exception data as an array.
 	 *
 	 * @param Exception $e
+	 *
 	 * @return array
+	 *
 	 * @deprecated in favor on formatThrowableData
 	 */
 	public function formatExceptionData(Exception $e)
@@ -86,9 +88,10 @@ class ExceptionsCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Returns Throwable data as an array
+	 * Returns Throwable data as an array.
 	 *
 	 * @param \Throwable $e
+	 *
 	 * @return array
 	 */
 	public function formatThrowableData($e)
@@ -99,17 +102,17 @@ class ExceptionsCollector extends DataCollector implements Renderable
 			$start = $e->getLine() - 4;
 			$lines = array_slice($lines, $start < 0 ? 0 : $start, 7);
 		} else {
-			$lines = array("Cannot open the file ($filePath) in which the exception occurred ");
+			$lines = ["Cannot open the file ($filePath) in which the exception occurred "];
 		}
 
-		return array(
+		return [
 			'type' => get_class($e),
 			'message' => $e->getMessage(),
 			'code' => $e->getCode(),
 			'file' => $filePath,
 			'line' => $e->getLine(),
 			'surrounding_lines' => $lines
-		);
+		];
 	}
 
 	/**
@@ -125,17 +128,17 @@ class ExceptionsCollector extends DataCollector implements Renderable
 	 */
 	public function getWidgets()
 	{
-		return array(
-			'exceptions' => array(
+		return [
+			'exceptions' => [
 				'icon' => 'bug',
 				'widget' => 'PhpDebugBar.Widgets.ExceptionsWidget',
 				'map' => 'exceptions.exceptions',
 				'default' => '[]'
-			),
-			'exceptions:badge' => array(
+			],
+			'exceptions:badge' => [
 				'map' => 'exceptions.count',
 				'default' => 'null'
-			)
-		);
+			]
+		];
 	}
 }

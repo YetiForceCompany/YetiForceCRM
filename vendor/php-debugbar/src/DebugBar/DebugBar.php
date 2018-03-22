@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar;
 
 use ArrayAccess;
@@ -14,7 +15,7 @@ use DebugBar\DataCollector\DataCollectorInterface;
 use DebugBar\Storage\StorageInterface;
 
 /**
- * Main DebugBar object
+ * Main DebugBar object.
  *
  * Manages data collectors. DebugBar provides an array-like access
  * to collectors by name.
@@ -27,7 +28,6 @@ use DebugBar\Storage\StorageInterface;
  */
 class DebugBar implements ArrayAccess
 {
-
 	public static $useOpenHandlerWhenSendingDataHeaders = false;
 	protected $collectors = [];
 	protected $data;
@@ -40,11 +40,12 @@ class DebugBar implements ArrayAccess
 	protected $stackAlwaysUseSessionStorage = false;
 
 	/**
-	 * Adds a data collector
+	 * Adds a data collector.
 	 *
 	 * @param DataCollectorInterface $collector
 	 *
 	 * @throws DebugBarException
+	 *
 	 * @return $this
 	 */
 	public function addCollector(DataCollectorInterface $collector)
@@ -62,10 +63,11 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Checks if a data collector has been added
+	 * Checks if a data collector has been added.
 	 *
 	 * @param string $name
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function hasCollector($name)
 	{
@@ -73,11 +75,13 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns a data collector
+	 * Returns a data collector.
 	 *
 	 * @param string $name
-	 * @return DataCollectorInterface
+	 *
 	 * @throws DebugBarException
+	 *
+	 * @return DataCollectorInterface
 	 */
 	public function getCollector($name)
 	{
@@ -88,7 +92,7 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns an array of all data collectors
+	 * Returns an array of all data collectors.
 	 *
 	 * @return array[DataCollectorInterface]
 	 */
@@ -98,9 +102,10 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Sets the request id generator
+	 * Sets the request id generator.
 	 *
 	 * @param RequestIdGeneratorInterface $generator
+	 *
 	 * @return $this
 	 */
 	public function setRequestIdGenerator(RequestIdGeneratorInterface $generator)
@@ -121,7 +126,7 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns the id of the current request
+	 * Returns the id of the current request.
 	 *
 	 * @return string
 	 */
@@ -134,9 +139,10 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Sets the storage backend to use to store the collected data
+	 * Sets the storage backend to use to store the collected data.
 	 *
 	 * @param StorageInterface $storage
+	 *
 	 * @return $this
 	 */
 	public function setStorage(StorageInterface $storage = null)
@@ -154,9 +160,9 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Checks if the data will be persisted
+	 * Checks if the data will be persisted.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isDataPersisted()
 	{
@@ -164,9 +170,10 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Sets the HTTP driver
+	 * Sets the HTTP driver.
 	 *
 	 * @param HttpDriverInterface $driver
+	 *
 	 * @return $this
 	 */
 	public function setHttpDriver(HttpDriverInterface $driver)
@@ -176,7 +183,7 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns the HTTP driver
+	 * Returns the HTTP driver.
 	 *
 	 * If no http driver where defined, a PhpHttpDriver is automatically created
 	 *
@@ -191,22 +198,22 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Collects the data from the collectors
+	 * Collects the data from the collectors.
 	 *
 	 * @return array
 	 */
 	public function collect()
 	{
-		$this->data = array(
-			'__meta' => array(
+		$this->data = [
+			'__meta' => [
 				'id' => $this->getCurrentRequestId(),
 				'datetime' => date('Y-m-d H:i:s'),
 				'utime' => microtime(true),
-				'method' => isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : null,
-				'uri' => isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
-				'ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null
-			)
-		);
+				'method' => $_SERVER['REQUEST_METHOD'] ?? null,
+				'uri' => $_SERVER['REQUEST_URI'] ?? null,
+				'ip' => $_SERVER['REMOTE_ADDR'] ?? null
+			]
+		];
 
 		foreach ($this->collectors as $name => $collector) {
 			$this->data[$name] = $collector->collect();
@@ -227,7 +234,7 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns collected data
+	 * Returns collected data.
 	 *
 	 * Will collect the data if none have been collected yet
 	 *
@@ -242,23 +249,24 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns an array of HTTP headers containing the data
+	 * Returns an array of HTTP headers containing the data.
 	 *
 	 * @param string $headerName
-	 * @param integer $maxHeaderLength
+	 * @param int    $maxHeaderLength
+	 *
 	 * @return array
 	 */
 	public function getDataAsHeaders($headerName = 'phpdebugbar', $maxHeaderLength = 4096, $maxTotalHeaderLength = 250000)
 	{
-		$data = rawurlencode(json_encode(array(
+		$data = rawurlencode(json_encode([
 			'id' => $this->getCurrentRequestId(),
 			'data' => $this->getData()
-		)));
+		]));
 
 		if (strlen($data) > $maxTotalHeaderLength) {
-			$data = rawurlencode(json_encode(array(
+			$data = rawurlencode(json_encode([
 				'error' => 'Maximum header size exceeded'
-			)));
+			]));
 		}
 
 		$chunks = [];
@@ -279,11 +287,12 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Sends the data through the HTTP headers
+	 * Sends the data through the HTTP headers.
 	 *
-	 * @param bool $useOpenHandler
+	 * @param bool   $useOpenHandler
 	 * @param string $headerName
-	 * @param integer $maxHeaderLength
+	 * @param int    $maxHeaderLength
+	 *
 	 * @return $this
 	 */
 	public function sendDataInHeaders($useOpenHandler = null, $headerName = 'phpdebugbar', $maxHeaderLength = 4096)
@@ -294,7 +303,7 @@ class DebugBar implements ArrayAccess
 		if ($useOpenHandler && $this->storage !== null) {
 			$this->getData();
 			$headerName .= '-id';
-			$headers = array($headerName => $this->getCurrentRequestId());
+			$headers = [$headerName => $this->getCurrentRequestId()];
 		} else {
 			$headers = $this->getDataAsHeaders($headerName, $maxHeaderLength);
 		}
@@ -303,7 +312,7 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Stacks the data in the session for later rendering
+	 * Stacks the data in the session for later rendering.
 	 */
 	public function stackData()
 	{
@@ -323,9 +332,9 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Checks if there is stacked data in the session
+	 * Checks if there is stacked data in the session.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasStackedData()
 	{
@@ -338,9 +347,10 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns the data stacked in the session
+	 * Returns the data stacked in the session.
 	 *
-	 * @param boolean $delete Whether to delete the data in the session
+	 * @param bool $delete Whether to delete the data in the session
+	 *
 	 * @return array
 	 */
 	public function getStackedData($delete = true)
@@ -364,9 +374,10 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Sets the key to use in the $_SESSION array
+	 * Sets the key to use in the $_SESSION array.
 	 *
 	 * @param string $ns
+	 *
 	 * @return $this
 	 */
 	public function setStackDataSessionNamespace($ns)
@@ -376,7 +387,7 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns the key used in the $_SESSION array
+	 * Returns the key used in the $_SESSION array.
 	 *
 	 * @return string
 	 */
@@ -387,9 +398,10 @@ class DebugBar implements ArrayAccess
 
 	/**
 	 * Sets whether to only use the session to store stacked data even
-	 * if a storage is enabled
+	 * if a storage is enabled.
 	 *
-	 * @param boolean $enabled
+	 * @param bool $enabled
+	 *
 	 * @return $this
 	 */
 	public function setStackAlwaysUseSessionStorage($enabled = true)
@@ -400,9 +412,9 @@ class DebugBar implements ArrayAccess
 
 	/**
 	 * Checks if the session is always used to store stacked data
-	 * even if a storage is enabled
+	 * even if a storage is enabled.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isStackAlwaysUseSessionStorage()
 	{
@@ -410,15 +422,17 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Initializes the session for stacked data
-	 * @return HttpDriverInterface
+	 * Initializes the session for stacked data.
+	 *
 	 * @throws DebugBarException
+	 *
+	 * @return HttpDriverInterface
 	 */
 	protected function initStackSession()
 	{
 		$http = $this->getHttpDriver();
 		if (!$http->isSessionStarted()) {
-			throw new DebugBarException("Session must be started before using stack data in the debug bar");
+			throw new DebugBarException('Session must be started before using stack data in the debug bar');
 		}
 
 		if (!$http->hasSessionValue($this->stackSessionNamespace)) {
@@ -429,9 +443,11 @@ class DebugBar implements ArrayAccess
 	}
 
 	/**
-	 * Returns a JavascriptRenderer for this instance
+	 * Returns a JavascriptRenderer for this instance.
+	 *
 	 * @param string $baseUrl
 	 * @param string $basePath
+	 *
 	 * @return JavascriptRenderer
 	 */
 	public function getJavascriptRenderer($baseUrl = null, $basePath = null)
@@ -447,7 +463,7 @@ class DebugBar implements ArrayAccess
 
 	public function offsetSet($key, $value)
 	{
-		throw new DebugBarException("DebugBar[] is read-only");
+		throw new DebugBarException('DebugBar[] is read-only');
 	}
 
 	public function offsetGet($key)
@@ -462,6 +478,6 @@ class DebugBar implements ArrayAccess
 
 	public function offsetUnset($key)
 	{
-		throw new DebugBarException("DebugBar[] is read-only");
+		throw new DebugBarException('DebugBar[] is read-only');
 	}
 }

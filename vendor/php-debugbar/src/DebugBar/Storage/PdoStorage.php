@@ -7,29 +7,29 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\Storage;
 
 use PDO;
 
 /**
- * Stores collected data into a database using PDO
+ * Stores collected data into a database using PDO.
  */
 class PdoStorage implements StorageInterface
 {
-
 	protected $pdo;
 	protected $tableName;
-	protected $sqlQueries = array(
-		'save' => "INSERT INTO %tablename% (id, data, meta_utime, meta_datetime, meta_uri, meta_ip, meta_method) VALUES (?, ?, ?, ?, ?, ?, ?)",
-		'get' => "SELECT data FROM %tablename% WHERE id = ?",
-		'find' => "SELECT data FROM %tablename% %where% ORDER BY meta_datetime DESC LIMIT %limit% OFFSET %offset%",
-		'clear' => "DELETE FROM %tablename%"
-	);
+	protected $sqlQueries = [
+		'save' => 'INSERT INTO %tablename% (id, data, meta_utime, meta_datetime, meta_uri, meta_ip, meta_method) VALUES (?, ?, ?, ?, ?, ?, ?)',
+		'get' => 'SELECT data FROM %tablename% WHERE id = ?',
+		'find' => 'SELECT data FROM %tablename% %where% ORDER BY meta_datetime DESC LIMIT %limit% OFFSET %offset%',
+		'clear' => 'DELETE FROM %tablename%'
+	];
 
 	/**
-	 * @param \PDO $pdo The PDO instance
+	 * @param \PDO   $pdo        The PDO instance
 	 * @param string $tableName
-	 * @param array $sqlQueries
+	 * @param array  $sqlQueries
 	 */
 	public function __construct(PDO $pdo, $tableName = 'phpdebugbar', array $sqlQueries = [])
 	{
@@ -39,7 +39,7 @@ class PdoStorage implements StorageInterface
 	}
 
 	/**
-	 * Sets the sql queries to be used
+	 * Sets the sql queries to be used.
 	 *
 	 * @param array $queries
 	 */
@@ -56,7 +56,7 @@ class PdoStorage implements StorageInterface
 		$sql = $this->getSqlQuery('save');
 		$stmt = $this->pdo->prepare($sql);
 		$meta = $data['__meta'];
-		$stmt->execute(array($id, serialize($data), $meta['utime'], $meta['datetime'], $meta['uri'], $meta['ip'], $meta['method']));
+		$stmt->execute([$id, serialize($data), $meta['utime'], $meta['datetime'], $meta['uri'], $meta['ip'], $meta['method']]);
 	}
 
 	/**
@@ -66,7 +66,7 @@ class PdoStorage implements StorageInterface
 	{
 		$sql = $this->getSqlQuery('get');
 		$stmt = $this->pdo->prepare($sql);
-		$stmt->execute(array($id));
+		$stmt->execute([$id]);
 		if (($data = $stmt->fetchColumn(0)) !== false) {
 			return unserialize($data);
 		}
@@ -88,11 +88,11 @@ class PdoStorage implements StorageInterface
 			$where = implode(' AND ', $where);
 		}
 
-		$sql = $this->getSqlQuery('find', array(
+		$sql = $this->getSqlQuery('find', [
 			'where' => empty($where) ? '' : sprintf(' WHERE %s', $where),
 			'offset' => $offset,
 			'limit' => $max
-		));
+		]);
 
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute($params);
@@ -115,16 +115,17 @@ class PdoStorage implements StorageInterface
 	}
 
 	/**
-	 * Get a SQL Query for a task, with the variables replaced
+	 * Get a SQL Query for a task, with the variables replaced.
 	 *
-	 * @param  string $name
-	 * @param  array  $vars
+	 * @param string $name
+	 * @param array  $vars
+	 *
 	 * @return string
 	 */
 	protected function getSqlQuery($name, array $vars = [])
 	{
 		$sql = $this->sqlQueries[$name];
-		$vars = array_merge(array('tablename' => $this->tableName), $vars);
+		$vars = array_merge(['tablename' => $this->tableName], $vars);
 		foreach ($vars as $k => $v) {
 			$sql = str_replace("%$k%", $v, $sql);
 		}

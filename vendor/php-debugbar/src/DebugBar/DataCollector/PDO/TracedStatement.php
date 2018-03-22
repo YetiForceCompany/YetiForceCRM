@@ -1,12 +1,12 @@
 <?php
+
 namespace DebugBar\DataCollector\PDO;
 
 /**
- * Holds information about a statement
+ * Holds information about a statement.
  */
 class TracedStatement
 {
-
 	protected $sql;
 	protected $rowCount;
 	protected $parameters;
@@ -21,7 +21,7 @@ class TracedStatement
 
 	/**
 	 * @param string $sql
-	 * @param array $params
+	 * @param array  $params
 	 * @param string $preparedId
 	 */
 	public function __construct($sql, array $params = [], $preparedId = null)
@@ -44,9 +44,9 @@ class TracedStatement
 
 	/**
 	 * @param \Exception|null $exception
-	 * @param int $rowCount
-	 * @param null $endTime
-	 * @param null $endMemory
+	 * @param int             $rowCount
+	 * @param null            $endTime
+	 * @param null            $endMemory
 	 */
 	public function end(\Exception $exception = null, $rowCount = 0, $endTime = null, $endMemory = null)
 	{
@@ -62,6 +62,7 @@ class TracedStatement
 	 * Check parameters for illegal (non UTF-8) strings, like Binary data.
 	 *
 	 * @param $params
+	 *
 	 * @return mixed
 	 */
 	public function checkParameters($params)
@@ -75,7 +76,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the SQL string used for the query
+	 * Returns the SQL string used for the query.
 	 *
 	 * @return string
 	 */
@@ -85,9 +86,10 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the SQL string with any parameters used embedded
+	 * Returns the SQL string with any parameters used embedded.
 	 *
 	 * @param string $quotationChar
+	 *
 	 * @return string
 	 */
 	public function getSqlWithParams($quotationChar = '<>')
@@ -113,7 +115,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the number of rows affected/returned
+	 * Returns the number of rows affected/returned.
 	 *
 	 * @return int
 	 */
@@ -123,7 +125,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns an array of parameters used with the query
+	 * Returns an array of parameters used with the query.
 	 *
 	 * @return array
 	 */
@@ -137,7 +139,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the prepared statement id
+	 * Returns the prepared statement id.
 	 *
 	 * @return string
 	 */
@@ -147,9 +149,9 @@ class TracedStatement
 	}
 
 	/**
-	 * Checks if this is a prepared statement
+	 * Checks if this is a prepared statement.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isPrepared()
 	{
@@ -173,7 +175,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the duration in seconds of the execution
+	 * Returns the duration in seconds of the execution.
 	 *
 	 * @return int
 	 */
@@ -199,7 +201,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the memory usage during the execution
+	 * Returns the memory usage during the execution.
 	 *
 	 * @return int
 	 */
@@ -209,9 +211,9 @@ class TracedStatement
 	}
 
 	/**
-	 * Checks if the statement was successful
+	 * Checks if the statement was successful.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isSuccess()
 	{
@@ -219,7 +221,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the exception triggered
+	 * Returns the exception triggered.
 	 *
 	 * @return \Exception
 	 */
@@ -229,7 +231,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the exception's code
+	 * Returns the exception's code.
 	 *
 	 * @return string
 	 */
@@ -239,7 +241,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the exception's message
+	 * Returns the exception's message.
 	 *
 	 * @return string
 	 */
@@ -249,7 +251,7 @@ class TracedStatement
 	}
 
 	/**
-	 * Returns the back trace message
+	 * Returns the back trace message.
 	 *
 	 * @return array
 	 */

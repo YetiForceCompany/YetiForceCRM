@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar;
 
 /**
- * Request id generator based on the $_SERVER array
+ * Request id generator based on the $_SERVER array.
  */
 class RequestIdGenerator implements RequestIdGeneratorInterface
 {
-
 	/**
 	 * @return string
 	 */

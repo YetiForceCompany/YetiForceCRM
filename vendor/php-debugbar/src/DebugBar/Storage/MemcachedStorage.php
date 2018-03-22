@@ -7,16 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\Storage;
 
 use Memcached;
 
 /**
- * Stores collected data into Memcache using the Memcached extension
+ * Stores collected data into Memcache using the Memcached extension.
  */
 class MemcachedStorage implements StorageInterface
 {
-
 	protected $memcached;
 	protected $keyNamespace;
 
@@ -72,9 +72,10 @@ class MemcachedStorage implements StorageInterface
 
 	/**
 	 * Filter the metadata for matches.
-	 * 
-	 * @param  array $meta
-	 * @param  array $filters
+	 *
+	 * @param array $meta
+	 * @param array $filters
+	 *
 	 * @return bool
 	 */
 	protected function filter($meta, $filters)
@@ -100,8 +101,9 @@ class MemcachedStorage implements StorageInterface
 	}
 
 	/**
-	 * @param  string $id
-	 * @return string 
+	 * @param string $id
+	 *
+	 * @return string
 	 */
 	protected function createKey($id)
 	{

@@ -7,22 +7,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataCollector;
 
 use DebugBar\DataFormatter\DataFormatter;
 use DebugBar\DataFormatter\DataFormatterInterface;
 
 /**
- * Abstract class for data collectors
+ * Abstract class for data collectors.
  */
 abstract class DataCollector implements DataCollectorInterface
 {
-
 	private static $defaultDataFormatter;
 	protected $dataFormater;
 
 	/**
-	 * Sets the default data formater instance used by all collectors subclassing this class
+	 * Sets the default data formater instance used by all collectors subclassing this class.
 	 *
 	 * @param DataFormatterInterface $formater
 	 */
@@ -32,7 +32,7 @@ abstract class DataCollector implements DataCollectorInterface
 	}
 
 	/**
-	 * Returns the default data formater
+	 * Returns the default data formater.
 	 *
 	 * @return DataFormatterInterface
 	 */
@@ -45,9 +45,10 @@ abstract class DataCollector implements DataCollectorInterface
 	}
 
 	/**
-	 * Sets the data formater instance used by this collector
+	 * Sets the data formater instance used by this collector.
 	 *
 	 * @param DataFormatterInterface $formater
+	 *
 	 * @return $this
 	 */
 	public function setDataFormatter(DataFormatterInterface $formater)

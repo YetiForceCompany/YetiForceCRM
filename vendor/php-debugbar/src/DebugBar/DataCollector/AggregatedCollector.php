@@ -7,13 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataCollector;
 
 use ArrayAccess;
 use DebugBar\DebugBarException;
 
 /**
- * Aggregates data from multiple collectors
+ * Aggregates data from multiple collectors.
  *
  * <code>
  * $aggcollector = new AggregateCollector('foobar');
@@ -24,7 +25,6 @@ use DebugBar\DebugBarException;
  */
 class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 {
-
 	protected $name;
 	protected $mergeProperty;
 	protected $sort;
@@ -33,7 +33,7 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 	/**
 	 * @param string $name
 	 * @param string $mergeProperty
-	 * @param boolean $sort
+	 * @param bool   $sort
 	 */
 	public function __construct($name, $mergeProperty = null, $sort = false)
 	{
@@ -59,7 +59,7 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 	}
 
 	/**
-	 * Merge data from one of the key/value pair of the collected data
+	 * Merge data from one of the key/value pair of the collected data.
 	 *
 	 * @param string $property
 	 */
@@ -77,7 +77,7 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 	}
 
 	/**
-	 * Sorts the collected data
+	 * Sorts the collected data.
 	 *
 	 * If true, sorts using sort()
 	 * If it is a string, sorts the data using the value from a key/value pair of the array
@@ -115,9 +115,10 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 	}
 
 	/**
-	 * Sorts the collected data
+	 * Sorts the collected data.
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 */
 	protected function sort($data)
@@ -143,21 +144,24 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 	{
 		return $this->name;
 	}
+
 	// --------------------------------------------
 	// ArrayAccess implementation
 
 	/**
 	 * @param mixed $key
 	 * @param mixed $value
+	 *
 	 * @throws DebugBarException
 	 */
 	public function offsetSet($key, $value)
 	{
-		throw new DebugBarException("AggregatedCollector[] is read-only");
+		throw new DebugBarException('AggregatedCollector[] is read-only');
 	}
 
 	/**
 	 * @param mixed $key
+	 *
 	 * @return mixed
 	 */
 	public function offsetGet($key)
@@ -167,6 +171,7 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 
 	/**
 	 * @param mixed $key
+	 *
 	 * @return bool
 	 */
 	public function offsetExists($key)
@@ -176,10 +181,11 @@ class AggregatedCollector implements DataCollectorInterface, ArrayAccess
 
 	/**
 	 * @param mixed $key
+	 *
 	 * @throws DebugBarException
 	 */
 	public function offsetUnset($key)
 	{
-		throw new DebugBarException("AggregatedCollector[] is read-only");
+		throw new DebugBarException('AggregatedCollector[] is read-only');
 	}
 }

@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataFormatter;
 
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -14,7 +15,6 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 class DataFormatter implements DataFormatterInterface
 {
-
 	/**
 	 * DataFormatter constructor.
 	 */
@@ -26,6 +26,7 @@ class DataFormatter implements DataFormatterInterface
 
 	/**
 	 * @param $data
+	 *
 	 * @return string
 	 */
 	public function formatVar($data)
@@ -34,12 +35,12 @@ class DataFormatter implements DataFormatterInterface
 
 		$this->dumper->dump(
 			$this->cloner->cloneVar($data), function ($line, $depth) use (&$output) {
-			// A negative depth means "end of dump"
-			if ($depth >= 0) {
-				// Adds a two spaces indentation to the line
-				$output .= str_repeat('  ', $depth) . $line . "\n";
+				// A negative depth means "end of dump"
+				if ($depth >= 0) {
+					// Adds a two spaces indentation to the line
+					$output .= str_repeat('  ', $depth) . $line . "\n";
+				}
 			}
-		}
 		);
 
 		return trim($output);
@@ -47,6 +48,7 @@ class DataFormatter implements DataFormatterInterface
 
 	/**
 	 * @param float $seconds
+	 *
 	 * @return string
 	 */
 	public function formatDuration($seconds)
@@ -61,20 +63,21 @@ class DataFormatter implements DataFormatterInterface
 
 	/**
 	 * @param string $size
-	 * @param int $precision
+	 * @param int    $precision
+	 *
 	 * @return string
 	 */
 	public function formatBytes($size, $precision = 2)
 	{
 		if ($size === 0 || $size === null) {
-			return "0B";
+			return '0B';
 		}
 
 		$sign = $size < 0 ? '-' : '';
 		$size = abs($size);
 
 		$base = log($size) / log(1024);
-		$suffixes = array('B', 'KB', 'MB', 'GB', 'TB');
+		$suffixes = ['B', 'KB', 'MB', 'GB', 'TB'];
 		return $sign . round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
 	}
 }

@@ -7,39 +7,39 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar;
 
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\Renderable;
 
 /**
- * Renders the debug bar using the client side javascript implementation
+ * Renders the debug bar using the client side javascript implementation.
  *
  * Generates all the needed initialization code of controls
  */
 class JavascriptRenderer
 {
-
 	const INITIALIZE_CONSTRUCTOR = 2;
 	const INITIALIZE_CONTROLS = 4;
-	const REPLACEABLE_TAG = "{--DEBUGBAR_OB_START_REPLACE_ME--}";
+	const REPLACEABLE_TAG = '{--DEBUGBAR_OB_START_REPLACE_ME--}';
 	const RELATIVE_PATH = 'path';
 	const RELATIVE_URL = 'url';
 
 	protected $debugBar;
 	protected $baseUrl;
 	protected $basePath;
-	protected $cssVendors = array(
+	protected $cssVendors = [
 		'fontawesome' => 'vendor/font-awesome/css/font-awesome.min.css',
 		'highlightjs' => 'vendor/highlightjs/styles/github.css'
-	);
-	protected $jsVendors = array(
+	];
+	protected $jsVendors = [
 		'jquery' => 'vendor/jquery/dist/jquery.min.js',
 		'highlightjs' => 'vendor/highlightjs/highlight.pack.js'
-	);
+	];
 	protected $includeVendors = true;
-	protected $cssFiles = array('debugbar.css', 'widgets.css', 'openhandler.css');
-	protected $jsFiles = array('debugbar.js', 'widgets.js', 'openhandler.js');
+	protected $cssFiles = ['debugbar.css', 'widgets.css', 'openhandler.css'];
+	protected $jsFiles = ['debugbar.js', 'widgets.js', 'openhandler.js'];
 	protected $additionalAssets = [];
 	protected $javascriptClass = 'PhpDebugBar.DebugBar';
 	protected $variableName = 'phpdebugbar';
@@ -56,8 +56,8 @@ class JavascriptRenderer
 
 	/**
 	 * @param \DebugBar\DebugBar $debugBar
-	 * @param string $baseUrl
-	 * @param string $basePath
+	 * @param string             $baseUrl
+	 * @param string             $basePath
 	 */
 	public function __construct(DebugBar $debugBar, $baseUrl = null, $basePath = null)
 	{
@@ -78,7 +78,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets options from an array
+	 * Sets options from an array.
 	 *
 	 * Options:
 	 *  - base_path
@@ -154,7 +154,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the path which assets are relative to
+	 * Sets the path which assets are relative to.
 	 *
 	 * @param string $path
 	 */
@@ -165,7 +165,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the path which assets are relative to
+	 * Returns the path which assets are relative to.
 	 *
 	 * @return string
 	 */
@@ -175,7 +175,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the base URL from which assets will be served
+	 * Sets the base URL from which assets will be served.
 	 *
 	 * @param string $url
 	 */
@@ -186,7 +186,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the base URL from which assets will be served
+	 * Returns the base URL from which assets will be served.
 	 *
 	 * @return string
 	 */
@@ -196,17 +196,17 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Whether to include vendor assets
+	 * Whether to include vendor assets.
 	 *
 	 * You can only include js or css vendors using
 	 * setIncludeVendors('css') or setIncludeVendors('js')
 	 *
-	 * @param boolean $enabled
+	 * @param bool $enabled
 	 */
 	public function setIncludeVendors($enabled = true)
 	{
 		if (is_string($enabled)) {
-			$enabled = array($enabled);
+			$enabled = [$enabled];
 		}
 		$this->includeVendors = $enabled;
 
@@ -219,9 +219,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Checks if vendors assets are included
+	 * Checks if vendors assets are included.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function areVendorsIncluded()
 	{
@@ -231,9 +231,7 @@ class JavascriptRenderer
 	/**
 	 * Disable a specific vendor's assets.
 	 *
-	 * @param  string $name "jquery", "fontawesome", "highlightjs"
-	 *
-	 * @return void
+	 * @param string $name "jquery", "fontawesome", "highlightjs"
 	 */
 	public function disableVendor($name)
 	{
@@ -246,7 +244,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the javascript class name
+	 * Sets the javascript class name.
 	 *
 	 * @param string $className
 	 */
@@ -257,7 +255,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the javascript class name
+	 * Returns the javascript class name.
 	 *
 	 * @return string
 	 */
@@ -267,7 +265,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the variable name of the class instance
+	 * Sets the variable name of the class instance.
 	 *
 	 * @param string $name
 	 */
@@ -278,7 +276,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the variable name of the class instance
+	 * Returns the variable name of the class instance.
 	 *
 	 * @return string
 	 */
@@ -288,13 +286,13 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets what should be initialized
+	 * Sets what should be initialized.
 	 *
 	 *  - INITIALIZE_CONSTRUCTOR: only initializes the instance
 	 *  - INITIALIZE_CONTROLS: initializes the controls and data mapping
 	 *  - INITIALIZE_CONSTRUCTOR | INITIALIZE_CONTROLS: initialize everything (default)
 	 *
-	 * @param integer $init
+	 * @param int $init
 	 */
 	public function setInitialization($init)
 	{
@@ -303,9 +301,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns what should be initialized
+	 * Returns what should be initialized.
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function getInitialization()
 	{
@@ -313,9 +311,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets whether to call jQuery.noConflict()
+	 * Sets whether to call jQuery.noConflict().
 	 *
-	 * @param boolean $enabled
+	 * @param bool $enabled
 	 */
 	public function setEnableJqueryNoConflict($enabled = true)
 	{
@@ -324,9 +322,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Checks if jQuery.noConflict() will be called
+	 * Checks if jQuery.noConflict() will be called.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isJqueryNoConflictEnabled()
 	{
@@ -334,9 +332,10 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets whether to use RequireJS or not
+	 * Sets whether to use RequireJS or not.
 	 *
-	 * @param boolean $enabled
+	 * @param bool $enabled
+	 *
 	 * @return $this
 	 */
 	public function setUseRequireJs($enabled = true)
@@ -346,9 +345,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Checks if RequireJS is used
+	 * Checks if RequireJS is used.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isRequireJsUsed()
 	{
@@ -356,7 +355,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Adds a control to initialize
+	 * Adds a control to initialize.
 	 *
 	 * Possible options:
 	 *  - icon: icon name
@@ -369,11 +368,11 @@ class JavascriptRenderer
 	 * "icon" or "widget" are at least needed
 	 *
 	 * @param string $name
-	 * @param array $options
+	 * @param array  $options
 	 */
 	public function addControl($name, array $options)
 	{
-		if (count(array_intersect(array_keys($options), array('icon', 'widget', 'tab', 'indicator'))) === 0) {
+		if (count(array_intersect(array_keys($options), ['icon', 'widget', 'tab', 'indicator'])) === 0) {
 			throw new DebugBarException("Not enough options for control '$name'");
 		}
 		$this->controls[$name] = $options;
@@ -381,7 +380,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Disables a control
+	 * Disables a control.
 	 *
 	 * @param string $name
 	 */
@@ -392,7 +391,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the list of controls
+	 * Returns the list of controls.
 	 *
 	 * This does not include controls provided by collectors
 	 *
@@ -404,7 +403,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Ignores widgets provided by a collector
+	 * Ignores widgets provided by a collector.
 	 *
 	 * @param string $name
 	 */
@@ -415,7 +414,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the list of ignored collectors
+	 * Returns the list of ignored collectors.
 	 *
 	 * @return array
 	 */
@@ -425,7 +424,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the class name of the ajax handler
+	 * Sets the class name of the ajax handler.
 	 *
 	 * Set to false to disable
 	 *
@@ -438,7 +437,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the class name of the ajax handler
+	 * Returns the class name of the ajax handler.
 	 *
 	 * @return string
 	 */
@@ -448,9 +447,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets whether to call bindToJquery() on the ajax handler
+	 * Sets whether to call bindToJquery() on the ajax handler.
 	 *
-	 * @param boolean $bind
+	 * @param bool $bind
 	 */
 	public function setBindAjaxHandlerToJquery($bind = true)
 	{
@@ -459,9 +458,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Checks whether bindToJquery() will be called on the ajax handler
+	 * Checks whether bindToJquery() will be called on the ajax handler.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isAjaxHandlerBoundToJquery()
 	{
@@ -469,9 +468,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets whether to call bindToXHR() on the ajax handler
+	 * Sets whether to call bindToXHR() on the ajax handler.
 	 *
-	 * @param boolean $bind
+	 * @param bool $bind
 	 */
 	public function setBindAjaxHandlerToXHR($bind = true)
 	{
@@ -480,9 +479,9 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Checks whether bindToXHR() will be called on the ajax handler
+	 * Checks whether bindToXHR() will be called on the ajax handler.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isAjaxHandlerBoundToXHR()
 	{
@@ -490,7 +489,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the class name of the js open handler
+	 * Sets the class name of the js open handler.
 	 *
 	 * @param string $className
 	 */
@@ -501,7 +500,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the class name of the js open handler
+	 * Returns the class name of the js open handler.
 	 *
 	 * @return string
 	 */
@@ -511,7 +510,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Sets the url of the open handler
+	 * Sets the url of the open handler.
 	 *
 	 * @param string $url
 	 */
@@ -522,7 +521,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the url for the open handler
+	 * Returns the url for the open handler.
 	 *
 	 * @return string
 	 */
@@ -532,29 +531,30 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Add assets to render in the head
+	 * Add assets to render in the head.
 	 *
-	 * @param array $cssFiles An array of filenames
-	 * @param array $jsFiles  An array of filenames
+	 * @param array  $cssFiles An array of filenames
+	 * @param array  $jsFiles  An array of filenames
 	 * @param string $basePath Base path of those files
 	 * @param string $baseUrl  Base url of those files
 	 */
 	public function addAssets($cssFiles, $jsFiles, $basePath = null, $baseUrl = null)
 	{
-		$this->additionalAssets[] = array(
+		$this->additionalAssets[] = [
 			'base_path' => $basePath,
 			'base_url' => $baseUrl,
 			'css' => (array) $cssFiles,
 			'js' => (array) $jsFiles
-		);
+		];
 		return $this;
 	}
 
 	/**
-	 * Returns the list of asset files
+	 * Returns the list of asset files.
 	 *
-	 * @param string $type Only return css or js files
+	 * @param string $type       Only return css or js files
 	 * @param string $relativeTo The type of path to which filenames must be relative (path, url or null)
+	 *
 	 * @return array
 	 */
 	public function getAssets($type = null, $relativeTo = self::RELATIVE_PATH)
@@ -586,22 +586,23 @@ class JavascriptRenderer
 		}
 
 		foreach ($additionalAssets as $assets) {
-			$basePath = isset($assets['base_path']) ? $assets['base_path'] : null;
-			$baseUrl = isset($assets['base_url']) ? $assets['base_url'] : null;
+			$basePath = $assets['base_path'] ?? null;
+			$baseUrl = $assets['base_url'] ?? null;
 			$root = $this->getRelativeRoot($relativeTo, $this->makeUriRelativeTo($basePath, $this->basePath), $this->makeUriRelativeTo($baseUrl, $this->baseUrl));
 			$cssFiles = array_merge($cssFiles, $this->makeUriRelativeTo((array) $assets['css'], $root));
 			$jsFiles = array_merge($jsFiles, $this->makeUriRelativeTo((array) $assets['js'], $root));
 		}
 
-		return $this->filterAssetArray(array($cssFiles, $jsFiles), $type);
+		return $this->filterAssetArray([$cssFiles, $jsFiles], $type);
 	}
 
 	/**
-	 * Returns the correct base according to the type
+	 * Returns the correct base according to the type.
 	 *
 	 * @param string $relativeTo
 	 * @param string $basePath
 	 * @param string $baseUrl
+	 *
 	 * @return string
 	 */
 	protected function getRelativeRoot($relativeTo, $basePath, $baseUrl)
@@ -616,10 +617,11 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Makes a URI relative to another
+	 * Makes a URI relative to another.
 	 *
 	 * @param string|array $uri
-	 * @param string $root
+	 * @param string       $root
+	 *
 	 * @return string
 	 */
 	protected function makeUriRelativeTo($uri, $root)
@@ -643,10 +645,11 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Filters a tuple of (css, js) assets according to $type
+	 * Filters a tuple of (css, js) assets according to $type.
 	 *
-	 * @param array $array
-	 * @param string $type 'css', 'js' or null for both
+	 * @param array  $array
+	 * @param string $type  'css', 'js' or null for both
+	 *
 	 * @return array
 	 */
 	protected function filterAssetArray($array, $type = null)
@@ -663,18 +666,19 @@ class JavascriptRenderer
 
 	/**
 	 * Returns a tuple where the both items are Assetic AssetCollection,
-	 * the first one being css files and the second js files
+	 * the first one being css files and the second js files.
 	 *
 	 * @param string $type Only return css or js collection
+	 *
 	 * @return array or \Assetic\Asset\AssetCollection
 	 */
 	public function getAsseticCollection($type = null)
 	{
 		list($cssFiles, $jsFiles) = $this->getAssets();
-		return $this->filterAssetArray(array(
+		return $this->filterAssetArray([
 				$this->createAsseticCollection($cssFiles),
 				$this->createAsseticCollection($jsFiles)
-				), $type);
+				], $type);
 	}
 
 	/**
@@ -683,6 +687,7 @@ class JavascriptRenderer
 	 * the base path.
 	 *
 	 * @param array $files
+	 *
 	 * @return \Assetic\Asset\AssetCollection
 	 */
 	protected function createAsseticCollection($files)
@@ -695,7 +700,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Write all CSS assets to standard output or in a file
+	 * Write all CSS assets to standard output or in a file.
 	 *
 	 * @param string $targetFilename
 	 */
@@ -705,7 +710,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Write all JS assets to standard output or in a file
+	 * Write all JS assets to standard output or in a file.
 	 *
 	 * @param string $targetFilename
 	 */
@@ -715,11 +720,11 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Write assets to standard output or in a file
+	 * Write assets to standard output or in a file.
 	 *
-	 * @param array $files
+	 * @param array  $files
 	 * @param string $targetFilename
-	 * @param bool $useRequireJs
+	 * @param bool   $useRequireJs
 	 */
 	protected function dumpAssets($files, $targetFilename = null, $useRequireJs = false)
 	{
@@ -738,7 +743,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Renders the html to include needed assets
+	 * Renders the html to include needed assets.
 	 *
 	 * Only useful if Assetic is not used
 	 *
@@ -765,31 +770,33 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Register shutdown to display the debug bar
+	 * Register shutdown to display the debug bar.
 	 *
-	 * @param boolean $here Set position of HTML. True if is to current position or false for end file
-	 * @param boolean $initialize Whether to render the de bug bar initialization code
+	 * @param bool $here              Set position of HTML. True if is to current position or false for end file
+	 * @param bool $initialize        Whether to render the de bug bar initialization code
 	 * @param bool $renderStackedData
 	 * @param bool $head
+	 *
 	 * @return string Return "{--DEBUGBAR_OB_START_REPLACE_ME--}" or return an empty string if $here === false
 	 */
 	public function renderOnShutdown($here = true, $initialize = true, $renderStackedData = true, $head = false)
 	{
-		register_shutdown_function(array($this, "replaceTagInBuffer"), $here, $initialize, $renderStackedData, $head);
+		register_shutdown_function([$this, 'replaceTagInBuffer'], $here, $initialize, $renderStackedData, $head);
 
 		if (ob_get_level() === 0) {
 			ob_start();
 		}
 
-		return ($here) ? self::REPLACEABLE_TAG : "";
+		return ($here) ? self::REPLACEABLE_TAG : '';
 	}
 
 	/**
-	 * Same as renderOnShutdown() with $head = true
+	 * Same as renderOnShutdown() with $head = true.
 	 *
-	 * @param boolean $here
-	 * @param boolean $initialize
-	 * @param boolean $renderStackedData
+	 * @param bool $here
+	 * @param bool $initialize
+	 * @param bool $renderStackedData
+	 *
 	 * @return string
 	 */
 	public function renderOnShutdownWithHead($here = true, $initialize = true, $renderStackedData = true)
@@ -798,16 +805,16 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Is callback function for register_shutdown_function(...)
+	 * Is callback function for register_shutdown_function(...).
 	 *
-	 * @param boolean $here Set position of HTML. True if is to current position or false for end file
-	 * @param boolean $initialize Whether to render the de bug bar initialization code
+	 * @param bool $here              Set position of HTML. True if is to current position or false for end file
+	 * @param bool $initialize        Whether to render the de bug bar initialization code
 	 * @param bool $renderStackedData
 	 * @param bool $head
 	 */
 	public function replaceTagInBuffer($here = true, $initialize = true, $renderStackedData = true, $head = false)
 	{
-		$render = ($head ? $this->renderHead() : "")
+		$render = ($head ? $this->renderHead() : '')
 			. $this->render($initialize, $renderStackedData);
 
 		$current = ($here && ob_get_level() > 0) ? ob_get_clean() : self::REPLACEABLE_TAG;
@@ -820,12 +827,13 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the code needed to display the debug bar
+	 * Returns the code needed to display the debug bar.
 	 *
 	 * AJAX request should not render the initialization code.
 	 *
-	 * @param boolean $initialize Whether or not to render the debug bar initialization code
-	 * @param boolean $renderStackedData Whether or not to render the stacked data
+	 * @param bool $initialize        Whether or not to render the debug bar initialization code
+	 * @param bool $renderStackedData Whether or not to render the stacked data
+	 *
 	 * @return string
 	 */
 	public function render($initialize = true, $renderStackedData = true)
@@ -853,7 +861,7 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the js code needed to initialize the debug bar
+	 * Returns the js code needed to initialize the debug bar.
 	 *
 	 * @return string
 	 */
@@ -879,25 +887,26 @@ class JavascriptRenderer
 		}
 
 		if ($this->openHandlerUrl !== null) {
-			$js .= sprintf("%s.setOpenHandler(new %s(%s));\n", $this->variableName, $this->openHandlerClass, json_encode(array("url" => $this->openHandlerUrl)));
+			$js .= sprintf("%s.setOpenHandler(new %s(%s));\n", $this->variableName, $this->openHandlerClass, json_encode(['url' => $this->openHandlerUrl]));
 		}
 
 		return $js;
 	}
 
 	/**
-	 * Returns the js code needed to initialized the controls and data mapping of the debug bar
+	 * Returns the js code needed to initialized the controls and data mapping of the debug bar.
 	 *
 	 * Controls can be defined by collectors themselves or using {@see addControl()}
 	 *
 	 * @param string $varname Debug bar's variable name
+	 *
 	 * @return string
 	 */
 	protected function getJsControlsDefinitionCode($varname)
 	{
 		$js = '';
 		$dataMap = [];
-		$excludedOptions = array('indicator', 'tab', 'map', 'default', 'widget', 'position');
+		$excludedOptions = ['indicator', 'tab', 'map', 'default', 'widget', 'position'];
 
 		// finds controls provided by collectors
 		$widgets = [];
@@ -917,15 +926,15 @@ class JavascriptRenderer
 				if (!isset($opts['title'])) {
 					$opts['title'] = ucfirst(str_replace('_', ' ', $name));
 				}
-				$js .= sprintf("%s.addTab(\"%s\", new %s({%s%s}));\n", $varname, $name, isset($options['tab']) ? $options['tab'] : 'PhpDebugBar.DebugBar.Tab', substr(json_encode($opts, JSON_FORCE_OBJECT), 1, -1), isset($options['widget']) ? sprintf('%s"widget": new %s()', count($opts) ? ', ' : '', $options['widget']) : ''
+				$js .= sprintf("%s.addTab(\"%s\", new %s({%s%s}));\n", $varname, $name, $options['tab'] ?? 'PhpDebugBar.DebugBar.Tab', substr(json_encode($opts, JSON_FORCE_OBJECT), 1, -1), isset($options['widget']) ? sprintf('%s"widget": new %s()', count($opts) ? ', ' : '', $options['widget']) : ''
 				);
 			} elseif (isset($options['indicator']) || isset($options['icon'])) {
-				$js .= sprintf("%s.addIndicator(\"%s\", new %s(%s), \"%s\");\n", $varname, $name, isset($options['indicator']) ? $options['indicator'] : 'PhpDebugBar.DebugBar.Indicator', json_encode($opts, JSON_FORCE_OBJECT), isset($options['position']) ? $options['position'] : 'right'
+				$js .= sprintf("%s.addIndicator(\"%s\", new %s(%s), \"%s\");\n", $varname, $name, $options['indicator'] ?? 'PhpDebugBar.DebugBar.Indicator', json_encode($opts, JSON_FORCE_OBJECT), $options['position'] ?? 'right'
 				);
 			}
 
-			if (isset($options['map']) && isset($options['default'])) {
-				$dataMap[$name] = array($options['map'], $options['default']);
+			if (isset($options['map'], $options['default'])) {
+				$dataMap[$name] = [$options['map'], $options['default']];
 			}
 		}
 
@@ -943,16 +952,17 @@ class JavascriptRenderer
 	}
 
 	/**
-	 * Returns the js code needed to add a dataset
+	 * Returns the js code needed to add a dataset.
 	 *
 	 * @param string $requestId
-	 * @param array $data
-	 * @param mixed $suffix
+	 * @param array  $data
+	 * @param mixed  $suffix
+	 *
 	 * @return string
 	 */
 	protected function getAddDatasetCode($requestId, $data, $suffix = null)
 	{
-		$js = sprintf("%s.addDataSet(%s, \"%s\"%s);\n", $this->variableName, json_encode($data), $requestId, $suffix ? ", " . json_encode($suffix) : ''
+		$js = sprintf("%s.addDataSet(%s, \"%s\"%s);\n", $this->variableName, json_encode($data), $requestId, $suffix ? ', ' . json_encode($suffix) : ''
 		);
 		return $js;
 	}

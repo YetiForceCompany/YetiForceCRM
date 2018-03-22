@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar\DataCollector;
 
 /**
- * Collects array data
+ * Collects array data.
  */
 class ConfigCollector extends DataCollector implements Renderable
 {
-
 	protected $name;
 	protected $data;
 
@@ -29,7 +29,7 @@ class ConfigCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Sets the data
+	 * Sets the data.
 	 *
 	 * @param array $data
 	 */
@@ -67,13 +67,13 @@ class ConfigCollector extends DataCollector implements Renderable
 	public function getWidgets()
 	{
 		$name = $this->getName();
-		return array(
-			"$name" => array(
-				"icon" => "gear",
-				"widget" => "PhpDebugBar.Widgets.VariableListWidget",
-				"map" => "$name",
-				"default" => "{}"
-			)
-		);
+		return [
+			"$name" => [
+				'icon' => 'gear',
+				'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
+				'map' => "$name",
+				'default' => '{}'
+			]
+		];
 	}
 }

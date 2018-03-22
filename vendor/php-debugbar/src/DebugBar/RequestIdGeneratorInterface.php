@@ -7,13 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar;
 
 interface RequestIdGeneratorInterface
 {
-
 	/**
-	 * Generates a unique id for the current request
+	 * Generates a unique id for the current request.
 	 *
 	 * @return string
 	 */

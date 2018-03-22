@@ -7,32 +7,33 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace DebugBar;
 
 /**
  * Provides an abstraction of PHP native features for easier integration
- * in third party frameworks
+ * in third party frameworks.
  */
 interface HttpDriverInterface
 {
-
 	/**
-	 * Sets HTTP headers
+	 * Sets HTTP headers.
 	 *
 	 * @param array $headers
+	 *
 	 * @return
 	 */
 	public function setHeaders(array $headers);
 
 	/**
-	 * Checks if the session is started
+	 * Checks if the session is started.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isSessionStarted();
 
 	/**
-	 * Sets a value in the session
+	 * Sets a value in the session.
 	 *
 	 * @param string $name
 	 * @param string $value
@@ -40,23 +41,25 @@ interface HttpDriverInterface
 	public function setSessionValue($name, $value);
 
 	/**
-	 * Checks if a value is in the session
+	 * Checks if a value is in the session.
 	 *
 	 * @param string $name
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function hasSessionValue($name);
 
 	/**
-	 * Returns a value from the session
+	 * Returns a value from the session.
 	 *
 	 * @param string $name
+	 *
 	 * @return mixed
 	 */
 	public function getSessionValue($name);
 
 	/**
-	 * Deletes a value from the session
+	 * Deletes a value from the session.
 	 *
 	 * @param string $name
 	 */
