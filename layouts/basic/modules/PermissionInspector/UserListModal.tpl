@@ -10,7 +10,7 @@
         </button>
 	</div>
 	<div class="modal-body">
-		<table class="table dataTable">
+		<table class="table table-sm dataTable">
 			<thead>
 				<tr>
 					{if $WATCHDOG || $SRC_RECORD_ID neq 0}
