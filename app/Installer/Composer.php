@@ -17,7 +17,8 @@ class Composer
 	 * @var atring[]
 	 */
 	public static $publicPackage = [
-		'yetiforce/csrf-magic'
+		'yetiforce/csrf-magic',
+		'yetiforce/debugbar'
 	];
 
 	/**
@@ -28,10 +29,11 @@ class Composer
 	public static function install(\Composer\Script\Event $event)
 	{
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
+		$types = ['js', 'css', 'woff', 'woff2', 'ttf'];
 		foreach (static::$publicPackage as $package) {
 			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && ($item->getExtension() === 'js' || $item->getExtension() === 'css')) {
+				if ($item->isFile() && in_array($item->getExtension(), $types)) {
 					if (!file_exists($rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPathname())) {
 						if (!is_dir($rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPath())) {
 							mkdir($rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPath(), null, true);

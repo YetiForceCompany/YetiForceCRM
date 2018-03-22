@@ -30,10 +30,8 @@
 
 # dependencies COMPOSER
 /vendor/*
-!/vendor/php-debugbar
 !/vendor/yii
 /public_html/vendor/*
-!/public_html/vendor/php-debugbar
 
 # dependencies YARN
 yarn-error.log
