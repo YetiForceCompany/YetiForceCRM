@@ -92,27 +92,8 @@ app = {
 	getContentsContainer: function () {
 		return jQuery('.bodyContents');
 	},
-	/**
-	 * Function which will convert ui of select boxes.
-	 * @params parent - select element
-	 * @params view - select2
-	 * @params viewParams - select2 params
-	 * @returns jquery object list which represents changed select elements
-	 */
-	changeSelectElementView: function (parent, view, viewParams) {
-		let thisInstance = this;
-		let selectElement = jQuery();
-		if (typeof parent == 'undefined') {
-			parent = jQuery('body');
-		}
-		//If view is select2, This will convert the ui of select boxes to select2 elements.
-		if (view === 'select2') {
-			return app.showSelect2ElementView(parent, viewParams);
-		}
-		//If view is selectize, This will convert the ui of select boxes to selectize elements.
-		if (view === 'selectize') {
-			return app.showSelectizeElementView(parent, viewParams);
-		}
+	showChoosenElementView(parent, viewParams) {
+		const thisInstance = this;
 		selectElement = jQuery('.chzn-select', parent);
 		//parent itself is the element
 		if (parent.is('select.chzn-select')) {
@@ -131,24 +112,24 @@ app = {
 			jQuery(e.currentTarget).trigger('focusout');
 		});
 
-		var params = {
+		let params = {
 			no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
 		};
 
-		var moduleName = app.getModuleName();
-		if (selectElement.filter('[multiple]') && moduleName != 'Install') {
+		const moduleName = app.getModuleName();
+		if (selectElement.filter('[multiple]') && moduleName !== 'Install') {
 			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		}
-		if (moduleName != 'Install') {
+		if (moduleName !== 'Install') {
 			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		selectElement.chosen(params);
 
 		selectElement.each(function () {
-			var select = $(this);
+			const select = $(this);
 			// hide selected items in the chosen instance when item is hidden.
 			if (select.hasClass('hideSelected')) {
-				var ns = [];
+				const ns = [];
 				select.find('optgroup,option').each(function (n, e) {
 					if (jQuery(this).hasClass('d-none')) {
 						ns.push(n);
@@ -156,10 +137,8 @@ app = {
 				});
 				if (ns.length) {
 					select.next().find('.search-choice-close').each(function (n, e) {
-						var element = jQuery(this);
-						var index = element.data('option-array-index');
-						if (jQuery.inArray(index, ns) != -1) {
-							element.closest('li').remove();
+						if (jQuery.inArray($(this).data('option-array-index'), ns) != -1) {
+							$(this).closest('li').remove();
 						}
 					})
 				}
@@ -187,6 +166,47 @@ app = {
 		// Improve the display of default text (placeholder)
 		var chosenSelectConainer = jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
 		return chosenSelectConainer;
+	},
+	/**
+	 * Function which will convert ui of select boxes.
+	 * @params parent - select element
+	 * @params view - select2
+	 * @params viewParams - select2 params
+	 * @returns jquery object list which represents changed select elements
+	 */
+	changeSelectElementView: function (parent, view, viewParams) {
+		let thisInstance = this;
+		let selectElement = jQuery();
+		if (typeof parent === 'undefined') {
+			parent = jQuery('body');
+		}
+		if (typeof view === 'undefined') {
+			const select2Elements = jQuery('select.select2', parent).toArray();
+			const selectizeElements = jQuery('select.selectize', parent).toArray();
+			const choosenElements = jQuery('.chzn-select', parent).toArray();
+			select2Elements.forEach((elem) => {
+				thisInstance.changeSelectElementView(jQuery(elem), 'select2');
+			});
+			selectizeElements.forEach((elem) => {
+				thisInstance.changeSelectElementView(jQuery(elem), 'selectize');
+			});
+			choosenElements.forEach((elem) => {
+				thisInstance.changeSelectElementView(jQuery(elem), 'choosen');
+			});
+			return;
+		}
+		//If view is select2, This will convert the ui of select boxes to select2 elements.
+		if (view === 'select2') {
+			return app.showSelect2ElementView(parent, viewParams);
+		}
+		//If view is selectize, This will convert the ui of select boxes to selectize elements.
+		if (view === 'selectize') {
+			return app.showSelectizeElementView(parent, viewParams);
+		}
+		if (view === 'choosen') {
+			return app.showChoosenElementView(parent, viewParams);
+		}
+
 	},
 	/**
 	 * Function to destroy the chosen element and get back the basic select Element
@@ -517,10 +537,10 @@ app = {
 		let params = {
 			'show': true,
 		};
-		if (jQuery('#backgroundClosingModal').val() != 1) {
+		if (jQuery('#backgroundClosingModal').val() !== 1) {
 			params.backdrop = 'static';
 		}
-		if (typeof paramsObject == 'object') {
+		if (typeof paramsObject === 'object') {
 			container.css(paramsObject);
 			params = jQuery.extend(params, paramsObject);
 		}
