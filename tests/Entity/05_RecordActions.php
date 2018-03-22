@@ -78,10 +78,10 @@ class RecordActions extends \Tests\Base
 	public function testStateRecord()
 	{
 		static::$record->changeState('Trash');
-		$this->assertEquals(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		$this->assertSame(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
 		static::$record->changeState('Active');
-		$this->assertEquals(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		$this->assertSame(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
 		static::$record->changeState('Archived');
-		$this->assertEquals(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		$this->assertSame(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
 	}
 }
