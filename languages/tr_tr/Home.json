@@ -36,7 +36,9 @@
 	"LBL_GROUP_FIELD": "Alana g\u00f6re grupland\u0131rma",
 	"LBL_GROUP_VALUES": "B\u00f6l\u00fcnm\u00fc\u015f gruplama de\u011ferleri",
 	"LBL_FILTER_BY_OWNER": "Sahibine g\u00f6re filtrele",
-	"LBL_ALL_OWNERS": "Hepsi"
+	"LBL_ALL_OWNERS": "Hepsi",
+	"LBL_WIDGET_DOWNLOAD": "Download graph",
+	"LBL_WIDGET_PRINT": "Print graph"
   },
   "js": []
 }
