@@ -5,11 +5,11 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog modal-full">
+	<div class="modelContainer modal fade quickCreateContainer" tabindex="-1">
+		<div class="modal-dialog modal-lg modal-full">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header">
+					<div class="modal-header d-flex justify-content-between pb-1">
 						<div class="float-left">
 							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp; <p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
 											</div>
@@ -34,8 +34,8 @@
 											<input type="hidden" name="module" value="{$MODULE}" />
 											<input type="hidden" name="action" value="SaveAjax" />
 											<div class="quickCreateContent">
-												<div class="modal-body row no-margin">
-													<div class="massEditTable row no-margin">
+												<div class="modal-body m-0">
+													<div class="massEditTable border-0 px-1 mx-auto m-0">
 														<div class="px-0 form-row align-items-start mx-auto">
 															{assign var=COUNTER value=0}
 															{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
