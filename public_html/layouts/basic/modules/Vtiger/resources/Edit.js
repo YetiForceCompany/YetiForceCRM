@@ -624,7 +624,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var contact_id = false;
 		var lead_id = false;
 		var vendor_id = false;
-		jQuery("#EditView .blockContainer:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .blockContainer:not(.inventoryHeader):not(.inventoryItems) .fieldLabel").each(function (index) {
+		jQuery("#EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel").each(function (index) {
 			var block = $(this);
 			var referenceModulesList = false;
 			var relatedField = block.find('[name="popupReferenceModule"]').val();
@@ -664,7 +664,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromAccount').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('.blockContainer');
+				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + account_id + '"]').val();
@@ -679,7 +679,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'source_module': "Accounts"
 					}
 
-					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -689,7 +689,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromContact').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('.blockContainer');
+				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + contact_id + '"]').val();
@@ -702,7 +702,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Contacts"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -712,7 +712,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromLead').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('.blockContainer');
+				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + lead_id + '"]').val();
@@ -725,7 +725,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Leads"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
 				}
 			})
@@ -735,7 +735,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			jQuery('.copyAddressFromVendor').on('click', function (e) {
 				var element = jQuery(this);
-				var block = element.closest('.blockContainer');
+				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
 				var to = block.data('label');
 				var recordRelativeAccountId = jQuery('[name="' + vendor_id + '"]').val();
@@ -748,13 +748,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 						'selectedName': recordRelativeAccountName,
 						'source_module': "Vendors"
 					}
-					thisInstance.copyAddressDetails(from, to, data, element.closest('.blockContainer'));
+					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
 				}
 			})
 		}
 
-		$("#EditView .blockContainer").each(function (index) {
+		$("#EditView .js-toggle-panel").each(function (index) {
 			var hideCopyAddressLabel = true;
 			$(this).find(".adressAction button").each(function (index) {
 				if ($(this).hasClass("d-none") == false) {
@@ -767,21 +767,21 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		jQuery('.copyAddressFromMain').on('click', function (e) {
 			var element = jQuery(this);
-			var block = element.closest('.blockContainer');
+			var block = element.closest('.js-toggle-panel');
 			var from = element.data('label');
 			var to = block.data('label');
 			thisInstance.copyAddress(from, to, false, false);
 		})
 		jQuery('.copyAddressFromMailing').on('click', function (e) {
 			var element = jQuery(this);
-			var block = element.closest('.blockContainer');
+			var block = element.closest('.js-toggle-panel');
 			var from = element.data('label');
 			var to = block.data('label');
 			thisInstance.copyAddress(from, to, false, false);
 		})
 		jQuery('.copyAddressFromDelivery').on('click', function (e) {
 			var element = jQuery(this);
-			var block = element.closest('.blockContainer');
+			var block = element.closest('.js-toggle-panel');
 			var from = element.data('label');
 			var to = block.data('label');
 			thisInstance.copyAddress(from, to, false, false);
@@ -853,7 +853,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		var relategField = container.find("input[name*='addresslevel']");
 		relategField.on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
-			var blockContainer = jQuery(e.currentTarget).closest('.blockContainer');
+			var blockContainer = jQuery(e.currentTarget).closest('.js-toggle-panel');
 			thisInstance.copyAddressDetailsRef(data, blockContainer);
 		});
 	},
@@ -1121,7 +1121,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 			var currentTarget = jQuery(e.currentTarget).find('.blockToggle').not('.d-none');
 			var blockId = currentTarget.data('id');
-			var closestBlock = currentTarget.closest('.blockContainer');
+			var closestBlock = currentTarget.closest('.js-toggle-panel');
 			var bodyContents = closestBlock.find('.blockContent');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
@@ -1147,7 +1147,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getForm().find('.blockContainer');
+		var blocks = this.getForm().find('.js-toggle-panel');
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
@@ -1331,7 +1331,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				select: function (event, ui) {
 					for (var key in ui.item.components) {
 						var addressType = thisInstance.addressFieldsMappingFromApi[key];
-						var element = jQuery(this).parents('.blockContainer').find('[name^="' + addressType + '"]');
+						var element = jQuery(this).parents('.js-toggle-panel').find('[name^="' + addressType + '"]');
 						element.val(ui.item.components[key]);
 						if (element.is("select")) {
 							element.val(element.find('option[data-code="' + ui.item.components[key].toUpperCase() + '"]').val()).trigger('chosen:updated');

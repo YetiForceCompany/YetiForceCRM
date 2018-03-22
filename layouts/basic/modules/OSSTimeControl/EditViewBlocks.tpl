@@ -56,7 +56,7 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{if $BLOCKS_HIDE}
-					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
+					<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click" data-label="{$BLOCK_LABEL}">
 						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 							<div class="iconCollapse">
 								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
