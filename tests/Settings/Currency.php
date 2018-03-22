@@ -31,7 +31,7 @@ class Currency extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['currency_name'], 'Bahrain');
-		$this->assertSame($row['conversion_rate'], 1.65);
+		$this->assertSame((float) $row['conversion_rate'], 1.65);
 		$this->assertSame($row['currency_status'], 'Active');
 		$this->assertSame($row['currency_code'], 'BHD');
 		$this->assertSame($row['currency_symbol'], 'BD');
@@ -53,7 +53,7 @@ class Currency extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['currency_name'], 'Argentina');
-		$this->assertSame($row['conversion_rate'], 0.65);
+		$this->assertSame((float) $row['conversion_rate'], 0.65);
 		$this->assertSame($row['currency_status'], 'No');
 		$this->assertSame($row['currency_code'], 'ARS');
 		$this->assertSame($row['currency_symbol'], '$');
