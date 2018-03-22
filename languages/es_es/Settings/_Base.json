@@ -339,7 +339,8 @@
 	"PLU_MODULES_0": "M\u00f3dulo",
 	"PLU_MODULES_1": "M\u00f3dulos",
 	"PLU_SECURITY_0": "Problema de seguridad",
-	"PLU_SECURITY_1": "Problemas de seguridad"
+	"PLU_SECURITY_1": "Problemas de seguridad",
+	"LBL_ENCRYPTION": "Encryption"
   },
   "js": {
 	"JS_AUTHORIZATION_COMPLETE": "Autorizaci\u00f3n satisfactoria",

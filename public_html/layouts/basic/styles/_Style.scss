@@ -964,6 +964,7 @@ td.fieldValue {
 .collectiveGroupMembers {
   border: 1px solid #dddddd;
   border-top: 0;
+  @extend .w-100;
   ul {
 	padding: 0;
 	margin: 0;

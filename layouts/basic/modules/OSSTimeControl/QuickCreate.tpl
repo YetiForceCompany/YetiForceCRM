@@ -8,25 +8,27 @@
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header">
-						<div class="col-5 px-0">
-							<div class="float-left">
-								<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp; <p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
-							</div>
+					<div class="modal-header d-flex justify-content-between pb-1">
+						<div>
+							<h5 class="modal-title">
+								<span class="fas fa-plus mr-1"></span>
+								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
+								<span class="userIcon-{$MODULE} mx-1"></span>
+								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
+							</h5>
 						</div>
-						<div class="col-7 px-0">
+						<div>
 							<div class="float-right quickCreateActions pullRight">
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
 								&nbsp;&nbsp;
 								{/foreach}
 								{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-								<button class="btn btn-light goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+								<button class="btn btn-outline-secondary goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
 								<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-								<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+								<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 							</div>
 						</div>
-						<div class="clearfix"></div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 					<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
@@ -39,7 +41,7 @@
 					<input type="hidden" name="action" value="SaveAjax" />
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
-							<div class="massEditTable px-1 mx-auto m-0">
+							<div class="massEditTable border-0 px-1 mx-auto m-0">
 								<div class="col-12 px-0 form-row">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}

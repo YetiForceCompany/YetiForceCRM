@@ -1,13 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<h5 class="modal-title">{\App\Language::translate('LBL_INSPECTION_PERMISSION_HEADER', $MODULE_NAME)}</h5>
+		<h5 class="modal-title">
+			<span class="fas fa-user-secret mr-1"></span>
+			{\App\Language::translate('LBL_INSPECTION_PERMISSION_HEADER', $MODULE_NAME)}
+		</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
         </button>
 	</div>
 	<div class="modal-body">
-		<table class="table dataTable">
+		<table class="table table-sm dataTable">
 			<thead>
 				<tr>
 					{if $WATCHDOG || $SRC_RECORD_ID neq 0}
@@ -24,7 +27,7 @@
 				{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
 					<tr data-id="{$USER_ID}">
 						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
-							<th scope="row" class="text-left">
+							<th scope="row" class="text-center">
 								{if $WATCHDOG}
 									{if $ITEM['watchdog']['active']}
 										<button type="button" class="btn btn-info btn-xs"
