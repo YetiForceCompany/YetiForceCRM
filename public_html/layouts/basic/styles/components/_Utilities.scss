@@ -11,6 +11,7 @@
 .u-cursor-pointer {
   cursor: pointer;
   text-decoration: none !important;
+  @extend .m-2;
 }
 .u-text-small-bold {
   @extend .small;

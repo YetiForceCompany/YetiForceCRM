@@ -906,7 +906,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.find(".blockHeader").click(function () {
-			var currentTarget = $(this).find(".blockToggle").not(".d-none");
+			var currentTarget = $(this).find(".js-block-toggle").not(".d-none");
 			var blockId = currentTarget.data("id");
 			var closestBlock = currentTarget.closest(".js-toggle-panel");
 			var bodyContents = closestBlock.find(".blockContent");
@@ -923,7 +923,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				currentTarget.addClass("d-none");
 				closestBlock.find('[data-mode="show"]').removeClass("d-none");
 			}
-			app.event.trigger("DetailView.BlockToggle.PostLoad", bodyContents, data, thisInstance);
+			app.event.trigger("DetailView.js-block-toggle.PostLoad", bodyContents, data, thisInstance);
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
@@ -931,7 +931,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
-			var headerAnimationElement = currentBlock.find('.blockToggle').not('.d-none');
+			var headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
 			var bodyContents = currentBlock.closest('.js-toggle-panel').find('.blockContent');
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;

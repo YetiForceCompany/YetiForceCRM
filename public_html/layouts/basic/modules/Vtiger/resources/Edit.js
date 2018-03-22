@@ -1119,7 +1119,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (jQuery(e.target).is('input') || jQuery(e.target).is('button') || jQuery(e.target).parents().is('button')) {
 				return false;
 			}
-			var currentTarget = jQuery(e.currentTarget).find('.blockToggle').not('.d-none');
+			var currentTarget = jQuery(e.currentTarget).find('.js-block-toggle').not('.d-none');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.js-toggle-panel');
 			var bodyContents = closestBlock.find('.blockContent');
@@ -1151,7 +1151,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
-			var headerAnimationElement = currentBlock.find('.blockToggle').not('.d-none');
+			var headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
 			var bodyContents = currentBlock.find('.blockContent')
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
