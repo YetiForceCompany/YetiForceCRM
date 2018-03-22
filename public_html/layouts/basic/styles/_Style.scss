@@ -2965,9 +2965,7 @@ html, body, .baseContainer {
 	padding-right: 0;
 	padding-left: 0;
   }
-  .blockContainer .blockContent .fieldLabel {
-	text-align: left;
-  }
+ 
 }
 @media screen and (max-width: 992px) {
   .detailViewTable .fieldsLabelValue {
@@ -3051,9 +3049,6 @@ html, body, .baseContainer {
   }
   .conditionList .conditionField {
 	padding-left: 0;
-  }
-  .blockContainer .blockContent .fieldLabel {
-	text-align: right;
   }
   .quickCreateContent {
 	.fieldRow {

@@ -72,7 +72,7 @@
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
 								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
-										<label class="col-md-3 fieldLabel small font-weight-bold">
+										<label class="col-md-3 fieldLabel u-text-small-bold text-md-right">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>

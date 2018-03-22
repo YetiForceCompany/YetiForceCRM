@@ -81,7 +81,7 @@
 									<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row {else} w-100 {/if}">
 										{if $FIELD_MODEL->getUIType() neq "300"}
 											<div class="col-md-3 fieldLabel p-2 {$WIDTHTYPE}">
-												<label class="muted small font-weight-bold float-right mr-3">
+												<label class="u-text-small-bold float-right mr-3">
 													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>
