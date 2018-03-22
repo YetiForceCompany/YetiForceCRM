@@ -43,8 +43,8 @@ class SharingAccess extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$shareId);
 		$relationType = implode('::', [$sourceType, $targetType]);
 
-		$this->assertEquals($ruleModel->getModule()->getId(), $row['tabid']);
-		$this->assertEquals($relationType, $row['relationtype']);
+		$this->assertSame($ruleModel->getModule()->getId(), $row['tabid']);
+		$this->assertSame($relationType, $row['relationtype']);
 
 		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$sourceType][$targetType];
 		$tableName = $tableColumnInfo['table'];
@@ -56,9 +56,9 @@ class SharingAccess extends \Tests\Base
 		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
 
-		$this->assertEquals($permission, $row2['permission']);
-		$this->assertEquals($sourceIdComponents[1], $row2[$sourceColumnName]);
-		$this->assertEquals($targetIdComponents[1], $row2[$targetColumnName]);
+		$this->assertSame($permission, $row2['permission']);
+		$this->assertSame($sourceIdComponents[1], $row2[$sourceColumnName]);
+		$this->assertSame($targetIdComponents[1], $row2[$targetColumnName]);
 	}
 
 	/**
@@ -131,9 +131,9 @@ class SharingAccess extends \Tests\Base
 		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
 
-		$this->assertEquals($permission, $row2['permission']);
-		$this->assertEquals($sourceIdComponents[1], $row2[$sourceColumnName]);
-		$this->assertEquals($targetIdComponents[1], $row2[$targetColumnName]);
+		$this->assertSame($permission, $row2['permission']);
+		$this->assertSame($sourceIdComponents[1], $row2[$sourceColumnName]);
+		$this->assertSame($targetIdComponents[1], $row2[$targetColumnName]);
 	}
 
 	/**
@@ -172,7 +172,7 @@ class SharingAccess extends \Tests\Base
 		$this->changePermissions($modulePermissions);
 
 		foreach ($modulePermissions as $tabId => $permission) {
-			$this->assertEquals((new \App\Db\Query())->select('permission')->from('vtiger_def_org_share')->where(['tabid' => $tabId])->scalar(), $permission);
+			$this->assertSame((new \App\Db\Query())->select('permission')->from('vtiger_def_org_share')->where(['tabid' => $tabId])->scalar(), $permission);
 		}
 
 		$modulePermissions = [6 => $oldPermission, 4 => $oldPermission];

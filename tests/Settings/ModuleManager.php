@@ -122,8 +122,8 @@ class ModuleManager extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('vtiger_blocks')->where(['blockid' => static::$blockId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$blockId);
-		$this->assertEquals($row['blocklabel'], 'label block');
-		$this->assertEquals($row['iscustom'], 1);
+		$this->assertSame($row['blocklabel'], 'label block');
+		$this->assertSame($row['iscustom'], 1);
 	}
 
 	/**
@@ -157,10 +157,10 @@ class ModuleManager extends \Tests\Base
 		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
 		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$key]);
-		$this->assertEquals($row['fieldname'], $param['fieldName']);
-		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
-		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
-		$this->assertEquals($row['uitype'], $details['uitype']);
+		$this->assertSame($row['fieldname'], $param['fieldName']);
+		$this->assertSame($row['fieldlabel'], $param['fieldLabel']);
+		$this->assertSame($row['typeofdata'], $details['typeofdata']);
+		$this->assertSame($row['uitype'], $details['uitype']);
 
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
 
@@ -192,7 +192,7 @@ class ModuleManager extends \Tests\Base
 				static::$pickList[$key] = $param['pickListValues'];
 				$this->assertNotFalse($rowPicklist, 'The record from "vtiger_picklist" not exists NAME: ' . $param['fieldName']);
 
-				$this->assertEquals((new \App\Db\Query())->from('vtiger_role')->count() * count($param['pickListValues']), (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => $rowPicklist['picklistid']])->count(), 'Wrong number of rows in the table "vtiger_role2picklist"');
+				$this->assertSame((new \App\Db\Query())->from('vtiger_role')->count() * count($param['pickListValues']), (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => $rowPicklist['picklistid']])->count(), 'Wrong number of rows in the table "vtiger_role2picklist"');
 				break;
 			case 305: //MultiReferenceValue
 				$this->assertTrue((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'No record in the table "s_yf_multireference" for type ' . $type);
@@ -276,7 +276,7 @@ class ModuleManager extends \Tests\Base
 				$this->assertFalse((new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsExtraId[$key]])->exists(), 'The record "extra" was not removed from the database ID: ' . static::$fieldsExtraId[$key]);
 				break;
 			case 10: //Related1M
-				$this->assertEquals((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$key]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
+				$this->assertSame((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$key]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
 				break;
 			case 16: //Picklist
 				$this->assertNull(\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" exist');
@@ -286,7 +286,7 @@ class ModuleManager extends \Tests\Base
 				$this->assertNull(\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" exist');
 				$this->assertFalse((new \App\Db\Query())->from('vtiger_picklist')->where(['name' => $columnName])->exists(), 'The record from "vtiger_picklist" was not removed from the database ID: ' . static::$fieldsExtraId[$key]);
 
-				$this->assertEquals(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
+				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
 				break;
 			case 305: //MultiReferenceValue
 				$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
@@ -319,7 +319,7 @@ class ModuleManager extends \Tests\Base
 		$this->assertFileExists(static::$zipFileName);
 
 		$package = new \vtlib\Package();
-		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertSame('Test', $package->getModuleNameFromZip(static::$zipFileName));
 
 		$zip = \App\Zip::openFile(static::$zipFileName, ['checkFiles' => false]);
 		$zipFiles = [];
@@ -345,13 +345,13 @@ class ModuleManager extends \Tests\Base
 		\App\Db::getInstance()->getSchema()->refresh();
 		$package = new \vtlib\Package();
 
-		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertSame('Test', $package->getModuleNameFromZip(static::$zipFileName));
 		$this->assertFalse($package->isLanguageType(static::$zipFileName), 'The module is a language type');
 		$this->assertFalse($package->isUpdateType(static::$zipFileName), 'The module is a update type');
 		$this->assertFalse($package->isModuleBundle(static::$zipFileName), 'The module is a bundle type');
 
 		$package->import(static::$zipFileName);
-		$this->assertEquals('LBL_INVENTORY_MODULE', $package->getTypeName());
+		$this->assertSame('LBL_INVENTORY_MODULE', $package->getTypeName());
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module does not exist in the database');
 
@@ -412,7 +412,7 @@ class ModuleManager extends \Tests\Base
 			//Turn off the module if it is on
 			if ((int) $module->get('presence') !== 1) {
 				$moduleManagerModel->disableModule($module->get('name'));
-				$this->assertEquals(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
+				$this->assertSame(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
 	}
@@ -428,7 +428,7 @@ class ModuleManager extends \Tests\Base
 			//Turn on the module if it is off
 			if ((int) $module->get('presence') !== 0) {
 				$moduleManagerModel->enableModule($module->get('name'));
-				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
+				$this->assertSame(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
 	}
