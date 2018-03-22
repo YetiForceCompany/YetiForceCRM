@@ -65,23 +65,20 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 			'displayname' => $displayname,
 			'userid' => $userID,
 		])->execute();
+		$pdo = $db->getMasterPdo();
 		if (in_array('CardDav', $type)) {
-			$db->createCommand()->insert('dav_addressbooks', [
-				'principaluri' => 'principals/' . $userModel->get('user_name'),
-				'displayname' => API_CardDAV_Model::ADDRESSBOOK_NAME,
-				'uri' => API_CardDAV_Model::ADDRESSBOOK_NAME,
-				'description' => '',
-			])->execute();
+			$calendarBackend = new App\Dav\CalDAV_Backend_PDO($pdo);
+			$calendarBackend->createCalendar('principals/' . $userModel->get('user_name'), API_CardDAV_Model::ADDRESSBOOK_NAME, [
+				'{DAV:}displayname' => API_CardDAV_Model::ADDRESSBOOK_NAME,
+			]);
 			$db->createCommand()->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
 			$db->createCommand()->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 		if (in_array('CalDav', $type)) {
-			$db->createCommand()->insert('dav_calendars', [
-				'principaluri' => 'principals/' . $userModel->get('user_name'),
-				'displayname' => API_CalDAV_Model::CALENDAR_NAME,
-				'uri' => API_CalDAV_Model::CALENDAR_NAME,
-				'components' => API_CalDAV_Model::COMPONENTS,
-			])->execute();
+			$carddavBackend = new App\Dav\CardDAV_Backend_PDO($pdo);
+			$carddavBackend->createAddressBook('principals/' . $userModel->get('user_name'), API_CalDAV_Model::CALENDAR_NAME, [
+				'{DAV:}displayname' => API_CalDAV_Model::CALENDAR_NAME,
+			]);
 			$db->createCommand()->update('vtiger_activity', ['dav_status' => 1])->execute();
 		}
 		if (in_array('WebDav', $type)) {
