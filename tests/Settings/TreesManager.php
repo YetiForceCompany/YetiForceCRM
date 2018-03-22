@@ -42,10 +42,10 @@ class TreesManager extends \Tests\Base
 		static::$treesId[$key] = $recordModel->getId();
 
 		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->one();
-		$this->assertSame($row['name'], 'TestTree' . $key);
-		$this->assertSame($row['module'], $moduleId);
-		$this->assertSame($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
-		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
+		$this->assertEquals($row['name'], 'TestTree' . $key);
+		$this->assertEquals($row['module'], $moduleId);
+		$this->assertEquals($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
+		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
 
 		return static::$treesId[$key];
 	}
@@ -87,9 +87,9 @@ class TreesManager extends \Tests\Base
 		$recordModel->save();
 
 		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->one();
-		$this->assertSame($row['name'], 'TestTreeEdit' . $key);
-		$this->assertSame($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
-		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
+		$this->assertEquals($row['name'], 'TestTreeEdit' . $key);
+		$this->assertEquals($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
+		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
 	}
 
 	/**
@@ -107,7 +107,7 @@ class TreesManager extends \Tests\Base
 
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->exists(), 'The record was not removed from the database ID: ' . static::$treesId[$key]);
 
-		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), 0, 'The records were not removed from the table "vtiger_trees_templates_data"');
+		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), 0, 'The records were not removed from the table "vtiger_trees_templates_data"');
 	}
 
 	/**

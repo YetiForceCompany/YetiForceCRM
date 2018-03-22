@@ -24,7 +24,7 @@ class GlobalPermissions extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileID, 'globalactionid' => $globalactionid])->all();
 
 		$this->assertCount(1, $row);
-		$this->assertSame($row[0]['globalactionpermission'], $checked);
+		$this->assertEquals($row[0]['globalactionpermission'], $checked);
 	}
 
 	/**
@@ -40,6 +40,6 @@ class GlobalPermissions extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileID, 'globalactionid' => $globalactionid])->all();
 
 		$this->assertCount(1, $row);
-		$this->assertSame($row[0]['globalactionpermission'], $checked);
+		$this->assertEquals($row[0]['globalactionpermission'], $checked);
 	}
 }

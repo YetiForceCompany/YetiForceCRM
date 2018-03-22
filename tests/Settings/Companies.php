@@ -48,28 +48,28 @@ class Companies extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], 'Name');
-		$this->assertSame($row['short_name'], 'Short name');
-		$this->assertSame($row['default'], 1);
-		$this->assertSame($row['industry'], 'Industry');
-		$this->assertSame($row['street'], 'Street');
-		$this->assertSame($row['city'], 'City');
-		$this->assertSame($row['code'], '00-000');
-		$this->assertSame($row['state'], 'State');
-		$this->assertSame($row['country'], 'Country');
-		$this->assertSame($row['phone'], '+48 00 000 00 00');
-		$this->assertSame($row['fax'], '+48 00 000 00 00');
-		$this->assertSame($row['website'], 'www.website.com');
-		$this->assertSame($row['vatid'], '000-000-00-00');
-		$this->assertSame($row['id1'], '001111112');
-		$this->assertSame($row['id2'], '0000111113');
-		$this->assertSame($row['email'], 'email@gmail.com');
-		$this->assertSame($row['logo_login'], 'logo_one.png');
-		$this->assertSame($row['logo_login_height'], '200');
-		$this->assertSame($row['logo_main'], 'logo_two.png');
-		$this->assertSame($row['logo_main_height'], '38');
-		$this->assertSame($row['logo_mail'], 'logo_three.png');
-		$this->assertSame($row['logo_mail_height'], '50');
+		$this->assertEquals($row['name'], 'Name');
+		$this->assertEquals($row['short_name'], 'Short name');
+		$this->assertEquals($row['default'], 1);
+		$this->assertEquals($row['industry'], 'Industry');
+		$this->assertEquals($row['street'], 'Street');
+		$this->assertEquals($row['city'], 'City');
+		$this->assertEquals($row['code'], '00-000');
+		$this->assertEquals($row['state'], 'State');
+		$this->assertEquals($row['country'], 'Country');
+		$this->assertEquals($row['phone'], '+48 00 000 00 00');
+		$this->assertEquals($row['fax'], '+48 00 000 00 00');
+		$this->assertEquals($row['website'], 'www.website.com');
+		$this->assertEquals($row['vatid'], '000-000-00-00');
+		$this->assertEquals($row['id1'], '001111112');
+		$this->assertEquals($row['id2'], '0000111113');
+		$this->assertEquals($row['email'], 'email@gmail.com');
+		$this->assertEquals($row['logo_login'], 'logo_one.png');
+		$this->assertEquals($row['logo_login_height'], '200');
+		$this->assertEquals($row['logo_main'], 'logo_two.png');
+		$this->assertEquals($row['logo_main_height'], '38');
+		$this->assertEquals($row['logo_mail'], 'logo_three.png');
+		$this->assertEquals($row['logo_mail_height'], '50');
 	}
 
 	/**
@@ -105,28 +105,28 @@ class Companies extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertSame($row['name'], 'Company');
-		$this->assertSame($row['short_name'], 'Short company');
-		$this->assertSame($row['default'], 0);
-		$this->assertSame($row['industry'], 'Ingenuity');
-		$this->assertSame($row['street'], 'Avenue');
-		$this->assertSame($row['city'], 'Town');
-		$this->assertSame($row['code'], '00-100');
-		$this->assertSame($row['state'], 'Condition');
-		$this->assertSame($row['country'], 'Land');
-		$this->assertSame($row['phone'], '+48 11 111 11 11');
-		$this->assertSame($row['fax'], '+48 11 111 11 11');
-		$this->assertSame($row['website'], 'www.website-site.com');
-		$this->assertSame($row['vatid'], '111-111-11-11');
-		$this->assertSame($row['id1'], '000000001');
-		$this->assertSame($row['id2'], '000000003');
-		$this->assertSame($row['email'], 'emailtwo@gmail.com');
-		$this->assertSame($row['logo_login'], 'logo_login.png');
-		$this->assertSame($row['logo_login_height'], '150');
-		$this->assertSame($row['logo_main'], 'logo_main.png');
-		$this->assertSame($row['logo_main_height'], '35');
-		$this->assertSame($row['logo_mail'], 'logo_mail.png');
-		$this->assertSame($row['logo_mail_height'], '48');
+		$this->assertEquals($row['name'], 'Company');
+		$this->assertEquals($row['short_name'], 'Short company');
+		$this->assertEquals($row['default'], 0);
+		$this->assertEquals($row['industry'], 'Ingenuity');
+		$this->assertEquals($row['street'], 'Avenue');
+		$this->assertEquals($row['city'], 'Town');
+		$this->assertEquals($row['code'], '00-100');
+		$this->assertEquals($row['state'], 'Condition');
+		$this->assertEquals($row['country'], 'Land');
+		$this->assertEquals($row['phone'], '+48 11 111 11 11');
+		$this->assertEquals($row['fax'], '+48 11 111 11 11');
+		$this->assertEquals($row['website'], 'www.website-site.com');
+		$this->assertEquals($row['vatid'], '111-111-11-11');
+		$this->assertEquals($row['id1'], '000000001');
+		$this->assertEquals($row['id2'], '000000003');
+		$this->assertEquals($row['email'], 'emailtwo@gmail.com');
+		$this->assertEquals($row['logo_login'], 'logo_login.png');
+		$this->assertEquals($row['logo_login_height'], '150');
+		$this->assertEquals($row['logo_main'], 'logo_main.png');
+		$this->assertEquals($row['logo_main_height'], '35');
+		$this->assertEquals($row['logo_mail'], 'logo_mail.png');
+		$this->assertEquals($row['logo_mail_height'], '48');
 	}
 
 	/**
