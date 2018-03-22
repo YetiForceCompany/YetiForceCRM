@@ -100,17 +100,17 @@ app = {
 	 * @returns jquery object list which represents changed select elements
 	 */
 	changeSelectElementView: function (parent, view, viewParams) {
-		var thisInstance = this;
-		var selectElement = jQuery();
+		let thisInstance = this;
+		let selectElement = jQuery();
 		if (typeof parent == 'undefined') {
 			parent = jQuery('body');
 		}
 		//If view is select2, This will convert the ui of select boxes to select2 elements.
-		if (view == 'select2') {
+		if (view === 'select2') {
 			return app.showSelect2ElementView(parent, viewParams);
 		}
 		//If view is selectize, This will convert the ui of select boxes to selectize elements.
-		if (view == 'selectize') {
+		if (view === 'selectize') {
 			return app.showSelectizeElementView(parent, viewParams);
 		}
 		selectElement = jQuery('.chzn-select', parent);
@@ -121,7 +121,7 @@ app = {
 
 		// generate random ID
 		selectElement.each(function () {
-			if ($(this).prop("id").length == 0) {
+			if ($(this).prop("id").length === 0) {
 				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
 			}
 		});
@@ -512,6 +512,51 @@ app = {
 		}
 		return keyValueMap;
 	},
+	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
+		const thisInstance = this;
+		let params = {
+			'show': true,
+		};
+		if (jQuery('#backgroundClosingModal').val() != 1) {
+			params.backdrop = 'static';
+		}
+		if (typeof paramsObject == 'object') {
+			container.css(paramsObject);
+			params = jQuery.extend(params, paramsObject);
+		}
+		container.html(data);
+		if (container.find('.modal').hasClass('static')) {
+			params.backdrop = 'static';
+		}
+		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
+		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
+			$(document).off('focusin.bs.modal') // guard against infinite focus loop
+				.on('focusin.bs.modal', $.proxy(function (e) {
+					if ($(e.target).hasClass('select2-search__field')) {
+						return true;
+					}
+				}, this))
+		};
+		const modalContainer = container.find('.modal:first');
+		modalContainer.modal(params);
+		jQuery('body').append(container);
+		app.changeSelectElementView(modalContainer);
+		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
+		thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
+		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
+		modalContainer.one('shown.bs.modal', function () {
+			if (jQuery('.modal-backdrop').length > 1) {
+				jQuery('.modal-backdrop:not(:first)').remove();
+			}
+			cb(modalContainer);
+
+			//register all select2 Elements
+			app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+			app.showSelectizeElementView(modalContainer.find('select.selectize'));
+			//register date fields event to show mini calendar on click of element
+			App.Fields.Date.register(modalContainer);
+		})
+	},
 	showModalWindow: function (data, url, cb, paramsObject) {
 		var thisInstance = this;
 		var id = 'globalmodal';
@@ -556,57 +601,12 @@ app = {
 		container = jQuery('<div></div>');
 		container.attr('id', id).addClass('modalContainer');
 
-		var showModalData = function (data) {
-			var params = {
-				'show': true,
-			};
-			if (jQuery('#backgroundClosingModal').val() != 1) {
-				params.backdrop = 'static';
-			}
-			if (typeof paramsObject == 'object') {
-				container.css(paramsObject);
-				params = jQuery.extend(params, paramsObject);
-			}
-			container.html(data);
-			if (container.find('.modal').hasClass('static')) {
-				params.backdrop = 'static';
-			}
-			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
-			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
-				$(document).off('focusin.bs.modal') // guard against infinite focus loop
-					.on('focusin.bs.modal', $.proxy(function (e) {
-						if ($(e.target).hasClass('select2-search__field')) {
-							return true;
-						}
-					}, this))
-			};
-			var modalContainer = container.find('.modal:first');
-			modalContainer.modal(params);
-			jQuery('body').append(container);
-			app.changeSelectElementView(modalContainer);
-			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
-			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
-			modalContainer.one('shown.bs.modal', function () {
-				var backdrop = jQuery('.modal-backdrop');
-				if (backdrop.length > 1) {
-					jQuery('.modal-backdrop:not(:first)').remove();
-				}
-				cb(modalContainer);
-
-				//register all select2 Elements
-				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
-				app.showSelectizeElementView(modalContainer.find('select.selectize'));
-				//register date fields event to show mini calendar on click of element
-				App.Fields.Date.register(modalContainer);
-			})
-		}
 		if (data) {
-			showModalData(data)
+			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 
 		} else {
 			jQuery.get(url).then(function (response) {
-				showModalData(response);
+				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
 			});
 		}
 		container.one('hidden.bs.modal', function () {
