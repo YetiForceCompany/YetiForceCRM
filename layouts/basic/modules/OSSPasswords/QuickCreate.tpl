@@ -33,7 +33,6 @@
 								<button class="cancelLink ml-0 btn btn-warning btn-sm" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 							</div>
 						</div>
-						<div class="clearfix"></div>
 					</div>
 											{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 												<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
