@@ -12,9 +12,9 @@ App.Fields = {
 
 		/**
 		 * Register DatePicker
-		 * @param parentElement
-		 * @param registerForAddon
-		 * @param customParams
+		 * @param {jQuery} parentElement
+		 * @param {boolean} registerForAddon
+		 * @param {object} customParams
 		 */
 		register(parentElement, registerForAddon, customParams) {
 			if (typeof parentElement === 'undefined') {
@@ -143,7 +143,7 @@ App.Fields = {
 		/*
 		 * Initialization datetime fields
 		 * @param {jQuery} parentElement
-		 * @param {jQuery} customParams
+		 * @param {object} customParams
 		 */
 		register: function (parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
