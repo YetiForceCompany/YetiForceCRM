@@ -598,7 +598,7 @@ app = {
 				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
 				app.showSelectizeElementView(modalContainer.find('select.selectize'));
 				//register date fields event to show mini calendar on click of element
-				App.Fields.Date.registerDatePickerFields(modalContainer);
+				App.Fields.Date.register(modalContainer);
 			})
 		}
 		if (data) {

@@ -829,7 +829,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 	registerDateListSearch: function (container) {
 		container.find('.dateField').each(function (index, element) {
 			var dateElement = jQuery(element);
-			App.Fields.Date.registerDateTimePickerFields(dateElement, {ranges: false});
+			App.Fields.DateTime.register(dateElement, {ranges: false});
 		});
 	},
 	getListSearchParams: function () {

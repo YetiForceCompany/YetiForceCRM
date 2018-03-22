@@ -10,7 +10,7 @@ App.Fields = {
 		 * @param registerForAddon
 		 * @param customParams
 		 */
-		registerDatePickerFields(parentElement, registerForAddon, customParams) {
+		register(parentElement, registerForAddon, customParams) {
 			if (typeof parentElement === 'undefined') {
 				parentElement = jQuery('body');
 			} else {
@@ -50,12 +50,75 @@ App.Fields = {
 			element.datepicker(params);
 		},
 
+		/**
+		 * Register dateRangePicker
+		 * @param {jQuery} parentElement
+		 * @param {object} customParams
+		 */
+		registerRange(parentElement, customParams) {
+			if (typeof parentElement === 'undefined') {
+				parentElement = jQuery('body');
+			} else {
+				parentElement = jQuery(parentElement);
+			}
+			let elements = jQuery('.dateRangeField', parentElement);
+			if (parentElement.hasClass('dateRangeField')) {
+				elements = parentElement;
+			}
+			if (elements.length === 0) {
+				return;
+			}
+			let language = CONFIG.language;
+			if (typeof $.fn.datepicker.dates[language] === 'undefined') {
+				language = Object.keys($.fn.datepicker.dates)[0];
+			}
+			let format = CONFIG.dateFormat.toUpperCase();
+			const elementDateFormat = elements.data('dateFormat');
+			if (typeof elementDateFormat !== 'undefined') {
+				format = elementDateFormat.toUpperCase();
+			}
+			let ranges = {};
+			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
+			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
+			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
+			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+			ranges[app.vtranslate('JS_LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [moment().subtract(3, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [moment().subtract(6, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+			let params = {
+				autoUpdateInput: false,
+				autoApply: true,
+				ranges: ranges,
+				opens: "left",
+				locale: {
+					separator: ',',
+					format: format,
+					customRangeLabel: app.vtranslate('JS_CUSTOM'),
+					daysOfWeek: $.fn.datepicker.dates[language].daysMin,
+					monthNames: $.fn.datepicker.dates[language].months,
+					firstDay: $.fn.datepicker.dates[language].weekStart
+				},
+			};
+			if (typeof customParams !== 'undefined') {
+				params = jQuery.extend(params, customParams);
+			}
+			elements.each(function (index, element) {
+				element = $(element);
+				element.daterangepicker(params);
+				element.on('apply.daterangepicker', function (ev, picker) {
+					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+				});
+			});
+
+		},
+	},
+	DateTime: {
 		/*
 		 * Initialization datetime fields
 		 * @param {jQuery} parentElement
 		 * @param {jQuery} customParams
 		 */
-		registerDateTimePickerFields: function (parentElement, customParams) {
+		register: function (parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
 				parentElement = jQuery('body');
 			} else {
@@ -120,65 +183,6 @@ App.Fields = {
 				});
 			});
 		},
-
-		registerDateRangePickerFields(parentElement, customParams) {
-			if (typeof parentElement == 'undefined') {
-				parentElement = jQuery('body');
-			} else {
-				parentElement = jQuery(parentElement);
-			}
-			if (parentElement.hasClass('dateRangeField')) {
-				var elements = parentElement;
-			} else {
-				var elements = jQuery('.dateRangeField', parentElement);
-			}
-			if (elements.length == 0) {
-				return;
-			}
-			var language = jQuery('body').data('language');
-			let format = CONFIG.dateFormat.toUpperCase();
-			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
-				format = elementDateFormat.toUpperCase();
-			}
-			var ranges = {};
-			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
-			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
-			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
-			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
-			ranges[app.vtranslate('JS_LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [moment().subtract(3, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [moment().subtract(6, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-			if ($.fn.datepicker.dates[language] == undefined) {
-				var langCodes = Object.keys($.fn.datepicker.dates);
-				language = langCodes[0];
-			}
-			var params = {
-				autoUpdateInput: false,
-				autoApply: true,
-				ranges: ranges,
-				opens: "left",
-				locale: {
-					separator: ',',
-					format: format,
-					customRangeLabel: app.vtranslate('JS_CUSTOM'),
-					daysOfWeek: $.fn.datepicker.dates[language].daysMin,
-					monthNames: $.fn.datepicker.dates[language].months,
-					firstDay: $.fn.datepicker.dates[language].weekStart
-				},
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			elements.each(function (index, element) {
-				element = $(element);
-				element.daterangepicker(params);
-				element.on('apply.daterangepicker', function (ev, picker) {
-					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-				});
-			});
-
-		},
 	},
 	Colors: {
 		/**
@@ -242,7 +246,6 @@ App.Fields = {
 			});
 		},
 	},
-	DateTime: {},
 	Text: {
 		/*
 		 * Initialization CkEditor

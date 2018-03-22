@@ -531,9 +531,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				app.showSelect2ElementView(fieldSpecificUi);
 			}
 		} else if (fieldSpecificUi.is('input.dateField')) {
-			App.Fields.Date.registerDatePickerFields(fieldSpecificUi);
+			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateRangeField')) {
-			App.Fields.Date.registerDateRangePickerFields(fieldSpecificUi, {ranges: false});
+			App.Fields.Date.registerRange(fieldSpecificUi, {ranges: false});
 		}
 		return this;
 	},
