@@ -70,8 +70,8 @@
 												{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
 													<div class="form-row">
 														<div class="col">
-															<div class="btn-group-toggle float-right" data-toggle="buttons">
-																<label class="btn btn-sm btn-outline-secondary" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
+															<div class="btn-group-toggle w-100" data-toggle="buttons">
+																<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
 																	<input data-toggle="button" aria-pressed="false"
 																		   autocomplete="off" type="checkbox"
 																		   id="selectRow{$FIELD_MODEL->getName()}"
