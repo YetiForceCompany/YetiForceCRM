@@ -77,7 +77,7 @@ class Api extends \Tests\Base
 		$webserviceApps->set('acceptable_url', 'http://portal2/');
 		$webserviceApps->set('pass', 'portal');
 		$webserviceApps->save();
-		static::$serverId = $webserviceApps->getId();
+		static::$serverId = (int) $webserviceApps->getId();
 
 		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => static::$serverId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$serverId);
@@ -103,7 +103,7 @@ class Api extends \Tests\Base
 		static::$apiUserId = $webserviceUsers->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => static::$apiUserId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$apiUserId);
-		$this->assertSame($row['server_id'], static::$serverId);
+		$this->assertSame((int) $row['server_id'], static::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
 		$this->assertSame($row['password_t'], 'demo');
 		$this->assertSame($row['language'], 'pl_pl');
