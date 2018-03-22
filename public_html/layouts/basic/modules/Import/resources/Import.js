@@ -429,6 +429,6 @@ if (typeof (ImportJs) == 'undefined') {
 		ImportJs.submitAction();
 		ImportJs.loadDefaultValueWidgetForMappedFields();
 		ImportJs.registerImportClickEvent();
-		App.Fields.Date.registerDatePickerFields(jQuery('.contentsDiv'));
+		App.Fields.Date.register(jQuery('.contentsDiv'));
 	});
 }

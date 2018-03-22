@@ -79,7 +79,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 			}
 		});
 		app.registerEventForClockPicker($('.clockPicker'));
-		App.Fields.Date.registerDatePickerFields('#scheduleByDate', true);
+		App.Fields.Date.register('#scheduleByDate', true);
 
 		jQuery('#annualDates').chosen();
 		jQuery('#schdayofweek').chosen();
