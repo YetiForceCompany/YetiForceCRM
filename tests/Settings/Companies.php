@@ -65,11 +65,11 @@ class Companies extends \Tests\Base
 		$this->assertSame($row['id2'], '0000111113');
 		$this->assertSame($row['email'], 'email@gmail.com');
 		$this->assertSame($row['logo_login'], 'logo_one.png');
-		$this->assertSame($row['logo_login_height'], '200');
+		$this->assertSame((string) $row['logo_login_height'], '200');
 		$this->assertSame($row['logo_main'], 'logo_two.png');
-		$this->assertSame($row['logo_main_height'], '38');
+		$this->assertSame((string) $row['logo_main_height'], '38');
 		$this->assertSame($row['logo_mail'], 'logo_three.png');
-		$this->assertSame($row['logo_mail_height'], '50');
+		$this->assertSame((string) $row['logo_mail_height'], '50');
 	}
 
 	/**
