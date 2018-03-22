@@ -8,7 +8,6 @@
 
 # dependencies YETIFORCE
 /public_html/modules/OSSMail/roundcube/
-/libraries/mPDF/
 
 /_private
 /public_html/_private
