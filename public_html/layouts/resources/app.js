@@ -92,6 +92,11 @@ app = {
 	getContentsContainer: function () {
 		return jQuery('.bodyContents');
 	},
+	/**
+	 * Replace select with choosen
+	 * @param {jQuery} parent
+	 * @param {object} viewParams
+	 */
 	showChoosenElementView(parent, viewParams) {
 		const thisInstance = this;
 		selectElement = jQuery('.chzn-select', parent);
@@ -99,23 +104,19 @@ app = {
 		if (parent.is('select.chzn-select')) {
 			selectElement = parent;
 		}
-
 		// generate random ID
 		selectElement.each(function () {
 			if ($(this).prop("id").length === 0) {
 				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
 			}
 		});
-
 		//fix for multiselect error prompt hide when validation is success
 		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
 			jQuery(e.currentTarget).trigger('focusout');
 		});
-
 		let params = {
 			no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
 		};
-
 		const moduleName = app.getModuleName();
 		if (selectElement.filter('[multiple]') && moduleName !== 'Install') {
 			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
@@ -124,7 +125,6 @@ app = {
 			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		selectElement.chosen(params);
-
 		selectElement.each(function () {
 			const select = $(this);
 			// hide selected items in the chosen instance when item is hidden.
@@ -162,10 +162,8 @@ app = {
 				select.trigger('chosen:updated');
 			}
 		});
-
 		// Improve the display of default text (placeholder)
-		var chosenSelectConainer = jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
-		return chosenSelectConainer;
+		return jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
 	},
 	/**
 	 * Function which will convert ui of select boxes.
@@ -176,37 +174,37 @@ app = {
 	 */
 	changeSelectElementView: function (parent, view, viewParams) {
 		let thisInstance = this;
-		let selectElement = jQuery();
+		let selectElement = $();
 		if (typeof parent === 'undefined') {
-			parent = jQuery('body');
+			parent = $('body');
 		}
 		if (typeof view === 'undefined') {
-			const select2Elements = jQuery('select.select2', parent).toArray();
-			const selectizeElements = jQuery('select.selectize', parent).toArray();
-			const choosenElements = jQuery('.chzn-select', parent).toArray();
+			const select2Elements = $('select.select2', parent).toArray();
+			const selectizeElements = $('select.selectize', parent).toArray();
+			const choosenElements = $('.chzn-select', parent).toArray();
 			select2Elements.forEach((elem) => {
-				thisInstance.changeSelectElementView(jQuery(elem), 'select2');
+				thisInstance.changeSelectElementView($(elem), 'select2');
 			});
 			selectizeElements.forEach((elem) => {
-				thisInstance.changeSelectElementView(jQuery(elem), 'selectize');
+				thisInstance.changeSelectElementView($(elem), 'selectize');
 			});
 			choosenElements.forEach((elem) => {
-				thisInstance.changeSelectElementView(jQuery(elem), 'choosen');
+				thisInstance.changeSelectElementView($(elem), 'choosen');
 			});
 			return;
 		}
 		//If view is select2, This will convert the ui of select boxes to select2 elements.
-		if (view === 'select2') {
-			return app.showSelect2ElementView(parent, viewParams);
+		if (typeof view === 'string') {
+			switch (view) {
+				case 'select2':
+					return app.showSelect2ElementView(parent, viewParams);
+				case 'selectize':
+					return app.showSelectizeElementView(parent, viewParams);
+				case 'choosen':
+					return app.showChoosenElementView(parent, viewParams);
+			}
+			app.errorLog(new Error(`Unknown select type [${view}]`));
 		}
-		//If view is selectize, This will convert the ui of select boxes to selectize elements.
-		if (view === 'selectize') {
-			return app.showSelectizeElementView(parent, viewParams);
-		}
-		if (view === 'choosen') {
-			return app.showChoosenElementView(parent, viewParams);
-		}
-
 	},
 	/**
 	 * Function to destroy the chosen element and get back the basic select Element
@@ -222,11 +220,8 @@ app = {
 		if (parent.is('select.chzn-select')) {
 			selectElement = parent;
 		}
-
 		selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
-
 		return selectElement;
-
 	},
 	/**
 	 * Function to destroy the selectize element
@@ -249,11 +244,10 @@ app = {
 	 * Function which will show the select2 element for select boxes . This will use select2 library
 	 */
 	showSelect2ElementView: function (selectElement, params) {
-		if (typeof params == 'undefined') {
+		if (typeof params === 'undefined') {
 			params = {};
 		}
-
-		var data = selectElement.data();
+		let data = selectElement.data();
 		if (data != null) {
 			params = jQuery.extend(data, params);
 		}
