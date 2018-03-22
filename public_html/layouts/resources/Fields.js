@@ -43,7 +43,7 @@ App.Fields = {
 				starts: defaultFirstDay,
 				autoclose: true,
 				todayHighlight: true
-			}
+			};
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
 			}

@@ -392,8 +392,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			params.action = 'BasicAjax';
 		}
 
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).then(function (data) {
 				aDeferred.resolve(data);
 			},
 			function (error) {
@@ -541,8 +540,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (app.getParentModuleName() == 'Settings') {
 			url += '&parent=Settings';
 		}
-		AppConnector.request(url).then(
-			function (data) {
+		AppConnector.request(url).then(function (data) {
 				if (data['success']) {
 					aDeferred.resolve(data);
 				} else {
@@ -859,8 +857,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	copyAddressDetailsRef: function (data, container) {
 		var thisInstance = this;
-		thisInstance.getRecordDetails(data).then(
-			function (data) {
+		thisInstance.getRecordDetails(data).then(function (data) {
 				var response = data['result'];
 				thisInstance.mapAddressDetails(response, container);
 			},
