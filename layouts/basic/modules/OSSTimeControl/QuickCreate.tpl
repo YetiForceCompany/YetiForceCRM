@@ -41,7 +41,7 @@
 					<input type="hidden" name="action" value="SaveAjax" />
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
-							<div class="massEditTable px-1 mx-auto m-0">
+							<div class="massEditTable border-0 px-1 mx-auto m-0">
 								<div class="col-12 px-0 form-row">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
