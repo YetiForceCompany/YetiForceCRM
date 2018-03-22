@@ -339,7 +339,8 @@
 	"PLU_MODULES_0": "Module",
 	"PLU_MODULES_1": "Modules",
 	"PLU_SECURITY_0": "Security error",
-	"PLU_SECURITY_1": "Security errors"
+	"PLU_SECURITY_1": "Security errors",
+	"LBL_ENCRYPTION": "Encryption"
   },
   "js": {
 	"JS_AUTHORIZATION_COMPLETE": "Authorization successful",

@@ -341,7 +341,8 @@
 	"PLU_MODULES_0": "Modul",
 	"PLU_MODULES_1": "Module",
 	"PLU_SECURITY_0": "Sicherheitshinweis",
-	"PLU_SECURITY_1": "Sicherheitshinweise"
+	"PLU_SECURITY_1": "Sicherheitshinweise",
+	"LBL_ENCRYPTION": "Encryption"
   },
   "js": {
 	"JS_AUTHORIZATION_COMPLETE": "Zugriff erfolgreich",
