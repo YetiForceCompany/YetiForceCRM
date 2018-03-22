@@ -7,11 +7,6 @@ var Settings_Index_Js = {
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
 		});
-		$('.LangManagement .editHelpIcon a').click(function (e) {
-			jQuery('#editHelpIcon').html('');
-			document.showDiff = false;
-			Settings_Index_Js.LoadEditLang(this)
-		});
 		$('.AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
 		$('.AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function (index, element) {
@@ -22,7 +17,6 @@ var Settings_Index_Js = {
 	LoadEditLang: function (e) {
 		var element = jQuery(e);
 		var position = element.attr('href');
-		var tpl = element.data('mode');
 		if (typeof position == 'undefined') {
 			position = '#' + element.attr('id');
 		}
@@ -47,41 +41,30 @@ var Settings_Index_Js = {
 		if (document.showDiff == true) {
 			param.sd = 1;
 		}
-		if (typeof tpl != 'undefined') {
-			param.tpl = tpl;
-		}
 		AppConnector.request(param).then(function (data) {
 			jQuery(position).html(data);
-			Settings_Index_Js.initEditLang(tpl, position);
+			Settings_Index_Js.initEditLang(position);
 			progress.progressIndicator({'mode': 'hide'});
 		});
 	},
-	initEditLang: function (tpl, position) {
+	initEditLang: function (position) {
 		var thisInstance = this;
 		element = $(".LangManagement .layoutContent .active #langs_list");
 		app.changeSelectElementView(element, 'selectize', {plugins: ['remove_button']}).on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});
-		thisInstance.registerHoverCkEditor();
-		thisInstance.registerHelpInfo();
-
-		app.changeSelectElementView($(".LangManagement .active #helpInfoView"), 'selectize', {plugins: ['remove_button']}).on('change', function (e) {
-			Settings_Index_Js.saveView(e, position)
-		})
 		app.changeSelectElementView($(".LangManagement .layoutContent .active #mods_list"), 'select2').on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});
-		if (tpl != 'editHelpIcon') {
-			$('#edit_lang .translation').change(function (e) {
-				Settings_Index_Js.changeTranslation(e, position)
-			});
-			$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
-			$('#edit_lang .delete_translation').click(function (e) {
-				Settings_Index_Js.deleteTranslation(e, position)
-			});
-		}
+		$('#edit_lang .translation').change(function (e) {
+			Settings_Index_Js.changeTranslation(e, position)
+		});
+		$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
+		$('#edit_lang .delete_translation').click(function (e) {
+			Settings_Index_Js.deleteTranslation(e, position)
+		});
 		$('.LangManagement ' + position + ' .show_differences').click(Settings_Index_Js.ShowDifferences);
 		$.extend($.fn.dataTable.defaults, {
 			"searching": true,
@@ -98,101 +81,6 @@ var Settings_Index_Js = {
 			}
 		});
 		$('' + position + ' .listViewEntriesTable').dataTable();
-	},
-	registerHoverCkEditor: function () {
-		var thisInstance = this;
-		jQuery('tr td button.editButton').on('click', function (e) {
-			elementTd = jQuery(this).closest('td');
-			thisInstance.registerEventForCkEditor(this);
-			thisInstance.addClickOutSideEvent(elementTd);
-		});
-	},
-	addClickOutSideEvent: function (element) {
-		var thisInstance = this;
-		element.one('clickoutside', function () {
-			thisInstance.destroyEventForCkEditor(element);
-		});
-	},
-	registerHelpInfo: function () {
-		var form = jQuery('.LangManagement');
-		form.find('.js-help-info').popover({trigger: 'hover', html: 'true',})
-	},
-	/**
-	 * Function to register event for ckeditor
-	 */
-	registerEventForCkEditor: function (e) {
-		var thisInstance = this;
-		var element = jQuery(e);
-		var elementTd = element.closest('td');
-		var textarea = elementTd.find('textarea.ckEditorSource');
-		element.addClass('d-none');
-		textarea.removeClass('d-none');
-		thisInstance.loadCkEditorElement(textarea);
-	},
-	/**
-	 * Function to destroy ckeditor element
-	 */
-	destroyEventForCkEditor: function (element) {
-		var thisInstance = this;
-		var textarea = element.find('textarea.ckEditorSource');
-		var elementId = textarea.attr('id');
-		if (typeof elementId != 'undefined' && textarea.css('display') == 'none') {
-			ckeditor = CKEDITOR.instances[elementId];
-			var target = ckeditor.getData();
-			if (textarea.val() != target) {
-				textarea.val(target);
-				if (target) {
-					Settings_Index_Js.changeTranslation(textarea, '#editHelpIcon');
-					element.find('.js-help-info').attr('data-content', target);
-				} else {
-					Settings_Index_Js.deleteTranslation(textarea, '#editHelpIcon');
-					textarea.addClass('empty_value');
-					element.find('.js-help-info').attr('data-content', '');
-				}
-			}
-			ckeditor.destroy();
-			textarea.addClass('d-none');
-			element.find('button.editButton').removeClass('d-none');
-		}
-	},
-	loadCkEditorElement: function (noteContentElement) {
-		var thisInstance = this;
-		var customConfig = {};
-		if (noteContentElement.css('display') != 'none') {
-			customConfig = {
-				disableNativeSpellChecker: true,
-				scayt_autoStartup: false,
-				removePlugins: 'scayt',
-				height: '5em',
-				toolbar: null,
-				toolbarGroups: [
-					{name: 'document', groups: ['mode', 'document', 'doctools']},
-					{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-					{name: 'clipboard', groups: ['clipboard', 'undo']}
-				]
-			}
-			var ckEditorInstance = new Vtiger_CkEditor_Js();
-			ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
-		}
-	},
-	saveView: function (e, position) {
-		var target = $(e.currentTarget);
-		if (typeof e.currentTarget == 'undefined')
-			target = jQuery(e);
-		var closestTrElement = target.closest('tr');
-		var progress = $.progressIndicator({
-			'message': app.vtranslate('LBL_Loader'),
-			'position': position,
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('saveView', {
-			'fieldid': target.data('fieldid'),
-			'mod': $(".LangManagement #mods_list").data('target') ? $(".LangManagement #mods_list").data('target') : $(".LangManagement #mods_list").val(),
-			'value': target.val(),
-		});
-		progress.progressIndicator({'mode': 'hide'});
 	},
 	ShowDifferences: function (e) {
 		var target = $(e.currentTarget);
@@ -366,20 +254,20 @@ var Settings_Index_Js = {
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-			function (data) {
-				response = data['result'];
-				var params = {
-					text: response['message'],
-				};
-				if (response['success'] == true) {
-					params.type = 'info';
-				}
-				Vtiger_Helper_Js.showPnotify(params);
-				resp = response['success'];
-			},
-			function (data, err) {
+				function (data) {
+					response = data['result'];
+					var params = {
+						text: response['message'],
+					};
+					if (response['success'] == true) {
+						params.type = 'info';
+					}
+					Vtiger_Helper_Js.showPnotify(params);
+					resp = response['success'];
+				},
+				function (data, err) {
 
-			}
+				}
 		);
 		return {resp: resp, params: params.data.params, result: response};
 	},
@@ -396,14 +284,14 @@ var Settings_Index_Js = {
 				langs: langs
 			}
 			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success'] && response['data'].length !== 0) {
-						thisInstance.showStats(response['data'], response['modules']);
+					function (data) {
+						var response = data['result'];
+						if (response['success'] && response['data'].length !== 0) {
+							thisInstance.showStats(response['data'], response['modules']);
+						}
+					},
+					function (data, err) {
 					}
-				},
-				function (data, err) {
-				}
 			);
 		})
 	},
@@ -452,12 +340,12 @@ var Settings_Index_Js = {
 			var element = jQuery(e.currentTarget);
 			var row = element.closest('.moduleRow');
 			var url =
-				'index.php?module=' + app.getModuleName() +
-				'&parent=' + app.getParentModuleName() +
-				'&view=GetLabels' +
-				'&langBase=' + jQuery('[name="langs_basic"]').val() +
-				'&lang=' + element.data('lang') +
-				'&sourceModule=' + row.data('module');
+					'index.php?module=' + app.getModuleName() +
+					'&parent=' + app.getParentModuleName() +
+					'&view=GetLabels' +
+					'&langBase=' + jQuery('[name="langs_basic"]').val() +
+					'&lang=' + element.data('lang') +
+					'&sourceModule=' + row.data('module');
 			app.showModalWindow(null, url, function (data) {
 				progress.progressIndicator({'mode': 'hide'});
 				data.find('button:not(.close)').on('click', function (e) {
@@ -507,10 +395,10 @@ var Settings_Index_Js = {
 		instance.loadChart({
 			scales: {
 				xAxes: [{
-					ticks: {
-						minRotation: 0
-					}
-				}]
+						ticks: {
+							minRotation: 0
+						}
+					}]
 			}
 		});
 	},
