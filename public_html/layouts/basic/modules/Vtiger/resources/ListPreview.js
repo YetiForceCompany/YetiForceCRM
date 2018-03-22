@@ -119,12 +119,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.sidePanelRight = container.find('.wrappedPanel').last();
 		this.list = container.find('.fixedListInitial');
 		this.rotatedText = container.find('.rotatedText');
-		this.footerH = $('.js-footer').outerHeight();
-		this.headerH = $('.js-header').outerHeight();
 		this.infoUser = $('.infoUser');
+		this.footerH = $('.vtFooter').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
+		this.headerH = $('.bodyHeader').outerHeight();
 	},
 	getDefaultSplitSizes: function () {
-		let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 62) / $(window).width()) * 100;
+		let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / $(window).width()) * 100;
 		return [thWidth, 100 - thWidth];
 	},
 	/**
@@ -147,7 +147,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerSplitEvents: function (container, split) {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-		var minWindowWidth = (15 / $(window).width()) * 100;
+		var minWindowWidth = (23 / $(window).width()) * 100;
 		var maxWindowWidth = 100 - minWindowWidth;
 		var listPreview = container.find('.listPreview');
 		this.gutter.on("dblclick", () => {
@@ -157,6 +157,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 			if (split.getSizes()[0] < 10) {
 				this.sidePanelLeft.removeClass('wrappedPanelLeft');
+				this.list.removeClass('js-hide-underneath');
 				if (gutterMidPosition[0] > 11) {
 					split.setSizes(gutterMidPosition);
 				} else {
@@ -171,9 +172,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				this.sidePanelRight.removeClass('wrappedPanelRight');
 				listPreview.show();
 				this.gutter.css('right', 'initial');
-				this.list.css('padding-right', '10px');
 			} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
 				split.setSizes([minWindowWidth, maxWindowWidth]);
+				this.list.addClass('js-hide-underneath');
 				this.sidePanelLeft.addClass('wrappedPanelLeft');
 			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
 				split.collapse(1);
@@ -191,6 +192,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
 			this.sidePanelLeft.removeClass('wrappedPanelLeft');
+			this.list.removeClass('js-hide-underneath');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
 		this.sidePanelRight.on("click", () => {
@@ -203,7 +205,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			this.sidePanelRight.removeClass('wrappedPanelRight');
 			listPreview.show();
 			this.gutter.css('right', 'initial');
-			this.list.css('padding-right', '10px');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
 	},
@@ -261,13 +262,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
 		this.gutter = container.find('.gutter');
-		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + 33)};
+		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + this.footerH)};
 		this.gutter.css(mainWindowHeightCss);
 		this.list.css(mainWindowHeightCss);
 		this.sidePanels.css(mainWindowHeightCss);
 		this.registerSplitEvents(container, split);
-		const breadcrumbsContainer = $('.breadcrumbsContainer');
-		breadcrumbsContainer
 		this.rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .js-text-content').text());
 		this.rotatedText.css({
 			width: this.sidePanelLeft.height(),
