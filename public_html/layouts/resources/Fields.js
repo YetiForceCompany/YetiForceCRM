@@ -24,39 +24,46 @@ App.Fields = {
 			if (typeof registerForAddon === 'undefined') {
 				registerForAddon = true;
 			}
-			let element = jQuery('.dateField', parentElement);
+			let elements = jQuery('.dateField', parentElement);
 			if (parentElement.hasClass('dateField')) {
-				element = parentElement;
+				elements = parentElement;
 			}
-			if (element.length === 0) {
+			if (elements.length === 0) {
 				return;
 			}
 			if (registerForAddon === true) {
-				const parentDateElem = element.closest('.date');
+				const parentDateElem = elements.closest('.date');
 				jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
 					jQuery(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();
 				});
 			}
+			let format = CONFIG.dateFormat;
+			const elementDateFormat = elements.data('dateFormat');
+			if (typeof elementDateFormat !== 'undefined') {
+				format = elementDateFormat;
+			}
 			// Default first day of the week
 			const defaultFirstDay = typeof CONFIG.firstDayOfWeekNo === 'undefined' ? 1 : CONFIG.firstDayOfWeekNo;
-			$.fn.datepicker.dates['en'] = {
-				days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-				daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-				daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-				months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-				monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-				today: "Today",
-				clear: "Clear",
-				format: "mm/dd/yyyy",
-				titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-				weekStart: 0
-			};
+			if (typeof $.fn.datepicker.dates[CONFIG.langKey] === 'undefined') {
+				$.fn.datepicker.dates[CONFIG.langKey] = {
+					days: App.Fields.Date.fullDaysTranslated,
+					daysShort: App.Fields.Date.daysTranslated,
+					daysMin: App.Fields.Date.daysTranslated,
+					months: App.Fields.Date.fullMonthsTranslated,
+					monthsShort: App.Fields.Date.monthsTranslated,
+					today: app.vtranslate('JS_TODAY'),
+					clear: app.vtranslate('JS_CLEAR'),
+					format,
+					titleFormat: 'MM yyyy', /* Leverages same syntax as 'format' */
+					weekStart: defaultFirstDay
+				};
+			}
 			let params = {
 				todayBtn: "linked",
 				clearBtn: true,
-				language: CONFIG.language,
+				language: CONFIG.langKey,
 				starts: defaultFirstDay,
 				autoclose: true,
 				todayHighlight: true,
@@ -64,7 +71,7 @@ App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
 			}
-			element.datepicker(params);
+			elements.datepicker(params);
 		},
 
 		/**
@@ -84,10 +91,6 @@ App.Fields = {
 			}
 			if (elements.length === 0) {
 				return;
-			}
-			let language = CONFIG.language;
-			if (typeof $.fn.datepicker.dates[language] === 'undefined') {
-				language = Object.keys($.fn.datepicker.dates)[0];
 			}
 			let format = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -111,12 +114,12 @@ App.Fields = {
 				locale: {
 					"format": format,
 					"separator": ",",
-					"applyLabel": "Apply",
-					"cancelLabel": "Cancel",
-					"fromLabel": "From",
-					"toLabel": "To",
+					"applyLabel": app.vtranslate('JS_APPLY'),
+					"cancelLabel": app.vtranslate('JS_CANCEL'),
+					"fromLabel": app.vtranslate('JS_FROM'),
+					"toLabel": app.vtranslate('JS_TO'),
 					"customRangeLabel": app.vtranslate('JS_CUSTOM'),
-					"weekLabel": "W",
+					"weekLabel": app.vtranslate('JS_WEEK').substr(0, 1),
 					"firstDay": defaultFirstDay,
 					"daysOfWeek": App.Fields.Date.daysTranslated,
 					"monthNames": App.Fields.Date.fullMonthsTranslated,
