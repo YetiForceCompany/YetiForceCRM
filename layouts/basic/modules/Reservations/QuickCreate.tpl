@@ -13,7 +13,7 @@
 						<div>
 							<h5 class="modal-title">
 								<span class="fas fa-plus mr-1"></span>
-								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}
+								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
 								<span class="userIcon-{$MODULE} mx-1"></span>
 								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
 							</h5>
