@@ -19,7 +19,6 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$this->exposeMethod('deleteTranslation');
 		$this->exposeMethod('add');
 		$this->exposeMethod('save');
-		$this->exposeMethod('saveView');
 		$this->exposeMethod('delete');
 		$this->exposeMethod('setAsDefault');
 	}
@@ -78,29 +77,6 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 			'is_new' => $request->getBoolean('is_new'),
 		];
 		$saveResp = Settings_LangManagement_Module_Model::saveTranslation($params);
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => $saveResp['success'],
-			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false)),
-		]);
-		$response->emit();
-	}
-
-	/**
-	 * Save hrl info view.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\Security
-	 */
-	public function saveView(\App\Request $request)
-	{
-		$params = [
-			'fieldid' => $request->getInteger('fieldid'),
-			'mod' => $request->getByType('mod', 2),
-			'value' => $request->getArray('value', 1),
-		];
-		$saveResp = Settings_LangManagement_Module_Model::saveView($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],

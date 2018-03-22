@@ -9,7 +9,6 @@
  */
 class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	const URL_SEPARATOR = '__';
 
 	/**
@@ -270,26 +269,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return ['php' => $respPhp, 'js' => $respJs, 'langs' => $langs, 'keys' => $keys];
 	}
 
-	public function loadAllFieldsFromModule($langs, $mod, $showDifferences = 0)
-	{
-		$variablesFromFile = $this->loadLangTranslation($langs, 'HelpInfo', $showDifferences);
-		$output = ['langs' => $langs];
-		$dataReader = (new \App\Db\Query())
-				->from('vtiger_field')
-				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
-				->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \App\Language::translate($row['fieldlabel'], $mod);
-			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = ['view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']];
-			foreach ($langs as $lang) {
-				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
-			}
-		}
-		$dataReader->close();
-
-		return $output;
-	}
-
 	public function getModFromLang($lang)
 	{
 		if (empty($lang)) {
@@ -360,16 +339,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Cache::clear();
 
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
-	}
-
-	public static function saveView($params)
-	{
-		$value = implode(',', $params['value']);
-		\App\Db::getInstance()->createCommand()
-			->update('vtiger_field', ['helpinfo' => $value], ['fieldid' => $params['fieldid']])
-			->execute();
-
-		return ['success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED'];
 	}
 
 	public static function delete($prefix)
@@ -453,9 +422,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
 		$dataReader = (new \App\Db\Query())->select(['prefix'])
-				->from('vtiger_language')
-				->where(['isdefault' => 1])
-				->createCommand()->query();
+			->from('vtiger_language')
+			->where(['isdefault' => 1])
+			->createCommand()->query();
 		if ($dataReader->count() == 1) {
 			$prefixOld = $dataReader->readColumn(0);
 			$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();

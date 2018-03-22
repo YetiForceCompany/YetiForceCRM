@@ -29,11 +29,6 @@
 							<strong>{\App\Language::translate('LBL_TAB_EDITLANG', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>
-					<li class="editHelpIcon">
-						<a data-toggle="tab" href="#editHelpIcon" data-mode="editHelpIcon">
-							<strong>{\App\Language::translate('LBL_EDIT_HELP_ICON', $QUALIFIED_MODULE)}</strong>
-						</a>
-					</li>
 					<li class="lang_stats">
 						<a data-toggle="tab" href="#lang_stats">
 							<strong>{\App\Language::translate('LBL_TAB_STATS', $QUALIFIED_MODULE)}</strong>
@@ -45,7 +40,6 @@
 						{include file=\App\Layout::getTemplatePath('LangList.tpl', $QUALIFIED_MODULE)}
 					</div>
 					<div class="tab-pane" id="edit_lang" data-mode="editLang"></div>
-					<div class="tab-pane" id="editHelpIcon" data-mode="editHelpIcon"></div>
 					<div class="tab-pane" id="lang_stats">
 						{include file=\App\Layout::getTemplatePath('Stats.tpl', $QUALIFIED_MODULE)}
 					</div>
