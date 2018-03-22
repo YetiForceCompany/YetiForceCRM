@@ -240,20 +240,16 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var dataUrl = row.data('url');
 		if (typeof dataUrl != 'undefined') {
 			dataUrl = dataUrl + '&currency_id=' + jQuery('#currencyId').val();
-			AppConnector.request(dataUrl).then(
-				function (data) {
-					for (var id in data) {
-						if (typeof data[id] == "object") {
-							var recordData = data[id];
-						}
+			AppConnector.request(dataUrl).then(function (data) {
+				for (var id in data) {
+					if (typeof data[id] == "object") {
+						var recordData = data[id];
 					}
-					thisInstance.done(recordData, thisInstance.getEventName());
-					e.preventDefault();
-				},
-				function (error, err) {
-
 				}
-			);
+				thisInstance.done(recordData, thisInstance.getEventName());
+				e.preventDefault();
+			}, function (error, err) {
+			});
 		} else {
 			var id = row.data('id');
 			var recordName = row.data('name');
@@ -292,24 +288,20 @@ jQuery.Class("Vtiger_Popup_Js", {
 			} else {
 				if (typeof dataUrl != 'undefined') {
 					dataUrl = dataUrl + '&idlist=' + jsonRecorIds + '&currency_id=' + jQuery('#currencyId').val();
-					AppConnector.request(dataUrl).then(
-						function (data) {
-							for (var id in data) {
-								if (typeof data[id] == "object") {
-									var recordData = data[id];
-								}
+					AppConnector.request(dataUrl).then(function (data) {
+						for (var id in data) {
+							if (typeof data[id] == "object") {
+								var recordData = data[id];
 							}
-							var recordDataLength = Object.keys(recordData).length;
-							if (recordDataLength == 1) {
-								recordData = recordData[0];
-							}
-							thisInstance.done(recordData, thisInstance.getEventName());
-							e.preventDefault();
-						},
-						function (error, err) {
-
 						}
-					);
+						var recordDataLength = Object.keys(recordData).length;
+						if (recordDataLength == 1) {
+							recordData = recordData[0];
+						}
+						thisInstance.done(recordData, thisInstance.getEventName());
+						e.preventDefault();
+					}, function (error, err) {
+					});
 				} else {
 					thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
 				}
@@ -403,8 +395,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 				'enabled': true
 			}
 		});
-		Vtiger_BaseList_Js.getPageRecords(params).then(
-			function (data) {
+		Vtiger_BaseList_Js.getPageRecords(params).then(function (data) {
 				jQuery('#popupContents').html(data);
 				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				progressIndicatorElement.progressIndicator({
@@ -413,8 +404,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 				thisInstance.calculatePages().then(function (data) {
 					aDeferred.resolve(data);
 				});
-			},
-			function (textStatus, errorThrown) {
+			}, function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
@@ -463,13 +453,11 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var aDeferred = jQuery.Deferred();
 		var completeParams = this.getCompleteParams();
 		completeParams['page'] = 1;
-		return this.getPageRecords(completeParams).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
+		return this.getPageRecords(completeParams).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 	},
 
 	/**
@@ -489,11 +477,9 @@ jQuery.Class("Vtiger_Popup_Js", {
 		}
 		var completeParams = this.getCompleteParams();
 		jQuery.extend(completeParams, sortingParams);
-		return this.getPageRecords(completeParams).then(
-			function (data) {
+		return this.getPageRecords(completeParams).then(function (data) {
 				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
+			}, function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
@@ -530,13 +516,11 @@ jQuery.Class("Vtiger_Popup_Js", {
 			}
 			var completeParams = this.getCompleteParams();
 			jQuery.extend(completeParams, pagingParams);
-			this.getPageRecords(completeParams).then(
-				function (data) {
+			this.getPageRecords(completeParams).then(function (data) {
 					jQuery('#pageNumber').val(nextPageNumber);
 					jQuery('#pageToJump').val(nextPageNumber);
 					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
+				}, function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				}
 			);
@@ -557,13 +541,11 @@ jQuery.Class("Vtiger_Popup_Js", {
 			}
 			var completeParams = this.getCompleteParams();
 			jQuery.extend(completeParams, pagingParams);
-			this.getPageRecords(completeParams).then(
-				function (data) {
+			this.getPageRecords(completeParams).then(function (data) {
 					jQuery('#pageNumber').val(previousPageNumber);
 					jQuery('#pageToJump').val(previousPageNumber);
 					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
+				}, function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				}
 			);
@@ -650,16 +632,13 @@ jQuery.Class("Vtiger_Popup_Js", {
 					}
 					var completeParams = thisInstance.getCompleteParams();
 					jQuery.extend(completeParams, pagingParams);
-					thisInstance.getPageRecords(completeParams).then(
-						function (data) {
-							currentPageElement.val(newPageNumber);
-							thisInstance.updatePagination();
-							thisInstance.registerListSearch();
-							element.closest('.btn-group ').removeClass('open');
-						},
-						function (textStatus, errorThrown) {
-						}
-					);
+					thisInstance.getPageRecords(completeParams).then(function (data) {
+						currentPageElement.val(newPageNumber);
+						thisInstance.updatePagination();
+						thisInstance.registerListSearch();
+						element.closest('.btn-group ').removeClass('open');
+					}, function (textStatus, errorThrown) {
+					});
 				}
 				return false;
 			}
@@ -691,20 +670,16 @@ jQuery.Class("Vtiger_Popup_Js", {
 		}
 		var completeParams = this.getCompleteParams();
 		jQuery.extend(completeParams, pageJumpParams);
-		AppConnector.request(completeParams).then(
-			function (data) {
-				var response;
-				if (typeof data != "object") {
-					response = JSON.parse(data);
-				} else {
-					response = data;
-				}
-				aDeferred.resolve(response);
-			},
-			function (error, err) {
-
+		AppConnector.request(completeParams).then(function (data) {
+			var response;
+			if (typeof data != "object") {
+				response = JSON.parse(data);
+			} else {
+				response = data;
 			}
-		);
+			aDeferred.resolve(response);
+		}, function (error, err) {
+		});
 		return aDeferred.promise();
 	},
 
