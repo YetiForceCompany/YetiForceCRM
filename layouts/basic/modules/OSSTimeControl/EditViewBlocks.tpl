@@ -7,19 +7,6 @@
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
-					<div class=" col-md-4 contentHeader">
-						<span class="float-right">
-							<button class="btn btn-success" type="submit">
-								<span class="fas fa-check"></span>&nbsp;&nbsp;
-								<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
-							</button>&nbsp;&nbsp;
-							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-								<span class="fas fa-times"></span>&nbsp;&nbsp;
-								<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
-							</button>
-						</span>
-						<div class="clearfix"></div>
-					</div>
 				</div>	
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
