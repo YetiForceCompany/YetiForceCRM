@@ -50,6 +50,77 @@ App.Fields = {
 			element.datepicker(params);
 		},
 
+		/*
+		 * Initialization datetime fields
+		 * @param {jQuery} parentElement
+		 * @param {jQuery} customParams
+		 */
+		registerDateTimePickerFields: function (parentElement, customParams) {
+			if (typeof parentElement === 'undefined') {
+				parentElement = jQuery('body');
+			} else {
+				parentElement = jQuery(parentElement);
+			}
+			let elements = jQuery('.dateTimePickerField', parentElement);
+			if (parentElement.hasClass('dateTimePickerField')) {
+				elements = parentElement;
+			}
+			if (elements.length === 0) {
+				return;
+			}
+			jQuery('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
+				jQuery(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
+			});
+			let language = CONFIG.language;
+			if (typeof $.fn.datepicker.dates[language] === 'undefined') {
+				language = Object.keys($.fn.datepicker.dates)[0];
+			}
+			let dateFormat = CONFIG.dateFormat.toUpperCase();
+			const elementDateFormat = elements.data('dateFormat');
+			if (typeof elementDateFormat !== 'undefined') {
+				dateFormat = elementDateFormat.toUpperCase();
+			}
+			let hourFormat = CONFIG.hourFormat;
+			const elementHourFormat = elements.data('hourFormat');
+			if (typeof elementHourFormat !== 'undefined') {
+				hourFormat = elementHourFormat;
+			}
+			let timePicker24Hour = true;
+			let timeFormat = 'hh:mm';
+			if (hourFormat !== 24) {
+				timePicker24Hour = false;
+				timeFormat = 'hh:mm A';
+			}
+			const format = dateFormat + ' ' + timeFormat;
+			let params = {
+				singleDatePicker: true,
+				showDropdowns: true,
+				timePicker: true,
+				timePicker24Hour: timePicker24Hour,
+				timePickerIncrement: 1,
+				autoUpdateInput: true,
+				autoApply: true,
+				opens: "left",
+				locale: {
+					separator: ',',
+					format: format,
+					applyLabel: app.vtranslate('JS_APPLY'),
+					cancelLabel: app.vtranslate('JS_CANCEL'),
+					monthNames: $.fn.datepicker.dates[language].months,
+					daysOfWeek: $.fn.datepicker.dates[language].daysMin,
+					firstDay: $.fn.datepicker.dates[language].weekStart
+				},
+			};
+			if (typeof customParams !== 'undefined') {
+				params = jQuery.extend(params, customParams);
+			}
+			elements.each(function (index, element) {
+				$(element).daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
+					$(this).val(picker.startDate.format(format));
+				});
+			});
+		},
+
 		registerDateRangePickerFields(parentElement, customParams) {
 			if (typeof parentElement == 'undefined') {
 				parentElement = jQuery('body');
@@ -171,79 +242,7 @@ App.Fields = {
 			});
 		},
 	},
-	DateTime: {
-		/*
-		 * Initialization datetime fields
-		 * @param {jQuery} parentElement
-		 * @param {jQuery} customParams
-		 */
-		register: function (parentElement, customParams) {
-			if (typeof parentElement === 'undefined') {
-				parentElement = jQuery('body');
-			} else {
-				parentElement = jQuery(parentElement);
-			}
-			let elements = jQuery('.dateTimePickerField', parentElement);
-			if (parentElement.hasClass('dateTimePickerField')) {
-				elements = parentElement;
-			}
-			if (elements.length === 0) {
-				return;
-			}
-			jQuery('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				jQuery(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
-			});
-			let language = CONFIG.language;
-			if (typeof $.fn.datepicker.dates[language] === 'undefined') {
-				language = Object.keys($.fn.datepicker.dates)[0];
-			}
-			let dateFormat = CONFIG.dateFormat.toUpperCase();
-			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
-				dateFormat = elementDateFormat.toUpperCase();
-			}
-			let hourFormat = CONFIG.hourFormat;
-			const elementHourFormat = elements.data('hourFormat');
-			if (typeof elementHourFormat !== 'undefined') {
-				hourFormat = elementHourFormat;
-			}
-			let timePicker24Hour = true;
-			let timeFormat = 'hh:mm';
-			if (hourFormat !== 24) {
-				timePicker24Hour = false;
-				timeFormat = 'hh:mm A';
-			}
-			const format = dateFormat + ' ' + timeFormat;
-			let params = {
-				singleDatePicker: true,
-				showDropdowns: true,
-				timePicker: true,
-				timePicker24Hour: timePicker24Hour,
-				timePickerIncrement: 1,
-				autoUpdateInput: true,
-				autoApply: true,
-				opens: "left",
-				locale: {
-					separator: ',',
-					format: format,
-					applyLabel: app.vtranslate('JS_APPLY'),
-					cancelLabel: app.vtranslate('JS_CANCEL'),
-					monthNames: $.fn.datepicker.dates[language].months,
-					daysOfWeek: $.fn.datepicker.dates[language].daysMin,
-					firstDay: $.fn.datepicker.dates[language].weekStart
-				},
-			};
-			if (typeof customParams !== 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			elements.each(function (index, element) {
-				$(element).daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
-					$(this).val(picker.startDate.format(format));
-				});
-			});
-		},
-
-	},
+	DateTime: {},
 	Text: {
 		/*
 		 * Initialization CkEditor
