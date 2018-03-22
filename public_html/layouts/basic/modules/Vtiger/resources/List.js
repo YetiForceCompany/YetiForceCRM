@@ -1954,7 +1954,7 @@ jQuery.Class("Vtiger_List_Js", {
 			$('#recordsCount').val('');
 			$('#totalPageCount').text("");
 			$('.pagination').data('totalCount', 0);
-			$('#dropdownEntityState').find('span').attr('class', element.find('span').attr('class'));
+			$('#dropdownEntityState').find('svg').attr('class', element.find('svg').attr('class'));
 			thisInstance.getListViewRecords().then(function (data) {
 				thisInstance.calculatePages().then(function () {
 					thisInstance.updatePagination();
