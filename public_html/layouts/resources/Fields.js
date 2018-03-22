@@ -2,8 +2,13 @@
 App.Fields = {
 	'Date': {
 		months: ["JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN", "JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC"],
+		monthsTranslated: ["JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN", "JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC"].map((monthName) => app.vtranslate(monthName)),
 		fullMonths: ["JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE", "JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER"],
-
+		fullMonthsTranslated: ["JS_JANUARY", "JS_FEBRUARY", "JS_MARCH", "JS_APRIL", "JS_MAY", "JS_JUNE", "JS_JULY", "JS_AUGUST", "JS_SEPTEMBER", "JS_OCTOBER", "JS_NOVEMBER", "JS_DECEMBER"].map((monthName) => app.vtranslate(monthName)),
+		days: ["JS_SUN", "JS_MON", "JS_TUE", "JS_WED", "JS_THU", "JS_FRI", "JS_SAT"],
+		daysTranslated: ["JS_SUN", "JS_MON", "JS_TUE", "JS_WED", "JS_THU", "JS_FRI", "JS_SAT"].map((monthName) => app.vtranslate(monthName)),
+		fullDays: ["JS_SUNDAY", "JS_MONDAY", "JS_TUESDAY", "JS_WEDNESDAY", "JS_THURSDAY", "JS_FRIDAY", "JS_SATURDAY"],
+		fullDaysTranslated: ["JS_SUNDAY", "JS_MONDAY", "JS_TUESDAY", "JS_WEDNESDAY", "JS_THURSDAY", "JS_FRIDAY", "JS_SATURDAY"].map((monthName) => app.vtranslate(monthName)),
 		/**
 		 * Register DatePicker
 		 * @param parentElement
@@ -36,13 +41,25 @@ App.Fields = {
 			}
 			// Default first day of the week
 			const defaultFirstDay = typeof CONFIG.firstDayOfWeekNo === 'undefined' ? 1 : CONFIG.firstDayOfWeekNo;
+			$.fn.datepicker.dates['en'] = {
+				days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+				daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+				daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+				months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+				monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				today: "Today",
+				clear: "Clear",
+				format: "mm/dd/yyyy",
+				titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+				weekStart: 0
+			};
 			let params = {
 				todayBtn: "linked",
 				clearBtn: true,
 				language: CONFIG.language,
 				starts: defaultFirstDay,
 				autoclose: true,
-				todayHighlight: true
+				todayHighlight: true,
 			};
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
@@ -77,6 +94,7 @@ App.Fields = {
 			if (typeof elementDateFormat !== 'undefined') {
 				format = elementDateFormat.toUpperCase();
 			}
+			const defaultFirstDay = typeof CONFIG.firstDayOfWeekNo === 'undefined' ? 1 : CONFIG.firstDayOfWeekNo;
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
 			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
@@ -89,14 +107,19 @@ App.Fields = {
 				autoUpdateInput: false,
 				autoApply: true,
 				ranges: ranges,
-				opens: "left",
+				opens: "center",
 				locale: {
-					separator: ',',
-					format: format,
-					customRangeLabel: app.vtranslate('JS_CUSTOM'),
-					daysOfWeek: $.fn.datepicker.dates[language].daysMin,
-					monthNames: $.fn.datepicker.dates[language].months,
-					firstDay: $.fn.datepicker.dates[language].weekStart
+					"format": format,
+					"separator": ",",
+					"applyLabel": "Apply",
+					"cancelLabel": "Cancel",
+					"fromLabel": "From",
+					"toLabel": "To",
+					"customRangeLabel": app.vtranslate('JS_CUSTOM'),
+					"weekLabel": "W",
+					"firstDay": defaultFirstDay,
+					"daysOfWeek": App.Fields.Date.daysTranslated,
+					"monthNames": App.Fields.Date.fullMonthsTranslated,
 				},
 			};
 			if (typeof customParams !== 'undefined') {
