@@ -58,7 +58,7 @@ class Pdf extends \Tests\Base
 		$pdfModel->set('watermark_image', '');
 		$pdfModel->set('template_members', '');
 		Settings_PDF_Record_Model::save($pdfModel, 'import');
-		$this->assertEquals((new \App\Db\Query())->select(['pdfid'])
+		$this->assertSame((new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
 			->where(['module_name' => self::MODULE_NAME, 'filename' => self::FILE_NAME, 'primary_name' => 'test'])
 			->scalar(App\Db::getInstance('admin')), $pdfModel->get('pdfid'), 'Not created template');

@@ -42,19 +42,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 			"data": postData
 		};
 
-		AppConnector.request(actionParams).then(
-			function (data) {
-				if (data) {
-					app.showModalWindow(data, {'text-align': 'left'});
-					if (typeof callBackFunction == 'function') {
-						callBackFunction(data);
-					}
+		AppConnector.request(actionParams).then(function (data) {
+			if (data) {
+				app.showModalWindow(data, {'text-align': 'left'});
+				if (typeof callBackFunction == 'function') {
+					callBackFunction(data);
 				}
-			},
-			function (error, err) {
-
 			}
-		);
+		}, function (error, err) {
+		});
 	},
 	/*
 	 * function to trigger send Sms
@@ -72,8 +68,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			"dataType": "html",
 			"data": {}
 		};
-		AppConnector.request(actionParams).then(
-			function (data) {
+		AppConnector.request(actionParams).then(function (data) {
 				if (data) {
 					var callback = function (data) {
 						var params = app.validationEngineOptions;
@@ -110,8 +105,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'transferOwnerId': transferOwner,
 			'related_modules': relatedModules
 		}
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).then(function (data) {
 				if (data.success) {
 					app.hideModalWindow();
 					var params = {
@@ -186,8 +180,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						record: detailInstance.getRecordId(),
 						ids: ids
 					}
-					AppConnector.request(postData).then(
-						function (data) {
+					AppConnector.request(postData).then(function (data) {
 							var params = {
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
@@ -196,8 +189,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							Vtiger_Helper_Js.showPnotify(params);
 							app.hideModalWindow();
 							detailInstance.loadWidgets();
-						},
-						function (error, err) {
+						}, function (error, err) {
 							var params = {
 								title: app.vtranslate('JS_ERROR'),
 								text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
@@ -210,15 +202,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 			});
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				if (data) {
-					app.showModalWindow(data, '', callback);
-				}
-			},
-			function (error, err) {
+		AppConnector.request(params).then(function (data) {
+			if (data) {
+				app.showModalWindow(data, '', callback);
 			}
-		);
+		}, function (error, err) {
+		});
 	}
 }, {
 	targetPicklistChange: false,
@@ -533,8 +522,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.data = data;
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-			function (reponseData) {
+		AppConnector.request(params).then(function (reponseData) {
 				aDeferred.resolve(reponseData);
 			}
 		);
@@ -558,14 +546,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	getCommentThread: function (url) {
 		var aDeferred = jQuery.Deferred();
-		AppConnector.request(url).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
-
-			}
-		)
+		AppConnector.request(url).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (error, err) {
+		})
 		return aDeferred.promise();
 	},
 	/**
@@ -644,14 +628,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'module': 'ModComments',
 			'record': commentId
 		}
-		AppConnector.request(postData).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error, err) {
-
-			}
-		);
+		AppConnector.request(postData).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (error, err) {
+		});
 		return aDeferred.promise();
 	},
 	/**
@@ -708,17 +688,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		var SendSmsUrl = form.serializeFormData();
-		AppConnector.request(SendSmsUrl).then(
-			function (data) {
-				app.hideModalWindow();
-				progressInstance.progressIndicator({
-					'mode': 'hide'
-				});
-			},
-			function (error, err) {
-
-			}
-		);
+		AppConnector.request(SendSmsUrl).then(function (data) {
+			app.hideModalWindow();
+			progressInstance.progressIndicator({
+				'mode': 'hide'
+			});
+		}, function (error, err) {
+		});
 	},
 	/**
 	 * Function which will register events to update the record name in the detail view when any of
@@ -841,11 +817,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			params = {};
 		}
 		var relatedListInstance = Vtiger_RelatedList_Js.getInstance(this.getRecordId(), app.getModuleName(), this.getSelectedTab(), this.getRelatedModuleName());
-		relatedListInstance.loadRelatedList(params).then(
-			function (data) {
+		relatedListInstance.loadRelatedList(params).then(function (data) {
 				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
+			}, function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		);
@@ -1099,8 +1073,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 								thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 							}
 							thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
-						},
-						function (error) {
+						}, function (error) {
 							editElement.addClass('d-none');
 							detailViewValue.removeClass('d-none');
 							actionElement.removeClass('d-none');
@@ -1175,8 +1148,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					'dataType': 'html',
 					'data': urlParams
 				};
-				AppConnector.request(params).then(
-					function (data) {
+				AppConnector.request(params).then(function (data) {
 						var activitiesWidget = widgetContainer.find('.widget_contents');
 						activitiesWidget.html(data);
 						app.changeSelectElementView(activitiesWidget);
@@ -1522,8 +1494,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						value: ajaxEditNewValue,
 						module: moduleName,
 						activitytype: activityType
-					}).then(
-						function (data) {
+					}).then(function (data) {
 							currentDiv.progressIndicator({'mode': 'hide'});
 							detailViewElement.removeClass('d-none');
 							currentTarget.show();
@@ -1591,8 +1562,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var selectedTabElement = thisInstance.getSelectedTab();
 		}
 		var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModule);
-		relatedController.addRelations(relatedModuleRecordId).then(
-			function (data) {
+		relatedController.addRelations(relatedModuleRecordId).then(function (data) {
 				var summaryViewContainer = thisInstance.getContentHolder();
 				var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 				if (updatesWidget.length > 0) {
@@ -1601,8 +1571,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					thisInstance.loadWidget(updatesWidget, params['params']);
 				}
 				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
+			}, function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			}
 		)
@@ -2351,8 +2320,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					url += '&whereCondition=' + (switchBtn.prop('checked') ? switchBtn.data('on-val') : switchBtn.data('off-val'));
 				}
 			}
-			AppConnector.request(url).then(
-				function (data) {
+			AppConnector.request(url).then(function (data) {
 					var dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
 					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
@@ -2371,8 +2339,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 			});
 			var url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
-			AppConnector.request(url).then(
-				function (data) {
+			AppConnector.request(url).then(function (data) {
 					progressInstance.progressIndicator({mode: 'hide'});
 					jQuery(e.currentTarget).parent().remove();
 					thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).find('.count.badge').text('');
@@ -2414,8 +2381,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var url = container.find('.widgetContentBlock').data('url');
 			url = url.replace('&page=1', '&page=' + page);
 			url += '&totalCount=' + container.find('.totaltActivities').val();
-			AppConnector.request(url).then(
-				function (data) {
+			AppConnector.request(url).then(function (data) {
 					currentTarget.prop('disabled', false);
 					currentTarget.addClass('d-none');
 					var currentPage = container.find('.currentPage').val();
@@ -2576,8 +2542,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			view: app.getViewName()
 		};
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).then(function (data) {
 				var response = data['result'];
 				var btnToolbar = jQuery('.detailViewToolbar .btn-toolbar');
 				if (response.valid == false) {
@@ -2592,8 +2557,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
 					}
 				}
-			},
-			function (data, err) {
+			}, function (data, err) {
 				app.errorLog(data, err);
 			}
 		);

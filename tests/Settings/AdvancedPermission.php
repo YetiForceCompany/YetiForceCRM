@@ -36,13 +36,13 @@ class AdvancedPermission extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals('test', $row['name']);
-		$this->assertEquals(4, $row['tabid']);
-		$this->assertEquals(0, $row['action']);
-		$this->assertEquals(0, $row['status']);
-		$this->assertEquals(0, $row['priority']);
-		$this->assertEquals(\App\Json::encode($members), $row['members']);
-		$this->assertEquals(\App\Json::encode([]), $row['conditions']);
+		$this->assertSame('test', $row['name']);
+		$this->assertSame(4, $row['tabid']);
+		$this->assertSame(0, $row['action']);
+		$this->assertSame(0, $row['status']);
+		$this->assertSame(0, $row['priority']);
+		$this->assertSame(\App\Json::encode($members), $row['members']);
+		$this->assertSame(\App\Json::encode([]), $row['conditions']);
 	}
 
 	/**
@@ -86,13 +86,13 @@ class AdvancedPermission extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals('test edit', $row['name']);
-		$this->assertEquals(4, $row['tabid']);
-		$this->assertEquals(0, $row['action']);
-		$this->assertEquals(1, $row['status']);
-		$this->assertEquals(0, $row['priority']);
-		$this->assertEquals(\App\Json::encode($members), $row['members']);
-		$this->assertEquals(\App\Json::encode($conditions), $row['conditions']);
+		$this->assertSame('test edit', $row['name']);
+		$this->assertSame(4, $row['tabid']);
+		$this->assertSame(0, $row['action']);
+		$this->assertSame(1, $row['status']);
+		$this->assertSame(0, $row['priority']);
+		$this->assertSame(\App\Json::encode($members), $row['members']);
+		$this->assertSame(\App\Json::encode($conditions), $row['conditions']);
 	}
 
 	/**
