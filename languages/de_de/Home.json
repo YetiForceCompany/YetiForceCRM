@@ -37,7 +37,9 @@
 	"LBL_GROUP_FIELD": "Gruppieren",
 	"LBL_GROUP_VALUES": "Wertgruppierung Teilen",
 	"LBL_FILTER_BY_OWNER": "Filter nach Besitzer",
-	"LBL_ALL_OWNERS": "Alle"
+	"LBL_ALL_OWNERS": "Alle",
+	"LBL_WIDGET_DOWNLOAD": "Download graph",
+	"LBL_WIDGET_PRINT": "Print graph"
   },
   "js": []
 }

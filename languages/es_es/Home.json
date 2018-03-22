@@ -37,7 +37,9 @@
 	"LBL_GROUP_FIELD": "Agrupar por el campo",
 	"LBL_GROUP_VALUES": "Divisi\u00f3n de valores de agrupamiento",
 	"LBL_FILTER_BY_OWNER": "Filtrar por propietario",
-	"LBL_ALL_OWNERS": "Todos"
+	"LBL_ALL_OWNERS": "Todos",
+	"LBL_WIDGET_DOWNLOAD": "Download graph",
+	"LBL_WIDGET_PRINT": "Print graph"
   },
   "js": []
 }
