@@ -33,7 +33,7 @@ class Inventory extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
-		$this->assertSame((string) $row['status'], $status);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Inventory extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
-		$this->assertSame((string) $row['status'], $status);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Inventory extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
-		$this->assertSame((string) $row['status'], $status);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Inventory extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
-		$this->assertSame((string) $row['status'], $status);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Inventory extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
-		$this->assertSame((string) $row['status'], $status);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
@@ -188,7 +188,7 @@ class Inventory extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
-		$this->assertSame((string) $row['status'], $status);
+		$this->assertSame((int) $row['status'], $status);
 	}
 
 	/**
