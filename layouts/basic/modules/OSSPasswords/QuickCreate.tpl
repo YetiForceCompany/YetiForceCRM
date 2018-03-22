@@ -20,18 +20,16 @@
 								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
 							</h5>
 						</div>
-						<div class="col-7 px-0">
-							<div class="float-right quickCreateActions">
-								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
-									&nbsp;&nbsp;
-								{/foreach}
-								{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-								<button class="btn btn-light btn-sm mr-1 border" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
-								<button class="btn btn-success btn-sm js-generatePass mr-1" name="save" type="button"><strong>{\App\Language::translate('Generate Password', $RELATEDMODULE)}</strong></button>
-								<button class="btn btn-success btn-sm mr-1" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-								<button class="cancelLink ml-0 btn btn-warning btn-sm" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
-							</div>
+						<div>
+							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
+								&nbsp;&nbsp;
+							{/foreach}
+							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
+							<button class="btn btn-outline-secondary mr-1" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
+							<button class="btn btn-success js-generatePass mr-1" name="save" type="button"><strong>{\App\Language::translate('Generate Password', $RELATEDMODULE)}</strong></button>
+							<button class="btn btn-success mr-1" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+							<button class="cancelLink ml-0 btn btn-danger" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 						</div>
 					</div>
 											{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
