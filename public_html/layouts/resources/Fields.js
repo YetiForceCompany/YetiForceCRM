@@ -9,6 +9,7 @@ App.Fields = {
 		daysTranslated: ["JS_SUN", "JS_MON", "JS_TUE", "JS_WED", "JS_THU", "JS_FRI", "JS_SAT"].map((monthName) => app.vtranslate(monthName)),
 		fullDays: ["JS_SUNDAY", "JS_MONDAY", "JS_TUESDAY", "JS_WEDNESDAY", "JS_THURSDAY", "JS_FRIDAY", "JS_SATURDAY"],
 		fullDaysTranslated: ["JS_SUNDAY", "JS_MONDAY", "JS_TUESDAY", "JS_WEDNESDAY", "JS_THURSDAY", "JS_FRIDAY", "JS_SATURDAY"].map((monthName) => app.vtranslate(monthName)),
+
 		/**
 		 * Register DatePicker
 		 * @param parentElement
@@ -112,17 +113,17 @@ App.Fields = {
 				ranges: ranges,
 				opens: "center",
 				locale: {
-					"format": format,
-					"separator": ",",
-					"applyLabel": app.vtranslate('JS_APPLY'),
-					"cancelLabel": app.vtranslate('JS_CANCEL'),
-					"fromLabel": app.vtranslate('JS_FROM'),
-					"toLabel": app.vtranslate('JS_TO'),
-					"customRangeLabel": app.vtranslate('JS_CUSTOM'),
-					"weekLabel": app.vtranslate('JS_WEEK').substr(0, 1),
-					"firstDay": defaultFirstDay,
-					"daysOfWeek": App.Fields.Date.daysTranslated,
-					"monthNames": App.Fields.Date.fullMonthsTranslated,
+					format: format,
+					separator: ",",
+					applyLabel: app.vtranslate('JS_APPLY'),
+					cancelLabel: app.vtranslate('JS_CANCEL'),
+					fromLabel: app.vtranslate('JS_FROM'),
+					toLabel: app.vtranslate('JS_TO'),
+					customRangeLabel: app.vtranslate('JS_CUSTOM'),
+					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
+					firstDay: defaultFirstDay,
+					daysOfWeek: App.Fields.Date.daysTranslated,
+					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
 			if (typeof customParams !== 'undefined') {
@@ -160,10 +161,6 @@ App.Fields = {
 			jQuery('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
 				jQuery(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
 			});
-			let language = CONFIG.language;
-			if (typeof $.fn.datepicker.dates[language] === 'undefined') {
-				language = Object.keys($.fn.datepicker.dates)[0];
-			}
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
 			if (typeof elementDateFormat !== 'undefined') {
@@ -191,13 +188,17 @@ App.Fields = {
 				autoApply: true,
 				opens: "left",
 				locale: {
-					separator: ',',
 					format: format,
+					separator: ",",
 					applyLabel: app.vtranslate('JS_APPLY'),
 					cancelLabel: app.vtranslate('JS_CANCEL'),
-					monthNames: $.fn.datepicker.dates[language].months,
-					daysOfWeek: $.fn.datepicker.dates[language].daysMin,
-					firstDay: $.fn.datepicker.dates[language].weekStart
+					fromLabel: app.vtranslate('JS_FROM'),
+					toLabel: app.vtranslate('JS_TO'),
+					customRangeLabel: app.vtranslate('JS_CUSTOM'),
+					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
+					firstDay: defaultFirstDay,
+					daysOfWeek: App.Fields.Date.daysTranslated,
+					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
 			if (typeof customParams !== 'undefined') {
