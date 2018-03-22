@@ -562,7 +562,7 @@ abstract class View extends Base
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 				 ] as $key => $value) {
-			\App\Config::setJs($key, $value);
+			\App\Config::setJsEnv($key, $value);
 		}
 	}
 }
