@@ -20,7 +20,7 @@
 									<span class="float-left">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
 								</div>
 								<div class="col-md-12 mailBody" style="display: none;border: 1px solid #ddd;">
-									{\App\Purifier::encodeHtml($item->get('body'))}
+									{\App\Purifier::purifyHtml($item->get('body'))}
 								</div>
 								</div>
 								<hr/>
