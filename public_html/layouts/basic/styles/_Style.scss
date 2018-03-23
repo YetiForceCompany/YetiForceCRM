@@ -4165,22 +4165,6 @@ border1px {
 .table tr.inventoryRow td {
   padding: 4px;
 }
-.relatedContents {
-  .wrappedPanelLeft {
-	top: 50px;
-	left: 5px;
-  }
-  .wrappedPanelRight {
-	right: 5px;
-	top: 50px;
-  }
-  .wrappedPanelLeft.wrappedPanelOnScroll {
-	left: 50px;
-  }
-  .wrappedPanelRight.wrappedPanelOnScroll {
-	right: 17px;
-  }
-}
 .ps-scrollbar-y-rail {
   z-index: 100;
 }

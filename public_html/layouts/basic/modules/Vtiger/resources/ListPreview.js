@@ -56,10 +56,10 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * @param {jQuery} container - current container for reference.
 	 */
 	registerListEvents: function (container) {
-		var listPreview = container.find('.listPreview');
+		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		app.showNewBottomTopScrollbar(container.find('.fixedListContent'));
+		app.showNewBottomTopScrollbar(container.find('.js-list-preview--scroll'));
 		app.showNewLeftScrollbar(this.list);
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
@@ -67,7 +67,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 		let listOffsetTop = this.list.offset().top - this.headerH;
-		let initialH = this.sidePanels.height();
+		let initialH = this.sideBlocks.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};
 		let mainViewPortWidthCss = {width: mainBody.height()};
 		this.gutter.addClass('js-fixed-scroll');
@@ -92,7 +92,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				const defaultGutterPosition = this.getDefaultSplitSizes();
 				this.split.setSizes(defaultGutterPosition);
 				listPreview.show();
-				this.sidePanelRight.removeClass('wrappedPanelRight');
+				this.sideBlockRight.removeClass('js-side-block--right');
 				app.moduleCacheSet('userSplitSet', defaultGutterPosition);
 			}
 		});
@@ -114,11 +114,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 		this.windowMinWidth = (15 / $(window).width()) * 100;
 		this.windowMaxWidth = 100 - this.minWidth;
-		this.sidePanels = container.find('.wrappedPanel');
-		this.sidePanelLeft = container.find('.wrappedPanel').first();
-		this.sidePanelRight = container.find('.wrappedPanel').last();
-		this.list = container.find('.fixedListInitial');
-		this.rotatedText = container.find('.rotatedText');
+		this.sideBlocks = container.find('.js-side-block');
+		this.sideBlockLeft = this.sideBlocks.first();
+		this.sideBlockRight = this.sideBlocks.last();
+		this.list = container.find('.js-list-preview');
+		this.rotatedText = container.find('.u-rotate-90');
 		this.infoUser = $('.infoUser');
 		this.footerH = $('.vtFooter').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
 		this.headerH = $('.bodyHeader').outerHeight();
@@ -149,14 +149,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 		var minWindowWidth = (23 / $(window).width()) * 100;
 		var maxWindowWidth = 100 - minWindowWidth;
-		var listPreview = container.find('.listPreview');
+		var listPreview = container.find('.js-detail-preview');
 		this.gutter.on("dblclick", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (isNaN(this.split.getSizes()[0])) {
 				this.split.setSizes(gutterMidPosition);
 			}
 			if (split.getSizes()[0] < 10) {
-				this.sidePanelLeft.removeClass('wrappedPanelLeft');
+				this.sideBlockLeft.removeClass('js-side-block--left');
 				this.list.removeClass('js-hide-underneath');
 				if (gutterMidPosition[0] > 11) {
 					split.setSizes(gutterMidPosition);
@@ -169,40 +169,40 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				} else {
 					split.setSizes(this.getDefaultSplitSizes());
 				}
-				this.sidePanelRight.removeClass('wrappedPanelRight');
+				this.sideBlockRight.removeClass('js-side-block--right');
 				listPreview.show();
 				this.gutter.css('right', 'initial');
 			} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
 				split.setSizes([minWindowWidth, maxWindowWidth]);
 				this.list.addClass('js-hide-underneath');
-				this.sidePanelLeft.addClass('wrappedPanelLeft');
+				this.sideBlockLeft.addClass('js-side-block--left');
 			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
 				split.collapse(1);
-				this.sidePanelRight.addClass('wrappedPanelRight');
+				this.sideBlockRight.addClass('js-side-block--right');
 				listPreview.hide();
 				this.list.width(this.list.width() - 10);
 			}
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
-		this.sidePanelLeft.on("click", () => {
+		this.sideBlockLeft.on("click", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (gutterMidPosition[0] > 11) {
 				split.setSizes(gutterMidPosition);
 			} else {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
-			this.sidePanelLeft.removeClass('wrappedPanelLeft');
+			this.sideBlockLeft.removeClass('js-side-block--left');
 			this.list.removeClass('js-hide-underneath');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
-		this.sidePanelRight.on("click", () => {
+		this.sideBlockRight.on("click", () => {
 			let gutterMidPosition = app.moduleCacheGet('gutterMidPosition');
 			if (gutterMidPosition[1] > rightSplitMaxWidth + 1) {
 				split.setSizes(gutterMidPosition);
 			} else {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
-			this.sidePanelRight.removeClass('wrappedPanelRight');
+			this.sideBlockRight.removeClass('js-side-block--right');
 			listPreview.show();
 			this.gutter.css('right', 'initial');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
@@ -219,7 +219,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var splitMaxWidth = 100 - splitMinWidth;
 		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
 		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
-		var listPreview = container.find('.listPreview');
+		var listPreview = container.find('.js-detail-preview');
 		const splitSizes = this.getSplitSizes();
 		var split = Split([this.list[0], listPreview[0]], {
 			sizes: splitSizes,
@@ -231,18 +231,18 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					split.collapse(1);
 				}
 				if (split.getSizes()[0] < 5) {
-					this.sidePanelLeft.addClass('wrappedPanelLeft');
+					this.sideBlockLeft.addClass('js-side-block--left');
 					this.list.addClass('js-hide-underneath');
 				} else {
-					this.sidePanelLeft.removeClass('wrappedPanelLeft');
+					this.sideBlockLeft.removeClass('js-side-block--left');
 					this.list.removeClass('js-hide-underneath');
 				}
 				if (split.getSizes()[1] < 10) {
-					this.sidePanelRight.addClass('wrappedPanelRight');
+					this.sideBlockRight.addClass('js-side-block--right');
 					listPreview.hide();
 					this.list.width(this.list.width() - 10);
 				} else {
-					this.sidePanelRight.removeClass('wrappedPanelRight');
+					this.sideBlockRight.removeClass('js-side-block--right');
 					listPreview.show();
 				}
 				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
@@ -253,11 +253,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		if (splitSizes[0] < 10) {
 			listPreview.width(listPreview.width() - 150);
-			this.sidePanelLeft.addClass('wrappedPanelLeft');
+			this.sideBlockLeft.addClass('js-side-block--left');
 			split.setSizes([splitMinWidth, splitMaxWidth]);
 			this.list.addClass('js-hide-underneath');
 		} else if (splitSizes[1] < rightSplitMaxWidth) {
-			this.sidePanelRight.addClass('wrappedPanelRight');
+			this.sideBlockRight.addClass('js-side-block--right');
 			listPreview.hide();
 			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
@@ -265,12 +265,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + this.footerH)};
 		this.gutter.css(mainWindowHeightCss);
 		this.list.css(mainWindowHeightCss);
-		this.sidePanels.css(mainWindowHeightCss);
+		this.sideBlocks.css(mainWindowHeightCss);
 		this.registerSplitEvents(container, split);
-		this.rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .js-text-content').text());
+		this.rotatedText.first().find('.js-list-name').append($('.breadcrumbsContainer .js-text-content').text());
 		this.rotatedText.css({
-			width: this.sidePanelLeft.height(),
-			height: this.sidePanelLeft.height()
+			width: this.sideBlockLeft.height(),
+			height: this.sideBlockLeft.height()
 		});
 		return split;
 	},
@@ -280,7 +280,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	toggleSplit: function (container) {
 		var thisInstance = this;
-		var listPreview = container.find('.listPreview');
+		var listPreview = container.find('.js-detail-preview');
 		var splitsArray = [];
 		var mainBody = container.closest('.mainBody');
 		if ($(window).width() > 993 && !container.find('.gutter').length) {
@@ -291,8 +291,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			if ($(window).width() < 993) {
 				if (container.find('.gutter').length) {
 					splitsArray[splitsArray.length - 1].destroy();
-					this.sidePanelRight.removeClass('wrappedPanelRight');
-					this.sidePanelLeft.removeClass('wrappedPanelLeft');
+					this.sideBlockRight.removeClass('js-side-block--right');
+					this.sideBlockLeft.removeClass('js-side-block--left');
 				}
 			} else {
 				if (container.find('.gutter').length !== 1) {

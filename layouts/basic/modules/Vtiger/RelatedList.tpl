@@ -127,26 +127,26 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div class="js-list-preview d-flex" data-js="container, size-source">
+				<div class="d-flex">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
-					<div class="wrappedPanel">
-						<div class="rotatedText">
-							<div class="textCenter"></div>
+					<div class="c-side-block js-side-block js-fixed-scroll" data-js="scroll">
+						<div class="u-rotate-90">
+							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_LIST')}</div>
 						</div>
 					</div>
-					<div class="fixedListInitial">
-						<div class="fixedListContent">
+					<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
+						<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
 							<div id="recordsList">
 								{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
 							</div>
 						</div>
 					</div>
-					<div class="listPreview">
-						<iframe class="border1px listPreviewframe" frameborder="0"></iframe>
+					<div class="c-detail-preview js-detail-preview">
+						<iframe class="listPreviewframe" frameborder="0"></iframe>
 					</div>
-					<div class="wrappedPanel">
-						<div class="rotatedText">
-							{\App\Language::translate('LBL_VIEW_DETAIL')}
+					<div class="c-side-block js-side-block js-fixed-scroll" data-js="scroll">
+						<div class="u-rotate-90">
+							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_DETAIL')}</div>
 						</div>
 					</div>
 				</div>

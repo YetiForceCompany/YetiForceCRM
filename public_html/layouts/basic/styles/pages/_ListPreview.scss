@@ -1,29 +1,29 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.fixedListInitial {
+.c-list-preview {
 	float: left;
 	position: relative;
 	height: 600px;
 	padding-left: 0;
 	overflow: hidden;
+	&__content {
+		position: relative;
+		height: max-content;
+		#recordsList {
+			padding-left: 0;
+			padding-right: 0;
+			float: none;
+		}
+		.contents-topscroll {
+		}
+		.listViewSummation td {
+			padding: 0;
+		}
+	}
 	[class^="modCT"] {
 		pointer-events: none;
 	}
 }
-.fixedListContent {
-	position: relative;
-	height: max-content;
-	#recordsList {
-		padding-left: 0;
-		padding-right: 0;
-		float: none;
-	}
-	.contents-topscroll {
-	}
-	.listViewSummation td {
-		padding: 0;
-	}
-}
-.listPreview {
+.c-detail-preview {
 	float: right;
 	position: relative;
     min-height: 1px;
@@ -65,47 +65,47 @@
 		float: left;
 	}
 }
-.gutterOnScroll {
-  position: fixed;
-  top: 48px;
-}
-.wrappedPanel {
+.c-side-block {
 	display: none;
 	cursor: pointer;
 	height: calc(100vh - 33px);
 	width: 20px;
 	position: absolute;
 	background: $light;
+	font-weight: bold;
 }
-.wrappedPanelLeft {
+.js-side-block--left {
   display: block;
   left: -10px;
 }
-.wrappedPanelRight {
+.js-side-block--right {
   display: block;
   right: -10px;
   background: $primary;
-}
-.rotatedText {
-  transform: rotate(0.75turn);
-  position: absolute;
-  text-align: center;
-}
-.wrappedPanelRight .rotatedText {
   color: #fff;
 }
-.wrappedPanelOnScroll {
-  position: fixed;
-  top: 50px;
+.relatedContents {
+  .js-side-block--left {
+	left: 7px;
+  }
+  .js-side-block--right {
+	right: 7px;
+  }
 }
-.wrappedPanelLeft.wrappedPanelOnScroll {
-  left: 50px;
+.js-nested-panel-left {
+	left: 7px;
 }
-.wrappedPanelRight.wrappedPanelOnScroll {
-  right: 17px;
+.js-nested-panel-right {
+	right: 7px;
+}
+.mainBody .js-nested-panel-left {
+	left: 0;
+}
+.mainBody .js-nested-panel-right {
+	right: 0;
 }
 @media only screen and (max-width: 992px) {
-	.listPreview {
+	.c-detail-preview {
 		padding-left: 0;
 		padding-right: 0;
 		width: 100%;

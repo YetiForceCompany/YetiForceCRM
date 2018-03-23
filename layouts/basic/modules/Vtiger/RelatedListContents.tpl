@@ -69,7 +69,7 @@
 				{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 					{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
-					<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
+					<tr class="listViewEntries js-list__row" data-js="each" data-id='{$RELATED_RECORD->getId()}'
 						{if $RELATED_RECORD->isViewable()}
 							data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 						{/if}>
@@ -85,7 +85,7 @@
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap  {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
-									<a class="modCT_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
+									<a class="modCT_{$RELATED_MODULE_NAME} js-list__field" data-js="width" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 									</a>
 								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
