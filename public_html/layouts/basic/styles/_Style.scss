@@ -3972,41 +3972,6 @@ select.form-control {
 	padding: 2px;
   }
 }
-.medium .multiImageListIcon {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  border: 1px solid #fff;
-  vertical-align: top;
-  position: relative;
-  z-index: 1;
-}
-.contentImage {
-  &:hover {
-	.imageFullModal {
-	  display: inline-block !important;
-	}
-	.multiImageListIcon {
-	  max-width: 160px;
-	  max-height: 160px;
-	  border: 1px solid #ccc;
-	  width: auto;
-	  height: auto;
-	  margin: 32px 0 0 -80px;
-	  white-space: nowrap;
-	  position: absolute;
-	  z-index: 3;
-	}
-  }
-  width: 35px;
-  height: 32px;
-  vertical-align: top;
-  display: inline-block !important;
-}
-.multiImageContenDiv {
-  z-index: 1000;
-  margin-right: 5px;
-}
 .input-group-sm .input-group-addon.checkbox-addon {
   padding: 4px 7px !important;
   input[type="checkbox"] {
@@ -4083,9 +4048,6 @@ select.form-control {
 	  }
 	}
   }
-}
-.multiImageResult {
-  float: right;
 }
 #jstree-marker {
   z-index: 1100;

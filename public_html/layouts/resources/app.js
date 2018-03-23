@@ -1217,14 +1217,6 @@ app = {
 		}
 		return jQuery(window).height() * percantage / 100;
 	},
-	registerImageFullModal: function () {
-		$('body').on('click', '.imageFullModal', function (e) {
-			e.preventDefault();
-			var img = $(this).next().clone(true, true).addClass('modal-content img-fluid');
-			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">' + img.get(0).outerHTML + '</div></div>';
-			app.showModalWindow(html);
-		})
-	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: app.getModuleName(),
@@ -1297,7 +1289,6 @@ jQuery(document).ready(function () {
 	app.registerSticky();
 	app.registerMoreContent(jQuery('body').find('button.moreBtn'));
 	app.registerModal();
-	app.registerImageFullModal();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
