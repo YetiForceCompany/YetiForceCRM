@@ -41,7 +41,7 @@ jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 			target.append('<optgroup label="' + values.blockLabel + '">' + targetOption + '</optgroup>');
 		}
 		source.remove();
-		app.showSelect2ElementView(container.find('.select2'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 	},
 	/**
 	 * Saves permission for filter

@@ -43,7 +43,7 @@ jQuery.Class('Settings_Currency_Js', {
 					var form = jQuery('#transformCurrency');
 
 					//register all select2 Elements
-					app.showSelect2ElementView(form.find('select.select2'));
+					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
 
 					form.submit(function (e) {
 						e.preventDefault();
@@ -98,7 +98,7 @@ jQuery.Class('Settings_Currency_Js', {
 					var record = form.find('[name="record"]').val();
 
 					//register all select2 Elements
-					app.showSelect2ElementView(form.find('select.select2'));
+					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
 					var currencyStatus = form.find('[name="currency_status"]').is(':checked');
 					if (record != '' && currencyStatus) {
 						//While editing currency, register the status change event

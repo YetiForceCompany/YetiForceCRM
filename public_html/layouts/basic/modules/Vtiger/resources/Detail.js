@@ -84,7 +84,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 					app.showModalWindow(data, function (data) {
 						var selectElement = thisInstance.getRelatedModuleContainer();
-						app.changeSelectElementView(selectElement, 'select2');
+						App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
 						if (typeof callback == 'function') {
 							callback(data);
 						}
@@ -302,7 +302,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
-			app.showSelect2ElementView(widgetContainer.find('.select2'));
+			App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
@@ -403,7 +403,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			//thisInstance.triggerDisplayTypeEvent();
 			thisInstance.registerBlockStatusCheckOnLoad();
 			//Make select box more usability
-			app.changeSelectElementView(detailContentsHolder);
+			App.Fields.Picklist.changeSelectElementView(detailContentsHolder);
 			//Attach date picker event to date fields
 			App.Fields.Date.register(detailContentsHolder);
 			thisInstance.getForm().validationEngine();
@@ -1151,7 +1151,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				AppConnector.request(params).then(function (data) {
 						var activitiesWidget = widgetContainer.find('.widget_contents');
 						activitiesWidget.html(data);
-						app.changeSelectElementView(activitiesWidget);
+						App.Fields.Picklist.changeSelectElementView(activitiesWidget);
 						thisInstance.registerEventForActivityWidget();
 					}
 				);
@@ -2059,7 +2059,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var widgetDataContainer = widgetContainer.find('.widget_contents');
 				widgetDataContainer.html(data);
-				app.showSelect2ElementView(widgetDataContainer.find('.select2'));
+				App.Fields.Picklist.showSelect2ElementView(widgetDataContainer.find('.select2'));
 			});
 		});
 	},
@@ -2167,7 +2167,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		App.Fields.DateTime.register(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
-		app.showSelect2ElementView(detailContentsHolder.find('select.select2'));
+		App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
 			var url = selectedTabElement.data('url');
 			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();

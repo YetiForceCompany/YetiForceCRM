@@ -102,7 +102,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var relatedList = jQuery('#relatedTabOrder');
 		var container = relatedList.find('.relatedTabModulesList');
 		var ulEle = container.find('ul.relatedModulesList');
-		var select2Element = app.showSelectizeElementView(container.find('.select2_container'), {
+		var select2Element = App.Fields.Picklist.showSelectizeElementView(container.find('.select2_container'), {
 			plugins: ['drag_drop', 'remove_button'],
 			onInitialize: function () {
 				var s = this, children = this.revertSettings.$children;
@@ -160,7 +160,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
 			var callBackFunction = function (data) {
-				app.showSelect2ElementView(data.find('select'));
+				App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 				data.find('.relLabel').val(data.find('.target option:selected').val());
 				data.on('change', '.target', function (e) {
 					var currentTarget = jQuery(e.currentTarget);
@@ -599,12 +599,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 
 			var callBackFunction = function (data) {
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'), {width: '100%'});
+				App.Fields.Picklist.showSelect2ElementView(data.find('select'), {width: '100%'});
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
 				var select2params = {tags: [], tokenSeparators: [","]}
-				app.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
+				App.Fields.Picklist.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
 
 				thisInstance.registerFieldTypeChangeEvent(form);
 				thisInstance.registerTableTypeChangeEvent(form);
@@ -858,7 +858,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			var callBackFunction = function (data) {
 				data.find('.addBlockModal').removeClass('d-none').show();
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 
 				var form = data.find('.addCustomBlockForm');
 				thisInstance.setBlocksListArray(form);
@@ -1426,7 +1426,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var container = jQuery('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
 
 		container.on('change', '[name="layoutEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -1445,7 +1445,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var container = jQuery('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
 
 		container.on('change', '[name="layoutEditorRelModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -1573,7 +1573,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		}
 		App.Fields.Date.register(contents);
 		app.registerEventForClockPicker(contents);
-		app.changeSelectElementView(contents);
+		App.Fields.Picklist.changeSelectElementView(contents);
 
 		thisInstance.makeFieldsListSortable();
 		thisInstance.registerDeleteCustomFieldEvent(contents);
@@ -1836,7 +1836,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			}
 		});
 
-		app.showSelect2ElementView(form.find('[name="MRVField"],[name="MRVFilterField"]'), {width: '100%'});
+		App.Fields.Picklist.showSelect2ElementView(form.find('[name="MRVField"],[name="MRVFilterField"]'), {width: '100%'});
 	},
 	cacheMRVField: false,
 	cacheMRVFilter: false,
@@ -1875,7 +1875,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 							$('<option>').val(index).html(value)
 						);
 					});
-					app.showSelect2ElementView(form.find('[name="MRVFilterValue"]'), {width: '100%'});
+					App.Fields.Picklist.showSelect2ElementView(form.find('[name="MRVFilterValue"]'), {width: '100%'});
 				}
 			);
 		});

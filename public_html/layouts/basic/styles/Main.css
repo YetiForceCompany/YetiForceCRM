@@ -10623,6 +10623,9 @@ border1px {
 @media only screen and (max-width: 575px) {
   .u-border-bottom-0-sm {
     border-bottom: none !important; } }
+.u-badge {
+  font-size: 90%; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader .dropdown-toggle::after, .listViewTopMenuDiv .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
   display: none; }

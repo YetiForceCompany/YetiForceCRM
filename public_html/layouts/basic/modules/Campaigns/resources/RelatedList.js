@@ -31,7 +31,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 	changeCustomFilterElementView: function () {
 		var filterSelectElement = this.content.find('#recordsFilter');
 		if (filterSelectElement.length > 0) {
-			app.showSelect2ElementView(filterSelectElement, {
+			App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 				templateSelection: function (data) {
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').detach().get(0)).show());

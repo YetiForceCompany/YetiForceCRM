@@ -24,7 +24,7 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 			content.find('.switchUsersTable tbody').append(cloneItem.html());
 			content.find('#suCount').val(id);
 			thisInstance.registerDelete(content.find('tr.row' + id));
-			app.showSelect2ElementView(content.find('tr.row' + id).find('select'));
+			App.Fields.Picklist.showSelect2ElementView(content.find('tr.row' + id).find('select'));
 		});
 	},
 	registerDelete: function (content) {

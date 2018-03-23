@@ -121,7 +121,7 @@ var Vtiger_CustomView_Js = {
 	 */
 	registerSelect2ElementForColumnsSelection: function () {
 		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		return app.changeSelectElementView(selectElement, 'selectize', {
+		return App.Fields.Picklist.changeSelectElementView(selectElement, 'selectize', {
 			plugins: ['drag_drop', 'remove_button'],
 			maxItems: 12
 		});

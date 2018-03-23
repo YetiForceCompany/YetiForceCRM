@@ -10,7 +10,7 @@ jQuery.Class('Settings_Users_Locks_Js', {}, {
 			content.find('.locksTable tbody').append(cloneItem.html());
 			content.find('#lcount').val(id);
 			thisInstance.registerDelete(content.find('tr.row' + id));
-			app.showSelect2ElementView(content.find('tr.row' + id).find('select'));
+			App.Fields.Picklist.showSelect2ElementView(content.find('tr.row' + id).find('select'));
 		});
 	},
 	registerDelete: function (content) {

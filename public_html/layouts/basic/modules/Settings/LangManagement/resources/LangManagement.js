@@ -50,11 +50,11 @@ var Settings_Index_Js = {
 	initEditLang: function (position) {
 		var thisInstance = this;
 		element = $(".LangManagement .layoutContent .active #langs_list");
-		app.changeSelectElementView(element, 'selectize', {plugins: ['remove_button']}).on("change", function (e) {
+		App.Fields.Picklist.changeSelectElementView(element, 'selectize', {plugins: ['remove_button']}).on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});
-		app.changeSelectElementView($(".LangManagement .layoutContent .active #mods_list"), 'select2').on("change", function (e) {
+		App.Fields.Picklist.changeSelectElementView($(".LangManagement .layoutContent .active #mods_list"), 'select2').on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});

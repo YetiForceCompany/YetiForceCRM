@@ -66,7 +66,7 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 		var detailUrl = form.data('detailUrl');
 
 		//register all select2 Elements
-		app.showSelect2ElementView(form.find('select.select2'), {dropdownCss: {'z-index': 0}});
+		App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'), {dropdownCss: {'z-index': 0}});
 
 		//register validation engine
 		var params = app.validationEngineOptions;

@@ -176,10 +176,10 @@ Vtiger_List_Js("Reports_List_Js", {
 		var optionElement = jQuery('#' + optionId);
 		if (optionElement.length > 0) {
 			optionElement.replaceWith(constructedOption);
-			app.showSelect2ElementView(customFilter);
+			App.Fields.Picklist.showSelect2ElementView(customFilter);
 		} else {
 			customFilter.find('#foldersBlock').append(constructedOption);
-			app.showSelect2ElementView(customFilter);
+			App.Fields.Picklist.showSelect2ElementView(customFilter);
 			this.filterBlock = false;
 			thisInstance.registerCustomFilterOptionsHoverEvent();
 			thisInstance.registerDeleteFilterClickEvent();

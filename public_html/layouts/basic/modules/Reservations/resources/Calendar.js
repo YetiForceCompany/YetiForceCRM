@@ -26,7 +26,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
 		};
-		app.changeSelectElementView(field, 'select2', params);
+		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	},
 }, {
 	calendarView: false,

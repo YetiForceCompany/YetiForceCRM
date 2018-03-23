@@ -23,7 +23,7 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 		container.find('.select2noactive').each(function (index, domElement) {
 			var select = $(domElement);
 			if (!select.data('select2')) {
-				app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+				App.Fields.Picklist.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 			}
 		});
 		var table = app.registerDataTables(container.find('.dataTable'));

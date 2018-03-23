@@ -1270,7 +1270,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			widgetContainer.find('a[name="drefresh"]').trigger('click');
 		});
 		if (container.find('.widgetFilterByField').length) {
-			app.showSelect2ElementView(container.find('.select2noactive'));
+			App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
 			this.getContainer().on('change', '.widgetFilterByField .form-control', function (e) {
 				var widgetContainer = jQuery(e.currentTarget).closest('li');
 				widgetContainer.find('a[name="drefresh"]').trigger('click');

@@ -253,7 +253,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 					if (listSearchInstance !== false) {
 						listSearchInstance.registerEvents();
 					}
-					app.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
+					App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 				}
 			);
 		});

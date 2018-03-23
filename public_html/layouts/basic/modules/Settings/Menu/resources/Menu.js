@@ -140,7 +140,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.getMenuData($('[name="roleMenu"]').val()).then(
 			function (data) {
 				contentsDiv.html(data);
-				app.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
+				App.Fields.Picklist.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
 				thisInstance.registerEvents();
 				progress.progressIndicator({'mode': 'hide'});
 			}
@@ -286,7 +286,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 				$(this).remove();
 			}
 		});
-		app.showSelect2ElementView(container.find('[name="filters"]'), {width: '100%'});
+		App.Fields.Picklist.showSelect2ElementView(container.find('[name="filters"]'), {width: '100%'});
 	},
 	registerModalButton: function () {
 		var thisInstance = this;
@@ -298,7 +298,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			var callBackFunction = function (data) {
 
 				var selectElement = data.find("[name='roles']");
-				app.showSelect2ElementView(selectElement);
+				App.Fields.Picklist.showSelect2ElementView(selectElement);
 				var form = data.find('form');
 				form.submit(function (e) {
 					var currentTarget = jQuery(e.currentTarget);
