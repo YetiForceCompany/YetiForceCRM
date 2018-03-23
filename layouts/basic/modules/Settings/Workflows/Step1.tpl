@@ -167,7 +167,7 @@
 									<div class="col-md-6" id="schtime">
 										<div class="input-group time">
 											<input type='text' class="clockPicker form-control" data-format='24' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-											<span class="input-group-addon cursorPointer"><i class="far fa-clock"></i></span>
+											<span class="input-group-addon u-cursor-pointer"><i class="far fa-clock"></i></span>
 										</div>
 									</div>
 								</div>

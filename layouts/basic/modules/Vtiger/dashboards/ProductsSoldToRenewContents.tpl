@@ -13,7 +13,7 @@
 	</div>
 	{assign var="WIDGET_RECORDS" value=$WIDGET_MODEL->getRecords($OWNER)}
 	{foreach item=RECORD from=$WIDGET_RECORDS}
-		<div class="row rowAction cursorPointer">
+		<div class="row rowAction u-cursor-pointer">
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 				<div class="col-sm-{$SPANSIZE} u-text-ellipsis" title="{\App\Purifier::encodeHtml($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}

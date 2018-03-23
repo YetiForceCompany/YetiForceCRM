@@ -19,14 +19,14 @@
 				<div class="btn-toolbar float-right">
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
-							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
+							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="u-cursor-pointer btn btn-success">
 								<span class="fas fa-edit"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
 							</button>
 						</div>
 					{/if}
 					<div class="btn-group">
-						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-primary">
+						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="u-cursor-pointer btn btn-primary">
 							<span class="fas fa-clone"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_DUPLICATE',$MODULE)}</strong>
 						</button>

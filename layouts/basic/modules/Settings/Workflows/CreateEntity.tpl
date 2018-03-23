@@ -52,7 +52,7 @@
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</div>
 				{if $MANDATORY_FIELD neq true || $MAPPING_PANEL}
-					<div class="cursorPointer btn span">
+					<div class="u-cursor-pointer btn span">
 						<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 					</div>
 				{/if}
@@ -131,7 +131,7 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" value="rawtext" />
 		</div>
-		<div class="cursorPointer btn span">
+		<div class="u-cursor-pointer btn span">
 			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</div>
 	</div>

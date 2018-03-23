@@ -37,7 +37,7 @@
 	{if $NUMBER_OF_RECORDS eq 5}
 		<div class="row">
 			<div class="float-right">
-				<a class="moreRecentTickets cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</a>
+				<a class="moreRecentTickets u-cursor-pointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>
 		</div>
 	{/if}

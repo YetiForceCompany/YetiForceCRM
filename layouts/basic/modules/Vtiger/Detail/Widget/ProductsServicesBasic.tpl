@@ -13,7 +13,7 @@
 								{foreach name=BTN item=COUNT key=MODULE_DATA from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
 									<label class="btn btn-sm btn-light {if $smarty.foreach.BTN.first}active{/if}" title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}">
 										<input type="radio" name="mod" class="filterField" value="{$MODULE_DATA}" if {if $smarty.foreach.BTN.first}checked{/if}>
-										<span class="cursorPointer userIcon-{$MODULE_DATA}"></span>&nbsp;&nbsp;
+										<span class="u-cursor-pointer userIcon-{$MODULE_DATA}"></span>&nbsp;&nbsp;
 										<span class="badge">{$COUNT}</span>
 									</label>
 								{/foreach}

@@ -192,7 +192,7 @@
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
 				{assign var=ID value=$RELATED_RECORD->getId()}
 				<div class="hide summaryRelRecordView summaryRelRecordView{$ID}"  data-id="{$ID}">
-					<span class="float-right far fa-minus-square hideSummaryRelRecordView cursorPointer"></span>
+					<span class="float-right far fa-minus-square hideSummaryRelRecordView u-cursor-pointer"></span>
 					<table class="summary-table">
 						<tbody>
 							{foreach item=HEADER_FIELD from=$RELATED_SUMMARY_HEADERS}

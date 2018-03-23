@@ -114,7 +114,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_EDIT',
 					'linkicon' => 'fas fa-edit',
-					'linkclass' => 'btn-xs btn-default editListPrice cursorPointer',
+					'linkclass' => 'btn-xs btn-default editListPrice u-cursor-pointer',
 					'linkdata' => ['url' => 'index.php?module=PriceBooks&view=ListPriceUpdate&record=' . $viewModel->getParentRecordModel()->getId() . '&relid=' . $this->getId() . '&currentPrice=' . $this->get('listprice'), 'related-recordid' => $this->getId(), 'list-price' => $this->get('listprice')],
 			]);
 		}

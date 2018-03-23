@@ -17,7 +17,7 @@
 	</style>
 	<div>
 		{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
-			<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
+			<div class="changeActivity u-cursor-pointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
 				<div class="rowActivities">
 					<div class="d-flex mb-1">
 						<div class="">

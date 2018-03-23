@@ -21,8 +21,8 @@
 					</thead>
 					{foreach item=EMAIL_TEMPLATE from=$EMAIL_TEMPLATES}
 						<tr class="listViewEntries" data-id="{$EMAIL_TEMPLATE->get('templateid')}" data-name="{$EMAIL_TEMPLATE->get('subject')}" data-info="{$EMAIL_TEMPLATE->get('body')}">
-							<td><a class="cursorPointer">{\App\Language::translate($EMAIL_TEMPLATE->get('templatename',$QUALIFIED_MODULE))}</a></td>
-							<td><a class="cursorPointer">{\App\Language::translate($EMAIL_TEMPLATE->get('subject',$QUALIFIED_MODULE))}</a></td>
+							<td><a class="u-cursor-pointer">{\App\Language::translate($EMAIL_TEMPLATE->get('templatename',$QUALIFIED_MODULE))}</a></td>
+							<td><a class="u-cursor-pointer">{\App\Language::translate($EMAIL_TEMPLATE->get('subject',$QUALIFIED_MODULE))}</a></td>
 							<td>{\App\Language::translate($EMAIL_TEMPLATE->get('description',$QUALIFIED_MODULE))}</td>
 						</tr>
 					{/foreach}
