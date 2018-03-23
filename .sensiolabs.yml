@@ -29,3 +29,9 @@ commit_failure_conditions:
     - "project.severity.minor > 100"
     - "project.severity.info >= 100"
     
+# Configure rules.
+rules:
+    composer.warning:
+        enabled: false
+    web.apache_config:
+        enabled: false
