@@ -11,7 +11,7 @@
 						</div>
 						<h5>{\App\Purifier::encodeHtml($item->get('subject'))} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}</h5>
 								</div>
-								<div class="col-md-12 marginLeftZero">
+								<div class="col-md-12">
 									<div class="float-right" >
 										<button class="btn btn-outline-secondary btn-sm showMailBody" >
 											<span class="body-icon fas fa-chevron-down"></span>
@@ -19,7 +19,7 @@
 									</div>
 									<span class="float-left">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
 								</div>
-								<div class="col-md-12 mailBody marginLeftZero" style="display: none;border: 1px solid #ddd;">
+								<div class="col-md-12 mailBody" style="display: none;border: 1px solid #ddd;">
 									{\App\Purifier::encodeHtml($item->get('body'))}
 								</div>
 								</div>
