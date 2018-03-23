@@ -5,8 +5,8 @@
 		<div>
 			{foreach from=$MAILS item=item key=key}
 				<div class="row mailRow" data-mailId="{$key}">
-					<div class="col-md-12" style="font-size:x-small;">
-						<div class="float-right muted" style="font-size:x-small;">
+					<div class="col-md-12 small">
+						<div class="float-right muted">
 							<span>{\App\Fields\DateTime::formatToViewDate($item->get('date'))}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 						</div>
 						<h5 style="margin-left:2%;">{\App\Purifier::encodeHtml($item->get('subject'))} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}<h5>
