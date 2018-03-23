@@ -12,22 +12,18 @@ class Settings_Groups_DeleteAjax_View extends Settings_Vtiger_Index_View
 {
 	use App\Controller\ClearProcess;
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
-
-		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
-
-		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RECORD_MODEL', $recordModel);
-
+		$viewer->assign('RECORD_MODEL', Settings_Groups_Record_Model::getInstance($request->getInteger('record')));
 		$viewer->assign('ALL_USERS', Users_Record_Model::getAll());
 		$viewer->assign('ALL_GROUPS', Settings_Groups_Record_Model::getAll());
-
-		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);
+		$viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName);
 	}
 }

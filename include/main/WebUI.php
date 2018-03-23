@@ -142,18 +142,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (!empty($action)) {
 				$componentType = 'Action';
 				$componentName = $action;
-				\App\Config::setJs('action', $action);
+				\App\Config::setJsEnv('action', $action);
 			} else {
 				$componentType = 'View';
 				if (empty($view)) {
 					$view = 'Index';
 				}
 				$componentName = $view;
-				\App\Config::setJs('view', $view);
+				\App\Config::setJsEnv('view', $view);
 			}
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
-			\App\Config::setJs('module', $moduleName);
+			\App\Config::setJsEnv('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}

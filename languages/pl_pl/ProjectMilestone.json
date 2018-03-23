@@ -7,6 +7,7 @@
 	"Project Milestone No": "Numer etapu",
 	"description": "Opis etapu",
 	"Related to": "Projekt",
+	"FL_PARENT_PROJECT_MILESTONE": "Etap nadrz\u0119dny",
 	"LBL_MILESTONES_LIST": "Lista etap\u00f3w",
 	"LBL_TASKS_LIST": "Lista zada\u0144",
 	"LBL_PROJECTS_LIST": "Lista projekt\u00f3w",

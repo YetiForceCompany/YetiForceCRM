@@ -83,7 +83,7 @@ class Countries extends \Tests\Base
 		$result = $moduleModel->updateStatus($row['id'], $status);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'status');
-		$this->assertEquals($status, $status2, 'There is none any changes after update');
+		$this->assertSame($status, $status2, 'There is none any changes after update');
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Countries extends \Tests\Base
 		$result = $moduleModel->updatePhone($row['id'], $phone);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'phone');
-		$this->assertEquals($phone, $status2, 'There is none any changes after update');
+		$this->assertSame($phone, $status2, 'There is none any changes after update');
 	}
 
 	/**
@@ -124,7 +124,7 @@ class Countries extends \Tests\Base
 		$result = $moduleModel->updateUitype($row['id'], $uitype);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'uitype');
-		$this->assertEquals($uitype, $status2, 'There is none any changes after update');
+		$this->assertSame($uitype, $status2, 'There is none any changes after update');
 	}
 
 	/**

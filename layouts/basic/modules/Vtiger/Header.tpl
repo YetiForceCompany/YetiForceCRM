@@ -35,7 +35,7 @@
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
 			<script type="text/javascript">
-				var CONFIG = {\App\Config::getJs()};
+				var CONFIG = {\App\Config::getJsEnv()};
 				var LANG = {\App\Json::encode($LANGUAGE_STRINGS)};
 			</script>
 			{if \App\Debuger::isDebugBar()}

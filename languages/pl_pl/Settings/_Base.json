@@ -337,7 +337,8 @@
 	"PLU_MODULES_2": "Modu\u0142\u00f3w",
 	"PLU_SECURITY_0": "B\u0142\u0105d bezpiecze\u0144stwa",
 	"PLU_SECURITY_1": "B\u0142\u0119dy bezpiecze\u0144stwa",
-	"PLU_SECURITY_2": "B\u0142\u0119d\u00f3w bezpiecze\u0144stwa"
+	"PLU_SECURITY_2": "B\u0142\u0119d\u00f3w bezpiecze\u0144stwa",
+	"LBL_ENCRYPTION": "Szyfrowanie"
   },
   "js": {
 	"JS_AUTHORIZATION_COMPLETE": "Autoryzacja zako\u0144czona pomy\u015blnie",

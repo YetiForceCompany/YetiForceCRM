@@ -50,21 +50,21 @@ class Config
 	public static $processName;
 
 	/**
-	 * Js configuratin.
+	 * Js environment variables.
 	 *
 	 * @var array
 	 */
-	private static $jsConf = [];
+	private static $jsEnv = [];
 
 	/**
-	 * Set js configuratin.
+	 * Set js environment variables.
 	 *
 	 * @param string $key
 	 * @param mixed  $value
 	 */
-	public static function setJs($key, $value)
+	public static function setJsEnv($key, $value)
 	{
-		static::$jsConf[$key] = $value;
+		static::$jsEnv[$key] = $value;
 	}
 
 	/**
@@ -72,8 +72,8 @@ class Config
 	 *
 	 * @return type
 	 */
-	public static function getJs()
+	public static function getJsEnv()
 	{
-		return Json::encode(static::$jsConf);
+		return Json::encode(static::$jsEnv);
 	}
 }

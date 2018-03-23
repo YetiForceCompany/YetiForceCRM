@@ -11,27 +11,27 @@
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header">
-						<div class="col-5 pt-1 px-0">
-						<div class="float-left">
-							<div  class="modal-title h3 quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<span class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</b></span></div>
-											</div>
-												</div>
-											<div class="col-7 px-0">
-											<div class="float-right quickCreateActions">
-												{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
-													&nbsp;&nbsp;
-												{/foreach}
-												{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-												<button class="btn btn-light btn-sm mr-1 border" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
-												<button class="btn btn-success btn-sm js-generatePass mr-1" name="save" type="button"><strong>{\App\Language::translate('Generate Password', $RELATEDMODULE)}</strong></button>
-												<button class="btn btn-success btn-sm mr-1" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-												<button class="cancelLink ml-0 btn btn-warning btn-sm" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
-											</div>
-											</div>
-											<div class="clearfix"></div>
-											</div>
+					<div class="modal-header d-flex justify-content-between pb-1">
+						<div>
+							<h5 class="modal-title">
+								<span class="fas fa-plus mr-1"></span>
+								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
+								<span class="userIcon-{$MODULE} mx-1"></span>
+								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
+							</h5>
+						</div>
+						<div>
+							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
+								&nbsp;&nbsp;
+							{/foreach}
+							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
+							<button class="btn btn-outline-secondary mr-1" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
+							<button class="btn btn-success js-generatePass mr-1" name="save" type="button"><strong>{\App\Language::translate('Generate Password', $RELATEDMODULE)}</strong></button>
+							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+							<button class="cancelLink btn btn-danger" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+						</div>
+					</div>
 											{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 												<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
 											{/if}

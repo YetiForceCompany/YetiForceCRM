@@ -4,7 +4,7 @@
 
 //-------- select2 --------//
 .select2-selection {
-  height: 2.5rem !important;
+  min-height: 2.5rem !important;
   padding-top: 0.2rem;
   @extend .border;
   @extend .text-left;
@@ -26,8 +26,8 @@
 	font-size: inherit;
   }
   .select2-results__group {
-    padding-top: 0.33rem;
-    padding-bottom: 0.25rem;
+	padding-top: 0.33rem;
+	padding-bottom: 0.25rem;
 	font-size: inherit;
   }
 }

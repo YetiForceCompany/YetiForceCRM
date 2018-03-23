@@ -21,7 +21,7 @@ class OSSMail extends \Tests\Base
 		$configurator->set('default_host', ['ssl://imap.gmail.com', 'ssl://imap.YT_Test.com']);
 		$configurator->save();
 		$configuration = \Settings_OSSMail_Config_Model::getInstance();
-		$this->assertEquals($configuration->get('product_name'), $configurator->get('product_name'));
-		$this->assertEquals(array_values($configuration->get('default_host')), $configurator->get('default_host'));
+		$this->assertSame($configuration->get('product_name'), $configurator->get('product_name'));
+		$this->assertSame(array_values($configuration->get('default_host')), $configurator->get('default_host'));
 	}
 }

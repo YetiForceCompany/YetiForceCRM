@@ -1564,6 +1564,9 @@
 	"JS_M_LONG": "minut",
 	"JS_S_LONG": "sekund",
 	"JS_APPLY": "Potwierdź",
-	"JS_CANCEL": "Anuluj"
+	"JS_CANCEL": "Anuluj",
+	"JS_CLEAR": "Wyczyść",
+	"JS_FROM": "Od",
+	"JS_TO": "Do"
   }
 }

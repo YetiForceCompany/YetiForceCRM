@@ -15,12 +15,15 @@ use Yii;
 
 class Debuger
 {
+	/**
+	 * @var \DebugBar\Debuger
+	 */
 	protected static $debugBar;
 
 	/**
 	 * Base path of files javascript.
 	 */
-	const BASE_PATH_JAVASCRIPT = 'vendor/php-debugbar/src/DebugBar/Resources';
+	const BASE_PATH_JAVASCRIPT = 'vendor/yetiforce/debugbar/src/DebugBar/Resources';
 
 	/**
 	 * Initiating debugging console.

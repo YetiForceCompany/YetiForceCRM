@@ -17,12 +17,9 @@ class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$groupId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_Groups_Record_Model::getInstance($groupId);
-
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('RECORD_MODEL', Settings_Groups_Record_Model::getInstance($request->getInteger('record')));
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

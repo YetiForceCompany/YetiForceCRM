@@ -21,8 +21,8 @@ class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = !$request->isEmpty('record') ?? $request->getInteger('record');
-		if (!$record) {
+		$record = $request->isEmpty('record') ? false : $request->getInteger('record');
+		if ($record) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($record);
 		} else {
 			$recordModel = new Settings_Groups_Record_Model();
@@ -35,24 +35,12 @@ class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.Edit",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				"modules.Settings.{$request->getModule()}.resources.Edit",
+		]));
 	}
 }

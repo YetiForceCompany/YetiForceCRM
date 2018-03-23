@@ -36,7 +36,9 @@
 	"LBL_MINI_LIST": "Mini Liste",
 	"LBL_WIDGET_NAME": "Nombre del Widget",
 	"LBL_SELECT_CHART": "S\u00e9lectionner Graphique",
-	"LBL_GROUP_FIELD": "Regrouper par"
+	"LBL_GROUP_FIELD": "Regrouper par",
+	"LBL_WIDGET_DOWNLOAD": "Download graph",
+	"LBL_WIDGET_PRINT": "Print graph"
   },
   "js": []
 }

@@ -432,7 +432,7 @@ class Mailer
 		}
 		if ($rowQueue['params']) {
 			foreach (Json::decode($rowQueue['params']) as $name => $param) {
-				$this->sendCustomParams($name, $param, $mailer);
+				$mailer->sendCustomParams($name, $param, $mailer);
 			}
 		}
 		if ($mailer->getSmtp('individual_delivery')) {
