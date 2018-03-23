@@ -33,7 +33,7 @@ function registerUserList() {
 			);
 		});
 	}
-	app.showSelect2ElementView(selectUsers, {
+	App.Fields.Picklist.showSelect2ElementView(selectUsers, {
 		templateResult: function (state) {
 			if (!state.id) {
 				return state.text;

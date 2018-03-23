@@ -128,7 +128,7 @@ jQuery.Class("Vtiger_List_Js", {
 							}
 							app.showModalWindow(data, function (data) {
 								var selectElement = thisInstance.getRelatedModuleContainer();
-								app.changeSelectElementView(selectElement, 'select2');
+								App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
 								if (typeof callback == 'function') {
 									callback(data);
 								}
@@ -631,8 +631,8 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		var thisInstance = this;
-		app.showSelect2ElementView(container.find('select.select2'));
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
+		App.Fields.Picklist.changeSelectElementView(container);
 		app.showPopoverElementView(container.find('.popoverTooltip'));
 		thisInstance.registerListViewSpecialOptiopn();
 		var searchInstance = thisInstance.getListSearchInstance();
@@ -1805,7 +1805,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var filterSelectElement = this.getFilterSelectElement();
 		if (filterSelectElement.length > 0 && filterSelectElement.is("select")) {
-			app.showSelect2ElementView(filterSelectElement, {
+			App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 				templateSelection: function (data) {
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());

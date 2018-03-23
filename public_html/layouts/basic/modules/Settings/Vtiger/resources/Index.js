@@ -24,7 +24,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			id: 'iconsModal',
 			url: 'index.php?module=Vtiger&view=IconsModal&parent=Settings',
 			cb: function (container) {
-				app.showSelect2ElementView(container.find('#iconsList'), {
+				App.Fields.Picklist.showSelect2ElementView(container.find('#iconsList'), {
 					templateSelection: function (data) {
 						if (!data.id) {
 							return (data.text);

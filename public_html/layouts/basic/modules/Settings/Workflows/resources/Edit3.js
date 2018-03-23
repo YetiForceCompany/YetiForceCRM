@@ -423,8 +423,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			jQuery('select', newAddFieldContainer).addClass('select2');
 			jQuery('#save_fieldvaluemapping').append(newAddFieldContainer);
 			//change in to chosen elements
-			app.changeSelectElementView(newAddFieldContainer);
-			app.showSelect2ElementView(newAddFieldContainer.find('.select2'));
+			App.Fields.Picklist.changeSelectElementView(newAddFieldContainer);
+			App.Fields.Picklist.showSelect2ElementView(newAddFieldContainer.find('.select2'));
 		});
 	},
 	registerDeleteConditionEvent: function () {
@@ -523,12 +523,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		if (fieldSpecificUi.is('input.select2')) {
 			var tagElements = fieldSpecificUi.data('tags');
 			var params = {tags: tagElements, tokenSeparators: [","]}
-			app.showSelect2ElementView(fieldSpecificUi, params)
+			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, params)
 		} else if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				app.changeSelectElementView(fieldSpecificUi)
+				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi)
 			} else {
-				app.showSelect2ElementView(fieldSpecificUi);
+				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
 			}
 		} else if (fieldSpecificUi.is('input.dateField')) {
 			App.Fields.Date.register(fieldSpecificUi);
@@ -605,8 +605,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'})
 				var createEntityContainer = jQuery('#addCreateEntityContainer');
 				createEntityContainer.html(data);
-				app.changeSelectElementView(createEntityContainer);
-				app.showSelect2ElementView(createEntityContainer.find('.select2'));
+				App.Fields.Picklist.changeSelectElementView(createEntityContainer);
+				App.Fields.Picklist.showSelect2ElementView(createEntityContainer.find('.select2'));
 				thisInstance.registerAddFieldEvent();
 				thisInstance.fieldValueMap = false;
 				if (jQuery('#fieldValueMapping').val() != '') {
@@ -653,7 +653,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			ccContainer.removeClass('d-none');
 			var taskFieldElement = ccContainer.find('select.task-fields');
 			taskFieldElement.addClass('chzn-select');
-			app.changeSelectElementView(taskFieldElement);
+			App.Fields.Picklist.changeSelectElementView(taskFieldElement);
 			jQuery(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
 		});
@@ -662,14 +662,14 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			bccContainer.removeClass('d-none');
 			var taskFieldElement = bccContainer.find('select.task-fields');
 			taskFieldElement.addClass('chzn-select');
-			app.changeSelectElementView(taskFieldElement);
+			App.Fields.Picklist.changeSelectElementView(taskFieldElement);
 			jQuery(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
 		});
 	},
 	registerEvents: function () {
 		var container = this.getContainer();
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.registerEditTaskEvent();
 		this.registerTaskStatusChangeEvent();
 		this.registerTaskDeleteEvent();

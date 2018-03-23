@@ -36,7 +36,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 		conditionList.append(newRowElement);
 
 		//change in to chosen elements
-		app.changeSelectElementView(newRowElement);
+		App.Fields.Picklist.changeSelectElementView(newRowElement);
 		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
 		return this;
 	},
@@ -437,7 +437,7 @@ Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js', {}, {
 		var selectContainer = jQuery(html).val(pickListValues[selectedOption]);
 		selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
 		this.addValidationToElement(selectContainer);
-		var fieldsSelect2 = app.showSelect2ElementView(selectContainer, {
+		var fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(selectContainer, {
 			placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 			closeOnSelect: true,
 			maximumSelectionLength: 1

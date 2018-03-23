@@ -96,6 +96,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('#advanceFilterContainer', container));
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 	}
 });

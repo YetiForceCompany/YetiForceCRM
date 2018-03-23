@@ -17,7 +17,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 				function (data) {
 					progress.progressIndicator({'mode': 'hide'});
 					container.html(data);
-					app.changeSelectElementView(container);
+					App.Fields.Picklist.changeSelectElementView(container);
 					thisInstance.registerEvents();
 				},
 				function (textStatus, errorThrown) {

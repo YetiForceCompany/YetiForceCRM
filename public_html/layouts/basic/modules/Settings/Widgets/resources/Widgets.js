@@ -151,7 +151,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 					}
 					filterField.append($('<option/>', option));
 				});
-				app.showSelect2ElementView(filterField);
+				App.Fields.Picklist.showSelect2ElementView(filterField);
 			} else {
 				filterField.closest('.form-group').addClass('d-none');
 			}
@@ -194,7 +194,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		if (typeof container == 'undefined') {
 			container = jQuery('.WidgetsManage');
 		}
-		app.showSelect2ElementView(container.find('.select2'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		$(".WidgetsManage select[name='ModulesList']").change(function (e) {
 			var target = $(e.currentTarget);
 			$("input[name='tabid']").val(target.val());

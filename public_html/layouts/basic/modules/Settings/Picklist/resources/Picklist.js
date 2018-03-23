@@ -35,7 +35,7 @@ var Settings_Picklist_Js = {
 			AppConnector.request(params).then(function (data) {
 				jQuery('#modulePickListContainer').html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.changeSelectElementView(jQuery('#modulePickListContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('#modulePickListContainer'));
 				Settings_Picklist_Js.registerModulePickListChangeEvent();
 				jQuery('#modulePickList').trigger('change');
 			});
@@ -60,7 +60,7 @@ var Settings_Picklist_Js = {
 			});
 			AppConnector.request(params).then(function (data) {
 				jQuery('#modulePickListValuesContainer').html(data);
-				app.showSelect2ElementView(jQuery('#rolesList'));
+				App.Fields.Picklist.showSelect2ElementView(jQuery('#rolesList'));
 				Settings_Picklist_Js.registerItemActions();
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			})
@@ -466,7 +466,7 @@ var Settings_Picklist_Js = {
 			var form = data.find('#deleteItemForm');
 			thisInstance.registerScrollForNonEditablePicklistValues(form);
 			var maximumSelectionSize = jQuery('#pickListValuesCount').val() - 1;
-			app.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {
+			App.Fields.Picklist.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {
 				maximumSelectionLength: maximumSelectionSize,
 				dropdownCss: {'z-index': 100001}
 			});

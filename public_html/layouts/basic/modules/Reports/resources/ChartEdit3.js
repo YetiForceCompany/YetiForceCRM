@@ -9,8 +9,8 @@
 Reports_Edit3_Js("Reports_ChartEdit3_Js", {
 
 	registerFieldForChosen: function () {
-		app.changeSelectElementView(jQuery('#groupbyfield'), 'select2');
-		app.changeSelectElementView(jQuery('#datafields'), 'select2');
+		App.Fields.Picklist.changeSelectElementView(jQuery('#groupbyfield'), 'select2');
+		App.Fields.Picklist.changeSelectElementView(jQuery('#datafields'), 'select2');
 	},
 
 	initSelectValues: function () {

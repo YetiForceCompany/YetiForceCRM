@@ -62,7 +62,7 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 			AppConnector.request(getFieldsUrl).then(
 				function (fields) {
 					data.find('.fieldList').html(fields);
-					app.showSelect2ElementView(data.find('.fieldList select'));
+					App.Fields.Picklist.showSelect2ElementView(data.find('.fieldList select'));
 					submitButton.removeClass('d-none');
 					progress.progressIndicator({'mode': 'hide'});
 				},

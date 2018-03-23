@@ -811,7 +811,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var params = {
 			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
 		};
-		app.showSelect2ElementView(select, params);
+		App.Fields.Picklist.showSelect2ElementView(select, params);
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
 			select.off('change').on("change", function (e) {
 				thisInstance.triggerListSearch();

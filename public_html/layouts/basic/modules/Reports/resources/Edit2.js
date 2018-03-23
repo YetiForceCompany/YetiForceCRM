@@ -160,7 +160,7 @@ Reports_Edit_Js("Reports_Edit2_Js", {}, {
 	registerSelect2ElementForReportColumns: function () {
 		var selectElement = this.getReportsColumnsList();
 		var selectedFields = JSON.parse(this.getSelectedFields().val());
-		selectElement = app.changeSelectElementView(selectElement, 'selectize', {
+		selectElement = App.Fields.Picklist.changeSelectElementView(selectElement, 'selectize', {
 			plugins: ['drag_drop', 'remove_button'],
 			maxItems: app.getMainParams('maxReportColumn')
 		});
@@ -259,7 +259,7 @@ Reports_Edit_Js("Reports_Edit2_Js", {}, {
 		this.registerSelect2ElementForReportColumns();
 		this.registerLineItemCalculationLimit();
 		this.registerLineItemCalculationLimitOnLoad();
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		container.validationEngine({
 			// to prevent the page reload after the validation has completed
 			'onValidationComplete': function (form, valid) {

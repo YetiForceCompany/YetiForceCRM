@@ -55,7 +55,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
 		};
-		app.changeSelectElementView(field, 'select2', params);
+		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	}
 }, {
 	calendarView: false,
@@ -552,9 +552,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		app.showSelect2ElementView($('#calendarUserList'));
-		app.showSelect2ElementView($('#calendarActivityTypeList'));
-		app.showSelect2ElementView($('#calendarGroupList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarGroupList'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
 			var element = $(this);
 			var value = element.val();
