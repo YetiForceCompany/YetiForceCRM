@@ -184,7 +184,7 @@
 						<div class='col-md-4' id='schtime'>
 							<div class="input-group time">
 								<input type='text' class='clockPicker form-control-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-								<span class="input-group-addon cursorPointer"><i class="far fa-clock"></i></span>
+								<span class="input-group-addon u-cursor-pointer"><i class="far fa-clock"></i></span>
 							</div>
 						</div>
 					</div>
@@ -241,7 +241,7 @@
 			</div>
 			<div class="row float-right no-margin">
 				<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-				<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
+				<button onclick='window.history.back()' type="reset" class="cancelLink u-cursor-pointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>
 		</form>
 	</div>

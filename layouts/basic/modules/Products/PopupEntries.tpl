@@ -55,7 +55,7 @@
 					<td class="listViewEntryValue {$WIDTHTYPE}">
 						{if $LISTVIEW_ENTRY->get('subProducts') eq true}
 							<a class="subproducts"><b>{\App\Language::translate('Sub Products',$MODULE_NAME)}</b></a>
-							<!--<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{\App\Language::translate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{\App\Layout::getImagePath('Products.png')}" />-->
+							<!--<img class="lineItemPopup u-cursor-pointer alignMiddle" data-popup="ProductsPopup" title="{\App\Language::translate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{\App\Layout::getImagePath('Products.png')}" />-->
 						{else} 
 							Not a Bunble
 						{/if}
@@ -65,7 +65,7 @@
 			<td class="listViewEntryValue {$WIDTHTYPE}">
 				{if $LISTVIEW_ENTRY->get('subProducts') eq true}
 					<a class="subproducts"><b>{\App\Language::translate('Sub Products',$MODULE_NAME)}</b></a>
-					<!--<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{\App\Language::translate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{\App\Layout::getImagePath('Products.png')}" />-->
+					<!--<img class="lineItemPopup u-cursor-pointer alignMiddle" data-popup="ProductsPopup" title="{\App\Language::translate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{\App\Layout::getImagePath('Products.png')}" />-->
 				{else} 
 					{\App\Language::translate('NOT_A_BUNDLE', $MODULE_NAME)}
 				{/if}

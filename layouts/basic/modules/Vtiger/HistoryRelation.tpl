@@ -62,7 +62,7 @@
 			{if !$IS_READ_ONLY && count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
 				<div id="moreRelatedUpdates">
 					<div class="float-right">
-						<button type="button" class="btn btn-primary btn-sm moreRelatedUpdates cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+						<button type="button" class="btn btn-primary btn-sm moreRelatedUpdates u-cursor-pointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 					</div>
 				</div>
 			{/if}

@@ -64,7 +64,7 @@
 						</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
-					<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
+					<button class="u-cursor-pointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
@@ -90,7 +90,7 @@
 						</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 					</div>
-					<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
+					<button class="u-cursor-pointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>

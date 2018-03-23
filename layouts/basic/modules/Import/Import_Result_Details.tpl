@@ -31,7 +31,7 @@
 		<td width="10%">:</td>
 		<td width="30%">{$IMPORT_RESULT.SKIPPED}
 			{if $IMPORT_RESULT['SKIPPED'] neq '0'}
-				&nbsp;&nbsp;<a class="cursorPointer" 
+				&nbsp;&nbsp;<a class="u-cursor-pointer" 
 							   onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=skipped&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'skipped', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">
 					{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
 				{/if}
@@ -47,7 +47,7 @@
 		<td width="10%">:</td>
 		<td width="30%">{$IMPORT_RESULT.FAILED} / {$IMPORT_RESULT.TOTAL}
 			{if $IMPORT_RESULT['FAILED'] neq '0'}
-				&nbsp;&nbsp;<a class="cursorPointer" onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=failed&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'failed', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
+				&nbsp;&nbsp;<a class="u-cursor-pointer" onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=failed&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'failed', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
 			{/if}
 		</td>
 	</tr>

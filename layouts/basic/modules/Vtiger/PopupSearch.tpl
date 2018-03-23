@@ -36,7 +36,7 @@
 								<div class="pageNumbers">
 									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
 									<span class="alignBottom">
-										<span class="fas fa-sync-alt totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} d-none{/if}" style="margin-left:5px"></span>
+										<span class="fas fa-sync-alt totalNumberOfRecords u-cursor-pointer{if empty($LISTVIEW_ENTRIES)} d-none{/if}" style="margin-left:5px"></span>
 									</span>
 								</div>
 								<div class="btn-group alignTop m-0">

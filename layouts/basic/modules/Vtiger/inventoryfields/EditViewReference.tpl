@@ -30,7 +30,7 @@
 		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue="{\App\Purifier::encodeHtml($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
 		{assign var="displayId" value=$ITEM_VALUE}
 		{if $FIELD->get('displaytype') != 10}
-			<span class="input-group-addon clearReferenceSelection cursorPointer">
+			<span class="input-group-addon clearReferenceSelection u-cursor-pointer">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
 			</span>
 		{/if}
@@ -39,14 +39,14 @@
 			   data-fieldinfo="{$FIELD_INFO}" {if $FIELD->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if}
 			   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 		{if $FIELD->get('displaytype') != 10}
-			<span class="input-group-addon relatedPopup cursorPointer">
+			<span class="input-group-addon relatedPopup u-cursor-pointer">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
 			</span>
 		{/if}
 		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCED_MODULE_NAME)}
 		<!-- Show the add button only if it is edit view  -->
 		{if $VIEW eq 'Edit' && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
-			<span class="input-group-addon cursorPointer createReferenceRecord">
+			<span class="input-group-addon u-cursor-pointer createReferenceRecord">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
 			</span>
 		{/if}

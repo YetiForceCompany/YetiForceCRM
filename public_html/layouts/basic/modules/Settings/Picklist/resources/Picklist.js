@@ -379,7 +379,7 @@ var Settings_Picklist_Js = {
 					if (data) {
 						var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
 						var dragImagePath = jQuery('#dragImagePath').val();
-						var newElement = '<tr class="pickListValue cursorPointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
+						var newElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
 						var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
 						newPickListValueRow.attr('data-key', newValue);
 						newPickListValueRow.attr('data-key-id', data['id']);
@@ -429,7 +429,7 @@ var Settings_Picklist_Js = {
 						app.hideModalWindow();
 						var encodedOldValue = oldValue.replace(/"/g, '\\"');
 						var dragImagePath = jQuery('#dragImagePath').val();
-						var renamedElement = '<tr class="pickListValue cursorPointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
+						var renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
 						var renamedElement = jQuery(renamedElement).attr('data-key', newValue).attr('data-key-id', id);
 						jQuery('[data-key="' + encodedOldValue + '"]').replaceWith(renamedElement)
 						var params = {

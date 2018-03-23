@@ -116,9 +116,9 @@
 							{foreach from=$RECORD_MODEL->getEditValue($FIELD_NAME) key=KEY item=MEMBER}
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.id}" data-name="{$FIELD_NAME}">
 									<td><strong>{$MEMBER.name}</strong>
-										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
+										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete u-cursor-pointer" data-mode="addOrRemoveMembers"></span>
 										{if $FIELD_NAME eq 'roles'}
-											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fas fa-exchange-alt float-right marginIcon marginTop2 changeRoleType cursorPointer"></span>
+											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fas fa-exchange-alt float-right marginIcon marginTop2 changeRoleType u-cursor-pointer"></span>
 										{/if}
 									</td>
 								</tr>
