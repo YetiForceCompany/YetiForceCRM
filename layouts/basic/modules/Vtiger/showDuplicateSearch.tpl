@@ -14,7 +14,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<span class="modal-title h5">{\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</span>
+					<span class="modal-title h5"><i class="fa fa-clone"></i> {\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</span>
 					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 				</div>
 				<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
@@ -44,10 +44,10 @@
 					</div>
 					<div class="modal-footer">
 						<div class="float-right cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+							<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal"><i class="fa fa-times"></i> {\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 						</div>
 						<button class="btn btn-success" type="submit" disabled="true">
-							<strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
+							<i class="fa fa-check"></i> <strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
 						</button>
 					</div>
 				</form>
