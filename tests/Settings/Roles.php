@@ -46,18 +46,18 @@ class Roles extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['rolename'], 'Test');
-		$this->assertSame($row['changeowner'], 1);
+		$this->assertSame((string) $row['changeowner'], '1');
 		$this->assertSame($row['searchunpriv'], 'Contacts');
 		$this->assertSame($row['parentrole'], 'H1::H2::' . static::$id);
-		$this->assertSame($row['allowassignedrecordsto'], 1);
-		$this->assertSame($row['clendarallorecords'], 1);
-		$this->assertSame($row['listrelatedrecord'], 0);
-		$this->assertSame($row['previewrelatedrecord'], 0);
-		$this->assertSame($row['editrelatedrecord'], 1);
-		$this->assertSame($row['permissionsrelatedfield'], 0);
-		$this->assertSame($row['globalsearchadv'], 1);
-		$this->assertSame($row['assignedmultiowner'], 1);
-		$this->assertSame($row['auto_assign'], 1);
+		$this->assertSame((string) $row['allowassignedrecordsto'], '1');
+		$this->assertSame((string) $row['clendarallorecords'], '1');
+		$this->assertSame((string) $row['listrelatedrecord'], '0');
+		$this->assertSame((string) $row['previewrelatedrecord'], '0');
+		$this->assertSame((string) $row['editrelatedrecord'], '1');
+		$this->assertSame((string) $row['permissionsrelatedfield'], '0');
+		$this->assertSame((string) $row['globalsearchadv'], '1');
+		$this->assertSame((string) $row['assignedmultiowner'], '1');
+		$this->assertSame((string) $row['auto_assign'], '1');
 	}
 
 	/**
@@ -102,18 +102,18 @@ class Roles extends \Tests\Base
 
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['rolename'], 'Test edit');
-		$this->assertSame($row['changeowner'], 0);
+		$this->assertSame((string) $row['changeowner'], '0');
 		$this->assertSame($row['searchunpriv'], 'Contacts,Accounts');
 		$this->assertSame($row['parentrole'], 'H1::' . static::$id);
-		$this->assertSame($row['allowassignedrecordsto'], 4);
-		$this->assertSame($row['clendarallorecords'], 2);
-		$this->assertSame($row['listrelatedrecord'], 1);
-		$this->assertSame($row['previewrelatedrecord'], 1);
-		$this->assertSame($row['editrelatedrecord'], 0);
+		$this->assertSame((string) $row['allowassignedrecordsto'], '4');
+		$this->assertSame((string) $row['clendarallorecords'], '2');
+		$this->assertSame((string) $row['listrelatedrecord'], '1');
+		$this->assertSame((string) $row['previewrelatedrecord'], '1');
+		$this->assertSame((string) $row['editrelatedrecord'], '0');
 		$this->assertSame($row['permissionsrelatedfield'], '0,1');
-		$this->assertSame($row['globalsearchadv'], 0);
-		$this->assertSame($row['assignedmultiowner'], 4);
-		$this->assertSame($row['auto_assign'], 0);
+		$this->assertSame((string) $row['globalsearchadv'], '0');
+		$this->assertSame((string) $row['assignedmultiowner'], '4');
+		$this->assertSame((string) $row['auto_assign'], '0');
 	}
 
 	/**
