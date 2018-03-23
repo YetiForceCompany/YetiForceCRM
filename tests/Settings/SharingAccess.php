@@ -57,8 +57,8 @@ class SharingAccess extends \Tests\Base
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
 
 		$this->assertSame($permission, $row2['permission']);
-		$this->assertSame($sourceIdComponents[1], $row2[$sourceColumnName]);
-		$this->assertSame($targetIdComponents[1], $row2[$targetColumnName]);
+		$this->assertSame((string) $sourceIdComponents[1], (string) $row2[$sourceColumnName]);
+		$this->assertSame((string) $targetIdComponents[1], (string) $row2[$targetColumnName]);
 	}
 
 	/**
@@ -132,8 +132,8 @@ class SharingAccess extends \Tests\Base
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
 
 		$this->assertSame($permission, $row2['permission']);
-		$this->assertSame($sourceIdComponents[1], $row2[$sourceColumnName]);
-		$this->assertSame($targetIdComponents[1], $row2[$targetColumnName]);
+		$this->assertSame((string) $sourceIdComponents[1], (string) $row2[$sourceColumnName]);
+		$this->assertSame((string) $targetIdComponents[1], (string) $row2[$targetColumnName]);
 	}
 
 	/**
