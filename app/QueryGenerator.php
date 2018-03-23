@@ -619,7 +619,7 @@ class QueryGenerator
 			$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
 			if (is_array($this->stdFilterList)) {
 				if (!empty($this->stdFilterList['columnname'])) {
-					list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $this->stdFilterList['columnname']);
+					list(, , $fieldName) = explode(':', $this->stdFilterList['columnname']);
 					$this->addNativeCondition([
 						'between',
 						$fieldName,
@@ -651,7 +651,7 @@ class QueryGenerator
 				$filters = $filters['columns'];
 			}
 			foreach ($filters as &$filter) {
-				list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $filter['columnname']);
+				list($tableName, $columnName, $fieldName) = explode(':', $filter['columnname']);
 				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
 					$columnName = $this->getColumnName('id');
 				}
@@ -1029,7 +1029,7 @@ class QueryGenerator
 	 *
 	 * @return QueryField\BaseField
 	 */
-	private function getQueryRelatedField($field, $relatedInfo)
+	private function getQueryRelatedField(\Vtiger_Field_Model $field, $relatedInfo)
 	{
 		$relatedModule = $relatedInfo['relatedModule'];
 		if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
@@ -1130,7 +1130,7 @@ class QueryGenerator
 			if (empty($groupInfo)) {
 				continue;
 			}
-			$groupColumnsInfo = $groupConditionInfo = [];
+			$groupColumnsInfo = [];
 			foreach ($groupInfo as $fieldSearchInfo) {
 				if ($fieldSearchInfo) {
 					list($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);

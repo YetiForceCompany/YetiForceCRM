@@ -8,11 +8,11 @@
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_end')}
 	{/if}
 	{if $TIME_FIELD}
-		<div class="dateTimeField row">
-			<div class="col-7 paddingLRZero">
+		<div class="form-row">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
 				{include file=\App\Layout::getTemplatePath('uitypes/Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 			</div>
-			<div class="col-5 paddingLRZero">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6">
 				{include file=\App\Layout::getTemplatePath('uitypes/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
 			</div>
 		</div>

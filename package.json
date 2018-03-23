@@ -42,6 +42,7 @@
 		"datatables.net": "^1.10.16",
 		"datatables.net-bs4": "^1.10.16",
 		"dompurify": "^1.0.3",
+		"fine-uploader": "^5.16.0",
 		"footable": "^2.0.6",
 		"fullcalendar": "3.9.0",
 		"gridster": "^0.5.6",

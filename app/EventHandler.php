@@ -21,7 +21,6 @@ class EventHandler
 	private $recordModel;
 	private $moduleName;
 	private $params;
-	private $userId;
 	private static $handlersInstance;
 	private $exceptions;
 	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
@@ -205,16 +204,6 @@ class EventHandler
 	public function addParams($key, $value)
 	{
 		$this->params[$key] = $value;
-	}
-
-	/**
-	 * Set user Id.
-	 *
-	 * @param int $userId
-	 */
-	public function setUser($userId)
-	{
-		$this->userId = $userId;
 	}
 
 	/**

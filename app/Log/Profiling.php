@@ -36,7 +36,7 @@ class Profiling extends Target
 		$timings = [];
 		$stack = [];
 		foreach ($this->messages as $i => $log) {
-			list($token, $level, $category, $timestamp, $traces) = $log;
+			list($token, $level, , $timestamp) = $log;
 			$log[5] = $i;
 			if ($level == Logger::LEVEL_PROFILE_BEGIN) {
 				$stack[] = $log;

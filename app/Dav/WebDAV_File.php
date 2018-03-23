@@ -42,10 +42,8 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile
 	 */
 	public function delete()
 	{
-		$path = $this->exData->localStorageDir . $this->localPath;
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid = ?;');
 		$stmt->execute([1, $this->filesid]);
-		//unlink($path);
 	}
 
 	/**
