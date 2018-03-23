@@ -118,11 +118,10 @@ class ModuleHierarchy
 				$modules[$details['parentModule']][$module] = $details;
 			}
 		}
-
 		return $modules[$parent];
 	}
 
-	public static function getMappingRelatedField($moduleName, $field = false)
+	public static function getMappingRelatedField($moduleName)
 	{
 		$return = false;
 		switch (static::getModuleLevel($moduleName)) {
@@ -135,7 +134,6 @@ class ModuleHierarchy
 			case 3: $return = 'linkextend';
 				break;
 		}
-
 		return $return;
 	}
 

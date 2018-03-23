@@ -176,10 +176,6 @@ class Purifier
 		$config->set('CSS.AllowTricky', true);
 		$config->set('CSS.Proprietary', true);
 		$config->set('Core.RemoveInvalidImg', true);
-		/*
-		  $config->set('AutoFormat.RemoveEmpty', true);
-		  $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
-		 */
 		$config->set('HTML.SafeIframe', true);
 		$config->set('HTML.SafeEmbed', true);
 		$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');

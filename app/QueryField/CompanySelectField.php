@@ -22,9 +22,7 @@ class CompanySelectField extends PicklistField
 			return [];
 		}
 		$columnName = $this->getColumnName();
-		$focus = $this->queryGenerator->getEntityModel();
 		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
-
 		return ['s_#__companies.name' => $this->getValue()];
 	}
 
@@ -39,9 +37,7 @@ class CompanySelectField extends PicklistField
 			return [];
 		}
 		$columnName = $this->getColumnName();
-		$focus = $this->queryGenerator->getEntityModel();
 		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
-
 		return ['not', ['s_#__companies.name' => $this->getValue()]];
 	}
 
@@ -55,10 +51,8 @@ class CompanySelectField extends PicklistField
 		if (empty($this->value)) {
 			return [];
 		}
-		$focus = $this->queryGenerator->getEntityModel();
 		$columnName = $this->getColumnName();
 		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
-
 		return ['like', 's_#__companies.name', "%{$this->value}%", false];
 	}
 
@@ -72,10 +66,8 @@ class CompanySelectField extends PicklistField
 		if (empty($this->value)) {
 			return [];
 		}
-		$focus = $this->queryGenerator->getEntityModel();
 		$columnName = $this->getColumnName();
 		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
-
 		return ['like', 's_#__companies.name', '%' . $this->value, false];
 	}
 
@@ -89,10 +81,8 @@ class CompanySelectField extends PicklistField
 		if (empty($this->value)) {
 			return [];
 		}
-		$focus = $this->queryGenerator->getEntityModel();
 		$columnName = $this->getColumnName();
 		$this->queryGenerator->addJoin(['INNER JOIN', 's_#__companies', "$columnName = s_#__companies.id"]);
-
 		return ['not like', 's_#__companies.name', $this->value];
 	}
 }

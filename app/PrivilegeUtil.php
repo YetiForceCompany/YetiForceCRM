@@ -700,7 +700,7 @@ class PrivilegeUtil
 		$shareIdMembers = [];
 		//If Sharing of leads is Private
 		if ($modDefOrgShare === 3 || $modDefOrgShare === 0) {
-			$roleWritePer = $roleWritePer = $rsWritePer = $grpReadPer = $grpWritePer = $roleReadPer = [];
+			$roleWritePer = $roleWritePer  = $grpReadPer = $grpWritePer = $roleReadPer = [];
 			//Retreiving from vtiger_role to vtiger_role
 			foreach (static::getDatashare('role2role', $modTabId, $currentUserRoles) as $row) {
 				$shareRoleId = $row['share_roleid'];
