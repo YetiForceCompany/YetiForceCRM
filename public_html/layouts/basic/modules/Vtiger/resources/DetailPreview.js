@@ -28,12 +28,17 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	updateWindowHeight: function (currentHeight, frame) {
 		var thisInstance = this;
 		var relatedContents = frame.closest('.relatedContents');
-		var fixedListHeight = relatedContents.find(".fixedListContent").height();
+		var fixedListHeight = relatedContents.find(".js-list-preview--scroll").height();
 		frame.height(currentHeight);
 		if (fixedListHeight > currentHeight) {
 			currentHeight = fixedListHeight;
 		}
-		relatedContents.find(".gutter,.wrappedPanel,.fixedListInitial,.listPreview,.js-list-preview").height(currentHeight);
+		if ($(window).width() < 993) {
+			relatedContents.find('.js-list-preview').height(200);
+			relatedContents.find(".js-detail-preview").height(currentHeight);
+		} else {
+			relatedContents.find(".js-list-preview, .js-detail-preview").height(currentHeight);
+		}
 		if (window.frameElement) {
 			thisInstance.updateParentFrame();
 		}

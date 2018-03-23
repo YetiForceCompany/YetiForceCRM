@@ -108,13 +108,12 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public static function getTemplete($id, $parse = true)
+	public static function getTemplete($id)
 	{
 		$detail = static::getTempleteDetail($id);
 		if (!$detail) {
 			return false;
 		}
-
 		return array_merge(
 			$detail, static::getAttachmentsFromTemplete($detail['emailtemplatesid'])
 		);

@@ -35,7 +35,7 @@ var Settings_Picklist_Js = {
 			AppConnector.request(params).then(function (data) {
 				jQuery('#modulePickListContainer').html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.changeSelectElementView(jQuery('#modulePickListContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('#modulePickListContainer'));
 				Settings_Picklist_Js.registerModulePickListChangeEvent();
 				jQuery('#modulePickList').trigger('change');
 			});
@@ -60,7 +60,7 @@ var Settings_Picklist_Js = {
 			});
 			AppConnector.request(params).then(function (data) {
 				jQuery('#modulePickListValuesContainer').html(data);
-				app.showSelect2ElementView(jQuery('#rolesList'));
+				App.Fields.Picklist.showSelect2ElementView(jQuery('#rolesList'));
 				Settings_Picklist_Js.registerItemActions();
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			})
@@ -379,7 +379,7 @@ var Settings_Picklist_Js = {
 					if (data) {
 						var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
 						var dragImagePath = jQuery('#dragImagePath').val();
-						var newElement = '<tr class="pickListValue cursorPointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
+						var newElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
 						var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
 						newPickListValueRow.attr('data-key', newValue);
 						newPickListValueRow.attr('data-key-id', data['id']);
@@ -429,7 +429,7 @@ var Settings_Picklist_Js = {
 						app.hideModalWindow();
 						var encodedOldValue = oldValue.replace(/"/g, '\\"');
 						var dragImagePath = jQuery('#dragImagePath').val();
-						var renamedElement = '<tr class="pickListValue cursorPointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
+						var renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
 						var renamedElement = jQuery(renamedElement).attr('data-key', newValue).attr('data-key-id', id);
 						jQuery('[data-key="' + encodedOldValue + '"]').replaceWith(renamedElement)
 						var params = {
@@ -466,7 +466,7 @@ var Settings_Picklist_Js = {
 			var form = data.find('#deleteItemForm');
 			thisInstance.registerScrollForNonEditablePicklistValues(form);
 			var maximumSelectionSize = jQuery('#pickListValuesCount').val() - 1;
-			app.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {
+			App.Fields.Picklist.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {
 				maximumSelectionLength: maximumSelectionSize,
 				dropdownCss: {'z-index': 100001}
 			});

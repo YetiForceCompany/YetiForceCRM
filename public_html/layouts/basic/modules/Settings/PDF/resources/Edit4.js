@@ -105,7 +105,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('select'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
 		this.registerCancelStepClickEvent(container);
 		this.registerNewCkEditor();
 	}

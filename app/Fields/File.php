@@ -134,17 +134,15 @@ class File
 	/**
 	 * Load file instance from file path.
 	 *
-	 * @param array  $path
-	 * @param string $separator
+	 * @param array $path
 	 *
 	 * @return \self
 	 */
-	public static function loadFromPath($path, $separator = DIRECTORY_SEPARATOR)
+	public static function loadFromPath($path)
 	{
 		$instance = new self();
 		$instance->name = basename($path);
 		$instance->path = $path;
-
 		return $instance;
 	}
 
@@ -163,7 +161,7 @@ class File
 		if (empty($name)) {
 			static::initMimeTypes();
 			if (!empty($param['mimeShortType']) && !($ext = array_search($param['mimeShortType'], static::$mimeTypes))) {
-				list($type, $ext) = explode('/', $param['mimeShortType']);
+				list(, $ext) = explode('/', $param['mimeShortType']);
 			}
 			$name = uniqid() . '.' . $ext;
 		}
@@ -174,7 +172,6 @@ class File
 		$success = file_put_contents($path, $content);
 		if (!$success) {
 			\App\Log::error('Error while saving the file: ' . $path, __CLASS__);
-
 			return false;
 		}
 		$instance = new self();
@@ -187,7 +184,6 @@ class File
 		foreach ($param as $key => $value) {
 			$instance->$key = $value;
 		}
-
 		return $instance;
 	}
 
@@ -203,29 +199,24 @@ class File
 	{
 		if (empty($url)) {
 			\App\Log::error('No url: ' . $url, __CLASS__);
-
 			return false;
 		}
 		try {
 			$responsse = \Requests::get($url);
 			if ($responsse->status_code !== 200) {
 				\App\Log::error('Error when downloading content: ' . $url . ' | Status code: ' . $responsse->status_code, __CLASS__);
-
 				return false;
 			}
 			$content = $responsse->body;
 		} catch (\Exception $exc) {
 			\App\Log::error('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
-
 			return false;
 		}
 		if (empty($content)) {
 			\App\Log::error('Url does not contain content: ' . $url, __CLASS__);
-
 			return false;
 		}
-
-		return static::loadFromContent($content, basename($url));
+		return static::loadFromContent($content, basename($url), $param);
 	}
 
 	/**
@@ -238,7 +229,6 @@ class File
 		if (empty($this->size)) {
 			$this->size = filesize($this->path);
 		}
-
 		return $this->size;
 	}
 
@@ -284,7 +274,6 @@ class File
 				$this->mimeType = 'application/octet-stream';
 			}
 		}
-
 		return $this->mimeType;
 	}
 

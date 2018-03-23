@@ -16,6 +16,10 @@
   @extend .small;
   @extend .font-weight-bold;
 }
+.u-rotate-90 {
+  transform: rotate(0.75turn);
+  position: absolute;
+}
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
 	border-bottom: 1px solid #dee2e6;
@@ -59,5 +63,8 @@
 	@extend .justify-content-sm-end;
 	@extend .justify-content-lg-center;
 	@extend .justify-content-xl-end;
-	
+}
+// a little bigger badge
+.u-badge{
+  font-size: 90%;
 }

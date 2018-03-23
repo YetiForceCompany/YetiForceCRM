@@ -64,29 +64,11 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 		if ($iTipMessage->recipientName) {
 			$recipient = $iTipMessage->recipientName . ' <' . $recipient . '>';
 		}
-
-		$subject = 'SabreDAV iTIP message';
-		switch (strtoupper($iTipMessage->method)) {
-			case 'REPLY':
-				$subject = 'Re: ' . $summary;
-				break;
-			case 'REQUEST':
-				$subject = $summary;
-				break;
-			case 'CANCEL':
-				$subject = 'Cancelled: ' . $summary;
-				break;
-		}
-
 		$headers = [
 			'Reply-To: ' . $sender,
 			'From: ' . $this->senderEmail,
 			'Content-Type: text/calendar; charset=UTF-8; method=' . $iTipMessage->method,
 		];
-		if (DAV\Server::$exposeVersion) {
-			$headers[] = 'X-Sabre-Version: ' . DAV\Version::VERSION;
-		}
-
 		$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via ' . $this->getPluginName();
 	}
 

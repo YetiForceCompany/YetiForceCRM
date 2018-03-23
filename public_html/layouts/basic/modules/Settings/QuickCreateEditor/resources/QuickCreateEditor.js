@@ -192,7 +192,7 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		var container = jQuery('#quickCreateEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="quickCreateEditorModules"]'), {dropdownCss: {'z-index': 0}});
+		App.Fields.Picklist.showSelect2ElementView(container.find('[name="quickCreateEditorModules"]'), {dropdownCss: {'z-index': 0}});
 
 		container.on('change', '[name="quickCreateEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);

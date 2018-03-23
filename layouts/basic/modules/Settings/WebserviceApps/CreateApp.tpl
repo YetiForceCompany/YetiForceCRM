@@ -78,7 +78,7 @@
 								   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
 								   placeholder="{\App\Language::translate('LBL_TYPE_SEARCH', $QUALIFIED_MODULE)}" 
 								   autocomplete="off">
-							<span class="input-group-btn cursorPointer">
+							<span class="input-group-btn u-cursor-pointer">
 								<button class="btn btn-light clearReferenceSelection" type="button">
 									<span class="fas fa-times-circle" 
 										  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}">

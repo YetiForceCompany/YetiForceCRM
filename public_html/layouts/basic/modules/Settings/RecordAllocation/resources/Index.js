@@ -99,7 +99,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 			var callBackFunction = function (data) {
 				//register all select2 Elements
 				var selectElement = data.find('select');
-				app.showSelect2ElementView(selectElement);
+				App.Fields.Picklist.showSelect2ElementView(selectElement);
 				var form = data.find('form');
 
 				form.submit(function (e) {
@@ -148,7 +148,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		AppConnector.request(params).then(
 			function (data) {
 				var elements = thisInstance.getContainer().find('.panelsContainer').append(data);
-				app.changeSelectElementView(elements.find('.chzn-select'));
+				App.Fields.Picklist.changeSelectElementView(elements.find('.chzn-select'));
 				app.hideModalWindow();
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				aDeferred.resolve(data);

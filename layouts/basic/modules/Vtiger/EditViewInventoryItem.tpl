@@ -8,7 +8,7 @@
 	{if $REFERENCE_MODULE}
 		<tr class="inventoryRow" numrow="{$ROW_NO}">
 			<td>
-				<span class="fas fa-trash-alt deleteRow cursorPointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }d-none{/if}" title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
+				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }d-none{/if}" title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
 				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{\App\Language::translate('LBL_DRAG',$MODULE)}" /></a>
 				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 				{if $COUNT_FIELDS2 > 0}

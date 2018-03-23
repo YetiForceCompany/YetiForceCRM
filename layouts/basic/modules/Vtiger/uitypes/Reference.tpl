@@ -38,7 +38,7 @@
 	<div class="input-group referenceGroup">
 		{if $REFERENCE_LIST_COUNT > 1}
 			<div class="input-group-addon noSpaces referenceModulesListGroup">
-				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="referenceModulesList" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
+				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 referenceModulesList" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
 					{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
 						<option value="{$REFERENCE}" title="{\App\Language::translate($REFERENCE, $REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{\App\Language::translate($REFERENCE, $REFERENCE)}</option>
 					{/foreach}
@@ -49,7 +49,7 @@
 			   value="{$FIELD_VALUE}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if} 
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
-		<span class="input-group-btn cursorPointer">
+		<span class="input-group-btn u-cursor-pointer">
 			<button class="btn btn-light clearReferenceSelection" type="button" {if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
 			</button>

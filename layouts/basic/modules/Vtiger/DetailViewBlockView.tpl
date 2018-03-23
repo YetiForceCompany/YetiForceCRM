@@ -21,8 +21,8 @@
 			<div class="detailViewTable">
 				<div class="js-toggle-panel c-panel__content" data-js="click" data-label="{$BLOCK_LABEL_KEY}">
 					<div class="blockHeader c-panel__header">
-						<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
-						<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if $IS_HIDDEN}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						<h4>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h4>
 					</div>
 					<div class="c-panel__body blockContent {if $IS_HIDDEN}d-none{/if}">
@@ -76,7 +76,7 @@
 												<label class="u-text-small-bold">
 													{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-														<a href="#" class="js-help-info float-right cursorPointer" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
+														<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 														{/if}
 												</label>
 											</div>
@@ -89,7 +89,7 @@
 													{assign var=EDIT value=true}
 												{/if}
 												{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-													<span class="js-detail-quick-edit cursorPointer float-right ">
+													<span class="js-detail-quick-edit u-cursor-pointer float-right ">
 														&nbsp;<i class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 													</span>
 													<span class="d-none edit">

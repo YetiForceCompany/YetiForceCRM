@@ -22,7 +22,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		});
 	},
 	afterLoadVariablePanel: function (html) {
-		app.showSelect2ElementView(html.find('select.select2'));
+		App.Fields.Picklist.showSelect2ElementView(html.find('select.select2'));
 	},
 	registerVariablePanelEvent: function (form) {
 		var thisInstance = this;

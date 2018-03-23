@@ -53,7 +53,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$stmt = $this->exData->pdo->prepare('SELECT crmid, smownerid, deleted FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ?;');
 		$stmt->execute([$hash]);
 		$rows = $stmt->fetch(\PDO::FETCH_ASSOC);
-		if ($rows != false && ($rows['smownerid'] != $this->exData->crmUserId || $rows['deleted'] == 1)) {
+		if ($rows && ((int) $rows['smownerid'] !== (int) $this->exData->crmUserId || (int) $rows['deleted'] === 1)) {
 			throw new DAV\Exception\Conflict('File with name ' . $file . ' could not be located');
 		}
 		file_put_contents($this->exData->localStorageDir . $localPath, $data);
@@ -107,7 +107,6 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$this->size = $row['size'];
 		$this->localPath = $row['path'];
 		$this->dirid = $row['id'];
-		$currentUser = $this->getCurrentUser();
 	}
 
 	/**
@@ -162,7 +161,6 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	public function getChildren()
 	{
 		$path = trim($this->path, 'files') . '/';
-		$dirHash = sha1($path);
 		$nodes = [];
 
 		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ? && userid IN (?,?);');

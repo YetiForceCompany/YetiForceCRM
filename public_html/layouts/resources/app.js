@@ -92,339 +92,6 @@ app = {
 	getContentsContainer: function () {
 		return jQuery('.bodyContents');
 	},
-	/**
-	 * Replace select with choosen
-	 * @param {jQuery} parent
-	 * @param {object} viewParams
-	 */
-	showChoosenElementView(parent, viewParams) {
-		const thisInstance = this;
-		selectElement = jQuery('.chzn-select', parent);
-		//parent itself is the element
-		if (parent.is('select.chzn-select')) {
-			selectElement = parent;
-		}
-		// generate random ID
-		selectElement.each(function () {
-			if ($(this).prop("id").length === 0) {
-				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
-			}
-		});
-		//fix for multiselect error prompt hide when validation is success
-		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
-			jQuery(e.currentTarget).trigger('focusout');
-		});
-		let params = {
-			no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
-		};
-		const moduleName = app.getModuleName();
-		if (selectElement.filter('[multiple]') && moduleName !== 'Install') {
-			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-		}
-		if (moduleName !== 'Install') {
-			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
-		}
-		selectElement.chosen(params);
-		selectElement.each(function () {
-			const select = $(this);
-			// hide selected items in the chosen instance when item is hidden.
-			if (select.hasClass('hideSelected')) {
-				const ns = [];
-				select.find('optgroup,option').each(function (n, e) {
-					if (jQuery(this).hasClass('d-none')) {
-						ns.push(n);
-					}
-				});
-				if (ns.length) {
-					select.next().find('.search-choice-close').each(function (n, e) {
-						if (jQuery.inArray($(this).data('option-array-index'), ns) != -1) {
-							$(this).closest('li').remove();
-						}
-					})
-				}
-			}
-			if (select.attr('readonly') == 'readonly') {
-				select.on('chosen:updated', function () {
-					if (select.attr('readonly')) {
-						var wasDisabled = select.is(':disabled');
-						var selectData = select.data('chosen');
-						select.attr('disabled', 'disabled');
-						if (typeof selectData == 'object') {
-							selectData.search_field_disabled();
-						}
-						if (wasDisabled) {
-							select.attr('disabled', 'disabled');
-						} else {
-							select.removeAttr('disabled');
-						}
-					}
-				});
-				select.trigger('chosen:updated');
-			}
-		});
-		// Improve the display of default text (placeholder)
-		return jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
-	},
-	/**
-	 * Function which will convert ui of select boxes.
-	 * @params parent - select element
-	 * @params view - select2
-	 * @params viewParams - select2 params
-	 * @returns jquery object list which represents changed select elements
-	 */
-	changeSelectElementView: function (parent, view, viewParams) {
-		let thisInstance = this;
-		let selectElement = $();
-		if (typeof parent === 'undefined') {
-			parent = $('body');
-		}
-		if (typeof view === 'undefined') {
-			const select2Elements = $('select.select2', parent).toArray();
-			const selectizeElements = $('select.selectize', parent).toArray();
-			const choosenElements = $('.chzn-select', parent).toArray();
-			select2Elements.forEach((elem) => {
-				thisInstance.changeSelectElementView($(elem), 'select2');
-			});
-			selectizeElements.forEach((elem) => {
-				thisInstance.changeSelectElementView($(elem), 'selectize');
-			});
-			choosenElements.forEach((elem) => {
-				thisInstance.changeSelectElementView($(elem), 'choosen');
-			});
-			return;
-		}
-		//If view is select2, This will convert the ui of select boxes to select2 elements.
-		if (typeof view === 'string') {
-			switch (view) {
-				case 'select2':
-					return app.showSelect2ElementView(parent, viewParams);
-				case 'selectize':
-					return app.showSelectizeElementView(parent, viewParams);
-				case 'choosen':
-					return app.showChoosenElementView(parent, viewParams);
-			}
-			app.errorLog(new Error(`Unknown select type [${view}]`));
-		}
-	},
-	/**
-	 * Function to destroy the chosen element and get back the basic select Element
-	 */
-	destroyChosenElement: function (parent) {
-		var selectElement = jQuery();
-		if (typeof parent == 'undefined') {
-			parent = jQuery('body');
-		}
-
-		selectElement = jQuery('.chzn-select', parent);
-		//parent itself is the element
-		if (parent.is('select.chzn-select')) {
-			selectElement = parent;
-		}
-		selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
-		return selectElement;
-	},
-	/**
-	 * Function to destroy the selectize element
-	 */
-	destroySelectizeElement: function (parent) {
-		var selectElements = jQuery();
-		if (typeof parent == 'undefined') {
-			parent = jQuery('body');
-		}
-		selectElements = jQuery('.selectized', parent);
-		//parent itself is the element
-		if (parent.is('select.selectized')) {
-			selectElements = parent;
-		}
-		selectElements.each(function () {
-			$(this)[0].selectize.destroy();
-		});
-	},
-	/**
-	 * Function which will show the select2 element for select boxes . This will use select2 library
-	 */
-	showSelect2ElementView: function (selectElement, params) {
-		if (typeof params === 'undefined') {
-			params = {};
-		}
-		let data = selectElement.data();
-		if (data != null) {
-			params = jQuery.extend(data, params);
-		}
-		params.language = {};
-		params.theme = "bootstrap4";
-		params.width = "100%";
-		params.language.noResults = function (msn) {
-			return app.vtranslate('JS_NO_RESULTS_FOUND');
-		};
-
-		// Sort DOM nodes alphabetically in select box.
-		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
-			jQuery('optgroup', selectElement).each(function () {
-				var optgroup = jQuery(this);
-				var options = optgroup.children().toArray().sort(function (a, b) {
-					var aText = jQuery(a).text();
-					var bText = jQuery(b).text();
-					return aText < bText ? 1 : -1;
-				});
-				jQuery.each(options, function (i, v) {
-					optgroup.prepend(v);
-				});
-			});
-			delete params['customSortOptGroup'];
-		}
-
-		//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
-		//then we should send our custom function for formatSelectionTooBig
-		if (typeof params.maximumSelectionLength != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
-			var limit = params.maximumSelectionLength;
-			//custom function which will return the maximum selection size exceeds message.
-			var formatSelectionExceeds = function (limit) {
-				return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
-			}
-			params.language.maximumSelected = formatSelectionExceeds;
-		}
-		if (typeof selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
-			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
-		} else if (!params.placeholder) {
-			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
-		}
-		if (typeof params.templateResult === 'undefined') {
-			params.templateResult = function (data, container) {
-				if (data.element && data.element.className) {
-					$(container).addClass(data.element.className);
-				}
-				if (typeof data.name == 'undefined') {
-					return data.text;
-				}
-				if (data.type == 'optgroup') {
-					return '<strong>' + data.name + '</strong>';
-				} else {
-					return '<span>' + data.name + '</span>';
-				}
-			};
-		}
-		if (typeof params.templateSelection === 'undefined') {
-			params.templateSelection = function (data, container) {
-				if (data.element && data.element.className) {
-					$(container).addClass(data.element.className);
-				}
-				if (data.text === '') {
-					return data.name;
-				}
-				return data.text;
-			};
-		}
-		if (selectElement.data('ajaxSearch') === 1) {
-			params.tags = false;
-			params.language.searching = function () {
-				return app.vtranslate('JS_SEARCHING');
-			}
-			params.language.inputTooShort = function (args) {
-				var remainingChars = args.minimum - args.input.length;
-				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
-			}
-			params.language.errorLoading = function () {
-				return app.vtranslate('JS_NO_RESULTS_FOUND');
-			}
-			params.placeholder = '';
-			params.ajax = {
-				url: selectElement.data('ajaxUrl'),
-				dataType: 'json',
-				delay: 250,
-				data: function (params) {
-					return {
-						value: params.term, // search term
-						page: params.page
-					};
-				},
-				processResults: function (data, params) {
-					var items = new Array;
-					if (data.success == true) {
-						selectElement.find('option').each(function () {
-							var currentTarget = $(this);
-							items.push({
-								label: currentTarget.html(),
-								value: currentTarget.val(),
-							});
-						});
-						items = items.concat(data.result.items);
-					}
-					return {
-						results: items,
-						pagination: {
-							more: false
-						}
-					};
-				},
-				cache: false
-			};
-			params.escapeMarkup = function (markup) {
-				if (markup !== 'undefined')
-					return markup;
-			};
-			var minimumInputLength = 3;
-			if (selectElement.data('minimumInput') != 'undefined') {
-				minimumInputLength = selectElement.data('minimumInput');
-			}
-			params.minimumInputLength = minimumInputLength;
-			params.templateResult = function (data) {
-				if (typeof data.name == 'undefined') {
-					return data.text;
-				}
-				if (data.type == 'optgroup') {
-					return '<strong>' + data.name + '</strong>';
-				} else {
-					return '<span>' + data.name + '</span>';
-				}
-			};
-			params.templateSelection = function (data, container) {
-				if (data.text === '') {
-					return data.name;
-				}
-				return data.text;
-			};
-		}
-		var selectElementNew = selectElement;
-		selectElement.each(function (e) {
-			var select = $(this);
-			if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-				var selectNew = select.clone().addClass('d-none');
-				select.parent().append(selectNew);
-				select.prop('disabled', true);
-			}
-			if (select.hasClass('tags')) {
-				params.tags = true;
-			}
-			select.select2(params)
-				.on("select2:open", function (e) {
-					if (select.data('unselecting')) {
-						select.removeData('unselecting');
-						setTimeout(function (e) {
-							select.each(function () {
-								jQuery(this).select2('close');
-							});
-						}, 1);
-					}
-					var element = jQuery(e.currentTarget);
-					var instance = element.data('select2');
-					instance.$dropdown.css('z-index', 1000002);
-				}).on("select2:unselect", function (e) {
-				select.data('unselecting', true);
-			});
-		})
-		return selectElement;
-	},
-	/**
-	 * Function which will show the selectize element for select boxes . This will use selectize library
-	 */
-	showSelectizeElementView: function (selectElement, params) {
-		if (typeof params == 'undefined') {
-			params = {plugins: ['remove_button']};
-		}
-		selectElement.selectize(params);
-		return selectElement;
-	},
 	hidePopover: function (element) {
 		if (typeof element == 'undefined') {
 			element = jQuery('body .popoverTooltip');
@@ -554,7 +221,7 @@ app = {
 		const modalContainer = container.find('.modal:first');
 		modalContainer.modal(params);
 		jQuery('body').append(container);
-		app.changeSelectElementView(modalContainer);
+		App.Fields.Picklist.changeSelectElementView(modalContainer);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -565,8 +232,8 @@ app = {
 			cb(modalContainer);
 
 			//register all select2 Elements
-			app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
-			app.showSelectizeElementView(modalContainer.find('select.selectize'));
+			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			App.Fields.Date.register(modalContainer);
 		})
@@ -1352,12 +1019,6 @@ app = {
 		selectElement.bootstrapSwitch(params);
 		return selectElement;
 	},
-	generateRandomChar: function () {
-		var chars, newchar, rand;
-		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
-		rand = Math.floor(Math.random() * chars.length);
-		return newchar = chars.substring(rand, rand + 1);
-	},
 	getMainParams: function (param, json) {
 		if (param in CONFIG) {
 			return CONFIG[param];
@@ -1556,14 +1217,6 @@ app = {
 		}
 		return jQuery(window).height() * percantage / 100;
 	},
-	registerImageFullModal: function () {
-		$('body').on('click', '.imageFullModal', function (e) {
-			e.preventDefault();
-			var img = $(this).next().clone(true, true).addClass('modal-content img-fluid');
-			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">' + img.get(0).outerHTML + '</div></div>';
-			app.showModalWindow(html);
-		})
-	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: app.getModuleName(),
@@ -1625,18 +1278,17 @@ app = {
 	}
 }
 jQuery(document).ready(function () {
-	app.changeSelectElementView();
+	App.Fields.Picklist.changeSelectElementView();
 	//register all select2 Elements
 	jQuery('body').find('select.select2').each(function (e) {
-		app.showSelect2ElementView($(this));
+		App.Fields.Picklist.showSelect2ElementView($(this));
 	});
-	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
+	App.Fields.Picklist.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerSticky();
 	app.registerMoreContent(jQuery('body').find('button.moreBtn'));
 	app.registerModal();
-	app.registerImageFullModal();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {

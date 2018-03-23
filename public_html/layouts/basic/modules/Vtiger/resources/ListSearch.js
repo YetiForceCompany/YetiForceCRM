@@ -63,7 +63,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
 			var select = $(domElement);
 			if (!select.data('select2')) {
-				app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+				App.Fields.Picklist.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 			}
 		});
 
@@ -284,7 +284,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		this.registerListSearch();
 		this.getContainer().find('select.select2').each(function (i, obj) {
 			if (!$(obj).data('select2')) {
-				app.showSelect2ElementView($(obj));
+				App.Fields.Picklist.showSelect2ElementView($(obj));
 			}
 		});
 	},

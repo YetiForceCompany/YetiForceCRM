@@ -1057,7 +1057,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 						option.remove();
 					}
 				});
-				app.showSelect2ElementView(select);
+				App.Fields.Picklist.showSelect2ElementView(select);
 			});
 			thisInstance.initItem(newRow);
 			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);

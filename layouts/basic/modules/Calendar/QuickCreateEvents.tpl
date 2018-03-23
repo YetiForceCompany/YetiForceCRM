@@ -10,7 +10,7 @@
 						</th>
 					{/if}
 					<th class="text-center col-md-2 taskPrevTwoDaysAgo">
-						<span class="cursorPointer dateBtn" data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)})</span>
+						<span class="u-cursor-pointer dateBtn" data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)})</span>
 					</th>
 					{if $smarty.foreach.iteration.last}
 						<th class="p-1 d-none d-md-table-cell">

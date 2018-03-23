@@ -12,7 +12,7 @@
 {strip}
     <div class="accordion paddingTop20">
         <span><i class="fas fa-info-circle alignMiddle"></i>&nbsp;{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
-        <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
+        <a class="u-cursor-pointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
             <ul><br /><li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br />
                 <li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br />
@@ -79,7 +79,7 @@
 									{assign var=IS_SELECTED value=true}
 								{/if}
 								<td	data-source-value='{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}' data-target-value='{\App\Purifier::encodeHtml($TARGET_VALUE)}'
-									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
+									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping u-cursor-pointer"
 									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
 									{if $IS_SELECTED}
 										<i class="fas fa-check float-left"></i>

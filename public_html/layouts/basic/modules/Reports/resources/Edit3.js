@@ -64,7 +64,7 @@ Reports_Edit_Js("Reports_Edit3_Js", {}, {
 
 	registerEvents: function () {
 		var container = this.getContainer();
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', container));
 		this.registerSubmitEvent();
 		container.validationEngine();

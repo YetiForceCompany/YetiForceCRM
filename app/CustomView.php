@@ -472,7 +472,7 @@ class CustomView
 	{
 		$comparator = $relCriteriaRow['comparator'];
 		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \AppConfig::main('default_charset'));
-		list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $relCriteriaRow['columnname']);
+		list($tableName, $columnName, $fieldName, , $fieldType) = explode(':', $relCriteriaRow['columnname']);
 		if (strpos($advFilterVal, ',') !== false && in_array($this->module->getFieldByName($fieldName)->getFieldDataType(), ['picklist', 'multipicklist', 'sharedOwner', 'owner', 'userCreator', 'multiReferenceValue', 'tree', 'taxes', 'modules', 'country', 'companySelect', 'categoryMultipicklist'])) {
 			$advFilterVal = str_replace(',', '##', $advFilterVal);
 		}

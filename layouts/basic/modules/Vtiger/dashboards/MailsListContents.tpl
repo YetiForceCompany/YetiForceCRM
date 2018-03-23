@@ -5,22 +5,22 @@
 		<div>
 			{foreach from=$MAILS item=item key=key}
 				<div class="row mailRow" data-mailId="{$key}">
-					<div class="col-md-12" style="font-size:x-small;">
-						<div class="float-right muted" style="font-size:x-small;">
-							<small>{\App\Fields\DateTime::formatToViewDate($item->get('date'))}</small>&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="col-md-12 small">
+						<div class="float-right muted">
+							<span>{\App\Fields\DateTime::formatToViewDate($item->get('date'))}</span>
 						</div>
-						<h5 style="margin-left:2%;">{\App\Purifier::encodeHtml($item->get('subject'))} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}<h5>
+						<h5>{\App\Purifier::encodeHtml($item->get('subject'))} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}</h5>
 								</div>
-								<div class="col-md-12 marginLeftZero">
+								<div class="col-md-12">
 									<div class="float-right" >
-										<a class="showMailBody" >
-											<span class="body-icon fas fa-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-										</a>
+										<button class="badge badge-pill badge-light mb-1 showMailBody" >
+											<span class="body-icon fas fa-chevron-down"></span>
+										</button>
 									</div>
-									<span class="float-left" style="margin-left:2%;">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
+									<span class="float-left">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
 								</div>
-								<div class="col-md-12 mailBody marginLeftZero" style="display: none;border: 1px solid #ddd;">
-									{\App\Purifier::encodeHtml($item->get('body'))}
+								<div class="col-md-12 mailBody" style="display: none;border: 1px solid #ddd;">
+									{\App\Purifier::purifyHtml($item->get('body'))}
 								</div>
 								</div>
 								<hr/>

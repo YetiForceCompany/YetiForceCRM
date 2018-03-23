@@ -5077,7 +5077,7 @@ button.bg-dark:focus {
 .w-75 {
   width: 75% !important; }
 
-.w-100 {
+.w-100, .collectiveGroupMembers {
   width: 100% !important; }
 
 .h-25 {
@@ -5140,7 +5140,7 @@ button.bg-dark:focus {
 .childrenMarginTopX > * {
   margin-left: 0.25rem !important; }
 
-.m-2, .card .blockToggle, .c-panel__content .blockToggle, .c-detail-widget .blockToggle, .card .iconToggle, .c-panel__content .iconToggle, .c-detail-widget .iconToggle {
+.m-2, .u-cursor-pointer {
   margin: 0.5rem !important; }
 
 .mt-2, .childrenMarginTopX > *,
@@ -5310,7 +5310,7 @@ button.bg-dark:focus {
 .c-detail-widget__content {
   padding-right: 1rem !important; }
 
-.pb-3,
+.pb-3, .o-celandar-container,
 .py-3 {
   padding-bottom: 1rem !important; }
 
@@ -9024,9 +9024,6 @@ html, body, .baseContainer {
   .vakata-context ul {
     z-index: 1031; }
 
-.bottom_margin {
-  padding-bottom: 2em; }
-
 .breadcrumbsLinks {
   margin-top: 7px;
   margin-left: 0px; }
@@ -9480,10 +9477,7 @@ html, body, .baseContainer {
 
   .summaryWidgetContainer .widget_header .summaryWidgetIcon {
     padding-right: 0;
-    padding-left: 0; }
-
-  .blockContainer .blockContent .fieldLabel {
-    text-align: left; } }
+    padding-left: 0; } }
 @media screen and (max-width: 992px) {
   .detailViewTable .fieldsLabelValue {
     border-bottom: 1px solid #ddd; }
@@ -9561,9 +9555,6 @@ html, body, .baseContainer {
 
   .conditionList .conditionField {
     padding-left: 0; }
-
-  .blockContainer .blockContent .fieldLabel {
-    text-align: right; }
 
   .quickCreateContent .fieldRow {
     border-top: 1px solid #ddd;
@@ -10370,37 +10361,6 @@ select.form-control {
   .modalRightSiteBar .listViewEntriesTable thead > tr > th {
     padding: 2px; }
 
-.medium .multiImageListIcon {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  border: 1px solid #fff;
-  vertical-align: top;
-  position: relative;
-  z-index: 1; }
-
-.contentImage {
-  width: 35px;
-  height: 32px;
-  vertical-align: top;
-  display: inline-block !important; }
-  .contentImage:hover .imageFullModal {
-    display: inline-block !important; }
-  .contentImage:hover .multiImageListIcon {
-    max-width: 160px;
-    max-height: 160px;
-    border: 1px solid #ccc;
-    width: auto;
-    height: auto;
-    margin: 32px 0 0 -80px;
-    white-space: nowrap;
-    position: absolute;
-    z-index: 3; }
-
-.multiImageContenDiv {
-  z-index: 1000;
-  margin-right: 5px; }
-
 .input-group-sm .input-group-addon.checkbox-addon {
   padding: 4px 7px !important; }
   .input-group-sm .input-group-addon.checkbox-addon input[type="checkbox"] {
@@ -10434,9 +10394,6 @@ select.form-control {
 .dashboardWidget {
   overflow: hidden; }
 
-.bottom_margin .fc-basic-view .fc-body .fc-row {
-  min-height: 9em !important; }
-
 .Home_DashBoard .widget_header {
   margin-bottom: 0px; }
 
@@ -10465,9 +10422,6 @@ select.form-control {
       vertical-align: top;
       margin-left: 6px;
       font-weight: bold; }
-
-.multiImageResult {
-  float: right; }
 
 #jstree-marker {
   z-index: 1100; }
@@ -10635,6 +10589,9 @@ border1px {
 @media only screen and (max-width: 575px) {
   .u-border-bottom-0-sm {
     border-bottom: none !important; } }
+.u-badge {
+  font-size: 90%; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader .dropdown-toggle::after, .listViewTopMenuDiv .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
   display: none; }
@@ -10653,7 +10610,7 @@ border1px {
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
-  height: 2.5rem !important;
+  min-height: 2.5rem !important;
   padding-top: 0.2rem; }
 
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option {
@@ -10716,6 +10673,9 @@ header .headerLinksMails .select2-selection:hover {
 
 .fc-widget-content .fc-scroller.fc-day-grid-container {
   height: 18.6rem !important; }
+
+.o-celandar-container .fc-basic-view .fc-body .fc-row {
+  min-height: 9em !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .massEditTable th + th, .massEditTable td + td, .massEditTable th + td, .massEditTable td + th {

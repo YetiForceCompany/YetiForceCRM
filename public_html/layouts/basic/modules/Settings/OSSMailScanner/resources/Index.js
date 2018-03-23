@@ -12,7 +12,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			}
 			return state;
 		}
-		app.showSelect2ElementView(field, params);
+		App.Fields.Picklist.showSelect2ElementView(field, params);
 	},
 	registerEditFolders: function (container) {
 		container.find('.editFolders').on('click', function () {

@@ -375,7 +375,7 @@ if (typeof (ImportJs) == 'undefined') {
 						jQuery('#savedMapsContainer').html(data);
 						status.hide();
 						var parent = jQuery("#saved_maps");
-						app.changeSelectElementView(parent);
+						App.Fields.Picklist.changeSelectElementView(parent);
 					},
 					function (error, err) {
 

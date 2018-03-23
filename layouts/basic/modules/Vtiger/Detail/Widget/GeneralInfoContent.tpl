@@ -33,7 +33,7 @@
 											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}' />
 										{/if}
 									</div>
-									<div class="c-table__action--hover js-detail-quick-edit col-2 cursorPointer" data-js="click">
+									<div class="c-table__action--hover js-detail-quick-edit col-2 u-cursor-pointer" data-js="click">
 										<div class="float-right">
 											<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 										</div>
@@ -52,7 +52,7 @@
 			{if !$IS_READ_ONLY}
 				{assign var="CURRENT_VIEW" value="full"}
 				{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-				<button type="button" class="btn btn-outline-secondary btn-block changeDetailViewMode cursorPointer"><strong>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
+				<button type="button" class="btn btn-outline-secondary btn-block changeDetailViewMode u-cursor-pointer"><strong>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
 						{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 				<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}" />
 			{/if}

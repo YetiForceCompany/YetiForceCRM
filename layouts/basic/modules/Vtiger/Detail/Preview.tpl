@@ -3,12 +3,12 @@
 </div>
 </div>
 </div>
-<div class="Detail-Preview listPreview W-75">
+<div class="Detail-Preview c-detail-preview js-detail-preview">
 	<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 </div>
-<div class="wrappedPanel js-fixed-scroll" data-js="scroll">
-	<div class="rotatedText">
-		<div class="textCenter small font-weight-bold">
+<div class="c-side-block js-side-block js-fixed-scroll" data-js="scroll">
+	<div class="u-rotate-90 js-rotated-text" data-js="width/height">
+		<div class="font-weight-bold text-center">
 			{\App\Language::translate('LBL_VIEW_DETAIL')}
 		</div>
 	</div>

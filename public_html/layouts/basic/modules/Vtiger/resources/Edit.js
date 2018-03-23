@@ -899,49 +899,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		container.find("[data-inputmask]").inputmask();
 	},
-	/**
-	 * Function to register event for image delete
-	 */
-	registerEventForImageDelete: function () {
-		var formElement = this.getForm();
-		var recordId = formElement.find('input[name="record"]').val();
-		formElement.find('.imageDelete').on('click', function (e) {
-			var element = jQuery(e.currentTarget);
-			var parentTd = element.closest('.fieldValue');
-			var imageUploadElement = parentTd.find('[name="imagename[]"]');
-			var fieldInfo = imageUploadElement.data('fieldinfo');
-			var mandatoryStatus = fieldInfo.mandatory;
-			var imageId = element.closest('div').find('img').data().imageId;
-			element.closest('div').remove();
-			var exisitingImages = parentTd.find('[name="existingImages"]');
-			if (exisitingImages.length < 1 && mandatoryStatus) {
-				formElement.validationEngine('detach');
-				imageUploadElement.attr('data-validation-engine', 'validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
-				formElement.validationEngine('attach');
-			}
-
-			if (formElement.find('[name=imageid]').length != 0) {
-				var imageIdValue = JSON.parse(formElement.find('[name=imageid]').val());
-				imageIdValue.push(imageId);
-				formElement.find('[name=imageid]').val(JSON.stringify(imageIdValue));
-			} else {
-				var imageIdJson = [];
-				imageIdJson.push(imageId);
-				formElement.append('<input type="hidden" name="imgDeleted" value="true" />');
-				formElement.append('<input type="hidden" name="imageid" value="' + JSON.stringify(imageIdJson) + '" />');
-			}
-		});
-		formElement.on('click', '.multiImageDelete', function () {
-			var input = $(this).parents('div.fieldValue').find('input[type=hidden]');
-			var arrayValues = JSON.parse('[' + input.val().replace(/(^,)|(,$)/g, '') + ']');
-			var index = arrayValues.indexOf($(this).data('id'));
-			if (index >= 0) {
-				arrayValues.splice(index, 1);
-			}
-			input.val(',' + arrayValues.toString() + ',');
-			$(this).parent('div.multiImageContenDiv').hide();
-		});
-	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
@@ -1548,7 +1505,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.stretchCKEditor();
 		this.registerBasicEvents(editViewForm);
 		this.registerEventForCopyAddress();
-		this.registerEventForImageDelete();
 		this.registerSubmitEvent();
 		this.registerLeavePageWithoutSubmit(editViewForm);
 		this.registerValidationsFields(editViewForm);

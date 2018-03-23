@@ -44,21 +44,4 @@ class Products_Edit_View extends Vtiger_Edit_View
 			}
 		}
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-
-		$jsFileNames = [
-			'libraries.js.multiplefileupload.jquery_MultiFile',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
-	}
 }

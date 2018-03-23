@@ -592,7 +592,7 @@ class Importer
 	 *
 	 * @return bool
 	 */
-	protected function comperColumns($queryBuilder, $baseColumn, $targetColumn)
+	protected function comperColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
 	{
 		if (rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')) {
 			return true;

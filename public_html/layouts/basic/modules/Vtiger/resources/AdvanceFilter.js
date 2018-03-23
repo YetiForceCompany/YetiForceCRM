@@ -160,7 +160,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		let selectElement = newRowElement.find('select').addClass('select2');
 		let conditionList = $('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
-		app.changeSelectElementView(selectElement, 'select2');
+		App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
 		return this;
 	},
 	/**
@@ -331,9 +331,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				app.changeSelectElementView(fieldSpecificUi);
+				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi);
 			} else {
-				app.showSelect2ElementView(fieldSpecificUi);
+				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
 			}
 		} else if (fieldSpecificUi.has('input.dateField').length > 0) {
 			App.Fields.Date.register(fieldSpecificUi);

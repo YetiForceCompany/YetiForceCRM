@@ -155,7 +155,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 	},
 	registerEvents: function () {
 		var container = this.getContainer();
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.registerCancelStepClickEvent(container);
 		this.registerWatermarkTypeChange(container);
 		this.registerUploadButton(container);

@@ -18,7 +18,7 @@
 						<div class="alphabetSorting noprint">
 							<div class="alphabetContents alphabet_{$COUNT_ALPHABETS} row ">
 								{foreach item=ALPHABET from=$ALPHABETS}
-									<div class="alphabetSearch cursorPointer">
+									<div class="alphabetSearch u-cursor-pointer">
 										<a class="btn {if isset($ALPHABET_VALUE) && $ALPHABET_VALUE == $ALPHABET}btn-primary{else}btn-light{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
 									</div>
 								{/foreach}

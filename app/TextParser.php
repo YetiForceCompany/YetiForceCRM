@@ -358,7 +358,7 @@ class TextParser
 			Language::setTemporaryLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
-			list($fullText, $function, $params) = array_pad($matches, 3, '');
+			list(, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
 			}
@@ -366,7 +366,6 @@ class TextParser
 			return '';
 		}, $this->content);
 		Language::clearTemporaryLanguage();
-
 		return $this;
 	}
 
@@ -380,7 +379,6 @@ class TextParser
 	public function date($param)
 	{
 		$timestamp = strtotime($param);
-
 		return $timestamp ? date('Y-m-d', $timestamp) : '';
 	}
 
@@ -395,12 +393,11 @@ class TextParser
 			Language::setTemporaryLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
-			list($fullText, $params) = $matches;
+			list(, $params) = $matches;
 
 			return $this->translate($params);
 		}, $this->content);
 		Language::clearTemporaryLanguage();
-
 		return $this;
 	}
 
@@ -423,7 +420,6 @@ class TextParser
 
 			return Language::translate($params, $moduleName, $this->language);
 		}
-
 		return Language::translate($params);
 	}
 
@@ -873,7 +869,7 @@ class TextParser
 				$value = \DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 				if ((int) $userModel->get('hour_format') === 12) {
 					if ($value) {
-						list($hours, $minutes, $seconds) = explode(':', $value);
+						list($hours, $minutes) = explode(':', $value);
 						$format = '$(translate : PM)$';
 						if ($hours > 12) {
 							$hours = (int) $hours - 12;

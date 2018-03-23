@@ -94,7 +94,7 @@
 								</button>
 							</span>
 							<span class="d-none hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<a class="cursorPointer hideThread">
+								<a class="u-cursor-pointer hideThread">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}" />
 								</a>
@@ -107,7 +107,7 @@
 								</button>
 							</span>
 							<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<a class="cursorPointer hideThread">
+								<a class="u-cursor-pointer hideThread">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}" />
 								</a>

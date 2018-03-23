@@ -583,7 +583,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				var container = jQuery('.picklistViewContentDiv');
 				container.html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
 				thisInstance.registerModuleChangeEvent();
 				container.find('.modulePickList').trigger('change');
 			});
@@ -613,8 +613,8 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			}).then(function (data) {
 				container.html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
-				app.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 				thisInstance.registerModuleChangeEvent();
 				thisInstance.registerModulePickListChangeEvent();
 				jQuery('#modulePickList').trigger('change');
@@ -640,8 +640,8 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				fieldId: jQuery(e.currentTarget).val()
 			}).then(function (data) {
 				container.html(data);
-				app.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
-				app.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 				thisInstance.registerModuleChangeEvent();
 				thisInstance.registerModulePickListChangeEvent();
 				$('.UserColors .addPicklistColorColumn').click(thisInstance.addPicklistColorColumn);

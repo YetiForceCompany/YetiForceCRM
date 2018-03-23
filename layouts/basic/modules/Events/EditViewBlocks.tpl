@@ -15,7 +15,7 @@
 	<div class="js-toggle-panel c-panel__content row mx-1" data-js="click" data-label="{$BLOCK_LABEL}">
 		<div class="blockHeader card-header bg-light">
 			<div class="col-md-8 form-row">
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide"></span>
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide"></span>
 				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show"></span>
 				<h4>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE)}</h4>
 			</div>

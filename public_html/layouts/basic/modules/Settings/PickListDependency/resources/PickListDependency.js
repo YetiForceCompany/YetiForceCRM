@@ -108,7 +108,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				var container = jQuery('.contentsDiv');
 				container.html(data);
 				//register all select2 Elements
-				app.showSelect2ElementView(container.find('select.select2'), {dropdownCss: {'z-index': 0}});
+				App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'), {dropdownCss: {'z-index': 0}});
 				aDeferred.resolve(data);
 			},
 			function (error) {
@@ -509,7 +509,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				//replace the new list view contents
 				jQuery('.contentsDiv').html(data);
-				app.changeSelectElementView(jQuery('.contentsDiv').find('.pickListSupportedModules'));
+				App.Fields.Picklist.changeSelectElementView(jQuery('.contentsDiv').find('.pickListSupportedModules'));
 				thisInstance.registerListViewEvents();
 			}, function (error, err) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
