@@ -13,7 +13,7 @@
 								</div>
 								<div class="col-md-12">
 									<div class="float-right" >
-										<button class="btn btn-outline-secondary btn-sm showMailBody" >
+										<button class="badge badge-pill badge-light mb-1 showMailBody" >
 											<span class="body-icon fas fa-chevron-down"></span>
 										</button>
 									</div>
