@@ -27,7 +27,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="alert alert-info d-none d-flex mt-2" id="moduleCacheAlert" role="alert">
+		<div class="alert alert-info d-none d-flex my-2" id="moduleCacheAlert" role="alert">
 			<div class="mr-auto align-self-center">
 				{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
 			</div>
@@ -37,7 +37,6 @@
 			</button>
 		</div>
 		<div class="o-celandar-container">
-			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>
 	</div>
