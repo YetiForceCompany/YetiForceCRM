@@ -733,7 +733,7 @@ app = {
 		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
-			var block = field.closest('.blockContainer');
+			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(":hidden")) {
 				block.find('.blockHeader').click();
 			}

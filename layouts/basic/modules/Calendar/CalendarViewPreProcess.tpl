@@ -13,5 +13,5 @@
 	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div id="centerPanel" class="contentsDiv col-md-12">
+			<div id="centerPanel" class="contentsDiv col-md-12 pl-0">
 			{/strip}

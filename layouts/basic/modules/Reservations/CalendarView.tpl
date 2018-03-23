@@ -9,16 +9,16 @@
 	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-	<div class="rowContent paddingLRZero col-12">
-		<div class="widget_header row marginbottomZero marginRightMinus20">
-			<div class="float-left paddingLeftMd">
+	<div class="calendarViewContainer rowContent col-md-12 col-12">
+		<div class="widget_header d-flex align-items-center">
+			<div class="px-2">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 			</div>
-			<div class="col-10">
+			<div class="px-2 mr-auto">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="bottom_margin paddingRight15">
+		<div class="o-celandar-container">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>

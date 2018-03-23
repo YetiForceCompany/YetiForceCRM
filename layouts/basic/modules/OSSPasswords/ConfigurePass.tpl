@@ -44,7 +44,7 @@
 								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Change Password Key', $MODULENAME)}</span>
 							</div>
 
-							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+							<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
 								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 									<h5>&nbsp;{\App\Language::translate('Edit Encryption Key', $MODULENAME)}</h5>
 								</div>
@@ -86,7 +86,7 @@
 							<div class="contentHeader row">
 								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Cancel Encrypting Passwords', $MODULENAME)}</span>
 							</div>
-							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+							<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
 								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 									<h5>&nbsp;{\App\Language::translate('Enter Your Old Password', $MODULENAME)}</h5>
 								</div>
@@ -119,7 +119,7 @@
 						<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Encrypt Passwords', $MODULENAME)}</span>
 					</div>
 
-					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+					<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
 						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 							<h5>&nbsp;{\App\Language::translate('Enter encryption password', $MODULENAME)}</h5>
 						</div>
@@ -153,7 +153,7 @@
 					<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
 
-				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+				<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 						<h5>&nbsp;{\App\Language::translate('Password Length', $MODULENAME)}</h5>
 					</div>
@@ -180,7 +180,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+				<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 						<h5>&nbsp;{\App\Language::translate('Allowed Characters', $MODULENAME)}</h5>
 					</div>
@@ -195,7 +195,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+				<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 						<h5>&nbsp;{\App\Language::translate('LBL_REGISTER_CHANGES', $MODULENAME)}</h5>
 					</div>
