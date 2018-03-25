@@ -12,47 +12,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	const URL_SEPARATOR = '__';
 
 	/**
-	 * Remove translation.
-	 *
-	 * @param array $params
-	 *
-	 * @return (string|bool)[]
-	 */
-	public static function deleteTranslation($params)
-	{
-		$allLangs = App\Language::getAll();
-		$change = false;
-		$langkey = $params['langkey'];
-		foreach ($params['lang'] as $lang) {
-			if (!isset($allLangs[$lang])) {
-				throw new \App\Exceptions\Security('LBL_LANGUAGE_DOES_NOT_EXIST');
-			}
-			$edit = false;
-			$mod = str_replace(self::URL_SEPARATOR, '.', $params['mod']);
-			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
-				$qualifiedName = "custom.languages.$lang.$mod";
-			} else {
-				$qualifiedName = "languages.$lang.$mod";
-			}
-			$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
-			if (file_exists($fileName)) {
-				$fileContent = file($fileName);
-				foreach ($fileContent as $key => $file_row) {
-					if (self::parseData("'$langkey'", $file_row)) {
-						unset($fileContent[$key]);
-						$edit = $change = true;
-					}
-				}
-				if ($edit) {
-					file_put_contents($fileName, implode('', $fileContent));
-				}
-			}
-		}
-
-		return $change ? ['success' => true, 'data' => 'LBL_DeleteTranslationOK'] : ['success' => false, 'data' => 'LBL_DELETE_TRANSLATION_FAILED'];
-	}
-
-	/**
 	 * Function creates directory structure.
 	 *
 	 * @param array $params
@@ -113,6 +72,30 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		}
 
 		return ['php' => $respPhp, 'js' => $respJs, 'langs' => $langs];
+	}
+
+	/**
+	 * Load custom languages data.
+	 *
+	 * @param array  $languages
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function loadCustomLanguageFile(array $languages, string $moduleName)
+	{
+		$result = [];
+		$moduleName = str_replace(self::URL_SEPARATOR, DIRECTORY_SEPARATOR, $moduleName);
+		foreach ($languages as $language) {
+			$custom = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.' . \App\Language::FORMAT;
+			if (file_exists($custom)) {
+				$response = \App\Json::decode(file_get_contents($custom), true);
+				if ($response) {
+					$result = array_merge_recursive($result, $response);
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**

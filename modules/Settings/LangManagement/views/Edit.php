@@ -39,6 +39,7 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SELECTED_MODE', $mod);
 		$viewer->assign('LANGS', App\Language::getAll());
 		$viewer->assign('DATA', $data);
+		$viewer->assign('CUSTOM_DATA', $moduleModel->loadCustomLanguageFile($lang, $mod));
 		$viewer->assign('SD', $showDifferences);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);

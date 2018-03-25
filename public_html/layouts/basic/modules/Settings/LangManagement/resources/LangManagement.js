@@ -133,9 +133,10 @@ var Settings_Index_Js = {
 			}
 		});
 		Settings_Index_Js.registerSaveEvent('deleteTranslation', {
-			'lang': $(".LangManagement #langs_list").val(),
-			'mod': $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
-			'langkey': closestTrElement.data('langkey'),
+			lang: $(".LangManagement #langs_list").val(),
+			mod: $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
+			langkey: closestTrElement.data('langkey'),
+			type: closestTrElement.data('type'),
 		});
 		progress.progressIndicator({'mode': 'hide'});
 		e = target.closest('.active');
