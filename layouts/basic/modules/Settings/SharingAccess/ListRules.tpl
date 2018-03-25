@@ -58,7 +58,7 @@
 			<p class="text-center">{\App\Language::translate('LBL_CUSTOM_ACCESS_MESG', $QUALIFIED_MODULE)}.<!--<a href="">{\App\Language::translate('LBL_CLICK_HERE', $QUALIFIED_MODULE)}</a>&nbsp;{\App\Language::translate('LBL_CREATE_RULE_MESG', $QUALIFIED_MODULE)}--></p>
 		</div>
 	{else}
-		<div class="js-record-details">
+		<div class="js-record-details" data-js="removeClass:d-none">
 			<p class="text-center">{\App\Language::translate('LBL_CUSTOM_ACCESS_MESG', $QUALIFIED_MODULE)}.<!--<a href="">{\App\Language::translate('LBL_CLICK_HERE', $QUALIFIED_MODULE)}</a>&nbsp;{\App\Language::translate('LBL_CREATE_RULE_MESG', $QUALIFIED_MODULE)}--></p>
 		</div>
 	{/if}
