@@ -73,7 +73,6 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	{
 		$moduleName = $request->getModule(false);
 		try {
-			$typeModify = $request->has('typeModify') ? $request->getInteger('typeModify') : 0;
 			if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
 				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 			}
@@ -81,7 +80,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			$result = \App\Language::translationModify(
-					$request->getByType('lang'), $request->getByType('mod'), $request->getByType('type'), $request->getByType('variable', 'Text'), $request->getForHtml('val'), $typeModify);
+					$request->getByType('lang'), $request->getByType('mod'), $request->getByType('type'), $request->getByType('variable', 'Text'), $request->getForHtml('val'));
 			$result = ['success' => true, 'message' => \App\Language::translate('LBL_UpdateTranslationOK', $moduleName)];
 		} catch (\Exception $ex) {
 			$result = ['success' => false];
@@ -98,17 +97,24 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 */
 	public function deleteTranslation(\App\Request $request)
 	{
-		$params = [
-			'langkey' => $request->getByType('langkey', 'Text'),
-			'mod' => $request->getByType('mod', 2),
-			'lang' => $request->getArray('lang', 1),
-		];
-		$saveResp = Settings_LangManagement_Module_Model::deleteTranslation($params);
+		$moduleName = $request->getModule(false);
+		try {
+			$langs = $request->getArray('lang', 1);
+			if (!$langs || array_diff($langs, array_keys(App\Language::getAll()))) {
+				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
+			}
+			if (!in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+			foreach ($langs as $lang) {
+				\App\Language::translationModify($lang, $request->getByType('mod'), $request->getByType('type'), $request->getByType('langkey', 'Text'), '', true);
+			}
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_DeleteTranslationOK', $moduleName)];
+		} catch (\Exception $ex) {
+			$result = ['success' => false];
+		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => $saveResp['success'],
-			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false)),
-		]);
+		$response->setResult($result);
 		$response->emit();
 	}
 

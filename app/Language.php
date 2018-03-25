@@ -625,10 +625,11 @@ class Language
 	 * @param string $type
 	 * @param string $label
 	 * @param string $translation
+	 * @param bool   $remove
 	 *
 	 * @throws Exceptions\AppException
 	 */
-	public static function translationModify(string $language, string $fileName, string $type, string $label, string $translation)
+	public static function translationModify(string $language, string $fileName, string $type, string $label, string $translation, bool $remove = false)
 	{
 		$fileLocation = explode('__', $fileName, 2);
 		array_unshift($fileLocation, 'custom', 'languages', $language);
@@ -647,10 +648,10 @@ class Language
 				}
 			}
 		}
-		if (!$translations || !isset($translations[$type])) {
-			$translations[$type] = [];
-		}
 		$translations[$type][$label] = $translation;
+		if ($remove) {
+			unset($translations[$type][$label]);
+		}
 		if (file_put_contents($fileDirectory, Json::encode($translations, JSON_PRETTY_PRINT)) === false) {
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
