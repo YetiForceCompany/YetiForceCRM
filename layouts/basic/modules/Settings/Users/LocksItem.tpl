@@ -2,7 +2,7 @@
 {strip}
 	<tr>
 		<td>
-			<select class="form-control users {if $SELECT}select2{/if}">
+			<select class="form-control js-users {if $SELECT}select2{/if}" data-js="data">
 				<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
 						<option value="{$ROLEID}" {if $ID == $ROLEID}selected{/if}>
@@ -20,7 +20,7 @@
 			</select>
 		</td>
 		<td>
-			<select class="form-control locks {if $SELECT}select2{/if}" multiple="">
+			<select class="form-control js-locks {if $SELECT}select2{/if}" data-js="data" multiple="">
 				{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
 					<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
 						{\App\Language::translate($LOCKT, $QUALIFIED_MODULE)}
@@ -28,9 +28,9 @@
 				{/foreach}
 			</select>
 		</td>
-		<td class="textAlignCenter">
-			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light delate">
-				<i class="fas fa-trash-alt"></i>
+		<td class="text-center">
+			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-danger js-delete-item" data-js="click">
+				<span class="fas fa-trash-alt"></span>
 			</button>
 		</td>
 	</tr>
