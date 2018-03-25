@@ -5,7 +5,6 @@
 	"Modules": "Modules",
 	"Module": "Module",
 	"LBL_DELETE_TRANSLATION_FAILED": "Suppression de la traduction \u00e9chou\u00e9e",
-	"LBL_CUSTOM_TYPE_INFO": "Le mode personnalis\u00e9 est activ\u00e9. Vous ne pouvez pas modifier les fichiers de langue source. Toutes les modifications auront lieu dans le r\u00e9pertoire custom \/.",
 	"LBL_UNTRANSLATED_LABELS": "\u00c9tiquettes non traduites",
 	"No data available in table": "Aucune donn\u00e9e disponible dans la table",
 	"Translations": "Traductions",

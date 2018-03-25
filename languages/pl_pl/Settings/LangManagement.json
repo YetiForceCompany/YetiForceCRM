@@ -54,9 +54,8 @@
 	"LBL_LANGUAGE": "J\u0119zyk",
 	"LBL_SHOW": "Poka\u017c",
 	"LBL_STATS_INFO": "Prezentowane warto\u015bci statystyczne okre\u015blaj\u0105 stosunek etykiet nieprzet\u0142umaczonych do wszystkich etykiet wyst\u0119puj\u0105cych w pliku(-ach) j\u0119zyka bazowego w procentach.",
-	"LBL_UNTRANSLATED_LABELS": "Nieprzet\u0142umaczone etykiety",
-	"LBL_CUSTOM_TYPE_INFO": "W\u0142\u0105czony jest tryb Custom. Nie mo\u017cna modyfikowa\u0107 \u017ar\u00f3d\u0142owych plik\u00f3w j\u0119zykowych. Wszelkie modyfikacje b\u0119d\u0105 mia\u0142y miejsce w katalogu custom\/."
-  },
+	"LBL_UNTRANSLATED_LABELS": "Nieprzet\u0142umaczone etykiety"
+},
   "js": {
 	"Translations": "T\u0142umaczenia",
 	"LBL_AreYouSure": "Czy na pewno chcesz usun\u0105\u0107 j\u0119zyk?",

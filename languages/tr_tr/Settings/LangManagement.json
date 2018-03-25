@@ -54,8 +54,7 @@
 	"LBL_LANGUAGE": "Language",
 	"LBL_SHOW": "Show",
 	"LBL_STATS_INFO": "The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.",
-	"LBL_UNTRANSLATED_LABELS": "Untranslated labels",
-	"LBL_CUSTOM_TYPE_INFO": "Custom mode is enabled. You cannot modify source language files. All modifications will take place in the custom\/ directory."
+	"LBL_UNTRANSLATED_LABELS": "Untranslated labels"
   },
   "js": {
 	"Translations": "Translations",
