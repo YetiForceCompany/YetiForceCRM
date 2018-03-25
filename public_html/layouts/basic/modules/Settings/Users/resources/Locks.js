@@ -1,32 +1,42 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class('Settings_Users_Locks_Js', {}, {
+	/**
+	 * Add item
+	 * @param {jQuery} content
+	 */
 	registerAdd: function (content) {
 		var thisInstance = this;
-		content.find('.addItem').click(function (e) {
-			var id = parseInt(content.find('#lcount').val()) + 1;
-			var target = $(e.currentTarget);
-			var cloneItem = content.find('.cloneItem tbody').clone(true, true);
+		content.find('.js-add-item').on('click', function (e) {
+			var id = parseInt(content.find('#js-lock-count').val()) + 1;
+			var cloneItem = content.find('.js-clone-item tbody').clone(true, true);
 			cloneItem.find('tr').attr('data-id', id).addClass('row' + id);
-			content.find('.locksTable tbody').append(cloneItem.html());
-			content.find('#lcount').val(id);
+			content.find('.js-locks-table tbody').append(cloneItem.html());
+			content.find('#js-lock-count').val(id);
 			thisInstance.registerDelete(content.find('tr.row' + id));
 			App.Fields.Picklist.showSelect2ElementView(content.find('tr.row' + id).find('select'));
 		});
 	},
+	/**
+	 * Register events for delete item
+	 * @param {jQuery} content
+	 */
 	registerDelete: function (content) {
-		content.find('.delate').click(function (e) {
+		content.find('.js-delete-item').on('click', function (e) {
 			var target = $(e.currentTarget);
 			target.closest('tr').remove();
 		});
 	},
+	/**
+	 * Register events for save
+	 * @param {jQuery} content
+	 */
 	registerSave: function (content) {
-		var thisInstance = this;
-		content.find('.saveItems').click(function (e) {
+		content.find('.js-save-items').on('click', function (e) {
 			var data = [];
-			content.find('.locksTable tbody tr').each(function (index) {
+			content.find('.js-locks-table tbody tr').each(function (index) {
 				data.push({
-					user: $(this).find('.users').val(),
-					locks: $(this).find('.locks').val(),
+					user: $(this).find('.js-users').val(),
+					locks: $(this).find('.js-locks').val()
 				});
 			});
 			app.saveAjax('saveLocks', data).then(function (data) {
@@ -34,6 +44,9 @@ jQuery.Class('Settings_Users_Locks_Js', {}, {
 			});
 		});
 	},
+	/**
+	 * Main function
+	 */
 	registerEvents: function () {
 		var content = $('.contentsDiv');
 		this.registerAdd(content);
