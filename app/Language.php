@@ -654,5 +654,6 @@ class Language
 		if (file_put_contents($fileDirectory, Json::encode($translations, JSON_PRETTY_PRINT)) === false) {
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
+		Cache::delete('LanguageFiles', $language . str_replace('__', DIRECTORY_SEPARATOR, $fileName));
 	}
 }

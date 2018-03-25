@@ -54,9 +54,8 @@
 	"LBL_LANGUAGE": "Idioma",
 	"LBL_SHOW": "Mostrar",
 	"LBL_STATS_INFO": "Los valores estad\u00edsticos presentados determinan la proporci\u00f3n en porcentaje de etiquetas no traducidas a todas las etiquetas que existen en el archivo del idioma base.",
-	"LBL_UNTRANSLATED_LABELS": "Etiquetas no traducidas",
-	"LBL_CUSTOM_TYPE_INFO": "El modo personalizado est\u00e1 activado. No se pueden modificar los archivos de idioma de origen. Todas las modificaciones se llevar\u00e1n a cabo en el directorio custom\/."
-  },
+	"LBL_UNTRANSLATED_LABELS": "Etiquetas no traducidas"
+},
   "js": {
 	"Translations": "Traducciones",
 	"LBL_AreYouSure": "\u00bfEst\u00e1 seguro de que quiere eliminar este idioma?",

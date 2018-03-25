@@ -7,30 +7,21 @@
 				&nbsp;{\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<hr>
-		{if \AppConfig::performance('LOAD_CUSTOM_FILES')}
-			<div class="alert alert-info fade in">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				{\App\Language::translate('LBL_CUSTOM_TYPE_INFO', $QUALIFIED_MODULE)}
-			</div>
-		{/if}
-		<div class="">
+		<div class="mt-1">
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
-					<li class="active">
-						<a data-toggle="tab" href="#lang_list">
+					<li class="nav-item">
+						<a data-toggle="tab" href="#lang_list" class="nav-link active">
 							<strong>{\App\Language::translate('LBL_TAB_LIST', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>
-					<li class="edit_lang">
-						<a data-toggle="tab" href="#edit_lang" data-mode="editLang">
+					<li class="edit_lang nav-item">
+						<a data-toggle="tab" href="#edit_lang" data-mode="editLang" class="nav-link">
 							<strong>{\App\Language::translate('LBL_TAB_EDITLANG', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>
-					<li class="lang_stats">
-						<a data-toggle="tab" href="#lang_stats">
+					<li class="lang_stats nav-item">
+						<a data-toggle="tab" href="#lang_stats" class="nav-link">
 							<strong>{\App\Language::translate('LBL_TAB_STATS', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>

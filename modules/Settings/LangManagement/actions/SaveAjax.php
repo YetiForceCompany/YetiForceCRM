@@ -32,27 +32,33 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 */
 	public function addTranslation(\App\Request $request)
 	{
-		$params = [
-			'mod' => $request->getByType('mod', 2),
-			'type' => $request->getByType('type'),
-			'langkey' => $request->getByType('variable', 'Text'),
-		];
-		foreach ($request->getArray('langs') as $lang) {
-			if (!isset(App\Language::getAll()[$lang])) {
-				throw new \App\Exceptions\Security('LBL_LANGUAGE_DOES_NOT_EXIST');
+		$moduleName = $request->getModule(false);
+		try {
+			$langs = $request->getArray('langs', 1);
+			if (!$langs || array_diff($langs, array_keys(App\Language::getAll()))) {
+				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 			}
-			$params['lang'] = $lang;
-			$params['val'] = $request->getForHtml($lang);
-			$saveResp = Settings_LangManagement_Module_Model::addTranslation($params);
-			if ($saveResp['success'] === false) {
-				break;
+			if (!in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
+			$mod = $request->getByType('mod');
+			$type = $request->getByType('type');
+			$variable = $request->getByType('variable', 'Text');
+			$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
+			$data = $moduleModel->loadLangTranslation($langs, $mod);
+			if (!isset($data[$type][$variable])) {
+				foreach ($langs as $lang) {
+					\App\Language::translationModify($lang, $mod, $type, $variable, $request->getForHtml('val'));
+				}
+				$result = ['success' => true, 'message' => \App\Language::translate('LBL_AddTranslationOK', $moduleName)];
+			} else {
+				$result = ['success' => false, 'message' => \App\Language::translate('LBL_KeyExists', $moduleName)];
+			}
+		} catch (\Exception $ex) {
+			$result = ['success' => false];
 		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => $saveResp['success'],
-			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false)),
-		]);
+		$response->setResult($result);
 		$response->emit();
 	}
 
@@ -65,23 +71,23 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 */
 	public function saveTranslation(\App\Request $request)
 	{
-		if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
-			throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
+		$moduleName = $request->getModule(false);
+		try {
+			$typeModify = $request->has('typeModify') ? $request->getInteger('typeModify') : 0;
+			if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
+				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
+			}
+			if (!in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+			$result = \App\Language::translationModify(
+					$request->getByType('lang'), $request->getByType('mod'), $request->getByType('type'), $request->getByType('variable', 'Text'), $request->getForHtml('val'), $typeModify);
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_UpdateTranslationOK', $moduleName)];
+		} catch (\Exception $ex) {
+			$result = ['success' => false];
 		}
-		$params = [
-			'lang' => $request->getByType('lang'),
-			'mod' => $request->getByType('mod', 2),
-			'type' => $request->getByType('type'),
-			'langkey' => $request->getByType('langkey', 'Text'),
-			'val' => $request->getForHtml('val'),
-			'is_new' => $request->getBoolean('is_new'),
-		];
-		$saveResp = Settings_LangManagement_Module_Model::saveTranslation($params);
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => $saveResp['success'],
-			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false)),
-		]);
+		$response->setResult($result);
 		$response->emit();
 	}
 

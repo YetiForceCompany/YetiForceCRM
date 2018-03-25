@@ -54,8 +54,7 @@
 	"LBL_LANGUAGE": "Sprache",
 	"LBL_SHOW": "Anzeigen",
 	"LBL_STATS_INFO": "Die angezeigte Statistik stellt das prozentuale Verh\u00e4ltnis der nicht \u00fcbersetzten Labels zu allen Labels in den Standardsprachdateien.",
-	"LBL_UNTRANSLATED_LABELS": "Nicht \u00fcbersetzte Labels",
-	"LBL_CUSTOM_TYPE_INFO": "\u00c4nderungsmodus aktiv. \u00c4nderungen der Originaldaten ist nicht m\u00f6glich. Alle \u00c4nderungen werden im custom\/ Verzeichnis gespeichert."
+	"LBL_UNTRANSLATED_LABELS": "Nicht \u00fcbersetzte Labels"
   },
   "js": {
 	"Translations": "\u00dcbersetzungen",
