@@ -61,8 +61,8 @@ var Settings_Index_Js = {
 		$('#edit_lang .translation').change(function (e) {
 			Settings_Index_Js.changeTranslation(e, position)
 		});
-		$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
-		$('#edit_lang .delete_translation').click(function (e) {
+		$('#edit_lang .js-add-translation').click(Settings_Index_Js.ShowTranslationMondal);
+		$('#edit_lang .js-delete').click(function (e) {
 			Settings_Index_Js.deleteTranslation(e, position)
 		});
 		$('.LangManagement ' + position + ' .show_differences').click(Settings_Index_Js.ShowDifferences);

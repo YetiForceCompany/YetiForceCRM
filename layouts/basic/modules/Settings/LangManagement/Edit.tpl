@@ -30,7 +30,9 @@
 					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{\App\Language::translate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
 				</label>
 			</div>
-			<button class="btn btn-primary add_translation col-md-2 float-right {if empty($SELECTED_LANGS)}d-none{/if}">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			<div>
+				<button class="btn btn-primary js-add-translation {if empty($SELECTED_LANGS)}d-none{/if}" type="button" data-js="click">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -75,9 +77,9 @@
 								{/foreach}
 								<td>
 									{if isset($CUSTOM_DATA['php'][$LANG_KEY])}
-										<a href="#" class="float-right marginRight10px delete_translation" title="{\App\Language::translate('LBL_DELETE')}">
-											<i class="fas fa-trash-alt alignMiddle"></i>
-										</a>
+										<button type="button" class="btn btn-light js-delete" data-js="click" title="{\App\Language::translate('LBL_DELETE')}">
+											<span class="fas fa-trash-alt alignMiddle"></span>
+										</button>
 									{/if}
 								</td>
 							</tr>
@@ -111,9 +113,9 @@
 								{/foreach}
 								<td>
 									{if isset($CUSTOM_DATA['js'][$LANG_KEY])}
-										<a href="#" class="float-right marginRight10px delete_translation">
-											<i class="fas fa-trash-alt alignMiddle"></i>
-										</a>
+										<button type="button" class="btn btn-light js-delete" data-js="click" title="{\App\Language::translate('LBL_DELETE')}">
+											<span class="fas fa-trash-alt alignMiddle"></span>
+										</button>
 									{/if}
 								</td>
 							</tr>
