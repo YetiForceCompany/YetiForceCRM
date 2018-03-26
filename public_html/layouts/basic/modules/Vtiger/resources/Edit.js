@@ -1471,6 +1471,20 @@ jQuery.Class("Vtiger_Edit_Js", {
 			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 		});
 	},
+	registerMultiImageUpload(container) {
+		$('.c-multi-image .c-multi-image__file').fileupload({
+			dataType: 'json',
+			done: function (e, data) {
+				$.each(data.result.files, function (index, file) {
+					console.log('file', file);
+				});
+			},
+			progressall: function (e, data) {
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				console.log('this',this)
+			}
+		});
+	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
@@ -1492,6 +1506,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerReferenceFields(container);
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
+		this.registerMultiImageUpload(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();
