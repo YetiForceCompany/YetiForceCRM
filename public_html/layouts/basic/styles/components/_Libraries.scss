@@ -123,6 +123,9 @@ header {
 .modal-open {
   ul.ui-autocomplete {
 	max-width: 25rem !important;
+	div.ui-menu-item-wrapper {
+		@extend .u-text-ellipsis;
+	}
   }
 }
 //--- fullcalendar ---//
