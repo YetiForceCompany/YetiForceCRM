@@ -92,7 +92,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				const defaultGutterPosition = this.getDefaultSplitSizes();
 				this.split.setSizes(defaultGutterPosition);
 				listPreview.show();
-				this.sideBlockRight.removeClass('js-side-block--right');
+				this.sideBlockRight.removeClass('js-d-block');
 				app.moduleCacheSet('userSplitSet', defaultGutterPosition);
 			}
 		});
@@ -120,7 +120,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.list = container.find('.js-list-preview');
 		this.rotatedText = container.find('.u-rotate-90');
 		this.infoUser = $('.infoUser');
-		this.footerH = $('.vtFooter').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
+		this.footerH = $('.js-footer').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
 		this.headerH = $('.bodyHeader').outerHeight();
 	},
 	getDefaultSplitSizes: function () {
@@ -147,7 +147,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerSplitEvents: function (container, split) {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-		var minWindowWidth = (23 / $(window).width()) * 100;
+		var minWindowWidth = (25 / $(window).width()) * 100;
 		var maxWindowWidth = 100 - minWindowWidth;
 		var listPreview = container.find('.js-detail-preview');
 		this.gutter.on("dblclick", () => {
@@ -156,7 +156,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				this.split.setSizes(gutterMidPosition);
 			}
 			if (split.getSizes()[0] < 10) {
-				this.sideBlockLeft.removeClass('js-side-block--left');
+				this.sideBlockLeft.removeClass('js-d-block');
 				this.list.removeClass('js-hide-underneath');
 				if (gutterMidPosition[0] > 11) {
 					split.setSizes(gutterMidPosition);
@@ -169,16 +169,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				} else {
 					split.setSizes(this.getDefaultSplitSizes());
 				}
-				this.sideBlockRight.removeClass('js-side-block--right');
+				this.sideBlockRight.removeClass('js-d-block');
 				listPreview.show();
 				this.gutter.css('right', 'initial');
 			} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
 				split.setSizes([minWindowWidth, maxWindowWidth]);
 				this.list.addClass('js-hide-underneath');
-				this.sideBlockLeft.addClass('js-side-block--left');
+				this.sideBlockLeft.addClass('js-d-block');
 			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
 				split.collapse(1);
-				this.sideBlockRight.addClass('js-side-block--right');
+				this.sideBlockRight.addClass('js-d-block');
 				listPreview.hide();
 				this.list.width(this.list.width() - 10);
 			}
@@ -191,7 +191,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			} else {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
-			this.sideBlockLeft.removeClass('js-side-block--left');
+			this.sideBlockLeft.removeClass('js-d-block');
 			this.list.removeClass('js-hide-underneath');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
@@ -202,7 +202,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			} else {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
-			this.sideBlockRight.removeClass('js-side-block--right');
+			this.sideBlockRight.removeClass('js-d-block');
 			listPreview.show();
 			this.gutter.css('right', 'initial');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
@@ -215,7 +215,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 */
 	registerSplit: function (container) {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-		var splitMinWidth = (23 / $(window).width()) * 100;
+		var splitMinWidth = (25 / $(window).width()) * 100;
 		var splitMaxWidth = 100 - splitMinWidth;
 		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
 		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
@@ -231,18 +231,18 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					split.collapse(1);
 				}
 				if (split.getSizes()[0] < 5) {
-					this.sideBlockLeft.addClass('js-side-block--left');
+					this.sideBlockLeft.addClass('js-d-block');
 					this.list.addClass('js-hide-underneath');
 				} else {
-					this.sideBlockLeft.removeClass('js-side-block--left');
+					this.sideBlockLeft.removeClass('js-d-block');
 					this.list.removeClass('js-hide-underneath');
 				}
 				if (split.getSizes()[1] < 10) {
-					this.sideBlockRight.addClass('js-side-block--right');
+					this.sideBlockRight.addClass('js-d-block');
 					listPreview.hide();
 					this.list.width(this.list.width() - 10);
 				} else {
-					this.sideBlockRight.removeClass('js-side-block--right');
+					this.sideBlockRight.removeClass('js-d-block');
 					listPreview.show();
 				}
 				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
@@ -253,15 +253,15 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		if (splitSizes[0] < 10) {
 			listPreview.width(listPreview.width() - 150);
-			this.sideBlockLeft.addClass('js-side-block--left');
+			this.sideBlockLeft.addClass('js-d-block');
 			split.setSizes([splitMinWidth, splitMaxWidth]);
 			this.list.addClass('js-hide-underneath');
 		} else if (splitSizes[1] < rightSplitMaxWidth) {
-			this.sideBlockRight.addClass('js-side-block--right');
+			this.sideBlockRight.addClass('js-d-block');
 			listPreview.hide();
 			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
-		this.gutter = container.find('.gutter');
+		this.gutter = container.find('.gutter');		
 		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + this.footerH)};
 		this.gutter.css(mainWindowHeightCss);
 		this.list.css(mainWindowHeightCss);
@@ -291,8 +291,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			if ($(window).width() < 993) {
 				if (container.find('.gutter').length) {
 					splitsArray[splitsArray.length - 1].destroy();
-					this.sideBlockRight.removeClass('js-side-block--right');
-					this.sideBlockLeft.removeClass('js-side-block--left');
+					this.sideBlockRight.removeClass('js-d-block');
+					this.sideBlockLeft.removeClass('js-d-block');
 				}
 			} else {
 				if (container.find('.gutter').length !== 1) {
