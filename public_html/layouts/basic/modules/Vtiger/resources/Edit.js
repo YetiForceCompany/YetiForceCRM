@@ -1471,18 +1471,58 @@ jQuery.Class("Vtiger_Edit_Js", {
 			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 		});
 	},
-	registerMultiImageUpload(container) {
-		$('.c-multi-image .c-multi-image__file').fileupload({
+	/**
+	 * Register multi image upload fields
+	 * @param {HTMLElement|jQuery} container
+	 */
+	registerMultiImageFields(container) {
+		$(document).bind('drop dragover', function (e) {
+			e.preventDefault();
+		});
+		const fileUploads = $('.c-multi-image .c-multi-image__file');
+		fileUploads.fileupload({
 			dataType: 'json',
-			done: function (e, data) {
+			done(e, data) {
 				$.each(data.result.files, function (index, file) {
 					console.log('file', file);
 				});
 			},
-			progressall: function (e, data) {
-				var progress = parseInt(data.loaded / data.total * 100, 10);
-				console.log('this',this)
-			}
+			add(e, data) {
+				const component = $(this).closest('.c-multi-image');
+				$(component).find('.c-multi-image__progress').removeClass('d-none').fadeIn(() => {
+					data.submit()
+						.success((result, textStatus, jqXHR) => {
+							console.log('upload success', this);
+							$(component).find('.c-multi-image__progress').fadeOut(() => {
+								$(component).find('.c-multi-image__progress').addClass('d-none')
+									.find('.c-multi-image__progress-bar').css({width: "0%"});
+							});
+						})
+						.error((jqXHR, textStatus, errorThrown) => {
+							console.log('error', this);
+						})
+						.complete((result, textStatus, jqXHR) => {
+							console.log('upload complete', this);
+
+							$(component).find('.c-multi-image__progress').fadeOut(() => {
+								$(component).find('.c-multi-image__progress').addClass('d-none')
+									.find('.c-multi-image__progress-bar').css({width: "0%"});
+							});
+						});
+				});
+			},
+			progressall(e, data) {
+				const progress = parseInt(data.loaded / data.total * 100, 10);
+				$(this).closest('.c-multi-image').find('.c-multi-image__progress-bar').css({width: progress + "%"});
+			},
+			change(e, data) {
+				$.each(data.files, function (index, file) {
+					console.log(file);
+				});
+			},
+		});
+		$(fileUploads).each(function () {
+			$(this).fileupload('option', 'dropZone', $(this).closest('.c-multi-image'));
 		});
 	},
 	/**
@@ -1506,7 +1546,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerReferenceFields(container);
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
-		this.registerMultiImageUpload(container);
+		this.registerMultiImageFields(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

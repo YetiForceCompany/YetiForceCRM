@@ -8,10 +8,13 @@
 		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true)} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 		   data-fieldinfo='{$FIELD_INFO}'
 		   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
-	<div class="c-multi-image">
-		<input class="c-multi-image__file" type="file" name="files[]"
-			   data-url="index.php?module={$FIELD_MODEL->getModuleName()}&view=FileUpload&inputName={$FIELD_MODEL->getFieldName()}&fileType=image"
-			   multiple>
+	<div class="c-multi-image border rounded p-2">
+		<div class="fileinput-button btn btn-primary">
+			<input class="c-multi-image__file" type="file" name="files[]"
+				   data-url="index.php?module={$FIELD_MODEL->getModuleName()}&view=FileUpload&inputName={$FIELD_MODEL->getFieldName()}&fileType=image"
+				   multiple>
+			<span class="fa fa-plus"></span> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
+		</div>
 		<div class="c-multi-image__result" data-name="{$FIELD_MODEL->getFieldName()}">
 			{if $RECORD}
 				{assign var="RECORD_ID" value=$RECORD->getId()}
@@ -29,8 +32,10 @@
 				</div>
 			{/foreach}
 		</div>
-		<div class="c-multi-image__progress progress">
-			<div class="c-multi-image__progress-bar progress-bar" style="width: 0%"></div>
+		<div class="c-multi-image__progress progress d-none my-2">
+			<div class="c-multi-image__progress-bar progress-bar progress-bar-striped progress-bar-animated"
+				 role="progressbar"
+				 style="width: 0%"></div>
 		</div>
 	</div>
 {/strip}
