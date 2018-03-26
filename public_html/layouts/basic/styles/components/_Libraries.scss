@@ -120,6 +120,11 @@ header {
 	font-weight: inherit !important;
   }
 }
+.modal-open {
+  ul.ui-autocomplete {
+	max-width: 25rem !important;
+  }
+}
 //--- fullcalendar ---//
 .fc-day-grid {
   .fc-row.fc-week {
