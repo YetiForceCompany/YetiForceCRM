@@ -34,5 +34,5 @@
 										{/foreach}
 							</ul>
 						{/if}
-					<div class="col-sm-12">
+					<div class="col-sm-12 p-0">
 					{/strip}
