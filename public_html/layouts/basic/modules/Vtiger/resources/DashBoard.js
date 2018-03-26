@@ -672,8 +672,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	registerEvents: function () {
-		this.registerGridster();
 		this.loadWidgets();
+		this.registerGridster();
 		this.registerRefreshWidget();
 		this.removeWidget();
 		this.registerDatePickerHideInitiater();
