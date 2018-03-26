@@ -58,11 +58,7 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 		return array_merge($this->checkAndConvertJsScripts([
 			'~libraries/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
 			'~libraries/blueimp-file-upload/js/jquery.iframe-transport.js',
-			'~libraries/blueimp-load-image/js/load-image.all.min.js',
-			'~libraries/blueimp-canvas-to-blob/js/canvas-to-blob.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
-			'~libraries/blueimp-file-upload/js/jquery.fileupload-process.js',
-			'~libraries/blueimp-file-upload/js/jquery.fileupload-image.js',
 		]), parent::getFooterScripts($request));
 	}
 }
