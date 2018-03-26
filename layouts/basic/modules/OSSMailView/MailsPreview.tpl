@@ -19,8 +19,10 @@
 							</button>
 						</div>
 						<div>
-							<h4 class="modal-title float-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
-							<button type="button" class="btn btn-warning float-right" data-dismiss="modal" aria-label="Close">
+							<h5 class="modal-title float-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h5>
+						</div>
+						<div>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
