@@ -2,7 +2,7 @@
 {strip}
 	{assign var=COUNT value=count($RECOLDLIST)}
 	<div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog modal-blg">
+		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="row">
