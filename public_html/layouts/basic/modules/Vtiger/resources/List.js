@@ -1303,7 +1303,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerCheckBoxClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.delegate('.listViewEntriesCheckBox', 'click', function (e) {
+		listViewPageDiv.on('click', '.listViewEntriesCheckBox', function (e) {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
 			var elem = jQuery(e.currentTarget);
@@ -1334,7 +1334,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerSelectAllClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.delegate('#selectAllMsg', 'click', function () {
+		listViewPageDiv.on('click', '#selectAllMsg', function () {
 			jQuery('#selectAllMsgDiv').hide();
 			jQuery("#deSelectAllMsgDiv").show();
 			jQuery('#listViewEntriesMainCheckBox').prop('checked', true);
@@ -1350,7 +1350,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerDeselectAllClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.delegate('#deSelectAllMsg', 'click', function () {
+		listViewPageDiv.on('click', '#deSelectAllMsg', function () {
 			jQuery('#deSelectAllMsgDiv').hide();
 			jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
 			jQuery('.listViewEntriesCheckBox').each(function (index, element) {

@@ -31,7 +31,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 						}
 					}
 					form.validationEngine(params);
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 					})
 				}

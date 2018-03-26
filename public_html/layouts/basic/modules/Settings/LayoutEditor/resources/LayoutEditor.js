@@ -638,7 +638,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 							var lowerCasedpickListValuesArray = jQuery.map(pickListValuesArray, function (item, index) {
 								return item.toLowerCase();
 							});
-							var uniqueLowerCasedpickListValuesArray = jQuery.unique(lowerCasedpickListValuesArray);
+							var uniqueLowerCasedpickListValuesArray = jQuery.uniqueSort(lowerCasedpickListValuesArray);
 							var uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length;
 							var arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
 							if (arrayDiffSize > 0) {
@@ -898,7 +898,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				}
 				form.validationEngine(params);
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 				})
 			}
@@ -1071,7 +1071,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
 					//register click event for reactivate button in the inactive fields modal
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						thisInstance.createReactivateFieldslist(blockId, form);
 						thisInstance.reActivateHiddenFields(currentBlock);
 						app.hideModalWindow();
@@ -1740,7 +1740,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				});
 			}
 		});
-		container.find('form').submit(function (event) {
+		container.find('form').on('submit', function (event) {
 			event.preventDefault();
 		});
 	},

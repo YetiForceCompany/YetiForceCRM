@@ -461,7 +461,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				check_callback: true
 			},
 			plugins: ["checkbox"]
-		}).bind("loaded.jstree", function (event, data) {
+		}).on("loaded.jstree", function (event, data) {
 			$(this).jstree("open_all");
 		}).on('changed.jstree', function (e, data) {
 			if (data.action != 'model') {

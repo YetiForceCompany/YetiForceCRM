@@ -7,7 +7,7 @@ var Settings_Password_Js = {
 		jQuery("#min_length,#max_length,#change_time,#lock_time").on('change', function () {
 			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).val());
 		});
-		jQuery('#min_length,#max_length,#change_time,#lock_time').keyup(function () {
+		jQuery('#min_length,#max_length,#change_time,#lock_time').on('keyup', function () {
 			this.value = this.value.replace(/[^0-9\.]/g, '');
 		});
 	},

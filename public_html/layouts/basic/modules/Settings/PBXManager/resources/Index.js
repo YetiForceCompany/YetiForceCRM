@@ -81,7 +81,7 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 		form.validationEngine(params);
 		//END
 
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			e.preventDefault();
 		});
 

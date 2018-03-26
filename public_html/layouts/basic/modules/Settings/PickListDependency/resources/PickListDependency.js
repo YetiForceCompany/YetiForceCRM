@@ -545,7 +545,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var form = jQuery('#pickListDependencyForm');
 		var dependencyGraph = jQuery('#dependencyGraph');
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			e.preventDefault();
 			try {
 				thisInstance.updateValueMapping(dependencyGraph);

@@ -509,7 +509,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var thisObject = this;
 			var key = $(thisObject).data('hotkeys');
 			if (key != '') {
-				Mousetrap.bind(key, function () {
+				Mousetrap.on(key, function () {
 					thisObject.on('click', );
 				});
 			}
@@ -699,7 +699,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var elem = $(this);
 			if (!elem.data('has-scroll')) {
 				elem.data('has-scroll', true);
-				elem.bind('scroll keyup', function () {
+				elem.on('scroll keyup', function () {
 					thisInstance.resizeTextArea($(this));
 				});
 			}

@@ -143,7 +143,7 @@
 				jQuery("#loginDiv").show();
 				jQuery("#forgotPasswordDiv").hide();
 			});
-			jQuery("form.forgot-form").submit(function (event) {
+			jQuery("form.forgot-form").on('submit', function (event) {
 				if ($("#usernameFp").val() === "" || $("#emailId").val() === "") {
 					event.preventDefault();
 				}

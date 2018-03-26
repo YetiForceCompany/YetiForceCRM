@@ -908,7 +908,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerSubmitEvent: function () {
 		var editViewForm = this.getForm();
-		editViewForm.submit(function (e) {
+		editViewForm.on('submit', function (e) {
 			//Form should submit only once for multiple clicks also
 			if (typeof editViewForm.data('submit') != "undefined") {
 				return false;

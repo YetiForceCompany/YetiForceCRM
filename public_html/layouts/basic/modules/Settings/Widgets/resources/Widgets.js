@@ -23,7 +23,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var save = true;
 				if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
@@ -206,7 +206,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod=" + module, function (wizardContainer) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var form = jQuery('form', wizardContainer);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var type = form.find('[name="type"]').val();
 					thisInstance.createStep2(type);
@@ -230,7 +230,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 					});
 				}
 				var form = jQuery('form', wizardContainer);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var progress = $.progressIndicator({
 						'message': app.vtranslate('Loading data'),

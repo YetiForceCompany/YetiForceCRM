@@ -105,7 +105,7 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 		}
 		form.validationEngine(params);
 
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			e.preventDefault();
 		})
 

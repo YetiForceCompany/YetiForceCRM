@@ -336,7 +336,7 @@ app = {
 			validationForm = true;
 		}
 		if (form.hasClass("sendByAjax")) {
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				var save = true;
 				e.preventDefault();
 				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
@@ -777,7 +777,7 @@ app = {
 			moduleCache = moduleCache.split(',');
 		}
 		moduleCache.push(orgKey);
-		this.cacheSet(cacheKey, Vtiger_Helper_Js.unique(moduleCache).join(','));
+		this.cacheSet(cacheKey, Vtiger_Helper_Js.uniqueSort(moduleCache).join(','));
 	},
 	moduleCacheGet: function (key) {
 		return this.cacheGet(this.getModuleName() + '_' + key);
@@ -1164,7 +1164,7 @@ app = {
 			var position = currentElement.data('position');
 			if (position == 'top') {
 				var offsetTop = currentElement.offset().top - 50;
-				jQuery('.mainBody').scroll(function () {
+				jQuery('.mainBody').on('scroll', function () {
 					if ($(this).scrollTop() > offsetTop)
 						currentElement.css({
 							'position': 'fixed',
@@ -1181,7 +1181,7 @@ app = {
 			}
 			if (position == 'bottom') {
 				var offsetTop = currentElement.offset().top - jQuery(window).height();
-				jQuery('.mainBody').scroll(function () {
+				jQuery('.mainBody').on('scroll', function () {
 					if ($(this).scrollTop() < offsetTop)
 						currentElement.css({
 							'position': 'fixed',

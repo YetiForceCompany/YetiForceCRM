@@ -142,7 +142,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 					});
 				});
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 				})
 			}
@@ -248,7 +248,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 					});
 				});
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 				});
 			}

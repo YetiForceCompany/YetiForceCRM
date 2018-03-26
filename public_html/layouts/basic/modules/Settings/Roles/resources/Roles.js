@@ -84,11 +84,11 @@ var Settings_Roles_Js = {
 
 		jQuery('.toolbar').hide();
 
-		jQuery('.toolbar-handle').bind('mouseover', function (e) {
+		jQuery('.toolbar-handle').on('mouseover', function (e) {
 			var target = $(e.currentTarget);
 			jQuery('.toolbar', target).css({display: 'inline'});
 		});
-		jQuery('.toolbar-handle').bind('mouseout', function (e) {
+		jQuery('.toolbar-handle').on('mouseout', function (e) {
 			var target = $(e.currentTarget);
 			jQuery('.toolbar', target).hide();
 		});

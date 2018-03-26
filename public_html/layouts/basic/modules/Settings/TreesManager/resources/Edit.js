@@ -36,7 +36,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			$('#treeValues').val(JSON.stringify(forSave));
 			editContainer.submit();
 		});
-		$('.addNewElement').keydown(function (event) {
+		$('.addNewElement').on('keydown', function (event) {
 			if (event.keyCode == 13) {
 				$('.addNewElementBtn').trigger("click");
 				event.preventDefault();
@@ -186,10 +186,10 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 						responsive: true
 					},
 				},
-			}).bind("loaded.jstree", function (event, data) {
+			}).on("loaded.jstree", function (event, data) {
 				$(this).jstree("open_all");
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				var selected = jstreeInstanceReplace.jstree("get_selected");
 				var replaceIds = $('#replaceIds').val();
 				if (replaceIds == '') {

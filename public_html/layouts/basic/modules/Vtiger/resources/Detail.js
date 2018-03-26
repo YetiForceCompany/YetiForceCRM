@@ -2028,7 +2028,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.data('url', url);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.commentSearch').keyup(function (e) {
+		detailContentsHolder.find('.commentSearch').on('keyup', function (e) {
 			var text = $(this).val();
 			if (text) {
 				detailContentsHolder.find('.commentDetails').addClass('d-none');

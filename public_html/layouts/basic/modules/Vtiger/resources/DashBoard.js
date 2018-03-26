@@ -385,7 +385,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						});
 					})
 				});
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var selectedModule = moduleNameSelect2.val();
 					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
@@ -528,7 +528,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					}
 				});
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var selectedModule = moduleNameSelect2.val();
 					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();

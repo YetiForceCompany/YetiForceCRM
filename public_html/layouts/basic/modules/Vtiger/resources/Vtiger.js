@@ -31,7 +31,7 @@ var Vtiger_Index_Js = {
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var formData = new FormData(form[0]);
 				if (formData) {
@@ -391,14 +391,14 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerResizeEvent: function () {
-		$(window).resize(function () {
+		$(window).on('resize', function () {
 			if (this.resizeTO)
 				clearTimeout(this.resizeTO);
 			this.resizeTO = setTimeout(function () {
 				$(this).trigger('resizeEnd');
 			}, 600);
 		});
-		$(window).bind('resizeEnd', function () {
+		$(window).on('resizeEnd', function () {
 			Vtiger_Index_Js.adjustTopMenuBarItems();
 		});
 	},

@@ -102,7 +102,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 				App.Fields.Picklist.showSelect2ElementView(selectElement);
 				var form = data.find('form');
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					var currentTarget = jQuery(e.currentTarget);
 					var module = currentTarget.find('#modulesList');
 					if (module.length && module.val()) {

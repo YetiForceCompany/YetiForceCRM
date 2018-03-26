@@ -145,7 +145,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				var params = app.validationEngineOptions;
 				var block = form.find('[name="authorized"]');
 				form.validationEngine(params);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					if (form.validationEngine('validate')) {
 						var paramsForm = form.serializeFormData();
 						paramsForm['action'] = 'addBlock';
@@ -739,7 +739,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					});
 				})
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var selectedModule = moduleNameSelect2.val();
 				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
@@ -940,7 +940,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					footer.show();
 				}
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var selectedModule = moduleNameSelect2.val();
 				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
