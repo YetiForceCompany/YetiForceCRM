@@ -7,7 +7,7 @@
 				<div class="modal-header">
 					<div class="row">
 						<div class="col-md-6">
-							<h4 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h4>
+							<h5 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h5>
 						</div>
 						<div class="col-md-3">
 							<button type="button" class="btn btn-light expandAllMails">
