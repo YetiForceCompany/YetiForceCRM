@@ -16,8 +16,8 @@
 		</div>
 		<div class="siteBarContent pt-4">
 {*			{if $CALENDAR_FILTERS->isActive()}*}
-				<div class="c-panel__content bg-primary calendarFilters">
-					<div class="c-panel__header quickWidgetHeaderc px-3">
+				<div class="c-panel__content calendarFilters">
+					<div class="c-panel__header quickWidgetHeaderc bg-info px-3">
 						<h4 class="card-title h6 text-white u-position-label col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
 							{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}
 						</h4>
