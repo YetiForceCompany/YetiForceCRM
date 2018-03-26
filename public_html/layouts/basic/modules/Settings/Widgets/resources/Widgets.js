@@ -16,7 +16,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			if (type == 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").change(function () {
+				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
 					thisInstance.changeRelatedModule();
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
@@ -195,7 +195,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			container = jQuery('.WidgetsManage');
 		}
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
-		$(".WidgetsManage select[name='ModulesList']").change(function (e) {
+		$(".WidgetsManage select[name='ModulesList']").on('change', function (e) {
 			var target = $(e.currentTarget);
 			$("input[name='tabid']").val(target.val());
 			thisInstance.reloadWidgets();
@@ -224,7 +224,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 				if (thisInstance.getType() == 'RelatedModule') {
 					thisInstance.loadFilters(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
-					wizardContainer.find("select[name='relatedmodule']").change(function () {
+					wizardContainer.find("select[name='relatedmodule']").on('change', function () {
 						thisInstance.changeRelatedModule();
 						thisInstance.relatedModuleFields(wizardContainer);
 					});

@@ -364,7 +364,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		container.on("click", '.relatedPopup', function (e) {
 			thisInstance.openPopUp(e);
 		});
-		container.find('.referenceModulesList').select2().change(function (e) {
+		container.find('.referenceModulesList').select2().on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var parentElem = element.closest('.fieldValue');
 			var popupReferenceModule = element.val();
@@ -1466,7 +1466,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 	},
 	registerCopyValue: function (container) {
-		container.find('.fieldValue [data-copy-to-field]').change(function (e) {
+		container.find('.fieldValue [data-copy-to-field]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 		});

@@ -1579,7 +1579,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		thisInstance.registerDeleteCustomFieldEvent(contents);
 		thisInstance.registerEditFieldDetailsClick(contents);
 
-		contents.find(':checkbox').change(function (e) {
+		contents.find(':checkbox').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			if (currentTarget.attr('readonly') == 'readonly') {
 				var status = jQuery(e.currentTarget).is(':checked');

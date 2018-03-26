@@ -229,7 +229,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 */
 	usersFilter: function () {
 		var thisInstance = this;
-		jQuery('#usersFilter').change(function () {
+		jQuery('#usersFilter').on('change', function () {
 			var progressInstance = jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {

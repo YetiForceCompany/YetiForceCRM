@@ -365,7 +365,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		})
 	},
 	registerFillMailContentEvent: function () {
-		jQuery('#task-fieldnames,#task_timefields,#task-templates').change(function (e) {
+		jQuery('#task-fieldnames,#task_timefields,#task-templates').on('change', function (e) {
 			var textarea = CKEDITOR.instances.content;
 			var value = jQuery(e.currentTarget).val();
 			if (textarea != undefined) {

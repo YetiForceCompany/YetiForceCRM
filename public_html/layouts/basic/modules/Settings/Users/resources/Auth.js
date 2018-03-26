@@ -2,7 +2,7 @@
 jQuery.Class('Settings_Users_Auth_Js', {}, {
 	registerChangeVal: function (content) {
 		var thisInstance = this;
-		content.find('.configField').change(function (e) {
+		content.find('.configField').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
 			params['type'] = target.data('type');

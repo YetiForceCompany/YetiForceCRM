@@ -31,7 +31,7 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 	},
 	registerChangeVal: function (content) {
 		var thisInstance = this;
-		content.find('select').change(function (e) {
+		content.find('select').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
 			var value = '';

@@ -23,7 +23,7 @@ jQuery(document).ready(function ($) {
 	});
 
 	// enable/disable confirm button
-	$('#status').change(function () {
+	$('#status').on('change', function () {
 		$('#confirm').attr('disabled', !this.checked);
 	});
 	$('#confirmRegistration').on('click', function () {

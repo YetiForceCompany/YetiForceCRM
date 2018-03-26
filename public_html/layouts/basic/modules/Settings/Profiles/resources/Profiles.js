@@ -91,9 +91,9 @@ var Settings_Profiles_Js = {
 			}
 		}
 
-		jQuery('[data-module-state]').change(handleModuleSelectionState);
-		jQuery('[data-action-state]').change(handleActionSelectionState);
-		jQuery('#mainAction1CheckBox,#mainAction2CheckBox, #mainAction7CheckBox').change(selectAllModulesViewAndToolPriviliges);
+		jQuery('[data-module-state]').on('change', handleModuleSelectionState);
+		jQuery('[data-action-state]').on('change', handleActionSelectionState);
+		jQuery('#mainAction1CheckBox,#mainAction2CheckBox, #mainAction7CheckBox').on('change', selectAllModulesViewAndToolPriviliges);
 
 		jQuery('[data-togglehandler]').on('click', toggleEditViewTableRow);
 		jQuery('[data-range]').each(function (index, item) {

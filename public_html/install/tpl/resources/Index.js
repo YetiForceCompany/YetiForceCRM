@@ -279,7 +279,7 @@ jQuery.Class('Install_Index_Js', {
 		this.registerEventForStep5();
 		this.registerEventForStep6();
 		this.registerEventForMigration();
-		$('select[name="lang"]').change(this.changeLanguage);
+		$('select[name="lang"]').on('change', this.changeLanguage);
 	}
 });
 jQuery(document).ready(function () {

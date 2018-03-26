@@ -50,7 +50,7 @@ var Settings_UserColors_Js = {
 		);
 	},
 	registerSaveWorkingDays: function (content) {
-		content.find('.workignDaysField').change(function (e) {
+		content.find('.workignDaysField').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
 			params['type'] = target.data('type');

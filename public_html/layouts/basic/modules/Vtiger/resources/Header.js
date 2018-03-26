@@ -741,7 +741,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.registerToggleButton();
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
-		jQuery('.basicSearchModulesList').change(function () {
+		jQuery('.basicSearchModulesList').on('change', function () {
 			var value = $(this).closest('.globalSearchInput').find('.globalSearchValue')
 			setTimeout(function () {
 				value.focus();

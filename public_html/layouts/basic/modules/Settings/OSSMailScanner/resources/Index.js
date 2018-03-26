@@ -90,7 +90,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val(), 'exceptions');
 		});
 
-		$('#status').change(function () {
+		$('#status').on('change', function () {
 			$('#confirm').attr('disabled', !this.checked);
 		});
 
@@ -182,13 +182,13 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 
 		});
 		$(".alert").alert();
-		jQuery("select[id^='function_list_']").change(function () {
+		jQuery("select[id^='function_list_']").on('change', function () {
 			thisIstance.saveActions(jQuery(this).data('user-id'), jQuery(this).val());
 		});
-		jQuery("select[id^='user_list_']").change(function () {
+		jQuery("select[id^='user_list_']").on('change', function () {
 			thisIstance.saveCRMuser(jQuery(this).data('user'), jQuery(this).val());
 		});
-		jQuery("#email_search").change(function () {
+		jQuery("#email_search").on('change', function () {
 			thisIstance.saveEmailSearchList(jQuery('#email_search').val());
 		});
 		jQuery('#tab_email_view_widget_limit').on('blur', function () {

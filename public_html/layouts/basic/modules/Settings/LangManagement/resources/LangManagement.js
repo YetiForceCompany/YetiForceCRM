@@ -58,7 +58,7 @@ var Settings_Index_Js = {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});
-		$('#edit_lang .translation').change(function (e) {
+		$('#edit_lang .translation').on('change', function (e) {
 			Settings_Index_Js.changeTranslation(e, position)
 		});
 		$('#edit_lang .add_translation').on('click', Settings_Index_Js.ShowTranslationMondal);

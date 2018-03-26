@@ -677,7 +677,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					wizardContainer.find('.step3 .groupField').trigger('change');
 				}
 			});
-			moduleNameSelect2.change(function () {
+			moduleNameSelect2.on('change', function () {
 				if (!moduleNameSelect2.val())
 					return;
 				footer.hide();
@@ -696,7 +696,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					footer.hide();
 					var filterid = step2.find('.filterId');
 					var valueTypeSelect = step2.find('.valueType');
-					step2.find('.filterId, .valueType').change(function () {
+					step2.find('.filterId, .valueType').on('change', function () {
 						if (!filterid.val() || !valueTypeSelect.val())
 							return;
 						wizardContainer.find('.step3').remove();
@@ -714,7 +714,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							var step3 = wizardContainer.find('.step3');
 							App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
 							footer.hide();
-							step3.find('.groupField').change(function () {
+							step3.find('.groupField').on('change', function () {
 								wizardContainer.find('.step4').remove();
 								var groupField = $(this);
 								if (!groupField.val())
@@ -895,7 +895,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			filterFieldsSelectDOM.closest('tr').hide();
 			footer.hide();
 
-			moduleNameSelect2.change(function () {
+			moduleNameSelect2.on('change', function () {
 				if (!moduleNameSelect2.val())
 					return;
 
@@ -911,7 +911,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					filterFieldsSelectDOM.closest('tr').hide();
 				})
 			});
-			filteridSelect2.change(function () {
+			filteridSelect2.on('change', function () {
 				if (!filteridSelect2.val())
 					return;
 				footer.hide();
@@ -933,7 +933,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 				});
 			});
-			fieldsSelect2.change(function () {
+			fieldsSelect2.on('change', function () {
 				if (!fieldsSelect2.val()) {
 					footer.hide();
 				} else {

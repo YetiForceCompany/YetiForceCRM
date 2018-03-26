@@ -412,7 +412,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		this.registerSaveAndCloseBtn(container);
 	},
 	toggleTimesInputs: function (container) {
-		container.find(':checkbox').change(function () {
+		container.find(':checkbox').on('change', function () {
 			var checkboxName = $(this).attr('name');
 			if ('allday' == checkboxName) {
 				var checkboxIsChecked = $(this).is(':checked');

@@ -23,7 +23,7 @@ var Vtiger_Index_Js = {
 			var template = container.find('.fileContainer');
 			var uploadContainer = container.find('.uploadFileContainer');
 			var form = container.find('form');
-			uploadButton.change(function () {
+			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
 				var files = uploadButton[0].files;
 				for (var i = 0; i < files.length; i++) {
