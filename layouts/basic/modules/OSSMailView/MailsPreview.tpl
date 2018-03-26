@@ -10,10 +10,10 @@
 							<h5 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h5>
 						</div>
 						<div>
-							<button type="button" class="btn btn-light expandAllMails mr-2">
+							<button type="button" class="btn btn-outline-secondary expandAllMails mr-2">
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
-							<button type="button" class="btn btn-light collapseAllMails">
+							<button type="button" class="btn btn-outline-secondary collapseAllMails">
 								{\App\Language::translate('LBL_COLLAPSE_ALL','OSSMailView')}
 							</button>
 						</div>
