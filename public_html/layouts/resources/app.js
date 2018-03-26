@@ -1030,7 +1030,7 @@ app = {
 		var value = app.cacheParams[param];
 		if (json) {
 			if (value != '') {
-				value = $.parseJSON(value);
+				value = JSON.parse(value);
 			} else {
 				value = [];
 			}
@@ -1357,5 +1357,5 @@ jQuery(document).ready(function () {
 		return (obj.textContent || obj.innerText || jQuery(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
 	}
 })(jQuery);
-jQuery.migrateMute = true;
+//jQuery.migrateMute = true;
 App = {}

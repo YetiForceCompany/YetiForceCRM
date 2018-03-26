@@ -458,7 +458,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					basicSearch.returnHtml = false;
 					basicSearch.setMainContainer(this.element.closest('.globalSearchInput'));
 					basicSearch.search(request.term).then(function (data) {
-						var data = jQuery.parseJSON(data);
+						var data = JSON.parse(data);
 						var serverDataFormat = data.result;
 						var reponseDataList = [];
 						for (var id in serverDataFormat) {

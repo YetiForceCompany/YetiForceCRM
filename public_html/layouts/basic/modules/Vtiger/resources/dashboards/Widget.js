@@ -1037,7 +1037,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var owners = container.find('.widgetOwners').val();
 			if (owners) {
 				var select = ownersFilter.find('select');
-				$.each(jQuery.parseJSON(owners), function (key, value) {
+				$.each(JSON.parse(owners), function (key, value) {
 					select.append($('<option>', {
 						value: key
 					}).text(value));

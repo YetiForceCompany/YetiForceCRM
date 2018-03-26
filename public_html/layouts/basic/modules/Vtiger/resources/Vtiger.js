@@ -86,7 +86,7 @@ var Vtiger_Index_Js = {
 			}
 		}).then(function (data) {
 			if (data.substring(0, 1) == '{') {
-				data = $.parseJSON(data);
+				data = JSON.parse(data);
 				data = data['result'];
 				aDeferred.resolve(data);
 			} else {
@@ -705,7 +705,7 @@ var Vtiger_Index_Js = {
 			phoneNumber: phoneNumber,
 			record: record
 		}).then(function (response) {
-			response = jQuery.parseJSON(response);
+			response = JSON.parse(response);
 			Vtiger_Helper_Js.showMessage({text: response.result});
 		});
 	},

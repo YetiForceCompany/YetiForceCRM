@@ -29,7 +29,7 @@ jQuery.Class("Vtiger_Menu_Js", {
 	}
 });
 var menu = new Vtiger_Menu_Js();
-jQuery(window).resize(function () {
+jQuery(window).on('resize', () => {
 	menu.registerMenu();
 });
 jQuery(function () {

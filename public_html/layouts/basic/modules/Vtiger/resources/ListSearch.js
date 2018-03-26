@@ -211,7 +211,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				if (url.charAt(lengthUrl - 1) === '#') {
 					url = url.substr(0, lengthUrl - 1);
 				}
-				url = jQuery.parseJSON(decodeURIComponent(url));
+				url = JSON.parse(decodeURIComponent(url));
 				$.each(url[0], function (index, value) {
 					var exist = false;
 					$.each(searchParams, function (index, searchParam) {
