@@ -10,16 +10,15 @@
 							<h5 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h5>
 						</div>
 						<div>
-							<button type="button" class="btn btn-light expandAllMails">
+							<button type="button" class="btn btn-light expandAllMails mr-2">
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
-							&nbsp;&nbsp;
 							<button type="button" class="btn btn-light collapseAllMails">
 								{\App\Language::translate('LBL_COLLAPSE_ALL','OSSMailView')}
 							</button>
 						</div>
 						<div>
-							<h5 class="modal-title float-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h5>
+							<h5 class="modal-title">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h5>
 						</div>
 						<div>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
