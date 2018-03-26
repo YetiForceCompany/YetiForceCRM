@@ -54,7 +54,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 			var thisInstance = this;
 			var valueSearch = $('#valueSearchTree');
 			var btnSearch = $('#btnSearchTree');
-			valueSearch.keypress(function (e) {
+			valueSearch.on('keypress', function (e) {
 				if (e.which == 13) {
 					thisInstance.searchingInTree(valueSearch.val());
 				}

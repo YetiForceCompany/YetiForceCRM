@@ -408,7 +408,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	basicSearch: function () {
 		var thisInstance = this;
-		jQuery('.globalSearchValue').keypress(function (e) {
+		jQuery('.globalSearchValue').on('keypress', function (e) {
 			var currentTarget = jQuery(e.currentTarget)
 			if (e.which == 13) {
 				thisInstance.hideSearchMenu();
