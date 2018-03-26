@@ -5,11 +5,11 @@
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header">
-					<div class="row">
-						<div class="col-md-6">
+					<div class="d-flex justify-content-between w-100">
+						<div>
 							<h5 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h5>
 						</div>
-						<div class="col-md-3">
+						<div>
 							<button type="button" class="btn btn-light expandAllMails">
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
@@ -18,7 +18,7 @@
 								{\App\Language::translate('LBL_COLLAPSE_ALL','OSSMailView')}
 							</button>
 						</div>
-						<div class="col-md-3">
+						<div>
 							<h4 class="modal-title float-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
 							<button type="button" class="btn btn-warning float-right" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
