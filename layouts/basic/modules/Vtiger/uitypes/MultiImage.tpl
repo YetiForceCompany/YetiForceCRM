@@ -9,13 +9,13 @@
 		   data-fieldinfo='{$FIELD_INFO}'
 		   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
 	<div class="c-multi-image border rounded p-2">
-		<div class="fileinput-button btn btn-primary">
+		<div class="fileinput-button btn btn-primary mb-2">
 			<input class="c-multi-image__file" type="file" name="files[]"
 				   data-url="index.php?module={$FIELD_MODEL->getModuleName()}&view=FileUpload&inputName={$FIELD_MODEL->getFieldName()}&fileType=image"
 				   multiple>
-			<span class="fa fa-plus"></span> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
+			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
 		</div>
-		<div class="c-multi-image__result" data-name="{$FIELD_MODEL->getFieldName()}">
+		<div class="c-multi-image__result d-inline" data-name="{$FIELD_MODEL->getFieldName()}">
 			{if $RECORD}
 				{assign var="RECORD_ID" value=$RECORD->getId()}
 				{assign var="IMAGES" value=$FIELD_VALUE}
@@ -24,10 +24,18 @@
 				{assign var="IMAGES" value=[]}
 			{/if}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
-				<div class="c-multi-image__image float-left" title="{$IMAGE_INFO.name}">
-					<div class="c-multi-image__image-content">
-						<img src="{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}"
-							 class="c-multi-image__image-content-img">
+				<div class="c-multi-image__preview d-inline-block mx-2"
+					 data-title="{$IMAGE_INFO.name}"
+					 data-toggle="popover"
+					 data-content="<img src='{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}' class='w-100' />">
+					<div class="c-multi-image__preview-body">
+						<img class="c-multi-image__preview-img border rounded"
+							 src=src="{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}"
+							 tabindex="0">
+						<button type="button" class="btn btn-sm btn-danger" aria-label="Close"
+								onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
+							<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
+						</button>
 					</div>
 				</div>
 			{/foreach}

@@ -646,4 +646,123 @@ App.Fields = {
 			});
 		},
 	},
+	MultiImage: {
+		/**
+		 * Register multi image upload
+		 *
+		 * @param {jQuery.Class} thisInstance - instance of class
+		 */
+		register(container) {
+			$(document).bind('drop dragover', function (e) {
+				// prevent default browser drop behaviour
+				e.preventDefault();
+			});
+			const fileUploads = $('.c-multi-image .c-multi-image__file');
+			fileUploads.fileupload({
+				//dataType: 'json',
+				autoUpload: false,
+				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+				done(e, data) {
+					$.each(data.result.files, function (index, file) {
+						console.log('file', file);
+					});
+				},
+				add(e, data) {
+					const component = $(this).closest('.c-multi-image');
+					$(component).find('.c-multi-image__progress').removeClass('d-none').fadeIn(() => {
+						data.submit()
+							.success((result, textStatus, jqXHR) => {
+								console.log('upload success', this);
+								$(component).find('.c-multi-image__progress').fadeOut(() => {
+									$(component).find('.c-multi-image__progress').addClass('d-none')
+										.find('.c-multi-image__progress-bar').css({width: "0%"});
+								});
+							})
+							.error((jqXHR, textStatus, errorThrown) => {
+								console.log('error', this, errorThrown.message);
+							})
+							.complete((result, textStatus, jqXHR) => {
+								console.log('upload complete', this, textStatus);
+								$(component).find('.c-multi-image__progress').fadeOut(() => {
+									$(component).find('.c-multi-image__progress').addClass('d-none')
+										.find('.c-multi-image__progress-bar').css({width: "0%"});
+								});
+							});
+					});
+				},
+				progressall(e, data) {
+					const progress = parseInt(data.loaded / data.total * 100, 10);
+					$(this).closest('.c-multi-image').find('.c-multi-image__progress-bar').css({width: progress + "%"});
+				},
+				change(e, data) {
+					return App.Fields.MultiImage.change.call(this, e, data);
+				},
+				drop(e, data) {
+					return App.Fields.MultiImage.change.call(this, e, data);
+				}
+			});
+			$(fileUploads).each(function () {
+				$(this).fileupload('option', 'dropZone', $(this).closest('.c-multi-image'));
+			});
+		},
+		/**
+		 * File change event
+		 * Should be called with this pointing on file input element inside .c-multi-image
+		 *
+		 * @param {Event} e
+		 * @param {object} data
+		 */
+		change(e, data) {
+			App.Fields.MultiImage.generatePreviewElements(data.files, (elements) => {
+				const resultsElement = $(this).closest('.c-multi-image').find('.c-multi-image__result');
+				elements.forEach((elementStr) => {
+					resultsElement.append(elementStr);
+				});
+			});
+		},
+		/**
+		 * Generate preview of images and append to multi image results view
+		 * @param {Array} files - array of Files
+		 * @param {function} callback
+		 */
+		generatePreviewElements(files, doneCallback) {
+			$.each(files, (index, file) => {
+				App.Fields.MultiImage.generatePreviewElement(file, (template, imageSrc) => {
+					file.preview = $(template).popover({
+						title: file.name,
+						html: true,
+						trigger: 'hover',
+						placement: 'auto',
+						content: `<img src="${imageSrc}" class="w-100" />`
+					});
+					if (index === files.length - 1) {
+						doneCallback(files.map((file) => file.preview));
+					}
+				});
+			});
+		},
+		/**
+		 * Generate preview of image as html string
+		 * @param {File} file
+		 * @param {function} callback
+		 */
+		generatePreviewElement(file, callback) {
+			const fr = new FileReader();
+			fr.onload = function fileReaderLoadCallback() {
+				file.imageSrc = fr.result;
+				callback(`<div class="c-multi-image__preview d-inline-block mx-2">
+	<div class="c-multi-image__preview-body">
+		<img class="c-multi-image__preview-img border rounded" src="${fr.result}" style="height:2rem;" tabindex="0">
+		<button type="button" class="btn btn-sm btn-danger" aria-label="Close" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
+			<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
+		</button>
+	</div>
+</div>`, fr.result);
+			};
+			fr.readAsDataURL(file);
+		},
+		destroyPreview(button) {
+			$(button).closest('.c-multi-image__preview').popover('dispose').remove();
+		},
+	}
 }
