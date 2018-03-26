@@ -31,4 +31,22 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 
 		parent::process($request);
 	}
+
+	/**
+	 * Function to get the list of Script models to be included.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge($this->checkAndConvertJsScripts([
+			'~libraries/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
+			'~libraries/blueimp-file-upload/js/jquery.iframe-transport.js',
+			'~libraries/blueimp-load-image/js/load-image.js',
+			'~libraries/blueimp-canvas-to-blob/js/canvas-to-blob.js',
+			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
+		]), parent::getFooterScripts($request));
+	}
 }
