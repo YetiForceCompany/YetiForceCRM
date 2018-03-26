@@ -33,6 +33,20 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 	}
 
 	/**
+	 * Get header css files that need to loaded in the page.
+	 *
+	 * @param \App\Request $request Request instance
+	 *
+	 * @return Vtiger_CssScript_Model[]
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		return array_merge($this->checkAndConvertCssStyles([
+			'~libraries/blueimp-file-upload/css/jquery.fileupload.css',
+		]), parent::getHeaderCss($request));
+	}
+
+	/**
 	 * Function to get the list of Script models to be included.
 	 *
 	 * @param \App\Request $request
@@ -44,9 +58,11 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 		return array_merge($this->checkAndConvertJsScripts([
 			'~libraries/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
 			'~libraries/blueimp-file-upload/js/jquery.iframe-transport.js',
-			'~libraries/blueimp-load-image/js/load-image.js',
+			'~libraries/blueimp-load-image/js/load-image.all.min.js',
 			'~libraries/blueimp-canvas-to-blob/js/canvas-to-blob.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
+			'~libraries/blueimp-file-upload/js/jquery.fileupload-process.js',
+			'~libraries/blueimp-file-upload/js/jquery.fileupload-image.js',
 		]), parent::getFooterScripts($request));
 	}
 }
