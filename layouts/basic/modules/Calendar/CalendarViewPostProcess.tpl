@@ -14,19 +14,19 @@
 		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-sm-none d-md-block hidden-sm" title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-left"></span>
 		</div>
-		<div class="siteBarContent paddingTop10">
-			{if $CALENDAR_FILTERS->isActive()}
-				<div class="panel panel-primary calendarFilters">
-					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
-						<h4 class="panel-title col-lg-6 col-md-12 col-5 paddingLRZero float-left" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
+		<div class="siteBarContent pt-4">
+{*			{if $CALENDAR_FILTERS->isActive()}*}
+				<div class="c-panel__content calendarFilters">
+					<div class="c-panel__header quickWidgetHeaderc bg-info px-3">
+						<h4 class="card-title h6 text-white u-position-label col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
 							{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}
 						</h4>
 					</div>
 					<div class="panel-collapse">
-						<div class="panel-body">
+						<div class="card-body">
 							{foreach item=FILTER key=index from=$CALENDAR_FILTERS->getFilters()}
 								{if $FILTER->type == 'checkbox'}
-									<div class="checkbox margin0px">
+									<div class="checkbox m-0">
 										<label>
 											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}" title="{$FILTER->name}" data-search="{\App\Purifier::encodeHtml($FILTER->searchParams)}" class="filterField">{\App\Language::translate($FILTER->name, $MODULE)}
 										</label>
@@ -36,18 +36,20 @@
 						</div>
 					</div>
 				</div>
-			{/if}
+{*			{/if}*}
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 				<div class="js-toggle-panel c-panel__content border-info quickWidget" data-js="click">
-					<div class="card-header quickWidgetHeader calendarRightPanel clearfix bg-info">
-						<div class="card-title h6 text-white col-lg-6 col-md-12 col-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
-							{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
-						</div>
-						<div class="col-lg-6 col-md-12 col-5 paddingTop10-md paddingLRZero float-right">
-							<button class="selectAllBtn btn btn-light btn-sm float-md-left float-lg-right float-sm-right">
-								<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
-								<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
-							</button>
+					<div class="c-panel__header quickWidgetHeader bg-info">
+						<div class="form-row align-items-center px-4">
+							<div class="card-title h6 text-white u-position-label col-xl-5" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+								{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
+							</div>
+							<div class="u-position-button col-xl-7">
+								<button class="selectAllBtn btn btn-light btn-sm">
+									<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
+									<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
+								</button>
+							</div>
 						</div>
 					</div>
 					<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
