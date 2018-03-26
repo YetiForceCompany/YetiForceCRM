@@ -91,7 +91,7 @@ var Vtiger_Index_Js = {
 				aDeferred.resolve(data);
 			} else {
 				app.showModalWindow(data, function (data) {
-					data.find('.selectButton').click(function (e) {
+					data.find('.selectButton').on('click', function (e) {
 						var email = data.find('input:checked').val();
 						app.hideModalWindow(data);
 						aDeferred.resolve(email);
@@ -108,7 +108,7 @@ var Vtiger_Index_Js = {
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
 			var sendButton = jQuery(this);
 			sendButton.addClass('mailBtnActive');
-			sendButton.click(function (e) {
+			sendButton.on('click', function (e) {
 				e.stopPropagation();
 				var url = sendButton.data("url");
 				var module = sendButton.data("module");

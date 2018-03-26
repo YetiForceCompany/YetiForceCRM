@@ -2,7 +2,7 @@
 jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 	registerAdd: function (content) {
 		var thisInstance = this;
-		content.find('.addItem').click(function (e) {
+		content.find('.addItem').on('click', function (e) {
 			var data = [];
 			content.find('.switchUsersTable tbody tr').each(function (index) {
 				data.push({
@@ -28,14 +28,14 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 		});
 	},
 	registerDelete: function (content) {
-		content.find('.delate').click(function (e) {
+		content.find('.delate').on('click', function (e) {
 			var target = $(e.currentTarget);
 			target.closest('tr').remove();
 		});
 	},
 	registerSave: function (content) {
 		var thisInstance = this;
-		content.find('.saveItems').click(function (e) {
+		content.find('.saveItems').on('click', function (e) {
 			var data = [];
 			content.find('.switchUsersTable tbody tr').each(function (index) {
 				if ($(this).find('.suto :selected').length > 0) {

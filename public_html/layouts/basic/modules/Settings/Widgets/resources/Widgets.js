@@ -200,7 +200,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			$("input[name='tabid']").val(target.val());
 			thisInstance.reloadWidgets();
 		});
-		$('.WidgetsManage .addWidget').click(function (e) {
+		$('.WidgetsManage .addWidget').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
 			var module = $(".WidgetsManage select[name='ModulesList']").val();
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod=" + module, function (wizardContainer) {
@@ -214,7 +214,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 
 			});
 		});
-		$('.WidgetsManage .editWidget').click(function (e) {
+		$('.WidgetsManage .editWidget').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
@@ -249,7 +249,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 				});
 			});
 		});
-		$('.WidgetsManage .removeWidget').click(function (e) {
+		$('.WidgetsManage .removeWidget').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			thisInstance.registerSaveEvent('removeWidget', {

@@ -278,7 +278,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		var thisInstance = this;
 		var container = jQuery('#inventory');
 		//register click event for Add New Inventory button
-		container.find('.addInventory').click(function (e) {
+		container.find('.addInventory').on('click', function (e) {
 			var addInventoryButton = jQuery(e.currentTarget);
 			var createUrl = addInventoryButton.data('url');
 			thisInstance.edit(createUrl);

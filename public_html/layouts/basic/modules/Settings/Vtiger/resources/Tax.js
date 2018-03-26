@@ -265,7 +265,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		var container = jQuery('#TaxCalculationsContainer');
 
 		//register click event for Add New Tax button
-		container.find('.addTax').click(function (e) {
+		container.find('.addTax').on('click', function (e) {
 			var addTaxButton = jQuery(e.currentTarget);
 			var createTaxUrl = addTaxButton.data('url') + '&type=' + addTaxButton.data('type');
 			thisInstance.editTax(createTaxUrl);

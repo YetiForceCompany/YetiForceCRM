@@ -62,7 +62,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				thisInstance.searching(valueSearch.val());
 			}
 		});
-		btnSearch.click(function () {
+		btnSearch.on('click', function () {
 			thisInstance.searching(valueSearch.val());
 		});
 	},

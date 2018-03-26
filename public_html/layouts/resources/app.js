@@ -402,7 +402,7 @@ app = {
 		onBeforePromptType: function (field) {
 			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(":hidden")) {
-				block.find('.blockHeader').click();
+				block.find('.blockHeader').on('click', );
 			}
 		},
 	},

@@ -7,7 +7,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		var editContainer = $("#EditView");
 		editContainer.validationEngine();
 		var jstreeInstance = thisInstance.createTree();
-		$('.addNewElementBtn').click(function (e) {
+		$('.addNewElementBtn').on('click', function (e) {
 			var newElement = $('input.addNewElement');
 			if (newElement.val() == '') {
 				var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
@@ -23,7 +23,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			}, 'last');
 			$('input.addNewElement').val('');
 		});
-		$('.saveTree').click(function (e) {
+		$('.saveTree').on('click', function (e) {
 			jstreeInstance.jstree('deselect_all', true)
 			var json = jstreeInstance.jstree("get_json");
 			var forSave = [];

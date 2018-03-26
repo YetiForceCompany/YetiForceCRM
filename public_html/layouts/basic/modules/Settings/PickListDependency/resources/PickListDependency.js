@@ -284,7 +284,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		var cancelDiv = form.find('.cancelAddView');
 		cancelDiv.removeClass('d-none');
-		cancelDiv.find('.cancelLink').click(function () {
+		cancelDiv.find('.cancelLink').on('click', function () {
 			thisInstance.loadListViewContents(thisInstance.listViewForModule);
 		})
 	},
@@ -329,7 +329,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		//Register click event for cancel link
 		var cancelDependencyLink = form.find('.cancelDependency');
-		cancelDependencyLink.click(function () {
+		cancelDependencyLink.on('click', function () {
 			thisInstance.loadListViewContents(thisInstance.listViewForModule);
 		})
 	},
@@ -397,12 +397,12 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	 */
 	registerSelectSourceValuesClick: function (dependencyGraph) {
 		var thisInstance = this;
-		dependencyGraph.find('button.sourceValues').click(function () {
+		dependencyGraph.find('button.sourceValues').on('click', function () {
 			var selectSourceValues = dependencyGraph.find('.modalCloneCopy');
 			var clonedContainer = selectSourceValues.clone(true, true).removeClass('modalCloneCopy');
 			var callBackFunction = function (data) {
 				data.find('.sourcePicklistValuesModal').removeClass('d-none');
-				data.find('[name="saveButton"]').click(function (e) {
+				data.find('[name="saveButton"]').on('click', function (e) {
 					thisInstance.selectedSourceValues = [];
 					var sourceValues = data.find('.sourceValue');
 					jQuery.each(sourceValues, function (index, ele) {

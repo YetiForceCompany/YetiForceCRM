@@ -60,7 +60,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	registerAddDate: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.find('.addDateWindow').click(function (e) {
+		contents.find('.addDateWindow').on('click', function (e) {
 			var addBlockContainer = contents.find('.addDateWindowModal').clone(true, true);
 			var translate = app.vtranslate('JS_ADD_NEW_HOLIDAY')
 			addBlockContainer.find('.modal-title').text(translate);
@@ -160,7 +160,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	registerEditDate: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.find('.editHoliday').click(function (e) {
+		contents.find('.editHoliday').on('click', function (e) {
 			var addBlockContainer = contents.find('.addDateWindowModal').clone(true, true);
 			var dateElement = jQuery(this).closest('.holidayElement');
 			addBlockContainer.find('[name="holidayId"]').val(dateElement.data('holiday-id'));

@@ -222,7 +222,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
 
-		selectBtn.click(function (e) {
+		selectBtn.on('click', function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
 
@@ -455,7 +455,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button").on('click', function () {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -591,7 +591,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				}
 			}
 		});
-		calendar.find('.fc-toolbar .fc-button').click(function (e) {
+		calendar.find('.fc-toolbar .fc-button').on('click', function (e) {
 			var defaultView, view, options;
 			var element = $(e.currentTarget);
 			view = calendar.fullCalendar('getView');
@@ -609,7 +609,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
 				alert.removeClass('d-none');
 			});
-			alert.find('.cacheClear').click(function (e) {
+			alert.find('.cacheClear').on('click', function (e) {
 				app.moduleCacheClear();
 				alert.addClass('d-none');
 				location.reload();

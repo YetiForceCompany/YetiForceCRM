@@ -129,7 +129,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerAddBlockDashBoard: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.find('.addBlockDashBoard').click(function (e) {
+		contents.find('.addBlockDashBoard').on('click', function (e) {
 			var addBlockContainer = contents.find('.addBlockDashBoardModal').clone(true, true);
 			var inUseAuthorization = thisInstance.getAuthorization();
 			addBlockContainer.find('select.authorized option').each(function () {
@@ -230,7 +230,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerAddCustomFieldEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		contents.find('.addCustomField').click(function (e) {
+		contents.find('.addCustomField').on('click', function (e) {
 			var continer = jQuery(e.currentTarget).closest('.editFieldsTable');
 			var blockId = continer.data('block-id');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
@@ -437,7 +437,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerEditFieldDetailsClick: function () {
 		var thisInstance = this;
 		contents = jQuery('#layoutDashBoards');
-		contents.find('.editFieldDetails').click(function (e) {
+		contents.find('.editFieldDetails').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFieldsWidget');
 			fieldRow.removeClass('opacity');
@@ -522,7 +522,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			}
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
 
-			jQuery('.cancel').click(function () {
+			jQuery('.cancel').on('click', function () {
 				callbackFunction();
 			});
 		});
@@ -564,26 +564,26 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to register click event for drop-downs in fields list
 	 */
 	avoidDropDownClick: function (dropDownContainer) {
-		dropDownContainer.find('.dropdown-menu').click(function (e) {
+		dropDownContainer.find('.dropdown-menu').on('click', function (e) {
 			e.stopPropagation();
 		});
 	},
 	registerSpecialWidget: function () {
 		var thisInstance = this;
 		var container = jQuery('#layoutDashBoards');
-		container.find('.addNotebook').click(function (e) {
+		container.find('.addNotebook').on('click', function (e) {
 			thisInstance.addNoteBookWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addCharts').click(function (e) {
+		container.find('.addCharts').on('click', function (e) {
 			thisInstance.addChartWidget($(e.currentTarget));
 		});
-		container.find('.addMiniList').click(function (e) {
+		container.find('.addMiniList').on('click', function (e) {
 			thisInstance.addMiniListWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addChartFilter').click(function (e) {
+		container.find('.addChartFilter').on('click', function (e) {
 			thisInstance.addChartFilterWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addRss').click(function (e) {
+		container.find('.addRss').on('click', function (e) {
 			thisInstance.addRssWidget($(e.currentTarget), jQuery(this).data('url'));
 		});
 	},
@@ -1005,7 +1005,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutDashBoards');
 		}
-		contents.find('a.deleteCustomField').click(function (e) {
+		contents.find('a.deleteCustomField').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldId = currentTarget.data('field-id');
 			var paramsForm = {}

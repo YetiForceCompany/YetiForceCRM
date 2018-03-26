@@ -95,7 +95,7 @@ var Settings_Profiles_Js = {
 		jQuery('[data-action-state]').change(handleActionSelectionState);
 		jQuery('#mainAction1CheckBox,#mainAction2CheckBox, #mainAction7CheckBox').change(selectAllModulesViewAndToolPriviliges);
 
-		jQuery('[data-togglehandler]').click(toggleEditViewTableRow);
+		jQuery('[data-togglehandler]').on('click', toggleEditViewTableRow);
 		jQuery('[data-range]').each(function (index, item) {
 			item = jQuery(item);
 			var value = item.data('value');

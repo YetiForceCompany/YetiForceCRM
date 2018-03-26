@@ -60,7 +60,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			AppConnector.request(postData).then(function (response) {
 				app.showModalWindow(response, function (data) {
-					data.find('[name="saveButton"]').click(function (e) {
+					data.find('[name="saveButton"]').on('click', function (e) {
 						if (data.find('form').validationEngine('validate')) {
 							jQuery.extend(postData, {
 								field: data.find('#field').val(),
@@ -1946,7 +1946,7 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerChangeEntityStateEvent: function () {
 		var thisInstance = this;
-		$('.dropdownEntityState a').click(function (e) {
+		$('.dropdownEntityState a').on('click', function (e) {
 			var element = $(this);
 			$('#entityState').val(element.data('value'));
 			app.setMainParams('pageNumber', '1');

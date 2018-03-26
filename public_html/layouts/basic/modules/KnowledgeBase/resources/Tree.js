@@ -59,7 +59,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 					thisInstance.searchingInTree(valueSearch.val());
 				}
 			});
-			btnSearch.click(function () {
+			btnSearch.on('click', function () {
 				thisInstance.searchingInTree(valueSearch.val());
 			});
 		},
@@ -121,7 +121,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 		},
 		registerBasicEvents: function () {
 			var thisInstance = this;
-			$('.addRecord').click(function () {
+			$('.addRecord').on('click', function () {
 				var headerInstance = Vtiger_Header_Js.getInstance();
 				var moduleName = app.getModuleName();
 				var postQuickCreate = function (data) {

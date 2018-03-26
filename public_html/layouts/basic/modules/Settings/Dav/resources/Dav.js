@@ -18,7 +18,7 @@ jQuery.Class('Settings_Dav_Keys_Js', {}, {
 		var callBackFunction = function (data) {
 			data.find('.addKeyContainer').removeClass('d-none').show();
 			App.Fields.Picklist.showSelect2ElementView(data.find('.select')); // chzn-select select2
-			data.find('[name="saveButton"]').click(function (e) {
+			data.find('[name="saveButton"]').on('click', function (e) {
 				var form = data.find('form');
 				var formData = form.serializeFormData();
 				var progress = $.progressIndicator({

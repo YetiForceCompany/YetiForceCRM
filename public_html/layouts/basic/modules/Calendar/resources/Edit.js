@@ -315,7 +315,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
 					e.preventDefault();
 					app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
-						container.find('.typeSavingBtn').click(function (e) {
+						container.find('.typeSavingBtn').on('click', function (e) {
 							var currentTarget = $(e.currentTarget);
 							form.find('[name="typeSaving"]').val(currentTarget.data('value'));
 							app.hideModalWindow();

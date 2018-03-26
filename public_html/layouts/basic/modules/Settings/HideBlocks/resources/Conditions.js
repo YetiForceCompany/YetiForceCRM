@@ -3,7 +3,7 @@ jQuery.Class("Settings_HideBlocks_Conditions_Js", {}, {
 	advanceFilterInstance: false,
 	registerSaveConditions: function () {
 		var thisInstance = this;
-		$(".saveLink").click(function () {
+		$(".saveLink").on('click', function () {
 			var form = $('.targetFieldsTableContainer form')
 			var advfilterlist = thisInstance.advanceFilterInstance.getValues();
 			$('.advanced_filter').val(JSON.stringify(advfilterlist));

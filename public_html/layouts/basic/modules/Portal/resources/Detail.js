@@ -9,7 +9,7 @@
 Vtiger_Detail_Js("Portal_Detail_Js", {}, {
 
 	registerAddBookmark: function () {
-		jQuery('#addBookmark').click(function () {
+		jQuery('#addBookmark').on('click', function () {
 			var params = {
 				'module': app.getModuleName(),
 				'parent': app.getParentModuleName(),

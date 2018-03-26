@@ -1,14 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 var Settings_Index_Js = {
 	initEvants: function () {
-		$('.LangManagement .add_lang').click(Settings_Index_Js.ShowLangMondal);
-		$('.LangManagement .edit_lang a').click(function (e) {
+		$('.LangManagement .add_lang').on('click', Settings_Index_Js.ShowLangMondal);
+		$('.LangManagement .edit_lang a').on('click', function (e) {
 			jQuery('#edit_lang').html('');
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
 		});
-		$('.AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
-		$('.AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
+		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
+		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function (index, element) {
 			element = $(element);
 			Settings_Index_Js.initEvant(element);
@@ -61,11 +61,11 @@ var Settings_Index_Js = {
 		$('#edit_lang .translation').change(function (e) {
 			Settings_Index_Js.changeTranslation(e, position)
 		});
-		$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
-		$('#edit_lang .delete_translation').click(function (e) {
+		$('#edit_lang .add_translation').on('click', Settings_Index_Js.ShowTranslationMondal);
+		$('#edit_lang .delete_translation').on('click', function (e) {
 			Settings_Index_Js.deleteTranslation(e, position)
 		});
-		$('.LangManagement ' + position + ' .show_differences').click(Settings_Index_Js.ShowDifferences);
+		$('.LangManagement ' + position + ' .show_differences').on('click', Settings_Index_Js.ShowDifferences);
 		$.extend($.fn.dataTable.defaults, {
 			"searching": true,
 			"ordering": false,
@@ -156,23 +156,23 @@ var Settings_Index_Js = {
 			html: 'true',
 			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
-		element.find('#deleteItemC').click(function (e) {
+		element.find('#deleteItemC').on('click', function (e) {
 			$(e.currentTarget).popover(options).popover('show');
-			$('.popover_block .deleteItem').click(function () {
+			$('.popover_block .deleteItem').on('click', function () {
 				Settings_Index_Js.DeleteLang(element, e);
 				$(e.currentTarget).popover('hide');
 			});
-			$('.popover_block .cancel').click(function () {
+			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
 			});
 		});
-		element.find('#setAsDefault').click(function (e) {
+		element.find('#setAsDefault').on('click', function (e) {
 			$(e.currentTarget).popover(makeSureOptions).popover('show');
-			$('.popover_block .setDefaultItem').click(function () {
+			$('.popover_block .setDefaultItem').on('click', function () {
 				$(e.currentTarget).popover('hide');
 				Settings_Index_Js.setAsDefaultLang(element, e);
 			});
-			$('.popover_block .cancel').click(function () {
+			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
 			});
 		});
