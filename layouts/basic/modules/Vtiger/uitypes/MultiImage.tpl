@@ -11,8 +11,9 @@
 	<div class="border rounded p-2 clearfix c-multi-image">
 		<button class="fileinput-button btn btn-sm btn-primary mr-1 mb-1 float-left c-multi-image__file-btn">
 			<input class="c-multi-image__file" type="file" name="files[]"
-				   data-url="index.php?module={$FIELD_MODEL->getModuleName()}&view=FileUpload&inputName={$FIELD_MODEL->getFieldName()}&fileType=image"
+				   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&inputName={$FIELD_MODEL->getFieldName()}&fileType=image"
 				   multiple>
+			<input type="hidden" name="hashes[]">
 			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
 		</button>
 		<div class="c-multi-image__result" data-name="{$FIELD_MODEL->getFieldName()}">
