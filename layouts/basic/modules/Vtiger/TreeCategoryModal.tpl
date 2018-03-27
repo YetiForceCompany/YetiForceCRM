@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
         </button>
-		<div class="input-group paddingTop10">
+		<div class="input-group pt-2">
 			<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ..." >
 			<span class="input-group-btn">
 				<button id="btnSearchTree" class="btn btn-danger" type="button">{\App\Language::translate('LBL_SEARCH', $MODULE)}</button>
@@ -26,7 +26,7 @@
 		{/if}
 	</div>
 	<div class="modal-footer">
-		<div class="float-left paddingTop10 counterSelected"></div>
+		<div class="float-left pt-2 counterSelected"></div>
 		<div class="float-right">
 			<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
