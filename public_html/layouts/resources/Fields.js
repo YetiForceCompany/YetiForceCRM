@@ -745,10 +745,14 @@ App.Fields = {
 			if (!hash) {
 				hash = $(this).data('hash');
 			}
-			const image = $('#c-multi-image__preview-hash-' + hash + ' .c-multi-image__preview-img').eq(0);
-			const filename = $(image).data('filename');
-			const imageSrc = $(image).data('image');
-			return {hash, filename, imageSrc};
+			const previewElement = $('#c-multi-image__preview-hash-' + hash);
+			const image = $(previewElement).find('.c-multi-image__preview-img').eq(0);
+			return {
+				image,
+				filename: $(image).data('filename'),
+				imageSrc: $(image).data('image'),
+				previewElement
+			};
 		},
 		/**
 		 * Display modal window with large preview
@@ -793,13 +797,7 @@ App.Fields = {
 				message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.filename}</span>?`,
 				callback: function (result) {
 					if (result) {
-						$.ajax({
-							url: '/file.php?tralala',
-							method: "POST",
-							data: {hash}
-						}).success((result) => {
-							previewElement.popover('dispose').remove();
-						});
+						fileInfo.previewElement.popover('dispose').remove();
 					}
 				}
 			});
@@ -816,7 +814,8 @@ App.Fields = {
 				const resultsElement = $(this).closest('.c-multi-image').find('.c-multi-image__result');
 				resultsElement.append(element);
 			});
-		},
+		}
+		,
 		/**
 		 * Generate and apply popover to preview
 		 *
@@ -837,7 +836,8 @@ App.Fields = {
 		<button class="btn btn-sm btn-primary c-multi-image__preview__popover-btn-zoom" data-hash="${file.hash}" title="${app.vtranslate('JS_ZOOM')}"><i class="fa fa-search-plus"></i></button>
 	</div></div>`
 			});
-		},
+		}
+		,
 		/**
 		 * Generate preview of images and append to multi image results view
 		 *
@@ -855,7 +855,8 @@ App.Fields = {
 
 				}
 			});
-		},
+		}
+		,
 		/**
 		 * Generate preview of image as html string
 		 * @param {File} file
@@ -870,6 +871,7 @@ App.Fields = {
 </div>`, fr.result);
 			};
 			fr.readAsDataURL(file);
-		},
+		}
+		,
 	}
 }
