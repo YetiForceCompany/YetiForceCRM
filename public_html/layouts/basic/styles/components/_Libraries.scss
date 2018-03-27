@@ -67,6 +67,12 @@ header {
 		line-height: 1;
 	}
 }
+.fieldUiHolder {
+	width: 25%;
+	.select2-container--bootstrap4 {
+		width: 100% !important;
+	}
+}
 //--- modal ---//
 .leaflet-popup-content {
   width: 62px;

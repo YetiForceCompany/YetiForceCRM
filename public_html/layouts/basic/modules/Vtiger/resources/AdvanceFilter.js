@@ -333,7 +333,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
 				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi);
 			} else {
-				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
+				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, {dropdownParent: row});
 			}
 		} else if (fieldSpecificUi.has('input.dateField').length > 0) {
 			App.Fields.Date.register(fieldSpecificUi);
@@ -614,7 +614,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 
 Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	getUi: function () {
-		var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+		var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		var selectedOptionsArray = selectedOption.split(',');
@@ -652,7 +652,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	getUi: function () {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		if ((comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') || (this.getName() === 'shownerid' && jQuery.inArray(comparatorSelectedOptionVal, ['c', 'k']) != -1)) {
-			var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+			var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
 			var selectedOptionsArray = selectedOption.split(',');
