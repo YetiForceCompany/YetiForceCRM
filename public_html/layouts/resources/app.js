@@ -777,7 +777,7 @@ app = {
 			moduleCache = moduleCache.split(',');
 		}
 		moduleCache.push(orgKey);
-		this.cacheSet(cacheKey, Vtiger_Helper_Js.uniqueSort(moduleCache).join(','));
+		this.cacheSet(cacheKey, Vtiger_Helper_Js.unique(moduleCache).join(','));
 	},
 	moduleCacheGet: function (key) {
 		return this.cacheGet(this.getModuleName() + '_' + key);
