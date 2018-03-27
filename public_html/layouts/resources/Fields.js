@@ -725,30 +725,53 @@ App.Fields = {
 			$(fileUploads).each(function () {
 				$(this).fileupload('option', 'dropZone', $(this).closest('.c-multi-image'));
 			});
-			$(document).on('click', '.c-multi-image__preview__popover-img', App.Fields.MultiImage.Zoom);
-			$(document).on('click', '.c-multi-image__preview__popover-btn-zoom', App.Fields.MultiImage.Zoom);
-			$(document).on('click', '.c-multi-image__preview__popover-btn-delete', App.Fields.MultiImage.Delete);
+			$(document).on('click', '.c-multi-image__preview__popover-img', function (e) {
+				const fileInfo = App.Fields.MultiImage.getFileInfo.call(this);
+				App.Fields.MultiImage.zoomPreview(fileInfo.hash);
+			});
+			$(document).on('click', '.c-multi-image__preview__popover-btn-zoom', function (e) {
+				const fileInfo = App.Fields.MultiImage.getFileInfo.call(this);
+				App.Fields.MultiImage.zoomPreview(fileInfo.hash);
+			});
+			$(document).on('click', '.c-multi-image__preview__popover-btn-delete', function (e) {
+				const fileInfo = App.Fields.MultiImage.getFileInfo.call(this);
+				App.Fields.MultiImage.deleteFile(fileInfo.hash);
+			});
+		},
+		/**
+		 * Get file info from element with data-hash attribute or hash argument
+		 * @param {boolean|string} hash
+		 * @returns {{hash: string, filename: string, imageSrc: string}}
+		 */
+		getFileInfo(hash = false) {
+			if (!hash) {
+				hash = $(this).data('hash');
+			}
+			const image = $('#c-multi-image__preview-hash-' + hash + ' .c-multi-image__preview-img').eq(0);
+			const filename = $(image).data('filename');
+			const imageSrc = $(image).data('image');
+			return {hash, filename, imageSrc};
 		},
 		/**
 		 * Display modal window with large preview
-		 * Should be called with this pointing on button element with data-filename and data-image attributes
 		 *
-		 * @param {Event} e
+		 * @param {string} hash
 		 */
-		Zoom(e) {
-			const filename = $(this).data('filename');
-			const imageSrc = $(this).data('image');
+		zoomPreview(hash) {
+			const fileInfo = App.Fields.MultiImage.getFileInfo(hash);
 			bootbox.dialog({
 				size: 'large',
 				backdrop: true,
 				onEscape: true,
-				title: `<i class="fa fa-image"></i> ${filename}`,
-				message: `<img src="${imageSrc}" class="w-100" />`,
+				title: `<i class="fa fa-image"></i> ${fileInfo.filename}`,
+				message: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
 				buttons: {
 					Delete: {
 						label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
 						className: "float-left btn btn-danger",
-						callback: App.Fields.MultiImage.Delete
+						callback() {
+							App.Fields.MultiImage.deleteFile(fileInfo.hash);
+						}
 					},
 					Close: {
 						label: `<i class="fa fa-times"></i> ${app.vtranslate('JS_CLOSE')}`,
@@ -758,23 +781,30 @@ App.Fields = {
 					}
 				}
 			});
+
 		},
 		/**
 		 * Delete image from server
 		 * Should be called with this pointing on button element with data-hash attribute
-		 * @param {Event} e
+		 * @param {string} hash
 		 */
-		Delete(e) {
-			const hash = $(this).data('hash');
-			const previewElement = $('#c-multi-image__preview-hash-' + hash);
-			$.ajax({
-				url: '/file.php?tralala',
-				method: "POST",
-				data: {hash}
-			}).success((result) => {
-				previewElement.popover('dispose').remove();
+		deleteFile(hash) {
+			const fileInfo = App.Fields.MultiImage.getFileInfo(hash);
+			bootbox.confirm({
+				title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
+				message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.filename}</span>?`,
+				callback: function (result) {
+					if (result) {
+						$.ajax({
+							url: '/file.php?tralala',
+							method: "POST",
+							data: {hash}
+						}).success((result) => {
+							previewElement.popover('dispose').remove();
+						});
+					}
+				}
 			});
-
 		},
 		/**
 		 * File change event
@@ -792,29 +822,44 @@ App.Fields = {
 			});
 		},
 		/**
+		 * Generate and apply popover to preview
+		 *
+		 * @param {File} file
+		 * @param {string} template
+		 * @param {string} imageSrc
+		 * @returns {*|jQuery}
+		 */
+		addPreviewPopover(file, template, imageSrc) {
+			return $(template).popover({
+				title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
+				html: true,
+				trigger: 'focus',
+				placement: 'top',
+				content: `<img src="${imageSrc}" class="w-100 c-multi-image__preview__popover-img" data-hash="${file.hash}" />`,
+				template: `<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><div class="text-right popover-footer c-multi-image__preview__popover-actions">
+		<button class="btn btn-sm btn-danger c-multi-image__preview__popover-btn-delete" data-hash="${file.hash}" title="${app.vtranslate('JS_DELETE')}"><i class="fa fa-trash-alt"></i></button>
+		<button class="btn btn-sm btn-primary c-multi-image__preview__popover-btn-zoom" data-hash="${file.hash}" title="${app.vtranslate('JS_ZOOM')}"><i class="fa fa-search-plus"></i></button>
+	</div></div>`
+			});
+		},
+		/**
 		 * Generate preview of images and append to multi image results view
 		 * @param {Array} files - array of Files
 		 * @param {function} callback
 		 */
 		generatePreviewElements(files, doneCallback) {
-			$.each(files, (index, file) => {
-				App.Fields.MultiImage.generatePreviewFromFile(file, (template, imageSrc) => {
-					file.preview = $(template).popover({
-						title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
-						html: true,
-						trigger: 'focus',
-						placement: 'top',
-						content: `<img src="${imageSrc}" class="w-100 c-multi-image__preview__popover-img" data-filename="${file.name}" data-image="${imageSrc}" />`,
-						template:`<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><div class="text-right popover-footer c-multi-image__preview__popover-actions">
-	<button class="btn btn-sm btn-danger float-left c-multi-image__preview__popover-btn-delete" data-hash="${file.hash}" title="${app.vtranslate('JS_DELETE')}"><i class="fa fa-trash-alt"></i></button>
-	<!--<button class="btn btn-sm btn-default c-multi-image__preview__popover-btn-close" title="${app.vtranslate('JS_CLOSE')}"><i class="fa fa-times"></i></button>-->
-	<button class="btn btn-sm btn-primary c-multi-image__preview__popover-btn-zoom" data-image="${imageSrc}" data-filename="${file.name}" title="${app.vtranslate('JS_ZOOM')}"><i class="fa fa-search-plus"></i></button>
-</div></div>`
+			console.log('files', files);
+			files.forEach((file, index) => {
+				if (file instanceof File) {
+					App.Fields.MultiImage.generatePreviewFromFile(file, (template, imageSrc) => {
+						file.preview = App.Fields.MultiImage.addPreviewPopover(file, template, imageSrc);
+						if (index === files.length - 1) {
+							doneCallback(files.map((file) => file.preview));
+						}
 					});
-					if (index === files.length - 1) {
-						doneCallback(files.map((file) => file.preview));
-					}
-				});
+				} else {
+
+				}
 			});
 		},
 		/**
@@ -826,16 +871,8 @@ App.Fields = {
 			const fr = new FileReader();
 			fr.onload = function fileReaderLoadCallback() {
 				file.imageSrc = fr.result;
-				callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview" id="c-multi-image__preview-hash-${file.hash}">
-		<div class="img-thumbnail c-multi-image__preview-img" style="background-image:url(${fr.result})" tabindex="0" data-toggle="tooltip" title="${file.name}"></div>
-		<div class="d-none c-multi-image__preview-actions">
-			<button type="button" class="btn btn-sm btn-primary c-multi-image__preview-btn-zoom" tabindex="0">
-				<span aria-hidden="true"><i class="fa fa-search-plus"></i></span>
-			</button>
-			<button type="button" class="btn btn-sm btn-danger c-multi-image__preview-btn-del" onclick="App.Fields.MultiImage.destroyPreview('${file.hash}')" tabindex="0">
-				<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
-			</button>
-		</div>
+				callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview" id="c-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}">
+		<div class="img-thumbnail c-multi-image__preview-img" style="background-image:url(${fr.result})" tabindex="0" data-hash="${file.hash}" data-filename="${file.name}" data-image="${fr.result}" title="${file.name}"></div>
 </div>`, fr.result);
 			};
 			fr.readAsDataURL(file);
