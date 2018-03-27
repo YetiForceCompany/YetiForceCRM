@@ -39,7 +39,7 @@
 								<ul class="dropdown-menu">
 									{foreach item="childLink" from=$childLinks}
 										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}">
-											<a href="javascript:void(0);" onclick='{$childLink->getUrl()|substr:strlen("javascript:")};'>{\App\Language::translate($childLink->getLabel(), $MODULE)}</a>
+											<a class="dropdown-item" href="javascript:void(0);" onclick='{$childLink->getUrl()|substr:strlen("javascript:")};'>{\App\Language::translate($childLink->getLabel(), $MODULE)}</a>
 										</li>
 									{/foreach}
 								</ul>
