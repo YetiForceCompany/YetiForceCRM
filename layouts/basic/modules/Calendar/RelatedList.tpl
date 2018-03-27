@@ -46,7 +46,7 @@
 							</button>
 							<ul class="dropdown-menu">
 								{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
-									<li>
+									<li class="dropdown-item">
 										<a href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
 											{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
 												<span class="{$RELATEDLIST_VIEW->get('linkicon')}"></span>&nbsp;&nbsp;
