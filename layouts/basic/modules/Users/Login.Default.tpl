@@ -130,20 +130,20 @@
 	</div>
 	<script>
 		jQuery(document).ready(function () {
-			jQuery("button.close").click(function () {
+			jQuery("button.close").on('click', function () {
 				jQuery(".visible-phone").css('visibility', 'hidden');
 			});
-			jQuery("a#forgotpass").click(function () {
+			jQuery("a#forgotpass").on('click', function () {
 				jQuery("#loginDiv").hide();
 				jQuery("#forgotPasswordDiv").removeClass('hide');
 				jQuery("#forgotPasswordDiv").show();
 			});
-			jQuery("a#backButton").click(function () {
+			jQuery("a#backButton").on('click', function () {
 				jQuery("#loginDiv").removeClass('hide');
 				jQuery("#loginDiv").show();
 				jQuery("#forgotPasswordDiv").hide();
 			});
-			jQuery("form.forgot-form").submit(function (event) {
+			jQuery("form.forgot-form").on('submit', function (event) {
 				if ($("#usernameFp").val() === "" || $("#emailId").val() === "") {
 					event.preventDefault();
 				}

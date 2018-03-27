@@ -57,7 +57,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					},
 					closeOnSelect: true
 				});
-				container.find('[name="saveButton"]').click(function (e) {
+				container.find('[name="saveButton"]').on('click', function (e) {
 					aDeferred.resolve({
 						type: container.find('#iconType').val(),
 						name: container.find('#iconName').val(),
@@ -69,10 +69,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		return aDeferred.promise();
 	},
 	showWarnings: function () {
-		jQuery('li[data-mode="systemWarnings"] a').click();
+		jQuery('li[data-mode="systemWarnings"] a').on('click', );
 	},
 	showSecurity: function () {
-		jQuery('li[data-mode="security"] a').click();
+		jQuery('li[data-mode="security"] a').on('click', );
 	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
@@ -248,7 +248,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var CKEditorInstance = CKEDITOR.instances['bodyIssues'];
 		var thisInstance = this;
 		var saveBtn = container.find('.saveIssues');
-		saveBtn.click(function () {
+		saveBtn.on('click', function () {
 			if (container.validationEngine('validate')) {
 				var body = CKEditorInstance.document.getBody().getHtml();
 				var params = {
@@ -288,7 +288,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var thisInstance = this;
 		var container = modal.find('.authModalContent');
 		container.validationEngine(app.validationEngineOptions);
-		container.find('.saveKeys').click(function () {
+		container.find('.saveKeys').on('click', function () {
 			if (container.validationEngine('validate')) {
 				var params = {
 					module: 'Github',
@@ -333,7 +333,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	registerPagination: function () {
 		var page = jQuery('.pagination .pageNumber');
 		var thisInstance = this;
-		page.click(function () {
+		page.on('click', function () {
 			thisInstance.loadContent('github', $(this).data('id'));
 		});
 	},
@@ -377,7 +377,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		if (aletrsContainer.length) {
 			app.showModalWindow(aletrsContainer, function (modal) {
 				aletrsContainer.find('.warning').first().removeClass('d-none');
-				aletrsContainer.find('.warning .btn').click(function (e) {
+				aletrsContainer.find('.warning .btn').on('click', function (e) {
 					var btn = $(this);
 					var save = true;
 					if (btn.hasClass('ajaxBtn')) {
@@ -427,7 +427,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						}
 					}
 				});
-				aletrsContainer.find('.input-group-addon input[type="checkbox"]').click(function (e) {
+				aletrsContainer.find('.input-group-addon input[type="checkbox"]').on('click', function (e) {
 					var btn = $(this);
 					var group = btn.closest('.input-group')
 					if (this.checked) {
@@ -461,7 +461,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				check_callback: true
 			},
 			plugins: ["checkbox"]
-		}).bind("loaded.jstree", function (event, data) {
+		}).on("loaded.jstree", function (event, data) {
 			$(this).jstree("open_all");
 		}).on('changed.jstree', function (e, data) {
 			if (data.action != 'model') {
@@ -526,11 +526,11 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			order: [[2, 'desc']]
 		});
 		app.showPopoverElementView(container.find('.popoverTooltip'));
-		container.find('.showDescription').click(function (e) {
+		container.find('.showDescription').on('click', function (e) {
 			var html = $(this).closest('td').find('.showDescriptionContent').html();
 			app.showModalWindow(html);
 		});
-		container.find('.setIgnore').click(function (e) {
+		container.find('.setIgnore').on('click', function (e) {
 			container.find('.popoverTooltip').popover('hide');
 			var data = $(this).closest('tr').data();
 			AppConnector.request({

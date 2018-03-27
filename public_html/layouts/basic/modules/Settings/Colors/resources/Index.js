@@ -9,34 +9,34 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 	initEvants: function () {
 		var thisInstance = this;
 		var container = $('.UserColors');
-		container.find('.updateUserColor').click(function (e) {
+		container.find('.updateUserColor').on('click', function (e) {
 			thisInstance.updateUserColor(e, thisInstance);
 		});
-		container.find('.generateUserColor').click(this.generateUserColor);
-		container.find('.removeUserColor').click(this.removeUserColor);
-		container.find('.updateGroupColor').click(function (e) {
+		container.find('.generateUserColor').on('click', this.generateUserColor);
+		container.find('.removeUserColor').on('click', this.removeUserColor);
+		container.find('.updateGroupColor').on('click', function (e) {
 			thisInstance.updateGroupColor(e, thisInstance);
 		});
-		container.find('.generateGroupColor').click(this.generateGroupColor);
-		container.find('.removeGroupColor').click(this.removeGroupColor);
-		container.find('.updateModuleColor').click(function (e) {
+		container.find('.generateGroupColor').on('click', this.generateGroupColor);
+		container.find('.removeGroupColor').on('click', this.removeGroupColor);
+		container.find('.updateModuleColor').on('click', function (e) {
 			thisInstance.updateModuleColor(e, thisInstance);
 		});
-		container.find('.generateModuleColor').click(this.generateModuleColor);
-		container.find('.removeModuleColor').click(this.removeModuleColor);
-		container.find('.activeModuleColor').click(this.activeModuleColor);
-		container.find('.addPicklistColorColumn').click(this.addPicklistColorColumn);
-		container.find('.updatePicklistValueColor').click(function (e) {
+		container.find('.generateModuleColor').on('click', this.generateModuleColor);
+		container.find('.removeModuleColor').on('click', this.removeModuleColor);
+		container.find('.activeModuleColor').on('click', this.activeModuleColor);
+		container.find('.addPicklistColorColumn').on('click', this.addPicklistColorColumn);
+		container.find('.updatePicklistValueColor').on('click', function (e) {
 			thisInstance.updatePicklistValueColor(e, thisInstance);
 		});
-		container.find('.generatePicklistValueColor').click(this.generatePicklistValueColor);
-		container.find('.removePicklistValueColor').click(this.removePicklistValueColor);
-		container.find('.updateColor').click(function (e) {
+		container.find('.generatePicklistValueColor').on('click', this.generatePicklistValueColor);
+		container.find('.removePicklistValueColor').on('click', this.removePicklistValueColor);
+		container.find('.updateColor').on('click', function (e) {
 			thisInstance.updateCalendarColor(e, thisInstance);
 		});
-		container.find('#update_event').click(this.updateEvent);
-		container.find('.generateColor').click(this.generateCalendarColor);
-		container.find('.removeCalendarColor').click(this.removeCalendarColor);
+		container.find('#update_event').on('click', this.updateEvent);
+		container.find('.generateColor').on('click', this.generateCalendarColor);
+		container.find('.removeCalendarColor').on('click', this.removeCalendarColor);
 	},
 	registerColorPicker: function (data, colorObject, selectedColor) {
 		var params = {
@@ -66,7 +66,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
 			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
-			data.find('[name="saveButton"]').click(function (e) {
+			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					'blockInfo': {
@@ -153,7 +153,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			//register color picker
 			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			//save the user calendar with color
-			data.find('[name="saveButton"]').click(function (e) {
+			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					'blockInfo': {
@@ -240,7 +240,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			//register color picker
 			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			//save the user calendar with color
-			data.find('[name="saveButton"]').click(function (e) {
+			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					'blockInfo': {
@@ -370,7 +370,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			//register color picker
 			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			//save the user calendar with color
-			data.find('[name="saveButton"]').click(function (e) {
+			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					'blockInfo': {
@@ -499,7 +499,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			//register color picker
 			thisInstance.registerColorPicker(data, closestTrElement, selectedColor);
 			//save the user calendar with color
-			data.find('[name="saveButton"]').click(function (e) {
+			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('Update labels'),
 					'blockInfo': {
@@ -644,12 +644,12 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 				thisInstance.registerModuleChangeEvent();
 				thisInstance.registerModulePickListChangeEvent();
-				$('.UserColors .addPicklistColorColumn').click(thisInstance.addPicklistColorColumn);
-				$('.UserColors .updatePicklistValueColor').click(function (e) {
+				$('.UserColors .addPicklistColorColumn').on('click', thisInstance.addPicklistColorColumn);
+				$('.UserColors .updatePicklistValueColor').on('click', function (e) {
 					thisInstance.updatePicklistValueColor(e, thisInstance);
 				});
-				$('.UserColors .generatePicklistValueColor').click(thisInstance.generatePicklistValueColor);
-				$('.UserColors .removePicklistValueColor').click(thisInstance.removePicklistValueColor);
+				$('.UserColors .generatePicklistValueColor').on('click', thisInstance.generatePicklistValueColor);
+				$('.UserColors .removePicklistValueColor').on('click', thisInstance.removePicklistValueColor);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			});
 		});

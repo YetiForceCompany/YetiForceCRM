@@ -12,198 +12,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	const URL_SEPARATOR = '__';
 
 	/**
-	 * Remove translation.
-	 *
-	 * @param array $params
-	 *
-	 * @return (string|bool)[]
-	 */
-	public static function deleteTranslation($params)
-	{
-		$allLangs = App\Language::getAll();
-		$change = false;
-		$langkey = $params['langkey'];
-		foreach ($params['lang'] as $lang) {
-			if (!isset($allLangs[$lang])) {
-				throw new \App\Exceptions\Security('LBL_LANGUAGE_DOES_NOT_EXIST');
-			}
-			$edit = false;
-			$mod = str_replace(self::URL_SEPARATOR, '.', $params['mod']);
-			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
-				$qualifiedName = "custom.languages.$lang.$mod";
-			} else {
-				$qualifiedName = "languages.$lang.$mod";
-			}
-			$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
-			if (file_exists($fileName)) {
-				$fileContent = file($fileName);
-				foreach ($fileContent as $key => $file_row) {
-					if (self::parseData("'$langkey'", $file_row)) {
-						unset($fileContent[$key]);
-						$edit = $change = true;
-					}
-				}
-				if ($edit) {
-					file_put_contents($fileName, implode('', $fileContent));
-				}
-			}
-		}
-
-		return $change ? ['success' => true, 'data' => 'LBL_DeleteTranslationOK'] : ['success' => false, 'data' => 'LBL_DELETE_TRANSLATION_FAILED'];
-	}
-
-	/**
-	 * Save.
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	public static function saveTranslation($params)
-	{
-		if ($params['is_new']) {
-			$result = self::addTranslation($params);
-		} else {
-			$result = self::updateTranslation($params);
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Add translation.
-	 *
-	 * @param array $params
-	 *
-	 * @return (string|bool)[]
-	 */
-	public static function addTranslation($params)
-	{
-		$lang = $params['lang'];
-		$mod = $params['mod'];
-		$langkey = addslashes($params['langkey']);
-		$val = addslashes($params['val']);
-		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
-
-		if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
-			$qualifiedName = "custom.languages.$lang.$mod";
-		} else {
-			$qualifiedName = "languages.$lang.$mod";
-		}
-		$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
-		$fileExists = file_exists($fileName);
-		if ($fileExists) {
-			require $fileName;
-			if ($params['type'] === 'php') {
-				$langTab = $languageStrings ?? null;
-			} else {
-				$langTab = $jsLanguageStrings ?? null;
-			}
-			if (is_array($langTab) && array_key_exists($langkey, $langTab)) {
-				return ['success' => false, 'data' => 'LBL_KeyExists'];
-			}
-			$fileContent = file_get_contents($fileName);
-			if ($params['type'] == 'php') {
-				$toReplace = '$languageStrings = [';
-			} else {
-				$toReplace = '$jsLanguageStrings = [';
-			}
-			$newTranslation = "'$langkey' => '$val',";
-			if (self::parseData($toReplace, $fileContent)) {
-				$fileContent = str_ireplace($toReplace, $toReplace . PHP_EOL . '	' . $newTranslation, $fileContent);
-			} else {
-				if (self::parseData('?>', $fileContent)) {
-					$fileContent = str_replace('?>', '', $fileContent);
-				}
-				$fileContent = $fileContent . PHP_EOL . $toReplace . PHP_EOL . '	' . $newTranslation . PHP_EOL . '];';
-			}
-			file_put_contents($fileName, $fileContent);
-		} else {
-			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
-				static::createCustomLangDirectory($params);
-			}
-			if (file_put_contents($fileName, '<?php' . PHP_EOL) === false) {
-				throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
-			}
-		}
-		if (!$fileExists) {
-			return static::addTranslation($params);
-		}
-
-		return ['success' => true, 'data' => 'LBL_AddTranslationOK'];
-	}
-
-	/**
-	 * Function to update translation.
-	 *
-	 * @param array $params
-	 *
-	 * @return (string|bool)[]
-	 */
-	public static function updateTranslation($params)
-	{
-		$lang = $params['lang'];
-		$mod = $params['mod'];
-		$langkey = $params['langkey'];
-		$val = addslashes($params['val']);
-		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
-		$languageStrings = $jsLanguageStrings = [];
-		$customType = \AppConfig::performance('LOAD_CUSTOM_FILES');
-		if ($customType) {
-			$qualifiedName = "custom.languages.$lang.$mod";
-		} else {
-			$qualifiedName = "languages.$lang.$mod";
-		}
-		$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
-		if (strstr($fileName, 'languages') === false) {
-			throw new \App\Exceptions\Security('ERR_MODULE_DOES_NOT_EXIST');
-		}
-		$fileExists = file_exists($fileName);
-		if ($fileExists) {
-			require $fileName;
-			if ($params['type'] === 'php') {
-				$langTab = $languageStrings ?? null;
-			} else {
-				$langTab = $jsLanguageStrings ?? null;
-			}
-			if (!is_array($langTab) || !array_key_exists($langkey, $langTab)) {
-				if ($customType) {
-					return self::addTranslation($params);
-				}
-
-				return ['success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'];
-			}
-			$countLangEl = count(explode("\n", $langTab[$langkey]));
-			$i = 1;
-			$start = false;
-			$fileContentEdit = file($fileName);
-			foreach ($fileContentEdit as $k => $row) {
-				if ($start && $i < $countLangEl) {
-					unset($fileContentEdit[$k]);
-					++$i;
-				}
-				if (strstr($row, "'$langkey'") !== false || strstr($row, '"' . $langkey . '"') !== false) {
-					$fileContentEdit[$k] = "	'$langkey' => '$val'," . PHP_EOL;
-					$start = true;
-				}
-			}
-			file_put_contents($fileName, implode('', $fileContentEdit));
-		} else {
-			if ($customType) {
-				static::createCustomLangDirectory($params);
-			}
-			if (file_put_contents($fileName, '<?php' . PHP_EOL) === false) {
-				throw new \App\Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
-			}
-		}
-		if (!$fileExists) {
-			return static::updateTranslation($params);
-		}
-
-		return ['success' => true, 'data' => 'LBL_UpdateTranslationOK'];
-	}
-
-	/**
 	 * Function creates directory structure.
 	 *
 	 * @param array $params
@@ -233,84 +41,96 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 * Function gets translations.
 	 *
 	 * @param string[] $langs
-	 * @param string   $mod
-	 * @param type     $ShowDifferences
+	 * @param string   $moduleName
 	 *
-	 * @return type
+	 * @return array
 	 */
-	public function loadLangTranslation($langs, $mod, $ShowDifferences = 0)
+	public function loadLangTranslation($langs, $moduleName)
 	{
 		$keysPhp = $keysJs = $langTab = $respPhp = $respJs = [];
-		$mod = str_replace(self::URL_SEPARATOR, '/', $mod);
+		$moduleName = str_replace(self::URL_SEPARATOR, DIRECTORY_SEPARATOR, $moduleName);
 		if (!is_array($langs)) {
 			$langs = [$langs];
 		}
 		foreach ($langs as $lang) {
-			$langData = App\Language::getFromFile($mod, $lang);
+			$langData = \App\Language::getFromFile($moduleName, $lang);
 			if ($langData) {
 				$langTab[$lang] = $langData;
-				$keysPhp = array_merge($keysPhp, array_keys($langData['php']));
-				$keysJs = array_merge($keysJs, array_keys($langData['js']));
+				$keysPhp += isset($langData['php']) ? array_keys($langData['php']) : [];
+				$keysJs += isset($langData['js']) ? array_keys($langData['js']) : [];
 			}
 		}
-		$keysPhp = array_unique($keysPhp);
-		$keysJs = array_unique($keysJs);
 		foreach ($keysPhp as $key) {
 			foreach ($langs as $language) {
-				$respPhp[$key][$language] = htmlentities($langTab[$language]['php'][$key], ENT_QUOTES, 'UTF-8');
+				$respPhp[$key][$language] = isset($langTab[$language]['php'][$key]) ? \App\Purifier::encodeHtml($langTab[$language]['php'][$key]) : null;
 			}
 		}
 		foreach ($keysJs as $key) {
 			foreach ($langs as $language) {
-				$respJs[$key][$language] = htmlentities($langTab[$language]['js'][$key], ENT_QUOTES, 'UTF-8');
+				$respJs[$key][$language] = isset($langTab[$language]['js'][$key]) ? \App\Purifier::encodeHtml($langTab[$language]['js'][$key]) : null;
 			}
 		}
 
-		return ['php' => $respPhp, 'js' => $respJs, 'langs' => $langs, 'keys' => $keys];
+		return ['php' => $respPhp, 'js' => $respJs, 'langs' => $langs];
 	}
 
+	/**
+	 * Load custom languages data.
+	 *
+	 * @param array  $languages
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function loadCustomLanguageFile(array $languages, string $moduleName)
+	{
+		$result = [];
+		$moduleName = str_replace(self::URL_SEPARATOR, DIRECTORY_SEPARATOR, $moduleName);
+		foreach ($languages as $language) {
+			$custom = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.' . \App\Language::FORMAT;
+			if (file_exists($custom)) {
+				$response = \App\Json::decode(file_get_contents($custom), true);
+				if ($response) {
+					$result = array_merge_recursive($result, $response);
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Get modules from language.
+	 *
+	 * @param string $lang
+	 *
+	 * @return array
+	 */
 	public function getModFromLang($lang)
 	{
-		if (empty($lang)) {
-			$lang = 'en_us';
-		} else {
-			$lang = is_array($lang) ? reset($lang) : $lang;
-		}
-		$dir = "languages/$lang";
-		if (!is_dir($dir)) {
-			return false;
-		}
-		$files = [];
-		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
-		foreach ($objects as $name => $object) {
-			if (strpos($object->getFilename(), '.php') !== false) {
-				$name = str_replace('.php', '', $name);
-				$val = str_replace($dir . DIRECTORY_SEPARATOR, '', $name);
-				$key = str_replace($dir . DIRECTORY_SEPARATOR, '', $name);
-				$key = str_replace('/', self::URL_SEPARATOR, $key);
-				$key = str_replace('\\', self::URL_SEPARATOR, $key);
-				$val = str_replace(DIRECTORY_SEPARATOR, '|', $val);
-				$files[$key] = $val;
-			}
-		}
-
-		return self::settingsTranslate($files);
-	}
-
-	public function settingsTranslate($langs)
-	{
+		$modules = [];
 		$settings = [];
-		foreach ($langs as $key => $lang) {
-			if (self::parseData('|', $lang)) {
-				$langArray = explode('|', $lang);
-				unset($langs[$key]);
-				$settings[$key] = \App\Language::translate($langArray[1], 'Settings:' . $langArray[1]);
-			} else {
-				$langs[$key] = \App\Language::translate($key, $key);
+		$format = \App\Language::FORMAT;
+		$lang = empty($lang) ? \App\Language::getLanguage() : $lang;
+		$dirs = [
+			'languages' . DIRECTORY_SEPARATOR . $lang,
+			'custom' . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $lang
+		];
+		foreach ($dirs as $dir) {
+			if (!is_dir($dir)) {
+				continue;
+			}
+			foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST) as $object) {
+				if ($object->getExtension() === $format) {
+					$name = $object->getBasename(".$format");
+					if ($iterator->getSubPath()) {
+						$settings["{$iterator->getSubPath()}__{$name}"] = \App\Language::translate($name, "{$iterator->getSubPath()}.$name");
+					} else {
+						$modules[$name] = \App\Language::translate($name, $name);
+					}
+				}
 			}
 		}
-
-		return ['mods' => $langs, 'settings' => $settings];
+		return ['mods' => $modules, 'settings' => $settings];
 	}
 
 	/**

@@ -32,7 +32,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary">{\App\Language::translate('LBL_AddLanguage', $QUALIFIED_MODULE)}</button>
-				<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" type="button">{\App\Language::translate('LBL_Cancel', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" type="button">{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 	</div>

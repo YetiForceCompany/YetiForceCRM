@@ -5,7 +5,7 @@ Vtiger_Detail_Js("Calendar_Detail_Js", {
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
 			app.showModalWindow($('.typeRemoveModal').clone(), function (container) {
-				container.find('.typeSavingBtn').click(function (e) {
+				container.find('.typeSavingBtn').on('click', function (e) {
 					var currentTarget = $(e.currentTarget);
 					app.hideModalWindow();
 					AppConnector.request(deleteRecordActionUrl + '&ajaxDelete=true&typeRemove=' + currentTarget.data('value')).then(

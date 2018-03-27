@@ -1255,7 +1255,8 @@
 	"LBL_FULLTEXT_BEGIN": "Word begins with",
 	"LBL_FULLTEXT_WORD": "Word",
 	"BTN_PERMISSION_INSPECTOR": "Permission Inspector",
-	"LBL_ADVANCED_SEARCH": "Advanced search"
+	"LBL_ADVANCED_SEARCH": "Advanced search",
+	"_Base": "System"
   },
   "js": {
 	"JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "A responsabilidade dos registros foi transferida com sucesso.",

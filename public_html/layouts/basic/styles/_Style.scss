@@ -1126,15 +1126,6 @@ td.fieldValue {
 	  text-align: left;
 	}
   }
-  td.row > div {
-	display: block;
-  }
-  .customRuleContainer:hover {
-	background: none;
-  }
-  hr {
-	border-bottom: 1px solid #bcbcbc;
-  }
   .title {
 	padding: 1%;
 	-webkit-box-sizing: border-box;
@@ -1144,12 +1135,6 @@ td.fieldValue {
 	.rulehead {
 	  padding-top: 5px;
 	}
-  }
-  .customRuleEntries:hover .actionImages {
-	opacity: 1;
-	/*for IE*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
   }
 }
 .layoutContent {

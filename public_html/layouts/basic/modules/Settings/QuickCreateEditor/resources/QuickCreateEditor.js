@@ -171,7 +171,7 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 	 * Function to register click event for drop-downs in fields list
 	 */
 	avoidDropDownClick: function (dropDownContainer) {
-		dropDownContainer.find('.dropdown-menu').click(function (e) {
+		dropDownContainer.find('.dropdown-menu').on('click', function (e) {
 			e.stopPropagation();
 		});
 	},

@@ -23,6 +23,7 @@
 	"BTN_CONFIGURE_HTTPS": "Zalecana konfiguracja",
 	"LBL_MISSING_HTTPS": "Wykryto, \u017ce po\u0142\u0105czenie z serwerem nie jest szyfrowane. Je\u015bli po\u0142\u0105czenie z serwerem nie zosta\u0142o nawi\u0105zane za pomoc\u0105 protoko\u0142u HTTPS komunikacja mo\u017ce zosta\u0107 pods\u0142uchana lub zmieniona przez osoby postronne. Zalecan\u0105 konfiguracj\u0119 mo\u017cna znale\u017a\u0107 w dokumentacji w temacie \"Wymagania dla serwera WWW.\"",
 	"LBL_DISK_USAGE": "Ilo\u015b\u0107 wolnego miejsca",
-	"LBL_DISK_FULL": "Ma\u0142o wolnego miejsca na dysku (%s z %s), brak wystarczaj\u0105cej ilo\u015bci miejsca na dysku spowoduje \u017ce system przestanie dzia\u0142a\u0107. \u015acie\u017cka do katalodu: %s"
+	"LBL_DISK_FULL": "Ma\u0142o wolnego miejsca na dysku (%s z %s), brak wystarczaj\u0105cej ilo\u015bci miejsca na dysku spowoduje \u017ce system przestanie dzia\u0142a\u0107. \u015acie\u017cka do katalodu: %s",
+	"SystemWarnings": "Ostrze\u017cenia systemowe"	
   }
 }

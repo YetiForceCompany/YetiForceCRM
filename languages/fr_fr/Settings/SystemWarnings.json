@@ -23,7 +23,8 @@
 	"BTN_SET_IGNORE": "Ignorer",
 	"BTN_REMOVE_IGNORE": "Ne pas ignorer",
 	"LBL_MISSING_LIBRARY": "Biblioth\u00e8que manquante d\u00e9tect\u00e9e. Certaines fonctionnalit\u00e9s ont \u00e9t\u00e9 d\u00e9sactiv\u00e9es. Pour les activer, veuillez t\u00e9l\u00e9charger la biblioth\u00e8que. Si le CRM n'a pas de connexion Internet, vous pouvez t\u00e9l\u00e9charger les fichiers et les copier dans le dossier %s.",
-	"BTN_DOWNLOAD_LIBRARY": "T\u00e9l\u00e9charger la biblioth\u00e8que"
+	"BTN_DOWNLOAD_LIBRARY": "T\u00e9l\u00e9charger la biblioth\u00e8que",
+	"SystemWarnings": "Alertes Syst\u00e8me"
   },
   "js": []
 }

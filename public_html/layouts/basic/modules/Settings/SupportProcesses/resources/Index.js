@@ -3,7 +3,7 @@
 jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
 	registerChangeVal: function (content) {
 		var thisInstance = this;
-		content.find('.configField').change(function (e) {
+		content.find('.configField').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
 			params['type'] = target.data('type');

@@ -1,14 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 var Settings_Index_Js = {
 	initEvants: function () {
-		$('.LangManagement .add_lang').click(Settings_Index_Js.ShowLangMondal);
-		$('.LangManagement .edit_lang a').click(function (e) {
+		$('.LangManagement .add_lang').on('click', Settings_Index_Js.ShowLangMondal);
+		$('.LangManagement .edit_lang a').on('click', function (e) {
 			jQuery('#edit_lang').html('');
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
 		});
-		$('.AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
-		$('.AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
+		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
+		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function (index, element) {
 			element = $(element);
 			Settings_Index_Js.initEvant(element);
@@ -58,14 +58,14 @@ var Settings_Index_Js = {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});
-		$('#edit_lang .translation').change(function (e) {
+		$('#edit_lang .translation').on('change', function (e) {
 			Settings_Index_Js.changeTranslation(e, position)
 		});
-		$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
-		$('#edit_lang .delete_translation').click(function (e) {
+		$('#edit_lang .js-add-translation').on('click', Settings_Index_Js.ShowTranslationMondal);
+		$('#edit_lang .js-delete')on('click', function (e) {
 			Settings_Index_Js.deleteTranslation(e, position)
 		});
-		$('.LangManagement ' + position + ' .show_differences').click(Settings_Index_Js.ShowDifferences);
+		$('.LangManagement ' + position + ' .show_differences').on('click', Settings_Index_Js.ShowDifferences);
 		$.extend($.fn.dataTable.defaults, {
 			"searching": true,
 			"ordering": false,
@@ -109,12 +109,12 @@ var Settings_Index_Js = {
 			mod = jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val();
 		}
 		Settings_Index_Js.registerSaveEvent('saveTranslation', {
-			'lang': target.data('lang'),
-			'mod': mod,
-			'type': target.data('type'),
-			'langkey': closestTrElement.data('langkey'),
-			'val': target.val(),
-			'is_new': target.hasClass("empty_value"),
+			lang: target.data('lang'),
+			mod: mod,
+			type: target.data('type'),
+			variable: closestTrElement.data('langkey'),
+			val: target.val(),
+			is_new: target.hasClass("empty_value"),
 		});
 		target.removeClass("empty_value");
 		progress.progressIndicator({'mode': 'hide'});
@@ -133,9 +133,10 @@ var Settings_Index_Js = {
 			}
 		});
 		Settings_Index_Js.registerSaveEvent('deleteTranslation', {
-			'lang': $(".LangManagement #langs_list").val(),
-			'mod': $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
-			'langkey': closestTrElement.data('langkey'),
+			lang: $(".LangManagement #langs_list").val(),
+			mod: $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
+			langkey: closestTrElement.data('langkey'),
+			type: closestTrElement.data('type'),
 		});
 		progress.progressIndicator({'mode': 'hide'});
 		e = target.closest('.active');
@@ -156,23 +157,23 @@ var Settings_Index_Js = {
 			html: 'true',
 			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
-		element.find('#deleteItemC').click(function (e) {
+		element.find('#deleteItemC').on('click', function (e) {
 			$(e.currentTarget).popover(options).popover('show');
-			$('.popover_block .deleteItem').click(function () {
+			$('.popover_block .deleteItem').on('click', function () {
 				Settings_Index_Js.DeleteLang(element, e);
 				$(e.currentTarget).popover('hide');
 			});
-			$('.popover_block .cancel').click(function () {
+			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
 			});
 		});
-		element.find('#setAsDefault').click(function (e) {
+		element.find('#setAsDefault').on('click', function (e) {
 			$(e.currentTarget).popover(makeSureOptions).popover('show');
-			$('.popover_block .setDefaultItem').click(function () {
+			$('.popover_block .setDefaultItem').on('click', function () {
 				$(e.currentTarget).popover('hide');
 				Settings_Index_Js.setAsDefaultLang(element, e);
 			});
-			$('.popover_block .cancel').click(function () {
+			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
 			});
 		});
@@ -257,7 +258,7 @@ var Settings_Index_Js = {
 				function (data) {
 					response = data['result'];
 					var params = {
-						text: response['message'],
+						text: response['message'] ? response['message'] : app.vtranslate('JS_ERROR'),
 					};
 					if (response['success'] == true) {
 						params.type = 'info';

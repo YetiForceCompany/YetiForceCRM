@@ -151,7 +151,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	},
 	registerRefreshEvent: function () {
 		var thisInstance = this;
-		$(".refreshCalendar").click(function () {
+		$(".refreshCalendar").on('click', function () {
 			$(this).closest('.refreshHeader').addClass('d-none');
 			thisInstance.loadCalendarData();
 		});
@@ -159,7 +159,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
 
-		selectBtn.click(function (e) {
+		selectBtn.on('click', function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
 
@@ -362,7 +362,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
 			thisInstance.loadCalendarData();
 		});
 	},

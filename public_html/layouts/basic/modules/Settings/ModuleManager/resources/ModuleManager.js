@@ -42,7 +42,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				data.find('[name="saveButton"]').attr("disabled", true);
 			}
 		})
-		data.find('[name="saveButton"]').click(function (e) {
+		data.find('[name="saveButton"]').on('click', function (e) {
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
 				var progress = $.progressIndicator({
@@ -189,7 +189,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 	registerEvents: function (e) {
 		var thisInstance = this;
 		var container = jQuery('#moduleManagerContents');
-		container.find('.createModule').click(thisInstance.createModule);
+		container.find('.createModule').on('click', thisInstance.createModule);
 		thisInstance.deleteModule(container)
 		//register click event for check box to update the module status
 		container.on('click', '[name="moduleStatus"]', function (e) {

@@ -102,7 +102,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 	},
 	registerButtonsEvents: function () {
 		var thisInstance = this;
-		$('.js-generatePass').click(function (e) {
+		$('.js-generatePass').on('click', function (e) {
 			thisInstance.generatePassword(e);
 		});
 	},

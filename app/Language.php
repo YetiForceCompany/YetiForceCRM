@@ -271,26 +271,23 @@ class Language
 			if (Cache::has('LanguageFiles', $language . $moduleName)) {
 				static::$languageContainer[$language][$moduleName] = Cache::get('LanguageFiles', $language . $moduleName);
 			} else {
-				$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.json';
-				$translation = [];
-				if (file_exists($file)) {
-					$translation = json_decode(file_get_contents($file), true);
-				} else {
-					\App\Log::warning("Language file does not exist, module: $moduleName ,language: $language");
+				static::$languageContainer[$language][$moduleName] = [];
+				$file = DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.' . static::FORMAT;
+				$langFile = ROOT_DIRECTORY . $file;
+				if (file_exists($langFile)) {
+					static::$languageContainer[$language][$moduleName] = Json::decode(file_get_contents($langFile), true) ?? [];
 				}
-				static::$languageContainer[$language][$moduleName] = $translation;
-				if (\AppConfig::performance('LOAD_CUSTOM_LANGUAGE')) {
-					$custom = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.json';
-					if (file_exists($custom)) {
-						$translation = json_decode(file_get_contents($custom), true);
-						if ($translation) {
-							foreach ($translation as $type => $rows) {
-								foreach ($rows as $key => $val) {
-									static::$languageContainer[$language][$moduleName][$type][$key] = $val;
-								}
-							}
+				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'custom' . $file;
+				if (file_exists($langCustomFile)) {
+					$translation = Json::decode(file_get_contents($langCustomFile), true) ?? [];
+					foreach ($translation as $type => $rows) {
+						foreach ($rows as $key => $val) {
+							static::$languageContainer[$language][$moduleName][$type][$key] = $val;
 						}
 					}
+				}
+				if (!file_exists($langFile) && !file_exists($langCustomFile)) {
+					\App\Log::warning("Language file does not exist, module: $moduleName ,language: $language");
 				}
 				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer[$language][$moduleName], Cache::LONG);
 			}
@@ -625,10 +622,11 @@ class Language
 	 * @param string $type
 	 * @param string $label
 	 * @param string $translation
+	 * @param bool   $remove
 	 *
 	 * @throws Exceptions\AppException
 	 */
-	public static function translationModify(string $language, string $fileName, string $type, string $label, string $translation)
+	public static function translationModify(string $language, string $fileName, string $type, string $label, string $translation, bool $remove = false)
 	{
 		$fileLocation = explode('__', $fileName, 2);
 		array_unshift($fileLocation, 'custom', 'languages', $language);
@@ -647,12 +645,13 @@ class Language
 				}
 			}
 		}
-		if (!$translations || !isset($translations[$type])) {
-			$translations[$type] = [];
-		}
 		$translations[$type][$label] = $translation;
+		if ($remove) {
+			unset($translations[$type][$label]);
+		}
 		if (file_put_contents($fileDirectory, Json::encode($translations, JSON_PRETTY_PRINT)) === false) {
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
+		Cache::delete('LanguageFiles', $language . str_replace('__', DIRECTORY_SEPARATOR, $fileName));
 	}
 }

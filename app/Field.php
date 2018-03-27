@@ -15,7 +15,7 @@ class Field
 	/**
 	 * Help info views.
 	 */
-	const HELP_INFO_VIEWS = ['Edit', 'Detail', 'QuickCreateAjax'];
+	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax'];
 
 	/**
 	 * Function gets the list of fields that the user has permissions to.

@@ -283,7 +283,7 @@ Reports_Edit_Js("Reports_Edit1_Js", {}, {
 	//Remove annual dates element 
 	registerEventForRemoveAnnualDates: function () {
 		var thisInstance = this;
-		jQuery("#annualDates").chosen().change(function (e) {
+		jQuery("#annualDates").chosen().on('change', function (e) {
 			jQuery('#hiddenAnnualDates').val(JSON.stringify(jQuery(e.target).val()));
 			var element = jQuery(e.currentTarget);
 			thisInstance.updateAnnualDates(element);

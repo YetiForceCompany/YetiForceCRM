@@ -1069,7 +1069,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var splitsArray = [];
 		this.split = this.registerSplit(container);
 		splitsArray.push(this.split);
-		$(window).resize(() => {
+		$(window).on('resize', () => {
 			if ($(window).width() < 993) {
 				if (container.find('.gutter').length) {
 					splitsArray[splitsArray.length - 1].destroy();

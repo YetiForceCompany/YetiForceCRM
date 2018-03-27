@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
 				});
 			},
 			registerSwitch: function () {
-				$(".switchChartContainer").click(function () {
+				$(".switchChartContainer").on('click', function () {
 					var chartContainer = $('.chartContainer')[0];
 					if ($(chartContainer).is(':visible')) {
 						$(this).find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');

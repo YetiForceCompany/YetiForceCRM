@@ -592,7 +592,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerAddCustomFieldEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.find('.addCustomField').click(function (e) {
+		contents.find('.addCustomField').on('click', function (e) {
 			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			addFieldContainer.removeClass('d-none').show();
@@ -638,7 +638,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 							var lowerCasedpickListValuesArray = jQuery.map(pickListValuesArray, function (item, index) {
 								return item.toLowerCase();
 							});
-							var uniqueLowerCasedpickListValuesArray = jQuery.unique(lowerCasedpickListValuesArray);
+							var uniqueLowerCasedpickListValuesArray = jQuery.uniqueSort(lowerCasedpickListValuesArray);
 							var uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length;
 							var arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
 							if (arrayDiffSize > 0) {
@@ -852,7 +852,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerAddCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		contents.find('.addCustomBlock').click(function (e) {
+		contents.find('.addCustomBlock').on('click', function (e) {
 			var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
 			var callBackFunction = function (data) {
@@ -898,7 +898,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				}
 				form.validationEngine(params);
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 				})
 			}
@@ -1071,7 +1071,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
 					//register click event for reactivate button in the inactive fields modal
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						thisInstance.createReactivateFieldslist(blockId, form);
 						thisInstance.reActivateHiddenFields(currentBlock);
 						app.hideModalWindow();
@@ -1224,7 +1224,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		contents.find('.deleteCustomField').click(function (e) {
+		contents.find('.deleteCustomField').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldId = currentTarget.data('fieldId');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
@@ -1326,7 +1326,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var contents = jQuery('#layoutEditorContainer').find('.contents');
 		var relatedContainer = contents.find('#relatedTabOrder');
 		var relatedTab = contents.find('.relatedListTab');
-		relatedTab.click(function () {
+		relatedTab.on('click', function () {
 			if (relatedContainer.find('.relatedTabModulesList').length > 0) {
 
 			} else {
@@ -1478,7 +1478,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		if (typeof contents === 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		contents.find('.editFieldDetails').click(function (e) {
+		contents.find('.editFieldDetails').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFields');
 			var fieldId = fieldRow.data('fieldId');
@@ -1579,7 +1579,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		thisInstance.registerDeleteCustomFieldEvent(contents);
 		thisInstance.registerEditFieldDetailsClick(contents);
 
-		contents.find(':checkbox').change(function (e) {
+		contents.find(':checkbox').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			if (currentTarget.attr('readonly') == 'readonly') {
 				var status = jQuery(e.currentTarget).is(':checked');
@@ -1638,7 +1638,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerAddInventoryField: function () {
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
-		container.find('.addInventoryField').click(function (e) {
+		container.find('.addInventoryField').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
@@ -1678,7 +1678,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerStep1: function (container, blockId) {
 		var thisInstance = this;
-		container.find('.nextButton').click(function (e) {
+		container.find('.nextButton').on('click', function (e) {
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var type = container.find('select.type').val();
 			app.hideModalWindow();
@@ -1740,7 +1740,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				});
 			}
 		});
-		container.find('form').submit(function (event) {
+		container.find('form').on('submit', function (event) {
 			event.preventDefault();
 		});
 	},
