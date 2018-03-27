@@ -1,8 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_EDITING', $MODULE)}</h3>
+		<h5 class="modal-title">{\App\Language::translate('LBL_EDITING', $MODULE)}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+        </button>
 		<div class="input-group paddingTop10">
 			<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ..." >
 			<span class="input-group-btn">
