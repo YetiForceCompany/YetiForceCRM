@@ -63,6 +63,20 @@
 	@extend .justify-content-lg-center;
 	@extend .justify-content-xl-end;
 }
+.u-alphabet-sorting {
+  a {
+	@extend .h5;
+	@extend .font-weight-bold;
+  }
+	@extend .text-center;
+}
+/*.u-alphabet-search {
+  a {
+	width: 45px;
+  }
+  @extend .d-inline-block;
+  @extend .m-2;
+}*/
 // a little bigger badge
 .u-badge {
   font-size: 90%;
