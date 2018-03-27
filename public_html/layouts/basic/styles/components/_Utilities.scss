@@ -65,6 +65,9 @@
 	@extend .justify-content-xl-end;
 }
 // a little bigger badge
-.u-badge{
+.u-badge {
   font-size: 90%;
+}
+.u-hide-underneath {
+  z-index: -1;
 }
