@@ -733,6 +733,10 @@ App.Fields = {
 				const fileInfo = App.Fields.MultiImage.getFileInfo.call(this);
 				App.Fields.MultiImage.zoomPreview(fileInfo.hash);
 			});
+			$(document).on('dblclick', '.c-multi-image__preview-img', function (e) {
+				const fileInfo = App.Fields.MultiImage.getFileInfo.call(this);
+				App.Fields.MultiImage.zoomPreview(fileInfo.hash);
+			});
 			$(document).on('click', '.c-multi-image__preview__popover-btn-delete', function (e) {
 				const fileInfo = App.Fields.MultiImage.getFileInfo.call(this);
 				App.Fields.MultiImage.deleteFile(fileInfo.hash);
