@@ -156,7 +156,10 @@
 	"LBL_COPY": "Copier",
 	"LBL_STANDARD_FIELDS": "Champs standard",
 	"LBL_ADVANCED_BLOCK_FIELDS": "Champs de bloc avanc\u00e9s",
-	"LBL_ADD_ADVANCED_BLOCK_FIELDS": "Ajouter des champs de bloc avanc\u00e9s"
+	"LBL_ADD_ADVANCED_BLOCK_FIELDS": "Ajouter des champs de bloc avanc\u00e9s",
+	"LBL_EDIT_VIEW": "Cr\u00e9er & Editer",
+	"LBL_DETAIL_VIEW": "Vues D\u00e9tail & R\u00e9sum\u00e9",
+	"LBL_QUICK_CREATE_VIEW": "Cr\u00e9ation rapide"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "Nom du bloc existe d\u00e9j\u00e0",

@@ -1296,7 +1296,8 @@
 	"LBL_FULLTEXT_BEGIN": "La palabra comienza con",
 	"LBL_FULLTEXT_WORD": "Palabra",
 	"BTN_PERMISSION_INSPECTOR": "Inspector de permisos",
-	"LBL_ADVANCED_SEARCH": "B\u00fasqueda Avanzada"
+	"LBL_ADVANCED_SEARCH": "B\u00fasqueda Avanzada",
+	"_Base": "System"
   },
   "js": {
 	"JS_VIEWNAME_ALERT": "Nombre del filtro demasiado largo",
