@@ -29,8 +29,7 @@
 /user_privileges/user_privileges_6.php
 
 # dependencies COMPOSER
-/vendor/*
-!/vendor/yii
+/vendor
 /public_html/vendor/*
 
 # dependencies YARN

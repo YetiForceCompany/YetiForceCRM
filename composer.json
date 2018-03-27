@@ -55,7 +55,8 @@
 	"phpoffice/phpspreadsheet": "^1.0",
 	"urodoz/truncate-html": "1.0.1",
 	"yetiforce/csrf-magic": "1.0.6",
-	"yetiforce/debugbar": "dev-yeti"
+	"yetiforce/debugbar": "dev-yeti",
+	"yetiforce/yii2": "dev-yetiforce"
   },
   "require-dev": {
 	"phpunit/phpunit": "7.*"
@@ -69,6 +70,9 @@
 	"autoloader-suffix": "YT"
   },
   "autoload": {
+	"files": [
+	  "app/Loader.php"
+	],
 	"psr-4": {
 	  "vtlib\\": "vtlib/Vtiger/",
 	  "includes\\": "include/",
