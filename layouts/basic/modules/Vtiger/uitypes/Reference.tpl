@@ -36,6 +36,7 @@
 	{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
 	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 	<div class="input-group referenceGroup">
+		<div class="input-group-prepend">
 		{if $REFERENCE_LIST_COUNT > 1}
 			<div class="input-group-prepend noSpaces referenceModulesListGroup">
 				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 referenceModulesList" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
@@ -45,6 +46,7 @@
 				</select>
 			</div>
 		{/if}
+		</div>
 		<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete" {if !empty($DISPLAYID)}readonly="true"{/if}
 			   value="{$FIELD_VALUE}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if} 

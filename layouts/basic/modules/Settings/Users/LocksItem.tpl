@@ -2,7 +2,7 @@
 {strip}
 	<tr>
 		<td>
-			<select class="form-control js-users {if $SELECT}select2{/if}" data-js="data">
+			<select class="form-control js-users {if $SELECT}select2{/if}" data-js="value">
 				<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
 						<option value="{$ROLEID}" {if $ID == $ROLEID}selected{/if}>
@@ -20,7 +20,7 @@
 			</select>
 		</td>
 		<td>
-			<select class="form-control js-locks {if $SELECT}select2{/if}" data-js="data" multiple="">
+			<select class="form-control js-locks {if $SELECT}select2{/if}" data-js="value" multiple="">
 				{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
 					<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
 						{\App\Language::translate($LOCKT, $QUALIFIED_MODULE)}
