@@ -120,12 +120,10 @@ header {
 	font-weight: inherit !important;
   }
 }
-.modal-open {
-  ul.ui-autocomplete {
-	max-width: 25rem !important;
-	div.ui-menu-item-wrapper {
-		@extend .u-text-ellipsis;
-	}
+ul.ui-autocomplete {
+  max-width: 25rem !important;
+  div.ui-menu-item-wrapper {
+	@extend .u-text-ellipsis;
   }
 }
 //--- fullcalendar ---//
