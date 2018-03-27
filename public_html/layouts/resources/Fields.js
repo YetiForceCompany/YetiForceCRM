@@ -732,7 +732,7 @@ App.Fields = {
 						title: file.name,
 						html: true,
 						trigger: 'hover',
-						placement: 'auto',
+						placement: 'bottom',
 						content: `<img src="${imageSrc}" class="w-100" />`
 					});
 					$(file.preview).find('.c-multi-image__preview-img').on('click', function (e) {
@@ -759,12 +759,17 @@ App.Fields = {
 			const fr = new FileReader();
 			fr.onload = function fileReaderLoadCallback() {
 				file.imageSrc = fr.result;
-				callback(`<div class="c-multi-image__preview d-inline-block mx-2">
+				callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview">
 	<div class="c-multi-image__preview-body">
-		<img class="c-multi-image__preview-img border rounded" src="${fr.result}" tabindex="0">
-		<button type="button" class="btn btn-sm btn-danger" aria-label="Close" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
-			<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
-		</button>
+		<div class="border c-multi-image__preview-img" style="background-image:url(${fr.result})" tabindex="0"></div>
+		<div class="d-none c-multi-image__preview-actions">
+			<button type="button" class="btn btn-sm btn-primary c-multi-image__preview-btn-zoom" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
+				<span aria-hidden="true"><i class="fa fa-search-plus"></i></span>
+			</button>
+			<button type="button" class="btn btn-sm btn-danger c-multi-image__preview-btn-del" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
+				<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
+			</button>
+		</div>
 	</div>
 </div>`, fr.result);
 			};
