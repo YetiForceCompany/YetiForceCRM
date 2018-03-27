@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once dirname(__FILE__) . '/../ModTracker.php';
+require_once __DIR__ . '/../ModTracker.php';
 
 class ModTracker_ModTrackerHandler_Handler
 {

@@ -3,9 +3,9 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-require 'include/ConfigUtils.php';
+require __DIR__ . '/include/ConfigUtils.php';
 if (!in_array('dav', $enabledServices)) {
-	require 'include/main/WebUI.php';
+	require __DIR__ . '/include/main/WebUI.php';
 	$apiLog = new \App\Exceptions\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
 }
