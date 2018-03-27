@@ -316,6 +316,16 @@ App.Fields = {
 			const rand = Math.floor(Math.random() * chars.length);
 			return chars.substring(rand, rand + 1);
 		},
+		/**
+		 * generate random hash
+		 * @returns {string}
+		 */
+		generateRandomHash(prefix = '') {
+			prefix = prefix.toString();
+			console.log('prefix', prefix)
+			const hash = Math.random().toString(36).substr(2, 9) + '-' + Math.random().toString(36).substr(2, 9) + '-' + new Date().valueOf();
+			return prefix ? prefix + '-' + hash : hash;
+		}
 
 	},
 	Picklist: {
@@ -659,7 +669,7 @@ App.Fields = {
 			});
 			const fileUploads = $('.c-multi-image .c-multi-image__file');
 			fileUploads.fileupload({
-				//dataType: 'json',
+				dataType: 'json',
 				autoUpload: false,
 				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
 				done(e, data) {
@@ -667,8 +677,19 @@ App.Fields = {
 						console.log('file', file);
 					});
 				},
+				submit(e, data) {
+					data.formData = {
+						'hashes[]': $(this).closest('.c-multi-image').find('input[name="hashes[]"]').val()
+					};
+				},
 				add(e, data) {
 					const component = $(this).closest('.c-multi-image');
+					data.files.forEach((file) => {
+						if (typeof file.hash === 'undefined') {
+							file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
+							$(component).find('input[name="hashes[]"]').val([file.hash]);
+						}
+					});
 					$(component).find('.c-multi-image__progress').removeClass('d-none').fadeIn(() => {
 						data.submit()
 							.success((result, textStatus, jqXHR) => {
@@ -704,6 +725,56 @@ App.Fields = {
 			$(fileUploads).each(function () {
 				$(this).fileupload('option', 'dropZone', $(this).closest('.c-multi-image'));
 			});
+			$(document).on('click', '.c-multi-image__preview__popover-img', App.Fields.MultiImage.Zoom);
+			$(document).on('click', '.c-multi-image__preview__popover-btn-zoom', App.Fields.MultiImage.Zoom);
+			$(document).on('click', '.c-multi-image__preview__popover-btn-delete', App.Fields.MultiImage.Delete);
+		},
+		/**
+		 * Display modal window with large preview
+		 * Should be called with this pointing on button element with data-filename and data-image attributes
+		 *
+		 * @param {Event} e
+		 */
+		Zoom(e) {
+			const filename = $(this).data('filename');
+			const imageSrc = $(this).data('image');
+			bootbox.dialog({
+				size: 'large',
+				backdrop: true,
+				onEscape: true,
+				title: `<i class="fa fa-image"></i> ${filename}`,
+				message: `<img src="${imageSrc}" class="w-100" />`,
+				buttons: {
+					Delete: {
+						label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
+						className: "float-left btn btn-danger",
+						callback: App.Fields.MultiImage.Delete
+					},
+					Close: {
+						label: `<i class="fa fa-times"></i> ${app.vtranslate('JS_CLOSE')}`,
+						className: "btn btn-default",
+						callback: () => {
+						},
+					}
+				}
+			});
+		},
+		/**
+		 * Delete image from server
+		 * Should be called with this pointing on button element with data-hash attribute
+		 * @param {Event} e
+		 */
+		Delete(e) {
+			const hash = $(this).data('hash');
+			const previewElement = $('#c-multi-image__preview-hash-' + hash);
+			$.ajax({
+				url: '/file.php?tralala',
+				method: "POST",
+				data: {hash}
+			}).success((result) => {
+				previewElement.popover('dispose').remove();
+			});
+
 		},
 		/**
 		 * File change event
@@ -729,20 +800,16 @@ App.Fields = {
 			$.each(files, (index, file) => {
 				App.Fields.MultiImage.generatePreviewFromFile(file, (template, imageSrc) => {
 					file.preview = $(template).popover({
-						title: file.name,
+						title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
 						html: true,
-						trigger: 'hover',
-						placement: 'bottom',
-						content: `<img src="${imageSrc}" class="w-100" />`
-					});
-					$(file.preview).find('.c-multi-image__preview-img').on('click', function (e) {
-						bootbox.dialog({
-							size: 'large',
-							backdrop: true,
-							onEscape: true,
-							title: file.name,
-							message: `<img src="${imageSrc}" class="w-100" />`
-						});
+						trigger: 'focus',
+						placement: 'top',
+						content: `<img src="${imageSrc}" class="w-100 c-multi-image__preview__popover-img" data-filename="${file.name}" data-image="${imageSrc}" />`,
+						template:`<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div><div class="text-right popover-footer c-multi-image__preview__popover-actions">
+	<button class="btn btn-sm btn-danger float-left c-multi-image__preview__popover-btn-delete" data-hash="${file.hash}" title="${app.vtranslate('JS_DELETE')}"><i class="fa fa-trash-alt"></i></button>
+	<!--<button class="btn btn-sm btn-default c-multi-image__preview__popover-btn-close" title="${app.vtranslate('JS_CLOSE')}"><i class="fa fa-times"></i></button>-->
+	<button class="btn btn-sm btn-primary c-multi-image__preview__popover-btn-zoom" data-image="${imageSrc}" data-filename="${file.name}" title="${app.vtranslate('JS_ZOOM')}"><i class="fa fa-search-plus"></i></button>
+</div></div>`
 					});
 					if (index === files.length - 1) {
 						doneCallback(files.map((file) => file.preview));
@@ -759,26 +826,19 @@ App.Fields = {
 			const fr = new FileReader();
 			fr.onload = function fileReaderLoadCallback() {
 				file.imageSrc = fr.result;
-				callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview">
-	<div class="c-multi-image__preview-body">
-		<div class="border c-multi-image__preview-img" style="background-image:url(${fr.result})" tabindex="0"></div>
+				callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview" id="c-multi-image__preview-hash-${file.hash}">
+		<div class="img-thumbnail c-multi-image__preview-img" style="background-image:url(${fr.result})" tabindex="0" data-toggle="tooltip" title="${file.name}"></div>
 		<div class="d-none c-multi-image__preview-actions">
-			<button type="button" class="btn btn-sm btn-primary c-multi-image__preview-btn-zoom" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
+			<button type="button" class="btn btn-sm btn-primary c-multi-image__preview-btn-zoom" tabindex="0">
 				<span aria-hidden="true"><i class="fa fa-search-plus"></i></span>
 			</button>
-			<button type="button" class="btn btn-sm btn-danger c-multi-image__preview-btn-del" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
+			<button type="button" class="btn btn-sm btn-danger c-multi-image__preview-btn-del" onclick="App.Fields.MultiImage.destroyPreview('${file.hash}')" tabindex="0">
 				<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
 			</button>
 		</div>
-	</div>
 </div>`, fr.result);
 			};
 			fr.readAsDataURL(file);
-		},
-		destroyPreview(button) {
-			//$(button).closest('.c-multi-image__preview').popover('dispose').remove();
-			const upload = $(button).closest('.c-multi-image').find('.c-multi-image__file').fileupload();
-			console.log(upload);
 		},
 	}
 }
