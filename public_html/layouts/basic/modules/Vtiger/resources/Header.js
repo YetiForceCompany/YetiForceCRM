@@ -510,7 +510,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var key = $(thisObject).data('hotkeys');
 			if (key != '') {
 				Mousetrap.on(key, function () {
-					thisObject.on('click', );
+					thisObject.click();
 				});
 			}
 		});

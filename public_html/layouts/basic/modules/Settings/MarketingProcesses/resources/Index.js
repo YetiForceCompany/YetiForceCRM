@@ -37,7 +37,7 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 				}
 			});
 			if (mapping.length) {
-				jQuery('[name="mapping"]').val(JSON.stringify(mapping)).on('change', );
+				jQuery('[name="mapping"]').val(JSON.stringify(mapping)).change();
 			} else {
 				Settings_Vtiger_Index_Js.showMessage({type: 'info', text: app.vtranslate('JS_NO_CONDITIONS')});
 			}
