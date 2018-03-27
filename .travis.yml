@@ -35,6 +35,7 @@ before_script:
   
 script:
 - cd tests
+- COMPOSER_CACHE_DIR=/dev/null
 - /usr/local/bin/phpunit --debug --verbose
     
 after_script:
