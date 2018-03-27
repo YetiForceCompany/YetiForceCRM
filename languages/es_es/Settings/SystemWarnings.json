@@ -23,6 +23,7 @@
 	"BTN_CONFIGURE_HTTPS": "Configuraci\u00f3n recomendada",
 	"LBL_MISSING_HTTPS": "Su conexi\u00f3n con el servidor no est\u00e1 cifrada. Si la conexi\u00f3n no se establece mediante el protocolo HTTPS, la comunicaci\u00f3n puede ser interceptada o alterada por terceros. La configuraci\u00f3n recomendada se encuentra en el art\u00edculo \"Requisitos de servidor Web\" de la documentaci\u00f3n.",
 	"LBL_DISK_USAGE": "Espacio en disco disponible",
-	"LBL_DISK_FULL": "No hay suficiente espacio libre en el disco (%s of %s), por lo que el sistema puede dejar de funcionar. Ruta del directorio: %s"
+	"LBL_DISK_FULL": "No hay suficiente espacio libre en el disco (%s of %s), por lo que el sistema puede dejar de funcionar. Ruta del directorio: %s",
+	"SystemWarnings": "Advertencias del sistema"
   }
 }
