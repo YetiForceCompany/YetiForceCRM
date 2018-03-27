@@ -1076,7 +1076,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				.attr("href", imgEl.attr('src'))
 				.attr("download", header.find('.dashboardTitle').text() + ".png")
 				.appendTo(container);
-			a[0].on('click', );
+			a[0].click();
 			a.remove();
 		});
 	},
@@ -1087,7 +1087,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		container.find('.changeRecordSort').on('click', function (e) {
 			var drefresh = container.find('a[name="drefresh"]');
 			thisInstance.setSortingButton(jQuery(e.currentTarget));
-			drefresh.on('click', );
+			drefresh.click();
 		});
 	},
 	registerWidgetSwitch: function registerWidgetSwitch() {
@@ -1100,7 +1100,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
 			thisInstance.setUrlSwitch(currentElement).then(function (data) {
 				if (data) {
-					drefresh.on('click', );
+					drefresh.click();
 				}
 			});
 		});
