@@ -63,7 +63,6 @@ $PERFORMANCE_CONFIG = [
 	// enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php
 	'LOAD_CUSTOM_FILES' => false,
-	'LOAD_CUSTOM_LANGUAGE' => true,
 	//Parameter that determines whether admin panel should be available to admin by default
 	'SHOW_ADMIN_PANEL' => false,
 	// Display administrators in the list of users (Assigned To)
