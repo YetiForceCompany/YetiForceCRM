@@ -1277,7 +1277,8 @@
 	"LBL_FULLTEXT_BEGIN": "Wort beginnt mit",
 	"LBL_FULLTEXT_WORD": "Wort",
 	"BTN_PERMISSION_INSPECTOR": "Berechtigungs Inspektor",
-	"LBL_ADVANCED_SEARCH": "Erweiterte Suche"
+	"LBL_ADVANCED_SEARCH": "Erweiterte Suche",
+	"_Base": "System"
   },
   "js": {
 	"JS_SUMMARY": "Summe",

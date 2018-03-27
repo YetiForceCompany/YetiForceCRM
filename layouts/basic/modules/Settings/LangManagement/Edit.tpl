@@ -30,7 +30,9 @@
 					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{\App\Language::translate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
 				</label>
 			</div>
-			<button class="btn btn-primary add_translation col-md-2 float-right {if empty($SELECTED_LANGS)}d-none{/if}">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			<div>
+				<button class="btn btn-primary js-add-translation {if empty($SELECTED_LANGS)}d-none{/if}" type="button" data-js="click">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -49,7 +51,7 @@
 			</thead>
 			<tbody>
 				{if $DATA['php']}
-					{foreach from=$DATA['php'] item=langs key=lang_key}
+					{foreach from=$DATA['php'] item=langs key=LANG_KEY}
 						{assign var=TEMPDATA value = 1}
 						{if $SD == 1}
 							{assign var=TEMPDATA value = 0}
@@ -60,13 +62,13 @@
 							{/foreach}
 						{/if}
 						{if $TEMPDATA == 1}
-							<tr data-langkey="{$lang_key}">
-								<td>{$lang_key}</td>
+							<tr data-langkey="{$LANG_KEY}" data-type="php">
+								<td>{$LANG_KEY}</td>
 								{foreach from=$langs item=item key=lang}
 									<td><input 
 											data-lang="{$lang}"
 											data-type="php"
-											name="{$lang_key}" 
+											name="{$LANG_KEY}" 
 											class="translation form-control {if $item == NULL}empty_value{/if}" 
 											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
 											type="text" 
@@ -74,16 +76,18 @@
 									</td>
 								{/foreach}
 								<td>
-									<a href="#" class="float-right marginRight10px delete_translation" title="{\App\Language::translate('LBL_DELETE')}">
-										<i class="fas fa-trash-alt alignMiddle"></i>
-									</a>
+									{if isset($CUSTOM_DATA['php'][$LANG_KEY])}
+										<button type="button" class="btn btn-light js-delete" data-js="click" title="{\App\Language::translate('LBL_DELETE')}">
+											<span class="fas fa-trash-alt alignMiddle"></span>
+										</button>
+									{/if}
 								</td>
 							</tr>
 						{/if}
 					{/foreach}
 				{/if}
 				{if $DATA['js']}
-					{foreach from=$DATA['js'] item=langs key=lang_key}
+					{foreach from=$DATA['js'] item=langs key=LANG_KEY}
 						{assign var=TEMPDATA value = 1}
 						{if $SD == 1}
 							{assign var=TEMPDATA value = 0}
@@ -94,13 +98,13 @@
 							{/foreach}
 						{/if}
 						{if $TEMPDATA == 1}
-							<tr data-langkey="{$lang_key}">
-								<td>{$lang_key}</td>
+							<tr data-langkey="{$LANG_KEY}" data-type="js">
+								<td>{$LANG_KEY}</td>
 								{foreach from=$langs item=item key=lang}
 									<td><input 
 											data-lang="{$lang}"
 											data-type="js"
-											name="{$lang_key}" 
+											name="{$LANG_KEY}" 
 											class="translation form-control {if $item == NULL}empty_value{/if}" 
 											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
 											type="text" 
@@ -108,9 +112,11 @@
 									</td>
 								{/foreach}
 								<td>
-									<a href="#" class="float-right marginRight10px delete_translation">
-										<i class="fas fa-trash-alt alignMiddle"></i>
-									</a>
+									{if isset($CUSTOM_DATA['js'][$LANG_KEY])}
+										<button type="button" class="btn btn-light js-delete" data-js="click" title="{\App\Language::translate('LBL_DELETE')}">
+											<span class="fas fa-trash-alt alignMiddle"></span>
+										</button>
+									{/if}
 								</td>
 							</tr>
 						{/if}

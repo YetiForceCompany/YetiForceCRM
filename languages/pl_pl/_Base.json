@@ -1273,7 +1273,8 @@
 	"BTN_PERMISSION_INSPECTOR": "Inspektor uprawnie\u0144",
 	"LBL_FULLTEXT_BEGIN": "S\u0142owo zaczyna si\u0119 od",
 	"LBL_FULLTEXT_WORD": "S\u0142owo",
-	"LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane"
+	"LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
+	"_Base": "System"
   },
   "js": {
 	"JS_SUMMARY": "Podsumowanie",

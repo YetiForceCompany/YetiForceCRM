@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<h5 class="modal-title">{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}</h5>
+		<h5 class="modal-title"><span class="fas fa-info-circle mr-1"></span>{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}</h5>
 		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -12,8 +12,8 @@
 			<div class="form-group">
 				<label for="view-type">{\App\Language::translate('LBL_SHOW_IN_VIEWS',$QUALIFIED_MODULE)}</label>
 				<select class="form-control select2" multiple name="views">
-					{foreach item=VIEW_NAME from=$HELP_INFO_VIEWS}
-						<option value="{$VIEW_NAME}" {if strpos($FIELD_MODEL->get('helpinfo'), $VIEW_NAME) !== false} selected {/if}>{App\Language::translate($VIEW_NAME, $QUALIFIED_MODULE)}</option>
+					{foreach item=VIEW_NAME key=VIEW_LABEL from=$HELP_INFO_VIEWS}
+						<option value="{$VIEW_NAME}" {if strpos($FIELD_MODEL->get('helpinfo'), $VIEW_NAME) !== false} selected {/if}>{App\Language::translate($VIEW_LABEL, $QUALIFIED_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>

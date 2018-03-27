@@ -61,8 +61,8 @@ var Settings_Index_Js = {
 		$('#edit_lang .translation').on('change', function (e) {
 			Settings_Index_Js.changeTranslation(e, position)
 		});
-		$('#edit_lang .add_translation').on('click', Settings_Index_Js.ShowTranslationMondal);
-		$('#edit_lang .delete_translation').on('click', function (e) {
+		$('#edit_lang .js-add-translation').on('click', Settings_Index_Js.ShowTranslationMondal);
+		$('#edit_lang .js-delete')on('click', function (e) {
 			Settings_Index_Js.deleteTranslation(e, position)
 		});
 		$('.LangManagement ' + position + ' .show_differences').on('click', Settings_Index_Js.ShowDifferences);
@@ -109,12 +109,12 @@ var Settings_Index_Js = {
 			mod = jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val();
 		}
 		Settings_Index_Js.registerSaveEvent('saveTranslation', {
-			'lang': target.data('lang'),
-			'mod': mod,
-			'type': target.data('type'),
-			'langkey': closestTrElement.data('langkey'),
-			'val': target.val(),
-			'is_new': target.hasClass("empty_value"),
+			lang: target.data('lang'),
+			mod: mod,
+			type: target.data('type'),
+			variable: closestTrElement.data('langkey'),
+			val: target.val(),
+			is_new: target.hasClass("empty_value"),
 		});
 		target.removeClass("empty_value");
 		progress.progressIndicator({'mode': 'hide'});
@@ -133,9 +133,10 @@ var Settings_Index_Js = {
 			}
 		});
 		Settings_Index_Js.registerSaveEvent('deleteTranslation', {
-			'lang': $(".LangManagement #langs_list").val(),
-			'mod': $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
-			'langkey': closestTrElement.data('langkey'),
+			lang: $(".LangManagement #langs_list").val(),
+			mod: $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
+			langkey: closestTrElement.data('langkey'),
+			type: closestTrElement.data('type'),
 		});
 		progress.progressIndicator({'mode': 'hide'});
 		e = target.closest('.active');
@@ -257,7 +258,7 @@ var Settings_Index_Js = {
 				function (data) {
 					response = data['result'];
 					var params = {
-						text: response['message'],
+						text: response['message'] ? response['message'] : app.vtranslate('JS_ERROR'),
 					};
 					if (response['success'] == true) {
 						params.type = 'info';

@@ -23,6 +23,7 @@
 	"BTN_CONFIGURE_HTTPS": "Empfohlene Konfiguration",
 	"LBL_MISSING_HTTPS": "Die Serververbindung ist nicht verschl\u00fcsselt. Wenn die Verbindung nicht durch eine HTTPS Verbindung gesichert ist, kann diese von anderen abgegriffen und ver\u00e4ndert werden. Die empfohlene Konfiguration kann unter dem \"Web server requirements\" Artikel in der Dokumentation gefunden werden.",
 	"LBL_DISK_USAGE": "Verf\u00fcgbarer Speicherplatz",
-	"LBL_DISK_FULL": "Systemstabilit\u00e4t gef\u00e4hrdet (%s of %s). Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s"
+	"LBL_DISK_FULL": "Systemstabilit\u00e4t gef\u00e4hrdet (%s of %s). Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s",
+	"SystemWarnings": "System Warnungen"
   }
 }

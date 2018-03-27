@@ -1264,7 +1264,8 @@
 	"LBL_FULLTEXT_BEGIN": "Word begins with",
 	"LBL_FULLTEXT_WORD": "Word",
 	"LBL_ADVANCED_SEARCH": "Advanced search",
-	"BTN_PERMISSION_INSPECTOR": "Permission Inspector"
+	"BTN_PERMISSION_INSPECTOR": "Permission Inspector",
+	"_Base": "System"
   },
   "js": {
 	"JS_SUMMARY": "Summary",

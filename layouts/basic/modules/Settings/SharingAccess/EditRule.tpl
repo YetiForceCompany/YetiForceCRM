@@ -9,16 +9,16 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h3 class="modal-title">{\App\Language::translate('LBL_ADD_CUSTOM_RULE_TO', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}</h3>
+					<button type="button" class="btn btn-warning" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<form id="editCustomRule" class="form-horizontal" method="POST">
+				<form class="form-horizontal js-edit-rule-form" data-js="submit" method="POST">
 					<input type="hidden" name="for_module" value="{$MODULE_MODEL->get('name')}" />
 					<input type="hidden" name="record" value="{$RULE_ID}" />
 					<div class="modal-body">
 						<div class="row form-group">
 							<label class="col-md-5 col-form-label">{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
-							<div class="col-md-6 controls">
+							<div class="col-md-6">
 								<select class="chzn-select form-control" name="source_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -34,7 +34,7 @@
 						</div>
 						<div class="row form-group">
 							<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
-							<div class="col-md-6 controls">
+							<div class="col-md-6">
 								<select class="chzn-select form-control" name="target_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -50,7 +50,7 @@
 						</div>
 						<div class="row form-group">
 							<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
-							<div class="col-md-6 controls">
+							<div class="col-md-6">
 								<label class="checkbox">
 									<input type="radio" value="0" name="permission" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->isReadOnly()} checked {/if} {else} checked {/if}/>&nbsp;{\App\Language::translate('LBL_READ', $QUALIFIED_MODULE)}&nbsp;
 								</label>

@@ -1281,7 +1281,8 @@
 	"LBL_FULLTEXT_BEGIN": "Word begins with",
 	"LBL_FULLTEXT_WORD": "Word",
 	"BTN_PERMISSION_INSPECTOR": "Permission Inspector",
-	"LBL_ADVANCED_SEARCH": "Advanced search"
+	"LBL_ADVANCED_SEARCH": "Advanced search",
+	"_Base": "System"
   },
   "js": {
 	"JS_SUMMARY": "\u041f\u043e\u0434\u0438\u0442\u043e\u0433",

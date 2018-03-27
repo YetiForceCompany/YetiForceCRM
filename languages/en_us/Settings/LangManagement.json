@@ -44,18 +44,13 @@
 	"LBL_SHOW_MISSING_TRANSLATIONS": "Show missing translations",
 	"LBL_DEFAULT": "Default",
 	"LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES": "Cannot make changes",
-	"LBL_EDIT": "Create & Edit",
-	"LBL_DETAIL": "Detail view & Summary view",
-	"LBL_QUICKCREATE": "Quick create",
 	"LBL_SHOW_EMPTY_VALUES": "Show empty values",
 	"LBL_SHOW_IN": "Show in",
-	"LBL_EDIT_HELP_ICON": "Help icons",
 	"LBL_BASE_LANGUAGE": "Base language",
 	"LBL_LANGUAGE": "Language",
 	"LBL_SHOW": "Show",
 	"LBL_STATS_INFO": "The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.",
-	"LBL_UNTRANSLATED_LABELS": "Untranslated labels",
-	"LBL_CUSTOM_TYPE_INFO": "Custom mode is enabled. You cannot modify source language files. All modifications will take place in the custom\/ directory."
+	"LBL_UNTRANSLATED_LABELS": "Untranslated labels"
   },
   "js": {
 	"Translations": "Translations",
