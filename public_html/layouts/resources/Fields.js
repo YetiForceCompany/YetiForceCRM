@@ -734,6 +734,14 @@ App.Fields = {
 						trigger: 'hover',
 						placement: 'auto',
 						content: `<img src="${imageSrc}" class="w-100" />`
+					}).on('click', function (e) {
+						bootbox.dialog({
+							size: 'large',
+							backdrop: true,
+							onEscape: true,
+							title: file.name,
+							message: `<img src="${imageSrc}" class="w-100" />`
+						});
 					});
 					if (index === files.length - 1) {
 						doneCallback(files.map((file) => file.preview));
@@ -752,7 +760,7 @@ App.Fields = {
 				file.imageSrc = fr.result;
 				callback(`<div class="c-multi-image__preview d-inline-block mx-2">
 	<div class="c-multi-image__preview-body">
-		<img class="c-multi-image__preview-img border rounded" src="${fr.result}" style="height:2rem;" tabindex="0">
+		<img class="c-multi-image__preview-img border rounded" src="${fr.result}" tabindex="0">
 		<button type="button" class="btn btn-sm btn-danger" aria-label="Close" onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
 			<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
 		</button>
