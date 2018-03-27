@@ -727,14 +727,15 @@ App.Fields = {
 		 */
 		generatePreviewElements(files, doneCallback) {
 			$.each(files, (index, file) => {
-				App.Fields.MultiImage.generatePreviewElement(file, (template, imageSrc) => {
+				App.Fields.MultiImage.generatePreviewFromFile(file, (template, imageSrc) => {
 					file.preview = $(template).popover({
 						title: file.name,
 						html: true,
 						trigger: 'hover',
 						placement: 'auto',
 						content: `<img src="${imageSrc}" class="w-100" />`
-					}).on('click', function (e) {
+					});
+					$(file.preview).find('.c-multi-image__preview-img').on('click', function (e) {
 						bootbox.dialog({
 							size: 'large',
 							backdrop: true,
@@ -754,7 +755,7 @@ App.Fields = {
 		 * @param {File} file
 		 * @param {function} callback
 		 */
-		generatePreviewElement(file, callback) {
+		generatePreviewFromFile(file, callback) {
 			const fr = new FileReader();
 			fr.onload = function fileReaderLoadCallback() {
 				file.imageSrc = fr.result;
@@ -770,7 +771,9 @@ App.Fields = {
 			fr.readAsDataURL(file);
 		},
 		destroyPreview(button) {
-			$(button).closest('.c-multi-image__preview').popover('dispose').remove();
+			//$(button).closest('.c-multi-image__preview').popover('dispose').remove();
+			const upload = $(button).closest('.c-multi-image').find('.c-multi-image__file').fileupload();
+			console.log(upload);
 		},
 	}
 }
