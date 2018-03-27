@@ -2097,7 +2097,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.registerMailPreviewWidget(data);
 				Vtiger_Index_Js.registerMailButtons(data);
-				data.find('.expandAllMails').on('click', );
+				data.find('.expandAllMails').click();
 			});
 		});
 		container.find('.expandAllMails').on('click', function (e) {
