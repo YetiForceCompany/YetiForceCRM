@@ -9,9 +9,9 @@
 		</div>
 		<div class="input-group pt-2">
 			<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ..." >
-			<span class="input-group-btn">
+			<div class="input-group-append">
 				<button id="btnSearchTree" class="btn btn-danger" type="button">{\App\Language::translate('LBL_SEARCH', $MODULE)}</button>
-			</span>
+			</div>
 		</div>
 	</div>
 	<div id="treePopupContainer" class="modal-body col-md-12">
