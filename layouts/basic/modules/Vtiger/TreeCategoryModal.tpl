@@ -27,7 +27,7 @@
 			<h4 class="textAlignCenter ">{\App\Language::translate('LBL_RECORDS_NO_FOUND', $MODULE)}</h4>
 		{/if}
 	</div>
-	<div class="modal-footer">
+	<div class="modal-footer d-block">
 		<div class="float-left pt-2 counterSelected"></div>
 		<div class="float-right">
 			<button class="btn btn-success mr-1" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
