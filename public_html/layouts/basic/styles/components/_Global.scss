@@ -37,5 +37,14 @@
 }
 .c-multi-image__preview-img {
   height: 2rem;
+  width: 2rem;
   cursor: pointer;
+  background-size: cover;
+  background-position: center;
+}
+.c-multi-image__preview-actions {
+  display: none;
+}
+.c-multi-image__preview:hover > .c-multi-image__preview-actions {
+  display: inline-block !important;
 }

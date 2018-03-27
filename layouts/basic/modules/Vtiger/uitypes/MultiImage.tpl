@@ -8,14 +8,14 @@
 		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true)} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 		   data-fieldinfo='{$FIELD_INFO}'
 		   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
-	<div class="c-multi-image border rounded p-2">
-		<div class="fileinput-button btn btn-primary mb-2">
+	<div class="border rounded p-2 clearfix c-multi-image">
+		<button class="fileinput-button btn btn-sm btn-primary mr-1 mb-1 float-left c-multi-image__file-btn">
 			<input class="c-multi-image__file" type="file" name="files[]"
 				   data-url="index.php?module={$FIELD_MODEL->getModuleName()}&view=FileUpload&inputName={$FIELD_MODEL->getFieldName()}&fileType=image"
 				   multiple>
 			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
-		</div>
-		<div class="c-multi-image__result d-inline" data-name="{$FIELD_MODEL->getFieldName()}">
+		</button>
+		<div class="c-multi-image__result" data-name="{$FIELD_MODEL->getFieldName()}">
 			{if $RECORD}
 				{assign var="RECORD_ID" value=$RECORD->getId()}
 				{assign var="IMAGES" value=$FIELD_VALUE}
@@ -24,7 +24,7 @@
 				{assign var="IMAGES" value=[]}
 			{/if}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
-				<div class="c-multi-image__preview d-inline-block mx-2"
+				<div class="c-multi-image__preview d-inline-block m-1"
 					 data-title="{$IMAGE_INFO.name}"
 					 data-toggle="popover"
 					 data-content="<img src='{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}' class='w-100' />">
