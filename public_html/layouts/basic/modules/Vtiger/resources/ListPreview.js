@@ -92,7 +92,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				const defaultGutterPosition = this.getDefaultSplitSizes();
 				this.split.setSizes(defaultGutterPosition);
 				listPreview.show();
-				this.sideBlockRight.removeClass('js-d-block');
+				this.sideBlockRight.removeClass('d-block');
 				app.moduleCacheSet('userSplitSet', defaultGutterPosition);
 			}
 		});
@@ -156,8 +156,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				this.split.setSizes(gutterMidPosition);
 			}
 			if (split.getSizes()[0] < 10) {
-				this.sideBlockLeft.removeClass('js-d-block');
-				this.list.removeClass('js-hide-underneath');
+				this.sideBlockLeft.removeClass('d-block');
+				this.list.removeClass('u-hide-underneath');
 				if (gutterMidPosition[0] > 11) {
 					split.setSizes(gutterMidPosition);
 				} else {
@@ -169,16 +169,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				} else {
 					split.setSizes(this.getDefaultSplitSizes());
 				}
-				this.sideBlockRight.removeClass('js-d-block');
+				this.sideBlockRight.removeClass('d-block');
 				listPreview.show();
 				this.gutter.css('right', 'initial');
 			} else if (split.getSizes()[0] > 10 && split.getSizes()[0] < 50) {
 				split.setSizes([minWindowWidth, maxWindowWidth]);
-				this.list.addClass('js-hide-underneath');
-				this.sideBlockLeft.addClass('js-d-block');
+				this.list.addClass('u-hide-underneath');
+				this.sideBlockLeft.addClass('d-block');
 			} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
 				split.collapse(1);
-				this.sideBlockRight.addClass('js-d-block');
+				this.sideBlockRight.addClass('d-block');
 				listPreview.hide();
 				this.list.width(this.list.width() - 10);
 			}
@@ -191,8 +191,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			} else {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
-			this.sideBlockLeft.removeClass('js-d-block');
-			this.list.removeClass('js-hide-underneath');
+			this.sideBlockLeft.removeClass('d-block');
+			this.list.removeClass('u-hide-underneath');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
 		});
 		this.sideBlockRight.on("click", () => {
@@ -202,7 +202,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			} else {
 				split.setSizes(this.getDefaultSplitSizes());
 			}
-			this.sideBlockRight.removeClass('js-d-block');
+			this.sideBlockRight.removeClass('d-block');
 			listPreview.show();
 			this.gutter.css('right', 'initial');
 			app.moduleCacheSet('userSplitSet', split.getSizes());
@@ -231,18 +231,18 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					split.collapse(1);
 				}
 				if (split.getSizes()[0] < 5) {
-					this.sideBlockLeft.addClass('js-d-block');
-					this.list.addClass('js-hide-underneath');
+					this.sideBlockLeft.addClass('d-block');
+					this.list.addClass('u-hide-underneath');
 				} else {
-					this.sideBlockLeft.removeClass('js-d-block');
-					this.list.removeClass('js-hide-underneath');
+					this.sideBlockLeft.removeClass('d-block');
+					this.list.removeClass('u-hide-underneath');
 				}
 				if (split.getSizes()[1] < 10) {
-					this.sideBlockRight.addClass('js-d-block');
+					this.sideBlockRight.addClass('d-block');
 					listPreview.hide();
 					this.list.width(this.list.width() - 10);
 				} else {
-					this.sideBlockRight.removeClass('js-d-block');
+					this.sideBlockRight.removeClass('d-block');
 					listPreview.show();
 				}
 				if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
@@ -253,11 +253,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		if (splitSizes[0] < 10) {
 			listPreview.width(listPreview.width() - 150);
-			this.sideBlockLeft.addClass('js-d-block');
+			this.sideBlockLeft.addClass('d-block');
 			split.setSizes([splitMinWidth, splitMaxWidth]);
-			this.list.addClass('js-hide-underneath');
+			this.list.addClass('u-hide-underneath');
 		} else if (splitSizes[1] < rightSplitMaxWidth) {
-			this.sideBlockRight.addClass('js-d-block');
+			this.sideBlockRight.addClass('d-block');
 			listPreview.hide();
 			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
@@ -291,8 +291,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			if ($(window).width() < 993) {
 				if (container.find('.gutter').length) {
 					splitsArray[splitsArray.length - 1].destroy();
-					this.sideBlockRight.removeClass('js-d-block');
-					this.sideBlockLeft.removeClass('js-d-block');
+					this.sideBlockRight.removeClass('d-block');
+					this.sideBlockLeft.removeClass('d-block');
 				}
 			} else {
 				if (container.find('.gutter').length !== 1) {
