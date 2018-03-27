@@ -90,7 +90,7 @@ class Utils
 		// Set the base directory to compare with
 		$use_root_directory = \AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
+			$use_root_directory = realpath(__DIR__ . '/../../.');
 		}
 
 		$realfilepath = realpath($filepath);

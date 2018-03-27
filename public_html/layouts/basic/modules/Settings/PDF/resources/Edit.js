@@ -90,7 +90,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.on('submit', ).then(function (data) {
+					thisInstance.currentInstance.submit().then(function (data) {
 						thisInstance.getContainer().prepend(data);
 						var stepVal = thisInstance.getStepValue();
 						var nextStepVal = parseInt(stepVal) + 1;

@@ -386,17 +386,6 @@ li.ui-timepicker-selected {
   display: inline-block;
   margin: 2px;
 }
-.alphabetSorting {
-  a {
-	font-size: 18px;
-	font-weight: bold;
-  }
-  text-align: center;
-}
-.alphabetContents {
-  padding: 0;
-  margin: 0 auto;
-}
 .alphabet_30, .alphabet_28 {
   width: 490px;
 }
@@ -1463,6 +1452,9 @@ td.fieldValue {
 }
 .calendarPopover.popover {
   max-width: 30%;
+  label {
+	  margin: 0;
+  }
 }
 .btn:focus {
   outline: 0;
@@ -3300,7 +3292,7 @@ html, body, .baseContainer {
   font-weight: bold;
   padding: 15px 0px !important;
   position: fixed;
-  top: 400px;
+  top: 169px;
   right: 25%;
   cursor: pointer;
   width: 17px;
@@ -3496,7 +3488,7 @@ html, body, .baseContainer {
   }
 }
 .hideToggleSiteBarRightButton {
-  right: 0px !important;
+  right: 21px !important;
 }
 .blockContainer .blockHeader {
   cursor: pointer;

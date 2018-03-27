@@ -13,7 +13,7 @@
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 	<input type="hidden" id="hiddenDays" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" />
-	<div class="calendarViewContainer rowContent col-md-12 col-12">
+	<div class="calendarViewContainer rowContent col-md-12 col-12 p-0">
 		<div class="widget_header d-flex align-items-center">
 			<div class="px-2">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}

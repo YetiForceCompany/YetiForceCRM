@@ -111,7 +111,7 @@ class Debuger
 			}
 			$targets['profiling'] = $target;
 		}
-		Yii::createObject([
+		\Yii::createObject([
 			'class' => 'yii\log\Dispatcher',
 			'traceLevel' => \AppConfig::debug('LOG_TRACE_LEVEL'),
 			'targets' => $targets,

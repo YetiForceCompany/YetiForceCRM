@@ -402,7 +402,7 @@ app = {
 		onBeforePromptType: function (field) {
 			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(":hidden")) {
-				block.find('.blockHeader').on('click', );
+				block.find('.blockHeader').click();
 			}
 		},
 	},
@@ -777,7 +777,7 @@ app = {
 			moduleCache = moduleCache.split(',');
 		}
 		moduleCache.push(orgKey);
-		this.cacheSet(cacheKey, Vtiger_Helper_Js.uniqueSort(moduleCache).join(','));
+		this.cacheSet(cacheKey, Vtiger_Helper_Js.unique(moduleCache).join(','));
 	},
 	moduleCacheGet: function (key) {
 		return this.cacheGet(this.getModuleName() + '_' + key);
@@ -1356,6 +1356,7 @@ jQuery(document).ready(function () {
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
 		return (obj.textContent || obj.innerText || jQuery(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
 	}
+	bootbox.setLocale(CONFIG.langKey);
 })(jQuery);
 jQuery.migrateMute = true;
 App = {}

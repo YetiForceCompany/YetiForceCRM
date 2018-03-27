@@ -13,7 +13,7 @@
 	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div class="contentsDiv col-md-12 marginLeftZero dashboardContainer">
+			<div class="contentsDiv marginLeftZero dashboardContainer">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
@@ -34,5 +34,5 @@
 										{/foreach}
 							</ul>
 						{/if}
-					<div class="col-sm-12">
+					<div class="p-0">
 					{/strip}

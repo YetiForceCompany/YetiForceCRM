@@ -141,7 +141,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 */
 	showConfirmationBox: function (params) {
 		var aDeferred = jQuery.Deferred();
-		bootbox.setLocale(this.getLangCode());
 		var baseParams = {
 			callback: function (result) {
 				if (result) {

@@ -106,7 +106,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getProviders()
 	{
-		$iterator = new \DirectoryIterator(dirname(__FILE__) . '/../providers');
+		$iterator = new \DirectoryIterator(__DIR__ . '/../providers');
 		foreach ($iterator as $item) {
 			if ($item->isFile() && $item->getFilename() !== 'Basic.php' && $item->getExtension() === 'php') {
 				$providers[] = self::getProviderInstance($item->getBasename('.php'));

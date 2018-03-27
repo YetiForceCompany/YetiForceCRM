@@ -2,25 +2,26 @@
 {strip}
 	{assign var=COUNT value=count($RECOLDLIST)}
 	<div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog modal-blg">
+		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header">
-					<div class="row">
-						<div class="col-md-6">
-							<h4 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h4>
+					<div class="d-flex justify-content-between w-100">
+						<div>
+							<h5 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h5>
 						</div>
-						<div class="col-md-3">
-							<button type="button" class="btn btn-light expandAllMails">
+						<div>
+							<button type="button" class="btn btn-outline-secondary expandAllMails mr-2">
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
-							&nbsp;&nbsp;
-							<button type="button" class="btn btn-light collapseAllMails">
+							<button type="button" class="btn btn-outline-secondary collapseAllMails">
 								{\App\Language::translate('LBL_COLLAPSE_ALL','OSSMailView')}
 							</button>
 						</div>
-						<div class="col-md-3">
-							<h4 class="modal-title float-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
-							<button type="button" class="btn btn-warning float-right" data-dismiss="modal" aria-label="Close">
+						<div>
+							<h5 class="modal-title">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h5>
+						</div>
+						<div>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>

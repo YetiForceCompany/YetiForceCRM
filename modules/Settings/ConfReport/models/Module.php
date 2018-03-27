@@ -8,7 +8,6 @@
  */
 class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	/**
 	 * variable has all the files and folder that should be writable.
 	 *
@@ -75,7 +74,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	private static function getStabilitIniConf()
 	{
 		$directiveValues = [
-			'PHP' => ['recommended' => '7.1.x, 7.1.x', 'help' => 'LBL_PHP_HELP_TEXT', 'fn' => 'validatePhp', 'max' => '7.1'],
+			'PHP' => ['recommended' => '7.1.x, 7.1.x, 7.2.x (dev)', 'help' => 'LBL_PHP_HELP_TEXT', 'fn' => 'validatePhp', 'max' => '7.1'],
 			'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'help' => 'LBL_ERROR_REPORTING_HELP_TEXT', 'fn' => 'validateErrorReporting'],
 			'output_buffering' => ['recommended' => 'On', 'help' => 'LBL_OUTPUT_BUFFERING_HELP_TEXT', 'fn' => 'validateOnOffInt'],
 			'max_execution_time' => ['recommended' => '600', 'help' => 'LBL_MAX_EXECUTION_TIME_HELP_TEXT', 'fn' => 'validateGreater'],

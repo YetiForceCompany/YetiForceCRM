@@ -289,7 +289,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	registerChartFilterWidget: function () {
 		var thisInstance = this;
-		$('.dashboardHeading').on('click', '.addChartFilter', function (e) {
+		$('.dashboardHeading').off('click', '.addChartFilter').on('click', '.addChartFilter', function (e) {
 			var element = $(e.currentTarget);
 			var fieldTypeToGroup = ['currency', 'double', 'percentage', 'integer'];
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
@@ -672,8 +672,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	registerEvents: function () {
-		this.registerGridster();
 		this.loadWidgets();
+		this.registerGridster();
 		this.registerRefreshWidget();
 		this.removeWidget();
 		this.registerDatePickerHideInitiater();

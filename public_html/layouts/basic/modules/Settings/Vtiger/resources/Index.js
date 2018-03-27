@@ -69,10 +69,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		return aDeferred.promise();
 	},
 	showWarnings: function () {
-		jQuery('li[data-mode="systemWarnings"] a').on('click', );
+		jQuery('li[data-mode="systemWarnings"] a').click();
 	},
 	showSecurity: function () {
-		jQuery('li[data-mode="security"] a').on('click', );
+		jQuery('li[data-mode="security"] a').click();
 	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {

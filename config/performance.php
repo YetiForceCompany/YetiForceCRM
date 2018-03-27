@@ -79,6 +79,6 @@ $PERFORMANCE_CONFIG = [
 	'BROWSING_HISTORY_VIEW_LIMIT' => 20,
 	//Days after browsing history has deleted
 	'BROWSING_HISTORY_DELETE_AFTER' => 7,
-	//Session handler name, handler dir: vendor/yetiforce/Session/
+	//Session handler name, handler dir: app/Session/
 	'SESSION_DRIVER' => 'File',
 ];

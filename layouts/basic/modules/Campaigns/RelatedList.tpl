@@ -34,7 +34,9 @@
 								<button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 								<ul class="dropdown-menu">
 									{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
-										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
+										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
+											<a class="dropdown-item" href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a>
+										</li>
 											{if $smarty.foreach.actionCount.last eq true}
 											<li class="dropdown-divider"></li>
 											{/if}
@@ -47,9 +49,7 @@
 													{else}
 														href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
 														{/if}
-															{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
-																class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
-															{/if}
+															class="dropdown-item{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''} {$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}{/if}"
 															{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
 																{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
 																	data-{$NAME}="{$DATA}"
@@ -129,16 +129,16 @@
 																		</button>
 																		<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 																			<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-																				<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+																				<a class="dropdown-item" href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 																			</li>
 																			<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-																				<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+																				<a class="dropdown-item" href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 																			</li>
 																			<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-																				<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+																				<a class="dropdown-item" href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 																			</li>
 																			<li>
-																				<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+																				<a class="dropdown-item" href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 																			</li>
 																		</ul>
 																	</div>

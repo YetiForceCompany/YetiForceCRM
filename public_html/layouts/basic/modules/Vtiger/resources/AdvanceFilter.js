@@ -160,7 +160,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		let selectElement = newRowElement.find('select').addClass('select2');
 		let conditionList = $('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
-		App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
+		App.Fields.Picklist.showSelect2ElementView(selectElement, {dropdownParent: conditionGroupElement});
 		return this;
 	},
 	/**
@@ -305,7 +305,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'categoryMultipicklist']) > -1) {
 			fieldName = fieldName + "[]";
 		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1) &&
-			fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
+				fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
 			fieldName = fieldName + "[]";
 		}
 
@@ -333,7 +333,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
 				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi);
 			} else {
-				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
+				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, {dropdownParent: row});
 			}
 		} else if (fieldSpecificUi.has('input.dateField').length > 0) {
 			App.Fields.Date.register(fieldSpecificUi);
@@ -384,15 +384,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			//data attribute will not be present while attaching validation engine events . so we are
 			//depending on the fallback option which is class
 			fieldSpecificElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-				.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-				.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
+					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
+					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
 			if (typeof validator != 'undefined') {
 				fieldSpecificElement.attr('data-validator', validator);
 			}
 		} else {
 			fieldSpecificElement.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-				.removeAttr('data-validation-engine')
-				.removeAttr('data-fieldinfo');
+					.removeAttr('data-validation-engine')
+					.removeAttr('data-fieldinfo');
 		}
 		return this;
 	},
@@ -614,7 +614,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 
 Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	getUi: function () {
-		var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+		var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		var selectedOptionsArray = selectedOption.split(',');
@@ -652,7 +652,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	getUi: function () {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		if ((comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') || (this.getName() === 'shownerid' && jQuery.inArray(comparatorSelectedOptionVal, ['c', 'k']) != -1)) {
-			var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+			var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
 			var selectedOptionsArray = selectedOption.split(',');
@@ -746,7 +746,7 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 			if (dateValue[1] == '00:00:00') {
 				dateTimeFieldValue = dateValue[0];
 			} else if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n' ||
-				comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
+					comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
 				var dateTimeArray = dateTimeFieldValue.split(' ');
 				dateTimeFieldValue = dateTimeArray[0];
 			}

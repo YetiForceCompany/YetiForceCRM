@@ -87,7 +87,7 @@
     "chartjs-plugin-funnel@^1.1.2": "https://registry.yarnpkg.com/chartjs-plugin-funnel/-/chartjs-plugin-funnel-1.1.2.tgz#236b510b9eb8b063557e097a5bed2f08b350d3d8",
     "chartjs-plugin-zoom@^0.6.3": "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.6.3.tgz#6101a049f00e9404102376ba8db27edcdcf8ccda",
     "chosen-js@^1.8.2": "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.8.3.tgz#1f953aef905d9760c14b5facc839a5f47eb356ec",
-    "ckeditor@^4.8.0": "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.9.0.tgz#78af7aa9cce5022a1458d3c766bbd05cff3d2548",
+    "ckeditor@^4.8.0": "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.9.1.tgz#d73adb42f7235f4030ab837e8aee9882d9107e89",
     "clipboard@>=2.0.0": "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.0.tgz#4661dc972fb72a4c4770b8db78aa9b1caef52b50",
     "clockpicker@^0.0.7": "https://registry.yarnpkg.com/clockpicker/-/clockpicker-0.0.7.tgz#32d02c3a6cb00a3b6ea6d1ec2c5fc147d7bec06e",
     "color-convert@^0.5.3": "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd",

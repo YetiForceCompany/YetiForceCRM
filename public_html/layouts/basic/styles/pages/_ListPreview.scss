@@ -64,6 +64,18 @@
 		height: calc(100vh - 33px);
 		float: left;
 	}
+	&.js-gutter-corr-left {
+	left: 7px;
+	}
+	&.js-gutter-corr-right {
+	right: 7px;
+	}
+}
+.mainBody .js-gutter-corr-left {
+	left: 0;
+}
+.mainBody .js-gutter-corr-right {
+	right: 0;
 }
 .c-side-block {
 	display: none;
@@ -73,36 +85,23 @@
 	position: absolute;
 	background: $light;
 	font-weight: bold;
-}
-.js-side-block--left {
-  display: block;
-  left: -10px;
-}
-.js-side-block--right {
-  display: block;
-  right: -10px;
-  background: $primary;
-  color: #fff;
+	@extend .small;
+	&--left {
+		left: -8px;
+	}
+	&--right {
+		right: -8px;
+		background: $primary;
+		color: #fff;
+	}
 }
 .relatedContents {
-  .js-side-block--left {
+  .c-side-block--left {
 	left: 7px;
   }
-  .js-side-block--right {
+  .c-side-block--right {
 	right: 7px;
   }
-}
-.js-nested-panel-left {
-	left: 7px;
-}
-.js-nested-panel-right {
-	right: 7px;
-}
-.mainBody .js-nested-panel-left {
-	left: 0;
-}
-.mainBody .js-nested-panel-right {
-	right: 0;
 }
 @media only screen and (max-width: 992px) {
 	.c-detail-preview {
@@ -111,16 +110,13 @@
 		width: 100%;
 		height: 100%;
 	}
-	.fixedListInitial {
+	.c-list-preview {
 		position: static;
 		padding-left: 0;
 		padding-right: 0;
-	}
-	.fixedListContent {
+		&__content {
 		margin-right: 0;
 		margin-bottom: 10px;
-	}
-}
-.js-hide-underneath {
-	z-index: -1;
+		}
+	} 
 }
