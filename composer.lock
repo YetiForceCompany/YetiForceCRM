@@ -1549,12 +1549,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/yii2-framework.git",
-                "reference": "ca6245c535a16304e788b9b43ee16068beb0d739"
+                "reference": "0b2a684ba0e0755c0e71e2d4c43729f6d3b5e0d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/ca6245c535a16304e788b9b43ee16068beb0d739",
-                "reference": "ca6245c535a16304e788b9b43ee16068beb0d739",
+                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/0b2a684ba0e0755c0e71e2d4c43729f6d3b5e0d7",
+                "reference": "0b2a684ba0e0755c0e71e2d4c43729f6d3b5e0d7",
                 "shasum": ""
             },
             "require": {
@@ -1639,7 +1639,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-03-24T21:34:35+00:00"
+            "time": "2018-03-27T09:58:13+00:00"
         }
     ],
     "packages-dev": [
