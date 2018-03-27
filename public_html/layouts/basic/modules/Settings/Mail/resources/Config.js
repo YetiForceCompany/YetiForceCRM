@@ -37,7 +37,7 @@ jQuery.Class('Settings_Mail_Config_Js', {}, {
 		var container = jQuery('#signature');
 		var ckEditorInstance = new Vtiger_CkEditor_Js();
 		ckEditorInstance.loadCkEditor(container.find('.ckEditorSource'), customConfig);
-		container.find('button').click(function () {
+		container.find('button').on('click', function () {
 			var progressIndicator = jQuery.progressIndicator();
 			var editor = CKEDITOR.instances.signatureCkEditor;
 			var params = {};

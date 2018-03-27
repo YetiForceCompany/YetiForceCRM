@@ -120,7 +120,7 @@ jQuery.Class("Vtiger_Header_Js", {
 
 			app.showModalWindow(announcement.find('.modal'), function (modal) {
 				announcement.remove();
-				modal.find('button').click(function (e) {
+				modal.find('button').on('click', function (e) {
 					AppConnector.request({
 						module: 'Announcements',
 						action: 'BasicAjax',
@@ -408,7 +408,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	basicSearch: function () {
 		var thisInstance = this;
-		jQuery('.globalSearchValue').keypress(function (e) {
+		jQuery('.globalSearchValue').on('keypress', function (e) {
 			var currentTarget = jQuery(e.currentTarget)
 			if (e.which == 13) {
 				thisInstance.hideSearchMenu();
@@ -458,7 +458,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					basicSearch.returnHtml = false;
 					basicSearch.setMainContainer(this.element.closest('.globalSearchInput'));
 					basicSearch.search(request.term).then(function (data) {
-						var data = jQuery.parseJSON(data);
+						var data = JSON.parse(data);
 						var serverDataFormat = data.result;
 						var reponseDataList = [];
 						for (var id in serverDataFormat) {
@@ -509,8 +509,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			var thisObject = this;
 			var key = $(thisObject).data('hotkeys');
 			if (key != '') {
-				Mousetrap.bind(key, function () {
-					thisObject.click();
+				Mousetrap.on(key, function () {
+					thisObject.on('click', );
 				});
 			}
 		});
@@ -543,7 +543,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		$('#page').before('<div class="remindersNoticeContainer"></div>');
 		var block = $('.remindersNoticeContainer');
 		var remindersNotice = $('.remindersNotice');
-		remindersNotice.click(function () {
+		remindersNotice.on('click', function () {
 			if (!remindersNotice.hasClass('autoRefreshing')) {
 				Vtiger_Index_Js.requestReminder();
 			}
@@ -572,24 +572,24 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerMobileEvents: function () {
 		var thisInstance = this;
-		$('.rightHeaderBtnMenu').click(function () {
+		$('.rightHeaderBtnMenu').on('click', function () {
 			thisInstance.hideActionMenu();
 			thisInstance.hideSearchMenu();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
-		$('.actionMenuBtn').click(function () {
+		$('.actionMenuBtn').on('click', function () {
 			thisInstance.hideSearchMenu();
 			thisInstance.hideMobileMenu();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
-			$('.quickCreateModules').click(function () {
+			$('.quickCreateModules').on('click', function () {
 				thisInstance.hideActionMenu();
 			});
 		});
-		$('.searchMenuBtn').click(function () {
+		$('.searchMenuBtn').on('click', function () {
 			thisInstance.hideActionMenu();
 			thisInstance.hideMobileMenu();
 			thisInstance.hideReminderNotice();
@@ -636,7 +636,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			addRowToggle: true,
 			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
 		});
-		$('.footable-toggle').click(function (event) {
+		$('.footable-toggle').on('click', function (event) {
 			event.stopPropagation();
 			$(this).trigger('footable_toggle_row');
 		});
@@ -655,7 +655,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
 			}
 		}
-		container.find('.toggleSiteBarRightButton').click(function (e) {
+		container.find('.toggleSiteBarRightButton').on('click', function (e) {
 			var toogleButton = $(this);
 			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
 				app.cacheSet(key, 'show');
@@ -689,7 +689,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
-		$(".buttonTextHolder .dropdown-menu a").click(function () {
+		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
 			$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
@@ -699,7 +699,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var elem = $(this);
 			if (!elem.data('has-scroll')) {
 				elem.data('has-scroll', true);
-				elem.bind('scroll keyup', function () {
+				elem.on('scroll keyup', function () {
 					thisInstance.resizeTextArea($(this));
 				});
 			}
@@ -721,7 +721,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
-		jQuery('.globalSearch').click(function () {
+		jQuery('.globalSearch').on('click', function () {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
@@ -741,7 +741,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.registerToggleButton();
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
-		jQuery('.basicSearchModulesList').change(function () {
+		jQuery('.basicSearchModulesList').on('change', function () {
 			var value = $(this).closest('.globalSearchInput').find('.globalSearchValue')
 			setTimeout(function () {
 				value.focus();

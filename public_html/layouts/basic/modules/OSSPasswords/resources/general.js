@@ -8,14 +8,14 @@ jQuery(document).ready(function ($) {
 	$("#myRegisterModal").css("z-index", "9999999");
 
 	// Hide modal if "Okay" is pressed
-	$('#myModal .okay-button').click(function () {
+	$('#myModal .okay-button').on('click', function () {
 		var disabled = $('#confirm').attr('disabled');
 		if (typeof disabled == 'undefined') {
 			$('#myModal').modal('hide');
 			$('#delete #EditView').submit();
 		}
 	});
-	$('#myRegisterModal .okay-button').click(function () {
+	$('#myRegisterModal .okay-button').on('click', function () {
 		var disabled = $('#confirmRegistration').attr('disabled');
 		if (typeof disabled == 'undefined') {
 			$('#myRegisterModal').modal('hide');
@@ -23,13 +23,13 @@ jQuery(document).ready(function ($) {
 	});
 
 	// enable/disable confirm button
-	$('#status').change(function () {
+	$('#status').on('change', function () {
 		$('#confirm').attr('disabled', !this.checked);
 	});
-	$('#confirmRegistration').click(function () {
+	$('#confirmRegistration').on('click', function () {
 		$('#register_changes').prop("checked", $('#statusRegistration').prop("checked"));
 	});
-	$('#register_changes').click(function () {
+	$('#register_changes').on('click', function () {
 		app.showModalWindow($('#myRegisterModal'));
 	});
 });

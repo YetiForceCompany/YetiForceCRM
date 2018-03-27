@@ -364,7 +364,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		container.on("click", '.relatedPopup', function (e) {
 			thisInstance.openPopUp(e);
 		});
-		container.find('.referenceModulesList').select2().change(function (e) {
+		container.find('.referenceModulesList').select2().on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var parentElem = element.closest('.fieldValue');
 			var popupReferenceModule = element.val();
@@ -908,7 +908,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerSubmitEvent: function () {
 		var editViewForm = this.getForm();
-		editViewForm.submit(function (e) {
+		editViewForm.on('submit', function (e) {
 			//Form should submit only once for multiple clicks also
 			if (typeof editViewForm.data('submit') != "undefined") {
 				return false;
@@ -1466,7 +1466,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 	},
 	registerCopyValue: function (container) {
-		container.find('.fieldValue [data-copy-to-field]').change(function (e) {
+		container.find('.fieldValue [data-copy-to-field]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 		});

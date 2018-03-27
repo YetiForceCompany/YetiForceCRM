@@ -57,12 +57,12 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		var thisInstance = this;
 		var valueSearch = $('#valueSearchTree');
 		var btnSearch = $('#btnSearchTree');
-		valueSearch.keypress(function (e) {
+		valueSearch.on('keypress', function (e) {
 			if (e.which == 13) {
 				thisInstance.searching(valueSearch.val());
 			}
 		});
-		btnSearch.click(function () {
+		btnSearch.on('click', function () {
 			thisInstance.searching(valueSearch.val());
 		});
 	},

@@ -81,12 +81,12 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 		form.validationEngine(params);
 		//END
 
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			e.preventDefault();
 		});
 
 		//register click event for cancelLink
-		cancelLink.click(function (e) {
+		cancelLink.on('click', function (e) {
 			var OutgoingServerDetailUrl = form.data('detailUrl');
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
@@ -118,7 +118,7 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 		var container = jQuery('#AsteriskServerDetails');
 		var editButton = jQuery('.editButton', container);
 
-		editButton.click(function (e) {
+		editButton.on('click', function (e) {
 			var url = jQuery(e.currentTarget).data('url');
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',

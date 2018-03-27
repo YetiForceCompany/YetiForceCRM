@@ -50,7 +50,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		var relatedContainer = thisInstance.getRelatedContainer();
 		var filterSelectElement = relatedContainer.find('.loadFormFilterButton');
 		var recordsFilter = relatedContainer.find('#recordsFilter');
-		filterSelectElement.click(function (e) {
+		filterSelectElement.on('click', function (e) {
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function () {
 				var cvId = recordsFilter.val();

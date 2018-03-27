@@ -191,11 +191,11 @@ var Vtiger_CustomView_Js = {
 		for (var i in columnsList) {
 			selectizeInstance.addItem(columnsList[i]);
 		}
-		jQuery("#standardDateFilter").change(function () {
+		jQuery("#standardDateFilter").on('change', function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});
 
-		jQuery("#CustomView").submit(function (e) {
+		jQuery("#CustomView").on('submit', function (e) {
 			var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
 			if (jQuery('#viewname').val().length > 40) {
 				var params = {

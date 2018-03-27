@@ -153,7 +153,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			record: detailInstance.getRecordId()
 		}
 		var callback = function (data) {
-			data.find('[type="submit"]').click(function (e) {
+			data.find('[type="submit"]').on('click', function (e) {
 				var ids = [];
 				data.find('input[type="checkbox"]:checked').each(function (index) {
 					ids.push($(this).val());
@@ -345,7 +345,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			prev.removeClass('disabled');
 		}
 		if (load) {
-			next.click(function () {
+			next.on('click', function () {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
@@ -361,7 +361,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				app.moduleCacheSet(cacheKey, nextElement.data('id'));
 			});
-			prev.click(function () {
+			prev.on('click', function () {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
@@ -853,7 +853,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.find('.detailViewBlockLink .blockHeader').click(function () {
+		detailContentsHolder.find('.detailViewBlockLink .blockHeader').on('click', function () {
 			var block = $(this).closest('.js-toggle-panel');
 			var blockContent = block.find('.blockContent');
 			var isEmpty = blockContent.is(':empty');
@@ -879,7 +879,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerBlockAnimationEvent: function () {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.find(".blockHeader").click(function () {
+		detailContentsHolder.find(".blockHeader").on('click', function () {
 			var currentTarget = $(this).find(".js-block-toggle").not(".d-none");
 			var blockId = currentTarget.data("id");
 			var closestBlock = currentTarget.closest(".js-toggle-panel");
@@ -2017,7 +2017,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.commentsHierarchy').change(function (e) {
+		detailContentsHolder.find('.commentsHierarchy').on('change', function (e) {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			var url = recentCommentsTab.data('url');
 			var regex = /&hierarchy=+([\w,]+)/;
@@ -2028,7 +2028,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.data('url', url);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.commentSearch').keyup(function (e) {
+		detailContentsHolder.find('.commentSearch').on('keyup', function (e) {
 			var text = $(this).val();
 			if (text) {
 				detailContentsHolder.find('.commentDetails').addClass('d-none');
@@ -2047,7 +2047,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerCommentEventsInDetail: function (widgetContainer) {
 		var thisInstance = this;
-		widgetContainer.find('.hierarchyComments').change(function (e) {
+		widgetContainer.find('.hierarchyComments').on('change', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator();
 			AppConnector.request({
 				module: app.getModuleName(),
@@ -2080,10 +2080,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				faCaretIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
 			}
 		});
-		container.find('[name="mail-type"]').change(function (e) {
+		container.find('[name="mail-type"]').on('change', function (e) {
 			thisInstance.loadMailPreviewWidget(container);
 		});
-		container.find('[name="mailFilter"]').change(function (e) {
+		container.find('[name="mailFilter"]').on('change', function (e) {
 			thisInstance.loadMailPreviewWidget(container);
 		});
 		container.on('click', '.showMailsModal', function (e) {
@@ -2097,15 +2097,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.registerMailPreviewWidget(data);
 				Vtiger_Index_Js.registerMailButtons(data);
-				data.find('.expandAllMails').click();
+				data.find('.expandAllMails').on('click', );
 			});
 		});
-		container.find('.expandAllMails').click(function (e) {
+		container.find('.expandAllMails').on('click', function (e) {
 			container.find('.mailBody').removeClass('d-none');
 			container.find('.mailTeaser').addClass('d-none');
 			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-down").addClass("fa-caret-up");
 		});
-		container.find('.collapseAllMails').click(function (e) {
+		container.find('.collapseAllMails').on('click', function (e) {
 			container.find('.mailBody').addClass('d-none');
 			container.find('.mailTeaser').removeClass('d-none');
 			container.find('.showMailBody [data-fa-i2svg]').removeClass("fa-caret-up").addClass("fa-caret-down");
@@ -2419,7 +2419,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
 			if (relatedModuleName == 'Emails') {
 				Vtiger_Index_Js.registerMailButtons(widgetContent);
-				widgetContent.find('.showMailModal').click(function (e) {
+				widgetContent.find('.showMailModal').on('click', function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
 					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
 					app.showModalWindow("", url, function (data) {

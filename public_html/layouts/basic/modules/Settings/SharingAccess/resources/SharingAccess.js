@@ -244,7 +244,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 
 		jQuery.each(modulesList, function (moduleName, dependentList) {
 			var dependentPrivilege = contentTable.find('[data-module-name="' + moduleName + '"]').find('[data-action-state="Private"]');
-			dependentPrivilege.change(function (e) {
+			dependentPrivilege.on('change', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				if (currentTarget.is(':checked')) {
 					var message = app.vtranslate('JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE');

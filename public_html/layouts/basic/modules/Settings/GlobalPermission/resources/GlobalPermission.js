@@ -25,7 +25,7 @@ var Settings_GlobalPermission_Js = {
 		);
 	},
 	registerEvents: function () {
-		jQuery('.js-save').change(Settings_GlobalPermission_Js.savePermissions);
+		jQuery('.js-save').on('change', Settings_GlobalPermission_Js.savePermissions);
 	}
 }
 jQuery(document).ready(function () {

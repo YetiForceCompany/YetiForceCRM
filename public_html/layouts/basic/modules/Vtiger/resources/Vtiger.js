@@ -23,7 +23,7 @@ var Vtiger_Index_Js = {
 			var template = container.find('.fileContainer');
 			var uploadContainer = container.find('.uploadFileContainer');
 			var form = container.find('form');
-			uploadButton.change(function () {
+			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
 				var files = uploadButton[0].files;
 				for (var i = 0; i < files.length; i++) {
@@ -31,7 +31,7 @@ var Vtiger_Index_Js = {
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var formData = new FormData(form[0]);
 				if (formData) {
@@ -86,12 +86,12 @@ var Vtiger_Index_Js = {
 			}
 		}).then(function (data) {
 			if (data.substring(0, 1) == '{') {
-				data = $.parseJSON(data);
+				data = JSON.parse(data);
 				data = data['result'];
 				aDeferred.resolve(data);
 			} else {
 				app.showModalWindow(data, function (data) {
-					data.find('.selectButton').click(function (e) {
+					data.find('.selectButton').on('click', function (e) {
 						var email = data.find('input:checked').val();
 						app.hideModalWindow(data);
 						aDeferred.resolve(email);
@@ -108,7 +108,7 @@ var Vtiger_Index_Js = {
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
 			var sendButton = jQuery(this);
 			sendButton.addClass('mailBtnActive');
-			sendButton.click(function (e) {
+			sendButton.on('click', function (e) {
 				e.stopPropagation();
 				var url = sendButton.data("url");
 				var module = sendButton.data("module");
@@ -391,14 +391,14 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerResizeEvent: function () {
-		$(window).resize(function () {
+		$(window).on('resize', function () {
 			if (this.resizeTO)
 				clearTimeout(this.resizeTO);
 			this.resizeTO = setTimeout(function () {
 				$(this).trigger('resizeEnd');
 			}, 600);
 		});
-		$(window).bind('resizeEnd', function () {
+		$(window).on('resizeEnd', function () {
 			Vtiger_Index_Js.adjustTopMenuBarItems();
 		});
 	},
@@ -705,7 +705,7 @@ var Vtiger_Index_Js = {
 			phoneNumber: phoneNumber,
 			record: record
 		}).then(function (response) {
-			response = jQuery.parseJSON(response);
+			response = JSON.parse(response);
 			Vtiger_Helper_Js.showMessage({text: response.result});
 		});
 	},

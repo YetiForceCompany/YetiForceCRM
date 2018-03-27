@@ -323,7 +323,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						wizardContainer.find('.step3 .groupField').trigger('change');
 					}
 				});
-				moduleNameSelect2.change(function () {
+				moduleNameSelect2.on('change', function () {
 					if (!moduleNameSelect2.val())
 						return;
 					footer.hide();
@@ -342,7 +342,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						footer.hide();
 						var filterid = step2.find('.filterId');
 						var valueTypeSelect = step2.find('.valueType');
-						step2.find('.filterId, .valueType').change(function () {
+						step2.find('.filterId, .valueType').on('change', function () {
 							if (!filterid.val() || !valueTypeSelect.val())
 								return;
 							wizardContainer.find('.step3').remove();
@@ -360,7 +360,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 								var step3 = wizardContainer.find('.step3');
 								App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
 								footer.hide();
-								step3.find('.groupField').change(function () {
+								step3.find('.groupField').on('change', function () {
 									wizardContainer.find('.step4').remove();
 									var groupField = $(this);
 									if (!groupField.val())
@@ -385,7 +385,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						});
 					})
 				});
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var selectedModule = moduleNameSelect2.val();
 					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
@@ -489,7 +489,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				fieldsSelectDOM.closest('tr').hide();
 				footer.hide();
 
-				moduleNameSelect2.change(function () {
+				moduleNameSelect2.on('change', function () {
 					if (!moduleNameSelect2.val())
 						return;
 					footer.hide();
@@ -504,7 +504,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						filteridSelect2.closest('tr').show();
 					});
 				});
-				filteridSelect2.change(function () {
+				filteridSelect2.on('change', function () {
 					if (!filteridSelect2.val())
 						return;
 
@@ -520,7 +520,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					});
 				});
-				fieldsSelect2.change(function () {
+				fieldsSelect2.on('change', function () {
 					if (!fieldsSelect2.val()) {
 						footer.hide();
 					} else {
@@ -528,7 +528,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					}
 				});
 
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var selectedModule = moduleNameSelect2.val();
 					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();

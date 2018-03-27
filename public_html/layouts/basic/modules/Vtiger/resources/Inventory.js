@@ -447,7 +447,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var netPrice = thisInstance.getNetPrice(row);
 			var params = row.find('.taxParam').val();
 			if (params != '' && params != '[]' && params != undefined) {
-				var param = $.parseJSON(params);
+				var param = JSON.parse(params);
 				if (typeof param.aggregationType == 'string') {
 					param.aggregationType = [param.aggregationType];
 				}

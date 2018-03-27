@@ -105,13 +105,13 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 		}
 		form.validationEngine(params);
 
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			e.preventDefault();
 		})
 
 		//Register click event for cancel link
 		var cancelLink = form.find('.cancelLink');
-		cancelLink.click(function () {
+		cancelLink.on('click', function () {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
@@ -137,7 +137,7 @@ jQuery.Class("Settings_Vtiger_ConfigEditor_Js", {}, {
 		var editButton = container.find('.editButton');
 
 		//Register click event for edit button
-		editButton.click(function () {
+		editButton.on('click', function () {
 			var url = editButton.data('url');
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
