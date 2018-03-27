@@ -398,9 +398,6 @@ var Vtiger_Index_Js = {
 				$(this).trigger('resizeEnd');
 			}, 600);
 		});
-		$(window).on('resizeEnd', function () {
-			Vtiger_Index_Js.adjustTopMenuBarItems();
-		});
 	},
 	registerChat: function () {
 		var modal = $('.chatModal');
@@ -465,48 +462,6 @@ var Vtiger_Index_Js = {
 			}
 		}, function (error, err) {
 			clearTimeout(Vtiger_Index_Js.chatTimer);
-		});
-	},
-	/**
-	 * Function to make top-bar menu responsive.
-	 */
-	adjustTopMenuBarItems: function () {
-		// Dedicated space for all dropdown text
-		var TOLERANT_MAX_GAP = 125; // px
-		var menuBarWrapper = ($(window).outerWidth() < 1161) ? jQuery('#mediumNav') : jQuery('#largeNav');
-		var topMenuBarWidth = menuBarWrapper.parent().outerWidth();
-		var optionalBarItems = jQuery('.opttabs', menuBarWrapper), optionalBarItemsCount = optionalBarItems.length;
-		var optionalBarItemIndex = optionalBarItemsCount;
-
-		function enableOptionalTopMenuItem() {
-			var opttab = (optionalBarItemIndex > 0) ? optionalBarItems[optionalBarItemIndex - 1] : null;
-			if (opttab) {
-				opttab = jQuery(opttab);
-				opttab.hide();
-				optionalBarItemIndex--;
-			}
-			return opttab;
-		}
-
-		// Loop and enable hidden menu item until the tolerant width is reached.
-		var stopLoop = false;
-		do {
-			if ((topMenuBarWidth - menuBarWrapper.outerWidth()) < TOLERANT_MAX_GAP) {
-				var lastOptTab = enableOptionalTopMenuItem();
-				if (lastOptTab == null || (topMenuBarWidth - menuBarWrapper.outerWidth()) > TOLERANT_MAX_GAP) {
-					if (lastOptTab)
-						lastOptTab.hide();
-					stopLoop = true;
-					break;
-				}
-			} else {
-				stopLoop = true;
-				break;
-			}
-		} while (!stopLoop);
-		// Required to get the functionality of All drop-down working.
-		$(window).on("load", function (e) {
-			$("#topMenus").css({'overflow': 'visible'});
 		});
 	},
 	/**
@@ -718,7 +673,6 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerReminders();
-		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
