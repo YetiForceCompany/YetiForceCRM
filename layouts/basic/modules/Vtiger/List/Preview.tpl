@@ -2,7 +2,7 @@
 {strip}
 	<div class="List-Preview">
 		<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
-		<div class="c-side-block js-side-block js-fixed-scroll" data-js="scroll">
+		<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="scroll">
 			<div class="u-rotate-90 js-rotated-text" data-js="width/height">
 				<div class="font-weight-bold text-center js-list-name" data-js="append"></div>
 			</div>

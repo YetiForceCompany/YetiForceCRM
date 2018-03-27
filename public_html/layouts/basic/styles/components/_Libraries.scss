@@ -4,10 +4,17 @@
 
 //-------- select2 --------//
 .select2-selection {
-  min-height: 2.5rem !important;
   padding-top: 0.2rem;
   @extend .border;
   @extend .text-left;
+}
+.select2-container--bootstrap4 {
+	.select2-selection--single {
+		padding: 0.375rem 1.125rem 0.375rem 0.75rem;
+	}
+	.select2-selection__rendered {
+		line-height: 1.5;
+	}
 }
 .select2-selection__arrow {
   @extend .mt-1;
@@ -51,6 +58,20 @@ header {
 	  color: $white !important;
 	}
   }
+}
+.select2HeaderWidth {
+	.select2-selection {
+		height: 2.5rem !important;
+	}
+	.select2-selection__rendered {
+		line-height: 1;
+	}
+}
+.fieldUiHolder {
+	width: 25%;
+	.select2-container--bootstrap4 {
+		width: 100% !important;
+	}
 }
 //--- modal ---//
 .leaflet-popup-content {
