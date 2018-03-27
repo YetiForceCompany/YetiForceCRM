@@ -48,7 +48,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 			$data = $moduleModel->loadLangTranslation($langs, $mod);
 			if (!isset($data[$type][$variable])) {
 				foreach ($langs as $lang) {
-					\App\Language::translationModify($lang, $mod, $type, $variable, $request->getForHtml('val'));
+					\App\Language::translationModify($lang, $mod, $type, $variable, $request->getForHtml($lang));
 				}
 				$result = ['success' => true, 'message' => \App\Language::translate('LBL_AddTranslationOK', $moduleName)];
 			} else {
