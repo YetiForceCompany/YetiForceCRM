@@ -30,8 +30,8 @@
 	<div class="modal-footer">
 		<div class="float-left pt-2 counterSelected"></div>
 		<div class="float-right">
-			<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+			<button class="btn btn-success mr-1" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 		</div>
 	</div>
 {/strip}
