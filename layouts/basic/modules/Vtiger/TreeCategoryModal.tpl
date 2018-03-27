@@ -18,7 +18,7 @@
 		<input type="hidden" id="relatedModule" value="{$MODULE}" />
 		<input type="hidden" name="tree" id="treePopupValues" value="{\App\Purifier::encodeHtml($TREE)}" />
 		{if count($TREE) != 0}
-			<div class="col-md-12 marginBottom10px">
+			<div class="col-md-12 mb-2">
 				<div class="col-md-12" id="treePopupContents"></div>
 			</div>
 		{else}	
