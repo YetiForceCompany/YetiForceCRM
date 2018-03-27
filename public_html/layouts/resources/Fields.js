@@ -322,7 +322,6 @@ App.Fields = {
 		 */
 		generateRandomHash(prefix = '') {
 			prefix = prefix.toString();
-			console.log('prefix', prefix)
 			const hash = Math.random().toString(36).substr(2, 9) + '-' + Math.random().toString(36).substr(2, 9) + '-' + new Date().valueOf();
 			return prefix ? prefix + '-' + hash : hash;
 		}
@@ -690,26 +689,21 @@ App.Fields = {
 							$(component).find('input[name="hashes[]"]').val([file.hash]);
 						}
 					});
-					$(component).find('.c-multi-image__progress').removeClass('d-none').fadeIn(() => {
-						data.submit()
-							.success((result, textStatus, jqXHR) => {
-								console.log('upload success', this);
-								$(component).find('.c-multi-image__progress').fadeOut(() => {
-									$(component).find('.c-multi-image__progress').addClass('d-none')
-										.find('.c-multi-image__progress-bar').css({width: "0%"});
-								});
-							})
-							.error((jqXHR, textStatus, errorThrown) => {
-								console.log('error', this, errorThrown.message);
-							})
-							.complete((result, textStatus, jqXHR) => {
-								console.log('upload complete', this, textStatus);
-								$(component).find('.c-multi-image__progress').fadeOut(() => {
-									$(component).find('.c-multi-image__progress').addClass('d-none')
-										.find('.c-multi-image__progress-bar').css({width: "0%"});
-								});
-							});
-					});
+					$(component).find('.c-multi-image__progress').removeClass('d-none');
+					data.submit()
+						.success((result, textStatus, jqXHR) => {
+							console.log('upload success', this);
+							$(component).find('.c-multi-image__progress').addClass('d-none')
+								.find('.c-multi-image__progress-bar').css({width: "0%"});
+						})
+						.error((jqXHR, textStatus, errorThrown) => {
+							console.log('error', this, errorThrown.message);
+						})
+						.complete((result, textStatus, jqXHR) => {
+							console.log('upload complete', this, textStatus);
+							$(component).find('.c-multi-image__progress').addClass('d-none')
+								.find('.c-multi-image__progress-bar').css({width: "0%"});
+						});
 				},
 				progressall(e, data) {
 					const progress = parseInt(data.loaded / data.total * 100, 10);
@@ -818,11 +812,9 @@ App.Fields = {
 		 * @param {object} data
 		 */
 		change(e, data) {
-			App.Fields.MultiImage.generatePreviewElements(data.files, (elements) => {
+			App.Fields.MultiImage.generatePreviewElements(data.files, (element) => {
 				const resultsElement = $(this).closest('.c-multi-image').find('.c-multi-image__result');
-				elements.forEach((elementStr) => {
-					resultsElement.append(elementStr);
-				});
+				resultsElement.append(element);
 			});
 		},
 		/**
@@ -848,18 +840,16 @@ App.Fields = {
 		},
 		/**
 		 * Generate preview of images and append to multi image results view
+		 *
 		 * @param {Array} files - array of Files
 		 * @param {function} callback
 		 */
-		generatePreviewElements(files, doneCallback) {
-			console.log('files', files);
+		generatePreviewElements(files, callback) {
 			files.forEach((file, index) => {
 				if (file instanceof File) {
 					App.Fields.MultiImage.generatePreviewFromFile(file, (template, imageSrc) => {
 						file.preview = App.Fields.MultiImage.addPreviewPopover(file, template, imageSrc);
-						if (index === files.length - 1) {
-							doneCallback(files.map((file) => file.preview));
-						}
+						callback(file.preview);
 					});
 				} else {
 
