@@ -13,7 +13,7 @@
 	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div class="contentsDiv marginLeftZero dashboardContainer">
+			<div class="contentsDiv u-magin-left-zero dashboardContainer">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
