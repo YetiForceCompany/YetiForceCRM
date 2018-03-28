@@ -125,11 +125,11 @@
 									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 								</div>
 								<div class="col-5 p-2 {if !$MODULE_ACTIVE}dull {/if}">
-									<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
+									<h5 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
 								</div>
 								<div class="col-5 p-2">
 									{if $MODULE_MODEL->get('customized')}
-										<button class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+										<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
 										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
@@ -138,17 +138,15 @@
 									{/if}
 									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-										<div class="dropdown {if !$MODULE_ACTIVE}d-none{/if}">
+										<div class="btn-group {if !$MODULE_ACTIVE}d-none{/if}" role="group">
 											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
 												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 											</button>
-											<ul class="dropdown-menu float-right">
+											<div class="dropdown-menu float-right">
 												{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
-													<li class="dropdown-item">
-														<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>
-													</li>
+													<a class="dropdown-item" href="{$SETTINGS_LINK['linkurl']}">{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>
 												{/foreach}
-											</ul>
+											</div>
 										</div>
 									{/if}
 								</div>
