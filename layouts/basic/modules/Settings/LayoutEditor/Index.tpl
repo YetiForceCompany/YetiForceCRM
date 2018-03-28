@@ -113,7 +113,7 @@
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
                                                 <li>
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-                                                        <div class="row padding1per">
+                                                        <div class="row p-2">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
                                                             <div class="col-2 col-sm-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
@@ -159,7 +159,7 @@
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 												<li>
 													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="row padding1per">
+														<div class="row p-2">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 															<div class="col-2 col-sm-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
