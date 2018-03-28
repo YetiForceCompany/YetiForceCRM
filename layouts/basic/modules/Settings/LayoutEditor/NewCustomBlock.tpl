@@ -29,15 +29,15 @@
 						</button>
 						<ul class="dropdown-menu float-right">
 							<li class="blockVisibility" data-visible="1" data-block-id="">
-								<a href="javascript:void(0)">
+								<a class="dropdown-item" href="javascript:void(0)">
 									<span class="fas fa-check"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
 								</a>
 							</li>
 							<li class="inActiveFields">
-								<a href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
+								<a class="dropdown-item" href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
 							</li>
 							<li class="deleteCustomBlock">
-								<a href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
+								<a class="dropdown-item" href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
 							</li>
 						</ul>
 					</div>
