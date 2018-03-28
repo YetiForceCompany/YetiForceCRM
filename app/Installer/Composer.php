@@ -39,10 +39,11 @@ class Composer
 						if (!is_writable($rootDir . $item->getPath())) {
 							continue;
 						}
-						if (!is_dir($rootDir . $item->getPath())) {
-							mkdir($rootDir . $item->getPath(), null, true);
-						}
-						copy($item->getRealPath(), $rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPathname());
+						copy($item->getRealPath(), $rootDir . $item->getPathname());
+					}
+				} else {
+					if (!is_dir($rootDir . $item->getPath())) {
+						mkdir($rootDir . $item->getPath(), null, true);
 					}
 				}
 			}
