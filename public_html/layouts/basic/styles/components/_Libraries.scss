@@ -73,6 +73,14 @@ header {
 		width: 100% !important;
 	}
 }
+//theme selection
+.select2-selection__rendered.u-hover-bold {
+	padding: 6px !important;
+	border-radius: 0.25rem
+}
+.select2-selection[aria-labelledby^="select2-theme"] {
+	@extend .p-0;
+}
 //--- modal ---//
 .leaflet-popup-content {
   width: 62px;
