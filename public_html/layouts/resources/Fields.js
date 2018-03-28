@@ -656,5 +656,16 @@ App.Fields = {
 			});
 		},
 	},
-	MultiImage: new MultiImage(),
-}
+	MultiImage: {
+		register(container) {
+			$(document).bind('drop dragover', function (e) {
+				// prevent default browser drop behaviour
+				e.preventDefault();
+			});
+			const fileUploads = $('.c-multi-image .c-multi-image__file', container).toArray();
+			fileUploads.forEach((fileUploadInput) => {
+				new FileUpload(fileUploadInput);
+			});
+		}
+	},
+};
