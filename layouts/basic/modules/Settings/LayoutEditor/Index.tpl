@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="blockFieldsList blockFieldsSortable row m-0 p-1" style="min-height: 27px">
+                                <div class="blockFieldsList blockFieldsSortable row m-0 p-1">
                                     <ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}" class="sortTableUl connectedSortable col-md-6">
                                         {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
