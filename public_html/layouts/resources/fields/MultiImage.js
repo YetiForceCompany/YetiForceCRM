@@ -9,14 +9,14 @@ class MultiImage {
 	constructor(inputElement) {
 		const thisInstance = this;
 		this.files = [];
-		this.component = $(inputElement).closest('.c-multi-image').eq(0);
-		this.addButton = $(this.component).find('.c-multi-image__file-btn').eq(0);
+		this.component = $(inputElement).closest('.js-multi-image').eq(0);
+		this.addButton = $(this.component).find('.js-multi-image__file-btn').eq(0);
 		this.fileInput = $(inputElement).detach();
 		this.addButton.click(this.addButtonClick.bind(this));
-		this.valuesInput = $(this.component).find('.c-multi-image__values').eq(0);
-		this.progressBar = $(this.component).find('.c-multi-image__progress-bar').eq(0);
-		this.progress = $(this.component.find('.c-multi-image__progress')).eq(0);
-		this.result = this.component.find('.c-multi-image__result').eq(0);
+		this.valuesInput = $(this.component).find('.js-multi-image__values').eq(0);
+		this.progressBar = $(this.component).find('.js-multi-image__progress-bar').eq(0);
+		this.progress = $(this.component.find('.js-multi-image__progress')).eq(0);
+		this.result = this.component.find('.js-multi-image__result').eq(0);
 		this.fileInput.fileupload({
 			dataType: 'json',
 			replaceFileInput: false,
@@ -30,16 +30,16 @@ class MultiImage {
 			drop: thisInstance.change.bind(thisInstance),
 		});
 		this.fileInput.fileupload('option', 'dropZone', $(this.component));
-		this.component.on('click', '.c-multi-image__preview__popover-img', function (e) {
+		this.component.on('click', '.js-multi-image__popover-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		this.component.on('click', '.c-multi-image__preview__popover-btn-zoom', function (e) {
+		this.component.on('click', '.js-multi-image__popover-btn-zoom', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		this.component.on('dblclick', '.c-multi-image__preview-img', function (e) {
+		this.component.on('dblclick', '.js-multi-image__preview-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		this.component.on('click', '.c-multi-image__preview__popover-btn-delete', function (e) {
+		this.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
 			thisInstance.deleteFile($(this).data('hash'));
 		});
 	}
@@ -251,7 +251,7 @@ class MultiImage {
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
 		if (typeof fileInfo.fileSize !== 'undefined') {
-			fileSize = `<span class="float-left badge badge-secondary c-multi-image__preview__popover-file-size">${fileInfo.fileSize}</span>`;
+			fileSize = `<span class="float-left badge badge-secondary">${fileInfo.fileSize}</span>`;
 		}
 		return $(template).popover({
 			container: thisInstance.component,
@@ -259,15 +259,15 @@ class MultiImage {
 			html: true,
 			trigger: 'focus',
 			placement: 'top',
-			content: `<img src="${imageSrc}" class="w-100 c-multi-image__preview__popover-img" data-hash="${file.hash}" />`,
+			content: `<img src="${imageSrc}" class="w-100 js-multi-image__popover-img c-multi-image__popover-img" data-hash="${file.hash}" data-js="Fields.MultiImage"/>`,
 			template: `<div class="popover" role="tooltip">
 				<div class="arrow"></div>
 				<h3 class="popover-header"></h3>
 				<div class="popover-body"></div>
-				<div class="text-right popover-footer c-multi-image__preview__popover-actions">
+				<div class="text-right popover-footer js-multi-image__popover-actions">
 					${fileSize}
-					<button class="btn btn-sm btn-danger c-multi-image__preview__popover-btn-delete" data-hash="${file.hash}"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
-					<button class="btn btn-sm btn-primary c-multi-image__preview__popover-btn-zoom" data-hash="${file.hash}"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
+					<button class="btn btn-sm btn-danger js-multi-image__popover-btn-delete" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
+					<button class="btn btn-sm btn-primary js-multi-image__popover-btn-zoom" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
 				</div>
 			</div>`
 		});
@@ -316,8 +316,8 @@ class MultiImage {
 			file.imageSrc = fr.result;
 			this.addFileInfoProperty(file.hash, 'imageSrc', file.imageSrc);
 			this.addFileInfoProperty(file.hash, 'image', file.image);
-			callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview" id="c-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}">
-					<div class="img-thumbnail c-multi-image__preview-img" data-hash="${file.hash}" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
+			callback(`<div class="d-inline-block mr-1 mb-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
+					<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="Fields.MultiImage" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
 			</div>`, fr.result);
 		};
 		fr.readAsDataURL(file);
