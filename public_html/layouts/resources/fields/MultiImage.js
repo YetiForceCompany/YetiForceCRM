@@ -10,30 +10,36 @@ class MultiImage {
 		const thisInstance = this;
 		this.files = [];
 		this.component = $(inputElement).closest('.c-multi-image').eq(0);
-		this.addButton = $(this.component).find('.c-multi-image__file-btn');
-		$(this.addButton).click(this.addButtonClick.bind(this));
-		$(inputElement).fileupload({
+		this.addButton = $(this.component).find('.c-multi-image__file-btn').eq(0);
+		this.fileInput = $(inputElement).detach();
+		this.addButton.click(this.addButtonClick.bind(this));
+		this.valuesInput = $(this.component).find('.c-multi-image__values').eq(0);
+		this.progressBar = $(this.component).find('.c-multi-image__progress-bar').eq(0);
+		this.progress = $(this.component.find('.c-multi-image__progress')).eq(0);
+		this.result = this.component.find('.c-multi-image__result').eq(0);
+		this.fileInput.fileupload({
 			dataType: 'json',
+			replaceFileInput: false,
+			fileInput: this.fileInput,
 			autoUpload: false,
 			acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-			// event handlers
 			submit: thisInstance.submit.bind(thisInstance),
 			add: thisInstance.add.bind(thisInstance),
 			progressall: thisInstance.progressAll.bind(thisInstance),
 			change: thisInstance.change.bind(thisInstance),
 			drop: thisInstance.change.bind(thisInstance),
 		});
-		$(inputElement).fileupload('option', 'dropZone', $(this.component));
-		$(this.component).on('click', '.c-multi-image__preview__popover-img', function (e) {
+		this.fileInput.fileupload('option', 'dropZone', $(this.component));
+		this.component.on('click', '.c-multi-image__preview__popover-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		$(this.component).on('click', '.c-multi-image__preview__popover-btn-zoom', function (e) {
+		this.component.on('click', '.c-multi-image__preview__popover-btn-zoom', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		$(this.component).on('dblclick', '.c-multi-image__preview-img', function (e) {
+		this.component.on('dblclick', '.c-multi-image__preview-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		$(this.component).on('click', '.c-multi-image__preview__popover-btn-delete', function (e) {
+		this.component.on('click', '.c-multi-image__preview__popover-btn-delete', function (e) {
 			thisInstance.deleteFile($(this).data('hash'));
 		});
 	}
@@ -44,7 +50,7 @@ class MultiImage {
 	 */
 	addButtonClick(e) {
 		e.preventDefault();
-		$(this.component).find('.c-multi-image__file').trigger('click');
+		this.fileInput.trigger('click');
 	}
 
 	/**
@@ -89,15 +95,6 @@ class MultiImage {
 		return fileInfo;
 	}
 
-	/**
-	 * Complete event handler from file upload request
-	 * @param result
-	 * @param textStatus
-	 * @param jqXHR
-	 */
-	complete(result, textStatus, jqXHR) {
-		//$(this.component).find('.c-multi-image__progress').addClass('d-none');
-	}
 
 	/**
 	 * Error event handler from file upload request
@@ -112,9 +109,9 @@ class MultiImage {
 	/**
 	 * Success event handler from file upload request
 	 *
-	 * @param result
-	 * @param textStatus
-	 * @param jqXHR
+	 * @param {Object} response
+	 * @param {String} textStatus
+	 * @param {jqXHR} jqXHR
 	 */
 	success(response, textStatus, jqXHR) {
 		const attach = response.result.attach;
@@ -138,7 +135,7 @@ class MultiImage {
 		const formValues = this.files.map(file => {
 			return {id: file.id, name: file.name, size: file.fileSize};
 		});
-		$(this.component).find('.c-multi-image__values').val(JSON.stringify(formValues));
+		this.valuesInput.val(JSON.stringify(formValues));
 	}
 
 	/**
@@ -153,11 +150,9 @@ class MultiImage {
 				this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
 			}
 		});
-		//$(this.component).find('.c-multi-image__progress').removeClass('d-none');
 		data.submit()
 			.success(this.success.bind(this))
-			.error(this.error.bind(this))
-			.complete(this.complete.bind(this));
+			.error(this.error.bind(this));
 	}
 
 	/**
@@ -167,14 +162,14 @@ class MultiImage {
 	 */
 	progressAll(e, data) {
 		const progress = parseInt(data.loaded / data.total * 100, 10);
-		$(this.component).find('.c-multi-image__progress-bar').css({width: progress + "%"});
+		this.progressBar.css({width: progress + "%"});
 		if (progress === 100) {
 			setTimeout(() => {
-				$(this.component.find('.c-multi-image__progress')).addClass('d-none');
-				$(this.component).find('.c-multi-image__progress-bar').css({width: "0%"});
+				this.progress.addClass('d-none');
+				this.progressBar.css({width: "0%"});
 			}, 1000);
 		} else {
-			$(this.component.find('.c-multi-image__progress')).removeClass('d-none');
+			this.progress.removeClass('d-none');
 		}
 	}
 
@@ -239,7 +234,7 @@ class MultiImage {
 	 */
 	change(e, data) {
 		this.generatePreviewElements(data.files, (element) => {
-			$(this.component).find('.c-multi-image__result').append(element);
+			this.result.append(element);
 		});
 	}
 
