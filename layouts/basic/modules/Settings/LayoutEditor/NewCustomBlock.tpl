@@ -10,13 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="newCustomBlockCopy d-none marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
-		<div class="row layoutBlockHeader no-margin">
+	<div class="newCustomBlockCopy d-none mb-2 border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
+		<div class="row layoutBlockHeader m-0">
 			<div class="col-md-6 blockLabel padding10">
 				<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 			</div>
-			<div class="col-md-6 marginLeftZero">
-				<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
+			<div class="col-md-6 ml-0">
+				<div class="float-right btn-toolbar blockActions m-1">
 					<div class="btn-group">
 						<button class="btn btn-success addCustomField d-none" type="button">
 							<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
@@ -44,9 +44,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="blockFieldsList row blockFieldsSortable no-margin" style="padding:5px;min-height: 27px">
+		<div class="blockFieldsList row blockFieldsSortable m-0" style="padding:5px;min-height: 27px">
 			<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-			<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+			<ul class="connectedSortable col-md-6 ui-sortable m-0" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
 		</div>
 	</div>
 {/strip}
