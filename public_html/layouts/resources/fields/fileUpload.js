@@ -6,7 +6,6 @@ class FileUpload {
 		const thisInstance = this;
 		this.files = [];
 		this.component = $(inputElement).closest('.c-multi-image').eq(0);
-		console.log('this.component', this.component)
 		$(inputElement).fileupload({
 			dataType: 'json',
 			autoUpload: false,
@@ -17,8 +16,9 @@ class FileUpload {
 			add: thisInstance.add.bind(thisInstance),
 			progressall: thisInstance.progressAll.bind(thisInstance),
 			change: thisInstance.change.bind(thisInstance),
+			drop: thisInstance.change.bind(thisInstance),
 		});
-		$(inputElement).fileupload('option', 'dropZone', $(this).closest('.c-multi-image'));
+		$(inputElement).fileupload('option', 'dropZone', $(this.component));
 		$(this.component).on('click', '.c-multi-image__preview__popover-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
