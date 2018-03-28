@@ -296,7 +296,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		contentContainer.progressIndicator({});
 		AppConnector.request({
 			type: 'POST',
-			async: false,
 			dataType: 'html',
 			data: params
 		}).then(function (data) {

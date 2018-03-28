@@ -143,7 +143,6 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	verifyData: function () {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.request({
-			async: false,
 			data: {
 				module: 'Users',
 				action: 'VerifyData',
