@@ -2,6 +2,10 @@
 
 class FileUpload {
 
+	/**
+	 * Create class instance
+	 * @param {HTMLElement|jQuery} inputElement - input type file element inside component
+	 */
 	constructor(inputElement) {
 		const thisInstance = this;
 		this.files = [];
@@ -33,18 +37,36 @@ class FileUpload {
 		});
 	}
 
+	/**
+	 * Done event handler from jQuery-file-upload
+	 *
+	 * @param {Event} e
+	 * @param {Object} data
+	 */
 	done(e, data) {
 		$.each(data.result.files, function (index, file) {
 			console.log('file', file);
 		});
 	}
 
+	/**
+	 * Submit event handler from jQuery-file-upload
+	 *
+	 * @param {Event} e
+	 * @param {Object} data
+	 */
 	submit(e, data) {
 		data.formData = {
 			hash: data.files[0].hash // fileupload send only one file per request
 		};
 	}
 
+	/**
+	 * Get file information
+	 *
+	 * @param {String} hash - file id
+	 * @returns {Object}
+	 */
 	getFileInfo(hash) {
 		for (let i = 0, len = this.files.length; i < len; i++) {
 			const file = this.files[i];
@@ -52,14 +74,28 @@ class FileUpload {
 				return file;
 			}
 		}
+		app.errorLog(new Error(`File '${hash}' not found.`));
 	}
 
+	/**
+	 * Add property to file info object
+	 *
+	 * @param {String} hash - file id
+	 * @param {String} propertyName
+	 * @param {any} value
+	 * @returns {Object}
+	 */
 	addFileInfoProperty(hash, propertyName, value) {
 		const fileInfo = this.getFileInfo(hash);
 		fileInfo[propertyName] = value;
 		return fileInfo;
 	}
 
+	/**
+	 * Add event handler from jQuery-file-upload
+	 * @param {Event} e
+	 * @param {object} data
+	 */
 	add(e, data) {
 		data.files.forEach((file) => {
 			if (typeof file.hash === 'undefined') {
@@ -82,6 +118,11 @@ class FileUpload {
 			});
 	}
 
+	/**
+	 * Progressall event handler from jQuery-file-upload
+	 * @param {Event} e
+	 * @param {Object} data
+	 */
 	progressAll(e, data) {
 		const progress = parseInt(data.loaded / data.total * 100, 10);
 		$(this.component).find('.c-multi-image__progress-bar').css({width: progress + "%"});
@@ -125,7 +166,6 @@ class FileUpload {
 	 * Delete image from input field
 	 * Should be called with this pointing on button element with data-hash attribute
 	 * @param {string} hash
-	 * @param {array} files - files that need to be send with request
 	 */
 	deleteFile(hash) {
 		const fileInfo = this.getFileInfo(hash);
@@ -142,16 +182,13 @@ class FileUpload {
 	}
 
 	/**
-	 * File change event
-	 * Should be called with this pointing on file input element inside .c-multi-image
+	 * File change event handler from jQuery-file-upload
 	 *
 	 * @param {Event} e
 	 * @param {object} data
 	 */
 	change(e, data) {
-		console.log('change', data);
 		this.generatePreviewElements(data.files, (element) => {
-			console.log('adding element', element)
 			$(this.component).find('.c-multi-image__result').append(element);
 		});
 	}
@@ -162,7 +199,7 @@ class FileUpload {
 	 * @param {File} file
 	 * @param {string} template
 	 * @param {string} imageSrc
-	 * @returns {*|jQuery}
+	 * @returns {jQuery}
 	 */
 	addPreviewPopover(file, template, imageSrc) {
 		const thisInstance = this;
@@ -200,9 +237,13 @@ class FileUpload {
 					callback(file.preview);
 				});
 			} else {
-
+				// TODO: handle files from json (not File elements)
 			}
 		});
+	}
+
+	imageLoad(e) {
+		console.log('image load', e)
 	}
 
 	/**
@@ -214,7 +255,11 @@ class FileUpload {
 		const fr = new FileReader();
 		fr.onload = () => {
 			file.imageSrc = fr.result;
+			file.image = new Image();
+			file.image.onload = this.imageLoad;
+			file.image.src = fr.result;
 			this.addFileInfoProperty(file.hash, 'imageSrc', file.imageSrc);
+			this.addFileInfoProperty(file.hash, 'image', file.image);
 			callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview" id="c-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}">
 					<div class="img-thumbnail c-multi-image__preview-img" data-hash="${file.hash}" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
 			</div>`, fr.result);
