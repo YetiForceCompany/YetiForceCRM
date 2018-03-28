@@ -66,7 +66,7 @@
                             {$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
                             <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px;background: white;">
                                 <div class="row layoutBlockHeader m-0">
-                                    <div class="blockLabel col-md-6 col-sm-6 padding10 ml-0">
+                                    <div class="blockLabel col-md-6 col-sm-6 p-2 ml-0">
                                         {if $IS_BLOCK_SORTABLE}
 											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 										{/if}
