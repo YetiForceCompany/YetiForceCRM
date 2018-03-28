@@ -67,7 +67,9 @@
 	]
   },
   "config": {
-	"autoloader-suffix": "YT"
+	"autoloader-suffix": "YT",
+	"optimize-autoloader": true,
+	"classmap-authoritative": false
   },
   "autoload": {
 	"files": [

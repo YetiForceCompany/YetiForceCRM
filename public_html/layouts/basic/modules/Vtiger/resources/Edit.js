@@ -1472,6 +1472,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 	},
 	/**
+	 * Register multi image upload fields
+	 * @param {HTMLElement|jQuery} container
+	 */
+	registerMultiImageFields(container) {
+		return App.Fields.MultiImage.register(container);
+	},
+	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
 	 */
@@ -1492,6 +1499,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerReferenceFields(container);
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
+		this.registerMultiImageFields(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

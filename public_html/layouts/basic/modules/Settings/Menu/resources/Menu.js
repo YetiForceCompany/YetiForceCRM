@@ -251,7 +251,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			Mousetrap.on(key, function () {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_TEST_HOTKEY_OK')});
 				testBtn.addClass('btn-success');
-				Mousetrap.unbind(key);
+				Mousetrap.off(key);
 			});
 		});
 	},

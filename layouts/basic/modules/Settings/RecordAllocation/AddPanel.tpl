@@ -4,39 +4,39 @@
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{/if}
 	{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE_NAME)->getAccessibleGroups('Public')}
-	<div class="panelItem">
-		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}" />
-		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
-			<div class="panel-heading">
+	<div class="js-panel-item" data-js="container">
+		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="js-module-allocation-data" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}" />
+		<div class="card card-default js-panel" data-js="data/container" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
+			<div class="card-header">
 				<div class="row">
 					<div class="col-md-4 col-sm-5 col-5 form-control-plaintext">
 						<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 					</div>
-					<div class="float-right col-md-4 col-sm-7 col-7">
+					<div class="float-right col-md-8 col-sm-7 col-7">
 						<div class="row">
 							<div class="col-10">
-								<select id="userList{$INDEX}" class="chzn-select form-control baseUser" data-validation-engine="validate[required]">
+								<select id="userList{$INDEX}" class="chzn-select form-control js-base-user" data-js="change/value" data-validation-engine="validate[required]">
 									<option value=""></option>
 									{foreach from=$ALL_ACTIVEUSER_LIST key=ID item=USER_NAME}
 										<option value="{$ID}">{$USER_NAME}</option>
 									{/foreach}
 								</select>
 							</div>
-							<div class="col-2 paddingLefttZero">
-								<div class="float-right">
-									<button type="button" class="removePanel btn btn-danger"><span class="fas fa-trash-alt"></span></button>	
+							<div class="col-2">
+								<div class="text-right">
+									<button type="button" class="js-remove-panel btn btn-danger" data-js="click"><span class="fas fa-trash-alt"></span></button>	
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>		
-			<div class="panel-body padding5 d-none">
-				<div class="clearTables d-none">
-					<div class="col-12 col-sm-5 paddingLRZero">
+			<div class="card-body d-none js-panel-body" data-js="removeClass:d-none/append">
+				<div class="js-clear-tables d-none row" data-js="removeClass:js-clear-tables,d-none/addClass:js-active-panel">
+					<div class="col-12 col-sm-5">
 						<div class="table-responsive">
 							<div class="col-12">
-								<table class="table table-bordered table-sm dataTable" data-mode="active">
+								<table class="table table-bordered table-sm js-data-table" data-js="dataTable" data-mode="active">
 									<thead>
 										<tr>
 											<th><strong>{\App\Language::translate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
@@ -49,14 +49,14 @@
 						</div>
 					</div>
 					<div class="col-12 col-sm-2">
-						<div class="textAlignCenter font-x-x-large betweenDragDrop">
+						<div class="text-center font-x-x-large betweenDragDrop">
 							<span class="fas fa-arrows-alt-h"></span>
 						</div>
 					</div>
-					<div class="col-12 col-sm-5 paddingLRZero">
+					<div class="col-12 col-sm-5">
 						<div class="table-responsive">
 							<div class="col-12">
-								<table class="table table-bordered table-sm dataTable" data-mode="base">
+								<table class="table table-bordered table-sm js-data-table" data-js="dataTable" data-mode="base">
 									<thead>
 										<tr>
 											<th><strong>{\App\Language::translate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
@@ -64,12 +64,12 @@
 									</thead>
 									<tbody class="dropContainer">
 										{foreach from=$ALL_ACTIVEUSER_LIST key=ID item=USER_NAME}
-											<tr class="dragDrop{$INDEX}" data-id="{$ID}" data-type="users">
+											<tr class="js-drag-drop-{$INDEX}" data-js="draggable/droppable" data-id="{$ID}" data-type="users">
 												<td>{$USER_NAME}</td>
 											</tr>
 										{/foreach}
 										{foreach from=$ALL_ACTIVEGROUP_LIST key=ID item=USER_NAME}
-											<tr class="dragDrop{$INDEX}" data-id="{$ID}" data-type="groups">
+											<tr class="js-drag-drop-{$INDEX}" data-js="draggable/droppable" data-id="{$ID}" data-type="groups">
 												<td>{\App\Language::translate($USER_NAME,$QUALIFIED_MODULE)}</td>
 											</tr>
 										{/foreach}

@@ -3,8 +3,8 @@
  * Basic class to handle files.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -81,11 +81,12 @@ abstract class Vtiger_Basic_File
 	{
 		$attach = [];
 		$files = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
+
 		foreach ($files as $key => $file) {
-			foreach ($file as $key => $fileData) {
+			foreach ($file as $fileData) {
 				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
 				if ($result) {
-					$attach[] = ['id' => $result, 'name' => $fileData['name']];
+					$attach[] = ['id' => $result, 'name' => $fileData['name'], 'size' => \vtlib\Functions::showBytes($fileData['size'])];
 				}
 			}
 		}
@@ -94,7 +95,7 @@ abstract class Vtiger_Basic_File
 			$response->setResult([
 				'field' => $request->get('field'),
 				'module' => $request->getModule(),
-				'attach' => $attach,
+				'attach' => count($attach) === 1 ? $attach[0] : $attach,
 			]);
 			$response->emit();
 		}

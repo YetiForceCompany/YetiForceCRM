@@ -4,8 +4,8 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 			<div class="widget_header">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-				<div class="row">
-					<div class="col-xs-9 col-md-5 col-sm-6">
+				<div class="row mb-1">
+					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}

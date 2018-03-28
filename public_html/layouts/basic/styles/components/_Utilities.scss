@@ -63,6 +63,13 @@
 	@extend .justify-content-lg-center;
 	@extend .justify-content-xl-end;
 }
+.u-alphabet-sorting {
+  a {
+	@extend .h5;
+	@extend .font-weight-bold;
+  }
+	@extend .text-center;
+}
 // a little bigger badge
 .u-badge {
   font-size: 90%;
