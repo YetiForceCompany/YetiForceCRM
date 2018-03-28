@@ -664,7 +664,7 @@ App.Fields = {
 			});
 			const fileUploads = $('.c-multi-image .c-multi-image__file', container).toArray();
 			fileUploads.forEach((fileUploadInput) => {
-				new FileUpload(fileUploadInput);
+				new MultiImage(fileUploadInput);
 			});
 		}
 	},

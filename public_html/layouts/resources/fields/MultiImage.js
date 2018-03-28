@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-class FileUpload {
+class MultiImage {
 
 	/**
 	 * Create class instance
@@ -10,6 +10,8 @@ class FileUpload {
 		const thisInstance = this;
 		this.files = [];
 		this.component = $(inputElement).closest('.c-multi-image').eq(0);
+		this.addButton = $(this.component).find('.c-multi-image__file-btn');
+		$(this.addButton).click(this.addButtonClick.bind(this));
 		$(inputElement).fileupload({
 			dataType: 'json',
 			autoUpload: false,
@@ -34,6 +36,15 @@ class FileUpload {
 		$(this.component).on('click', '.c-multi-image__preview__popover-btn-delete', function (e) {
 			thisInstance.deleteFile($(this).data('hash'));
 		});
+	}
+
+	/**
+	 * Prevent form submition
+	 * @param {Event} e
+	 */
+	addButtonClick(e) {
+		e.preventDefault();
+		$(this.component).find('.c-multi-image__file').trigger('click');
 	}
 
 	/**

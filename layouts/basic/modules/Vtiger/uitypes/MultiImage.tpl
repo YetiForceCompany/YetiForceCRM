@@ -10,11 +10,11 @@
 		   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
 	<div class="border rounded p-2 clearfix c-multi-image">
 		<button class="fileinput-button btn btn-sm btn-primary mr-1 mb-1 float-left c-multi-image__file-btn">
-			<input class="c-multi-image__file" type="file" name="{$FIELD_MODEL->getFieldName()}_temp[]"
-				   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}"
-				   multiple>
 			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
 		</button>
+		<input class="d-none c-multi-image__file" type="file" name="{$FIELD_MODEL->getFieldName()}_temp[]"
+			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}"
+			   multiple>
 		<input type="hidden" class="c-multi-image__values" name="{$FIELD_MODEL->getFieldName()}[]" value="[]">
 		<div class="c-multi-image__result" data-name="{$FIELD_MODEL->getFieldName()}">
 			{if $RECORD}
