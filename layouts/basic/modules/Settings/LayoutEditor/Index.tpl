@@ -82,7 +82,7 @@
                                                 </div>
                                             {/if}
                                             {if $BLOCK_MODEL->isActionsAllowed()}
-                                                <div class="btn-group"><button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                                <div class="btn-group ml-1"><button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                                                         <strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                                                         <span class="caret"></span>
                                                     </button>
