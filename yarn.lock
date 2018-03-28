@@ -34,6 +34,30 @@ block-ui@^2.70.1:
   dependencies:
     jquery ">=1.7.x"
 
+blueimp-canvas-to-blob@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz#5679ac32f6a2835821f0c3ad661719ff85a9236b"
+
+blueimp-file-upload@^9.21.0:
+  version "9.21.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.21.0.tgz#bf7bfc3e28970e8be0f8789f68026e0dca98f6e0"
+  optionalDependencies:
+    blueimp-canvas-to-blob "3.5.0"
+    blueimp-load-image "2.12.2"
+    blueimp-tmpl "3.6.0"
+
+blueimp-load-image@2.12.2:
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.12.2.tgz#6a17598aab858d4fbf01543e0631141b51057c87"
+
+blueimp-tmpl@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.6.0.tgz#a4910975d042e2bc03ba77f0e62d04f1548a524c"
+
+blueimp-tmpl@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.11.0.tgz#47e78cbab16770e3922b019a250b4ad9c7b20f8f"
+
 bootbox@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
