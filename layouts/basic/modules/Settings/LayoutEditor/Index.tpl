@@ -73,7 +73,7 @@
                                         <strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
                                     <div class="col-md-6 col-sm-6 ml-0">
-										<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
+										<div class="float-right btn-toolbar blockActions m-1">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
                                                     <button class="btn btn-success addCustomField" type="button">
