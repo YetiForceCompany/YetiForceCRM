@@ -6,6 +6,7 @@ class FileUpload {
 		const thisInstance = this;
 		this.files = [];
 		this.component = $(inputElement).closest('.c-multi-image').eq(0);
+		console.log('this.component', this.component)
 		$(inputElement).fileupload({
 			dataType: 'json',
 			autoUpload: false,
@@ -92,7 +93,9 @@ class FileUpload {
 	 * @param {string} hash
 	 */
 	zoomPreview(hash) {
+		const thisInstance = this;
 		const fileInfo = this.getFileInfo(hash);
+		console.log(fileInfo)
 		bootbox.dialog({
 			size: 'large',
 			backdrop: true,
@@ -104,7 +107,7 @@ class FileUpload {
 					label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
 					className: "float-left btn btn-danger",
 					callback() {
-						App.Fields.MultiImage.deleteFile(fileInfo.hash);
+						thisInstance.deleteFile(fileInfo.hash);
 					}
 				},
 				Close: {
@@ -128,7 +131,7 @@ class FileUpload {
 		const fileInfo = this.getFileInfo(hash);
 		bootbox.confirm({
 			title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
-			message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.filename}</span>?`,
+			message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.name}</span>?`,
 			callback: function (result) {
 				if (result) {
 					fileInfo.previewElement.popover('dispose').remove();
@@ -162,7 +165,9 @@ class FileUpload {
 	 * @returns {*|jQuery}
 	 */
 	addPreviewPopover(file, template, imageSrc) {
+		const thisInstance = this;
 		return $(template).popover({
+			container: thisInstance.component,
 			title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
 			html: true,
 			trigger: 'focus',
