@@ -11,7 +11,7 @@
 -->*}
 {strip}
     {if !empty($CUSTOM_VIEWS)}
-        <div class="relatedContainer listViewPageDiv margin0px">
+        <div class="relatedContainer listViewPageDiv m-0">
             <input type="hidden" name="emailEnabledModules" value=true />
             <input type="hidden" id="view" value="{$VIEW}" />
             <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
@@ -29,7 +29,7 @@
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
 					<div class="col-md-9">
-						<div class="btn-group listViewMassActions btn-group paddingRight10">
+						<div class="btn-group listViewMassActions btn-group pr-2">
 							{if $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']|@count gt 0}
 								<button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 								<ul class="dropdown-menu">
@@ -82,14 +82,14 @@
 																{/if}
 															</span>
 														</div>
-														<div class="btn-group paddingRight10">
+														<div class="btn-group pr-2">
 															<button type="button" class="btn btn-light loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
 																<span class="fas fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
 														</div>
 														{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-															<div class="btn-group paddingRight10">
+															<div class="btn-group pr-2">
 																{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 																{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
 																<button type="button" class="btn btn-light addButton
@@ -112,7 +112,7 @@
 													<div class="col-md-3">
 														<div class="float-right">
 															{if $VIEW_MODEL}
-																<div class="float-right paddingLeft5px">
+																<div class="float-right pl-1">
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 																	<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 																	<div class="dropdown dropdownEntityState">
