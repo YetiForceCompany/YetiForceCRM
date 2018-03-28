@@ -39,7 +39,7 @@
 						<ul class="dropdown-menu float-right">
 							{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 								<li class="mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference='{$RELATED_LINK->get('related')}' {if $RELATED_LINK->get('countRelated')}data-count="{$RELATED_LINK->get('countRelated')|intval}"{/if}>
-									<a href="javascript:void(0);" class="u-text-ellipsis" style="width:auto" title="{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
+									<a class="dropdown-item u-text-ellipsis" href="javascript:void(0);" style="width:auto" title="{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
 										<strong class="float-left">{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
 										{if $RELATED_LINK->get('countRelated')}
 											<span class="count badge float-right {$RELATED_LINK->get('badgeClass')}">-</span>
@@ -51,7 +51,7 @@
 								<li class="d-none relatedNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference='{$RELATED_LINK->get('relatedModuleName')}' data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')}">
 									{* Assuming most of the related link label would be module name - we perform dual translation *}
 									{assign var="DETAILVIEWRELATEDLINKLBL" value= \App\Language::translate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
-									<a href="javascript:void(0);" class="u-text-ellipsis float-left" style="width:100%" title="{$DETAILVIEWRELATEDLINKLBL}">
+									<a class="dropdown-item u-text-ellipsis float-left" href="javascript:void(0);" style="width:100%" title="{$DETAILVIEWRELATEDLINKLBL}">
 										{if AppConfig::relation('SHOW_RELATED_ICON')}
 											<span class="iconModule userIcon-{$RELATED_LINK->getRelatedModuleName()} float-left">&nbsp;&nbsp;</span>
 										{/if}
