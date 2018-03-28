@@ -662,7 +662,7 @@ App.Fields = {
 				// prevent default browser drop behaviour
 				e.preventDefault();
 			});
-			const fileUploads = $('.c-multi-image .c-multi-image__file', container).toArray();
+			const fileUploads = $('.js-multi-image .js-multi-image__file', container).toArray();
 			fileUploads.forEach((fileUploadInput) => {
 				new MultiImage(fileUploadInput);
 			});
