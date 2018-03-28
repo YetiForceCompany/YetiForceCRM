@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="col-md-12">
-		<div class="related paddingLRZero marginLeftZero">
+		<div class="related paddingLRZero ml-0">
 			<div class="">
 				<ul class="nav nav-pills">
 					{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
