@@ -18,7 +18,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="o-celandar-container">
+		<div class="o-calendar-container">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>

@@ -36,7 +36,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-		<div class="o-celandar-container">
+		<div class="o-calendar-container">
 			<div id="calendarview"></div>
 		</div>
 	</div>
