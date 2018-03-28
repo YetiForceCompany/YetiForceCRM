@@ -24,7 +24,7 @@
 									...
 								</a>
 								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
-									<li>
+									<li class="dropdown-item">
 										<div>
 											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{\App\Language::translate('LBL_PAGE')}</span></div>
 											<div class="col-md-3 recentComments">
