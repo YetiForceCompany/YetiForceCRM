@@ -245,7 +245,7 @@
 													{assign var="href" value="javascript:;"}
 												{/if}
 											<li>
-												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
+												<a class="dropdown-item" target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
 												   {if $obj->linkdata && is_array($obj->linkdata)}
 													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 														   data-{$DATA_NAME}="{$DATA_VALUE}"
