@@ -187,6 +187,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			var test = "https://api.opencagedata.com/geocode/v1/json?query=test&pretty=1&key=" + val;
 			jQuery.ajax({
 				url: test,
+				async: false,
 				complete: function (data) {
 					if (data.status == 403) {
 						var parametry = {

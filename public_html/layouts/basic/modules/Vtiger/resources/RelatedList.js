@@ -1045,7 +1045,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.sideBlockRight.addClass('d-block');
 			this.preview.hide();
 		}
-		window.console.log('asdf');
 		var mainWindowHeightCss = {height: $(window).height() - this.list.offset().top - this.footerH};
 		if (!container.closest('.mainBody').length) {
 			let mainBody = $(top.document).find('.mainBody').height();
