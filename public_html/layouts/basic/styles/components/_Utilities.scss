@@ -19,8 +19,11 @@
   transform: rotate(0.75turn);
   position: absolute;
 }
-.u-magin-left-zero{
+.u-magin-left-zero {
 	margin-left: 0px !important;
+}
+.u-w-auto {
+	width: auto !important;
 }
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
