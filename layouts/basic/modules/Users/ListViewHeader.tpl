@@ -58,7 +58,7 @@
 								</span>
 								{/foreach}
 								</div>
-								<div class="col-md-4 btn-toolbar marginLeftZero">
+								<div class="col-md-4 btn-toolbar ml-0">
 									<select class="select2 form-control" id="usersFilter" name="status">
 										<option value='[[["status","e","Active"]]]'>{\App\Language::translate('LBL_ACTIVE_USERS', $QUALIFIED_MODULE)}</option>
 										<option value='[[["status","e","Inactive"]]]'>{\App\Language::translate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
