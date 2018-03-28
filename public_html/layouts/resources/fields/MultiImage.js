@@ -98,7 +98,6 @@ class MultiImage {
 		return fileInfo;
 	}
 
-
 	/**
 	 * Error event handler from file upload request
 	 * @param jqXHR
@@ -271,7 +270,7 @@ class MultiImage {
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
 		if (typeof fileInfo.fileSize !== 'undefined') {
-			fileSize = `<span class="float-left badge badge-secondary">${fileInfo.fileSize}</span>`;
+			fileSize = `<small class="float-left p-1 bg-white border rounded">${fileInfo.fileSize}</small>`;
 		}
 		return $(template).popover({
 			container: thisInstance.elements.component,

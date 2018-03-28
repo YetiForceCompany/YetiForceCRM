@@ -658,10 +658,6 @@ App.Fields = {
 	},
 	MultiImage: {
 		register(container) {
-			$(document).bind('drop dragover', function (e) {
-				// prevent default browser drop behaviour
-				e.preventDefault();
-			});
 			const fileUploads = $('.js-multi-image .js-multi-image__file', container).toArray();
 			fileUploads.forEach((fileUploadInput) => {
 				new MultiImage(fileUploadInput);
