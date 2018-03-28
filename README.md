@@ -49,9 +49,6 @@ https://github.com/YetiForceCompany/YetiForceIncompleteLanguages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
-## Licenses
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FYetiForceCompany%2FYetiForceCRM.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FYetiForceCompany%2FYetiForceCRM?ref=badge_large)
-
 ### Gallery: https://public.yetiforce.com/gallery
 
 ![](https://public.yetiforce.com/img/main/1_Home_page.png)
