@@ -8,11 +8,7 @@
 		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true)} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 		   data-fieldinfo='{$FIELD_INFO}'
 		   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
-	<div class="border rounded p-2 clearfix c-multi-image js-multi-image">
-		<button class="fileinput-button btn btn-sm btn-primary mr-1 mb-1 float-left js-multi-image__file-btn"
-				data-js="Fields.MultiImage">
-			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
-		</button>
+	<div class="border rounded px-2 pt-2 clearfix c-multi-image js-multi-image">
 		<input class="d-none js-multi-image__file" type="file" name="{$FIELD_MODEL->getFieldName()}_temp[]"
 			   data-js="Fields.MultiImage"
 			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}"
@@ -20,6 +16,10 @@
 		<input type="hidden" class="js-multi-image__values" data-js="Fields.MultiImage"
 			   name="{$FIELD_MODEL->getFieldName()}[]" value="[]">
 		<div class="js-multi-image__result" data-js="Fields.MultiImage" data-name="{$FIELD_MODEL->getFieldName()}">
+			<button class="align-top mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
+					data-js="Fields.MultiImage">
+				<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
+			</button>
 			{if $RECORD}
 				{assign var="RECORD_ID" value=$RECORD->getId()}
 				{assign var="IMAGES" value=$FIELD_VALUE}
