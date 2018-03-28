@@ -8,13 +8,13 @@
  */
 define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
-require 'include/main/WebUI.php';
+require __DIR__ . '/include/main/WebUI.php';
 \App\Config::$requestMode = 'File';
 
 try {
-    $webUI = new App\Main\File();
-    $webUI->process(App\Request::init());
+	$webUI = new App\Main\File();
+	$webUI->process(App\Request::init());
 } catch (Exception $e) {
-    \App\Log::error($e->getMessage().' => '.$e->getFile().':'.$e->getLine());
-    header('HTTP/1.1 400 Bad Request');
+	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+	header('HTTP/1.1 ' . $e->getCode() . ' ' . $e->getMessage());
 }
