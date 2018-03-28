@@ -364,7 +364,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 		container.on("click", '.relatedPopup', function (e) {
 			thisInstance.openPopUp(e);
 		});
-		container.find('.referenceModulesList').select2().on('change', function (e) {
+		container.find('.referenceModulesList')
+				.App.Fields.Picklist.showSelect2ElementView()
+				.on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var parentElem = element.closest('.fieldValue');
 			var popupReferenceModule = element.val();

@@ -80,3 +80,13 @@
 .u-hide-underneath {
   z-index: -1;
 }
+.u-bg-twilight {
+	background-color: #404952 !important;
+	color: #fff;
+}
+.u-bg-modern {
+	background-color: #0d9605 !important;
+}
+.u-hover-bold:hover {
+	@extend .font-weight-bold;
+}
