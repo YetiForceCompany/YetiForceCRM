@@ -40,7 +40,7 @@
 					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
 							{/if}
             </ul>
-            <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
+            <div class="tab-content layoutContent p-3 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
                     {assign var=FIELD_TYPE_INFO value=$SELECTED_MODULE_MODEL->getAddFieldTypeInfo()}
                     {assign var=IS_SORTABLE value=$SELECTED_MODULE_MODEL->isSortableAllowed()}
