@@ -32,13 +32,13 @@
 			<table class="table table-bordered inventoryHeader blockContainer">
 				<thead>
 					<tr data-rownumber="0">
-						<th class="btn-toolbar">
+						<th class="btn-toolbar d-table-cell">
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 								{if \App\Module::isModuleActive($MAIN_MODULE)}
 									{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
-									<span class="btn-group">
+									<span class="btn-group ml-2">
 										<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-light addItem">
+												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-light addItem border">
 											<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
 									</span>

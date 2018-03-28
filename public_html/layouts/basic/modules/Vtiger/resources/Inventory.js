@@ -421,7 +421,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				sum += value;
 			}
 		});
-		container.find('.panel-footer input').val(app.parseNumberToShow(sum));
+		container.find('.js-panel-footer input').val(app.parseNumberToShow(sum));
 	},
 	calculatTaxSummary: function () {
 		var thisInstance = this;
@@ -436,7 +436,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			row.appendTo(container.find('.panel-body'));
 			sum += taxs[index];
 		}
-		container.find('.panel-footer input').val(app.parseNumberToShow(sum));
+		container.find('.js-panel-footer input').val(app.parseNumberToShow(sum));
 	},
 	getAllTaxs: function () {
 		var thisInstance = this;
