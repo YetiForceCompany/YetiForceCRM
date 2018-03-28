@@ -26,7 +26,7 @@
 			<div class="row">
                 <div class="col-md-6 col-sm-6 col-12">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
-						<div class="btn-group paddingRight10 relatedViewGroup">
+						<div class="btn-group pr-2 relatedViewGroup">
 							{assign var=TEXT_HOLDER value=''}
 							{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
 								{if $RELATED_VIEW == $RELATEDLIST_VIEW->get('view')}
@@ -62,7 +62,7 @@
 					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
-							<div class="btn-group paddingRight10">
+							<div class="btn-group pr-2">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-light addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
@@ -86,7 +86,7 @@
 				<div class="col-md-6 col-sm-6 col-12">
 					<div class="float-right">
 						{if $VIEW_MODEL}
-							<div class="float-right paddingLeft5px">
+							<div class="float-right pl-1">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 								<div class="dropdown dropdownEntityState">
