@@ -64,15 +64,15 @@
                             {assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
                             {assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
                             {$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
-                            <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px;background: white;">
-                                <div class="row layoutBlockHeader no-margin">
-                                    <div class="blockLabel col-md-6 col-sm-6 padding10 marginLeftZero">
+                            <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px;background: white;">
+                                <div class="row layoutBlockHeader m-0">
+                                    <div class="blockLabel col-md-6 col-sm-6 padding10 ml-0">
                                         {if $IS_BLOCK_SORTABLE}
 											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 										{/if}
                                         <strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 marginLeftZero">
+                                    <div class="col-md-6 col-sm-6 ml-0">
 										<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
@@ -107,12 +107,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="blockFieldsList blockFieldsSortable row no-margin" style="padding:5px;min-height: 27px">
+                                <div class="blockFieldsList blockFieldsSortable row m-0" style="padding:5px;min-height: 27px">
                                     <ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}" class="sortTableUl connectedSortable col-md-6">
                                         {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
                                                 <li>
-                                                    <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
+                                                    <div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row p-2">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
                                                             <div class="col-2 col-sm-2">&nbsp;
@@ -122,7 +122,7 @@
                                                                     </a>
                                                                 {/if}
                                                             </div>
-                                                            <div class="col-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+                                                            <div class="col-10 col-sm-10 ml-0 fieldContainer" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
@@ -130,20 +130,20 @@
 																</span>
 																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
-																	<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																	<button class="btn btn-primary btn-sm copyFieldLabel float-right ml-1" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
+																		<button class="btn btn-success btn-sm editFieldDetails ml-1">
 																			<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
+																		<button class="btn btn-danger btn-sm deleteCustomField ml-1" data-field-id="{$FIELD_MODEL->get('id')}">
 																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
-																	<button class="btn btn-info btn-sm js-context-help marginLeft5" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}" data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
+																	<button class="btn btn-info btn-sm js-context-help ml-1" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}" data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
 																		<span class="fas fa-info-circle" title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																</span>
@@ -158,7 +158,7 @@
 										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 												<li>
-													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
+													<div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row p-2">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 															<div class="col-2 col-sm-2">&nbsp;
@@ -168,28 +168,28 @@
 																	</a>
 																{/if}
 															</div>
-															<div class="col-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
+															<div class="col-10 col-sm-10 ml-0 fieldContainer" style="word-wrap: break-word;">
 																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
 																</span>
 																<span class="float-right actions">
-																	<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																	<button class="btn btn-primary btn-sm copyFieldLabel float-right ml-1" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
+																		<button class="btn btn-success btn-sm editFieldDetails ml-1">
 																			<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
+																		<button class="btn btn-danger btn-sm deleteCustomField ml-1" data-field-id="{$FIELD_MODEL->get('id')}">
 																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
-																	<button class="btn btn-info btn-sm js-context-help marginLeft5" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}" data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
+																	<button class="btn btn-info btn-sm js-context-help ml-1" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}" data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
 																		<span class="fas fa-info-circle" title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																</span>
