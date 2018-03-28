@@ -309,7 +309,6 @@ abstract class View extends Base
 			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',
 			'~layouts/resources/app.js',
-			'~layouts/resources/fields/fileUpload.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
