@@ -15,7 +15,6 @@ class FileUpload {
 			autoUpload: false,
 			acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
 			// event handlers
-			done: thisInstance.done.bind(thisInstance),
 			submit: thisInstance.submit.bind(thisInstance),
 			add: thisInstance.add.bind(thisInstance),
 			progressall: thisInstance.progressAll.bind(thisInstance),
@@ -38,18 +37,6 @@ class FileUpload {
 	}
 
 	/**
-	 * Done event handler from jQuery-file-upload
-	 *
-	 * @param {Event} e
-	 * @param {Object} data
-	 */
-	done(e, data) {
-		$.each(data.result.files, function (index, file) {
-			console.log('file', file);
-		});
-	}
-
-	/**
 	 * Submit event handler from jQuery-file-upload
 	 *
 	 * @param {Event} e
@@ -57,7 +44,7 @@ class FileUpload {
 	 */
 	submit(e, data) {
 		data.formData = {
-			hash: data.files[0].hash // fileupload send only one file per request
+			hash: data.files[0].hash
 		};
 	}
 
@@ -92,6 +79,58 @@ class FileUpload {
 	}
 
 	/**
+	 * Complete event handler from file upload request
+	 * @param result
+	 * @param textStatus
+	 * @param jqXHR
+	 */
+	complete(result, textStatus, jqXHR) {
+		//$(this.component).find('.c-multi-image__progress').addClass('d-none');
+	}
+
+	/**
+	 * Error event handler from file upload request
+	 * @param jqXHR
+	 * @param textStatus
+	 * @param errorThrown
+	 */
+	error(jqXHR, textStatus, errorThrown) {
+		app.errorLog(new Error(app.vtranslate("JS_FILE_UPLOAD_ERROR")));
+	}
+
+	/**
+	 * Success event handler from file upload request
+	 *
+	 * @param result
+	 * @param textStatus
+	 * @param jqXHR
+	 */
+	success(response, textStatus, jqXHR) {
+		const attach = response.result.attach;
+		const hash = attach.hash;
+		if (!hash) {
+			return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
+		}
+		const fileInfo = this.getFileInfo(hash);
+		this.addFileInfoProperty(hash, 'id', attach.id);
+		this.addFileInfoProperty(hash, 'fileSize', attach.size);
+		this.addFileInfoProperty(hash, 'name', attach.name);
+		this.removePreviewPopover(hash);
+		this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
+		this.updateFormValues();
+	}
+
+	/**
+	 * Update form input values
+	 */
+	updateFormValues() {
+		const formValues = this.files.map(file => {
+			return {id: file.id, name: file.name, size: file.fileSize};
+		});
+		$(this.component).find('.c-multi-image__values').val(JSON.stringify(formValues));
+	}
+
+	/**
 	 * Add event handler from jQuery-file-upload
 	 * @param {Event} e
 	 * @param {object} data
@@ -103,19 +142,11 @@ class FileUpload {
 				this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
 			}
 		});
-		$(this.component).find('.c-multi-image__progress').removeClass('d-none');
+		//$(this.component).find('.c-multi-image__progress').removeClass('d-none');
 		data.submit()
-			.success((result, textStatus, jqXHR) => {
-				console.log('upload success', this);
-				$(this.component).find('.c-multi-image__progress').addClass('d-none');
-			})
-			.error((jqXHR, textStatus, errorThrown) => {
-				console.log('error', this, errorThrown.message);
-			})
-			.complete((result, textStatus, jqXHR) => {
-				console.log('upload complete', this, textStatus);
-				$(this.component).find('.c-multi-image__progress').addClass('d-none');
-			});
+			.success(this.success.bind(this))
+			.error(this.error.bind(this))
+			.complete(this.complete.bind(this));
 	}
 
 	/**
@@ -126,6 +157,14 @@ class FileUpload {
 	progressAll(e, data) {
 		const progress = parseInt(data.loaded / data.total * 100, 10);
 		$(this.component).find('.c-multi-image__progress-bar').css({width: progress + "%"});
+		if (progress === 100) {
+			setTimeout(() => {
+				$(this.component.find('.c-multi-image__progress')).addClass('d-none');
+				$(this.component).find('.c-multi-image__progress-bar').css({width: "0%"});
+			}, 1000);
+		} else {
+			$(this.component.find('.c-multi-image__progress')).removeClass('d-none');
+		}
 	}
 
 	/**
@@ -136,7 +175,6 @@ class FileUpload {
 	zoomPreview(hash) {
 		const thisInstance = this;
 		const fileInfo = this.getFileInfo(hash);
-		console.log(fileInfo)
 		bootbox.dialog({
 			size: 'large',
 			backdrop: true,
@@ -172,10 +210,11 @@ class FileUpload {
 		bootbox.confirm({
 			title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
 			message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.name}</span>?`,
-			callback: function (result) {
+			callback: (result) => {
 				if (result) {
 					fileInfo.previewElement.popover('dispose').remove();
-
+					this.files = this.files.filter(file => file.hash !== fileInfo.hash);
+					this.updateFormValues();
 				}
 			}
 		});
@@ -203,6 +242,11 @@ class FileUpload {
 	 */
 	addPreviewPopover(file, template, imageSrc) {
 		const thisInstance = this;
+		let fileSize = '';
+		const fileInfo = this.getFileInfo(file.hash);
+		if (typeof fileInfo.fileSize !== 'undefined') {
+			fileSize = `<span class="float-left badge badge-secondary c-multi-image__preview__popover-file-size">${fileInfo.fileSize}</span>`;
+		}
 		return $(template).popover({
 			container: thisInstance.component,
 			title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
@@ -215,11 +259,24 @@ class FileUpload {
 				<h3 class="popover-header"></h3>
 				<div class="popover-body"></div>
 				<div class="text-right popover-footer c-multi-image__preview__popover-actions">
+					${fileSize}
 					<button class="btn btn-sm btn-danger c-multi-image__preview__popover-btn-delete" data-hash="${file.hash}"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
 					<button class="btn btn-sm btn-primary c-multi-image__preview__popover-btn-zoom" data-hash="${file.hash}"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
 				</div>
 			</div>`
 		});
+	}
+
+	/**
+	 * Remove preview popover
+	 *
+	 * @param {String} hash
+	 */
+	removePreviewPopover(hash) {
+		const fileInfo = this.getFileInfo(hash);
+		if (typeof fileInfo.previewElement !== 'undefined') {
+			fileInfo.previewElement.popover('dispose');
+		}
 	}
 
 	/**
@@ -242,10 +299,6 @@ class FileUpload {
 		});
 	}
 
-	imageLoad(e) {
-		console.log('image load', e)
-	}
-
 	/**
 	 * Generate preview of image as html string
 	 * @param {File} file
@@ -255,9 +308,6 @@ class FileUpload {
 		const fr = new FileReader();
 		fr.onload = () => {
 			file.imageSrc = fr.result;
-			file.image = new Image();
-			file.image.onload = this.imageLoad;
-			file.image.src = fr.result;
 			this.addFileInfoProperty(file.hash, 'imageSrc', file.imageSrc);
 			this.addFileInfoProperty(file.hash, 'image', file.image);
 			callback(`<div class="d-inline-block mr-1 mb-1 c-multi-image__preview" id="c-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}">

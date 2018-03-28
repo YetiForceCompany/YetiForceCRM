@@ -80,13 +80,11 @@ abstract class Vtiger_Basic_File
 	public function post(\App\Request $request)
 	{
 		$attach = [];
-		$files = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
-
-		foreach ($files as $key => $file) {
+		foreach (Vtiger_Util_Helper::transformUploadedFiles($_FILES, true) as $key => $file) {
 			foreach ($file as $fileData) {
 				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
 				if ($result) {
-					$attach[] = ['id' => $result, 'name' => $fileData['name'], 'size' => \vtlib\Functions::showBytes($fileData['size'])];
+					$attach[] = ['id' => $result, 'hash' => $request->getByType('hash', 'string'), 'name' => $fileData['name'], 'size' => \vtlib\Functions::showBytes($fileData['size'])];
 				}
 			}
 		}
