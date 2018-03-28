@@ -62,7 +62,7 @@ var Settings_Index_Js = {
 			Settings_Index_Js.changeTranslation(e, position)
 		});
 		$('#edit_lang .js-add-translation').on('click', Settings_Index_Js.ShowTranslationMondal);
-		$('#edit_lang .js-delete')on('click', function (e) {
+		$('#edit_lang .js-delete').on('click', function (e) {
 			Settings_Index_Js.deleteTranslation(e, position)
 		});
 		$('.LangManagement ' + position + ' .show_differences').on('click', Settings_Index_Js.ShowDifferences);

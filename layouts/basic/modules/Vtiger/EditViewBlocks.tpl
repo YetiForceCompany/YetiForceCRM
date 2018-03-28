@@ -48,7 +48,7 @@
 				{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 					<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}" />
 				{/foreach}
-				<div class='widget_header row mb-1'>
+				<div class='widget_header row mb-3'>
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
@@ -59,7 +59,7 @@
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel__content row  mx-1" data-js="click" data-label="{$BLOCK_LABEL}">
+					<div class="js-toggle-panel c-panel__content row  mx-1 mb-3" data-js="click" data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}

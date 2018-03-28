@@ -102,7 +102,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	content: false,
 	listSearchInstance: false,
 	detailViewContentHolder: false,
-	relatedView: false,
 	frameProgress: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
@@ -118,7 +117,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	setRelatedContainer: function (container) {
 		this.content = container;
-		this.relatedView = container.find('input.relatedView').val();
 	},
 	getContentHolder: function () {
 		if (this.detailViewContentHolder == false) {
@@ -148,7 +146,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			sortorder: this.getSortOrder(),
 			orderby: this.getOrderBy(),
 			page: this.getCurrentPageNum(),
-			relatedView: this.relatedView,
 			mode: 'showRelatedList'
 		};
 		if (container.find('.pagination').length) {
@@ -607,7 +604,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerRowsEvent: function () {
 		var thisInstance = this;
-		if (this.relatedView == 'List') {
+		if (CONFIG.view === 'List' || CONFIG.view === 'Detail') {
 			this.content.find('.listViewEntries').on('click', function (e) {
 				var target = $(e.target);
 				if (target.is('td')) {
@@ -626,7 +623,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					inventoryRow.toggleClass('d-none');
 				}
 			});
-		} else if (this.relatedView == 'ListPreview') {
+		} else if (CONFIG.view === 'ListPreview') {
 			this.content.find('.listViewEntries').on('click', function (e) {
 				if ($(e.target).closest('div').hasClass('actions'))
 					return;
@@ -830,7 +827,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.showBtnSwitch(this.content.find('.switchBtn'));
 		app.showPopoverElementView(this.content.find('.popoverTooltip'));
 		this.registerRowsEvent();
-		if (this.relatedView == 'ListPreview') {
+		if (CONFIG.view === 'ListPreview') {
 			this.registerPreviewEvent();
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
