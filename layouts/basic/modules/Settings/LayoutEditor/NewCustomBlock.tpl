@@ -12,7 +12,7 @@
 {strip}
 	<div class="newCustomBlockCopy d-none mb-2 border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
 		<div class="row layoutBlockHeader m-0">
-			<div class="col-md-6 blockLabel padding10">
+			<div class="col-md-6 blockLabel p-2">
 				<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 			</div>
 			<div class="col-md-6 ml-0">
@@ -44,9 +44,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="blockFieldsList row blockFieldsSortable m-0" style="padding:5px;min-height: 27px">
-			<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-			<ul class="connectedSortable col-md-6 ui-sortable m-0" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+		<div class="blockFieldsList row blockFieldsSortable m-0 p-1" style="min-height: 27px;">
+			<ul class="connectedSortable col-md-6 ui-sortable p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable1"></ul>
+			<ul class="connectedSortable col-md-6 ui-sortable m-0 p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable2"></ul>
 		</div>
 	</div>
 {/strip}
