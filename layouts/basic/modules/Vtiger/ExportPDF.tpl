@@ -17,9 +17,9 @@
 			{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
 				<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
 			{/foreach}
-			<div class="panel panel-default">
-				<div class="panel-heading"><strong>{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</strong></div>
-				<div class="panel-body">
+			<div class="card">
+				<div class="card-header"><strong>{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</strong></div>
+				<div class="card-body">
 					{foreach from=$TEMPLATES item=TEMPLATE}
 						<div class="form-group row form-horizontal">
 							<label class="col-sm-6 col-form-label" for="pdfTpl{$TEMPLATE->getId()}">
