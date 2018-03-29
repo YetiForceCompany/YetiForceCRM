@@ -9,7 +9,7 @@
 			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}&record={$RECORD->getId()}"
 			   multiple>
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}[]"
-			   id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getFieldName()}" value="{$FIELD_VALUE}"
+			   id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getFieldName()}" value="{\App\Json::encode($FIELD_VALUE)}"
 			   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true)} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo='{$FIELD_INFO}'
 			   class="js-multi-image__values" data-js="value"

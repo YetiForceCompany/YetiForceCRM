@@ -359,7 +359,7 @@ class MultiImage {
 	}
 
 	sortStart(e, ui) {
-		console.log('start', ui)
+
 	}
 
 	/**
