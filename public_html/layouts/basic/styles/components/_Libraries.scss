@@ -78,6 +78,12 @@ header {
 	padding: 6px !important;
 	border-radius: 0.25rem
 }
+.select2-selection__rendered[title=Twilight] {
+	@extend .u-bg-twilight;
+}
+.select2-selection__rendered[title=Modern] {
+	@extend .u-bg-modern;
+}
 .select2-selection[aria-labelledby^="select2-theme"] {
 	@extend .p-0;
 }

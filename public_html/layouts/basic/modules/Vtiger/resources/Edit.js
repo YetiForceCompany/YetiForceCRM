@@ -1357,7 +1357,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	checkReferencesField: function (container, clear) {
 		var thisInstance = this;
 		var activeProcess = false, activeSubProcess = false;
-		if (!app.getMainParams('fieldsReferencesDependent')) {
+		if (!CONFIG.fieldsReferencesDependent) {
 			return false;
 		}
 		container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
@@ -1432,7 +1432,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
-		if (!app.getMainParams('fieldsReferencesDependent')) {
+		if (!CONFIG.fieldsReferencesDependent) {
 			return false;
 		}
 		thisInstance.checkReferenceModulesList(container);

@@ -1280,10 +1280,6 @@ app = {
 }
 jQuery(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
-	//register all select2 Elements
-	jQuery('body').find('select.select2').each(function (e) {
-		App.Fields.Picklist.showSelect2ElementView($(this));
-	});
 	App.Fields.Picklist.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
