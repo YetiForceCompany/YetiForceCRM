@@ -4,9 +4,14 @@
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header contentsBackground align-items-center">
+					<span class="fa-layers fa-fw mr-2">
+						<i class="fas fa-circle" data-fa-transform="grow-6"></i>
+						<i class="fa-inverse fas fa-long-arrow-alt-up text-white" data-fa-transform="shrink-6  left-4"></i>
+						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
+					</span>
+					<span class="modal-title h5">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</span>
 					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h3>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />

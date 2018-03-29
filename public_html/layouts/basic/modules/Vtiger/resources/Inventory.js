@@ -410,33 +410,33 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		container.removeClass('d-none');
 		var taxs = thisInstance.getAllTaxs();
 		var sum = 0;
-		container.find('.panel-body').html('');
+		container.find('.js-panel__body').html('');
 		$.each(taxs, function (index, value) {
 			if (value != undefined) {
 				value = value * conversionRate;
 				var row = container.find('.d-none .form-group').clone();
 				row.find('.percent').text(index + '%');
 				row.find('input').val(app.parseNumberToShow(value));
-				row.appendTo(container.find('.panel-body'));
+				row.appendTo(container.find('.js-panel__body'));
 				sum += value;
 			}
 		});
-		container.find('.js-panel-footer input').val(app.parseNumberToShow(sum));
+		container.find('.js-panel__footer input').val(app.parseNumberToShow(sum));
 	},
 	calculatTaxSummary: function () {
 		var thisInstance = this;
 		var taxs = thisInstance.getAllTaxs();
 		var container = thisInstance.getInventorySummaryTaxesContainer();
-		container.find('.panel-body').html('');
+		container.find('.js-panel__body').html('');
 		var sum = 0;
 		for (var index in taxs) {
 			var row = container.find('.d-none .form-group').clone();
 			row.find('.percent').text(app.parseNumberToShow(app.parseNumberToFloat(index)) + '%');
 			row.find('input').val(app.parseNumberToShow(taxs[index]));
-			row.appendTo(container.find('.panel-body'));
+			row.appendTo(container.find('.js-panel__body'));
 			sum += taxs[index];
 		}
-		container.find('.js-panel-footer input').val(app.parseNumberToShow(sum));
+		container.find('.js-panel__footer input').val(app.parseNumberToShow(sum));
 	},
 	getAllTaxs: function () {
 		var thisInstance = this;
@@ -874,8 +874,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				$.each(array, function (index, arrayValue) {
 					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
 					if (param == 'aggregationType') {
-						value.closest('.panel').find('.panel-body').show();
-						value.closest('.panel').addClass('activepanel');
+						value.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+						value.closest('.js-panel').addClass('activepanel');
 					}
 				});
 			} else if (field.prop("tagName") == 'SELECT') {
@@ -910,8 +910,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				$.each(array, function (index, arrayValue) {
 					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
 					if (param == 'aggregationType') {
-						value.closest('.panel').find('.panel-body').show();
-						value.closest('.panel').addClass('activepanel');
+						value.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+						value.closest('.js-panel').addClass('activepanel');
 					}
 				});
 			} else if (field.prop("tagName") == 'SELECT') {
@@ -1231,22 +1231,22 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		modal.on('change', '.individualDiscountType', function (e) {
 			var element = $(e.currentTarget);
-			modal.find('.individualDiscountContainer .input-group-addon').text(element.data('symbol'));
+			modal.find('.individualDiscountContainer .input-group-text').text(element.data('symbol'));
 		});
 		modal.on('change', '.activeCheckbox[name="aggregationType"]', function (e) {
 			var element = $(e.currentTarget);
 
 			if (element.attr('type') == 'checkbox' && this.checked) {
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('activepanel');
 			} else if (element.attr('type') == 'radio') {
-				modal.find('.panel').removeClass('activepanel');
-				modal.find('.panel .panel-body').hide();
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				modal.find('.js-panel').removeClass('activepanel');
+				modal.find('.js-panel .js-panel__body').addClass('d-none');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('activepanel');
 			} else {
-				element.closest('.panel').find('.panel-body').hide();
-				element.closest('.panel').removeClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').addClass('d-none');
+				element.closest('.js-panel').removeClass('activepanel');
 			}
 		});
 		modal.on('change', '.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox', function (e) {
@@ -1326,22 +1326,22 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		modal.on('change', '.individualTaxType', function (e) {
 			var element = $(e.currentTarget);
-			modal.find('.individualTaxContainer .input-group-addon').text(element.data('symbol'));
+			modal.find('.individualTaxContainer .input-group-text').text(element.data('symbol'));
 		});
 		modal.on('change', '.activeCheckbox[name="aggregationType"]', function (e) {
 			var element = $(e.currentTarget);
 
 			if (element.attr('type') == 'checkbox' && this.checked) {
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('activepanel');
 			} else if (element.attr('type') == 'radio') {
-				modal.find('.panel').removeClass('activepanel');
-				modal.find('.panel .panel-body').hide();
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				modal.find('.js-panel').removeClass('activepanel');
+				modal.find('.js-panel .js-panel__body').addClass('d-none');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('activepanel');
 			} else {
-				element.closest('.panel').find('.panel-body').hide();
-				element.closest('.panel').removeClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').addClass('d-none');
+				element.closest('.js-panel').removeClass('activepanel');
 			}
 		});
 		modal.on('change', '.activeCheckbox, .globalTax, .individualTaxValue, .groupTax, .regionalTax', function (e) {
