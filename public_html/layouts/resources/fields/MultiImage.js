@@ -4,6 +4,7 @@ class MultiImage {
 
 	/**
 	 * Create class instance
+	 *
 	 * @param {HTMLElement|jQuery} inputElement - input type file element inside component
 	 */
 	constructor(inputElement) {
@@ -52,6 +53,7 @@ class MultiImage {
 
 	/**
 	 * Prevent form submition
+	 *
 	 * @param {Event} e
 	 */
 	addButtonClick(e) {
@@ -176,6 +178,7 @@ class MultiImage {
 
 	/**
 	 * Add event handler from jQuery-file-upload
+	 *
 	 * @param {Event} e
 	 * @param {object} data
 	 */
@@ -191,6 +194,7 @@ class MultiImage {
 
 	/**
 	 * Progressall event handler from jQuery-file-upload
+	 *
 	 * @param {Event} e
 	 * @param {Object} data
 	 */
@@ -209,6 +213,7 @@ class MultiImage {
 
 	/**
 	 * Dragover event handler from jQuery-file-upload
+	 *
 	 * @param {Event} e
 	 */
 	dragOver(e) {
@@ -258,6 +263,7 @@ class MultiImage {
 
 	/**
 	 * Remove file from preview and from file list
+	 *
 	 * @param {String} hash
 	 */
 	deleteFileCallback(hash) {
@@ -270,6 +276,7 @@ class MultiImage {
 	/**
 	 * Delete image from input field
 	 * Should be called with this pointing on button element with data-hash attribute
+	 *
 	 * @param {string} hash
 	 */
 	deleteFile(hash, showConfirmation = true) {
@@ -371,6 +378,7 @@ class MultiImage {
 
 	/**
 	 * Generate preview of image as html string
+	 *
 	 * @param {File} file
 	 * @param {function} callback
 	 */
