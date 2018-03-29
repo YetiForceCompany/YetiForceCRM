@@ -305,8 +305,8 @@ class MultiImage {
 				<div class="popover-body"></div>
 				<div class="text-right popover-footer js-multi-image__popover-actions">
 					${fileSize}
-					<button class="btn btn-sm btn-danger js-multi-image__popover-btn-delete" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
-					<button class="btn btn-sm btn-primary js-multi-image__popover-btn-zoom" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
+					<button class="btn btn-sm btn-danger js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
+					<button class="btn btn-sm btn-primary js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
 				</div>
 			</div>`
 		});
