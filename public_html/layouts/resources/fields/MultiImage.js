@@ -357,12 +357,23 @@ class MultiImage {
 		}
 	}
 
-	sortChange(e, ui) {
+	/**
+	 * Hide popovers when user starts moving file preview
+	 *
+	 * @param {Event} e
+	 * @param {Object} ui
+	 */
+	sortOver(e, ui) {
 		this.elements.result.find('.js-multi-image__preview').popover('hide');
 	}
 
+	/**
+	 * Update file position according to elements order
+	 *
+	 * @param {Event} e
+	 * @param {Object} ui
+	 */
 	sortStop(e, ui) {
-		// update file position according to elements order
 		const actualElements = this.elements.result.find('.js-multi-image__preview').toArray();
 		this.files = actualElements.map((element) => {
 			for (let i = 0, len = this.files.length; i < len; i++) {
@@ -381,7 +392,7 @@ class MultiImage {
 		this.elements.result.sortable({
 			handle: '.js-multi-image__preview-img',
 			items: '.js-multi-image__preview',
-			change: this.sortChange.bind(this),
+			over: this.sortOver.bind(this),
 			stop: this.sortStop.bind(this),
 		}).disableSelection().on('mousedown', '.js-multi-image__preview-img', function (e) {
 			this.focus(); // focus to show popover
