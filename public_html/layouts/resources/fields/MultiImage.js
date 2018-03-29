@@ -7,6 +7,7 @@ class MultiImage {
 	 * @param {HTMLElement|jQuery} inputElement - input type file element inside component
 	 */
 	constructor(inputElement) {
+		const thisInstance = this;
 		this.files = [];
 		this.elements = {};
 		this.elements.fileInput = $(inputElement);
@@ -37,15 +38,15 @@ class MultiImage {
 		this.elements.component.on('dragend', this.dragLeave.bind(this));
 		this.elements.fileInput.fileupload('option', 'dropZone', $(this.elements.component));
 		this.elements.component.on('click', '.js-multi-image__popover-img', function (e) {
-			this.zoomPreview($(this).data('hash'));
+			thisInstance.zoomPreview($(this).data('hash'));
 		});
 		this.elements.component.on('click', '.js-multi-image__popover-btn-zoom', function (e) {
 			e.preventDefault();
-			this.zoomPreview($(this).data('hash'));
+			thisInstance.zoomPreview($(this).data('hash'));
 		});
 		this.elements.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
 			e.preventDefault();
-			this.deleteFile($(this).data('hash'));
+			thisInstance.deleteFile($(this).data('hash'));
 		});
 	}
 
@@ -119,6 +120,30 @@ class MultiImage {
 			response.result.attach.forEach((fileAttach) => {
 				this.deleteFile(fileAttach.hash, false);
 
+				if (typeof fileAttach.error === 'string') {
+					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
+				} else {
+					Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${fileAttach.name}]`);
+				}
+			});
+			this.updateFormValues();
+			return;
+		}
+		// else show default upload error
+		files.forEach((file) => {
+			this.deleteFile(file.hash, false);
+			Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${file.name}]`);
+		});
+		this.updateFormValues();
+		const {jqXHR, files} = data;
+		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
+			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
+		}
+		const response = jqXHR.responseJSON;
+		// first try to show error for concrete file
+		if (typeof response.attach !== 'undefined' && Array.isArray(response.attach)) {
+			response.attach.forEach((fileAttach) => {
+				this.deleteFile(fileAttach.hash, false);
 				if (typeof fileAttach.error === 'string') {
 					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
 				} else {
