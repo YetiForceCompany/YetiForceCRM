@@ -2,8 +2,10 @@
 {strip}
 	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h3>
+			<h5 class="modal-title">{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body">
 			<input type="hidden" name="all_records" id="all_records" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
