@@ -21,12 +21,12 @@
 				<div class="card-header"><strong>{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</strong></div>
 				<div class="card-body">
 					{foreach from=$TEMPLATES item=TEMPLATE}
-						<div class="form-group row form-horizontal">
-							<label class="col-sm-6 col-form-label" for="pdfTpl{$TEMPLATE->getId()}">
+						<div class="form-group row">
+							<label class="col-sm-6 col-form-label text-right pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 								{$TEMPLATE->get('primary_name')}<br />
 								<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>
 							</label>
-							<div class="col-sm-6 control-group">
+							<div class="col-sm-6">
 								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
 							</div>
 						</div>
