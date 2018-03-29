@@ -5221,7 +5221,7 @@ button.bg-dark:focus {
 .mx-5 {
   margin-left: 3rem !important; }
 
-.p-0, .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .c-panel_label, .dataTables_wrapper .row, .daterangepicker.show-calendar {
+.p-0, .select2-selection[aria-labelledby^="select2-theme"], .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .c-panel_label, .dataTables_wrapper .row, .daterangepicker.show-calendar {
   padding: 0 !important; }
 
 .pt-0,
@@ -5280,7 +5280,7 @@ button.bg-dark:focus {
 .p-2 {
   padding: 0.5rem !important; }
 
-.pt-2, .dashboardViewContainer .select2-selection.select2-selection--single, header .select2-selection.select2-selection--single,
+.pt-2, .dashboardViewContainer .select2-selection.select2-selection--single, header .select2-selection.select2-selection--single, .o-calendar-container,
 .py-2,
 .select2-container--bootstrap4 ul.select2-selection__rendered {
   padding-top: 0.5rem !important; }
@@ -5317,7 +5317,7 @@ button.bg-dark:focus {
 .c-detail-widget__content {
   padding-right: 1rem !important; }
 
-.pb-3, .o-celandar-container,
+.pb-3,
 .py-3 {
   padding-bottom: 1rem !important; }
 
@@ -6449,7 +6449,7 @@ button.bg-dark:focus {
 .font-weight-normal {
   font-weight: 400 !important; }
 
-.font-weight-bold, .u-text-small-bold, .u-alphabet-sorting a {
+.font-weight-bold, .u-text-small-bold, .u-alphabet-sorting a, .u-hover-bold:hover {
   font-weight: 700 !important; }
 
 .font-italic {
@@ -10468,7 +10468,7 @@ border1px {
 .formActionsPanel {
   position: fixed;
   bottom: 33px;
-  height: 45px;
+  height: 48px;
   width: calc(100% - 50px);
   background: #f8f9fa;
   margin-left: -10px;
@@ -10552,6 +10552,12 @@ border1px {
   transform: rotate(0.75turn);
   position: absolute; }
 
+.u-magin-left-zero {
+  margin-left: 0px !important; }
+
+.u-w-auto {
+  width: auto !important; }
+
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
     border-bottom: 1px solid #dee2e6; } }
@@ -10569,6 +10575,13 @@ border1px {
 
 .u-hide-underneath {
   z-index: -1; }
+
+.u-bg-twilight {
+  background-color: #404952 !important;
+  color: #fff; }
+
+.u-bg-modern {
+  background-color: #0d9605 !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .bodyHeader .dropdown-toggle::after, .listViewTopMenuDiv .listViewActionsDiv .dropdownEntityState .dropdown-toggle::after {
@@ -10593,7 +10606,7 @@ border1px {
   background-size: cover;
   background-position: center; }
 
-.c-multi-image__preview__popover-img {
+.c-multi-image__popover-img {
   cursor: pointer; }
 
 .popover-footer {
@@ -10646,6 +10659,10 @@ header .headerLinksMails .select2-selection:hover {
   .fieldUiHolder .select2-container--bootstrap4 {
     width: 100% !important; }
 
+.select2-selection__rendered.u-hover-bold {
+  padding: 6px !important;
+  border-radius: 0.25rem; }
+
 .leaflet-popup-content {
   width: 62px; }
 
@@ -10689,7 +10706,7 @@ ul.ui-autocomplete {
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
   height: 18.6rem !important; }
 
-.o-celandar-container .fc-basic-view .fc-body .fc-row {
+.o-calendar-container .fc-basic-view .fc-body .fc-row {
   min-height: 9em !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */

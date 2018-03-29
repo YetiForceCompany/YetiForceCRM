@@ -163,7 +163,6 @@ class Encryption extends Base
 			return $decrypted;
 		}
 		$encrypted = openssl_encrypt($decrypted, $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
-
 		return base64_encode($encrypted);
 	}
 
@@ -180,7 +179,6 @@ class Encryption extends Base
 			return $encrypted;
 		}
 		$decrypted = openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
-
 		return $decrypted;
 	}
 
@@ -245,7 +243,6 @@ class Encryption extends Base
 		for ($i = 0; $i < $missing; ++$i) {
 			$password .= $allChars[array_rand($allChars)];
 		}
-
 		return str_shuffle($password);
 	}
 
@@ -275,7 +272,6 @@ class Encryption extends Base
 		if ($passDetail['special'] === 'true') {
 			$type .= 's';
 		}
-
 		return static::generatePassword($length, $type);
 	}
 
