@@ -366,7 +366,6 @@ class MultiImage {
 	 * Enable drag and drop files repositioning
 	 */
 	enableDragNDrop() {
-		const thisInstance = this;
 		this.elements.result.sortable({
 			handle: '.js-multi-image__preview-img',
 			items: '.js-multi-image__preview',
