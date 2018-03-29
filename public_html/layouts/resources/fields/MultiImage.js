@@ -38,6 +38,7 @@ class MultiImage {
 		this.elements.component.on('dragleave', this.dragLeave.bind(this));
 		this.elements.component.on('dragend', this.dragLeave.bind(this));
 		this.elements.fileInput.fileupload('option', 'dropZone', $(this.elements.component));
+		this.enableDragNDrop();
 		this.elements.component.on('click', '.js-multi-image__popover-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
@@ -355,6 +356,24 @@ class MultiImage {
 		if (typeof fileInfo.previewElement !== 'undefined') {
 			fileInfo.previewElement.popover('dispose');
 		}
+	}
+
+	sortStart(e, ui) {
+		console.log('start', ui)
+	}
+
+	/**
+	 * Enable drag and drop files repositioning
+	 */
+	enableDragNDrop() {
+		const thisInstance = this;
+		this.elements.result.sortable({
+			handle: '.js-multi-image__preview-img',
+			items: '.js-multi-image__preview',
+			start: this.sortStart.bind(this),
+		}).disableSelection().on('mousedown', '.js-multi-image__preview-img', function (e) {
+			this.focus(); // focus to show popover
+		});
 	}
 
 	/**
