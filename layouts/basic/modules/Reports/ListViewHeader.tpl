@@ -52,7 +52,7 @@
 					{/foreach}
 				</span>
 				<span class="foldersContainer btn-toolbar col-md-4">{include file=\App\Layout::getTemplatePath('ListViewFolders.tpl', $MODULE)}</span>
-				<span class="col-md-4 btn-toolbar">
+				<span class="col-md-4 btn-toolbar d-flex flex-row-reverse">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $MODULE)}
 				</span>
 			</div>
