@@ -1,14 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if $GROUP_TAXS}
-		<div class="panel panel-default">
-			<div class="panel-heading">
+		<div class="card js-panel">
+			<div class="card-header">
 				<strong>{\App\Language::translate('LBL_REGIONAL_TAX', $MODULE)}</strong>
 				<div class="float-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="account" class="activeCheckbox">
 				</div>
 			</div>
-			<div class="panel-body" style="display: none;">
+			<div class="card-body js-panel__body d-none" data-js="class: d-none">
 				<div>
 					<p>
 						{\App\Language::translate('LBL_TAX_FOR_ACCOUNT', $MODULE)}: {$ACCOUNT_NAME}
