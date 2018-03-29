@@ -107,7 +107,7 @@ class MultiImage {
 	 */
 	error(jqXHR, textStatus, errorThrown) {
 		app.errorLog("File upload error.");
-		Vtiger_Helper_Js.showPnotify({text: app.vtranslate("JS_FILE_UPLOAD_ERROR")});
+		Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
 	}
 
 	/**
@@ -126,7 +126,7 @@ class MultiImage {
 		if (typeof attach.id === 'undefined') {
 			const filename = this.getFileInfo(hash).name;
 			this.deleteFile(hash, false);
-			return Vtiger_Helper_Js.showPnotify({text: app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${filename}]`});
+			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${filename}]`);
 		}
 		const fileInfo = this.getFileInfo(hash);
 		this.addFileInfoProperty(hash, 'id', attach.id);
