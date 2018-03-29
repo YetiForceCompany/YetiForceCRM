@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+App = {};
 app = {
 	/**
 	 * variable stores client side language strings
@@ -212,11 +213,11 @@ app = {
 		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
 		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 			$(document).off('focusin.bs.modal') // guard against infinite focus loop
-				.on('focusin.bs.modal', $.proxy(function (e) {
-					if ($(e.target).hasClass('select2-search__field')) {
-						return true;
-					}
-				}, this))
+					.on('focusin.bs.modal', $.proxy(function (e) {
+						if ($(e.target).hasClass('select2-search__field')) {
+							return true;
+						}
+					}, this))
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.modal(params);
@@ -971,11 +972,11 @@ app = {
 	},
 	formatDate: function (date) {
 		var y = date.getFullYear(),
-			m = date.getMonth() + 1,
-			d = date.getDate(),
-			h = date.getHours(),
-			i = date.getMinutes(),
-			s = date.getSeconds();
+				m = date.getMonth() + 1,
+				d = date.getDate(),
+				h = date.getHours(),
+				i = date.getMinutes(),
+				s = date.getSeconds();
 		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
 	},
 	formatDateZ: function (i) {
@@ -1003,12 +1004,12 @@ app = {
 			}
 		}
 		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -1358,5 +1359,3 @@ jQuery(document).ready(function () {
 	}
 	bootbox.setLocale(CONFIG.langKey);
 })(jQuery);
-jQuery.migrateMute = true;
-App = {}

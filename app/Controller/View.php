@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 /**
@@ -11,6 +10,7 @@ namespace App\Controller;
  */
 abstract class View extends Base
 {
+
 	/**
 	 * Viewer instance.
 	 *
@@ -207,7 +207,6 @@ abstract class View extends Base
 		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
-
 	/**
 	 * Retrieves css styles that need to loaded in the page.
 	 *
@@ -226,30 +225,30 @@ abstract class View extends Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
-			'~layouts/resources/icons/userIcons.css',
-			'~layouts/resources/icons/adminIcons.css',
-			'~layouts/resources/icons/additionalIcons.css',
-			'~libraries/chosen-js/chosen.css',
-			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
-			'~libraries/jquery-ui-dist/jquery-ui.css',
-			'~libraries/selectize/dist/css/selectize.bootstrap3.css',
-			'~libraries/select2/dist/css/select2.css',
-			'~libraries/simplebar/dist/simplebar.css',
-			'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
-			'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
-			'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
-			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
-			'~libraries/footable/css/footable.core.css',
-			'~libraries/js/timepicker/jquery.timepicker.css',
-			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
-			'~libraries/animate.css/animate.css',
-			'~layouts/resources/colors/calendar.css',
-			'~layouts/resources/colors/owners.css',
-			'~layouts/resources/colors/modules.css',
-			'~layouts/resources/colors/picklists.css',
-			'~layouts/resources/styleTemplate.css',
-			'~' . \Vtiger_Theme::getBaseStylePath(),
+				'~layouts/resources/icons/userIcons.css',
+				'~layouts/resources/icons/adminIcons.css',
+				'~layouts/resources/icons/additionalIcons.css',
+				'~libraries/chosen-js/chosen.css',
+				'~libraries/bootstrap-chosen/bootstrap-chosen.css',
+				'~libraries/jquery-ui-dist/jquery-ui.css',
+				'~libraries/selectize/dist/css/selectize.bootstrap3.css',
+				'~libraries/select2/dist/css/select2.css',
+				'~libraries/simplebar/dist/simplebar.css',
+				'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
+				'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
+				'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
+				'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+				'~libraries/bootstrap-daterangepicker/daterangepicker.css',
+				'~libraries/footable/css/footable.core.css',
+				'~libraries/js/timepicker/jquery.timepicker.css',
+				'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
+				'~libraries/animate.css/animate.css',
+				'~layouts/resources/colors/calendar.css',
+				'~layouts/resources/colors/owners.css',
+				'~layouts/resources/colors/modules.css',
+				'~layouts/resources/colors/picklists.css',
+				'~layouts/resources/styleTemplate.css',
+				'~' . \Vtiger_Theme::getBaseStylePath(),
 		]);
 	}
 
@@ -263,9 +262,8 @@ abstract class View extends Base
 	public function getHeaderScripts(\App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
-			'libraries.jquery.dist.jquery',
-			'libraries.jquery-migrate.dist.jquery-migrate',
-			'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
+				'libraries.jquery.dist.jquery',
+				'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
 		]);
 	}
 
@@ -530,39 +528,39 @@ abstract class View extends Base
 	{
 		$userModel = \App\User::getCurrentUserModel();
 		foreach ([
-					 'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
-					 'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
-					 'langPrefix' => \App\Language::getLanguage(),
-					 'langKey' => \App\Language::getShortLanguageName(),
-					 'parentModule' => $request->getByType('parent', 2),
-					 'dateFormat' => $userModel->getDetail('date_format'),
-					 'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
-					 'hourFormat' => $userModel->getDetail('hour_format'),
-					 'startHour' => $userModel->getDetail('start_hour'),
-					 'endHour' => $userModel->getDetail('end_hour'),
-					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')],
-					 'timeZone' => $userModel->getDetail('time_zone'),
-					 'currencyId' => $userModel->getDetail('currency_id'),
-					 'currencyName' => $userModel->getDetail('currency_name'),
-					 'currencyCode' => $userModel->getDetail('currency_code'),
-					 'currencySymbol' => $userModel->getDetail('currency_symbol'),
-					 'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
-					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
-					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
-					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-					 'noOfCurrencyDecimals' => $userModel->getDetail('no_of_currency_decimals'),
-					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
-					 'rowHeight' => $userModel->getDetail('rowheight'),
-					 'userId' => $userModel->getId(),
-					 'backgroundClosingModal' => \AppConfig::main('backgroundClosingModal'),
-					 'globalSearchAutocompleteActive' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
-					 'globalSearchAutocompleteMinLength' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
-					 'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-					 'sounds' => \AppConfig::sounds(),
-					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
-					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
-				 ] as $key => $value) {
+		'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
+		'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
+		'langPrefix' => \App\Language::getLanguage(),
+		'langKey' => \App\Language::getShortLanguageName(),
+		'parentModule' => $request->getByType('parent', 2),
+		'dateFormat' => $userModel->getDetail('date_format'),
+		'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+		'hourFormat' => $userModel->getDetail('hour_format'),
+		'startHour' => $userModel->getDetail('start_hour'),
+		'endHour' => $userModel->getDetail('end_hour'),
+		'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
+		'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')],
+		'timeZone' => $userModel->getDetail('time_zone'),
+		'currencyId' => $userModel->getDetail('currency_id'),
+		'currencyName' => $userModel->getDetail('currency_name'),
+		'currencyCode' => $userModel->getDetail('currency_code'),
+		'currencySymbol' => $userModel->getDetail('currency_symbol'),
+		'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
+		'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+		'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
+		'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
+		'noOfCurrencyDecimals' => $userModel->getDetail('no_of_currency_decimals'),
+		'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
+		'rowHeight' => $userModel->getDetail('rowheight'),
+		'userId' => $userModel->getId(),
+		'backgroundClosingModal' => \AppConfig::main('backgroundClosingModal'),
+		'globalSearchAutocompleteActive' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
+		'globalSearchAutocompleteMinLength' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
+		'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+		'sounds' => \AppConfig::sounds(),
+		'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+		'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
+		] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
 	}

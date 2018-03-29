@@ -360,20 +360,18 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 	},
 	referenceModulePopupRegisterEvent: function (container) {
-		var thisInstance = this;
-		container.on("click", '.relatedPopup', function (e) {
-			thisInstance.openPopUp(e);
+		container.on("click", '.relatedPopup', (e) => {
+			this.openPopUp(e);
 		});
-		container.find('.referenceModulesList')
-				.App.Fields.Picklist.showSelect2ElementView()
-				.on('change', function (e) {
-			var element = jQuery(e.currentTarget);
-			var parentElem = element.closest('.fieldValue');
-			var popupReferenceModule = element.val();
-			var referenceModuleElement = jQuery('input[name="popupReferenceModule"]', parentElem);
-			var prevSelectedReferenceModule = referenceModuleElement.val();
+		let moduleList = container.find('.referenceModulesList');
+		App.Fields.Picklist.showSelect2ElementView(moduleList);
+		moduleList.on('change', (e) => {
+			let element = jQuery(e.currentTarget);
+			let parentElem = element.closest('.fieldValue');
+			let popupReferenceModule = element.val();
+			let referenceModuleElement = jQuery('input[name="popupReferenceModule"]', parentElem);
+			let prevSelectedReferenceModule = referenceModuleElement.val();
 			referenceModuleElement.val(popupReferenceModule);
-
 			//If Reference module is changed then we should clear the previous value
 			if (prevSelectedReferenceModule != popupReferenceModule) {
 				parentElem.find('.clearReferenceSelection').trigger('click');

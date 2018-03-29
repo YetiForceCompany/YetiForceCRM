@@ -79,7 +79,5 @@
 		"url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
 	},
 	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
-	"devDependencies": {
-		"jquery-migrate": ">3.0.0"
-	}
+	"devDependencies": {}
 }
