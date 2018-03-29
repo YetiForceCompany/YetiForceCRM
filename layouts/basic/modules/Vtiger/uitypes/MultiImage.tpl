@@ -15,12 +15,11 @@
 			   multiple>
 		<input type="hidden" class="js-multi-image__values" data-js="value"
 			   name="{$FIELD_MODEL->getFieldName()}[]" value="[]">
-		<div class="js-multi-image__result" data-js="container" data-name="{$FIELD_MODEL->getFieldName()}">
-			<button type="button" class="align-top mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
-					data-js="click">
-				<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
-			</button>
-		</div>
+		<button type="button" class="align-top mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
+				data-js="click">
+			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
+		</button>
+		<div class="js-multi-image__result" data-js="container" data-name="{$FIELD_MODEL->getFieldName()}"></div>
 		<div class="js-multi-image__progress progress d-none my-2" data-js="container|css:display">
 			<div class="js-multi-image__progress-bar progress-bar progress-bar-striped progress-bar-animated"
 				 data-js="css:width"
