@@ -45,6 +45,10 @@
 .c-multi-image__popover-img {
   cursor: pointer;
 }
+.c-multi-image__drop-effect {
+  background: rgba($blue, 0.2);
+  border: $border-width solid rgba($blue, 0.5) !important;
+}
 .popover-footer {
   padding: $popover-header-padding-y $popover-header-padding-x;
   margin-bottom: 0; // Reset the default from Reboot
