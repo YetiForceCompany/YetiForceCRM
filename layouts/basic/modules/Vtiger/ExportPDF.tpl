@@ -2,7 +2,7 @@
 {strip}
 	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 		<div class="modal-header">
-			<h5 class="modal-title">{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h5>
+			<h5 class="modal-title"><span class="fas fa-file-excel mr-1"></span>{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
