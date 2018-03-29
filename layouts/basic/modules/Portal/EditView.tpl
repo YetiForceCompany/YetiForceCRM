@@ -14,14 +14,17 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">
+					<h5 class="modal-title">
+						<span class="fas fa-plus mr-1"></span>
 						{if $RECORD}
 							{\App\Language::translate('LBL_EDIT_BOOKMARK', $MODULE)}
 						{else}
 							{\App\Language::translate('LBL_ADD_NEW_BOOKMARK', $MODULE)}
 						{/if}
-					</h3>
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal" id="saveBookmark" method="post" action="index.php">
 					<input type="hidden" name="record" value="{$RECORD}" />
