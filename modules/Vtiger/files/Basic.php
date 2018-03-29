@@ -85,6 +85,8 @@ abstract class Vtiger_Basic_File
 				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
 				if ($result) {
 					$attach[] = ['id' => $result, 'hash' => $request->getByType('hash', 'string'), 'name' => $fileData['name'], 'size' => \vtlib\Functions::showBytes($fileData['size'])];
+				} else {
+					$attach[] = ['hash' => $request->getByType('hash', 'string')];
 				}
 			}
 		}
