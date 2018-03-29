@@ -102,12 +102,30 @@ class MultiImage {
 
 	/**
 	 * Error event handler from file upload request
-	 * @param jqXHR
-	 * @param textStatus
-	 * @param errorThrown
+	 *
+	 * @param {jqXHR} jqXHR
+	 * @param {String} textStatus
+	 * @param {String} errorThrown
 	 */
-	error(jqXHR, textStatus, errorThrown) {
+	uploadError(jqXHR, textStatus, errorThrown) {
 		app.errorLog("File upload error.");
+		if (typeof jqXHR.reponseJSON === 'undefined' || jqXHR.reponseJSON === null) {
+			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
+		}
+		const response = jqXHR.responseJSON;
+		// first try to show error for concrete file
+		if (typeof response.attach !== 'undefined' && Array.isArray(response.attach)) {
+			response.attach.forEach((fileAttach) => {
+				this.deleteFile(fileAttach.hash, false);
+				if (typeof fileAttach.error === 'string') {
+					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
+				} else {
+					Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${fileAttach.name}]`);
+				}
+			});
+			return;
+		}
+		// else show default upload error
 		Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
 	}
 
@@ -118,23 +136,23 @@ class MultiImage {
 	 * @param {String} textStatus
 	 * @param {jqXHR} jqXHR
 	 */
-	success(response, textStatus, jqXHR) {
+	uploadSuccess(response, textStatus, jqXHR) {
 		const attach = response.result.attach;
-		const hash = attach.hash;
-		if (!hash) {
-			return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
-		}
-		if (typeof attach.id === 'undefined') {
-			const filename = this.getFileInfo(hash).name;
-			this.deleteFile(hash, false);
-			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${filename}]`);
-		}
-		const fileInfo = this.getFileInfo(hash);
-		this.addFileInfoProperty(hash, 'id', attach.id);
-		this.addFileInfoProperty(hash, 'fileSize', attach.size);
-		this.addFileInfoProperty(hash, 'name', attach.name);
-		this.removePreviewPopover(hash);
-		this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
+		attach.forEach((fileAttach) => {
+			const hash = fileAttach.hash;
+			if (!hash) {
+				return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
+			}
+			if (typeof fileAttach.id === 'undefined') {
+				return this.uploadError(jqXHR, textStatus);
+			}
+			const fileInfo = this.getFileInfo(hash);
+			this.addFileInfoProperty(hash, 'id', attach.id);
+			this.addFileInfoProperty(hash, 'fileSize', attach.size);
+			this.addFileInfoProperty(hash, 'name', attach.name);
+			this.removePreviewPopover(hash);
+			this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
+		});
 		this.updateFormValues();
 	}
 
@@ -161,8 +179,8 @@ class MultiImage {
 			}
 		});
 		data.submit()
-			.done(this.success.bind(this))
-			.fail(this.error.bind(this));
+			.done(this.uploadSuccess.bind(this))
+			.fail(this.uploadError.bind(this));
 	}
 
 	/**
