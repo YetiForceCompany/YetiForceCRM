@@ -36,7 +36,7 @@
 		</div>
 		<div class="modal-footer">
 			<div class="btn-group mr-0">
-				<button id="generate_pdf" type="submit" class="btn btn-success">{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}</button>
+				<button id="generate_pdf" type="submit" class="btn btn-success"><span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}</button>
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
 					<span class="sr-only">Toggle Dropdown</span>
@@ -54,7 +54,7 @@
 					</li>
 				</ul>
 			</div>
-			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
+			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
 		</div>
 	</form>
 {/strip}
