@@ -20,31 +20,6 @@
 					data-js="click">
 				<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
 			</button>
-			{if $RECORD}
-				{assign var="RECORD_ID" value=$RECORD->getId()}
-				{assign var="IMAGES" value=$FIELD_VALUE}
-			{else}
-				{assign var="RECORD_ID" value=''}
-				{assign var="IMAGES" value=[]}
-			{/if}
-			{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
-				{* <div class="d-inline-block m-1 js-multi-image__preview"
-					 data-js="App.Fields.MultiImage"
-					 data-title="{$IMAGE_INFO.name}"
-					 data-toggle="popover"
-					 data-content="<img src='{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}' class='w-100' />">
-					<div class="c-multi-image__preview-body">
-						<img class="js-multi-image__preview-img border rounded"
-							 data-js="App.Fields.MultiImage"
-							 src=src="{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}"
-							 tabindex="0">
-						<button type="button" class="btn btn-sm btn-danger" aria-label="Close"
-								onclick="App.Fields.MultiImage.destroyPreview(this)" tabindex="0">
-							<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
-						</button>
-					</div>
-				</div> *}
-			{/foreach}
 		</div>
 		<div class="js-multi-image__progress progress d-none my-2" data-js="container|css:display">
 			<div class="js-multi-image__progress-bar progress-bar progress-bar-striped progress-bar-animated"
