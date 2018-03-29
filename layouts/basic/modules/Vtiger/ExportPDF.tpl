@@ -35,7 +35,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="btn-group">
+			<div class="btn-group mr-0">
 				<button id="generate_pdf" type="submit" class="btn btn-success">{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}</button>
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
@@ -43,18 +43,18 @@
 				</button>
 				<ul class="dropdown-menu">
 					<li>
-						<a href="#" id="single_pdf">
+						<a class="dropdown-item" href="#" id="single_pdf">
 							{\App\Language::translate('LBL_GENERATE_SINGLE', $MODULE_NAME)}
 						</a>
 					</li>
 					<li>
-						<a href="#" id="email_pdf">
+						<a class="dropdown-item" href="#" id="email_pdf">
 							{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
 						</a>
 					</li>
 				</ul>
-			</div>&nbsp;
-			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
+			</div>
+			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
 		</div>
 	</form>
 {/strip}
