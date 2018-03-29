@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="listViewPageDiv">
-		<div class="listViewTopMenuDiv">
+		<div class="listViewTopMenuDiv mb-2">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-4">
 					<span class="btn-group listViewMassActions mr-1">
