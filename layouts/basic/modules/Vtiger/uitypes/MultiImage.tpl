@@ -10,14 +10,14 @@
 		   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
 	<div class="border rounded px-2 pt-2 clearfix c-multi-image js-multi-image">
 		<input class="d-none js-multi-image__file" type="file" name="{$FIELD_MODEL->getFieldName()}_temp[]"
-			   data-js="App.Fields.MultiImage"
+			   data-js="jQuery-file-upload"
 			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}"
 			   multiple>
-		<input type="hidden" class="js-multi-image__values" data-js="App.Fields.MultiImage"
+		<input type="hidden" class="js-multi-image__values" data-js="value"
 			   name="{$FIELD_MODEL->getFieldName()}[]" value="[]">
-		<div class="js-multi-image__result" data-js="App.Fields.MultiImage" data-name="{$FIELD_MODEL->getFieldName()}">
+		<div class="js-multi-image__result" data-js="container" data-name="{$FIELD_MODEL->getFieldName()}">
 			<button class="align-top mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
-					data-js="App.Fields.MultiImage">
+					data-js="click">
 				<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
 			</button>
 			{if $RECORD}
@@ -28,7 +28,7 @@
 				{assign var="IMAGES" value=[]}
 			{/if}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
-				<div class="d-inline-block m-1 js-multi-image__preview"
+				{* <div class="d-inline-block m-1 js-multi-image__preview"
 					 data-js="App.Fields.MultiImage"
 					 data-title="{$IMAGE_INFO.name}"
 					 data-toggle="popover"
@@ -43,12 +43,12 @@
 							<span aria-hidden="true"><i class="fa fa-trash-alt"></i></span>
 						</button>
 					</div>
-				</div>
+				</div> *}
 			{/foreach}
 		</div>
-		<div class="js-multi-image__progress progress d-none my-2" data-js="App.Fields.MultiImage">
+		<div class="js-multi-image__progress progress d-none my-2" data-js="container|css:display">
 			<div class="js-multi-image__progress-bar progress-bar progress-bar-striped progress-bar-animated"
-				 data-js="App.Fields.MultiImage"
+				 data-js="css:width"
 				 role="progressbar"
 				 style="width: 0%"></div>
 		</div>
