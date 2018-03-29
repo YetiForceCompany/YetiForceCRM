@@ -123,6 +123,7 @@ class MultiImage {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${fileAttach.name}]`);
 				}
 			});
+			this.updateFormValues();
 			return;
 		}
 		// else show default upload error
