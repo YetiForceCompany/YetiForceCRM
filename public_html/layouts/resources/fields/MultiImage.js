@@ -9,15 +9,17 @@ class MultiImage {
 	constructor(inputElement) {
 		const thisInstance = this;
 		this.files = [];
-		this.component = $(inputElement).closest('.js-multi-image').eq(0);
-		this.addButton = $(this.component).find('.js-multi-image__file-btn').eq(0);
-		this.fileInput = $(inputElement).detach();
-		this.addButton.click(this.addButtonClick.bind(this));
-		this.valuesInput = $(this.component).find('.js-multi-image__values').eq(0);
-		this.progressBar = $(this.component).find('.js-multi-image__progress-bar').eq(0);
-		this.progress = $(this.component.find('.js-multi-image__progress')).eq(0);
-		this.result = this.component.find('.js-multi-image__result').eq(0);
-		this.fileInput.fileupload({
+		this.elements = {};
+		this.elements.fileInput = $(inputElement);
+		this.elements.component = this.elements.fileInput.closest('.js-multi-image').eq(0);
+		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
+		this.elements.valuesInput = this.elements.component.find('.js-multi-image__values').eq(0);
+		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
+		this.elements.progress = this.elements.component.find('.js-multi-image__progress').eq(0);
+		this.elements.result = this.elements.component.find('.js-multi-image__result').eq(0);
+		this.elements.fileInput.detach();
+		this.elements.addButton.click(this.addButtonClick.bind(this));
+		this.elements.fileInput.fileupload({
 			dataType: 'json',
 			replaceFileInput: false,
 			fileInput: this.fileInput,
@@ -28,18 +30,20 @@ class MultiImage {
 			progressall: thisInstance.progressAll.bind(thisInstance),
 			change: thisInstance.change.bind(thisInstance),
 			drop: thisInstance.change.bind(thisInstance),
+			dragover: thisInstance.dragOver.bind(thisInstance),
 		});
-		this.fileInput.fileupload('option', 'dropZone', $(this.component));
-		this.component.on('click', '.js-multi-image__popover-img', function (e) {
+		this.elements.component.on('dragleave', this.dragLeave.bind(this));
+		this.elements.component.on('dragend', this.dragLeave.bind(this));
+		this.elements.fileInput.fileupload('option', 'dropZone', $(this.elements.component));
+		this.elements.component.on('click', '.js-multi-image__popover-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		this.component.on('click', '.js-multi-image__popover-btn-zoom', function (e) {
+		this.elements.component.on('click', '.js-multi-image__popover-btn-zoom', function (e) {
+			e.preventDefault();
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		this.component.on('dblclick', '.js-multi-image__preview-img', function (e) {
-			thisInstance.zoomPreview($(this).data('hash'));
-		});
-		this.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
+		this.elements.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
+			e.preventDefault();
 			thisInstance.deleteFile($(this).data('hash'));
 		});
 	}
@@ -50,7 +54,7 @@ class MultiImage {
 	 */
 	addButtonClick(e) {
 		e.preventDefault();
-		this.fileInput.trigger('click');
+		this.elements.fileInput.trigger('click');
 	}
 
 	/**
@@ -78,7 +82,8 @@ class MultiImage {
 				return file;
 			}
 		}
-		app.errorLog(new Error(`File '${hash}' not found.`));
+		app.errorLog(`File '${hash}' not found.`);
+		Vtiger_Helper_Js.showPnotify({text: app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`});
 	}
 
 	/**
@@ -95,7 +100,6 @@ class MultiImage {
 		return fileInfo;
 	}
 
-
 	/**
 	 * Error event handler from file upload request
 	 * @param jqXHR
@@ -103,7 +107,8 @@ class MultiImage {
 	 * @param errorThrown
 	 */
 	error(jqXHR, textStatus, errorThrown) {
-		app.errorLog(new Error(app.vtranslate("JS_FILE_UPLOAD_ERROR")));
+		app.errorLog("File upload error.");
+		Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
 	}
 
 	/**
@@ -118,6 +123,11 @@ class MultiImage {
 		const hash = attach.hash;
 		if (!hash) {
 			return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
+		}
+		if (typeof attach.id === 'undefined') {
+			const filename = this.getFileInfo(hash).name;
+			this.deleteFile(hash, false);
+			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${filename}]`);
 		}
 		const fileInfo = this.getFileInfo(hash);
 		this.addFileInfoProperty(hash, 'id', attach.id);
@@ -135,7 +145,7 @@ class MultiImage {
 		const formValues = this.files.map(file => {
 			return {id: file.id, name: file.name, size: file.fileSize};
 		});
-		this.valuesInput.val(JSON.stringify(formValues));
+		this.elements.valuesInput.val(JSON.stringify(formValues));
 	}
 
 	/**
@@ -162,15 +172,31 @@ class MultiImage {
 	 */
 	progressAll(e, data) {
 		const progress = parseInt(data.loaded / data.total * 100, 10);
-		this.progressBar.css({width: progress + "%"});
+		this.elements.progressBar.css({width: progress + "%"});
 		if (progress === 100) {
 			setTimeout(() => {
-				this.progress.addClass('d-none');
-				this.progressBar.css({width: "0%"});
+				this.elements.progress.addClass('d-none');
+				this.elements.progressBar.css({width: "0%"});
 			}, 1000);
 		} else {
-			this.progress.removeClass('d-none');
+			this.elements.progress.removeClass('d-none');
 		}
+	}
+
+	/**
+	 * Dragover event handler from jQuery-file-upload
+	 * @param {Event} e
+	 */
+	dragOver(e) {
+		this.elements.component.addClass('border-primary');
+	}
+
+	/**
+	 * Dragleave event handler
+	 * @param {Event} e
+	 */
+	dragLeave(e) {
+		this.elements.component.removeClass('border-primary');
 	}
 
 	/**
@@ -207,23 +233,36 @@ class MultiImage {
 	}
 
 	/**
+	 * Remove file from preview and from file list
+	 * @param {String} hash
+	 */
+	deleteFileCallback(hash) {
+		const fileInfo = this.getFileInfo(hash);
+		fileInfo.previewElement.popover('dispose').remove();
+		this.files = this.files.filter(file => file.hash !== fileInfo.hash);
+		this.updateFormValues();
+	}
+
+	/**
 	 * Delete image from input field
 	 * Should be called with this pointing on button element with data-hash attribute
 	 * @param {string} hash
 	 */
-	deleteFile(hash) {
-		const fileInfo = this.getFileInfo(hash);
-		bootbox.confirm({
-			title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
-			message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.name}</span>?`,
-			callback: (result) => {
-				if (result) {
-					fileInfo.previewElement.popover('dispose').remove();
-					this.files = this.files.filter(file => file.hash !== fileInfo.hash);
-					this.updateFormValues();
+	deleteFile(hash, showConfirmation = true) {
+		if (showConfirmation) {
+			const fileInfo = this.getFileInfo(hash);
+			bootbox.confirm({
+				title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
+				message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.name}</span>?`,
+				callback: (result) => {
+					if (result) {
+						this.deleteFileCallback(hash);
+					}
 				}
-			}
-		});
+			});
+		} else {
+			this.deleteFileCallback(hash);
+		}
 	}
 
 	/**
@@ -233,8 +272,9 @@ class MultiImage {
 	 * @param {object} data
 	 */
 	change(e, data) {
+		this.dragLeave(e);
 		this.generatePreviewElements(data.files, (element) => {
-			this.result.append(element);
+			this.elements.result.append(element);
 		});
 	}
 
@@ -251,10 +291,10 @@ class MultiImage {
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
 		if (typeof fileInfo.fileSize !== 'undefined') {
-			fileSize = `<span class="float-left badge badge-secondary">${fileInfo.fileSize}</span>`;
+			fileSize = `<small class="float-left p-1 bg-white border rounded">${fileInfo.fileSize}</small>`;
 		}
 		return $(template).popover({
-			container: thisInstance.component,
+			container: thisInstance.elements.component,
 			title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
 			html: true,
 			trigger: 'focus',
@@ -266,8 +306,8 @@ class MultiImage {
 				<div class="popover-body"></div>
 				<div class="text-right popover-footer js-multi-image__popover-actions">
 					${fileSize}
-					<button class="btn btn-sm btn-danger js-multi-image__popover-btn-delete" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
-					<button class="btn btn-sm btn-primary js-multi-image__popover-btn-zoom" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
+					<button class="btn btn-sm btn-danger js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}</button>
+					<button class="btn btn-sm btn-primary js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-search-plus"></i> ${app.vtranslate('JS_ZOOM_IN')}</button>
 				</div>
 			</div>`
 		});
@@ -316,7 +356,7 @@ class MultiImage {
 			file.imageSrc = fr.result;
 			this.addFileInfoProperty(file.hash, 'imageSrc', file.imageSrc);
 			this.addFileInfoProperty(file.hash, 'image', file.image);
-			callback(`<div class="d-inline-block mr-1 mb-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
+			callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
 					<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="Fields.MultiImage" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
 			</div>`, fr.result);
 		};
