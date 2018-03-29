@@ -4,7 +4,7 @@
 		{assign var=RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RECORD)}
 		{assign var=SELECTED_TAXES value=Vtiger_Taxes_UIType::getValues($RECORD_MODEL->get($TAX_FIELD))}
 		{if count($SELECTED_TAXES) > 0}
-			<div class="card js-panel">
+			<div class="card js-panel" data-js="class: js-active">
 				<div class="card-header">
 					<strong>{\App\Language::translate('LBL_GROUP_TAXS', $MODULE)}</strong>
 					<div class="float-right">

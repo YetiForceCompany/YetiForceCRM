@@ -3,7 +3,7 @@
 	<div class="row">
 		{if in_array("discount",$COLUMNS) && in_array("discountmode",$COLUMNS)}
 			<div class="col-md-4">
-				<div class="card js-panel inventorySummaryContainer inventorySummaryDiscounts">
+				<div class="card inventorySummaryContainer inventorySummaryDiscounts">
 					<div class="card-header">
 						 <span class="fa-layers fa-fw mr-2">
 							 <i class="fas fa-circle" data-fa-transform="grow-6"></i>
@@ -15,7 +15,7 @@
 							<button type="button" class="btn btn-primary btn-sm">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
 						</span>
 					</div>
-					<div class="card-body js-panel__body m-0 p-0">
+					<div class="card-body js-panel__body m-0 p-0" data-js=”val”>
 						<div class="form-group">
 							<div class="input-group">
 								<input type="text" class="form-control textAlignRight" readonly="readonly" />
@@ -32,7 +32,7 @@
 		{/if}
 		{if in_array("tax",$COLUMNS) && in_array("taxmode",$COLUMNS)}
 			<div class="col-md-4">
-				<div class="card js-panel mb-3 inventorySummaryContainer inventorySummaryTaxes">
+				<div class="card mb-3 inventorySummaryContainer inventorySummaryTaxes">
 					<div class="card-header">
 						 <span class="fa-layers fa-fw mr-2">
 							 <i class="fas fa-circle" data-fa-transform="grow-6"></i>
@@ -45,8 +45,8 @@
 							<button type="button" class="btn btn-primary btn-sm">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
 						</span>
 					</div>
-					<div class="card-body js-panel__body m-0 p-0"></div>
-					<div class="card-footer js-panel__footer m-0 p-0" data-js=”data-url”>
+					<div class="card-body js-panel__body m-0 p-0" data-js=”val”></div>
+					<div class="card-footer js-panel__footer m-0 p-0" data-js=”val”>
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -78,12 +78,12 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="card js-panel inventorySummaryContainer inventorySummaryCurrencies">
+					<div class="card inventorySummaryContainer inventorySummaryCurrencies">
 						<div class="card-header">
 							<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE)}</strong>
 						</div>
 						<div class="card-body js-panel__body"></div>
-						<div class="card-footer js-panel__footer" data-js=”data-url”>
+						<div class="card-footer js-panel__footer" data-js=”val”>
 							<div class="form-group">
 								<div class="input-group">
 									<div class="input-group-prepend">
