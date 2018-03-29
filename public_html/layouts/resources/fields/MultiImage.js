@@ -4,6 +4,7 @@ class MultiImage {
 
 	/**
 	 * Create class instance
+	 *
 	 * @param {HTMLElement|jQuery} inputElement - input type file element inside component
 	 */
 	constructor(inputElement) {
@@ -25,12 +26,14 @@ class MultiImage {
 			fileInput: this.fileInput,
 			autoUpload: false,
 			acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-			submit: thisInstance.submit.bind(thisInstance),
-			add: thisInstance.add.bind(thisInstance),
-			progressall: thisInstance.progressAll.bind(thisInstance),
-			change: thisInstance.change.bind(thisInstance),
-			drop: thisInstance.change.bind(thisInstance),
-			dragover: thisInstance.dragOver.bind(thisInstance),
+			submit: this.submit.bind(this),
+			add: this.add.bind(this),
+			progressall: this.progressAll.bind(this),
+			change: this.change.bind(this),
+			drop: this.change.bind(this),
+			dragover: this.dragOver.bind(this),
+			fail: this.uploadError.bind(this),
+			done: this.uploadSuccess.bind(this)
 		});
 		this.elements.component.on('dragleave', this.dragLeave.bind(this));
 		this.elements.component.on('dragend', this.dragLeave.bind(this));
@@ -50,6 +53,7 @@ class MultiImage {
 
 	/**
 	 * Prevent form submition
+	 *
 	 * @param {Event} e
 	 */
 	addButtonClick(e) {
@@ -102,39 +106,63 @@ class MultiImage {
 
 	/**
 	 * Error event handler from file upload request
-	 * @param jqXHR
-	 * @param textStatus
-	 * @param errorThrown
+	 *
+	 * @param {Event} e
+	 * @param {Object} data
 	 */
-	error(jqXHR, textStatus, errorThrown) {
+	uploadError(e, data) {
 		app.errorLog("File upload error.");
-		Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
+		const {jqXHR, files} = data;
+		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
+			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
+		}
+		const response = jqXHR.responseJSON;
+		// first try to show error for concrete file
+		if (typeof response.result !== 'undefined' && typeof response.result.attach !== 'undefined' && Array.isArray(response.result.attach)) {
+			response.result.attach.forEach((fileAttach) => {
+				this.deleteFile(fileAttach.hash, false);
+
+				if (typeof fileAttach.error === 'string') {
+					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
+				} else {
+					Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${fileAttach.name}]`);
+				}
+			});
+			this.updateFormValues();
+			return;
+		}
+		// else show default upload error
+		files.forEach((file) => {
+			this.deleteFile(file.hash, false);
+			Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${file.name}]`);
+		});
+		this.updateFormValues();
 	}
 
 	/**
 	 * Success event handler from file upload request
 	 *
-	 * @param {Object} response
-	 * @param {String} textStatus
-	 * @param {jqXHR} jqXHR
+	 * @param {Event} e
+	 * @param {Object} data
 	 */
-	success(response, textStatus, jqXHR) {
-		const attach = response.result.attach;
-		const hash = attach.hash;
-		if (!hash) {
-			return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
-		}
-		if (typeof attach.id === 'undefined') {
-			const filename = this.getFileInfo(hash).name;
-			this.deleteFile(hash, false);
-			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${filename}]`);
-		}
-		const fileInfo = this.getFileInfo(hash);
-		this.addFileInfoProperty(hash, 'id', attach.id);
-		this.addFileInfoProperty(hash, 'fileSize', attach.size);
-		this.addFileInfoProperty(hash, 'name', attach.name);
-		this.removePreviewPopover(hash);
-		this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
+	uploadSuccess(e, data) {
+		const {result} = data;
+		const attach = result.result.attach;
+		attach.forEach((fileAttach) => {
+			const hash = fileAttach.hash;
+			if (!hash) {
+				return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
+			}
+			if (typeof fileAttach.id === 'undefined') {
+				return this.uploadError(e, data);
+			}
+			const fileInfo = this.getFileInfo(hash);
+			this.addFileInfoProperty(hash, 'id', fileAttach.id);
+			this.addFileInfoProperty(hash, 'fileSize', fileAttach.size);
+			this.addFileInfoProperty(hash, 'name', fileAttach.name);
+			this.removePreviewPopover(hash);
+			this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
+		});
 		this.updateFormValues();
 	}
 
@@ -150,6 +178,7 @@ class MultiImage {
 
 	/**
 	 * Add event handler from jQuery-file-upload
+	 *
 	 * @param {Event} e
 	 * @param {object} data
 	 */
@@ -160,13 +189,12 @@ class MultiImage {
 				this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
 			}
 		});
-		data.submit()
-			.done(this.success.bind(this))
-			.fail(this.error.bind(this));
+		data.submit();
 	}
 
 	/**
 	 * Progressall event handler from jQuery-file-upload
+	 *
 	 * @param {Event} e
 	 * @param {Object} data
 	 */
@@ -185,6 +213,7 @@ class MultiImage {
 
 	/**
 	 * Dragover event handler from jQuery-file-upload
+	 *
 	 * @param {Event} e
 	 */
 	dragOver(e) {
@@ -234,6 +263,7 @@ class MultiImage {
 
 	/**
 	 * Remove file from preview and from file list
+	 *
 	 * @param {String} hash
 	 */
 	deleteFileCallback(hash) {
@@ -246,6 +276,7 @@ class MultiImage {
 	/**
 	 * Delete image from input field
 	 * Should be called with this pointing on button element with data-hash attribute
+	 *
 	 * @param {string} hash
 	 */
 	deleteFile(hash, showConfirmation = true) {
@@ -347,6 +378,7 @@ class MultiImage {
 
 	/**
 	 * Generate preview of image as html string
+	 *
 	 * @param {File} file
 	 * @param {function} callback
 	 */

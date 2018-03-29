@@ -85,7 +85,7 @@ abstract class Vtiger_Basic_File
 			$response->setResult([
 				'field' => $request->get('field'),
 				'module' => $request->getModule(),
-				'attach' => count($attach) === 1 ? $attach[0] : $attach,
+				'attach' => $attach,
 			]);
 			$response->emit();
 		}
