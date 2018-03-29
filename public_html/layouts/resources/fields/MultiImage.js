@@ -81,7 +81,8 @@ class MultiImage {
 				return file;
 			}
 		}
-		app.errorLog(new Error(`File '${hash}' not found.`));
+		app.errorLog(`File '${hash}' not found.`);
+		Vtiger_Helper_Js.showPnotify({text: app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`});
 	}
 
 	/**
@@ -105,7 +106,8 @@ class MultiImage {
 	 * @param errorThrown
 	 */
 	error(jqXHR, textStatus, errorThrown) {
-		app.errorLog(new Error(app.vtranslate("JS_FILE_UPLOAD_ERROR")));
+		app.errorLog("File upload error.");
+		Vtiger_Helper_Js.showPnotify({text: app.vtranslate("JS_FILE_UPLOAD_ERROR")});
 	}
 
 	/**
@@ -120,6 +122,11 @@ class MultiImage {
 		const hash = attach.hash;
 		if (!hash) {
 			return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
+		}
+		if (typeof attach.id === 'undefined') {
+			const filename = this.getFileInfo(hash).name;
+			this.deleteFile(hash, false);
+			return Vtiger_Helper_Js.showPnotify({text: app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${filename}]`});
 		}
 		const fileInfo = this.getFileInfo(hash);
 		this.addFileInfoProperty(hash, 'id', attach.id);
@@ -225,23 +232,36 @@ class MultiImage {
 	}
 
 	/**
+	 * Remove file from preview and from file list
+	 * @param {String} hash
+	 */
+	deleteFileCallback(hash) {
+		const fileInfo = this.getFileInfo(hash);
+		fileInfo.previewElement.popover('dispose').remove();
+		this.files = this.files.filter(file => file.hash !== fileInfo.hash);
+		this.updateFormValues();
+	}
+
+	/**
 	 * Delete image from input field
 	 * Should be called with this pointing on button element with data-hash attribute
 	 * @param {string} hash
 	 */
-	deleteFile(hash) {
-		const fileInfo = this.getFileInfo(hash);
-		bootbox.confirm({
-			title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
-			message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.name}</span>?`,
-			callback: (result) => {
-				if (result) {
-					fileInfo.previewElement.popover('dispose').remove();
-					this.files = this.files.filter(file => file.hash !== fileInfo.hash);
-					this.updateFormValues();
+	deleteFile(hash, showConfirmation = true) {
+		if (showConfirmation) {
+			const fileInfo = this.getFileInfo(hash);
+			bootbox.confirm({
+				title: `<i class="fa fa-trash-alt"></i> ${app.vtranslate("JS_DELETE_FILE")}`,
+				message: `${app.vtranslate("JS_DELETE_FILE_CONFIRMATION")} <span class="font-weight-bold">${fileInfo.name}</span>?`,
+				callback: (result) => {
+					if (result) {
+						this.deleteFileCallback(hash);
+					}
 				}
-			}
-		});
+			});
+		} else {
+			this.deleteFileCallback(hash);
+		}
 	}
 
 	/**
