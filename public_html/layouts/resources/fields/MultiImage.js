@@ -135,30 +135,6 @@ class MultiImage {
 			Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${file.name}]`);
 		});
 		this.updateFormValues();
-		const {jqXHR, files} = data;
-		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
-			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
-		}
-		const response = jqXHR.responseJSON;
-		// first try to show error for concrete file
-		if (typeof response.attach !== 'undefined' && Array.isArray(response.attach)) {
-			response.attach.forEach((fileAttach) => {
-				this.deleteFile(fileAttach.hash, false);
-				if (typeof fileAttach.error === 'string') {
-					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
-				} else {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${fileAttach.name}]`);
-				}
-			});
-			this.updateFormValues();
-			return;
-		}
-		// else show default upload error
-		files.forEach((file) => {
-			this.deleteFile(file.hash, false);
-			Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${file.name}]`);
-		});
-		this.updateFormValues();
 	}
 
 	/**
