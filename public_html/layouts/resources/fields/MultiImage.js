@@ -161,8 +161,8 @@ class MultiImage {
 			}
 		});
 		data.submit()
-			.success(this.success.bind(this))
-			.error(this.error.bind(this));
+			.done(this.success.bind(this))
+			.fail(this.error.bind(this));
 	}
 
 	/**
