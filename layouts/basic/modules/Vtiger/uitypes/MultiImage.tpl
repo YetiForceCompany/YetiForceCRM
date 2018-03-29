@@ -16,7 +16,7 @@
 		<input type="hidden" class="js-multi-image__values" data-js="value"
 			   name="{$FIELD_MODEL->getFieldName()}[]" value="[]">
 		<div class="js-multi-image__result" data-js="container" data-name="{$FIELD_MODEL->getFieldName()}">
-			<button class="align-top mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
+			<button type="button" class="align-top mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
 					data-js="click">
 				<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
 			</button>
