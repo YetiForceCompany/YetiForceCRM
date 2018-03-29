@@ -11,7 +11,7 @@
 	<div class="border rounded px-2 pt-2 clearfix c-multi-image js-multi-image">
 		<input class="d-none js-multi-image__file" type="file" name="{$FIELD_MODEL->getFieldName()}_temp[]"
 			   data-js="jQuery-file-upload"
-			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}"
+			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}&record={$RECORD->getId()}"
 			   multiple>
 		<input type="hidden" class="js-multi-image__values" data-js="value"
 			   name="{$FIELD_MODEL->getFieldName()}[]" value="[]">
