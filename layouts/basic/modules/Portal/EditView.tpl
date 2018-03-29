@@ -36,15 +36,15 @@
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}
 							</label>
 							<div class="col-md-8 align-self-center">
-								<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
+								<input type="text" name="bookmarkName" class="form-control" title="{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
 							</div>
 						</div>
-						<div class="form-group row my-0">
+						<div class="form-group row mb-0 mt-1">
 							<label class="col-form-label col-md-4 text-right">
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}
 							</label>
 							<div class="col-md-8 align-self-center">
-								<input type="text" name="bookmarkUrl" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_URL', $MODULE)}" />
+								<input type="text" name="bookmarkUrl" class="form-control" title="{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_URL', $MODULE)}" />
 							</div>
 						</div>
 					</div>
