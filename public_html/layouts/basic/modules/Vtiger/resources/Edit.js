@@ -366,10 +366,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 		let moduleList = container.find('.referenceModulesList');
 		App.Fields.Picklist.showSelect2ElementView(moduleList);
 		moduleList.on('change', (e) => {
-			let element = jQuery(e.currentTarget);
+			let element = $(e.currentTarget);
 			let parentElem = element.closest('.fieldValue');
 			let popupReferenceModule = element.val();
-			let referenceModuleElement = jQuery('input[name="popupReferenceModule"]', parentElem);
+			let referenceModuleElement = $('input[name="popupReferenceModule"]', parentElem);
 			let prevSelectedReferenceModule = referenceModuleElement.val();
 			referenceModuleElement.val(popupReferenceModule);
 			//If Reference module is changed then we should clear the previous value
