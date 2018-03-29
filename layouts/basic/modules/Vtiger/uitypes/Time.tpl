@@ -19,7 +19,7 @@
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" aria-describedby="basic-addon2" type="text" data-format="{$TIME_FORMAT}" class="clockPicker form-control" value="{$FIELD_VALUE}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" name="{$FIELD_MODEL->getFieldName()}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 		<div class="input-group-append">
-			<span class="input-group-text u-cursor-pointer" id="basic-addon2">
+			<span class="input-group-text u-cursor-pointer js-clock" data-js="click" id="basic-addon2">
 				<span class="far fa-clock"></span>
 			</span>
 		</div>
