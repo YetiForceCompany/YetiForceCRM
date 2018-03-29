@@ -3,8 +3,8 @@
  * Files Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -106,6 +106,9 @@ class Vtiger_Files_Model extends \App\Base
 			'type' => $filetype,
 			'path' => $uploadFilePath,
 			'createdtime' => date('Y-m-d H:i:s'),
+			'fieldname' => $uploadFilePath,
+			'key' => $uploadFilePath,
+			'crmid' => $uploadFilePath,
 		])->execute();
 		$currentId = $db->getLastInsertID('u_#__attachments_attachmentid_seq');
 		$uploadStatus = move_uploaded_file($filetmp_name, $uploadFilePath . $currentId);

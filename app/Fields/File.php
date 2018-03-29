@@ -90,6 +90,13 @@ class File
 	private $error = false;
 
 	/**
+	 * Last validate error.
+	 *
+	 * @var string
+	 */
+	public $validateError = '';
+
+	/**
 	 * Validate all files by code injection.
 	 *
 	 * @var bool
@@ -109,7 +116,6 @@ class File
 		foreach ($fileInfo as $key => $value) {
 			$instance->$key = $fileInfo[$key];
 		}
-
 		return $instance;
 	}
 
@@ -123,11 +129,10 @@ class File
 	public static function loadFromRequest($file)
 	{
 		$instance = new self();
-		$instance->name = $file['name'];
+		$instance->name = trim(\App\Purifier::purify($file['name']));
 		$instance->path = $file['tmp_name'];
 		$instance->size = $file['size'];
 		$instance->error = $file['error'];
-
 		return $instance;
 	}
 
@@ -342,15 +347,15 @@ class File
 			if (($type && $type === 'image') || $this->getShortMimeType(0) === 'image') {
 				$this->validateImage();
 			}
-			if ($type && $this->getShortMimeType(0) != $type) {
+			if ($type && $this->getShortMimeType(0) !== $type) {
 				throw new \Exception('Wrong file type');
 			}
 		} catch (\Exception $e) {
 			$return = false;
-			\App\Log::error('Error: ' . $e->getMessage(), __CLASS__);
+			$this->validateError = \App\Language::translate($e->getMessage(), 'Other.Exceptions');
+			\App\Log::error('Error: ' . \App\Language::translate($e->getMessage(), 'Other.Exceptions'), __CLASS__);
 		}
 		\App\Log::trace('File validate - End', __CLASS__);
-
 		return $return;
 	}
 
@@ -446,7 +451,6 @@ class File
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -460,7 +464,6 @@ class File
 		if (empty($this->content)) {
 			$this->content = file_get_contents($this->path);
 		}
-
 		return $this->content;
 	}
 
@@ -478,7 +481,6 @@ class File
 		} else {
 			$uploadStatus = rename($this->path, $target);
 		}
-
 		return $uploadStatus;
 	}
 
@@ -492,8 +494,26 @@ class File
 		if (file_exists($this->path)) {
 			return unlink($this->path);
 		}
-
 		return false;
+	}
+
+	/**
+	 * Generate file hash.
+	 *
+	 * @param bool $checkInAttachments
+	 *
+	 * @return string File hash sha256
+	 */
+	public function generateHash($checkInAttachments = false)
+	{
+		if ($checkInAttachments) {
+			$hash = hash('sha256', $this->getContents()) . \App\Encryption::generatePassword(16);
+			if ((new \App\Db\Query())->from('u_#__file_upload_temp')->where(['key' => $hash])->exists()) {
+				$hash = $this->generateHash($checkInAttachments);
+			}
+			return $hash;
+		}
+		return hash('sha256', $this->getContents());
 	}
 
 	/**
@@ -563,12 +583,12 @@ class File
 	public static function initMimeTypes()
 	{
 		if (empty(self::$mimeTypes)) {
-			self::$mimeTypes = require 'config/mimetypes.php';
+			self::$mimeTypes = require \ROOT_DIRECTORY . '/config/mimetypes.php';
 		}
 	}
 
 	/**
-	 * Get mime content type.
+	 * Get mime content type ex. image/png.
 	 *
 	 * @param string $fileName
 	 *
@@ -885,5 +905,89 @@ class File
 			$path = substr($path, $index);
 		}
 		return $path;
+	}
+
+	/**
+	 * Transform mulitiple uploaded file information into useful format.
+	 *
+	 * @param array $files $_FILES
+	 * @param bool  $top
+	 *
+	 * @return array
+	 */
+	public static function transform(array $files, $top = true)
+	{
+		$rows = [];
+		foreach ($files as $name => $file) {
+			$subName = $top ? $file['name'] : $name;
+			if (is_array($subName)) {
+				foreach (array_keys($subName) as $key) {
+					$rows[$name][$key] = [
+						'name' => $file['name'][$key],
+						'type' => $file['type'][$key],
+						'tmp_name' => $file['tmp_name'][$key],
+						'error' => $file['error'][$key],
+						'size' => $file['size'][$key],
+					];
+					$rows[$name] = static::transform($rows[$name], false);
+				}
+			} else {
+				$rows[$name] = $file;
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	 * Upload and save attachment.
+	 *
+	 * @param \App\Request $request
+	 * @param array        $files
+	 * @param string       $type
+	 * @param string       $storageName
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \Exception
+	 * @throws \yii\db\Exception
+	 *
+	 * @return array
+	 */
+	public static function uploadAndSave(\App\Request $request, array $files, string $type, string $storageName)
+	{
+		$db = \App\Db::getInstance();
+		$attach = [];
+		foreach (static::transform($files, true) as $key => $transformFiles) {
+			foreach ($transformFiles as $fileDetails) {
+				$file = static::loadFromRequest($fileDetails);
+				if (!$file->validate($type)) {
+					$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Text')];
+					continue;
+				}
+				$uploadFilePath = static::initStorageFileDirectory($storageName);
+				$fileId = $file->generateHash(true);
+				$db->createCommand()->insert('u_#__file_upload_temp', [
+					'name' => $file->getName(),
+					'type' => $file->getMimeType(),
+					'path' => $uploadFilePath,
+					'createdtime' => date('Y-m-d H:i:s'),
+					'fieldname' => $request->getByType('field', 'Alnum'),
+					'key' => $fileId,
+					'crmid' => $request->isEmpty('record') ? 0 : $request->getInteger('record'),
+				])->execute();
+				if (move_uploaded_file($file->getPath(), $uploadFilePath . $fileId)) {
+					$attach[] = [
+						'name' => $file->getName(),
+						'size' => \vtlib\Functions::showBytes($file->getSize()),
+						'id' => $fileId,
+						'hash' => $request->getByType('hash', 'string')
+					];
+				} else {
+					$db->createCommand()->delete('u_#__file_upload_temp', ['key' => $fileId])->execute();
+					\App\Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}");
+					$attach[] = ['hash' => $request->getByType('hash', 'Text'), 'name' => $file->getName(), 'error' => ''];
+				}
+			}
+		}
+		return $attach;
 	}
 }

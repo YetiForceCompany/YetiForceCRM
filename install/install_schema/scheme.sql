@@ -1067,20 +1067,6 @@ CREATE TABLE `u_yf_announcementcf` (
   CONSTRAINT `fk_1_u_yf_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `u_yf_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_attachments` */
-
-CREATE TABLE `u_yf_attachments` (
-  `attachmentid` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `path` text NOT NULL,
-  `status` smallint(1) DEFAULT 0,
-  `fieldid` int(10) DEFAULT NULL,
-  `crmid` int(10) DEFAULT NULL,
-  `createdtime` datetime DEFAULT NULL,
-  PRIMARY KEY (`attachmentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `u_yf_browsinghistory` */
 
 CREATE TABLE `u_yf_browsinghistory` (
@@ -1475,6 +1461,23 @@ CREATE TABLE `u_yf_featured_filter` (
   KEY `cvid` (`cvid`),
   KEY `user` (`user`),
   CONSTRAINT `u_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_file_upload_temp` */
+
+CREATE TABLE `u_yf_file_upload_temp` (
+  `attachmentid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `path` text NOT NULL,
+  `status` tinyint(1) DEFAULT 0,
+  `fieldname` varchar(50) DEFAULT NULL,
+  `crmid` int(10) DEFAULT NULL,
+  `createdtime` datetime DEFAULT NULL,
+  `key` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`attachmentid`),
+  UNIQUE KEY `key` (`key`),
+  KEY `crmid` (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoice` */

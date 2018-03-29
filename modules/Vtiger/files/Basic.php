@@ -57,7 +57,7 @@ abstract class Vtiger_Basic_File
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$field = $request->getByType('field', 1);
+		$field = $request->getByType('field', 'Alnum');
 		if (!empty($record)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
@@ -79,17 +79,7 @@ abstract class Vtiger_Basic_File
 	 */
 	public function post(\App\Request $request)
 	{
-		$attach = [];
-		foreach (Vtiger_Util_Helper::transformUploadedFiles($_FILES, true) as $key => $file) {
-			foreach ($file as $fileData) {
-				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
-				if ($result) {
-					$attach[] = ['id' => $result, 'hash' => $request->getByType('hash', 'string'), 'name' => $fileData['name'], 'size' => \vtlib\Functions::showBytes($fileData['size'])];
-				} else {
-					$attach[] = ['hash' => $request->getByType('hash', 'string')];
-				}
-			}
-		}
+		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->getFileType(), $this->getStorageName());
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
