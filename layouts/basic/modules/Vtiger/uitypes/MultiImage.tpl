@@ -9,9 +9,9 @@
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getFieldName()}"
 			   value="{$FIELD_VALUE}" data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true)} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' class="js-multi-image__values" data-js="value"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
-		<button type="button" class="align-top d-inline mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn"
+		<button type="button" class="align-top d-inline mb-2 mr-1 btn btn-sm btn-primary u-btn-collapsible js-multi-image__file-btn"
 				data-js="click">
-			<i class="fa fa-plus"></i> {\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}
+			<i class="fa fa-plus"></i>&nbsp;<span>{\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}</span>
 		</button>
 		<div class="d-inline js-multi-image__result" data-js="container"
 			 data-name="{$FIELD_MODEL->getFieldName()}"></div>
