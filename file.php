@@ -15,5 +15,13 @@ try {
 	$webUI->process(App\Request::init());
 } catch (Exception $e) {
 	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-	header('HTTP/1.1 ' . $e->getCode() . ' ' . $e->getMessage());
+	$response = new \Vtiger_Response();
+	$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
+	$trace = '';
+	if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
+		$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+	}
+	$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' Internal Server Error');
+	$response->setError($e->getCode(), $e->getMessage(), $trace);
+	$response->emit();
 }
