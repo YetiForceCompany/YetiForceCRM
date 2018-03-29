@@ -52,7 +52,7 @@ class MultiImage {
 	}
 
 	/**
-	 * Prevent form submition
+	 * Prevent form submission
 	 *
 	 * @param {Event} e
 	 */
@@ -278,6 +278,7 @@ class MultiImage {
 	 * Should be called with this pointing on button element with data-hash attribute
 	 *
 	 * @param {string} hash
+	 * @param {boolean} showConfirmation - dialog?
 	 */
 	deleteFile(hash, showConfirmation = true) {
 		if (showConfirmation) {
