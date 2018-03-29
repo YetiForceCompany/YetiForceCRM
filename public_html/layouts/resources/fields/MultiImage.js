@@ -357,8 +357,21 @@ class MultiImage {
 		}
 	}
 
-	sortStart(e, ui) {
+	sortChange(e, ui) {
+		this.elements.result.find('.js-multi-image__preview').popover('hide');
+	}
 
+	sortStop(e, ui) {
+		// update file position according to elements order
+		const actualElements = this.elements.result.find('.js-multi-image__preview').toArray();
+		this.files = actualElements.map((element) => {
+			for (let i = 0, len = this.files.length; i < len; i++) {
+				const elementHash = $(element).data('hash');
+				if (this.files[i].hash === elementHash) {
+					return this.files[i];
+				}
+			}
+		});
 	}
 
 	/**
@@ -368,7 +381,8 @@ class MultiImage {
 		this.elements.result.sortable({
 			handle: '.js-multi-image__preview-img',
 			items: '.js-multi-image__preview',
-			start: this.sortStart.bind(this),
+			change: this.sortChange.bind(this),
+			stop: this.sortStop.bind(this),
 		}).disableSelection().on('mousedown', '.js-multi-image__preview-img', function (e) {
 			this.focus(); // focus to show popover
 		});
