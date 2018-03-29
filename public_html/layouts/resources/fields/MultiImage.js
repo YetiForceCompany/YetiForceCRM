@@ -10,13 +10,14 @@ class MultiImage {
 		const thisInstance = this;
 		this.files = [];
 		this.elements = {};
-		this.elements.component = $(inputElement).closest('.js-multi-image').eq(0);
-		this.elements.addButton = $(this.elements.component).find('.js-multi-image__file-btn').eq(0);
-		this.elements.fileInput = $(inputElement).detach();
-		this.elements.valuesInput = $(this.elements.component).find('.js-multi-image__values').eq(0);
-		this.elements.progressBar = $(this.elements.component).find('.js-multi-image__progress-bar').eq(0);
-		this.elements.progress = $(this.elements.component.find('.js-multi-image__progress')).eq(0);
+		this.elements.fileInput = $(inputElement);
+		this.elements.component = this.elements.fileInput.closest('.js-multi-image').eq(0);
+		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
+		this.elements.valuesInput = this.elements.component.find('.js-multi-image__values').eq(0);
+		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
+		this.elements.progress = this.elements.component.find('.js-multi-image__progress').eq(0);
 		this.elements.result = this.elements.component.find('.js-multi-image__result').eq(0);
+		this.elements.fileInput.detach();
 		this.elements.addButton.click(this.addButtonClick.bind(this));
 		this.elements.fileInput.fileupload({
 			dataType: 'json',
