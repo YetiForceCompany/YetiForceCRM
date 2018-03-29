@@ -218,7 +218,7 @@ class MultiImage {
 	 * @param {Event} e
 	 */
 	dragOver(e) {
-		this.elements.component.addClass('border-primary');
+		this.elements.component.addClass('c-multi-image__drop-effect');
 	}
 
 	/**
@@ -226,7 +226,7 @@ class MultiImage {
 	 * @param {Event} e
 	 */
 	dragLeave(e) {
-		this.elements.component.removeClass('border-primary');
+		this.elements.component.removeClass('c-multi-image__drop-effect');
 	}
 
 	/**
@@ -259,7 +259,6 @@ class MultiImage {
 				}
 			}
 		});
-
 	}
 
 	/**
