@@ -30,17 +30,14 @@ abstract class Vtiger_Basic_File
 	 */
 	public function getCheckPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		$field = $request->getInteger('field');
-		if ($record) {
-			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
+		if (!$request->isEmpty('record')) {
+			$moduleName = $request->getModule();
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record')) || !\App\Field::getFieldPermission($moduleName, $request->getByType('field', 2))) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		} else {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-
 		return true;
 	}
 

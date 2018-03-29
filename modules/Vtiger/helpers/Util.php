@@ -12,47 +12,6 @@
 class Vtiger_Util_Helper
 {
 	/**
-	 * Function used to transform mulitiple uploaded file information into useful format.
-	 *
-	 * @param array $_files - ex: array( 'file' => array('name'=> array(0=>'name1',1=>'name2'),
-	 *                      array('type'=>array(0=>'type1',2=>'type2'),
-	 *                      ...);
-	 * @param type  $top
-	 *
-	 * @return array array( 'file' => array(0=> array('name'=> 'name1','type' => 'type1'),
-	 *               array(1=> array('name'=> 'name2','type' => 'type2'),
-	 *               ...);
-	 */
-	public static function transformUploadedFiles(array $_files, $top = true)
-	{
-		$files = [];
-		foreach ($_files as $name => $file) {
-			if ($top) {
-				$subName = $file['name'];
-			} else {
-				$subName = $name;
-			}
-
-			if (is_array($subName)) {
-				foreach (array_keys($subName) as $key) {
-					$files[$name][$key] = [
-						'name' => $file['name'][$key],
-						'type' => $file['type'][$key],
-						'tmp_name' => $file['tmp_name'][$key],
-						'error' => $file['error'][$key],
-						'size' => $file['size'][$key],
-					];
-					$files[$name] = self::transformUploadedFiles($files[$name], false);
-				}
-			} else {
-				$files[$name] = $file;
-			}
-		}
-
-		return $files;
-	}
-
-	/**
 	 * Function parses date into readable format.
 	 *
 	 * @param <Date Time> $dateTime

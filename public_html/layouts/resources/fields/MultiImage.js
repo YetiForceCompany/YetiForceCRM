@@ -154,11 +154,11 @@ class MultiImage {
 			if (!hash) {
 				return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
 			}
-			if (typeof fileAttach.id === 'undefined') {
+			if (typeof fileAttach.key === 'undefined') {
 				return this.uploadError(e, data);
 			}
 			const fileInfo = this.getFileInfo(hash);
-			this.addFileInfoProperty(hash, 'id', fileAttach.id);
+			this.addFileInfoProperty(hash, 'key', fileAttach.key);
 			this.addFileInfoProperty(hash, 'fileSize', fileAttach.size);
 			this.addFileInfoProperty(hash, 'name', fileAttach.name);
 			this.removePreviewPopover(hash);
@@ -172,7 +172,7 @@ class MultiImage {
 	 */
 	updateFormValues() {
 		const formValues = this.files.map(file => {
-			return {id: file.id, name: file.name, size: file.fileSize};
+			return {key: file.key, name: file.name, size: file.fileSize};
 		});
 		this.elements.valuesInput.val(JSON.stringify(formValues));
 	}
