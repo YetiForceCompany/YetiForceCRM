@@ -9,7 +9,6 @@ class MultiImage {
 	 */
 	constructor(inputElement) {
 		const thisInstance = this;
-		this.files = [];
 		this.elements = {};
 		this.elements.fileInput = $(inputElement);
 		this.elements.component = this.elements.fileInput.closest('.js-multi-image').eq(0);
@@ -18,6 +17,7 @@ class MultiImage {
 		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
 		this.elements.progress = this.elements.component.find('.js-multi-image__progress').eq(0);
 		this.elements.result = this.elements.component.find('.js-multi-image__result').eq(0);
+		this.files = JSON.parse(this.elements.valuesInput.val());
 		this.elements.fileInput.detach();
 		this.elements.addButton.click(this.addButtonClick.bind(this));
 		this.elements.fileInput.fileupload({
@@ -50,6 +50,7 @@ class MultiImage {
 			e.preventDefault();
 			thisInstance.deleteFile($(this).data('hash'));
 		});
+		this.loadExistingFiles();
 	}
 
 	/**
@@ -159,7 +160,7 @@ class MultiImage {
 			}
 			const fileInfo = this.getFileInfo(hash);
 			this.addFileInfoProperty(hash, 'key', fileAttach.key);
-			this.addFileInfoProperty(hash, 'fileSize', fileAttach.size);
+			this.addFileInfoProperty(hash, 'size', fileAttach.size);
 			this.addFileInfoProperty(hash, 'name', fileAttach.name);
 			this.removePreviewPopover(hash);
 			this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
@@ -172,7 +173,7 @@ class MultiImage {
 	 */
 	updateFormValues() {
 		const formValues = this.files.map(file => {
-			return {key: file.key, name: file.name, size: file.fileSize};
+			return {key: file.key, name: file.name, size: file.size};
 		});
 		this.elements.valuesInput.val(JSON.stringify(formValues));
 	}
@@ -322,8 +323,8 @@ class MultiImage {
 		const thisInstance = this;
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
-		if (typeof fileInfo.fileSize !== 'undefined') {
-			fileSize = `<small class="float-left p-1 bg-white border rounded">${fileInfo.fileSize}</small>`;
+		if (typeof fileInfo.size !== 'undefined') {
+			fileSize = `<small class="float-left p-1 bg-white border rounded">${fileInfo.size}</small>`;
 		}
 		return $(template).popover({
 			container: thisInstance.elements.component,
@@ -414,7 +415,11 @@ class MultiImage {
 					callback(file.preview);
 				});
 			} else {
-				// TODO: handle files from json (not File elements)
+				this.generatePreviewFromValue(file, (template, imageSrc) => {
+					file.preview = this.addPreviewPopover(file, template, imageSrc);
+					this.addFileInfoProperty(file.hash, 'previewElement', file.preview);
+					callback(file.preview);
+				});
 			}
 		});
 	}
@@ -430,12 +435,38 @@ class MultiImage {
 		fr.onload = () => {
 			file.imageSrc = fr.result;
 			this.addFileInfoProperty(file.hash, 'imageSrc', file.imageSrc);
-			this.addFileInfoProperty(file.hash, 'image', file.image);
 			callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
 					<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="Fields.MultiImage" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
 			</div>`, fr.result);
 		};
 		fr.readAsDataURL(file);
+	}
+
+
+	/**
+	 * Generate preview of image as html string from existing values
+	 *
+	 * @param {File} file
+	 * @param {function} callback
+	 */
+	generatePreviewFromValue(file, callback) {
+		callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
+				<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="Fields.MultiImage" style="background-image:url(${file.imageSrc})" tabindex="0" title="${file.name}"></div>
+		</div>`, file.imageSrc);
+	}
+
+	/**
+	 * Load files that were in valueInput as json string
+	 */
+	loadExistingFiles() {
+		this.files = this.files.map((file) => {
+			file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
+			return file;
+		});
+		this.generatePreviewElements(this.files, (element) => {
+			this.elements.result.append(element);
+		});
+		this.updateFormValues();
 	}
 
 }
