@@ -15,7 +15,7 @@
 	{assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	<div class="input-group date">
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" aria-describedby="basic-addon2" type="text" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="dateField form-control" name="{$FIELD_MODEL->getFieldName()}" data-date-format="{$dateFormat}" type="text" value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldinfo='{$FIELD_INFO}'
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="dateField form-control" name="{$FIELD_MODEL->getFieldName()}" data-date-format="{$dateFormat}" type="text" value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldinfo='{$FIELD_INFO}'
 			   {if $MODE eq 'edit' && $FIELD_NAME eq 'due_date'} data-user-changed-time="true" {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 		<div class="input-group-append">
 			<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">

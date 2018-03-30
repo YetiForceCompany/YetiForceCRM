@@ -18,7 +18,7 @@
 					<label>{\App\Language::translate('Title', $MODULE)}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">
-						<span class="input-group-addon" id="basic-addon1"><span class="fas fa-file"></span></span>
+						<span class="input-group-addon"><span class="fas fa-file"></span></span>
 					</div>
 				</div>
 			</div>
