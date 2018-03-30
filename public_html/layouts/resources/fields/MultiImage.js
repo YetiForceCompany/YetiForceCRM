@@ -11,6 +11,7 @@ class MultiImage {
 		const thisInstance = this;
 		this.elements = {};
 		this.detailView = false;
+		this.showCarousel = true;
 		this.elements.fileInput = $(element).find('.js-multi-image__file').eq(0);
 		if (this.elements.fileInput.length === 0) {
 			this.detailView = true;
@@ -306,15 +307,18 @@ class MultiImage {
 	 */
 	zoomPreview(hash) {
 		const thisInstance = this;
-		const fileInfo = this.getFileInfo(hash);
+		let fileInfo = this.getFileInfo(hash);
 		const bootboxOptions = {
 			size: 'large',
 			backdrop: true,
 			onEscape: true,
-			title: `<i class="fa fa-image"></i> ${fileInfo.name}`,
+			title: `<i class="fa fa-image"></i> <span id="bootbox-title-${hash}">${fileInfo.name}</span>`,
 			message: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
 			buttons: {}
 		};
+		if (this.showCarousel) {
+			bootboxOptions.message = this.generateCarousel(hash);
+		}
 		if (!this.detailView) {
 			bootboxOptions.buttons.Delete = {
 				label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
@@ -338,6 +342,12 @@ class MultiImage {
 			},
 		};
 		bootbox.dialog(bootboxOptions);
+		if (this.showCarousel) {
+			$(`#carousel-${hash}`).on('slide.bs.carousel', (e) => {
+				fileInfo = this.getFileInfo($(e.relatedTarget).data('hash'));
+				$(`#bootbox-title-${hash}`)..text(fileInfo.name);
+			});
+		}
 	}
 
 	/**
@@ -551,6 +561,33 @@ class MultiImage {
 			this.elements.result.append(element);
 		});
 		this.updateFormValues();
+	}
+
+	/**
+	 * Generate carousel for all files in large preview
+	 *
+	 * @param {String} hash
+	 */
+	generateCarousel(hash) {
+		let template = `<div id="carousel-${hash}" class="carousel slide" data-ride="carousel">
+		  <div class="carousel-inner">`;
+		this.files.forEach((file) => {
+			template += `<div class="carousel-item`;
+			if (file.hash === hash) {
+				template += ` active`;
+			}
+			template += `" data-hash="${file.hash}">
+		      <img class="d-block w-100" src="${file.imageSrc}">
+		    </div>`;
+		});
+		template += `<a class="carousel-control-prev" href="#carousel-${hash}" role="button" data-slide="prev">
+		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		  </a>
+		  <a class="carousel-control-next" href="#carousel-${hash}" role="button" data-slide="next">
+		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		  </a>
+		</div>`;
+		return template;
 	}
 
 }
