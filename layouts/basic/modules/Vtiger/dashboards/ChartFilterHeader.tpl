@@ -32,7 +32,7 @@
 				<div class="col-md-6">
 					<div class="input-group input-group-sm">
 						<div class="input-group-prepend">
-							<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+							<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 								<span class="far fa-clock"></span>
 							</span>
 						</div>
@@ -44,7 +44,7 @@
 				<div class="col-md-6 ownersFilter">
 					<div class="input-group input-group-sm flex-nowrap">
 						<div class=" input-group-prepend">
-							<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">
+							<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
 								<span class="fas fa-calendar-alt" title="{\App\Language::translate('Assigned To')}"></span>
 							</span>
 						</div>	

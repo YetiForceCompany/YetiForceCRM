@@ -35,7 +35,7 @@ App.Fields = {
 			}
 			if (registerForAddon === true) {
 				const parentDateElem = elements.closest('.date');
-				$('.js-date-btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
+				$('.js-date__btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
 					$(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();

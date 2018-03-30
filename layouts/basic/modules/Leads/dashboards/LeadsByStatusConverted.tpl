@@ -34,7 +34,7 @@
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
 				<div class=" input-group-prepend">	
-					<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">
+					<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
 						<span class="fas fa-calendar-alt" title="{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}"></span>
 					</span>
 				</div>
