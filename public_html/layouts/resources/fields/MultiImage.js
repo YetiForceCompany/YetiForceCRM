@@ -21,6 +21,8 @@ class MultiImage {
 		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
 		this.elements.progress = this.elements.component.find('.js-multi-image__progress').eq(0);
 		this.elements.result = this.elements.component.find('.js-multi-image__result').eq(0);
+		this.fieldInfo = this.elements.values.data('fieldinfo');
+		this.formats = this.fieldInfo.formats;
 		if (!this.detailView) {
 			this.files = JSON.parse(this.elements.values.val());
 		} else {
@@ -34,7 +36,6 @@ class MultiImage {
 				replaceFileInput: false,
 				fileInput: this.fileInput,
 				autoUpload: false,
-				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
 				submit: this.submit.bind(this),
 				add: this.add.bind(this),
 				progressall: this.progressAll.bind(this),
@@ -42,7 +43,7 @@ class MultiImage {
 				drop: this.change.bind(this),
 				dragover: this.dragOver.bind(this),
 				fail: this.uploadError.bind(this),
-				done: this.uploadSuccess.bind(this)
+				done: this.uploadSuccess.bind(this),
 			});
 			this.elements.component.on('dragleave', this.dragLeave.bind(this));
 			this.elements.component.on('dragend', this.dragLeave.bind(this));
@@ -139,7 +140,6 @@ class MultiImage {
 		if (typeof response.result !== 'undefined' && typeof response.result.attach !== 'undefined' && Array.isArray(response.result.attach)) {
 			response.result.attach.forEach((fileAttach) => {
 				this.deleteFile(fileAttach.hash, false);
-
 				if (typeof fileAttach.error === 'string') {
 					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
 				} else {
@@ -195,6 +195,41 @@ class MultiImage {
 	}
 
 	/**
+	 * Validate file
+	 *
+	 * @param {Object} file
+	 * @returns {boolean}
+	 */
+	validateFile(file) {
+		let valid = false;
+		this.formats.forEach((format) => {
+			if (file.type === 'image/' + format) {
+				valid = true;
+			}
+		});
+		if (!valid) {
+			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_INVALID_FILE_TYPE")} [${file.name}]\n${app.vtranslate("JS_AVAILABLE_FILE_TYPES")}  [${this.formats.join(', ')}]`);
+		}
+		return valid;
+	}
+
+	/**
+	 * Get only valid files from list
+	 *
+	 * @param {Array} files
+	 * @returns {Array}
+	 */
+	filterValidFiles(files) {
+		if (files.length > this.fieldInfo.limit) {
+			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_FILE_LIMIT")} [${this.fieldInfo.limit}]`);
+			return [];
+		}
+		return files.filter((file) => {
+			return this.validateFile(file);
+		});
+	}
+
+	/**
 	 * Add event handler from jQuery-file-upload
 	 *
 	 * @param {Event} e
@@ -207,7 +242,9 @@ class MultiImage {
 				this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
 			}
 		});
-		data.submit();
+		if (data.files.length) {
+			data.submit();
+		}
 	}
 
 	/**
@@ -247,7 +284,19 @@ class MultiImage {
 	}
 
 	downloadFile(hash) {
-		alert('download!');
+		const fileInfo = this.getFileInfo(hash);
+		const imageUrl = `data:application/octet-stream;filename=${fileInfo.name};base64,` + fileInfo.imageSrc.split(',')[1];
+		const link = document.createElement('a');
+		$(link).css('display', 'none');
+		if (typeof link.download === 'string') {
+			document.body.appendChild(link); // Firefox requires the link to be in the body
+			link.download = fileInfo.name;
+			link.href = imageUrl;
+			link.click();
+			document.body.removeChild(link); // remove the link when done
+		} else {
+			location.replace(imageUrl);
+		}
 	}
 
 	/**
@@ -334,6 +383,7 @@ class MultiImage {
 	 * @param {object} data
 	 */
 	change(e, data) {
+		data.files = this.filterValidFiles(data.files);
 		this.dragLeave(e);
 		this.generatePreviewElements(data.files, (element) => {
 			this.elements.result.append(element);
