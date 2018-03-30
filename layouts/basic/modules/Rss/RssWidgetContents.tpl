@@ -21,11 +21,11 @@
 			<div class="col-md-12">
 				<ul class="nav list-group">
 					{foreach item=recordsModel from=$RSS_SOURCES}
-						<li>
-							<a href="#" class="rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
+						<li class="nav-item">
+							<a href="#" class="nav-link rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
 						</li>
 					{foreachelse}
-						<li class="text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
+						<li class="nav-item text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
 						{/foreach}
 				</ul>
 			</div>
