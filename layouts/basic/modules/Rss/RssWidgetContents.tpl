@@ -19,7 +19,7 @@
 	<div class="recordNamesList">
 		<div class="row">
 			<div class="col-md-12">
-				<ul class="nav list-group">
+				<ul class="nav">
 					{foreach item=recordsModel from=$RSS_SOURCES}
 						<li class="nav-item">
 							<a href="#" class="nav-link rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
