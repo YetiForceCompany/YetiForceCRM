@@ -2565,6 +2565,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 	updateWindowHeight: function (currentHeight, frame) {
 		frame.height(currentHeight);
 	},
+
+	/**
+	 * Register multi image upload fields
+	 * @param {HTMLElement|jQuery} container
+	 */
+	registerMultiImageFields() {
+		return App.Fields.MultiImage.register(this.getContentHolder());
+	},
+
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.refreshRelatedList();
@@ -2593,5 +2602,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerBasicEvents();
 
 		this.registerEventForTotalRecordsCount();
+		this.registerMultiImageFields();
 	}
 });

@@ -59,18 +59,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$imageIcons = '<div class="multiImageContenDiv">';
-		if ($record) {
-			$field = $this->getFieldModel();
-			$moduleName = $field->getModuleName();
-			foreach (\App\Json::decode($value) as $item) {
-				$imageIcons .= '<div class="contentImage" title="' . $item['name'] . '">'
-					. '<button type="button" class="btn btn-sm btn-default imageFullModal hide"><span class="fas fa-expand-arrows-alt"></span></button>'
-					. '<img src="file.php?module=' . $moduleName . '&action=MultiImage&record=' . $record . '&key=' . $item['key'] . '&field=' . $field->getName() . '" class="multiImageListIcon"></div>';
+		$value = \App\Json::decode($value);
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item['imageSrc'] = \App\Fields\File::getImageBaseData(ROOT_DIRECTORY . '/' . $item['path']);
+				unset($item['path']);
 			}
+		} else {
+			$value = [];
 		}
-		$imageIcons .= '</div>';
-		return $imageIcons;
+		return \App\Purifier::encodeHtml(\App\Json::encode($value));
 	}
 
 	/**
@@ -106,6 +104,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'uitypes/MultiImage.tpl';
+	}
+
+	/**
+	 * Function to get the Detailview template name for the current UI Type Object.
+	 *
+	 * @return string - Template Name
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'uitypes/MultiImageDetailView.tpl';
 	}
 
 	/**

@@ -7,38 +7,48 @@ class MultiImage {
 	 *
 	 * @param {HTMLElement|jQuery} inputElement - input type file element inside component
 	 */
-	constructor(inputElement) {
+	constructor(element) {
 		const thisInstance = this;
 		this.elements = {};
-		this.elements.fileInput = $(inputElement);
-		this.elements.component = this.elements.fileInput.closest('.js-multi-image').eq(0);
+		this.detailView = false;
+		this.elements.fileInput = $(element).find('.js-multi-image__file').eq(0);
+		if (this.elements.fileInput.length === 0) {
+			this.detailView = true;
+		}
+		this.elements.component = $(element).eq(0);
 		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
-		this.elements.valuesInput = this.elements.component.find('.js-multi-image__values').eq(0);
+		this.elements.values = this.elements.component.find('.js-multi-image__values').eq(0);
 		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
 		this.elements.progress = this.elements.component.find('.js-multi-image__progress').eq(0);
 		this.elements.result = this.elements.component.find('.js-multi-image__result').eq(0);
-		this.files = JSON.parse(this.elements.valuesInput.val());
-		this.elements.fileInput.detach();
-		this.elements.addButton.click(this.addButtonClick.bind(this));
-		this.elements.fileInput.fileupload({
-			dataType: 'json',
-			replaceFileInput: false,
-			fileInput: this.fileInput,
-			autoUpload: false,
-			acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-			submit: this.submit.bind(this),
-			add: this.add.bind(this),
-			progressall: this.progressAll.bind(this),
-			change: this.change.bind(this),
-			drop: this.change.bind(this),
-			dragover: this.dragOver.bind(this),
-			fail: this.uploadError.bind(this),
-			done: this.uploadSuccess.bind(this)
-		});
-		this.elements.component.on('dragleave', this.dragLeave.bind(this));
-		this.elements.component.on('dragend', this.dragLeave.bind(this));
-		this.elements.fileInput.fileupload('option', 'dropZone', $(this.elements.component));
-		this.enableDragNDrop();
+		if (!this.detailView) {
+			this.files = JSON.parse(this.elements.values.val());
+		} else {
+			this.files = this.elements.values.data('value');
+		}
+		if (!this.detailView) {
+			this.elements.fileInput.detach();
+			this.elements.addButton.click(this.addButtonClick.bind(this));
+			this.elements.fileInput.fileupload({
+				dataType: 'json',
+				replaceFileInput: false,
+				fileInput: this.fileInput,
+				autoUpload: false,
+				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+				submit: this.submit.bind(this),
+				add: this.add.bind(this),
+				progressall: this.progressAll.bind(this),
+				change: this.change.bind(this),
+				drop: this.change.bind(this),
+				dragover: this.dragOver.bind(this),
+				fail: this.uploadError.bind(this),
+				done: this.uploadSuccess.bind(this)
+			});
+			this.elements.component.on('dragleave', this.dragLeave.bind(this));
+			this.elements.component.on('dragend', this.dragLeave.bind(this));
+			this.elements.fileInput.fileupload('option', 'dropZone', $(this.elements.component));
+			this.enableDragNDrop();
+		}
 		this.elements.component.on('click', '.js-multi-image__popover-img', function (e) {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
@@ -46,10 +56,16 @@ class MultiImage {
 			e.preventDefault();
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
-		this.elements.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
+		this.elements.component.on('click', '.js-multi-image__popover-btn-download', function (e) {
 			e.preventDefault();
-			thisInstance.deleteFile($(this).data('hash'));
+			thisInstance.downloadFile($(this).data('hash'));
 		});
+		if (!this.detailView) {
+			this.elements.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
+				e.preventDefault();
+				thisInstance.deleteFile($(this).data('hash'));
+			});
+		}
 		this.loadExistingFiles();
 	}
 
@@ -175,7 +191,7 @@ class MultiImage {
 		const formValues = this.files.map(file => {
 			return {key: file.key, name: file.name, size: file.size};
 		});
-		this.elements.valuesInput.val(JSON.stringify(formValues));
+		this.elements.values.val(JSON.stringify(formValues));
 	}
 
 	/**
@@ -230,6 +246,10 @@ class MultiImage {
 		this.elements.component.removeClass('c-multi-image__drop-effect');
 	}
 
+	downloadFile(hash) {
+		alert('download!');
+	}
+
 	/**
 	 * Display modal window with large preview
 	 *
@@ -238,28 +258,37 @@ class MultiImage {
 	zoomPreview(hash) {
 		const thisInstance = this;
 		const fileInfo = this.getFileInfo(hash);
-		bootbox.dialog({
+		const bootboxOptions = {
 			size: 'large',
 			backdrop: true,
 			onEscape: true,
 			title: `<i class="fa fa-image"></i> ${fileInfo.name}`,
 			message: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
-			buttons: {
-				Delete: {
-					label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
-					className: "float-left btn btn-danger",
-					callback() {
-						thisInstance.deleteFile(fileInfo.hash);
-					}
-				},
-				Close: {
-					label: `<i class="fa fa-times"></i> ${app.vtranslate('JS_CLOSE')}`,
-					className: "btn btn-default",
-					callback: () => {
-					},
+			buttons: {}
+		};
+		if (!this.detailView) {
+			bootboxOptions.buttons.Delete = {
+				label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
+				className: "float-left btn btn-danger",
+				callback() {
+					thisInstance.deleteFile(fileInfo.hash);
 				}
+			};
+		}
+		bootboxOptions.buttons.Download = {
+			label: `<i class="fa fa-download"></i> ${app.vtranslate('JS_DOWNLOAD')}`,
+			className: "float-left btn btn-success",
+			callback() {
+				thisInstance.downloadFile(fileInfo.hash);
 			}
-		});
+		};
+		bootboxOptions.buttons.Close = {
+			label: `<i class="fa fa-times"></i> ${app.vtranslate('JS_CLOSE')}`,
+			className: "btn btn-default",
+			callback: () => {
+			},
+		};
+		bootbox.dialog(bootboxOptions);
 	}
 
 	/**
@@ -326,21 +355,26 @@ class MultiImage {
 		if (typeof fileInfo.size !== 'undefined') {
 			fileSize = `<small class="float-left p-1 bg-white border rounded">${fileInfo.size}</small>`;
 		}
+		let deleteBtn = '';
+		if (!this.detailView) {
+			deleteBtn = `<button class="btn btn-sm btn-danger u-btn-collapsible js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-trash-alt"></i> <span>${app.vtranslate('JS_DELETE')}</span></button>`;
+		}
 		return $(template).popover({
 			container: thisInstance.elements.component,
 			title: `<div class="u-text-ellipsis"><i class="fa fa-image"></i> ${file.name}</div>`,
 			html: true,
 			trigger: 'focus',
 			placement: 'top',
-			content: `<img src="${imageSrc}" class="w-100 js-multi-image__popover-img c-multi-image__popover-img" data-hash="${file.hash}" data-js="Fields.MultiImage"/>`,
+			content: `<img src="${imageSrc}" class="w-100 js-multi-image__popover-img c-multi-image__popover-img" data-hash="${file.hash}" data-js="click"/>`,
 			template: `<div class="popover" role="tooltip">
 				<div class="arrow"></div>
 				<h3 class="popover-header"></h3>
 				<div class="popover-body"></div>
 				<div class="text-right popover-footer js-multi-image__popover-actions">
 					${fileSize}
-					<button class="btn btn-sm btn-danger u-btn-collapsible js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-trash-alt"></i> <span>${app.vtranslate('JS_DELETE')}</span></button>
-					<button class="btn btn-sm btn-primary u-btn-collapsible js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="Fields.MultiImage"><i class="fa fa-search-plus"></i> <span>${app.vtranslate('JS_ZOOM_IN')}</span></button>
+					${deleteBtn}
+					<button class="btn btn-sm btn-success u-btn-collapsible js-multi-image__popover-btn-download" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-download"></i> <span>${app.vtranslate('JS_DOWNLOAD')}</span></button>
+					<button class="btn btn-sm btn-primary u-btn-collapsible js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-search-plus"></i> <span>${app.vtranslate('JS_ZOOM_IN')}</span></button>
 				</div>
 			</div>`
 		});
@@ -435,8 +469,8 @@ class MultiImage {
 		fr.onload = () => {
 			file.imageSrc = fr.result;
 			this.addFileInfoProperty(file.hash, 'imageSrc', file.imageSrc);
-			callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
-					<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="Fields.MultiImage" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
+			callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="container|click">
+					<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="drag" style="background-image:url(${fr.result})" tabindex="0" title="${file.name}"></div>
 			</div>`, fr.result);
 		};
 		fr.readAsDataURL(file);
@@ -450,8 +484,8 @@ class MultiImage {
 	 * @param {function} callback
 	 */
 	generatePreviewFromValue(file, callback) {
-		callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="Fields.MultiImage">
-				<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="Fields.MultiImage" style="background-image:url(${file.imageSrc})" tabindex="0" title="${file.name}"></div>
+		callback(`<div class="d-inline-block mr-1 js-multi-image__preview" id="js-multi-image__preview-hash-${file.hash}" data-hash="${file.hash}" data-js="container|click">
+				<div class="img-thumbnail js-multi-image__preview-img c-multi-image__preview-img" data-hash="${file.hash}" data-js="drag" style="background-image:url(${file.imageSrc})" tabindex="0" title="${file.name}"></div>
 		</div>`, file.imageSrc);
 	}
 
