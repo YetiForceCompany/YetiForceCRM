@@ -3,9 +3,9 @@
  * UIType MultiImage Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Michał Lorencik <m.lorencik@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Michał Lorencik <m.lorencik@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -22,7 +22,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
-		$value =  \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
+		$value = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
@@ -86,9 +86,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		$value  = \App\Json::decode($value);
-		foreach ($value as &$item) {
-			unset($item['path']);
+		$value = \App\Json::decode($value);
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				unset($item['path']);
+			}
+		} else {
+			$value = [];
 		}
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
 	}
