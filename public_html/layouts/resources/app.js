@@ -1214,6 +1214,21 @@ app = {
 		}
 		return jQuery(window).height() * percantage / 100;
 	},
+	setCalendarHeight() {
+		const container = $('.baseContainer');
+		const paddingTop = 10;
+		if ($(window).width() > 993) {
+			let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+			new ResizeSensor(container.find('.contentsDiv'), () => {
+				calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+				$('#calendarview').fullCalendar('option', 'height', calendarH);
+				$('#calendarview').height(calendarH + 10); // without this line calendar scroll stop working
+			});
+			return calendarH;
+		} else if ($(window).width() < 993) {
+			return 'auto';
+		}
+	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: app.getModuleName(),
