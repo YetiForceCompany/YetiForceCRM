@@ -15,7 +15,7 @@
 							<button type="button" class="btn btn-primary btn-sm">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
 						</span>
 					</div>
-					<div class="card-body js-panel__body m-0 p-0" data-js=”val”>
+					<div class="card-body js-panel__body m-0 p-0" data-js=”value”>
 						<div class="form-group">
 							<div class="input-group">
 								<input type="text" class="form-control textAlignRight" readonly="readonly" />
@@ -45,8 +45,8 @@
 							<button type="button" class="btn btn-primary btn-sm">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
 						</span>
 					</div>
-					<div class="card-body js-panel__body m-0 p-0" data-js=”val”></div>
-					<div class="card-footer js-panel__footer m-0 p-0" data-js=”val”>
+					<div class="card-body js-panel__body m-0 p-0" data-js=”value”></div>
+					<div class="card-footer js-panel__footer m-0 p-0" data-js=”value”>
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -83,7 +83,7 @@
 							<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE)}</strong>
 						</div>
 						<div class="card-body js-panel__body"></div>
-						<div class="card-footer js-panel__footer" data-js=”val”>
+						<div class="card-footer js-panel__footer" data-js=”value”>
 							<div class="form-group">
 								<div class="input-group">
 									<div class="input-group-prepend">
