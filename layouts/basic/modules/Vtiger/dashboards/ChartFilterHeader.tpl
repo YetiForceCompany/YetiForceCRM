@@ -32,8 +32,8 @@
 				<div class="col-md-6">
 					<div class="input-group input-group-sm">
 						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<span class="fas fa-calendar-alt iconMiddle"></span>
+							<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+								<span class="far fa-clock"></span>
 							</span>
 						</div>
 						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
@@ -43,11 +43,11 @@
 			{if $WIDGET_DATA['showOwnerFilter']}
 				<div class="col-md-6 ownersFilter">
 					<div class="input-group input-group-sm flex-nowrap">
-						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<span class="fas fa-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span>
+						<div class=" input-group-prepend">
+							<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">
+								<span class="fas fa-calendar-alt" title="{\App\Language::translate('Assigned To')}"></span>
 							</span>
-						</div>
+						</div>	
 						<div class="select2Wrapper">
 							<select class="widgetFilter select2 owner form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
 								<option value="0">{\App\Language::translate('LBL_ALL_OWNERS','Home')}</option>

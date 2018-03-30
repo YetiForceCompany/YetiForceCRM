@@ -126,7 +126,11 @@
                                                 {assign var=specificDate value=\App\Json::decode($WORKFLOW_MODEL_OBJ->schannualdates)}
 												{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 												<input type="text" class="dateField form-control" name="schdate" value="{$specificDate1}" data-date-format="{$USER_MODEL->get('date_format')}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-												<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
+												<div class=" input-group-append">
+												<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">
+													<span class="fas fa-calendar-alt"></span>
+												</span>
+												</div>	
 											</div>
 										</div>
 									</div>

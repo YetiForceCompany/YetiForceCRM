@@ -257,7 +257,7 @@ Vtiger_Field_Js('Vtiger_Date_Field_Js', {}, {
 	getUi: function () {
 		var html = '<div class="date input-group">' +
 			'<input class="dateField form-control" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-			'<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>' +
+			'<div class="input-group-append"><span class="input-group-text u-cursor-pointer js-date-btn" data-js="click"><span class="fas fa-calendar-alt"></span></span></div>' +
 			'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
