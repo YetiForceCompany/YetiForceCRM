@@ -19,14 +19,14 @@ App.Fields = {
 		 */
 		register(parentElement, registerForAddon, customParams) {
 			if (typeof parentElement === 'undefined') {
-				parentElement = jQuery('body');
+				parentElement = $('body');
 			} else {
-				parentElement = jQuery(parentElement);
+				parentElement = $(parentElement);
 			}
 			if (typeof registerForAddon === 'undefined') {
 				registerForAddon = true;
 			}
-			let elements = jQuery('.dateField', parentElement);
+			let elements = $('.dateField', parentElement);
 			if (parentElement.hasClass('dateField')) {
 				elements = parentElement;
 			}
@@ -35,10 +35,10 @@ App.Fields = {
 			}
 			if (registerForAddon === true) {
 				const parentDateElem = elements.closest('.date');
-				jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
+				$('.js-date-btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
-					jQuery(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();
+					$(e.currentTarget).closest('.date').find('input.dateField').get(0).focus();
 				});
 			}
 			let format = CONFIG.dateFormat;

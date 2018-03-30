@@ -15,11 +15,11 @@
 		<div class="row" >
 			<div class="col-sm-6">
 				<div class="input-group input-group-sm">
-					<span class=" input-group-prepend">
-						<span class="input-group-text">
-							<span class="fas fa-calendar-alt iconMiddle margintop3"></span>
+					<div class=" input-group-prepend">
+						<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">
+							<span class="fas fa-calendar-alt"></span>
 						</span>
-					</span>
+					</div>
 					<input type="text" name="time" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter text-center" value="{implode(',',$DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 				</div>
 			</div>
