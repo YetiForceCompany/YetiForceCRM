@@ -1575,6 +1575,9 @@
 	"JS_ZOOM_IN": "Powi\u0119ksz",
 	"JS_FILE_UPLOAD_ERROR": "Nie uda\u0142o si\u0119 wgra\u0107 pliku na serwer",
 	"JS_INVALID_FILE_HASH": "Nieprawid\u0142owy hash pliku",
-	"JS_DOWNLOAD": "Pobierz"
+	"JS_DOWNLOAD": "Pobierz",
+	"JS_INVALID_FILE_TYPE": "Nieprawid\u0142wy typ pliku",
+	"JS_AVAILABLE_FILE_TYPES": "Dost\u0119pne typy plików to",
+	"JS_FILE_LIMIT": "Maksymalna liczba plik\u00F3w zosta\u0142a przekroczona"
   }
 }
