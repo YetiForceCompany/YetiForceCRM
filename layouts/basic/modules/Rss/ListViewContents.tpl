@@ -25,7 +25,7 @@
 					</div>
 					<div class="btn-toolbar">
 						<span class="btn-group">
-							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange-alt"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 						<span class="btn-group ml-1">
 							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="fas fa-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
