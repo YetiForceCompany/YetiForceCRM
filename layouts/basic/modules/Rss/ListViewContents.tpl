@@ -38,7 +38,7 @@
 						</span>
 					</div>
 				</div>
-				<div class="feedListContainer pushDown" style="overflow: auto;"> 
+				<div class="feedListContainer pushDown u-overflow-auto"> 
 					{include file=\App\Layout::getTemplatePath('RssFeedContents.tpl', $MODULE)}
 				</div>
 			{else}
