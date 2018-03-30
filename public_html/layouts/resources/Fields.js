@@ -549,7 +549,7 @@ App.Fields = {
 		 * @param {object} viewParams
 		 */
 		showChoosenElementView(parent, viewParams) {
-			selectElement = jQuery('.chzn-select', parent);
+			let selectElement = $('.chzn-select', parent);
 			//parent itself is the element
 			if (parent.is('select.chzn-select')) {
 				selectElement = parent;
@@ -562,7 +562,7 @@ App.Fields = {
 			});
 			//fix for multiselect error prompt hide when validation is success
 			selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
-				jQuery(e.currentTarget).trigger('focusout');
+				$(e.currentTarget).trigger('focusout');
 			});
 			let params = {
 				no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
@@ -581,13 +581,13 @@ App.Fields = {
 				if (select.hasClass('hideSelected')) {
 					const ns = [];
 					select.find('optgroup,option').each(function (n, e) {
-						if (jQuery(this).hasClass('d-none')) {
+						if ($(this).hasClass('d-none')) {
 							ns.push(n);
 						}
 					});
 					if (ns.length) {
 						select.next().find('.search-choice-close').each(function (n, e) {
-							if (jQuery.inArray($(this).data('option-array-index'), ns) !== -1) {
+							if ($.inArray($(this).data('option-array-index'), ns) !== -1) {
 								$(this).closest('li').remove();
 							}
 						})
@@ -612,7 +612,7 @@ App.Fields = {
 				}
 			});
 			// Improve the display of default text (placeholder)
-			return jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
+			return $('.chosen-container-multi .default, .chosen-container').css('width', '100%');
 		},
 		/**
 		 * Function to destroy the chosen element and get back the basic select Element
