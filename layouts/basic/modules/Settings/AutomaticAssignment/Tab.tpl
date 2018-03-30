@@ -20,7 +20,7 @@
 				<div class="col-sm-5 col-md-4 controls">
 					<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
-						<div class="input-group-btn" id="basic-addon">
+						<div class="input-group-btn">
 							<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 								<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
 							</button>
@@ -50,7 +50,7 @@
 					<div class="col-md-5 col-lg-4">
 						<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
-							<div class="input-group-btn" id="basic-addon">
+							<div class="input-group-btn">
 								<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 									<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
 								</button>
@@ -102,7 +102,7 @@
 									<div class="col-8 float-right controls">
 										<div class="input-group col-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
-											<div class="input-group-btn" id="basic-addon">
+											<div class="input-group-btn">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 													<span class="fas fa-plus"></span>
 												</button>
