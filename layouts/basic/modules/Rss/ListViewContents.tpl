@@ -23,18 +23,18 @@
 					<div class="col-md-8" id="rssFeedHeading">
 						<h3> {\App\Language::translate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
 					</div>
-					<div class="btn-toolbar col-md-4">
-						<span class="btn-group float-right">
-							<button id="deleteButton" class="btn btn-danger" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="fas fa-trash-alt"></span></button>
+					<div class="btn-toolbar col-md-4 justify-content-end">
+						<span class="btn-group">
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
-						<span class="btn-group float-right">
-							<button id="makeDefaultButton" class="btn btn-info" title="{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
-						</span>
-						<span class="btn-group float-right">
+						<span class="btn-group">
 							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="fas fa-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
-						<span class="btn-group float-right">
-							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+						<span class="btn-group">
+							<button id="makeDefaultButton" class="btn btn-info" title="{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
+						</span>
+						<span class="btn-group">
+							<button id="deleteButton" class="btn btn-danger" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="fas fa-trash-alt"></span></button>
 						</span>
 					</div>
 				</div>
