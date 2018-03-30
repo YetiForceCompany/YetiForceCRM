@@ -10,8 +10,14 @@ class MultiImage {
 	constructor(element) {
 		const thisInstance = this;
 		this.elements = {};
+		this.options = {
+			zoomTitleAnimation: {
+				in: 'fadeIn',
+				out: 'fadeOut'
+			},
+			showCarousel: true,
+		};
 		this.detailView = false;
-		this.showCarousel = true;
 		this.elements.fileInput = $(element).find('.js-multi-image__file').eq(0);
 		if (this.elements.fileInput.length === 0) {
 			this.detailView = true;
@@ -69,6 +75,34 @@ class MultiImage {
 			});
 		}
 		this.loadExistingFiles();
+		if (typeof $.fn.animateCss === 'undefined') {
+			$.fn.extend({
+				animateCss: function (animationName, callback) {
+					var animationEnd = (function (el) {
+						var animations = {
+							animation: 'animationend',
+							OAnimation: 'oAnimationEnd',
+							MozAnimation: 'mozAnimationEnd',
+							WebkitAnimation: 'webkitAnimationEnd',
+						};
+
+						for (var t in animations) {
+							if (el.style[t] !== undefined) {
+								return animations[t];
+							}
+						}
+					})(document.createElement('div'));
+
+					this.addClass('animated ' + animationName).one(animationEnd, function () {
+						$(this).removeClass('animated ' + animationName);
+
+						if (typeof callback === 'function') callback();
+					});
+
+					return this;
+				},
+			});
+		}
 	}
 
 	/**
@@ -308,15 +342,16 @@ class MultiImage {
 	zoomPreview(hash) {
 		const thisInstance = this;
 		let fileInfo = this.getFileInfo(hash);
+		const titleTemplate = () => `<i class="fa fa-image"></i> ${fileInfo.name}`;
 		const bootboxOptions = {
 			size: 'large',
 			backdrop: true,
 			onEscape: true,
-			title: `<i class="fa fa-image"></i> <span id="bootbox-title-${hash}">${fileInfo.name}</span>`,
+			title: `<span id="bootbox-title-${hash}" class="animated ${this.options.zoomTitleAnimation.in}">${titleTemplate()}</span>`,
 			message: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
 			buttons: {}
 		};
-		if (this.showCarousel) {
+		if (this.options.showCarousel) {
 			bootboxOptions.message = this.generateCarousel(hash);
 		}
 		if (!this.detailView) {
@@ -342,10 +377,17 @@ class MultiImage {
 			},
 		};
 		bootbox.dialog(bootboxOptions);
-		if (this.showCarousel) {
+		if (this.options.showCarousel) {
+			$(`#bootbox-title-${hash}`).css({
+				'animation-duration':'350ms'
+			})
 			$(`#carousel-${hash}`).on('slide.bs.carousel', (e) => {
 				fileInfo = this.getFileInfo($(e.relatedTarget).data('hash'));
-				$(`#bootbox-title-${hash}`)..text(fileInfo.name);
+				const aniIn = this.options.zoomTitleAnimation.in;
+				const aniOut = this.options.zoomTitleAnimation.out;
+				$(`#bootbox-title-${hash}`).animateCss(aniOut, () => {
+					$(`#bootbox-title-${hash}`).html(titleTemplate()).removeClass('animated ' + aniOut).animateCss(aniIn);
+				});
 			});
 		}
 	}
