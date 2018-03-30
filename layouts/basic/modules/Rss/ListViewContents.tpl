@@ -19,11 +19,11 @@
 		<div class="feedContainer">
 			{if $RECORD}
 				<input id="recordId" type="hidden" value="{$RECORD->getId()}">
-				<div class="row">
-					<div class="col-md-8" id="rssFeedHeading">
+				<div class="d-flex justify-content-between">
+					<div id="rssFeedHeading">
 						<h3> {\App\Language::translate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
 					</div>
-					<div class="btn-toolbar col-md-4 justify-content-end">
+					<div class="btn-toolbar">
 						<span class="btn-group">
 							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
