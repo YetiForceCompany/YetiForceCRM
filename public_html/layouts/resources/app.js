@@ -555,7 +555,7 @@ app = {
 			minutestep: 5,
 			ampmSubmit: false
 		};
-		$('.js-clock').on('click', (e) => {
+		$('.js-clock__btn').on('click', (e) => {
 			let elem = jQuery(e.currentTarget);
 			e.stopPropagation();
 			let tempElement = elem.closest('.time').find('input.clockPicker');

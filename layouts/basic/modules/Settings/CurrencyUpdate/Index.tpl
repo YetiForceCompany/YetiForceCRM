@@ -72,7 +72,7 @@
 					<td class="fieldValue" >
 						<div class="input-group">
 							<div class=" input-group-prepend">
-								<span class="input-group-text u-cursor-pointer js-date-btn" data-js="click">
+								<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
 									<span class="fas fa-calendar-alt"></span>
 								</span>
 							</div>	

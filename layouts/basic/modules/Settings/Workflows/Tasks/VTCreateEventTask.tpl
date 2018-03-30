@@ -79,7 +79,7 @@
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
 					<div class="input-group-append">
-						<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
 						</span>
 					</div>
@@ -120,7 +120,7 @@
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime" />
 					<div class="input-group-append">
-						<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
 						</span>
 					</div>

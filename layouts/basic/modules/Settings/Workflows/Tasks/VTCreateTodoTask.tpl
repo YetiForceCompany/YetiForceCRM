@@ -79,7 +79,7 @@
 					{/if}
 					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />
 					<div class="input-group-append">
-						<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
 						</span>
 					</div>
