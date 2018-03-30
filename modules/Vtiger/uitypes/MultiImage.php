@@ -89,6 +89,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$value = \App\Json::decode($value);
 		if (is_array($value)) {
 			foreach ($value as &$item) {
+				$item['imageSrc'] = \App\Fields\File::getImageBaseData(ROOT_DIRECTORY . '/' . $item['path']);
 				unset($item['path']);
 			}
 		} else {
