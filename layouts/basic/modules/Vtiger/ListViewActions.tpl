@@ -14,7 +14,7 @@
 		<div>
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 			<input type="hidden" id="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
-			<div class="dropdown dropdownEntityState">
+			<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
 				<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					{if $VIEW_MODEL->get('entityState') == 'Archived'}
 						<span class="fas fa-archive"></span>
