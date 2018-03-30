@@ -1,10 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-%removeDropdownIcon {
-  .dropdown-toggle::after {
-	display: none;
-  }
-}
 %input-groupSelect2 {
   .input-group {
 	flex-wrap: nowrap;
