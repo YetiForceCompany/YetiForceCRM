@@ -539,28 +539,27 @@ app = {
 		});
 	},
 	registerEventForClockPicker: function (object) {
+		let elementClockBtn, formatTime;
 		if (typeof object === 'undefined') {
-			var elementClockBtn = $('.clockPicker');
-			var formatTime = CONFIG.hourFormat;
+			elementClockBtn = $('.clockPicker');
+			formatTime = CONFIG.hourFormat;
 		} else {
 			elementClockBtn = object;
-			var formatTime = elementClockBtn.data('format');
+			formatTime = elementClockBtn.data('format');
 		}
-		formatTime = formatTime == 12 ? true : false;
-		var params = {
+		formatTime = formatTime === 12 ? true : false;
+		let params = {
 			placement: 'bottom',
 			autoclose: true,
 			twelvehour: formatTime,
 			minutestep: 5,
-			ampmSubmit: false,
+			ampmSubmit: false
 		};
-
-		var parentTimeElem = elementClockBtn.closest('.time');
-		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
-			var elem = jQuery(e.currentTarget);
+		$('.js-clock').on('click', (e) => {
+			let elem = jQuery(e.currentTarget);
 			e.stopPropagation();
-			var tempElement = elem.closest('.time').find('input.clockPicker');
-			if (tempElement.attr('disabled') != 'disabled') {
+			let tempElement = elem.closest('.time').find('input.clockPicker');
+			if (tempElement.attr('disabled') !== 'disabled') {
 				tempElement.clockpicker('show');
 			}
 		});

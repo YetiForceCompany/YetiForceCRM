@@ -3,9 +3,9 @@
  * UIType MultiImage Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Michał Lorencik <m.lorencik@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Michał Lorencik <m.lorencik@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -13,6 +13,109 @@
  */
 class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!$isUserFormat) {
+			$value = \App\Json::decode($value);
+		}
+		foreach ($value as $item) {
+			if (empty($item['key']) || empty($item['name']) || empty($item['size']) || App\TextParser::getTextLength($item['key']) !== 50) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+			}
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return \App\Json::encode($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$value = \App\Json::decode($value);
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item['imageSrc'] = \App\Fields\File::getImageBaseData(ROOT_DIRECTORY . '/' . $item['path']);
+				unset($item['path']);
+			}
+		} else {
+			$value = [];
+		}
+		return \App\Purifier::encodeHtml(\App\Json::encode($value));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext'));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		$value = \App\Json::decode($value);
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item['imageSrc'] = \App\Fields\File::getImageBaseData(ROOT_DIRECTORY . '/' . $item['path']);
+				unset($item['path']);
+			}
+		} else {
+			$value = [];
+		}
+		return \App\Purifier::encodeHtml(\App\Json::encode($value));
+	}
+
+	/**
+	 * Function to get the Template name for the current UI Type object.
+	 *
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/MultiImage.tpl';
+	}
+
+	/**
+	 * Function to get the Detailview template name for the current UI Type Object.
+	 *
+	 * @return string - Template Name
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'uitypes/MultiImageDetailView.tpl';
+	}
+
 	/**
 	 * If the field is editable by ajax.
 	 *
@@ -41,107 +144,5 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function isListviewSortable()
 	{
 		return false;
-	}
-
-	/**
-	 * Function to get the Template name for the current UI Type object.
-	 *
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/MultiImage.tpl';
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$imageIcons = '<div class="multiImageContenDiv">';
-		if ($record) {
-			if (!AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
-				$images = $this->getMultiImageQuery($value, ['name'], false)->column('name');
-
-				return implode(', ', $images);
-			}
-			$images = $this->getMultiImageQuery($value, [], $length);
-			foreach ($images->all() as $attach) {
-				$imageIcons .= '<div class="contentImage" title="' . $attach['name'] . '">'
-					. '<button type="button" class="btn btn-sm btn-default imageFullModal hide"><span class="fas fa-expand-arrows-alt"></span></button>'
-					. '<img src="' . $this->getImagePath($attach['attachmentid'], $record) . '" class="multiImageListIcon"></div>';
-			}
-		}
-		$imageIcons .= '</div>';
-
-		return $imageIcons;
-	}
-
-	/**
-	 * Get patch for image.
-	 *
-	 * @param string $value
-	 *
-	 * @return string
-	 */
-	public function getImagePath($value, $recordId)
-	{
-		$field = $this->getFieldModel();
-		$moduleName = $field->getModuleName();
-
-		return "file.php?module=$moduleName&action=MultiImage&record=$recordId&attachment=$value&field={$field->getId()}";
-	}
-
-	/**
-	 * Function to get the List Display Value.
-	 *
-	 * @param string              $value
-	 * @param int                 $record
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool                $rawText
-	 *
-	 * @return string
-	 */
-	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
-	{
-		$images = $this->getDisplayValue($value, $record, $recordModel, true);
-
-		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \App\TextParser::textTruncate($images, $this->getFieldModel()->get('maxlengthtext')) : $images;
-	}
-
-	/**
-	 * Function to get the edit value in display view.
-	 *
-	 * @param mixed               $value
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return mixed
-	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		return $recordModel ? $this->getMultiImageQuery($value, [], false)->all() : [];
-	}
-
-	/**
-	 * Get query for attachments.
-	 *
-	 * @param string $value
-	 * @param array  $fields
-	 * @param bool   $limit
-	 *
-	 * @return type
-	 */
-	public function getMultiImageQuery($value, $fields = [], $limit = true)
-	{
-		$query = (new App\Db\Query());
-		if ($fields) {
-			$query->select($fields);
-		}
-		$query->from('u_#__attachments')->where(['attachmentid' => explode(',', $value)]);
-		if ($limit) {
-			$query->limit(AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
-		}
-
-		return $query;
 	}
 }

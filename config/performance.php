@@ -71,8 +71,6 @@ $PERFORMANCE_CONFIG = [
 	'GLOBAL_SEARCH' => true,
 	//Maximum MultiImage icon view in lists
 	'MAX_MULTIIMAGE_VIEW' => 5,
-	//View MultiImage as icon or names
-	'ICON_MULTIIMAGE_VIEW' => true,
 	//Browsing history working if true
 	'BROWSING_HISTORY_WORKING' => true,
 	//Number of browsing history steps

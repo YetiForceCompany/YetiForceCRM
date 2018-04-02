@@ -875,8 +875,11 @@ class Vtiger_Field_Model extends vtlib\Field
 					}
 				}
 				break;
+			case 'multiImage':
+				$this->fieldInfo['limit'] = 10;
+				$this->fieldInfo['formats'] = \App\Fields\File::$allowedFormats['image'];
+				break;
 		}
-
 		return $this->fieldInfo;
 	}
 

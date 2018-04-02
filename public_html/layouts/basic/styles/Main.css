@@ -10576,11 +10576,11 @@ border1px {
 .u-hide-underneath {
   z-index: -1; }
 
-.u-bg-twilight {
+.u-bg-twilight, .select2-selection__rendered[title=Twilight] {
   background-color: #404952 !important;
   color: #fff; }
 
-.u-bg-modern {
+.u-bg-modern, .select2-selection__rendered[title=Modern] {
   background-color: #0d9605 !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -10608,6 +10608,10 @@ border1px {
 
 .c-multi-image__popover-img {
   cursor: pointer; }
+
+.c-multi-image__drop-effect {
+  background: rgba(0, 123, 255, 0.2);
+  border: 1px solid rgba(0, 123, 255, 0.5) !important; }
 
 .popover-footer {
   padding: 0.5rem 0.75rem;

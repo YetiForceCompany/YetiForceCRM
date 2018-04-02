@@ -4,14 +4,14 @@
 		{assign var=RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RECORD)}
 		{assign var=SELECTED_TAXES value=Vtiger_Taxes_UIType::getValues($RECORD_MODEL->get($TAX_FIELD))}
 		{if count($SELECTED_TAXES) > 0}
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="card js-panel" data-js="class: js-active">
+				<div class="card-header">
 					<strong>{\App\Language::translate('LBL_GROUP_TAXS', $MODULE)}</strong>
 					<div class="float-right">
 						<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="group" class="activeCheckbox">
 					</div>
 				</div>
-				<div class="panel-body" style="display: none;">
+				<div class="card-body js-panel__body d-none" data-js="class: d-none">
 					<div>
 						<p>
 							{\App\Language::translate('LBL_TAX_FOR_MODULE', $MODULE)} {\App\Language::translate($RECORD_MODULE, $RECORD_MODULE)}: {$RECORD_MODEL->getDisplayName()}

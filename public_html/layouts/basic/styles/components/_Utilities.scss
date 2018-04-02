@@ -20,10 +20,10 @@
   position: absolute;
 }
 .u-magin-left-zero {
-	margin-left: 0px !important;
+  margin-left: 0px !important;
 }
 .u-w-auto {
-	width: auto !important;
+  width: auto !important;
 }
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
@@ -45,36 +45,36 @@
 	border-bottom: none !important;
   }
 }
-.u-position-label{
-	@extend .col-12;
-	@extend .col-sm-6;
-	@extend .col-lg-12;
-	@extend .mb-lg-2;
-	@extend .mb-2;
-	@extend .px-0;
-	@extend .d-flex;
-	@extend .justify-content-lg-center;
-	@extend .justify-content-center;
-	@extend .justify-content-xl-start;
-	@extend .justify-content-sm-start;
+.u-position-label {
+  @extend .col-12;
+  @extend .col-sm-6;
+  @extend .col-lg-12;
+  @extend .mb-lg-2;
+  @extend .mb-2;
+  @extend .px-0;
+  @extend .d-flex;
+  @extend .justify-content-lg-center;
+  @extend .justify-content-center;
+  @extend .justify-content-xl-start;
+  @extend .justify-content-sm-start;
 }
-.u-position-button{
-	@extend .col-12;
-	@extend .col-sm-6;
-	@extend .col-lg-12;
-	@extend .px-0;
-	@extend .d-flex;
-	@extend .justify-content-center;
-	@extend .justify-content-sm-end;
-	@extend .justify-content-lg-center;
-	@extend .justify-content-xl-end;
+.u-position-button {
+  @extend .col-12;
+  @extend .col-sm-6;
+  @extend .col-lg-12;
+  @extend .px-0;
+  @extend .d-flex;
+  @extend .justify-content-center;
+  @extend .justify-content-sm-end;
+  @extend .justify-content-lg-center;
+  @extend .justify-content-xl-end;
 }
 .u-alphabet-sorting {
   a {
 	@extend .h5;
 	@extend .font-weight-bold;
   }
-	@extend .text-center;
+  @extend .text-center;
 }
 // a little bigger badge
 .u-badge {
@@ -84,12 +84,48 @@
   z-index: -1;
 }
 .u-bg-twilight {
-	background-color: #404952 !important;
-	color: #fff;
+  background-color: #404952 !important;
+  color: #fff;
 }
 .u-bg-modern {
-	background-color: #0d9605 !important;
+  background-color: #0d9605 !important;
 }
 .u-hover-bold:hover {
-	@extend .font-weight-bold;
+  @extend .font-weight-bold;
+}
+@mixin u-transition($settings) {
+  -webkit-transition: $settings;
+  -moz-transition: $settings;
+  -ms-transition: $settings;
+  -o-transition: $settings;
+  transition: $settings;
+}
+.u-btn-collapsible {
+  overflow: hidden;
+  @include u-transition(all 275ms ease);
+  max-width: 40px;
+  &.btn-xs {
+	max-width: 25px;
+  }
+  &.btn-sm {
+	max-width: 32px;
+  }
+  &.btn-lg {
+	max-width: 50px;
+  }
+  span {
+	opacity: 0;
+	text-indent: -6px;
+	display: inline-block;
+	@include u-transition(all 275ms ease);
+  }
+  &:hover {
+	max-width: 300px;
+	@include u-transition(all 275ms ease);
+	span {
+	  opacity: 1;
+	  text-indent: 0px;
+	  @include u-transition(all 275ms ease);
+	}
+  }
 }

@@ -78,9 +78,11 @@
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
-					<span class="input-group-addon cursorPointer">
-						<i class="far fa-clock"></i>
-					</span>
+					<div class="input-group-append">
+						<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+							<span class="far fa-clock"></span>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -117,9 +119,11 @@
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime" />
-					<span class="input-group-addon cursorPointer">
-						<i class="far fa-clock"></i>
-					</span>
+					<div class="input-group-append">
+						<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+							<span class="far fa-clock"></span>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>

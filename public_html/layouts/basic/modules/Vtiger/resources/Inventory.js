@@ -410,33 +410,33 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		container.removeClass('d-none');
 		var taxs = thisInstance.getAllTaxs();
 		var sum = 0;
-		container.find('.panel-body').html('');
+		container.find('.js-panel__body').html('');
 		$.each(taxs, function (index, value) {
 			if (value != undefined) {
 				value = value * conversionRate;
 				var row = container.find('.d-none .form-group').clone();
 				row.find('.percent').text(index + '%');
 				row.find('input').val(app.parseNumberToShow(value));
-				row.appendTo(container.find('.panel-body'));
+				row.appendTo(container.find('.js-panel__body'));
 				sum += value;
 			}
 		});
-		container.find('.js-panel-footer input').val(app.parseNumberToShow(sum));
+		container.find('.js-panel__footer input').val(app.parseNumberToShow(sum));
 	},
 	calculatTaxSummary: function () {
 		var thisInstance = this;
 		var taxs = thisInstance.getAllTaxs();
 		var container = thisInstance.getInventorySummaryTaxesContainer();
-		container.find('.panel-body').html('');
+		container.find('.js-panel__body').html('');
 		var sum = 0;
 		for (var index in taxs) {
 			var row = container.find('.d-none .form-group').clone();
 			row.find('.percent').text(app.parseNumberToShow(app.parseNumberToFloat(index)) + '%');
 			row.find('input').val(app.parseNumberToShow(taxs[index]));
-			row.appendTo(container.find('.panel-body'));
+			row.appendTo(container.find('.js-panel__body'));
 			sum += taxs[index];
 		}
-		container.find('.js-panel-footer input').val(app.parseNumberToShow(sum));
+		container.find('.js-panel__footer input').val(app.parseNumberToShow(sum));
 	},
 	getAllTaxs: function () {
 		var thisInstance = this;
@@ -512,19 +512,19 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var discountsType = modal.find('.discountsType').val();
 
 		if (discountsType == '0' || discountsType == '1') {
-			if (modal.find('.activepanel .globalDiscount').length > 0) {
-				globalDiscount = app.parseNumberToFloat(modal.find('.activepanel .globalDiscount').val());
+			if (modal.find('.js-active .globalDiscount').length > 0) {
+				globalDiscount = app.parseNumberToFloat(modal.find('.js-active .globalDiscount').val());
 			}
-			if (modal.find('.activepanel .individualDiscountType').length > 0) {
-				var individualTypeDiscount = modal.find('.activepanel .individualDiscountType:checked').val();
-				var value = app.parseNumberToFloat(modal.find('.activepanel .individualDiscountValue').val());
+			if (modal.find('.js-active .individualDiscountType').length > 0) {
+				var individualTypeDiscount = modal.find('.js-active .individualDiscountType:checked').val();
+				var value = app.parseNumberToFloat(modal.find('.js-active .individualDiscountValue').val());
 				if (individualTypeDiscount == 'percentage') {
 					individualDiscount = netPriceBeforeDiscount * (value / 100);
 				} else {
 					individualDiscount = value;
 				}
 			}
-			if (modal.find('.activepanel .groupCheckbox').length > 0 && modal.find('.activepanel .groupCheckbox').prop("checked") == true) {
+			if (modal.find('.js-active .groupCheckbox').length > 0 && modal.find('.js-active .groupCheckbox').prop("checked") == true) {
 				groupDiscount = app.parseNumberToFloat(modal.find('.groupValue').val());
 				groupDiscount = netPriceBeforeDiscount * (groupDiscount / 100);
 			}
@@ -533,7 +533,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			valuePrices = valuePrices - individualDiscount;
 			valuePrices = valuePrices - groupDiscount;
 		} else if (discountsType == '2') {
-			modal.find('.activepanel').each(function (index) {
+			modal.find('.js-active').each(function (index) {
 				var panel = $(this);
 				if (panel.find('.globalDiscount').length > 0) {
 					var globalDiscount = app.parseNumberToFloat(panel.find('.globalDiscount').val());
@@ -565,18 +565,18 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 		var taxType = modal.find('.taxsType').val();
 		if (taxType == '0' || taxType == '1') {
-			if (modal.find('.activepanel .globalTax').length > 0) {
-				globalTax = app.parseNumberToFloat(modal.find('.activepanel .globalTax').val());
+			if (modal.find('.js-active .globalTax').length > 0) {
+				globalTax = app.parseNumberToFloat(modal.find('.js-active .globalTax').val());
 			}
-			if (modal.find('.activepanel .individualTaxValue').length > 0) {
-				var value = app.parseNumberToFloat(modal.find('.activepanel .individualTaxValue').val());
+			if (modal.find('.js-active .individualTaxValue').length > 0) {
+				var value = app.parseNumberToFloat(modal.find('.js-active .individualTaxValue').val());
 				individualTax = (value / 100) * valuePrices;
 			}
-			if (modal.find('.activepanel .groupTax').length > 0) {
+			if (modal.find('.js-active .groupTax').length > 0) {
 				groupTax = app.parseNumberToFloat(modal.find('.groupTax').val());
 				groupTax = netPriceWithoutTax * (groupTax / 100);
 			}
-			if (modal.find('.activepanel .regionalTax').length > 0) {
+			if (modal.find('.js-active .regionalTax').length > 0) {
 				regionalTax = app.parseNumberToFloat(modal.find('.regionalTax').val());
 				regionalTax = netPriceWithoutTax * (regionalTax / 100);
 			}
@@ -586,7 +586,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			valuePrices = valuePrices + groupTax;
 			valuePrices = valuePrices + regionalTax;
 		} else if (taxType == '2') {
-			modal.find('.activepanel').each(function (index) {
+			modal.find('.js-active').each(function (index) {
 				var panel = $(this);
 				if (panel.find('.globalTax').length > 0) {
 					var globalTax = app.parseNumberToFloat(panel.find('.globalTax').val());
@@ -874,8 +874,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				$.each(array, function (index, arrayValue) {
 					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
 					if (param == 'aggregationType') {
-						value.closest('.panel').find('.panel-body').show();
-						value.closest('.panel').addClass('activepanel');
+						value.closest('.js-panel__body').removeClass('d-none');
+						value.closest('.js-panel').addClass('js-active');
 					}
 				});
 			} else if (field.prop("tagName") == 'SELECT') {
@@ -910,8 +910,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				$.each(array, function (index, arrayValue) {
 					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
 					if (param == 'aggregationType') {
-						value.closest('.panel').find('.panel-body').show();
-						value.closest('.panel').addClass('activepanel');
+						value.closest('.js-panel__body').removeClass('d-none');
+						value.closest('.js-panel').addClass('js-active');
 					}
 				});
 			} else if (field.prop("tagName") == 'SELECT') {
@@ -1231,22 +1231,22 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		modal.on('change', '.individualDiscountType', function (e) {
 			var element = $(e.currentTarget);
-			modal.find('.individualDiscountContainer .input-group-addon').text(element.data('symbol'));
+			modal.find('.individualDiscountContainer .input-group-text').text(element.data('symbol'));
 		});
 		modal.on('change', '.activeCheckbox[name="aggregationType"]', function (e) {
 			var element = $(e.currentTarget);
 
 			if (element.attr('type') == 'checkbox' && this.checked) {
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('js-active');
 			} else if (element.attr('type') == 'radio') {
-				modal.find('.panel').removeClass('activepanel');
-				modal.find('.panel .panel-body').hide();
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				modal.find('.js-panel').removeClass('js-active');
+				modal.find('.js-panel .js-panel__body').addClass('d-none');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('js-active');
 			} else {
-				element.closest('.panel').find('.panel-body').hide();
-				element.closest('.panel').removeClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').addClass('d-none');
+				element.closest('.js-panel').removeClass('js-active');
 			}
 		});
 		modal.on('change', '.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox', function (e) {
@@ -1326,22 +1326,22 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		modal.on('change', '.individualTaxType', function (e) {
 			var element = $(e.currentTarget);
-			modal.find('.individualTaxContainer .input-group-addon').text(element.data('symbol'));
+			modal.find('.individualTaxContainer .input-group-text').text(element.data('symbol'));
 		});
 		modal.on('change', '.activeCheckbox[name="aggregationType"]', function (e) {
 			var element = $(e.currentTarget);
 
 			if (element.attr('type') == 'checkbox' && this.checked) {
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('js-active');
 			} else if (element.attr('type') == 'radio') {
-				modal.find('.panel').removeClass('activepanel');
-				modal.find('.panel .panel-body').hide();
-				element.closest('.panel').find('.panel-body').show();
-				element.closest('.panel').addClass('activepanel');
+				modal.find('.js-panel').removeClass('js-active');
+				modal.find('.js-panel .js-panel__body').addClass('d-none');
+				element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
+				element.closest('.js-panel').addClass('js-active');
 			} else {
-				element.closest('.panel').find('.panel-body').hide();
-				element.closest('.panel').removeClass('activepanel');
+				element.closest('.js-panel').find('.js-panel__body').addClass('d-none');
+				element.closest('.js-panel').removeClass('js-active');
 			}
 		});
 		modal.on('change', '.activeCheckbox, .globalTax, .individualTaxValue, .groupTax, .regionalTax', function (e) {

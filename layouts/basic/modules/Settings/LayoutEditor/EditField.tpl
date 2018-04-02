@@ -103,9 +103,11 @@
 							{elseif $FIELD_MODEL->getFieldDataType() eq "time"}
 								<div class="input-group time">
 									<input type="text" class="form-control-sm form-control clockPicker" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>
-									<span class="input-group-addon u-cursor-pointer">
-										<span class="far fa-clock"></span>
-									</span>
+									<div class="input-group-append">
+										<span class="input-group-text u-cursor-pointer js-clock" data-js="click">
+											<span class="far fa-clock"></span>
+										</span>
+									</div>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
 								{assign var=IS_CUSTOM_DEFAULT_VALUE value=\App\TextParser::isVaribleToParse($FIELD_MODEL->get('defaultvalue'))}
