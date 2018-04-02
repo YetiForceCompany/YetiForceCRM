@@ -9,3 +9,8 @@
 .o-calendar-container {
   @extend .pt-2;
 }
+@media(min-width: 993px) {
+	.Calendar_Calendar .mainBody {
+		overflow: hidden;
+	}
+}

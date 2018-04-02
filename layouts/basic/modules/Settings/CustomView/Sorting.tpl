@@ -30,7 +30,7 @@
 					</label>
 					<div class="col-md-9 col-sm-10 col-12">
 						<div class="input-group js-sort-container" data-js="value">
-							<div class="input-group-prepend" id="basic-addon1">
+							<div class="input-group-prepend">
 								<button type="button" class="btn btn-danger js-clear" data-js="click" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
 									<span class="fas fa-times-circle"></span>
 								</button>
@@ -61,7 +61,7 @@
 									</optgroup>
 								{/foreach}
 							</select>
-							<div class="input-group-append" id="basic-addon2">
+							<div class="input-group-append">
 								<button type="button" class="btn btn-primary js-sort-order-button" data-js="click">
 									<span class="fas fa-sort-amount-up{if $SORT_ORDER eq 'DESC'} d-none{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
 									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} d-none{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>

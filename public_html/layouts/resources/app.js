@@ -222,7 +222,6 @@ app = {
 		const modalContainer = container.find('.modal:first');
 		modalContainer.modal(params);
 		jQuery('body').append(container);
-		App.Fields.Picklist.changeSelectElementView(modalContainer);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -231,11 +230,9 @@ app = {
 				jQuery('.modal-backdrop:not(:first)').remove();
 			}
 			cb(modalContainer);
-
-			//register all select2 Elements
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
-			//register date fields event to show mini calendar on click of element
+			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
 		})
 	},
@@ -555,7 +552,7 @@ app = {
 			minutestep: 5,
 			ampmSubmit: false
 		};
-		$('.js-clock').on('click', (e) => {
+		$('.js-clock__btn').on('click', (e) => {
 			let elem = jQuery(e.currentTarget);
 			e.stopPropagation();
 			let tempElement = elem.closest('.time').find('input.clockPicker');
@@ -1216,6 +1213,21 @@ app = {
 			percantage = 100;
 		}
 		return jQuery(window).height() * percantage / 100;
+	},
+	setCalendarHeight() {
+		const container = $('.baseContainer');
+		const paddingTop = 10;
+		if ($(window).width() > 993) {
+			let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+			new ResizeSensor(container.find('.contentsDiv'), () => {
+				calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+				$('#calendarview').fullCalendar('option', 'height', calendarH);
+				$('#calendarview').height(calendarH + 10); // without this line calendar scroll stop working
+			});
+			return calendarH;
+		} else if ($(window).width() < 993) {
+			return 'auto';
+		}
 	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({

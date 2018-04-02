@@ -11,6 +11,7 @@
 
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
+
 	/**
 	 * Function to check permission.
 	 *
@@ -48,6 +49,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
 			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
 			'modules.Calendar.resources.CalendarView',
 		];
 
