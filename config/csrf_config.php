@@ -20,7 +20,7 @@ class CSRFConfig
 		\CsrfMagic\Csrf::$callback = function ($tokens) {
 			throw new \App\Exceptions\AppException('Invalid request - Response For Illegal Access');
 		};
-		$js = 'vendor/yetiforce/csrf-magic/src/csrf.js';
+		$js = 'vendor/yetiforce/csrf-magic/src/Csrf.min.js';
 		if (!IS_PUBLIC_DIR) {
 			$js = 'public_html/' . $js;
 		}
