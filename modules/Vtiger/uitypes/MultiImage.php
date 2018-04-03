@@ -62,13 +62,24 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Json::decode($value);
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$recordModel->getId()}&key={$item['key']}";
-				unset($item['path']);
+		$len = $length ? $length : count($value);
+		if ($rawText) {
+			$result = '';
+			if (!is_array($value)) {
+				return '';
 			}
-		} else {
-			$value = [];
+			for ($i = 0; $i < $len; $i++) {
+				$val = $value[$i];
+				$result += $val['name'] . ', ';
+			}
+			return $result;
+		}
+		if (!is_array($value)) {
+			return '[]';
+		}
+		for ($i = 0; $i < $len; $i++) {
+			$value[$i]['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$recordModel->getId()}&key={$value[$i]['key']}";
+			unset($value[$i]['path']);
 		}
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
 	}
