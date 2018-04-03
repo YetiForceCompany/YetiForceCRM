@@ -55,7 +55,7 @@ class Install_ConfigFileUtils_Model
 		} else {
 			$this->dbPort = self::getDbDefaultPort($this->dbType);
 		}
-		$this->default_language = ($GLOBALS['default_language'] != '') ? $GLOBALS['default_language'] : $configFileParameters['default_language'];
+		$this->default_language = ($_SESSION['default_language'] != '') ? $_SESSION['default_language'] : $configFileParameters['default_language'];
 		$this->timezone = (isset($_SESSION['config_file_info']['timezone'])) ? $_SESSION['config_file_info']['timezone'] : $configFileParameters['timezone'];
 		$this->cacheDir = 'cache/';
 	}
