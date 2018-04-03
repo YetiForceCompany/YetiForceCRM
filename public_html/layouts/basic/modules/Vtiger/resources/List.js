@@ -1948,6 +1948,8 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		$('.dropdownEntityState a').on('click', function (e) {
 			var element = $(this);
+			element.closest('ul').find('a').removeClass('active');
+			element.addClass('active');
 			$('#entityState').val(element.data('value'));
 			app.setMainParams('pageNumber', '1');
 			app.setMainParams('pageToJump', '1');
