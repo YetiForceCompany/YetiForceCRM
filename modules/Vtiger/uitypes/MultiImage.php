@@ -43,6 +43,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
+		$params = $this->getFieldModel()->getFieldParams();
+
 		$this->validate = true;
 	}
 
@@ -87,7 +89,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$value = \App\Json::decode($value);
 		if (is_array($value)) {
 			foreach ($value as &$item) {
-				$item['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$item['key']}";
+				$item['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$recordModel->getId()}&key={$item['key']}";
 				unset($item['path']);
 			}
 		} else {

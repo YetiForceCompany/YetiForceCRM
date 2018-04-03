@@ -708,20 +708,6 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__attachments' => [
-				'columns' => [
-					'attachmentid' => $this->primaryKey(10),
-					'name' => $this->stringType()->notNull(),
-					'type' => $this->stringType(100),
-					'path' => $this->text()->notNull(),
-					'status' => $this->smallInteger(1)->defaultValue(0),
-					'fieldid' => $this->integer(10),
-					'crmid' => $this->integer(10),
-					'createdtime' => $this->dateTime(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'u_#__browsinghistory' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
