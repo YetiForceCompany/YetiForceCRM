@@ -16,7 +16,7 @@
 			{/if}
 		{/if}
 		<div class="input-group-append">
-			<span class="input-group-text popoverTooltip qtyParamInfo {if $ITEM_DATA['unit'] !== 'pack'}hidden{/if}" data-content="{$QTY_PARAM}" title="{\App\Language::translate('Qty/Unit','Products')}">
+			<span class="input-group-text js-popover-tooltip qtyParamInfo {if $ITEM_DATA['unit'] !== 'pack'}hidden{/if}" data-js="popover" data-content="{$QTY_PARAM}" title="{\App\Language::translate('Qty/Unit','Products')}">
 				<i class="fas fa-info-circle"></i>
 			</span>
 		</div>

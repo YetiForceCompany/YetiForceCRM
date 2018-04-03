@@ -79,7 +79,7 @@
 									<tr {if $item.status}class="danger"{/if}>
 										<td>
 											<label>{$key}</label>
-											{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
+											{if isset($item.help)}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
 										</td>
 										<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 										<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
@@ -102,7 +102,7 @@
 									<tr {if $item.status}class="danger"{/if}>
 										<td>
 											<label>{$key}</label>
-											{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
+											{if isset($item.help)}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
 										</td>
 										<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 										<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>

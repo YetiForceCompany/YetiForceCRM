@@ -133,7 +133,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_GENERATE_ONE_PDF', $QUALIFIED_MODULE)}
-						<span class="popoverTooltip delay0"  data-placement="top"
+						<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
 							  data-content="{\App\Language::translate('LBL_GENERATE_ONE_PDF_INFO',$QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>
 						</span>

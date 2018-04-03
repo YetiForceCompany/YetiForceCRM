@@ -303,7 +303,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
 			App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
-			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
+			app.showPopoverElementView(contentContainer.find('.js-popover-tooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
 			if (relatedModuleName) {
@@ -2390,7 +2390,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					container.find('.widget_contents').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
 					thisInstance.reloadWidgetActivitesStats(container);
-					app.showPopoverElementView(container.find('.popoverTooltip'));
+					app.showPopoverElementView(container.find('.js-popover-tooltip'));
 				}
 			);
 		});
@@ -2554,7 +2554,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var btnGroup = btnToolbar.find('.btn-group:eq(1)');
 					var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
 					if (btn.length == 0) {
-						btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
+						btnGroup.append('<a class="btn btn-default js-popover-tooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
 					}
 				}
 			}, function (data, err) {

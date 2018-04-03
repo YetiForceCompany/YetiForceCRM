@@ -31,7 +31,7 @@
 					</td>
 					<td class="text-center">
 						{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
-							<button class="btn btn-warning btn-sm setIgnore popoverTooltip" data-placement="top" data-content="
+							<button class="btn btn-warning btn-sm setIgnore js-popover-tooltip" data-js="popover" data-placement="top" data-content="
 									{if $ITEM->getStatus() == 2}
 										{App\Language::translate('BTN_REMOVE_IGNORE','Settings:SystemWarnings')}
 									{else}
@@ -46,7 +46,7 @@
 							</button>
 						{/if}
 						{if $ITEM->getLink()}
-							<a class="ml-1 btn btn-success btn-sm {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
+							<a class="ml-1 btn btn-success btn-sm {if isset($ITEM->linkTitle)}js-popover-tooltip{/if}" data-js="popover" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
 								<span class="fas fa-link"></span>
 							</a>
 						{/if}

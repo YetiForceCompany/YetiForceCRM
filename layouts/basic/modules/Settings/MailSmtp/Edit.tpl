@@ -99,7 +99,7 @@
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}&nbsp;
-					<span class="popoverTooltip"  data-placement="top"
+					<span class="js-popover-tooltip" data-js="popover" data-placement="top"
 						  data-content="{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY_INFO',$QUALIFIED_MODULE)}">
 						<span class="fas fa-info-circle"></span>
 					</span>
@@ -147,7 +147,7 @@
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
-					<span class="popoverTooltip delay0"  data-placement="top"
+					<span class="js-popover-tooltip delay0" data-js="popover"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE)}">
 						<span class="fas fa-info-circle"></span>
 					</span>
@@ -159,7 +159,7 @@
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}&nbsp;
-					<span class="popoverTooltip"  data-placement="top"
+					<span class="js-popover-tooltip" data-js="popover" data-placement="top"
 						  data-content="{\App\Language::translate('LBL_SAVE_SEND_MAIL_INFO',$QUALIFIED_MODULE)}">
 						<span class="fas fa-info-circle"></span>
 					</span>

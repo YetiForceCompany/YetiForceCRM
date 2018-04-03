@@ -22,7 +22,7 @@
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" value="{$DTIME}">
 				<span class="input-group-addon checkbox-addon">
 					<input name="compare" class="widgetFilter" type="checkbox" {if $COMPARE}checked{/if} title="{\App\Language::translate('LBL_COMPARE_TO_LAST_PERIOD', $MODULE_NAME)}">
-					<a href="#" class="popoverTooltip" title="" data-placement="top" data-content="{\App\Language::translate('LBL_COMPARE_TO_LAST_PERIOD', $MODULE_NAME)}"><span class="fas fa-info-circle"></span></a>
+					<a href="#" class="js-popover-tooltip" data-js="popover" title="" data-placement="top" data-content="{\App\Language::translate('LBL_COMPARE_TO_LAST_PERIOD', $MODULE_NAME)}"><span class="fas fa-info-circle"></span></a>
 				</span>
 			</div>	
 		</div>

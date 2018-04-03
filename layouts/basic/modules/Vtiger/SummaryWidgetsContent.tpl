@@ -51,7 +51,7 @@
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
-									<a class="popoverTooltip" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
+									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 										{App\TextParser::textTruncate($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
 									</a>
 								{else}
@@ -104,14 +104,14 @@
 							<div class="float-right marginBottom5">
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-										<button class="btn btn-sm btn-light popoverTooltip" type="button">
+										<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button">
 											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list"></span>
 										</button>
 									</a>
 								{/if}
 								{if $RELATED_RECORD->isEditable()}
 									<a class="addButton" href="{$RELATED_RECORD->getEditViewUrl()}">
-										<button class="btn btn-sm btn-light popoverTooltip" type="button">
+										<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button">
 											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit"></span>
 										</button>
 									</a>
@@ -173,7 +173,7 @@
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
-									<a class="popoverTooltip" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
+									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 										{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
 									</a>
 								{else}

@@ -42,13 +42,13 @@
 								<div>
 									{assign var=STATUS_LABEL value=Events_Record_Model::getInvitionStatus($INVITIE['status'])}
 									{if $INVITIE['status'] == '1'}
-										<span class="fas fa-check-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
+										<span class="fas fa-check-circle js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
 									{elseif $INVITIE['status'] == '2'}
-										<span class="fas fa-minus-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
+										<span class="fas fa-minus-circle js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
 									{else}
-										<span class="fas fa-question-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)}"></span>
+										<span class="fas fa-question-circle js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)}"></span>
 									{/if}&nbsp;
-									<span class="inviteName {if $TITLE}popoverTooltip{/if}" data-content="{htmlentities($ICON)}&nbsp;{$TITLE}">{$LABEL}</span>
+									<span class="inviteName {if $TITLE}js-popover-tooltip{/if}" data-js="popover" data-content="{htmlentities($ICON)}&nbsp;{$TITLE}">{$LABEL}</span>
 								</div>
 							{/foreach}
 						</div>

@@ -157,7 +157,7 @@
 						<strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong>&nbsp;
 						<div class="marginLeft20 input-group marginBottom10px">
 							<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-							<span class="input-group-addon"><span class="fas fa-info-circle popoverTooltip" data-placement="top" data-content="{App\Language::translate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+							<span class="input-group-addon"><span class="fas fa-info-circle js-popover-tooltip"  data-js="popover" data-placement="top" data-content="{App\Language::translate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 						</div>
 					</div>
 				{/if}

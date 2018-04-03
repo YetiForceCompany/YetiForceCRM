@@ -40,7 +40,7 @@
 								{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 									{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 								<div class='float-left'>
-									<span class="float-right popoverTooltip delay0"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
+									<span class="float-right js-popover-tooltip delay0" data-js="popover"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 										  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 										<span class="fas fa-info-circle"></span>
 									</span>

@@ -17,7 +17,7 @@
 					<li class="spaceRelatedList d-none"><li>
 						{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
 							{assign var="DETAILVIEWRELATEDLINKLBL" value= \App\Language::translate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
-						<li {if !AppConfig::relation('SHOW_RELATED_MODULE_NAME')}data-content="{$DETAILVIEWRELATEDLINKLBL}" data-placement="top"{/if} class="nav-item baseLink d-none float-left relatedNav {if !AppConfig::relation('SHOW_RELATED_MODULE_NAME')}popoverTooltip{/if}{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference='{$RELATED_LINK->getRelatedModuleName()}' data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')}">
+						<li {if !AppConfig::relation('SHOW_RELATED_MODULE_NAME')}data-content="{$DETAILVIEWRELATEDLINKLBL}" data-placement="top"{/if} class="nav-item baseLink d-none float-left relatedNav {if !AppConfig::relation('SHOW_RELATED_MODULE_NAME')}js-popover-tooltip{/if}{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-js="popover" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference='{$RELATED_LINK->getRelatedModuleName()}' data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')}">
 							{* Assuming most of the related link label would be module name - we perform dual translation *}
 							<a href="javascript:void(0);"  class="nav-link u-text-ellipsis" title="{$DETAILVIEWRELATEDLINKLBL}">
 								{if AppConfig::relation('SHOW_RELATED_ICON')}

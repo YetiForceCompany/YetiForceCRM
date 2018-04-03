@@ -95,7 +95,7 @@ app = {
 	},
 	hidePopover: function (element) {
 		if (typeof element == 'undefined') {
-			element = jQuery('body .popoverTooltip');
+			element = jQuery('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
@@ -223,7 +223,7 @@ app = {
 		modalContainer.modal(params);
 		jQuery('body').append(container);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-		thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
+		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 		modalContainer.one('shown.bs.modal', function () {
 			if (jQuery('.modal-backdrop').length > 1) {
@@ -1103,7 +1103,7 @@ app = {
 			var url = currentElement.data('url');
 
 			if (typeof url != 'undefined') {
-				if (currentElement.hasClass('popoverTooltip')) {
+				if (currentElement.hasClass('js-popover-tooltip')) {
 					currentElement.popover('hide');
 				}
 				if (currentElement.hasClass('disabledOnClick')) {
@@ -1292,7 +1292,7 @@ app = {
 jQuery(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	App.Fields.Picklist.showSelectizeElementView(jQuery('body').find('select.selectize'));
-	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
+	app.showPopoverElementView(jQuery('body').find('.js-popover-tooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerSticky();
 	app.registerMoreContent(jQuery('body').find('button.moreBtn'));

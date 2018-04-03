@@ -65,7 +65,7 @@
 								{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME)}
 							{/if}
 							<td class="text-center {$ACTION['text']}">
-								<span class="u-cursor-pointer popoverTooltip" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
+								<span class="u-cursor-pointer js-popover-tooltip" data-js="popover" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
 									{if $ACTION['isPermitted']}
 										<span class="fas fa-check text-success" aria-hidden="true"></span>
 										<span class="d-none" aria-hidden="true">1</span>

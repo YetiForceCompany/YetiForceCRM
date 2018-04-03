@@ -11,7 +11,7 @@
 				{assign var="displayId" value=$ITEM_VALUE}
 				<div class="input-group-prepend">
 				{if $FIELD->get('displaytype') != 10}
-					<span class="input-group-text clearReferenceSelection u-cursor-pointer popoverTooltip" data-content="{\App\Language::translate('LBL_CLEAR',$MODULE)}">
+					<span class="input-group-text clearReferenceSelection u-cursor-pointer js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_CLEAR',$MODULE)}">
 						<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle"></span>
 					</span>
 				{/if}
@@ -22,13 +22,13 @@
 					   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 				<div class="input-group-append">
 				{if $FIELD->get('displaytype') != 10}
-					<span class="input-group-text relatedPopup u-cursor-pointer popoverTooltip" data-content="{\App\Language::translate('LBL_SELECT',$MODULE)}">
+					<span class="input-group-text relatedPopup u-cursor-pointer js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT',$MODULE)}">
 						<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search"></span>
 					</span>
 				{/if}
 				{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}
 				{if $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
-					<span class="input-group-text u-cursor-pointer createReferenceRecord popoverTooltip" data-content="{\App\Language::translate('LBL_CREATE',$MODULE)}">
+					<span class="input-group-text u-cursor-pointer createReferenceRecord js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_CREATE',$MODULE)}">
 						<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus"></span>
 					</span>
 				{/if}

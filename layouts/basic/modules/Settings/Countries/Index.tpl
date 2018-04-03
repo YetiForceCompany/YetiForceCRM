@@ -20,7 +20,7 @@
 								{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE))}
 							</span>
 							<span>
-								<button class="all-statuses btn btn-light btn-sm popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
+								<button class="all-statuses btn btn-light btn-sm js-popover-tooltip" data-js="popover" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
 									<span class="far fa-check-square"></span>
 								</button>
 							</span>
@@ -41,28 +41,28 @@
 							</td>
 							<td nowrap class="{$WIDTHTYPE} actionImages">
 								<span class="float-right actions">
-									<button class="to-bottom btn btn-light btn-sm popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_BOTTOM', $QUALIFIED_MODULE))}">
+									<button class="to-bottom btn btn-light btn-sm js-popover-tooltip" data-js="popover" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_BOTTOM', $QUALIFIED_MODULE))}">
 										<span class="fas fa-arrow-down"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
-									<button class="to-top btn btn-light btn-sm marginLeft20 popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_TOP', $QUALIFIED_MODULE))}">
+									<button class="to-top btn btn-light btn-sm marginLeft20 js-popover-tooltip" data-js="popover" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_TOP', $QUALIFIED_MODULE))}">
 										<span class="fas fa-arrow-up"></span>
 									</button>
 								</span>
 
 								<span class="float-right actions">
-									<button class="uitype btn {if !$ROW['uitype']}btn-success{else}btn-danger{/if} btn-sm popoverTooltip" data-uitype="{$ROW['uitype']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_COUNTRY', $QUALIFIED_MODULE))}">
+									<button class="uitype btn {if !$ROW['uitype']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-uitype="{$ROW['uitype']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_COUNTRY', $QUALIFIED_MODULE))}">
 										<span class="far fa-image"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
-									<button class="phone btn {if !$ROW['phone']}btn-success{else}btn-danger{/if} btn-sm popoverTooltip" data-phone="{$ROW['phone']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_PHONE', $QUALIFIED_MODULE))}">
+									<button class="phone btn {if !$ROW['phone']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-phone="{$ROW['phone']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_PHONE', $QUALIFIED_MODULE))}">
 										<span class="fas fa-mobile-alt"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
-									<button class="status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-sm popoverTooltip" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_STATUS', $QUALIFIED_MODULE))}">
+									<button class="status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_STATUS', $QUALIFIED_MODULE))}">
 										<span class="far fa-check-square"></span>
 									</button>
 								</span>

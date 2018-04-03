@@ -83,7 +83,7 @@
 															</span>
 														</div>
 														<div class="btn-group pr-2">
-															<button type="button" class="btn btn-light loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+															<button type="button" class="btn btn-light loadFormFilterButton js-popover-tooltip"	data-js="popover" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
 																<span class="fas fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
