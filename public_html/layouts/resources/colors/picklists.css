@@ -1,1 +1,132 @@
-
+.picklistCBr_Leads_leadstatus_PLL_PENDING { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_PENDING { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_PENDING { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_PENDING { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_TO_REALIZE { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_TO_REALIZE { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_IN_REALIZATION { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_IN_REALIZATION { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_IN_REALIZATION { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_IN_REALIZATION { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_INCORRECT { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_INCORRECT { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_INCORRECT { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_INCORRECT { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_LEAD_UNTAPPED { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_LEAD_UNTAPPED { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_LEAD_ACQUIRED { border-color: #E6FAD8 !important; }
+.picklistCBg_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8 !important; }
+.picklistCT_Leads_leadstatus_PLL_LEAD_ACQUIRED { color: #E6FAD8 !important; }
+.picklistLb_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Calendar_activitytype_Call { border-color: #80B584 !important; }
+.picklistCBg_Calendar_activitytype_Call { background: #80B584 !important; }
+.picklistCT_Calendar_activitytype_Call { color: #80B584 !important; }
+.picklistLb_Calendar_activitytype_Call { background: #80B584; padding: 2px 7px 3px 7px;}
+.picklistCBr_Calendar_activitytype_Meeting { border-color: #FFD500 !important; }
+.picklistCBg_Calendar_activitytype_Meeting { background: #FFD500 !important; }
+.picklistCT_Calendar_activitytype_Meeting { color: #FFD500 !important; }
+.picklistLb_Calendar_activitytype_Meeting { background: #FFD500; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Open { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Open { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_Open { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_Open { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Answered { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Answered { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_Answered { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_Answered { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Wait_For_Response { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Wait_For_Response { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_Wait_For_Response { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_Wait_For_Response { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_In_Progress { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_In_Progress { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_In_Progress { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_In_Progress { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_PLL_TO_CLOSE { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_PLL_TO_CLOSE { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Closed { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Closed { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_Closed { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_Closed { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Rejected { border-color: #E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Rejected { background: #E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketstatus_Rejected { color: #E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketstatus_Rejected { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketpriorities_Low { border-color: 	#E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketpriorities_Low { background: 	#E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketpriorities_Low { color: 	#E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketpriorities_Low { background: 	#E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketpriorities_Normal { border-color: 	#E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketpriorities_Normal { background: 	#E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketpriorities_Normal { color: 	#E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketpriorities_Normal { background: 	#E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketpriorities_High { border-color: 	#E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketpriorities_High { background: 	#E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketpriorities_High { color: 	#E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketpriorities_High { background: 	#E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketpriorities_Urgent { border-color: 	#E6FAD8 !important; }
+.picklistCBg_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8 !important; }
+.picklistCT_HelpDesk_ticketpriorities_Urgent { color: 	#E6FAD8 !important; }
+.picklistLb_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_prospecting { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_prospecting { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_prospecting { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_prospecting { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_initiated { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_initiated { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_initiated { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_initiated { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_in_progress { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_in_progress { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_in_progress { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_in_progress { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_waiting_for_feedback { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_waiting_for_feedback { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_waiting_for_feedback { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_waiting_for_feedback { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_on_hold { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_on_hold { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_on_hold { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_on_hold { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_completed { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_completed { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_completed { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_completed { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_delivered { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_delivered { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_delivered { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_delivered { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_archived { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_archived { background: #E6FAD8 !important; }
+.picklistCT_Project_projectstatus_archived { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_archived { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { border-color: #EDC240 !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { background: #EDC240 !important; }
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { color: #EDC240 !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { background: #EDC240; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { border-color: #AFD8F8 !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { background: #AFD8F8 !important; }
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { color: #AFD8F8 !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { background: #AFD8F8; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { border-color: #CB4B4B !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B !important; }
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { color: #CB4B4B !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B; padding: 2px 7px 3px 7px;}

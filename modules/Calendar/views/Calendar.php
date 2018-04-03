@@ -11,7 +11,6 @@
 
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
-
 	/**
 	 * Function to check permission.
 	 *
