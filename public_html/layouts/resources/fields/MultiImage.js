@@ -250,6 +250,7 @@ class MultiImage {
 	 * Show limit error
 	 */
 	showLimitError() {
+		this.elements.fileInput.val('');
 		Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_FILE_LIMIT")} [${this.options.limit}]`);
 	}
 
