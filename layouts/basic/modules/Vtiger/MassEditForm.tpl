@@ -51,7 +51,7 @@
 						<ul class="nav nav-tabs">
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 								{if $BLOCK_FIELDS|@count gt 0}
-									<li class="nav-item">
+									<li class="nav-item col-6 col-sm-4 p-0 text-center">
 										<a class="nav-link{if $smarty.foreach.blockIterator.iteration eq 1} active{/if}"
 										   href="#block_{$smarty.foreach.blockIterator.iteration}"
 										   data-toggle="tab"><strong>{\App\Language::translate($BLOCK_LABEL, $MODULE)}</strong></a>
@@ -68,8 +68,8 @@
 										<div class="p-3">
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 												{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
-													<div class="form-row">
-														<div class="col">
+													<div class="form-row align-items-center mb-2">
+														<div class="col-sm-6 col-lg-4">
 															<div class="btn-group-toggle w-100" data-toggle="buttons">
 																<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
 																	<input data-toggle="button" aria-pressed="false"
@@ -86,13 +86,12 @@
 																</label>
 															</div>
 														</div>
-														<div class="col-md-8">
+														<div class="col-sm-6 col-lg-8">
 															<div class="fieldValue"
 																 id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-input">
 																{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}
 															</div>
 														</div>
-
 													</div>
 												{/if}
 											{/foreach}
