@@ -17,7 +17,7 @@
 				<div class="btn-group-toggle" data-toggle="buttons">
 					<label class="btn {if $POPUP['limit_product_service'] eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 						<span class="far {if $POPUP['limit_product_service'] eq 'true'}fa-check-square{else}fa-square{/if} float-left"></span>
-						<input id="limit_product_service" autocomplete="off" class="configField" type="checkbox" name="limit_product_service" data-type="popup" {if $POPUP['limit_product_service'] eq 'true'}checked=""{/if}><div class="ws-n">{\App\Language::translate('LBL_LIMIT_PRODUCT_AND_SERVICE', $QUALIFIED_MODULE)}</div>
+						<input id="limit_product_service" autocomplete="off" class="configField" type="checkbox" name="limit_product_service" data-type="popup" {if $POPUP['limit_product_service'] eq 'true'}checked=""{/if}><div class="u-white-space-n">{\App\Language::translate('LBL_LIMIT_PRODUCT_AND_SERVICE', $QUALIFIED_MODULE)}</div>
 					</label>
 				</div>
 			</div>

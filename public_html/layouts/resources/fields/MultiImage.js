@@ -457,7 +457,7 @@ class MultiImage {
 		}
 		let deleteBtn = '';
 		if (!this.detailView) {
-			deleteBtn = `<button class="btn btn-sm btn-danger u-btn-collapsible js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-trash-alt"></i> <span>${app.vtranslate('JS_DELETE')}</span></button>`;
+			deleteBtn = `<button class="btn btn-sm btn-danger c-btn-collapsible js-multi-image__popover-btn-delete" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-trash-alt"></i> <span>${app.vtranslate('JS_DELETE')}</span></button>`;
 		}
 		return $(template).popover({
 			container: thisInstance.elements.component,
@@ -473,8 +473,8 @@ class MultiImage {
 				<div class="text-right popover-footer js-multi-image__popover-actions">
 					${fileSize}
 					${deleteBtn}
-					<button class="btn btn-sm btn-success u-btn-collapsible js-multi-image__popover-btn-download" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-download"></i> <span>${app.vtranslate('JS_DOWNLOAD')}</span></button>
-					<button class="btn btn-sm btn-primary u-btn-collapsible js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-search-plus"></i> <span>${app.vtranslate('JS_ZOOM_IN')}</span></button>
+					<button class="btn btn-sm btn-success c-btn-collapsible js-multi-image__popover-btn-download" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-download"></i> <span>${app.vtranslate('JS_DOWNLOAD')}</span></button>
+					<button class="btn btn-sm btn-primary c-btn-collapsible js-multi-image__popover-btn-zoom" type="button" data-hash="${file.hash}" data-js="click"><i class="fa fa-search-plus"></i> <span>${app.vtranslate('JS_ZOOM_IN')}</span></button>
 				</div>
 			</div>`
 		});
