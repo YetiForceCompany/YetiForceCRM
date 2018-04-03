@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{if $PARENT_MODULE !== 'Settings' && $VIEW_MODEL}
-		<div>
+		<div class="pl-1">
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 			<input type="hidden" id="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 			<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
