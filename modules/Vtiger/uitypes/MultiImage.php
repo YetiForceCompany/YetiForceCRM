@@ -57,9 +57,17 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get display value as string in JSON format.
+	 *
+	 * @param {string}                 $value
+	 * @param bool|int                 $record
+	 * @param bool|Vtiger_Record_Model $recordModel
+	 * @param bool                     $rawText
+	 * @param bool|int                 $length
+	 *
+	 * @return string
 	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	public function getDisplayValueJson($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Json::decode($value);
 		$len = $length ? $length : count($value);
@@ -70,9 +78,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 			for ($i = 0; $i < $len; $i++) {
 				$val = $value[$i];
-				$result += $val['name'] . ', ';
+				$result .= $val['name'] . ', ';
 			}
-			return $result;
+			return \App\Purifier::encodeHtml(trim($result, "\n\s\t ,"));
 		}
 		if (!is_array($value)) {
 			return '[]';
@@ -82,6 +90,21 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			unset($value[$i]['path']);
 		}
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$value = $this->getDisplayValueJson($value, $record, $recordModel, $rawText, $length);
+		$moduleName = $this->getFieldModel()->getModuleName();
+		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer->assign('FIELD_VALUE', $value);
+		$viewer->assign('FIELD_INFO', \App\Json::encode($this->getFieldModel()->getFieldInfo()));
+		$viewer->assign('FIELD_NAME', $this->getFieldModel()->getName());
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('uitypes/MultiImageDetailView.tpl', $moduleName, true);
 	}
 
 	/**
@@ -117,16 +140,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'uitypes/MultiImage.tpl';
-	}
-
-	/**
-	 * Function to get the Detailview template name for the current UI Type Object.
-	 *
-	 * @return string - Template Name
-	 */
-	public function getDetailViewTemplateName()
-	{
-		return 'uitypes/MultiImageDetailView.tpl';
 	}
 
 	/**
