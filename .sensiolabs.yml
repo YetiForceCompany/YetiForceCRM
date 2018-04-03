@@ -35,9 +35,3 @@ rules:
         enabled: false
     web.apache_config:
         enabled: false
-
-pre_composer_script: |
-    #!/bin/bash
-
-post_composer_script: |
-    #!/bin/bash

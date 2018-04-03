@@ -30,6 +30,9 @@ class Composer
 	public static function install(\Composer\Script\Event $event)
 	{
 		$event->getComposer();
+		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
+			return true;
+		}
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf'];
 		foreach (static::$publicPackage as $package) {
