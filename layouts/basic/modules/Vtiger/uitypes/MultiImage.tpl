@@ -12,7 +12,7 @@
 		</button>
 		<div class="d-inline js-multi-image__result" data-js="container" data-name="{$FIELD_MODEL->getFieldName()}"></div>
 		<div class="js-multi-image__progress progress d-none my-2" data-js="container|css:display">
-			<div class="js-multi-image__progress-bar progress-bar progress-bar-striped progress-bar-animated" data-js="css:width" role="progressbar" style="width: 0%"></div>
+			<div class="js-multi-image__progress-bar progress-bar progress-bar-striped progress-bar-animated" data-js="css:width" role="progressbar"></div>
 		</div>
 	</div>
 {/strip}
