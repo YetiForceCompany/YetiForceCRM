@@ -88,7 +88,7 @@
 									{/foreach}
 								</select>
 							</td>
-							<td class="cellLabel" name="default_value_container">&nbsp;</td>
+							<td class="cellLabel form-row col-12 mx-0  border-top-1 border-bottom-0" name="default_value_container">&nbsp;</td>
 						</tr>
 					{/foreach}
 				{/foreach}
