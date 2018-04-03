@@ -51,7 +51,7 @@
 								<li class="d-none relatedNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference='{$RELATED_LINK->get('relatedModuleName')}' data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')}">
 									{* Assuming most of the related link label would be module name - we perform dual translation *}
 									{assign var="DETAILVIEWRELATEDLINKLBL" value= \App\Language::translate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
-									<a class="dropdown-item u-text-ellipsis float-left w-100" href="javascript:void(0);" title="{$DETAILVIEWRELATEDLINKLBL}">
+									<a class="dropdown-item u-text-ellipsis d-flex bg-white" href="javascript:void(0);" title="{$DETAILVIEWRELATEDLINKLBL}">
 										{if AppConfig::relation('SHOW_RELATED_ICON')}
 											<span class="iconModule userIcon-{$RELATED_LINK->getRelatedModuleName()} float-left">&nbsp;&nbsp;</span>
 										{/if}
