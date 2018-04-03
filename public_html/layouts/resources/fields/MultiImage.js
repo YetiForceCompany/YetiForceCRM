@@ -29,7 +29,8 @@ class MultiImage {
 		this.elements.progress = this.elements.component.find('.js-multi-image__progress').eq(0);
 		this.elements.result = this.elements.component.find('.js-multi-image__result').eq(0);
 		this.fieldInfo = this.elements.values.data('fieldinfo');
-		this.formats = this.fieldInfo.formats;
+		this.options.formats = this.fieldInfo.formats;
+		this.options.limit = this.fieldInfo.limit;
 		if (!this.detailView) {
 			this.files = JSON.parse(this.elements.values.val());
 		} else {
@@ -85,20 +86,17 @@ class MultiImage {
 							MozAnimation: 'mozAnimationEnd',
 							WebkitAnimation: 'webkitAnimationEnd',
 						};
-
 						for (var t in animations) {
 							if (el.style[t] !== undefined) {
 								return animations[t];
 							}
 						}
 					})(document.createElement('div'));
-
 					this.addClass('animated ' + animationName).one(animationEnd, function () {
 						$(this).removeClass('animated ' + animationName);
 
 						if (typeof callback === 'function') callback();
 					});
-
 					return this;
 				},
 			});
@@ -379,7 +377,7 @@ class MultiImage {
 		bootbox.dialog(bootboxOptions);
 		if (this.options.showCarousel) {
 			$(`#bootbox-title-${hash}`).css({
-				'animation-duration':'350ms'
+				'animation-duration': '350ms'
 			})
 			$(`#carousel-${hash}`).on('slide.bs.carousel', (e) => {
 				fileInfo = this.getFileInfo($(e.relatedTarget).data('hash'));
@@ -598,7 +596,7 @@ class MultiImage {
 		this.files = this.files.map((file) => {
 			file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
 			return file;
-		});
+		}).slice(0, this.options.limit - 1);
 		this.generatePreviewElements(this.files, (element) => {
 			this.elements.result.append(element);
 		});
