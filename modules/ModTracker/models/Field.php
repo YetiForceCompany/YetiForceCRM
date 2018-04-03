@@ -61,15 +61,14 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 */
 	public function getOldValue()
 	{
-		$value = $this->getDisplayValue($this->get('prevalue'));
-		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
+		$value = $this->fieldInstance->getUITypeModel()->getHistoryDisplayValue($this->get('prevalue'), $this->parent);
+		if ($this->fieldInstance->getFieldDataType() !== 'text') {
 			return $value;
 		}
 		$teaser = App\TextParser::textTruncate($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
-		if (substr($teaser, -3) == '...') {
+		if (substr($teaser, -3) === '...') {
 			$this->set('fullPreValue', $value);
 		}
-
 		return $teaser;
 	}
 
@@ -80,15 +79,14 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 */
 	public function getNewValue()
 	{
-		$value = $this->getDisplayValue($this->get('postvalue'));
-		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
+		$value = $this->fieldInstance->getUITypeModel()->getHistoryDisplayValue($this->get('postvalue'), $this->parent);
+		if ($this->fieldInstance->getFieldDataType() !== 'text') {
 			return $value;
 		}
 		$teaser = App\TextParser::textTruncate($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
-		if (substr($teaser, -3) == '...') {
+		if (substr($teaser, -3) === '...') {
 			$this->set('fullPostValue', $value);
 		}
-
 		return $teaser;
 	}
 
@@ -100,14 +98,6 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	public function getName()
 	{
 		return $this->getFieldInstance()->get('label');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		return $this->getFieldInstance()->getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**

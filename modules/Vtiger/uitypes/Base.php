@@ -110,7 +110,6 @@ class Vtiger_Base_UIType extends \App\Base
 		if (is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -167,6 +166,19 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getRelatedListDisplayValue($value)
 	{
 		return $this->getListViewDisplayValue($value);
+	}
+
+	/**
+	 * Function to get Display value for ModTracker.
+	 *
+	 * @param                      $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel);
 	}
 
 	/**
