@@ -187,7 +187,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	/**
 	 * Function to get the list view actions for the record.
 	 *
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
 	{
@@ -198,12 +198,14 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-primary btn-sm',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-danger btn-sm',
 			],
 		];
 		foreach ($recordLinks as $recordLink) {
