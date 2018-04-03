@@ -27,7 +27,7 @@
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
 									<div class="row">
-										<span class="fa-layers fa-fw fa-2x ml-10px">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
 											<span class="fas fa-circle text-success" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
@@ -67,7 +67,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<div class="row">
-										<span class="fa-layers fa-fw fa-2x ml-10px">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
@@ -123,7 +123,7 @@
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 									<div class="row">
-										<span class="fa-layers fa-fw fa-2x ml-10px">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
@@ -158,7 +158,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									<div class="row">
-										<span class="fa-layers fa-fw fa-2x ml-10px">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
@@ -179,7 +179,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<div class="row">
-										<span class="fa-layers fa-fw fa-2x ml-10px">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
@@ -200,7 +200,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<div class="row">
-										<span class="fa-layers fa-fw fa-2x ml-10px">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>

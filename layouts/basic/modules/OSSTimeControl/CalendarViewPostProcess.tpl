@@ -8,10 +8,10 @@
 			<div class="alert alert-danger refreshHeader d-none" role="alert">
 				<div class="quickWidgetHeader">
 					<div class="form-row align-items-center">
-						<div class="u-position-label col-xl-8">
+						<div class="o-label-container col-xl-8">
 							<h5 class="m-0 p-0 text-center">{\App\Language::translate('LBL_INFO_REFRESH', $MODULE)}</h5>
 						</div>
-						<div class="u-position-button col-xl-4">
+						<div class="o-btn-container col-xl-4">
 							<button name="drefresh" class="btn btn-danger btn-sm refreshCalendar u-cursor-pointer">
 								<span class="fas fa-sync-alt icon-white" hspace="0" border="0" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></span>
 								&nbsp;{\App\Language::translate('LBL_REFRESH')}
@@ -24,10 +24,10 @@
 				<div class="js-toggle-panel c-panel__content border-info quickWidget" data-js="click">
 					<div class="c-panel__header quickWidgetHeader bg-info">
 						<div class="form-row align-items-center px-4">
-							<h4 class="card-title h6 text-white u-position-label col-xl-5" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+							<h4 class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 								{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
 							</h4>
-							<div class="u-position-button col-xl-7">
+							<div class="o-btn-container col-xl-7">
 								<button class="selectAllBtn btn btn-light btn-sm">
 									<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
 									<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>

@@ -18,7 +18,7 @@
 			{if $CALENDAR_FILTERS->isActive()}
 				<div class="c-panel__content bg-primary calendarFilters">
 					<div class="c-panel__header quickWidgetHeaderc px-3">
-						<h4 class="card-title h6 text-white u-position-label col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
+						<h4 class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
 							{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}
 						</h4>
 					</div>
@@ -41,10 +41,10 @@
 				<div class="js-toggle-panel c-panel__content border-info quickWidget" data-js="click">
 					<div class="c-panel__header quickWidgetHeader bg-info">
 						<div class="form-row align-items-center px-4">
-							<div class="card-title h6 text-white u-position-label col-xl-5" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+							<div class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 								{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
 							</div>
-							<div class="u-position-button col-xl-7">
+							<div class="o-btn-container col-xl-7">
 								<button class="selectAllBtn btn btn-light btn-sm">
 									<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
 									<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
