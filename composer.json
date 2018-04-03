@@ -53,7 +53,6 @@
 	"giggsey/libphonenumber-for-php": "^8.8.11",
 	"dg/rss-php": "^1.2",
 	"phpoffice/phpspreadsheet": "^1.0",
-	"urodoz/truncate-html": "1.0.1",
 	"yetiforce/csrf-magic": "1.0.6",
 	"yetiforce/debugbar": "dev-yeti",
 	"yetiforce/yii2": "dev-yetiforce"

@@ -1263,9 +1263,11 @@ class TextParser
 	/**
 	 * Truncating HTML.
 	 *
-	 * @param string   $html
+	 * @param          $html
 	 * @param int|bool $length
 	 * @param bool     $addDots
+	 *
+	 * @throws \HTMLPurifier_Exception
 	 *
 	 * @return string
 	 */
@@ -1274,7 +1276,52 @@ class TextParser
 		if (!$length) {
 			$length = \AppConfig::main('listview_max_textlength');
 		}
-		return (new \Urodoz\Truncate\TruncateService())->truncate($html, $length, $addDots ? '...' : '');
+		$encoding = \AppConfig::main('default_charset');
+		$config = \HTMLPurifier_Config::create(null);
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+		$lexer = \HTMLPurifier_Lexer::create($config);
+		$tokens = $lexer->tokenizeHTML($html, $config, new \HTMLPurifier_Context());
+		$truncated = $openTokens = [];
+		$depth = $totalCount = 0;
+		foreach ($tokens as $token) {
+			if ($token instanceof \HTMLPurifier_Token_Start) {
+				$openTokens[$depth] = $token->name;
+				$truncated[] = $token;
+				++$depth;
+			} elseif ($token instanceof \HTMLPurifier_Token_Text && $totalCount <= $length) {
+				if (false === $encoding) {
+					preg_match('/^(\s*)/um', $token->data, $prefixSpace) ?: $prefixSpace = ['', ''];
+					$token->data = $prefixSpace[1] . self::truncateWords(ltrim($token->data), $length - $totalCount, '');
+					$currentCount = self::countWords($token->data);
+				} else {
+					if (mb_strlen($token->data, $encoding) > $length - $totalCount) {
+						$token->data = rtrim(mb_substr($token->data, 0, $length - $totalCount, $encoding));
+					}
+					$currentCount = mb_strlen($token->data, $encoding);
+				}
+				$totalCount += $currentCount;
+				$truncated[] = $token;
+			} elseif ($token instanceof \HTMLPurifier_Token_End) {
+				if ($token->name === $openTokens[$depth - 1]) {
+					--$depth;
+					unset($openTokens[$depth]);
+					$truncated[] = $token;
+				}
+			} elseif ($token instanceof \HTMLPurifier_Token_Empty) {
+				$truncated[] = $token;
+			}
+			if ($totalCount >= $length) {
+				if (0 < count($openTokens)) {
+					krsort($openTokens);
+					foreach ($openTokens as $name) {
+						$truncated[] = new \HTMLPurifier_Token_End($name);
+					}
+				}
+				break;
+			}
+		}
+		$generator = new \HTMLPurifier_Generator($config, new \HTMLPurifier_Context());
+		return $generator->generateFromTokens($truncated) . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
 	}
 
 	/**

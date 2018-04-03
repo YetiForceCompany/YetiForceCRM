@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "812c6cd9cce97d99bb9e30761bf35fe1",
+    "content-hash": "5923d818778fb678d2bac4385d59cae8",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1386,56 +1386,6 @@
                 "dump"
             ],
             "time": "2018-04-03T05:22:50+00:00"
-        },
-        {
-            "name": "urodoz/truncate-html",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/urodoz/truncateHTML.git",
-                "reference": "88fb29fd3a30c95b879f1642e08fd8746dd05bd7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/urodoz/truncateHTML/zipball/88fb29fd3a30c95b879f1642e08fd8746dd05bd7",
-                "reference": "88fb29fd3a30c95b879f1642e08fd8746dd05bd7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4",
-                "symfony/dependency-injection": "~2.4",
-                "symfony/http-kernel": "~2.4",
-                "twig/twig": "~1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Urodoz\\Truncate\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Albert Lacarta",
-                    "email": "urodoz@gmail.com",
-                    "homepage": "http://www.rqlogic.com"
-                }
-            ],
-            "description": "Handle truncate action on HTML strings",
-            "keywords": [
-                "content",
-                "html",
-                "shorten",
-                "truncate",
-                "truncating"
-            ],
-            "time": "2014-05-25T22:50:06+00:00"
         },
         {
             "name": "yetiforce/csrf-magic",
