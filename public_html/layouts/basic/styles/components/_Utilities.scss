@@ -1,4 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+//--- TEXT ---//
+.u-text-small-bold {
+  @extend .small;
+  @extend .font-weight-bold;
+}
+.u-hover-bold:hover {
+  @extend .font-weight-bold;
+}
 .u-text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -7,24 +15,26 @@
 	overflow: initial;
   }
 }
-.u-cursor-pointer {
-  cursor: pointer;
-  text-decoration: none !important;
+//--- MARGIN ---//
+.u-ml-0 {
+  margin-left: 0 !important;
 }
-.u-text-small-bold {
-  @extend .small;
-  @extend .font-weight-bold;
+.u-ml-10px {
+  margin-left: 10px;
 }
-.u-rotate-90 {
-  transform: rotate(0.75turn);
-  position: absolute;
+.u-mr-5px {
+  margin-right: 5px;
 }
-.u-magin-left-zero {
-  margin-left: 0px !important;
+.u-paragraph-m-0 {
+  p {
+	margin: 0;
+  }
 }
+//--- WIDTH ---//
 .u-w-auto {
   width: auto !important;
 }
+//--- BORDER ---//
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
 	border-bottom: 1px solid #dee2e6;
@@ -45,29 +55,13 @@
 	border-bottom: none !important;
   }
 }
-.u-position-label {
-  @extend .col-12;
-  @extend .col-sm-6;
-  @extend .col-lg-12;
-  @extend .mb-lg-2;
-  @extend .mb-2;
-  @extend .px-0;
-  @extend .d-flex;
-  @extend .justify-content-lg-center;
-  @extend .justify-content-center;
-  @extend .justify-content-xl-start;
-  @extend .justify-content-sm-start;
+//--- BACKGROUND ---//
+.u-bg-twilight {
+  background-color: #404952 !important;
+  color: #fff;
 }
-.u-position-button {
-  @extend .col-12;
-  @extend .col-sm-6;
-  @extend .col-lg-12;
-  @extend .px-0;
-  @extend .d-flex;
-  @extend .justify-content-center;
-  @extend .justify-content-sm-end;
-  @extend .justify-content-lg-center;
-  @extend .justify-content-xl-end;
+.u-bg-modern {
+  background-color: #0d9605 !important;
 }
 .u-alphabet-sorting {
   a {
@@ -76,22 +70,12 @@
   }
   @extend .text-center;
 }
-// a little bigger badge
-.u-badge {
-  font-size: 90%;
+.u-rotate-90 {
+  transform: rotate(0.75turn);
+  position: absolute;
 }
 .u-hide-underneath {
   z-index: -1;
-}
-.u-bg-twilight {
-  background-color: #404952 !important;
-  color: #fff;
-}
-.u-bg-modern {
-  background-color: #0d9605 !important;
-}
-.u-hover-bold:hover {
-  @extend .font-weight-bold;
 }
 @mixin u-transition($settings) {
   -webkit-transition: $settings;
@@ -100,32 +84,10 @@
   -o-transition: $settings;
   transition: $settings;
 }
-.u-btn-collapsible {
-  overflow: hidden;
-  @include u-transition(all 275ms ease);
-  max-width: 40px;
-  &.btn-xs {
-	max-width: 25px;
-  }
-  &.btn-sm {
-	max-width: 32px;
-  }
-  &.btn-lg {
-	max-width: 50px;
-  }
-  span {
-	opacity: 0;
-	text-indent: -6px;
-	display: inline-block;
-	@include u-transition(all 275ms ease);
-  }
-  &:hover {
-	max-width: 300px;
-	@include u-transition(all 275ms ease);
-	span {
-	  opacity: 1;
-	  text-indent: 0px;
-	  @include u-transition(all 275ms ease);
-	}
-  }
+.u-white-space-n {
+  white-space: normal !important;
+}
+.u-cursor-pointer {
+  cursor: pointer;
+  text-decoration: none !important;
 }
