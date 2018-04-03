@@ -274,7 +274,7 @@ class MultiImage {
 	 * @param {Array} files
 	 * @returns {Array}
 	 */
-	setFilesHash(files){
+	setFilesHash(files) {
 		const addedFiles = [];
 		for (let i = 0, len = files.length; i < len; i++) {
 			const file = files[i];
@@ -465,10 +465,9 @@ class MultiImage {
 		data.files = this.filterValidFiles(data.files);
 		data.files = this.setFilesHash(data.files);
 		this.dragLeave(e);
-		console.log('change', data.files)
 		if (data.files.length) {
 			this.generatePreviewElements(data.files, (element) => {
-				this.elements.result.append(element);
+				this.redraw();
 			});
 		}
 	}
@@ -486,7 +485,7 @@ class MultiImage {
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
 		if (typeof fileInfo.size !== 'undefined') {
-			fileSize = `<small class="float-left p-1 bg-white border rounded">${fileInfo.size}</small>`;
+			fileSize = `<div class="p-1 bg-white border rounded small position-absolute">${fileInfo.size}</div>`;
 		}
 		let deleteBtn = '';
 		if (!this.detailView) {
@@ -550,6 +549,15 @@ class MultiImage {
 					return this.files[i];
 				}
 			}
+		});
+	}
+
+	/**
+	 * Redraw view according to in-memory positions
+	 */
+	redraw() {
+		this.files.forEach((file) => {
+			this.elements.result.append(file.previewElement);
 		});
 	}
 
