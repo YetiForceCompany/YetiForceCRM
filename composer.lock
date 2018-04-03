@@ -4,20 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "812c6cd9cce97d99bb9e30761bf35fe1",
+    "content-hash": "36c9426b958dd31258aa0e290963a962",
     "packages": [
         {
-            "name": "composer/ca-bundle",
-            "version": "1.1.0",
+            "name": "ckeditor/ckeditor",
+            "version": "dev-full/latest",
             "source": {
                 "type": "git",
-                "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288"
+                "url": "https://github.com/ckeditor/ckeditor-releases.git",
+                "reference": "83bc36a2fa653d9fc8de698b3b135e9f3edec2ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/943b2c4fcad1ef178d16a713c2468bf7e579c288",
-                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/83bc36a2fa653d9fc8de698b3b135e9f3edec2ef",
+                "reference": "83bc36a2fa653d9fc8de698b3b135e9f3edec2ef",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-2.1+",
+                "MPL-1.1+"
+            ],
+            "authors": [
+                {
+                    "name": "CKSource",
+                    "homepage": "http://cksource.com"
+                }
+            ],
+            "description": "JavaScript WYSIWYG web text editor.",
+            "homepage": "http://ckeditor.com",
+            "keywords": [
+                "CKEditor",
+                "editor",
+                "fckeditor",
+                "html",
+                "javascript",
+                "richtext",
+                "text",
+                "wysiwyg"
+            ],
+            "time": "2018-03-26T21:10:35+00:00"
+        },
+        {
+            "name": "composer/ca-bundle",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/ca-bundle.git",
+                "reference": "d2c0a83b7533d6912e8d516756ebd34f893e9169"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/d2c0a83b7533d6912e8d516756ebd34f893e9169",
+                "reference": "d2c0a83b7533d6912e8d516756ebd34f893e9169",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +67,7 @@
                 "php": "^5.3.2 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
                 "psr/log": "^1.0",
                 "symfony/process": "^2.5 || ^3.0 || ^4.0"
             },
@@ -60,7 +101,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-11-29T09:37:33+00:00"
+            "time": "2018-03-29T19:57:20+00:00"
         },
         {
             "name": "dg/rss-php",
@@ -1193,16 +1234,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.0.6",
+            "version": "v4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "555c8dbe0ae9e561740451eabdbed2cc554b6a51"
+                "reference": "aad9a6fe47319f22748fd764f52d3a7ca6fa6b64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/555c8dbe0ae9e561740451eabdbed2cc554b6a51",
-                "reference": "555c8dbe0ae9e561740451eabdbed2cc554b6a51",
+                "url": "https://api.github.com/repos/symfony/console/zipball/aad9a6fe47319f22748fd764f52d3a7ca6fa6b64",
+                "reference": "aad9a6fe47319f22748fd764f52d3a7ca6fa6b64",
                 "shasum": ""
             },
             "require": {
@@ -1257,7 +1298,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2018-02-26T15:55:47+00:00"
+            "time": "2018-04-03T05:24:00+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1320,16 +1361,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.6",
+            "version": "v3.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "80964679d81da3d5618519e0e4be488c3d7ecd7d"
+                "reference": "6f502127b1bb85f7f30f8bc1fb60570a10431863"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/80964679d81da3d5618519e0e4be488c3d7ecd7d",
-                "reference": "80964679d81da3d5618519e0e4be488c3d7ecd7d",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/6f502127b1bb85f7f30f8bc1fb60570a10431863",
+                "reference": "6f502127b1bb85f7f30f8bc1fb60570a10431863",
                 "shasum": ""
             },
             "require": {
@@ -1385,57 +1426,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-02-22T17:29:24+00:00"
-        },
-        {
-            "name": "urodoz/truncate-html",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/urodoz/truncateHTML.git",
-                "reference": "88fb29fd3a30c95b879f1642e08fd8746dd05bd7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/urodoz/truncateHTML/zipball/88fb29fd3a30c95b879f1642e08fd8746dd05bd7",
-                "reference": "88fb29fd3a30c95b879f1642e08fd8746dd05bd7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4",
-                "symfony/dependency-injection": "~2.4",
-                "symfony/http-kernel": "~2.4",
-                "twig/twig": "~1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Urodoz\\Truncate\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Albert Lacarta",
-                    "email": "urodoz@gmail.com",
-                    "homepage": "http://www.rqlogic.com"
-                }
-            ],
-            "description": "Handle truncate action on HTML strings",
-            "keywords": [
-                "content",
-                "html",
-                "shorten",
-                "truncate",
-                "truncating"
-            ],
-            "time": "2014-05-25T22:50:06+00:00"
+            "time": "2018-04-03T05:22:50+00:00"
         },
         {
             "name": "yetiforce/csrf-magic",
@@ -1549,12 +1540,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/yii2-framework.git",
-                "reference": "da2258bc130aaab94441221ef91fdb224d9a5e45"
+                "reference": "b3dc8f79b7bcbd012714a5aaeb7834bc056c161c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/da2258bc130aaab94441221ef91fdb224d9a5e45",
-                "reference": "da2258bc130aaab94441221ef91fdb224d9a5e45",
+                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/b3dc8f79b7bcbd012714a5aaeb7834bc056c161c",
+                "reference": "b3dc8f79b7bcbd012714a5aaeb7834bc056c161c",
                 "shasum": ""
             },
             "require": {
@@ -1639,7 +1630,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-03-27T12:07:54+00:00"
+            "time": "2018-04-03T08:26:32+00:00"
         }
     ],
     "packages-dev": [
@@ -3101,6 +3092,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ckeditor/ckeditor": 20,
         "yetiforce/debugbar": 20,
         "yetiforce/yii2": 20
     },

@@ -876,8 +876,9 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 			case 'multiImage':
-				$this->fieldInfo['limit'] = 10;
-				$this->fieldInfo['formats'] = \App\Fields\File::$allowedFormats['image'];
+				$params = $this->getFieldParams();
+				$this->fieldInfo['limit'] = $params['limit'] ?: Vtiger_MultiImage_File::$defaultLimit;
+				$this->fieldInfo['formats'] = $params['formats'] ?: \App\Fields\File::$allowedFormats['image'];
 				break;
 		}
 		return $this->fieldInfo;

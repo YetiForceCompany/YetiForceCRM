@@ -4,7 +4,7 @@
 
 "Font-Awesome@https://github.com/FortAwesome/Font-Awesome":
   version "0.0.0"
-  resolved "https://github.com/FortAwesome/Font-Awesome#31281606f5205b0191c17c3b4d2d56e1ddbb2dc6"
+  resolved "https://github.com/FortAwesome/Font-Awesome#864e2422319243c59f45752623d1e2490557eb67"
 
 add@^2.0.6:
   version "2.0.6"
@@ -54,10 +54,6 @@ blueimp-tmpl@3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.6.0.tgz#a4910975d042e2bc03ba77f0e62d04f1548a524c"
 
-blueimp-tmpl@^3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.11.0.tgz#47e78cbab16770e3922b019a250b4ad9c7b20f8f"
-
 bootbox@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
@@ -73,8 +69,8 @@ bootstrap-colorpicker@^2.5.2:
     jquery ">=1.10"
 
 bootstrap-datepicker@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.7.1.tgz#4ee7faf34888dbec7834fbf9dbe7c4277e01ddaf"
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.8.0.tgz#c63513931e6f09f16ae9f11b62f32d950df3958e"
   dependencies:
     jquery ">=1.7.1 <4.0.0"
 
@@ -170,8 +166,8 @@ css-element-queries@^1.0.2:
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.2.tgz#a32edfee4a5023688ef4d45f402077306d51d44c"
 
 csv-parse@^2.0.0:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.0.4.tgz#5b469596766ee07f2cbd71aced7ae76b3c73c901"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.1.0.tgz#75293aa334e7f8dd1ef956c5551adf0db6a79c81"
 
 datatables.net-bs4@^1.10.16:
   version "1.10.16"
@@ -197,10 +193,6 @@ dompurify@^1.0.3:
 esprima@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.0.0.tgz#53cf247acda77313e551c3aa2e73342d3fb4f7d9"
-
-fine-uploader@^5.16.0:
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/fine-uploader/-/fine-uploader-5.16.0.tgz#8554490996318c6ae4083498ac9c57e92f90b47e"
 
 footable@^2.0.6:
   version "2.0.6"
@@ -258,10 +250,6 @@ jquery-hoverintent@^1.9.0:
   resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.9.0.tgz#4d92c1ae07b71b9f0d9721b9b412d672abd387c8"
   dependencies:
     jquery ">=1.7.0"
-
-jquery-migrate@>3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-3.0.1.tgz#141de3abfe6d301baaa4130b0ec7b9a839845e72"
 
 jquery-mousewheel@>=3.0.6, jquery-mousewheel@~3.1.13:
   version "3.1.13"
@@ -335,7 +323,11 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-moment@^2.10.2, moment@^2.20.1, moment@^2.9.0, moment@~2.21.0:
+moment@^2.10.2, moment@^2.20.1, moment@^2.9.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
+
+moment@~2.21.0:
   version "2.21.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
 

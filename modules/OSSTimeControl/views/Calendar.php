@@ -8,7 +8,6 @@
  */
 class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 {
-
 	/**
 	 * {@inheritdoc}
 	 */

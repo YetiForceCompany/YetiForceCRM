@@ -18,7 +18,8 @@ class Composer
 	 */
 	public static $publicPackage = [
 		'yetiforce/csrf-magic',
-		'yetiforce/debugbar'
+		'yetiforce/debugbar',
+		'ckeditor/ckeditor'
 	];
 
 	/**
@@ -36,14 +37,13 @@ class Composer
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isFile() && in_array($item->getExtension(), $types)) {
 					if (!file_exists($rootDir . $item->getPathname())) {
+						if (!is_dir($rootDir . $item->getPath())) {
+							mkdir($rootDir . $item->getPath(), null, true);
+						}
 						if (!is_writable($rootDir . $item->getPath())) {
 							continue;
 						}
 						copy($item->getRealPath(), $rootDir . $item->getPathname());
-					}
-				} else {
-					if (!is_dir($rootDir . $item->getPath())) {
-						mkdir($rootDir . $item->getPath(), null, true);
 					}
 				}
 			}

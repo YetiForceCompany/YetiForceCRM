@@ -91,3 +91,11 @@
   cursor: pointer;
   text-decoration: none !important;
 }
+.u-overflow-auto {
+	overflow: auto !important;
+}
+.u-remove-dropdown-icon {
+  .dropdown-toggle::after {
+	display: none;
+  }
+}

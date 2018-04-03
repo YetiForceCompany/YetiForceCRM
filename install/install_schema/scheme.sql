@@ -1466,7 +1466,7 @@ CREATE TABLE `u_yf_featured_filter` (
 /*Table structure for table `u_yf_file_upload_temp` */
 
 CREATE TABLE `u_yf_file_upload_temp` (
-  `attachmentid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` varchar(100) DEFAULT NULL,
   `path` text NOT NULL,
@@ -1475,7 +1475,7 @@ CREATE TABLE `u_yf_file_upload_temp` (
   `crmid` int(10) DEFAULT NULL,
   `createdtime` datetime DEFAULT NULL,
   `key` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`attachmentid`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`),
   KEY `crmid` (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

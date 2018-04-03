@@ -25,6 +25,12 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 	 * @var string
 	 */
 	public $fileType = 'image';
+	/**
+	 * Default image limit.
+	 *
+	 * @var int
+	 */
+	public static $defaultLimit = 10;
 
 	/**
 	 * View image.

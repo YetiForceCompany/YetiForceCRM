@@ -179,7 +179,10 @@ class PrivilegeUpdater
 					$params['crmid'] = 0;
 				}
 			} elseif ($record < $row['crmid']) {
-				$insert = true;
+				$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->limit(1)->one();
+				if ($row === false) {
+					$insert = true;
+				}
 			}
 		} elseif ($record === false) {
 			$insert = true;
