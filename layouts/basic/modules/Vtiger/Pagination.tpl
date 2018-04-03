@@ -58,7 +58,7 @@
 				</a>
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
-				<li class="page-item popoverTooltip" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
+				<li class="page-item js-popover-tooltip" data-js="popover" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
 					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}

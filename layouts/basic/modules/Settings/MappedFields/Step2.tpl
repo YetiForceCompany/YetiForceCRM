@@ -25,7 +25,7 @@
 								<label>
 									<input type="checkbox" name="autofill" {if $PARAMS.autofill} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)} &nbsp;
 								</label>
-								<span class="popoverTooltip delay0"  data-placement="top"
+								<span class="js-popover-tooltip delay0" data-js="popover"  data-placement="top"
 									  data-content="{\App\Language::translate('LBL_AUTOFILL_INFO',$QUALIFIED_MODULE)}">
 									<span class="fas fa-info-circle"></span>
 								</span>

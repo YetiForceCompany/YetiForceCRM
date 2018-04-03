@@ -18,7 +18,7 @@
 		{/if}
 		{if $REMINDER_ACTIVE}
 			<div class="row">
-				<div class="remindersNotice popoverTooltip quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="remindersNotice js-popover-tooltip quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}" data-js="popover">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_REMINDER')}
 					</div>
@@ -47,7 +47,7 @@
 		{/if}
 		{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 			<div class="row">
-				<div class="isBadge notificationsNotice popoverTooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="isBadge notificationsNotice js-popover-tooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}" data-js="popover">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
@@ -125,7 +125,7 @@
 							{\App\Language::translate($TITLE,$MODULE)}
 						</div>
 						<div class="pull-right">
-							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
+							<a class="btn btn-sm js-popover-tooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " data-js="popover" href="{$HREF}"
 							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 									   data-{$DATA_NAME}="{$DATA_VALUE}"

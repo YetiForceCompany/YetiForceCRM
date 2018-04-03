@@ -36,7 +36,7 @@
 													{/foreach}
 												</select>
 												<span class="input-group-addon d-none isColorContainer">
-													<input type="checkbox" class="isColor popoverTooltip" data-content="{\App\Language::translate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
+													<input type="checkbox" class="isColor js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
 												</span>
 											</div>
 										</td>

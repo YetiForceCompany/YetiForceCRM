@@ -825,7 +825,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerPostLoadEvents: function () {
 		var thisInstance = this;
 		app.showBtnSwitch(this.content.find('.switchBtn'));
-		app.showPopoverElementView(this.content.find('.popoverTooltip'));
+		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
 		if (CONFIG.view === 'ListPreview') {
 			this.registerPreviewEvent();

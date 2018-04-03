@@ -197,7 +197,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.registerHiddenInput(container);
 		thisInstance.registerFilters(container);
 		thisInstance.registerSelectIcons(container);
-		app.showPopoverElementView(jQuery(container).find('.popoverTooltip'));
+		app.showPopoverElementView(jQuery(container).find('.js-popover-tooltip'));
 		container.find('.saveButton').on('click', function (e) {
 			var form = container.find('form').serializeFormData();
 			form.role = $('[name="roleMenu"]').val();

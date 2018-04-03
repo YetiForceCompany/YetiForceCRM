@@ -35,7 +35,7 @@
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
 												{if $LISTFIELDS['fieldname'] === 'active' && \App\Privilege::isPermitted($MODULE, 'EditView', $RECORD_ID)}
-													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} popoverTooltip {/if}{/if}btn-sm toChangeBtn" data-record-id="{$RECORD_ID}"
+													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} js-popover-tooltip {/if}{/if}btn-sm toChangeBtn" data-js="popover" data-record-id="{$RECORD_ID}"
 															data-fieldname="{$LISTFIELDS['fieldname']}"
 															{if empty($LISTFIELDS['rawData']) && isset($LAST_MODIFIED[$RECORD_ID])}
 																data-content="{\App\Language::translate('LBL_DEACTIVATED_BY', $MODULE)}<b>{$LAST_MODIFIED[$RECORD_ID]['active']['userModel']->getName()}</b> - {$LAST_MODIFIED[$RECORD_ID]['active']['changedon']} "

@@ -1061,7 +1061,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			});
 			thisInstance.initItem(newRow);
 			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
-			app.showPopoverElementView(newRow.find('.popoverTooltip'));
+			app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
 		});
 	},
 	registerSortableItems: function () {

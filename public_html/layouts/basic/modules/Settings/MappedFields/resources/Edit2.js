@@ -117,7 +117,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		this.registerEventsForEditView();
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 	},
 	/**
 	 * Function to register event for adding new convert to field mapping

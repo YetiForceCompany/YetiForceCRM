@@ -525,13 +525,13 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		container.find('table').dataTable({
 			order: [[2, 'desc']]
 		});
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		container.find('.showDescription').on('click', function (e) {
 			var html = $(this).closest('td').find('.showDescriptionContent').html();
 			app.showModalWindow(html);
 		});
 		container.find('.setIgnore').on('click', function (e) {
-			container.find('.popoverTooltip').popover('hide');
+			container.find('.js-popover-tooltip').popover('hide');
 			var data = $(this).closest('tr').data();
 			AppConnector.request({
 				module: app.getModuleName(),
@@ -599,7 +599,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			} else if (mode == 'systemWarnings') {
 				thisInstance.registerSystemWarningsEvents(container);
 			} else if (mode == 'security') {
-				app.showPopoverElementView(container.find('.popoverTooltip'));
+				app.showPopoverElementView(container.find('.js-popover-tooltip'));
 			}
 		});
 	},

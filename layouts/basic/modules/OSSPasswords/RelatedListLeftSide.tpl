@@ -10,9 +10,9 @@
 		</div>
 	{/if}
 	<div>
-		<a href="#" id="copybtn_{$PASS_ID}" data-id="{$PASS_ID}" class="copy_pass d-none btn btn-light btn-sm popoverTooltip" data-content="{\App\Language::translate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="fas fa-download"></span></a>&nbsp;
+		<a href="#" id="copybtn_{$PASS_ID}" data-id="{$PASS_ID}" class="copy_pass d-none btn btn-light btn-sm js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="fas fa-download"></span></a>&nbsp;
 	</div>
-	<a href="#" class="show_pass btn btn-sm btn-light popoverTooltip" id="btn_{$PASS_ID}" data-content="{\App\Language::translate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-show="{\App\Language::translate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-hide="{\App\Language::translate('LBL_HidePassword', $RELATED_MODULE_NAME)}"><span class="adminIcon-passwords-encryption"></span></a>
+	<a href="#" class="show_pass btn btn-sm btn-light js-popover-tooltip" data-js="popover" id="btn_{$PASS_ID}" data-content="{\App\Language::translate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-show="{\App\Language::translate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-hide="{\App\Language::translate('LBL_HidePassword', $RELATED_MODULE_NAME)}"><span class="adminIcon-passwords-encryption"></span></a>
 		{assign var=LINKS value=$RELATED_RECORD->getRecordRelatedListViewLinksLeftSide($VIEW_MODEL)}
 		{if count($LINKS) > 0}
 			{assign var=ONLY_ONE value=count($LINKS) eq 1}

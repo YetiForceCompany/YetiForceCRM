@@ -16,7 +16,7 @@
 							{/if}
 						</h4>
 						<h4 class="float-right">
-							<span class="fas fa-link float-right popoverTooltip" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left"></span>
+							<span class="fas fa-link float-right js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left"></span>
 						</h4>
 					</div>
 				</div>

@@ -633,7 +633,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		thisInstance.registerListViewSpecialOptiopn();
 		var searchInstance = thisInstance.getListSearchInstance();
 		if (searchInstance !== false) {
