@@ -7,7 +7,10 @@
 				<div class="modal-header">
 					<div class="d-flex justify-content-between w-100">
 						<div>
-							<h5 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h5>
+							<h5 class="modal-title">
+								<span class="fas fa-search mr-1"></span>
+								{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}
+							</h5>
 						</div>
 						<div>
 							<button type="button" class="btn btn-outline-secondary expandAllMails mr-2">
