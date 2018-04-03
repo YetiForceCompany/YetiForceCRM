@@ -235,13 +235,13 @@ class MultiImage {
 	 */
 	validateFile(file) {
 		let valid = false;
-		this.formats.forEach((format) => {
+		this.options.formats.forEach((format) => {
 			if (file.type === 'image/' + format) {
 				valid = true;
 			}
 		});
 		if (!valid) {
-			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_INVALID_FILE_TYPE")} [${file.name}]\n${app.vtranslate("JS_AVAILABLE_FILE_TYPES")}  [${this.formats.join(', ')}]`);
+			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_INVALID_FILE_TYPE")} [${file.name}]\n${app.vtranslate("JS_AVAILABLE_FILE_TYPES")}  [${this.options.formats.join(', ')}]`);
 		}
 		return valid;
 	}
@@ -253,8 +253,8 @@ class MultiImage {
 	 * @returns {Array}
 	 */
 	filterValidFiles(files) {
-		if (files.length > this.fieldInfo.limit) {
-			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_FILE_LIMIT")} [${this.fieldInfo.limit}]`);
+		if (files.length > this.options.limit) {
+			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_FILE_LIMIT")} [${this.options.limit}]`);
 			return [];
 		}
 		return files.filter((file) => {
