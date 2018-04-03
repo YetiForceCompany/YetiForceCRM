@@ -1281,13 +1281,20 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $this;
 	}
 
+	/**
+	 * Get field params.
+	 *
+	 * @return array
+	 */
 	public function getFieldParams()
 	{
 		$data = \App\Json::decode($this->get('fieldparams'));
 		if (!is_array($data)) {
 			$data = $this->get('fieldparams');
+			if (!is_array($data)) {
+				return [];
+			}
 		}
-
 		return $data;
 	}
 
