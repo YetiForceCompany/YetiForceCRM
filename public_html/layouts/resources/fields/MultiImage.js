@@ -247,19 +247,49 @@ class MultiImage {
 	}
 
 	/**
+	 * Show limit error
+	 */
+	showLimitError() {
+		Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_FILE_LIMIT")} [${this.options.limit}]`);
+	}
+
+	/**
 	 * Get only valid files from list
 	 *
 	 * @param {Array} files
 	 * @returns {Array}
 	 */
 	filterValidFiles(files) {
-		if (files.length > this.options.limit) {
-			Vtiger_Helper_Js.showPnotify(`${app.vtranslate("JS_FILE_LIMIT")} [${this.options.limit}]`);
+		if (files.length + this.files.length > this.options.limit) {
+			this.showLimitError();
 			return [];
 		}
 		return files.filter((file) => {
 			return this.validateFile(file);
 		});
+	}
+
+	/**
+	 * Set files hash
+	 * @param {Array} files
+	 * @returns {Array}
+	 */
+	setFilesHash(files){
+		const addedFiles = [];
+		for (let i = 0, len = files.length; i < len; i++) {
+			const file = files[i];
+			if (typeof file.hash === 'undefined') {
+				if (this.files.length < this.options.limit) {
+					file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
+					this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
+					addedFiles.push(file);
+				} else {
+					this.showLimitError();
+					return addedFiles;
+				}
+			}
+		}
+		return addedFiles;
 	}
 
 	/**
@@ -269,13 +299,7 @@ class MultiImage {
 	 * @param {object} data
 	 */
 	add(e, data) {
-		data.files.forEach((file) => {
-			if (typeof file.hash === 'undefined') {
-				file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
-				this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
-			}
-		});
-		if (data.files.length) {
+		if (data.files.length > 0) {
 			data.submit();
 		}
 	}
@@ -316,6 +340,11 @@ class MultiImage {
 		this.elements.component.removeClass('c-multi-image__drop-effect');
 	}
 
+	/**
+	 * Download file
+	 *
+	 * @param {String} hash
+	 */
 	downloadFile(hash) {
 		const fileInfo = this.getFileInfo(hash);
 		const imageUrl = `data:application/octet-stream;filename=${fileInfo.name};base64,` + fileInfo.imageSrc.split(',')[1];
@@ -434,10 +463,14 @@ class MultiImage {
 	 */
 	change(e, data) {
 		data.files = this.filterValidFiles(data.files);
+		data.files = this.setFilesHash(data.files);
 		this.dragLeave(e);
-		this.generatePreviewElements(data.files, (element) => {
-			this.elements.result.append(element);
-		});
+		console.log('change', data.files)
+		if (data.files.length) {
+			this.generatePreviewElements(data.files, (element) => {
+				this.elements.result.append(element);
+			});
+		}
 	}
 
 	/**
