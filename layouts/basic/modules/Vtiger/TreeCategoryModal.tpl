@@ -2,7 +2,10 @@
 {strip}
 	<div class="modal-header d-block">
 		<div class="d-flex">
-			<h5 class="modal-title">{\App\Language::translate('LBL_EDITING', $MODULE)}</h5>
+			<h5 class="modal-title">
+				<span class="fas fa-search-plus mr-1"></span>
+				{\App\Language::translate('LBL_EDITING', $MODULE)}
+			</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
