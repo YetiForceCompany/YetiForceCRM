@@ -210,7 +210,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/String.tpl';
+		return 'uitypes/Edit/Base.tpl';
 	}
 
 	/**
@@ -220,7 +220,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/StringDetailView.tpl';
+		return 'uitypes/Detail/Base.tpl';
 	}
 
 	/**
@@ -230,7 +230,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/FieldSearchView.tpl';
+		return 'uitypes/Search/Base.tpl';
 	}
 
 	/**
