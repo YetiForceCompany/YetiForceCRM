@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5923d818778fb678d2bac4385d59cae8",
+    "content-hash": "36c9426b958dd31258aa0e290963a962",
     "packages": [
+        {
+            "name": "ckeditor/ckeditor",
+            "version": "dev-full/latest",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ckeditor/ckeditor-releases.git",
+                "reference": "83bc36a2fa653d9fc8de698b3b135e9f3edec2ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/83bc36a2fa653d9fc8de698b3b135e9f3edec2ef",
+                "reference": "83bc36a2fa653d9fc8de698b3b135e9f3edec2ef",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-2.1+",
+                "MPL-1.1+"
+            ],
+            "authors": [
+                {
+                    "name": "CKSource",
+                    "homepage": "http://cksource.com"
+                }
+            ],
+            "description": "JavaScript WYSIWYG web text editor.",
+            "homepage": "http://ckeditor.com",
+            "keywords": [
+                "CKEditor",
+                "editor",
+                "fckeditor",
+                "html",
+                "javascript",
+                "richtext",
+                "text",
+                "wysiwyg"
+            ],
+            "time": "2018-03-26T21:10:35+00:00"
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.1.1",
@@ -3051,6 +3092,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ckeditor/ckeditor": 20,
         "yetiforce/debugbar": 20,
         "yetiforce/yii2": 20
     },

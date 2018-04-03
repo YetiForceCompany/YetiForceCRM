@@ -18,7 +18,8 @@ class Composer
 	 */
 	public static $publicPackage = [
 		'yetiforce/csrf-magic',
-		'yetiforce/debugbar'
+		'yetiforce/debugbar',
+		'ckeditor/ckeditor'
 	];
 
 	/**
