@@ -64,7 +64,7 @@
 								{/if}
 								<div class="col-sm-6">
 									<div class="form-row border-right">
-										<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel_label col-lg-6 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel_label col-lg-6 {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
