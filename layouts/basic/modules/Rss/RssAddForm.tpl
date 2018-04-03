@@ -11,7 +11,14 @@
 -->*}
 {strip}
 	<div class="modal-header">
-		<h5 class="modal-title">{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}</h5>
+		<h5 class="modal-title">
+			<span class="fa-layers fa-fw mr-2">
+				<i class="fas fa-circle" data-fa-transform="grow-6"></i>
+				<i class="fa-inverse fas fa-plus text-white" data-fa-transform="shrink-9 left-5"></i>
+				<i class="fa-inverse fas fa-rss text-white" data-fa-transform="shrink-6 right-4"></i>
+			</span>
+			{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}
+		</h5>
 		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 			<span aria-hidden="true">&times;</span>
 		</button>
