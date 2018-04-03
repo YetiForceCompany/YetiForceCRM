@@ -59,19 +59,36 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * Get display value as string in JSON format.
 	 *
-	 * @param {string}                 $value
-	 * @param bool|int                 $record
-	 * @param bool|Vtiger_Record_Model $recordModel
-	 * @param bool                     $rawText
-	 * @param bool|int                 $length
+	 * @param {string} $value
+	 * @param bool|int $length
 	 *
 	 * @return string
 	 */
-	public function getDisplayValueJson($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	public function getDisplayValueEncoded($value, $record, $length = false)
+	{
+		$value = \App\Json::decode($value);
+		$len = $length ?: count($value);
+		if (!is_array($value)) {
+			return '[]';
+		}
+		for ($i = 0; $i < $len; $i++) {
+			$value[$i]['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
+			unset($value[$i]['path']);
+		}
+		return \App\Purifier::encodeHtml(\App\Json::encode($value));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Json::decode($value);
 		$len = $length ? $length : count($value);
-		if ($rawText) {
+		if (!$record && $recordModel) {
+			$record = $recordModel->getId();
+		}
+		if ($rawText || !$record) {
 			$result = '';
 			if (!is_array($value)) {
 				return '';
@@ -83,28 +100,15 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			return \App\Purifier::encodeHtml(trim($result, "\n\s\t ,"));
 		}
 		if (!is_array($value)) {
-			return '[]';
+			return '';
 		}
+		$result = '<span style="width:100%">';
+		$width = 1 / $len;
 		for ($i = 0; $i < $len; $i++) {
-			$value[$i]['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$recordModel->getId()}&key={$value[$i]['key']}";
-			unset($value[$i]['path']);
+			$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
+			$result .= '<img src="' . $src . '" style="width:' . $width . '%">';
 		}
-		return \App\Purifier::encodeHtml(\App\Json::encode($value));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		$value = $this->getDisplayValueJson($value, $record, $recordModel, $rawText, $length);
-		$moduleName = $this->getFieldModel()->getModuleName();
-		$viewer = \Vtiger_Viewer::getInstance();
-		$viewer->assign('FIELD_VALUE', $value);
-		$viewer->assign('FIELD_INFO', \App\Json::encode($this->getFieldModel()->getFieldInfo()));
-		$viewer->assign('FIELD_NAME', $this->getFieldModel()->getName());
-		$viewer->assign('MODULE_NAME', $moduleName);
-		return $viewer->view('uitypes/MultiImageDetailView.tpl', $moduleName, true);
+		return $result . '</span>';
 	}
 
 	/**
@@ -112,6 +116,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
+		return $record;
 		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext'));
 	}
 
@@ -133,13 +138,19 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object.
-	 *
-	 * @return string - Template Name
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/MultiImage.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'uitypes/MultiImageDetailView.tpl';
 	}
 
 	/**
