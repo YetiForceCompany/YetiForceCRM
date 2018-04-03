@@ -18,8 +18,8 @@
 	</div>
 	<form class="form-horizontal" id="rssAddForm"  method="post" action="index.php" >
 		<div class="modal-body tabbable">
-			<div class="form-group">
-				<div class="col-form-label col-md-4"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_FEED_SOURCE',$MODULE)}</div>
+			<div class="form-group row">
+				<div class="col-form-label col-md-4 text-right"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_FEED_SOURCE',$MODULE)}</div>
 				<div class="controls col-md-8">
 					<input class="form-control" type="text" id="feedurl" name="feedurl" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]' title="{\App\Language::translate('LBL_FEED_SOURCE',$MODULE)}" placeholder="{\App\Language::translate('LBL_ENTER_FEED_SOURCE',$MODULE)}" />
 				</div>
