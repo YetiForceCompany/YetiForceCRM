@@ -44,6 +44,8 @@
 	"LBL_GROSS_AMOUNT_IN_WORDS": "Gross amount in words",
 	"LBL_TABLE_DISCOUNT_SUMMARY": "Discount summary for advanced block",
 	"LBL_OVERDUE_DEADLINES": "Overdue events",
-	"LBL_TABLE_TAX_SUMMARY": "Tax summary for advanced block"
+	"LBL_TABLE_TAX_SUMMARY": "Tax summary for advanced block",
+	"LBL_ALL_PAGES": "All pages",
+	"LBL_CURRENT_PAGE": "Current page"
   }
 }
