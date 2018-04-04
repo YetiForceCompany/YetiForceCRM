@@ -5,7 +5,7 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-	<div class="input-group time">
+	<div class="tpl-Edit-Uitype-Time input-group time">
 		{if $FIELD_NAME neq 'time_end'}
 			<div class="input-group-prepend">
 				<span class="input-group-text"><span class="notEvent js-help-info" data-placement="top" data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">

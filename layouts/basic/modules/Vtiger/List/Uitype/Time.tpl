@@ -18,7 +18,7 @@
 		{assign var=FIELD_VALUE value=""}
 	{/if}
 	{assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
-	<div class="picklistSearchField">
+	<div class="tpl-List-Uitype-Time picklistSearchField">
 		<input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
 	</div>
 {/strip}
