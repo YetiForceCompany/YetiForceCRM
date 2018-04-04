@@ -17,7 +17,7 @@
 	{else}
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
-    <div class="picklistSearchField">
+    <div class="tpl-List-Uitype-Date picklistSearchField">
         <input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range" data-fieldinfo='{$FIELD_INFO|escape}'/>
     </div>
 {/strip}
