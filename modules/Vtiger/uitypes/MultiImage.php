@@ -147,7 +147,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$value) {
 			return '';
 		}
-		$len = $length ? $length : count($value);
+		$len = count($value);
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
