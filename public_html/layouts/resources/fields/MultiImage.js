@@ -551,6 +551,7 @@ class MultiImage {
 				}
 			}
 		});
+		this.redraw();
 	}
 
 	/**
@@ -560,6 +561,7 @@ class MultiImage {
 		this.files.forEach((file) => {
 			this.elements.result.append(file.previewElement);
 		});
+		this.updateFormValues();
 	}
 
 	/**

@@ -38,9 +38,28 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$isUserFormat) {
 			$value = \App\Json::decode($value);
 		}
-		foreach ($value as $item) {
+		$fieldInfo = $this->getFieldModel()->getFieldInfo();
+		foreach ($value as $index => $item) {
 			if (empty($item['key']) || empty($item['name']) || empty($item['size']) || App\TextParser::getTextLength($item['key']) !== 50) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+			}
+			if ($index > (int) $fieldInfo['limit']) {
+				throw new \App\Exceptions\Security('ERR_TO_MANY_FILES||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+			}
+			$formatOk = false;
+			$mimeOk = false;
+			$file = \App\Fields\File::loadFromPath($item['path']);
+			foreach ($fieldInfo['formats'] as $format) {
+				$format = strtolower($format);
+				if (mb_strtolower(pathinfo($item['name'], PATHINFO_EXTENSION)) === $format) {
+					$formatOk = true;
+				}
+				if (strtolower($file->getMimeType()) === 'image/' . $format) {
+					$mimeOk = true;
+				}
+			}
+			if (!$formatOk || !$mimeOk) {
+				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
 		$params = $this->getFieldModel()->getFieldParams();
