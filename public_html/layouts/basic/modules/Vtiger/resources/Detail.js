@@ -2165,6 +2165,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerMapsEvents(detailContentsHolder);
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
+		App.Fields.MultiImage.register(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
@@ -2566,16 +2567,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		frame.height(currentHeight);
 	},
 
-	/**
-	 * Register multi image upload fields
-	 * @param {HTMLElement|jQuery} container
-	 */
-	registerMultiImageFields() {
-		return App.Fields.MultiImage.register(this.getContentHolder());
-	},
-
 	registerEvents: function () {
-		var thisInstance = this;
+		const thisInstance = this;
 		thisInstance.refreshRelatedList();
 		//thisInstance.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
@@ -2588,7 +2581,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerEventForRelatedTabClick();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.registerUrlFieldClickEvent();
-
 		var detailViewContainer = jQuery('div.detailViewContainer');
 		if (detailViewContainer.length <= 0) {
 			// Not detail view page
@@ -2596,12 +2588,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		this.registerSetReadRecord(detailViewContainer);
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
-
 		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);
 		thisInstance.loadWidgets();
 		this.registerBasicEvents();
-
 		this.registerEventForTotalRecordsCount();
-		this.registerMultiImageFields();
 	}
 });
