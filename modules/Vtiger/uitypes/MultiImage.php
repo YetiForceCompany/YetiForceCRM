@@ -126,12 +126,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!is_array($value)) {
 			return '';
 		}
-		$result = '<span style="width:100%">';
-		$width = 1 / $len * 100;
+		$result = '<span class="c-multi-image__result">';
 		for ($i = 0; $i < $len; $i++) {
 			if ($record) {
 				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-				$result .= '<img class="img-thumbnail" src="' . $src . '" style="width:' . $width . '%">';
+				$result .= '<img class="img-thumbnail" src="' . $src . '">';
 			} else {
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
@@ -166,17 +165,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!is_array($value)) {
 			return '';
 		}
-		$result = '<span style="width:100%">';
-		$width = 45;
+		$result = '<div class="c-multi-image__result">';
 		for ($i = 0; $i < $len; $i++) {
 			if ($record) {
 				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-				$result .= '<img class="img-thumbnail" src="' . $src . '" style="width:' . $width . 'px">';
+				$result .= '<img class="c-multi-image__preview-img" style="background-image:url(' . $src . ')">';
 			} else {
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
 		}
-		return trim($result, "\n\s\t ") . '</span>';
+		return $result . '</div>';
 	}
 
 	/**
