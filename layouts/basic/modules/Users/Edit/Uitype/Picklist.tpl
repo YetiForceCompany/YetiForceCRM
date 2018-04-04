@@ -41,5 +41,5 @@
 				{/if}
 			{/foreach}
 		</select>
-	<div>
+	</div>
 {/strip}
