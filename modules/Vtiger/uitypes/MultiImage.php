@@ -46,20 +46,19 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			if ($index > (int) $fieldInfo['limit']) {
 				throw new \App\Exceptions\Security('ERR_TO_MANY_FILES||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
-			$formatOk = false;
-			$mimeOk = false;
-			$file = \App\Fields\File::loadFromPath($item['path']);
+			$file = \App\Fields\File::loadFromInfo([
+				'path' => \App\Fields\File::getLocalPath($item['path']),
+				'name' => $item['name'],
+			]);
 			$validFormat = $file->validate('image');
+			$extensionValid = false;
 			foreach ($fieldInfo['formats'] as $format) {
-				$format = strtolower($format);
-				if (mb_strtolower(pathinfo($item['name'], PATHINFO_EXTENSION)) === $format) {
-					$formatOk = true;
-				}
-				if (strtolower($file->getMimeType()) === 'image/' . $format) {
-					$mimeOk = true;
+				if ($file->getExtension(true) === strtolower($format)) {
+					$extensionValid = true;
+					break;
 				}
 			}
-			if (!$formatOk || !$mimeOk || !$validFormat) {
+			if (!$extensionValid || !$validFormat) {
 				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
@@ -140,7 +139,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$value) {
 			return '';
 		}
-		$len = $length ? $length : count($value);
+		$len = $length ?: count($value);
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
@@ -180,7 +179,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$value) {
 			return '';
 		}
-		$len = count($value);
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
@@ -199,12 +197,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$result = '<div class="c-multi-image__result">';
-		for ($i = 0; $i < $len; $i++) {
+		foreach ($value as $item) {
 			if ($record) {
-				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')"></div>';
+				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $this->getImageUrl($item['key'], $record) . ')"></div>';
 			} else {
-				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
+				$result .= \App\Purifier::encodeHtml($item['name']) . ', ';
 			}
 		}
 		return $result . '</div>';
@@ -218,7 +215,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$value = \App\Json::decode($value);
 		if (is_array($value)) {
 			foreach ($value as &$item) {
-				$item['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$recordModel->getId()}&key={$item['key']}";
+				$item['imageSrc'] = $this->getImageUrl($item['key'], $recordModel->getId());
 				unset($item['path']);
 			}
 		} else {
