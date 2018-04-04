@@ -3,6 +3,7 @@
 	"ERR_ILLEGAL_VALUE": "Niedozwolona warto\u015b\u0107",
 	"ERR_ILLEGAL_FIELD_VALUE": "Niedozwolona warto\u015b\u0107 w polu %s (%s)",
 	"ERR_VALUE_IS_TOO_LONG": "Warto\u015b\u0107 pola %s jest za d\u0142uga (%s)",
+	"ERR_TO_MANY_FILES":"Przekroczono limit ilo\u015Bci plik\u00F3w",
 	"ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "Warto\u015b\u0107 pola %s musi by\u0107 wi\u0119ksza od zera (%s)",
 	"ERR_NOT_ALLOWED_VALUE": "Wykryto niedozwolon\u0105 warto\u015b\u0107, prosimy o kontakt z administratorem",
 	"ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Takie has\u0142o by\u0142o ju\u017c kiedy\u015b u\u017cywane, system ze wzgl\u0119d\u00f3w bezpiecze\u0144stwa nie pozwala na u\u017cywanie takich samych hase\u0142.",
