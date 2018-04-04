@@ -35,6 +35,7 @@ App.Fields = {
 			}
 			if (registerForAddon === true) {
 				const parentDateElem = elements.closest('.date');
+				console.log('click')
 				$('.js-date__btn', parentDateElem).on('click', function inputGroupAddonClickHandler(e) {
 					// Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 					// which is stopping from getting focus to input element
@@ -81,7 +82,7 @@ App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {object} customParams
 		 */
-		registerRange(parentElement, customParams) {
+		registerRange: function (parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
 				parentElement = jQuery('body');
 			} else {
@@ -130,14 +131,12 @@ App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
 			}
-			elements.each(function (index, element) {
-				element = $(element);
-				element.daterangepicker(params);
-				element.on('apply.daterangepicker', function (ev, picker) {
-					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-				});
+			$('.js-date__btn').off().on('click', (e) => {
+				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
-
+			elements.daterangepicker(params).on('apply.daterangepicker', function (ev, picker) {
+				$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+			});
 		},
 	},
 	DateTime: {
@@ -162,6 +161,7 @@ App.Fields = {
 			jQuery('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
 				jQuery(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
 			});
+			const defaultFirstDay = typeof CONFIG.firstDayOfWeekNo === 'undefined' ? 1 : CONFIG.firstDayOfWeekNo;
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
 			if (typeof elementDateFormat !== 'undefined') {
@@ -205,10 +205,8 @@ App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
 			}
-			elements.each(function (index, element) {
-				$(element).daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
+			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
 					$(this).val(picker.startDate.format(format));
-				});
 			});
 		},
 	},

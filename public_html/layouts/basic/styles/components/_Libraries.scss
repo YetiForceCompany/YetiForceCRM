@@ -147,13 +147,19 @@ header {
 	@extend .mb-0;
   }
   .ranges {
-	float: none !important;
-	text-align: center !important;
 	li {
 	  margin-bottom: 0.45rem;
 	}
 	li:last-child {
 	  @extend .mb-0;
+	}
+  }
+}
+#EditView {
+  .daterangepicker {
+	.ranges {
+	  float: none !important;
+	  text-align: center !important;
 	}
   }
 }

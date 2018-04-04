@@ -102,7 +102,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
 	registerDateListSearch: function (container) {
-		App.Fields.DateTime.register(this.getContainer().find('.dateRangeField'));
+		App.Fields.DateTime.register(this.getContainer().find('.dateRangeField'), {parentEl: container});
 	},
 	registerTimeListSearch: function () {
 		app.registerEventForClockPicker();
