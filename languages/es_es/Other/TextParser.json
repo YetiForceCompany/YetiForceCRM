@@ -44,6 +44,8 @@
 	"LBL_DATE_MONDAY_NEXT_WEEK": "Primer d\u00eda de la siguiente semana",
 	"LBL_DATE_FIRST_DAY_OF_THIS_MONTH": "Primer d\u00eda de este mes",
 	"LBL_DATE_LAST_DAY_OF_THIS_MONTH": "\u00daltimo d\u00eda de este mes",
-	"LBL_DATE_FIRST_DAY_OF_NEXT_MONTH": "Primer d\u00eda del siguiente mes"
+	"LBL_DATE_FIRST_DAY_OF_NEXT_MONTH": "Primer d\u00eda del siguiente mes",
+	"LBL_ALL_PAGES": "All pages",
+	"LBL_CURRENT_PAGE": "Current page"
   }
 }
