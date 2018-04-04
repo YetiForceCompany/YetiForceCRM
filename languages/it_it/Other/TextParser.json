@@ -29,6 +29,14 @@
 	"LBL_COPY_LABEL": "Field name",
 	"LBL_AUTOMATIC": "Automatic",
 	"LBL_RELATED_RECORDS_LIST": "Lista dei record collegati",
+	"LBL_DATE_TODAY": "Today",
+	"LBL_DATE_TOMORROW": "Tomorrow",
+	"LBL_DATE_YESTERDAY": "Yesterday",
+	"LBL_DATE_FIRST_DAY_OF_THIS_WEEK": "Monday this week",
+	"LBL_DATE_MONDAY_NEXT_WEEK": "Monday next week",
+	"LBL_DATE_FIRST_DAY_OF_THIS_MONTH": "First day of this month",
+	"LBL_DATE_LAST_DAY_OF_THIS_MONTH": "Last day of this month",
+	"LBL_DATE_FIRST_DAY_OF_NEXT_MONTH": "First day of next month",
 	"LBL_RECORDS_LIST": "List of all records",
 	"LBL_PRODUCTS_TABLE": "Table with advanced block",
 	"LBL_PRODUCTS_TABLE_DESCRIPTION": "Table with advanced block and description",
@@ -37,6 +45,8 @@
 	"LBL_GROSS_AMOUNT_IN_WORDS": "Gross amount in words",
 	"LBL_TABLE_DISCOUNT_SUMMARY": "Discount summary for advanced block",
 	"LBL_OVERDUE_DEADLINES": "Overdue events",
-	"LBL_TABLE_TAX_SUMMARY": "Tax summary for advanced block"
+	"LBL_TABLE_TAX_SUMMARY": "Tax summary for advanced block",
+	"LBL_ALL_PAGES": "All pages",
+	"LBL_CURRENT_PAGE": "Current page"
   }
 }
