@@ -49,6 +49,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			$formatOk = false;
 			$mimeOk = false;
 			$file = \App\Fields\File::loadFromPath($item['path']);
+			$validFormat = $file->validate('image');
 			foreach ($fieldInfo['formats'] as $format) {
 				$format = strtolower($format);
 				if (mb_strtolower(pathinfo($item['name'], PATHINFO_EXTENSION)) === $format) {
@@ -58,7 +59,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 					$mimeOk = true;
 				}
 			}
-			if (!$formatOk || !$mimeOk) {
+			if (!$formatOk || !$mimeOk || !$validFormat) {
 				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
@@ -109,6 +110,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$value = \App\Json::decode($value);
 		if (!is_array($value)) {
 			return '';
+		}
+		foreach ($value as $item) {
+			$file = \App\Fields\File::loadFromPath($item['path']);
 		}
 		$value = array_map(function ($v) {
 			return $v['name'];
