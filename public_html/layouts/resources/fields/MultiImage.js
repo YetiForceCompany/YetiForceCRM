@@ -67,7 +67,7 @@ class MultiImage {
 		});
 		this.elements.component.on('click', '.js-multi-image__popover-btn-download', function (e) {
 			e.preventDefault();
-			thisInstance.downloadFile($(this).data('hash'));
+			thisInstance.download($(this).data('hash'));
 		});
 		if (!this.detailView) {
 			this.elements.component.on('click', '.js-multi-image__popover-btn-delete', function (e) {
@@ -342,11 +342,44 @@ class MultiImage {
 	}
 
 	/**
-	 * Download file
+	 * Download file according to source type (base64/file from server)
 	 *
 	 * @param {String} hash
 	 */
+	download(hash) {
+		const fileInfo = this.getFileInfo(hash);
+		if (fileInfo.imageSrc.substr(0, 8).toLowerCase() === 'file.php') {
+			return this.downloadFile(hash);
+		} else {
+			return this.downloadBase64(hash);
+		}
+	}
+
+	/**
+	 * Download file that exists on the server already
+	 * @param {String} hash
+	 */
 	downloadFile(hash) {
+		const fileInfo = this.getFileInfo(hash);
+		const link = document.createElement('a');
+		$(link).css('display', 'none');
+		if (typeof link.download === 'string') {
+			document.body.appendChild(link); // Firefox requires the link to be in the body
+			link.download = fileInfo.name;
+			link.href = fileInfo.imageSrc;
+			link.click();
+			document.body.removeChild(link); // remove the link when done
+		} else {
+			location.replace(fileInfo.imageSrc);
+		}
+	}
+
+	/**
+	 * Download file from base64 image
+	 *
+	 * @param {String} hash
+	 */
+	downloadBase64(hash) {
 		const fileInfo = this.getFileInfo(hash);
 		const imageUrl = `data:application/octet-stream;filename=${fileInfo.name};base64,` + fileInfo.imageSrc.split(',')[1];
 		const link = document.createElement('a');
@@ -395,7 +428,7 @@ class MultiImage {
 			label: `<i class="fa fa-download"></i> ${app.vtranslate('JS_DOWNLOAD')}`,
 			className: "float-left btn btn-success",
 			callback() {
-				thisInstance.downloadFile(fileInfo.hash);
+				thisInstance.download(fileInfo.hash);
 			}
 		};
 		bootboxOptions.buttons.Close = {
