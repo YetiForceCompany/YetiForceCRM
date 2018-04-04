@@ -25,10 +25,10 @@
 		</thead>
 		{foreach item=RECORD from=$IMPORT_RESULT_DATA}
 			<tr class="listViewEntries">
-				{foreach key=FIELD_NAME item=VALUE from=$RECORD->getData()}
-					<td>
-						{\App\Language::translate($VALUE, $FOR_MODULE)}
-					</td>
+				{foreach key=FIELD_NAME item=LABEL from=$LISTVIEW_HEADERS}
+					{if $RECORD->getField($FIELD_NAME)->isViewable()}
+						<td>{$RECORD->getListViewDisplayValue($FIELD_NAME)}</td>
+					{/if}
 				{/foreach}
 			</tr>
 		{/foreach}
