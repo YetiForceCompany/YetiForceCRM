@@ -210,7 +210,7 @@ class Import_Data_Action extends \App\Controller\Action
 			$entityInfo = null;
 			$fieldData = [];
 			foreach ($fieldMapping as $fieldName => $index) {
-				$fieldData[$fieldName] = $row[$fieldName];
+				$fieldData[$fieldName] = \App\Purifier::decodeHtml($row[$fieldName]);
 			}
 
 			$mergeType = $this->mergeType;
@@ -848,7 +848,7 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 			while ($row = $dataReader->read()) {
-				$record = new \App\Base();
+				$record = \Vtiger_Record_Model::getCleanInstance($forModule);
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}

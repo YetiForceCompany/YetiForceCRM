@@ -88,12 +88,14 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		$mappedData = [];
 		$inventoryMappedData = [];
 		$allValuesEmpty = true;
+		$moduleModel = Vtiger_Module_Model::getInstance($this->moduleName);
+		$fields = $moduleModel->getFields();
 		foreach ($fieldMapping as $fieldName => $index) {
 			$fieldValue = $recordData[$index];
-			$mappedData[$fieldName] = $fieldValue;
 			if ($this->request->get('file_encoding') !== $defaultCharset) {
-				$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
+				$fieldValue = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 			}
+			$mappedData[$fieldName] = isset($fields[$fieldName]) && $fields[$fieldName]->getFieldDataType() === 'text' ? \App\Purifier::purifyHtml($fieldValue) : \App\Purifier::purify($fieldValue);
 			if (!empty($fieldValue)) {
 				$allValuesEmpty = false;
 			}
