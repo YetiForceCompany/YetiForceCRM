@@ -76,6 +76,19 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
+	 * Get image url.
+	 *
+	 * @param {string} $key
+	 * @param {int}    $record
+	 *
+	 * @return string
+	 */
+	public function getImageUrl($key, $record)
+	{
+		return "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$key}";
+	}
+
+	/**
 	 * Get display value as string in JSON format.
 	 *
 	 * @param {string} $value
@@ -91,7 +104,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		$len = $length ?: count($value);
 		for ($i = 0; $i < $len; $i++) {
-			$value[$i]['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
+			$value[$i]['imageSrc'] = $this->getImageUrl($value[$i]['key'], $record);
 			unset($value[$i]['path']);
 		}
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
@@ -110,9 +123,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$value = \App\Json::decode($value);
 		if (!is_array($value)) {
 			return '';
-		}
-		foreach ($value as $item) {
-			$file = \App\Fields\File::loadFromPath($item['path']);
 		}
 		$value = array_map(function ($v) {
 			return $v['name'];
@@ -148,11 +158,12 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!is_array($value)) {
 			return '';
 		}
-		$result = '<div class="c-multi-image__result">';
+		$result = '<div class="c-multi-image__result" style="width:100%">';
+		$width = 1 / count($value) * 100;
 		for ($i = 0; $i < $len; $i++) {
 			if ($record) {
-				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')"></div>';
+				$src = $this->getImageUrl($value[$i]['key'], $record);
+				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')" style="width:' . $width . '%"></div>';
 			} else {
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
