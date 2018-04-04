@@ -13,13 +13,13 @@
 	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
+			<div class="contentsDiv col-md-12 u-ml-0px" id="centerPanel" style="min-height:550px;">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
 						<ul class="nav nav-tabs massEditTabs selectDashboard">
 							{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-								<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
+								<li class="{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active {/if}" data-id="{$DASHBOARD['dashboard_id']}">
 									<a data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
 								</li>
 							{/foreach}
