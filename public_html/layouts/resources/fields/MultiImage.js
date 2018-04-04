@@ -433,7 +433,7 @@ class MultiImage {
 		};
 		bootboxOptions.buttons.Close = {
 			label: `<i class="fa fa-times"></i> ${app.vtranslate('JS_CLOSE')}`,
-			className: "btn btn-default",
+			className: "btn btn-warning",
 			callback: () => {
 			},
 		};
