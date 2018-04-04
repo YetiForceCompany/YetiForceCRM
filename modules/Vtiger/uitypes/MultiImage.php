@@ -67,10 +67,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getDisplayValueEncoded($value, $record, $length = false)
 	{
 		$value = \App\Json::decode($value);
-		$len = $length ?: count($value);
 		if (!is_array($value)) {
 			return '[]';
 		}
+		$len = $length ?: count($value);
 		for ($i = 0; $i < $len; $i++) {
 			$value[$i]['imageSrc'] = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
 			unset($value[$i]['path']);
@@ -79,11 +79,35 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
+	 * Function to get Display value for ModTracker.
+	 *
+	 * @param                      $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$value = \App\Json::decode($value);
+		if (!is_array($value)) {
+			return '';
+		}
+		$value = array_map(function ($v) {
+			return $v['name'];
+		}, $value);
+		$result = implode(', ', $value);
+		return trim($result, "\n\s\t, ");
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Json::decode($value);
+		if (!$value) {
+			return '';
+		}
 		$len = $length ? $length : count($value);
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
@@ -103,12 +127,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$result = '<span style="width:100%">';
-		$width = 1 / $len;
+		$width = 1 / $len * 100;
 		for ($i = 0; $i < $len; $i++) {
-			$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-			$result .= '<img src="' . $src . '" style="width:' . $width . '%">';
+			if ($record) {
+				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
+				$result .= '<img class="img-thumbnail" src="' . $src . '" style="width:' . $width . '%">';
+			} else {
+				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
+			}
 		}
-		return $result . '</span>';
+		return trim($result, "\n\s\t ") . '</span>';
 	}
 
 	/**
@@ -116,8 +144,39 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $record;
-		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext'));
+		$value = \App\Json::decode($value);
+		if (!$value) {
+			return '';
+		}
+		$len = $length ? $length : count($value);
+		if (!$record && $recordModel) {
+			$record = $recordModel->getId();
+		}
+		if ($rawText || !$record) {
+			$result = '';
+			if (!is_array($value)) {
+				return '';
+			}
+			for ($i = 0; $i < $len; $i++) {
+				$val = $value[$i];
+				$result .= $val['name'] . ', ';
+			}
+			return \App\Purifier::encodeHtml(trim($result, "\n\s\t ,"));
+		}
+		if (!is_array($value)) {
+			return '';
+		}
+		$result = '<span style="width:100%">';
+		$width = 45;
+		for ($i = 0; $i < $len; $i++) {
+			if ($record) {
+				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
+				$result .= '<img class="img-thumbnail" src="' . $src . '" style="width:' . $width . 'px">';
+			} else {
+				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
+			}
+		}
+		return trim($result, "\n\s\t ") . '</span>';
 	}
 
 	/**
