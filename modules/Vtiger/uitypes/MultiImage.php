@@ -51,14 +51,14 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				'name' => $item['name'],
 			]);
 			$validFormat = $file->validate('image');
-			$extensionValid = false;
+			$validExtension = false;
 			foreach ($fieldInfo['formats'] as $format) {
 				if ($file->getExtension(true) === strtolower($format)) {
-					$extensionValid = true;
+					$validExtension = true;
 					break;
 				}
 			}
-			if (!$extensionValid || !$validFormat) {
+			if (!$validExtension || !$validFormat) {
 				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
