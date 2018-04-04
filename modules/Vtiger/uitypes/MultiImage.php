@@ -169,7 +169,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		for ($i = 0; $i < $len; $i++) {
 			if ($record) {
 				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-				$result .= '<img class="c-multi-image__preview-img" style="background-image:url(' . $src . ')">';
+				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')"></div>';
 			} else {
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
