@@ -4,7 +4,8 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" 
+	<div class="tpl-Detail-Uitype-Base">
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
 		   class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" 
 		   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
 		   name="{$FIELD_MODEL->getFieldName()}" 
@@ -46,4 +47,5 @@
 			   <div id="passwordStrength" class="strength0 col-12"></div>
 		   </p>
 	{/if}
+	</div>
 	{/strip}

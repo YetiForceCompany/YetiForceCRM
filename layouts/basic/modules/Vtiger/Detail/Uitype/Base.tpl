@@ -9,6 +9,6 @@
 *
 ********************************************************************************/
 -->*}
-<div class="u-paragraph-m-0">
+<div class="tpl-Detail-Uitype-Base u-paragraph-m-0">
 {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
 </div>
