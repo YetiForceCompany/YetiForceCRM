@@ -1336,7 +1336,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$data = \App\Json::decode($this->get('fieldparams'));
 		if (!is_array($data)) {
 			$data = $this->get('fieldparams');
-			if (!is_array($data)) {
+			if (empty($data)) {
 				return [];
 			}
 		}
