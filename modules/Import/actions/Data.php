@@ -74,7 +74,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function getDefaultFieldValues()
 	{
-		$key = $this->module . '_' . $this->user->id;
+		$key = $this->module . '_' . $this->user->getId();
 		if (\App\Cache::staticHas('DefaultFieldValues', $key)) {
 			return \App\Cache::staticGet('DefaultFieldValues', $key);
 		}
@@ -93,7 +93,7 @@ class Import_Data_Action extends \App\Controller\Action
 			$mandatoryFieldName = $fieldInstance->getName();
 			if (empty($defaultValues[$mandatoryFieldName])) {
 				if ($fieldInstance->getFieldDataType() === 'owner') {
-					$defaultValues[$mandatoryFieldName] = $this->user->id;
+					$defaultValues[$mandatoryFieldName] = $this->user->getId();
 				} elseif (!in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
 					$defaultValues[$mandatoryFieldName] = '????';
 				}
@@ -103,7 +103,7 @@ class Import_Data_Action extends \App\Controller\Action
 			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
 			if (empty($defaultValues[$fieldName])) {
 				if ($fieldInstance->getUIType() === 52) {
-					$defaultValues[$fieldName] = $this->user->id;
+					$defaultValues[$fieldName] = $this->user->getId();
 				} elseif (!empty($fieldDefaultValue)) {
 					$defaultValues[$fieldName] = $fieldDefaultValue;
 				}
@@ -217,7 +217,7 @@ class Import_Data_Action extends \App\Controller\Action
 			$createRecord = false;
 
 			if (!empty($mergeType) && $mergeType !== Import_Module_Model::AUTO_MERGE_NONE) {
-				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->id);
+				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->getId());
 				$queryGenerator->setFields(['id']);
 				$moduleFields = $queryGenerator->getModuleFields();
 				$mergeFields = $this->mergeFields;
@@ -428,11 +428,11 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 			$ownerId = $defaultFieldValues[$fieldName];
 		}
-		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
+		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
 		}
 		if (empty($ownerId)) {
-			$ownerId = $this->user->id;
+			$ownerId = $this->user->getId();
 		}
 
 		return $ownerId;
@@ -532,8 +532,8 @@ class Import_Data_Action extends \App\Controller\Action
 					$referenceModuleName = $referenceModule;
 					if ($referenceModule === 'Users') {
 						$referenceEntityId = \App\User::getUserIdByName(trim($entityLabel));
-						if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
-							$referenceEntityId = $this->user->id;
+						if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
+							$referenceEntityId = $this->user->getId();
 						}
 					} elseif ($referenceModule === 'Currency') {
 						$referenceEntityId = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
@@ -726,7 +726,7 @@ class Import_Data_Action extends \App\Controller\Action
 				$save = true;
 			}
 		}
-		$recordModel->set('assigned_user_id', $this->user->id);
+		$recordModel->set('assigned_user_id', $this->user->getId());
 		if ($save) {
 			if (!\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
 				$recordModel->setHandlerExceptions(['disableHandlers' => true]);
