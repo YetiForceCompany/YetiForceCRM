@@ -28,7 +28,7 @@
 	{assign var="FIELD_INFO" value=\App\Json::encode($RAW_FIELD_INFO)}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 
-	<div class="fileUploadContainer">
+	<div class="tpl-Edit-Uitype-DocumentsFileUpload fileUploadContainer">
 		{if $IS_EXTERNAL_LOCATION_TYPE}
 			<input type="text" class="form-control{if $FIELD_MODEL->isNameField()} nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
 				   value="{if $IS_EXTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
