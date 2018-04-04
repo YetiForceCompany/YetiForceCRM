@@ -87,7 +87,10 @@
 	"LBL_AVERAGEBREAKTIME_INFO": "Temps de pause moyen",
 	"LBL_WORKDAYS_INFO": "Jours travaill\u00e9s",
 	"LBL_SUM": "Somme",
-	"LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS": "Graphiques des Heures travaill\u00e9es par utilisateurs"
+	"LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS": "Graphiques des Heures travaill\u00e9es par utilisateurs",
+	"LBL_TIME_CONTROL_LIST": "Time Control List",
+	"LBL_TIME_CONTROL_DETAILED_LIST": "Time Control Detailed List",
+	"LBL_TIME_CONTROL_USER_GROUP": "Time Control List with additional information about users"
   },
   "js": {
 	"JS_TYPE": "Type",
