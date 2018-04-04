@@ -157,6 +157,9 @@
 	"LBL_RELATED_VIEW_TYPE": "Display position",
 	"LBL_RELATED_VIEW_TYPE_DESC": "Select at least one display position for the block",
 	"LBL_CUSTOM_CONFIGURATION": "Custom configuration",
+	"LBL_CONTEXT_HELP": "Context-sensitive help",
+	"LBL_SHOW_IN_VIEWS": "Show in views",
+	"LBL_CHOOSE_LANGUAGE": "Language",
 	"LBL_EDIT_VIEW": "Create & Edit",
 	"LBL_DETAIL_VIEW": "Detail view & Summary view",
 	"LBL_QUICK_CREATE_VIEW": "Quick create"
