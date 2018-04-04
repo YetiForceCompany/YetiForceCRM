@@ -242,7 +242,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'List/Uitype/Search/Base.tpl';
+		return 'List/Uitype/Base.tpl';
 	}
 
 	/**

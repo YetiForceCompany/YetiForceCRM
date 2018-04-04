@@ -17,7 +17,7 @@
 	{else}
 		{assign var=SEARCH_VALUE value=''}
 	{/if}
-	<div class="tpl-List-Uitype-Search-Base searchField">
+	<div class="tpl-List-Uitype-Base searchField">
 		{if $MODULE_MODEL && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->getName()}
 			<div class="input-group col-12">
 				<input type="text" name="{$FIELD_MODEL->getName()}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
