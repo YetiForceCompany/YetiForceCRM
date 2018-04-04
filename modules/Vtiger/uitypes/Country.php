@@ -35,7 +35,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Country.tpl';
+		return 'Edit/Uitype/Country.tpl';
 	}
 
 	/**
@@ -43,7 +43,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/CountrySearchView.tpl';
+		return 'List/Uitype/Country.tpl';
 	}
 
 	/**

@@ -86,11 +86,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getTemplateName()
 	{
-		switch ($this->getFieldModel()->getUIType()) {
-			case 79:
-				return 'uitypes/DateTimeField.tpl';
-			default:
-				return 'uitypes/DateTime.tpl';
-		}
+		return 'Edit/Uitype/DateTime.tpl';
 	}
 }

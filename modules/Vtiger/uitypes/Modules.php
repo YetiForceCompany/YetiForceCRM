@@ -22,7 +22,7 @@ class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/ModulesFieldSearchView.tpl';
+		return 'List/Uitype/Modules.tpl';
 	}
 
 	/**
@@ -30,6 +30,6 @@ class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Modules.tpl';
+		return 'Edit/Uitype/Modules.tpl';
 	}
 }

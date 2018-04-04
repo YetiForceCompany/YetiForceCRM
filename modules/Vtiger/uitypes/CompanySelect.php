@@ -54,7 +54,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/CompanySelect.tpl';
+		return 'Edit/Uitype/CompanySelect.tpl';
 	}
 
 	/**
@@ -62,6 +62,6 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/CompanySelectFieldSearchView.tpl';
+		return 'List/Uitype/CompanySelect.tpl';
 	}
 }

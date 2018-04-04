@@ -10,5 +10,8 @@
 
 class Vtiger_Image_UIType extends Vtiger_MultiImage_UIType
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public static $defaultLimit = 1;
 }
