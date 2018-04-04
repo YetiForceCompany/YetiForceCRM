@@ -125,16 +125,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!is_array($value)) {
 			return '';
 		}
-		$result = '<span class="c-multi-image__result">';
+		$result = '<div class="c-multi-image__result">';
 		for ($i = 0; $i < $len; $i++) {
 			if ($record) {
 				$src = "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$value[$i]['key']}";
-				$result .= '<img class="img-thumbnail" src="' . $src . '">';
+				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')"></div>';
 			} else {
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
 		}
-		return trim($result, "\n\s\t ") . '</span>';
+		return trim($result, "\n\s\t ") . '</div>';
 	}
 
 	/**
