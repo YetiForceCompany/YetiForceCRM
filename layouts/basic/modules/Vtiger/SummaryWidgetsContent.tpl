@@ -1,12 +1,12 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
-		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
-			<table class="table noStyle listViewEntriesTable">
+		<div class="listViewEntriesDiv c-detail-widget__content contents-bottomscroll relatedContents">
+			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
-					<tr class="">
+					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap listViewSearchTd">&nbsp;</th>
+							<th class="noWrap">&nbsp;</th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
@@ -34,7 +34,7 @@
 						{/if}
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
+							<td class="text-center {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
@@ -71,22 +71,22 @@
 	{elseif $TYPE_VIEW eq 'Summary'}
 		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 			<div class="carousel slide" data-interval="false" data-ride="carousel">
-				<div class="carousel-inner" role="listbox">
+				<div class="carousel-inner c-detail-widget__content" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
-						<div class="item {if $smarty.foreach.recordlist.first}active{/if}" data-id="{$RELATED_RECORD->getId()}">
-							<table class="summary-table">
+						<div class="carousel-item  js-carousel-item {if $smarty.foreach.recordlist.first}active{/if}" data-id="{$RELATED_RECORD->getId()}" data-js="click">
+							<table class="c-detail-widget__table">
 								<tbody>
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-										<tr class="summaryViewEntries">
-											<td class="fieldLabel {$WIDTHTYPE}">
-												<label class="muted float-left">
+										<tr class="c-table__row--hover border-bottom">
+											<td class="u-w-37-percent {$WIDTHTYPE}">
+												<label class="font-weight-bold">
 													{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 												</label>
 											</td>
 											{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-											<td class="fieldValue {$WIDTHTYPE}">
-												<div class="row">
-													<div class="value u-text-ellipsis col-10 paddingRightZero">
+											<td class="fieldValue  {$WIDTHTYPE}">
+												<div class="form-row">
+													<div class="value u-text-ellipsis col-10 pr-0">
 														{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
 															<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 																{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
@@ -101,7 +101,7 @@
 									{/foreach}
 								</tbody>
 							</table>
-							<div class="float-right marginBottom5">
+							<div class="float-right py-1">
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
 										<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button">
@@ -123,12 +123,12 @@
 			</div>
 		</div>
 	{else}
-		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
-			<table class="table noStyle listViewEntriesTable">
+		<div class="listViewEntriesDiv c-detail-widget__content contents-bottomscroll relatedContents">
+			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
-					<tr class="">
+					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap listViewSearchTd">&nbsp;</th>
+							<th class="noWrap">&nbsp;</th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
@@ -156,7 +156,7 @@
 						{/if}
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
+							<td class="text-center {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
@@ -205,7 +205,7 @@
 									{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 									<td class="fieldValue {$WIDTHTYPE}">
 										<div class="row">
-											<div class="value textOverflowEllipsis col-xs-10 paddingRightZero">
+											<div class="value textOverflowEllipsis col-xs-10">
 												{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
 													<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 														{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
@@ -220,7 +220,7 @@
 							{/foreach}
 						</tbody>
 					</table>
-					<div class="float-right marginBottom5">
+					<div class="float-right py-1">
 						{if $RELATED_RECORD->isViewable()}
 							<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
 								<button class="btn btn-sm btn-default" type="button">

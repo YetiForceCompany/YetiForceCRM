@@ -22,6 +22,9 @@
 .u-ml-10px {
   margin-left: 10px;
 }
+.u-ml-0px{
+	margin-left: 0 !important;
+}
 .u-mr-5px {
   margin-right: 5px;
 }
@@ -33,6 +36,9 @@
 //--- WIDTH ---//
 .u-w-auto {
   width: auto !important;
+}
+.u-w-37-percent{
+	width: 37% !important;
 }
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {

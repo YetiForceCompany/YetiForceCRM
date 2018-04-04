@@ -324,22 +324,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var cacheKey = this.getRecordId() + '_' + container.data('id');
 		var relatedRecordCacheID = app.moduleCacheGet(cacheKey);
 		if (relatedRecordCacheID !== null) {
-			var newActive = container.find(".item[data-id = '" + relatedRecordCacheID + "']");
+			var newActive = container.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']");
 			if (newActive.length) {
-				container.find('.item.active').removeClass('active');
-				container.find(".item[data-id = '" + relatedRecordCacheID + "']").addClass('active');
+				container.find('.js-carousel-item.active').removeClass('active');
+				container.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']").addClass('active');
 			}
 		}
 		var controlBox = container.find('.control-widget');
 		var prev = controlBox.find('.prev');
 		var next = controlBox.find('.next');
-		var active = container.find('.item.active');
-		if (container.find('.item').length <= 1 || !active.next().length) {
+		var active = container.find('.js-carousel-item.active');
+		if (container.find('.js-carousel-item').length <= 1 || !active.next().length) {
 			next.addClass('disabled');
 		} else {
 			next.removeClass('disabled');
 		}
-		if (container.find('.item').length <= 1 || !active.prev().length) {
+		if (container.find('.js-carousel-item').length <= 1 || !active.prev().length) {
 			prev.addClass('disabled');
 		} else {
 			prev.removeClass('disabled');
@@ -349,7 +349,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
-				var active = container.find('.item.active');
+				var active = container.find('.js-carousel-item.active');
 				active.removeClass('active');
 				var nextElement = active.next();
 				nextElement.addClass('active');
@@ -365,7 +365,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
-				var active = container.find('.item.active');
+				var active = container.find('.js-carousel-item.active');
 				active.removeClass('active');
 				var prevElement = active.prev();
 				prevElement.addClass('active');
