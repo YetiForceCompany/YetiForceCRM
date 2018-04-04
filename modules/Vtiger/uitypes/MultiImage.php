@@ -44,7 +44,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 		}
 		$params = $this->getFieldModel()->getFieldParams();
-
 		$this->validate = true;
 	}
 
