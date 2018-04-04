@@ -16,7 +16,7 @@ Settings_Vtiger_List_Js("Settings_TreesManager_List_Js", {
 		var thisInstance = this;
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(deleteRecordActionUrl + '&ajaxDelete=true').then(
+				AppConnector.request(deleteRecordActionUrl).then(
 					function (data) {
 						if (data.success == true) {
 							var params = {
