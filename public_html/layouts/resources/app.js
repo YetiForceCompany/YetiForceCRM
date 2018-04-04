@@ -1256,12 +1256,13 @@ app = {
 		}
 		Vtiger_Helper_Js.showConfirmationBox(params).then(function () {
 			if (params.type == 'href') {
-				window.location.href = params.url;
+				AppConnector.request(params.url).then(function (data) {
+					window.location.href = data.result;
+				});
 			} else if (params.type == 'reloadTab') {
 				AppConnector.request(params.url).then(function (data) {
 					Vtiger_Detail_Js.getInstance().reloadTabContent();
 				});
-
 			}
 		});
 	},

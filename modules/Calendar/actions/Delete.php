@@ -16,7 +16,6 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$listViewUrl = $this->record->getModule()->getListViewUrl();
 		$this->record->delete();
 		$typeRemove = Events_RecuringEvents_Model::UPDATE_THIS_EVENT;
 		if (!$request->isEmpty('typeRemove')) {
@@ -27,16 +26,12 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 		$recurringEvents->recordModel = $this->record;
 		$recurringEvents->templateRecordId = $request->getInteger('record');
 		$recurringEvents->delete();
+		$response = new Vtiger_Response();
 		if ($request->getByType('sourceView') === 'List') {
-			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_RECORD_HAS_BEEN_DELETED')]]);
-			$response->emit();
-		} elseif ($request->getBoolean('ajaxDelete')) {
-			$response = new Vtiger_Response();
-			$response->setResult($listViewUrl);
-			$response->emit();
 		} else {
-			header("Location: $listViewUrl");
+			$response->setResult($this->record->getModule()->getListViewUrl());
 		}
+		$response->emit();
 	}
 }

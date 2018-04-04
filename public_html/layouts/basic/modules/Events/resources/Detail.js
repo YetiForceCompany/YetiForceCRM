@@ -7,7 +7,7 @@ Vtiger_Detail_Js("Calendar_Detail_Js", {
 				container.find('.typeSavingBtn').on('click', function (e) {
 					var currentTarget = $(e.currentTarget);
 					app.hideModalWindow();
-					AppConnector.request(deleteRecordActionUrl + '&ajaxDelete=true&typeRemove=' + currentTarget.data('value')).then(
+					AppConnector.request(deleteRecordActionUrl + '&typeRemove=' + currentTarget.data('value')).then(
 						function (data) {
 							if (data.success == true) {
 								window.location.href = data.result;

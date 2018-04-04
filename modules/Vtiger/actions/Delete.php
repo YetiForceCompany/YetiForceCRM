@@ -37,18 +37,13 @@ class Vtiger_Delete_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$listViewUrl = $this->record->getModule()->getListViewUrl();
 		$this->record->delete();
+		$response = new Vtiger_Response();
 		if ($request->getByType('sourceView') === 'List') {
-			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_RECORD_HAS_BEEN_DELETED')]]);
-			$response->emit();
-		} elseif ($request->getBoolean('ajaxDelete')) {
-			$response = new Vtiger_Response();
-			$response->setResult($listViewUrl);
-			$response->emit();
 		} else {
-			header("Location: $listViewUrl");
+			$response->setResult($this->record->getModule()->getListViewUrl());
 		}
+		$response->emit();
 	}
 }
