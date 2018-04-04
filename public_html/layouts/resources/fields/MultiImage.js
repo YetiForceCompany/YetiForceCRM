@@ -686,6 +686,10 @@ class MultiImage {
 	 * @param {String} hash
 	 */
 	generateCarousel(hash) {
+		if (this.files.length <= 1) {
+			const fileInfo = this.getFileInfo(hash);
+			return `<img class="d-block w-100" src="${fileInfo.imageSrc}">`;
+		}
 		let template = `<div id="carousel-${hash}" class="carousel slide" data-ride="carousel">
 		  <div class="carousel-inner">`;
 		this.files.forEach((file) => {
