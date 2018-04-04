@@ -15,7 +15,7 @@ class Vtiger_Image_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Image.tpl';
+		return 'Edit/Uitype/Image.tpl';
 	}
 
 	/**
@@ -23,6 +23,6 @@ class Vtiger_Image_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/ImageDetailView.tpl';
+		return 'Detail/Uitype/Image.tpl';
 	}
 }

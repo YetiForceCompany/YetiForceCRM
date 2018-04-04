@@ -36,6 +36,6 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Number.tpl';
+		return 'Edit/Uitype/Number.tpl';
 	}
 }

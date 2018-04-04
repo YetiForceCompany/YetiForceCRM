@@ -12,7 +12,7 @@
 {strip}
 	{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
 		{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-			<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" width="150" height="80">
+			<img class="tpl-Detail-Uitype-Image" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" width="150" height="80">
 		{/if}
 	{/foreach}
 {/strip}
