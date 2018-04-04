@@ -24,7 +24,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($value, FILTER_VALIDATE_EMAIL) || $value !== filter_var($value, FILTER_SANITIZE_EMAIL)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;

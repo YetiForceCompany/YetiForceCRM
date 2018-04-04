@@ -520,7 +520,7 @@ class File
 			}
 			return $hash;
 		}
-		return hash('sha256', $this->getContents());
+		return hash('sha256', $this->getContents() . \App\Encryption::generatePassword(10));
 	}
 
 	/**

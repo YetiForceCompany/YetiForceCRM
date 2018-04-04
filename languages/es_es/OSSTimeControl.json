@@ -89,6 +89,7 @@
 	"LBL_SUM": "Suma",
 	"LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS": "Gr\u00e1fico de tiempo de trabajo dividido por usuarios",
 	"LBL_TIME_CONTROL_LIST": "Lista de control de tiempo",
+	"LBL_TIME_CONTROL_DETAILED_LIST": "Time Control Detailed List",
 	"LBL_TIME_CONTROL_USER_GROUP": "Lista de control de tiempo con informaci\u00f3n adicional sobre los usuarios"
   },
   "js": {

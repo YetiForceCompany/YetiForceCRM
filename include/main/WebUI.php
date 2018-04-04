@@ -192,11 +192,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			\vtlib\Functions::throwNewException($e, false, $tpl);
 			if (!$request->isAjax()) {
 				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) . '</pre>';
+					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
 					$response = false;
 				}
 				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs()) . '</pre>';
+					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}

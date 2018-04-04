@@ -351,8 +351,8 @@ pnotify@^4.0.0-alpha.2:
   resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.2.tgz#3f4b7bd0d36298b1ec0fe8ba568b3ec4c0c6918d"
 
 popper.js@^1.12.9:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.1.tgz#b8815e5cda6f62fc2042e47618649f75866e6753"
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.2.tgz#066e8e1613e65e69ba050f4b78e7bd4c8d54e443"
 
 redeyed@~1.0.0:
   version "1.0.1"
