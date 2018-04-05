@@ -3,6 +3,7 @@
 	"ERR_ILLEGAL_VALUE": "Valor ilegal",
 	"ERR_ILLEGAL_FIELD_VALUE": "Valor ilegal en el campo %s (%s)",
 	"ERR_VALUE_IS_TOO_LONG": "El valor en el campo %s es demasiado largo (%s)",
+	"ERR_TO_MANY_FILES":"Too many files - limit was exceeded",
 	"ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "El valor del campo %s debe ser mayor que cero (%s)",
 	"ERR_NOT_ALLOWED_VALUE": "Se detect\u00f3 un valor incorrecto, p\u00f3ngase en contacto con su administrador",
 	"ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Esta contrase\u00f1a ya ha sido utilizada. El sistema no permite usar la misma contrase\u00f1a por razones de seguridad.",
