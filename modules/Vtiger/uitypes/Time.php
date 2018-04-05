@@ -68,7 +68,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'List/Uitype/Time.tpl';
+		return 'List/Field//Time.tpl';
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Uitype/Time.tpl';
+		return 'Edit/Field//Time.tpl';
 	}
 
 	public static function getDBTimeFromUserValue($value)

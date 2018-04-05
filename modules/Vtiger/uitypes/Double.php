@@ -62,6 +62,6 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Uitype/Double.tpl';
+		return 'Edit/Field//Double.tpl';
 	}
 }
