@@ -154,7 +154,13 @@
 	"LBL_SUMMARY_BOTTOM_TYPE": "Summary down",
 	"LBL_RELATED_VIEW_TYPE": "Display position",
 	"LBL_RELATED_VIEW_TYPE_DESC": "Select at least one display position for the block",
-	"LBL_CUSTOM_CONFIGURATION": "Custom configuration"
+	"LBL_CUSTOM_CONFIGURATION": "Custom configuration",
+	"LBL_CONTEXT_HELP": "Context-sensitive help",
+	"LBL_SHOW_IN_VIEWS": "Show in views",
+	"LBL_CHOOSE_LANGUAGE": "Language",
+	"LBL_EDIT_VIEW": "Criar & Editar",
+	"LBL_DETAIL_VIEW": "Ver Detalhes & Ver Resumos",
+	"LBL_QUICK_CREATE_VIEW": "Cria\u00e7\u00e3o R\u00e1pida"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "Nome do Bloco j\u00e1 existe",

@@ -13,7 +13,7 @@ jQuery.Class('Install_Index_Js', {
 		'dateformat','timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
-		var logins = jQuery.parseJSON(jQuery('#not_allowed_logins').val());
+		var logins = JSON.parse(jQuery('#not_allowed_logins').val());
 		if (jQuery.inArray(field.val(), logins) !== -1) {
 			return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 		}
@@ -279,7 +279,7 @@ jQuery.Class('Install_Index_Js', {
 		this.registerEventForStep5();
 		this.registerEventForStep6();
 		this.registerEventForMigration();
-		$('select[name="lang"]').change(this.changeLanguage);
+		$('select[name="lang"]').on('change', this.changeLanguage);
 	}
 });
 jQuery(document).ready(function () {

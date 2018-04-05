@@ -42,7 +42,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 					}
 					form.validationEngine(params);
 
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 					})
 				}
@@ -125,7 +125,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><span class="taxPercentage">' + details.percentage + '%</span></td>\n\
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><input class="editTaxStatus" type="checkbox" checked>\n\
 						<div class="pull-right actions">\n\
-							<a class="editTax cursorPointer" data-url="' + details._editurl + '">\n\
+							<a class="editTax u-cursor-pointer" data-url="' + details._editurl + '">\n\
 								<i class="fas fa-edit alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></i>\n\
 							</a>\n\
 						</div>\n\
@@ -265,7 +265,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		var container = jQuery('#TaxCalculationsContainer');
 
 		//register click event for Add New Tax button
-		container.find('.addTax').click(function (e) {
+		container.find('.addTax').on('click', function (e) {
 			var addTaxButton = jQuery(e.currentTarget);
 			var createTaxUrl = addTaxButton.data('url') + '&type=' + addTaxButton.data('type');
 			thisInstance.editTax(createTaxUrl);

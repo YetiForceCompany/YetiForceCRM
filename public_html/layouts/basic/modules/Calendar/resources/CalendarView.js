@@ -55,7 +55,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
 		};
-		app.changeSelectElementView(field, 'select2', params);
+		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	}
 }, {
 	calendarView: false,
@@ -120,7 +120,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: ($(window).width() > 993) ? ($(window).height() - 135) : 'auto',
+			height: app.setCalendarHeight(),
 			views: {
 				basic: {
 					eventLimit: false,
@@ -138,11 +138,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto',
-					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
 					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
 					(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
@@ -222,7 +222,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
 
-		selectBtn.click(function (e) {
+		selectBtn.on('click', function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
 
@@ -455,7 +455,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button").on('click', function () {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -552,9 +552,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
-		app.showSelect2ElementView($('#calendarUserList'));
-		app.showSelect2ElementView($('#calendarActivityTypeList'));
-		app.showSelect2ElementView($('#calendarGroupList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarGroupList'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
 			var element = $(this);
 			var value = element.val();
@@ -591,7 +591,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				}
 			}
 		});
-		calendar.find('.fc-toolbar .fc-button').click(function (e) {
+		calendar.find('.fc-toolbar .fc-button').on('click', function (e) {
 			var defaultView, view, options;
 			var element = $(e.currentTarget);
 			view = calendar.fullCalendar('getView');
@@ -609,7 +609,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
 				alert.removeClass('d-none');
 			});
-			alert.find('.cacheClear').click(function (e) {
+			alert.find('.cacheClear').on('click', function (e) {
 				app.moduleCacheClear();
 				alert.addClass('d-none');
 				location.reload();

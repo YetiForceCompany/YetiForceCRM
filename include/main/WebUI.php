@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
 require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
@@ -142,18 +141,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (!empty($action)) {
 				$componentType = 'Action';
 				$componentName = $action;
-				\App\Config::setJs('action', $action);
+				\App\Config::setJsEnv('action', $action);
 			} else {
 				$componentType = 'View';
 				if (empty($view)) {
 					$view = 'Index';
 				}
 				$componentName = $view;
-				\App\Config::setJs('view', $view);
+				\App\Config::setJsEnv('view', $view);
 			}
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
-			\App\Config::setJs('module', $moduleName);
+			\App\Config::setJsEnv('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
@@ -193,11 +192,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			\vtlib\Functions::throwNewException($e, false, $tpl);
 			if (!$request->isAjax()) {
 				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) . '</pre>';
+					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
 					$response = false;
 				}
 				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs()) . '</pre>';
+					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}

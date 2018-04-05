@@ -49,7 +49,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 		conditionList.append(newRowElement);
 
 		//change in to chosen elements
-		app.changeSelectElementView(newRowElement);
+		App.Fields.Picklist.changeSelectElementView(newRowElement);
 		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
 		return this;
 	},
@@ -280,7 +280,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 					data.find('.useFieldElement').addClass('d-none');
 					data.find('[name="' + moduleName + '"]').removeClass('d-none');
 				}
-				app.changeSelectElementView(data);
+				App.Fields.Picklist.changeSelectElementView(data);
 				App.Fields.Date.register(data);
 				app.registerEventForClockPicker(data);
 				thisInstance.postShowModalAction(data, valueType);

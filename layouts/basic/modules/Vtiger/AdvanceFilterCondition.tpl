@@ -14,8 +14,8 @@
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
 	<div class="conditionRow form-inline bg-light p-3 rounded mb-2">
-		<label class="sr-only" for="selectField1">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</label>
-		<select class="{if empty($NOCHOSEN)}select2{/if} form-control mr-sm-2 w-25" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}" id="selectField1">
+		<label class="sr-only">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</label>
+		<select class="{if empty($NOCHOSEN)}select2{/if} form-control mr-sm-2 w-25" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
 			<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>

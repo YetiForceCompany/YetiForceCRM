@@ -157,7 +157,13 @@
 	"LBL_SUMMARY_BOTTOM_TYPE": "Resumen inferior",
 	"LBL_RELATED_VIEW_TYPE": "Mostrar posici\u00f3n",
 	"LBL_RELATED_VIEW_TYPE_DESC": "Seleccione al menos una posici\u00f3n de visualizaci\u00f3n para el bloque",
-	"LBL_CUSTOM_CONFIGURATION": "Configuraci\u00f3n personalizada"
+	"LBL_CUSTOM_CONFIGURATION": "Configuraci\u00f3n personalizada",
+	"LBL_CONTEXT_HELP": "Context-sensitive help",
+	"LBL_SHOW_IN_VIEWS": "Show in views",
+	"LBL_CHOOSE_LANGUAGE": "Language",
+	"LBL_EDIT_VIEW": "Crear y Editar",
+	"LBL_DETAIL_VIEW": "Vista de detalle y vista de resumen",
+	"LBL_QUICK_CREATE_VIEW": "Creaci\u00f3n r\u00e1pida"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "El nombre del bloque ya existe",

@@ -16,10 +16,10 @@
 						{\App\Language::translate($RECORD->getName(), $QUALIFIED_MODULE)}
 						{if $RECORD->get('presence') == 1}
 							<div class="float-right actions">
-								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">
+								<a class="edit u-cursor-pointer" data-url="{$RECORD->getEditUrl()}">
 									<span class="fas fa-edit alignBottom" title="Edycja"></span>
 								</a>
-								<a class="remove cursorPointer"><span title="" class="fas fa-trash-alt alignBottom"></span>
+								<a class="remove u-cursor-pointer"><span title="" class="fas fa-trash-alt alignBottom"></span>
 								</a>
 							</div>
 						{/if}

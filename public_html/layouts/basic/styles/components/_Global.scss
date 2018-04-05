@@ -1,16 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-%removeDropdownIcon {
-  .dropdown-toggle::after {
-	display: none;
-  }
-}
 %input-groupSelect2 {
   .input-group {
 	flex-wrap: nowrap;
   }
 }
-.badgeIcon {
+.c-badge__icon {
   @extend .position-absolute;
   @extend .rounded-circle;
   @extend .text-white;
@@ -19,6 +14,9 @@
   height: 32px;
   line-height: 30px;
   font-size: 17px;
+}
+.c-badge-md {
+  font-size: 90%;
 }
 .childrenMarginRight > * {
   @extend .mr-2;
@@ -31,10 +29,57 @@
   .blockHeader {
 	@extend .d-inline-flex;
   }
-  .blockToggle, .iconToggle {
-	@extend .m-2;
+}
+.c-multi-image__preview-img {
+  height: 2rem;
+  width: 2rem;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+}
+.c-multi-image__popover-img {
+  cursor: pointer;
+}
+.c-multi-image__drop-effect {
+  background: rgba($blue, 0.2);
+  border: $border-width solid rgba($blue, 0.5) !important;
+}
+.c-btn-collapsible {
+  overflow: hidden;
+  @include u-transition(all 275ms ease);
+  max-width: 40px;
+  &.btn-xs {
+    max-width: 25px;
+  }
+  &.btn-sm {
+    max-width: 32px;
+  }
+  &.btn-lg {
+    max-width: 50px;
+  }
+  span {
+    opacity: 0;
+    text-indent: -6px;
+    display: inline-block;
+    @include u-transition(all 275ms ease);
+  }
+  &:hover {
+    max-width: 300px;
+    @include u-transition(all 275ms ease);
+    span {
+      opacity: 1;
+      text-indent: 0px;
+      @include u-transition(all 275ms ease);
+    }
   }
 }
-.ml-10px {
-  margin-left: 10px;
+.popover-footer {
+  padding: $popover-header-padding-y $popover-header-padding-x;
+  margin-bottom: 0; // Reset the default from Reboot
+  font-size: $font-size-base;
+  color: $popover-header-color;
+  background-color: $popover-header-bg;
+  border-top: $popover-border-width solid darken($popover-header-bg, 5%);
+  $offset-border-width: calc(#{$border-radius-lg} - #{$popover-border-width});
+  @include border-bottom-radius($offset-border-width);
 }

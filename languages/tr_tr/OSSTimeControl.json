@@ -89,6 +89,7 @@
 	"LBL_SUM": "Toplam",
 	"LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS": "\u00c7al\u0131\u015fma zaman\u0131 grafi\u011fi kullan\u0131c\u0131lara b\u00f6l\u00fcnm\u00fc\u015ft\u00fcr",
 	"LBL_TIME_CONTROL_LIST": "Zaman Kontrol Listesi",
+	"LBL_TIME_CONTROL_DETAILED_LIST": "Time Control Detailed List",
 	"LBL_TIME_CONTROL_USER_GROUP": "Kullan\u0131c\u0131lar hakk\u0131nda ek bilgi i\u00e7eren Zaman Kontrol Listesi"
   },
   "js": {

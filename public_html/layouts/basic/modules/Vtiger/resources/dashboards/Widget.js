@@ -988,7 +988,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
 		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
-		app.showPopoverElementView(this.getContainer().find('.popoverTooltip'));
+		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
@@ -1037,7 +1037,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var owners = container.find('.widgetOwners').val();
 			if (owners) {
 				var select = ownersFilter.find('select');
-				$.each(jQuery.parseJSON(owners), function (key, value) {
+				$.each(JSON.parse(owners), function (key, value) {
 					select.append($('<option>', {
 						value: key
 					}).text(value));
@@ -1056,7 +1056,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const header = container.find('.dashboardWidgetHeader');
 		const downloadWidget = header.find('.downloadWidget');
 		const printWidget = header.find('.printWidget');
-		printWidget.click((e) => {
+		printWidget.on('click', (e) => {
 			const imgEl = this.getChartImage();
 			const print = window.open('', 'PRINT', 'height=400,width=600');
 			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
@@ -1070,7 +1070,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				print.close();
 			}, 1000);
 		});
-		downloadWidget.click((e) => {
+		downloadWidget.on('click', (e) => {
 			const imgEl = $(this.getChartImage());
 			const a = $("<a>")
 				.attr("href", imgEl.attr('src'))
@@ -1084,7 +1084,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var thisInstance = this;
 		var container = this.getContainer();
 		thisInstance.setSortingButton(container.find('.changeRecordSort'));
-		container.find('.changeRecordSort').click(function (e) {
+		container.find('.changeRecordSort').on('click', function (e) {
 			var drefresh = container.find('a[name="drefresh"]');
 			thisInstance.setSortingButton(jQuery(e.currentTarget));
 			drefresh.click();
@@ -1256,7 +1256,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return;
 		}
 		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
-		app.registerDateRangePickerFields(dateRangeElement, {
+		App.Fields.Date.registerRange(dateRangeElement, {
 			opens: "auto"
 		});
 		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
@@ -1270,7 +1270,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			widgetContainer.find('a[name="drefresh"]').trigger('click');
 		});
 		if (container.find('.widgetFilterByField').length) {
-			app.showSelect2ElementView(container.find('.select2noactive'));
+			App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
 			this.getContainer().on('change', '.widgetFilterByField .form-control', function (e) {
 				var widgetContainer = jQuery(e.currentTarget).closest('li');
 				widgetContainer.find('a[name="drefresh"]').trigger('click');
@@ -1659,7 +1659,7 @@ YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
 		var loadMoreHandler = contentContainer.find('.load-more');
-		loadMoreHandler.click(function () {
+		loadMoreHandler.on('click', function () {
 			var parent = thisInstance.getContainer();
 			var element = parent.find('a[name="drefresh"]');
 			var url = element.data('url');
@@ -1789,10 +1789,10 @@ YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
 		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
 			'height': '200px'
 		});
-		jQuery('.dashboard_notebookWidget_edit', this.container).click(function () {
+		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
 			self.editNotebookContent();
 		});
-		jQuery('.dashboard_notebookWidget_save', this.container).click(function () {
+		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
 			self.saveNotebookContent();
 		});
 	},
@@ -1965,13 +1965,13 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
-			.mouseenter(function () {
+			.on('mouseenter', function () {
 				jQuery('<span class="plus pull-left fas fa-plus"></span>')
 					.prependTo($(this))
-			}).mouseleave(function () {
+			}).on('mouseleave', function () {
 			$(this).find(".plus").remove();
 		});
-		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
+		thisInstance.getCalendarView().find("td.fc-day-top").on('click', function () {
 			var date = $(this).data('date');
 			var params = {
 				noCache: true
@@ -2043,7 +2043,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
 				events.result
 			);
-			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
+			thisInstance.getCalendarView().find(".cell-calendar a").on('click', function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {

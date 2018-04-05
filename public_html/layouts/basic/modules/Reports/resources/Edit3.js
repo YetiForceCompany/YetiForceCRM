@@ -57,14 +57,14 @@ Reports_Edit_Js("Reports_Edit3_Js", {}, {
 	registerSubmitEvent: function () {
 		var thisInstance = this;
 		var form = this.getContainer();
-		form.submit(function (e) {
+		form.on('submit', function (e) {
 			thisInstance.calculateValues();
 		});
 	},
 
 	registerEvents: function () {
 		var container = this.getContainer();
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', container));
 		this.registerSubmitEvent();
 		container.validationEngine();

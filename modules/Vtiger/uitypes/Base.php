@@ -110,7 +110,6 @@ class Vtiger_Base_UIType extends \App\Base
 		if (is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -170,6 +169,19 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get Display value for ModTracker.
+	 *
+	 * @param                      $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel);
+	}
+
+	/**
 	 * Static function to get the UIType object from Vtiger Field Model.
 	 *
 	 * @param Vtiger_Field_Model $fieldModel
@@ -210,7 +222,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/String.tpl';
+		return 'Edit/Field/Base.tpl';
 	}
 
 	/**
@@ -220,7 +232,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/StringDetailView.tpl';
+		return 'Detail/Field/Base.tpl';
 	}
 
 	/**
@@ -230,7 +242,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/FieldSearchView.tpl';
+		return 'List/Field/Base.tpl';
 	}
 
 	/**

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="dashboardHeading d-flex ml-auto my-2">
+	<div class="dashboardHeading d-flex ml-auto my-2 pr-1">
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
 		{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 		{if $WIDGETS|count gt 0}

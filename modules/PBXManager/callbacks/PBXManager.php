@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-chdir(dirname(__FILE__) . '/../../../');
+chdir(__DIR__ . '/../../../');
 include_once 'include/main/WebUI.php';
 
 class PBXManager_PBXManager_Callbacks

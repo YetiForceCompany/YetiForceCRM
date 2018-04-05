@@ -35,7 +35,7 @@
 			<![endif]-->
 			{* ends *}
 			<script type="text/javascript">
-				var CONFIG = {\App\Config::getJs()};
+				var CONFIG = {\App\Config::getJsEnv()};
 				var LANG = {\App\Json::encode($LANGUAGE_STRINGS)};
 			</script>
 		</head>

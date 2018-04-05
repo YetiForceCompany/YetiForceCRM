@@ -20,7 +20,7 @@ class Settings_HideBlocks_Save_Action extends Settings_Vtiger_Index_Action
 		$conditions = $request->get('conditions');
 		$views = $request->getForSql('views');
 		$qualifiedModuleName = $request->getModule(false);
-		if (!$request->isEmpty('record')) {
+		if (!$request->isEmpty('record', true)) {
 			$recordId = $request->getInteger('record');
 			$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 		} else {

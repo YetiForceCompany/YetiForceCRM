@@ -59,7 +59,7 @@
 				</div>
 				<div class="input-group-append">
 					<span class="input-group-text">
-						<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{\App\Language::translate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours" />
+						<input class="js-popover-tooltip groupNeighbours" data-js="popover" type="checkbox" checked="checked" data-content="{\App\Language::translate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours" />
 					</span>
 					<button class="btn btn-primary groupBy">{\App\Language::translate('LBL_GROUP_BY', $MODULE_NAME)}</button>
 				</div>

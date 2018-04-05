@@ -113,10 +113,10 @@ class DateTime
 	{
 		$dateTimeInUserFormat = explode(' ', static::formatToDisplay($dateTime));
 		if (count($dateTimeInUserFormat) === 3) {
-			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
+			list($dateInUserFormat, $timeInUserFormat, $seconds) = $dateTimeInUserFormat;
 		} else {
 			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
-			$meridiem = '';
+			$seconds = '';
 		}
 		$formatedDate = $dateInUserFormat;
 		$dateDay = Date::getDayFromDate($dateTime, false, true);
@@ -128,11 +128,10 @@ class DateTime
 				list($hours, $minutes) = $timeInUserFormat;
 				$seconds = '';
 			}
-			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
+			$displayTime = $hours . ':' . $minutes . ' ' . $seconds;
 			$formatedDate .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 		}
 		$formatedDate .= " ($dateDay)";
-
 		return $formatedDate;
 	}
 

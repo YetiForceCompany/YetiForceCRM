@@ -30,14 +30,14 @@
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.member}" data-lock="{$MEMBER.lock}">
 									<td><strong>{$MEMBER.name}</strong>
 										<span class="wrapperTrash">
-											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
+											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete u-cursor-pointer" data-mode="addOrRemoveMembers"></span>
 										</span>
 										<span class="wrapperLock">
-											<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fas {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg float-right marginTB3 lock cursorPointer" data-mode="lock"></span>
+											<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fas {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg float-right marginTB3 lock u-cursor-pointer" data-mode="lock"></span>
 										</span>
 										<span class="wrapperExceptions" title="{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}" data-mode="exceptions">
 											{if $MEMBER.type neq 'Users'}
-												<span class="fas fa-exclamation-circle float-right marginIcon marginTop2 exceptions cursorPointer"></span>
+												<span class="fas fa-exclamation-circle float-right marginIcon marginTop2 exceptions u-cursor-pointer"></span>
 											{/if}
 										</span>
 									</td>

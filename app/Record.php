@@ -17,12 +17,11 @@ class Record
 	/**
 	 * Get label.
 	 *
-	 * @param mixed       $mixedId
-	 * @param bool|string $moduleName
+	 * @param mixed $mixedId
 	 *
 	 * @return mixed
 	 */
-	public static function getLabel($mixedId, $moduleName = false)
+	public static function getLabel($mixedId)
 	{
 		$multiMode = is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
@@ -228,7 +227,7 @@ class Record
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	public static function updateLabelOnSave($recordModel)
+	public static function updateLabelOnSave(\Vtiger_Record_Model $recordModel)
 	{
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
 		$labelName = [];

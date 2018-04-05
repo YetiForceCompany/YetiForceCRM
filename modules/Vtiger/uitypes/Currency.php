@@ -112,6 +112,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Currency.tpl';
+		return 'Edit/Field/Currency.tpl';
 	}
 }

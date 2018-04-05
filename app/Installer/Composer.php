@@ -17,7 +17,9 @@ class Composer
 	 * @var atring[]
 	 */
 	public static $publicPackage = [
-		'yetiforce/csrf-magic'
+		'yetiforce/csrf-magic',
+		'yetiforce/debugbar',
+		'ckeditor/ckeditor'
 	];
 
 	/**
@@ -27,16 +29,24 @@ class Composer
 	 */
 	public static function install(\Composer\Script\Event $event)
 	{
-		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
+		$event->getComposer();
+		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
+			return true;
+		}
+		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
+		$types = ['js', 'css', 'woff', 'woff2', 'ttf'];
 		foreach (static::$publicPackage as $package) {
 			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && ($item->getExtension() === 'js' || $item->getExtension() === 'css')) {
-					if (!file_exists($rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPathname())) {
-						if (!is_dir($rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPath())) {
-							mkdir($rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPath(), null, true);
+			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+				if ($item->isFile() && in_array($item->getExtension(), $types)) {
+					if (!file_exists($rootDir . $item->getPathname())) {
+						if (!is_dir($rootDir . $item->getPath())) {
+							mkdir($rootDir . $item->getPath(), null, true);
 						}
-						copy($item->getRealPath(), $rootDir . 'public_html' . DIRECTORY_SEPARATOR . $item->getPathname());
+						if (!is_writable($rootDir . $item->getPath())) {
+							continue;
+						}
+						copy($item->getRealPath(), $rootDir . $item->getPathname());
 					}
 				}
 			}

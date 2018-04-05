@@ -60,7 +60,8 @@
 	"LBL_SMSNOTIFIER": "SMS Nachrichten",
 	"LBL_BROWSING_HISTORY": "Browserhistorie l\u00f6schen",
 	"LBK_SYSTEM_WARNINGS": "Benachrichtungen mit Systemwarnungen",
-	"LBL_BATCH_PROCESSES": "Hintergrundverarbeitung f\u00fcr langlaufende Aktionen"
+	"LBL_BATCH_PROCESSES": "Hintergrundverarbeitung f\u00fcr langlaufende Aktionen",
+	"LBL_BATCH_METHODS": "Batch methods"
   },
   "js": {
 	"Recommended frequency for Scheduled Import is 15 mins": "Die empfohlene Frequenz f\u00fcr den eingeplanten Import ist 15min",

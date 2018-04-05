@@ -26,7 +26,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
 		};
-		app.changeSelectElementView(field, 'select2', params);
+		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	},
 }, {
 	calendarView: false,
@@ -91,7 +91,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			allDaySlot: false,
-			height: 'auto',
+			height: app.setCalendarHeight(),
 			views: {
 				basic: {
 					eventLimit: false,
@@ -109,11 +109,11 @@ jQuery.Class("Reservations_Calendar_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto',
-					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
 					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
 					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
@@ -150,7 +150,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 	},
 	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
-		selectBtn.click(function (e) {
+		selectBtn.on('click', function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
 			if (selectAllLabel.hasClass('d-none')) {
@@ -328,7 +328,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 	},
 	registerRefreshEvent: function () {
 		var thisInstance = this;
-		$(".refreshCalendar").click(function () {
+		$(".refreshCalendar").on('click', function () {
 			$(this).closest('.refreshHeader').addClass('d-none');
 			thisInstance.loadCalendarData();
 		});
@@ -356,16 +356,8 @@ jQuery.Class("Reservations_Calendar_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
 			thisInstance.loadCalendarData();
-		});
-	},
-	registerCalendarScroll: function () {
-		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer, {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
 		});
 	},
 	registerEvents: function () {
@@ -374,6 +366,5 @@ jQuery.Class("Reservations_Calendar_Js", {
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
-		this.registerCalendarScroll();
 	}
 });

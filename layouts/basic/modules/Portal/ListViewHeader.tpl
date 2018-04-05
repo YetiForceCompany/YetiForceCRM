@@ -22,7 +22,7 @@
 					<span class="btn-group listViewMassActions">
                         <button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li id="massDelete"><a href="javascript:void(0);" onclick="Portal_List_Js.massDeleteRecords();">{\App\Language::translate('LBL_DELETE', $MODULE)}</a></li>
+                            <li id="massDelete"><a class="dropdown-item" href="javascript:void(0);" onclick="Portal_List_Js.massDeleteRecords();">{\App\Language::translate('LBL_DELETE', $MODULE)}</a></li>
                         </ul>
 					</span>
                     <span class="btn-group">

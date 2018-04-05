@@ -11,10 +11,10 @@
 -->*}
 {strip}
 	{if $PARENT_MODULE !== 'Settings' && $VIEW_MODEL}
-		<div>
+		<div class="pl-1">
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 			<input type="hidden" id="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
-			<div class="dropdown dropdownEntityState">
+			<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
 				<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					{if $VIEW_MODEL->get('entityState') == 'Archived'}
 						<span class="fas fa-archive"></span>
@@ -26,14 +26,20 @@
 						<span class="fas fa-undo-alt"></span>
 					{/if}
 				</button>
-				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
-					<nav class="nav" role="tablist">
-						<a class="dropdown-item nav-link{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" data-toggle="tab" data-value="Active" href="#" {if $COLOR['Active']}style="border-left: 7px solid {$COLOR['Active']};"{/if}><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
-						<a class="dropdown-item nav-link{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" data-toggle="tab" data-value="Archived" href="#" {if $COLOR['Archived']}style="border-left: 7px solid {$COLOR['Archived']};"{/if}><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
-						<a class="dropdown-item nav-link{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" data-toggle="tab" data-value="Trash" href="#" {if $COLOR['Trash']}style="border-left: 7px solid {$COLOR['Trash']};{/if}"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
-						<a class="dropdown-item nav-link{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" data-toggle="tab" data-value="All" href="#" style="border-left: 7px solid transparent;"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
-					</nav>
-				</div>
+				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
+					<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
+						<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+					</li>
+					<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
+						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+					</li>
+					<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
+						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+					</li>
+					<li>
+						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars mr-2"></span>{\App\Language::translate('LBL_ALL')}</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	{/if}

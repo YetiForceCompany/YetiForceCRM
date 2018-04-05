@@ -1236,7 +1236,6 @@ class Vtiger_Record_Model extends \App\Base
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate()) {
 			\App\Log::trace('Skip the save attachment process.');
-
 			return false;
 		}
 		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];

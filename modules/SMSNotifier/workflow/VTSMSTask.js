@@ -216,7 +216,7 @@ function SMSTask($) {
 					fillSelectBox('sms_fieldnames', modules, moduleName);
 					$('#task-fieldnames-busyicon').hide();
 					$('#sms_fieldnames').show();
-					$('#sms_fieldnames').change(function () {
+					$('#sms_fieldnames').on('change', function () {
 						var textarea = $('#save_content').get(0);
 						var value = '$' + $(this).attr('value');
 						insertAtCursor(textarea, value);
@@ -227,7 +227,7 @@ function SMSTask($) {
 					});
 					$('#task-phonefields-busyicon').hide();
 					$('#task_phonefields').show();
-					$('#task_phonefields').change(function () {
+					$('#task_phonefields').on('change', function () {
 						var input = $($('#save_recepient').get());
 						var value = '$' + $(this).attr('value');
 						input.attr("value", input.attr("value") + ',' + value);

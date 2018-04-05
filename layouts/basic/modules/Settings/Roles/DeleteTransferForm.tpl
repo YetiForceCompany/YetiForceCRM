@@ -29,14 +29,14 @@
 							<div class="controls col-md-9">
 								<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
 								<div class="input-group">
-									<div class="input-group-prepend cursorPointer" id="clearRole">
+									<div class="input-group-prepend u-cursor-pointer" id="clearRole">
 										<span class="input-group-text">
 											<span class="fas fa-times-circle"></span>
 										</span>
 									</div>
 									<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium form-control" required value="">
 									<div class="input-group-append">
-										<button class="btn btn-outline-secondary cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
+										<button class="btn btn-outline-secondary u-cursor-pointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
 											<span class="fas fa-search"></span>
 										</button>
 									</div>

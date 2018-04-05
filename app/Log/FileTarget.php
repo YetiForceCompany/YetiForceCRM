@@ -71,7 +71,7 @@ class FileTarget extends \yii\log\FileTarget
 			// this may result in rotating twice when cached file size is used on subsequent calls
 			clearstatcache();
 		}
-		if ($this->enableRotation && @filesize($this->logFile) > $this->maxFileSize * 1024) {
+		if ($this->enableRotation && filesize($this->logFile) > $this->maxFileSize * 1024) {
 			$this->rotateFiles();
 			flock($fp, LOCK_UN);
 			fclose($fp);

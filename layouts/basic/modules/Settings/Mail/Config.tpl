@@ -49,7 +49,7 @@
 				<hr />
 				<div class="row">
 					<div class="col-md-12">
-						<textarea id="signatureCkEditor" class="ckEditorSource" name="signature">{$CONFIG_SIGNATURE['signature']}</textarea>
+						<textarea id="signatureCkEditor" class="js-ckeditor" data-js="ckeditor" name="signature">{$CONFIG_SIGNATURE['signature']}</textarea>
 					</div>
 				</div>
 				<br />

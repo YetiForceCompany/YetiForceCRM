@@ -540,7 +540,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $this->fields[$fieldName];
 		}
 		App\Log::warning("Field does not exist: $fieldName in " . __METHOD__);
-
 		return false;
 	}
 
@@ -562,7 +561,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$fieldList[$field->getName()] = $field;
 			}
 		}
-
 		return $fieldList;
 	}
 
@@ -577,7 +575,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($fieldName) {
 			return $fieldList[$fieldName] ?? false;
 		}
-
 		return $fieldList;
 	}
 

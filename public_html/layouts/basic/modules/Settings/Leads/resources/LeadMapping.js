@@ -69,7 +69,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 	registerEventsForEditView: function () {
 		var form = jQuery('#leadsMapping');
 		var select2Elements = form.find('.select2');
-		app.showSelect2ElementView(select2Elements);
+		App.Fields.Picklist.showSelect2ElementView(select2Elements);
 		this.registerEventForAddingNewMapping();
 		this.registerOnChangeEventForSourceModule();
 		this.registerEventToDeleteMapping();
@@ -95,7 +95,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 			newMapping.appendTo(convertLeadMappingTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');
-			app.showSelect2ElementView(select2Elements);
+			App.Fields.Picklist.showSelect2ElementView(select2Elements);
 			jQuery('select.accountsFields.select2,select.contactFields.select2', newMapping).trigger('change', false);
 		})
 	},

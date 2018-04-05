@@ -41,7 +41,7 @@ var Settings_Roles_Js = {
 	},
 
 	initPopupView: function () {
-		jQuery('.roleEle').click(function (e) {
+		jQuery('.roleEle').on('click', function (e) {
 			var target = $(e.currentTarget);
 			// jquery_windowmsg plugin expects second parameter to be string.
 			jQuery.triggerParentEvent('postSelection', JSON.stringify({
@@ -80,15 +80,15 @@ var Settings_Roles_Js = {
 			});
 		}
 
-		jQuery('[data-action="modal"]').click(modalActionHandler);
+		jQuery('[data-action="modal"]').on('click', modalActionHandler);
 
 		jQuery('.toolbar').hide();
 
-		jQuery('.toolbar-handle').bind('mouseover', function (e) {
+		jQuery('.toolbar-handle').on('mouseover', function (e) {
 			var target = $(e.currentTarget);
 			jQuery('.toolbar', target).css({display: 'inline'});
 		});
-		jQuery('.toolbar-handle').bind('mouseout', function (e) {
+		jQuery('.toolbar-handle').on('mouseout', function (e) {
 			var target = $(e.currentTarget);
 			jQuery('.toolbar', target).hide();
 		});

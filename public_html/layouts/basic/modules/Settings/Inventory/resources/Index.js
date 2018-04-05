@@ -31,7 +31,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 						}
 					}
 					form.validationEngine(params);
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 					})
 				}
@@ -121,10 +121,10 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
 					<td class="textAlignCenter ' + details.row_type + '"><input class="status" checked type="checkbox">\n\
 						<div class="pull-right actions">\n\
-							<a class="editInventory cursorPointer" data-url="' + details._editurl + '">\n\
+							<a class="editInventory u-cursor-pointer" data-url="' + details._editurl + '">\n\
 								<span class="fas fa-edit alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></span>\n\
 							</a>\n\
-							<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="fas fa-trash-alt alignBottom"></span>\n\
+							<a class="removeInventory u-cursor-pointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="fas fa-trash-alt alignBottom"></span>\n\
 						</div>\n\
 					</td></tr>');
 		table.append(trElement);
@@ -278,7 +278,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		var thisInstance = this;
 		var container = jQuery('#inventory');
 		//register click event for Add New Inventory button
-		container.find('.addInventory').click(function (e) {
+		container.find('.addInventory').on('click', function (e) {
 			var addInventoryButton = jQuery(e.currentTarget);
 			var createUrl = addInventoryButton.data('url');
 			thisInstance.edit(createUrl);

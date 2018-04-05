@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 	registerChangeVal: function (content) {
-		content.find('.configField').change(function (e) {
+		content.find('.configField').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var val;
 			if (target.attr('type') === 'checkbox') {

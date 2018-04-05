@@ -22,14 +22,14 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		});
 	},
 	afterLoadVariablePanel: function (html) {
-		app.showSelect2ElementView(html.find('select.select2'));
+		App.Fields.Picklist.showSelect2ElementView(html.find('select.select2'));
 	},
 	registerVariablePanelEvent: function (form) {
 		var thisInstance = this;
 		if (typeof form == 'undefined') {
 			form = this.getForm();
 		}
-		form.find('.blockContainer[data-label="LBL_CONTENT_MAIL"] .blockContent').prepend('<div id="variablePanel" class="col-md-12 paddingLRZero borderBottom bc-gray-lighter"></div>');
+		form.find('.js-toggle-panel[data-label="LBL_CONTENT_MAIL"] .blockContent').prepend('<div id="variablePanel" class="col-md-12 paddingLRZero borderBottom bc-gray-lighter"></div>');
 		thisInstance.loadVariablePanel(form);
 		form.find('[name="module_name"]').on('change', function (e) {
 			thisInstance.loadVariablePanel(form);

@@ -7,19 +7,6 @@
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
-					<div class=" col-md-4 contentHeader">
-						<span class="float-right">
-							<button class="btn btn-success" type="submit">
-								<span class="fas fa-check"></span>&nbsp;&nbsp;
-								<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
-							</button>&nbsp;&nbsp;
-							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-								<span class="fas fa-times"></span>&nbsp;&nbsp;
-								<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
-							</button>
-						</span>
-						<div class="clearfix"></div>
-					</div>
 				</div>	
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -56,16 +43,14 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{if $BLOCKS_HIDE}
-					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
-						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-							<div class="iconCollapse">
-								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+					<div class="c-panel__content js-toggle-panel mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
+						<div class="blockHeader c-panel__header">
+								<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
-							</div>
 						</div>
-						<div class="col-md-12 paddingLRZero panel-body blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
-							<div class="col-md-12 paddingLRZero">
+						<div class="col-md-12 card-body blockContent pt-2 js-block-content  {if $IS_HIDDEN}d-none{/if}" data-js="display">
+							<div class="row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
@@ -77,27 +62,21 @@
 									{/if}
 									{if $COUNTER eq 2}
 								</div>
-								<div class="col-md-12 paddingLRZero">
+								<div class="row">
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
-									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted float-right marginRight10px">
+								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
+										<label class="col-md-3 fieldLabel u-text-small-bold text-md-right {$WIDTHTYPE}">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>
-									</div>
 									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-										<div class="row">
-											<div class="">
 												{if $FIELD_MODEL->getUIType() eq "300"}
 													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}</label>
 												{/if}
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-											</div>
-										</div>
 									</div>
 								</div>
 							{/foreach}

@@ -315,7 +315,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
 					e.preventDefault();
 					app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
-						container.find('.typeSavingBtn').click(function (e) {
+						container.find('.typeSavingBtn').on('click', function (e) {
 							var currentTarget = $(e.currentTarget);
 							form.find('[name="typeSaving"]').val(currentTarget.data('value'));
 							app.hideModalWindow();
@@ -412,7 +412,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		this.registerSaveAndCloseBtn(container);
 	},
 	toggleTimesInputs: function (container) {
-		container.find(':checkbox').change(function () {
+		container.find(':checkbox').on('change', function () {
 			var checkboxName = $(this).attr('name');
 			if ('allday' == checkboxName) {
 				var checkboxIsChecked = $(this).is(':checked');
@@ -521,7 +521,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);
 						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
-						inviteRow.find('.inviteIcon .badgeIcon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+						inviteRow.find('.inviteIcon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
 						inviteesContent.append(inviteRow);
 					});
 				}

@@ -1,21 +1,49 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+//--- TEXT ---//
+.u-text-small-bold {
+  @extend .small;
+  @extend .font-weight-bold;
+}
+.u-hover-bold:hover {
+  @extend .font-weight-bold;
+}
 .u-text-ellipsis {
   overflow: hidden;
-  padding-bottom: 2px;
   text-overflow: ellipsis;
   white-space: nowrap;
   &:hover {
 	overflow: initial;
   }
 }
-.u-cursor-pointer {
-  cursor: pointer;
-  text-decoration: none !important;
+//--- MARGIN ---//
+.u-ml-0 {
+  margin-left: 0 !important;
 }
-.u-text-small-bold {
-  @extend .small;
-  @extend .font-weight-bold;
+.u-ml-10px {
+  margin-left: 10px;
 }
+.u-mr-0px {
+  margin-right: 0 !important;
+}
+.u-ml-0px{
+	margin-left: 0 !important;
+}
+.u-mr-5px {
+  margin-right: 5px;
+}
+.u-paragraph-m-0 {
+  p {
+	margin: 0;
+  }
+}
+//--- WIDTH ---//
+.u-w-auto {
+  width: auto !important;
+}
+.u-w-37-percent{
+	width: 37% !important;
+}
+//--- BORDER ---//
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
 	border-bottom: 1px solid #dee2e6;
@@ -34,5 +62,49 @@
 @media only screen and (max-width: 575px) {
   .u-border-bottom-0-sm {
 	border-bottom: none !important;
+  }
+}
+//--- BACKGROUND ---//
+.u-bg-twilight {
+  background-color: #404952 !important;
+  color: #fff;
+}
+.u-bg-modern {
+  background-color: #0d9605 !important;
+}
+.u-alphabet-sorting {
+  a {
+	@extend .h5;
+	@extend .font-weight-bold;
+  }
+  @extend .text-center;
+}
+.u-rotate-90 {
+  transform: rotate(0.75turn);
+  position: absolute;
+}
+.u-hide-underneath {
+  z-index: -1;
+}
+@mixin u-transition($settings) {
+  -webkit-transition: $settings;
+  -moz-transition: $settings;
+  -ms-transition: $settings;
+  -o-transition: $settings;
+  transition: $settings;
+}
+.u-white-space-n {
+  white-space: normal !important;
+}
+.u-cursor-pointer {
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.u-overflow-auto {
+	overflow: auto !important;
+}
+.u-remove-dropdown-icon {
+  .dropdown-toggle::after {
+	display: none;
   }
 }

@@ -2,8 +2,10 @@
 {strip}
 	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h3>
+			<h5 class="modal-title"><span class="fas fa-file-excel mr-1"></span>{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body">
 			<input type="hidden" name="all_records" id="all_records" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
@@ -15,16 +17,16 @@
 			{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
 				<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
 			{/foreach}
-			<div class="panel panel-default">
-				<div class="panel-heading"><strong>{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</strong></div>
-				<div class="panel-body">
+			<div class="card">
+				<div class="card-header"><strong>{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</strong></div>
+				<div class="card-body">
 					{foreach from=$TEMPLATES item=TEMPLATE}
-						<div class="form-group row form-horizontal">
-							<label class="col-sm-6 col-form-label" for="pdfTpl{$TEMPLATE->getId()}">
+						<div class="form-group row">
+							<label class="col-sm-6 col-form-label text-right pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 								{$TEMPLATE->get('primary_name')}<br />
 								<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>
 							</label>
-							<div class="col-sm-6 control-group">
+							<div class="col-sm-6">
 								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
 							</div>
 						</div>
@@ -33,26 +35,26 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<div class="btn-group">
-				<button id="generate_pdf" type="submit" class="btn btn-success">{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}</button>
+			<div class="btn-group mr-0">
+				<button id="generate_pdf" type="submit" class="btn btn-success"><span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}</button>
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
 					<span class="sr-only">Toggle Dropdown</span>
 				</button>
 				<ul class="dropdown-menu">
 					<li>
-						<a href="#" id="single_pdf">
+						<a class="dropdown-item" href="#" id="single_pdf">
 							{\App\Language::translate('LBL_GENERATE_SINGLE', $MODULE_NAME)}
 						</a>
 					</li>
 					<li>
-						<a href="#" id="email_pdf">
+						<a class="dropdown-item" href="#" id="email_pdf">
 							{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
 						</a>
 					</li>
 				</ul>
-			</div>&nbsp;
-			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
+			</div>
+			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
 		</div>
 	</form>
 {/strip}

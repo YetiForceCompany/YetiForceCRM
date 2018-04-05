@@ -35,7 +35,7 @@
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
 			<script type="text/javascript">
-				var CONFIG = {\App\Config::getJs()};
+				var CONFIG = {\App\Config::getJsEnv()};
 				var LANG = {\App\Json::encode($LANGUAGE_STRINGS)};
 			</script>
 			{if \App\Debuger::isDebugBar()}
@@ -55,7 +55,6 @@
 				<input type="hidden" id="view" value="{$VIEW}" />
 				<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::sounds()))}" />
 				<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}" />
-				<input type="hidden" id="fieldsReferencesDependent" value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
 				{if \App\Session::has('ShowUserPasswordChange')}
 					<input type="hidden" id="showUserPasswordChange" value="{\App\Session::get('ShowUserPasswordChange')}" />
 					{if \App\Session::get('ShowUserPasswordChange') == 1}

@@ -8,7 +8,6 @@
 
 # dependencies YETIFORCE
 /public_html/modules/OSSMail/roundcube/
-/libraries/mPDF/
 
 /_private
 /public_html/_private
@@ -30,11 +29,8 @@
 /user_privileges/user_privileges_6.php
 
 # dependencies COMPOSER
-/vendor/*
-!/vendor/php-debugbar
-!/vendor/yii
+/vendor
 /public_html/vendor/*
-!/public_html/vendor/php-debugbar
 
 # dependencies YARN
 yarn-error.log

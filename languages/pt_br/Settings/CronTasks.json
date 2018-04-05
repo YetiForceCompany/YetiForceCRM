@@ -60,7 +60,8 @@
 	"LBL_NEVER_ENDING_RECURRING_EVENTS": "Generate recurring events",
 	"LBL_BROWSING_HISTORY": "Delete browsing history",
 	"LBK_SYSTEM_WARNINGS": "Notifications with system warnings",
-	"LBL_BATCH_PROCESSES": "Batch processes for servicing long-lasting actions"
+	"LBL_BATCH_PROCESSES": "Batch processes for servicing long-lasting actions",
+	"LBL_BATCH_METHODS": "Batch methods"
   },
   "js": {
 	"Recommended frequency for Scheduled Import is 15 mins": "Frequ\u00eancia recomendada para a Importa\u00e7\u00e3o Agendada \u00e9 15 minutos",

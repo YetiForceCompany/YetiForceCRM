@@ -141,7 +141,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 */
 	showConfirmationBox: function (params) {
 		var aDeferred = jQuery.Deferred();
-		bootbox.setLocale(this.getLangCode());
 		var baseParams = {
 			callback: function (result) {
 				if (result) {
@@ -236,10 +235,10 @@ jQuery.Class("Vtiger_Helper_Js", {
 		jQuery('.bottomscroll-div', container).attr('style', '');
 		jQuery('.topscroll-div', container).css('width', jQuery('.bottomscroll-div', container).outerWidth());
 		jQuery('.bottomscroll-div', container).css('width', jQuery('.topscroll-div', container).outerWidth());
-		topScroll.scroll(function () {
+		topScroll.on('scroll', function () {
 			bottomScroll.scrollLeft(topScroll.scrollLeft());
 		});
-		bottomScroll.scroll(function () {
+		bottomScroll.on('scroll', function () {
 			topScroll.scrollLeft(bottomScroll.scrollLeft());
 		});
 	},

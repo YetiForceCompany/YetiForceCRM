@@ -15,8 +15,10 @@
 				{assign var=QTY_PARAM value=$REFERENCE_RECORD->getDisplayValue('qty_per_unit')}
 			{/if}
 		{/if}
-		<span class="input-group-addon popoverTooltip qtyParamInfo {if $ITEM_DATA['unit'] !== 'pack'}hidden{/if}" data-content="{$QTY_PARAM}" title="{\App\Language::translate('Qty/Unit','Products')}">
-			<i class="fas fa-info-circle"></i>
-		</span>
+		<div class="input-group-append">
+			<span class="input-group-text js-popover-tooltip qtyParamInfo {if $ITEM_DATA['unit'] !== 'pack'}hidden{/if}" data-js="popover" data-content="{$QTY_PARAM}" title="{\App\Language::translate('Qty/Unit','Products')}">
+				<i class="fas fa-info-circle"></i>
+			</span>
+		</div>
 	</div>
 {/strip}

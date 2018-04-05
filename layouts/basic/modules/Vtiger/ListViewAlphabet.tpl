@@ -14,11 +14,11 @@
 						<button class="btn btn-light close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 					</div>
 					{assign var=COUNT_ALPHABETS value=count($ALPHABETS)}
-					<div class="modal-body">
-						<div class="alphabetSorting noprint">
-							<div class="alphabetContents alphabet_{$COUNT_ALPHABETS} row ">
+					<div class="modal-body p-1">
+						<div class="u-alphabet-sorting noprint">
+							<div class="p-0 m-auto alphabet_{$COUNT_ALPHABETS} row ">
 								{foreach item=ALPHABET from=$ALPHABETS}
-									<div class="alphabetSearch cursorPointer">
+									<div class="alphabetSearch u-cursor-pointer">
 										<a class="btn {if isset($ALPHABET_VALUE) && $ALPHABET_VALUE == $ALPHABET}btn-primary{else}btn-light{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
 									</div>
 								{/foreach}

@@ -103,9 +103,11 @@
 							{elseif $FIELD_MODEL->getFieldDataType() eq "time"}
 								<div class="input-group time">
 									<input type="text" class="form-control-sm form-control clockPicker" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>
-									<span class="input-group-addon cursorPointer">
-										<span class="far fa-clock"></span>
-									</span>
+									<div class="input-group-append">
+										<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
+											<span class="far fa-clock"></span>
+										</span>
+									</div>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
 								{assign var=IS_CUSTOM_DEFAULT_VALUE value=\App\TextParser::isVaribleToParse($FIELD_MODEL->get('defaultvalue'))}
@@ -113,9 +115,11 @@
 									{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue() || $IS_CUSTOM_DEFAULT_VALUE} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
 										   value="{if !$IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}{/if}" />
-									<span class="input-group-addon">
-										<span class="fas fa-calendar-alt"></span>
-									</span>
+									<div class=" input-group-append">
+										<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
+											<span class="fas fa-calendar-alt"></span>
+										</span>
+									</div>	
 									<span class="input-group-btn" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">
 										<button class="btn btn-light configButton" type="button"><span class="fas fa-cog"></span></button>
 									</span>
@@ -153,7 +157,7 @@
 						<strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong>&nbsp;
 						<div class="marginLeft20 input-group marginBottom10px">
 							<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-							<span class="input-group-addon"><span class="fas fa-info-circle popoverTooltip" data-placement="top" data-content="{App\Language::translate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+							<span class="input-group-addon"><span class="fas fa-info-circle js-popover-tooltip"  data-js="popover" data-placement="top" data-content="{App\Language::translate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 						</div>
 					</div>
 				{/if}

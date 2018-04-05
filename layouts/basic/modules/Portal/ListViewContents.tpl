@@ -72,7 +72,7 @@
 								<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
 							</td>
 							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
-								<a class="urlField cursorPointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" rel="noreferrer" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
+								<a class="urlField u-cursor-pointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" rel="noreferrer" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
 							</td>
 							<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
 							<td nowrap class="{$WIDTHTYPE}">

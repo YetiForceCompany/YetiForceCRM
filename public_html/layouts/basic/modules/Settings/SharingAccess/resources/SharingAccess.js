@@ -36,12 +36,12 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	},
 
 	getCustomRuleContainerClassName: function (parentModuleName) {
-		return parentModuleName + 'CustomRuleList';
+		return 'js-' + parentModuleName + '-custom-rule-list';
 	},
 
 	showCustomRulesNextToElement: function (parentElement, rulesListElement) {
 		var moduleName = parentElement.data('moduleName')
-		var trElementForRuleList = jQuery('<tr class="' + this.getCustomRuleContainerClassName(moduleName) + '"><td class="customRuleContainer row" colspan="6"></td></tr>');
+		var trElementForRuleList = jQuery('<tr class="' + this.getCustomRuleContainerClassName(moduleName) + '"><td class="js-custom-rule-container" data-js="container" colspan="6"></td></tr>');
 		jQuery('td', trElementForRuleList).append(rulesListElement);
 		jQuery('.ruleListContainer', trElementForRuleList).css('display', 'none');
 		parentElement.after(trElementForRuleList).addClass('collapseRow');
@@ -60,14 +60,11 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = 'IndexAjax';
 		params['mode'] = 'showRules';
-		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject(error);
-			}
-		);
+		AppConnector.request(params).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (error) {
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 
@@ -75,26 +72,21 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		var aDeferred = jQuery.Deferred();
 
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
+			position: 'html',
+			blockInfo: {
+				enabled: true
 			}
 		});
 		if (typeof data == 'undefined') {
 			data = {};
 		}
-
-		AppConnector.request(data).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error, errorThrown) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
-		)
-
+		AppConnector.request(data).then(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}, function (error, errorThrown) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 
@@ -104,31 +96,26 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	saveCustomRule: function (form, e) {
 		var thisInstance = this;
 		var data = form.serializeFormData();
-
 		if (typeof data == 'undefined') {
 			data = {};
 		}
-
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
+			position: 'html',
+			blockInfo: {
+				enabled: true
 			}
 		});
 		data.module = app.getModuleName();
 		data.parent = app.getParentModuleName();
 		data.action = 'IndexAjax';
 		data.mode = 'saveRule';
-
-		AppConnector.request(data).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.hideModalWindow();
-				thisInstance.displaySaveCustomRuleResponse(data);
-				var moduleName = jQuery('[name="for_module"]', form).val();
-				thisInstance.loadCustomRulesList(moduleName);
-			}
-		);
+		AppConnector.request(data).then(function (data) {
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			app.hideModalWindow();
+			thisInstance.displaySaveCustomRuleResponse(data);
+			var moduleName = jQuery('[name="for_module"]', form).val();
+			thisInstance.loadCustomRulesList(moduleName);
+		});
 	},
 
 	/*
@@ -138,15 +125,12 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		var thisInstance = this;
 		var contentTable = this.getContentTable();
 
-		thisInstance.getCustomRules(moduleName).then(
-			function (data) {
-				var customRuleListContainer = jQuery('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
-				customRuleListContainer.find('td.customRuleContainer').html(data);
-			},
-			function (error) {
+		thisInstance.getCustomRules(moduleName).then(function (data) {
+			var customRuleListContainer = jQuery('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
+			customRuleListContainer.find('td.js-custom-rule-container').html(data);
+		}, function (error) {
 
-			}
-		);
+		});
 	},
 
 	/*
@@ -160,12 +144,12 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			params = {
 				text: app.vtranslate('JS_CUSTOM_RULE_SAVED_SUCCESSFULLY'),
 				type: 'success'
-			}
+			};
 		} else {
 			params = {
 				text: app.vtranslate('JS_CUSTOM_RULE_SAVING_FAILED'),
 				type: 'error'
-			}
+			};
 		}
 		thisInstance.showNotify(params);
 	},
@@ -184,22 +168,20 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	editCustomRule: function (url) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
+			position: 'html',
+			blockInfo: {
+				enabled: true
 			}
 		});
-
 		app.showModalWindow(null, url, function (modalContainer) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var form = jQuery('#editCustomRule');
-
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			var form = modalContainer.find('.js-edit-rule-form');
 			form.on('submit', function (e) {
 				//To stop the submit of form
 				e.preventDefault();
-				var formElement = jQuery(e.currentTarget);
+				var formElement = $(e.currentTarget);
 				thisInstance.saveCustomRule(formElement, e);
-			})
+			});
 		});
 	},
 
@@ -209,39 +191,36 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	 */
 	deleteCustomRule: function (deleteElement) {
 		var deleteUrl = deleteElement.data('url');
-		var currentRow = deleteElement.closest('tr.customRuleEntries');
+		var currentRow = deleteElement.closest('.js-custom-rule-entries');
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(deleteUrl).then(
-					function (data) {
-						if (data.success == true) {
-							currentRow.fadeOut('slow');
-							var customRuleTable = currentRow.closest('table .customRuleTable');
-							//after delete the custom rule, update the sequence number of existing rules
-							var nextRows = currentRow.nextAll('tr.customRuleEntries');
-							if (nextRows.length > 0) {
-								jQuery.each(nextRows, function (i, element) {
-									var currentSequenceElement = jQuery(element).find('.sequenceNumber');
-									var updatedNumber = parseInt(currentSequenceElement.text()) - 1;
-									currentSequenceElement.text(updatedNumber);
-								});
-							}
-							currentRow.remove();
-							var customRuleEntries = customRuleTable.find('.customRuleEntries');
-							//if there are no custom rule entries, we have to hide headers also and show the empty message div
-							if (customRuleEntries.length < 1) {
-								customRuleTable.find('.customRuleHeaders').fadeOut('slow').remove();
-								customRuleTable.parent().find('.recordDetails').removeClass('d-none');
-								customRuleTable.addClass('d-none');
-							}
-						} else {
-							Vtiger_Helper_Js.showPnotify(data.error.message);
-						}
-					});
-			},
-			function (error, err) {
-			}
-		);
+			AppConnector.request(deleteUrl).then(function (data) {
+				if (data.success == true) {
+					currentRow.fadeOut('slow');
+					var customRuleTable = currentRow.closest('.js-custom-rule-table');
+					//after delete the custom rule, update the sequence number of existing rules
+					var nextRows = currentRow.nextAll('js-custom-rule-entries');
+					if (nextRows.length > 0) {
+						jQuery.each(nextRows, function (i, element) {
+							var currentSequenceElement = jQuery(element).find('.js-sequence-number');
+							var updatedNumber = parseInt(currentSequenceElement.text()) - 1;
+							currentSequenceElement.text(updatedNumber);
+						});
+					}
+					currentRow.remove();
+					var customRuleEntries = customRuleTable.find('.js-custom-rule-entries');
+					//if there are no custom rule entries, we have to hide headers also and show the empty message div
+					if (customRuleEntries.length < 1) {
+						customRuleTable.find('.js-custom-rule-headers').fadeOut('slow').remove();
+						customRuleTable.parent().find('.js-record-details').removeClass('d-none');
+						customRuleTable.addClass('d-none');
+					}
+				} else {
+					Vtiger_Helper_Js.showPnotify(data.error.message);
+				}
+			});
+		}, function (error, err) {
+		});
 	},
 
 	/*
@@ -265,7 +244,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 
 		jQuery.each(modulesList, function (moduleName, dependentList) {
 			var dependentPrivilege = contentTable.find('[data-module-name="' + moduleName + '"]').find('[data-action-state="Private"]');
-			dependentPrivilege.change(function (e) {
+			dependentPrivilege.on('change', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				if (currentTarget.is(':checked')) {
 					var message = app.vtranslate('JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE');
@@ -309,58 +288,51 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			}
 
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
 
 			thisInstance.getCustomRules(moduleName).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					thisInstance.showCustomRulesNextToElement(trElement, data);
-					element.find('button.arrowDown').addClass('d-none');
-					element.find('button.arrowUp').removeClass('d-none').show();
-				},
-				function (error) {
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						thisInstance.showCustomRulesNextToElement(trElement, data);
+						element.find('button.arrowDown').addClass('d-none');
+						element.find('button.arrowUp').removeClass('d-none').show();
+					},
+					function (error) {
 
-				}
+					}
 			);
 		});
-
-		contentTable.on('click', 'button.addCustomRule', function (e) {
+		contentTable.on('click', '.js-add-custom-rule', function (e) {
 			var button = jQuery(e.currentTarget);
 			thisInstance.editCustomRule(button.data('url'));
-		})
-
-		contentTable.on('click', '.edit', function (e) {
+		});
+		contentTable.on('click', '.js-edit', function (e) {
 			var editElement = jQuery(e.currentTarget);
 			var editUrl = editElement.data('url');
 			thisInstance.editCustomRule(editUrl);
 		});
-
-		contentTable.on('click', '.delete', function (e) {
+		contentTable.on('click', '.js-delete', function (e) {
 			var deleteElement = jQuery(e.currentTarget);
 			thisInstance.deleteCustomRule(deleteElement);
 		});
-
-		contentContainer.on('submit', '#EditSharingAccess', function (e) {
+		contentContainer.on('submit', '#js-edit-sharing-access', function (e) {
 			e.preventDefault();
 			var form = jQuery(e.currentTarget);
 			var data = form.serializeFormData();
-			thisInstance.save(data).then(
-				function (data) {
-					contentContainer.find('button:submit').addClass('d-none');
-					thisInstance.registerSharingAccessEdit();
-					var params = {
-						text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),
-						type: 'success'
-					};
-					thisInstance.showNotify(params);
-				},
-				function (error, err) {
-				}
-			);
+			thisInstance.save(data).then(function (data) {
+				contentContainer.find('button:submit').addClass('d-none');
+				thisInstance.registerSharingAccessEdit();
+				var params = {
+					text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),
+					type: 'success'
+				};
+				thisInstance.showNotify(params);
+			}, function (error, err) {
+			});
 		});
 	}
 });

@@ -156,7 +156,13 @@
 	"LBL_SUMMARY_BOTTOM_TYPE": "Gesamt unten",
 	"LBL_RELATED_VIEW_TYPE": "Position anzeigen",
 	"LBL_RELATED_VIEW_TYPE_DESC": "Bitte mindestens ein Anzeigeposition f\u00fcr den Block ausw\u00e4hlen",
-	"LBL_CUSTOM_CONFIGURATION": "Kundenspezifische Konfiguration"
+	"LBL_CUSTOM_CONFIGURATION": "Kundenspezifische Konfiguration",
+	"LBL_CONTEXT_HELP": "Context-sensitive help",
+	"LBL_SHOW_IN_VIEWS": "Show in views",
+	"LBL_CHOOSE_LANGUAGE": "Language",
+	"LBL_EDIT_VIEW": "Anlegen & Bearbeiten",
+	"LBL_DETAIL_VIEW": "Detailsicht & Kompaktsicht",
+	"LBL_QUICK_CREATE_VIEW": "Schnellanlegen"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "Block Name existiert bereits",

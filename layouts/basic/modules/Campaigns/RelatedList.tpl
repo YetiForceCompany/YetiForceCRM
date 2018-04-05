@@ -11,7 +11,7 @@
 -->*}
 {strip}
     {if !empty($CUSTOM_VIEWS)}
-        <div class="relatedContainer listViewPageDiv margin0px">
+        <div class="relatedContainer listViewPageDiv m-0">
             <input type="hidden" name="emailEnabledModules" value=true />
             <input type="hidden" id="view" value="{$VIEW}" />
             <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
@@ -29,12 +29,14 @@
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
 					<div class="col-md-9">
-						<div class="btn-group listViewMassActions btn-group paddingRight10">
+						<div class="btn-group listViewMassActions btn-group pr-2">
 							{if $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']|@count gt 0}
 								<button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 								<ul class="dropdown-menu">
 									{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
-										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
+										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
+											<a class="dropdown-item" href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a>
+										</li>
 											{if $smarty.foreach.actionCount.last eq true}
 											<li class="dropdown-divider"></li>
 											{/if}
@@ -47,9 +49,7 @@
 													{else}
 														href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
 														{/if}
-															{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
-																class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
-															{/if}
+															class="dropdown-item{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''} {$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}{/if}"
 															{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
 																{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
 																	data-{$NAME}="{$DATA}"
@@ -82,14 +82,14 @@
 																{/if}
 															</span>
 														</div>
-														<div class="btn-group paddingRight10">
-															<button type="button" class="btn btn-light loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+														<div class="btn-group pr-2">
+															<button type="button" class="btn btn-light loadFormFilterButton js-popover-tooltip"	data-js="popover" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
 																<span class="fas fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
 														</div>
 														{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-															<div class="btn-group paddingRight10">
+															<div class="btn-group pr-2">
 																{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 																{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
 																<button type="button" class="btn btn-light addButton
@@ -112,10 +112,10 @@
 													<div class="col-md-3">
 														<div class="float-right">
 															{if $VIEW_MODEL}
-																<div class="float-right paddingLeft5px">
+																<div class="float-right pl-1">
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 																	<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
-																	<div class="dropdown dropdownEntityState">
+																	<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
 																		<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																			{if $VIEW_MODEL->get('entityState') === 'Archived'}
 																				<span class="fas fa-archive"></span>
@@ -129,16 +129,16 @@
 																		</button>
 																		<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 																			<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-																				<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+																				<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 																			</li>
 																			<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-																				<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 																			</li>
 																			<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-																				<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 																			</li>
 																			<li>
-																				<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 																			</li>
 																		</ul>
 																	</div>

@@ -54,7 +54,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/MultiReferenceValue.tpl';
+		return 'Edit/Field/MultiReferenceValue.tpl';
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/MultiReferenceValueFieldSearchView.tpl';
+		return 'List/Field/MultiReferenceValue.tpl';
 	}
 
 	/**

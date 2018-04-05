@@ -89,7 +89,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/OwnerFieldSearchView.tpl';
+		return 'List/Field/Owner.tpl';
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Owner.tpl';
+		return 'Edit/Field/Owner.tpl';
 	}
 
 	/**

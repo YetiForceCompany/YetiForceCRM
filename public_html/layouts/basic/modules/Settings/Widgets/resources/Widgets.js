@@ -16,14 +16,14 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			if (type == 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").change(function () {
+				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
 					thisInstance.changeRelatedModule();
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var save = true;
 				if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
@@ -151,7 +151,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 					}
 					filterField.append($('<option/>', option));
 				});
-				app.showSelect2ElementView(filterField);
+				App.Fields.Picklist.showSelect2ElementView(filterField);
 			} else {
 				filterField.closest('.form-group').addClass('d-none');
 			}
@@ -194,19 +194,19 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		if (typeof container == 'undefined') {
 			container = jQuery('.WidgetsManage');
 		}
-		app.showSelect2ElementView(container.find('.select2'));
-		$(".WidgetsManage select[name='ModulesList']").change(function (e) {
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
+		$(".WidgetsManage select[name='ModulesList']").on('change', function (e) {
 			var target = $(e.currentTarget);
 			$("input[name='tabid']").val(target.val());
 			thisInstance.reloadWidgets();
 		});
-		$('.WidgetsManage .addWidget').click(function (e) {
+		$('.WidgetsManage .addWidget').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
 			var module = $(".WidgetsManage select[name='ModulesList']").val();
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod=" + module, function (wizardContainer) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var form = jQuery('form', wizardContainer);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var type = form.find('[name="type"]').val();
 					thisInstance.createStep2(type);
@@ -214,7 +214,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 
 			});
 		});
-		$('.WidgetsManage .editWidget').click(function (e) {
+		$('.WidgetsManage .editWidget').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
@@ -224,13 +224,13 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 				if (thisInstance.getType() == 'RelatedModule') {
 					thisInstance.loadFilters(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
-					wizardContainer.find("select[name='relatedmodule']").change(function () {
+					wizardContainer.find("select[name='relatedmodule']").on('change', function () {
 						thisInstance.changeRelatedModule();
 						thisInstance.relatedModuleFields(wizardContainer);
 					});
 				}
 				var form = jQuery('form', wizardContainer);
-				form.submit(function (e) {
+				form.on('submit', function (e) {
 					e.preventDefault();
 					var progress = $.progressIndicator({
 						'message': app.vtranslate('Loading data'),
@@ -249,7 +249,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 				});
 			});
 		});
-		$('.WidgetsManage .removeWidget').click(function (e) {
+		$('.WidgetsManage .removeWidget').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			thisInstance.registerSaveEvent('removeWidget', {

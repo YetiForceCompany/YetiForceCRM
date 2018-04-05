@@ -103,7 +103,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/DateFieldSearchView.tpl';
+		return 'List/Field/Date.tpl';
 	}
 
 	/**
@@ -111,6 +111,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Date.tpl';
+		return 'Edit/Field/Date.tpl';
 	}
 }

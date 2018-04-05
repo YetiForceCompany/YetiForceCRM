@@ -24,7 +24,7 @@
 			<div class="row">
 				<div class="col-sm-6 col-md-6">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
-						<div class="btn-group paddingRight10 relatedViewGroup">
+						<div class="btn-group pr-2 relatedViewGroup">
 							{assign var=TEXT_HOLDER value=''}
 							{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
 								{if $RELATED_VIEW == $RELATEDLIST_VIEW->get('view')}
@@ -47,7 +47,7 @@
 							<ul class="dropdown-menu">
 								{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
 									<li>
-										<a href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
+										<a class="dropdown-item" href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
 											{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
 												<span class="{$RELATEDLIST_VIEW->get('linkicon')}"></span>&nbsp;&nbsp;
 											{/if}
@@ -60,7 +60,7 @@
 					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
-							<div class="btn-group paddingRight10">
+							<div class="btn-group pr-2">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-light addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
@@ -85,10 +85,10 @@
 				<div class="col-12 col-sm-6 col-md-6">
 					<div class="float-right">
 						{if $VIEW_MODEL}
-							<div class="float-right paddingLeft5px">
+							<div class="float-right pl-1">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
-								<div class="dropdown dropdownEntityState">
+								<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
 									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 										{if $VIEW_MODEL->get('entityState') === 'Archived'}
 											<span class="fas fa-archive"></span>
@@ -102,16 +102,16 @@
 									</button>
 									<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 										<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-											<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+											<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 										</li>
 										<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-											<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 										</li>
 										<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-											<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 										</li>
 										<li>
-											<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 										</li>
 									</ul>
 								</div>
@@ -131,15 +131,28 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div class="js-list-preview" data-js="container, size-source">
+				<div class="d-flex">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
-					<div class="col-md-3" id="recordsList">
-						{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+					<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="css: height;/scroll">
+						<div class="u-rotate-90">
+							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_LIST')}</div>
+						</div>
 					</div>
-					<div class="listPreview col-md-9">
+					<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
+						<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
+							<div id="recordsList">
+								{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+							</div>
+						</div>
+					</div>
+					<div class="c-detail-preview js-detail-preview ">
 						<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 					</div>
-
+					<div class="c-side-block c-side-block--right js-side-block js-fixed-scroll" data-js="css: height;/scroll">
+						<div class="u-rotate-90">
+							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_DETAIL')}</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		{else}

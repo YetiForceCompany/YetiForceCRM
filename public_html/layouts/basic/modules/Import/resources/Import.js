@@ -31,27 +31,27 @@ if (typeof (ImportJs) == 'undefined') {
 			}
 		},
 		handleFileTypeChange: function () {
-			var fileType = jQuery('#type').val();
-			var delimiterContainer = jQuery('#delimiter_container');
-			var hasHeaderContainer = jQuery('#has_header_container');
-			var xmlTpl = jQuery('#xml_tpl');
-			var extension = jQuery('#zipExtension');
+			var fileType = jQuery('.js-type').val();
+			var delimiterContainer = jQuery('.js-delimiter-container');
+			var hasHeaderContainer = jQuery('.js-has-header-container');
+			var xmlTpl = jQuery('.js-xml-tpl');
+			var extension = jQuery('.js-zip-extension');
 
 			switch (fileType) {
 				case 'xml':
-					delimiterContainer.hide();
-					hasHeaderContainer.hide();
+					delimiterContainer.addClass('d-none');
+					hasHeaderContainer.addClass('d-none');
 					xmlTpl.removeClass('d-none');
 					extension.addClass('d-none');
 					break;
 				case 'zip':
-					delimiterContainer.hide();
-					hasHeaderContainer.hide();
+					delimiterContainer.addClass('d-none');
+					hasHeaderContainer.addClass('d-none');
 					extension.removeClass('d-none');
 					break;
 				default:
-					delimiterContainer.show();
-					hasHeaderContainer.show();
+					delimiterContainer.removeClass('d-none');
+					hasHeaderContainer.removeClass('d-none');
 					extension.addClass('d-none');
 					xmlTpl.addClass('d-none');
 			}
@@ -375,7 +375,7 @@ if (typeof (ImportJs) == 'undefined') {
 						jQuery('#savedMapsContainer').html(data);
 						status.hide();
 						var parent = jQuery("#saved_maps");
-						app.changeSelectElementView(parent);
+						App.Fields.Picklist.changeSelectElementView(parent);
 					},
 					function (error, err) {
 

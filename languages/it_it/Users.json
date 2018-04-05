@@ -318,6 +318,8 @@
 	"JS_PASSWORD_CHANGE_FAILED_2": " failed. The new password must be set.",
 	"JS_PASSWORD_INCORRECT_OLD": "Incorrect old password specified. Re-enter password information.",
 	"JS_REENTER_PASSWORDS": "Please re-enter passwords.  The \\\"new password\\\" and \\\"confirm password\\\" values do not match.",
-	"JS_USER_MAIL_EXIST": "User with this e-mail address exists"
+	"JS_USER_MAIL_EXIST": "User with this e-mail address exists",
+	"JS_NEW_ACCESS_KEY_REQUESTED": "Enter new access key",
+	"JS_CHANGE_ACCESS_KEY_CONFIRMATION": "New access key was requested. Old access key must be replaced with a new one in all installed extensions. Do you want to continue?"
   }
 }

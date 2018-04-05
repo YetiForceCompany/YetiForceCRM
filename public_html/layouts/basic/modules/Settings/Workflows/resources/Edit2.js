@@ -139,7 +139,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 				}
 			}
 		});
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', container));
 		this.getPopUp();
 		if (jQuery('[name="filtersavedinnew"]', container).val() == '5') {

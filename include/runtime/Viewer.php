@@ -29,7 +29,7 @@ class Vtiger_Viewer extends SmartyBC
 	{
 		static $file = null;
 		if ($file === null) {
-			$file = dirname(__FILE__) . '/../../cache/logs/viewer-debug.log';
+			$file = __DIR__ . '/../../cache/logs/viewer-debug.log';
 		}
 		if (self::$debugViewer) {
 			file_put_contents($file, $message . $delimiter, FILE_APPEND);
@@ -46,7 +46,7 @@ class Vtiger_Viewer extends SmartyBC
 		parent::__construct();
 		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
 
-		$THISDIR = dirname(__FILE__);
+		$THISDIR = __DIR__;
 		$compileDir = '';
 		$templateDir = [];
 		if (!empty($media)) {

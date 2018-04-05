@@ -15,15 +15,15 @@
 	<div class="PreferenceDetailViewHeader detailViewContainer">
 		<div class="detailViewTitle marginTop5" id="prefPageHeader">
 			<div class="row">
-				<div class="marginLeftZero col-md-8 row">
-					<div class="logo col-1 col-md-1">
+				<div class="ml-0 pr-1 col-md-5 row">
+					<div class="logo pl-0 col-2 col-md-2">
 						{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
 							{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
 								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
 							{/if}
 						{/foreach}
 					</div>
-					<div class="col-9 col-md-9 d-flex flex-column">
+					<div class="col-10 col-md-10 p-0 d-flex flex-column">
 						<div id="myPrefHeading">
 							<h3>{\App\Language::translate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
 						</div>
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="mr-0 pl-1 col-md-7 py-3">
 					<div class="row float-right detailViewButtoncontainer">
 						<div class="btn-toolbar float-right">
 							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}

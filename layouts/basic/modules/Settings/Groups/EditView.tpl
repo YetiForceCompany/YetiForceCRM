@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<hr>
-			<div class="form-group">
+			<div class="form-group row">
 				<div class="col-md-2 description-field">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}
 				</div>
@@ -30,7 +30,7 @@
 					<input class="form-control" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group row">
 				<div class="col-md-2 description-field">
 					{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
@@ -38,7 +38,7 @@
 					<input class="form-control" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group row">
 				<div class="col-md-2 description-field">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}
 				</div>
@@ -50,7 +50,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group row">
 				<div class="col-md-2 description-field">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 				</div>
@@ -71,25 +71,21 @@
 							</select>
 						</div>
 						<div class="col-md-2">
-							<span class="float-right groupMembersColors">
+							<span class="row float-right  groupMembersColors">
 								<ul class="liStyleNone">
-									<li class="Users padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
-									<li class="Groups padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
-									<li class="Roles padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
-									<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_ROLEANDSUBORDINATE', $QUALIFIED_MODULE)}</strong></li>
+									<li class="Users text-center px-4"><strong>{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
+									<li class="Groups text-center px-4"><strong>{\App\Language::translate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
+									<li class="Roles text-center px-4"><strong>{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
+									<li class="RoleAndSubordinates text-center px-4"><strong>{\App\Language::translate('LBL_ROLEANDSUBORDINATE', $QUALIFIED_MODULE)}</strong></li>
 								</ul>
 							</span>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-5 float-right">
-					<span class="float-right">
-						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
-					</span>
-				</div>
+			<div class="text-right">
+				<button class="btn btn-success" type="submit"><span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+				<button class="btn btn-danger ml-2" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 			</div>
 		</form>
 	</div>

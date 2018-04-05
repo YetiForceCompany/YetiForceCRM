@@ -1245,7 +1245,8 @@
 	"LBL_FULLTEXT_BEGIN": "Word begins with",
 	"LBL_FULLTEXT_WORD": "Word",
 	"BTN_PERMISSION_INSPECTOR": "Permission Inspector",
-	"LBL_ADVANCED_SEARCH": "Advanced search"
+	"LBL_ADVANCED_SEARCH": "Advanced search",
+	"_Base": "System"
   },
   "js": {
 	"JS_SUMMARY": "Summary",
@@ -1580,6 +1581,19 @@
 	"JS_M_LONG": "minutes",
 	"JS_S_LONG": "seconds",
 	"JS_APPLY": "Apply",
-	"JS_CANCEL": "Cancel"
+	"JS_CANCEL": "Cancel",
+	"JS_CLEAR": "Clear",
+	"JS_FROM": "From",
+	"JS_TO": "To",
+	"JS_DELETE": "Delete",
+	"JS_DELETE_FILE_CONFIRMATION": "Are you sure you want to delete this file?",
+	"JS_DELETE_FILE": "Deleting file",
+	"JS_ZOOM_IN": "Zoom in",
+	"JS_FILE_UPLOAD_ERROR": "Uploading file to server failed",
+	"JS_INVALID_FILE_HASH": "Invalid file hash",
+	"JS_DOWNLOAD": "Download",
+	"JS_INVALID_FILE_TYPE": "Invalid file type",
+	"JS_AVAILABLE_FILE_TYPES": "Available file types",
+	"JS_FILE_LIMIT": "Maximum number of files was exceeded"
   }
 }

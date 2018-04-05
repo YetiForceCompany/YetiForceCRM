@@ -8,7 +8,7 @@
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
-			<ol  class="breadcrumb breadcrumbsContainer my-0 py-auto px-0" aria-label="breadcrumb">
+			<ol  class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0" aria-label="breadcrumb">
 				<li class="breadcrumb-item" aria-current="page">
 					<a href="{AppConfig::main('site_URL')}">
 						<span class="{$HOMEICON}"></span>

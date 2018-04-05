@@ -20,7 +20,7 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 			</div>
-			<div class="col-12 searchUIBasic paddingLRZero" style='margin:0 !important'>
+			<div class="col-12 searchUIBasic px-0 m-0">
 				{if $ERROR_MESSAGE neq ''}
 					<div class="col-12">
 						<div class="style1">
@@ -39,8 +39,8 @@
 						{include file=\App\Layout::getTemplatePath('Import_Step3.tpl', 'Import')}
 					</div>
 				{/if}
-				<div class="col-12 paddingBottom10">
-					{include file=\App\Layout::getTemplatePath('Import_Basic_Buttons.tpl', 'Import')}
+					<div class="col-12 pb-3">
+						{include file=\App\Layout::getTemplatePath('Import_Basic_Buttons.tpl', 'Import')}
 				</div>
 			</div>
 		</form>

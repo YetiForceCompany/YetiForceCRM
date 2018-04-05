@@ -17,5 +17,5 @@
 				{/foreach}
 		</ul>
 	{/if}
-	<div class="col-12">
+	<div class="p-0">
 	{/strip}

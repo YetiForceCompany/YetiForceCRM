@@ -47,6 +47,8 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		];
 

@@ -150,7 +150,11 @@
 								{assign var=specificDate value=\App\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
 								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 								<input  type="text" class="dateField form-control form-control-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-								<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
+								<div class=" input-group-append">
+									<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
+										<span class="fas fa-calendar-alt"></span>
+									</span>
+								</div>	
 							</div>
 						</div>
 					</div>
@@ -184,7 +188,11 @@
 						<div class='col-md-4' id='schtime'>
 							<div class="input-group time">
 								<input type='text' class='clockPicker form-control-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-								<span class="input-group-addon cursorPointer"><i class="far fa-clock"></i></span>
+									<div class="input-group-append">
+										<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
+											<span class="far fa-clock"></span>
+										</span>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -241,7 +249,7 @@
 			</div>
 			<div class="row float-right no-margin">
 				<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-				<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
+				<button onclick='window.history.back()' type="reset" class="cancelLink u-cursor-pointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>
 		</form>
 	</div>

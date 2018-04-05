@@ -25,7 +25,7 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 	triggerChangeTypeForm: function () {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var selectedIds = listInstance.readSelectedIds(true);
-		$("#ChangeType").submit(function (event) {
+		$("#ChangeType").on('submit', function (event) {
 			var mail_type = jQuery('#mail_type').val();
 			var save_params = {};
 			save_params.data = {module: 'OSSMailView', action: 'ChangeType', data: selectedIds, mail_type: mail_type};

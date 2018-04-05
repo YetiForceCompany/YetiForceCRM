@@ -24,7 +24,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($value, FILTER_VALIDATE_EMAIL) || $value !== filter_var($value, FILTER_SANITIZE_EMAIL)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
@@ -45,12 +45,12 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 
-				return "<a class = \"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . ' title=' . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
+				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . ' title=' . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
-					return "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
+					return "<a class='u-cursor-pointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
 				} else {
-					return "<a class='emailField cursorPointer'  href='mailto:" . $rawValue . "'>" . $value . '</a>';
+					return "<a class='emailField u-cursor-pointer'  href='mailto:" . $rawValue . "'>" . $value . '</a>';
 				}
 			}
 		}
@@ -73,12 +73,12 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 
-				return "<a class = \"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . ' title=' . \App\Language::translate('LBL_SEND_EMAIL') . ">{$value}</a>";
+				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . ' title=' . \App\Language::translate('LBL_SEND_EMAIL') . ">{$value}</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
-					return "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
+					return "<a class='u-cursor-pointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
 				} else {
-					return "<a class='emailField cursorPointer'  href='mailto:" . $rawValue . "'>" . $value . '</a>';
+					return "<a class='emailField u-cursor-pointer'  href='mailto:" . $rawValue . "'>" . $value . '</a>';
 				}
 			}
 		}
@@ -93,6 +93,6 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Email.tpl';
+		return 'Edit/Field/Email.tpl';
 	}
 }

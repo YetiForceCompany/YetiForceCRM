@@ -22,7 +22,7 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 	 * Register the field with hosts
 	 */
 	registerDefaultHost: function () {
-		app.showSelectizeElementView(this.getContainer().find('[name="default_host"]'), {
+		App.Fields.Picklist.showSelectizeElementView(this.getContainer().find('[name="default_host"]'), {
 			delimiter: ',',
 			persist: false,
 			create: function (input) {
@@ -41,7 +41,7 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 	registerForm: function () {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
-		container.submit(function (event) {
+		container.on('submit', function (event) {
 			event.preventDefault();
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {

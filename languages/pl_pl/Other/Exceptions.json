@@ -3,6 +3,7 @@
 	"ERR_ILLEGAL_VALUE": "Niedozwolona warto\u015b\u0107",
 	"ERR_ILLEGAL_FIELD_VALUE": "Niedozwolona warto\u015b\u0107 w polu %s (%s)",
 	"ERR_VALUE_IS_TOO_LONG": "Warto\u015b\u0107 pola %s jest za d\u0142uga (%s)",
+	"ERR_TO_MANY_FILES":"Przekroczono limit ilo\u015Bci plik\u00F3w",
 	"ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "Warto\u015b\u0107 pola %s musi by\u0107 wi\u0119ksza od zera (%s)",
 	"ERR_NOT_ALLOWED_VALUE": "Wykryto niedozwolon\u0105 warto\u015b\u0107, prosimy o kontakt z administratorem",
 	"ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Takie has\u0142o by\u0142o ju\u017c kiedy\u015b u\u017cywane, system ze wzgl\u0119d\u00f3w bezpiecze\u0144stwa nie pozwala na u\u017cywanie takich samych hase\u0142.",
@@ -14,6 +15,13 @@
 	"ERR_EXCEEDED_NUMBER_CHARACTERS": "Niedozwolona liczba znak\u00f3w",
 	"ERR_SPECIAL_CHARACTERS_NOT_ALLOWED": "Znaki specjalne takie jak %s s\u0105 niedozwolone",
 	"ERR_CREATE_FILE_FAILURE": "Nie uda\u0142o si\u0119 utworzy\u0107 pliku",
+	"ERR_FILE_WRONG_SIZE": "Niew\u0142a\u015bciwy rozmiar pliku",
+	"ERR_FILE_EMPTY_NAME": "Brak nazwy pliku",
+	"ERR_FILE_ERROR_REQUEST": "B\u0142\u0105d podczas przesy\u0142ania pliku: %s",
+	"ERR_FILE_ILLEGAL_FORMAT": "Niedozwolony format pliku",
+	"ERR_FILE_WRONG_IMAGE": "Niew\u0142a\u015bciwy plik graficzny",
+	"ERR_FILE_PHP_CODE_INJECTION": "Wykryto wstrzykni\u0119cie kodu php",
+	"ERR_FILE_XPACKET_CODE_INJECTION": "Wykryto wstrzykni\u0119cie kodu xpacket",
 	"ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Brak uprawnie\u0144 do tworzenia katalog\u00f3w"
   }
 }

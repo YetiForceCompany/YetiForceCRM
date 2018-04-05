@@ -43,9 +43,9 @@ jQuery.Class('Settings_Currency_Js', {
 					var form = jQuery('#transformCurrency');
 
 					//register all select2 Elements
-					app.showSelect2ElementView(form.find('select.select2'));
+					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
 
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 						var transferCurrencyEle = form.find('select[name="transform_to_id"]');
 						instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
@@ -98,7 +98,7 @@ jQuery.Class('Settings_Currency_Js', {
 					var record = form.find('[name="record"]').val();
 
 					//register all select2 Elements
-					app.showSelect2ElementView(form.find('select.select2'));
+					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
 					var currencyStatus = form.find('[name="currency_status"]').is(':checked');
 					if (record != '' && currencyStatus) {
 						//While editing currency, register the status change event
@@ -116,7 +116,7 @@ jQuery.Class('Settings_Currency_Js', {
 					}
 					form.validationEngine(params);
 
-					form.submit(function (e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 					})
 				}

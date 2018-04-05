@@ -114,10 +114,10 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('.select2'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		this.registerEventsForEditView();
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 	},
 	/**
 	 * Function to register event for adding new convert to field mapping
@@ -137,7 +137,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 			newMapping.appendTo(mappingToGenerateTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');
-			app.showSelect2ElementView(select2Elements);
+			App.Fields.Picklist.showSelect2ElementView(select2Elements);
 			jQuery('select.targetFields', newMapping).trigger('change', false);
 			thisInstance.loadDefaultValueWidgetForMappedFields(newMapping.find('.select2'));
 		})
@@ -224,7 +224,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 			copyOfDefaultValue.val(defaultValue);
 		}
 		copyOfDefaultValue.appendTo(dafeultTd);
-		app.showSelect2ElementView(dafeultTd.find('select'));
+		App.Fields.Picklist.showSelect2ElementView(dafeultTd.find('select'));
 	},
 	loadDefaultValueWidgetForMappedFields: function (fieldsList) {
 		var thisInstance = this;

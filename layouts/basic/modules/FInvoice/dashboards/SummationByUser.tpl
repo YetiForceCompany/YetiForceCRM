@@ -31,11 +31,11 @@
 	<div class="row" >
 		<div class="col-md-6">
 			<div class="input-group input-group-sm">
-				<span class="input-group-prepend">
-					<div class="input-group-text">
-						<span class="fas fa-calendar-alt iconMiddle "></span>
-					</div>
-				</span>
+				<div class="input-group-prepend">
+					<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
+						<span class="fas fa-calendar-alt"></span>
+					</span>
+				</div>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}" />
 			</div>
 		</div>

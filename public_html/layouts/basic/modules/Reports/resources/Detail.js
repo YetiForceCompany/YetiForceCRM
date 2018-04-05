@@ -86,7 +86,7 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 	},
 	registerEventsForActions: function () {
 		var thisInstance = this;
-		jQuery('.reportActions').click(function (e) {
+		$('.reportActions').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
 			var href = element.data('href');
 			var type = element.attr("name");

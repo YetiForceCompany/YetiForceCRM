@@ -62,7 +62,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Recurrence.tpl';
+		return 'Edit/Field/Recurrence.tpl';
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/RecurrenceDetailView.tpl';
+		return 'Detail/Field/Recurrence.tpl';
 	}
 
 	/**

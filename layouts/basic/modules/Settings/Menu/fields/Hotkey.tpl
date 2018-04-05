@@ -6,7 +6,7 @@
 		<div class="input-group">
 			<input name="hotkey" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('hotkey')}{/if}" />
 			<a class="input-group-addon testBtn">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
-			<a class="input-group-addon popoverTooltip" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover" 
+			<a class="input-group-addon js-popover-tooltip" data-js="popover" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover"
 			   data-content="{\App\Language::translate('LBL_MORE_INFO', $QUALIFIED_MODULE)}">
 				<i class="fas fa-info-circle"></i>
 			</a>

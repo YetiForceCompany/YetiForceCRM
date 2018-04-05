@@ -10,16 +10,16 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="detailViewInfo">
-		<table class="table table-bordered equalSplit" style="table-layout:fixed">
+	<div class="tpl-TooltipContents" data-js="container">
+		<table class="table table-bordered">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$RECORD_STRUCTURE['TOOLTIP_FIELDS'] name=fieldsCount}
 				{if $smarty.foreach.fieldsCount.index < 7}
-					<tr>
-						<td class="fieldLabel narrowWidthType" nowrap>
-							<label class="muted">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE)}</label>
+					<tr class="small">
+						<td>
+							<label>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE)}</label>
 						</td>
-						<td class="fieldValue narrowWidthType">
-							<span class="value">
+						<td>
+							<span>
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 							</span>
 						</td>

@@ -10,12 +10,12 @@
  * ********************************************************************************** */
 define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
-require 'include/RequirementsValidation.php';
-require 'include/main/WebUI.php';
+require __DIR__ . '/include/RequirementsValidation.php';
+require __DIR__ . '/include/main/WebUI.php';
 
 $dbconfig = AppConfig::main('dbconfig');
 if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
-    header('Location:install/Install.php');
+	header('Location:install/Install.php');
 }
 
 \App\Config::$startTime = microtime(true);

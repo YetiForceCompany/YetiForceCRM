@@ -40,7 +40,7 @@ class Owner
 		$instance = \Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
-			$instance->moduleName = $moduleName != false ? $moduleName : \App\Request::_get('module');
+			$instance->moduleName = $moduleName ?: \App\Request::_get('module');
 			$instance->currentUser = $currentUser;
 			\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
@@ -277,18 +277,20 @@ class Owner
 	/**
 	 * Function returns the user key in user array.
 	 *
-	 * @param $addBlank -- boolean:: Type boolean
-	 * @param $status -- user status:: Type string
-	 * @param $assignedUser -- user id:: Type string or array
-	 * @param $private -- sharing type:: Type string
-	 * @param $onlyAdmin -- show only admin users:: Type boolean
-	 * @returns $users -- user array:: Type array
+	 * @param bool   $addBlank
+	 * @param string $status       User status
+	 * @param string $assignedUser User id
+	 * @param string $private      Sharing type
+	 * @param bool   $onlyAdmin    Show only admin users
+	 * @param bool   $roles
+	 *
+	 * @return array
 	 */
 	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false, $roles = false)
 	{
 		\App\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
-		$tempResult = $this->initUsers($status, $assignedUser, $private);
+		$tempResult = $this->initUsers($status, $assignedUser, $private, $roles);
 
 		if (!is_array($tempResult)) {
 			return [];

@@ -45,7 +45,7 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 	registerForm: function () {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
-		container.submit(function (event) {
+		container.on('submit', function (event) {
 			event.preventDefault();
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {

@@ -31,13 +31,13 @@
 								*******************
 								<div class="float-right">
 									<button class="btn btn-primary btn-sm clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{\App\Encryption::getInstance()->decrypt($SERVER['api_key'])}">
-										<span class="fas fa-copy cursorPointer"></span>
+										<span class="fas fa-copy u-cursor-pointer"></span>
 									</button>
 									<button class="btn btn-primary btn-sm edit ml-2">
-										<span class="fas fa-edit cursorPointer"></span>
+										<span class="fas fa-edit u-cursor-pointer"></span>
 									</button>
 									<button class="btn btn-danger btn-sm ml-2 remove">
-										<span class="fas fa-trash-alt cursorPointer"></span>
+										<span class="fas fa-trash-alt u-cursor-pointer"></span>
 									</button>
 								</div>
 							</div>

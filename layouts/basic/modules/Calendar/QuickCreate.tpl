@@ -18,37 +18,30 @@
 		<div class="modal-dialog modal-full mx-auto">
             <div class="modal-content">
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header">
-						<div class="w-100">
-							<div class="col-12 col-md-6 col-lg-6 float-left d-flex justify-content-start justify-content-sm-start justify-content-md-start justify-content-xl-start px-0 mt-2">
-								<div class="modal-title form-row d-flex justify-content-center justify-content-sm-start justify-content-md-start"> 
-									<span class="pl-2 mr-1 d-flex justify-content-center justify-content-sm-start justify-content-md-start">
-										{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
-									</span>
-									<span class="font-weight-bold d-flex justify-content-center justify-content-sm-start justify-content-md-start">
-										{\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}
-									</span>
-								</div>
-							</div>
-							{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
-							<div class="col-12 col-md-6 col-lg-6 float-right d-flex justify-content-start justify-content-sm-start justify-content-md-end px-0">
-								<div class="px-0 quickCreateActions float-right">
-									{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
-										&nbsp;&nbsp;
-									{/foreach}
-									{if $MODULE_NAME eq 'Calendar'}
-										{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
-									{else}
-										{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
-									{/if}
-									<button class="btn btn-light border goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-									<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-									<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
-								</div>
-							</div>
+					<div class="modal-header d-flex justify-content-between pb-1">
+						<div>
+							<h5 class="modal-title">
+								<span class="fas fa-plus mr-1"></span>
+								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
+								<span class="userIcon-{$MODULE} mx-1"></span>
+								<p class="textTransform"><strong>{\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</strong></p>
+							</h5>
 						</div>
-						<div class="clearfix"></div>
+						<div>
+							{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
+							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
+								&nbsp;&nbsp;
+							{/foreach}
+							{if $MODULE_NAME eq 'Calendar'}
+								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
+							{else}
+								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
+							{/if}
+							<button class="btn btn-outline-secondary goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+							<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+						</div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />

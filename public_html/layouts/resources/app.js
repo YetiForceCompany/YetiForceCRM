@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+App = {};
 app = {
 	/**
 	 * variable stores client side language strings
@@ -14,7 +15,7 @@ app = {
 	languageString: [],
 	cacheParams: [],
 	event: new function () {
-		this.el = jQuery({});
+		this.el = $({});
 		this.trigger = function () {
 			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
 		}
@@ -65,13 +66,13 @@ app = {
 	 * Function to get language
 	 */
 	getLanguage: function () {
-		return jQuery('body').data('language');
+		return $('body').data('language');
 	},
 	/**
 	 * Function to get path to layout
 	 */
 	getLayoutPath: function () {
-		return jQuery('body').data('layoutpath');
+		return $('body').data('layoutpath');
 	},
 	/**
 	 * Function to get page title
@@ -90,330 +91,11 @@ app = {
 	 * @returns jQuery object
 	 */
 	getContentsContainer: function () {
-		return jQuery('.bodyContents');
-	},
-	/**
-	 * Function which will convert ui of select boxes.
-	 * @params parent - select element
-	 * @params view - select2
-	 * @params viewParams - select2 params
-	 * @returns jquery object list which represents changed select elements
-	 */
-	changeSelectElementView: function (parent, view, viewParams) {
-		var thisInstance = this;
-		var selectElement = jQuery();
-		if (typeof parent == 'undefined') {
-			parent = jQuery('body');
-		}
-		//If view is select2, This will convert the ui of select boxes to select2 elements.
-		if (view == 'select2') {
-			return app.showSelect2ElementView(parent, viewParams);
-		}
-		//If view is selectize, This will convert the ui of select boxes to selectize elements.
-		if (view == 'selectize') {
-			return app.showSelectizeElementView(parent, viewParams);
-		}
-		selectElement = jQuery('.chzn-select', parent);
-		//parent itself is the element
-		if (parent.is('select.chzn-select')) {
-			selectElement = parent;
-		}
-
-		// generate random ID
-		selectElement.each(function () {
-			if ($(this).prop("id").length == 0) {
-				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
-			}
-		});
-
-		//fix for multiselect error prompt hide when validation is success
-		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
-			jQuery(e.currentTarget).trigger('focusout');
-		});
-
-		var params = {
-			no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
-		};
-
-		var moduleName = app.getModuleName();
-		if (selectElement.filter('[multiple]') && moduleName != 'Install') {
-			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-		}
-		if (moduleName != 'Install') {
-			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
-		}
-		selectElement.chosen(params);
-
-		selectElement.each(function () {
-			var select = $(this);
-			// hide selected items in the chosen instance when item is hidden.
-			if (select.hasClass('hideSelected')) {
-				var ns = [];
-				select.find('optgroup,option').each(function (n, e) {
-					if (jQuery(this).hasClass('d-none')) {
-						ns.push(n);
-					}
-				});
-				if (ns.length) {
-					select.next().find('.search-choice-close').each(function (n, e) {
-						var element = jQuery(this);
-						var index = element.data('option-array-index');
-						if (jQuery.inArray(index, ns) != -1) {
-							element.closest('li').remove();
-						}
-					})
-				}
-			}
-			if (select.attr('readonly') == 'readonly') {
-				select.on('chosen:updated', function () {
-					if (select.attr('readonly')) {
-						var wasDisabled = select.is(':disabled');
-						var selectData = select.data('chosen');
-						select.attr('disabled', 'disabled');
-						if (typeof selectData == 'object') {
-							selectData.search_field_disabled();
-						}
-						if (wasDisabled) {
-							select.attr('disabled', 'disabled');
-						} else {
-							select.removeAttr('disabled');
-						}
-					}
-				});
-				select.trigger('chosen:updated');
-			}
-		});
-
-		// Improve the display of default text (placeholder)
-		var chosenSelectConainer = jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
-		return chosenSelectConainer;
-	},
-	/**
-	 * Function to destroy the chosen element and get back the basic select Element
-	 */
-	destroyChosenElement: function (parent) {
-		var selectElement = jQuery();
-		if (typeof parent == 'undefined') {
-			parent = jQuery('body');
-		}
-
-		selectElement = jQuery('.chzn-select', parent);
-		//parent itself is the element
-		if (parent.is('select.chzn-select')) {
-			selectElement = parent;
-		}
-
-		selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
-
-		return selectElement;
-
-	},
-	/**
-	 * Function to destroy the selectize element
-	 */
-	destroySelectizeElement: function (parent) {
-		var selectElements = jQuery();
-		if (typeof parent == 'undefined') {
-			parent = jQuery('body');
-		}
-		selectElements = jQuery('.selectized', parent);
-		//parent itself is the element
-		if (parent.is('select.selectized')) {
-			selectElements = parent;
-		}
-		selectElements.each(function () {
-			$(this)[0].selectize.destroy();
-		});
-	},
-	/**
-	 * Function which will show the select2 element for select boxes . This will use select2 library
-	 */
-	showSelect2ElementView: function (selectElement, params) {
-		if (typeof params == 'undefined') {
-			params = {};
-		}
-
-		var data = selectElement.data();
-		if (data != null) {
-			params = jQuery.extend(data, params);
-		}
-		params.language = {};
-		params.theme = "bootstrap4";
-		params.width = "100%";
-		params.language.noResults = function (msn) {
-			return app.vtranslate('JS_NO_RESULTS_FOUND');
-		};
-
-		// Sort DOM nodes alphabetically in select box.
-		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
-			jQuery('optgroup', selectElement).each(function () {
-				var optgroup = jQuery(this);
-				var options = optgroup.children().toArray().sort(function (a, b) {
-					var aText = jQuery(a).text();
-					var bText = jQuery(b).text();
-					return aText < bText ? 1 : -1;
-				});
-				jQuery.each(options, function (i, v) {
-					optgroup.prepend(v);
-				});
-			});
-			delete params['customSortOptGroup'];
-		}
-
-		//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
-		//then we should send our custom function for formatSelectionTooBig
-		if (typeof params.maximumSelectionLength != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
-			var limit = params.maximumSelectionLength;
-			//custom function which will return the maximum selection size exceeds message.
-			var formatSelectionExceeds = function (limit) {
-				return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
-			}
-			params.language.maximumSelected = formatSelectionExceeds;
-		}
-		if (typeof selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
-			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
-		} else if (!params.placeholder) {
-			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
-		}
-		if (typeof params.templateResult === 'undefined') {
-			params.templateResult = function (data, container) {
-				if (data.element && data.element.className) {
-					$(container).addClass(data.element.className);
-				}
-				if (typeof data.name == 'undefined') {
-					return data.text;
-				}
-				if (data.type == 'optgroup') {
-					return '<strong>' + data.name + '</strong>';
-				} else {
-					return '<span>' + data.name + '</span>';
-				}
-			};
-		}
-		if (typeof params.templateSelection === 'undefined') {
-			params.templateSelection = function (data, container) {
-				if (data.element && data.element.className) {
-					$(container).addClass(data.element.className);
-				}
-				if (data.text === '') {
-					return data.name;
-				}
-				return data.text;
-			};
-		}
-		if (selectElement.data('ajaxSearch') === 1) {
-			params.tags = false;
-			params.language.searching = function () {
-				return app.vtranslate('JS_SEARCHING');
-			}
-			params.language.inputTooShort = function (args) {
-				var remainingChars = args.minimum - args.input.length;
-				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
-			}
-			params.language.errorLoading = function () {
-				return app.vtranslate('JS_NO_RESULTS_FOUND');
-			}
-			params.placeholder = '';
-			params.ajax = {
-				url: selectElement.data('ajaxUrl'),
-				dataType: 'json',
-				delay: 250,
-				data: function (params) {
-					return {
-						value: params.term, // search term
-						page: params.page
-					};
-				},
-				processResults: function (data, params) {
-					var items = new Array;
-					if (data.success == true) {
-						selectElement.find('option').each(function () {
-							var currentTarget = $(this);
-							items.push({
-								label: currentTarget.html(),
-								value: currentTarget.val(),
-							});
-						});
-						items = items.concat(data.result.items);
-					}
-					return {
-						results: items,
-						pagination: {
-							more: false
-						}
-					};
-				},
-				cache: false
-			};
-			params.escapeMarkup = function (markup) {
-				if (markup !== 'undefined')
-					return markup;
-			};
-			var minimumInputLength = 3;
-			if (selectElement.data('minimumInput') != 'undefined') {
-				minimumInputLength = selectElement.data('minimumInput');
-			}
-			params.minimumInputLength = minimumInputLength;
-			params.templateResult = function (data) {
-				if (typeof data.name == 'undefined') {
-					return data.text;
-				}
-				if (data.type == 'optgroup') {
-					return '<strong>' + data.name + '</strong>';
-				} else {
-					return '<span>' + data.name + '</span>';
-				}
-			};
-			params.templateSelection = function (data, container) {
-				if (data.text === '') {
-					return data.name;
-				}
-				return data.text;
-			};
-		}
-		var selectElementNew = selectElement;
-		selectElement.each(function (e) {
-			var select = $(this);
-			if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
-				var selectNew = select.clone().addClass('d-none');
-				select.parent().append(selectNew);
-				select.prop('disabled', true);
-			}
-			if (select.hasClass('tags')) {
-				params.tags = true;
-			}
-			select.select2(params)
-				.on("select2:open", function (e) {
-					if (select.data('unselecting')) {
-						select.removeData('unselecting');
-						setTimeout(function (e) {
-							select.each(function () {
-								jQuery(this).select2('close');
-							});
-						}, 1);
-					}
-					var element = jQuery(e.currentTarget);
-					var instance = element.data('select2');
-					instance.$dropdown.css('z-index', 1000002);
-				}).on("select2:unselect", function (e) {
-				select.data('unselecting', true);
-			});
-		})
-		return selectElement;
-	},
-	/**
-	 * Function which will show the selectize element for select boxes . This will use selectize library
-	 */
-	showSelectizeElementView: function (selectElement, params) {
-		if (typeof params == 'undefined') {
-			params = {plugins: ['remove_button']};
-		}
-		selectElement.selectize(params);
-		return selectElement;
+		return $('.bodyContents');
 	},
 	hidePopover: function (element) {
 		if (typeof element == 'undefined') {
-			element = jQuery('body .popoverTooltip');
+			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
@@ -443,7 +125,7 @@ app = {
 			}
 			var data = element.data();
 			if (data != null) {
-				sparams = jQuery.extend(sparams, data);
+				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
 			element.on("mouseenter", function () {
@@ -477,7 +159,7 @@ app = {
 		var limit = params.maximumSelectionLength;
 		selectElement.on('change', function (e) {
 			var data = instance.data()
-			if (jQuery.isArray(data) && data.length >= limit) {
+			if ($.isArray(data) && data.length >= limit) {
 				instance.updateResults();
 			}
 		});
@@ -494,7 +176,7 @@ app = {
 			returnFormat = 'string';
 		}
 
-		parentElement = jQuery(parentElement);
+		parentElement = $(parentElement);
 
 		var encodedString = parentElement.children().serialize();
 		if (returnFormat == 'string') {
@@ -512,11 +194,54 @@ app = {
 		}
 		return keyValueMap;
 	},
+	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
+		const thisInstance = this;
+		let params = {
+			'show': true,
+		};
+		if ($('#backgroundClosingModal').val() !== 1) {
+			params.backdrop = 'static';
+		}
+		if (typeof paramsObject === 'object') {
+			container.css(paramsObject);
+			params = $.extend(params, paramsObject);
+		}
+		container.html(data);
+		if (container.find('.modal').hasClass('static')) {
+			params.backdrop = 'static';
+		}
+		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
+		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
+			$(document).off('focusin.bs.modal') // guard against infinite focus loop
+				.on('focusin.bs.modal', $.proxy(function (e) {
+					if ($(e.target).hasClass('select2-search__field')) {
+						return true;
+					}
+				}, this))
+		};
+		const modalContainer = container.find('.modal:first');
+		modalContainer.one('shown.bs.modal', function () {
+			if ($('.modal-backdrop').length > 1) {
+				$('.modal-backdrop:not(:first)').remove();
+			}
+			cb(modalContainer);
+			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
+			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
+			App.Fields.Date.register(modalContainer);
+			App.Fields.Text.registerCkEditor(modalContainer.find('.js-ckeditor'));
+		});
+		modalContainer.modal(params);
+		$('body').append(container);
+		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
+		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
+		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
+	},
 	showModalWindow: function (data, url, cb, paramsObject) {
 		var thisInstance = this;
 		var id = 'globalmodal';
 		//null is also an object
-		if (typeof data == 'object' && data != null && !(data instanceof jQuery)) {
+		if (typeof data == 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
 				id = data.id;
 			}
@@ -549,70 +274,16 @@ app = {
 			}
 		}
 
-		var container = jQuery('#' + id);
+		var container = $('#' + id);
 		if (container.length) {
 			container.remove();
 		}
-		container = jQuery('<div></div>');
+		container = $('<div></div>');
 		container.attr('id', id).addClass('modalContainer');
-
-		var showModalData = function (data) {
-			var params = {
-				'show': true,
-			};
-			if (jQuery('#backgroundClosingModal').val() != 1) {
-				params.backdrop = 'static';
-			}
-			if (typeof paramsObject == 'object') {
-				container.css(paramsObject);
-				params = jQuery.extend(params, paramsObject);
-			}
-			container.html(data);
-			if (container.find('.modal').hasClass('static')) {
-				params.backdrop = 'static';
-			}
-			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
-			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
-				$(document).off('focusin.bs.modal') // guard against infinite focus loop
-					.on('focusin.bs.modal', $.proxy(function (e) {
-						if ($(e.target).hasClass('select2-search__field')) {
-							return true;
-						}
-					}, this))
-			};
-			var modalContainer = container.find('.modal:first');
-			modalContainer.modal(params);
-			jQuery('body').append(container);
-			app.changeSelectElementView(modalContainer);
-			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
-			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
-			modalContainer.one('shown.bs.modal', function () {
-				var backdrop = jQuery('.modal-backdrop');
-				if (backdrop.length > 1) {
-					jQuery('.modal-backdrop:not(:first)').remove();
-				}
-				cb(modalContainer);
-
-				//register all select2 Elements
-				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
-				app.showSelectizeElementView(modalContainer.find('select.selectize'));
-				//register date fields event to show mini calendar on click of element
-				App.Fields.Date.register(modalContainer);
-			})
-		}
-		if (data) {
-			showModalData(data)
-
-		} else {
-			jQuery.get(url).then(function (response) {
-				showModalData(response);
-			});
-		}
 		container.one('hidden.bs.modal', function () {
 			container.remove();
-			var backdrop = jQuery('.modal-backdrop');
-			var modalContainers = jQuery('.modalContainer');
+			var backdrop = $('.modal-backdrop');
+			var modalContainers = $('.modalContainer');
 			if (modalContainers.length == 0 && backdrop.length) {
 				backdrop.remove();
 			}
@@ -620,6 +291,14 @@ app = {
 				$('body').addClass('modal-open');
 			}
 		});
+		if (data) {
+			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
+
+		} else {
+			$.get(url).then(function (response) {
+				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
+			});
+		}
 		return container;
 	},
 	/**
@@ -630,7 +309,7 @@ app = {
 		if (id == undefined) {
 			id = 'globalmodal';
 		}
-		var container = jQuery('#' + id);
+		var container = $('#' + id);
 		if (container.length <= 0) {
 			return;
 		}
@@ -640,8 +319,8 @@ app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = jQuery('.modal-backdrop:last');
-		var modalContainers = jQuery('.modalContainer');
+		var backdrop = $('.modal-backdrop:last');
+		var modalContainers = $('.modalContainer');
 		if (modalContainers.length == 0 && backdrop.length) {
 			backdrop.remove();
 		}
@@ -655,7 +334,7 @@ app = {
 			validationForm = true;
 		}
 		if (form.hasClass("sendByAjax")) {
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				var save = true;
 				e.preventDefault();
 				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
@@ -663,7 +342,7 @@ app = {
 					save = false;
 				}
 				if (save) {
-					var progressIndicatorElement = jQuery.progressIndicator({
+					var progressIndicatorElement = $.progressIndicator({
 						blockInfo: {'enabled': true}
 					});
 					var formData = form.serializeFormData();
@@ -719,7 +398,7 @@ app = {
 		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
-			var block = field.closest('.blockContainer');
+			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(":hidden")) {
 				block.find('.blockHeader').click();
 			}
@@ -735,7 +414,7 @@ app = {
 		if (formError.length > 0) {
 			var destination = formError.offset().top;
 			var resizedDestnation = destination - 105;
-			jQuery('html').animate({
+			$('html').animate({
 				scrollTop: resizedDestnation
 			}, 'slow');
 		}
@@ -837,106 +516,47 @@ app = {
 
 		return year + '-' + month + '-' + day;
 	},
-	registerDateRangePickerFields: function (parentElement, customParams) {
-		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
-		} else {
-			parentElement = jQuery(parentElement);
-		}
-		if (parentElement.hasClass('dateRangeField')) {
-			var elements = parentElement;
-		} else {
-			var elements = jQuery('.dateRangeField', parentElement);
-		}
-		if (elements.length == 0) {
-			return;
-		}
-		var language = jQuery('body').data('language');
-		let format = CONFIG.dateFormat.toUpperCase();
-		const elementDateFormat = elements.data('dateFormat');
-		if (typeof elementDateFormat !== 'undefined') {
-			format = elementDateFormat.toUpperCase();
-		}
-		var ranges = {};
-		ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
-		ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
-		ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
-		ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
-		ranges[app.vtranslate('JS_LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-		ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [moment().subtract(3, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-		ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [moment().subtract(6, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-		if ($.fn.datepicker.dates[language] == undefined) {
-			var langCodes = Object.keys($.fn.datepicker.dates);
-			language = langCodes[0];
-		}
-		var params = {
-			autoUpdateInput: false,
-			autoApply: true,
-			ranges: ranges,
-			opens: "left",
-			locale: {
-				separator: ',',
-				format: format,
-				customRangeLabel: app.vtranslate('JS_CUSTOM'),
-				daysOfWeek: $.fn.datepicker.dates[language].daysMin,
-				monthNames: $.fn.datepicker.dates[language].months,
-				firstDay: $.fn.datepicker.dates[language].weekStart
-			},
-		};
-		if (typeof customParams != 'undefined') {
-			params = jQuery.extend(params, customParams);
-		}
-		elements.each(function (index, element) {
-			element = $(element);
-			element.daterangepicker(params);
-			element.on('apply.daterangepicker', function (ev, picker) {
-				$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-			});
-		});
-
-	},
 	registerEventForDateFields: function (parentElement) {
 		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
+			parentElement = $('body');
 		}
 
-		parentElement = jQuery(parentElement);
+		parentElement = $(parentElement);
 
 		if (parentElement.hasClass('dateField')) {
 			var element = parentElement;
 		} else {
-			var element = jQuery('.dateField', parentElement);
+			var element = $('.dateField', parentElement);
 		}
 		element.datepicker({'autoclose': true}).on('changeDate', function (ev) {
-			var currentElement = jQuery(ev.currentTarget);
+			var currentElement = $(ev.currentTarget);
 			var dateFormat = currentElement.data('dateFormat').toUpperCase();
-			var date = jQuery.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
+			var date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 			currentElement.val(date);
 		});
 	},
 	registerEventForClockPicker: function (object) {
+		let elementClockBtn, formatTime;
 		if (typeof object === 'undefined') {
-			var elementClockBtn = $('.clockPicker');
-			var formatTime = CONFIG.hourFormat;
+			elementClockBtn = $('.clockPicker');
+			formatTime = CONFIG.hourFormat;
 		} else {
 			elementClockBtn = object;
-			var formatTime = elementClockBtn.data('format');
+			formatTime = elementClockBtn.data('format');
 		}
-		formatTime = formatTime == 12 ? true : false;
-		var params = {
+		formatTime = formatTime === 12 ? true : false;
+		let params = {
 			placement: 'bottom',
 			autoclose: true,
 			twelvehour: formatTime,
 			minutestep: 5,
-			ampmSubmit: false,
+			ampmSubmit: false
 		};
-
-		var parentTimeElem = elementClockBtn.closest('.time');
-		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
-			var elem = jQuery(e.currentTarget);
+		$('.js-clock__btn').on('click', (e) => {
+			let elem = $(e.currentTarget);
 			e.stopPropagation();
-			var tempElement = elem.closest('.time').find('input.clockPicker');
-			if (tempElement.attr('disabled') != 'disabled') {
+			let tempElement = elem.closest('.time').find('input.clockPicker');
+			if (tempElement.attr('disabled') !== 'disabled') {
 				tempElement.clockpicker('show');
 			}
 		});
@@ -980,7 +600,7 @@ app = {
 	destroyTimeFields: function (container) {
 
 		if (typeof cotainer == 'undefined') {
-			container = jQuery('body');
+			container = $('body');
 		}
 
 		if (container.hasClass('timepicker-default')) {
@@ -999,7 +619,7 @@ app = {
 	getChosenElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
 		var chosenEleId = selectId + "_chosen";
-		return jQuery('#' + chosenEleId);
+		return $('#' + chosenEleId);
 	},
 	/**
 	 * Function to get the select2 element from the raw select element
@@ -1010,7 +630,7 @@ app = {
 		var selectId = selectElement.attr('id');
 		//since select2 will add s2id_ to the id of select element
 		var select2EleId = 'select2-' + selectId + '-container';
-		return jQuery('#' + select2EleId).closest('.select2-container');
+		return $('#' + select2EleId).closest('.select2-container');
 	},
 	/**
 	 * Function to get the select element from the chosen element
@@ -1021,16 +641,16 @@ app = {
 		var chosenId = chosenElement.attr('id');
 		var selectEleIdArr = chosenId.split('_chosen');
 		var selectEleId = selectEleIdArr['0'];
-		return jQuery('#' + selectEleId);
+		return $('#' + selectEleId);
 	},
 	/**
 	 * Function to set with of the element to parent width
 	 * @params : jQuery element for which the action to take place
 	 */
 	setInheritWidth: function (elements) {
-		jQuery(elements).each(function (index, element) {
-			var parentWidth = jQuery(element).parent().width();
-			jQuery(element).width(parentWidth);
+		$(elements).each(function (index, element) {
+			var parentWidth = $(element).parent().width();
+			$(element).width(parentWidth);
 		});
 	},
 	showNewScrollbar: function (element, options) {
@@ -1097,7 +717,7 @@ app = {
 			}
 		}
 		if (typeof options !== 'undefined')
-			var params = jQuery.extend(params, options);
+			var params = $.extend(params, options);
 		return element.mCustomScrollbar(params);
 	},
 	/**
@@ -1125,18 +745,18 @@ app = {
 	},
 	cacheGet: function (key, defvalue) {
 		key = this.cacheNSKey(key);
-		return jQuery.jStorage.get(key, defvalue);
+		return $.jStorage.get(key, defvalue);
 	},
 	cacheSet: function (key, value, ttl) {
 		key = this.cacheNSKey(key);
-		jQuery.jStorage.set(key, value);
+		$.jStorage.set(key, value);
 		if (ttl) {
-			jQuery.jStorage.setTTL(key, ttl);
+			$.jStorage.setTTL(key, ttl);
 		}
 	},
 	cacheClear: function (key) {
 		key = this.cacheNSKey(key);
-		return jQuery.jStorage.deleteKey(key);
+		return $.jStorage.deleteKey(key);
 	},
 	moduleCacheSet: function (key, value, ttl) {
 		if (ttl == undefined) {
@@ -1184,7 +804,7 @@ app = {
 	},
 	htmlEncode: function (value) {
 		if (value) {
-			return jQuery('<div />').text(value).html();
+			return $('<div />').text(value).html();
 		} else {
 			return '';
 		}
@@ -1202,8 +822,8 @@ app = {
 	 */
 	placeAtCenter: function (element) {
 		element.css("position", "absolute");
-		element.css("top", ((jQuery(window).height() - element.outerHeight()) / 2) + jQuery(window).scrollTop() + "px");
-		element.css("left", ((jQuery(window).width() - element.outerWidth()) / 2) + jQuery(window).scrollLeft() + "px");
+		element.css("top", (($(window).height() - element.outerHeight()) / 2) + $(window).scrollTop() + "px");
+		element.css("left", (($(window).width() - element.outerWidth()) / 2) + $(window).scrollLeft() + "px");
 	},
 	getvalidationEngineOptions: function (select2Status) {
 		return Object.assign({}, app.validationEngineOptions);
@@ -1213,20 +833,20 @@ app = {
 	 * This can help in re-registering the event handlers (which was done during ready event).
 	 */
 	notifyPostAjaxReady: function () {
-		jQuery(document).trigger('postajaxready');
+		$(document).trigger('postajaxready');
 	},
 	/**
 	 * Listen to xready notiications.
 	 */
 	listenPostAjaxReady: function (callback) {
-		jQuery(document).on('postajaxready', callback);
+		$(document).on('postajaxready', callback);
 	},
 	/**
 	 * Form function handlers
 	 */
 	setFormValues: function (kv) {
 		for (var k in kv) {
-			jQuery(k).val(kv[k]);
+			$(k).val(kv[k]);
 		}
 	},
 	setRTEValues: function (kv) {
@@ -1251,7 +871,7 @@ app = {
 		if (typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = moduleName + "_" + view + "_Js";
 		}
-		var extendModules = jQuery('#extendModules').val();
+		var extendModules = $('#extendModules').val();
 		if (typeof window[moduleClassName] == 'undefined' && extendModules != undefined) {
 			moduleClassName = extendModules + "_" + view + "_Js";
 		}
@@ -1271,7 +891,7 @@ app = {
 	 * Function to decode the encoded htmlentities values
 	 */
 	getDecodedValue: function (value) {
-		return jQuery('<div></div>').html(value).text();
+		return $('<div></div>').html(value).text();
 	},
 	updateRowHeight: function () {
 		var rowType = CONFIG.rowHeight;
@@ -1298,7 +918,7 @@ app = {
 				'field': 'rowheight'
 			};
 			AppConnector.request(params).then(function () {
-				jQuery(rowType).val(serverWidth);
+				$(rowType).val(serverWidth);
 			});
 		}
 	},
@@ -1365,7 +985,7 @@ app = {
 		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
 	},
 	saveAjax: function (mode, param, addToParams) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -1396,12 +1016,6 @@ app = {
 		selectElement.bootstrapSwitch(params);
 		return selectElement;
 	},
-	generateRandomChar: function () {
-		var chars, newchar, rand;
-		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
-		rand = Math.floor(Math.random() * chars.length);
-		return newchar = chars.substring(rand, rand + 1);
-	},
 	getMainParams: function (param, json) {
 		if (param in CONFIG) {
 			return CONFIG[param];
@@ -1413,7 +1027,7 @@ app = {
 		var value = app.cacheParams[param];
 		if (json) {
 			if (value != '') {
-				value = $.parseJSON(value);
+				value = JSON.parse(value);
 			} else {
 				value = [];
 			}
@@ -1481,15 +1095,15 @@ app = {
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
-			container = jQuery('body');
+			container = $('body');
 		}
 		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 			e.preventDefault();
-			var currentElement = jQuery(e.currentTarget);
+			var currentElement = $(e.currentTarget);
 			var url = currentElement.data('url');
 
 			if (typeof url != 'undefined') {
-				if (currentElement.hasClass('popoverTooltip')) {
+				if (currentElement.hasClass('js-popover-tooltip')) {
 					currentElement.popover('hide');
 				}
 				if (currentElement.hasClass('disabledOnClick')) {
@@ -1541,13 +1155,13 @@ app = {
 		}
 	},
 	registerSticky: function () {
-		var elements = jQuery('.stick');
+		var elements = $('.stick');
 		elements.each(function () {
-			var currentElement = jQuery(this);
+			var currentElement = $(this);
 			var position = currentElement.data('position');
 			if (position == 'top') {
 				var offsetTop = currentElement.offset().top - 50;
-				jQuery('.mainBody').scroll(function () {
+				$('.mainBody').on('scroll', function () {
 					if ($(this).scrollTop() > offsetTop)
 						currentElement.css({
 							'position': 'fixed',
@@ -1563,8 +1177,8 @@ app = {
 				});
 			}
 			if (position == 'bottom') {
-				var offsetTop = currentElement.offset().top - jQuery(window).height();
-				jQuery('.mainBody').scroll(function () {
+				var offsetTop = currentElement.offset().top - $(window).height();
+				$('.mainBody').on('scroll', function () {
 					if ($(this).scrollTop() < offsetTop)
 						currentElement.css({
 							'position': 'fixed',
@@ -1583,7 +1197,7 @@ app = {
 	},
 	registerMoreContent: function (container) {
 		container.on('click', function (e) {
-			var btn = jQuery(e.currentTarget);
+			var btn = $(e.currentTarget);
 			var content = btn.closest('.moreContent');
 			content.find('.teaserContent').toggleClass('d-none');
 			content.find('.fullContent').toggleClass('d-none');
@@ -1598,15 +1212,22 @@ app = {
 		if (typeof percantage == 'undefined') {
 			percantage = 100;
 		}
-		return jQuery(window).height() * percantage / 100;
+		return $(window).height() * percantage / 100;
 	},
-	registerImageFullModal: function () {
-		$('body').on('click', '.imageFullModal', function (e) {
-			e.preventDefault();
-			var img = $(this).next().clone(true, true).addClass('modal-content img-fluid');
-			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">' + img.get(0).outerHTML + '</div></div>';
-			app.showModalWindow(html);
-		})
+	setCalendarHeight() {
+		const container = $('.baseContainer');
+		const paddingTop = 10;
+		if ($(window).width() > 993) {
+			let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+			new ResizeSensor(container.find('.contentsDiv'), () => {
+				calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+				$('#calendarview').fullCalendar('option', 'height', calendarH);
+				$('#calendarview').height(calendarH + 10); // without this line calendar scroll stop working
+			});
+			return calendarH;
+		} else if ($(window).width() < 993) {
+			return 'auto';
+		}
 	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({
@@ -1619,7 +1240,7 @@ app = {
 	showConfirmation: function (data, element) {
 		var params = {};
 		if (data) {
-			params = jQuery.extend(params, data);
+			params = $.extend(params, data);
 		}
 		if (element) {
 			element = $(element);
@@ -1635,12 +1256,13 @@ app = {
 		}
 		Vtiger_Helper_Js.showConfirmationBox(params).then(function () {
 			if (params.type == 'href') {
-				window.location.href = params.url;
+				AppConnector.request(params.url).then(function (data) {
+					window.location.href = data.result;
+				});
 			} else if (params.type == 'reloadTab') {
 				AppConnector.request(params.url).then(function (data) {
 					Vtiger_Detail_Js.getInstance().reloadTabContent();
 				});
-
 			}
 		});
 	},
@@ -1668,19 +1290,13 @@ app = {
 		return result.trim();
 	}
 }
-jQuery(document).ready(function () {
-	app.changeSelectElementView();
-	//register all select2 Elements
-	jQuery('body').find('select.select2').each(function (e) {
-		app.showSelect2ElementView($(this));
-	});
-	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
-	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
-	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
+$(document).ready(function () {
+	App.Fields.Picklist.changeSelectElementView();
+	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.showBtnSwitch($('body').find('.switchBtn'));
 	app.registerSticky();
-	app.registerMoreContent(jQuery('body').find('button.moreBtn'));
+	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
-	app.registerImageFullModal();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
@@ -1689,7 +1305,7 @@ jQuery(document).ready(function () {
 	}
 	// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
-		jQuery('textarea').resizable();
+		$('textarea').resizable();
 	}
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
@@ -1746,8 +1362,7 @@ jQuery(document).ready(function () {
 	}
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
-		return (obj.textContent || obj.innerText || jQuery(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
 	}
-})(jQuery);
-jQuery.migrateMute = true;
-App = {}
+	bootbox.setLocale(CONFIG.langKey);
+})($);

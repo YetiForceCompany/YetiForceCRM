@@ -63,7 +63,6 @@ $PERFORMANCE_CONFIG = [
 	// enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php
 	'LOAD_CUSTOM_FILES' => false,
-	'LOAD_CUSTOM_LANGUAGE' => true,
 	//Parameter that determines whether admin panel should be available to admin by default
 	'SHOW_ADMIN_PANEL' => false,
 	// Display administrators in the list of users (Assigned To)
@@ -72,14 +71,12 @@ $PERFORMANCE_CONFIG = [
 	'GLOBAL_SEARCH' => true,
 	//Maximum MultiImage icon view in lists
 	'MAX_MULTIIMAGE_VIEW' => 5,
-	//View MultiImage as icon or names
-	'ICON_MULTIIMAGE_VIEW' => true,
 	//Browsing history working if true
 	'BROWSING_HISTORY_WORKING' => true,
 	//Number of browsing history steps
 	'BROWSING_HISTORY_VIEW_LIMIT' => 20,
 	//Days after browsing history has deleted
 	'BROWSING_HISTORY_DELETE_AFTER' => 7,
-	//Session handler name, handler dir: vendor/yetiforce/Session/
+	//Session handler name, handler dir: app/Session/
 	'SESSION_DRIVER' => 'File',
 ];

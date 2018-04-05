@@ -45,12 +45,12 @@ class Vtiger_State_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE', 406);
 		}
 		$this->record->changeState($request->getByType('state'));
+		$response = new Vtiger_Response();
 		if ($request->getByType('sourceView') === 'List') {
-			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]]);
-			$response->emit();
 		} else {
-			header("Location: index.php?module={$request->getModule()}&view=Detail&record={$request->getInteger('record')}");
+			$response->setResult("index.php?module={$request->getModule()}&view=Detail&record={$request->getInteger('record')}");
 		}
+		$response->emit();
 	}
 }

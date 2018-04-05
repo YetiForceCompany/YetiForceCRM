@@ -41,16 +41,14 @@ class OSSMail_AddressBook_Model
 			if (!empty($users)) {
 				$users = explode(',', ltrim($users, ','));
 				foreach ($users as &$user) {
-					$mails[$user] .= "'" . addslashes($name) . " <$email>',";
+					$mails[$user][] = "$name <$email>";
 				}
 			}
 		}
 		$dataReader->close();
-		$fstart = '<?php $bookMails = [';
-		$fend = '];';
-
+		$fstart = '<?php $bookMails =';
 		foreach ($mails as $user => $file) {
-			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . $file . $fend);
+			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . App\Utils::varExport($file) . ';');
 		}
 	}
 

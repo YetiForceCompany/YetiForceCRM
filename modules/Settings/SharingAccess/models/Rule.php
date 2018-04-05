@@ -267,16 +267,13 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	 */
 	public function getSourceDetailViewUrl()
 	{
-		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-
 		$sourceMember = $this->getSourceMember()->getId();
 		$sourceMemberDetails = explode(':', $sourceMember);
-
-		if ($sourceMemberDetails[0] == 'Groups') {
+		if ($sourceMemberDetails[0] === 'Groups') {
 			return 'index.php?parent=Settings&module=Groups&view=Detail&record=' . $sourceMemberDetails[1];
-		} elseif ($sourceMemberDetails[0] == 'Roles') {
+		} elseif ($sourceMemberDetails[0] === 'Roles') {
 			return 'index.php?parent=Settings&module=Roles&view=Edit&record=' . $sourceMemberDetails[1];
-		} elseif ($sourceMemberDetails[0] == 'RoleAndSubordinates') {
+		} elseif ($sourceMemberDetails[0] === 'RoleAndSubordinates') {
 			return 'index.php?parent=Settings&module=Roles&view=Edit&record=' . $sourceMemberDetails[1];
 		}
 	}

@@ -3,7 +3,7 @@
 jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	registerGenetateButton: function (container) {
 		var thisInstance = this;
-		container.find('button.genetateButton').on('click', function (e) {
+		container.find('button.js-genetate-button').on('click', function (e) {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				position: 'html',
@@ -56,7 +56,7 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	},
 	registerEvents: function () {
 		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerGenetateButton(container);
 	}
 

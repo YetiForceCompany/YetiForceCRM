@@ -23,6 +23,7 @@
 		"add": "^2.0.6",
 		"animate.css": "^3.6.1",
 		"block-ui": "^2.70.1",
+		"blueimp-file-upload": "^9.21.0",
 		"bootbox": "^4.4.0",
 		"bootstrap": "^4.0.0",
 		"bootstrap-chosen": "^1.4.2",
@@ -31,7 +32,7 @@
 		"bootstrap-daterangepicker": "^2.1.30",
 		"bootstrap-switch": "^3.3.4",
 		"chart.js": "^2.7.2",
-		"chartjs-plugin-datalabels": "^0.2.0",
+		"chartjs-plugin-datalabels": "^0.3.0",
 		"chartjs-plugin-funnel": "^1.1.2",
 		"chartjs-plugin-zoom": "^0.6.3",
 		"chosen-js": "^1.8.2",
@@ -78,7 +79,5 @@
 		"url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
 	},
 	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
-	"devDependencies": {
-		"jquery-migrate": ">3.0.0"
-	}
+	"devDependencies": {}
 }

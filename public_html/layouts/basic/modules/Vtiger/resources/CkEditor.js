@@ -7,83 +7,88 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-jQuery.Class("Vtiger_CkEditor_Js", {}, {
+class Vtiger_CkEditor_Js {
+
+	constructor(element, params) {
+		if (typeof element !== 'undefined') {
+			this.loadCkEditor(element, params);
+		}
+	}
 
 	/*
 	 *Function to set the textArea element 
 	 */
-	setElement: function (element) {
-		this.element = element;
+	setElement(element) {
+		this.element = $(element);
 		return this;
-	},
+	}
 
 	/*
 	 *Function to get the textArea element
 	 */
-	getElement: function () {
+	getElement() {
 		return this.element;
-	},
+	}
 
 	/*
 	 * Function to return Element's id atrribute value
 	 */
-	getElementId: function () {
-		var element = this.getElement();
-		return element.attr('id');
-	},
+	getElementId() {
+		return this.getElement().attr('id');
+	}
+
+
 	/*
 	 * Function to get the instance of ckeditor
 	 */
 
-	getCkEditorInstanceFromName: function () {
-		var elementName = this.getElementId();
-		return CKEDITOR.instances[elementName];
-	},
+	getCkEditorInstanceFromName() {
+		return CKEDITOR.instances[this.getElementId()];
+	}
+
 
 	/***
 	 * Function to get the plain text
 	 */
-	getPlainText: function () {
-		var ckEditorInstnace = this.getCkEditorInstanceFromName();
-		return ckEditorInstnace.document.getBody().getText();
-	},
+	getPlainText() {
+		return this.getCkEditorInstanceFromName().document.getBody().getText();
+	}
+
+
 	/*
 	 * Function to load CkEditor
-	 * @params : element: element on which CkEditor has to be loaded, config: custom configurations for ckeditor
+	 * @param {HTMLElement|jQuery} element on which CkEditor has to be loaded
+	 * @param {Object} customConfig custom configurations for ckeditor
 	 */
-	loadCkEditor: function (element, customConfig) {
-
+	loadCkEditor(element, customConfig) {
+		element = $(element).get(0);// we want Dom HTMLElement not wprapped by jQuery - we will wrap this elsewhere
 		this.setElement(element);
-		var instance = this.getCkEditorInstanceFromName();
-		var elementName = this.getElementId();
-		var config = {
+		const instance = this.getCkEditorInstanceFromName();
+		let config = {
 			on: {
 				instanceReady: function (evt) {
-					var editor = evt.editor;
-					editor.on('blur', function () {
-						editor.updateElement();
+					evt.editor.on('blur', function () {
+						evt.editor.updateElement();
 					});
 				}
 			}
 		};
 
-		if (typeof customConfig != 'undefined') {
-			config = jQuery.extend(config, customConfig);
+		if (typeof customConfig !== 'undefined') {
+			config = $.extend(config, customConfig);
 		}
 		if (instance) {
 			CKEDITOR.remove(instance);
 		}
-		CKEDITOR.replace(elementName, config);
-	},
+		CKEDITOR.replace(element, config);
+	}
 
 	/*
 	 * Function to load contents in ckeditor textarea
 	 * @params : textArea Element,contents ;
 	 */
-	loadContentsInCkeditor: function (contents) {
-		var editor = this.getCkEditorInstanceFromName();
-		var editorData = editor.getData();
-		var replaced_text = editorData.replace(editorData, contents);
-		editor.setData(replaced_text);
+	loadContentsInCkeditor(contents) {
+		const editor = this.getCkEditorInstanceFromName();
+		editor.setData(editor.getData().replace(editorData, contents));
 	}
-});
+}

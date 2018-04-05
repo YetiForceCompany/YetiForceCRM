@@ -24,7 +24,7 @@
 									...
 								</a>
 								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
-									<li>
+									<li class="dropdown-item">
 										<div>
 											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{\App\Language::translate('LBL_PAGE')}</span></div>
 											<div class="col-md-3 recentComments">
@@ -58,7 +58,7 @@
 				</a>
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
-				<li class="page-item popoverTooltip" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
+				<li class="page-item js-popover-tooltip" data-js="popover" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
 					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}

@@ -347,6 +347,8 @@
 	"JS_PASSWORD_CHANGE_FAILED_1": "El cambio de contrase\u00f1a de usuario fall\u00f3 por ",
 	"JS_PASSWORD_CHANGE_FAILED_2": " ha fallado. La nueva contrase\u00f1a debe establecerse.",
 	"JS_PASSWORD_INCORRECT_OLD": "Se especific\u00f3 la contrase\u00f1a antigua incorrecta. Vuelva a introducir la informaci\u00f3n de contrase\u00f1a.",
-	"JS_REENTER_PASSWORDS": "Vuelve a introducir las contrase\u00f1as. Los valores de \\\"contrase\u00f1a nueva\\\" y \\\"confirmaci\u00f3n de contrase\u00f1a\\\" no coinciden."
+	"JS_REENTER_PASSWORDS": "Vuelve a introducir las contrase\u00f1as. Los valores de \\\"contrase\u00f1a nueva\\\" y \\\"confirmaci\u00f3n de contrase\u00f1a\\\" no coinciden.",
+	"JS_NEW_ACCESS_KEY_REQUESTED": "Enter new access key",
+	"JS_CHANGE_ACCESS_KEY_CONFIRMATION": "New access key was requested. Old access key must be replaced with a new one in all installed extensions. Do you want to continue?"
   }
 }

@@ -48,7 +48,7 @@
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
-					<div class="card js-toggle-panel row mx-0 blockContainer mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
+					<div class="card js-toggle-panel row mx-0 mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
 						<div class="row blockHeader card-header mx-0">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
@@ -56,8 +56,8 @@
 								{assign var=APIADDRESFIELD value=FALSE}
 							{/if}
 
-							<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}d-none{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<h4>{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h4>
 						</div>
 						<div class="col-md-12 px-0 card-body blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
@@ -81,7 +81,7 @@
 									<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row {else} w-100 {/if}">
 										{if $FIELD_MODEL->getUIType() neq "300"}
 											<div class="col-md-3 fieldLabel p-2 {$WIDTHTYPE}">
-												<label class="muted small font-weight-bold float-right mr-3">
+												<label class="u-text-small-bold float-right mr-3">
 													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>

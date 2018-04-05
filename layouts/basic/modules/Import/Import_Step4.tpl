@@ -72,7 +72,7 @@
 							</td>
 							<td class="cellLabel">
 								<input type="hidden" name="row_counter" value="{$_COUNTER}" />
-								<select name="{$PREFIX}mapped_fields" class="txtBox chzn-select form-control {if $PREFIX}inventory{/if}" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
+								<select name="{$PREFIX}mapped_fields" class="txtBox select2 form-control {if $PREFIX}inventory{/if}" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
 									<option value="">{\App\Language::translate('LBL_NONE', $FOR_MODULE)}</option>
 									{foreach key=BLOCK_NAME item=_FIELDS from=$TYPE_AVAILABLE_BLOCKS}
 										{assign var="TRANSLATED_BLOCK" value=\App\Language::translate($BLOCK_NAME, $FOR_MODULE)}
@@ -88,7 +88,7 @@
 									{/foreach}
 								</select>
 							</td>
-							<td class="cellLabel row" name="default_value_container">&nbsp;</td>
+							<td class="cellLabel form-row col-12 mx-0  border-top-1 border-bottom-0" name="default_value_container">&nbsp;</td>
 						</tr>
 					{/foreach}
 				{/foreach}

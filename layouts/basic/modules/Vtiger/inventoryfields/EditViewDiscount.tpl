@@ -6,7 +6,7 @@
 			<input type="text" name="discount{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" class="discount form-control form-control-sm" readonly="readonly" />
 			{if $DISCOUNTS_CONFIG['discounts'][0] != ''}
 				<input name="discountparam{$ROW_NO}" type="hidden" value="{\App\Purifier::encodeHtml($ITEM_DATA['discountparam'])}" class="discountParam" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
-				<span class="input-group-addon cursorPointer changeDiscount {if $ITEM_DATA['discountmode'] == 0}d-none{/if}">
+				<span class="input-group-addon u-cursor-pointer changeDiscount {if $ITEM_DATA['discountmode'] == 0}d-none{/if}">
 					<img src="{\App\Layout::getImagePath('Discount24.png')}" alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE)}" />
 				</span>
 			{/if}

@@ -69,7 +69,7 @@
 				{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 					{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
-					<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
+					<tr class="listViewEntries js-list__row" data-js="each" data-id='{$RELATED_RECORD->getId()}'
 						{if $RELATED_RECORD->isViewable()}
 							data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 						{/if}>
@@ -85,7 +85,7 @@
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap  {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
-									<a class="modCT_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
+									<a class="modCT_{$RELATED_MODULE_NAME} js-list__field" data-js="width" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 									</a>
 								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
@@ -108,7 +108,7 @@
 						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
 							<td class="medium" nowrap>
-								<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="fas fa-arrows-alt-v"></span></button>
+								<button type="button" class="btn btn-sm btn-info js-popover-tooltip showInventoryRow" data-js="popover" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="fas fa-arrows-alt-v"></span></button>
 							</td>
 						{/if}
 					</tr>
@@ -156,7 +156,7 @@
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}" >
 							{if !empty($HEADER_FIELD->isCalculateField())}
-								<button class="btn btn-sm btn-light popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
 									<span class="fas fa-signal"></span>
 								</button>
 								<span class="calculateValue"></span>

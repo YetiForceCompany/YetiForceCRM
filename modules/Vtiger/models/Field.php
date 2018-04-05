@@ -208,23 +208,32 @@ class Vtiger_Field_Model extends vtlib\Field
 				$fieldDataType = App\Cache::get('FieldDataType', $cacheName);
 			} else {
 				switch ($uiType) {
-					case 4: $fieldDataType = 'recordNumber';
+					case 4:
+						$fieldDataType = 'recordNumber';
 						break;
-					case 8: $fieldDataType = 'totalTime';
+					case 8:
+						$fieldDataType = 'totalTime';
 						break;
-					case 9: $fieldDataType = 'percentage';
+					case 9:
+						$fieldDataType = 'percentage';
 						break;
-					case 27: $fieldDataType = 'fileLocationType';
+					case 27:
+						$fieldDataType = 'fileLocationType';
 						break;
-					case 28: $fieldDataType = 'documentsFileUpload';
+					case 28:
+						$fieldDataType = 'documentsFileUpload';
 						break;
-					case 31: $fieldDataType = 'theme';
+					case 31:
+						$fieldDataType = 'theme';
 						break;
-					case 32: $fieldDataType = 'languages';
+					case 32:
+						$fieldDataType = 'languages';
 						break;
-					case 35: $fieldDataType = 'country';
+					case 35:
+						$fieldDataType = 'country';
 						break;
-					case 54: $fieldDataType = 'multiowner';
+					case 54:
+						$fieldDataType = 'multiowner';
 						break;
 					case 55:
 						if ($this->getName() === 'salutationtype') {
@@ -233,44 +242,63 @@ class Vtiger_Field_Model extends vtlib\Field
 							$fieldDataType = 'salutation';
 						}
 						break;
-					case 65: $fieldDataType = 'referenceExtend';
+					case 65:
+						$fieldDataType = 'referenceExtend';
 						break;
-					case 66: $fieldDataType = 'referenceProcess';
+					case 66:
+						$fieldDataType = 'referenceProcess';
 						break;
-					case 67: $fieldDataType = 'referenceLink';
+					case 67:
+						$fieldDataType = 'referenceLink';
 						break;
-					case 68: $fieldDataType = 'referenceSubProcess';
+					case 68:
+						$fieldDataType = 'referenceSubProcess';
 						break;
-					case 69: $fieldDataType = 'image';
+					case 69:
+						$fieldDataType = 'image';
 						break;
 					case 79:
-					case 80: $fieldDataType = 'datetime';
+					case 80:
+						$fieldDataType = 'datetime';
 						break;
-					case 98: $fieldDataType = 'userRole';
+					case 98:
+						$fieldDataType = 'userRole';
 						break;
-					case 99: $fieldDataType = 'password';
+					case 99:
+						$fieldDataType = 'password';
 						break;
-					case 115: $fieldDataType = 'picklist';
+					case 115:
+						$fieldDataType = 'picklist';
 						break;
-					case 117: $fieldDataType = 'currencyList';
+					case 117:
+						$fieldDataType = 'currencyList';
 						break;
-					case 120: $fieldDataType = 'sharedOwner';
+					case 120:
+						$fieldDataType = 'sharedOwner';
 						break;
-					case 301: $fieldDataType = 'modules';
+					case 301:
+						$fieldDataType = 'modules';
 						break;
-					case 302: $fieldDataType = 'tree';
+					case 302:
+						$fieldDataType = 'tree';
 						break;
-					case 303: $fieldDataType = 'taxes';
+					case 303:
+						$fieldDataType = 'taxes';
 						break;
-					case 304: $fieldDataType = 'inventoryLimit';
+					case 304:
+						$fieldDataType = 'inventoryLimit';
 						break;
-					case 305: $fieldDataType = 'multiReferenceValue';
+					case 305:
+						$fieldDataType = 'multiReferenceValue';
 						break;
-					case 308: $fieldDataType = 'rangeTime';
+					case 308:
+						$fieldDataType = 'rangeTime';
 						break;
-					case 309: $fieldDataType = 'categoryMultipicklist';
+					case 309:
+						$fieldDataType = 'categoryMultipicklist';
 						break;
-					case 311: $fieldDataType = 'multiImage';
+					case 311:
+						$fieldDataType = 'multiImage';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -279,23 +307,31 @@ class Vtiger_Field_Model extends vtlib\Field
 						} else {
 							$fieldType = explode('~', $this->get('typeofdata'));
 							switch ($fieldType[0]) {
-								case 'T': $fieldDataType = 'time';
+								case 'T':
+									$fieldDataType = 'time';
 									break;
-								case 'D': $fieldDataType = 'date';
+								case 'D':
+									$fieldDataType = 'date';
 									break;
-								case 'DT': $fieldDataType = 'datetime';
+								case 'DT':
+									$fieldDataType = 'datetime';
 									break;
-								case 'E': $fieldDataType = 'email';
+								case 'E':
+									$fieldDataType = 'email';
 									break;
 								case 'N':
-								case 'NN': $fieldDataType = 'double';
+								case 'NN':
+									$fieldDataType = 'double';
 									break;
-								case 'P': $fieldDataType = 'password';
+								case 'P':
+									$fieldDataType = 'password';
 									break;
-								case 'I': $fieldDataType = 'integer';
+								case 'I':
+									$fieldDataType = 'integer';
 									break;
 								case 'V':
-								default: $fieldDataType = 'string';
+								default:
+									$fieldDataType = 'string';
 									break;
 							}
 						}
@@ -875,8 +911,17 @@ class Vtiger_Field_Model extends vtlib\Field
 					}
 				}
 				break;
+			case 'multiImage':
+				$params = $this->getFieldParams();
+				$this->fieldInfo['limit'] = $params['limit'] ?: Vtiger_MultiImage_File::$defaultLimit;
+				$this->fieldInfo['formats'] = $params['formats'] ?: \App\Fields\File::$allowedFormats['image'];
+				break;
+			case 'image':
+				$params = $this->getFieldParams();
+				$this->fieldInfo['limit'] = $params['limit'] ?: Vtiger_Image_UIType::$defaultLimit;
+				$this->fieldInfo['formats'] = $params['formats'] ?: \App\Fields\File::$allowedFormats['image'];
+				break;
 		}
-
 		return $this->fieldInfo;
 	}
 
@@ -986,14 +1031,17 @@ class Vtiger_Field_Model extends vtlib\Field
 		$validator = [];
 		$fieldName = $this->getName();
 		switch ($fieldName) {
-			case 'birthday': $funcName = ['name' => 'lessThanToday'];
+			case 'birthday':
+				$funcName = ['name' => 'lessThanToday'];
 				array_push($validator, $funcName);
 				break;
-			case 'support_end_date': $funcName = ['name' => 'greaterThanDependentField',
+			case 'support_end_date':
+				$funcName = ['name' => 'greaterThanDependentField',
 					'params' => ['support_start_date'], ];
 				array_push($validator, $funcName);
 				break;
-			case 'support_start_date': $funcName = ['name' => 'lessThanDependentField',
+			case 'support_start_date':
+				$funcName = ['name' => 'lessThanDependentField',
 					'params' => ['support_end_date'], ];
 				array_push($validator, $funcName);
 				break;
@@ -1047,7 +1095,8 @@ class Vtiger_Field_Model extends vtlib\Field
 				array_push($validator, $funcName);
 				break;
 			//SRecurringOrders field sepecial validators
-			case 'end_period': $funcName1 = ['name' => 'greaterThanDependentField',
+			case 'end_period':
+				$funcName1 = ['name' => 'greaterThanDependentField',
 					'params' => ['start_period'], ];
 				array_push($validator, $funcName1);
 				$funcName2 = ['name' => 'lessThanDependentField',
@@ -1160,7 +1209,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams'),
-			], ['fieldid' => $this->get('id')])->execute();
+		], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 		}
@@ -1277,13 +1326,20 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $this;
 	}
 
+	/**
+	 * Get field params.
+	 *
+	 * @return array
+	 */
 	public function getFieldParams()
 	{
 		$data = \App\Json::decode($this->get('fieldparams'));
 		if (!is_array($data)) {
 			$data = $this->get('fieldparams');
+			if (empty($data)) {
+				return [];
+			}
 		}
-
 		return $data;
 	}
 

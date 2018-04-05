@@ -171,7 +171,7 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 	 * Function to register click event for drop-downs in fields list
 	 */
 	avoidDropDownClick: function (dropDownContainer) {
-		dropDownContainer.find('.dropdown-menu').click(function (e) {
+		dropDownContainer.find('.dropdown-menu').on('click', function (e) {
 			e.stopPropagation();
 		});
 	},
@@ -192,7 +192,7 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		var container = jQuery('#quickCreateEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="quickCreateEditorModules"]'), {dropdownCss: {'z-index': 0}});
+		App.Fields.Picklist.showSelect2ElementView(container.find('[name="quickCreateEditorModules"]'), {dropdownCss: {'z-index': 0}});
 
 		container.on('change', '[name="quickCreateEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);

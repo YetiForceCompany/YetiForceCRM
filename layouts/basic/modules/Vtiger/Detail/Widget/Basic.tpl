@@ -1,10 +1,10 @@
 {strip}
-	<div class="summaryWidgetContainer">
+	<div class="c-detail-widget c-detail-widget--general-info">
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
-			<div class="widget_header">
+			<div class="c-detail-widget__header">
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
-				<div class="row">
+				<div class="form-row">
 					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
@@ -21,7 +21,7 @@
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
 						</div>
 					{/if}
-					<div class="col float-right paddingBottom10">
+					<div class="col float-right py-1">
 						<div class="float-right">
 							<div class="btn-group">
 								{if $WIDGET['data']['viewtype'] eq 'Summary'}

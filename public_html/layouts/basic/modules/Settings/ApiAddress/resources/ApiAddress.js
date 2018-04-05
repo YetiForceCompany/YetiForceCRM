@@ -143,7 +143,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 
 		jQuery.get("index.php?module=ApiAddress&parent=Settings&view=Configuration", function (data) {
 			jQuery('.contentsDiv').html(data);
-			app.showSelect2ElementView(jQuery('.contentsDiv').find('select.select2'));
+			App.Fields.Picklist.showSelect2ElementView(jQuery('.contentsDiv').find('select.select2'));
 			progress.progressIndicator({'mode': 'hide'});
 			thisInstance.registerEvents();
 		});

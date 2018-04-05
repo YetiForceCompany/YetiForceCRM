@@ -47,8 +47,8 @@
 										</div>
 										<div class="col-md-2">
 											<span class="float-right">
-												<i class="cursorPointer fas fa-edit editWidget" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
-												&nbsp;&nbsp;<i class="cursorPointer fas fa-times removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
+												<i class="u-cursor-pointer fas fa-edit editWidget" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
+												&nbsp;&nbsp;<i class="u-cursor-pointer fas fa-times removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
 											</span>
 										</div>
 									</div>

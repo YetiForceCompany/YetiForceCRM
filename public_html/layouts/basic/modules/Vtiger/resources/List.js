@@ -60,7 +60,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			AppConnector.request(postData).then(function (response) {
 				app.showModalWindow(response, function (data) {
-					data.find('[name="saveButton"]').click(function (e) {
+					data.find('[name="saveButton"]').on('click', function (e) {
 						if (data.find('form').validationEngine('validate')) {
 							jQuery.extend(postData, {
 								field: data.find('#field').val(),
@@ -128,7 +128,7 @@ jQuery.Class("Vtiger_List_Js", {
 							}
 							app.showModalWindow(data, function (data) {
 								var selectElement = thisInstance.getRelatedModuleContainer();
-								app.changeSelectElementView(selectElement, 'select2');
+								App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
 								if (typeof callback == 'function') {
 									callback(data);
 								}
@@ -631,9 +631,9 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		var thisInstance = this;
-		app.showSelect2ElementView(container.find('select.select2'));
-		app.changeSelectElementView(container);
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
+		App.Fields.Picklist.changeSelectElementView(container);
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		thisInstance.registerListViewSpecialOptiopn();
 		var searchInstance = thisInstance.getListSearchInstance();
 		if (searchInstance !== false) {
@@ -1303,7 +1303,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerCheckBoxClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.delegate('.listViewEntriesCheckBox', 'click', function (e) {
+		listViewPageDiv.on('click', '.listViewEntriesCheckBox', function (e) {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
 			var elem = jQuery(e.currentTarget);
@@ -1334,7 +1334,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerSelectAllClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.delegate('#selectAllMsg', 'click', function () {
+		listViewPageDiv.on('click', '#selectAllMsg', function () {
 			jQuery('#selectAllMsgDiv').hide();
 			jQuery("#deSelectAllMsgDiv").show();
 			jQuery('#listViewEntriesMainCheckBox').prop('checked', true);
@@ -1350,7 +1350,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerDeselectAllClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.delegate('#deSelectAllMsg', 'click', function () {
+		listViewPageDiv.on('click', '#deSelectAllMsg', function () {
 			jQuery('#deSelectAllMsgDiv').hide();
 			jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
 			jQuery('.listViewEntriesCheckBox').each(function (index, element) {
@@ -1805,7 +1805,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var filterSelectElement = this.getFilterSelectElement();
 		if (filterSelectElement.length > 0 && filterSelectElement.is("select")) {
-			app.showSelect2ElementView(filterSelectElement, {
+			App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 				templateSelection: function (data) {
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
@@ -1946,15 +1946,17 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerChangeEntityStateEvent: function () {
 		var thisInstance = this;
-		$('.dropdownEntityState a').click(function (e) {
+		$('.dropdownEntityState a').on('click', function (e) {
 			var element = $(this);
+			element.closest('ul').find('a').removeClass('active');
+			element.addClass('active');
 			$('#entityState').val(element.data('value'));
 			app.setMainParams('pageNumber', '1');
 			app.setMainParams('pageToJump', '1');
 			$('#recordsCount').val('');
 			$('#totalPageCount').text("");
 			$('.pagination').data('totalCount', 0);
-			$('#dropdownEntityState').find('span').attr('class', element.find('span').attr('class'));
+			$('#dropdownEntityState').find('[data-fa-i2svg]').attr('class', element.find('[data-fa-i2svg]').attr('class'));
 			thisInstance.getListViewRecords().then(function (data) {
 				thisInstance.calculatePages().then(function () {
 					thisInstance.updatePagination();

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once dirname(__FILE__) . '/cache/Connector.php';
+include_once __DIR__ . '/cache/Connector.php';
 
 class Vtiger_Cache
 {

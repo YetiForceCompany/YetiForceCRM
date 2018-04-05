@@ -18,11 +18,16 @@
 		<div class="modal-dialog modal-lg modal-full">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header d-flex justify-content-between">
-						<div class="divQuickCreate">
-							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p></h3>
+					<div class="modal-header d-flex justify-content-between pb-1">
+						<div>
+							<h5 class="modal-title">
+								<span class="fas fa-plus mr-1"></span>
+								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
+								<span class="userIcon-{$MODULE} mx-1"></span>
+								<p class="textTransform"><strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong></p>
+							</h5>
 						</div>
-						<div class="quickCreateActions pullRight">
+						<div>
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
@@ -44,12 +49,12 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
-								<div class="px-0 form-row align-items-center mx-auto">
+								<div class="px-0 form-row align-items-start mx-auto">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 										{if $COUNTER eq 2}
 										</div>
-										<div class="col-12 form-row align-items-center px-0 m-auto">
+										<div class="col-12 form-row align-items-start px-0 m-auto">
 											{assign var=COUNTER value=1}
 										{else}
 											{assign var=COUNTER value=$COUNTER+1}

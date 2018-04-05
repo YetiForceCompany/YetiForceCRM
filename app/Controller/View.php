@@ -6,8 +6,8 @@ namespace App\Controller;
  * Abstract view controller class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class View extends Base
 {
@@ -264,7 +264,6 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'libraries.jquery-migrate.dist.jquery-migrate',
 			'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
 		]);
 	}
@@ -309,6 +308,8 @@ abstract class View extends Base
 			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',
 			'~layouts/resources/app.js',
+			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
+			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
@@ -562,7 +563,7 @@ abstract class View extends Base
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 				 ] as $key => $value) {
-			\App\Config::setJs($key, $value);
+			\App\Config::setJsEnv($key, $value);
 		}
 	}
 }

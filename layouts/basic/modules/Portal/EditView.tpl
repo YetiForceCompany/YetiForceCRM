@@ -14,41 +14,40 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">
+					<h5 class="modal-title">
+						<span class="fas fa-plus mr-1"></span>
 						{if $RECORD}
 							{\App\Language::translate('LBL_EDIT_BOOKMARK', $MODULE)}
 						{else}
 							{\App\Language::translate('LBL_ADD_NEW_BOOKMARK', $MODULE)}
 						{/if}
-					</h3>
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				<form class="form-horizontal" id="saveBookmark" method="post" action="index.php">
+				<form id="saveBookmark" method="post" action="index.php">
 					<input type="hidden" name="record" value="{$RECORD}" />
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
-					<div class="modal-body tabbable">
-
-						<div class="col-form-label col-md-4">
-							<label>
+					<div class="modal-body">
+						<div class="form-group row my-0">
+							<label class="col-form-label col-md-4 text-right">
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}
 							</label>
+							<div class="col-md-8 align-self-center">
+								<input type="text" name="bookmarkName" class="form-control" title="{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
+							</div>
 						</div>
-						<div class="controls col-md-8">
-							<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
-						</div>
-
-						<br />
-						<div class="col-form-label col-md-4">
-							<label>
+						<div class="form-group row mb-0 mt-1">
+							<label class="col-form-label col-md-4 text-right">
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}
 							</label>
-						</div>
-						<div class="controls col-md-8">
-							<input type="text" name="bookmarkUrl" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_URL', $MODULE)}" />
+							<div class="col-md-8 align-self-center">
+								<input type="text" name="bookmarkUrl" class="form-control" title="{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_URL', $MODULE)}" />
+							</div>
 						</div>
 					</div>
-					<div class="clearfix pushDown"></div>
 					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>

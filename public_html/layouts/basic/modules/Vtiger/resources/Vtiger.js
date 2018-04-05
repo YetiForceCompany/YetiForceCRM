@@ -23,7 +23,7 @@ var Vtiger_Index_Js = {
 			var template = container.find('.fileContainer');
 			var uploadContainer = container.find('.uploadFileContainer');
 			var form = container.find('form');
-			uploadButton.change(function () {
+			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
 				var files = uploadButton[0].files;
 				for (var i = 0; i < files.length; i++) {
@@ -31,7 +31,7 @@ var Vtiger_Index_Js = {
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				var formData = new FormData(form[0]);
 				if (formData) {
@@ -48,7 +48,7 @@ var Vtiger_Index_Js = {
 						processData: false,
 						contentType: false
 					};
-					var progressIndicatorElement = jQuery.progressIndicator({
+					var progressIndicatorElement = $.progressIndicator({
 						blockInfo: {'enabled': true}
 					});
 					AppConnector.request(params).then(function (data) {
@@ -74,7 +74,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	getEmailFromRecord: function (record, module, maxEmails) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		AppConnector.request({
 			dataType: 'html',
 			data: {
@@ -86,12 +86,12 @@ var Vtiger_Index_Js = {
 			}
 		}).then(function (data) {
 			if (data.substring(0, 1) == '{') {
-				data = $.parseJSON(data);
+				data = JSON.parse(data);
 				data = data['result'];
 				aDeferred.resolve(data);
 			} else {
 				app.showModalWindow(data, function (data) {
-					data.find('.selectButton').click(function (e) {
+					data.find('.selectButton').on('click', function (e) {
 						var email = data.find('input:checked').val();
 						app.hideModalWindow(data);
 						aDeferred.resolve(email);
@@ -106,9 +106,9 @@ var Vtiger_Index_Js = {
 	registerMailButtons: function (container) {
 		var thisInstance = this;
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
-			var sendButton = jQuery(this);
+			var sendButton = $(this);
 			sendButton.addClass('mailBtnActive');
-			sendButton.click(function (e) {
+			sendButton.on('click', function (e) {
 				e.stopPropagation();
 				var url = sendButton.data("url");
 				var module = sendButton.data("module");
@@ -147,15 +147,15 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerWidgetsEvents: function () {
-		var widgets = jQuery('div.widgetContainer');
+		var widgets = $('div.widgetContainer');
 		widgets.on('shown.bs.collapse', function (e) {
-			var widgetContainer = jQuery(e.currentTarget);
+			var widgetContainer = $(e.currentTarget);
 			Vtiger_Index_Js.loadWidgets(widgetContainer);
 			var key = widgetContainer.attr('id');
 			app.cacheSet(key, 1);
 		});
 		widgets.on('hidden.bs.collapse', function (e) {
-			var widgetContainer = jQuery(e.currentTarget);
+			var widgetContainer = $(e.currentTarget);
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('rightimage');
 			imageEle.attr('src', imagePath);
@@ -169,7 +169,7 @@ var Vtiger_Index_Js = {
 	 * @param open - widget should be open or closed
 	 */
 	loadWidgets: function (widgetContainer, open) {
-		var message = jQuery('.loadingWidgetMsg').html();
+		var message = $('.loadingWidgetMsg').html();
 		if (widgetContainer.find('.card-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
@@ -202,14 +202,14 @@ var Vtiger_Index_Js = {
 				} else {
 					var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
 				}
-				jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
+				$('.bodyContents').trigger('Vtiger.Widget.Load.' + label, $(widgetContainer));
 			}
 		);
 	},
 	loadWidgetsOnLoad: function () {
-		var widgets = jQuery('div.widgetContainer');
+		var widgets = $('div.widgetContainer');
 		widgets.each(function (index, element) {
-			Vtiger_Index_Js.loadWidgets(jQuery(element));
+			Vtiger_Index_Js.loadWidgets($(element));
 		});
 	},
 	/**
@@ -217,11 +217,11 @@ var Vtiger_Index_Js = {
 	 * @params : colour name
 	 */
 	changeSkin: function () {
-		jQuery('.themeElement').on('click', function (e) {
+		$('.themeElement').on('click', function (e) {
 			e.stopPropagation();
-			var currentElement = jQuery(e.currentTarget);
+			var currentElement = $(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
-			var progressElement = jQuery('#progressDiv');
+			var progressElement = $('#progressDiv');
 			progressElement.progressIndicator();
 			var params = {
 				'module': 'Users',
@@ -233,7 +233,7 @@ var Vtiger_Index_Js = {
 			AppConnector.request(params).then(function (data) {
 					if (data.success && data.result) {
 						progressElement.progressIndicator({'mode': 'hide'});
-						jQuery('.settingIcons').removeClass('open');
+						$('.settingIcons').removeClass('open');
 						window.location.reload();
 					}
 				},
@@ -242,7 +242,7 @@ var Vtiger_Index_Js = {
 		})
 	},
 	markNotifications: function (id) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var thisInstance = this;
 		var params = {
 			module: 'Notification',
@@ -311,14 +311,14 @@ var Vtiger_Index_Js = {
 	 */
 	registerReminders: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
-		if (activityReminder != 0 && jQuery('.remindersNotice.autoRefreshing').length) {
+		if (activityReminder != 0 && $('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
 			}, activityReminder);
 		}
 		var reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
-		if (reminder != 0 && jQuery('.notificationsNotice.autoRefreshing').length) {
+		if (reminder != 0 && $('.notificationsNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.getNotificationsForReminder();
 			window.reminderNotifications = setInterval(function () {
 				Vtiger_Index_Js.getNotificationsForReminder();
@@ -361,7 +361,7 @@ var Vtiger_Index_Js = {
 			thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 			app.registerModal(content);
 			content.find('.reminderPostpone').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
+				var currentElement = $(e.currentTarget);
 				var recordID = currentElement.closest('.js-toggle-panel').data('record');
 				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
 				AppConnector.request(url).then(function (data) {
@@ -391,15 +391,12 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerResizeEvent: function () {
-		$(window).resize(function () {
+		$(window).on('resize', function () {
 			if (this.resizeTO)
 				clearTimeout(this.resizeTO);
 			this.resizeTO = setTimeout(function () {
 				$(this).trigger('resizeEnd');
 			}, 600);
-		});
-		$(window).bind('resizeEnd', function () {
-			Vtiger_Index_Js.adjustTopMenuBarItems();
 		});
 	},
 	registerChat: function () {
@@ -468,68 +465,25 @@ var Vtiger_Index_Js = {
 		});
 	},
 	/**
-	 * Function to make top-bar menu responsive.
-	 */
-	adjustTopMenuBarItems: function () {
-		// Dedicated space for all dropdown text
-		var TOLERANT_MAX_GAP = 125; // px
-		var menuBarWrapper = ($(window).outerWidth() < 1161) ? jQuery('#mediumNav') : jQuery('#largeNav');
-		var topMenuBarWidth = menuBarWrapper.parent().outerWidth();
-		var optionalBarItems = jQuery('.opttabs', menuBarWrapper), optionalBarItemsCount = optionalBarItems.length;
-		var optionalBarItemIndex = optionalBarItemsCount;
-
-		function enableOptionalTopMenuItem() {
-			var opttab = (optionalBarItemIndex > 0) ? optionalBarItems[optionalBarItemIndex - 1] : null;
-			if (opttab) {
-				opttab = jQuery(opttab);
-				opttab.hide();
-				optionalBarItemIndex--;
-			}
-			return opttab;
-		}
-
-		// Loop and enable hidden menu item until the tolerant width is reached.
-		var stopLoop = false;
-		do {
-			if ((topMenuBarWidth - menuBarWrapper.outerWidth()) < TOLERANT_MAX_GAP) {
-				var lastOptTab = enableOptionalTopMenuItem();
-				if (lastOptTab == null || (topMenuBarWidth - menuBarWrapper.outerWidth()) > TOLERANT_MAX_GAP) {
-					if (lastOptTab)
-						lastOptTab.hide();
-					stopLoop = true;
-					break;
-				}
-			} else {
-				stopLoop = true;
-				break;
-			}
-		} while (!stopLoop);
-		// Required to get the functionality of All drop-down working.
-		$(window).on("load", function (e) {
-			$("#topMenus").css({'overflow': 'visible'});
-		});
-	},
-	/**
 	 * Function to trigger tooltip feature.
 	 */
 	registerTooltipEvents: function () {
-		var references = jQuery.merge(jQuery('.showReferenceTooltip'), jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'));
-		var lastPopovers = [];
+		const references = $.unique($.merge($('.showReferenceTooltip'), $('[data-field-type="reference"] > a'), $('[data-field-type="multireference"] > a')));
+		let lastPopovers = [];
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
-		var CACHE_ENABLED = true;
+		let CACHE_ENABLED = true;
 
 		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();
-			var el = jQuery(this);
-			var url = el.attr('href') ? el.attr('href') : '';
-			if (url == '') {
+			const el = jQuery(this);
+			let url = el.attr('href') ? el.attr('href') : '';
+			if (url === '') {
 				return;
 			}
-
 			// Rewrite URL to retrieve Tooltip view.
 			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
-			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
+			let cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
 			if (cachedView && cachedView.length) {
 				showTooltip(el, cachedView.html());
 			} else {
@@ -543,41 +497,34 @@ var Vtiger_Index_Js = {
 		}
 
 		function get_popover_placement(el) {
-			var width = window.innerWidth;
-			var left_pos = jQuery(el).offset().left;
-			if (width - left_pos < 400 || checkLastElement(el))
+			if (window.innerWidth - jQuery(el).offset().left < 400 || checkLastElement(el)) {
 				return 'left';
+			}
 			return 'right';
 		}
 
 		//The function checks if the selected element is the last element of the table in list view.
 		function checkLastElement(el) {
-			var parent = el.closest('tr');
-			var lastElementTd = parent.find('td.listViewEntryValue:last a');
-			if (el.attr('href') == lastElementTd.attr('href')) {
-				return true;
-			}
-			return false;
+			let parent = el.closest('tr');
+			let lastElementTd = parent.find('td.listViewEntryValue:last a');
+			return el.attr('href') === lastElementTd.attr('href');
 		}
 
 		function showTooltip(el, data) {
-			var the_placement = get_popover_placement(el);
 			el.popover({
 				//title: '', - Is derived from the Anchor Element (el).
 				trigger: 'manual',
 				content: data,
+				delay: 100,
 				animation: false,
 				html: true,
-				placement: the_placement,
-				template: '<div class="popover popover-tooltip"><div class="arrow"></div><div class="popover-inner"><button name="vtTooltipClose" class="close" style="color:white;opacity:1;font-weight:lighter;position:relative;top:3px;right:3px;">x</button><h3 class="popover-title"></h3><div class="popover-content"><div></div></div></div></div>'
+				placement: get_popover_placement(el),
 			});
 			lastPopovers.push(el.popover('show'));
 			registerToolTipDestroy();
 		}
 
 		function hideAllTooltipViews() {
-			// Hide all previous popover
-			var lastPopover = null;
 			while (lastPopover = lastPopovers.pop()) {
 				lastPopover.popover('hide');
 			}
@@ -594,10 +541,10 @@ var Vtiger_Index_Js = {
 		});
 
 		function registerToolTipDestroy() {
-			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
-				var lastPopover = lastPopovers.pop();
+			$('button[name="vtTooltipClose"]').on('click', function (e) {
+				const lastPopover = lastPopovers.pop();
 				lastPopover.popover('hide');
-				jQuery('.popover').css("display", "none", "important");
+				$('.popover').css("display", "none", "important");
 			});
 		}
 	},
@@ -654,7 +601,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	updateWatching: function (module, value, user, record) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var params = {
 			module: module,
 			action: 'Watchdog',
@@ -675,8 +622,8 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	assignToOwner: function (element, userId) {
-		var aDeferred = jQuery.Deferred();
-		element = jQuery(element);
+		var aDeferred = $.Deferred();
+		element = $(element);
 		if (userId == undefined) {
 			userId = CONFIG.userId;
 		}
@@ -705,7 +652,7 @@ var Vtiger_Index_Js = {
 			phoneNumber: phoneNumber,
 			record: record
 		}).then(function (response) {
-			response = jQuery.parseJSON(response);
+			response = JSON.parse(response);
 			Vtiger_Helper_Js.showMessage({text: response.result});
 		});
 	},
@@ -718,8 +665,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerReminders();
-		Vtiger_Index_Js.adjustTopMenuBarItems();
-		Vtiger_Index_Js.registerPostAjaxEvents();
+		Vtiger_Index_Js.registerTooltipEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
 		Vtiger_Index_Js.registerChat();
@@ -730,7 +676,7 @@ var Vtiger_Index_Js = {
 	}
 }
 //On Page Load
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();
 	app.listenPostAjaxReady(function () {
 		Vtiger_Index_Js.registerPostAjaxEvents();
