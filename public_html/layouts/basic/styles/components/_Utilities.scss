@@ -22,6 +22,9 @@
 .u-ml-10px {
   margin-left: 10px;
 }
+.u-mr-0px {
+  margin-right: 0 !important;
+}
 .u-ml-0px{
 	margin-left: 0 !important;
 }
@@ -39,6 +42,10 @@
 }
 .u-w-37-percent{
 	width: 37% !important;
+}
+//--- HEIGHT ---//
+.u-min-height{
+	min-height: 550px;
 }
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {
