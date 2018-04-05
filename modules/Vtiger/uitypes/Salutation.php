@@ -16,7 +16,7 @@ class Vtiger_Salutation_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Salutation.tpl';
+		return 'Edit/Field/Salutation.tpl';
 	}
 
 	/**
@@ -24,6 +24,6 @@ class Vtiger_Salutation_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/SalutationDetailView.tpl';
+		return 'Detail/Field/Salutation.tpl';
 	}
 }

@@ -54,7 +54,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/TreeFieldSearchView.tpl';
+		return 'List/Field/Tree.tpl';
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Tree.tpl';
+		return 'Edit/Field/Tree.tpl';
 	}
 
 	/**

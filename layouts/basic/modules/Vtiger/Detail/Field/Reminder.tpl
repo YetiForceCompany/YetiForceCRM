@@ -11,9 +11,11 @@
 -->*}
 {strip}
 	{assign var=REMINDER_VALUES value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
-	{if $REMINDER_VALUES eq ''}
-		{\App\Language::translate('LBL_NO', $MODULE)}
-	{else}
-		{$REMINDER_VALUES}{\App\Language::translate('LBL_BEFORE_EVENT', $MODULE)}
-	{/if}
+	<div class="tpl-Detail-Field-Reminder">
+		{if $REMINDER_VALUES eq ''}
+			{\App\Language::translate('LBL_NO', $MODULE)}
+		{else}
+			{$REMINDER_VALUES}{\App\Language::translate('LBL_BEFORE_EVENT', $MODULE)}
+		{/if}
+	</div>
 {/strip}

@@ -204,7 +204,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/SharedOwner.tpl';
+		return 'Edit/Field/SharedOwner.tpl';
 	}
 
 	/**
@@ -212,7 +212,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/SharedOwnerFieldSearchView.tpl';
+		return 'List/Field/SharedOwner.tpl';
 	}
 
 	/**

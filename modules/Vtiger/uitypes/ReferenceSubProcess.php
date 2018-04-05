@@ -37,6 +37,6 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/ReferenceSubProcess.tpl';
+		return 'Edit/Field/ReferenceSubProcess.tpl';
 	}
 }

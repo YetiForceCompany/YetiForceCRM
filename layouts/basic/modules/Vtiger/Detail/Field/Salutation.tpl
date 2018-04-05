@@ -10,6 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{$RECORD->getDisplayValue('salutationtype')}&nbsp;
-	{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
+	<div class="tpl-Edit-Field-Salutation">
+		{$RECORD->getDisplayValue('salutationtype')}&nbsp;
+		{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
+	</div>
 {/strip}

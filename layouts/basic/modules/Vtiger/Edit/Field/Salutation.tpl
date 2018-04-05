@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row">
+	<div class="tpl-Edit-Field-Salutation row">
 		{if $SALUTATION_FIELD_MODEL}
 			{assign var=PICKLIST_VALUES value=$SALUTATION_FIELD_MODEL->getPicklistValues()}
 			{assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}

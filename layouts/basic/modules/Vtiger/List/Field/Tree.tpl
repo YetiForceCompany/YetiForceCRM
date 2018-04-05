@@ -7,7 +7,7 @@
 	{else}
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
-    <div class="picklistSearchField">
+    <div class="tpl-List-Field-Tree picklistSearchField">
         <select id="{$FIELD_MODEL->getName()}" class="select2noactive listSearchContributor tree form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple name="{$FIELD_MODEL->getName()}"  data-fieldinfo='{\App\Json::encode($FIELD_INFO)|escape}'>
 			{foreach item=LABEL key=KEY from=$ALL_VALUES}
                 <option value="{$KEY}"  data-parent="{$LABEL}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{$LABEL}</option>

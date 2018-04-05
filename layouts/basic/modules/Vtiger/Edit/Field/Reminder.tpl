@@ -20,8 +20,7 @@
 		{assign var=HOUR value=$REMINDER_VALUES[1]}
 		{assign var=MINUTE value=$REMINDER_VALUES[2]}
 	{/if}
-
-	<div>
+	<div class="tpl-Edit-Field-Reminder">
 		<div class="checkbox">
 			<input type="hidden" name="set_reminder" value=0 />
 			<label>

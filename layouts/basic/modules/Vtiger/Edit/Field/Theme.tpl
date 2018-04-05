@@ -13,10 +13,16 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getAllSkins()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	<select class="select2 form-control" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} >
-		{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-			<option class="u-bg-{$PICKLIST_NAME} text-light u-hover-bold" value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
-					{if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml(ucfirst($PICKLIST_NAME))}</option>
-		{/foreach}
-	</select>
+	<div class="tpl-Edit-Field-Theme">
+		<select class="select2 form-control" name="{$FIELD_MODEL->getFieldName()}"
+				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+				data-fieldinfo='{$FIELD_INFO}'
+				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} >
+			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
+				<option class="u-bg-{$PICKLIST_NAME} text-light u-hover-bold"
+						value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
+						{if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml(ucfirst($PICKLIST_NAME))}</option>
+			{/foreach}
+		</select>
+	</div>
 {/strip}
