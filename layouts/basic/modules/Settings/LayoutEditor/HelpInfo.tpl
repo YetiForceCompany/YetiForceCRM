@@ -35,8 +35,7 @@
 			{foreach from=$LANGUAGES item=LABEL key=PREFIX}
 				{assign var=TRANSLATE value=\App\Language::translate($CONTEXT_HELP, 'HelpInfo', $PREFIX)}
 				<div class="form-group js-context-block {if $PREFIX neq $LANG_DEFAULT} d-none {/if}">
-					<textarea id="{$PREFIX}" name="context" {if $PREFIX neq $LANG_DEFAULT} disabled {/if} data-js="CkEditor" class="form-control js-ckeditor js-context-area"
-							  data-js="ckeditor">{if $TRANSLATE neq $CONTEXT_HELP}{$TRANSLATE}{/if}</textarea>
+					<textarea id="{$PREFIX}" name="context" {if $PREFIX neq $LANG_DEFAULT} disabled {/if} data-js="CkEditor" class="form-control js-ckeditor js-context-area">{if $TRANSLATE neq $CONTEXT_HELP}{$TRANSLATE}{/if}</textarea>
 				</div>
 			{/foreach}
 		</div>
