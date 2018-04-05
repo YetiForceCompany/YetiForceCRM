@@ -27,7 +27,7 @@
 				{\App\Language::translate('LBL_BOOKMARKS_LIST', $MODULE)}
 			</label>
 			<div class="controls col-sm2 col-md-4">
-				<select class="select2-container select2 customFilterMainSpan" id="bookmarksDropdown" name="bookmarksList">
+				<select class="select2-container select2" id="bookmarksDropdown" name="bookmarksList">
 					{foreach item=RECORD from=$RECORDS_LIST}
 						<option value="{$RECORD['id']}" {if $RECORD['id'] eq $RECORD_ID}selected{/if}>{$RECORD['portalname']}</option>
 					{/foreach}
