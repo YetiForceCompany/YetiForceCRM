@@ -39,7 +39,7 @@
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		<br />
-		{if substr($URL, 0, 8) neq 'https://'}<div id="portalDetailViewHttpError" class="row"><div class="col-md-12">{\App\Language::translate('HTTP_ERROR', $MODULE)}</div></div>{/if}
+		{if substr($URL, 0, 8) neq 'https://'}<div class="alert text-danger m-auto" role="alert">{\App\Language::translate('HTTP_ERROR', $MODULE)}</div>{/if}
 		<br />
 		<iframe src="{if substr($URL, 0, 4) neq 'http'}//{/if}{$URL}" frameborder="1" height="600" scrolling="auto" width="100%" style="border: solid 2px; border-color: #dddddd;"></iframe>
 	</div>
