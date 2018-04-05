@@ -189,13 +189,12 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
 			thisInstance.registerHelpInfo(quickCreateForm);
-			var customConfig = {
+			const customConfig = {
 				height: '5em',
 				toolbar: 'Min'
 			};
-			jQuery.each(data.find('.ckEditorSource'), function (key, element) {
-				var ckEditorInstance = new Vtiger_CkEditor_Js();
-				ckEditorInstance.loadCkEditor(jQuery(element), customConfig);
+			jQuery.each(data.find('.js-ckeditor'), function (key, element) {
+				new Vtiger_CkEditor_Js(jQuery(element), customConfig);
 			});
 		});
 	},

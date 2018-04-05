@@ -236,10 +236,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	loadCkEditorElement: function () {
-		var customConfig = {};
-		var noteContentElement = jQuery('.ckEditorSource');
-		var ckEditorInstance = new Vtiger_CkEditor_Js();
-		ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
+		new Vtiger_CkEditor_Js(jQuery('.js-ckeditor'), {});
 	},
 	registerSaveIssues: function () {
 		var container = jQuery('.addIssuesModal');

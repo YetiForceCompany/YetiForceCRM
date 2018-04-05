@@ -280,30 +280,30 @@ App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {Object} params
 		 */
-		registerCkEditor: function (parentElement, params) {
-			if (typeof parentElement == 'undefined') {
+		registerCkEditor(parentElement, params) {
+			if (typeof parentElement === 'undefined') {
 				parentElement = jQuery('body');
 			} else {
 				parentElement = jQuery(parentElement);
 			}
+			let elements;
 			if (parentElement.hasClass('js-ckeditor') && !parentElement.prop('disabled')) {
-				var elements = parentElement;
+				elements = parentElement;
 			} else {
-				var elements = jQuery('.js-ckeditor:not([disabled])', parentElement);
+				elements = jQuery('.js-ckeditor:not([disabled])', parentElement);
 			}
-			if (elements.length == 0) {
+			if (elements.length === 0) {
 				return;
 			}
 			$.each(elements, function (key, element) {
-				var ckEditorInstance = new Vtiger_CkEditor_Js();
-				ckEditorInstance.loadCkEditor($(element), params);
+				new Vtiger_CkEditor_Js(element, params);
 			});
 		},
 		/**
 		 * Destroy ckEditor
 		 * @param {jQuery} element
 		 */
-		destroyCkEditor: function (element) {
+		destroyCkEditor(element) {
 			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
@@ -312,7 +312,7 @@ App.Fields = {
 		 * Generate random character
 		 * @returns {string}
 		 */
-		generateRandomChar: function () {
+		generateRandomChar() {
 			const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
 			const rand = Math.floor(Math.random() * chars.length);
 			return chars.substring(rand, rand + 1);

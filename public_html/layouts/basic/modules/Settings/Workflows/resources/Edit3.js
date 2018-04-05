@@ -288,7 +288,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	 * Function to get ckEditorInstance
 	 */
 	getckEditorInstance: function () {
-		if (this.ckEditorInstance == false) {
+		if (this.ckEditorInstance === false) {
 			this.ckEditorInstance = new Vtiger_CkEditor_Js();
 		}
 		return this.ckEditorInstance;

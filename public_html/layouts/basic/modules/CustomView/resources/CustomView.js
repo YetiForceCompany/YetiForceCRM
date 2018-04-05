@@ -146,9 +146,9 @@ var Vtiger_CustomView_Js = {
 	},
 	registerCkEditorElement: function () {
 		var container = this.getContentsContainer();
-		container.find('.ckEditorSource').each(function (e) {
-			var ckEditorInstance = new Vtiger_CkEditor_Js();
-			ckEditorInstance.loadCkEditor(jQuery(this)); //{toolbar: 'Basic'}
+		container.find('.js-ckeditor').each(function (e) {
+			new Vtiger_CkEditor_Js(jQuery(this));
+			//{toolbar: 'Basic'}
 		});
 	},
 	registerBlockToggleEvent: function () {

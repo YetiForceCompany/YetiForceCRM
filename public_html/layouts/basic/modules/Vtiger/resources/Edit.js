@@ -1033,8 +1033,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 		};
 	},
 	stretchCKEditor: function () {
-		var row = jQuery('.ckEditorSource').parents('.fieldRow');
-		var td = jQuery('.ckEditorSource').parent();
+		var row = jQuery('.js-ckeditor').parents('.fieldRow');
+		var td = jQuery('.js-ckeditor').parent();
 		jQuery(row).find('.fieldLabel').remove();
 		jQuery(td).removeClass('col-md-10');
 		jQuery(td).addClass('col-md-12');
@@ -1045,21 +1045,20 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerEventForCkEditor: function () {
 		var form = this.getForm();
 		var thisInstance = this;
-		$.each(form.find('.ckEditorSource'), function (key, data) {
+		$.each(form.find('.js-ckeditor'), function (key, data) {
 			thisInstance.loadCkEditorElement(jQuery(data));
 		});
 	},
 	loadCkEditorElement: function (noteContentElement) {
 		var customConfig = {};
 		if (noteContentElement.is(':visible')) {
-			if (noteContentElement.hasClass("ckEditorBasic")) {
+			if (noteContentElement.hasClass("js-ckeditor__basic")) {
 				customConfig.toolbar = 'Min';
 			}
-			if (noteContentElement.hasClass("ckEditorSmall")) {
+			if (noteContentElement.hasClass("js-ckeditor__small")) {
 				customConfig.height = '5em';
 			}
-			var ckEditorInstance = new Vtiger_CkEditor_Js();
-			ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
+			new Vtiger_CkEditor_Js(noteContentElement, customConfig);
 		}
 	},
 	registerHelpInfo: function () {
