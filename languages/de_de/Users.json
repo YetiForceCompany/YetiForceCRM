@@ -338,6 +338,8 @@
   "js": {
 	"JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen darf nicht gleich sein",
 	"JS_ENTER_CONFIRMATION_PASSWORD": "Bitte Passwort best\u00e4tigen",
-	"JS_REENTER_PASSWORDS": "Bitte geben Sie die Passw\u00f6rter erneut ein. Das \\\"Neue Passwort\\\" und \\\"Kennwort best\u00e4tigen\\\" -Werte stimmen nicht \u00fcberein."
+	"JS_REENTER_PASSWORDS": "Bitte geben Sie die Passw\u00f6rter erneut ein. Das \\\"Neue Passwort\\\" und \\\"Kennwort best\u00e4tigen\\\" -Werte stimmen nicht \u00fcberein.",
+	"JS_NEW_ACCESS_KEY_REQUESTED": "Enter new access key",
+	"JS_CHANGE_ACCESS_KEY_CONFIRMATION": "New access key was requested. Old access key must be replaced with a new one in all installed extensions. Do you want to continue?"
   }
 }
