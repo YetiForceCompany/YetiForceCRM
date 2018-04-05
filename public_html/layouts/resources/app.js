@@ -220,11 +220,6 @@ app = {
 					}, this))
 		};
 		const modalContainer = container.find('.modal:first');
-		modalContainer.modal(params);
-		jQuery('body').append(container);
-		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
-		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 		modalContainer.one('shown.bs.modal', function () {
 			if (jQuery('.modal-backdrop').length > 1) {
 				jQuery('.modal-backdrop:not(:first)').remove();
@@ -234,7 +229,12 @@ app = {
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
-		})
+		});
+		modalContainer.modal(params);
+		jQuery('body').append(container);
+		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
+		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
+		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
 		var thisInstance = this;
@@ -279,15 +279,6 @@ app = {
 		}
 		container = jQuery('<div></div>');
 		container.attr('id', id).addClass('modalContainer');
-
-		if (data) {
-			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
-
-		} else {
-			jQuery.get(url).then(function (response) {
-				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
-			});
-		}
 		container.one('hidden.bs.modal', function () {
 			container.remove();
 			var backdrop = jQuery('.modal-backdrop');
@@ -299,6 +290,14 @@ app = {
 				$('body').addClass('modal-open');
 			}
 		});
+		if (data) {
+			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
+
+		} else {
+			jQuery.get(url).then(function (response) {
+				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
+			});
+		}
 		return container;
 	},
 	/**
