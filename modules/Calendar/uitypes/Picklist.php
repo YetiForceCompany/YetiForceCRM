@@ -18,9 +18,9 @@ class Calendar_Picklist_UIType extends Vtiger_Picklist_UIType
 		$fieldName = $this->get('field')->get('name');
 
 		if ($fieldName == 'activitystatus') {
-			return 'uitypes/StatusPickListFieldSearchView.tpl';
+			return 'List/Field/StatusPickList.tpl';
 		} elseif ($fieldName == 'activitytype') {
-			return 'uitypes/ActivityPicklistFieldSearchView.tpl';
+			return 'List/Field/ActivityPicklist.tpl';
 		}
 
 		return parent::getListSearchTemplateName();

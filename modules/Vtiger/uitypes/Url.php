@@ -62,6 +62,6 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Url.tpl';
+		return 'Edit/Field/Url.tpl';
 	}
 }

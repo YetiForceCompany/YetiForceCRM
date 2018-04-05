@@ -86,6 +86,6 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/MultiOwner.tpl';
+		return 'Edit/Field/MultiOwner.tpl';
 	}
 }

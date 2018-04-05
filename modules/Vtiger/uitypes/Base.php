@@ -222,7 +222,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Uitype/Base.tpl';
+		return 'Edit/Field/Base.tpl';
 	}
 
 	/**
@@ -232,7 +232,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'Detail/Uitype/Base.tpl';
+		return 'Detail/Field/Base.tpl';
 	}
 
 	/**
@@ -242,7 +242,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'List/Uitype/Base.tpl';
+		return 'List/Field/Base.tpl';
 	}
 
 	/**

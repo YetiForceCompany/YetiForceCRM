@@ -93,6 +93,6 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Uitype/Email.tpl';
+		return 'Edit/Field/Email.tpl';
 	}
 }

@@ -53,7 +53,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Reminder.tpl';
+		return 'Edit/Field/Reminder.tpl';
 	}
 
 	/**
@@ -61,6 +61,6 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/ReminderDetailView.tpl';
+		return 'Detail/Field/Reminder.tpl';
 	}
 }

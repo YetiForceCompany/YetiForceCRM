@@ -77,6 +77,6 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/UserRoleFieldSearchView.tpl';
+		return 'List/Field/UserRole.tpl';
 	}
 }

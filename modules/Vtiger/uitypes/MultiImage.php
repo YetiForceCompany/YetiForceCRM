@@ -229,7 +229,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/MultiImage.tpl';
+		return 'Edit/Field/MultiImage.tpl';
 	}
 
 	/**
@@ -237,7 +237,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/MultiImageDetailView.tpl';
+		return 'Detail/Field/MultiImage.tpl';
 	}
 
 	/**

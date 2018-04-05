@@ -83,7 +83,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/MultiPicklist.tpl';
+		return 'Edit/Field/MultiPicklist.tpl';
 	}
 
 	/**
@@ -91,6 +91,6 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/MultiSelectFieldSearchView.tpl';
+		return 'List/Field/MultiPicklist.tpl';
 	}
 }
