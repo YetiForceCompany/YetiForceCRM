@@ -32,7 +32,7 @@
 			{/if}
 		{/if}
 	{/if}
-	<div class="picklistSearchField">
+	<div class="tpl-List-Field-Owner picklistSearchField">
 		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
