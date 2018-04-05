@@ -8,6 +8,6 @@
 				{\App\Language::translate('LBL_CREDITS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		{include file="licenses/Credits.html"}
+		{include file="licenses/Credits.tpl"}
 	</div>
 {/strip}
