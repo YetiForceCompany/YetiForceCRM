@@ -1,5 +1,5 @@
 {strip}
-	<div class="c-detail-widget mb-3 js-detail-widget recordDetails">
+	<div class="c-detail-widget js-detail-widget recordDetails">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 			<div class="c-detail-widget__header js-detail-widget-header marginBottom10px">
 				<span class="margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>

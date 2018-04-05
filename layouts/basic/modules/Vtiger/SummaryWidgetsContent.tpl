@@ -1,7 +1,7 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
-		<div class="listViewEntriesDiv c-detail-widget__content contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv  contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 					<tr class="text-center">
@@ -71,7 +71,7 @@
 	{elseif $TYPE_VIEW eq 'Summary'}
 		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 			<div class="carousel slide" data-interval="false" data-ride="carousel">
-				<div class="carousel-inner c-detail-widget__content" role="listbox">
+				<div class="carousel-inner" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
 						<div class="carousel-item  js-carousel-item {if $smarty.foreach.recordlist.first}active{/if}" data-id="{$RELATED_RECORD->getId()}" data-js="click">
 							<table class="c-detail-widget__table">
@@ -123,7 +123,7 @@
 			</div>
 		</div>
 	{else}
-		<div class="listViewEntriesDiv c-detail-widget__content contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 					<tr class="text-center">

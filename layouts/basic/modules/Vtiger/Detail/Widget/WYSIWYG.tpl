@@ -1,8 +1,9 @@
 {strip}
 	<div class="c-detail-widget mb-3 js-detail-widget c-detail-widget--wysiwyg">
-		<div class="c-detail-widget__header js-detail-widget-header row">
-			<span class="col-md-10 margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+		<div class="c-detail-widget__header js-detail-widget-header">
+			<div class="form-row align-items-center"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></div>
 		</div>
+		<hr class="widgetHr">
 		<div class="defaultMarginP">
 			{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
 			{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600)}

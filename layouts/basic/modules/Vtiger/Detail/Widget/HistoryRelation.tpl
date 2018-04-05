@@ -2,8 +2,8 @@
 {strip}
 	<div class="c-detail-widget mb-3 js-detail-widget">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="c-detail-widget__header js-detail-widget-header">
-				<div class="widgetTitle row">
+			<div class="c-detail-widget__header js-detail-widget-header py-1">
+				<div class="widgetTitle row align-items-center">
 					<div class="col-4">
 						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
