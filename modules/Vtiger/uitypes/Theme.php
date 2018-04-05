@@ -43,6 +43,6 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Theme.tpl';
+		return 'Edit/Field/Theme.tpl';
 	}
 }

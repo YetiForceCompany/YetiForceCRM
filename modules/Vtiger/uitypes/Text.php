@@ -11,7 +11,6 @@
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -89,6 +88,6 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Text.tpl';
+		return 'Edit/Field/Text.tpl';
 	}
 }

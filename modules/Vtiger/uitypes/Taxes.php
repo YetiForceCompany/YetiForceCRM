@@ -109,7 +109,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/MultiSelectFieldSearchView.tpl';
+		return 'List/Field/MultiPicklist.tpl';
 	}
 
 	/**
@@ -117,6 +117,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Taxes.tpl';
+		return 'Edit/Field/Taxes.tpl';
 	}
 }

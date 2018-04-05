@@ -15,7 +15,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Uitype/DocumentsFileUpload.tpl';
+		return 'Edit/Field/DocumentsFileUpload.tpl';
 	}
 
 	/**

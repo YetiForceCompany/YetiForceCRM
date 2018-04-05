@@ -58,6 +58,6 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Reference.tpl';
+		return 'Edit/Field/Reference.tpl';
 	}
 }
