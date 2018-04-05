@@ -16,7 +16,7 @@
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="whereCondition" data-on-val='{$WIDGET['switchHeader']['on']}' data-off-val='{$WIDGET['switchHeader']['off']}'>
 						</div>
 					{/if}
-					<div class="col-md-3 col-sm-3 float-right paddingBottom10">
+					<div class="col-md-3 col-sm-3 float-right">
 						<div class="float-right">
 							<div class="btn-group">
 								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}

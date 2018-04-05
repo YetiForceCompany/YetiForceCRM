@@ -2,13 +2,13 @@
 {strip}
 	<div class="c-detail-widget mb-3 js-detail-widget productsServicesWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
-			<div class="c-detail-widget__header js-detail-widget-header row">
-				<span class="col-md-12 margin0px">
-					<div class="row">
+			<div class="c-detail-widget__header js-detail-widget-header">
+				<span class="col-md-12 form-row align-items-center">
+					<div class="form-row align-items-center">
 						<div class="col-md-4">
-							<span class="{$span} margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+							<h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 						</div>
-						<div class="col-md-8" align="center" style="padding-right: 40px;">
+						<div class="col-md-8" align="center">
 							<div class="btn-group" data-toggle="buttons">
 								{foreach name=BTN item=COUNT key=MODULE_DATA from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
 									<label class="btn btn-sm btn-light {if $smarty.foreach.BTN.first}active{/if}" title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}">

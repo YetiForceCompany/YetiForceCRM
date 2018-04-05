@@ -4,7 +4,7 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 			<div class="c-detail-widget__header js-detail-widget-header">
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
-				<div class="form-row">
+				<div class="form-row align-items-center">
 					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
@@ -17,7 +17,7 @@
 						</div>
 					</div>
 					{if isset($WIDGET['switchHeader'])}
-						<div class="col-8 col-md-4 col-sm-3 paddingBottom10">
+						<div class="col-8 col-md-4 col-sm-3">
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
 						</div>
 					{/if}
