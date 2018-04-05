@@ -189,7 +189,9 @@ class Encryption extends Base
 	 */
 	public static function getMethods()
 	{
-		return openssl_get_cipher_methods();
+		return array_filter(openssl_get_cipher_methods(), function ($methodName) {
+			return stripos($methodName, 'gcm') === false && stripos($methodName, 'ccm') === false;
+		});
 	}
 
 	/**
