@@ -23,7 +23,7 @@
 		</div>
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-6 row">
-			<label class="col-form-label col-md-8 text-right" style="padding-top: 14px;">
+			<label class="col-form-label col-md-8 text-right">
 				{\App\Language::translate('LBL_BOOKMARKS_LIST', $MODULE)}
 			</label>
 			<div class="controls col-sm2 col-md-4">
