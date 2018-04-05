@@ -15,15 +15,15 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
-	<div class="listViewPageDiv row">
+	<div class="listViewPageDiv row mt-2">
 		<div class="btn-toolbar col-md-4">
 			<span class="btn-group">
-				<button id="addBookmark" class="btn btn-light addButton"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
+				<button id="addBookmark" class="btn btn-outline-secondary addButton"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
 			</span>
 		</div>
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-6 row">
-			<label class="col-form-label col-md-8 textAlignRight" style="padding-top: 14px;">
+			<label class="col-form-label col-md-8 text-right" style="padding-top: 14px;">
 				{\App\Language::translate('LBL_BOOKMARKS_LIST', $MODULE)}
 			</label>
 			<div class="controls col-sm2 col-md-4">
