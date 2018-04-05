@@ -1291,7 +1291,6 @@ app = {
 }
 jQuery(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
-	App.Fields.Picklist.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.js-popover-tooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerSticky();
