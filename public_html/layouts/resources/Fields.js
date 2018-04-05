@@ -46,8 +46,6 @@ App.Fields = {
 			if (typeof elementDateFormat !== 'undefined') {
 				format = elementDateFormat;
 			}
-			// Default first day of the week
-			const defaultFirstDay = typeof CONFIG.firstDayOfWeekNo === 'undefined' ? 1 : CONFIG.firstDayOfWeekNo;
 			if (typeof $.fn.datepicker.dates[CONFIG.langKey] === 'undefined') {
 				$.fn.datepicker.dates[CONFIG.langKey] = {
 					days: App.Fields.Date.fullDaysTranslated,
@@ -59,14 +57,14 @@ App.Fields = {
 					clear: app.vtranslate('JS_CLEAR'),
 					format,
 					titleFormat: 'MM yyyy', /* Leverages same syntax as 'format' */
-					weekStart: defaultFirstDay
+					weekStart: CONFIG.firstDayOfWeekNo
 				};
 			}
 			let params = {
 				todayBtn: "linked",
 				clearBtn: true,
 				language: CONFIG.langKey,
-				starts: defaultFirstDay,
+				starts: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
 			};
@@ -99,7 +97,6 @@ App.Fields = {
 			if (typeof elementDateFormat !== 'undefined') {
 				format = elementDateFormat.toUpperCase();
 			}
-			const defaultFirstDay = typeof CONFIG.firstDayOfWeekNo === 'undefined' ? 1 : CONFIG.firstDayOfWeekNo;
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
 			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
@@ -122,7 +119,7 @@ App.Fields = {
 					toLabel: app.vtranslate('JS_TO'),
 					customRangeLabel: app.vtranslate('JS_CUSTOM'),
 					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
-					firstDay: defaultFirstDay,
+					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
@@ -130,14 +127,12 @@ App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
 			}
-			elements.each(function (index, element) {
-				element = $(element);
-				element.daterangepicker(params);
-				element.on('apply.daterangepicker', function (ev, picker) {
-					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-				});
+			$('.js-date__btn').off().on('click', (e) => {
+				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
-
+			elements.daterangepicker(params).on('apply.daterangepicker', function (ev, picker) {
+				$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+			});
 		},
 	},
 	DateTime: {
@@ -180,6 +175,7 @@ App.Fields = {
 			}
 			const format = dateFormat + ' ' + timeFormat;
 			let params = {
+				parentEl: parentElement,
 				singleDatePicker: true,
 				showDropdowns: true,
 				timePicker: true,
@@ -197,7 +193,7 @@ App.Fields = {
 					toLabel: app.vtranslate('JS_TO'),
 					customRangeLabel: app.vtranslate('JS_CUSTOM'),
 					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
-					firstDay: defaultFirstDay,
+					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
@@ -205,10 +201,8 @@ App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = jQuery.extend(params, customParams);
 			}
-			elements.each(function (index, element) {
-				$(element).daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
-					$(this).val(picker.startDate.format(format));
-				});
+			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
+				$(this).val(picker.startDate.format(format));
 			});
 		},
 	},
