@@ -5,6 +5,7 @@
 	"ERR_ILLEGAL_VALUE": "Valeur non valide",
 	"ERR_ILLEGAL_FIELD_VALUE": "Valeur non valide dans le champs %s (%s)",
 	"ERR_VALUE_IS_TOO_LONG": "La valeur du champ %s est trop longue (%s)",
+	"ERR_TO_MANY_FILES":"Too many files - limit was exceeded",
 	"ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "La valeur de %s doit \u00eatre sup\u00e9rieur \u00e0 0 (%s)",
 	"ERR_NOT_ALLOWED_VALUE": "Valeur incorrecte d\u00e9tect\u00e9, veuillez contacter l'administrateur.",
 	"ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Ce mot de passe a d\u00e9j\u00e0 \u00e9t\u00e9 utilis\u00e9. Le syst\u00e8me ne permet pas d'utiliser le m\u00eame mot de passe pour des raisons de s\u00e9curit\u00e9.",
