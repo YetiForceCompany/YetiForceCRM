@@ -61,7 +61,8 @@ class Vtiger_CkEditor_Js {
 	 * @param {Object} customConfig custom configurations for ckeditor
 	 */
 	loadCkEditor(element, customConfig) {
-		this.setElement($(element).get(0)); // we want Dom HTMLElement not wprapped by jQuery - we will wrap this elsewhere
+		element = $(element).get(0);// we want Dom HTMLElement not wprapped by jQuery - we will wrap this elsewhere
+		this.setElement(element);
 		const instance = this.getCkEditorInstanceFromName();
 		let config = {
 			on: {
