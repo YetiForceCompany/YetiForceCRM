@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="row">
-		<nav class="widget_header col-12 px-2 d-flex align-items-center">
+		<nav class="widget_header col-12 px-3 d-flex align-items-center">
 			<div class="listViewMassActions pr-2 modOn_{$MODULE}">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}
 			</div>
