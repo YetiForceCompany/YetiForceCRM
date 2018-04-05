@@ -14,7 +14,7 @@
 		<table class="table table-bordered">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$RECORD_STRUCTURE['TOOLTIP_FIELDS'] name=fieldsCount}
 				{if $smarty.foreach.fieldsCount.index < 7}
-					<tr>
+					<tr class="small">
 						<td>
 							<label>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE)}</label>
 						</td>
