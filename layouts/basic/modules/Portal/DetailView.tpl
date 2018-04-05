@@ -15,7 +15,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
-	<div class="listViewPageDiv">
+	<div class="listViewPageDiv row">
 		<div class="btn-toolbar col-md-4">
 			<span class="btn-group">
 				<button id="addBookmark" class="btn btn-light addButton"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
