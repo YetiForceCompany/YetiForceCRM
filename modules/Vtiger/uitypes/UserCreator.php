@@ -22,6 +22,6 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/OwnerFieldSearchView.tpl';
+		return 'List/Field/Owner.tpl';
 	}
 }

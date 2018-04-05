@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="typeRemoveModal" tabindex="-1">
+	<div class="tpl-Detail-Field-Recurrence typeRemoveModal" tabindex="-1">
 		<div  class="modal fade">
 			<div class="modal-dialog modal-lg ">
 				<div class="modal-content">

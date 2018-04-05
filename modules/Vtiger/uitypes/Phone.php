@@ -116,6 +116,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Phone.tpl';
+		return 'Edit/Field/Phone.tpl';
 	}
 }

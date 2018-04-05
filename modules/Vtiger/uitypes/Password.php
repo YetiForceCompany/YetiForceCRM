@@ -38,6 +38,6 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Password.tpl';
+		return 'Edit/Field/Password.tpl';
 	}
 }

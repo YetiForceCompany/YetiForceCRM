@@ -13,7 +13,7 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
-	<div class="input-group">
+	<div class="tpl-Edit-Field-Password input-group">
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="password"
 			   class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

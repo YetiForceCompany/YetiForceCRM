@@ -45,6 +45,6 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Percentage.tpl';
+		return 'Edit/Field/Percentage.tpl';
 	}
 }
