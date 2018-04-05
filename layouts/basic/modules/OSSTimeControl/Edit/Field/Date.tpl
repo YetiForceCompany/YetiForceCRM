@@ -10,14 +10,14 @@
 	{if $TIME_FIELD}
 		<div class="tpl-Edit-Field-Date form-row">
 			<div class="col-7">
-				{include file=\App\Layout::getTemplatePath('Edit/Field//Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
+				{include file=\App\Layout::getTemplatePath('Edit/Field/Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 			</div>
 			<div class="col-5">
-				{include file=\App\Layout::getTemplatePath('Edit/Field//Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
+				{include file=\App\Layout::getTemplatePath('Edit/Field/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
 			</div>
 		</div>
 		{assign var=BLOCK_FIELDS value=false}
 	{else}
-		{include file=\App\Layout::getTemplatePath('Edit/Field//Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
+		{include file=\App\Layout::getTemplatePath('Edit/Field/Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 	{/if}
 {/strip}

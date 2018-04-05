@@ -38,7 +38,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'List/Field//PickList.tpl';
+		return 'List/Field/PickList.tpl';
 	}
 
 	/**
@@ -46,6 +46,6 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Field//Picklist.tpl';
+		return 'Edit/Field/Picklist.tpl';
 	}
 }

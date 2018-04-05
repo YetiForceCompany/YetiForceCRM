@@ -36,10 +36,10 @@
 
 	<div class="tpl-Edit-Field-DateTime form-row">
 		<div class="col-12 col-sm-6 col-md-5 mb-3">
-			{include file=\App\Layout::getTemplatePath('Edit/Field//Date.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
+			{include file=\App\Layout::getTemplatePath('Edit/Field/Date.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
 		</div >
 		<div class="col-12 col-sm-6 col-md-7">
-			{include file=\App\Layout::getTemplatePath('Edit/Field//Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
+			{include file=\App\Layout::getTemplatePath('Edit/Field/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
 		</div>
 	</div>
 {/strip}

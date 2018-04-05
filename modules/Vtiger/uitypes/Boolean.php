@@ -56,7 +56,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Field//Boolean.tpl';
+		return 'Edit/Field/Boolean.tpl';
 	}
 
 	/**
@@ -64,6 +64,6 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'List/Field//Boolean.tpl';
+		return 'List/Field/Boolean.tpl';
 	}
 }
