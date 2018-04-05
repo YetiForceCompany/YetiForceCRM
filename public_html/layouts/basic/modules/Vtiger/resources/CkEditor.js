@@ -75,7 +75,7 @@ class Vtiger_CkEditor_Js {
 		};
 
 		if (typeof customConfig !== 'undefined') {
-			config = jQuery.extend(config, customConfig);
+			config = $.extend(config, customConfig);
 		}
 		if (instance) {
 			CKEDITOR.remove(instance);
