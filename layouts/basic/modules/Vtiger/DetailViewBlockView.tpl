@@ -68,7 +68,7 @@
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="{if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-sm-12 {else} col-sm-6 {/if}">
+									<div class="col-sm">
 										<div class="form-row border-right">
 											<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel_label {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else}  col-lg-6  {/if}  {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
