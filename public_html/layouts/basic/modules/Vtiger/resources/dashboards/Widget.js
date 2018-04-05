@@ -393,7 +393,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof finalFunction !== 'function') {
 			app.errorLog(new Error("Global function does not exists: " + splitted[1]));
 		}
-		return finalFunction.on(this);
+		return finalFunction.bind(this);
 	},
 	/**
 	 * Should options property be replaced by function?
