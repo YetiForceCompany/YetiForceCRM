@@ -35,7 +35,7 @@
 								</div>
 								<div class="col-12 paddingLRZero marginBottom10px">
 									{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-									<textarea id="bodyIssues" class="form-control js-ckeditor" type="text" name="title">
+									<textarea id="bodyIssues" class="form-control js-ckeditor" data-js="ckeditor" type="text" name="title">
 									<br />
 									<hr>
 										{\App\Language::translate('LBL_DEFAULT_DESCRIPTION', $QUALIFIED_MODULE)}
