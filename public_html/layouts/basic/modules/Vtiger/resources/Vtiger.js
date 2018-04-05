@@ -468,23 +468,22 @@ var Vtiger_Index_Js = {
 	 * Function to trigger tooltip feature.
 	 */
 	registerTooltipEvents: function () {
-		var references = $.unique($.merge($('.showReferenceTooltip'), $('[data-field-type="reference"] > a'), $('[data-field-type="multireference"] > a')));
-		var lastPopovers = [];
+		const references = $.unique($.merge($('.showReferenceTooltip'), $('[data-field-type="reference"] > a'), $('[data-field-type="multireference"] > a')));
+		let lastPopovers = [];
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
-		var CACHE_ENABLED = true;
+		let CACHE_ENABLED = true;
 
 		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();
-			var el = jQuery(this);
-			var url = el.attr('href') ? el.attr('href') : '';
-			if (url == '') {
+			const el = jQuery(this);
+			let url = el.attr('href') ? el.attr('href') : '';
+			if (url === '') {
 				return;
 			}
-
 			// Rewrite URL to retrieve Tooltip view.
 			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
-			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
+			let cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
 			if (cachedView && cachedView.length) {
 				showTooltip(el, cachedView.html());
 			} else {
@@ -498,41 +497,34 @@ var Vtiger_Index_Js = {
 		}
 
 		function get_popover_placement(el) {
-			var width = window.innerWidth;
-			var left_pos = jQuery(el).offset().left;
-			if (width - left_pos < 400 || checkLastElement(el))
+			if (window.innerWidth - jQuery(el).offset().left < 400 || checkLastElement(el)) {
 				return 'left';
+			}
 			return 'right';
 		}
 
 		//The function checks if the selected element is the last element of the table in list view.
 		function checkLastElement(el) {
-			var parent = el.closest('tr');
-			var lastElementTd = parent.find('td.listViewEntryValue:last a');
-			if (el.attr('href') == lastElementTd.attr('href')) {
-				return true;
-			}
-			return false;
+			let parent = el.closest('tr');
+			let lastElementTd = parent.find('td.listViewEntryValue:last a');
+			return el.attr('href') === lastElementTd.attr('href');
 		}
 
 		function showTooltip(el, data) {
-			var the_placement = get_popover_placement(el);
 			el.popover({
 				//title: '', - Is derived from the Anchor Element (el).
 				trigger: 'manual',
 				content: data,
+				delay: 100,
 				animation: false,
 				html: true,
-				placement: the_placement,
-				template: '<div class="popover popover-tooltip"><div class="arrow"></div><div class="popover-inner"><button name="vtTooltipClose" class="close" style="color:white;opacity:1;font-weight:lighter;position:relative;top:3px;right:3px;">x</button><h3 class="popover-title"></h3><div class="popover-content"><div></div></div></div></div>'
+				placement: get_popover_placement(el),
 			});
 			lastPopovers.push(el.popover('show'));
 			registerToolTipDestroy();
 		}
 
 		function hideAllTooltipViews() {
-			// Hide all previous popover
-			var lastPopover = null;
 			while (lastPopover = lastPopovers.pop()) {
 				lastPopover.popover('hide');
 			}
@@ -550,7 +542,7 @@ var Vtiger_Index_Js = {
 
 		function registerToolTipDestroy() {
 			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
-				var lastPopover = lastPopovers.pop();
+				const lastPopover = lastPopovers.pop();
 				lastPopover.popover('hide');
 				jQuery('.popover').css("display", "none", "important");
 			});
