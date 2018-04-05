@@ -332,6 +332,8 @@
   "js": {
 	"JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "O separador de casas decimais e separador de milhar n\u00e3o podem ser os mesmos",
 	"JS_ENTER_CONFIRMATION_PASSWORD": "Por favor, digite confirma\u00e7\u00e3o da senha.",
-	"JS_REENTER_PASSWORDS": "Por favor, redigite suas senhas.  Os valores da \\\"nova senha\\\" e \\\"senha de confirma\u00e7\u00e3o\\\" n\u00e3o combinam."
+	"JS_REENTER_PASSWORDS": "Por favor, redigite suas senhas.  Os valores da \\\"nova senha\\\" e \\\"senha de confirma\u00e7\u00e3o\\\" n\u00e3o combinam.",
+	"JS_NEW_ACCESS_KEY_REQUESTED": "Enter new access key",
+	"JS_CHANGE_ACCESS_KEY_CONFIRMATION": "New access key was requested. Old access key must be replaced with a new one in all installed extensions. Do you want to continue?"
   }
 }
