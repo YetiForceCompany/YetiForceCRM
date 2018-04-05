@@ -1,8 +1,8 @@
 {strip}
-	<div class="summaryWidgetContainer summaryWidgetFastEditing">
+	<div class="c-detail-widget mb-3 js-detail-widget summaryWidgetFastEditing">
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
-				<div class="widget_header marginBottom10px">
+				<div class="c-detail-widget__header js-detail-widget-header marginBottom10px">
 					<span class="margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 				</div>
 			{/if}

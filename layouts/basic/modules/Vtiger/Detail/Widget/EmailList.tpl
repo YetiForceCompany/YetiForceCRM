@@ -1,8 +1,8 @@
 {strip}
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-	<div class="summaryWidgetContainer">
+	<div class="c-detail-widget mb-3 js-detail-widget">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="widget_header">
+			<div class="c-detail-widget__header js-detail-widget-header">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="widgetTitle row">
 					<div class="col-7">
@@ -81,7 +81,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="widget_contents widgetContent mailsList"></div>
+			<div class="c-detail-widget__content js-detail-widget-content widgetContent mailsList"></div>
 		</div>
 	</div>
 {/strip}
