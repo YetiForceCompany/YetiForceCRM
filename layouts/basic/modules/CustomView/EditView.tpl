@@ -134,7 +134,7 @@
 					<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4>
 				</div>
 				<div class="card-body d-none">
-					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
+					<textarea name="description" id="description" class="js-ckeditor" data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 				</div>
 			</div>
 			<div class="js-toggle-panel c-panel__content" data-js="click">

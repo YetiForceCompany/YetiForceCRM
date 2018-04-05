@@ -13,7 +13,7 @@ App.Fields = {
 
 		/**
 		 * Register DatePicker
-		 * @param {jQuery} parentElement
+		 * @param {$} parentElement
 		 * @param {boolean} registerForAddon
 		 * @param {object} customParams
 		 */
@@ -69,7 +69,7 @@ App.Fields = {
 				todayHighlight: true,
 			};
 			if (typeof customParams !== 'undefined') {
-				params = jQuery.extend(params, customParams);
+				params = $.extend(params, customParams);
 			}
 			elements.datepicker(params);
 		},
@@ -81,11 +81,11 @@ App.Fields = {
 		 */
 		registerRange(parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
-				parentElement = jQuery('body');
+				parentElement = $('body');
 			} else {
-				parentElement = jQuery(parentElement);
+				parentElement = $(parentElement);
 			}
-			let elements = jQuery('.dateRangeField', parentElement);
+			let elements = $('.dateRangeField', parentElement);
 			if (parentElement.hasClass('dateRangeField')) {
 				elements = parentElement;
 			}
@@ -125,7 +125,7 @@ App.Fields = {
 				},
 			};
 			if (typeof customParams !== 'undefined') {
-				params = jQuery.extend(params, customParams);
+				params = $.extend(params, customParams);
 			}
 			$('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
@@ -143,19 +143,19 @@ App.Fields = {
 		 */
 		register: function (parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
-				parentElement = jQuery('body');
+				parentElement = $('body');
 			} else {
-				parentElement = jQuery(parentElement);
+				parentElement = $(parentElement);
 			}
-			let elements = jQuery('.dateTimePickerField', parentElement);
+			let elements = $('.dateTimePickerField', parentElement);
 			if (parentElement.hasClass('dateTimePickerField')) {
 				elements = parentElement;
 			}
 			if (elements.length === 0) {
 				return;
 			}
-			jQuery('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				jQuery(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
+			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -199,7 +199,7 @@ App.Fields = {
 				},
 			};
 			if (typeof customParams !== 'undefined') {
-				params = jQuery.extend(params, customParams);
+				params = $.extend(params, customParams);
 			}
 			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
 				$(this).val(picker.startDate.format(format));
@@ -249,8 +249,8 @@ App.Fields = {
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
-					trigger = jQuery(trigger);
-					var element = jQuery(trigger.data('copyTarget'));
+					trigger = $(trigger);
+					var element = $(trigger.data('copyTarget'));
 					var val;
 					if (typeof trigger.data('copyType') !== 'undefined') {
 						if (element.is("select")) {
@@ -274,30 +274,30 @@ App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {Object} params
 		 */
-		registerCkEditor: function (parentElement, params) {
-			if (typeof parentElement == 'undefined') {
-				parentElement = jQuery('body');
+		registerCkEditor(parentElement, params) {
+			if (typeof parentElement === 'undefined') {
+				parentElement = $('body');
 			} else {
-				parentElement = jQuery(parentElement);
+				parentElement = $(parentElement);
 			}
+			let elements;
 			if (parentElement.hasClass('js-ckeditor') && !parentElement.prop('disabled')) {
-				var elements = parentElement;
+				elements = parentElement;
 			} else {
-				var elements = jQuery('.js-ckeditor:not([disabled])', parentElement);
+				elements = $('.js-ckeditor:not([disabled])', parentElement);
 			}
-			if (elements.length == 0) {
+			if (elements.length === 0) {
 				return;
 			}
 			$.each(elements, function (key, element) {
-				var ckEditorInstance = new Vtiger_CkEditor_Js();
-				ckEditorInstance.loadCkEditor($(element), params);
+				new Vtiger_CkEditor_Js(element, params);
 			});
 		},
 		/**
 		 * Destroy ckEditor
 		 * @param {jQuery} element
 		 */
-		destroyCkEditor: function (element) {
+		destroyCkEditor(element) {
 			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
@@ -306,7 +306,7 @@ App.Fields = {
 		 * Generate random character
 		 * @returns {string}
 		 */
-		generateRandomChar: function () {
+		generateRandomChar() {
 			const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
 			const rand = Math.floor(Math.random() * chars.length);
 			return chars.substring(rand, rand + 1);
@@ -371,7 +371,7 @@ App.Fields = {
 			}
 			let data = selectElement.data();
 			if (data != null) {
-				params = jQuery.extend(data, params);
+				params = $.extend(data, params);
 			}
 			params.language = {};
 			params.theme = "bootstrap4";
@@ -382,14 +382,14 @@ App.Fields = {
 
 			// Sort DOM nodes alphabetically in select box.
 			if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
-				jQuery('optgroup', selectElement).each(function () {
-					var optgroup = jQuery(this);
+				$('optgroup', selectElement).each(function () {
+					var optgroup = $(this);
 					var options = optgroup.children().toArray().sort(function (a, b) {
-						var aText = jQuery(a).text();
-						var bText = jQuery(b).text();
+						var aText = $(a).text();
+						var bText = $(b).text();
 						return aText < bText ? 1 : -1;
 					});
-					jQuery.each(options, function (i, v) {
+					$.each(options, function (i, v) {
 						optgroup.prepend(v);
 					});
 				});
@@ -524,11 +524,11 @@ App.Fields = {
 							select.removeData('unselecting');
 							setTimeout(function (e) {
 								select.each(function () {
-									jQuery(this).select2('close');
+									$(this).select2('close');
 								});
 							}, 1);
 						}
-						var element = jQuery(e.currentTarget);
+						var element = $(e.currentTarget);
 						var instance = element.data('select2');
 						instance.$dropdown.css('z-index', 1000002);
 					}).on("select2:unselect", function (e) {
@@ -613,9 +613,9 @@ App.Fields = {
 		 */
 		destroyChosenElement: function (parent) {
 			if (typeof parent === 'undefined') {
-				parent = jQuery('body');
+				parent = $('body');
 			}
-			let selectElement = jQuery('.chzn-select', parent);
+			let selectElement = $('.chzn-select', parent);
 			//parent itself is the element
 			if (parent.is('select.chzn-select')) {
 				selectElement = parent;
@@ -638,9 +638,9 @@ App.Fields = {
 		 */
 		destroySelectizeElement: function (parent) {
 			if (typeof parent === 'undefined') {
-				parent = jQuery('body');
+				parent = $('body');
 			}
-			let selectElements = jQuery('.selectized', parent);
+			let selectElements = $('.selectized', parent);
 			//parent itself is the element
 			if (parent.is('select.selectized')) {
 				selectElements = parent;

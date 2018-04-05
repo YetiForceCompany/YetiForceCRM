@@ -15,7 +15,7 @@ app = {
 	languageString: [],
 	cacheParams: [],
 	event: new function () {
-		this.el = jQuery({});
+		this.el = $({});
 		this.trigger = function () {
 			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
 		}
@@ -66,13 +66,13 @@ app = {
 	 * Function to get language
 	 */
 	getLanguage: function () {
-		return jQuery('body').data('language');
+		return $('body').data('language');
 	},
 	/**
 	 * Function to get path to layout
 	 */
 	getLayoutPath: function () {
-		return jQuery('body').data('layoutpath');
+		return $('body').data('layoutpath');
 	},
 	/**
 	 * Function to get page title
@@ -91,11 +91,11 @@ app = {
 	 * @returns jQuery object
 	 */
 	getContentsContainer: function () {
-		return jQuery('.bodyContents');
+		return $('.bodyContents');
 	},
 	hidePopover: function (element) {
 		if (typeof element == 'undefined') {
-			element = jQuery('body .js-popover-tooltip');
+			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
@@ -125,7 +125,7 @@ app = {
 			}
 			var data = element.data();
 			if (data != null) {
-				sparams = jQuery.extend(sparams, data);
+				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
 			element.on("mouseenter", function () {
@@ -159,7 +159,7 @@ app = {
 		var limit = params.maximumSelectionLength;
 		selectElement.on('change', function (e) {
 			var data = instance.data()
-			if (jQuery.isArray(data) && data.length >= limit) {
+			if ($.isArray(data) && data.length >= limit) {
 				instance.updateResults();
 			}
 		});
@@ -176,7 +176,7 @@ app = {
 			returnFormat = 'string';
 		}
 
-		parentElement = jQuery(parentElement);
+		parentElement = $(parentElement);
 
 		var encodedString = parentElement.children().serialize();
 		if (returnFormat == 'string') {
@@ -199,12 +199,12 @@ app = {
 		let params = {
 			'show': true,
 		};
-		if (jQuery('#backgroundClosingModal').val() !== 1) {
+		if ($('#backgroundClosingModal').val() !== 1) {
 			params.backdrop = 'static';
 		}
 		if (typeof paramsObject === 'object') {
 			container.css(paramsObject);
-			params = jQuery.extend(params, paramsObject);
+			params = $.extend(params, paramsObject);
 		}
 		container.html(data);
 		if (container.find('.modal').hasClass('static')) {
@@ -213,25 +213,26 @@ app = {
 		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
 		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 			$(document).off('focusin.bs.modal') // guard against infinite focus loop
-					.on('focusin.bs.modal', $.proxy(function (e) {
-						if ($(e.target).hasClass('select2-search__field')) {
-							return true;
-						}
-					}, this))
+				.on('focusin.bs.modal', $.proxy(function (e) {
+					if ($(e.target).hasClass('select2-search__field')) {
+						return true;
+					}
+				}, this))
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
-			if (jQuery('.modal-backdrop').length > 1) {
-				jQuery('.modal-backdrop:not(:first)').remove();
+			if ($('.modal-backdrop').length > 1) {
+				$('.modal-backdrop:not(:first)').remove();
 			}
 			cb(modalContainer);
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
+			App.Fields.Text.registerCkEditor(modalContainer.find('.js-ckeditor'));
 		});
 		modalContainer.modal(params);
-		jQuery('body').append(container);
+		$('body').append(container);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -240,7 +241,7 @@ app = {
 		var thisInstance = this;
 		var id = 'globalmodal';
 		//null is also an object
-		if (typeof data == 'object' && data != null && !(data instanceof jQuery)) {
+		if (typeof data == 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
 				id = data.id;
 			}
@@ -273,16 +274,16 @@ app = {
 			}
 		}
 
-		var container = jQuery('#' + id);
+		var container = $('#' + id);
 		if (container.length) {
 			container.remove();
 		}
-		container = jQuery('<div></div>');
+		container = $('<div></div>');
 		container.attr('id', id).addClass('modalContainer');
 		container.one('hidden.bs.modal', function () {
 			container.remove();
-			var backdrop = jQuery('.modal-backdrop');
-			var modalContainers = jQuery('.modalContainer');
+			var backdrop = $('.modal-backdrop');
+			var modalContainers = $('.modalContainer');
 			if (modalContainers.length == 0 && backdrop.length) {
 				backdrop.remove();
 			}
@@ -294,7 +295,7 @@ app = {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 
 		} else {
-			jQuery.get(url).then(function (response) {
+			$.get(url).then(function (response) {
 				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
 			});
 		}
@@ -308,7 +309,7 @@ app = {
 		if (id == undefined) {
 			id = 'globalmodal';
 		}
-		var container = jQuery('#' + id);
+		var container = $('#' + id);
 		if (container.length <= 0) {
 			return;
 		}
@@ -318,8 +319,8 @@ app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = jQuery('.modal-backdrop:last');
-		var modalContainers = jQuery('.modalContainer');
+		var backdrop = $('.modal-backdrop:last');
+		var modalContainers = $('.modalContainer');
 		if (modalContainers.length == 0 && backdrop.length) {
 			backdrop.remove();
 		}
@@ -341,7 +342,7 @@ app = {
 					save = false;
 				}
 				if (save) {
-					var progressIndicatorElement = jQuery.progressIndicator({
+					var progressIndicatorElement = $.progressIndicator({
 						blockInfo: {'enabled': true}
 					});
 					var formData = form.serializeFormData();
@@ -413,7 +414,7 @@ app = {
 		if (formError.length > 0) {
 			var destination = formError.offset().top;
 			var resizedDestnation = destination - 105;
-			jQuery('html').animate({
+			$('html').animate({
 				scrollTop: resizedDestnation
 			}, 'slow');
 		}
@@ -517,20 +518,20 @@ app = {
 	},
 	registerEventForDateFields: function (parentElement) {
 		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
+			parentElement = $('body');
 		}
 
-		parentElement = jQuery(parentElement);
+		parentElement = $(parentElement);
 
 		if (parentElement.hasClass('dateField')) {
 			var element = parentElement;
 		} else {
-			var element = jQuery('.dateField', parentElement);
+			var element = $('.dateField', parentElement);
 		}
 		element.datepicker({'autoclose': true}).on('changeDate', function (ev) {
-			var currentElement = jQuery(ev.currentTarget);
+			var currentElement = $(ev.currentTarget);
 			var dateFormat = currentElement.data('dateFormat').toUpperCase();
-			var date = jQuery.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
+			var date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 			currentElement.val(date);
 		});
 	},
@@ -552,7 +553,7 @@ app = {
 			ampmSubmit: false
 		};
 		$('.js-clock__btn').on('click', (e) => {
-			let elem = jQuery(e.currentTarget);
+			let elem = $(e.currentTarget);
 			e.stopPropagation();
 			let tempElement = elem.closest('.time').find('input.clockPicker');
 			if (tempElement.attr('disabled') !== 'disabled') {
@@ -599,7 +600,7 @@ app = {
 	destroyTimeFields: function (container) {
 
 		if (typeof cotainer == 'undefined') {
-			container = jQuery('body');
+			container = $('body');
 		}
 
 		if (container.hasClass('timepicker-default')) {
@@ -618,7 +619,7 @@ app = {
 	getChosenElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
 		var chosenEleId = selectId + "_chosen";
-		return jQuery('#' + chosenEleId);
+		return $('#' + chosenEleId);
 	},
 	/**
 	 * Function to get the select2 element from the raw select element
@@ -629,7 +630,7 @@ app = {
 		var selectId = selectElement.attr('id');
 		//since select2 will add s2id_ to the id of select element
 		var select2EleId = 'select2-' + selectId + '-container';
-		return jQuery('#' + select2EleId).closest('.select2-container');
+		return $('#' + select2EleId).closest('.select2-container');
 	},
 	/**
 	 * Function to get the select element from the chosen element
@@ -640,16 +641,16 @@ app = {
 		var chosenId = chosenElement.attr('id');
 		var selectEleIdArr = chosenId.split('_chosen');
 		var selectEleId = selectEleIdArr['0'];
-		return jQuery('#' + selectEleId);
+		return $('#' + selectEleId);
 	},
 	/**
 	 * Function to set with of the element to parent width
 	 * @params : jQuery element for which the action to take place
 	 */
 	setInheritWidth: function (elements) {
-		jQuery(elements).each(function (index, element) {
-			var parentWidth = jQuery(element).parent().width();
-			jQuery(element).width(parentWidth);
+		$(elements).each(function (index, element) {
+			var parentWidth = $(element).parent().width();
+			$(element).width(parentWidth);
 		});
 	},
 	showNewScrollbar: function (element, options) {
@@ -716,7 +717,7 @@ app = {
 			}
 		}
 		if (typeof options !== 'undefined')
-			var params = jQuery.extend(params, options);
+			var params = $.extend(params, options);
 		return element.mCustomScrollbar(params);
 	},
 	/**
@@ -744,18 +745,18 @@ app = {
 	},
 	cacheGet: function (key, defvalue) {
 		key = this.cacheNSKey(key);
-		return jQuery.jStorage.get(key, defvalue);
+		return $.jStorage.get(key, defvalue);
 	},
 	cacheSet: function (key, value, ttl) {
 		key = this.cacheNSKey(key);
-		jQuery.jStorage.set(key, value);
+		$.jStorage.set(key, value);
 		if (ttl) {
-			jQuery.jStorage.setTTL(key, ttl);
+			$.jStorage.setTTL(key, ttl);
 		}
 	},
 	cacheClear: function (key) {
 		key = this.cacheNSKey(key);
-		return jQuery.jStorage.deleteKey(key);
+		return $.jStorage.deleteKey(key);
 	},
 	moduleCacheSet: function (key, value, ttl) {
 		if (ttl == undefined) {
@@ -803,7 +804,7 @@ app = {
 	},
 	htmlEncode: function (value) {
 		if (value) {
-			return jQuery('<div />').text(value).html();
+			return $('<div />').text(value).html();
 		} else {
 			return '';
 		}
@@ -821,8 +822,8 @@ app = {
 	 */
 	placeAtCenter: function (element) {
 		element.css("position", "absolute");
-		element.css("top", ((jQuery(window).height() - element.outerHeight()) / 2) + jQuery(window).scrollTop() + "px");
-		element.css("left", ((jQuery(window).width() - element.outerWidth()) / 2) + jQuery(window).scrollLeft() + "px");
+		element.css("top", (($(window).height() - element.outerHeight()) / 2) + $(window).scrollTop() + "px");
+		element.css("left", (($(window).width() - element.outerWidth()) / 2) + $(window).scrollLeft() + "px");
 	},
 	getvalidationEngineOptions: function (select2Status) {
 		return Object.assign({}, app.validationEngineOptions);
@@ -832,20 +833,20 @@ app = {
 	 * This can help in re-registering the event handlers (which was done during ready event).
 	 */
 	notifyPostAjaxReady: function () {
-		jQuery(document).trigger('postajaxready');
+		$(document).trigger('postajaxready');
 	},
 	/**
 	 * Listen to xready notiications.
 	 */
 	listenPostAjaxReady: function (callback) {
-		jQuery(document).on('postajaxready', callback);
+		$(document).on('postajaxready', callback);
 	},
 	/**
 	 * Form function handlers
 	 */
 	setFormValues: function (kv) {
 		for (var k in kv) {
-			jQuery(k).val(kv[k]);
+			$(k).val(kv[k]);
 		}
 	},
 	setRTEValues: function (kv) {
@@ -870,7 +871,7 @@ app = {
 		if (typeof window[moduleClassName] == 'undefined') {
 			moduleClassName = moduleName + "_" + view + "_Js";
 		}
-		var extendModules = jQuery('#extendModules').val();
+		var extendModules = $('#extendModules').val();
 		if (typeof window[moduleClassName] == 'undefined' && extendModules != undefined) {
 			moduleClassName = extendModules + "_" + view + "_Js";
 		}
@@ -890,7 +891,7 @@ app = {
 	 * Function to decode the encoded htmlentities values
 	 */
 	getDecodedValue: function (value) {
-		return jQuery('<div></div>').html(value).text();
+		return $('<div></div>').html(value).text();
 	},
 	updateRowHeight: function () {
 		var rowType = CONFIG.rowHeight;
@@ -917,7 +918,7 @@ app = {
 				'field': 'rowheight'
 			};
 			AppConnector.request(params).then(function () {
-				jQuery(rowType).val(serverWidth);
+				$(rowType).val(serverWidth);
 			});
 		}
 	},
@@ -967,11 +968,11 @@ app = {
 	},
 	formatDate: function (date) {
 		var y = date.getFullYear(),
-				m = date.getMonth() + 1,
-				d = date.getDate(),
-				h = date.getHours(),
-				i = date.getMinutes(),
-				s = date.getSeconds();
+			m = date.getMonth() + 1,
+			d = date.getDate(),
+			h = date.getHours(),
+			i = date.getMinutes(),
+			s = date.getSeconds();
 		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
 	},
 	formatDateZ: function (i) {
@@ -984,7 +985,7 @@ app = {
 		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
 	},
 	saveAjax: function (mode, param, addToParams) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -999,12 +1000,12 @@ app = {
 			}
 		}
 		AppConnector.request(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject();
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -1094,11 +1095,11 @@ app = {
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
-			container = jQuery('body');
+			container = $('body');
 		}
 		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 			e.preventDefault();
-			var currentElement = jQuery(e.currentTarget);
+			var currentElement = $(e.currentTarget);
 			var url = currentElement.data('url');
 
 			if (typeof url != 'undefined') {
@@ -1154,13 +1155,13 @@ app = {
 		}
 	},
 	registerSticky: function () {
-		var elements = jQuery('.stick');
+		var elements = $('.stick');
 		elements.each(function () {
-			var currentElement = jQuery(this);
+			var currentElement = $(this);
 			var position = currentElement.data('position');
 			if (position == 'top') {
 				var offsetTop = currentElement.offset().top - 50;
-				jQuery('.mainBody').on('scroll', function () {
+				$('.mainBody').on('scroll', function () {
 					if ($(this).scrollTop() > offsetTop)
 						currentElement.css({
 							'position': 'fixed',
@@ -1176,8 +1177,8 @@ app = {
 				});
 			}
 			if (position == 'bottom') {
-				var offsetTop = currentElement.offset().top - jQuery(window).height();
-				jQuery('.mainBody').on('scroll', function () {
+				var offsetTop = currentElement.offset().top - $(window).height();
+				$('.mainBody').on('scroll', function () {
 					if ($(this).scrollTop() < offsetTop)
 						currentElement.css({
 							'position': 'fixed',
@@ -1196,7 +1197,7 @@ app = {
 	},
 	registerMoreContent: function (container) {
 		container.on('click', function (e) {
-			var btn = jQuery(e.currentTarget);
+			var btn = $(e.currentTarget);
 			var content = btn.closest('.moreContent');
 			content.find('.teaserContent').toggleClass('d-none');
 			content.find('.fullContent').toggleClass('d-none');
@@ -1211,7 +1212,7 @@ app = {
 		if (typeof percantage == 'undefined') {
 			percantage = 100;
 		}
-		return jQuery(window).height() * percantage / 100;
+		return $(window).height() * percantage / 100;
 	},
 	setCalendarHeight() {
 		const container = $('.baseContainer');
@@ -1239,7 +1240,7 @@ app = {
 	showConfirmation: function (data, element) {
 		var params = {};
 		if (data) {
-			params = jQuery.extend(params, data);
+			params = $.extend(params, data);
 		}
 		if (element) {
 			element = $(element);
@@ -1289,12 +1290,12 @@ app = {
 		return result.trim();
 	}
 }
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
-	app.showPopoverElementView(jQuery('body').find('.js-popover-tooltip'));
-	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
+	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.showBtnSwitch($('body').find('.switchBtn'));
 	app.registerSticky();
-	app.registerMoreContent(jQuery('body').find('button.moreBtn'));
+	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	//Updating row height
 	app.updateRowHeight();
@@ -1304,7 +1305,7 @@ jQuery(document).ready(function () {
 	}
 	// in IE resize option for textarea is not there, so we have to use .resizable() api
 	if (/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
-		jQuery('textarea').resizable();
+		$('textarea').resizable();
 	}
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
@@ -1361,7 +1362,7 @@ jQuery(document).ready(function () {
 	}
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
-		return (obj.textContent || obj.innerText || jQuery(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
 	}
 	bootbox.setLocale(CONFIG.langKey);
-})(jQuery);
+})($);

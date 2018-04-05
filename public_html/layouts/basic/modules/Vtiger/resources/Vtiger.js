@@ -48,7 +48,7 @@ var Vtiger_Index_Js = {
 						processData: false,
 						contentType: false
 					};
-					var progressIndicatorElement = jQuery.progressIndicator({
+					var progressIndicatorElement = $.progressIndicator({
 						blockInfo: {'enabled': true}
 					});
 					AppConnector.request(params).then(function (data) {
@@ -74,7 +74,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	getEmailFromRecord: function (record, module, maxEmails) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		AppConnector.request({
 			dataType: 'html',
 			data: {
@@ -106,7 +106,7 @@ var Vtiger_Index_Js = {
 	registerMailButtons: function (container) {
 		var thisInstance = this;
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
-			var sendButton = jQuery(this);
+			var sendButton = $(this);
 			sendButton.addClass('mailBtnActive');
 			sendButton.on('click', function (e) {
 				e.stopPropagation();
@@ -147,15 +147,15 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerWidgetsEvents: function () {
-		var widgets = jQuery('div.widgetContainer');
+		var widgets = $('div.widgetContainer');
 		widgets.on('shown.bs.collapse', function (e) {
-			var widgetContainer = jQuery(e.currentTarget);
+			var widgetContainer = $(e.currentTarget);
 			Vtiger_Index_Js.loadWidgets(widgetContainer);
 			var key = widgetContainer.attr('id');
 			app.cacheSet(key, 1);
 		});
 		widgets.on('hidden.bs.collapse', function (e) {
-			var widgetContainer = jQuery(e.currentTarget);
+			var widgetContainer = $(e.currentTarget);
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('rightimage');
 			imageEle.attr('src', imagePath);
@@ -169,7 +169,7 @@ var Vtiger_Index_Js = {
 	 * @param open - widget should be open or closed
 	 */
 	loadWidgets: function (widgetContainer, open) {
-		var message = jQuery('.loadingWidgetMsg').html();
+		var message = $('.loadingWidgetMsg').html();
 		if (widgetContainer.find('.card-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
@@ -202,14 +202,14 @@ var Vtiger_Index_Js = {
 				} else {
 					var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
 				}
-				jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
+				$('.bodyContents').trigger('Vtiger.Widget.Load.' + label, $(widgetContainer));
 			}
 		);
 	},
 	loadWidgetsOnLoad: function () {
-		var widgets = jQuery('div.widgetContainer');
+		var widgets = $('div.widgetContainer');
 		widgets.each(function (index, element) {
-			Vtiger_Index_Js.loadWidgets(jQuery(element));
+			Vtiger_Index_Js.loadWidgets($(element));
 		});
 	},
 	/**
@@ -217,11 +217,11 @@ var Vtiger_Index_Js = {
 	 * @params : colour name
 	 */
 	changeSkin: function () {
-		jQuery('.themeElement').on('click', function (e) {
+		$('.themeElement').on('click', function (e) {
 			e.stopPropagation();
-			var currentElement = jQuery(e.currentTarget);
+			var currentElement = $(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
-			var progressElement = jQuery('#progressDiv');
+			var progressElement = $('#progressDiv');
 			progressElement.progressIndicator();
 			var params = {
 				'module': 'Users',
@@ -233,7 +233,7 @@ var Vtiger_Index_Js = {
 			AppConnector.request(params).then(function (data) {
 					if (data.success && data.result) {
 						progressElement.progressIndicator({'mode': 'hide'});
-						jQuery('.settingIcons').removeClass('open');
+						$('.settingIcons').removeClass('open');
 						window.location.reload();
 					}
 				},
@@ -242,7 +242,7 @@ var Vtiger_Index_Js = {
 		})
 	},
 	markNotifications: function (id) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var thisInstance = this;
 		var params = {
 			module: 'Notification',
@@ -311,14 +311,14 @@ var Vtiger_Index_Js = {
 	 */
 	registerReminders: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
-		if (activityReminder != 0 && jQuery('.remindersNotice.autoRefreshing').length) {
+		if (activityReminder != 0 && $('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
 			}, activityReminder);
 		}
 		var reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
-		if (reminder != 0 && jQuery('.notificationsNotice.autoRefreshing').length) {
+		if (reminder != 0 && $('.notificationsNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.getNotificationsForReminder();
 			window.reminderNotifications = setInterval(function () {
 				Vtiger_Index_Js.getNotificationsForReminder();
@@ -361,7 +361,7 @@ var Vtiger_Index_Js = {
 			thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 			app.registerModal(content);
 			content.find('.reminderPostpone').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
+				var currentElement = $(e.currentTarget);
 				var recordID = currentElement.closest('.js-toggle-panel').data('record');
 				var url = 'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' + recordID + '&time=' + currentElement.data('time');
 				AppConnector.request(url).then(function (data) {
@@ -541,10 +541,10 @@ var Vtiger_Index_Js = {
 		});
 
 		function registerToolTipDestroy() {
-			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
+			$('button[name="vtTooltipClose"]').on('click', function (e) {
 				const lastPopover = lastPopovers.pop();
 				lastPopover.popover('hide');
-				jQuery('.popover').css("display", "none", "important");
+				$('.popover').css("display", "none", "important");
 			});
 		}
 	},
@@ -601,7 +601,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	updateWatching: function (module, value, user, record) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var params = {
 			module: module,
 			action: 'Watchdog',
@@ -622,8 +622,8 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	assignToOwner: function (element, userId) {
-		var aDeferred = jQuery.Deferred();
-		element = jQuery(element);
+		var aDeferred = $.Deferred();
+		element = $(element);
 		if (userId == undefined) {
 			userId = CONFIG.userId;
 		}
@@ -676,7 +676,7 @@ var Vtiger_Index_Js = {
 	}
 }
 //On Page Load
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();
 	app.listenPostAjaxReady(function () {
 		Vtiger_Index_Js.registerPostAjaxEvents();
