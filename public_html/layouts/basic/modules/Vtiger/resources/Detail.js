@@ -272,7 +272,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	loadWidget: function (widgetContainer, params) {
 		var thisInstance = this;
-		var contentContainer = jQuery('.widget_contents', widgetContainer);
+		var contentContainer = jQuery('.js-detail-widget-content', widgetContainer);
 		if (widgetContainer.find('[name="relatedModule"]').length) {
 			var relatedModuleName = widgetContainer.find('[name="relatedModule"]').val();
 		} else {
@@ -1141,7 +1141,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 
 			var callbackFunction = function () {
-				var widgetContainer = element.closest('.summaryWidgetContainer');
+				var widgetContainer = element.closest('.js-detail-widget');
 				var widgetContentBlock = widgetContainer.find('.widgetContentBlock');
 				var urlParams = widgetContentBlock.data('url');
 				var params = {
@@ -1150,7 +1150,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					'data': urlParams
 				};
 				AppConnector.request(params).then(function (data) {
-						var activitiesWidget = widgetContainer.find('.widget_contents');
+						var activitiesWidget = widgetContainer.find('.js-detail-widget-content');
 						activitiesWidget.html(data);
 						App.Fields.Picklist.changeSelectElementView(activitiesWidget);
 						thisInstance.registerEventForActivityWidget();
@@ -1219,15 +1219,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		jQuery('.createRecordFromFilter').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widgetDataContainer = summaryWidgetContainer.find('.widget_contents');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			var widgetDataContainer = summaryWidgetContainer.find('.js-detail-widget-content');
 			var referenceModuleName = widgetDataContainer.find('[name="relatedModule"]').val();
 			var quickcreateUrl = currentElement.data('url');
 			var parentId = thisInstance.getRecordId();
 			var quickCreateParams = {};
 			var relatedField = currentElement.data('prf');
 			var autoCompleteFields = currentElement.data('acf');
-			var moduleName = currentElement.closest('.widget_header').find('[name="relatedModule"]').val();
+			var moduleName = currentElement.closest('.js-detail-widget-header').find('[name="relatedModule"]').val();
 			var relatedParams = {};
 			var postQuickCreateSave = function (data) {
 				thisInstance.postSummaryWidgetAddRecord(data, currentElement);
@@ -1257,8 +1257,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		jQuery('button.selectRelation').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var referenceModuleName = summaryWidgetContainer.find('.widget_contents [name="relatedModule"]').val();
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			var referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
 			var popupInstance = Vtiger_Popup_Js.getInstance();
 			popupInstance.show({
 				module: referenceModuleName,
@@ -1316,7 +1316,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		} else {
 			currentElement = e;
 		}
-		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+		var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 		var widget = summaryWidgetContainer.find('.widgetContentBlock');
 		var url = '&' + widget.data('url');
 		var urlParams = {};
@@ -1324,7 +1324,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
-		summaryWidgetContainer.find('.widget_header .filterField').each(function (n, item) {
+		summaryWidgetContainer.find('.js-detail-widget-header .filterField').each(function (n, item) {
 			var value = '';
 			var element = jQuery(item);
 			var name = element.data('urlparams');
@@ -1364,7 +1364,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerChangeFilterForWidget: function () {
 		var thisInstance = this;
-		jQuery('.widget_header .filterField').on('change', function (e, state) {
+		jQuery('.js-detail-widget-header .filterField').on('change', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
 		}).on('switchChange.bootstrapSwitch', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
@@ -1374,7 +1374,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		summaryViewContainer.find('.activityWidgetContainer').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
 			var url = widget.data('url');
 			url = url.replace('&type=current', '').replace('&type=history', '');
@@ -1393,7 +1393,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		$('.calculationsWidgetContainer .calculationsSwitch').on('switchChange.bootstrapSwitch', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
 			var url = widget.data('url');
 			url = url.replace('&showtype=open', '');
@@ -1526,8 +1526,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 		jQuery('.createRecord').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			var widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
 			var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
@@ -1584,8 +1584,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	postSummaryWidgetAddRecord: function (data, currentElement) {
 		var thisInstance = this;
-		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-		var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
+		var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+		var widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
 		var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 		var idList = [];
 		idList.push(data.result._recordId);
@@ -2058,7 +2058,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				record: app.getRecordId(),
 			}).then(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var widgetDataContainer = widgetContainer.find('.widget_contents');
+				var widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
 				widgetDataContainer.html(data);
 				App.Fields.Picklist.showSelect2ElementView(widgetDataContainer.find('.select2'));
 			});
@@ -2114,7 +2114,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	loadMailPreviewWidget: function (widgetContent) {
 		var thisInstance = this;
-		var widgetDataContainer = widgetContent.find('.widget_contents');
+		var widgetDataContainer = widgetContent.find('.js-detail-widget-content');
 		var recordId = $('#recordId').val();
 		var progress = widgetDataContainer.progressIndicator();
 		var params = {};
@@ -2307,7 +2307,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var newChange = newChangeInput.val();
 			var currentPage = container.find('#updatesCurrentPage').val();
 			var nextPage = parseInt(currentPage) + 1;
-			if (container.closest('.summaryWidgetContainer').length) {
+			if (container.closest('.js-detail-widget').length) {
 				var data = thisInstance.getFiltersData(e, {
 					'page': nextPage,
 					'tab_label': 'LBL_UPDATES',
@@ -2389,7 +2389,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var currentPage = container.find('.currentPage').val();
 					container.find('.currentPage').remove();
 					container.find('.countActivities').remove();
-					container.find('.widget_contents').append(data);
+					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
 					thisInstance.reloadWidgetActivitesStats(container);
 					app.showPopoverElementView(container.find('.js-popover-tooltip'));

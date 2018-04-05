@@ -1,6 +1,6 @@
 {strip}
-	<div class="summaryWidgetContainer c-detail-widget--wysiwyg">
-		<div class="widget_header row">
+	<div class="c-detail-widget mb-3 js-detail-widget c-detail-widget--wysiwyg">
+		<div class="c-detail-widget__header js-detail-widget-header row">
 			<span class="col-md-10 margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 		</div>
 		<div class="defaultMarginP">
