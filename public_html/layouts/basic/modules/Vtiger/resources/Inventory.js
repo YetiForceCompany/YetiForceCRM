@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class("Vtiger_Inventory_Js", {}, {
+$.Class("Vtiger_Inventory_Js", {}, {
 	inventoryContainer: false,
 	inventoryHeadContainer: false,
 	summaryTaxesContainer: false,
@@ -487,7 +487,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateMargin: function (row) {
 		var netPrice;
-		if (jQuery('.netPrice', row).length) {
+		if ($('.netPrice', row).length) {
 			netPrice = this.getNetPrice(row);
 		} else {
 			netPrice = this.getTotalPrice(row);
@@ -660,7 +660,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	subProductsCashe: [],
 	loadSubProducts: function (parentRow, indicator) {
 		var thisInstance = this;
-		var recordId = jQuery('input.sourceField', parentRow).val();
+		var recordId = $('input.sourceField', parentRow).val();
 		var recordModule = parentRow.find('.rowName input[name="popupReferenceModule"]').val();
 		thisInstance.removeSubProducts(parentRow);
 		if (recordId == '0' || recordId == '' || $.inArray(recordModule, ['Products', 'Services']) < 0) {
@@ -676,7 +676,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			record: recordId
 		};
 		if (indicator) {
-			var progressInstace = jQuery.progressIndicator();
+			var progressInstace = $.progressIndicator();
 		}
 		AppConnector.request(subProrductParams).then(
 			function (data) {
@@ -836,7 +836,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 		var listInstance = Vtiger_Edit_Js.getInstance();
 		$.each(inventoryRowExpanded.find('.js-ckeditor'), function (key, data) {
-			listInstance.loadCkEditorElement(jQuery(data));
+			listInstance.loadCkEditorElement($(data));
 		});
 	},
 	hideExpandedRow: function (row) {
@@ -849,7 +849,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.find('[data-fa-i2svg]').addClass('fa-angle-down');
 		inventoryRowExpanded.addClass('d-none');
 		$.each(inventoryRowExpanded.find('.js-ckeditor'), function (key, data) {
-			var editorInstance = CKEDITOR.instances[jQuery(data).attr('id')];
+			var editorInstance = CKEDITOR.instances[$(data).attr('id')];
 			if (editorInstance) {
 				editorInstance.destroy();
 			}
@@ -944,7 +944,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		};
 		params.async = false;
 		params.dataType = 'json';
-		var progressInstace = jQuery.progressIndicator();
+		var progressInstace = $.progressIndicator();
 		AppConnector.request(params).then(
 			function (data) {
 				progressInstace.hide();
@@ -1211,7 +1211,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				params.discountType = 0;
 			}
 
-			var progressInstace = jQuery.progressIndicator();
+			var progressInstace = $.progressIndicator();
 			AppConnector.request(params).then(
 				function (data) {
 					app.showModalWindow(data, function (data) {
@@ -1296,7 +1296,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				params.record = parentRow.find('.rowName .sourceField').val();
 				params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 			}
-			var progressInstace = jQuery.progressIndicator();
+			var progressInstace = $.progressIndicator();
 			AppConnector.request(params).then(
 				function (data) {
 					app.showModalWindow(data, function (data) {
@@ -1429,7 +1429,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.registerChangeCurrency(container);
 	}
 });
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	var moduleName = app.getModuleName();
 	var moduleClassName = moduleName + "_Inventory_Js";
 	if (typeof window[moduleClassName] == 'undefined') {
