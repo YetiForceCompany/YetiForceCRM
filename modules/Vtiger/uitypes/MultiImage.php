@@ -46,8 +46,12 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			if ($index > (int) $fieldInfo['limit']) {
 				throw new \App\Exceptions\Security('ERR_TO_MANY_FILES||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
+			$path = \App\Fields\File::getLocalPath($item['path']);
+			if (!file_exists($path)) {
+				continue;
+			}
 			$file = \App\Fields\File::loadFromInfo([
-				'path' => \App\Fields\File::getLocalPath($item['path']),
+				'path' => $path,
 				'name' => $item['name'],
 			]);
 			$validFormat = $file->validate('image');
@@ -268,5 +272,23 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function isListviewSortable()
 	{
 		return false;
+	}
+
+	/**
+	 * Delete files for the field MultiImage.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public static function deleteRecord(\Vtiger_Record_Model $recordModel)
+	{
+		foreach ($recordModel->getModule()->getFieldsByType(['multiImage', 'image']) as $fieldModel) {
+			if (!$recordModel->isEmpty($fieldModel->getName()) && $recordModel->get($fieldModel->getName()) !== '[]' && $recordModel->get($fieldModel->getName()) !== '""') {
+				$image = array_shift(\App\Json::decode($recordModel->get($fieldModel->getName())));
+				$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
+				if (file_exists($path)) {
+					unlink($path);
+				}
+			}
+		}
 	}
 }
