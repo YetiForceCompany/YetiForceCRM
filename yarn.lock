@@ -235,9 +235,9 @@ inputmask@^3.3.11:
   version "3.3.11"
   resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-3.3.11.tgz#1421c94ae28c3dcd1b4d26337b508bb34998e2d8"
 
-"jQuery-Validation-Engine@https://github.com/posabsolute/jQuery-Validation-Engine":
+"jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine":
   version "0.0.0"
-  resolved "https://github.com/posabsolute/jQuery-Validation-Engine#5b5603183b43b29f97785e98f1a9c5ef5ec34813"
+  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#5b5603183b43b29f97785e98f1a9c5ef5ec34813"
 
 jquery-cycle@^3.0.3:
   version "3.0.3"
@@ -351,8 +351,8 @@ pnotify@^4.0.0-alpha.2:
   resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.2.tgz#3f4b7bd0d36298b1ec0fe8ba568b3ec4c0c6918d"
 
 popper.js@^1.12.9:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.2.tgz#066e8e1613e65e69ba050f4b78e7bd4c8d54e443"
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.3.tgz#1438f98d046acf7b4d78cd502bf418ac64d4f095"
 
 redeyed@~1.0.0:
   version "1.0.1"
