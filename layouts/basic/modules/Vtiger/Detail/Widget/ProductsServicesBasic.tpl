@@ -11,9 +11,9 @@
 						<div class="col-md-8" align="center">
 							<div class="btn-group" data-toggle="buttons">
 								{foreach name=BTN item=COUNT key=MODULE_DATA from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
-									<label class="btn btn-sm btn-light {if $smarty.foreach.BTN.first}active{/if}" title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}">
+									<label class="btn btn-sm btn-light my-1 {if $smarty.foreach.BTN.first}active{/if}" title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}">
 										<input type="radio" name="mod" class="filterField" value="{$MODULE_DATA}" if {if $smarty.foreach.BTN.first}checked{/if}>
-										<span class="u-cursor-pointer userIcon-{$MODULE_DATA}"></span>&nbsp;&nbsp;
+										<span class="u-cursor-pointer mx-1 userIcon-{$MODULE_DATA}"></span>
 										<span class="badge">{$COUNT}</span>
 									</label>
 								{/foreach}
