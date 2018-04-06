@@ -66,9 +66,7 @@ class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		parent::process($request);
 	}
 }

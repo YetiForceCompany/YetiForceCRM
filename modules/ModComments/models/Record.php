@@ -14,7 +14,6 @@
  */
 class ModComments_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
 	 * Functions gets the comment id.
 	 */
@@ -43,7 +42,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		return $this->getDetailViewUrl() . '&mode=showChildComments';
 	}
 
-	public function getImagePath()
+	public function getImage()
 	{
 		$commentor = $this->getCommentedByModel();
 		if ($commentor) {
@@ -51,23 +50,22 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$isMailConverterType = $this->get('from_mailconverter');
 			if (!empty($customer) && $isMailConverterType != 1) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($customer);
-				$imageDetails = $recordModel->getImageDetails();
+				$imageDetails = $recordModel->getImage();
 				if (!empty($imageDetails)) {
-					return $imageDetails[0]['path'] . '_' . $imageDetails[0]['name'];
+					return $imageDetails;
 				} else {
-					return '';
+					return [];
 				}
 			} elseif ($isMailConverterType == 1) {
 				return \App\Layout::getImagePath('MailConverterComment.png');
 			} else {
-				$imagePath = $commentor->getImageDetails();
-				if (!empty($imagePath[0]['name'])) {
-					return $imagePath[0]['path'];
+				$imagePath = $commentor->getImage();
+				if (!empty($imagePath)) {
+					return $imagePath;
 				}
 			}
 		}
-
-		return false;
+		return [];
 	}
 
 	/**
@@ -132,7 +130,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
 					$commentedByModel = Vtiger_Record_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
 				}
-
 				return $commentedByModel;
 			}
 		}
@@ -177,7 +174,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid',]);
+			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', ]);
 		$queryGenerator->setSourceRecord($parentId);
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
@@ -252,7 +249,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid',]);
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', ]);
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);

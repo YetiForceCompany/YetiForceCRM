@@ -32,30 +32,6 @@
 								{if !$FIELD_MODEL->isViewableInDetailView()}
 									{continue}
 								{/if}
-								{if $FIELD_MODEL->getUIType() eq "69" || $FIELD_MODEL->getUIType() eq "105"}
-									{if $COUNTER neq 0}
-										{if $COUNTER eq 2}
-										</div>
-										<div class="form-row">
-											{assign var=COUNTER value=0}
-										{/if}
-									{/if}
-									<div class="col-md-6 form-row pl-1">
-										<div class="fieldLabel col-sm-6 {$WIDTHTYPE}">
-											<label class="u-text-small-bold">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
-										</div>
-										<div class="fieldValue col-sm-6 {$WIDTHTYPE}">
-											<div id="imageContainer">
-												{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-													{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-														<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" width="300" height="200">
-													{/if}
-												{/foreach}
-											</div>
-										</div>
-									</div>
-									{assign var=COUNTER value=$COUNTER+1}
-								{else}
 									{if $FIELD_MODEL->getUIType() eq "20" or $FIELD_MODEL->getUIType() eq "19" or $FIELD_MODEL->getUIType() eq '300'}
 										{if $COUNTER eq '1'}
 											{assign var=COUNTER value=0}
@@ -110,7 +86,6 @@
 											</div>
 										</div>
 									</div>
-								{/if}
 							{/foreach}
 							{if $COUNTER eq 1}
 								<div class="col-md-6 fieldsLabelValue"></div>

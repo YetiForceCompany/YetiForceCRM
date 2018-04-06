@@ -91,17 +91,16 @@
 						</td>
 						<td width="5%" class="{$WIDTHTYPE}">
 							<div class="row">
-								{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
-								{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
-									{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-										<div class="col-md-6">
-											<img class="list-user-img" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}">
-										</div>
-									{/if}
-								{/foreach}
-								{if $IMAGE_DETAILS[0]['id'] eq null}
+								{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
+								{if $IMAGE}
+									<img src="{$IMAGE.url}"
+										 class="pushDown" alt="{$LISTVIEW_ENTRY->getName()}" title="{$LISTVIEW_ENTRY->getName()}"
+										 height="80" align="left">
+									<br/>
+								{else}
 									<div class='col-md-6'>
-										<img class="list-user-img" alt="" src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
+										<img class="list-user-img" alt=""
+											 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 									</div>
 								{/if}
 							</div>

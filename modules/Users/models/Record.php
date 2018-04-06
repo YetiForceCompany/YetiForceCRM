@@ -349,14 +349,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($this->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $this->getId()) {
 			App\Session::set('language', $this->get('language'));
 		}
-		if ($_FILES) {
-			foreach ($_FILES as $fileindex => $files) {
-				if ($files['name'] !== '' && $files['size'] > 0) {
-					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
-					$this->getEntity()->uploadAndSaveFile($this->getId(), $this->getModuleName(), $files);
-				}
-			}
-		}
 		\App\UserPrivilegesFile::createUserPrivilegesfile($this->getId());
 		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
@@ -545,52 +537,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Images Data.
-	 *
-	 * @return array list of Image names and paths
-	 */
-	public function getImageDetails()
-	{
-		if (\App\Cache::has('getImageDetails', 'imageDetails')) {
-			return \App\Cache::get('getImageDetails', 'imageDetails');
-		}
-		$imageDetails = [];
-		$recordId = $this->getId();
-		if ($recordId) {
-			$row = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
-				->leftJoin('vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-				->where(['vtiger_salesmanattachmentsrel.smid' => $recordId])->one();
-			if ($row) {
-				$imageDetails[] = [
-					'id' => $row['attachmentsid'],
-					'orgname' => \App\Purifier::decodeHtml($row['name']),
-					'path' => $row['path'] . $row['attachmentsid'],
-					'name' => $row['name'],
-				];
-			}
-		}
-		\App\Cache::get('getImageDetails', 'imageDetails', $imageDetails);
-
-		return $imageDetails;
-	}
-
-	/**
-	 * Get image path.
-	 *
-	 * @return string
-	 */
-	public function getImagePath()
-	{
-		$image = $this->getImageDetails();
-		$image = reset($image);
-		if (!empty($image['path'])) {
-			return $image['path'];
-		}
-
-		return false;
-	}
-
-	/**
 	 * Function to get privillage model.
 	 *
 	 * @return $privillage model
@@ -616,28 +562,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$activityView = $this->get('activity_view');
 
 		return $activityView;
-	}
-
-	/**
-	 * Function to delete corresponding image.
-	 *
-	 * @param int $imageId
-	 */
-	public function deleteImage($imageId)
-	{
-		$smId = (int) (new App\Db\Query())->select(['smid'])
-			->from('vtiger_salesmanattachmentsrel')
-			->where(['attachmentsid' => $imageId])
-			->scalar();
-		if ($this->getId() === $smId) {
-			$dbCommand = App\Db::getInstance()->createCommand();
-			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $imageId])->execute();
-			$dbCommand->delete('vtiger_salesmanattachmentsrel', ['attachmentsid' => $imageId])->execute();
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

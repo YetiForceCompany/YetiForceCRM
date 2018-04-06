@@ -4105,7 +4105,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `otheremail` varchar(100) DEFAULT NULL,
   `donotcall` smallint(1) DEFAULT NULL,
   `emailoptout` smallint(1) DEFAULT 0,
-  `imagename` varchar(150) DEFAULT NULL,
+  `imagename` text DEFAULT NULL,
   `isconvertedfromlead` smallint(1) DEFAULT 0,
   `verification` text DEFAULT NULL,
   `secondary_email` varchar(100) DEFAULT '',
@@ -7968,17 +7968,6 @@ CREATE TABLE `vtiger_rss` (
   PRIMARY KEY (`rssid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_salesmanattachmentsrel` */
-
-CREATE TABLE `vtiger_salesmanattachmentsrel` (
-  `smid` int(10) NOT NULL DEFAULT 0,
-  `attachmentsid` int(10) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`smid`,`attachmentsid`),
-  KEY `salesmanattachmentsrel_smid_idx` (`smid`),
-  KEY `salesmanattachmentsrel_attachmentsid_idx` (`attachmentsid`),
-  CONSTRAINT `fk_2_vtiger_salesmanattachmentsrel` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_attachments` (`attachmentsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_salesmanticketrel` */
 
 CREATE TABLE `vtiger_salesmanticketrel` (
@@ -8948,7 +8937,7 @@ CREATE TABLE `vtiger_users` (
   `view_date_format` varchar(50) DEFAULT 'PLL_ELAPSED',
   `activity_view` varchar(200) DEFAULT 'Today',
   `lead_view` varchar(200) DEFAULT 'Today',
-  `imagename` varchar(250) DEFAULT NULL,
+  `imagename` text DEFAULT NULL,
   `reminder_interval` varchar(100) DEFAULT NULL,
   `reminder_next_time` varchar(100) DEFAULT NULL,
   `theme` varchar(100) DEFAULT NULL,

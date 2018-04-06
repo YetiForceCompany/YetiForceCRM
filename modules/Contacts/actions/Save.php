@@ -18,8 +18,6 @@ class Contacts_Save_Action extends Vtiger_Save_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$result = \App\Fields\File::transform($_FILES, true);
-		$_FILES = $result['imagename'];
 		//To stop saveing the value of salutation as '--None--'
 		if ($request->get('salutationtype') === '--None--') {
 			$request->set('salutationtype', '');

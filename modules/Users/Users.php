@@ -207,83 +207,8 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/** Function to upload the file to the server and add the file details in the attachments table
-	 * @param string $id
-	 * @param string $module
-	 * @param array  $fileDetails
-	 *
-	 * @return bool
-	 */
-	public function uploadAndSaveFile($id, $module, $fileDetails)
-	{
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
-		$currentUserId = \App\User::getCurrentUserId();
-		$dateVar = date('Y-m-d H:i:s');
-		$db = App\Db::getInstance();
-		//to get the owner id
-		$ownerid = $this->column_fields['assigned_user_id'];
-		if (!isset($ownerid) || $ownerid == '') {
-			$ownerid = $currentUserId;
-		}
-		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
-		if (!$fileInstance->validate('image')) {
-			\App\Log::trace('Skip the save attachment process.');
-
-			return false;
-		}
-		$binFile = $fileInstance->getSanitizeName();
-		$fileName = ltrim(basename(' ' . $binFile)); //allowed filename like UTF-8 characters
-		$fileType = $fileDetails['type'];
-		$fileTmpName = $fileDetails['tmp_name'];
-		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($module);
-		$db->createCommand()->insert('vtiger_crmentity', [
-			'smcreatorid' => $currentUserId,
-			'smownerid' => $ownerid,
-			'setype' => $module . ' Attachment',
-			'description' => $this->column_fields['description'],
-			'createdtime' => $dateVar,
-			'modifiedtime' => $dateVar,
-		])->execute();
-		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		//upload the file in server
-		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId);
-		if ($success) {
-			$db->createCommand()->insert('vtiger_attachments', [
-				'attachmentsid' => $currentId,
-				'name' => $fileName,
-				'description' => $this->column_fields['description'],
-				'type' => $fileType,
-				'path' => $uploadFilePath,
-			])->execute();
-			if ($id != '') {
-				$db->createCommand()->delete('vtiger_salesmanattachmentsrel', ['smid' => $id])->execute();
-			}
-			$db->createCommand()->insert('vtiger_salesmanattachmentsrel', ['smid' => $id, 'attachmentsid' => $currentId])->execute();
-			//we should update the imagename in the users table
-			$db->createCommand()->update('vtiger_users', ['imagename' => $id], ['id' => $currentId])->execute();
-			\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
-
-			return true;
-		}
-		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
-
-		return false;
-	}
-
 	public function filterInactiveFields($module)
 	{
-	}
-
-	public function deleteImage()
-	{
-		$attachmentId = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_salesmanattachmentsrel')->where(['smid' => $this->id])->limit(1)->scalar();
-		if ($attachmentId) {
-			$command = \App\Db::getInstance()->createCommand();
-			$command->delete('vtiger_crmentity', ['crmid' => $attachmentId, 'setype' => 'Users Attachments'])->execute();
-			$command->delete('vtiger_salesmanattachmentsrel', ['smid' => $this->id, 'attachmentsid' => $attachmentId])->execute();
-			$command->delete('vtiger_attachments', ['attachmentsid' => $attachmentId])->execute();
-			$command->update('vtiger_users', ['imagename' => ''])->where(['id' => $this->id])->execute();
-		}
 	}
 
 	/**
