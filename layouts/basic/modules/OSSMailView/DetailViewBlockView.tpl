@@ -22,7 +22,7 @@
 					</div>
 					<div class="c-panel__body blockContent {if $IS_HIDDEN} d-none{/if}">
 						{assign var=COUNTER value=0}
-						<div class="row px-0 fieldRow">
+						<div class="form-row px-0 fieldRow">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 							{if !$FIELD_MODEL->isViewableInDetailView()}
 								{continue}
@@ -34,12 +34,12 @@
 							{/if}
 							{if $COUNTER eq 2}
 						</div>
-						<div class="row px-0 fieldRow">
+						<div class="form-row px-0 fieldRow">
 							{assign var=COUNTER value=1}
 							{else}
 							{assign var=COUNTER value=$COUNTER+1}
 							{/if}
-							<div class="row col-md-6 col-12 fieldsLabelValue px-0">
+							<div class="form-row col-md-6 col-12 fieldsLabelValue px-0">
 								<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
 									 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									<label class="muted float-left float-sm-right float-md-right float-lg-right">
