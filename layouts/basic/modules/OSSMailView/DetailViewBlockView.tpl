@@ -10,7 +10,7 @@
 			<div class="detailViewTable">
 				<div class="card no-margin js-toggle-panel" data-label="{$BLOCK_LABEL}">
 					<div class="row blockHeader card-header no-margin">
-						<div class="iconCollapse">
+						<div class="d-flex">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
 								  data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
