@@ -39,33 +39,35 @@
 							{else}
 							{assign var=COUNTER value=$COUNTER+1}
 							{/if}
-							<div class="form-row col-md-6 col-12 fieldsLabelValue px-0">
-								<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
-									 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
-									<label class="muted float-left float-sm-right float-md-right float-lg-right">
-										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
-									</label>
-								</div>
-								<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}"
-									 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-										<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
-										</span>
-									{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $FIELD_MODEL->isAjaxEditable() eq 'true'}
-										<span class="d-none edit">
-												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
-											{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
-												<input type="hidden" class="fieldname"
-													   value='{$FIELD_MODEL->getName()}[]'
-													   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-
-{else}
-
-												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
-													   data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}'/>
-											{/if}
+							<div class="col-md-6 col-12 fieldsLabelValue px-0">
+								<div class="form-row">
+									<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
+										 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<label class="muted float-left float-sm-right float-md-right float-lg-right">
+											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
+										</label>
+									</div>
+									<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}"
+										 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 											</span>
-									{/if}
+										{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $FIELD_MODEL->isAjaxEditable() eq 'true'}
+											<span class="d-none edit">
+													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
+												{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
+													<input type="hidden" class="fieldname"
+														   value='{$FIELD_MODEL->getName()}[]'
+														   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
+
+	{else}
+
+													<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
+														   data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}'/>
+												{/if}
+												</span>
+										{/if}
+									</div>
 								</div>
 							</div>
 							{/foreach}
