@@ -68,4 +68,21 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 			}
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function post(\App\Request $request)
+	{
+		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->getFileType(), $this->getStorageName() . DIRECTORY_SEPARATOR . $request->getModule() . DIRECTORY_SEPARATOR . $request->getByType('field', 'Alnum'));
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setResult([
+				'field' => $request->get('field'),
+				'module' => $request->getModule(),
+				'attach' => $attach,
+			]);
+			$response->emit();
+		}
+	}
 }

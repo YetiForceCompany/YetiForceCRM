@@ -595,6 +595,7 @@ class Vtiger_Record_Model extends \App\Base
 			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
 			$dbCommand->delete('vtiger_crmentity', ['crmid' => $this->getId()])->execute();
 			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
+			Vtiger_MultiImage_UIType::deleteRecord($this);
 			$eventHandler->trigger('EntityAfterDelete');
 			$transaction->commit();
 		} catch (\Exception $e) {
@@ -1534,7 +1535,7 @@ class Vtiger_Record_Model extends \App\Base
 			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
 		} else {
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
-				if (!$this->isEmpty($fieldModel->getName()) && $this->get($fieldModel->getName()) !== '[]') {
+				if (!$this->isEmpty($fieldModel->getName()) && $this->get($fieldModel->getName()) !== '[]' && $this->get($fieldModel->getName()) !== '""') {
 					$image = array_shift(\App\Json::decode($this->get($fieldModel->getName())));
 					$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 					$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field={$fieldModel->getName()}&record={$this->getId()}&key={$image['key']}";
