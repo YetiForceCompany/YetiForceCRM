@@ -29,7 +29,7 @@
 		</div>
 	{/if}
 	{if !$IS_READ_ONLY && $LIMIT neq 0 && $NUMBER_OF_RECORDS >= $LIMIT}
-		<div class="d-flex py-1 px-3">
+		<div class="d-flex py-1 px-2">
 			<div class="ml-auto">
 				<button type="button" class="btn btn-primary btn-sm moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</button>
 			</div>
