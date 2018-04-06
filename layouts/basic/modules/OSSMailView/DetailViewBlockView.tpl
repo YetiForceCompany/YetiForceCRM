@@ -8,8 +8,8 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">
-					<div class="row blockHeader panel-heading no-margin">
+				<div class="card row no-margin" data-label="{$BLOCK_LABEL}">
+					<div class="row blockHeader card-header no-margin">
 						<div class="iconCollapse">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
@@ -20,7 +20,7 @@
 							<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 						</div>
 					</div>
-					<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} d-none{/if}">
+					<div class="col-12 noSpaces card-body blockContent {if $IS_HIDDEN} d-none{/if}">
 						{assign var=COUNTER value=0}
 						<div class="col-12 paddingLRZero fieldRow">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
