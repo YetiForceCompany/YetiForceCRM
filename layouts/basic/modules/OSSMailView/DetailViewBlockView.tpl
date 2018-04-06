@@ -42,7 +42,7 @@
 							<div class="row col-md-6 col-12 fieldsLabelValue px-0">
 								<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
 									 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
+									<label class="muted float-left float-sm-right float-md-right float-lg-right">
 										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 									</label>
 								</div>
