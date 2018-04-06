@@ -239,12 +239,6 @@ inputmask@^3.3.11:
   version "0.0.0"
   resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#5b5603183b43b29f97785e98f1a9c5ef5ec34813"
 
-jquery-cycle@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/jquery-cycle/-/jquery-cycle-3.0.3.tgz#47fd5654aa93763f972cabda0b8de293e61dacca"
-  dependencies:
-    jquery ">=1.7"
-
 jquery-hoverintent@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.9.0.tgz#4d92c1ae07b71b9f0d9721b9b412d672abd387c8"
