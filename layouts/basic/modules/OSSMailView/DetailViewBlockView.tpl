@@ -8,7 +8,7 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="card row no-margin" data-label="{$BLOCK_LABEL}">
+				<div class="card no-margin" data-label="{$BLOCK_LABEL}">
 					<div class="row blockHeader card-header no-margin">
 						<div class="iconCollapse">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
@@ -20,9 +20,9 @@
 							<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 						</div>
 					</div>
-					<div class="col-12 noSpaces card-body blockContent {if $IS_HIDDEN} d-none{/if}">
+					<div class="noSpaces card-body blockContent {if $IS_HIDDEN} d-none{/if}">
 						{assign var=COUNTER value=0}
-						<div class="col-12 paddingLRZero fieldRow">
+						<div class="row paddingLRZero fieldRow">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 							{if !$FIELD_MODEL->isViewableInDetailView()}
 								{continue}
@@ -34,12 +34,12 @@
 							{/if}
 							{if $COUNTER eq 2}
 						</div>
-						<div class="col-12 paddingLRZero fieldRow">
+						<div class="row paddingLRZero fieldRow">
 							{assign var=COUNTER value=1}
 							{else}
 							{assign var=COUNTER value=$COUNTER+1}
 							{/if}
-							<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
+							<div class="row col-md-6 col-12 fieldsLabelValue paddingLRZero">
 								<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
 									 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
