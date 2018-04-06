@@ -8,7 +8,7 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="card no-margin" data-label="{$BLOCK_LABEL}">
+				<div class="card no-margin js-toggle-panel" data-label="{$BLOCK_LABEL}">
 					<div class="row blockHeader card-header no-margin">
 						<div class="iconCollapse">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
