@@ -957,6 +957,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			actionElement.addClass('d-none');
 			editElement.removeClass('d-none').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 			var saveHandler = function (e) {
+				thisInstance.registerNameAjaxEditEvent();
 				var element = jQuery(e.target);
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
@@ -992,10 +993,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldElement = fieldElement.filter('[type="checkbox"]');
 				}
 				//If validation fails
-				if (!fieldElement.validationEngine('validate')) {
+				if (fieldElement.validationEngine('validate')) {
 					if (fieldElement.attr('data-inputmask')) {
 						fieldElement.inputmask();
-					}
+						}
 					return;
 				}
 
