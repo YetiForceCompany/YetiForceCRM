@@ -192,7 +192,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
-			$listViewModel->set('src_record', (int) $request->get('src_record'));
+			$listViewModel->set('src_record', $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record'));
 		}
 		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
 			$listViewModel->set('search_key', $request->getByType('search_key', 1));

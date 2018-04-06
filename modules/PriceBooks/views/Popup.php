@@ -27,6 +27,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->isEmpty('currency_id') ? false : $request->getInteger('currency_id');
 		$filterFields = $request->getArray('filterFields', 'Alnum');
+		$sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
 
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
@@ -69,7 +70,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
-			$listViewModel->set('src_record', $request->getInteger('src_record'));
+			$listViewModel->set('src_record', $sourceRecord);
 		}
 		if ((!empty($searchKey)) && (!empty($searchValue))) {
 			$listViewModel->set('search_key', $searchKey);
@@ -99,8 +100,8 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 		}
 
 		foreach ($this->listViewEntries as $recordModel) {
-			$recordModel->set('src_record', $request->getInteger('src_record'));
-			$recordModel->set('listprice', $recordModel->getProductsListPrice($request->getInteger('src_record')));
+			$recordModel->set('src_record', $sourceRecord);
+			$recordModel->set('listprice', $recordModel->getProductsListPrice($sourceRecord));
 		}
 
 		$noOfEntries = count($this->listViewEntries);
@@ -119,7 +120,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SOURCE_FIELD', $sourceField);
-		$viewer->assign('SOURCE_RECORD', $request->get('src_record'));
+		$viewer->assign('SOURCE_RECORD', $sourceRecord);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SEARCH_KEY', $searchKey);
 		$viewer->assign('SEARCH_VALUE', $searchValue);
