@@ -33,9 +33,9 @@
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
 											<div class="float-left imageContainer">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
-													<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+													<img class="userImage" src="{$IMAGE['url']}" >
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
@@ -73,9 +73,9 @@
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-left imageContainer">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
-													<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+													<img class="userImage" src="{$IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
@@ -129,9 +129,9 @@
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 											<div class="float-left imageContainer">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
-													<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+													<img class="userImage" src="{$IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
@@ -164,9 +164,9 @@
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
 											<div class="imageContainer float-left">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
-													<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+													<img class="userImage" src="{$IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
@@ -185,9 +185,9 @@
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 											<div class="float-left imageContainer">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
-													<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+													<img class="userImage" src="{$IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
@@ -206,9 +206,9 @@
 										</span>
 										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
 											<div class="float-left imageContainer">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
-													<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+													<img class="userImage" src="{$IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}

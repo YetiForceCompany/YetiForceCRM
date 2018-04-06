@@ -18,9 +18,9 @@
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="row no-margin">
 						<div class="">
-							{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
+							{assign var=IMAGE_PATH value=$COMMENT->getImage()}
 							{if $IMAGE_PATH}
-								<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+								<img class="userImage float-left" src="{$IMAGE['url']}" >
 							{else}	
 								<span class="fas fa-user userImage float-left"></span>
 							{/if}
