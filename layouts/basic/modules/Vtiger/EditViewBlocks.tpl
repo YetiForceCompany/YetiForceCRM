@@ -72,46 +72,52 @@
 						</div>
 						<div class="col-md-12 card-body blockContent pt-2 js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<div class="col-md-12 adressAction">
-									{if $APIADDRESFIELD}
-										<div class="col-md-4">
-											<input value="" title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control float-right input " placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+								<div class="row 4">
+									<div class="col-md-12 adressAction">
+										<div class="row 5">
+											{if $APIADDRESFIELD}
+												<div class="col-md-4">
+													<input value="" title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control float-right input " placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+												</div>
+											{/if}
+											<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center mb-2">
+												{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
+											</div>
 										</div>
-									{/if}
-									<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center mb-2">
-										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
 								</div>
 							{/if}
-							<div class="row">
+							<div class="row 1">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 									{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 										{if $COUNTER eq '1'}
 										</div>
-										<div class="row">
+										<div class="row 2">
 											{assign var=COUNTER value=0}
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
 									</div>
-									<div class="row">
-										{assign var=COUNTER value=1}
+									<div class="row 3">
+										{assign var=COUNTER value=0}
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
-										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										<label class="col-md-3 fieldLabel text-md-right u-text-small-bold">
-											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
-											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-												<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>
-												{/if}
-												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
-										</label>
-										<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} xxx">
+										<div class="fieldRow row form-group">
+											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+											<label class="col-md-3 fieldLabel text-md-right u-text-small-bold">
+												{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
+												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+													<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>
+													{/if}
+													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
+											</label>
+											<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+											</div>
 										</div>
 									</div>
 								{/foreach}
