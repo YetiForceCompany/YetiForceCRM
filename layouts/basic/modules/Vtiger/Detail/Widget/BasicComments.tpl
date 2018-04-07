@@ -4,7 +4,7 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 			<div class="c-detail-widget__header js-detail-widget-header">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-				<div class="row mb-1">
+				<div class="form-row align-items-center my-1">
 					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
@@ -18,10 +18,10 @@
 					</div>
 					{if $WIDGET['level'] < 2}
 						<div class="btn-group btn-group-toggle hierarchyButtons" data-toggle="buttons">
-							<label class="btn btn-secondary active">
+							<label class="btn btn-sm btn-secondary active">
 								<input class="hierarchyComments" type="radio" name="options" id="option1" value="current" autocomplete="off" checked> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
 							</label>
-							<label class="btn btn-secondary">
+							<label class="btn btn-sm btn-secondary">
 								<input class="hierarchyComments" type="radio" name="options" id="option2" value="all" autocomplete="off"> {\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
 							</label>
 						</div>
