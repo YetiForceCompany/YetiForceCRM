@@ -77,24 +77,35 @@ class Vtiger_CkEditor_Js {
 			scayt_autoStartup: false,
 			enterMode: CKEDITOR.ENTER_BR,
 			shiftEnterMode: CKEDITOR.ENTER_P,
-			toolbar: [
-			{name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-			{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
-			{name: 'links', items: ['Link', 'Unlink']},
-			{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
-			{name: 'tools', items: ['Maximize', 'ShowBlocks']},
-			{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
-			{name: 'document', items: ['Source', 'Print']},
-			'/',
-			{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-			{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
-			{name: 'colors', items: ['TextColor', 'BGColor']},
-			{
-				name: 'paragraph',
-				items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-			},
-			{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-		]
+			toolbar: 'Full',
+			toolbar_Full: [
+				{name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+				{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+				{name: 'links', items: ['Link', 'Unlink']},
+				{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
+				{name: 'tools', items: ['Maximize', 'ShowBlocks']},
+				{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
+				{name: 'document', items: ['Source', 'Print']},
+				'/',
+				{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+				{name: 'colors', items: ['TextColor', 'BGColor']},
+				{
+					name: 'paragraph',
+					items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+				},
+				{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+			],
+			toolbar_Min: [
+				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+				{name: 'colors', items: ['TextColor', 'BGColor']},
+				{name: 'tools', items: ['Maximize']},
+				{
+					name: 'paragraph',
+					items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+				},
+				{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+			]
 		};
 
 		if (typeof customConfig !== 'undefined') {
