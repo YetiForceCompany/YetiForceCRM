@@ -6,7 +6,7 @@
 				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
-							<span class="float-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
+							<span class="float-right text-muted">{\App\Language::translate('From',$MODULENAME)}</span>
 						</span>
 						<span class="col-11">
 							<span id="emailPreview_From" class="">{$FROM}</span>
@@ -17,7 +17,7 @@
 				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
-							<span class="float-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
+							<span class="float-right text-muted">{\App\Language::translate('To',$MODULENAME)}</span>
 						</span>
 						<span class="col-11">
 							<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
@@ -28,7 +28,7 @@
 					<div class="row pb-3">
 						<span class="col-md-12 row">
 							<span class="col-1">
-								<span class="float-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
+								<span class="float-right text-muted">{\App\Language::translate('CC',$MODULENAME)}</span>
 							</span>
 							<span class="col-11">
 								<span id="emailPreview_Cc" class="row">
@@ -42,7 +42,7 @@
 					<div class="row pb-3">
 						<span class="col-md-12 row">
 							<span class="col-1">
-								<span class="float-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
+								<span class="float-right text-muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
 							</span>
 							<span class="col-11">
 								<span id="emailPreview_Bcc" class="row">
@@ -55,7 +55,7 @@
 				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
-							<span class="float-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
+							<span class="float-right text-muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
 						</span>
 						<span class="col-11">
 							<span id="emailPreview_Subject" class="">
@@ -68,7 +68,7 @@
 					<div class="row pb-3">
 						<span class="col-md-12 row">
 							<span class="col-1">
-								<span class="float-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
+								<span class="float-right text-muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
 							</span>
 							<span class="col-11">
 								<span id="emailPreview_attachment" class="row">
@@ -83,7 +83,7 @@
 				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
-							<span class="float-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
+							<span class="float-right text-muted">{\App\Language::translate('Content',$MODULENAME)}</span>
 						</span>
 						<span class="col-11">
 
