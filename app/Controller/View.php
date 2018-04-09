@@ -282,7 +282,7 @@ abstract class View extends Base
 			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
-			'~libraries/js/jquery.class.js',
+			'~libraries/jquery.class.js/jquery.class.js',
 			'~libraries/jstorage/jstorage.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
