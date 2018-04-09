@@ -93,7 +93,7 @@
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 					{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-						<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left: 5px solid {$RECORD_COLORS['leftBorder']};"{/if}>
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder'] && $VIEW_MODEL->get('entityState') == 'All'}style="border-left: 5px solid {$RECORD_COLORS['leftBorder']};"{/if}>
 							{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
