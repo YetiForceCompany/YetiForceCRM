@@ -1431,8 +1431,6 @@
 	"LBL_DELETE_CONFIRMATION": "\u00bfEst\u00e1 seguro de que desea eliminarlo?",
 	"JS_DELETE_CONFIRMATION": "\u00bfEst\u00e1 seguro de que desea eliminar la relaci\u00f3n con este m\u00f3dulo? S\u00f3lo se eliminar\u00e1 la relaci\u00f3n, para eliminar el registro tiene que ir al registro y hacer clic en eliminar",
 	"LBL_DELETE_USER_CONFIRMATION": "Cuando se elimina un Usuario, \u00e9ste se marcar\u00e1 como \"Inactivo\" y no se podr\u00e1n asignar nuevos registros al Usuario, y el usuario no podr\u00e1 iniciar sesi\u00f3n. La facturaci\u00f3n se detendr\u00e1 para este usuario. \u00bfEst\u00e1 seguro de que desea eliminarlo?",
-	"LBL_IMAGE_DELETED_SUCCESSFULLY": "Imagen eliminada correctamente",
-	"LBL_IMAGE_NOT_DELETED": "Imagen no eliminada",
 	"LBL_MASS_DELETE_CONFIRMATION": "\u00bfSeguro que desea eliminar los registros seleccionados?",
 	"LBL_NO": "No",
 	"LBL_YES": "S\u00ed",
