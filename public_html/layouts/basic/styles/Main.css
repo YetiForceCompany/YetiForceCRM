@@ -5263,7 +5263,8 @@ button.bg-dark:focus {
 .px-1,
 .select2-container--bootstrap4 ul.select2-selection__rendered,
 .bodyHeader .rightHeader .headerButton,
-.c-panel__body {
+.c-panel__body,
+.c-detail-widget__header {
   padding-right: 0.25rem !important; }
 
 .pb-1,
@@ -5274,7 +5275,8 @@ button.bg-dark:focus {
 .px-1,
 .select2-container--bootstrap4 ul.select2-selection__rendered,
 .bodyHeader .rightHeader .headerButton,
-.c-panel__body {
+.c-panel__body,
+.c-detail-widget__header {
   padding-left: 0.25rem !important; }
 
 .p-2 {
@@ -5287,7 +5289,8 @@ button.bg-dark:focus {
 
 .pr-2,
 .px-2,
-.bodyHeader .headerLinksMails .btn {
+.bodyHeader .headerLinksMails .btn,
+.c-detail-widget__content {
   padding-right: 0.5rem !important; }
 
 .pb-2,
@@ -5297,7 +5300,8 @@ button.bg-dark:focus {
 
 .pl-2,
 .px-2,
-.bodyHeader .headerLinksMails .btn {
+.bodyHeader .headerLinksMails .btn,
+.c-detail-widget__content {
   padding-left: 0.5rem !important; }
 
 .p-3 {
@@ -5312,9 +5316,7 @@ button.bg-dark:focus {
 .dashboardWidgetHeader .col-sm-6:only-child,
 .dashboardWidgetHeader .o-label-container:only-child,
 .dashboardWidgetHeader .o-btn-container:only-child,
-.col-md-6:only-child,
-.c-detail-widget__header,
-.c-detail-widget__content {
+.col-md-6:only-child {
   padding-right: 1rem !important; }
 
 .pb-3,
@@ -5326,9 +5328,7 @@ button.bg-dark:focus {
 .dashboardWidgetHeader .col-sm-6:only-child,
 .dashboardWidgetHeader .o-label-container:only-child,
 .dashboardWidgetHeader .o-btn-container:only-child,
-.col-md-6:only-child,
-.c-detail-widget__header,
-.c-detail-widget__content {
+.col-md-6:only-child {
   padding-left: 1rem !important; }
 
 .p-4 {
@@ -10297,8 +10297,8 @@ select.form-control {
   margin-left: .3em; }
 
 .addRelatedRecordBtn {
-  top: 20px;
-  right: 30px;
+  top: 4px;
+  right: 17px;
   position: absolute; }
 
 .actionImages .btn {
@@ -10557,6 +10557,9 @@ border1px {
 
 .u-paragraph-m-0 p {
   margin: 0; }
+
+.u-mb-13px {
+  margin-bottom: 0.8rem !important; }
 
 .u-w-auto {
   width: auto !important; }
