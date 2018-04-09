@@ -16,7 +16,9 @@ class Credits
 	 *
 	 * @var array
 	 */
-	public static $licenses = [];
+	public static $licenses = [
+		'microplugin'=>'Apache-2.0'
+	];
 	/**
 	 * Information about forks CRM.
 	 *
@@ -82,9 +84,35 @@ class Credits
 						$libraries[$name]['version'] = $packageFileContent['version'];
 						$license = self::getLicenseForPublic($packageFileContent, $name);
 						$libraries[$name]['licenseError'] = $license['error'];
-						$libraries[$name]['license'] = $license['license'];
+						if (!empty($license['license'])) {
+							$libraries[$name]['license'] = $license['license'];
+						}
 					} else {
 						$libraries[$name]['packageFileMissing'] = true;
+					}
+					if (empty($libraries[$name]['license'])) {
+						$packageFile = $dir . $name . DIRECTORY_SEPARATOR . 'composer.json';
+						if (file_exists($packageFile)) {
+							$package = \App\Json::decode(file_get_contents($packageFile), true);
+							if (count($package['license']) > 1) {
+								$libraries[$name]['license'] = implode(', ', $package['license']);
+								$libraries[$name]['licenseError'] = true;
+							} else {
+								if (stripos($package['license'][0], 'or') !== false) {
+									$libraries[$name]['licenseError'] = true;
+								}
+								$libraries[$name]['license'] = $package['license'][0];
+							}
+						}
+					}
+					if (empty($libraries[$name]['license'])) {
+						$packageFile = $dir . $name . DIRECTORY_SEPARATOR . 'bower.json';
+						if (file_exists($packageFile)) {
+							$content = \App\Json::decode(file_get_contents($packageFile), true);
+							if (!empty($content['license'])) {
+								$libraries[$name]['license'] = $content['license'];
+							}
+						}
 					}
 				}
 			}
@@ -106,6 +134,7 @@ class Credits
 		$returnLicense = '';
 		$license = $packageFileContent['licenses'] ?? $packageFileContent['license'];
 		if (isset(static::$licenses[$libraryName])) {
+			$returnLicense = static::$licenses[$libraryName];
 		} elseif (is_array($license)) {
 			if (count($license[0]) > 1) {
 				$returnLicense =implode(',', array_column($license, 'type'));
