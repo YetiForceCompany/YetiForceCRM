@@ -1366,9 +1366,10 @@ class Vtiger_Record_Model extends \App\Base
 		$links = [];
 		if ($this->isViewable()) {
 			if ($this->getModule()->isSummaryViewSupported()) {
+				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
 				$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
 						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-						'linkhref' => true,
+						'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
 						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
 						'linkicon' => 'far fa-caret-square-right',
 						'linkclass' => 'btn-xs btn-default',
