@@ -2,7 +2,7 @@
 {strip}
 	<div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
 		<div>
-			<form class="form-horizontal emailPreview" style="overflow: overlay;">
+			<form class="form-horizontal emailPreview">
 				<div class="row padding-bottom1per">
 					<span class="col-md-12 row">
 						<span class="col-1">
