@@ -359,6 +359,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if (isset($groupOptions[$key])) {
 					$dataset['data'][] = $groupOptions[$key][$this->extraData['valueType']];
 					$dataset['links'][] = $groupOptions[$key]['link'];
+					$chartData['show_chart'] = true;
 				} else {
 					$dataset['data'][] = 0;
 					$dataset['links'][] = null;
@@ -369,7 +370,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$i++;
 		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -383,10 +383,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$sectors = $this->extraData['sectorField'];
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
-		$query = $this->getQuery();
-		$dataReader = $query->createCommand()->query();
+		$dataReader = $this->getQuery()->createCommand()->query();
 		$groupData = $sectorValues = [];
 		while ($row = $dataReader->read()) {
+			$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 			$this->colors['owner_' . $row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
 			if (!empty($row[$fieldName])) {
 				if (!empty($this->extraData['showOwnerFilter'])) {
@@ -397,18 +397,24 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				} else {
 					$groupData = $this->getValue($groupData, $row);
 				}
+				if (!isset($this->numRows[$fieldName])) {
+					$this->numRows[$fieldName] = [];
+				}
+				if (!isset($this->numRows[$fieldName][$displayValue])) {
+					$this->numRows[$fieldName][$displayValue] = 0;
+				}
+				$this->numRows[$fieldName][$displayValue]++;
 			}
 		}
 		if ($this->extraData['valueType'] === 'avg') {
-			$numRows = $dataReader->count();
 			if ($sectors) {
 				foreach ($sectorValues as $sectorId => &$value) {
-					$value = (float) $value / $numRows;
+					$value = (float) $value / $this->numRows[$fieldName][$sectorId];
 				}
 			} else {
-				foreach ($groupData as $fieldName => &$values) {
+				foreach ($groupData as $displayValue => &$values) {
 					if ($values['avg']) {
-						$values['avg'] = (float) $values['avg'] / $this->numRows[$fieldName];
+						$values['avg'] = (float) $values['avg'] / $this->numRows[$fieldName][$displayValue];
 					}
 				}
 			}
@@ -569,6 +575,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
+		if (empty($this->extraData['barDividedField'])) {
+			// if there is no dividing field selected return empty
+			return ['data' => [], 'group' => [], 'divided' => []];
+		}
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
 		$divideFieldName = $divideFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
@@ -584,11 +594,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if (!isset($dividedFields[$divideValue])) {
 					$dividedFields[$divideValue] = $dividedFieldCounter++;
 				}
-				if (!isset($data[$displayValue][$divideValue]['count'])) {
-					$data[$displayValue][$divideValue]['count'] = 1;
+				if (!isset($data[$displayValue][$divideValue][$this->extraData['valueType']])) {
+					$data[$displayValue][$divideValue][$this->extraData['valueType']] = 1;
 				} else {
-					++$data[$displayValue][$divideValue]['count'];
+					++$data[$displayValue][$divideValue][$this->extraData['valueType']];
 				}
+				if (!isset($this->numRows[$fieldName])) {
+					$this->numRows[$fieldName] = [];
+				}
+				if (!isset($this->numRows[$fieldName][$displayValue])) {
+					$this->numRows[$fieldName][$displayValue] = 0;
+				}
+				$this->numRows[$fieldName][$displayValue]++;
 				if (!empty($this->extraData['showOwnerFilter'])) {
 					$this->owners[] = $row['assigned_user_id'];
 				}
