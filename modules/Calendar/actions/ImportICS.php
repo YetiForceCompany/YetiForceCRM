@@ -8,11 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_rfc2445.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_components.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_properties.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_parameters.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_rfc2445.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_properties.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_parameters.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
 Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_ImportICS_Action extends \App\Controller\Action

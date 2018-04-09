@@ -56,7 +56,8 @@
 	"yetiforce/csrf-magic": "1.0.6",
 	"ckeditor/ckeditor": "dev-full/latest",
 	"yetiforce/debugbar": "dev-yeti",
-	"yetiforce/yii2": "dev-yetiforce"
+	"yetiforce/yii2": "dev-yetiforce",
+	"yetiforce/icalendar": "dev-master"
   },
   "require-dev": {
 	"phpunit/phpunit": "7.*"
