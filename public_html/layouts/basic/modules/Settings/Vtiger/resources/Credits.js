@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class("Vtiger_Credits_Js", {}, {
+jQuery.Class("Settings_Vtiger_Credits_Js", {}, {
 	/**
 	 *
 	 * @returns {jQuery}
@@ -17,8 +17,9 @@ jQuery.Class("Vtiger_Credits_Js", {}, {
 	 */
 	registerDataTables: function (contentData) {
 		$.extend($.fn.dataTable.defaults, {
+			bPaginate: false,
+			bSort: false,
 			language: {
-				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
 				sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),
 				sInfo: app.vtranslate('JS_S_INFO'),
 				sInfoEmpty: app.vtranslate('JS_S_INFO_EMPTY'),
@@ -27,12 +28,6 @@ jQuery.Class("Vtiger_Credits_Js", {}, {
 				sInfoFiltered: app.vtranslate('JS_S_INFO_FILTERED'),
 				sLoadingRecords: app.vtranslate('JS_LOADING_OF_RECORDS'),
 				sProcessing: app.vtranslate('JS_LOADING_OF_RECORDS'),
-				oPaginate: {
-					sFirst: app.vtranslate('JS_S_FIRST'),
-					sPrevious: app.vtranslate('JS_S_PREVIOUS'),
-					sNext: app.vtranslate('JS_S_NEXT'),
-					sLast: app.vtranslate('JS_S_LAST')
-				},
 				oAria: {
 					sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
 					sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING')
@@ -41,10 +36,27 @@ jQuery.Class("Vtiger_Credits_Js", {}, {
 		});
 		return contentData.find('.dataTableWithRecords').DataTable();
 	},
+	/**
+	 *
+	 * @param container
+	 */
 
+	showMore: function(container){
+		container.find('.js-show-more').on('click', function (e) {
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				view: 'LibraryMoreInfo',
+				type: $(this).attr('data-type'),
+				libraryName: $(this).attr('data-library-name')
+			}).then(function (response) {
+				app.showModalWindow(response)
+			});
+		});
+	},
 	registerEvents: function () {
 		var container = this.getContainer();
 		this.registerDataTables(container);
-
+		this.showMore(container);
 	}
 });
