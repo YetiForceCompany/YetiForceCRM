@@ -6,6 +6,7 @@
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/161d09ea3c824405b762a0c9edc2845e)](https://www.codacy.com/app/mariuszkrzaczkowski/YetiForceCRM?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YetiForceCompany/YetiForceCRM&amp;utm_campaign=Badge_Grade)
 [![Dependency Status](https://gemnasium.com/badges/github.com/YetiForceCompany/YetiForceCRM.svg)](https://gemnasium.com/github.com/YetiForceCompany/YetiForceCRM)
+[![Dependency Status](https://www.versioneye.com/user/projects/5acb03fd0fb24f3a025bfe03/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5acb03fd0fb24f3a025bfe03)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM "Percentage of issues still open")
