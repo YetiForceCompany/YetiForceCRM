@@ -20,9 +20,9 @@
 	"license": "YetiForce Public License v3",
 	"dependencies": {
 		"@fortawesome/fontawesome": "^1.1.5",
+		"@fortawesome/fontawesome-free-brands": "^5.0.9",
 		"@fortawesome/fontawesome-free-regular": "^5.0.9",
 		"@fortawesome/fontawesome-free-solid": "^5.0.9",
-		"Font-Awesome": "https://github.com/FortAwesome/Font-Awesome",
 		"add": "^2.0.6",
 		"animate.css": "^3.6.1",
 		"block-ui": "^2.70.1",
