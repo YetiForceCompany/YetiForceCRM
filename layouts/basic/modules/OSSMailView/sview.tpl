@@ -91,7 +91,7 @@
 					</span>
 				</div>
 				<div>
-					<iframe class="w-100" id="emailPreview_Content" style="height: 600px;" src="{$URL}" frameborder="0"></iframe>
+					<iframe class="w-100 u-h-600px" id="emailPreview_Content" src="{$URL}" frameborder="0"></iframe>
 				</div>
 			</form>
 		</div>
