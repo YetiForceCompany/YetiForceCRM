@@ -3,8 +3,8 @@
  * Model widget chart with a filter.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
@@ -379,6 +379,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$query = $this->getQuery();
 		$dataReader = $query->createCommand()->query();
 		$groupData = $sectorValues = [];
+		$numRows = $dataReader->count();
 		while ($row = $dataReader->read()) {
 			$this->colors['owner_' . $row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
 			if (!empty($row[$fieldName])) {
@@ -388,7 +389,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if ($sectors) {
 					$sectorValues = $this->getValueForSector($sectorValues, $row[$fieldName]);
 				} else {
-					$groupData = $this->getValue($groupData, $row);
+					$groupData = $this->getValue($groupData, $row, $numRows);
+				}
+			}
+		}
+		if ($this->extraData['valueType'] === 'avg') {
+			if ($sectors) {
+				foreach ($sectorValues as $name => $values) {
+				}
+			} else {
+				foreach ($groupData as $name => $values) {
+					if ($values['avg']) {
+						$values['avg'] = (float) $values['avg'] / $numRows;
+					}
 				}
 			}
 		}
@@ -415,7 +428,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return array
 	 */
-	protected function getValue($groupData, $row)
+	protected function getValue($groupData, $row, $numRows = 1)
 	{
 		$fieldName = $this->groupFieldModel->getFieldName();
 		switch ($this->extraData['valueType']) {
@@ -433,6 +446,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$groupData[$displayValue]['count'] = (int) $row[$this->extraData['groupField']];
 				} else {
 					$groupData[$displayValue]['count'] += (int) $row[$this->extraData['groupField']];
+				}
+				break;
+			case 'avg':
+				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
+				if (!isset($groupData[$displayValue]['avg'])) {
+					$groupData[$displayValue]['avg'] = (int) $row[$this->extraData['groupField']];
+				} else {
+					$groupData[$displayValue]['avg'] += (int) $row[$this->extraData['groupField']];
 				}
 				break;
 		}
@@ -477,6 +498,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					}
 					break;
 				case 'sum':
+					if (!isset($sectorValues[$sectorId])) {
+						$sectorValues[$sectorId] = (int) $value;
+					} else {
+						$sectorValues[$sectorId] += (int) $value;
+					}
+					break;
+				case 'avg':
 					if (!isset($sectorValues[$sectorId])) {
 						$sectorValues[$sectorId] = (int) $value;
 					} else {
