@@ -242,3 +242,19 @@
 	}
   }
 }
+.singleComment {
+  .commentActionsContainer .commentActions {
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: all 0.2s 0.15s ease-in-out;
+	-moz-transition: all 0.2s 0.15s ease-in-out;
+	-o-transition: all 0.2s 0.15s ease-in-out;
+	transition: all 0.2s 0.15s ease-in-out;
+  }
+  &:hover .commentActionsContainer .commentActions {
+	height: auto;
+  }
+}
+.quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
+  height: 0;
+}
