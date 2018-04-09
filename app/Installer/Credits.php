@@ -11,8 +11,17 @@ namespace App\Installer;
  */
 class Credits
 {
+	/**
+	 * Information about libraries license.
+	 *
+	 * @var array
+	 */
 	public static $licenses = [];
-
+	/**
+	 * Information about forks CRM.
+	 *
+	 * @var array
+	 */
 	public static $libraries = ['Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/'], 'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL', 'homepage' => 'https://www.sugarcrm.com/']];
 
 	/**
@@ -23,7 +32,7 @@ class Credits
 	 * @return array
 	 */
 	public static function getVendorLibraries()
-	{// jes
+	{
 		$libraries = [];
 		if (file_exists(ROOT_DIRECTORY . '/composer.lock')) {
 			$composerLock = \App\Json::decode(file_get_contents(ROOT_DIRECTORY . '/composer.lock'), true);
@@ -42,7 +51,6 @@ class Credits
 						}
 						$libraries[$package['name']]['license'] = $package['license'][0];
 					}
-
 					$libraries[$package['name']]['homepage'] = $package['homepage'];
 				}
 			}
@@ -100,9 +108,7 @@ class Credits
 		if (isset(static::$licenses[$libraryName])) {
 		} elseif (is_array($license)) {
 			if (count($license[0]) > 1) {
-				$returnLicense = implode(',', array_map(function ($element) {
-					return $element['type'];
-				}, $license));
+				$returnLicense =implode(',', array_column($license, 'type'));
 			} else {
 				$returnLicense = implode(',', $license);
 			}
