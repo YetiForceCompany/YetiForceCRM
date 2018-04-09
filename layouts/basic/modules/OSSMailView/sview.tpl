@@ -3,7 +3,7 @@
 	<div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
 		<div>
 			<form class="form-horizontal emailPreview">
-				<div class="row padding-bottom1per">
+				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
 							<span class="float-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
@@ -14,7 +14,7 @@
 						</span>
 					</span>
 				</div>
-				<div class="row padding-bottom1per">
+				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
 							<span class="float-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
@@ -25,7 +25,7 @@
 					</span>
 				</div>
 				{if !empty($CC)}
-					<div class="row padding-bottom1per">
+					<div class="row pb-3">
 						<span class="col-md-12 row">
 							<span class="col-1">
 								<span class="float-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
@@ -39,7 +39,7 @@
 					</div>
 				{/if}
 				{if !empty($BCC)}
-					<div class="row padding-bottom1per">
+					<div class="row pb-3">
 						<span class="col-md-12 row">
 							<span class="col-1">
 								<span class="float-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
@@ -52,7 +52,7 @@
 						</span>
 					</div>
 				{/if}
-				<div class="row padding-bottom1per">
+				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
 							<span class="float-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
@@ -65,7 +65,7 @@
 					</span>
 				</div>
 				{if !empty($ATTACHMENTS)}
-					<div class="row padding-bottom1per">
+					<div class="row pb-3">
 						<span class="col-md-12 row">
 							<span class="col-1">
 								<span class="float-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
@@ -80,7 +80,7 @@
 						</span>
 					</div>
 				{/if}
-				<div class="row padding-bottom1per">
+				<div class="row pb-3">
 					<span class="col-md-12 row">
 						<span class="col-1">
 							<span class="float-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
