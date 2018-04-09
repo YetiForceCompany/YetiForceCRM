@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
-		<div class="well-large zeroPaddingAndMargin">
+		<div>
 			<form class="form-horizontal emailPreview" style="overflow: overlay;">
 				<div class="row padding-bottom1per">
 					<span class="col-md-12 row">
