@@ -446,21 +446,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$fieldName = $this->groupFieldModel->getFieldName();
 		$value = is_numeric($row[$this->extraData['groupField']]) ? $row[$this->extraData['groupField']] : 1;
+		$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 		switch ($this->extraData['valueType']) {
 			case 'count':
-				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				$groupData[$displayValue][$this->extraData['valueType']] = $value;
 				break;
 			case 'sum':
-				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-				if (!isset($groupData[$displayValue][$this->extraData['valueType']])) {
-					$groupData[$displayValue][$this->extraData['valueType']] = $value;
-				} else {
-					$groupData[$displayValue][$this->extraData['valueType']] += $value;
-				}
-				break;
 			case 'avg':
-				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				if (!isset($groupData[$displayValue][$this->extraData['valueType']])) {
 					$groupData[$displayValue][$this->extraData['valueType']] = $value;
 				} else {
