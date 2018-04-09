@@ -19,6 +19,9 @@
 	"author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
 	"license": "YetiForce Public License v3",
 	"dependencies": {
+		"@fortawesome/fontawesome": "^1.1.5",
+		"@fortawesome/fontawesome-free-regular": "^5.0.9",
+		"@fortawesome/fontawesome-free-solid": "^5.0.9",
 		"Font-Awesome": "https://github.com/FortAwesome/Font-Awesome",
 		"add": "^2.0.6",
 		"animate.css": "^3.6.1",
@@ -36,7 +39,6 @@
 		"chartjs-plugin-funnel": "^1.1.2",
 		"chartjs-plugin-zoom": "^0.6.3",
 		"chosen-js": "^1.8.2",
-		"ckeditor": "^4.8.0",
 		"clipboard": ">=2.0.0",
 		"clockpicker": "^0.0.7",
 		"css-element-queries": "^1.0.2",
