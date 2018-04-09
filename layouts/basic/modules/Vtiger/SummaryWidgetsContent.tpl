@@ -78,7 +78,7 @@
 								<tbody>
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 										<tr class="c-table__row--hover border-bottom">
-											<td class="u-w-37-percent {$WIDTHTYPE}">
+											<td class="u-w-37per {$WIDTHTYPE}">
 												<label class="font-weight-bold">
 													{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 												</label>
