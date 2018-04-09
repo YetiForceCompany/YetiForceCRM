@@ -1407,8 +1407,6 @@
 	"LBL_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 rekord?",
 	"JS_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 powi\u0105zanie z tym rekordem? Usuni\u0119te zostanie tylko powi\u0105zanie, aby usun\u0105\u0107 rekord musisz przej\u015b\u0107 do rekordu i klikn\u0105\u0107 usu\u0144.",
 	"LBL_DELETE_USER_CONFIRMATION": "Gdy u\u017cytkownik zostanie usuni\u0119ty, u\u017cytkownik zostanie oznaczony jako \"nieaktywny\" i \u017cadne nowe zapisy mog\u0105 by\u0107 przypisane do u\u017cytkownika, i u\u017cytkownik nie b\u0119dzie m\u00f3g\u0142 si\u0119 zalogowa\u0107. Fakturowanie zatrzyma dla tego u\u017cytkownika. Czy na pewno chcesz usun\u0105\u0107?",
-	"LBL_IMAGE_DELETED_SUCCESSFULLY": "Zdj\u0119cie zosta\u0142o pomy\u015blnie usuni\u0119te",
-	"LBL_IMAGE_NOT_DELETED": "Zdj\u0119cie nie zosta\u0142o usuni\u0119te",
 	"LBL_MASS_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 zaznaczone rekordy?",
 	"LBL_NO": "Nie",
 	"LBL_YES": "Tak",
