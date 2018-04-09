@@ -48,7 +48,7 @@
 		"gridster": "^0.5.6",
 		"html5shiv": "^3.7.3",
 		"inputmask": "^3.3.11",
-		"jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine",
+		"jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#master",
 		"jquery": ">3.0.0",
 		"jquery-hoverintent": "^1.9.0",
 		"jquery-outside-events": "^1.0.0",

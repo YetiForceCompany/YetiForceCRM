@@ -8,9 +8,9 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">
-					<div class="row blockHeader panel-heading no-margin">
-						<div class="iconCollapse">
+				<div class="c-panel__content js-toggle-panel" data-label="{$BLOCK_LABEL}">
+					<div class="blockHeader c-panel__header">
+						<div class="d-flex">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
 								  data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
@@ -20,9 +20,9 @@
 							<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 						</div>
 					</div>
-					<div class="col-12 noSpaces panel-body blockContent {if $IS_HIDDEN} d-none{/if}">
+					<div class="c-panel__body blockContent {if $IS_HIDDEN} d-none{/if}">
 						{assign var=COUNTER value=0}
-						<div class="col-12 paddingLRZero fieldRow">
+						<div class="form-row px-0 fieldRow">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 							{if !$FIELD_MODEL->isViewableInDetailView()}
 								{continue}
@@ -34,38 +34,40 @@
 							{/if}
 							{if $COUNTER eq 2}
 						</div>
-						<div class="col-12 paddingLRZero fieldRow">
+						<div class="form-row px-0 fieldRow">
 							{assign var=COUNTER value=1}
 							{else}
 							{assign var=COUNTER value=$COUNTER+1}
 							{/if}
-							<div class="col-md-6 col-12 fieldsLabelValue paddingLRZero">
-								<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
-									 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
-									</label>
-								</div>
-								<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}"
-									 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-										<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
-										</span>
-									{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $FIELD_MODEL->isAjaxEditable() eq 'true'}
-										<span class="d-none edit">
-												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
-											{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
-												<input type="hidden" class="fieldname"
-													   value='{$FIELD_MODEL->getName()}[]'
-													   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-
-{else}
-
-												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
-													   data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}'/>
-											{/if}
+							<div class="col-md-6 col-12 fieldsLabelValue px-0">
+								<div class="form-row">
+									<div class="fieldLabel col-sm-5 col-12 {$WIDTHTYPE}"
+										 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<label class="muted float-left float-sm-right float-md-right float-lg-right">
+											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
+										</label>
+									</div>
+									<div class="fieldValue col-sm-7 col-12 {$WIDTHTYPE}"
+										 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
+											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 											</span>
-									{/if}
+										{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $FIELD_MODEL->isAjaxEditable() eq 'true'}
+											<span class="d-none edit">
+													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
+												{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
+													<input type="hidden" class="fieldname"
+														   value='{$FIELD_MODEL->getName()}[]'
+														   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
+
+	{else}
+
+													<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
+														   data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}'/>
+												{/if}
+												</span>
+										{/if}
+									</div>
 								</div>
 							</div>
 							{/foreach}
