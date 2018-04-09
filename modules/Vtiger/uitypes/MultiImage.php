@@ -24,6 +24,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		$value = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
 		$this->validate($value, true);
+		if ($request->getBoolean('_isDuplicateRecord')) {
+			$this->duplicateValueFromRecord($value, $request);
+		}
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
@@ -217,9 +220,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$value = \App\Json::decode($value);
+		$id = $recordModel->getId();
+		if (!$id && \App\Request::_has('record')) {
+			$id = \App\Request::_get('record');
+		}
 		if (is_array($value)) {
 			foreach ($value as &$item) {
-				$item['imageSrc'] = $this->getImageUrl($item['key'], $recordModel->getId());
+				$item['imageSrc'] = $this->getImageUrl($item['key'], $id);
 				unset($item['path']);
 			}
 		} else {
@@ -272,6 +279,39 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function isListviewSortable()
 	{
 		return false;
+	}
+
+	/**
+	 * Duplicate value from record.
+	 *
+	 * @param              $value
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function duplicateValueFromRecord(&$value, \App\Request $request)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('_duplicateRecord'), $request->getModule());
+		$copyValue = $recordModel->get($fieldName);
+		$keyColumn = array_column($value, 'key');
+		if ($copyValue && $copyValue !== '[]' && $copyValue !== '""') {
+			foreach (\App\Json::decode($copyValue) as $item) {
+				$key = array_search($item['key'], $keyColumn);
+				if ($key === false) {
+					continue;
+				}
+				$suffix = \App\Encryption::generatePassword(2);
+				if (copy($item['path'], $item['path'] . $suffix)) {
+					$item['key'] .= $suffix;
+					$item['path'] .= $suffix;
+					$value[$key] = $item;
+				} else {
+					\App\Log::error("Error during file copy: {$item['path']} >> {$item['path']}{$suffix}");
+				}
+			}
+		}
 	}
 
 	/**

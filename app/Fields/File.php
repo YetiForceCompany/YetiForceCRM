@@ -720,15 +720,15 @@ class File
 	/**
 	 * Init storage file directory.
 	 *
-	 * @param string $module
+	 * @param string $suffix
 	 *
 	 * @return string
 	 */
-	public static function initStorageFileDirectory($module = false)
+	public static function initStorageFileDirectory($suffix = false)
 	{
 		$filepath = 'storage' . DIRECTORY_SEPARATOR;
-		if ($module && in_array($module, ['Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'])) {
-			$filepath .= $module . DIRECTORY_SEPARATOR;
+		if ($suffix) {
+			$filepath .= $suffix . DIRECTORY_SEPARATOR;
 		}
 		if (!is_dir($filepath)) { //create new folder
 			mkdir($filepath);
@@ -736,7 +736,6 @@ class File
 		$year = date('Y');
 		$month = date('F');
 		$day = date('j');
-		$week = '';
 		$filepath .= $year;
 		if (!is_dir($filepath)) { //create new folder
 			mkdir($filepath);
@@ -760,7 +759,6 @@ class File
 		if (!is_dir($filepath)) { //create new folder
 			mkdir($filepath);
 		}
-
 		return $filepath . DIRECTORY_SEPARATOR;
 	}
 
@@ -1011,8 +1009,8 @@ class File
 		$previousValue = $previousValue ? static::parse($previousValue) : [];
 		$value = static::parse($value);
 		foreach ($value as $item) {
-			if (!isset($previousValue[$item['key']])) {
-				$value[$item['key']]['path'] = static::getUploadFile($item['key'])['path'] . $item['key'];
+			if (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
+				$value[$item['key']]['path'] = $uploadFile['path'] . $item['key'];
 			}
 		}
 		foreach ($previousValue as $item) {
@@ -1030,7 +1028,7 @@ class File
 	 *
 	 * @return array
 	 */
-	protected static function parse(array $value)
+	public static function parse(array $value)
 	{
 		return array_reduce($value, function ($result, $item) {
 			$result[$item['key']] = $item;
