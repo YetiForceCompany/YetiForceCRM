@@ -1398,8 +1398,6 @@
 	"LBL_DELETE_CONFIRMATION": "Are you sure you want to delete?",
 	"JS_DELETE_CONFIRMATION": "Are you sure you want to delete the relation with this module? Only the relation will be removed, to remove the record you have to go to the record and press delete",
 	"LBL_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Billing will stop for this user. Are you sure you want to delete?",
-	"LBL_IMAGE_DELETED_SUCCESSFULLY": "Image deleted successfully",
-	"LBL_IMAGE_NOT_DELETED": "Image not deleted",
 	"LBL_MASS_DELETE_CONFIRMATION": "Are you sure you want to delete the selected records?",
 	"LBL_NO": "No",
 	"LBL_YES": "Yes",
