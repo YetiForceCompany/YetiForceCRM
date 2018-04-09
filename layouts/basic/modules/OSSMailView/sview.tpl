@@ -73,7 +73,7 @@
 							<span class="col-11">
 								<span id="emailPreview_attachment" class="row">
 									{foreach item=ATTACHMENT from=$ATTACHMENTS}
-										<a href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+										<a class="mr-1" href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">{$ATTACHMENT['file']}</a>
 									{/foreach}
 								</span>
 							</span>
