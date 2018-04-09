@@ -74,9 +74,11 @@ class Vtiger_CkEditor_Js {
 			},
 			fullPage: false,
 			allowedContent: true,
+			removeButtons: '',
 			scayt_autoStartup: false,
 			enterMode: CKEDITOR.ENTER_BR,
 			shiftEnterMode: CKEDITOR.ENTER_P,
+			extraPlugins: 'colorbutton,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
 			toolbar: 'Full',
 			toolbar_Full: [
 				{name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
