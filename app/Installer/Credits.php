@@ -17,6 +17,15 @@ class Credits
 	 * @var array
 	 */
 	public static $licenses = [
+		'ckeditor/ckeditor' => 'MPL-1.1+',
+		'block-ui' => 'MIT',
+		'dompurify' => 'Apache-2.0',
+		'html5shiv' => 'MIT',
+		'jquery-slimscroll' => 'MIT',
+		'optimist' => 'MIT',
+		'updated-jqplot' => 'MIT',
+		'color-convert' => 'MIT',
+		'humanize' => 'MIT',
 		'microplugin'=>'Apache-2.0'
 	];
 	/**
@@ -48,9 +57,6 @@ class Credits
 						$libraries[$package['name']]['license'] = implode(', ', $package['license']);
 						$libraries[$package['name']]['licenseError'] = true;
 					} else {
-						if (stripos($package['license'][0], 'or') !== false) {
-							$libraries[$package['name']]['licenseError'] = true;
-						}
 						$libraries[$package['name']]['license'] = $package['license'][0];
 					}
 					$libraries[$package['name']]['homepage'] = $package['homepage'];
@@ -98,9 +104,6 @@ class Credits
 								$libraries[$name]['license'] = implode(', ', $package['license']);
 								$libraries[$name]['licenseError'] = true;
 							} else {
-								if (stripos($package['license'][0], 'or') !== false) {
-									$libraries[$name]['licenseError'] = true;
-								}
 								$libraries[$name]['license'] = $package['license'][0];
 							}
 						}
@@ -143,9 +146,6 @@ class Credits
 			}
 			$licenseError = true;
 		} else {
-			if (stripos($license, 'or') !== false) {
-				$licenseError = true;
-			}
 			$returnLicense = $license;
 		}
 		return ['license'=> $returnLicense, 'error' =>$licenseError];
