@@ -65,7 +65,7 @@
 				{if $USER_MODEL->isAdminUser()}
 					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 					{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
-					{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
+					{assign var=FOOTOSP value= '<u><a href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></u>'}
 					<p class="text-center">
 						<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}<br />{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}</span>
 						<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
