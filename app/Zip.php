@@ -105,7 +105,7 @@ class Zip extends \ZipArchive
 					// Create the directories if necessary
 					$dir = dirname($file);
 					if (!is_dir($dir)) {
-						mkdir($dir, 0777, true);
+						mkdir($dir, 0750, true);
 					}
 					$fileList[] = $path;
 					if (!$this->isDir($path)) {

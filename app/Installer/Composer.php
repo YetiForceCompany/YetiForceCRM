@@ -41,7 +41,7 @@ class Composer
 				if ($item->isFile() && in_array($item->getExtension(), $types)) {
 					if (!file_exists($rootDir . $item->getPathname())) {
 						if (!is_dir($rootDir . $item->getPath())) {
-							mkdir($rootDir . $item->getPath(), 0774, true);
+							mkdir($rootDir . $item->getPath(), 0750, true);
 						}
 						if (!is_writable($rootDir . $item->getPath())) {
 							continue;

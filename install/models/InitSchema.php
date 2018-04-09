@@ -250,7 +250,7 @@ class Install_InitSchema_Model
 
 	public function copyFiles($source, $dest)
 	{
-		mkdir($dest, 0755);
+		mkdir($dest, 0750);
 		foreach (
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST) as $item
 		) {
