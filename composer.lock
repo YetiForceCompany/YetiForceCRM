@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a97e27a4d4516209e9d49d0a6254f544",
+    "content-hash": "d4b717bcba68ab9e31d401c64c4cf12a",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
-            "version": "dev-full/latest",
+            "version": "4.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "83bc36a2fa653d9fc8de698b3b135e9f3edec2ef"
+                "reference": "e0b461194197838f9ee52f11b2b469dde9e1b8f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/83bc36a2fa653d9fc8de698b3b135e9f3edec2ef",
-                "reference": "83bc36a2fa653d9fc8de698b3b135e9f3edec2ef",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/e0b461194197838f9ee52f11b2b469dde9e1b8f8",
+                "reference": "e0b461194197838f9ee52f11b2b469dde9e1b8f8",
                 "shasum": ""
             },
             "type": "library",
@@ -45,7 +45,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2018-03-26T21:10:35+00:00"
+            "time": "2018-03-26T17:19:45+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3118,7 +3118,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ckeditor/ckeditor": 20,
         "yetiforce/debugbar": 20,
         "yetiforce/yii2": 20,
         "yetiforce/icalendar": 20
