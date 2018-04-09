@@ -43,14 +43,11 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
-				$selectedModule = $request->getByType('selectedModule', 2);
-				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
-				$viewer->assign('ALLFILTERS', $filters);
+				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($request->getByType('selectedModule', 2)));
 				break;
 			case 'step3':
 				$selectedModuleName = $request->getByType('selectedModule', 2);
-				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
-				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFieldsByBlocks());
+				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
 				$viewer->assign('VALUE_TYPE', $request->getByType('valueType', 1));
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;

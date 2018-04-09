@@ -16,6 +16,9 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=UNIQUE_ID value=10|mt_rand:20}
 	<div class="tpl-Edit-Field-Text">
+		{if $smarty.post.view neq 'QuickCreateAjax'}
+			{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+		{/if}
 		{if $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300' }
 			{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 			<textarea name="{$FIELD_MODEL->getFieldName()}"

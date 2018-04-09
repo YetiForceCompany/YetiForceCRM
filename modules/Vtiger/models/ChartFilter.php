@@ -3,8 +3,8 @@
  * Model widget chart with a filter.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
@@ -60,6 +60,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 * @var array
 	 */
 	private $colors = [];
+
+	/**
+	 * Total number of rows grouped by fieldName and displayValue.
+	 *
+	 * @var array ['leadstatus']['Odrzucone'] === 2
+	 */
+	private $numRows = [];
 
 	/**
 	 * Get instance.
@@ -162,7 +169,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
 			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
@@ -196,7 +203,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		foreach ($groupData as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
 			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
@@ -225,7 +232,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
 			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
@@ -258,7 +265,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
 			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
@@ -287,7 +294,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
 			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
@@ -316,7 +323,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
 			$chartData['datasets'][0]['links'][] = $value['link'];
 			$chartData['labels'][] = $fieldName;
 			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
@@ -350,8 +357,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$dataset = &$chartData['datasets'][$i];
 			foreach ($raw['divided'] as $key => $value) {
 				if (isset($groupOptions[$key])) {
-					$dataset['data'][] = $groupOptions[$key]['count'];
+					$dataset['data'][] = $groupOptions[$key][$this->extraData['valueType']];
 					$dataset['links'][] = $groupOptions[$key]['link'];
+					$chartData['show_chart'] = true;
 				} else {
 					$dataset['data'][] = 0;
 					$dataset['links'][] = null;
@@ -362,7 +370,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$i++;
 		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
 		return $chartData;
 	}
 
@@ -376,10 +383,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$sectors = $this->extraData['sectorField'];
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
-		$query = $this->getQuery();
-		$dataReader = $query->createCommand()->query();
+		$dataReader = $this->getQuery()->createCommand()->query();
 		$groupData = $sectorValues = [];
 		while ($row = $dataReader->read()) {
+			$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 			$this->colors['owner_' . $row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
 			if (!empty($row[$fieldName])) {
 				if (!empty($this->extraData['showOwnerFilter'])) {
@@ -389,6 +396,26 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$sectorValues = $this->getValueForSector($sectorValues, $row[$fieldName]);
 				} else {
 					$groupData = $this->getValue($groupData, $row);
+				}
+				if (!isset($this->numRows[$fieldName])) {
+					$this->numRows[$fieldName] = [];
+				}
+				if (!isset($this->numRows[$fieldName][$displayValue])) {
+					$this->numRows[$fieldName][$displayValue] = 0;
+				}
+				$this->numRows[$fieldName][$displayValue]++;
+			}
+		}
+		if ($this->extraData['valueType'] === 'avg') {
+			if ($sectors) {
+				foreach ($sectorValues as $sectorId => &$value) {
+					$value = (float) $value / $this->numRows[$fieldName][$sectorId];
+				}
+			} else {
+				foreach ($groupData as $displayValue => &$values) {
+					if ($values['avg']) {
+						$values['avg'] = (float) $values['avg'] / $this->numRows[$fieldName][$displayValue];
+					}
 				}
 			}
 		}
@@ -418,21 +445,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getValue($groupData, $row)
 	{
 		$fieldName = $this->groupFieldModel->getFieldName();
+		$value = is_numeric($row[$this->extraData['groupField']]) ? $row[$this->extraData['groupField']] : 1;
+		$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 		switch ($this->extraData['valueType']) {
 			case 'count':
-				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-				if (!isset($groupData[$displayValue]['count'])) {
-					$groupData[$displayValue]['count'] = 1;
-				} else {
-					++$groupData[$displayValue]['count'];
-				}
+				$groupData[$displayValue][$this->extraData['valueType']] = $value;
 				break;
 			case 'sum':
-				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-				if (!isset($groupData[$displayValue]['count'])) {
-					$groupData[$displayValue]['count'] = (int) $row[$this->extraData['groupField']];
+			case 'avg':
+				if (!isset($groupData[$displayValue][$this->extraData['valueType']])) {
+					$groupData[$displayValue][$this->extraData['valueType']] = $value;
 				} else {
-					$groupData[$displayValue]['count'] += (int) $row[$this->extraData['groupField']];
+					$groupData[$displayValue][$this->extraData['valueType']] += $value;
 				}
 				break;
 		}
@@ -477,6 +501,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					}
 					break;
 				case 'sum':
+					if (!isset($sectorValues[$sectorId])) {
+						$sectorValues[$sectorId] = (int) $value;
+					} else {
+						$sectorValues[$sectorId] += (int) $value;
+					}
+					break;
+				case 'avg':
 					if (!isset($sectorValues[$sectorId])) {
 						$sectorValues[$sectorId] = (int) $value;
 					} else {
@@ -536,6 +567,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
+		if (empty($this->extraData['barDividedField'])) {
+			// if there is no dividing field selected return empty
+			return ['data' => [], 'group' => [], 'divided' => []];
+		}
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
 		$divideFieldName = $divideFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
@@ -551,11 +586,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if (!isset($dividedFields[$divideValue])) {
 					$dividedFields[$divideValue] = $dividedFieldCounter++;
 				}
-				if (!isset($data[$displayValue][$divideValue]['count'])) {
-					$data[$displayValue][$divideValue]['count'] = 1;
+				if (!isset($data[$displayValue][$divideValue][$this->extraData['valueType']])) {
+					$data[$displayValue][$divideValue][$this->extraData['valueType']] = 1;
 				} else {
-					++$data[$displayValue][$divideValue]['count'];
+					++$data[$displayValue][$divideValue][$this->extraData['valueType']];
 				}
+				if (!isset($this->numRows[$fieldName])) {
+					$this->numRows[$fieldName] = [];
+				}
+				if (!isset($this->numRows[$fieldName][$displayValue])) {
+					$this->numRows[$fieldName][$displayValue] = 0;
+				}
+				$this->numRows[$fieldName][$displayValue]++;
 				if (!empty($this->extraData['showOwnerFilter'])) {
 					$this->owners[] = $row['assigned_user_id'];
 				}

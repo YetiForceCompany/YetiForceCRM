@@ -976,7 +976,6 @@ class CustomView_Record_Model extends \App\Base
 				$groupedCustomViews['Others'][] = $customView;
 			}
 		}
-
 		return $groupedCustomViews;
 	}
 
