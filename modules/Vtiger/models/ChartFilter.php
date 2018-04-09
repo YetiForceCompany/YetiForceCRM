@@ -62,9 +62,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $colors = [];
 
 	/**
-	 * Total number ow rows grouped by fieldName.
+	 * Total number of rows grouped by fieldName and displayValue.
 	 *
-	 * @var array
+	 * @var array ['leadstatus']['Odrzucone'] === 2
 	 */
 	private $numRows = [];
 

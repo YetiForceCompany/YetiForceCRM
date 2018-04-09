@@ -8,20 +8,20 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 
-jQuery.Class("Vtiger_DashBoard_Js", {
+$.Class("Vtiger_DashBoard_Js", {
 	gridster: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
 	addWidget: function (element, url) {
-		element = jQuery(element);
+		element = $(element);
 		var linkId = element.data('linkid');
 		var name = element.data('name');
 		var widgetId = element.data('id');
-		jQuery(element).parent().remove();
-		if (jQuery('ul.widgetsList li').length < 1) {
-			jQuery('ul.widgetsList').prev('button').css('visibility', 'hidden');
+		$(element).parent().remove();
+		if ($('ul.widgetsList li').length < 1) {
+			$('ul.widgetsList').prev('button').css('visibility', 'hidden');
 		}
-		var widgetContainer = jQuery('<li class="new dashboardWidget" id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open"></li>');
+		var widgetContainer = $('<li class="new dashboardWidget" id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open"></li>');
 		widgetContainer.data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
@@ -30,7 +30,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	restrictContentDrag: function (container) {
 		container.on('mousedown.draggable', function (e) {
-			var element = jQuery(e.target);
+			var element = $(e.target);
 			var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
 			if (isHeaderElement) {
 				return;
@@ -48,7 +48,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	getContainer: function () {
 		if (this.noCache == true || this.container == false) {
-			this.container = jQuery('.gridster ul');
+			this.container = $('.gridster ul');
 		}
 		return this.container;
 	},
@@ -73,7 +73,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			max_size_x: 12,
 			draggable: {
 				'stop': function () {
-					thisInstance.savePositions(jQuery('.dashboardWidget'));
+					thisInstance.savePositions($('.dashboardWidget'));
 				}
 			}
 		}).data('gridster');
@@ -81,7 +81,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	savePositions: function (widgets) {
 		var widgetRowColPositions = {};
 		for (var index = 0, len = widgets.length; index < len; ++index) {
-			var widget = jQuery(widgets[index]);
+			var widget = $(widgets[index]);
 			widgetRowColPositions[widget.attr('id')] = JSON.stringify({
 				row: widget.attr('data-row'), col: widget.attr('data-col')
 			});
@@ -96,9 +96,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	loadWidgets: function () {
 		var thisInstance = this;
-		var widgetList = jQuery('.dashboardWidget');
+		var widgetList = $('.dashboardWidget');
 		widgetList.each(function (index, widgetContainerELement) {
-			thisInstance.loadWidget(jQuery(widgetContainerELement));
+			thisInstance.loadWidget($(widgetContainerELement));
 		});
 
 	},
@@ -149,7 +149,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	removeWidget: function () {
 		this.getContainer().on('click', 'li a[name="dclose"]', function (e) {
 			var element = $(e.currentTarget);
-			var listItem = jQuery(element).parents('li');
+			var listItem = $(element).parents('li');
 			var width = listItem.attr('data-sizex');
 			var height = listItem.attr('data-sizey');
 
@@ -160,56 +160,56 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 
 			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						AppConnector.request(url).then(
-								function (response) {
-									if (response.success) {
-										var nonReversableWidgets = [];
-										parent.fadeOut('slow', function () {
-											parent.remove();
-										});
-										if (jQuery.inArray(widgetName, nonReversableWidgets) == -1) {
-											Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
-											jQuery('.widgetsList').prev('button').css('visibility', 'visible');
-											var data = '<li class="d-flex flex-row-reverse align-items-center">';
-											if (response.result.deleteFromList) {
-												data += '<button ';
-												data += 'data-widget-id="' + response.result.id + '" ';
-												data += 'class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1" '
-												data += '>'
-												data += '<span class="fas fa-trash-alt"></span>';
-												data += '</button>';
-											}
-											data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
-											data += 'href="javascript:void(0);" ';
-											data += 'class="dropdown-item pl-1" ';
-											data += 'data-linkid="' + response.result.linkid + '" ';
-											data += 'data-name="' + response.result.name + '" ';
-											data += 'data-width="' + width + '" ';
-											data += 'data-height="' + height + '" ';
-											data += '>';
-											data += response.result.title + '</a>';
-											data += '</li>';
-											var divider = jQuery('.widgetsList .dropdown-divider');
-											if (divider.length) {
-												jQuery(data).insertBefore(divider);
-											} else {
-												jQuery('.widgetsList').append(data);
-											}
-										}
+				function (e) {
+					AppConnector.request(url).then(
+						function (response) {
+							if (response.success) {
+								var nonReversableWidgets = [];
+								parent.fadeOut('slow', function () {
+									parent.remove();
+								});
+								if ($.inArray(widgetName, nonReversableWidgets) == -1) {
+									Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
+									$('.widgetsList').prev('button').css('visibility', 'visible');
+									var data = '<li class="d-flex flex-row-reverse align-items-center">';
+									if (response.result.deleteFromList) {
+										data += '<button ';
+										data += 'data-widget-id="' + response.result.id + '" ';
+										data += 'class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1" '
+										data += '>'
+										data += '<span class="fas fa-trash-alt"></span>';
+										data += '</button>';
+									}
+									data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
+									data += 'href="javascript:void(0);" ';
+									data += 'class="dropdown-item pl-1" ';
+									data += 'data-linkid="' + response.result.linkid + '" ';
+									data += 'data-name="' + response.result.name + '" ';
+									data += 'data-width="' + width + '" ';
+									data += 'data-height="' + height + '" ';
+									data += '>';
+									data += response.result.title + '</a>';
+									data += '</li>';
+									var divider = $('.widgetsList .dropdown-divider');
+									if (divider.length) {
+										$(data).insertBefore(divider);
+									} else {
+										$('.widgetsList').append(data);
 									}
 								}
-						);
-					},
-					function (error, err) {
-					}
+							}
+						}
+					);
+				},
+				function (error, err) {
+				}
 			);
 		});
 	},
 	registerSelectDashboard: function () {
 		var thisInstance = this;
 		$('.selectDashboard li').on('click', function (e) {
-			var progressIndicatorElement = jQuery.progressIndicator({
+			var progressIndicatorElement = $.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
@@ -233,11 +233,11 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	registerDatePickerHideInitiater: function () {
 		var container = this.getContainer();
 		container.on('click', 'input.dateRange', function (e) {
-			var widgetContainer = jQuery(e.currentTarget).closest('.dashboardWidget');
-			var dashboardWidgetHeader = jQuery('.dashboardWidgetHeader', widgetContainer);
+			var widgetContainer = $(e.currentTarget).closest('.dashboardWidget');
+			var dashboardWidgetHeader = $('.dashboardWidgetHeader', widgetContainer);
 
 			var callbackFunction = function () {
-				var date = jQuery('.dateRange');
+				var date = $('.dateRange');
 				date.DatePickerHide();
 				date.blur();
 			};
@@ -249,9 +249,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	registerShowMailBody: function () {
 		var container = this.getContainer();
 		container.on('click', '.showMailBody', function (e) {
-			var widgetContainer = jQuery(e.currentTarget).closest('.mailRow');
+			var widgetContainer = $(e.currentTarget).closest('.mailRow');
 			var mailBody = widgetContainer.find('.mailBody');
-			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
+			var bodyIcon = $(e.currentTarget).find('.body-icon');
 			if (mailBody.css("display") == 'none') {
 				mailBody.show();
 				bodyIcon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
@@ -277,13 +277,13 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			params.data = {};
 			contentContainer.progressIndicator({});
 			AppConnector.request(params).then(
-					function (data) {
-						contentContainer.progressIndicator({'mode': 'hide'});
-						parent.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-					},
-					function () {
-						contentContainer.progressIndicator({'mode': 'hide'});
-					}
+				function (data) {
+					contentContainer.progressIndicator({'mode': 'hide'});
+					parent.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+				},
+				function () {
+					contentContainer.progressIndicator({'mode': 'hide'});
+				}
 			);
 		});
 	},
@@ -293,21 +293,21 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var element = $(e.currentTarget);
 			var fieldTypeToGroup = ['currency', 'double', 'percentage', 'integer'];
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
-				var form = jQuery('form', wizardContainer);
+				var form = $('form', wizardContainer);
 				form.on("keypress", function (event) {
 					return event.keyCode != 13;
 				});
 				var sectorContainer = form.find('.sectorContainer');
-				var chartType = jQuery('select[name="chartType"]', wizardContainer);
-				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
+				var chartType = $('select[name="chartType"]', wizardContainer);
+				var moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
 				App.Fields.Picklist.showSelect2ElementView(sectorContainer.find('.select2'));
 				var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 					placeholder: app.vtranslate('JS_SELECT_MODULE')
 				});
-				var step1 = jQuery('.step1', wizardContainer);
-				var step2 = jQuery('.step2', wizardContainer);
-				var step3 = jQuery('.step3', wizardContainer);
-				var footer = jQuery('.modal-footer', wizardContainer);
+				var step1 = $('.step1', wizardContainer);
+				var step2 = $('.step2', wizardContainer);
+				var step3 = $('.step3', wizardContainer);
+				var footer = $('.modal-footer', wizardContainer);
 				step2.remove();
 				step3.remove();
 				footer.hide();
@@ -431,67 +431,72 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		};
 		var sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).then(
-				function (data) {
-					var result = data['result'];
-					var params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = result['text'];
-						params['type'] = 'success';
-						var linkElement = element.clone();
-						linkElement.data('name', 'ChartFilter');
-						linkElement.data('id', result['wid']);
-						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
-						Vtiger_Helper_Js.showMessage(params);
+			function (data) {
+				var result = data['result'];
+				var params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = result['text'];
+					params['type'] = 'success';
+					var linkElement = element.clone();
+					linkElement.data('name', 'ChartFilter');
+					linkElement.data('id', result['wid']);
+					Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
+					Vtiger_Helper_Js.showMessage(params);
+				} else {
+					var message = data['error']['message'];
+					if (data['error']['code'] != 513) {
+						var errorField = form.find('[name="fieldName"]');
 					} else {
-						var message = data['error']['message'];
-						if (data['error']['code'] != 513) {
-							var errorField = form.find('[name="fieldName"]');
-						} else {
-							var errorField = form.find('[name="fieldLabel"]');
-						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+						var errorField = form.find('[name="fieldLabel"]');
 					}
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 				}
+			}
 		);
 	},
 	registerMiniListWidget: function () {
-		var thisInstance = this;
+		const thisInstance = this;
 		$('.dashboardHeading').off('click', '.addFilter').on('click', '.addFilter', function (e) {
-			var element = $(e.currentTarget);
+			const element = $(e.currentTarget);
 
 			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
-				var form = jQuery('form', wizardContainer);
+				const form = $('form', wizardContainer);
 				form.on("keypress", function (event) {
 					return event.keyCode != 13;
 				});
-				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-				var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
-				var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
+				const moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
+				const filteridSelectDOM = $('select[name="filterid"]', wizardContainer);
+				const fieldsSelectDOM = $('select[name="fields"]', wizardContainer);
+				const filterFieldsSelectDOM = $('select[name="filter_fields"]', wizardContainer);
 
-				var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
+				const moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 					placeholder: app.vtranslate('JS_SELECT_MODULE')
 				});
-				var filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
+				const filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
 					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 					dropdownParent: wizardContainer
 				});
-				var fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
+				const fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
 					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 					closeOnSelect: true,
 					maximumSelectionLength: 6
 				});
-				var footer = jQuery('.modal-footer', wizardContainer);
+				const filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
+					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+				});
+				const footer = $('.modal-footer', wizardContainer);
 
 				filteridSelectDOM.closest('tr').hide();
 				fieldsSelectDOM.closest('tr').hide();
 				footer.hide();
 
 				moduleNameSelect2.on('change', function () {
-					if (!moduleNameSelect2.val())
+					if (!moduleNameSelect2.val()) {
 						return;
+					}
 					footer.hide();
 					fieldsSelectDOM.closest('tr').hide();
 					AppConnector.request({
@@ -505,9 +510,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					});
 				});
 				filteridSelect2.on('change', function () {
-					if (!filteridSelect2.val())
+					if (!filteridSelect2.val()) {
 						return;
-
+					}
 					AppConnector.request({
 						module: 'Home',
 						view: 'MiniListWizard',
@@ -515,9 +520,15 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						selectedModule: moduleNameSelect2.val(),
 						filterid: filteridSelect2.val()
 					}).then(function (res) {
-						fieldsSelectDOM.empty().html(res).trigger('change');
+						const responseHTML = $(res);
+						const fieldsHTML = responseHTML.find('select[name="fields"]').html();
+						const filterFieldsHTML = responseHTML.find('select[name="filter_fields"]').html();
+						fieldsSelectDOM.empty().html(fieldsHTML).trigger('change');
 						fieldsSelect2.closest('tr').show();
 						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
+						filterFieldsSelectDOM.empty().html(filterFieldsHTML).trigger('change');
+						filterFieldsSelect2.closest('tr').show();
+						filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					});
 				});
 				fieldsSelect2.on('change', function () {
@@ -569,35 +580,35 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		};
 		var sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).then(
-				function (data) {
-					var result = data['result'];
-					var params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = result['text'];
-						params['type'] = 'success';
-						var linkElement = element.clone();
-						linkElement.data('name', 'MiniList');
-						linkElement.data('id', result['wid']);
-						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
-						Vtiger_Helper_Js.showMessage(params);
+			function (data) {
+				var result = data['result'];
+				var params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = result['text'];
+					params['type'] = 'success';
+					var linkElement = element.clone();
+					linkElement.data('name', 'MiniList');
+					linkElement.data('id', result['wid']);
+					Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
+					Vtiger_Helper_Js.showMessage(params);
+				} else {
+					var message = data['error']['message'];
+					if (data['error']['code'] != 513) {
+						var errorField = form.find('[name="fieldName"]');
 					} else {
-						var message = data['error']['message'];
-						if (data['error']['code'] != 513) {
-							var errorField = form.find('[name="fieldName"]');
-						} else {
-							var errorField = form.find('[name="fieldLabel"]');
-						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+						var errorField = form.find('[name="fieldLabel"]');
 					}
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 				}
+			}
 		);
 	},
 	saveWidget: function (form, mode, sourceModule, linkid) {
-		var aDeferred = jQuery.Deferred();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var aDeferred = $.Deferred();
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -616,14 +627,14 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			linkid: linkid,
 		};
 		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
+			function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
 		);
 		return aDeferred.promise();
 	},
