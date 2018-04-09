@@ -65,6 +65,12 @@ class Vtiger_CkEditor_Js {
 		this.setElement(element);
 		const instance = this.getCkEditorInstanceFromName();
 		let config = {
+			fullPage: false,
+			allowedContent: true,
+			removeButtons: '',
+			scayt_autoStartup: false,
+			enterMode: CKEDITOR.ENTER_BR,
+			shiftEnterMode: CKEDITOR.ENTER_P,
 			on: {
 				instanceReady: function (evt) {
 					evt.editor.on('blur', function () {
@@ -72,12 +78,6 @@ class Vtiger_CkEditor_Js {
 					});
 				}
 			},
-			fullPage: false,
-			allowedContent: true,
-			removeButtons: '',
-			scayt_autoStartup: false,
-			enterMode: CKEDITOR.ENTER_BR,
-			shiftEnterMode: CKEDITOR.ENTER_P,
 			extraPlugins: 'colorbutton,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
 			toolbar: 'Full',
 			toolbar_Full: [
@@ -109,7 +109,6 @@ class Vtiger_CkEditor_Js {
 				{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
 			]
 		};
-
 		if (typeof customConfig !== 'undefined') {
 			config = $.extend(config, customConfig);
 		}
@@ -118,7 +117,6 @@ class Vtiger_CkEditor_Js {
 		}
 		CKEDITOR.replace(element, config);
 	}
-
 	/*
 	 * Function to load contents in ckeditor textarea
 	 * @params : textArea Element,contents ;
@@ -128,43 +126,3 @@ class Vtiger_CkEditor_Js {
 		editor.setData(editor.getData().replace(editorData, contents));
 	}
 }
-
-// CKEDITOR.editorConfig = function (config) {
-// 	// Define changes to default configuration here. For example:
-// 	// config.language = 'fr';
-// 	// config.uiColor = '#AADC6E';
-// 	config.fullPage = false;
-// 	config.allowedContent = true;
-// 	config.scayt_autoStartup = false;
-// 	config.enterMode = CKEDITOR.ENTER_BR;
-// 	config.shiftEnterMode = CKEDITOR.ENTER_P;
-// 	config.toolbar = 'Full';
-// 	config.toolbar_Full = [
-// 		{name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-// 		{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
-// 		{name: 'links', items: ['Link', 'Unlink']},
-// 		{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
-// 		{name: 'tools', items: ['Maximize', 'ShowBlocks']},
-// 		{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
-// 		{name: 'document', items: ['Source', 'Print']},
-// 		'/',
-// 		{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-// 		{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
-// 		{name: 'colors', items: ['TextColor', 'BGColor']},
-// 		{
-// 			name: 'paragraph',
-// 			items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-// 		},
-// 		{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-// 	];
-// 	config.toolbar_Min = [
-// 		{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
-// 		{name: 'colors', items: ['TextColor', 'BGColor']},
-// 		{name: 'tools', items: ['Maximize']},
-// 		{
-// 			name: 'paragraph',
-// 			items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-// 		},
-// 		{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
-// 	];
-// };
