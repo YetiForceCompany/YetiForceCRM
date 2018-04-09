@@ -18,7 +18,7 @@ jQuery.Class("Settings_Vtiger_Credits_Js", {}, {
 	registerDataTables: function (contentData) {
 		$.extend($.fn.dataTable.defaults, {
 			bPaginate: false,
-			bSort: false,
+			order: [],
 			language: {
 				sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),
 				sInfo: app.vtranslate('JS_S_INFO'),
