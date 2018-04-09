@@ -264,7 +264,10 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
+			'~libraries/@fortawesome/fontawesome/index.js',
+			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
+			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
+			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
 		]);
 	}
 
