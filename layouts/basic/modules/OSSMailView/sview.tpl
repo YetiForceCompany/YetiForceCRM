@@ -31,7 +31,7 @@
 								<span class="text-muted">{\App\Language::translate('CC',$MODULENAME)}</span>
 							</span>
 							<span class="col-11">
-								<span id="emailPreview_Cc" class="row">
+								<span id="emailPreview_Cc">
 									{$CC}
 								</span>
 							</span>
@@ -45,7 +45,7 @@
 								<span class="text-muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
 							</span>
 							<span class="col-11">
-								<span id="emailPreview_Bcc" class="row">
+								<span id="emailPreview_Bcc">
 									{$BCC}
 								</span>
 							</span>
