@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="c-detail-widget mb-3 js-detail-widget">
+	<div class="c-detail-widget u-mb-13px js-detail-widget" data-js=”container”>
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="c-detail-widget__header js-detail-widget-header py-1">
+			<div class="c-detail-widget__header js-detail-widget-header py-1" data-js=”container|value>
 				<div class="widgetTitle row align-items-center">
 					<div class="col-4">
 						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<hr class="widgetHr">
-			<div class="c-detail-widget__content js-detail-widget-content widgetContent">
+			<div class="c-detail-widget__content js-detail-widget-content widgetContent" data-js=”container|value”>
 			</div>
 		</div>
 	</div>

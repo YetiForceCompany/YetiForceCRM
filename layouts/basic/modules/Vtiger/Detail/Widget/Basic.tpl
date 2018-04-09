@@ -1,8 +1,8 @@
 {strip}
-	<div class="c-detail-widget mb-3 js-detail-widget">
+	<div class="c-detail-widget u-mb-13px js-detail-widget" data-js=”container”>
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
-			<div class="c-detail-widget__header js-detail-widget-header">
+			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
 				<div class="form-row align-items-center">
 					<div class="col-9 col-md-5 col-sm-6">
@@ -94,7 +94,7 @@
 					{/if}
 				</div>
 			</div>
-			<div class="c-detail-widget__content js-detail-widget-content">
+			<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”>
 			</div>
 		</div>
 	</div>

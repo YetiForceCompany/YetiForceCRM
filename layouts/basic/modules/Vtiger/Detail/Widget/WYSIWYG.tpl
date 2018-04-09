@@ -1,7 +1,7 @@
 {strip}
-	<div class="c-detail-widget mb-3 js-detail-widget c-detail-widget--wysiwyg">
-		<div class="c-detail-widget__header js-detail-widget-header">
-			<div class="form-row align-items-center"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></div>
+	<div class="c-detail-widget u-mb-13px js-detail-widget c-detail-widget--wysiwyg" data-js=”container”>
+		<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
+			<div class="form-row pl-2 align-items-center"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></div>
 		</div>
 		<hr class="widgetHr">
 		<div class="defaultMarginP">
