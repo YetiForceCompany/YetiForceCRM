@@ -52,7 +52,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$returnUrl = $request->getServer('QUERY_STRING');
 			if ($returnUrl && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
-				$returnUrl = urlencode($returnUrl);
 				App\Session::set('return_params', $returnUrl);
 			}
 			if (!$request->isAjax()) {
