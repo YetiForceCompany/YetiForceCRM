@@ -1,9 +1,9 @@
 {strip}
-	<div class="c-detail-widget mb-3 js-detail-widget summaryWidgetFastEditing">
+	<div class="c-detail-widget u-mb-13px js-detail-widget summaryWidgetFastEditing" data-js=”container”>
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
-				<div class="c-detail-widget__header js-detail-widget-header">
-					<div class="form-row align-items-center"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></div>
+				<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
+					<div class="form-row pl-2 align-items-center"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></div>
 				</div>
 				<hr class="widgetHr">
 			{/if}

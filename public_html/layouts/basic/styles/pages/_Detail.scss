@@ -125,11 +125,11 @@
   @extend .card, .m-1;
   &__header {
 	@extend .card-header;
-	@extend .py-0, .px-3, .border-bottom-0;
+	@extend .py-0, .px-1, .border-bottom-0;
 	background: inherit;
   }
   &__content {
-	@extend .card-body, .px-3, .py-0;
+	@extend .card-body, .px-2, .py-0;
   }
   &__table {
 	@extend .table, .mb-0;

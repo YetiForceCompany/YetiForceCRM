@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div  class="c-detail-widget mb-3 js-detail-widget activityWidgetContainer">
-		<div class="c-detail-widget__header js-detail-widget-header">
+	<div  class="c-detail-widget u-mb-13px js-detail-widget activityWidgetContainer" data-js=”container”>
+		<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 			<div class="row align-items-center">
 				<div class="col-9 col-md-5 col-sm-6">
 					<div class="widgetTitle u-text-ellipsis">
@@ -28,7 +28,7 @@
 			<hr class="widgetHr">
 		</div>
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
-			<div class="c-detail-widget__content js-detail-widget-content">
+			<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”>
 			</div>
 		</div>
 	</div>
