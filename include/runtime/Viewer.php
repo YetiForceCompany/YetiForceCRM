@@ -64,7 +64,7 @@ class Vtiger_Viewer extends SmartyBC
 		}
 		$templateDir[] = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
 		if (!file_exists($compileDir)) {
-			mkdir($compileDir, 0750, true);
+			mkdir($compileDir, 0755, true);
 		}
 		$this->setTemplateDir(array_unique($templateDir));
 		$this->setCompileDir($compileDir);

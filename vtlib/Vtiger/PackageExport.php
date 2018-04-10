@@ -28,7 +28,7 @@ class PackageExport
 	public function __construct()
 	{
 		if (is_dir($this->_export_tmpdir) === false) {
-			mkdir($this->_export_tmpdir, 0750);
+			mkdir($this->_export_tmpdir, 0755);
 		}
 	}
 

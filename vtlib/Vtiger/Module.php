@@ -181,7 +181,7 @@ class Module extends ModuleBasic
 				$targetPath = str_replace('_ModuleName_', $this->name, $targetPath);
 				if (is_dir($name)) {
 					if (!is_dir($targetPath)) {
-						mkdir($targetPath, 0750);
+						mkdir($targetPath, 0755);
 					}
 				} else {
 					$fileContent = file_get_contents($name);

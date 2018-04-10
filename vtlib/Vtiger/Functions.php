@@ -588,7 +588,7 @@ class Functions
 		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
-				mkdir($dest . $iterator->getSubPathName(), 0750);
+				mkdir($dest . $iterator->getSubPathName(), 0755);
 			} elseif (!$item->isDir()) {
 				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
 			}

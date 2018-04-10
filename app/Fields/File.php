@@ -570,12 +570,12 @@ class File
 		if (!empty(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir'))) {
 			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
 			if (!is_dir(static::$tmpPath)) {
-				mkdir(static::$tmpPath, 0750);
+				mkdir(static::$tmpPath, 0755);
 			}
 		} elseif (is_writable(sys_get_temp_dir())) {
 			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
 			if (!is_dir(static::$tmpPath)) {
-				mkdir(static::$tmpPath, 0750);
+				mkdir(static::$tmpPath, 0755);
 			}
 		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
 			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
@@ -731,18 +731,18 @@ class File
 			$filepath .= $suffix . DIRECTORY_SEPARATOR;
 		}
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0750);
+			mkdir($filepath, 0755);
 		}
 		$year = date('Y');
 		$month = date('F');
 		$day = date('j');
 		$filepath .= $year;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0750);
+			mkdir($filepath, 0755);
 		}
 		$filepath .= DIRECTORY_SEPARATOR . $month;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0750);
+			mkdir($filepath, 0755);
 		}
 		if ($day > 0 && $day <= 7) {
 			$week = 'week1';
@@ -757,7 +757,7 @@ class File
 		}
 		$filepath .= DIRECTORY_SEPARATOR . $week;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0750);
+			mkdir($filepath, 0755);
 		}
 		return $filepath . DIRECTORY_SEPARATOR;
 	}

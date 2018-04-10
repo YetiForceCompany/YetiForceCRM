@@ -16,7 +16,7 @@ while ($row = $dataReader->read()) {
 	$dbCommand->delete('u_#__attachments', ['id' => $row['id']])->execute();
 	$fileName = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['key'];
 	if (file_exists($fileName)) {
-		chmod($fileName, 0750);
+		chmod($fileName, 0755);
 		unlink($fileName);
 	}
 }

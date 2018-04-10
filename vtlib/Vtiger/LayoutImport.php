@@ -99,7 +99,7 @@ class LayoutImport extends LayoutExport
 					// vtiger6 format
 					if ($vtiger6format) {
 						$targetdir = "layouts/$name/" . str_replace("layouts/$name", '', $targetdir);
-						@mkdir($targetdir, 0750, true);
+						@mkdir($targetdir, 0755, true);
 					}
 					if (!$zip->checkFile($fileName)) {
 						if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
