@@ -90,7 +90,8 @@
 	"LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS": "Wykres czasu pracy z podzia\u0142em na u\u017cytkownik\u00f3w",
 	"LBL_TIME_CONTROL_LIST": "Lista czasu pracy",
 	"LBL_TIME_CONTROL_DETAILED_LIST": "Lista szczeg\u00f3\u0142owa czasu pracy",
-	"LBL_TIME_CONTROL_USER_GROUP": "Lista czasu pracy z dodatkowymi informacjami o u\u017cytkowniku"
+	"LBL_TIME_CONTROL_USER_GROUP": "Lista czasu pracy z dodatkowymi informacjami o u\u017cytkowniku",
+	"LBL_TYPE": "Rodzaj aktywno\u015bci"
   },
   "js": {
 	"MSG_ERROR_NUMBER": "Dopuszczalne znaki: [0-9]",
