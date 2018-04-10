@@ -81,7 +81,9 @@ class Credits
 			$yarnFile = \App\Json::decode(file_get_contents($dir . '.yarn-integrity'), true);
 			if ($yarnFile && $yarnFile['lockfileEntries']) {
 				foreach ($yarnFile['lockfileEntries'] as $nameWithVersion => $page) {
-					$name = reset(explode('@', $nameWithVersion));
+					$isPrefix = strpos($nameWithVersion, '@') === 0;
+					$name = $isPrefix ? '@' : '';
+					$name .= array_shift(explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion));
 					$libraries[$name]['name'] = $name;
 					$libraries[$name]['homepage'] = $page;
 					$packageFile = $dir . $name . DIRECTORY_SEPARATOR . 'package.json';
