@@ -125,50 +125,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get horizontal chart data.
-	 *
-	 * @return array
-	 */
-	protected function getDataHorizontal()
-	{
-		return $this->getDataBar();
-	}
-
-	/**
-	 * Get line chart data.
-	 *
-	 * @return array
-	 */
-	protected function getDataLine()
-	{
-		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'links' => [],
-				],
-			],
-			'show_chart' => false,
-		];
-		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value['count'];
-			$chartData['datasets'][0]['links'][] = $value['link'];
-			$chartData['labels'][] = $fieldName;
-			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
-				$chartData['datasets'][0]['pointBackgroundColor'][] = $this->colors[$value['color_id']];
-			}
-		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
-		return $chartData;
-	}
-
-	protected function getDataLinePlain()
-	{
-		return $this->getDataLine();
-	}
-
-	/**
 	 * Get bar chart data.
 	 *
 	 * @return array
@@ -234,6 +190,50 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		return $chartData;
+	}
+
+	/**
+	 * Get horizontal chart data.
+	 *
+	 * @return array
+	 */
+	protected function getDataHorizontal()
+	{
+		return $this->getDataBar();
+	}
+
+	/**
+	 * Get line chart data.
+	 *
+	 * @return array
+	 */
+	protected function getDataLine()
+	{
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$chartData['datasets'][0]['data'][] = $value['count'];
+			$chartData['datasets'][0]['links'][] = $value['link'];
+			$chartData['labels'][] = $fieldName;
+			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
+				$chartData['datasets'][0]['pointBackgroundColor'][] = $this->colors[$value['color_id']];
+			}
+		}
+		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
+		return $chartData;
+	}
+
+	protected function getDataLinePlain()
+	{
+		return $this->getDataLine();
 	}
 
 	/**
