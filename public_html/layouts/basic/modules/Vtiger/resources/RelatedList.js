@@ -102,6 +102,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	content: false,
 	listSearchInstance: false,
 	detailViewContentHolder: false,
+	relatedView: false,
 	frameProgress: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
@@ -117,6 +118,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	setRelatedContainer: function (container) {
 		this.content = container;
+		this.relatedView = container.find('input.relatedView').val();
 	},
 	getContentHolder: function () {
 		if (this.detailViewContentHolder == false) {
@@ -146,6 +148,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			sortorder: this.getSortOrder(),
 			orderby: this.getOrderBy(),
 			page: this.getCurrentPageNum(),
+			relatedView: this.relatedView,
 			mode: 'showRelatedList'
 		};
 		if (container.find('.pagination').length) {
@@ -827,7 +830,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.showBtnSwitch(this.content.find('.switchBtn'));
 		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
-		if (CONFIG.view === 'ListPreview') {
+		if (this.relatedView === 'ListPreview') {
 			this.registerPreviewEvent();
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
