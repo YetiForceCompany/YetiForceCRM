@@ -41,6 +41,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $groupFieldModel;
 
 	/**
+	 * Divide field model (for stacked/divided charts).
+	 *
+	 * @var \Vtiger_Module_Model
+	 */
+	private $divideFieldModel;
+
+	/**
 	 * Url search params.
 	 *
 	 * @var array
@@ -403,7 +410,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$queryGenerator->setField('assigned_user_id');
 		}
 		$query = $queryGenerator->createQuery();
-		if (!empty($this->groupFieldModel)) {
+		if (!empty($this->groupFieldModel) && empty($this->divideFieldModel)) {
 			$moduleName = $queryGenerator->getModuleModel()->getName();
 			$picklists = \App\Fields\Picklist::getModulesByName($moduleName);
 			$fieldName = $this->groupFieldModel->getName();
@@ -412,6 +419,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 				$fieldTable = 'vtiger_' . $this->groupFieldModel->getName();
 				$query->leftJoin($fieldTable, "{$this->groupFieldModel->table}.{$this->groupFieldModel->column} = {$fieldTable}.{$fieldName}");
+				$query->addSelect(['picklist_id' => "$fieldTable.$primaryKey"]);
+			}
+		}
+		if (!empty($this->divideFieldModel)) {
+			$moduleName = $queryGenerator->getModuleModel()->getName();
+			$picklists = \App\Fields\Picklist::getModulesByName($moduleName);
+			$fieldName = $this->divideFieldModel->getName();
+			if (in_array($fieldName, $picklists, true)) {
+				$this->colors = \App\Fields\Picklist::getColors($fieldName);
+				$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
+				$fieldTable = 'vtiger_' . $this->divideFieldModel->getName();
+				$query->leftJoin($fieldTable, "{$this->divideFieldModel->table}.{$this->divideFieldModel->column} = {$fieldTable}.{$fieldName}");
 				$query->addSelect(['picklist_id' => "$fieldTable.$primaryKey"]);
 			}
 		}
@@ -525,15 +544,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			// if there is no dividing field selected return empty
 			return [];
 		}
-		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
-		$divideFieldName = $divideFieldModel->getFieldName();
+		$this->divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
+		$divideFieldName = $this->divideFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$data = [];
 		// data = data values grouped by displayValue, dividedValue and valueType
 		while ($row = $dataReader->read()) {
 			if (!empty($row[$fieldName]) && !empty($row[$divideFieldName])) {
 				$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-				$dividedValue = $divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
+				$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
 				if (!empty($row['assigned_user_id'])) {
 					$this->colors['owner_' . $row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
 				}
@@ -631,10 +650,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getValueDivided($groupData, $row)
 	{
 		$fieldName = $this->groupFieldModel->getFieldName();
-		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
-		$divideFieldName = $divideFieldModel->getFieldName();
+		$divideFieldName = $this->divideFieldModel->getFieldName();
 		$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-		$dividedValue = $divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
+		$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
 		$value = $this->getValueFromRow($row);
 		$valueType = $this->extraData['valueType'];
 		if (!isset($groupData[$groupValue])) {
