@@ -7,13 +7,13 @@
 				<div class="form-row align-items-center my-1">
 					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">
-							<h4 class="modCT_{$WIDGET['label']}">
+							<h5 class="mb-0 modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
 									{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 								{else}
 									{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 								{/if}
-							</h4>
+							</h5>
 						</div>
 					</div>
 					{if $WIDGET['level'] < 2}
