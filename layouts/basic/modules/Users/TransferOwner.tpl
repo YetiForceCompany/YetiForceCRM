@@ -36,7 +36,7 @@
 					</div>
 				</div>
 			</div>
-			{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE)}
 		</form>
 	</div>
 {/strip}

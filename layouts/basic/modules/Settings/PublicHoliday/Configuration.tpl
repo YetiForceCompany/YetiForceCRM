@@ -120,7 +120,7 @@
 											</div>
 										</div>
 									</div>
-									{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+									{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger')}
 								</form>
 							</div>
 						</div>
