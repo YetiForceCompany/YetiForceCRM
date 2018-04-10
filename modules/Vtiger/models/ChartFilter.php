@@ -188,6 +188,45 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Get divided bar chart data.
+	 *
+	 * @return array
+	 */
+	public function getDataBardivided()
+	{
+		$chartData = [
+			'labels' => [],
+			'datasets' => [],
+			'show_chart' => false,
+		];
+		foreach ($this->getRowsDivided() as $groupValue => $data) {
+			$chartData['labels'][] = $groupValue;
+			$i = 0;
+			foreach ($data as $dividedValue => $value) {
+				// each dividedValue should be in different dataset (different stacks)
+				if (!isset($chartData['datasets'][$i])) {
+					$chartData['datasets'][] = [
+						'data' => [],
+						'links' => [],
+						'label' => $dividedValue
+					];
+				}
+				$dataset = &$chartData['datasets'][$i];
+				$dataset['data'][] = $value[$this->extraData['valueType']];
+				if (!empty($value['link'])) {
+					$dataset['links'][] = $value['link'];
+				}
+				if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
+					$chartData['datasets'][$i]['backgroundColor'][] = $this->colors[$value['color_id']];
+				}
+				$chartData['show_chart'] = true;
+				$i++;
+			}
+		}
+		return $chartData;
+	}
+
+	/**
 	 * Get funnel chart data.
 	 *
 	 * @return array
@@ -338,45 +377,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
-		return $chartData;
-	}
-
-	/**
-	 * Get divided bar chart data.
-	 *
-	 * @return array
-	 */
-	public function getDataBardivided()
-	{
-		$chartData = [
-			'labels' => [],
-			'datasets' => [],
-			'show_chart' => false,
-		];
-		foreach ($this->getRowsDivided() as $groupValue => $data) {
-			$chartData['labels'][] = $groupValue;
-			$i = 0;
-			foreach ($data as $dividedValue => $value) {
-				// each dividedValue should be in different dataset (different stacks)
-				if (!isset($chartData['datasets'][$i])) {
-					$chartData['datasets'][] = [
-						'data' => [],
-						'links' => [],
-						'label' => $dividedValue
-					];
-				}
-				$dataset = &$chartData['datasets'][$i];
-				$dataset['data'][] = $value[$this->extraData['valueType']];
-				if (!empty($value['link'])) {
-					$dataset['links'][] = $value['link'];
-				}
-				if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
-					$chartData['datasets'][$i]['backgroundColor'][] = $this->colors[$value['color_id']];
-				}
-				$chartData['show_chart'] = true;
-				$i++;
-			}
-		}
 		return $chartData;
 	}
 
