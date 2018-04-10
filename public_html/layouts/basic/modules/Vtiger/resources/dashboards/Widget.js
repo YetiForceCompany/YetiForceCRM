@@ -779,7 +779,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						}
 					},
 					scales: {
-						xAxes: {
+						xAxes: [{
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
@@ -787,14 +787,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 								callback: 'function:scales.formatAxesLabels',
 								labelOffset: 0,
 							}
-						},
-						yAxes: {
+						}],
+						yAxes: [{
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
 								callback: 'function:scales.formatAxesLabels'
 							}
-						}
+						}]
 					},
 				},
 				dataset: {
