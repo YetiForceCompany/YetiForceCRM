@@ -2,13 +2,12 @@
 	<div class="c-detail-widget u-mb-13px js-detail-widget recordDetails" data-js=”container”>
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
-				<span class="m-0"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+					<h5 class="mb-0 py-2">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+					<hr class="widgetHr">
 			</div>
 		{/if}
-		<hr class="widgetHr">
 		{foreach item=SUMMARY_CATEGORY from=$RECORD->getSummaryInfo()}
 			<div class="row textAlignCenter roundedCorners">
-				
 				{foreach item=FIELD_VALUE from=$SUMMARY_CATEGORY}
 					<div class="col-md-3" data-reference="{$FIELD_VALUE.reference}">
 						<div class="well squeezedWell">

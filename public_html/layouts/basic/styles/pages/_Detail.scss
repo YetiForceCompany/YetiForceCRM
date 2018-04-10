@@ -126,7 +126,7 @@
   @extend .card, .m-1;
   &__header {
 	@extend .card-header;
-	@extend .py-0, .px-1, .border-bottom-0;
+	@extend .py-0, .px-2, .border-bottom-0;
 	background: inherit;
   }
   &__content {

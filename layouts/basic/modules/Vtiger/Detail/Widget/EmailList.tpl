@@ -4,9 +4,9 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-				<div class="widgetTitle row align-items-center">
+				<div class="widgetTitle form-row align-items-center py-1">
 					<div class="col-7">
-						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h5 class="mb-0 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 					</div>
 					<div class="col-5">
 						<div class="float-right">
@@ -36,7 +36,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="rowHr" />
+				<hr class="widgetHr">
 				<div class="row">
 					<div class="col-6 paddingRightZero">
 						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control form-control-sm">
