@@ -6,19 +6,19 @@
 				<thead>
 					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap "></th>
+							<th class="noWrap p-1"></th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							<th nowrap class="u-p-5px">
+							<th nowrap class="p-1">
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+							<th  class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+							<th  class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 							{if $SHOW_COMMENT}
-							<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+							<th  class="p-1">{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 					</tr>
 				</thead>
@@ -45,11 +45,11 @@
 							</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
 						{if $SHOW_COMMENT}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 										{App\TextParser::textTruncate($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
@@ -128,19 +128,19 @@
 				<thead>
 					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap">&nbsp;</th>
+							<th class="noWrap p-1">&nbsp;</th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							<th nowrap>
+							<th nowrap class="p-1">
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 							{if $SHOW_COMMENT}
-							<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 					</tr>
 				</thead>
@@ -167,11 +167,11 @@
 							</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
 						{if $SHOW_COMMENT}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 										{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
