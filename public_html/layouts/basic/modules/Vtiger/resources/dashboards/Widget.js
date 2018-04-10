@@ -521,7 +521,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
 				}],
 			},
-			bardivided: {
+			barDivided: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -543,7 +543,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 								autoSkip: false,
 								beginAtZero: true,
 								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
+								callback: 'function:scales.formatAxesLabels',
 							}
 						}],
 						yAxes: [{
@@ -551,7 +551,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
+								callback: 'function:scales.formatAxesLabels',
 							}
 						}]
 					},
@@ -577,7 +577,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
 				}],
 			},
-			horizontalbar: {
+			horizontalBar: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -687,8 +687,66 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.fixXAxisLabels'
 				}],
 			},
+			// hard edges line
+			lineDivided: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+								stacked: true,
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels',
+								stacked: true,
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					lineTension: 0,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
 			// smooth line
-			lineplain: {
+			linePlain: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -850,7 +908,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 		});
-		chartSubType = chartSubType.toLowerCase();
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
 		}
@@ -1712,8 +1769,14 @@ YetiForce_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 	chartfilterInstance: false,
 	init: function (container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
+		const chartType = container.find('[name="typeChart"]').val();
+		let chartClassName = chartType.toCamelCase();
+		const divided = Number(container.find('[name="divided"]').val());
+		console.log(`chart is divided '${divided}'`);
+		if (divided) {
+			chartClassName += 'Divided';
+			console.log(chartClassName)
+		}
 		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
 		this.registerRecordsCount();
 	},
@@ -1734,7 +1797,7 @@ YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
-YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_BarDivided_Widget_Js', {}, {
 	getType: function getType() {
 		return 'bar';
 	},
@@ -1742,10 +1805,19 @@ YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
 		return 'barDivided';
 	}
 });
+YetiForce_BarDivided_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	getType: function getType() {
 		return 'line';
 	},
+});
+YetiForce_Line_Widget_Js('YetiForce_LineDivided_Widget_Js', {}, {
+	getType() {
+		return 'line';
+	},
+	getSubType() {
+		return 'lineDivided';
+	}
 });
 YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
 	getSubType: function getSubType() {

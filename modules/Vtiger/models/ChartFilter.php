@@ -41,6 +41,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $groupFieldModel;
 
 	/**
+	 * Is chart divided?
+	 *
+	 * @var bool
+	 */
+	private $dividedField;
+
+	/**
 	 * Divide field model (for stacked/divided charts).
 	 *
 	 * @var \Vtiger_Module_Model
@@ -109,6 +116,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Is chart divided / stacked ?
+	 *
+	 * @return bool
+	 */
+	public function isDivided()
+	{
+		return !empty($this->dividedField);
+	}
+
+	/**
 	 * Get chart data.
 	 *
 	 * @return array
@@ -125,40 +142,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get bar chart data.
-	 *
-	 * @return array
-	 */
-	protected function getDataBar()
-	{
-		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'links' => [],
-				],
-			],
-			'show_chart' => false,
-		];
-		foreach ($this->getRows() as $fieldName => $value) {
-			$chartData['datasets'][0]['data'][] = $value[$this->extraData['valueType']];
-			$chartData['datasets'][0]['links'][] = $value['link'];
-			$chartData['labels'][] = $fieldName;
-			if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
-				$chartData['datasets'][0]['backgroundColor'][] = $this->colors[$value['color_id']];
-			}
-		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
-		return $chartData;
-	}
-
-	/**
 	 * Get divided bar chart data.
 	 *
 	 * @return array
 	 */
-	public function getDataBarDivided()
+	public function getDataBar()
 	{
 		$chartData = [
 			'labels' => [],
@@ -174,11 +162,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$chartData['datasets'][] = [
 						'data' => [],
 						'links' => [],
-						'label' => $dividedValue
 					];
 				}
 				$dataset = &$chartData['datasets'][$i];
 				$dataset['data'][] = $value[$this->extraData['valueType']];
+				if ($this->isDivided()) {
+					$dataset['label'] = $dividedValue;
+				}
 				if (!empty($value['link'])) {
 					$dataset['links'][] = $value['link'];
 				}
@@ -578,19 +568,21 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
-		if (empty($this->extraData['dividedField'])) {
-			// if there is no dividing field selected return empty
-			return [];
+		if ($this->isDivided()) {
+			$this->divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['dividedField'], $this->getTargetModuleModel());
+			$divideFieldName = $this->divideFieldModel->getFieldName();
 		}
-		$this->divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['dividedField'], $this->getTargetModuleModel());
-		$divideFieldName = $this->divideFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$data = [];
 		// data = data values grouped by displayValue, dividedValue and valueType
 		while ($row = $dataReader->read()) {
-			if (!empty($row[$fieldName]) && !empty($row[$divideFieldName])) {
+			if (!empty($row[$fieldName])) {
 				$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-				$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
+				if ($this->isDivided()) {
+					$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
+				} else {
+					$dividedValue = 0;
+				}
 				if (!empty($row['assigned_user_id'])) {
 					$this->colors['owner_' . $row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
 				}
@@ -648,9 +640,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getValue($groupData, $row)
 	{
+		$valueType = $this->extraData['valueType'];
 		$fieldName = $this->groupFieldModel->getFieldName();
 		$value = $this->getValueFromRow($row);
-		$valueType = $this->extraData['valueType'];
 		$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 		if (!isset($groupData[$groupValue][$valueType])) {
 			$groupData[$groupValue][$valueType] = $value;
@@ -680,50 +672,56 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get chart value for row (divided chart).
 	 *
-	 * @param array $groupData
+	 * @param array $data
 	 * @param array $row
 	 *
 	 * @return array
 	 */
-	protected function getValueDivided($groupData, $row)
+	protected function getValueDivided($data, $row)
 	{
-		$fieldName = $this->groupFieldModel->getFieldName();
-		$divideFieldName = $this->divideFieldModel->getFieldName();
-		$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-		$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
-		$value = $this->getValueFromRow($row);
 		$valueType = $this->extraData['valueType'];
-		if (!isset($groupData[$groupValue])) {
-			$groupData[$groupValue] = [];
-		}
-		if (!isset($groupData[$groupValue][$dividedValue])) {
-			$groupData[$groupValue][$dividedValue] = [];
-		}
-		if (!isset($groupData[$groupValue][$dividedValue][$valueType])) {
-			$groupData[$groupValue][$dividedValue][$valueType] = $value;
+		$value = $this->getValueFromRow($row);
+		$groupFieldName = $this->groupFieldModel->getFieldName();
+		$groupValue = $this->groupFieldModel->getDisplayValue($row[$groupFieldName], false, false, true);
+		if ($this->isDivided()) {
+			$divideFieldName = $this->divideFieldModel->getFieldName();
+			$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
 		} else {
-			$groupData[$groupValue][$dividedValue][$valueType] += $value;
+			$dividedValue = 0;
 		}
-		if (!isset($groupData[$groupValue][$dividedValue]['link'])) {
-			$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
-			$searchParams = array_merge($searchParams, [[$divideFieldName, 'e', $row[$divideFieldName]]]);
+		if (!isset($data[$groupValue])) {
+			$data[$groupValue] = [];
+		}
+		if (!isset($data[$groupValue][$dividedValue])) {
+			$data[$groupValue][$dividedValue] = [];
+		}
+		if (!isset($data[$groupValue][$dividedValue][$valueType])) {
+			$data[$groupValue][$dividedValue][$valueType] = $value;
+		} else {
+			$data[$groupValue][$dividedValue][$valueType] += $value;
+		}
+		if (!isset($data[$groupValue][$dividedValue]['link'])) {
+			$searchParams = array_merge($this->searchParams, [[$groupFieldName, 'e', $row[$groupFieldName]]]);
+			if ($this->isDivided()) {
+				$searchParams = array_merge($searchParams, [[$divideFieldName, 'e', $row[$divideFieldName]]]);
+			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
-			$groupData[$groupValue][$dividedValue]['link'] = $link;
+			$data[$groupValue][$dividedValue]['link'] = $link;
 		}
 		if (!empty($row['picklist_id'])) {
-			$groupData[$groupValue][$dividedValue]['color_id'] = $row['picklist_id'];
+			$data[$groupValue][$dividedValue]['color_id'] = $row['picklist_id'];
 		} elseif (!empty($row['assigned_user_id'])) {
-			$groupData[$groupValue][$dividedValue]['color_id'] = $row['assigned_user_id'];
+			$data[$groupValue][$dividedValue]['color_id'] = $row['assigned_user_id'];
 			$this->colors[$row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
 		} elseif (!empty($row['id'])) {
-			$groupData[$groupValue][$dividedValue]['color_id'] = $row['id'];
+			$data[$groupValue][$dividedValue]['color_id'] = $row['id'];
 			$this->colors[$row['id']] = \App\Colors::getRandomColor($row['id']);
 		} else {
 			$colorNr = count($this->colors);
-			$groupData[$groupValue][$dividedValue]['color_id'] = $colorNr;
+			$data[$groupValue][$dividedValue]['color_id'] = $colorNr;
 			$this->colors[$row['id']] = \App\Colors::getRandomColor($colorNr);
 		}
-		return $groupData;
+		return $data;
 	}
 
 	/**
@@ -862,6 +860,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->extraData === null) {
 			throw new \App\Exceptions\AppException('Invalid data');
 		}
+		$this->dividedField = !empty($this->extraData['dividedField']) ? $this->extraData['dividedField'] : null;
 	}
 
 	/**

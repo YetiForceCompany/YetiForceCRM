@@ -144,9 +144,9 @@
 				</td>
 			</tr>
 		{/if}
-		{if in_array($CHART_TYPE,['BarDivided','LineDivided'])}
+		{if in_array($CHART_TYPE,['Bar','Line'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_BAR_DIVIDED_FIELD','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDED_FIELD','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="dividedField" size="2" >
 						<option>{\App\Language::translate('--None--')}</option>

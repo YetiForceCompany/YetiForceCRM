@@ -28,19 +28,12 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
-					'PieDivided' => 'LBL_PIE_DIVIDED_CHART',
 					'Donut' => 'LBL_DONUT_CHART',
-					'DonutDivided' => 'LBL_DONUT_DIVIDED_CHART',
 					'Axis' => 'LBL_AXIS_CHART',
-					'AxisDivided' => 'LBL_AXIS_DIVIDED_CHART',
 					'Bar' => 'LBL_VERTICAL_BAR_CHART',
-					'BarDivided' => 'LBL_BAR_DIVIDED_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
-					'HorizontalDivided' => 'LBL_HORIZONTAL_BAR_DIVIDED_CHART',
 					'Line' => 'LBL_LINE_CHART',
-					'LineDivided' => 'LBL_LINE_DIVIDED_CHART',
 					'LinePlain' => 'LBL_LINE_CHART_PLAIN',
-					'LinePlainDivided' => 'LBL_LINE_CHART_PLAIN_DIVIDED',
 					'Funnel' => 'LBL_FUNNEL_CHART',
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);

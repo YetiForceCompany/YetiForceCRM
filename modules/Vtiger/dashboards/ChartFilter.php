@@ -4,8 +4,8 @@
  * Widget as a chart with a filter.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -28,6 +28,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('COLOR', $chartFilterWidgetModel->isColor());
 		$viewer->assign('BASE_MODULE', $chartFilterWidgetModel->getTargetModule());
 		$viewer->assign('CHART_TYPE', $chartFilterWidgetModel->getType());
+		$viewer->assign('CHART_DIVIDED', $chartFilterWidgetModel->isDivided() ? 1 : 0);
 		if (!$request->isEmpty('time', true)) {
 			$chartFilterWidgetModel->set('time', $request->getDateRange('time'));
 		}
