@@ -104,7 +104,7 @@
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
+									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group align-items-center">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 										<label class="col-md-3 fieldLabel text-md-right u-text-small-bold">
