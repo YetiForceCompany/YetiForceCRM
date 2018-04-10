@@ -26,6 +26,8 @@ class Credits
 		'updated-jqplot' => 'MIT',
 		'color-convert' => 'MIT',
 		'humanize' => 'MIT',
+		'@fortawesome/fontawesome-free-regular' => 'MIT',
+		'@fortawesome/fontawesome-free-solid' => 'MIT',
 		'microplugin'=>'Apache-2.0'
 	];
 	/**
