@@ -10,13 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div class="tpl-Edit-Field-Currency">
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 	{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{if $FIELD_MODEL->getUIType() eq '71'}
-	<div class="tpl-Edit-Field-Currency">
 		<div class="input-group">
 			{if $SYMBOL_PLACEMENT neq '1.0$'}
 				<span class="input-group-append"><span class="input-group-text"> {$USER_MODEL->get('currency_symbol')}</span></span>
