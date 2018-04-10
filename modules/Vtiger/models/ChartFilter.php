@@ -485,17 +485,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 			}
 		}
-		if ($sectors && $sectorValues) {
-			foreach ($sectors as $sectorId => $sectorValue) {
-				$displayValue = $this->groupFieldModel->getDisplayValue($sectorValue);
-				$groupData[$displayValue][$this->extraData['valueType']] = (int) $sectorValues[$sectorId];
-				$searchParams = array_merge($this->searchParams, [[$fieldName, 'm', $sectorValue]]);
-				if ($sectorId != 0) {
-					$searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
-				}
-				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
-			}
-		}
 		$dataReader->close();
 		return $groupData;
 	}
