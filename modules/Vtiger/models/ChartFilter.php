@@ -95,7 +95,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getType()
 	{
-		return $this->extraData['chartType'];
+		// backward compability fix
+		$type = $this->extraData['chartType'];
+		switch ($type) {
+			case 'Barchat':
+				$type = 'Bar';
+				break;
+			case 'Bardivided':
+				$type = 'BarDivided';
+				break;
+		}
+		return $type;
 	}
 
 	/**
@@ -121,7 +131,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getDataHorizontal()
 	{
-		return $this->getDataBarchat();
+		return $this->getDataBar();
 	}
 
 	/**
@@ -153,7 +163,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $chartData;
 	}
 
-	protected function getDataLineplain()
+	protected function getDataLinePlain()
 	{
 		return $this->getDataLine();
 	}
@@ -163,7 +173,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return array
 	 */
-	protected function getDataBarchat()
+	protected function getDataBar()
 	{
 		$chartData = [
 			'labels' => [],
@@ -192,7 +202,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return array
 	 */
-	public function getDataBardivided()
+	public function getDataBarDivided()
 	{
 		$chartData = [
 			'labels' => [],
