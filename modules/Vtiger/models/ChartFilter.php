@@ -231,6 +231,45 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $chartData;
 	}
 
+	/**
+	 * Get line divided chart data.
+	 *
+	 * @return array
+	 */
+	protected function getDataLineDivided()
+	{
+		$chartData = [
+			'labels' => [],
+			'datasets' => [],
+			'show_chart' => false,
+		];
+		foreach ($this->getRowsDivided() as $groupValue => $data) {
+			$chartData['labels'][] = $groupValue;
+			$i = 0;
+			foreach ($data as $dividedValue => $value) {
+				// each dividedValue should be in different dataset (different stacks)
+				if (!isset($chartData['datasets'][$i])) {
+					$chartData['datasets'][] = [
+						'data' => [],
+						'links' => [],
+						'label' => $dividedValue
+					];
+				}
+				$dataset = &$chartData['datasets'][$i];
+				$dataset['data'][] = $value[$this->extraData['valueType']];
+				if (!empty($value['link'])) {
+					$dataset['links'][] = $value['link'];
+				}
+				if (!empty($value['color_id']) && !empty($this->colors[$value['color_id']])) {
+					$chartData['datasets'][$i]['backgroundColor'][] = $this->colors[$value['color_id']];
+				}
+				$chartData['show_chart'] = true;
+				$i++;
+			}
+		}
+		return $chartData;
+	}
+
 	protected function getDataLinePlain()
 	{
 		return $this->getDataLine();
@@ -539,11 +578,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $this->groupFieldModel->getFieldName();
-		if (empty($this->extraData['barDividedField'])) {
+		if (empty($this->extraData['dividedField'])) {
 			// if there is no dividing field selected return empty
 			return [];
 		}
-		$this->divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
+		$this->divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['dividedField'], $this->getTargetModuleModel());
 		$divideFieldName = $this->divideFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$data = [];
