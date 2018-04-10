@@ -631,81 +631,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
 				}],
 			},
-			pie: {
-				basic: {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: true
-					},
-					cutoutPercentage: 0,
-					layout: {
-						padding: {
-							bottom: 12
-						}
-					},
-					tooltips: {},
-					scales: {},
-				},
-				dataset: {
-					datalabels: {
-						font: {
-							size: 11
-						},
-						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						borderColor: 'rgba(255,255,255,0.5)',
-						borderWidth: 2,
-						borderRadius: 4,
-						anchor: 'end',
-						align: 'center',
-						formatter: 'function:datalabels.formatter',
-					},
-				},
-				plugins: [],
-			},
-			doughnut: {
-				basic: {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: true
-					},
-					cutoutPercentage: 50,
-					layout: {
-						padding: {
-							bottom: 12
-						}
-					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
-						}
-					},
-					scales: {},
-				},
-				dataset: {
-					datalabels: {
-						font: {
-							size: 11
-						},
-						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						borderColor: 'rgba(255,255,255,0.5)',
-						borderWidth: 2,
-						borderRadius: 4,
-						anchor: 'end',
-						align: 'center',
-						formatter: 'function:datalabels.formatter',
-					},
-				},
-				plugins: [],
-			},
 			// hard edges line
 			line: {
 				basic: {
@@ -816,6 +741,81 @@ jQuery.Class('Vtiger_Widget_Js', {
 				plugins: [{
 					beforeDraw: 'function:plugins.fixXAxisLabels'
 				}],
+			},
+			pie: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true
+					},
+					cutoutPercentage: 0,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [],
+			},
+			doughnut: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true
+					},
+					cutoutPercentage: 50,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [],
 			},
 			funnel: {
 				basic: {
