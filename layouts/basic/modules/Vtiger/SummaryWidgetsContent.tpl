@@ -6,10 +6,10 @@
 				<thead>
 					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap">&nbsp;</th>
+							<th class="noWrap "></th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							<th nowrap>
+							<th nowrap class="u-p-5px">
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
 						{/foreach}
