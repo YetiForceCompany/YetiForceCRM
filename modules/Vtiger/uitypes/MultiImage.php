@@ -54,8 +54,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$file = \App\Fields\File::loadFromInfo([
-				'path' => $path,
-				'name' => $item['name'],
+					'path' => $path,
+					'name' => $item['name'],
 			]);
 			$validFormat = $file->validate('image');
 			$validExtension = false;
@@ -69,7 +69,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
-		$params = $this->getFieldModel()->getFieldParams();
 		$this->validate = true;
 	}
 
