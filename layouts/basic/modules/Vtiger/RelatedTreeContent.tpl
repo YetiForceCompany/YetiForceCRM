@@ -6,20 +6,20 @@
 				<thead>
 					<tr>
 						{foreach item=HEADER from=$RELATED_HEADERS}
-							<th nowrap>
+							<th nowrap class="p-1 text-center">
 								{\App\Language::translate($HEADER, $RELATED_MODULE_NAME)}
 							</th>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<th>
+							<th class="p-1 text-center">
 								{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE_NAME)}
 							</th>
-							<th>
+							<th class="p-1 text-center">
 								{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE_NAME)}
 							</th>
 						{/if}
 						{if $SHOW_COMMENT}
-							<th>
+							<th class="p-1 text-center">
 								{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE_NAME)}
 							</th>
 						{/if}
@@ -28,14 +28,14 @@
 				{foreach item=RECORD from=$RELATED_RECORDS}
 					<tr class="listViewEntries"> 
 						{foreach item=HEADER key=NAME from=$RELATED_HEADERS}
-							<td class="{$WIDTHTYPE}" nowrap>{$RECORD[$NAME]}</td>
+							<td class="{$WIDTHTYPE} text-center" nowrap>{$RECORD[$NAME]}</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{$RECORD['rel_created_time']}</td>
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{$RECORD['rel_created_user']}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time" nowrap>{$RECORD['rel_created_time']}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user" nowrap>{$RECORD['rel_created_user']}</td>
 						{/if}
 						{if $SHOW_COMMENT}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RECORD['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RECORD['rel_comment']}">
 										{App\TextParser::textTruncate($RECORD['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'))}

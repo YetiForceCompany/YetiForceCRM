@@ -26,7 +26,7 @@ class Owner
 	 */
 	public static function getInstance($moduleName = false, $currentUser = false)
 	{
-		if ($currentUser && $currentUser instanceof Users) {
+		if ($currentUser && $currentUser instanceof \Users) {
 			$currentUser = \App\User::getUserModel($currentUser->id);
 		} elseif ($currentUser === false) {
 			$currentUser = \App\User::getCurrentUserModel();

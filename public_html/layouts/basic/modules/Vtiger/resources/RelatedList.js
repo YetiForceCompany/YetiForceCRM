@@ -102,6 +102,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	content: false,
 	listSearchInstance: false,
 	detailViewContentHolder: false,
+	relatedView: false,
 	frameProgress: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
@@ -117,6 +118,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	setRelatedContainer: function (container) {
 		this.content = container;
+		this.relatedView = container.find('input.relatedView').val();
 	},
 	getContentHolder: function () {
 		if (this.detailViewContentHolder == false) {
@@ -146,6 +148,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			sortorder: this.getSortOrder(),
 			orderby: this.getOrderBy(),
 			page: this.getCurrentPageNum(),
+			relatedView: this.relatedView,
 			mode: 'showRelatedList'
 		};
 		if (container.find('.pagination').length) {
@@ -604,10 +607,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerRowsEvent: function () {
 		var thisInstance = this;
-		if (CONFIG.view === 'List' || CONFIG.view === 'Detail') {
+		if (this.relatedView === 'List' || this.relatedView === 'Detail') {
 			this.content.find('.listViewEntries').on('click', function (e) {
-				var target = $(e.target);
-				if (target.is('td')) {
+				if ($(e.target).is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
 						top.document.location.href = target.closest('tr').data('recordurl');
 					} else {
@@ -623,21 +625,22 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					inventoryRow.toggleClass('d-none');
 				}
 			});
-		} else if (CONFIG.view === 'ListPreview') {
+		} else if (this.relatedView === 'ListPreview') {
 			this.content.find('.listViewEntries').on('click', function (e) {
-				if ($(e.target).closest('div').hasClass('actions'))
+				let target = $(e.target);
+				if (target.closest('div').hasClass('actions'))
 					return;
-				if ($(e.target).is('button') || $(e.target).parent().is('button'))
+				if (target.is('button') || target.parent().is('button'))
 					return;
-				if ($(e.target).closest('a').hasClass('noLinkBtn'))
+				if (target.closest('a').hasClass('noLinkBtn'))
 					return;
 				if ($(e.target, $(e.currentTarget)).is('td:first-child'))
 					return;
-				if ($(e.target).is('input[type="checkbox"]'))
+				if (target.is('input[type="checkbox"]'))
 					return;
-				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target))
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), target[0]))
 					return;
-				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target))
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), target[0]))
 					return;
 				var recordUrl = $(this).data('recordurl');
 				thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
@@ -827,7 +830,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.showBtnSwitch(this.content.find('.switchBtn'));
 		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
-		if (CONFIG.view === 'ListPreview') {
+		if (this.relatedView === 'ListPreview') {
 			this.registerPreviewEvent();
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);

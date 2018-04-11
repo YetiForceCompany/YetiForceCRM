@@ -24,7 +24,7 @@
 						</div>
 						{include file=\App\Layout::getTemplatePath('inventoryTypes/'|cat:{$FIELD_INSTANCE->getName()}|cat:'.tpl', $QUALIFIED_MODULE)}
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE)}
 				</form>
 			</div>
 		</div>

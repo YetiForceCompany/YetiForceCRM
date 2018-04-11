@@ -14,7 +14,6 @@ class Vtiger_CkEditor_Js {
 			this.loadCkEditor(element, params);
 		}
 	}
-
 	/*
 	 *Function to set the textArea element 
 	 */
@@ -22,22 +21,18 @@ class Vtiger_CkEditor_Js {
 		this.element = $(element);
 		return this;
 	}
-
 	/*
 	 *Function to get the textArea element
 	 */
 	getElement() {
 		return this.element;
 	}
-
 	/*
 	 * Function to return Element's id atrribute value
 	 */
 	getElementId() {
 		return this.getElement().attr('id');
 	}
-
-
 	/*
 	 * Function to get the instance of ckeditor
 	 */
@@ -45,16 +40,12 @@ class Vtiger_CkEditor_Js {
 	getCkEditorInstanceFromName() {
 		return CKEDITOR.instances[this.getElementId()];
 	}
-
-
 	/***
 	 * Function to get the plain text
 	 */
 	getPlainText() {
 		return this.getCkEditorInstanceFromName().document.getBody().getText();
 	}
-
-
 	/*
 	 * Function to load CkEditor
 	 * @param {HTMLElement|jQuery} element on which CkEditor has to be loaded
@@ -65,7 +56,6 @@ class Vtiger_CkEditor_Js {
 		this.setElement(element);
 		const instance = this.getCkEditorInstanceFromName();
 		let config = {
-			fullPage: false,
 			allowedContent: true,
 			removeButtons: '',
 			scayt_autoStartup: false,
