@@ -87,6 +87,15 @@ abstract class Base
 	}
 
 	/**
+	 * Post process ajax function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
+	}
+
+	/**
 	 * Set HTTP Headers.
 	 */
 	public function setHeaders()
