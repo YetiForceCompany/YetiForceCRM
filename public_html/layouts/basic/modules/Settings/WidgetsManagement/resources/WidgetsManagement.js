@@ -741,25 +741,21 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
-				var selectedModule = moduleNameSelect2.val();
-				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				var selectedFilterId = form.find('.filterId').val();
-				var selectedFilterLabel = form.find('.filterId').find(':selected').text();
-				var selectedFieldLabel = form.find('.groupField').find(':selected').text();
-				var isColorValue = 0;
-				var isColor = form.find('.isColor');
-				if (!isColor.hasClass('d-none') && isColor.is(':checked')) {
-					isColorValue = 1;
-				}
-				var data = {
+				const selectedModule = moduleNameSelect2.val();
+				const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+				const selectedFilterId = form.find('.filterId').val();
+				const selectedFilterLabel = form.find('.filterId').find(':selected').text();
+				const selectedFieldLabel = form.find('.groupField').find(':selected').text();
+				const data = {
 					module: selectedModule,
 					groupField: form.find('.groupField').val(),
 					chartType: chartType.val(),
-					color: isColorValue
 				};
 				form.find('.saveParam').each(function (index, element) {
 					element = $(element);
-					data[element.attr('name')] = element.val();
+					if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+						data[element.attr('name')] = element.val();
+					}
 				});
 				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, data, form);
 			});

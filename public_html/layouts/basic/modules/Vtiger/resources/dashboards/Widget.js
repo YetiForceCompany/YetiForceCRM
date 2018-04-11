@@ -19,6 +19,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		const basicClass = YetiForce_Widget_Js;
 		let instance;
+		console.log(`WidgetClassName: ${widgetClassName}`);
 		if (typeof moduleClass !== 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
 		} else if (typeof fallbackClass !== 'undefined') {
@@ -43,6 +44,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.registerWidgetPostRefreshEvent(container);
 		}
 		this.registerCache(container);
+	},
+	areColorsFromDividingField() {
+		return !!Number(this.getContainer().find('[name="colorsFromDividingField"]').val());
 	},
 	/**
 	 * Predefined functions that will replace options function type
@@ -106,6 +110,21 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				// return label at index
 				return data.labels[tooltipItem.index];
+			}
+		},
+
+		legend: {
+			onClick(e, legendItem){
+				return Chart.defaults.global.legend.onClick.apply(this.chartInstance,[e,legendItem]);
+			},
+			generateLabels(chart) {
+				let labels = Chart.defaults.global.legend.labels.generateLabels(chart);
+				if (!this.areColorsFromDividingField()) {
+					labels.forEach((label,index)=>{
+						label.fillStyle='rgba(0,0,0,0)';
+					});
+				}
+				return labels;
 			}
 		},
 
@@ -457,6 +476,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 	},
 	/**
+	 * Remove 'Divided' from chart sub type
+	 * for example 'barDivided' => 'bar'
+	 *
+	 * @param {String} chartSubType
+	 * @return {String}
+	 */
+	removeDividedFromName(chartSubType) {
+		const dividedPos = chartSubType.indexOf('Divided');
+		if (dividedPos > 0) {
+			return chartSubType.substr(0, dividedPos);
+		}
+		return chartSubType;
+	},
+	/**
 	 * Get global charts default configuration - may be loaded from database in the future
 	 * We can modify something basing on chartData received from server (some custom options etc.)
 	 *
@@ -520,7 +553,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
 				}],
 			},
-			barDivided: {
+			barStacked: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -630,62 +663,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
 				}],
 			},
-			horizontalBarDivided: {
-				basic: {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: false
-					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
-						}
-					},
-					scales: {
-						xAxes: [{
-							stacked: true,
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}],
-						yAxes: [{
-							stacked: true,
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
-					},
-				},
-				dataset: {
-					datalabels: {
-						font: {
-							size: 11
-						},
-						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.2)',
-						borderColor: 'rgba(255,255,255,0.2)',
-						borderWidth: 2,
-						borderRadius: 2,
-						anchor: 'center',
-						align: 'center',
-						formatter: 'function:datalabels.formatter',
-					},
-				},
-				plugins: [{
-					beforeDraw: 'function:plugins.fixYAxisLabels'
-				}, {
-					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
-				}],
-			},
 			// hard edges line
 			line: {
 				basic: {
@@ -717,64 +694,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 								autoSkip: false,
 								beginAtZero: true,
 								callback: 'function:scales.formatAxesLabels'
-							}
-						}]
-					},
-				},
-				dataset: {
-					fill: false,
-					lineTension: 0,
-					datalabels: {
-						font: {
-							size: 11
-						},
-						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						borderColor: 'rgba(255,255,255,0.5)',
-						borderWidth: 2,
-						borderRadius: 2,
-						anchor: 'bottom',
-						align: 'bottom',
-						formatter: 'function:datalabels.formatter',
-					},
-				},
-				plugins: [{
-					beforeDraw: 'function:plugins.fixXAxisLabels'
-				}],
-			},
-			// hard edges line
-			lineDivided: {
-				basic: {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: false
-					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
-						}
-					},
-					scales: {
-						xAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels',
-								labelOffset: 0,
-								stacked: true,
-							}
-						}],
-						yAxes: [{
-							ticks: {
-								autoSkip: false,
-								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels',
-								stacked: true,
 							}
 						}]
 					},
@@ -862,7 +781,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: true
+						display: true,
+						onClick: 'function:legend.onClick',
+						labels: {
+							generateLabels: 'function:legend.generateLabels',
+						}
 					},
 					cutoutPercentage: 0,
 					layout: {
@@ -870,7 +793,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 							bottom: 12
 						}
 					},
-					tooltips: {},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
 					scales: {},
 				},
 				dataset: {
@@ -897,7 +825,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: true
+						display: true,
+						onClick: 'function:legend.onClick',
+						labels: {
+							generateLabels: 'function:legend.generateLabels',
+						}
 					},
 					cutoutPercentage: 50,
 					layout: {
@@ -963,8 +895,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 		});
+		console.log('loading chart', chartSubType);
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
+		}
+		// if divided and standard chart types are equal
+		const notDividedChartSubType = this.removeDividedFromName(chartSubType);
+		if (typeof options[notDividedChartSubType] !== 'undefined') {
+			return options[notDividedChartSubType];
 		}
 		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
 	},
@@ -1488,6 +1426,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const type = this.getType();
 		const data = this.generateData();
 		data.datasets = this.loadDatasetOptions(data);
+		console.info(type, data);
 		const options = this.loadBasicOptions(data);
 		const plugins = this.loadPlugins(data);
 		return this.chartInstance = new Chart(
@@ -1776,6 +1715,11 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	getType: function getType() {
 		return 'pie';
 	},
+});
+YetiForce_Pie_Widget_Js('YetiForce_PieDivided_Widget_Js', {}, {
+	getSubType() {
+		return 'pieDivided';
+	}
 });
 YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
@@ -2460,9 +2404,9 @@ YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 	loadChart: function () {
 		const container = this.getContainer();
 		let chartClassName = container.find('[name="typeChart"]').val();
-		const divided = container.find('[name="divided"]').val();
-		if (divided) {
-			chartType += 'Divided';
+		const stacked = !!Number(container.find('[name="stacked"]').val());
+		if (stacked) {
+			chartClassName += 'Stacked';
 		}
 		const chartClass = window["Report_" + chartClassName + "_Js"];
 		let instance = false;
@@ -2477,10 +2421,11 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 	init: function (container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
 		let chartClassName = container.find('[name="typeChart"]').val();
-		const divided = Number(container.find('[name="divided"]').val());
-		if (divided) {
-			chartClassName += 'Divided';
+		const stacked = !!Number(container.find('[name="stacked"]').val());
+		if (stacked) {
+			chartClassName += 'Stacked';
 		}
+		console.log(`ChartFilter ${chartClassName}`);
 		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
 		this.registerRecordsCount();
 	},

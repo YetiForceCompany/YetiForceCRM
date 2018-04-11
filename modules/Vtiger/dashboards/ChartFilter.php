@@ -28,7 +28,8 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('COLOR', $chartFilterWidgetModel->isColor());
 		$viewer->assign('BASE_MODULE', $chartFilterWidgetModel->getTargetModule());
 		$viewer->assign('CHART_TYPE', $chartFilterWidgetModel->getType());
-		$viewer->assign('CHART_DIVIDED', $chartFilterWidgetModel->isDivided() ? 1 : 0);
+		$viewer->assign('CHART_STACKED', $chartFilterWidgetModel->isStacked() ? 1 : 0);
+		$viewer->assign('CHART_COLORS_FROM_DIVIDING_FIELD', $chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0);
 		if (!$request->isEmpty('time', true)) {
 			$chartFilterWidgetModel->set('time', $request->getDateRange('time'));
 		}

@@ -35,9 +35,6 @@
 														<option value="{$VALUE}">{\App\Language::translate($TYPE, $MODULE)}</option>
 													{/foreach}
 												</select>
-												<span class="input-group-addon d-none isColorContainer">
-													<input type="checkbox" class="isColor js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
-												</span>
 											</div>
 										</td>
 									</tr>
@@ -144,7 +141,7 @@
 				</td>
 			</tr>
 		{/if}
-		{if in_array($CHART_TYPE,['Bar','Line'])}
+		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal'])}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDED_FIELD','Home')}</td>
 				<td class="fieldValue">
@@ -154,6 +151,14 @@
 							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 						{/foreach}
 					</select>
+				</td>
+			</tr>
+			<tr class="step4">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+					{\App\Language::translate('LBL_COLORS_FROM_DIVIDING_FIELD','Home')}
+				</td>
+				<td class="fieldValue">
+					<input type="checkbox" class="form-control saveParam" name="colorsFromDividingField" value="1" checked>
 				</td>
 			</tr>
 		{/if}
