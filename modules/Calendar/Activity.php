@@ -63,20 +63,6 @@ class Activity extends CRMEntity
 		'End Time' => ['activity', 'time_end'],
 		'Assigned To' => ['crmentity' => 'smownerid'],
 	];
-	public $range_fields = [
-		'name',
-		'date_modified',
-		'start_date',
-		'id',
-		'status',
-		'date_due',
-		'time_start',
-		'description',
-		'priority',
-		'duehours',
-		'dueminutes',
-		'location',
-	];
 	public $list_fields_name = [
 		'Close' => 'status',
 		'Type' => 'activitytype',
@@ -173,71 +159,6 @@ class Activity extends CRMEntity
 				->execute();
 
 		return true;
-	}
-
-	public function getNonAdminAccessControlQuery($module, $scope = '')
-	{
-		require 'user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php';
-		require 'user_privileges/sharing_privileges_' . \App\User::getCurrentUserId() . '.php';
-		$query = ' ';
-		$tabId = \App\Module::getModuleId($module);
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
-			$tableName = 'vt_tmp_u' . \App\User::getCurrentUserId() . '_t' . $tabId;
-			$sharedTabId = null;
-			$this->setupTemporaryTable($tableName, $sharedTabId, $current_user_parent_role_seq, $current_user_groups);
-
-			$sharedUsers = $this->getListViewAccessibleUsers(\App\User::getCurrentUserId());
-			// we need to include group id's in $sharedUsers list to get the current user's group records
-			if ($current_user_groups) {
-				$sharedUsers = $sharedUsers . ',' . implode(',', $current_user_groups);
-			}
-			$query = " INNER JOIN $tableName $tableName$scope ON ($tableName$scope.id = " .
-				"vtiger_crmentity$scope.smownerid and $tableName$scope.shared=0 and $tableName$scope.id IN ($sharedUsers)) ";
-		}
-
-		return $query;
-	}
-
-	protected function setupTemporaryTable($tableName, $tabId, $parentRole, $userGroups)
-	{
-		$module = null;
-		if (!empty($tabId)) {
-			$module = \App\Module::getModuleName($tabId);
-		}
-		$query = $this->getNonAdminAccessQuery($module, $parentRole, $userGroups);
-		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
-			'int(1) default 0) ignore ' . $query;
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, []);
-		if (is_object($result)) {
-			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
-			$result = $db->pquery($query, [\App\User::getCurrentUserId()]);
-			if (is_object($result)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	protected function getListViewAccessibleUsers($sharedId)
-	{
-		$db = PearDatabase::getInstance();
-		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
-					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.id <> ?);";
-		$result = $db->pquery($query, [$sharedId, $sharedId]);
-		$numberOfRows = $db->numRows($result);
-		if ($numberOfRows !== 0) {
-			for ($j = 0; $j < $numberOfRows; ++$j) {
-				$userId[] = $db->queryResult($result, $j, 'userid');
-			}
-			$sharedIds = implode(',', $userId);
-		}
-		$userId[] = $sharedId;
-		$sharedIds = implode(',', $userId);
-
-		return $sharedIds;
 	}
 
 	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)

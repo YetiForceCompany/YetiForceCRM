@@ -56,23 +56,6 @@ class HelpDesk extends CRMEntity
 	 */
 	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
 	public $list_link_field = 'ticket_title';
-	public $range_fields = [
-		'ticketid',
-		'title',
-		'firstname',
-		'lastname',
-		'parent_id',
-		'productid',
-		'productname',
-		'priority',
-		'severity',
-		'status',
-		'category',
-		'description',
-		'solution',
-		'modifiedtime',
-		'createdtime',
-	];
 	public $search_fields = [
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
 		'Ticket No' => ['vtiger_troubletickets' => 'ticket_no'],
