@@ -26,11 +26,16 @@
 				<div class="commentTitle ml-5 mb-0 d-flex justify-content-between" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="commentorInfo">
+					<div class="commentorInfo w-100">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-						<span class="commentorName float-left">
-							<strong>{$COMMENTOR->getName()}</strong>
-						</span><br />
+						<div class="d-flex justify-content-between">
+							<span class="commentorName">
+								<strong>{$COMMENTOR->getName()}</strong>
+							</span>
+							<span class="pr-2">
+								<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
+							</span>
+						</div>
 						{if $HIERARCHY}
 							{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"  />
@@ -43,11 +48,6 @@
 						<div class="commentInfoContent ">
 							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
-					</div>
-					<div>
-						<span class="float-right pr-2">
-							<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
-						</span>
 					</div>
 				</div>
 			</div>
