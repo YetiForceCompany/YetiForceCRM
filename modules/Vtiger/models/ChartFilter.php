@@ -42,13 +42,39 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	private $targetModuleModel;
 
+	/**
+	 * Query generator module name.
+	 *
+	 * @var string
+	 */
 	private $queryGeneratorModuleName;
 
+	/**
+	 * Value type from extra data.
+	 *
+	 * @var string
+	 */
 	private $valueType;
+
+	/**
+	 * Value name from extra data.
+	 *
+	 * @var string
+	 */
 	private $valueName;
 
+	/**
+	 * Group field name.
+	 *
+	 * @var string
+	 */
 	private $groupFieldName;
 
+	/**
+	 * Group name (database table compatible).
+	 *
+	 * @var string
+	 */
 	private $groupName;
 
 	/**
@@ -59,11 +85,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $groupFieldModel;
 
 	/**
-	 * Dividing field.
+	 * Dividing field name.
 	 *
 	 * @var string
 	 */
 	private $dividingFieldName;
+
+	/**
+	 * Dividing name (database compatible).
+	 *
+	 * @var string
+	 */
 	private $dividingName;
 
 	/**
@@ -102,14 +134,32 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $owners = [];
 
 	/**
-	 * Colors from picklist.
+	 * Colors.
 	 *
 	 * @var array
 	 */
 	private $colors = [];
 
+	/**
+	 * Colors that was used in data already
+	 * grouped by $groupValue or $dividingValue - it depends on areColorsFromDividingField.
+	 *
+	 * @var array
+	 */
 	private $fieldValueColors = [];
+
+	/**
+	 * Rows from query.
+	 *
+	 * @var array
+	 */
 	private $rows = [];
+
+	/**
+	 * Main object we are working on.
+	 *
+	 * @var array
+	 */
 	private $data = [];
 
 	/**
@@ -119,7 +169,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	private $numRows = [];
 
+	/**
+	 * Colors are from picklist? assigned_user_id? row id? record number?
+	 * contain value from const (look at the top).
+	 *
+	 * @var string
+	 */
 	private $colorsFrom;
+
+	/**
+	 * Same as above but in ROW_ format look at the top const.
+	 *
+	 * @var string
+	 */
 	private $colorsFromRow;
 
 	/**
@@ -247,6 +309,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $chartData;
 	}
 
+	/**
+	 * Set colors from picklist.
+	 */
 	protected function setColorsFromPickList()
 	{
 		$fieldName = $this->areColorsFromDividingField() ? $this->dividingFieldName : $this->groupFieldName;
@@ -258,6 +323,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Set colors from assigned user.
+	 */
 	protected function setColorsFromAssignedUserId()
 	{
 		$this->colorsFrom = static::ASSIGNED_USER_ID;
@@ -267,6 +335,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Set colors from record id.
+	 */
 	protected function setColorsFromRecordId()
 	{
 		$this->colorsFrom = static::RECORD_ID;
@@ -276,6 +347,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Set colors from record number (array index).
+	 */
 	protected function setColorsFromRecordNumber()
 	{
 		$this->colorsFrom = static::RECORD_NUMBER;
@@ -285,6 +359,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Set colors.
+	 *
+	 * @param {string} $from
+	 */
 	protected function setColorsFrom($from)
 	{
 		switch ($from) {
@@ -303,6 +382,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Add query to get picklists id (for colors).
+	 *
+	 * @param $query
+	 * @param $queryGenerator
+	 *
+	 * @return $query
+	 */
 	protected function addPicklistsToQuery($query, $queryGenerator)
 	{
 		if (!empty($this->groupName)) {
@@ -406,6 +493,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Set up model fields.
+	 */
 	protected function setUpModelFields()
 	{
 		$this->valueType = $this->extraData['valueType'];
@@ -420,6 +510,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Calculate average data if needed.
+	 */
 	protected function calculateAverage()
 	{
 		if ($this->valueType === 'avg') {
@@ -492,6 +585,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $value;
 	}
 
+	/**
+	 * Find out on which color type we are operating.
+	 *
+	 * @return string
+	 */
 	protected function findOutColorsFromRows()
 	{
 		$picklist = false;
@@ -518,6 +616,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return static::RECORD_NUMBER;
 	}
 
+	/**
+	 * Set color for row in $this->data.
+	 *
+	 * @param {int}   $rowIndex
+	 * @param {array} $row
+	 * @param {mixed} $groupValue
+	 * @param {mixed} $dividingValue
+	 */
 	protected function setColorFromRow($rowIndex, $row, $groupValue, $dividingValue)
 	{
 		if ($this->colorsFrom !== static::RECORD_NUMBER) {
@@ -534,6 +640,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Set link from row in $this->data.
+	 *
+	 * @param {array} $row
+	 * @param {mixed} $groupValue
+	 * @param {mixed} $dividingValue
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!isset($data[$groupValue][$dividingValue]['link'])) {
