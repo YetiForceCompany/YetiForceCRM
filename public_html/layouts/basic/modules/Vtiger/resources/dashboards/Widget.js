@@ -47,6 +47,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 	areColorsFromDividingField() {
 		return !!Number(this.getContainer().find('[name="colorsFromDividingField"]').val());
 	},
+	getSourceChartType(){
+		return this.getContainer().find('[name="typeChart"]').val();
+	},
 	/**
 	 * Predefined functions that will replace options function type
 	 * @type {Object}
@@ -793,7 +796,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					legend: {
 						display: true,
-						onClick: 'function:legend.onClick',
 						labels: {
 							generateLabels: 'function:legend.generateLabels',
 						}
