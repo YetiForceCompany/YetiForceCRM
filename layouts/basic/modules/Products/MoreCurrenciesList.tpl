@@ -22,7 +22,7 @@
 				<div class="multiCurrencyContainer">
 					<div class="currencyContent">
 						<div class="modal-body">
-							<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-bordered">
+							<table class="table table-bordered">
 								<tr class="detailedViewHeader">
 									<td><strong>{\App\Language::translate('LBL_CURRENCY',$MODULE)}</strong></td>
 									<td><strong>{\App\Language::translate('LBL_PRICE',$MODULE)}</strong></td>
