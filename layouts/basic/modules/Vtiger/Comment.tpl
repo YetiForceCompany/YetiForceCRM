@@ -53,7 +53,7 @@
 			</div>
 			<div class="commentActionsContainer d-flex flex-wrap justify-content-between m-0">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus d-none d-xl-block"  name="editStatus">
+				<div class="editedStatus" name="editStatus">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
 						<p>
 							<small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span></small>
@@ -65,7 +65,7 @@
 				</div>
 				<div class="commentActionsDiv p-0">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<div class="float-right commentActions">
+					<div class="commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
