@@ -87,14 +87,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @var array
 	 */
-	private $colors = [];
+	private $availableColors = [];
 
+	private $assignedColors = [];
 	/**
 	 * Total number of rows grouped by fieldName and displayValue.
 	 *
 	 * @var array ['leadstatus']['Odrzucone'] === 2
 	 */
 	private $numRows = [];
+
+	private $colorsFromPicklist = false;
 
 	/**
 	 * Get instance.
@@ -159,6 +162,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $this->colorsFromDividingField;
 	}
 
+	public function areColorsFromPickList()
+	{
+		return $this->colorsFromPicklist;
+	}
+
 	/**
 	 * Sort chart datasets by colors count.
 	 *
@@ -171,15 +179,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (count($chartData['datasets']) >= 2) {
 			$datasetsColors = [];
 			foreach ($chartData['datasets'] as $index => &$ds) {
-				$validColors = 0;
-				foreach ($ds['backgroundColor'] as &$color) {
-					if ($color) {
-						$validColors++;
-					} else {
-						$color = '#FFFFFF'; // set any color (it will not show any way)
+				$supportedColorLabels = ['backgroundColor', 'pointBackgroundColor'];
+				foreach ($supportedColorLabels as $supportedColorLabel) {
+					$validColors = 0;
+					foreach ($ds[$supportedColorLabel] as &$color) {
+						if ($color) {
+							$validColors++;
+						} else {
+							$color = '#FF0000';
+						}
 					}
+					$datasetsColors[$index] = $validColors;
 				}
-				$datasetsColors[$index] = $validColors;
 			}
 			arsort($datasetsColors);
 			$newDatasetOrder = [];
@@ -222,11 +233,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if ($value['link'] === null || !empty($value['link'])) {
 					$dataset['links'][] = $value['link'];
 				}
-				if ($value['color_id'] === null || (!empty($value['color_id']) && !empty($this->colors[$value['color_id']]))) {
+				if ($value['color_id'] === null || (!empty($value['color_id']) && !empty($this->availableColors[$value['color_id']]))) {
 					if ($value['color_id'] === null) {
-						$chartData['datasets'][$i]['backgroundColor'][] = null;
+						$colorId = $this->areColorsFromDividingField() ? $this->assignedColors[$dividedValue] : $this->assignedColors[$groupValue];
+						$color = $this->availableColors[$colorId];
+						$chartData['datasets'][$i]['backgroundColor'][] = $color;
+						$chartData['datasets'][$i]['pointBackgroundColor'][] = $color;
 					} else {
-						$chartData['datasets'][$i]['backgroundColor'][] = $this->colors[$value['color_id']];
+						$chartData['datasets'][$i]['backgroundColor'][] = $this->availableColors[$value['color_id']];
+						$chartData['datasets'][$i]['pointBackgroundColor'][] = $this->availableColors[$value['color_id']];
 					}
 				}
 				$chartData['show_chart'] = true;
@@ -236,6 +251,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		// dataset with full list of colors should go first (legend creation)
 		$chartData = $this->sortDatasetsByColorsCount($chartData);
 		return $chartData;
+	}
+
+	protected function getPickListColors($fieldName)
+	{
+		$this->colorsFromPicklist = true;
+		$colors = \App\Fields\Picklist::getColors($fieldName);
+		foreach ($colors as $color_id => $color) {
+			$this->availableColors['picklist_' . $color_id] = $color;
+		}
 	}
 
 	/**
@@ -275,7 +299,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$picklists = \App\Fields\Picklist::getModulesByName($moduleName);
 				$fieldName = $this->groupFieldModel->getName();
 				if (in_array($fieldName, $picklists, true)) {
-					$this->colors = \App\Fields\Picklist::getColors($fieldName);
+					$this->getPickListColors($fieldName);
 					$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 					$fieldTable = 'vtiger_' . $this->groupFieldModel->getName();
 					$query->leftJoin($fieldTable, "{$this->groupFieldModel->table}.{$this->groupFieldModel->column} = {$fieldTable}.{$fieldName}");
@@ -287,7 +311,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$picklists = \App\Fields\Picklist::getModulesByName($moduleName);
 				$fieldName = $this->divideFieldModel->getName();
 				if (in_array($fieldName, $picklists, true)) {
-					$this->colors = \App\Fields\Picklist::getColors($fieldName);
+					$this->getPickListColors($fieldName);
 					$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 					$fieldTable = 'vtiger_' . $this->divideFieldModel->getName();
 					$query->leftJoin($fieldTable, "{$this->divideFieldModel->table}.{$this->divideFieldModel->column} = {$fieldTable}.{$fieldName}");
@@ -319,8 +343,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 						}
 						if (!isset($otherGroup[$dividedValueKey][$valueKey])) {
 							if ($valueKey !== $this->extraData['valueType']) {
-								// can we copy value from other field?
 								$otherGroup[$dividedValueKey][$valueKey] = null;
+							// we should get color from other group key with the same dividing field value
 							} else {
 								$otherGroup[$dividedValueKey][$valueKey] = 0;
 							}
@@ -353,30 +377,28 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$data = [];
-		// data = data values grouped by displayValue, dividedValue and valueType
+		$rows = [];
 		while ($row = $dataReader->read()) {
-			if (!empty($row[$fieldName])) {
-				$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
-				if ($this->isDivided()) {
-					$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
-				} else {
-					$dividedValue = 0;
-				}
-				if (!empty($row['assigned_user_id'])) {
-					$this->colors['owner_' . $row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
-				}
-				$data = $this->getValueDivided($data, $row);
-				if (!isset($this->numRows[$groupValue])) {
-					$this->numRows[$groupValue] = [];
-				}
-				if (!isset($this->numRows[$groupValue][$dividedValue])) {
-					$this->numRows[$groupValue][$dividedValue] = 0;
-				}
-				$this->numRows[$groupValue][$dividedValue]++;
-				if (!empty($this->extraData['showOwnerFilter'])) {
-					$this->owners[] = $row['assigned_user_id'];
-				}
+			$rows[] = $row;
+			$groupValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
+			if ($this->isDivided()) {
+				$dividedValue = $this->divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
+			} else {
+				$dividedValue = 0;
 			}
+			if (!isset($this->numRows[$groupValue])) {
+				$this->numRows[$groupValue] = [];
+			}
+			if (!isset($this->numRows[$groupValue][$dividedValue])) {
+				$this->numRows[$groupValue][$dividedValue] = 0;
+			}
+			if (!empty($row[$fieldName])) {
+				$this->numRows[$groupValue][$dividedValue]++;
+			}
+			if (!empty($this->extraData['showOwnerFilter'])) {
+				$this->owners[] = $row['assigned_user_id'];
+			}
+			$data = $this->getValueDivided($data, $row);
 		}
 		if ($this->extraData['valueType'] === 'avg') {
 			foreach ($data as $groupValue => &$values) {
@@ -388,6 +410,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		$data = $this->normalizeDivided($data);
+		//$data = $this->getColors($data, $rows);
 		$dataReader->close();
 		return $data;
 	}
@@ -407,6 +430,33 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$value = 1; // only counting records
 		}
 		return $value;
+	}
+
+	protected function setColorForRow($data, $row, $groupValue, $dividedValue)
+	{
+		if (!empty($row['picklist_id'])) {
+			$colorId = 'picklist_' . $row['picklist_id'];
+			$data[$groupValue][$dividedValue]['color_id'] = $colorId;
+		} elseif (!empty($row['assigned_user_id'])) {
+			$colorId= 'assigned_user_id_' . $row['assigned_user_id'];
+			$data[$groupValue][$dividedValue]['color_id'] = $colorId;
+			$this->availableColors[$colorId] = \App\Fields\Owner::getColor($row['assigned_user_id']);
+		} elseif (!empty($row['id'])) {
+			$colorId = 'id_' . $row['id'];
+			$data[$groupValue][$dividedValue]['color_id'] = $colorId;
+			$this->availableColors[$colorId] = \App\Colors::getRandomColor($row['id']);
+		} else {
+			$colorId = 'generated_' . count($this->colors);
+			$data[$groupValue][$dividedValue]['color_id'] = $colorId;
+			$this->availableColors[$colorId] = \App\Colors::getRandomColor($colorId);
+		}
+		// store color for this field value
+		if ($this->areColorsFromDividingField()) {
+			$this->assignedColors[$dividedValue] = $colorId;
+		} else {
+			$this->assignedColor[$groupValue] = $colorId;
+		}
+		return $data;
 	}
 
 	/**
@@ -440,6 +490,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		} else {
 			$data[$groupValue][$dividedValue][$valueType] += $value;
 		}
+		$data = $this->setColorForRow($data, $row, $groupValue, $dividedValue);
 		if (!isset($data[$groupValue][$dividedValue]['link'])) {
 			$searchParams = array_merge($this->searchParams, [[$groupFieldName, 'e', $row[$groupFieldName]]]);
 			if ($this->isDivided()) {
@@ -447,19 +498,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 			$data[$groupValue][$dividedValue]['link'] = $link;
-		}
-		if (!empty($row['picklist_id'])) {
-			$data[$groupValue][$dividedValue]['color_id'] = $row['picklist_id'];
-		} elseif (!empty($row['assigned_user_id'])) {
-			$data[$groupValue][$dividedValue]['color_id'] = $row['assigned_user_id'];
-			$this->colors[$row['assigned_user_id']] = \App\Fields\Owner::getColor($row['assigned_user_id']);
-		} elseif (!empty($row['id'])) {
-			$data[$groupValue][$dividedValue]['color_id'] = $row['id'];
-			$this->colors[$row['id']] = \App\Colors::getRandomColor($row['id']);
-		} else {
-			$colorNr = count($this->colors);
-			$data[$groupValue][$dividedValue]['color_id'] = $colorNr;
-			$this->colors[$row['id']] = \App\Colors::getRandomColor($colorNr);
 		}
 		return $data;
 	}
