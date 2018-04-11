@@ -46,7 +46,7 @@
 											{assign var=base_cur_check value=""}
 										{/if}
 										<td class="align-middle">
-											<span class="d-flex justify-content-between">
+											<span class="d-flex justify-content-between align-items-center">
 												<span>
 													<span class="currencyName">{\App\Language::translate($price.currencylabel, 'Currency')} ({$price.currencysymbol})</span>
 												</span>
