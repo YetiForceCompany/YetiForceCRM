@@ -177,26 +177,24 @@ ul.ui-autocomplete {
   }
 }
 //--- fullcalendar ---//
-.fc-day-grid {
-  .fc-row.fc-week {
-	min-height: 3.1rem !important;
-	height: 3.1rem !important;
-  }
-}
+
 .dashboardWidgetCalendar {
   .fc-widget-content {
     .fc-scroller.fc-day-grid-container {
   	  height: 18.6rem !important;
 	}
   }
-}
-.fc-head-container.fc-widget-header {
-  @extend .border-0;
-}
-.fc-body > tr > .fc-widget-content {
-  @extend .border-right-0;
-  @extend .border-left-0;
-}
-.o-calendar-container .fc-basic-view .fc-body .fc-row {
-  min-height: 9em !important;
+  .fc-day-grid {
+	.fc-row.fc-week {
+	  min-height: 3.1rem !important;
+	  height: 3.1rem !important;
+	}
+  }
+  .fc-head-container.fc-widget-header {
+	@extend .border-0;
+  }
+  .fc-body > tr > .fc-widget-content {
+	@extend .border-right-0;
+	@extend .border-left-0;
+  }
 }
