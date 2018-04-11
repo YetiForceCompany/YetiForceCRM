@@ -62,7 +62,6 @@ class Credits
 					if (!empty($package['version'])) {
 						$libraries[$package['name']]['version'] = $package['version'];
 					}
-
 					if (isset(static::$licenses[$package['name']])) {
 						$libraries[$package['name']]['license'] = static::$licenses[$package['name']];
 					} elseif (count($package['license']) > 1) {

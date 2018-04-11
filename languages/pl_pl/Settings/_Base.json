@@ -344,7 +344,7 @@
 	"LBL_SHOW_MORE": "Poka\u017c szczeg\u00f3\u0142y",
 	"LBL_MISSING_PACKAGE_FILE": "Brak plik\u00f3w .json bilbioteki",
 	"LBL_MORE_LIBRARY_INFO": "Szczeg\u00f3\u0142y biblioteki",
-	"LBL_MISSING_FILE": "Brak plik",
+	"LBL_MISSING_FILE": "Brak pliku",
 	"LBL_LIBRARY_NAME": "Nazwa",
 	"LBL_VERSION": "Wersja",
 	"LBL_LICENSE": "Licencja",
