@@ -55,14 +55,14 @@
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="col editedStatus d-none d-xl-block"  name="editStatus">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
-						<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
+						<p>
+							<small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span></small>
+							{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+								<span class="d-block text-muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></span>
+							{/if}
+						</p>
 					</span>
 				</div>
-				{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-					<div class="{if !empty($REASON_TO_EDIT)} col-2{/if} d-none d-xl-block">
-						<span class="text-muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></span>
-					</div>
-				{/if}
 				<div class="commentActionsDiv col p-0">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<div class="float-right commentActions">
