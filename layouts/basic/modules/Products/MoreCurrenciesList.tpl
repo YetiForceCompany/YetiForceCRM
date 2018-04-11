@@ -45,12 +45,12 @@
 										{else}
 											{assign var=base_cur_check value=""}
 										{/if}
-										<td class="align-middle">
+										<td class="align-middle text-nowrap">
 											<span class="d-flex justify-content-between align-items-center">
 												<span>
 													<span class="currencyName">{\App\Language::translate($price.currencylabel, 'Currency')} ({$price.currencysymbol})</span>
 												</span>
-												<span>
+												<span class="ml-1">
 													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small float-right enableCurrency" {if $check_value} title="{\App\Language::translate('LBL_ENABLE_CURRENCY')}" {else} title="{\App\Language::translate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}>
 												</span>
 											</span>
