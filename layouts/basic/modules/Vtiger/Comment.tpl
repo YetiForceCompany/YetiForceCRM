@@ -51,7 +51,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="commentActionsContainer d-flex flex-wrap justify-content-between m-0">
+			<div class="commentActionsContainer d-flex flex-wrap justify-content-between align-items-center m-0">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="editedStatus" name="editStatus">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
