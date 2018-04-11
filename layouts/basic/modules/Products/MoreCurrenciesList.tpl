@@ -23,7 +23,7 @@
 					<div class="currencyContent">
 						<div class="modal-body">
 							<table class="table table-bordered">
-								<tr class="detailedViewHeader">
+								<tr class="detailedViewHeader text-center">
 									<td><strong>{\App\Language::translate('LBL_CURRENCY',$MODULE)}</strong></td>
 									<td><strong>{\App\Language::translate('LBL_PRICE',$MODULE)}</strong></td>
 									<td><strong>{\App\Language::translate('LBL_CONVERSION_RATE',$MODULE)}</strong></td>
