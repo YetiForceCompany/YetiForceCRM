@@ -10,11 +10,10 @@
 jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
-	getInstance: function getInstance(container, widgetName, moduleName) {
+	getInstance: function getInstance(container, widgetClassName, moduleName) {
 		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
-		const widgetClassName = widgetName.toCamelCase();
 		const moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
 		const fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
 		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
@@ -602,6 +601,62 @@ jQuery.Class('Vtiger_Widget_Js', {
 							}
 						}],
 						yAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels'
+				}, {
+					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
+				}],
+			},
+			horizontalBarDivided: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							stacked: true,
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
@@ -1696,90 +1751,21 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		return 'bar';
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 	getType: function () {
 		return 'horizontalBar';
 	},
-});
-YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		this.registerLoadMore();
-	},
-	postRefreshWidget: function () {
-		this._super();
-		this.registerLoadMore();
-	},
-	registerLoadMore: function () {
-		var thisInstance = this;
-		var parent = thisInstance.getContainer();
-		var contentContainer = parent.find('.dashboardWidgetContent');
-		var loadMoreHandler = contentContainer.find('.load-more');
-		loadMoreHandler.on('click', function () {
-			var parent = thisInstance.getContainer();
-			var element = parent.find('a[name="drefresh"]');
-			var url = element.data('url');
-			var params = url;
-			var widgetFilters = parent.find('.widgetFilter');
-			if (widgetFilters.length > 0) {
-				params = {
-					url: url,
-					data: {}
-				};
-				widgetFilters.each(function (index, domElement) {
-					var widgetFilter = jQuery(domElement);
-					var filterName = widgetFilter.attr('name');
-					var filterValue = widgetFilter.val();
-					params.data[filterName] = filterValue;
-				});
-			}
-
-			var filterData = thisInstance.getFilterData();
-			if (!jQuery.isEmptyObject(filterData)) {
-				if (typeof params == 'string') {
-					params = {
-						url: url,
-						data: {}
-					};
-				}
-				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
-			}
-
-			// Next page.
-			params.data['page'] = loadMoreHandler.data('nextpage');
-			var refreshContainer = parent.find('.dashboardWidgetContent');
-			refreshContainer.progressIndicator();
-			AppConnector.request(params).then(function (data) {
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-				loadMoreHandler.replaceWith(data);
-				thisInstance.registerLoadMore();
-			}, function () {
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-			});
-		});
+	getSubType() {
+		return 'horizontalBar';
 	}
-
 });
-YetiForce_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
-	chartfilterInstance: false,
-	init: function (container, reload, widgetClassName) {
-		this.setContainer(jQuery(container));
-		const chartType = container.find('[name="typeChart"]').val();
-		let chartClassName = chartType.toCamelCase();
-		const divided = Number(container.find('[name="divided"]').val());
-		console.log(`chart is divided '${divided}'`);
-		if (divided) {
-			chartClassName += 'Divided';
-			console.log(chartClassName)
-		}
-		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
-		this.registerRecordsCount();
+YetiForce_Horizontal_Widget_Js('YetiForce_HorizontalDivided_Widget_Js', {}, {
+	getType: function () {
+		return 'horizontalBar';
 	},
+	getSubType() {
+		return 'horizontalBarDivided';
+	}
 });
 YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
@@ -1805,7 +1791,6 @@ YetiForce_Widget_Js('YetiForce_BarDivided_Widget_Js', {}, {
 		return 'barDivided';
 	}
 });
-YetiForce_BarDivided_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 	getType: function getType() {
 		return 'line';
@@ -1819,124 +1804,17 @@ YetiForce_Line_Widget_Js('YetiForce_LineDivided_Widget_Js', {}, {
 		return 'lineDivided';
 	}
 });
-YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
+YetiForce_Line_Widget_Js('YetiForce_LinePlain_Widget_Js', {}, {
 	getSubType: function getSubType() {
 		return 'linePlain';
 	}
 });
-YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {});
-// NOTE Widget-class name camel-case convention
-YetiForce_Widget_Js('YetiForce_Minilist_Widget_Js', {}, {
-	postLoadWidget: function () {
-		app.hideModalWindow();
-		this.restrictContentDrag();
-		this.registerFilterChangeEvent();
-		this.registerRecordsCount();
-	},
-	postRefreshWidget: function () {
-		this.registerRecordsCount();
+YetiForce_LineDivided_Widget_Js('YetiForce_LinePlainDivided_Widget_Js', {}, {
+	getSubType() {
+		return 'linePlainDivided';
 	}
 });
-YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
-	loadChart: function () {
-		var container = this.getContainer();
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		var chartClass = window["Report_" + chartClassName + "_Js"];
-		var instance = false;
-		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container, true);
-			instance.loadChart();
-		}
-	}
-});
-/* Notebook Widget */
-YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
-	// Override widget specific functions.
-	postLoadWidget: function () {
-		this.reinitNotebookView();
-	},
-	reinitNotebookView: function () {
-		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
-			'height': '200px'
-		});
-		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
-			self.editNotebookContent();
-		});
-		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
-			self.saveNotebookContent();
-		});
-	},
-	editNotebookContent: function () {
-		jQuery('.dashboard_notebookWidget_text', this.container).show();
-		jQuery('.dashboard_notebookWidget_view', this.container).hide();
-		$('body').on('click', function (e) {
-			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
-				$('.dashboard_notebookWidget_save').trigger('click');
-			}
-		});
-	},
-	saveNotebookContent: function () {
-		$('body').off('click');
-		var self = this;
-		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-		var url = this.container.data('url');
-		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-		var refreshContainer = this.container.find('.dashboardWidgetContent');
-		refreshContainer.progressIndicator();
-		AppConnector.request(params).then(function (data) {
-			refreshContainer.progressIndicator({
-				'mode': 'hide'
-			});
-			jQuery('.dashboardWidgetContent', self.container).html(data);
-			self.reinitNotebookView();
-		});
-	}
-});
-YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		return {
-			'chartData': [
-				[
-					[data['result'], data['all']]
-				]
-			],
-			'yMaxValue': data['maxValue'],
-			'labels': ''
-		};
-	},
-	loadChart: function () {
-		var data = this.generateChartData();
-		this.getChartContainer(false).jqplot(data['chartData'], {
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: jQuery.jqplot.BarRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value',
-					barDirection: 'horizontal'
-				},
-			},
-			axes: {
-				xaxis: {
-					min: 0,
-					max: data['yMaxValue'],
-				},
-				yaxis: {
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-				}
-			}
-		});
-	}
-});
-YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_TicketsByStatus_Widget_Js', {}, {
 	getBasicOptions: function () {
 		return {
 			legend: {
@@ -2184,7 +2062,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 	},
 });
-YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -2232,10 +2110,10 @@ YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedUpcomingCalendarTasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedOverDueCalendarTasks_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
@@ -2281,8 +2159,8 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
+YetiForce_Productssoldtorenew_Widget_Js('YetiForce_ServicesSoldToRenew_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_AllTimeControl_Widget_Js', {}, {
 	getBasicOptions: function getBasicOptions() {
 		return {
 			legend: {
@@ -2326,12 +2204,12 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 		};
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
-YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_LeadsBySource_Widget_Js', {}, {});
+YetiForce_Pie_Widget_Js('YetiForce_ClosedTicketsByPriority_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_ClosedTicketsByUser_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_OpenTickets_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_AccountsByIndustry_Widget_Js', {}, {});
+YetiForce_Funnel_Widget_Js('YetiForce_EstimatedvalueByStatus_Widget_Js', {}, {
 	getBasicOptions: function getBasicOptions() {
 		return {
 			sort: 'data-desc'
@@ -2341,9 +2219,9 @@ YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 		return [];
 	}
 });
-YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_NotificationsBySender_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_NotificationsByRecipient_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
@@ -2418,4 +2296,192 @@ YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Teamsestimatedsales_Widget_Js('YetiForce_Actualsalesofteam_Widget_Js', {}, {});
+YetiForce_TeamsEstimatedSales_Widget_Js('YetiForce_ActualSalesOfTeam_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	registerLoadMore: function () {
+		var thisInstance = this;
+		var parent = thisInstance.getContainer();
+		var contentContainer = parent.find('.dashboardWidgetContent');
+		var loadMoreHandler = contentContainer.find('.load-more');
+		loadMoreHandler.on('click', function () {
+			var parent = thisInstance.getContainer();
+			var element = parent.find('a[name="drefresh"]');
+			var url = element.data('url');
+			var params = url;
+			var widgetFilters = parent.find('.widgetFilter');
+			if (widgetFilters.length > 0) {
+				params = {
+					url: url,
+					data: {}
+				};
+				widgetFilters.each(function (index, domElement) {
+					var widgetFilter = jQuery(domElement);
+					var filterName = widgetFilter.attr('name');
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
+				});
+			}
+
+			var filterData = thisInstance.getFilterData();
+			if (!jQuery.isEmptyObject(filterData)) {
+				if (typeof params == 'string') {
+					params = {
+						url: url,
+						data: {}
+					};
+				}
+				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
+			}
+
+			// Next page.
+			params.data['page'] = loadMoreHandler.data('nextpage');
+			var refreshContainer = parent.find('.dashboardWidgetContent');
+			refreshContainer.progressIndicator();
+			AppConnector.request(params).then(function (data) {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				loadMoreHandler.replaceWith(data);
+				thisInstance.registerLoadMore();
+			}, function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			});
+		});
+	}
+
+});
+YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
+	postLoadWidget: function () {
+		app.hideModalWindow();
+		this.restrictContentDrag();
+		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function () {
+		this.registerRecordsCount();
+	}
+});
+YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
+	// Override widget specific functions.
+	postLoadWidget: function () {
+		this.reinitNotebookView();
+	},
+	reinitNotebookView: function () {
+		var self = this;
+		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
+			'height': '200px'
+		});
+		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
+			self.editNotebookContent();
+		});
+		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
+			self.saveNotebookContent();
+		});
+	},
+	editNotebookContent: function () {
+		jQuery('.dashboard_notebookWidget_text', this.container).show();
+		jQuery('.dashboard_notebookWidget_view', this.container).hide();
+		$('body').on('click', function (e) {
+			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
+				$('.dashboard_notebookWidget_save').trigger('click');
+			}
+		});
+	},
+	saveNotebookContent: function () {
+		$('body').off('click');
+		var self = this;
+		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
+		var url = this.container.data('url');
+		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
+		var refreshContainer = this.container.find('.dashboardWidgetContent');
+		refreshContainer.progressIndicator();
+		AppConnector.request(params).then(function (data) {
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
+			jQuery('.dashboardWidgetContent', self.container).html(data);
+			self.reinitNotebookView();
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_KpiBar_Widget_Js', {}, {
+	generateChartData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = [];
+		var yMaxValue = 0;
+		return {
+			'chartData': [
+				[
+					[data['result'], data['all']]
+				]
+			],
+			'yMaxValue': data['maxValue'],
+			'labels': ''
+		};
+	},
+	loadChart: function () {
+		var data = this.generateChartData();
+		this.getChartContainer(false).jqplot(data['chartData'], {
+			animate: !$.jqplot.use_excanvas,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					showDataLabels: true,
+					dataLabels: 'value',
+					barDirection: 'horizontal'
+				},
+			},
+			axes: {
+				xaxis: {
+					min: 0,
+					max: data['yMaxValue'],
+				},
+				yaxis: {
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+				}
+			}
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
+	loadChart: function () {
+		const container = this.getContainer();
+		let chartClassName = container.find('[name="typeChart"]').val();
+		const divided = container.find('[name="divided"]').val();
+		if (divided) {
+			chartType += 'Divided';
+		}
+		const chartClass = window["Report_" + chartClassName + "_Js"];
+		let instance = false;
+		if (typeof chartClass !== 'undefined') {
+			instance = new chartClass(container, true);
+			instance.loadChart();
+		}
+	}
+});
+YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
+	chartfilterInstance: false,
+	init: function (container, reload, widgetClassName) {
+		this.setContainer(jQuery(container));
+		let chartClassName = container.find('[name="typeChart"]').val();
+		const divided = Number(container.find('[name="divided"]').val());
+		if (divided) {
+			chartClassName += 'Divided';
+		}
+		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
+		this.registerRecordsCount();
+	},
+});
