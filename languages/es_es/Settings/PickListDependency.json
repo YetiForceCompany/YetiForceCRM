@@ -4,7 +4,7 @@
 	"LBL_ADD_RECORD": "A\u00f1adir",
 	"PickListDependency": "Dependencia del desplegable",
 	"LBL_CONFIGURE_DEPENDENCY_HELP_1": "S\u00f3lo se mostrar\u00e1n los valores del desplegable mapeados del campo de origen (excepto la primera vez)",
-	"LBL_CONFIGURE_DEPENDENCY_HELP_2": "Si desea ver o cambiar la asignaci\u00f3n para los otros valores del desplegable del campo fuente, <br \/>puede seleccionar los valores haciendo clic en el bot\u00f3n <b>'Seleccionar valores fuente'<\/b> en el lado derecho",
+	"LBL_CONFIGURE_DEPENDENCY_HELP_2": "Si desea ver o cambiar la asignaci\u00f3n para los otros valores del desplegable del campo fuente, puede seleccionar los valores haciendo clic en el bot\u00f3n 'Seleccionar valores fuente' en el lado derecho",
 	"LBL_CONFIGURE_DEPENDENCY_HELP_3": "Los valores seleccionados de los valores del campo de destino se resaltan como",
 	"LBL_CONFIGURE_DEPENDENCY_INFO": "Haga clic en la celda correspondiente para cambiar la asignaci\u00f3n de los valores del desplegable del campo de destino",
 	"LBL_ERR_CYCLIC_DEPENDENCY": "Esta configuraci\u00f3n de dependencia no est\u00e1 permitida ya que termina en alguna dependencia c\u00edclica",

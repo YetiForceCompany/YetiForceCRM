@@ -53,7 +53,7 @@
 	"LBL_CONDITION": "Condici\u00f3n",
 	"LBL_CONDITION_INFO": "Seleccione la condici\u00f3n para mostrar los registros",
 	"LBL_SHOW_ALL_RECORDS": "Mostrar todos los registros",
-	"LBL_SHOW_ALL_RECORDS_INFO": "No - Se tienen en cuenta los permisos <br \/> S\u00ed - B\u00fasqueda de registros excluyendo los permisos",
+	"LBL_SHOW_ALL_RECORDS_INFO": "No - Se tienen en cuenta los permisos S\u00ed - B\u00fasqueda de registros excluyendo los permisos",
 	"LBL_SHITCH_HEADER": "Cambiar en la cabecera",
 	"LBL_SHITCH_HEADER_INFO": "El interruptor se puede encontrar en la cabecera del widget.",
 	"HistoryRelation": "Cronograma",

@@ -19,10 +19,10 @@
 	"LBL_ADD_PERMISSIONS": "A\u00f1adir permisos",
 	"LBL_RECEIVE_PERMISSION": "Permisos recibidos",
 	"LBL_SAVE_SEQUENCES": "Secuencias guardadas correctamente",
-	"LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflicto con %s <br \/> El permiso seleccionado no se puede utilizar en m\u00e1s de un filtro.",
+	"LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflicto con %s El permiso seleccionado no se puede utilizar en m\u00e1s de un filtro.",
 	"LBL_SORTING": "Clasificaci\u00f3n",
 	"LBL_SORTING_SETTINGS": "Configuraci\u00f3n de clasificaci\u00f3n",
-	"LBL_SORTING_SETTINGS_WORNING": "<strong>\u00a1Advertencia!<strong><br \/>La clasificaci\u00f3n de registros podr\u00eda aumentar significativamente el tiempo de carga de la p\u00e1gina.",
+	"LBL_SORTING_SETTINGS_WORNING": "\u00a1Advertencia! La clasificaci\u00f3n de registros podr\u00eda aumentar significativamente el tiempo de carga de la p\u00e1gina.",
 	"LBL_SELECT_FIELD_TO_SORT_RECORDS": "Seleccione un campo para ordenar los registros",
 	"LBL_SORT_ASCENDING_ORDER": "Ordenar en orden ascendente",
 	"LBL_SORT_DESCENDING_ORDER": "Ordenar en orden descendente"

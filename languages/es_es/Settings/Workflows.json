@@ -199,7 +199,7 @@
 	"LBL_SELECT_ACTION_TYPE": "Seleccionar tipo de notificaci\u00f3n",
 	"LBL_SELECT_RECIPIENTS": "Destinatarios",
 	"LBL_MESSAGE": "Mensaje",
-	"LBL_MESSAGE_INFO": "El texto del mensaje soporta variables, el nombre de la variable puede ser igual a un nombre de campo del sistema o funciones especiales.<br \/><br \/>Ejemplos de variables para campos:<br \/><strong>$accountname$<\/strong> - Valor del campo<br \/><strong>%accountname%<\/strong> - Etiqueta de campo<br \/><br \/>Funciones especiales:",
+	"LBL_MESSAGE_INFO": "El texto del mensaje soporta variables, el nombre de la variable puede ser igual a un nombre de campo del sistema o funciones especiales. Ejemplos de variables para campos: $accountname$ - Valor del campo %accountname% - Etiqueta de campo Funciones especiales:",
 	"LBL_WATCHING_USERS": "Usuarios viendo",
 	"LBL_VALUE_FROM_FIELD": "Valor del campo",
 	"LBL_FIELDS_LABELS": "Etiqueta del campo",

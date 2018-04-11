@@ -69,7 +69,7 @@
 	"LBL_MIGRATION": "Migraci\u00f3n",
 	"LBL_START_MIGRATION": "Iniciar la migraci\u00f3n",
 	"LBL_MIGRATION_HEADER": "Bienvenido a la migraci\u00f3n del sistema YetiForce",
-	"LBL_MIGRATION_DESC": "<strong>Atenci\u00f3n: <\/strong>Antes de iniciar la migraci\u00f3n, realice una copia de seguridad de los archivos y la base de datos del sistema que est\u00e1 a punto de migrar.",
+	"LBL_MIGRATION_DESC": "Atenci\u00f3n: Antes de iniciar la migraci\u00f3n, realice una copia de seguridad de los archivos y la base de datos del sistema que est\u00e1 a punto de migrar.",
 	"LBL_HAVE_BACKUP_DATABASE": "Tengo copia de seguridad de la base de datos",
 	"LBL_HAVE_BACKUP_FILES": "Tengo copia de seguridad de los archivos",
 	"LBL_LOGIN": "Iniciar sesi\u00f3n",
@@ -87,7 +87,7 @@
 	"LBL_MIGRATION_ERROR": "Se ha producido un error durante el intento de migraci\u00f3n",
 	"LBL_ERROR_NO_CONFIG": "Direcci\u00f3n local del sistema incorrecta",
 	"LBL_WRONG_USERNAME_OR_PASSWORD": "Usuario o contrase\u00f1a incorrectos",
-	"LBL_DESCRIPTION_CONDITIONS": "<strong>Advertencia!<\/strong> Durante la migraci\u00f3n perder\u00e1 todos los datos relacionados con los siguientes m\u00f3dulos: Administrador de Correo, Plantillas de Correo, Flujos de Trabajo. <br \/> Tenga en cuenta que la migraci\u00f3n a\u00fan est\u00e1 en su fase de prueba, por lo que debe hacer todas las copias de seguridad posibles y seguir los procedimientos de seguridad en caso de cualquier evento imprevisto.",
+	"LBL_DESCRIPTION_CONDITIONS": "Advertencia! Durante la migraci\u00f3n perder\u00e1 todos los datos relacionados con los siguientes m\u00f3dulos: Administrador de Correo, Plantillas de Correo, Flujos de Trabajo. Tenga en cuenta que la migraci\u00f3n a\u00fan est\u00e1 en su fase de prueba, por lo que debe hacer todas las copias de seguridad posibles y seguir los procedimientos de seguridad en caso de cualquier evento imprevisto.",
 	"LBL_MIGRATION_IN_PROGRESS": "Migraci\u00f3n en curso"
   },
   "js": {

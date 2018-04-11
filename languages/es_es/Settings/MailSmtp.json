@@ -30,6 +30,6 @@
 	"LBL_CREATE_SMTP": "Crear SMTP",
 	"LBL_SMTP_DETAIL": "Detalle SMTP",
 	"LBL_INDIVIDUAL_DELIVERY_INFO": "Los correos electr\u00f3nicos se enviar\u00e1n individualmente para cada destinatario",
-	"LBL_OPTIONS_INFO": "Par\u00e1metros adicionales a modo de ejemplo (Json):<br \/> {<br \/>  &quot;ssl&quot;: {<br \/>    &quot;verify_peer&quot;:false,<br \/>    &quot;verify_peer_name&quot;:false,<br \/>    &quot;allow_self_signed&quot;:true<br \/>  }<br \/>}"
+	"LBL_OPTIONS_INFO": "Par\u00e1metros adicionales a modo de ejemplo (Json): <br>{&quot;ssl&quot;:{&quot;verify_peer&quot;:false,&quot;verify_peer_name&quot;:false,&quot;allow_self_signed&quot;:true}}"
   }
 }

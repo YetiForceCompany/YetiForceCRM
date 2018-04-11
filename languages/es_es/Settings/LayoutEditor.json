@@ -78,7 +78,7 @@
 	"LBL_FIELD_TYPE0": "B\u00e1sico (ej. vtiger_account)",
 	"LBL_FIELD_TYPE1": "Adicional (ej. vtiger_accountcf)",
 	"LBL_TREE_TEMPLATE": "Tree",
-	"LBL_FIELD_MASK_INFO": "Definiciones de enmascaramiento predeterminadas <br \/>9: num\u00e9rico <br \/>a: alfab\u00e9ticamente<br \/>*: Alfanum\u00e9rico <br \/><br \/>Ejemplo:<br \/>(99) 9999-9999<br \/>+48 999-999-999<br \/> aaa_999_aaa<br \/>dd\/mm\/aaaa",
+	"LBL_FIELD_MASK_INFO": "Definiciones de enmascaramiento predeterminadas 9: num\u00e9rico a: alfab\u00e9ticamente *: Alfanum\u00e9rico Ejemplo: (99) 9999-9999 +48 999-999-999 aaa_999_aaa dd\/mm\/aaaa",
 	"LBL_MULTI_REFERENCE_VALUE_MODULES": "M\u00f3dulo relacionado",
 	"LBL_MULTI_REFERENCE_VALUE_FIELDS": "Campo relacionado",
 	"LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD": "Filtrar por campo",

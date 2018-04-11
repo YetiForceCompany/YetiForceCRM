@@ -83,7 +83,7 @@
 	"LBL_NOTICE_CREATE": "A\u00f1adido",
 	"LBL_NOTICE_MODIFICATION": "Modificaci\u00f3n",
 	"LBL_NOTICE_CLOSE": "Cerrado",
-	"LBL_NOTICE_FOOTER": "Si no quiere recibir ninguna notificaci\u00f3n desde nuestro sistema, por favor inf\u00f3rmenos enviado un email a <a href=\"mailto:soporte@itop.es\">soporte@itop.es<\/a>. Si usted no es el destinatario de este email, por favor ind\u00edquenoslo y borre el mensaje.",
+	"LBL_NOTICE_FOOTER": "Si no quiere recibir ninguna notificaci\u00f3n desde nuestro sistema, por favor inf\u00f3rmenos enviado un email. Si usted no es el destinatario de este email, por favor ind\u00edquenoslo y borre el mensaje.",
 	"FL_SERVICE_CONTRACTS": "Contrato de servicio (SLA)",
 	"FL_SERVICE_CONTRACTS_TYPE": "Tipo de SLA ",
 	"FL_SERVICE_CONTRACTS_DATE": "fecha de caducidad del SLA",

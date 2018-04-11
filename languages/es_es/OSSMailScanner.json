@@ -111,7 +111,7 @@
 	"Manually stopped": "Detenido manualmente",
 	"stop_user": "El escaneo se detuvo",
 	"Email_Subject": "Notificaci\u00f3n CRON: tiempo de espera superado",
-	"Email_Body": "Hola<br \/><br \/>tiempo de espera superado en la Tarea programada(CRON), compruebe si el sistema de correo funciona correctamente.<br \/><br \/>Saludos",
+	"Email_Body": "Tiempo de espera superado en la Tarea programada(CRON), compruebe si el sistema de correo funciona correctamente.",
 	"Email_FromName": "Mail Scanner",
 	"JS_info_restart_ok": "Cron desbloqueado",
 	"permissions_all": "Visible para todos",
