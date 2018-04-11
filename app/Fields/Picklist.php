@@ -6,9 +6,9 @@ namespace App\Fields;
  * Picklist class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Picklist
 {
@@ -172,7 +172,7 @@ class Picklist
 		$query = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'vtiger_tab.name'])
 			->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
-			->where(['uitype' => [15, 15, 33, 115]])
+			->where(['uitype' => [15, 16, 33, 115]])
 			->andWhere((['<>', 'vtiger_tab.name', 'Events']));
 		if ($moduleName) {
 			$query = $query->andWhere(['vtiger_tab.name' => $moduleName]);

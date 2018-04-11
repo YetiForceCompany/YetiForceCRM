@@ -1,27 +1,27 @@
 {strip}
-	<div class="c-detail-widget c-detail-widget--general-info">
+	<div class="c-detail-widget u-mb-13px js-detail-widget" data-js=”container”>
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
-			<div class="c-detail-widget__header">
+			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
-				<div class="form-row">
+				<div class="form-row align-items-center py-1">
 					<div class="col-9 col-md-5 col-sm-6">
 						<div class="widgetTitle u-text-ellipsis">
-							<h4 class="modCT_{$WIDGET['label']}">
+							<h5 class="mb-0 modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
 									{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 								{else}
 									{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 								{/if}
-							</h4>
+							</h5>
 						</div>
 					</div>
 					{if isset($WIDGET['switchHeader'])}
-						<div class="col-8 col-md-4 col-sm-3 paddingBottom10">
+						<div class="col-8 col-md-4 col-sm-3">
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
 						</div>
 					{/if}
-					<div class="col float-right py-1">
+					<div class="col float-right">
 						<div class="float-right">
 							<div class="btn-group">
 								{if $WIDGET['data']['viewtype'] eq 'Summary'}
@@ -94,7 +94,7 @@
 					{/if}
 				</div>
 			</div>
-			<div class="widget_contents">
+			<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”>
 			</div>
 		</div>
 	</div>

@@ -1411,8 +1411,6 @@
 	"LBL_DELETE_CONFIRMATION": "Sind Sie sicher, dass Sie l\u00f6schen m\u00f6chten?",
 	"JS_DELETE_CONFIRMATION": "Sind Sie sicher die Verk\u00fcpfung zu diesen Datensatz zu l\u00f6schen? Es wird nur die Verkn\u00fcpfung gel\u00f6scht.",
 	"LBL_DELETE_USER_CONFIRMATION": "Wenn ein Benutzer gel\u00f6scht wird, wird der Benutzer als \\\"Inaktiv\\\" markiert und es k\u00f6nnen keine neuen Datens\u00e4tze dem Nutzer zugeordnet werden und der Benutzer ist nicht mehr in der Lage sich anmelden. Die Abrechnung stoppt f\u00fcr diesen Benutzer. Melden Sie sich beim Administrator, wenn Sie einen gel\u00f6schten Benutzer wieder aktivieren m\u00fcssen. Sind Sie sicher, dass Sie den Benutzer l\u00f6schen m\u00f6chten?",
-	"LBL_IMAGE_DELETED_SUCCESSFULLY": "Bild erfolgreich gel\u00f6scht",
-	"LBL_IMAGE_NOT_DELETED": "Bild nicht gel\u00f6scht",
 	"LBL_MASS_DELETE_CONFIRMATION": "Sind Sie sicher, dass Sie die ausgew\u00e4hlten Datens\u00e4tze l\u00f6schen m\u00f6chten?",
 	"LBL_NO": "Nein",
 	"LBL_YES": "Ja",

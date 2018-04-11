@@ -33,6 +33,7 @@
 		"LBL_VALUE_FIELD": "Pole warto\u015bci",
 		"LBL_NUMBER_OF_RECORDS": "Ilo\u015b\u0107 rekord\u00f3w",
 		"LBL_SUM": "Suma",
+	  	"LBL_AVG": "Średnia",
 		"LBL_GROUP_FIELD": "Grupuj po polu",
 		"LBL_GROUP_VALUES": "Podziel warto\u015bci grupowania",
 		"LBL_FILTER_BY_OWNER": "Filtruj po w\u0142ascicielu",

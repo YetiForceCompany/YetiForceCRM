@@ -1389,8 +1389,6 @@
 	"LBL_DELETE_CONFIRMATION": "Tem certeza que deseja Apagar?",
 	"JS_DELETE_CONFIRMATION": "Voc\u00ea tem certeza que deseja apagar a rela\u00e7\u00e3o para este registro? Somente a rela\u00e7\u00e3o dever\u00e1 ser apagada. Para apagar o registro, navegue at\u00e9 o mesmo e clique em apagar.",
 	"LBL_DELETE_USER_CONFIRMATION": "Quando um Usu\u00e1rio \u00e9 apagado, o mesmo ser\u00e1 marcado como \"Inativo\", nenhum novo registro poder\u00e1 ser designado para ele e n\u00e3o poder\u00e1 acessar o Sistema. O faturamento ser\u00e1 interrompido para este Usu\u00e1rio. Voc\u00ea tem certeza que deseja apagar?",
-	"LBL_IMAGE_DELETED_SUCCESSFULLY": "A imagem foi apagada com Sucesso",
-	"LBL_IMAGE_NOT_DELETED": "A imagem n\u00e3o foi Apagada",
 	"LBL_MASS_DELETE_CONFIRMATION": "Tem certeza que deseja apagar os Registros selecionados?",
 	"LBL_NO": "N\u00e3o",
 	"LBL_YES": "Sim",

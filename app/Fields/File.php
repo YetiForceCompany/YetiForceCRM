@@ -570,12 +570,12 @@ class File
 		if (!empty(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir'))) {
 			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
 			if (!is_dir(static::$tmpPath)) {
-				mkdir(static::$tmpPath);
+				mkdir(static::$tmpPath, 0755);
 			}
 		} elseif (is_writable(sys_get_temp_dir())) {
 			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
 			if (!is_dir(static::$tmpPath)) {
-				mkdir(static::$tmpPath);
+				mkdir(static::$tmpPath, 0755);
 			}
 		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
 			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
@@ -720,30 +720,29 @@ class File
 	/**
 	 * Init storage file directory.
 	 *
-	 * @param string $module
+	 * @param string $suffix
 	 *
 	 * @return string
 	 */
-	public static function initStorageFileDirectory($module = false)
+	public static function initStorageFileDirectory($suffix = false)
 	{
 		$filepath = 'storage' . DIRECTORY_SEPARATOR;
-		if ($module && in_array($module, ['Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'])) {
-			$filepath .= $module . DIRECTORY_SEPARATOR;
+		if ($suffix) {
+			$filepath .= $suffix . DIRECTORY_SEPARATOR;
 		}
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath);
+			mkdir($filepath, 0755);
 		}
 		$year = date('Y');
 		$month = date('F');
 		$day = date('j');
-		$week = '';
 		$filepath .= $year;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath);
+			mkdir($filepath, 0755);
 		}
 		$filepath .= DIRECTORY_SEPARATOR . $month;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath);
+			mkdir($filepath, 0755);
 		}
 		if ($day > 0 && $day <= 7) {
 			$week = 'week1';
@@ -758,9 +757,8 @@ class File
 		}
 		$filepath .= DIRECTORY_SEPARATOR . $week;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath);
+			mkdir($filepath, 0755);
 		}
-
 		return $filepath . DIRECTORY_SEPARATOR;
 	}
 
@@ -1011,8 +1009,8 @@ class File
 		$previousValue = $previousValue ? static::parse($previousValue) : [];
 		$value = static::parse($value);
 		foreach ($value as $item) {
-			if (!isset($previousValue[$item['key']])) {
-				$value[$item['key']]['path'] = static::getUploadFile($item['key'])['path'] . $item['key'];
+			if (!isset($previousValue[$item['key']]) && ($uploadFile = static::getUploadFile($item['key']))) {
+				$value[$item['key']]['path'] = $uploadFile['path'] . $item['key'];
 			}
 		}
 		foreach ($previousValue as $item) {
@@ -1030,7 +1028,7 @@ class File
 	 *
 	 * @return array
 	 */
-	protected static function parse(array $value)
+	public static function parse(array $value)
 	{
 		return array_reduce($value, function ($result, $item) {
 			$result[$item['key']] = $item;

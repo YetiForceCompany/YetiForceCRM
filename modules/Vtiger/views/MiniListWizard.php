@@ -40,6 +40,8 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				}
 				$queryGenerator = new \App\QueryGenerator($selectedModule);
 				$queryGenerator->initForCustomViewById($request->getInteger('filterid'));
+				$viewer->assign('FIELDS_BY_BLOCK', $queryGenerator->getModuleModel()->getFieldsByBlocks());
+				$viewer->assign('LIST_VIEW_FIELDS', $queryGenerator->getListViewFields());
 				$viewer->assign('QUERY_GENERATOR', $queryGenerator);
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 				break;

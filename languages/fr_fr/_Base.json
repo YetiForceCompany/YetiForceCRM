@@ -1472,8 +1472,6 @@
 	"LBL_DELETE_CONFIRMATION": "Etes-vous sur de vouloir effacer?",
 	"JS_DELETE_CONFIRMATION": "Etes vous sur de vouloir effacer la relationavec ce module? Seule la relation va \u00eatre supprim\u00e9e, pour supprimer les enregistrements vous devez s\u00e9lectionner les enregistrements et cliquer sur effacer",
 	"LBL_DELETE_USER_CONFIRMATION": "Lorsqu'un utilisateur est effac\u00e9, l'utilisateur sera marqu\u00e9 comme ",
-	"LBL_IMAGE_DELETED_SUCCESSFULLY": "Image effac\u00e9e avec succ\u00e8s",
-	"LBL_IMAGE_NOT_DELETED": "Image non effac\u00e9e",
 	"LBL_MASS_DELETE_CONFIRMATION": "Etes-vous sur de vouloir effacer ces enregistrements?",
 	"LBL_NO": "Non",
 	"LBL_YES": "Oui",

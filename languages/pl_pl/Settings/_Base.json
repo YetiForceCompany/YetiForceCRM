@@ -338,7 +338,17 @@
 	"PLU_SECURITY_0": "B\u0142\u0105d bezpiecze\u0144stwa",
 	"PLU_SECURITY_1": "B\u0142\u0119dy bezpiecze\u0144stwa",
 	"PLU_SECURITY_2": "B\u0142\u0119d\u00f3w bezpiecze\u0144stwa",
-	"LBL_ENCRYPTION": "Szyfrowanie"
+	"LBL_ENCRYPTION": "Szyfrowanie",
+	"LBL_LIBRARY_HOMEPAGE": "Otw\u00f3rz stron\u0119 biblioteki",
+	"LBL_LICENSE_ERROR": "B\u0142\u0105d licencji",
+	"LBL_SHOW_MORE": "Poka\u017c szczeg\u00f3\u0142y",
+	"LBL_MISSING_PACKAGE_FILE": "Brak plik\u00f3w .json bilbioteki",
+	"LBL_MORE_LIBRARY_INFO": "Szczeg\u00f3\u0142y biblioteki",
+	"LBL_MISSING_FILE": "Brak pliku",
+	"LBL_LIBRARY_NAME": "Nazwa",
+	"LBL_VERSION": "Wersja",
+	"LBL_LICENSE": "Licencja",
+	"LBL_MISSING_LICENSE_FILE": "Brak pliku licencji"
   },
   "js": {
 	"JS_AUTHORIZATION_COMPLETE": "Autoryzacja zako\u0144czona pomy\u015blnie",

@@ -49,7 +49,7 @@ class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer = $this->getViewer($request);
 		if ($request->has('record') && $request->getBoolean('isDuplicate') === true) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$viewer->assign('MODE', '');
+			$viewer->assign('MODE', 'duplicate');
 		} elseif ($request->has('record')) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$viewer->assign('MODE', 'edit');

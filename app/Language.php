@@ -639,7 +639,7 @@ class Language
 			foreach ($fileLocation as $key => $name) {
 				$loc .= DIRECTORY_SEPARATOR . $name;
 				if (!file_exists(ROOT_DIRECTORY . $loc)) {
-					if (!mkdir(ROOT_DIRECTORY . $loc)) {
+					if (!mkdir(ROOT_DIRECTORY . $loc, 0755)) {
 						throw new Exceptions\AppException('ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES');
 					}
 				}

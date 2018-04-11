@@ -1,24 +1,24 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
-		<div class="listViewEntriesDiv c-detail-widget__content contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv  contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap">&nbsp;</th>
+							<th class="noWrap p-1"></th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							<th nowrap>
+							<th nowrap class="p-1">
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+							<th  class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+							<th  class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 							{if $SHOW_COMMENT}
-							<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+							<th  class="p-1">{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 					</tr>
 				</thead>
@@ -45,11 +45,11 @@
 							</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
 						{if $SHOW_COMMENT}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 										{App\TextParser::textTruncate($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
@@ -71,14 +71,14 @@
 	{elseif $TYPE_VIEW eq 'Summary'}
 		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 			<div class="carousel slide" data-interval="false" data-ride="carousel">
-				<div class="carousel-inner c-detail-widget__content" role="listbox">
+				<div class="carousel-inner" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
 						<div class="carousel-item  js-carousel-item {if $smarty.foreach.recordlist.first}active{/if}" data-id="{$RELATED_RECORD->getId()}" data-js="click">
 							<table class="c-detail-widget__table">
 								<tbody>
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 										<tr class="c-table__row--hover border-bottom">
-											<td class="u-w-37-percent {$WIDTHTYPE}">
+											<td class="u-w-37per {$WIDTHTYPE}">
 												<label class="font-weight-bold">
 													{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 												</label>
@@ -123,24 +123,24 @@
 			</div>
 		</div>
 	{else}
-		<div class="listViewEntriesDiv c-detail-widget__content contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 					<tr class="text-center">
 						{if !$IS_READ_ONLY}
-							<th class="noWrap">&nbsp;</th>
+							<th class="noWrap p-1">&nbsp;</th>
 							{/if}
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							<th nowrap>
+							<th nowrap class="p-1">
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 							</th>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-							<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 							{if $SHOW_COMMENT}
-							<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 							{/if}
 					</tr>
 				</thead>
@@ -167,11 +167,11 @@
 							</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time" nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
 						{if $SHOW_COMMENT}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
+							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 										{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}

@@ -74,8 +74,8 @@ class Query extends \yii\db\Query
 			$db = \App\Db::getInstance();
 		}
 
-		return Yii::createObject([
-				'class' => BatchQueryResult::className(),
+		return \Yii::createObject([
+				'class' => \yii\db\BatchQueryResult::className(),
 				'query' => $this,
 				'batchSize' => $batchSize,
 				'db' => $db,

@@ -38,3 +38,6 @@
 .nav-tabs .active {
   @extend .bg-light;
 }
+.listViewAll .leftRecordActions {
+  border-left: 5px solid #ddd;
+}

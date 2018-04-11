@@ -80,7 +80,7 @@
 							</table>
 						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE)}
 				</div>
 			</div>
 		</div>

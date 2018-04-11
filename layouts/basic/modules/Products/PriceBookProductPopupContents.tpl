@@ -16,9 +16,9 @@
 		</div>
 	</div>
 	{if $LISTVIEW_ENTRIES_COUNT neq '0'}
-		<div class="clearfix form-actions">
-			<button class="cancelLink float-right btn btn-warning" type="reset">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success addButton select float-right"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
+		<div class="d-flex justify-content-end">
+			<button class="btn btn-success addButton select"><span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
+			<button class="cancelLink btn btn-danger" type="reset"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 		</div>
 	{/if}
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
@@ -63,7 +63,7 @@
 						{/foreach}
 						<td class="listViewEntryValue {$WIDTHTYPE}">
 							<div>
-								<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin form-control" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
+								<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 p-0 m-0 form-control" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
 									   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'/>
 							</div>
 						</td>

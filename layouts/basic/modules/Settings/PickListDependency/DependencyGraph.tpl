@@ -123,7 +123,7 @@
 						</table>
 					</div>
 				</div>
-				{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+				{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger')}
 			</div>
 		</div>
 	</div>

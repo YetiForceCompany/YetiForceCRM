@@ -21,8 +21,6 @@ class Products_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
-
 		parent::process($request);
 	}
 

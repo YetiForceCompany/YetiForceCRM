@@ -40,6 +40,10 @@
 				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
 				<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 				<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
+				{if $MODE === 'duplicate'}
+					<input type="hidden" name="_isDuplicateRecord" value="true" />
+					<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}" />
+				{/if}
 				{if $IS_RELATION_OPERATION }
 					<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 					<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
@@ -60,7 +64,7 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
 					<div class="js-toggle-panel c-panel__content row  mx-1 mb-3" data-js="click" data-label="{$BLOCK_LABEL}">
-						<div class="blockHeader c-panel__header">
+						<div class="blockHeader c-panel__header align-items-center u-cursor-pointer">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
@@ -68,9 +72,9 @@
 							{/if}
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
+							<h5 class="m-0">{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
 						</div>
-						<div class="col-md-12 card-body blockContent pt-2 js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
+						<div class="col-md-12 card-body blockContent py-1 js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="col-md-12 adressAction">
 									{if $APIADDRESFIELD}
@@ -100,17 +104,17 @@
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
+									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										<label class="col-md-3 fieldLabel text-md-right u-text-small-bold">
+										<label class="my-0 col-md-3 fieldLabel text-md-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 												<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>
 												{/if}
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 										</label>
-										<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<div class="{$WIDTHTYPE} w-100 {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 										</div>
 									</div>

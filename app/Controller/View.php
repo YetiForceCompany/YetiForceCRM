@@ -72,19 +72,17 @@ abstract class View extends Base
 	public function getViewer(\App\Request $request)
 	{
 		if (!isset($this->viewer)) {
-			$viewer = \Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
-			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
-			$viewer->assign('MODULE_NAME', $request->getModule());
+			$this->viewer = \Vtiger_Viewer::getInstance();
+			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
+			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
+			$this->viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
-				$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
-					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
-			$this->viewer = $viewer;
 		}
-
 		return $this->viewer;
 	}
 
@@ -264,7 +262,10 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
+			'~libraries/@fortawesome/fontawesome/index.js',
+			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
+			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
+			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
 		]);
 	}
 
@@ -282,7 +283,7 @@ abstract class View extends Base
 			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
-			'~libraries/js/jquery.class.js',
+			'~libraries/jquery.class.js/jquery.class.js',
 			'~libraries/jstorage/jstorage.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',

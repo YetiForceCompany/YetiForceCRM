@@ -513,7 +513,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'speed' . DIRECTORY_SEPARATOR;
 		if (!is_dir($dir)) {
-			mkdir($dir, 0777);
+			mkdir($dir, 0755);
 		}
 		$i = 5000;
 		$p = time();

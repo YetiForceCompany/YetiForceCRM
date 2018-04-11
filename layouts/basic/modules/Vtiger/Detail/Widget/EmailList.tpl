@@ -1,19 +1,18 @@
 {strip}
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-	<div class="summaryWidgetContainer">
+	<div class="c-detail-widget u-mb-13px js-detail-widget" data-js=”container”>
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="widget_header">
+			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-				<div class="widgetTitle row">
+				<div class="widgetTitle form-row align-items-center py-1">
 					<div class="col-7">
-						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h5 class="mb-0 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 					</div>
 					<div class="col-5">
 						<div class="float-right">
-							<button type="button" class="btn btn-sm btn-light showMailsModal" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
+							<button type="button" class="btn btn-sm btn-light showMailsModal mr-2" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
 								<span class="body-icon fas fa-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 							</button>
-							&nbsp;
 							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
@@ -37,7 +36,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="rowHr" />
+				<hr class="widgetHr">
 				<div class="row">
 					<div class="col-6 paddingRightZero">
 						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control form-control-sm">
@@ -81,7 +80,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="widget_contents widgetContent mailsList"></div>
+			<div class="c-detail-widget__content js-detail-widget-content widgetContent mailsList" data-js=”container|value”></div>
 		</div>
 	</div>
 {/strip}

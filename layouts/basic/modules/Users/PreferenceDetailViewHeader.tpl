@@ -17,11 +17,13 @@
 			<div class="row">
 				<div class="ml-0 pr-1 col-md-5 row">
 					<div class="logo pl-0 col-2 col-md-2">
-						{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
-							{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
-								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
-							{/if}
-						{/foreach}
+						{assign var=IMAGE value=$RECORD->getImage()}
+						{if $IMAGE}
+							<img src="{$IMAGE.url}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" height="80" align="left">
+							<br/>
+						{else}
+							<span class="detailViewIcon userIcon-{$MODULE}"></span>
+						{/if}
 					</div>
 					<div class="col-10 col-md-10 p-0 d-flex flex-column">
 						<div id="myPrefHeading">

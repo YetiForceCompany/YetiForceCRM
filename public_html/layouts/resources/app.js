@@ -229,7 +229,6 @@ app = {
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
-			App.Fields.Text.registerCkEditor(modalContainer.find('.js-ckeditor'));
 		});
 		modalContainer.modal(params);
 		$('body').append(container);

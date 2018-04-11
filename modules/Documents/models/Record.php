@@ -14,7 +14,6 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
 	 * Get download file url.
 	 *
@@ -70,9 +69,9 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	public function getFileDetails()
 	{
 		return (new \App\Db\Query())->from('vtiger_attachments')
-				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-				->where(['crmid' => $this->get('id')])
-				->one();
+			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+			->where(['crmid' => $this->get('id')])
+			->one();
 	}
 
 	/**
@@ -246,6 +245,61 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		}
 		//set the column_fields so that its available in the event handlers
 		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
+	}
+
+	/**
+	 * This function is used to upload the attachment in the server and save that attachment information in db.
+	 *
+	 * @param array $fileDetails - array which contains the file information(name, type, size, tmp_name and error)
+	 *
+	 * @return bool
+	 */
+	public function uploadAndSaveFile($fileDetails)
+	{
+		$id = $this->getId();
+		$moduleName = $this->getModuleName();
+		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
+		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
+		if (!$fileInstance->validate()) {
+			\App\Log::trace('Skip the save attachment process.');
+			return false;
+		}
+		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];
+		$db = \App\Db::getInstance();
+		$date = date('Y-m-d H:i:s');
+		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
+		$params = [
+			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
+			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('assigned_user_id'),
+			'setype' => $moduleName . ' Image',
+			'createdtime' => $this->isEmpty('createdtime') ? $date : $this->get('createdtime'),
+			'modifiedtime' => $this->isEmpty('modifiedtime') ? $date : $this->get('modifiedtime'),
+		];
+		$params['setype'] = $moduleName . ' Attachment';
+		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
+		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
+		if ($fileInstance->moveFile($uploadFilePath . $currentId)) {
+			$db->createCommand()->insert('vtiger_attachments', [
+				'attachmentsid' => $currentId,
+				'name' => ltrim(App\Purifier::purify($fileName)),
+				'type' => $fileDetails['type'],
+				'path' => $uploadFilePath,
+			])->execute();
+			if (\App\Request::_get('mode') === 'edit') {
+				if (!empty($id) && !empty(\App\Request::_get('fileid'))) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
+				}
+			}
+			if ($moduleName === 'Documents') {
+				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
+			}
+			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
+			$this->ext['attachmentsId'] = $currentId;
+			return true;
+		} else {
+			\App\Log::trace('Skip the save attachment process.');
+			return false;
+		}
 	}
 
 	/**

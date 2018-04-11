@@ -22,9 +22,9 @@ class Users_Bruteforce_Textparser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$html = '<table><tr><td>' . App\Language::translate('LBL_IP', 'Settings:BruteForce') . '</td><td>' . App\Language::translate('LBL_DATE') . '</td></tr>';
+		$html = '<table><tr><td>' . App\Language::translate('SINGLE_Users', 'Users') . '</td><td>' . App\Language::translate('LBL_IP', 'Settings:BruteForce') . '</td><td>' . App\Language::translate('LBL_DATE') . '</td><td>' . App\Language::translate('LBL_BROWSERS', 'Settings:BruteForce') . '</td></tr>';
 		$configBruteForce = Settings_BruteForce_Module_Model::getBruteForceSettings();
-		$attemptsLogin = (new \App\Db\Query())->select(['user_ip', 'login_time'])->from('vtiger_loginhistory')
+		$attemptsLogin = (new \App\Db\Query())->select(['user_name', 'user_ip', 'login_time', 'browser'])->from('vtiger_loginhistory')
 			->where([
 					'and',
 					['user_ip' => \App\RequestUtil::getRemoteIP(true)],
@@ -32,7 +32,7 @@ class Users_Bruteforce_Textparser extends \App\TextParser\Base
 					['>=', 'login_time', (new DateTime())->modify("-{$configBruteForce['timelock']} minutes")->format('Y-m-d H:i:s')]
 				])->all();
 		foreach ($attemptsLogin as $data) {
-			$html .= "<tr><td>{$this->displayIpAddress($data['user_ip'])}</td><td>{$data['login_time']}</td></tr>";
+			$html .= "<tr><td>{$data['user_name']}</td><td>{$this->displayIpAddress($data['user_ip'])}</td><td>{$data['login_time']}</td><td>{$data['browser']}</td></tr>";
 		}
 
 		return $html . '</table>';

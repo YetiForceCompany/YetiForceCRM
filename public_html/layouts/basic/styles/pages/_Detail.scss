@@ -34,6 +34,7 @@
 .c-panel__header {
   @extend .card-header;
   @extend .px-0;
+  @extend .py-1;
 }
 .c-panel__body {
   @extend .card-body;
@@ -125,11 +126,11 @@
   @extend .card, .m-1;
   &__header {
 	@extend .card-header;
-	@extend .py-0, .px-3, .border-bottom-0;
+	@extend .py-0, .px-2, .border-bottom-0;
 	background: inherit;
   }
   &__content {
-	@extend .card-body, .px-3, .py-0;
+	@extend .card-body, .px-2, .py-0;
   }
   &__table {
 	@extend .table, .mb-0;
@@ -241,4 +242,20 @@
 	  }
 	}
   }
+}
+.singleComment {
+  .commentActionsContainer .commentActions {
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: all 0.2s 0.15s ease-in-out;
+	-moz-transition: all 0.2s 0.15s ease-in-out;
+	-o-transition: all 0.2s 0.15s ease-in-out;
+	transition: all 0.2s 0.15s ease-in-out;
+  }
+  &:hover .commentActionsContainer .commentActions {
+	height: auto;
+  }
+}
+.quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
+  height: 0;
 }

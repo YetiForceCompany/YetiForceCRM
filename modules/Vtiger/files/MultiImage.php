@@ -55,16 +55,34 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 					'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'],
 					'name' => $item['name'],
 				]);
+				header('Pragma: public');
+				header('Cache-Control: max-age=86400, public');
+				header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
 				header('Content-Type: ' . $file->getMimeType());
 				header('Content-Transfer-Encoding: binary');
-				header('Pragma: public');
-				header('Cache-Control: max-age=86400');
-				header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
+				header('Content-length: ' . $file->getSize());
 				if ($request->getBoolean('download')) {
 					header('Content-disposition: attachment; filename="' . $item['name'] . '"');
 				}
 				readfile($file->getPath());
 			}
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function post(\App\Request $request)
+	{
+		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->getFileType(), $this->getStorageName() . DIRECTORY_SEPARATOR . $request->getModule() . DIRECTORY_SEPARATOR . $request->getByType('field', 'Alnum'));
+		if ($request->isAjax()) {
+			$response = new Vtiger_Response();
+			$response->setResult([
+				'field' => $request->get('field'),
+				'module' => $request->getModule(),
+				'attach' => $attach,
+			]);
+			$response->emit();
 		}
 	}
 }

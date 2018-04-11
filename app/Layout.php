@@ -84,10 +84,10 @@ class Layout
 	{
 		$basePath = '';
 		if ($full) {
-			$basePath .= AppConfig::main('site_URL');
+			$basePath .= \AppConfig::main('site_URL');
 		}
 		if (!IS_PUBLIC_DIR) {
-			$basePath = 'public_html/';
+			$basePath .= 'public_html/';
 		}
 
 		return $basePath . $name;

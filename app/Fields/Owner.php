@@ -26,7 +26,7 @@ class Owner
 	 */
 	public static function getInstance($moduleName = false, $currentUser = false)
 	{
-		if ($currentUser && $currentUser instanceof Users) {
+		if ($currentUser && $currentUser instanceof \Users) {
 			$currentUser = \App\User::getUserModel($currentUser->id);
 		} elseif ($currentUser === false) {
 			$currentUser = \App\User::getCurrentUserModel();
@@ -60,16 +60,17 @@ class Owner
 	 */
 	public function getAccessibleGroups($private = '', $fieldType = false, $translate = false)
 	{
-		$cacheKey = $private . $this->moduleName . $fieldType;
-		$accessibleGroups = \Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
-		if ($accessibleGroups === false) {
+		$cacheKey = $private . $this->moduleName . $fieldType . $this->currentUser->getRole();
+		if (!\App\Cache::has('getAccessibleGroups', $cacheKey)) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
+			if (!empty($fieldType) && ((int) $currentUserRoleModel->get($fieldType === 'sharedOwner' ? 'assignedmultiowner' : 'allowassignedrecordsto') === 5) && $private !== 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
 			}
-			\Vtiger_Cache::set('getAccessibleGroups', $cacheKey, $accessibleGroups);
+			\App\Cache::save('getAccessibleGroups', $cacheKey, $accessibleGroups);
+		} else {
+			$accessibleGroups = \App\Cache::get('getAccessibleGroups', $cacheKey);
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
@@ -96,31 +97,30 @@ class Owner
 	 */
 	public function getAccessibleUsers($private = '', $fieldType = false)
 	{
-		$cacheKey = $private . $this->moduleName . $fieldType . $fieldType;
-		$accessibleUser = \Vtiger_Cache::get('getAccessibleUsers', $cacheKey);
-		if ($accessibleUser === false) {
+		$cacheKey = $private . $this->moduleName . $fieldType . $this->currentUser->getRole();
+		if (!\App\Cache::has('getAccessibleUsers', $cacheKey)) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
+			$assignTypeValue = (int) $currentUserRoleModel->get($fieldType === 'sharedOwner' ? 'assignedmultiowner' : 'allowassignedrecordsto');
+			if ($assignTypeValue === 1 || $private === 'Public') {
 				$accessibleUser = $this->getUsers(false, 'Active', '', $private, true);
-			} elseif ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
+			} elseif ($assignTypeValue === 2) {
 				$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
-				$roles = array_merge($sameLevelRoles, $sameLevelRoles);
+				$roles = array_merge($sameLevelRoles, $childernRoles);
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($roles));
-			} elseif ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
+			} elseif ($assignTypeValue === 3) {
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
-			} elseif (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5') {
+			} elseif (!empty($fieldType) && $assignTypeValue === 5) {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
 			} else {
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			}
-			\Vtiger_Cache::set('getAccessibleUsers', $cacheKey, $accessibleUser);
+			\App\Cache::save('getAccessibleUsers', $cacheKey, $accessibleUser);
 		}
-
-		return $accessibleUser;
+		return \App\Cache::get('getAccessibleUsers', $cacheKey);
 	}
 
 	/**
@@ -232,6 +232,7 @@ class Owner
 		$entityData = \App\Module::getEntityInfo('Users');
 		$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
 		// Including deleted vtiger_users for now.
+		$where = false;
 		if ($private === 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
@@ -254,13 +255,13 @@ class Owner
 					->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
 			$query->union($queryByUserRole)->union($queryBySharing);
 		} elseif ($roles !== false) {
-			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid')->where(['vtiger_user2role.roleid' => $roles]);
+			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid');
+			$where[] = ['vtiger_user2role.roleid' => $roles];
 		} else {
 			\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 			$query = new \App\Db\Query();
 			$query->select($selectFields)->from('vtiger_users');
 		}
-		$where = false;
 		if (!empty($this->searchValue)) {
 			$where[] = ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
 		}
@@ -270,7 +271,6 @@ class Owner
 		if ($where) {
 			$query->where(array_merge(['and'], $where));
 		}
-
 		return $query;
 	}
 

@@ -121,7 +121,7 @@ class LanguageImport extends LanguageExport
 				// vtiger6 format
 				if ($vtiger6format) {
 					$targetdir = "languages/$prefix/" . str_replace('modules', '', $targetdir);
-					@mkdir($targetdir, 0777, true);
+					@mkdir($targetdir, 0755, true);
 				}
 				if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
 					\App\Log::trace("Copying file $fileName ... DONE", __METHOD__);

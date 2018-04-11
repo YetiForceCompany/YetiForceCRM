@@ -79,8 +79,8 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			'modules.Vtiger.resources.' . $view,
 			"modules.$moduleName.resources.$moduleName",
 			"modules.$moduleName.resources.$view",
-			'libraries.ckeditor.ckeditor',
-			'libraries.ckeditor.adapters.jquery',
+			'~vendor/ckeditor/ckeditor/ckeditor.js',
+			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
 			'modules.Vtiger.resources.CkEditor',
 		];
 

@@ -57,7 +57,7 @@
 								</tbody>
 							</table>
 						</div>
-						{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE)}
 					</form>
 				</div>
 			</div>
@@ -69,6 +69,7 @@
 				<select class="form-control valueType saveParam" name="valueType" size="2">
 					<option value="count">{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
 					<option value="sum">{\App\Language::translate('LBL_SUM','Home')}</option>
+					<option value="avg">{\App\Language::translate('LBL_AVG','Home')}</option>
 				</select>
 			</td>
 		</tr>

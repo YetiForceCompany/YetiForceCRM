@@ -15,10 +15,11 @@
 		<div class="singleComment">
 			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="float-left">
-					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-					{if $IMAGE_PATH}
-						<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
-					{else}	
+					{assign var=IMAGE value=$COMMENT->getImage()}
+					{if $IMAGE}
+						<img class="userImage float-left" alt="" src="{$IMAGE.url}">
+						<br/>
+					{else}
 						<span class="fas fa-user userImage float-left"></span>
 					{/if}
 				</div>

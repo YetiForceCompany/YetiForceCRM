@@ -12,9 +12,9 @@
 							<div class="w-100 ml-5 p-1 timeline-item">
 								<div class="float-left imageContainer">
 									{if !$HISTORY['isGroup']}
-										{assign var=IMAGE value=$HISTORY['userModel']->getImagePath()}
+										{assign var=IMAGE value=$HISTORY['userModel']->getImage()}
 										{if $IMAGE}
-											<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											<img class="userImage" src="{$IMAGE['url']}">
 										{else}	
 											<span class="fas fa-user userImage"></span>
 										{/if}

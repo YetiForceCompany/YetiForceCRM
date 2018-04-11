@@ -82,7 +82,7 @@
 						</div>
 						<div class="alert alert-info" role="alert">{\App\Language::translate('LBL_TRANSFER_OWNERSHIP_DESC',$MODULE)}</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE)}
 				</form>
 			</div>
 		</div>

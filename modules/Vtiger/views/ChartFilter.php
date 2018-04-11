@@ -28,13 +28,19 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
+					'Piedivided'=>'LBL_PIE_DIVIDED_CHART',
 					'Donut' => 'LBL_DONUT_CHART',
+					'Donutdivided' => 'LBL_DONUT_DIVIDED_CHART',
 					'Axis' => 'LBL_AXIS_CHART',
-					'Bardivided' => 'LBL_BAR_DIVIDED_CHART',
+					'AxisDivided'=>'LBL_AXIS_DIVIDED_CHART',
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
+					'Bardivided' => 'LBL_BAR_DIVIDED_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
+					'Horizontaldivided' => 'LBL_HORIZONTAL_BAR_DIVIDED_CHART',
 					'Line' => 'LBL_LINE_CHART',
+					'Linedivided' => 'LBL_LINE_DIVIDED_CHART',
 					'Lineplain' => 'LBL_LINE_CHART_PLAIN',
+					'Lineplaindivided' => 'LBL_LINE_CHART_PLAIN_DIVIDED',
 					'Funnel' => 'LBL_FUNNEL_CHART',
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);
@@ -43,14 +49,11 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
-				$selectedModule = $request->getByType('selectedModule', 2);
-				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
-				$viewer->assign('ALLFILTERS', $filters);
+				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($request->getByType('selectedModule', 2)));
 				break;
 			case 'step3':
 				$selectedModuleName = $request->getByType('selectedModule', 2);
-				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
-				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFieldsByBlocks());
+				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
 				$viewer->assign('VALUE_TYPE', $request->getByType('valueType', 1));
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;

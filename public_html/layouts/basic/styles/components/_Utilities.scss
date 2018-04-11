@@ -36,12 +36,19 @@
 	margin: 0;
   }
 }
+.u-mb-13px{
+	margin-bottom: 0.8rem !important;
+}
 //--- WIDTH ---//
 .u-w-auto {
   width: auto !important;
 }
-.u-w-37-percent{
+.u-w-37per {
 	width: 37% !important;
+}
+//--- HEIGHT ---//
+.u-h-600px {
+	height: 600px !important;
 }
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {
