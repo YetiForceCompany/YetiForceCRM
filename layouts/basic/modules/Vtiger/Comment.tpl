@@ -23,7 +23,7 @@
 						<span class="fas fa-user userImage float-left"></span>
 					{/if}
 				</div>
-				<div class="commentTitle ml-5 d-flex justify-content-between" id="{$COMMENT->getId()}">
+				<div class="commentTitle ml-5 mb-0 d-flex justify-content-between" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="commentorInfo">
