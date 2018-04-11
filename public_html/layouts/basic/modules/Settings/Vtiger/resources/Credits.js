@@ -40,8 +40,7 @@ jQuery.Class("Settings_Vtiger_Credits_Js", {}, {
 	 *
 	 * @param container
 	 */
-
-	showMore: function(container){
+	showMore: function (container) {
 		container.find('.js-show-more').on('click', function (e) {
 			AppConnector.request({
 				module: app.getModuleName(),
@@ -54,9 +53,26 @@ jQuery.Class("Settings_Vtiger_Credits_Js", {}, {
 			});
 		});
 	},
+	/**
+	 *
+	 * @param container
+	 */
+	showLicense: function (container) {
+		container.find('.js-show-license').on('click', function (e) {
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				view: 'LibraryLicense',
+				license: $(this).attr('data-license'),
+			}).then(function (response) {
+				app.showModalWindow(response)
+			});
+		});
+	},
 	registerEvents: function () {
 		var container = this.getContainer();
 		this.registerDataTables(container);
 		this.showMore(container);
+		this.showLicense(container);
 	}
 });

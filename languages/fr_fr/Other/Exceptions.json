@@ -21,7 +21,8 @@
 	"ERR_FILE_WRONG_IMAGE": "Wrong image file",
 	"ERR_FILE_PHP_CODE_INJECTION": "Detected php code injection",
 	"ERR_FILE_XPACKET_CODE_INJECTION": "Detected xpacket code injection",
-	"ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "No permissions to create directories"
+	"ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "No permissions to create directories",
+	"ERR_AUTO_LOGOUT": "Logged out automatically due to no activity"
   },
   "js": []
 }

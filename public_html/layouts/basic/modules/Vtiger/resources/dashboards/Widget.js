@@ -1983,7 +1983,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
-			YetiForce_Header_Js.getInstance().quickCreateModule('Calendar', params);
+			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);

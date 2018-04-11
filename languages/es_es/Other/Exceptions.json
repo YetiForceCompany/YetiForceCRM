@@ -22,6 +22,7 @@
     "ERR_FILE_WRONG_IMAGE": "Archivo de imagen incorrecto",
     "ERR_FILE_PHP_CODE_INJECTION": "Inyecci\u00f3n de c\u00f3digo php detectado",
     "ERR_FILE_XPACKET_CODE_INJECTION": "Inyecci\u00f3n de c\u00f3digo xpacket detectada",
-    "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "No tienes permisos para crear directorios"
+    "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "No tienes permisos para crear directorios",
+    "ERR_AUTO_LOGOUT": "Logged out automatically due to no activity"
   }
 }

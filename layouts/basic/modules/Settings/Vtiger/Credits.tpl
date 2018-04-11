@@ -9,7 +9,7 @@
 				{\App\Language::translate('LBL_CREDITS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="js-table-container" data-js="container">
+		<div class="js-table-container mt-4 mb-5" data-js="container">
 			<table class="table table-bordered dataTableWithRecords">
 				<thead>
 				<th class="p-2">
@@ -38,8 +38,11 @@
 									{$ITEM['license']}
 								</td>
 								<td>
-									<a title="{\App\Language::translate('LBL_HOMEPAGE', $QUALIFIED_MODULE)}"
-									   href="{$ITEM['homepage']}"><span class="fas fa-link mr-2"></span></a>
+									{if $ITEM['homepage']}
+										<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', $QUALIFIED_MODULE)}"
+										   href="{$ITEM['homepage']}" target="_blank"><span
+													class="fas fa-link mr-2"></span></a>
+									{/if}
 									{if $ITEM['licenseError']}
 										<span title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"
 											  class="fas fa-exclamation text-danger mr-2"></span>
@@ -47,11 +50,22 @@
 									{if $ITEM['packageFileMissing'] }
 										<span title="{\App\Language::translate('LBL_MISSING_PACKAGE_FILE', $QUALIFIED_MODULE)}"
 											  class="fas fa-file-code text-danger mr-2"></span>
+									{elseif $ITEM['notPackageFile']}
 									{else}
-										<span title="{\App\Language::translate('LBL_SHOW_MORE', $QUALIFIED_MODULE)}" data-type="{$TYPE}"
+										<span title="{\App\Language::translate('LBL_SHOW_MORE', $QUALIFIED_MODULE)}"
+											  data-type="{$TYPE}"
 											  data-library-name="{$ITEM['name']}"
 											  class="fas fa-info-circle text-dark cursorPointer js-show-more mr-2"
 											  data-js="click"></span>
+									{/if}
+									{if $ITEM['license']}
+										<span title="{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}"
+											  data-license="{$ITEM['license']}"
+											  class="fab fa-wpforms text-dark cursorPointer js-show-license mr-2"
+											  data-js="click"></span>
+									{else}
+										<span title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"
+											  class="fas fa-exclamation text-danger mr-2"></span>
 									{/if}
 								</td>
 							</tr>
