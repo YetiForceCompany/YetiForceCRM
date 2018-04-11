@@ -15,26 +15,6 @@ require_once 'include/runtime/Cache.php';
 
 class VTCacheUtils
 {
-	/** All tab information caching */
-	public static $_alltabrows_cache = false;
-
-	public static function lookupAllTabsInfo()
-	{
-		return self::$_alltabrows_cache;
-	}
-
-	public static function updateAllTabsInfo($tabrows)
-	{
-		self::$_alltabrows_cache = $tabrows;
-	}
-
-	/** Block information caching */
-	public static $_blocklabel_cache = [];
-
-	public static function updateBlockLabelWithId($label, $id)
-	{
-		self::$_blocklabel_cache[$id] = $label;
-	}
 
 	public static function lookupBlockLabelWithId($id)
 	{
