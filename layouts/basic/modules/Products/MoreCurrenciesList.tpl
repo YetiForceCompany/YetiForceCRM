@@ -56,22 +56,22 @@
 											</span>
 										</td>
 										<td class="align-middle">
-											<div>
+											<div class="row justify-content-center">
 												<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice form-control" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' />
 											</div>
 										</td>
 										<td class="align-middle">
-											<div>
+											<div class="row justify-content-center">
 												<input readonly="" type="text" size="10" class="col-md-9 conversionRate form-control" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
 											</div>
 										</td>
 										<td class="align-middle">
-											<div>
+											<div class="row justify-content-center">
 												<button {$disable_value} type="button" class="btn btn-light currencyReset resetButton" id="cur_reset{$price.curid}" value="{\App\Language::translate('LBL_RESET',$MODULE)}">{\App\Language::translate('LBL_RESET',$MODULE)}</button>
 											</div>
 										</td>
 										<td class="align-middle">
-											<div class=" textAlignCenter">
+											<div class="row justify-content-center">
 												<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" title="{\App\Language::translate('LBL_BASE_CURRENCY')}" value="{$price.curname}" {$base_cur_check} />
 											</div>
 										</td>
