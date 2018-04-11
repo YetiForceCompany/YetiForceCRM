@@ -143,9 +143,9 @@
 		{/if}
 		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDED_FIELD','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
 				<td class="fieldValue">
-					<select class="form-control saveParam" name="dividedField" size="2" >
+					<select class="form-control saveParam" name="dividingField" size="2" >
 						<option>{\App\Language::translate('--None--')}</option>
 						{foreach from=$SELECTED_MODULE_MODEL->getFields() item=FIELD key=FIELD_NAME}
 							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>

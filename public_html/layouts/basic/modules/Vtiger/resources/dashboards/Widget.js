@@ -19,7 +19,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		const basicClass = YetiForce_Widget_Js;
 		let instance;
-		console.log(`WidgetClassName: ${widgetClassName}`);
 		if (typeof moduleClass !== 'undefined') {
 			instance = new moduleClass(container, false, widgetClassName);
 		} else if (typeof fallbackClass !== 'undefined') {
@@ -114,14 +113,26 @@ jQuery.Class('Vtiger_Widget_Js', {
 		},
 
 		legend: {
-			onClick(e, legendItem){
-				return Chart.defaults.global.legend.onClick.apply(this.chartInstance,[e,legendItem]);
+			onClick(e, legendItem) {
+				let type = this.chartInstance.config.type;
+				if (typeof Chart.defaults[type] !== 'undefined') {
+					return Chart.defaults[type].legend.onClick.apply(this.chartInstance, [e, legendItem]);
+				}
+				return Chart.defaults.global.legend.onClick.apply(this.chartInstance, [e, legendItem]);
 			},
 			generateLabels(chart) {
-				let labels = Chart.defaults.global.legend.labels.generateLabels(chart);
-				if (!this.areColorsFromDividingField()) {
-					labels.forEach((label,index)=>{
-						label.fillStyle='rgba(0,0,0,0)';
+				let type = chart.config.type;
+				let labels;
+				if (typeof Chart.defaults[type] !== 'undefined') {
+					labels = Chart.defaults[type].legend.labels.generateLabels(chart);
+				} else {
+					labels = Chart.defaults.global.legend.labels.generateLabels(chart);
+				}
+				if (this.areColorsFromDividingField()) {
+					chart.config.options.legend.labels.boxWidth=12;
+					labels.forEach((label, index) => {
+						label.fillStyle = 'rgba(0,0,0,0)';
+						label.strokeStyle = 'rgba(0,0,0,0.15)';
 					});
 				}
 				return labels;
@@ -895,7 +906,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 		});
-		console.log('loading chart', chartSubType);
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
 		}
@@ -1426,7 +1436,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const type = this.getType();
 		const data = this.generateData();
 		data.datasets = this.loadDatasetOptions(data);
-		console.info(type, data);
 		const options = this.loadBasicOptions(data);
 		const plugins = this.loadPlugins(data);
 		return this.chartInstance = new Chart(
@@ -2425,7 +2434,6 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 		if (stacked) {
 			chartClassName += 'Stacked';
 		}
-		console.log(`ChartFilter ${chartClassName}`);
 		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
 		this.registerRecordsCount();
 	},
