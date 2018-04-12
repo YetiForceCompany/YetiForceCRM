@@ -7680,33 +7680,6 @@ CREATE TABLE `vtiger_relatedlists_fields` (
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_relcriteria` */
-
-CREATE TABLE `vtiger_relcriteria` (
-  `queryid` int(10) NOT NULL,
-  `columnindex` int(10) NOT NULL,
-  `columnname` varchar(250) DEFAULT '',
-  `comparator` varchar(20) DEFAULT NULL,
-  `value` varchar(512) DEFAULT NULL,
-  `groupid` int(10) DEFAULT 1,
-  `column_condition` varchar(256) DEFAULT 'and',
-  PRIMARY KEY (`queryid`,`columnindex`),
-  KEY `relcriteria_queryid_idx` (`queryid`),
-  CONSTRAINT `fk_1_vtiger_relcriteria` FOREIGN KEY (`queryid`) REFERENCES `vtiger_selectquery` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_relcriteria_grouping` */
-
-CREATE TABLE `vtiger_relcriteria_grouping` (
-  `groupid` int(10) NOT NULL,
-  `queryid` int(10) NOT NULL,
-  `group_condition` varchar(256) DEFAULT NULL,
-  `condition_expression` text DEFAULT NULL,
-  PRIMARY KEY (`groupid`,`queryid`),
-  KEY `queryid` (`queryid`),
-  CONSTRAINT `vtiger_relcriteria_grouping_ibfk_1` FOREIGN KEY (`queryid`) REFERENCES `vtiger_relcriteria` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_reminder_interval` */
 
 CREATE TABLE `vtiger_reminder_interval` (
@@ -7721,116 +7694,6 @@ CREATE TABLE `vtiger_reminder_interval` (
 
 CREATE TABLE `vtiger_reminder_interval_seq` (
   `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_report` */
-
-CREATE TABLE `vtiger_report` (
-  `reportid` int(10) NOT NULL,
-  `folderid` int(10) NOT NULL,
-  `reportname` varchar(100) DEFAULT '',
-  `description` varchar(250) DEFAULT '',
-  `reporttype` varchar(50) DEFAULT '',
-  `queryid` int(10) NOT NULL DEFAULT 0,
-  `state` varchar(50) DEFAULT 'SAVED',
-  `customizable` int(1) DEFAULT 1,
-  `category` int(10) DEFAULT 1,
-  `owner` int(10) DEFAULT 1,
-  `sharingtype` varchar(200) DEFAULT 'Private',
-  PRIMARY KEY (`reportid`),
-  KEY `report_queryid_idx` (`queryid`),
-  KEY `report_folderid_idx` (`folderid`),
-  CONSTRAINT `fk_2_vtiger_report` FOREIGN KEY (`queryid`) REFERENCES `vtiger_selectquery` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportdatefilter` */
-
-CREATE TABLE `vtiger_reportdatefilter` (
-  `datefilterid` int(10) NOT NULL,
-  `datecolumnname` varchar(250) DEFAULT '',
-  `datefilter` varchar(250) DEFAULT '',
-  `startdate` date DEFAULT NULL,
-  `enddate` date DEFAULT NULL,
-  PRIMARY KEY (`datefilterid`),
-  KEY `reportdatefilter_datefilterid_idx` (`datefilterid`),
-  CONSTRAINT `fk_1_vtiger_reportdatefilter` FOREIGN KEY (`datefilterid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportfilters` */
-
-CREATE TABLE `vtiger_reportfilters` (
-  `filterid` int(10) NOT NULL,
-  `name` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportfolder` */
-
-CREATE TABLE `vtiger_reportfolder` (
-  `folderid` int(10) NOT NULL AUTO_INCREMENT,
-  `foldername` varchar(100) NOT NULL DEFAULT '',
-  `description` varchar(250) DEFAULT '',
-  `state` varchar(50) DEFAULT 'SAVED',
-  PRIMARY KEY (`folderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportgroupbycolumn` */
-
-CREATE TABLE `vtiger_reportgroupbycolumn` (
-  `reportid` int(10) DEFAULT NULL,
-  `sortid` int(10) DEFAULT NULL,
-  `sortcolname` varchar(250) DEFAULT NULL,
-  `dategroupbycriteria` varchar(250) DEFAULT NULL,
-  KEY `fk_1_vtiger_reportgroupbycolumn` (`reportid`),
-  CONSTRAINT `fk_1_vtiger_reportgroupbycolumn` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportmodules` */
-
-CREATE TABLE `vtiger_reportmodules` (
-  `reportmodulesid` int(10) NOT NULL,
-  `primarymodule` varchar(50) NOT NULL DEFAULT '',
-  `secondarymodules` varchar(250) DEFAULT '',
-  PRIMARY KEY (`reportmodulesid`),
-  CONSTRAINT `fk_1_vtiger_reportmodules` FOREIGN KEY (`reportmodulesid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportsharing` */
-
-CREATE TABLE `vtiger_reportsharing` (
-  `reportid` int(10) NOT NULL,
-  `shareid` int(10) NOT NULL,
-  `setype` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportsortcol` */
-
-CREATE TABLE `vtiger_reportsortcol` (
-  `sortcolid` int(10) NOT NULL,
-  `reportid` int(10) NOT NULL,
-  `columnname` varchar(250) DEFAULT '',
-  `sortorder` varchar(250) DEFAULT 'Asc',
-  PRIMARY KEY (`sortcolid`,`reportid`),
-  KEY `fk_1_vtiger_reportsortcol` (`reportid`),
-  CONSTRAINT `fk_1_vtiger_reportsortcol` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reportsummary` */
-
-CREATE TABLE `vtiger_reportsummary` (
-  `reportsummaryid` int(10) NOT NULL,
-  `summarytype` int(10) NOT NULL,
-  `columnname` varchar(250) NOT NULL DEFAULT '',
-  PRIMARY KEY (`reportsummaryid`,`summarytype`,`columnname`),
-  KEY `reportsummary_reportsummaryid_idx` (`reportsummaryid`),
-  CONSTRAINT `fk_1_vtiger_reportsummary` FOREIGN KEY (`reportsummaryid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_reporttype` */
-
-CREATE TABLE `vtiger_reporttype` (
-  `reportid` int(10) NOT NULL,
-  `data` text DEFAULT NULL,
-  PRIMARY KEY (`reportid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reservations` */
@@ -8007,36 +7870,6 @@ CREATE TABLE `vtiger_scalculations_status` (
   PRIMARY KEY (`scalculations_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_scheduled_reports` */
-
-CREATE TABLE `vtiger_scheduled_reports` (
-  `reportid` int(10) NOT NULL,
-  `recipients` text DEFAULT NULL,
-  `schedule` text DEFAULT NULL,
-  `format` varchar(10) DEFAULT NULL,
-  `next_trigger_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`reportid`),
-  CONSTRAINT `vtiger_scheduled_reports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_schedulereports` */
-
-CREATE TABLE `vtiger_schedulereports` (
-  `reportid` int(10) DEFAULT NULL,
-  `scheduleid` int(3) DEFAULT NULL,
-  `recipients` text DEFAULT NULL,
-  `schdate` varchar(20) DEFAULT NULL,
-  `schtime` time DEFAULT NULL,
-  `schdayoftheweek` varchar(100) DEFAULT NULL,
-  `schdayofthemonth` varchar(100) DEFAULT NULL,
-  `schannualdates` varchar(500) DEFAULT NULL,
-  `specificemails` varchar(500) DEFAULT NULL,
-  `next_trigger_time` timestamp NULL DEFAULT NULL,
-  `filetype` varchar(20) DEFAULT NULL,
-  KEY `reportid` (`reportid`),
-  CONSTRAINT `vtiger_schedulereports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_seattachmentsrel` */
 
 CREATE TABLE `vtiger_seattachmentsrel` (
@@ -8046,33 +7879,6 @@ CREATE TABLE `vtiger_seattachmentsrel` (
   KEY `seattachmentsrel_attachmentsid_idx` (`attachmentsid`),
   KEY `seattachmentsrel_crmid_idx` (`crmid`),
   KEY `seattachmentsrel_attachmentsid_crmid_idx` (`attachmentsid`,`crmid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_selectcolumn` */
-
-CREATE TABLE `vtiger_selectcolumn` (
-  `queryid` int(10) NOT NULL,
-  `columnindex` int(10) NOT NULL DEFAULT 0,
-  `columnname` varchar(250) DEFAULT '',
-  PRIMARY KEY (`queryid`,`columnindex`),
-  KEY `selectcolumn_queryid_idx` (`queryid`),
-  CONSTRAINT `fk_1_vtiger_selectcolumn` FOREIGN KEY (`queryid`) REFERENCES `vtiger_selectquery` (`queryid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_selectquery` */
-
-CREATE TABLE `vtiger_selectquery` (
-  `queryid` int(10) NOT NULL,
-  `startindex` int(10) DEFAULT 0,
-  `numofobjects` int(10) DEFAULT 0,
-  PRIMARY KEY (`queryid`),
-  KEY `selectquery_queryid_idx` (`queryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_selectquery_seq` */
-
-CREATE TABLE `vtiger_selectquery_seq` (
-  `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_senotesrel` */

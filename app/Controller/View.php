@@ -72,19 +72,17 @@ abstract class View extends Base
 	public function getViewer(\App\Request $request)
 	{
 		if (!isset($this->viewer)) {
-			$viewer = \Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
-			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
-			$viewer->assign('MODULE_NAME', $request->getModule());
+			$this->viewer = \Vtiger_Viewer::getInstance();
+			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
+			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
+			$this->viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
-				$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
-					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
-			$this->viewer = $viewer;
 		}
-
 		return $this->viewer;
 	}
 

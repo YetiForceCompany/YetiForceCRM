@@ -189,13 +189,6 @@ $.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
 			thisInstance.registerHelpInfo(quickCreateForm);
-			const customConfig = {
-				height: '5em',
-				toolbar: 'Min'
-			};
-			$.each(data.find('.js-ckeditor'), function (key, element) {
-				new Vtiger_CkEditor_Js($(element), customConfig);
-			});
 		});
 	},
 	isFreeDay: function (dayOfWeek) {
@@ -712,8 +705,9 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
-		const container = thisInstance.getContentsContainer();
-		const menuContainer = container.find('.leftPanel .menuContainer');
+		const container = thisInstance.getContentsContainer(),
+			menuContainer = container.find('.leftPanel .menuContainer'),
+			quickCreateModal = container.find('.quickCreateModules');
 		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
@@ -746,13 +740,13 @@ $.Class("Vtiger_Header_Js", {
 				value.focus();
 			}, 100);
 		});
-
 		thisInstance.basicSearch();
 		$('.bodyHeader .dropdownMenu').on("click", function (e) {
 			$(this).next('.dropdown-menu').toggle();
 		});
-		$('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
+		quickCreateModal.on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = $(e.currentTarget).data('name');
+			quickCreateModal.modal('hide');
 			thisInstance.quickCreateModule(moduleName);
 		});
 

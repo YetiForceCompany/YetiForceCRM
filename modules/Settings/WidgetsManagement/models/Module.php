@@ -95,19 +95,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return $dashboardId;
 	}
 
-	/**
-	 * Return list of reports.
-	 *
-	 * @return array
-	 */
-	public static function getReports()
-	{
-		return (new App\Db\Query())->select(['reportid', 'reportname'])
-			->from('vtiger_report')
-			->where(['reporttype' => 'chart', 'owner' => App\User::getCurrentUserId()])
-			->createCommand()->queryAllByGroup();
-	}
-
 	public static function saveDashboard($dashboardId, $dashboardName)
 	{
 		if (empty($dashboardId)) {

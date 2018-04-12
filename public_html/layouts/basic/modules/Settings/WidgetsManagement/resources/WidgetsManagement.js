@@ -59,10 +59,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				sendByAjaxCb: function () {
 					var contentsDiv = $('.contentsDiv');
 					thisInstance.getModuleLayoutEditor('Home').then(
-						function (data) {
-							contentsDiv.html(data);
-							thisInstance.registerEvents();
-						}
+							function (data) {
+								contentsDiv.html(data);
+								thisInstance.registerEvents();
+							}
 					);
 				},
 			};
@@ -76,10 +76,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			var dashboardId = currentTarget.data('id');
 			var contentsDiv = $('.contentsDiv');
 			thisInstance.getModuleLayoutEditor('Home', dashboardId).then(
-				function (data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
-				}
+					function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					}
 			);
 		});
 	},
@@ -93,10 +93,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				sendByAjaxCb: function () {
 					var contentsDiv = $('.contentsDiv');
 					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).then(
-						function (data) {
-							contentsDiv.html(data);
-							thisInstance.registerEvents();
-						}
+							function (data) {
+								contentsDiv.html(data);
+								thisInstance.registerEvents();
+							}
 					);
 				},
 			};
@@ -115,10 +115,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			AppConnector.request(params).then(function () {
 				var contentsDiv = $('.contentsDiv');
 				thisInstance.getModuleLayoutEditor('Home', 1).then(
-					function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
-					}
+						function (data) {
+							contentsDiv.html(data);
+							thisInstance.registerEvents();
+						}
 				);
 			});
 		});
@@ -153,20 +153,20 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						paramsBlock['authorized'] = block.val();
 						paramsBlock['label'] = block.find(':selected').text();
 						thisInstance.save(paramsForm, 'save').then(
-							function (data) {
-								var params = {};
-								var response = data.result;
-								if (response['success']) {
-									paramsBlock['id'] = response['id'];
-									thisInstance.displayNewCustomBlock(paramsBlock);
-									app.hideModalWindow();
-									params['text'] = app.vtranslate('JS_BLOCK_ADDED');
-								} else {
-									params['text'] = response['message'];
-									params['type'] = 'error';
+								function (data) {
+									var params = {};
+									var response = data.result;
+									if (response['success']) {
+										paramsBlock['id'] = response['id'];
+										thisInstance.displayNewCustomBlock(paramsBlock);
+										app.hideModalWindow();
+										params['text'] = app.vtranslate('JS_BLOCK_ADDED');
+									} else {
+										params['text'] = response['message'];
+										params['type'] = 'error';
+									}
+									Settings_Vtiger_Index_Js.showMessage(params);
 								}
-								Settings_Vtiger_Index_Js.showMessage(params);
-							}
 						);
 					}
 					e.preventDefault();
@@ -199,14 +199,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		params['mode'] = mode;
 
 		AppConnector.request(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -318,27 +318,27 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								return false;
 							}
 							thisInstance.save(paramsForm, 'save').then(
-								function (data) {
-									var result = data['result'];
-									var params = {};
-									if (data['success']) {
-										app.hideModalWindow();
-										paramsForm['id'] = result['id']
-										paramsForm['status'] = result['status']
-										params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-										Settings_Vtiger_Index_Js.showMessage(params);
-										thisInstance.showCustomField(paramsForm);
-									} else {
-										var message = data['error']['message'];
-										if (data['error']['code'] != 513) {
-											var errorField = form.find('[name="fieldName"]');
+									function (data) {
+										var result = data['result'];
+										var params = {};
+										if (data['success']) {
+											app.hideModalWindow();
+											paramsForm['id'] = result['id']
+											paramsForm['status'] = result['status']
+											params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+											Settings_Vtiger_Index_Js.showMessage(params);
+											thisInstance.showCustomField(paramsForm);
 										} else {
-											var errorField = form.find('[name="fieldLabel"]');
+											var message = data['error']['message'];
+											if (data['error']['code'] != 513) {
+												var errorField = form.find('[name="fieldName"]');
+											} else {
+												var errorField = form.find('[name="fieldLabel"]');
+											}
+											errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+											saveButton.removeAttr('disabled');
 										}
-										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-										saveButton.removeAttr('disabled');
 									}
-								}
 							);
 						} else {
 							var result = app.vtranslate('JS_FIELD_EMPTY');
@@ -505,11 +505,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 
 			//added for drop down position change
 			var offset = currentTarget.offset(),
-				height = currentTarget.outerHeight(),
-				dropHeight = dropDown.outerHeight(),
-				viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-				dropTop = offset.top + height,
-				enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
+					height = currentTarget.outerHeight(),
+					dropHeight = dropDown.outerHeight(),
+					viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
+					dropTop = offset.top + height,
+					enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
 			if (!enoughRoomBelow) {
 				dropDown.addClass('bottom-up');
 			} else {
@@ -574,9 +574,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		container.find('.addNotebook').on('click', function (e) {
 			thisInstance.addNoteBookWidget(this, jQuery(this).data('url'));
 		});
-		container.find('.addCharts').on('click', function (e) {
-			thisInstance.addChartWidget($(e.currentTarget));
-		});
 		container.find('.addMiniList').on('click', function (e) {
 			thisInstance.addMiniListWidget(this, jQuery(this).data('url'));
 		});
@@ -623,10 +620,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						var paramsForm = form.serializeFormData();
 						paramsForm.data = JSON.stringify({channels: channels});
 						thisInstance.save(paramsForm, 'save').then(
-							function (data) {
-								paramsForm.label = paramsForm.title;
-								thisInstance.saveAfterInfo(data, paramsForm)
-							}
+								function (data) {
+									paramsForm.label = paramsForm.title;
+									thisInstance.saveAfterInfo(data, paramsForm)
+								}
 						);
 					}
 					e.preventDefault();
@@ -741,25 +738,21 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
-				var selectedModule = moduleNameSelect2.val();
-				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				var selectedFilterId = form.find('.filterId').val();
-				var selectedFilterLabel = form.find('.filterId').find(':selected').text();
-				var selectedFieldLabel = form.find('.groupField').find(':selected').text();
-				var isColorValue = 0;
-				var isColor = form.find('.isColor');
-				if (!isColor.hasClass('d-none') && isColor.is(':checked')) {
-					isColorValue = 1;
-				}
-				var data = {
+				const selectedModule = moduleNameSelect2.val();
+				const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+				const selectedFilterId = form.find('.filterId').val();
+				const selectedFilterLabel = form.find('.filterId').find(':selected').text();
+				const selectedFieldLabel = form.find('.groupField').find(':selected').text();
+				const data = {
 					module: selectedModule,
 					groupField: form.find('.groupField').val(),
 					chartType: chartType.val(),
-					color: isColorValue
 				};
 				form.find('.saveParam').each(function (index, element) {
 					element = $(element);
-					data[element.attr('name')] = element.val();
+					if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+						data[element.attr('name')] = element.val();
+					}
 				});
 				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, data, form);
 			});
@@ -783,35 +776,28 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['default_owner'] = 'mine';
 
 			thisInstance.save(paramsForm, 'save').then(
-				function (data) {
-					var result = data['result'];
-					var params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						thisInstance.showCustomField(paramsForm);
-					} else {
-						var message = data['error']['message'];
-						if (data['error']['code'] != 513) {
-							var errorField = form.find('[name="fieldName"]');
+					function (data) {
+						var result = data['result'];
+						var params = {};
+						if (data['success']) {
+							app.hideModalWindow();
+							paramsForm['id'] = result['id'];
+							paramsForm['status'] = result['status'];
+							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+							Settings_Vtiger_Index_Js.showMessage(params);
+							thisInstance.showCustomField(paramsForm);
 						} else {
-							var errorField = form.find('[name="fieldLabel"]');
+							var message = data['error']['message'];
+							if (data['error']['code'] != 513) {
+								var errorField = form.find('[name="fieldName"]');
+							} else {
+								var errorField = form.find('[name="fieldLabel"]');
+							}
+							errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 					}
-				}
 			);
 		}
-	},
-
-	addChartWidget: function (element) {
-		app.showModalWindow(null, "index.php?parent=Settings&module=WidgetsManagement&view=AddChart", function (wizardContainer) {
-			wizardContainer.find('[name="blockid"]').val(element.data('block-id'));
-			wizardContainer.find('[name="linkId"]').val(element.data('linkid'));
-		});
 	},
 	addNoteBookWidget: function (element, url) {
 		var thisInstance = this;
@@ -842,17 +828,17 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						'height': 3
 					}
 					AppConnector.request(noteBookParams).then(
-						function (data) {
-							if (data.result.success) {
-								var widgetId = data.result.widgetId;
-								app.hideModalWindow();
-								noteBookParams['id'] = widgetId;
-								noteBookParams['label'] = notePadName;
-								params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-								Settings_Vtiger_Index_Js.showMessage(params);
-								thisInstance.showCustomField(noteBookParams);
-							}
-						})
+							function (data) {
+								if (data.result.success) {
+									var widgetId = data.result.widgetId;
+									app.hideModalWindow();
+									noteBookParams['id'] = widgetId;
+									noteBookParams['label'] = notePadName;
+									params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+									Settings_Vtiger_Index_Js.showMessage(params);
+									thisInstance.showCustomField(noteBookParams);
+								}
+							})
 				}
 				return false;
 			}
@@ -1013,25 +999,25 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['id'] = fieldId;
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					thisInstance.save(paramsForm, 'delete').then(
-						function (data) {
-							var field = currentTarget.closest('div.editFieldsWidget');
-							var blockId = field.data('block-id');
-							field.parent().fadeOut('slow').remove();
-							var block = jQuery('#block_' + blockId);
-							thisInstance.reArrangeBlockFields(block);
-							var params = {};
-							params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-						}, function (error, err) {
+					function (e) {
+						thisInstance.save(paramsForm, 'delete').then(
+								function (data) {
+									var field = currentTarget.closest('div.editFieldsWidget');
+									var blockId = field.data('block-id');
+									field.parent().fadeOut('slow').remove();
+									var block = jQuery('#block_' + blockId);
+									thisInstance.reArrangeBlockFields(block);
+									var params = {};
+									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
+									Settings_Vtiger_Index_Js.showMessage(params);
+								}, function (error, err) {
 
 						}
-					);
-				},
-				function (error, err) {
+						);
+					},
+					function (error, err) {
 
-				}
+					}
 			);
 		});
 	},
@@ -1067,21 +1053,21 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsFrom['action'] = 'removeBlock';
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					thisInstance.save(paramsFrom, 'delete').then(
-						function (data) {
-							thisInstance.removeDeletedBlock(blockId, 'delete');
-							var params = {};
-							params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-						}, function (error, err) {
+					function (e) {
+						thisInstance.save(paramsFrom, 'delete').then(
+								function (data) {
+									thisInstance.removeDeletedBlock(blockId, 'delete');
+									var params = {};
+									params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
+									Settings_Vtiger_Index_Js.showMessage(params);
+								}, function (error, err) {
 
 						}
-					);
-				},
-				function (error, err) {
+						);
+					},
+					function (error, err) {
 
-				}
+					}
 			);
 		});
 	},
@@ -1107,10 +1093,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
 			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).then(
-				function (data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
-				}
+					function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					}
 			);
 		});
 
@@ -1135,14 +1121,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		params['sourceModule'] = selectedModule;
 		params['dashboardId'] = selectedDashboard;
 		AppConnector.requestPjax(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject();
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.reject();
+				}
 		);
 		return aDeferred.promise();
 	},

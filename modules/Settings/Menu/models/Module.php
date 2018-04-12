@@ -119,17 +119,18 @@ class Settings_Menu_Module_Model
 		return $url;
 	}
 
+	/**
+	 * Module list.
+	 *
+	 * @return array
+	 */
 	public function getModulesList()
 	{
-		$notInParam = "('Home','Reports','OSSMail','Portal','Rss')";
-		$query = (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
+		return (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
-			->andWhere(['or', 'isentitytype = 1', "name IN $notInParam"])
-			->orderBy('name');
-		$dataReader = $query->createCommand()->query();
-		$modules = $dataReader->readAll();
-
-		return $modules;
+			->andWhere(['or', ['isentitytype' => 1], ['name' => ['Home', 'OSSMail', 'Portal', 'Rss']]])
+			->orderBy('name')
+			->all();
 	}
 
 	public static function getLastId()

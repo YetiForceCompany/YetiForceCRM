@@ -15,7 +15,7 @@
 			{assign var=COLUMNS value=2}
 			{assign var=ROW value=1}
 			{assign var=COLCOUNT value=1}
-			{assign var=SPECIAL_WIDTGETS value=['ChartFilter', 'MiniList', 'Notebook', 'Charts', 'Rss']}
+			{assign var=SPECIAL_WIDTGETS value=['ChartFilter', 'MiniList', 'Notebook', 'Rss']}
 			{foreach from=$WIDGETS item=WIDGET name=count}
 				{if $WIDGET->get('active') eq 0}
 					{continue}

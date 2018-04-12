@@ -728,7 +728,7 @@ jQuery.Class("Vtiger_List_Js", {
 			form.find('[id^="selectRow"]').each(function (index, checkbox) {
 				checkbox = jQuery(checkbox);
 				if (!checkbox.prop('checked')) {
-					checkbox.closest('.rowElements').find('.fieldValue [name]').each(function (index, element) {
+					checkbox.closest('.js-form-row-container').find('.fieldValue [name]').each(function (index, element) {
 						element = jQuery(element);
 						element.attr('data-element-name', element.attr('name')).removeAttr('name');
 					});
@@ -907,7 +907,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var editInstance = Vtiger_Edit_Js.getInstance();
 		massEditContainer.find('.selectRow').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
-			var blockElement = element.closest('.rowElements').find('.fieldValue');
+			var blockElement = element.closest('.js-form-row-container').find('.fieldValue');
 			var fieldElement = blockElement.find('[data-validation-engine],[data-invalid-validation-engine]');
 			var fieldInfo = fieldElement.data('fieldinfo');
 			if (element.prop('checked')) {
