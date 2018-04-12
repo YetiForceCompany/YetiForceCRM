@@ -3,8 +3,8 @@
  * View to create chart with a filter.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
@@ -28,19 +28,12 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
-					'Piedivided'=>'LBL_PIE_DIVIDED_CHART',
 					'Donut' => 'LBL_DONUT_CHART',
-					'Donutdivided' => 'LBL_DONUT_DIVIDED_CHART',
 					'Axis' => 'LBL_AXIS_CHART',
-					'AxisDivided'=>'LBL_AXIS_DIVIDED_CHART',
-					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
-					'Bardivided' => 'LBL_BAR_DIVIDED_CHART',
+					'Bar' => 'LBL_VERTICAL_BAR_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
-					'Horizontaldivided' => 'LBL_HORIZONTAL_BAR_DIVIDED_CHART',
 					'Line' => 'LBL_LINE_CHART',
-					'Linedivided' => 'LBL_LINE_DIVIDED_CHART',
-					'Lineplain' => 'LBL_LINE_CHART_PLAIN',
-					'Lineplaindivided' => 'LBL_LINE_CHART_PLAIN_DIVIDED',
+					'LinePlain' => 'LBL_LINE_CHART_PLAIN',
 					'Funnel' => 'LBL_FUNNEL_CHART',
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);

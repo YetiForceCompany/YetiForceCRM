@@ -1,13 +1,13 @@
 {
   "php": {
-	"LBL_PROJECT_CONFIGURATION": "Projekt",
-	"LBL_INFO": "Informacja",
-	"LBL_TYPE": "Status",
-	"LBL_PROJECT": "Projekt",
-	"LBL_PROJECT_STATUS_INFO": "Statusy oznaczaj\u0105ce zamkni\u0119cie projektu",
-	"LBL_SAVE_CONFIG_OK": "Pomy\u015blnie zapisano zmiany.",
-	"LBL_SAVE_CONFIG_ERROR": "Nie uda\u0142o si\u0119 zapisa\u0107 zmian.",
-	"RealizationProcesses": "Procesy realizacji"
+    "LBL_PROJECT_CONFIGURATION": "Projekt",
+    "LBL_INFO": "Informacja",
+    "LBL_TYPE": "Status",
+    "LBL_PROJECT": "Projekt",
+    "LBL_PROJECT_STATUS_INFO": "Statusy oznaczaj\u0105ce zamkni\u0119cie projektu",
+    "LBL_SAVE_CONFIG_OK": "Pomy\u015blnie zapisano zmiany.",
+    "LBL_SAVE_CONFIG_ERROR": "Nie uda\u0142o si\u0119 zapisa\u0107 zmian.",
+    "RealizationProcesses": "Procesy realizacji"
   },
   "js": []
 }

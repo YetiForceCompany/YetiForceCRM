@@ -38,3 +38,25 @@
   @extend .justify-content-lg-center;
   @extend .justify-content-xl-end;
 }
+.hideToggleSiteBarRightButton {
+  right: 0 !important;
+}
+.toggleSiteBarRightButton {
+  background: $light;
+  font-weight: bold;
+  padding: 15px 0px !important;
+  position: fixed;
+  top: 50%;
+  right: 25%;
+  cursor: pointer;
+  width: 17px;
+  z-index: 100;
+  border: 1px solid #dddddd;
+  border-right: 0;
+  display: inline-block;
+  border-radius: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}

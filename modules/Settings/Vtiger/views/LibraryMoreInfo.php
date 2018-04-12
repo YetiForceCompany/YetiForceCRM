@@ -10,6 +10,13 @@
 class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 {
 	/**
+	 * Public libraries package files.
+	 *
+	 * @var string[]
+	 */
+	public $packageFiles = ['package.json', 'composer.json', 'bower.json'];
+
+	/**
 	 * Checking permissions.
 	 *
 	 * @param \App\Request $request
@@ -32,17 +39,24 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 		} else {
 			if ($request->getByType('type', 1) === 'public') {
 				$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
-				$packageFile = $dir . $request->getByType('libraryName', 'Text') . DIRECTORY_SEPARATOR . 'package.json';
-				if (file_exists($packageFile)) {
-					$fileContent = file_get_contents($packageFile);
-					$result = true;
-				} else {
-					$result = false;
+				$libraryName =$request->getByType('libraryName', 'Text');
+				foreach ($this->packageFiles as $file) {
+					$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
+					if ($fileContent) {
+						continue;
+					}
+					if (file_exists($packageFile)) {
+						$fileContent = file_get_contents($packageFile);
+						$result = true;
+					} else {
+						$result = false;
+					}
 				}
 			} elseif ($request->getByType('type', 1) === 'vendor') {
 				$filePath = 'vendor' . DIRECTORY_SEPARATOR . $request->getByType('libraryName', 'Text') . DIRECTORY_SEPARATOR . 'composer.json';
 				if (file_exists($filePath)) {
 					$fileContent = file_get_contents($filePath);
+					$result = true;
 				} else {
 					$result = false;
 				}

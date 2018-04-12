@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{}, {
+	YetiForce_Bar_Widget_Js('YetiForce_TimeControl_Widget_Js',{}, {
 		getBasicOptions:function getBasicOptions(chartData){
 			return {
 				maintainAspectRatio: false,

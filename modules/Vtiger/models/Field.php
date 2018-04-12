@@ -771,40 +771,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to get the Report column name transformation of the field.
-	 *
-	 * @return string - tablename:columnname:module_fieldlabel:fieldname:fieldtype
-	 */
-	public function getReportFilterColumnName()
-	{
-		$moduleName = $this->getModuleName();
-		$tableName = $this->get('table');
-		$columnName = $this->get('column');
-		$fieldName = $this->get('name');
-		$fieldLabel = $this->get('label');
-		$typeOfData = $this->get('typeofdata');
-
-		$fieldTypeOfData = explode('~', $typeOfData);
-		$fieldType = $fieldTypeOfData[0];
-		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
-		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
-		}
-		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
-		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
-
-		if ($tableName === 'vtiger_crmentity' && $columnName != 'smownerid') {
-			$tableName = 'vtiger_crmentity' . $moduleName;
-		} elseif ($columnName === 'smownerid') {
-			$tableName = 'vtiger_users' . $moduleName;
-			$columnName = 'user_name';
-		}
-
-		return $tableName . ':' . $columnName . ':' . $moduleFieldLabel . ':' . $fieldName . ':' . $fieldType;
-	}
-
-	/**
 	 * This is set from Workflow Record Structure, since workflow expects the field name
 	 * in a different format in its filter. Eg: for module field its fieldname and for reference
 	 * fields its reference_field_name : (reference_module_name) field - salesorder_id: (SalesOrder) subject.
@@ -869,7 +835,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
@@ -1207,7 +1173,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams'),
-		], ['fieldid' => $this->get('id')])->execute();
+			], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 		}

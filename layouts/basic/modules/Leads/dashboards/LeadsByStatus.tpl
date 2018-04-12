@@ -10,7 +10,7 @@
 ************************************************************************************/
 -->*}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_Leadsbystatus_Widget_Js',{}, {});
+	YetiForce_Bar_Widget_Js('YetiForce_LeadsByStatus_Widget_Js',{}, {});
 </script>
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}

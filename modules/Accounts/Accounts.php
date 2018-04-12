@@ -109,55 +109,6 @@ class Accounts extends CRMEntity
 	}
 
 	/**
-	 * Function to get the secondary query part of a report.
-	 *
-	 * @param string                $module
-	 * @param string                $secmodule
-	 * @param ReportRunQueryPlanner $queryPlanner
-	 *
-	 * @return string
-	 */
-	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
-	{
-		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_crmentityAccounts', ['vtiger_groupsAccounts', 'vtiger_usersAccounts', 'vtiger_lastModifiedByAccounts']);
-		$matrix->setDependency('vtiger_account', ['vtiger_crmentityAccounts', ' vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_accountAccounts', 'vtiger_email_trackAccounts']);
-
-		if (!$queryPlanner->requireTable('vtiger_account', $matrix)) {
-			return '';
-		}
-
-		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_account', 'accountid', $queryPlanner);
-
-		if ($queryPlanner->requireTable('vtiger_crmentityAccounts', $matrix)) {
-			$query .= ' left join vtiger_crmentity as vtiger_crmentityAccounts on vtiger_crmentityAccounts.crmid=vtiger_account.accountid and vtiger_crmentityAccounts.deleted=0';
-		}
-		if ($queryPlanner->requireTable('vtiger_accountaddress')) {
-			$query .= ' left join vtiger_accountaddress on vtiger_account.accountid=vtiger_accountaddress.accountaddressid';
-		}
-		if ($queryPlanner->requireTable('vtiger_accountscf')) {
-			$query .= ' left join vtiger_accountscf on vtiger_account.accountid = vtiger_accountscf.accountid';
-		}
-		if ($queryPlanner->requireTable('vtiger_accountAccounts', $matrix)) {
-			$query .= '	left join vtiger_account as vtiger_accountAccounts on vtiger_accountAccounts.accountid = vtiger_account.parentid';
-		}
-		if ($queryPlanner->requireTable('vtiger_groupsAccounts')) {
-			$query .= '	left join vtiger_groups as vtiger_groupsAccounts on vtiger_groupsAccounts.groupid = vtiger_crmentityAccounts.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_usersAccounts')) {
-			$query .= ' left join vtiger_users as vtiger_usersAccounts on vtiger_usersAccounts.id = vtiger_crmentityAccounts.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_lastModifiedByAccounts')) {
-			$query .= ' left join vtiger_users as vtiger_lastModifiedByAccounts on vtiger_lastModifiedByAccounts.id = vtiger_crmentityAccounts.modifiedby ';
-		}
-		if ($queryPlanner->requireTable('vtiger_createdbyAccounts')) {
-			$query .= ' left join vtiger_users as vtiger_createdbyAccounts on vtiger_createdbyAccounts.id = vtiger_crmentityAccounts.smcreatorid ';
-		}
-
-		return $query;
-	}
-
-	/**
 	 * Function to get Account hierarchy of the given Account.
 	 *
 	 * @param int $id - accountid

@@ -111,6 +111,10 @@ var AppConnector = {
 			aDeferred.resolve(data);
 		};
 		params.error = function (jqXHR, textStatus, errorThrown, yyyy, uuu) {
+			let action = jqXHR.getResponseHeader('yf-action');
+			if(action === 'logout') {
+				window.location.href = 'index.php';
+			}
 			app.errorLog(jqXHR, textStatus, errorThrown);
 			aDeferred.reject(textStatus, errorThrown);
 		};

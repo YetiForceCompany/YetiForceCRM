@@ -10,11 +10,10 @@
 jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
-	getInstance: function getInstance(container, widgetName, moduleName) {
+	getInstance: function getInstance(container, widgetClassName, moduleName) {
 		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
-		const widgetClassName = widgetName.toCamelCase();
 		const moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
 		const fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
 		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
@@ -44,6 +43,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.registerWidgetPostRefreshEvent(container);
 		}
 		this.registerCache(container);
+	},
+	areColorsFromDividingField() {
+		return !!Number(this.getContainer().find('[name="colorsFromDividingField"]').val());
+	},
+	getSourceChartType(){
+		return this.getContainer().find('[name="typeChart"]').val();
 	},
 	/**
 	 * Predefined functions that will replace options function type
@@ -107,6 +112,33 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				// return label at index
 				return data.labels[tooltipItem.index];
+			}
+		},
+
+		legend: {
+			onClick(e, legendItem) {
+				let type = this.chartInstance.config.type;
+				if (typeof Chart.defaults[type] !== 'undefined') {
+					return Chart.defaults[type].legend.onClick.apply(this.chartInstance, [e, legendItem]);
+				}
+				return Chart.defaults.global.legend.onClick.apply(this.chartInstance, [e, legendItem]);
+			},
+			generateLabels(chart) {
+				let type = chart.config.type;
+				let labels;
+				if (typeof Chart.defaults[type] !== 'undefined') {
+					labels = Chart.defaults[type].legend.labels.generateLabels(chart);
+				} else {
+					labels = Chart.defaults.global.legend.labels.generateLabels(chart);
+				}
+				if (this.areColorsFromDividingField()) {
+					chart.config.options.legend.labels.boxWidth=12;
+					labels.forEach((label, index) => {
+						label.fillStyle = 'rgba(0,0,0,0)';
+						label.strokeStyle = 'rgba(0,0,0,0.15)';
+					});
+				}
+				return labels;
 			}
 		},
 
@@ -458,6 +490,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 	},
 	/**
+	 * Remove 'Divided' from chart sub type
+	 * for example 'barDivided' => 'bar'
+	 *
+	 * @param {String} chartSubType
+	 * @return {String}
+	 */
+	removeDividedFromName(chartSubType) {
+		const dividedPos = chartSubType.indexOf('Divided');
+		if (dividedPos > 0) {
+			return chartSubType.substr(0, dividedPos);
+		}
+		return chartSubType;
+	},
+	/**
 	 * Get global charts default configuration - may be loaded from database in the future
 	 * We can modify something basing on chartData received from server (some custom options etc.)
 	 *
@@ -477,6 +523,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -521,7 +568,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
 				}],
 			},
-			bardivided: {
+			barStacked: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -531,6 +578,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -543,7 +591,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 								autoSkip: false,
 								beginAtZero: true,
 								maxRotation: 90,
-								callback: 'function:scales.formatAxesLabels'
+								callback: 'function:scales.formatAxesLabels',
 							}
 						}],
 						yAxes: [{
@@ -551,7 +599,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 							ticks: {
 								autoSkip: false,
 								beginAtZero: true,
-								callback: 'function:scales.formatAxesLabels'
+								callback: 'function:scales.formatAxesLabels',
 							}
 						}]
 					},
@@ -577,7 +625,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideVerticalBarDatalabelsIfNeeded',
 				}],
 			},
-			horizontalbar: {
+			horizontalBar: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -587,6 +635,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -631,81 +680,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
 				}],
 			},
-			pie: {
-				basic: {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: true
-					},
-					cutoutPercentage: 0,
-					layout: {
-						padding: {
-							bottom: 12
-						}
-					},
-					tooltips: {},
-					scales: {},
-				},
-				dataset: {
-					datalabels: {
-						font: {
-							size: 11
-						},
-						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						borderColor: 'rgba(255,255,255,0.5)',
-						borderWidth: 2,
-						borderRadius: 4,
-						anchor: 'end',
-						align: 'center',
-						formatter: 'function:datalabels.formatter',
-					},
-				},
-				plugins: [],
-			},
-			doughnut: {
-				basic: {
-					maintainAspectRatio: false,
-					title: {
-						display: false
-					},
-					legend: {
-						display: true
-					},
-					cutoutPercentage: 50,
-					layout: {
-						padding: {
-							bottom: 12
-						}
-					},
-					tooltips: {
-						callbacks: {
-							label: 'function:tooltips.label',
-							title: 'function:tooltips.title'
-						}
-					},
-					scales: {},
-				},
-				dataset: {
-					datalabels: {
-						font: {
-							size: 11
-						},
-						color: 'white',
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						borderColor: 'rgba(255,255,255,0.5)',
-						borderWidth: 2,
-						borderRadius: 4,
-						anchor: 'end',
-						align: 'center',
-						formatter: 'function:datalabels.formatter',
-					},
-				},
-				plugins: [],
-			},
 			// hard edges line
 			line: {
 				basic: {
@@ -717,6 +691,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -763,7 +738,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 			// smooth line
-			lineplain: {
+			linePlain: {
 				basic: {
 					maintainAspectRatio: false,
 					title: {
@@ -773,6 +748,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -817,6 +793,95 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.fixXAxisLabels'
 				}],
 			},
+			pie: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true,
+						labels: {
+							generateLabels: 'function:legend.generateLabels',
+						}
+					},
+					cutoutPercentage: 0,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {
+						mode:'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [],
+			},
+			doughnut: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: true,
+						onClick: 'function:legend.onClick',
+						labels: {
+							generateLabels: 'function:legend.generateLabels',
+						}
+					},
+					cutoutPercentage: 50,
+					layout: {
+						padding: {
+							bottom: 12
+						}
+					},
+					tooltips: {
+						mode:'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 4,
+						anchor: 'end',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [],
+			},
 			funnel: {
 				basic: {
 					maintainAspectRatio: false,
@@ -828,6 +893,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					sort: 'desc',
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -850,9 +916,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 		});
-		chartSubType = chartSubType.toLowerCase();
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
+		}
+		// if divided and standard chart types are equal
+		const notDividedChartSubType = this.removeDividedFromName(chartSubType);
+		if (typeof options[notDividedChartSubType] !== 'undefined') {
+			return options[notDividedChartSubType];
 		}
 		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
 	},
@@ -1639,84 +1709,21 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		return 'bar';
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Barchat_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 	getType: function () {
 		return 'horizontalBar';
 	},
-});
-YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		this.registerLoadMore();
-	},
-	postRefreshWidget: function () {
-		this._super();
-		this.registerLoadMore();
-	},
-	registerLoadMore: function () {
-		var thisInstance = this;
-		var parent = thisInstance.getContainer();
-		var contentContainer = parent.find('.dashboardWidgetContent');
-		var loadMoreHandler = contentContainer.find('.load-more');
-		loadMoreHandler.on('click', function () {
-			var parent = thisInstance.getContainer();
-			var element = parent.find('a[name="drefresh"]');
-			var url = element.data('url');
-			var params = url;
-			var widgetFilters = parent.find('.widgetFilter');
-			if (widgetFilters.length > 0) {
-				params = {
-					url: url,
-					data: {}
-				};
-				widgetFilters.each(function (index, domElement) {
-					var widgetFilter = jQuery(domElement);
-					var filterName = widgetFilter.attr('name');
-					var filterValue = widgetFilter.val();
-					params.data[filterName] = filterValue;
-				});
-			}
-
-			var filterData = thisInstance.getFilterData();
-			if (!jQuery.isEmptyObject(filterData)) {
-				if (typeof params == 'string') {
-					params = {
-						url: url,
-						data: {}
-					};
-				}
-				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
-			}
-
-			// Next page.
-			params.data['page'] = loadMoreHandler.data('nextpage');
-			var refreshContainer = parent.find('.dashboardWidgetContent');
-			refreshContainer.progressIndicator();
-			AppConnector.request(params).then(function (data) {
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-				loadMoreHandler.replaceWith(data);
-				thisInstance.registerLoadMore();
-			}, function () {
-				refreshContainer.progressIndicator({
-					'mode': 'hide'
-				});
-			});
-		});
+	getSubType() {
+		return 'horizontalBar';
 	}
-
 });
-YetiForce_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
-	chartfilterInstance: false,
-	init: function (container, reload, widgetClassName) {
-		this.setContainer(jQuery(container));
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
-		this.registerRecordsCount();
+YetiForce_Horizontal_Widget_Js('YetiForce_HorizontalDivided_Widget_Js', {}, {
+	getType: function () {
+		return 'horizontalBar';
 	},
+	getSubType() {
+		return 'horizontalBarDivided';
+	}
 });
 YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
 	getType: function getType() {
@@ -1728,13 +1735,18 @@ YetiForce_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		return 'pie';
 	},
 });
+YetiForce_Pie_Widget_Js('YetiForce_PieDivided_Widget_Js', {}, {
+	getSubType() {
+		return 'pieDivided';
+	}
+});
 YetiForce_Pie_Widget_Js('YetiForce_Donut_Widget_Js', {}, {
 	getType: function getType() {
 		return 'doughnut';
 	},
 });
 YetiForce_Donut_Widget_Js('YetiForce_Axis_Widget_Js', {}, {});
-YetiForce_Widget_Js('YetiForce_Bardivided_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_BarDivided_Widget_Js', {}, {
 	getType: function getType() {
 		return 'bar';
 	},
@@ -1747,124 +1759,25 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 		return 'line';
 	},
 });
-YetiForce_Line_Widget_Js('YetiForce_Lineplain_Widget_Js', {}, {
+YetiForce_Line_Widget_Js('YetiForce_LineDivided_Widget_Js', {}, {
+	getType() {
+		return 'line';
+	},
+	getSubType() {
+		return 'lineDivided';
+	}
+});
+YetiForce_Line_Widget_Js('YetiForce_LinePlain_Widget_Js', {}, {
 	getSubType: function getSubType() {
 		return 'linePlain';
 	}
 });
-YetiForce_Bar_Widget_Js('YetiForce_MultiBarchat_Widget_Js', {});
-// NOTE Widget-class name camel-case convention
-YetiForce_Widget_Js('YetiForce_Minilist_Widget_Js', {}, {
-	postLoadWidget: function () {
-		app.hideModalWindow();
-		this.restrictContentDrag();
-		this.registerFilterChangeEvent();
-		this.registerRecordsCount();
-	},
-	postRefreshWidget: function () {
-		this.registerRecordsCount();
+YetiForce_LineDivided_Widget_Js('YetiForce_LinePlainDivided_Widget_Js', {}, {
+	getSubType() {
+		return 'linePlainDivided';
 	}
 });
-YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
-	loadChart: function () {
-		var container = this.getContainer();
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		var chartClass = window["Report_" + chartClassName + "_Js"];
-		var instance = false;
-		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container, true);
-			instance.loadChart();
-		}
-	}
-});
-/* Notebook Widget */
-YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
-	// Override widget specific functions.
-	postLoadWidget: function () {
-		this.reinitNotebookView();
-	},
-	reinitNotebookView: function () {
-		var self = this;
-		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
-			'height': '200px'
-		});
-		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
-			self.editNotebookContent();
-		});
-		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
-			self.saveNotebookContent();
-		});
-	},
-	editNotebookContent: function () {
-		jQuery('.dashboard_notebookWidget_text', this.container).show();
-		jQuery('.dashboard_notebookWidget_view', this.container).hide();
-		$('body').on('click', function (e) {
-			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
-				$('.dashboard_notebookWidget_save').trigger('click');
-			}
-		});
-	},
-	saveNotebookContent: function () {
-		$('body').off('click');
-		var self = this;
-		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
-		var url = this.container.data('url');
-		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
-		var refreshContainer = this.container.find('.dashboardWidgetContent');
-		refreshContainer.progressIndicator();
-		AppConnector.request(params).then(function (data) {
-			refreshContainer.progressIndicator({
-				'mode': 'hide'
-			});
-			jQuery('.dashboardWidgetContent', self.container).html(data);
-			self.reinitNotebookView();
-		});
-	}
-});
-YetiForce_Widget_Js('YetiForce_KpiBarchat_Widget_Js', {}, {
-	generateChartData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		var xLabels = [];
-		var yMaxValue = 0;
-		return {
-			'chartData': [
-				[
-					[data['result'], data['all']]
-				]
-			],
-			'yMaxValue': data['maxValue'],
-			'labels': ''
-		};
-	},
-	loadChart: function () {
-		var data = this.generateChartData();
-		this.getChartContainer(false).jqplot(data['chartData'], {
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: jQuery.jqplot.BarRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value',
-					barDirection: 'horizontal'
-				},
-			},
-			axes: {
-				xaxis: {
-					min: 0,
-					max: data['yMaxValue'],
-				},
-				yaxis: {
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-				}
-			}
-		});
-	}
-});
-YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_TicketsByStatus_Widget_Js', {}, {
 	getBasicOptions: function () {
 		return {
 			legend: {
@@ -1983,7 +1896,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			params.callbackFunction = function () {
 				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 			};
-			YetiForce_Header_Js.getInstance().quickCreateModule('Calendar', params);
+			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
@@ -2112,7 +2025,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 	},
 });
-YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
+YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
 		this._super();
@@ -2160,10 +2073,10 @@ YetiForce_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
-YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedUpcomingCalendarTasks_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedOverDueCalendarTasks_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	modalView: false,
 	postLoadWidget: function () {
@@ -2209,8 +2122,8 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
+YetiForce_Productssoldtorenew_Widget_Js('YetiForce_ServicesSoldToRenew_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_AllTimeControl_Widget_Js', {}, {
 	getBasicOptions: function getBasicOptions() {
 		return {
 			legend: {
@@ -2254,12 +2167,12 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 		};
 	},
 });
-YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {});
-YetiForce_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {});
-YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_LeadsBySource_Widget_Js', {}, {});
+YetiForce_Pie_Widget_Js('YetiForce_ClosedTicketsByPriority_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_ClosedTicketsByUser_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_OpenTickets_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_AccountsByIndustry_Widget_Js', {}, {});
+YetiForce_Funnel_Widget_Js('YetiForce_EstimatedvalueByStatus_Widget_Js', {}, {
 	getBasicOptions: function getBasicOptions() {
 		return {
 			sort: 'data-desc'
@@ -2269,9 +2182,9 @@ YetiForce_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 		return [];
 	}
 });
-YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
-YetiForce_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+YetiForce_Bar_Widget_Js('YetiForce_NotificationsBySender_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_NotificationsByRecipient_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 	generateChartData: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
@@ -2346,4 +2259,176 @@ YetiForce_Bar_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Teamsestimatedsales_Widget_Js('YetiForce_Actualsalesofteam_Widget_Js', {}, {});
+YetiForce_TeamsEstimatedSales_Widget_Js('YetiForce_ActualSalesOfTeam_Widget_Js', {}, {});
+YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerLoadMore();
+	},
+	registerLoadMore: function () {
+		var thisInstance = this;
+		var parent = thisInstance.getContainer();
+		var contentContainer = parent.find('.dashboardWidgetContent');
+		var loadMoreHandler = contentContainer.find('.load-more');
+		loadMoreHandler.on('click', function () {
+			var parent = thisInstance.getContainer();
+			var element = parent.find('a[name="drefresh"]');
+			var url = element.data('url');
+			var params = url;
+			var widgetFilters = parent.find('.widgetFilter');
+			if (widgetFilters.length > 0) {
+				params = {
+					url: url,
+					data: {}
+				};
+				widgetFilters.each(function (index, domElement) {
+					var widgetFilter = jQuery(domElement);
+					var filterName = widgetFilter.attr('name');
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
+				});
+			}
+
+			var filterData = thisInstance.getFilterData();
+			if (!jQuery.isEmptyObject(filterData)) {
+				if (typeof params == 'string') {
+					params = {
+						url: url,
+						data: {}
+					};
+				}
+				params.data = jQuery.extend(params.data, thisInstance.getFilterData())
+			}
+
+			// Next page.
+			params.data['page'] = loadMoreHandler.data('nextpage');
+			var refreshContainer = parent.find('.dashboardWidgetContent');
+			refreshContainer.progressIndicator();
+			AppConnector.request(params).then(function (data) {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+				loadMoreHandler.replaceWith(data);
+				thisInstance.registerLoadMore();
+			}, function () {
+				refreshContainer.progressIndicator({
+					'mode': 'hide'
+				});
+			});
+		});
+	}
+
+});
+YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
+	postLoadWidget: function () {
+		app.hideModalWindow();
+		this.restrictContentDrag();
+		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function () {
+		this.registerRecordsCount();
+	}
+});
+YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
+	// Override widget specific functions.
+	postLoadWidget: function () {
+		this.reinitNotebookView();
+	},
+	reinitNotebookView: function () {
+		var self = this;
+		app.showScrollBar(jQuery('.dashboard_notebookWidget_viewarea', this.container), {
+			'height': '200px'
+		});
+		jQuery('.dashboard_notebookWidget_edit', this.container).on('click', function () {
+			self.editNotebookContent();
+		});
+		jQuery('.dashboard_notebookWidget_save', this.container).on('click', function () {
+			self.saveNotebookContent();
+		});
+	},
+	editNotebookContent: function () {
+		jQuery('.dashboard_notebookWidget_text', this.container).show();
+		jQuery('.dashboard_notebookWidget_view', this.container).hide();
+		$('body').on('click', function (e) {
+			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
+				$('.dashboard_notebookWidget_save').trigger('click');
+			}
+		});
+	},
+	saveNotebookContent: function () {
+		$('body').off('click');
+		var self = this;
+		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
+		var url = this.container.data('url');
+		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
+		var refreshContainer = this.container.find('.dashboardWidgetContent');
+		refreshContainer.progressIndicator();
+		AppConnector.request(params).then(function (data) {
+			refreshContainer.progressIndicator({
+				'mode': 'hide'
+			});
+			jQuery('.dashboardWidgetContent', self.container).html(data);
+			self.reinitNotebookView();
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_KpiBar_Widget_Js', {}, {
+	generateChartData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = [];
+		var yMaxValue = 0;
+		return {
+			'chartData': [
+				[
+					[data['result'], data['all']]
+				]
+			],
+			'yMaxValue': data['maxValue'],
+			'labels': ''
+		};
+	},
+	loadChart: function () {
+		var data = this.generateChartData();
+		this.getChartContainer(false).jqplot(data['chartData'], {
+			animate: !$.jqplot.use_excanvas,
+			seriesDefaults: {
+				renderer: jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					showDataLabels: true,
+					dataLabels: 'value',
+					barDirection: 'horizontal'
+				},
+			},
+			axes: {
+				xaxis: {
+					min: 0,
+					max: data['yMaxValue'],
+				},
+				yaxis: {
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+				}
+			}
+		});
+	}
+});
+YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
+	chartfilterInstance: false,
+	init: function (container, reload, widgetClassName) {
+		this.setContainer(jQuery(container));
+		let chartClassName = container.find('[name="typeChart"]').val();
+		const stacked = !!Number(container.find('[name="stacked"]').val());
+		if (stacked) {
+			chartClassName += 'Stacked';
+		}
+		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
+		this.registerRecordsCount();
+	},
+});

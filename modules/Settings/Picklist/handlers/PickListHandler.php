@@ -56,7 +56,6 @@ class Settings_Picklist_PickListHandler_Handler
 		$dataReader->close();
 		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
-		$reportFilterColumnName = $fieldModel->getReportFilterColumnName();
 		//update advancefilter values
 		$dataReader = (new \App\Db\Query())->select(['cvid', 'value', 'columnindex', 'groupid'])
 			->from('vtiger_cvadvfilter')
@@ -73,26 +72,6 @@ class Settings_Picklist_PickListHandler_Handler
 			$dbCommand->update('vtiger_cvadvfilter', ['value' => $value], [
 				'columnname' => $advFiltercolumnName,
 				'cvid' => $row['cvid'],
-				'columnindex' => $row['columnindex'],
-				'groupid' => $row['groupid'],
-			])->execute();
-		}
-		$dataReader->close();
-		//update reportsFilter values
-		$dataReader = (new \App\Db\Query())->select(['queryid', 'value', 'columnindex', 'groupid'])->from('vtiger_relcriteria')
-			->where(['columnname' => $reportFilterColumnName])
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$value = $row['value'];
-			$explodedValueArray = explode(',', $value);
-			$arrayKey = array_search($oldValue, $explodedValueArray);
-			if ($arrayKey !== false) {
-				$explodedValueArray[$arrayKey] = $newValue;
-			}
-			$value = implode(',', $explodedValueArray);
-			$dbCommand->update('vtiger_relcriteria', ['value' => $value], [
-				'columnname' => $reportFilterColumnName,
-				'queryid' => $row['queryid'],
 				'columnindex' => $row['columnindex'],
 				'groupid' => $row['groupid'],
 			])->execute();
@@ -211,7 +190,6 @@ class Settings_Picklist_PickListHandler_Handler
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
-		$reportFilterColumnName = $fieldModel->getReportFilterColumnName();
 		//update advancefilter values
 		$dataReader = (new \App\Db\Query())->select(['cvid', 'value', 'columnindex', 'groupid'])->from('vtiger_cvadvfilter')
 			->where(['columnname' => $advFiltercolumnName])
@@ -229,28 +207,6 @@ class Settings_Picklist_PickListHandler_Handler
 			$dbCommand->update('vtiger_cvadvfilter', ['value' => $value], [
 				'columnname' => $advFiltercolumnName,
 				'cvid' => $row['cvid'],
-				'columnindex' => $row['columnindex'],
-				'groupid' => $row['groupid'],
-			])->execute();
-		}
-		$dataReader->close();
-		//update reportsFilter values
-		$dataReader = (new \App\Db\Query())->select(['queryid', 'value', 'columnindex', 'groupid'])->from('vtiger_relcriteria')
-			->where(['columnname' => $reportFilterColumnName])
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$value = $row['value'];
-			$explodedValueArray = explode(',', $value);
-			foreach ($valueToDelete as $value) {
-				$arrayKey = array_search($value, $explodedValueArray);
-				if ($arrayKey !== false) {
-					$explodedValueArray[$arrayKey] = $replaceValue;
-				}
-			}
-			$value = implode(',', $explodedValueArray);
-			$dbCommand->update('vtiger_relcriteria', ['value' => $value], [
-				'columnname' => $reportFilterColumnName,
-				'queryid' => $row['queryid'],
 				'columnindex' => $row['columnindex'],
 				'groupid' => $row['groupid'],
 			])->execute();
