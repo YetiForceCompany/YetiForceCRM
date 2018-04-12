@@ -41,7 +41,7 @@ class Credits
 	 *
 	 * @var array
 	 */
-	public static $libraries = ['Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true], 'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true]];
+	public static $libraries = ['Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true], 'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true]];
 
 	/**
 	 * Function gets libraries from vendor.
@@ -62,13 +62,15 @@ class Credits
 					if (!empty($package['version'])) {
 						$libraries[$package['name']]['version'] = $package['version'];
 					}
-					if (isset(static::$licenses[$package['name']])) {
-						$libraries[$package['name']]['license'] = static::$licenses[$package['name']];
-					} elseif (count($package['license']) > 1) {
+					if ($package['license'] && count($package['license']) > 1) {
 						$libraries[$package['name']]['license'] = implode(', ', $package['license']);
 						$libraries[$package['name']]['licenseError'] = true;
 					} else {
 						$libraries[$package['name']]['license'] = $package['license'][0];
+					}
+					if (isset(static::$licenses[$package['name']])) {
+						$libraries[$package['name']]['license'] = static::$licenses[$package['name']] . ' [' . $libraries[$package['name']]['license'] . ']';
+						$libraries[$package['name']]['licenseError'] = false;
 					}
 					if (!empty($package['homepage'])) {
 						$libraries[$package['name']]['homepage'] = $package['homepage'] ?? 'https://packagist.org/packages/' . $package['name'];
@@ -126,11 +128,6 @@ class Credits
 			if (file_exists($packageFile)) {
 				$existJsonFiles = false;
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
-				$license = self::getLicenseForPublic($packageFileContent, $name);
-				if (!empty($license['license']) && empty($library['license'])) {
-					$library['licenseError'] = $license['error'];
-					$library['license'] = $license['license'];
-				}
 				if (!empty($packageFileContent['version']) && empty($library['version'])) {
 					$library['version'] = $packageFileContent['version'];
 				}
@@ -139,6 +136,11 @@ class Credits
 				}
 			}
 		}
+		$license = self::getLicenseInformation($dir, $name);
+		if (!empty($license['license'])) {
+			$library['licenseError'] = $license['error'];
+			$library['license'] = $license['license'];
+		}
 		if ($existJsonFiles) {
 			$library['packageFileMissing'] = true;
 		}
@@ -146,33 +148,45 @@ class Credits
 	}
 
 	/**
-	 * Function return license for public library.
+	 * Function return license information for library.
 	 *
-	 * @param array  $license
+	 * @param string $dir
 	 * @param string $libraryName
 	 *
 	 * @return array
 	 */
-	public static function getLicenseForPublic($packageFileContent, $libraryName)
+	public static function getLicenseInformation($dir, $libraryName)
 	{
 		$licenseError = false;
 		$returnLicense = '';
-		$license = $packageFileContent['license'] ?? $packageFileContent['licenses'];
-		if (isset(static::$licenses[$libraryName])) {
-			$returnLicense = static::$licenses[$libraryName];
-		} elseif (is_array($license)) {
-			if (is_array($license[0])) {
-				$returnLicense = implode(',', array_column($license, 'type'));
-			} elseif (is_string($license[0])) {
-				$licenseError = self::validateLicenseName($license[0]);
-				$returnLicense = $license[0];
-			} else {
-				$returnLicense = implode(',', $license);
-				$licenseError = true;
+		foreach (self::$jsonFiles as $file) {
+			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
+			if (file_exists($packageFile)) {
+				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
+				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'];
+				if ($license) {
+					if (is_array($license)) {
+						if (is_array($license[0])) {
+							$returnLicense = implode(', ', array_column($license, 'type'));
+						} elseif (is_string($license[0])) {
+							$licenseError = self::validateLicenseName($license[0]);
+							$returnLicense = $license[0];
+						} else {
+							$returnLicense = implode(', ', $license);
+							$licenseError = true;
+						}
+					} else {
+						$licenseError = self::validateLicenseName($license);
+						$returnLicense = $license;
+					}
+					if (isset(static::$licenses[$libraryName]) && $returnLicense) {
+						$returnLicense = static::$licenses[$libraryName] . " [$returnLicense]";
+						break;
+					} elseif ($returnLicense) {
+						break;
+					}
+				}
 			}
-		} else {
-			$licenseError = self::validateLicenseName($license);
-			$returnLicense = $license;
 		}
 		return ['license' => $returnLicense, 'error' => $licenseError];
 	}
@@ -189,9 +203,9 @@ class Credits
 		if (!$license) {
 			return true;
 		}
-		$result= false;
+		$result = false;
 		if (!is_array($license)) {
-			$license =[$license];
+			$license = [$license];
 		}
 		foreach ($license as $value) {
 			if (stripos($value, 'and') || stripos($value, ' or ') || $value === null) {
