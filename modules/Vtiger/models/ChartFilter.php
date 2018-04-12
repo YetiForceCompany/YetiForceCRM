@@ -285,10 +285,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if ($this->isDivided()) {
 					$dataset['label'] = $dividingValue;
 				}
-				if ($dividing['link'] === null || !empty($value['link'])) {
+				if (!empty($dividing['link']) || $dividing['link'] === null) {
 					$dataset['links'][] = $dividing['link'];
 				}
-				if ($dividing['color_id'] === null || (!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']]))) {
+				if ((!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']])) || $dividing['color_id'] === null) {
 					if ($dividing['color_id'] === null) {
 						// we have all fields colors
 						// if some record doesn't have field which have color use color from other dataset
@@ -657,16 +657,24 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
-		if (!isset($data[$groupValue][$dividingValue]['link'])) {
-			$searchParams = array_merge($this->searchParams, [[$this->groupFieldName, 'e', $row[$this->groupFieldName]]]);
+		if (!isset($this->data[$groupValue][$dividingValue]['link'])) {
+			$searchParams = array_merge($this->searchParams, [[$this->groupFieldName, 'e', $row[$this->groupName]]]);
 			if ($this->isDivided()) {
-				$searchParams = array_merge($searchParams, [[$this->dividingFieldName, 'e', $row[$this->dividingFieldName]]]);
+				$searchParams = array_merge($searchParams, [[$this->dividingFieldName, 'e', $row[$this->dividingName]]]);
 			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
-			$data[$groupValue][$dividingValue]['link'] = $link;
+			$this->data[$groupValue][$dividingValue]['link'] = $link;
 		}
 	}
 
+	/**
+	 * Get field values from row.
+	 * We are operating on groupValue and dividingValue regularly so this fn will return this values from row.
+	 *
+	 * @param $row
+	 *
+	 * @return array
+	 */
 	protected function getFieldValuesFromRow($row)
 	{
 		$groupValue = $this->groupFieldModel->getDisplayValue($row[$this->groupName], false, false, true);
