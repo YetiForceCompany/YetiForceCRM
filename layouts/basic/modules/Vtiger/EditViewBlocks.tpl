@@ -63,7 +63,7 @@
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel__content row  mx-1 mb-3" data-js="click" data-label="{$BLOCK_LABEL}">
+					<div class="js-toggle-panel c-panel row  mx-1 mb-3" data-js="click" data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center u-cursor-pointer">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}

@@ -47,7 +47,7 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{if $BLOCKS_HIDE}
-					<div class="c-panel__content js-toggle-panel mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
+					<div class="c-panel js-toggle-panel mt-2" data-js="click" data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header">
 								<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 								<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
