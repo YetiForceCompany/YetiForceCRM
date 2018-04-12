@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="detailViewBlockLinks">
+	<div class="detailViewBlockLinks mx-1">
 		{foreach item=BLOCK_MODEL from=$VIEW_MODEL->getBlocks($TYPE_VIEW)}
 			{assign var=RELATED_MODULE_NAME value=$BLOCK_MODEL->getRelatedModuleName()}
 			<div class="js-toggle-panel c-panel__content detailViewBlockLink" data-js="click" data-url="{$BLOCK_MODEL->getUrl()}" data-reference="{$BLOCK_MODEL->getRelatedModuleName()}" data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')|intval}">
