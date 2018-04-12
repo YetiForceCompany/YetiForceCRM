@@ -2,7 +2,7 @@
 	<div class="">
 		{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryTop'}
 	</div>
-	<div class="row">
+	<div class="form-row">
 		{assign var=col1 value=count((array)$DETAILVIEW_WIDGETS[1])}
 		{assign var=col2 value=count((array)$DETAILVIEW_WIDGETS[2])}
 		{assign var=col3 value=count((array)$DETAILVIEW_WIDGETS[3])}
@@ -14,7 +14,7 @@
 			{assign var=span value='4'}
 		{/if}
 		{foreach item=WIDGETCOLUMN from=$DETAILVIEW_WIDGETS}
-			<div class="col-md-{$span}">
+			<div class="col-md-{$span} pl-0">
 				{foreach key=key item=WIDGET from=$WIDGETCOLUMN}
 					{assign var=FILE value='Detail/Widget/'|cat:$WIDGET['tpl']}
 					{include file=\App\Layout::getTemplatePath($FILE, $MODULE_NAME)}
