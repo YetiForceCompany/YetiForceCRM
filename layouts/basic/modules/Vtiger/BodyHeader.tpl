@@ -27,11 +27,13 @@
 				<div class="input-group-append bg-white rounded-right">
 					<button class="btn btn-outline-dark border-0 searchIcon" type="button">
 						<span class="fas fa-search fa-fw"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
 					</button>
 					{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 						<div class="btn-group">
 							<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="fas fa-crosshairs fa-fw"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_SPECIAL_OPTIONS')}</span>
 							</button>
 							<div class="dropdown-menu globalSearchOperator">
 								<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item" href="#" data-operator="FulltextBegin">
@@ -54,6 +56,7 @@
 					{/if}
 					<button class="btn btn-outline-dark border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 						<span class="fa fa-th-large fa-fw"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ADVANCE_SEARCH')}</span>
 					</button>
 				</div>
 			</div>
@@ -111,6 +114,7 @@
 						<span class="commonActionsContainer">
 							<a class="headerButton btn-light btn js-popover-tooltip dropdownMenu d-none d-lg-inline-block" data-js="popover" data-toggle="modal" data-target="#quickCreateModules" data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 								<span class="fas fa-plus fa-fw"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_QUICK_CREATE')}</span>
 							</a>
 							<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
@@ -165,11 +169,13 @@
 						<a class="headerButton btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-js="popover" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="fas fa-bell fa-fw"></span>
 							<span hidden class="badge">0</span>
+							<span class="sr-only">{\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
 						<a class="headerButton btn btn-light btn headerLinkChat js-popover-tooltip d-none d-lg-inline-block" data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="fas fa-comments fa-fw"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_CHAT')}</span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 							<div class="modal-dialog modalRightSiteBar" role="document">
@@ -198,11 +204,13 @@
 						<a class="headerButton btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-js="popover" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="fas fa-calendar fa-fw"></span>
 							<span hidden class="badge bgDanger">0</span>
+							<span class="sr-only">{\App\Language::translate('LBL_REMINDER')}</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<a class="headerButton btn btn-light btn showHistoryBtn js-popover-tooltip dropdownMenu d-none d-lg-inline-block" data-js="popover" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-							<i class="fas fa-history fa-fw"></i>
+							<span class="fas fa-history fa-fw"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					{/if}
@@ -229,6 +237,7 @@
 								{if $ICON_PATH}
 									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 								{/if}
+								<span class="sr-only">{\App\Language::translate($TITLE,$MODULE)}</span>
 							</a>
 							{if !empty($CHILD_LINKS)}
 								<ul class="dropdown-menu">
