@@ -189,13 +189,6 @@ $.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
 			thisInstance.registerHelpInfo(quickCreateForm);
-			const customConfig = {
-				height: '5em',
-				toolbar: 'Min'
-			};
-			$.each(data.find('.js-ckeditor'), function (key, element) {
-				new Vtiger_CkEditor_Js($(element), customConfig);
-			});
 		});
 	},
 	isFreeDay: function (dayOfWeek) {
