@@ -2,7 +2,7 @@
 	<div class="">
 		{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryTop'}
 	</div>
-	<div class="form-row">
+	<div class="form-row ml-0">
 		{assign var=col1 value=count((array)$DETAILVIEW_WIDGETS[1])}
 		{assign var=col2 value=count((array)$DETAILVIEW_WIDGETS[2])}
 		{assign var=col3 value=count((array)$DETAILVIEW_WIDGETS[3])}
