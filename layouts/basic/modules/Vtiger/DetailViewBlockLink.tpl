@@ -11,11 +11,11 @@
 						<span class="moduleIcon userIcon-{$RELATED_MODULE_NAME}"></span>
 						{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}
 						{if AppConfig::relation('SHOW_RECORDS_COUNT')}
-							&nbsp;<span class="count badge float-right">0</span>
+							&nbsp;<span class="count badge">0</span>
 						{/if}
 					</h4>
-					<h4 class="float-right">
-						<span class="fas fa-link float-right js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left"></span>
+					<h4 class="align-self-center ml-auto mr-2">
+						<span class="fas fa-link js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left"></span>
 					</h4>
 				</div>
 				<div class="blockContent c-panel__body d-none"></div>
