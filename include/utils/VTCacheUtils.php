@@ -15,7 +15,6 @@ require_once 'include/runtime/Cache.php';
 
 class VTCacheUtils
 {
-
 	public static function lookupBlockLabelWithId($id)
 	{
 		if (isset(self::$_blocklabel_cache[$id])) {
