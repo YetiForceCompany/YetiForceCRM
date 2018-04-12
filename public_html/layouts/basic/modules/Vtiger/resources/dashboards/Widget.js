@@ -2419,22 +2419,6 @@ YetiForce_Widget_Js('YetiForce_KpiBar_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
-	loadChart: function () {
-		const container = this.getContainer();
-		let chartClassName = container.find('[name="typeChart"]').val();
-		const stacked = !!Number(container.find('[name="stacked"]').val());
-		if (stacked) {
-			chartClassName += 'Stacked';
-		}
-		const chartClass = window["Report_" + chartClassName + "_Js"];
-		let instance = false;
-		if (typeof chartClass !== 'undefined') {
-			instance = new chartClass(container, true);
-			instance.loadChart();
-		}
-	}
-});
 YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 	chartfilterInstance: false,
 	init: function (container, reload, widgetClassName) {
