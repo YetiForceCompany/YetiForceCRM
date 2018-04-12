@@ -5,6 +5,33 @@
 	flex-wrap: nowrap;
   }
 }
+.c-panel {
+  @extend .card;
+  @extend .mb-2;
+  .row {
+    margin: 0;
+  }
+  .c-panel__header {
+    @extend .card-header;
+    @extend .px-0;
+    @extend .py-1;
+  }
+  .c-panel__body {
+    @extend .card-body;
+    @extend .col-md-12;
+    @extend .px-0;
+    [class^="col-"], [class*=" col-"] {
+      @extend .px-1;
+    }
+  }
+  .c-panel__label {
+    @extend .border-right;
+    @extend .d-flex;
+    @extend .justify-content-sm-start;
+    @extend .justify-content-lg-end;
+    @extend .col-sm-12;
+  }
+}
 .c-badge__icon {
   @extend .position-absolute;
   @extend .rounded-circle;
