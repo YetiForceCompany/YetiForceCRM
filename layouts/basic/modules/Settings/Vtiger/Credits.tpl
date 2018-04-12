@@ -45,27 +45,27 @@
 									{/if}
 									{if $ITEM['licenseError']}
 										<span title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"
-											  class="fas fa-exclamation text-danger mr-2"></span>
+											  class="fas fa-exclamation text-danger mr-2 u-cursor-pointer"></span>
 									{/if}
 									{if $ITEM['packageFileMissing'] }
 										<span title="{\App\Language::translate('LBL_MISSING_PACKAGE_FILE', $QUALIFIED_MODULE)}"
-											  class="fas fa-file-code text-danger mr-2"></span>
+											  class="fas fa-file-code text-danger mr-2 u-cursor-pointer"></span>
 									{elseif $ITEM['notPackageFile']}
 									{else}
 										<span title="{\App\Language::translate('LBL_SHOW_MORE', $QUALIFIED_MODULE)}"
 											  data-type="{$TYPE}"
 											  data-library-name="{$ITEM['name']}"
-											  class="fas fa-info-circle text-dark cursorPointer js-show-more mr-2"
+											  class="fas fa-info-circle text-dark u-cursor-pointer js-show-more mr-2"
 											  data-js="click"></span>
 									{/if}
 									{if $ITEM['license']}
 										<span title="{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}"
 											  data-license="{$ITEM['license']}"
-											  class="fab fa-wpforms text-dark cursorPointer js-show-license mr-2"
+											  class="fab fa-wpforms text-dark u-cursor-pointer js-show-license mr-2"
 											  data-js="click"></span>
 									{else}
 										<span title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"
-											  class="fas fa-exclamation text-danger mr-2"></span>
+											  class="fas fa-exclamation text-danger mr-2 u-cursor-pointer"></span>
 									{/if}
 								</td>
 							</tr>
