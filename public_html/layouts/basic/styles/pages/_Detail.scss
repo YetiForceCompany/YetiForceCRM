@@ -117,7 +117,6 @@
   .commentActionsDiv {
 	.btn {
 	  @extend .btn-sm;
-	  @extend .mt-1;
 	}
   }
 }
@@ -245,15 +244,12 @@
 }
 .singleComment {
   .commentActionsContainer .commentActions {
+	@include u-transition(all 0.2s 0s ease);
 	height: 0;
 	overflow: hidden;
-	-webkit-transition: all 0.2s 0.15s ease-in-out;
-	-moz-transition: all 0.2s 0.15s ease-in-out;
-	-o-transition: all 0.2s 0.15s ease-in-out;
-	transition: all 0.2s 0.15s ease-in-out;
   }
   &:hover .commentActionsContainer .commentActions {
-	height: auto;
+	height: $btn-sm-height;
   }
 }
 .quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
