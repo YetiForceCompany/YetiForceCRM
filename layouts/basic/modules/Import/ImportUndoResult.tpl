@@ -17,7 +17,7 @@
 	</div>
 	<div class="col-md-3 col-sm-2"></div>
 	<div class="col-md-6 col-sm-8 col-12">
-		<div class="js-toggle-panel c-panel__content" data-js="click">
+		<div class="js-toggle-panel c-panel" data-js="click">
 			<div class="card-header">
 				<h4 class="card-title">{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)} - {\App\Language::translate('LBL_UNDO_RESULT', $MODULE)}</h4>
 			</div>

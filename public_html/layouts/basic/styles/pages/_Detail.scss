@@ -27,27 +27,28 @@
 	border-right: 1px solid #ddd;
   }
 }
-.c-panel__content {
+.c-panel {
   @extend .card;
   @extend .mb-2;
-}
-.c-panel__header {
-  @extend .card-header;
-  @extend .px-0;
-  @extend .py-1;
-}
-.c-panel__body {
-  @extend .card-body;
-  @extend .px-1;
-  @extend .py-0;
-  @extend .col-md-12;
-}
-.c-panel_label {
-  @extend .border-right;
-  @extend .d-flex;
-  @extend .justify-content-sm-start;
-  @extend .justify-content-lg-end;
-  @extend .col-sm-12;
+
+  .c-panel__header {
+	@extend .card-header;
+	@extend .px-0;
+	@extend .py-1;
+  }
+  .c-panel__body {
+	@extend .card-body;
+	@extend .px-1;
+	@extend .py-0;
+	@extend .col-md-12;
+  }
+  .c-panel_label {
+	@extend .border-right;
+	@extend .d-flex;
+	@extend .justify-content-sm-start;
+	@extend .justify-content-lg-end;
+	@extend .col-sm-12;
+  }
 }
 .timeline {
   position: relative;
