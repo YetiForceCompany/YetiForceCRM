@@ -9,7 +9,7 @@
 		</div>
 	</div>
 	<div class="editViewContainer">
-		<form name="EditMailSmtp"  id="EditView" class="form-horizontal validateForm">
+		<form name="EditMailSmtp" method="post" id="EditView" class="form-horizontal validateForm">
 			<div class="alert alert-block alert-danger fade in " hidden="">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{\App\Language::translate('LBL_ERROR', $QUALIFIED_MODULE)}</h4>
