@@ -47,8 +47,8 @@
 		</tbody>
 	</table>
 	<hr>
-	<div class="row">
-		<div class="col-md-4 toggleViewByMode">
+	<div class="d-flex flex-wrap justify-content-between">
+		<div class="toggleViewByMode">
 			{if !$IS_READ_ONLY}
 				{assign var="CURRENT_VIEW" value="full"}
 				{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
@@ -57,20 +57,16 @@
 				<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}" />
 			{/if}
 		</div>
-		<div class="col-md-8">
-			<div class="float-right">
-				<div>
-					<p>
-						<small>
-							{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}
-						</small>
-						<br />
-						<small>
-							{\App\Language::translate('LBL_MODIFIED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('modifiedtime'))}
-						</small>
-					</p>
-				</div>
-			</div>
+		<div>
+			<p>
+				<small>
+					{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}
+				</small>
+				<br />
+				<small>
+					{\App\Language::translate('LBL_MODIFIED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('modifiedtime'))}
+				</small>
+			</p>
 		</div>
 	</div>
 </div>
