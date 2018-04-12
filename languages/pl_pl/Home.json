@@ -39,8 +39,8 @@
 	"LBL_FILTER_BY_OWNER": "Filtruj po w\u0142ascicielu",
 	"LBL_ALL_OWNERS": "Wszyscy",
 	"LBL_DIVIDING_FIELD": "Pole dzielenia warto\u015bci",
-	"LBL_COLORS_FROM_DIVIDING_FIELD":"Kolory z pola dzielenia warto\u015bci",
-	"LBL_EMPTY":"puste",
+	"LBL_COLORS_FROM_DIVIDING_FIELD": "Kolory z pola dzielenia warto\u015bci",
+	"LBL_EMPTY": "puste",
 	"LBL_WIDGET_DOWNLOAD": "Pobierz wykres",
 	"LBL_WIDGET_PRINT": "Drukuj wykres"
   }
