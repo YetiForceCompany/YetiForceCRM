@@ -523,6 +523,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -577,6 +578,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -633,6 +635,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -688,6 +691,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -744,6 +748,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -807,6 +812,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						}
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -851,6 +857,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						}
 					},
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -886,6 +893,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					sort: 'desc',
 					tooltips: {
+						mode:'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
