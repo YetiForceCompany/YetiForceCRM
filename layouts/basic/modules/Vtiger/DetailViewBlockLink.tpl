@@ -3,8 +3,8 @@
 	<div class="detailViewBlockLinks">
 		{foreach item=BLOCK_MODEL from=$VIEW_MODEL->getBlocks($TYPE_VIEW)}
 			{assign var=RELATED_MODULE_NAME value=$BLOCK_MODEL->getRelatedModuleName()}
-			<div class="panel panel-default row no-margin detailViewBlockLink" data-url="{$BLOCK_MODEL->getUrl()}" data-reference="{$BLOCK_MODEL->getRelatedModuleName()}" data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')|intval}">
-				<div class="panel-heading row blockHeader no-margin">
+			<div class="card row no-margin detailViewBlockLink" data-url="{$BLOCK_MODEL->getUrl()}" data-reference="{$BLOCK_MODEL->getRelatedModuleName()}" data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')|intval}">
+				<div class="card-header row blockHeader no-margin">
 					<div class="iconCollapse">
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 d-none" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
@@ -20,7 +20,7 @@
 						</h4>
 					</div>
 				</div>
-				<div class="panel-body col-12 blockContent d-none"></div>
+				<div class="card-body col-12 blockContent d-none"></div>
 			</div>
 		{/foreach}		
 	</div>	
