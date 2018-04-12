@@ -12,6 +12,7 @@
 				<li class="breadcrumb-item" aria-current="page">
 					<a href="{AppConfig::main('site_URL')}">
 						<span class="{$HOMEICON}"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_HOME')}</span>
 					</a>
 				</li>
 				{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
