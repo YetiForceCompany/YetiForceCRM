@@ -253,7 +253,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
-
 			return true;
 		}
 		$handler->preProcess($request);
@@ -270,6 +269,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function triggerPostProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
+			$handler->postProcessAjax($request);
 			return true;
 		}
 		$handler->postProcess($request);

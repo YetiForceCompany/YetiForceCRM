@@ -38,7 +38,7 @@
 				<thead>
 					<tr class="">
 						{foreach item=HEADER_FIELD key=KEY from=$RELATED_HEADERS}
-							<th class="{$KEY}" nowrap>
+							<th class="{$KEY} p-1" nowrap>
 								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE)}
 							</th>
 						{/foreach}
@@ -75,7 +75,7 @@
 				<thead>
 					<tr class="">
 						{foreach item=HEADER from=$RELATED_HEADERS_TREE}
-							<th nowrap>
+							<th nowrap class="p-1">
 								{\App\Language::translate($HEADER, $RELATED_MODULE)}
 							</th>
 						{/foreach}

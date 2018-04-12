@@ -74,7 +74,7 @@
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<h5 class="m-0">{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
 						</div>
-						<div class="col-md-12 card-body blockContent pt-2 js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
+						<div class="col-md-12 card-body blockContent py-1 js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="col-md-12 adressAction">
 									{if $APIADDRESFIELD}
@@ -104,10 +104,10 @@
 									{else}
 										{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group">
+									<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										<label class="col-md-3 fieldLabel text-md-right u-text-small-bold">
+										<label class="my-0 col-md-3 fieldLabel text-md-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 												<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>

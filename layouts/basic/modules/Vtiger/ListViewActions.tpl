@@ -28,16 +28,16 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 					<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-						<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+						<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt"></span><span class="ml-2">{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</span></a>
 					</li>
 					<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive"></span><span class="ml-2">{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</span></a>
 					</li>
 					<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt mr-2"></span>{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt"></span><span class="ml-2">{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</span></a>
 					</li>
 					<li>
-						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars mr-2"></span>{\App\Language::translate('LBL_ALL')}</a>
+						<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars"></span><span class="ml-2">{\App\Language::translate('LBL_ALL')}</span></a>
 					</li>
 				</ul>
 			</div>

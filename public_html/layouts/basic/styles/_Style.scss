@@ -609,22 +609,6 @@ li.ui-timepicker-selected {
   text-shadow: 0px 1px #ffffff;
   color: #444444;
 }
-.listViewEntriesTable {
-  &.table-bordered {
-	th, td, th, td {
-	  border-left: 0;
-	  border-right: 0;
-	}
-  }
-  tbody tr td {
-	&:first-child {
-	  border-left: 0 none;
-	}
-	&:last-child .btn {
-	  float: right;
-	}
-  }
-}
 .equalSplit td {
   &:nth-child(odd) {
 	width: 20%;
@@ -3287,25 +3271,6 @@ html, body, .baseContainer {
   overflow: auto;
   max-height: 500px;
 }
-.toggleSiteBarRightButton {
-  background: $light;
-  font-weight: bold;
-  padding: 15px 0px !important;
-  position: fixed;
-  top: 169px;
-  right: 25%;
-  cursor: pointer;
-  width: 17px;
-  z-index: 100;
-  border: 1px solid #dddddd;
-  border-right: 0;
-  display: inline-block;
-  border-radius: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
 .padding0 {
   padding: 0 !important;
 }
@@ -3485,9 +3450,6 @@ html, body, .baseContainer {
 	border-top-left-radius: 0px !important;
 	border-bottom-left-radius: 0px !important;
   }
-}
-.hideToggleSiteBarRightButton {
-  right: 21px !important;
 }
 .blockContainer .blockHeader {
   cursor: pointer;
