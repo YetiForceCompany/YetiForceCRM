@@ -34,42 +34,42 @@
 .picklistCBg_Calendar_activitytype_Meeting { background: #FFD500 !important; }
 .picklistCT_Calendar_activitytype_Meeting { color: #FFD500 !important; }
 .picklistLb_Calendar_activitytype_Meeting { background: #FFD500; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Open { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Open { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_Open { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_Open { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Answered { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Answered { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_Answered { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_Answered { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Wait_For_Response { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Wait_For_Response { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_Wait_For_Response { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_Wait_For_Response { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_In_Progress { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_In_Progress { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_In_Progress { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_In_Progress { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_PLL_TO_CLOSE { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_PLL_TO_CLOSE { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Closed { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Closed { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_Closed { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_Closed { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Rejected { border-color: #E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Rejected { background: #E6FAD8 !important; }
-.picklistCT_HelpDesk_ticketstatus_Rejected { color: #E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketstatus_Rejected { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Open { border-color: #855000 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Open { background: #855000 !important; }
+.picklistCT_HelpDesk_ticketstatus_Open { color: #855000 !important; }
+.picklistLb_HelpDesk_ticketstatus_Open { background: #855000; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Answered { border-color: #0038ff !important; }
+.picklistCBg_HelpDesk_ticketstatus_Answered { background: #0038ff !important; }
+.picklistCT_HelpDesk_ticketstatus_Answered { color: #0038ff !important; }
+.picklistLb_HelpDesk_ticketstatus_Answered { background: #0038ff; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Wait_For_Response { border-color: #ffa800 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Wait_For_Response { background: #ffa800 !important; }
+.picklistCT_HelpDesk_ticketstatus_Wait_For_Response { color: #ffa800 !important; }
+.picklistLb_HelpDesk_ticketstatus_Wait_For_Response { background: #ffa800; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { border-color: #fff500 !important; }
+.picklistCBg_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #fff500 !important; }
+.picklistCT_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { color: #fff500 !important; }
+.picklistLb_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #fff500; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_In_Progress { border-color: #42c6ff !important; }
+.picklistCBg_HelpDesk_ticketstatus_In_Progress { background: #42c6ff !important; }
+.picklistCT_HelpDesk_ticketstatus_In_Progress { color: #42c6ff !important; }
+.picklistLb_HelpDesk_ticketstatus_In_Progress { background: #42c6ff; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { border-color: #8c4381 !important; }
+.picklistCBg_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #8c4381 !important; }
+.picklistCT_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { color: #8c4381 !important; }
+.picklistLb_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #8c4381; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_PLL_TO_CLOSE { border-color: #ffb0e7 !important; }
+.picklistCBg_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #ffb0e7 !important; }
+.picklistCT_HelpDesk_ticketstatus_PLL_TO_CLOSE { color: #ffb0e7 !important; }
+.picklistLb_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #ffb0e7; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Closed { border-color: #00ff43 !important; }
+.picklistCBg_HelpDesk_ticketstatus_Closed { background: #00ff43 !important; }
+.picklistCT_HelpDesk_ticketstatus_Closed { color: #00ff43 !important; }
+.picklistLb_HelpDesk_ticketstatus_Closed { background: #00ff43; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Rejected { border-color: #e33d3d !important; }
+.picklistCBg_HelpDesk_ticketstatus_Rejected { background: #e33d3d !important; }
+.picklistCT_HelpDesk_ticketstatus_Rejected { color: #e33d3d !important; }
+.picklistLb_HelpDesk_ticketstatus_Rejected { background: #e33d3d; padding: 2px 7px 3px 7px;}
 .picklistCBr_HelpDesk_ticketpriorities_Low { border-color: 	#E6FAD8 !important; }
 .picklistCBg_HelpDesk_ticketpriorities_Low { background: 	#E6FAD8 !important; }
 .picklistCT_HelpDesk_ticketpriorities_Low { color: 	#E6FAD8 !important; }
