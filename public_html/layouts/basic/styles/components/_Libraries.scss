@@ -198,3 +198,6 @@ ul.ui-autocomplete {
 	@extend .border-left-0;
   }
 }
+.cke_screen_reader_only {
+  height: 0 !important;
+}

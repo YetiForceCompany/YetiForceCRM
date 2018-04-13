@@ -52,7 +52,6 @@ class Vtiger_CkEditor_Js {
 	 * @param {Object} customConfig custom configurations for ckeditor
 	 */
 	loadCkEditor(element, customConfig) {
-		element = $(element).get(0);// we want Dom HTMLElement not wprapped by jQuery - we will wrap this elsewhere
 		this.setElement(element);
 		const instance = this.getCkEditorInstanceFromName();
 		let config = {
@@ -105,7 +104,7 @@ class Vtiger_CkEditor_Js {
 		if (instance) {
 			CKEDITOR.remove(instance);
 		}
-		CKEDITOR.replace(element, config);
+		element.ckeditor(config);
 	}
 	/*
 	 * Function to load contents in ckeditor textarea
