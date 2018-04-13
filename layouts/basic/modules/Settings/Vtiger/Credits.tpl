@@ -61,7 +61,7 @@
 											  class="fas fa-info-circle text-dark u-cursor-pointer js-show-more mr-2"
 											  data-js="click"></span>
 									{/if}
-									{if $ITEM['license'] && $ITEM['notShowLicenseModal']}
+									{if $ITEM['license'] && $ITEM['showLicenseModal']}
 										<span title="{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}"
 											  data-license="{if $ITEM['licenseToDisplay']}{$ITEM['licenseToDisplay']}{else}{$ITEM['license']}{/if}"
 											  class="fab fa-wpforms text-dark u-cursor-pointer js-show-license mr-2"
