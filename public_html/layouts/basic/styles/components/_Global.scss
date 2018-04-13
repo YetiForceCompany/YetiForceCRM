@@ -8,28 +8,35 @@
 .c-panel {
   @extend .card;
   @extend .mb-2;
-  .row {
-    margin: 0;
+
+  &__header {
+	@extend .card-header;
+	@extend .px-0;
+	@extend .py-1;
   }
-  .c-panel__header {
-    @extend .card-header;
-    @extend .px-0;
-    @extend .py-1;
+  &__body {
+	@extend .card-body;
+	@extend .px-1;
+	@extend .py-0;
+	@extend .col-md-12;
   }
-  .c-panel__body {
-    @extend .card-body;
-    @extend .col-md-12;
-    @extend .px-0;
-    [class^="col-"], [class*=" col-"] {
-      @extend .px-1;
-    }
+  &_label {
+	@extend .border-right;
+	@extend .d-flex;
+	@extend .justify-content-sm-start;
+	@extend .justify-content-lg-end;
+	@extend .col-sm-12;
   }
-  .c-panel__label {
-    @extend .border-right;
-    @extend .d-flex;
-    @extend .justify-content-sm-start;
-    @extend .justify-content-lg-end;
-    @extend .col-sm-12;
+  &--edit {
+	.row {
+	  margin: 0;
+	}
+	.c-panel__body--edit {
+	  @extend .px-0, .pt-1;
+	  [class^="col-"], [class*=" col-"] {
+		@extend .px-1;
+	  }
+	}
   }
 }
 .c-badge__icon {
@@ -76,28 +83,28 @@
   @include u-transition(all 275ms ease);
   max-width: 40px;
   &.btn-xs {
-    max-width: 25px;
+	max-width: 25px;
   }
   &.btn-sm {
-    max-width: 32px;
+	max-width: 32px;
   }
   &.btn-lg {
-    max-width: 50px;
+	max-width: 50px;
   }
   span {
-    opacity: 0;
-    text-indent: -6px;
-    display: inline-block;
-    @include u-transition(all 275ms ease);
+	opacity: 0;
+	text-indent: -6px;
+	display: inline-block;
+	@include u-transition(all 275ms ease);
   }
   &:hover {
-    max-width: 300px;
-    @include u-transition(all 275ms ease);
-    span {
-      opacity: 1;
-      text-indent: 0px;
-      @include u-transition(all 275ms ease);
-    }
+	max-width: 300px;
+	@include u-transition(all 275ms ease);
+	span {
+	  opacity: 1;
+	  text-indent: 0px;
+	  @include u-transition(all 275ms ease);
+	}
   }
 }
 .popover-footer {
