@@ -1,0 +1,40 @@
+
+// DJ styles
+
+//navbar search
+.navbar {
+  //search input
+  .globalSearchValue {
+    border-top: none;
+    border-bottom: none;
+  }
+  //search mobile btn
+  .searchMenuBtn .btn {
+    height: $menuItemsHeight;
+    font-size: 17px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    [data-fa-i2svg] {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.searchMenu.globalSearchInput,
+.navbar .globalSearchInput {
+  .select2-selection {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+.select2WithButtonWidth {
+  padding: 0;
+  border: none;
+}
+
+//breadcrumbs wcag
+.widget_header {
+  .breadcrumb-item.active {
+    color: darken($breadcrumb-active-color, 10%);
+  }
+}

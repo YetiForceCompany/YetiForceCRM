@@ -2,15 +2,18 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
     {assign var='count' value=0}
 	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header bodyHeader{if $LEFTPANELHIDE} menuOpen{/if}" data-js="height">
-		{if AppConfig::performance('GLOBAL_SEARCH')}
-			<div class="searchMenuBtn d-xl-none">
-				<div class="quickAction">
-					<a class="btn btn-light" href="#">
-						<span class="fas fa-search fa-fw"></span>
-					</a>
-				</div>
+		
+		<div class="rightHeaderBtnMenu">
+			<div class="quickAction">
+				<a class="btn btn-light headerButton" href="#">
+					<span class="fas fa-bars fa-fw"></span>
+					<span class="sr-only">{\App\Language::translate('LBL_MENU')}</span>
+				</a>
 			</div>
-			<div class="input-group input-group-sm d-none d-xl-flex globalSearchInput">
+		</div>
+		
+		{if AppConfig::performance('GLOBAL_SEARCH')}
+			<div class="globalSearchInput input-group input-group-sm d-none d-xl-flex">
 				<div class="input-group-prepend select2HeaderWidth">
 					<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
 						<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
@@ -60,6 +63,51 @@
 					</button>
 				</div>
 			</div>
+
+			<div class="searchMenu d-xl-none">
+				<div class="searchMenuBtn">
+					<div class="quickAction">
+						<a class="btn btn-light headerButton" href="#">
+							<span class="fas fa-search fa-fw"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
+						</a>
+					</div>
+				</div>
+				<div class="searchMenuPanel">
+					<div class="input-group mb-3">
+						<div class ="form-control select2WithButtonWidth">
+							<select class="select2 basicSearchModulesList" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+								<option value="-" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
+								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
+									{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
+										<option value="{$MODULE_NAME}" selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
+									{else}
+										<option value="{$MODULE_NAME}" >{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
+									{/if}
+								{/foreach}
+							</select>
+						</div>
+						<div class="input-group-append">
+							<button class="btn btn-light globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+								<span class="fas fa-th-large"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_ADVANCE_SEARCH')}</span>
+							</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
+						<div class="input-group-append">
+							<button class="btn btn-light searchIcon" type="button">
+								<span class="fas fa-search"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_GLOBAL_SEARCH')}</span>
+							</button>
+						</div>
+					</div>
+					<div class="searchMenuBtn">
+						<button type="button" class="close">× <span class="label">{\App\Language::translate('LBL_CLOSE')}</span></button>
+					</div>
+				</div>
+			</div>
 		{/if}
 		<div class="headerRightWrapper ml-auto d-inline-flex">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
@@ -78,6 +126,7 @@
 									</div>
 									<div class="d-none d-block d-sm-block d-md-none">
 										<span class="fas fa-inbox fa-fw"></span>
+										<span class="sr-only">{\App\Language::translate('LBL_EMAIL')}</span>
 									</div>
 								</a>
 							{elseif $CONFIG['showMailAccounts']=='true'}
@@ -93,20 +142,16 @@
 					{/if}
 				{/if}
 			{/if}
-			<div class="rightHeaderBtnMenu">
-				<div class="quickAction">
-					<a class="btn btn-light btn" href="#">
-						<span class="fas fa-bars fa-fw"></span>
-					</a>
-				</div>
-			</div>
+
 			<div class="actionMenuBtn">
 				<div class="quickAction">
-					<a class="btn btn-light btn" href="#">
-						<span class="fas fa-certificate fa-fw"></span>
+					<a class="btn btn-light headerButton" href="#">
+						<span class="fas fa-ellipsis-h fa-fw"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ACTION_MENU')}</span>
 					</a>
 				</div>
 			</div>
+
 			<div class="noSpaces">
 				<div class="rightHeader">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}

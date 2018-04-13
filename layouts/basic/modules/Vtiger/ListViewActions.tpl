@@ -23,12 +23,16 @@
 				<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					{if $VIEW_MODEL->get('entityState') == 'Archived'}
 						<span class="fas fa-archive"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</span>
 					{elseif $VIEW_MODEL->get('entityState') == 'Trash'}
 						<span class="fas fa-trash-alt"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</span>
 					{elseif $VIEW_MODEL->get('entityState') == 'All'}
 						<span class="fas fa-bars"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ALL')}</span>
 					{else}
 						<span class="fas fa-undo-alt"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</span>
 					{/if}
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">

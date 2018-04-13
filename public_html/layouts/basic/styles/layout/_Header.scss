@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .bodyHeader {
-  background-color: $primary;
+  background-color: $YnavBarBackground;
   height: $headerHeight;
   top: 0;
   right: 0;
@@ -31,8 +31,9 @@
 	left: 230px;
   }
   .rightHeader {
-	position: relative;
-	.headerButton {
+	  position: relative;
+  }
+  .headerButton {
 	  @extend .ml-2;
 	  @extend .px-1;
 	  height: $menuItemsHeight;
@@ -44,22 +45,21 @@
 		}
 	  }
 	}
-  }
   .headerLinksMails {
-	height: fit-content;
-	> .btn + .dropdown-toggle {
-	  padding-top: 7px;
-	  padding-bottom: 7px;
-	}
-	.dropdown-menu {
-	  left: auto;
-	  right: 0;
-	}
-	.btn {
-	  @extend .m-0;
-	  @extend .px-2;
-	  font-size: $font-size-sm;
-	}
+    height: fit-content;
+    > .btn + .dropdown-toggle {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+    .dropdown-menu {
+      left: auto;
+      right: 0;
+    }
+    .btn {
+      @extend .m-0;
+      @extend .px-2;
+      font-size: $font-size-sm;
+    }
   }
 }
 .globalSearchResults .nav li a {
