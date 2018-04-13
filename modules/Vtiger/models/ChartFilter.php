@@ -313,9 +313,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$dataset['links'][] = $dividing['link'];
 				}
 				if (!$this->isSingleColored()) {
-					$this->setChartDataColorsMulti($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
+					$this->setChartDatasetsColorsMulti($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
 				} else {
-					$this->setChartDataColorsSingle($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
+					$this->setChartDatasetsColorsSingle($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
 				}
 				$chartData['show_chart'] = true;
 				$datasetIndex++;
@@ -338,7 +338,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 * @param $dividingValue
 	 * @param $dividing
 	 */
-	protected function setChartDataColorsSingle(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
+	protected function setChartDatasetsColorsSingle(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
 	{
 		if (!isset($this->singleColors[$datasetIndex])) {
 			$this->singleColors[$datasetIndex] = [];
@@ -372,11 +372,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function buildSingleColors(&$chartData)
 	{
 		foreach ($chartData['datasets'] as $datasetIndex => &$dataset) {
-			$dataset['backgroundColor'] = \App\Colors::getBackgroundGradient($this->singleColors[$datasetIndex]);
+			$dataset['backgroundColor'] = 'rgba(0,0,0,0.25)';
 		}
 	}
 
-	protected function setChartDataColorsMulti(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
+	protected function setChartDatasetsColorsMulti(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
 	{
 		if ((!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']])) || $dividing['color_id'] === null) {
 			if ($dividing['color_id'] === null) {

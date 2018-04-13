@@ -316,31 +316,4 @@ class Colors
 
 		return $color;
 	}
-
-	/**
-	 * Generate CSS background gradient using colors from array.
-	 *
-	 * @param $colors
-	 *
-	 * @return string
-	 */
-	public static function getBackgroundGradient($colors, $type = 'linear')
-	{
-		$gradient = $type . '-gradient(';
-		$newColors = [];
-		$count = count($colors);
-		$colorOffset = 100 / $count / 3;
-		foreach ($colors as $index => &$color) {
-			$pos = $index / (count($colors) - 1) * 100;
-			if ($index>0) {
-				$newColors[] = $color . ' ' . ($pos - $colorOffset) . '%';
-			}
-			$newColors[] = $color . ' ' . $pos . '%';
-			if ($index<$count-1) {
-				$newColors[] = $color . ' ' . ($pos + $colorOffset) . '%';
-			}
-		}
-		$gradient .= implode(',', $newColors);
-		return $gradient . ')';
-	}
 }
