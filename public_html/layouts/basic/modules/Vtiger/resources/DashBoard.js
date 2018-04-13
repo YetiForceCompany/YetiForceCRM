@@ -96,7 +96,7 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
-		$('.dashboardWidget').Lazy({
+		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			appendScroll: $('.mainBody'),
 			widgetLoader(element) {
 				thisInstance.loadWidget(element);
