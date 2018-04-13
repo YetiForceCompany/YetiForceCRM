@@ -143,6 +143,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/gridster/dist/jquery.gridster.js',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
+			'~libraries/jquery-lazy/jquery-lazy.js',
 			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'modules.Vtiger.resources.DashBoard',
