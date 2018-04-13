@@ -128,13 +128,13 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			element.on("mouseenter", function () {
+			element.on("mouseenter focus", function () {
 				var _this = this;
 				$(this).popover("show");
 				$(".popover").on("mouseleave", function () {
 					$(_this).popover('hide');
 				});
-			}).on("mouseleave", function () {
+			}).on("mouseleave blur", function () {
 				var _this = this;
 				setTimeout(function () {
 					if (!$(".popover:hover").length) {
