@@ -270,9 +270,20 @@ App.Fields = {
 	},
 	Text: {
 		Editor: class {
-			constructor(element, params) {
-				if (typeof element !== 'undefined' && element.length !== 0) {
-					this.loadEditor(element, params);
+			constructor(parentElement, params) {
+				let elements;
+				if (typeof parentElement === 'undefined') {
+					parentElement = $('body');
+				} else {
+					parentElement = $(parentElement);
+				}
+				if (parentElement.hasClass('js-editor') && !parentElement.prop('disabled')) {
+					elements = parentElement;
+				} else {
+					elements = $('.js-editor:not([disabled])', parentElement);
+				}
+				if (elements.length !== 0 || typeof elements !== 'undefined') {
+					this.loadEditor(elements, params);
 				}
 			}
 			/*
