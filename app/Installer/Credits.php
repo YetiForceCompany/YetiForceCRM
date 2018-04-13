@@ -41,7 +41,7 @@ class Credits
 	 *
 	 * @var array
 	 */
-	public static $libraries = ['Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true], 'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true]];
+	public static $libraries = ['Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'notShowLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'], 'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'notShowLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
 
 	/**
 	 * Function gets libraries from vendor.
@@ -67,9 +67,11 @@ class Credits
 						$libraries[$package['name']]['licenseError'] = true;
 					} else {
 						$libraries[$package['name']]['license'] = $package['license'][0];
+						$libraries[$package['name']]['notShowLicenseModal'] = self::checkIfLicenseFileExists($package['license'][0]);
 					}
 					if (isset(static::$licenses[$package['name']])) {
 						$libraries[$package['name']]['license'] = static::$licenses[$package['name']] . ' [' . $libraries[$package['name']]['license'] . ']';
+						$libraries[$package['name']]['notShowLicenseModal'] = self::checkIfLicenseFileExists(static::$licenses[$package['name']]);
 						$libraries[$package['name']]['licenseError'] = false;
 					}
 					if (!empty($package['homepage'])) {
@@ -141,6 +143,7 @@ class Credits
 			$library['licenseError'] = $license['error'];
 			$library['license'] = $license['license'];
 			$library['licenseToDisplay'] = $license['licenseToDisplay'];
+			$library['notShowLicenseModal'] = $license['notShowLicenseModal'];
 		}
 		if ($existJsonFiles) {
 			$library['packageFileMissing'] = true;
@@ -161,6 +164,7 @@ class Credits
 		$licenseError = false;
 		$returnLicense = '';
 		$licenseToDisplay = '';
+		$notShowLicenseModal = true;
 		foreach (self::$jsonFiles as $file) {
 			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
@@ -184,14 +188,16 @@ class Credits
 						$returnLicense = static::$licenses[$libraryName] . " [$returnLicense]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
+						$notShowLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
 						break;
 					} elseif ($returnLicense) {
+						$notShowLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 						break;
 					}
 				}
 			}
 		}
-		return ['license' => $returnLicense, 'error' => $licenseError, 'licenseToDisplay' => $licenseToDisplay];
+		return ['license' => $returnLicense, 'error' => $licenseError, 'licenseToDisplay' => $licenseToDisplay, 'notShowLicenseModal' => $notShowLicenseModal];
 	}
 
 	/**
@@ -216,6 +222,19 @@ class Credits
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Function checks if license file existsF.
+	 *
+	 * @param string $license
+	 *
+	 * @return bool
+	 */
+	public static function checkIfLicenseFileExists($license)
+	{
+		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'licenses' . DIRECTORY_SEPARATOR . $license . '.txt';
+		return file_exists($filePath) ? true : false;
 	}
 
 	/**

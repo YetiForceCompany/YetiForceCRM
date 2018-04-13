@@ -30,6 +30,9 @@
 							<tr>
 								<td>
 									{$ITEM['name']}
+									{if $ITEM['description']}
+										&nbsp;({\App\Language::translate($ITEM['description'], $QUALIFIED_MODULE)})
+									{/if}
 								</td>
 								<td>
 									{$ITEM['version']}
@@ -58,14 +61,11 @@
 											  class="fas fa-info-circle text-dark u-cursor-pointer js-show-more mr-2"
 											  data-js="click"></span>
 									{/if}
-									{if $ITEM['license']}
+									{if $ITEM['license'] && $ITEM['notShowLicenseModal']}
 										<span title="{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}"
 											  data-license="{if $ITEM['licenseToDisplay']}{$ITEM['licenseToDisplay']}{else}{$ITEM['license']}{/if}"
 											  class="fab fa-wpforms text-dark u-cursor-pointer js-show-license mr-2"
 											  data-js="click"></span>
-									{else}
-										<span title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"
-											  class="fas fa-exclamation text-danger mr-2 u-cursor-pointer"></span>
 									{/if}
 								</td>
 							</tr>
