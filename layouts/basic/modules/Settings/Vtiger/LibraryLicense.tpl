@@ -7,7 +7,7 @@
 	</div>
 	<div class="modal-body col-md-12">
 		{if $FILE_EXIST}
-				{$FILE_CONTENT}
+				{nl2br($FILE_CONTENT)}
 		{else}
 			<div class="alert alert-danger" role="alert">
 				{\App\Language::translate('LBL_MISSING_LICENSE_FILE', $QUALIFIED_MODULE)}
