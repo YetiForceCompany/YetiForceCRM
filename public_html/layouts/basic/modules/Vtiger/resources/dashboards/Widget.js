@@ -47,7 +47,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	areColorsFromDividingField() {
 		return !!Number(this.getContainer().find('[name="colorsFromDividingField"]').val());
 	},
-	getSourceChartType(){
+	getSourceChartType() {
 		return this.getContainer().find('[name="typeChart"]').val();
 	},
 	/**
@@ -132,7 +132,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					labels = Chart.defaults.global.legend.labels.generateLabels(chart);
 				}
 				if (this.areColorsFromDividingField()) {
-					chart.config.options.legend.labels.boxWidth=12;
+					chart.config.options.legend.labels.boxWidth = 12;
 					labels.forEach((label, index) => {
 						label.fillStyle = 'rgba(0,0,0,0)';
 						label.strokeStyle = 'rgba(0,0,0,0.15)';
@@ -441,20 +441,35 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Recursively parse options and replace function replacement strings to functions
 	 * @param  {Object} options
+	 * @param  {bool} afterInit are we parsing chart after it was mounted ?
 	 * @return {Object} options with replaced string functions
 	 */
-	parseOptionsObject: function parseOptionsObject(options) {
+	parseOptionsObject: function parseOptionsObject(options, afterInit = false, original) {
 		let result = {};
 		for (let propertyName in options) {
 			let value = options[propertyName];
-			if (this.isReplacementString(value)) {
-				result[propertyName] = this.getFunctionFromReplacementString(value);
-			} else if (Array.isArray(value)) {
-				result[propertyName] = this.parseOptionsArray(value);
-			} else if (typeof value === 'object' && value !== null) {
-				result[propertyName] = this.parseOptionsObject(value);
+			if (afterInit) {
+				if (propertyName.substr(0, 1) === '_') {
+					result[propertyName] = value;
+				} else if (Array.isArray(value)) {
+					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
+				} else if (typeof value === 'object' && value !== null) {
+					result[propertyName] = this.parseOptionsObject(value, afterInit, original);
+				} else {
+					result[propertyName] = value;
+				}
 			} else {
-				result[propertyName] = value;
+				if (propertyName.substr(0, 1) === '_') {
+					result[propertyName] = value;
+				} else if (this.isReplacementString(value)) {
+					result[propertyName] = this.getFunctionFromReplacementString(value, afterInit, original);
+				} else if (Array.isArray(value)) {
+					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
+				} else if (typeof value === 'object' && value !== null) {
+					result[propertyName] = this.parseOptionsObject(value, afterInit, original);
+				} else {
+					result[propertyName] = value;
+				}
 			}
 		}
 		return result;
@@ -462,16 +477,17 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Recursively parse options in array form and replace function replacement string with functions
 	 * @param  {Array} arr
+	 * @param  {bool} afterInit are we after chart js was mounted?
 	 * @return {Array}
 	 */
-	parseOptionsArray: function parseOptionsArray(arr) {
+	parseOptionsArray: function parseOptionsArray(arr, afterInit = false, original) {
 		return arr.map((item, index) => {
 			if (this.isReplacementString(item)) {
 				return this.getFunctionFromReplacementString(value);
 			} else if (Array.isArray(item)) {
-				return this.parseOptionsArray(item);
+				return this.parseOptionsArray(item, afterInit, original);
 			} else if (typeof item === 'object' && item !== null) {
-				return this.parseOptionsObject(item);
+				return this.parseOptionsObject(item, afterInit, original);
 			}
 			return item;
 		});
@@ -479,13 +495,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Recursively parse options object and replace function replacement strings with global functions
 	 * @param  {Object} options
+	 * @param  {bool} afterInit - is chartjs loaded ?
 	 * @return {Object}
 	 */
-	parseOptions: function parseOptions(options) {
+	parseOptions: function parseOptions(options, afterInit = false, original) {
 		if (Array.isArray(options)) {
-			return this.parseOptionsArray(options);
+			return this.parseOptionsArray(options, afterInit, original);
 		} else if (typeof options === 'object' && options !== null) {
-			return this.parseOptionsObject(options);
+			return this.parseOptionsObject(options, afterInit, original);
 		}
 		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 	},
@@ -496,8 +513,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {String} chartSubType
 	 * @return {String}
 	 */
-	removeDividedFromName(chartSubType) {
-		const dividedPos = chartSubType.indexOf('Divided');
+	removeStackedFromName(chartSubType) {
+		const dividedPos = chartSubType.indexOf('Stacked');
 		if (dividedPos > 0) {
 			return chartSubType.substr(0, dividedPos);
 		}
@@ -512,7 +529,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}
 	 */
 	getGlobalDefaultChartsOptions: function getGlobalDefaultChartsOptions(chartSubType, chartData) {
-		const options = this.parseOptions({
+		const options = {
 			bar: {
 				basic: {
 					maintainAspectRatio: false,
@@ -523,7 +540,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -578,7 +595,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -635,7 +652,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -680,7 +697,63 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
 				}],
 			},
-			// hard edges line
+			horizontalBarStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.2)',
+						borderColor: 'rgba(255,255,255,0.2)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'center',
+						align: 'center',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixYAxisLabels'
+				}, {
+					beforeDraw: 'function:plugins.hideHorizontalBarDatalabelsIfNeeded',
+				}],
+			},
 			line: {
 				basic: {
 					maintainAspectRatio: false,
@@ -691,7 +764,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -718,7 +791,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 				},
 				dataset: {
 					fill: false,
-					lineTension: 0,
 					datalabels: {
 						font: {
 							size: 11
@@ -737,7 +809,62 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.fixXAxisLabels'
 				}],
 			},
-			// smooth line
+			lineStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
 			linePlain: {
 				basic: {
 					maintainAspectRatio: false,
@@ -748,7 +875,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -774,7 +901,65 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				dataset: {
+					lineTension: 0,
 					fill: false,
+					datalabels: {
+						font: {
+							size: 11
+						},
+						color: 'white',
+						backgroundColor: 'rgba(0,0,0,0.5)',
+						borderColor: 'rgba(255,255,255,0.5)',
+						borderWidth: 2,
+						borderRadius: 2,
+						anchor: 'bottom',
+						align: 'bottom',
+						formatter: 'function:datalabels.formatter',
+					},
+				},
+				plugins: [{
+					beforeDraw: 'function:plugins.fixXAxisLabels'
+				}],
+			},
+			linePlainStacked: {
+				basic: {
+					maintainAspectRatio: false,
+					title: {
+						display: false
+					},
+					legend: {
+						display: false
+					},
+					tooltips: {
+						mode: 'point',
+						callbacks: {
+							label: 'function:tooltips.label',
+							title: 'function:tooltips.title'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								maxRotation: 90,
+								callback: 'function:scales.formatAxesLabels',
+								labelOffset: 0,
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							ticks: {
+								autoSkip: false,
+								beginAtZero: true,
+								callback: 'function:scales.formatAxesLabels'
+							}
+						}]
+					},
+				},
+				dataset: {
+					fill: false,
+					lineTension: 0,
 					datalabels: {
 						font: {
 							size: 11
@@ -812,7 +997,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						}
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -857,7 +1042,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						}
 					},
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -893,7 +1078,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 					sort: 'desc',
 					tooltips: {
-						mode:'point',
+						mode: 'point',
 						callbacks: {
 							label: 'function:tooltips.label',
 							title: 'function:tooltips.title'
@@ -915,14 +1100,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 					beforeDraw: 'function:plugins.fixYAxisLabels',
 				}],
 			},
-		});
+		};
 		if (typeof options[chartSubType] !== 'undefined') {
 			return options[chartSubType];
 		}
 		// if divided and standard chart types are equal
-		const notDividedChartSubType = this.removeDividedFromName(chartSubType);
-		if (typeof options[notDividedChartSubType] !== 'undefined') {
-			return options[notDividedChartSubType];
+		const notStackedChartSubType = this.removeStackedFromName(chartSubType);
+		if (typeof options[notStackedChartSubType] !== 'undefined') {
+			return options[notStackedChartSubType];
 		}
 		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
 	},
@@ -1444,11 +1629,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return false;
 		}
 		const type = this.getType();
-		const data = this.generateData();
+		let data = this.generateData();
 		data.datasets = this.loadDatasetOptions(data);
-		const options = this.loadBasicOptions(data);
-		const plugins = this.loadPlugins(data);
-		return this.chartInstance = new Chart(
+		const options = this.parseOptions(this.loadBasicOptions(data));
+		const plugins = this.parseOptions(this.loadPlugins(data));
+		data = this.parseOptions(data);
+		const copy = $.extend(true, {}, data);
+		const chart = this.chartInstance = new Chart(
 			this.getChartContainer().getContext("2d"), {
 				type,
 				data,
@@ -1456,6 +1643,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 				plugins
 			}
 		);
+		// parse chart one more time after it was mounted - some options need to have chart loaded
+		data.datasets = data.datasets.map((dataset, index) => {
+			dataset.datasetIndex = index;
+			return this.parseOptions(dataset, true, dataset);
+		});
+
+		return chart;
 	},
 	/**
 	 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
@@ -1709,20 +1903,22 @@ YetiForce_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		return 'bar';
 	},
 });
+YetiForce_Bar_Widget_Js('YetiForce_BarStacked_Widget_Js', {}, {
+	getSubType() {
+		return 'barStacked';
+	}
+});
 YetiForce_Bar_Widget_Js('YetiForce_Horizontal_Widget_Js', {}, {
 	getType: function () {
 		return 'horizontalBar';
 	},
-	getSubType() {
-		return 'horizontalBar';
-	}
 });
-YetiForce_Horizontal_Widget_Js('YetiForce_HorizontalDivided_Widget_Js', {}, {
+YetiForce_Horizontal_Widget_Js('YetiForce_HorizontalStacked_Widget_Js', {}, {
 	getType: function () {
 		return 'horizontalBar';
 	},
 	getSubType() {
-		return 'horizontalBarDivided';
+		return 'horizontalBarStacked';
 	}
 });
 YetiForce_Widget_Js('YetiForce_Funnel_Widget_Js', {}, {
@@ -1759,12 +1955,12 @@ YetiForce_Widget_Js('YetiForce_Line_Widget_Js', {}, {
 		return 'line';
 	},
 });
-YetiForce_Line_Widget_Js('YetiForce_LineDivided_Widget_Js', {}, {
+YetiForce_Line_Widget_Js('YetiForce_LineStacked_Widget_Js', {}, {
 	getType() {
 		return 'line';
 	},
 	getSubType() {
-		return 'lineDivided';
+		return 'lineStacked';
 	}
 });
 YetiForce_Line_Widget_Js('YetiForce_LinePlain_Widget_Js', {}, {
@@ -1772,9 +1968,9 @@ YetiForce_Line_Widget_Js('YetiForce_LinePlain_Widget_Js', {}, {
 		return 'linePlain';
 	}
 });
-YetiForce_LineDivided_Widget_Js('YetiForce_LinePlainDivided_Widget_Js', {}, {
+YetiForce_LineStacked_Widget_Js('YetiForce_LinePlainStacked_Widget_Js', {}, {
 	getSubType() {
-		return 'linePlainDivided';
+		return 'linePlainStacked';
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_TicketsByStatus_Widget_Js', {}, {

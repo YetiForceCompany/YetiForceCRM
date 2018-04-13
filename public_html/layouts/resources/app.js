@@ -197,10 +197,10 @@ app = {
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
 		const thisInstance = this;
 		let params = {
-			'show': true,
+			show: true
 		};
 		if ($('#backgroundClosingModal').val() !== 1) {
-			params.backdrop = 'static';
+			params.backdrop = true;
 		}
 		if (typeof paramsObject === 'object') {
 			container.css(paramsObject);
@@ -235,6 +235,7 @@ app = {
 			});
 		});
 		modalContainer.modal(params);
+
 		$('body').append(container);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
@@ -242,7 +243,7 @@ app = {
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
 		var thisInstance = this;
-		var id = 'globalmodal';
+		var id = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
@@ -276,7 +277,7 @@ app = {
 			var sendByAjaxCb = function () {
 			}
 		}
-
+		Window.lastModalId = id;
 		var container = $('#' + id);
 		if (container.length) {
 			container.remove();
@@ -296,7 +297,6 @@ app = {
 		});
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
-
 		} else {
 			$.get(url).then(function (response) {
 				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
@@ -310,13 +310,14 @@ app = {
 	 */
 	hideModalWindow: function (callback, id) {
 		if (id == undefined) {
-			id = 'globalmodal';
+			var container = $('.modalContainer');
+		} else {
+			var container = $('#' + id);
 		}
-		var container = $('#' + id);
 		if (container.length <= 0) {
 			return;
 		}
-		if (typeof callback != 'function') {
+		if (typeof callback !== 'function') {
 			callback = function () {
 			};
 		}
@@ -328,6 +329,19 @@ app = {
 			backdrop.remove();
 		}
 		modalContainer.one('hidden.bs.modal', callback);
+	},
+	registerModalController: function () {
+		let modalContainer = $('#' + Window.lastModalId + ' .js-modal-data');
+		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
+		if (typeof window[modalClass] !== 'undefined') {
+			let instance = new window[modalClass]();
+			instance.registerEvents(modalContainer);
+		}
+		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
+		if (typeof window[modalClass] !== 'undefined') {
+			let instance = new window[modalClass]();
+			instance.registerEvents(modalContainer);
+		}
 	},
 	registerModalEvents: function (container, sendByAjaxCb) {
 		var form = container.find('form');
@@ -1133,16 +1147,7 @@ app = {
 					}
 				}
 				if (currentElement.data('modalid')) {
-					var id = currentElement.data('modalid');
-				} else {
-					var id = 'globalmodal';
-					if ($('#' + id).length) {
-						var numberGlobalModal = 1;
-						while ($('#' + id).length) {
-							id = 'globalmodal' + numberGlobalModal++;
-						}
-						modalWindowParams['id'] = id;
-					}
+					modalWindowParams['id'] = currentElement.data('modalid');
 				}
 				app.showModalWindow(modalWindowParams);
 			}
@@ -1291,6 +1296,18 @@ app = {
 			result += short ? '0' + app.vtranslate('JS_H') : '0 ' + app.vtranslate('JS_H_LONG');
 		}
 		return result.trim();
+	},
+	showRecordsList: function (params, afterShowModal) {
+		if (!params.view) {
+			params.view = "RecordsList";
+		}
+		AppConnector.request(params).then(function (requestData) {
+			app.showModalWindow(requestData, function (data) {
+				if (typeof afterShowModal === 'function') {
+					afterShowModal(data);
+				}
+			});
+		});
 	}
 }
 $(document).ready(function () {

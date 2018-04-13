@@ -27,28 +27,6 @@
 	border-right: 1px solid #ddd;
   }
 }
-.c-panel__content {
-  @extend .card;
-  @extend .mb-2;
-}
-.c-panel__header {
-  @extend .card-header;
-  @extend .px-0;
-  @extend .py-1;
-}
-.c-panel__body {
-  @extend .card-body;
-  @extend .px-1;
-  @extend .py-0;
-  @extend .col-md-12;
-}
-.c-panel_label {
-  @extend .border-right;
-  @extend .d-flex;
-  @extend .justify-content-sm-start;
-  @extend .justify-content-lg-end;
-  @extend .col-sm-12;
-}
 .timeline {
   position: relative;
   margin: 0;
@@ -117,7 +95,6 @@
   .commentActionsDiv {
 	.btn {
 	  @extend .btn-sm;
-	  @extend .mt-1;
 	}
   }
 }
@@ -245,15 +222,12 @@
 }
 .singleComment {
   .commentActionsContainer .commentActions {
+	@include u-transition(all 0.2s 0s ease);
 	height: 0;
 	overflow: hidden;
-	-webkit-transition: all 0.2s 0.15s ease-in-out;
-	-moz-transition: all 0.2s 0.15s ease-in-out;
-	-o-transition: all 0.2s 0.15s ease-in-out;
-	transition: all 0.2s 0.15s ease-in-out;
   }
   &:hover .commentActionsContainer .commentActions {
-	height: auto;
+	height: $btn-sm-height;
   }
 }
 .quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {

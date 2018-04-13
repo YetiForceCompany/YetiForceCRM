@@ -66,7 +66,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				App.Fields.Picklist.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 			}
 		});
-
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
 			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
 				listInstance.triggerListSearch();

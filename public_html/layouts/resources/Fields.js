@@ -231,7 +231,7 @@ App.Fields = {
 				colors.push(this.getRandomColor());
 			}
 			return colors;
-		}
+		},
 	},
 	Password: {
 		/**

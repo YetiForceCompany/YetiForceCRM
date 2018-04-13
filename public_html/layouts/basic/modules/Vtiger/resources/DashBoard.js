@@ -95,12 +95,13 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	loadWidgets: function () {
-		var thisInstance = this;
-		var widgetList = $('.dashboardWidget');
-		widgetList.each(function (index, widgetContainerELement) {
-			thisInstance.loadWidget($(widgetContainerELement));
+		const thisInstance = this;
+		thisInstance.getContainer().find('.dashboardWidget').Lazy({
+			appendScroll: $('.mainBody'),
+			widgetLoader(element) {
+				thisInstance.loadWidget(element);
+			},
 		});
-
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
