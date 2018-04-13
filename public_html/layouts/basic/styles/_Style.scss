@@ -3797,25 +3797,19 @@ select.form-control {
 .marginRight15 {
   margin-right: 15px;
 }
-.relatedContents .leftRecordActions .actions:hover {
-  white-space: nowrap;
-}
-.leftRecordActions .actions:hover .toolsAction, .rightRecordActions .actions:hover .toolsAction {
-  visibility: hidden;
-}
-.leftRecordActions .actions:hover .actionImages, .rightRecordActions .actions:hover .actionImages {
-  white-space: nowrap;
-  position: absolute;
-  z-index: 1;
-}
-.leftRecordActions {
-  > div, .actions:hover .actionImages {
-	display: inline-block !important;
-  }
-}
-.rightRecordActions .actions:hover .actionImages {
-  display: inline-block !important;
-  right: 7px;
+.rightRecordActions, .leftRecordActions {
+	white-space: nowrap;
+	> div, .actions {
+		display: inline-block;
+		.dropdown-menu {
+			white-space: normal;
+			padding: 0.2rem 0.4rem;
+			max-width: 100%;
+			.btn-group {
+				margin: 0.2rem 0;
+			}
+		}
+	}
 }
 .leftRecordActions .actions {
   background: inherit;

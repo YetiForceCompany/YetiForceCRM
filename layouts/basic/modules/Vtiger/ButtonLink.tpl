@@ -20,7 +20,7 @@
 											{/if}
 												{/strip} {strip}
 														{if $LABEL neq '' && $LINK->get('showLabel') != 1}
-															data-placement="bottom"{/strip} {strip}
+															data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{/strip} {strip}
 															data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 														{/if}
 													{/strip} {strip}
