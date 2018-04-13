@@ -345,7 +345,7 @@ class CustomView
 		if (Cache::staticHas('getCustomViewFile', $cvIds)) {
 			return Cache::staticGet('getCustomViewFile', $cvIds);
 		}
-		if (empty($cvIds) || strpos($cvIds, ',') === false) {
+		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
 			return $this->_getCustomViewFromFIle($cvIds);
 		}
 		$filters = [];
@@ -397,7 +397,7 @@ class CustomView
 		if (Cache::has('getColumnsListByCvid', $cvIds)) {
 			return Cache::get('getColumnsListByCvid', $cvIds);
 		}
-		if (empty($cvIds) || strpos($cvIds, ',') === false) {
+		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
 			return $this->_getColumnsListByCvid($cvIds);
 		}
 		$columnLists = [];
@@ -448,7 +448,7 @@ class CustomView
 		if (Cache::has('getStdFilterByCvid', $cvIds)) {
 			return Cache::get('getStdFilterByCvid', $cvIds);
 		}
-		if (empty($cvIds) || strpos($cvIds, ',') === false) {
+		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
 			return $this->_getStdFilterByCvid($cvIds);
 		}
 		$stdFilters = [];
@@ -549,7 +549,7 @@ class CustomView
 		if (!$this->module) {
 			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
 		}
-		if (empty($cvIds) || strpos($cvIds, ',') === false) {
+		if (empty($cvIds) || static::isMultiViewId($cvIds)) {
 			return $this->_getAdvFilterByCvid($cvIds);
 		}
 		$advftCriteria = [];
