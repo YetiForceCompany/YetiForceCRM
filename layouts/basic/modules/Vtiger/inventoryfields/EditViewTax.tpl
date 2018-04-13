@@ -5,8 +5,14 @@
 		<input name="tax{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" type="text" class="tax form-control form-control-sm" readonly="readonly" />
 		{if $TAXS_CONFIG['taxs'][0] != ''}
 			<input name="taxparam{$ROW_NO}" type="hidden" value="{\App\Purifier::encodeHtml($ITEM_DATA['taxparam'])}" class="taxParam" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
-			<span class="input-group-addon u-cursor-pointer changeTax {if $ITEM_DATA['taxmode'] == 0}d-none{/if}">
-				<img src="{\App\Layout::getImagePath('Tax24.png')}" alt="{\App\Language::translate('LBL_TAX', $MODULE)}" />
+			<span class="input-group-append u-cursor-pointer changeTax {if $ITEM_DATA['taxmode'] == 0}d-none{/if}">
+				<div class="input-group-text">
+					<span class="fa-layers fa-fw">
+						<i class="fas fa-circle" data-fa-transform="grow-6"></i>
+						<i class="fa-inverse fas fa-long-arrow-alt-up text-white" data-fa-transform="shrink-6  left-4"></i>
+						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
+					</span>
+				</div>
 			</span>
 		{/if}
 	</div>
