@@ -289,9 +289,7 @@ App.Fields = {
 			if (elements.length === 0) {
 				return;
 			}
-			$.each(elements, function (key, element) {
-				new Vtiger_CkEditor_Js(element, params);
-			});
+				new Vtiger_CkEditor_Js(elements, params);
 		},
 		/**
 		 * Destroy ckEditor

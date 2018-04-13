@@ -144,13 +144,6 @@ var Vtiger_CustomView_Js = {
 			$(this).trigger('change');
 		});
 	},
-	registerCkEditorElement: function () {
-		var container = this.getContentsContainer();
-		container.find('.js-ckeditor').each(function (e) {
-			new Vtiger_CkEditor_Js($(this));
-			//{toolbar: 'Basic'}
-		});
-	},
 	registerBlockToggleEvent: function () {
 		var container = this.getContentsContainer();
 		container.on('click', '.blockHeader', function (e) {
@@ -177,7 +170,7 @@ var Vtiger_CustomView_Js = {
 	},
 	registerEvents: function () {
 		this.registerIconEvents();
-		this.registerCkEditorElement();
+		new Vtiger_CkEditor_Js(this.getContentsContainer().find('.js-ckeditor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
 		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
