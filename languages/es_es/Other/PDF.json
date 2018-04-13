@@ -1,0 +1,22 @@
+{
+  "php": {
+    "LBL_INVOICE_NUMBER": "Número de factura",
+    "LBL_TO_PAY": "Total",
+    "LBL_TO_PAY_WORD": "Total (en palabras)",
+    "LBL_DEALER": "Vendedor",
+    "LBL_BUYER": "Comprador",
+    "LBL_AUTHORIZED_TO_RECEIVE": "Persona autorizada a recibir",
+    "LBL_AUTHORIZED_TO_BE_ISSUED": "Persona autorizada a emitir",
+    "LBL_SALES_QUOTE_FOR": "Presupuestado por",
+    "LBL_DATE_EXECUTION": "Fecha de finalización",
+    "LBL_STAGE": "Emitido por",
+    "LBL_VALID_UNTIL": "Fecha de validez",
+    "LBL_QUOTE_NUMBER": "Número de presupuesto",
+    "LBL_DETAILS": "Descripción",
+    "LBL_COMMENTS": "Observaciones",
+    "LBL_FIRST_NAME": "Nombre",
+    "LBL_LAST_NAME": "Apellido",
+    "LBL_PHONE": "Teléfono",
+    "LBL_EMAIL": "Correo"
+  }
+}
