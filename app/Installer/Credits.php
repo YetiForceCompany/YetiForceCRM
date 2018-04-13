@@ -140,6 +140,7 @@ class Credits
 		if (!empty($license['license'])) {
 			$library['licenseError'] = $license['error'];
 			$library['license'] = $license['license'];
+			$library['licenseToDisplay'] = $license['licenseToDisplay'];
 		}
 		if ($existJsonFiles) {
 			$library['packageFileMissing'] = true;
@@ -159,6 +160,7 @@ class Credits
 	{
 		$licenseError = false;
 		$returnLicense = '';
+		$licenseToDisplay = '';
 		foreach (self::$jsonFiles as $file) {
 			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
@@ -166,13 +168,12 @@ class Credits
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'];
 				if ($license) {
 					if (is_array($license)) {
-						if (is_array($license[0])) {
+						if (is_array($license[0]) && isset($license[0]['type'])) {
 							$returnLicense = implode(', ', array_column($license, 'type'));
-						} elseif (is_string($license[0])) {
-							$licenseError = self::validateLicenseName($license[0]);
-							$returnLicense = $license[0];
 						} else {
 							$returnLicense = implode(', ', $license);
+						}
+						if (count($license) > 1) {
 							$licenseError = true;
 						}
 					} else {
@@ -181,6 +182,8 @@ class Credits
 					}
 					if (isset(static::$licenses[$libraryName]) && $returnLicense) {
 						$returnLicense = static::$licenses[$libraryName] . " [$returnLicense]";
+						$licenseToDisplay = static::$licenses[$libraryName];
+						$licenseError = false;
 						break;
 					} elseif ($returnLicense) {
 						break;
@@ -188,7 +191,7 @@ class Credits
 				}
 			}
 		}
-		return ['license' => $returnLicense, 'error' => $licenseError];
+		return ['license' => $returnLicense, 'error' => $licenseError, 'licenseToDisplay' => $licenseToDisplay];
 	}
 
 	/**

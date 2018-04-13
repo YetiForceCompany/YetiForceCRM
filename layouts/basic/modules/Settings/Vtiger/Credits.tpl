@@ -60,7 +60,7 @@
 									{/if}
 									{if $ITEM['license']}
 										<span title="{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}"
-											  data-license="{$ITEM['license']}"
+											  data-license="{if $ITEM['licenseToDisplay']}{$ITEM['licenseToDisplay']}{else}{$ITEM['license']}{/if}"
 											  class="fab fa-wpforms text-dark u-cursor-pointer js-show-license mr-2"
 											  data-js="click"></span>
 									{else}
