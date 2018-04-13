@@ -310,6 +310,7 @@ abstract class View extends Base
 			'~libraries/footable/dist/footable.js',
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
+			'~libraries/gradient-parser/lib/parser.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',

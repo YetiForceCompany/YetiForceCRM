@@ -161,6 +161,16 @@
 					<input type="checkbox" class="form-control saveParam" name="colorsFromDividingField" value="1" checked>
 				</td>
 			</tr>
+			{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain'])}
+				<tr class="step4">
+					<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+						{\App\Language::translate('LBL_CHART_STACKED','Home')}
+					</td>
+					<td class="fieldValue">
+						<input type="checkbox" class="form-control saveParam" name="stacked" value="1">
+					</td>
+				</tr>
+			{/if}
 		{/if}
 		<tr class="step4">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTERING_BY_DATE','Home')}</td>

@@ -3,8 +3,8 @@
  * Colors stylesheet generator class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Sławomir Kłos <s.klos@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 namespace App;
@@ -315,5 +315,32 @@ class Colors
 		self::generate('module');
 
 		return $color;
+	}
+
+	/**
+	 * Generate CSS background gradient using colors from array.
+	 *
+	 * @param $colors
+	 *
+	 * @return string
+	 */
+	public static function getBackgroundGradient($colors, $type = 'linear')
+	{
+		$gradient = $type . '-gradient(';
+		$newColors = [];
+		$count = count($colors);
+		$colorOffset = 100 / $count / 3;
+		foreach ($colors as $index => &$color) {
+			$pos = $index / (count($colors) - 1) * 100;
+			if ($index>0) {
+				$newColors[] = $color . ' ' . ($pos - $colorOffset) . '%';
+			}
+			$newColors[] = $color . ' ' . $pos . '%';
+			if ($index<$count-1) {
+				$newColors[] = $color . ' ' . ($pos + $colorOffset) . '%';
+			}
+		}
+		$gradient .= implode(',', $newColors);
+		return $gradient . ')';
 	}
 }

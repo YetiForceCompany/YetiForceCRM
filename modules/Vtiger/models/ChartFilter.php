@@ -50,6 +50,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $queryGeneratorModuleName;
 
 	/**
+	 * Type of the chart 'Bar','Line' etc.
+	 *
+	 * @var string
+	 */
+	private $chartType;
+
+	/**
 	 * Value type from extra data.
 	 *
 	 * @var string
@@ -136,7 +143,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Colors.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $colors = [];
 
@@ -144,7 +151,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 * Colors that was used in data already
 	 * grouped by $groupValue or $dividingValue - it depends on areColorsFromDividingField.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $fieldValueColors = [];
 
@@ -185,6 +192,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $colorsFromRow;
 
 	/**
+	 * Colors for dataset color generation.
+	 *
+	 * @var array
+	 */
+	private $singleColors = [];
+
+	/**
 	 * Get instance.
 	 *
 	 * @param int $linkId
@@ -202,10 +216,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return string
 	 */
-	public function getType()
+	public function getType($lowerCase = false)
 	{
 		// backward compatibility fix
-		$type = $this->extraData['chartType'];
+		$type = $this->chartType;
 		switch ($type) {
 			case 'Barchat':
 				$type = 'Bar';
@@ -214,7 +228,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$type = 'Bar';
 				break;
 		}
-		return $type;
+		return $lowerCase ? strtolower($type) : $type;
 	}
 
 	/**
@@ -228,7 +242,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Is chart dividing / stacked ?
+	 * Is chart divided (grouped by two fields).
 	 *
 	 * @return bool
 	 */
@@ -258,6 +272,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Some of chart types doesn't have colors for each data.
+	 *
+	 * @return bool
+	 */
+	public function isSingleColored()
+	{
+		return $this->getType(true) === 'line' || $this->getType(true) === 'lineplain';
+	}
+
+	/**
 	 * Get chart data.
 	 *
 	 * @return array
@@ -271,16 +295,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		];
 		foreach ($this->getRows() as $groupValue => &$group) {
 			$chartData['labels'][] = $groupValue;
-			$i = 0;
+			$datasetIndex = 0;
 			foreach ($group as $dividingValue => &$dividing) {
 				// each dividingValue should be in different dataset (different stacks)
-				if (!isset($chartData['datasets'][$i])) {
+				if (!isset($chartData['datasets'][$datasetIndex])) {
 					$chartData['datasets'][] = [
 						'data' => [],
 						'links' => [],
 					];
 				}
-				$dataset = &$chartData['datasets'][$i];
+				$dataset = &$chartData['datasets'][$datasetIndex];
 				$dataset['data'][] = $dividing[$this->valueType];
 				if ($this->isDivided()) {
 					$dataset['label'] = $dividingValue;
@@ -288,35 +312,96 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if (!empty($dividing['link']) || $dividing['link'] === null) {
 					$dataset['links'][] = $dividing['link'];
 				}
-				if ((!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']])) || $dividing['color_id'] === null) {
-					if ($dividing['color_id'] === null) {
-						// we have all fields colors
-						// if some record doesn't have field which have color use color from other dataset
-						$color = 'rgba(0,0,0,0)'; // transparent color if records doesn't have wanted colors (what can i do?)
-						if ($this->areColorsFromDividingField()) {
-							if (!empty($this->fieldValueColors[$dividingValue])) {
-								$colorId = $this->fieldValueColors[$dividingValue];
-							}
-						} else {
-							if (!empty($this->fieldValueColors[$groupValue])) {
-								$colorId = $this->fieldValueColors[$groupValue];
-							}
-						}
-						if (isset($colorId)) {
-							$color = $this->colors[$colorId];
-						}
-						$chartData['datasets'][$i]['backgroundColor'][] = $color;
-						$chartData['datasets'][$i]['pointBackgroundColor'][] = $color;
-					} else {
-						$chartData['datasets'][$i]['backgroundColor'][] = $this->colors[$dividing['color_id']];
-						$chartData['datasets'][$i]['pointBackgroundColor'][] = $this->colors[$dividing['color_id']];
-					}
+				if (!$this->isSingleColored()) {
+					$this->setChartDataColorsMulti($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
+				} else {
+					$this->setChartDataColorsSingle($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
 				}
 				$chartData['show_chart'] = true;
-				$i++;
+				$datasetIndex++;
 			}
 		}
+		if ($this->isSingleColored()) {
+			$this->buildSingleColors($chartData);
+		}
 		return $chartData;
+	}
+
+	/**
+	 * Get all data colors and create gradient for background (line chart).
+	 *
+	 * @param $chartData
+	 * @param $datasetIndex
+	 * @param $dataset
+	 * @param $groupValue
+	 * @param $group
+	 * @param $dividingValue
+	 * @param $dividing
+	 */
+	protected function setChartDataColorsSingle(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
+	{
+		if (!isset($this->singleColors[$datasetIndex])) {
+			$this->singleColors[$datasetIndex] = [];
+		}
+		if ((!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']])) || $dividing['color_id'] === null) {
+			if ($dividing['color_id'] === null) {
+				// we have all fields colors
+				// if some record doesn't have field which have color use color from other dataset
+				$color = 'rgba(0,0,0,0)'; // transparent color if records doesn't have wanted colors (what can i do?)
+				if ($this->areColorsFromDividingField()) {
+					if (!empty($this->fieldValueColors[$dividingValue])) {
+						$colorId = $this->fieldValueColors[$dividingValue];
+					}
+				} else {
+					if (!empty($this->fieldValueColors[$groupValue])) {
+						$colorId = $this->fieldValueColors[$groupValue];
+					}
+				}
+				if (isset($colorId)) {
+					$color = $this->colors[$colorId];
+				}
+				$this->singleColors[$datasetIndex][] = $color;
+				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
+			} else {
+				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $this->colors[$dividing['color_id']];
+				$this->singleColors[$datasetIndex][] = $this->colors[$dividing['color_id']];
+			}
+		}
+	}
+
+	protected function buildSingleColors(&$chartData)
+	{
+		foreach ($chartData['datasets'] as $datasetIndex => &$dataset) {
+			$dataset['backgroundColor'] = \App\Colors::getBackgroundGradient($this->singleColors[$datasetIndex]);
+		}
+	}
+
+	protected function setChartDataColorsMulti(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
+	{
+		if ((!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']])) || $dividing['color_id'] === null) {
+			if ($dividing['color_id'] === null) {
+				// we have all fields colors
+				// if some record doesn't have field which have color use color from other dataset
+				$color = 'rgba(0,0,0,0)'; // transparent color if records doesn't have wanted colors (what can i do?)
+				if ($this->areColorsFromDividingField()) {
+					if (!empty($this->fieldValueColors[$dividingValue])) {
+						$colorId = $this->fieldValueColors[$dividingValue];
+					}
+				} else {
+					if (!empty($this->fieldValueColors[$groupValue])) {
+						$colorId = $this->fieldValueColors[$groupValue];
+					}
+				}
+				if (isset($colorId)) {
+					$color = $this->colors[$colorId];
+				}
+				$chartData['datasets'][$datasetIndex]['backgroundColor'][] = $color;
+				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
+			} else {
+				$chartData['datasets'][$datasetIndex]['backgroundColor'][] = $this->colors[$dividing['color_id']];
+				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $this->colors[$dividing['color_id']];
+			}
+		}
 	}
 
 	/**
@@ -637,7 +722,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$colorId = $rowIndex;
 		}
 		$this->data[$groupValue][$dividingValue]['color_id'] = $colorId;
-		//var_dump($groupValue, $dividingValue, $this->data[$groupValue][$dividingValue]);
 		// store color for this field value
 		if ($this->areColorsFromDividingField()) {
 			$this->fieldValueColors[$dividingValue] = $colorId;
@@ -689,7 +773,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		} else {
 			$dividingValue = 0;
 		}
-		return ['groupValue'=>$groupValue, 'dividingValue'=>$dividingValue];
+		return ['groupValue' => $groupValue, 'dividingValue' => $dividingValue];
 	}
 
 	/**
@@ -856,10 +940,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->extraData === null) {
 			throw new \App\Exceptions\AppException('Invalid data');
 		}
+		$this->chartType = $this->extraData['chartType'];
 		$this->dividingName = !empty($this->extraData['dividingField']) ? $this->extraData['dividingField'] : null;
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
-		$this->stacked = !empty($this->extraData['stacked']);
 		if ($this->dividingName) {
+			$this->stacked = !empty($this->extraData['stacked']);
 			$this->colorsFromDividingField = !empty($this->extraData['colorsFromDividingField']);
 		}
 	}
