@@ -366,7 +366,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db->createCommand()->insert('vtiger_module_dashboard', [
 			'linkid' => $data['linkid'],
 			'blockid' => $data['blockid'],
-			'filterid' => $data['filterid'],
+			'filterid' => $data['filtersId'],
 			'title' => $data['title'],
 			'data' => $data['data'],
 			'size' => $size,
@@ -384,7 +384,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			}
 			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
 				'linkid' => $data['linkid'], 'userid' => \App\User::getCurrentUserId(), 'templateid' => $templateId,
-				'filterid' => $data['filterid'],
+				'filterid' => $data['filtersId'],
 				'title' => $data['title'],
 				'data' => $data['data'],
 				'size' => $size, 'limit' => $data['limit'],
