@@ -369,6 +369,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Build single color from array of dataset colors
+	 * It could be used to generate gradient for line charts or return one color that will represent line background.
+	 *
+	 * @param $chartData
+	 */
 	protected function buildSingleColors(&$chartData)
 	{
 		foreach ($chartData['datasets'] as $datasetIndex => &$dataset) {
@@ -376,6 +382,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * By default all charts except line can have multiple colors in dataset
+	 * each data should have individual color this function is trying to get color from couple sources if available.
+	 *
+	 * @param $chartData
+	 * @param $datasetIndex
+	 * @param $dataset
+	 * @param $groupValue
+	 * @param $group
+	 * @param $dividingValue
+	 * @param $dividing
+	 */
 	protected function setChartDatasetsColorsMulti(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
 	{
 		if ((!empty($dividing['color_id']) && !empty($this->colors[$dividing['color_id']])) || $dividing['color_id'] === null) {
