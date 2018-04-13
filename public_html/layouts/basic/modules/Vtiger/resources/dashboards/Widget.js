@@ -438,47 +438,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return str.substr(0, 9) === 'function:';
 	},
-	isGradient(propertyName, value) {
-		if (typeof value !== 'string') {
-			return false;
-		}
-		return [
-			'backgroundColor',
-			'borderColor',
-			'pointBackgroundColor',
-			'pointBorderColor',
-			'pointHoverBackgroundColor',
-			'pointHoverBorderColor',
-		].indexOf(propertyName) >= 0 && value.indexOf('-gradient') > 0;
-	},
-	getGradientFromString(value, dataset) {
-		const chart = this.chartInstance;
-		const meta = this.chartInstance.getDatasetMeta(dataset.datasetIndex);
-		const right = meta.data[meta.data.length - 1]._xScale.minSize.width;
-		const gradient = chart.ctx.createLinearGradient(0, 0, right, 0);
-		const parsedGradient = App.Fields.Colors.getGradientFromString(value);
-		const colors = [];
-
-
-		parsedGradient.forEach((parsed) => {
-			parsed.colorStops.forEach((color, index) => {
-				let colorStop = '';
-				switch (color.type) {
-					case 'rgba':
-						colorStop = 'rgba(' + color.value.join(',') + ')';
-						break;
-					case 'rgb':
-						colorStop = 'rgb(' + color.value.join(',') + ')';
-						break;
-					case 'hex':
-						colorStop = '#' + color.value;
-						break;
-				}
-				gradient.addColorStop(Number(color.length.value) / 100, colorStop);
-			});
-		});
-		return gradient;
-	},
 	/**
 	 * Recursively parse options and replace function replacement strings to functions
 	 * @param  {Object} options
@@ -492,8 +451,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (afterInit) {
 				if (propertyName.substr(0, 1) === '_') {
 					result[propertyName] = value;
-				} else if (this.isGradient(propertyName, value)) {
-					result[propertyName] = this.getGradientFromString(value, original);
 				} else if (Array.isArray(value)) {
 					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
 				} else if (typeof value === 'object' && value !== null) {
@@ -833,7 +790,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				dataset: {
-					//fill: false,
+					fill: false,
 					datalabels: {
 						font: {
 							size: 11
@@ -889,7 +846,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				dataset: {
-					//fill: false,
+					fill: false,
 					datalabels: {
 						font: {
 							size: 11
@@ -945,7 +902,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				},
 				dataset: {
 					lineTension: 0,
-					//fill:false,
+					fill: false,
 					datalabels: {
 						font: {
 							size: 11
@@ -1001,7 +958,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					},
 				},
 				dataset: {
-					//fill:false,
+					fill: false,
 					lineTension: 0,
 					datalabels: {
 						font: {
