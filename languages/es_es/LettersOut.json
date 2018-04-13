@@ -1,7 +1,7 @@
 {
   "php": {
-    "LettersIn": "Entrega de Correspondencia",
-    "SINGLE_LettersIn": "Entrega de Correspondencia",
+    "LettersOut": "Entrega de Correspondencia",
+    "SINGLE_LettersOut": "Entrega de Correspondencia",
     "LBL_MAIN_INFORMATION": "Informaci\u00f3n sobre la Correspondencia",
     "Number": "ID",
     "Title": "Asunto",
