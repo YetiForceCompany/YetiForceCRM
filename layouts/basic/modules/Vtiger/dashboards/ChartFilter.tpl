@@ -73,7 +73,7 @@
 		<tr class="step2">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
 			<td class="fieldValue">
-				<select class="form-control filterId" name="filterid">
+				<select class="form-control filtersId" name="filtersId" multiple>
 					<option></option>
 					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">

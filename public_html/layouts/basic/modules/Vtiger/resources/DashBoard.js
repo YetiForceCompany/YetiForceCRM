@@ -338,13 +338,14 @@ $.Class("Vtiger_DashBoard_Js", {
 					}).then(function (step2Response) {
 						step1.after(step2Response);
 						wizardContainer.find('#widgetStep').val(2);
-						var step2 = wizardContainer.find('.step2');
-						App.Fields.Picklist.showSelect2ElementView(step2.find('select'));
+						const step2 = wizardContainer.find('.step2');
 						footer.hide();
-						var filterid = step2.find('.filterId');
-						var valueTypeSelect = step2.find('.valueType');
+						const filtersIdElement = step2.find('.filtersId');
+						const valueTypeElement = step2.find('.valueType');
+						App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
+						App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
 						step2.find('.filterId, .valueType').on('change', function () {
-							if (!filterid.val() || !valueTypeSelect.val())
+							if (!filtersIdElement.val() || !valueTypeElement.val())
 								return;
 							wizardContainer.find('.step3').remove();
 							wizardContainer.find('.step4').remove();
@@ -353,8 +354,8 @@ $.Class("Vtiger_DashBoard_Js", {
 								view: 'ChartFilter',
 								step: 'step3',
 								selectedModule: moduleNameSelect2.val(),
-								filterid: filterid.val(),
-								valueType: valueTypeSelect.val(),
+								filterid: filtersIdElement.val(),
+								valueType: valueTypeElement.val(),
 							}).then(function (step3Response) {
 								step2.last().after(step3Response);
 								wizardContainer.find('#widgetStep').val(3);
@@ -372,7 +373,7 @@ $.Class("Vtiger_DashBoard_Js", {
 										view: 'ChartFilter',
 										step: 'step4',
 										selectedModule: moduleNameSelect2.val(),
-										filterid: filterid.val(),
+										filterid: filtersIdElement.val(),
 										groupField: groupField.val(),
 										chartType: chartType.val()
 									}).then(function (step4Response) {
@@ -390,7 +391,7 @@ $.Class("Vtiger_DashBoard_Js", {
 					e.preventDefault();
 					const selectedModule = moduleNameSelect2.val();
 					const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					const selectedFilterId = form.find('.filterId').val();
+					const selectedFiltersId = form.find('.filtersId').val().join(',');
 					const selectedFilterLabel = form.find('.filterId').find(':selected').text();
 					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 					const data = {
@@ -404,21 +405,21 @@ $.Class("Vtiger_DashBoard_Js", {
 							data[element.attr('name')] = element.val();
 						}
 					});
-					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, form);
+					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, selectedFilterLabel, selectedFieldLabel, form);
 				});
 			});
 		});
 	},
-	saveChartFilterWidget: function (data, element, moduleNameLabel, filterid, filterLabel, groupFieldName, form) {
-		var thisInstance = this;
-		var paramsForm = {
+	saveChartFilterWidget: function (data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
+		const thisInstance = this;
+		const paramsForm = {
 			data: JSON.stringify(data),
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
 			label: moduleNameLabel + ' - ' + filterLabel + ' - ' + groupFieldName,
 			name: 'ChartFilter',
 			title: form.find('[name="widgetTitle"]').val(),
-			filterid: filterid,
+			filtersId: filtersId,
 			isdefault: 0,
 			height: 4,
 			width: 4,
@@ -426,7 +427,7 @@ $.Class("Vtiger_DashBoard_Js", {
 			default_owner: 'mine',
 			dashboardId: thisInstance.getCurrentDashboard()
 		};
-		var sourceModule = $('[name="selectedModuleName"]').val();
+		const sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).then(
 			function (data) {
 				var result = data['result'];
