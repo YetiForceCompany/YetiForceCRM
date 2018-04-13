@@ -285,22 +285,19 @@ App.Fields = {
 			/*
 			 *Function to get the textArea element
 			 */
-			getElement()
-			{
+			getElement() {
 				return this.element;
 			}
 			/*
 			 * Function to return Element's id atrribute value
 			 */
-			getElementId()
-			{
+			getElementId() {
 				return this.getElement().attr('id');
 			}
 			/*
 			 * Function to get the instance of ckeditor
 			 */
-			getEditorInstanceFromName()
-			{
+			getEditorInstanceFromName() {
 				return CKEDITOR.instances[this.getElementId()];
 			}
 			/*
@@ -308,8 +305,7 @@ App.Fields = {
 			 * @param {HTMLElement|jQuery} element on which CkEditor has to be loaded
 			 * @param {Object} customConfig custom configurations for ckeditor
 			 */
-			loadEditor(element, customConfig)
-			{
+			loadEditor(element, customConfig) {
 				this.setElement(element);
 				const instance = this.getEditorInstanceFromName();
 				let config = {
@@ -328,7 +324,10 @@ App.Fields = {
 					extraPlugins: 'colorbutton,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
 					toolbar: 'Full',
 					toolbar_Full: [
-						{name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						},
 						{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
 						{name: 'links', items: ['Link', 'Unlink']},
 						{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
@@ -337,7 +336,10 @@ App.Fields = {
 						{name: 'document', items: ['Source', 'Print']},
 						'/',
 						{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-						{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+						},
 						{name: 'colors', items: ['TextColor', 'BGColor']},
 						{
 							name: 'paragraph',
@@ -346,7 +348,10 @@ App.Fields = {
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
 					],
 					toolbar_Min: [
-						{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+						},
 						{name: 'colors', items: ['TextColor', 'BGColor']},
 						{name: 'tools', items: ['Maximize']},
 						{
@@ -392,7 +397,6 @@ App.Fields = {
 			const hash = Math.random().toString(36).substr(2, 9) + '-' + Math.random().toString(36).substr(2, 9) + '-' + new Date().valueOf();
 			return prefix ? prefix + '-' + hash : hash;
 		}
-
 	},
 	Picklist: {
 		/**
