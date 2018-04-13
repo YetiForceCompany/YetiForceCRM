@@ -289,7 +289,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	 */
 	getckEditorInstance: function () {
 		if (this.ckEditorInstance === false) {
-			this.ckEditorInstance = new Vtiger_CkEditor_Js();
+			this.ckEditorInstance = new App.Fields.Text.Editor();
 		}
 		return this.ckEditorInstance;
 	},
@@ -379,7 +379,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerVTEmailTaskEvents: function () {
 		var textAreaElement = $('#content');
 		var ckEditorInstance = this.getckEditorInstance();
-		ckEditorInstance.loadCkEditor(textAreaElement);
+		ckEditorInstance.loadEditor(textAreaElement);
 		this.registerFillMailContentEvent();
 		this.registerFillTaskFromEmailFieldEvent();
 		this.registerCcAndBccEvents();

@@ -1033,8 +1033,8 @@ $.Class("Vtiger_Edit_Js", {
 		};
 	},
 	stretchCKEditor: function () {
-		var row = $('.js-ckeditor').parents('.fieldRow');
-		var td = $('.js-ckeditor').parent();
+		var row = $('.js-editor').parents('.fieldRow');
+		var td = $('.js-editor').parent();
 		$(row).find('.fieldLabel').remove();
 		$(td).removeClass('col-md-10');
 		$(td).addClass('col-md-12');
@@ -1042,23 +1042,23 @@ $.Class("Vtiger_Edit_Js", {
 	/**
 	 * Function to register event for ckeditor for description field
 	 */
-	registerEventForCkEditor: function () {
+	registerEventForEditor: function () {
 		var form = this.getForm();
 		var thisInstance = this;
-		$.each(form.find('.js-ckeditor'), function (key, data) {
-			thisInstance.loadCkEditorElement($(data));
+		$.each(form.find('.js-editor'), function (key, data) {
+			thisInstance.loadEditorElement($(data));
 		});
 	},
-	loadCkEditorElement: function (noteContentElement) {
+	loadEditorElement: function (noteContentElement) {
 		var customConfig = {};
 		if (noteContentElement.is(':visible')) {
-			if (noteContentElement.hasClass("js-ckeditor__basic")) {
+			if (noteContentElement.hasClass("js-editor__basic")) {
 				customConfig.toolbar = 'Min';
 			}
-			if (noteContentElement.hasClass("js-ckeditor__small")) {
+			if (noteContentElement.hasClass("js-editor__small")) {
 				customConfig.height = '5em';
 			}
-			new Vtiger_CkEditor_Js(noteContentElement, customConfig);
+			let editor = new App.Fields.Text.Editor(noteContentElement, customConfig);
 		}
 	},
 	registerHelpInfo: function () {
@@ -1084,7 +1084,7 @@ $.Class("Vtiger_Edit_Js", {
 			}
 			var showHandler = function () {
 				bodyContents.removeClass('d-none');
-				thisInstance.registerEventForCkEditor(bodyContents);
+				thisInstance.registerEventForEditor(bodyContents);
 				app.cacheSet(module + '.' + blockId, 1)
 			}
 			if (data.mode == 'show') {
@@ -1508,7 +1508,7 @@ $.Class("Vtiger_Edit_Js", {
 		}
 		this.registerBlockAnimationEvent();
 		this.registerBlockStatusCheckOnLoad();
-		this.registerEventForCkEditor();
+		this.registerEventForEditor();
 		this.stretchCKEditor();
 		this.registerBasicEvents(editViewForm);
 		this.registerEventForCopyAddress();

@@ -235,8 +235,8 @@ $.Class("Settings_Vtiger_Index_Js", {
 			$('#settingsShortCutsContainer').html(data);
 		});
 	},
-	loadCkEditorElement: function () {
-		new Vtiger_CkEditor_Js($('.js-ckeditor'), {});
+	loadEditorElement: function () {
+		let editor = new App.Fields.Text.Editor($('.js-editor'), {});
 	},
 	registerSaveIssues: function () {
 		var container = $('.addIssuesModal');
@@ -363,7 +363,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			AppConnector.request(params).then(function (data) {
 				container.progressIndicator({mode: 'hide'});
 				app.showModalWindow(data, function () {
-					thisInstance.loadCkEditorElement();
+					thisInstance.loadEditorElement();
 					thisInstance.registerSaveIssues();
 				});
 			});

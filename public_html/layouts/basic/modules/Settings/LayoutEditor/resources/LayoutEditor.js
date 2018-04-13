@@ -1917,21 +1917,20 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 							{name: 'clipboard', groups: ['clipboard', 'undo']}
 						]
 					};
-					App.Fields.Text.registerCkEditor(modalContainer, customConfig);
+					let editor = new App.Fields.Text.Editor(modalContainer.find('.js-editor'), customConfig);
 					app.showPopoverElementView(modalContainer.find('.js-help-info'));
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					modalContainer.find('.js-lang').on('change', function (e) {
-						let previous = modalContainer.find('.js-ckeditor:not([disabled])');
-						App.Fields.Text.destroyCkEditor(previous);
+						let previous = modalContainer.find('.js-editor:not([disabled])');
+						App.Fields.Text.destroyEditor(previous);
 						previous.closest('.js-context-block').addClass('d-none');
 						previous.prop('disabled', true);
-
 						let element = $(e.currentTarget).val();
 						let textArea = modalContainer.find('#' + element + '.js-context-area');
 						textArea.prop('disabled', false);
 						textArea.closest('.js-context-block').removeClass('d-none');
 						modalContainer.find('.js-help-info').attr('data-content', textArea.val());
-						App.Fields.Text.registerCkEditor(textArea, customConfig);
+						let editor = new App.Fields.Text.Editor(textArea, customConfig);
 
 					});
 					modalContainer.find('form').on('submit', function (e) {

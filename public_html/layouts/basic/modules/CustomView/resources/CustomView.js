@@ -170,7 +170,7 @@ var Vtiger_CustomView_Js = {
 	},
 	registerEvents: function () {
 		this.registerIconEvents();
-		new Vtiger_CkEditor_Js(this.getContentsContainer().find('.js-ckeditor'));
+		let editor = new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
 		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();

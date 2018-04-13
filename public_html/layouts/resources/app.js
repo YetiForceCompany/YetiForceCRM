@@ -230,7 +230,7 @@ app = {
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
-			App.Fields.Text.registerCkEditor(modalContainer.find('.js-ckeditor'), {
+			let editor = new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
 				height: '5em',
 				toolbar: 'Min'
 			});
