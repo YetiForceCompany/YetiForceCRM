@@ -81,7 +81,6 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			"modules.$moduleName.resources.$view",
 			'~vendor/ckeditor/ckeditor/ckeditor.js',
 			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
-			'modules.Vtiger.resources.CkEditor',
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));

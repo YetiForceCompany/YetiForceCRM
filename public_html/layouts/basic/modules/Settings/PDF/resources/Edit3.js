@@ -86,7 +86,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * Registers updated version of CkEditor on textarea fields
 	 * spellcheck disabled
 	 */
-	registerNewCkEditor: function () {
+	registerNewEditor: function () {
 		CKEDITOR.replace('header_content', {
 				disableNativeSpellChecker: true,
 				scayt_autoStartup: false,
@@ -107,6 +107,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
 		this.registerCancelStepClickEvent(container);
-		this.registerNewCkEditor();
+		this.registerNewEditor();
 	}
 });

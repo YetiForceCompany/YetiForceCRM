@@ -269,33 +269,107 @@ App.Fields = {
 		},
 	},
 	Text: {
-		/*
-		 * Initialization CkEditor
-		 * @param {jQuery} parentElement
-		 * @param {Object} params
-		 */
-		registerCkEditor(parentElement, params) {
-			if (typeof parentElement === 'undefined') {
-				parentElement = $('body');
-			} else {
-				parentElement = $(parentElement);
+		Editor: class {
+			constructor(element, params) {
+				if (typeof element !== 'undefined' && element.length !== 0) {
+					this.loadEditor(element, params);
+				}
 			}
-			let elements;
-			if (parentElement.hasClass('js-ckeditor') && !parentElement.prop('disabled')) {
-				elements = parentElement;
-			} else {
-				elements = $('.js-ckeditor:not([disabled])', parentElement);
+			/*
+			 *Function to set the textArea element
+			 */
+			setElement(element) {
+				this.element = $(element);
+				return this;
 			}
-			if (elements.length === 0) {
-				return;
+			/*
+			 *Function to get the textArea element
+			 */
+			getElement()
+			{
+				return this.element;
 			}
-				new Vtiger_CkEditor_Js(elements, params);
+			/*
+			 * Function to return Element's id atrribute value
+			 */
+			getElementId()
+			{
+				return this.getElement().attr('id');
+			}
+			/*
+			 * Function to get the instance of ckeditor
+			 */
+			getEditorInstanceFromName()
+			{
+				return CKEDITOR.instances[this.getElementId()];
+			}
+			/*
+			 * Function to load CkEditor
+			 * @param {HTMLElement|jQuery} element on which CkEditor has to be loaded
+			 * @param {Object} customConfig custom configurations for ckeditor
+			 */
+			loadEditor(element, customConfig)
+			{
+				this.setElement(element);
+				const instance = this.getEditorInstanceFromName();
+				let config = {
+					allowedContent: true,
+					removeButtons: '',
+					scayt_autoStartup: false,
+					enterMode: CKEDITOR.ENTER_BR,
+					shiftEnterMode: CKEDITOR.ENTER_P,
+					on: {
+						instanceReady: function (evt) {
+							evt.editor.on('blur', function () {
+								evt.editor.updateElement();
+							});
+						}
+					},
+					extraPlugins: 'colorbutton,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+					toolbar: 'Full',
+					toolbar_Full: [
+						{name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+						{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+						{name: 'links', items: ['Link', 'Unlink']},
+						{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']},
+						{name: 'tools', items: ['Maximize', 'ShowBlocks']},
+						{name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv']},
+						{name: 'document', items: ['Source', 'Print']},
+						'/',
+						{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+						{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+						{name: 'colors', items: ['TextColor', 'BGColor']},
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+					],
+					toolbar_Min: [
+						{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
+						{name: 'colors', items: ['TextColor', 'BGColor']},
+						{name: 'tools', items: ['Maximize']},
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+						},
+						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+					]
+				};
+				if (typeof customConfig !== 'undefined') {
+					config = $.extend(config, customConfig);
+				}
+				if (instance) {
+					CKEDITOR.remove(instance);
+				}
+				element.ckeditor(config);
+			}
 		},
 		/**
 		 * Destroy ckEditor
 		 * @param {jQuery} element
 		 */
-		destroyCkEditor(element) {
+		destroyEditor(element) {
 			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}

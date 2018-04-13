@@ -7,15 +7,15 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-class Vtiger_CkEditor_Js {
+class Editor {
 
 	constructor(element, params) {
 		if (typeof element !== 'undefined') {
-			this.loadCkEditor(element, params);
+			this.loadEditor(element, params);
 		}
 	}
 	/*
-	 *Function to set the textArea element 
+	 *Function to set the textArea element
 	 */
 	setElement(element) {
 		this.element = $(element);
@@ -37,23 +37,23 @@ class Vtiger_CkEditor_Js {
 	 * Function to get the instance of ckeditor
 	 */
 
-	getCkEditorInstanceFromName() {
+	getEditorInstanceFromName() {
 		return CKEDITOR.instances[this.getElementId()];
 	}
 	/***
 	 * Function to get the plain text
 	 */
 	getPlainText() {
-		return this.getCkEditorInstanceFromName().document.getBody().getText();
+		return this.getEditorInstanceFromName().document.getBody().getText();
 	}
 	/*
 	 * Function to load CkEditor
 	 * @param {HTMLElement|jQuery} element on which CkEditor has to be loaded
 	 * @param {Object} customConfig custom configurations for ckeditor
 	 */
-	loadCkEditor(element, customConfig) {
+	loadEditor(element, customConfig) {
 		this.setElement(element);
-		const instance = this.getCkEditorInstanceFromName();
+		const instance = this.getEditorInstanceFromName();
 		let config = {
 			allowedContent: true,
 			removeButtons: '',
@@ -106,12 +106,5 @@ class Vtiger_CkEditor_Js {
 		}
 		element.ckeditor(config);
 	}
-	/*
-	 * Function to load contents in ckeditor textarea
-	 * @params : textArea Element,contents ;
-	 */
-	loadContentsInCkeditor(contents) {
-		const editor = this.getCkEditorInstanceFromName();
-		editor.setData(editor.getData().replace(editorData, contents));
-	}
+
 }

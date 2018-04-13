@@ -835,8 +835,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		inventoryRowExpanded.removeClass('d-none');
 
 		var listInstance = Vtiger_Edit_Js.getInstance();
-		$.each(inventoryRowExpanded.find('.js-ckeditor'), function (key, data) {
-			listInstance.loadCkEditorElement($(data));
+		$.each(inventoryRowExpanded.find('.js-editor'), function (key, data) {
+			listInstance.loadEditorElement($(data));
 		});
 	},
 	hideExpandedRow: function (row) {
@@ -848,7 +848,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		element.find('[data-fa-i2svg]').removeClass('fa-angle-up');
 		element.find('[data-fa-i2svg]').addClass('fa-angle-down');
 		inventoryRowExpanded.addClass('d-none');
-		$.each(inventoryRowExpanded.find('.js-ckeditor'), function (key, data) {
+		$.each(inventoryRowExpanded.find('.js-editor'), function (key, data) {
 			var editorInstance = CKEDITOR.instances[$(data).attr('id')];
 			if (editorInstance) {
 				editorInstance.destroy();
