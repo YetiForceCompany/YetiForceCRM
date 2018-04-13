@@ -8,7 +8,7 @@
 	{/if}
 	<input class="widgetData" name="data" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}" />
 	{if $CHART_DATA['show_chart'] }
-		<div class="widgetChartContainer chartcontent"><canvas class="w-100"></canvas></div>
+		<div class="widgetChartContainer chartcontent"><canvas></canvas></div>
 	{else}
 		<span class="noDataMsg">
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
