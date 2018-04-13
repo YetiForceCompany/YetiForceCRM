@@ -350,7 +350,7 @@
 	"LBL_LICENSE": "Licencja",
 	"LBL_MISSING_LICENSE_FILE": "Brak pliku licencji",
 	"LBL_VTIGER_DESCRIPTION": "Orginalnego kodu Vtigera zosta\u0142o oko\u0142o 30%. Pozosta\u0142y kod zosta\u0142 przepisany i rozszerzony",
-	"LBL_SUGAR_DESCRIPTION": "Vtiger jest forkiem Sugar CRM"
+	"LBL_SUGAR_DESCRIPTION": "Vtgier bazowa\u0142 na Sugar CRM. Obecnie w Yetiforce pozosta\u0142o kilka plik\u00f3w po Sugar CRM"
   },
   "js": {
 	"JS_AUTHORIZATION_COMPLETE": "Autoryzacja zako\u0144czona pomy\u015blnie",
