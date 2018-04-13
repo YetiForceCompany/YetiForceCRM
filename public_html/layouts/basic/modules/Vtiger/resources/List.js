@@ -2002,6 +2002,22 @@ jQuery.Class("Vtiger_List_Js", {
 			app.showNewBottomTopScrollbar(container);
 		}
 	},
+	registerMassActionsBtnEvents: function () {
+		var thisInstance = this;
+		this.getListViewContainer().on('click', '.js-mass-action', function (e) {
+			e.preventDefault();
+			var currentElement = $(this);
+			var url = currentElement.data('url');
+			if (typeof url != 'undefined') {
+				if (thisInstance.checkListRecordSelected() != true) {
+					Vtiger_List_Js.triggerMassAction(url);
+				} else {
+					thisInstance.noRecordSelectedAlert();
+				}
+			}
+			e.stopPropagation();
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2012,6 +2028,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerDeselectAllClickEvent();
 		this.registerRecordEvents();
 		this.registerMassRecordsEvents();
+		this.registerMassActionsBtnEvents();
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();

@@ -6,9 +6,9 @@ namespace App;
  * Text parser class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class TextParser
 {
@@ -138,7 +138,7 @@ class TextParser
 	/**
 	 * Content.
 	 *
-	 *  @var string
+	 * @var string
 	 */
 	protected $content;
 
@@ -357,7 +357,7 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\.\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
 			list(, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
@@ -392,7 +392,7 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\(translate : ([\.\&\w\s\|]+)\)\$/', function ($matches) {
 			list(, $params) = $matches;
 
 			return $this->translate($params);
@@ -415,12 +415,7 @@ class TextParser
 		}
 		$aparams = explode('|', $params);
 		$moduleName = array_shift($aparams);
-		if (Module::getModuleId($moduleName) !== false) {
-			$params = reset($aparams);
-
-			return Language::translate($params, $moduleName, $this->language);
-		}
-		return Language::translate($params);
+		return Language::translate(reset($aparams), $moduleName, $this->language);
 	}
 
 	/**
@@ -504,11 +499,16 @@ class TextParser
 	protected function general($key)
 	{
 		switch ($key) {
-			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
-			case 'CurrentTime': return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
-			case 'SiteUrl': return \AppConfig::main('site_URL');
-			case 'PortalUrl': return \AppConfig::main('PORTAL_URL');
-			case 'BaseTimeZone': return Fields\DateTime::getTimeZone();
+			case 'CurrentDate':
+				return (new \DateTimeField(null))->getDisplayDate();
+			case 'CurrentTime':
+				return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
+			case 'SiteUrl':
+				return \AppConfig::main('site_URL');
+			case 'PortalUrl':
+				return \AppConfig::main('PORTAL_URL');
+			case 'BaseTimeZone':
+				return Fields\DateTime::getTimeZone();
 		}
 
 		return $key;
@@ -549,9 +549,12 @@ class TextParser
 				}
 
 				return \AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
-			case 'ModuleName': return $this->moduleName;
-			case 'RecordId': return $this->record;
-			case 'RecordLabel': return $this->recordModel->getName();
+			case 'ModuleName':
+				return $this->moduleName;
+			case 'RecordId':
+				return $this->record;
+			case 'RecordLabel':
+				return $this->recordModel->getName();
 			case 'ChangesListChanges':
 				foreach ($this->recordModel->getPreviousValue() as $fieldName => $oldValue) {
 					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
@@ -594,7 +597,8 @@ class TextParser
 					list($key, $params) = explode(' ', $key);
 				}
 				switch ($key) {
-					case 'Comments': return $this->getComments($params);
+					case 'Comments':
+						return $this->getComments($params);
 				}
 				break;
 		}

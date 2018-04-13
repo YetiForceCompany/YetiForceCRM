@@ -9,7 +9,7 @@
 	{if $BLOCKS_HIDE}
 
 		<div class="detailViewTable">
-			<div class="js-toggle-panel c-panel__content" data-js="click" data-label="{$BLOCK_LABEL}">					
+			<div class="js-toggle-panel c-panel" data-js="click" data-label="{$BLOCK_LABEL}">
 				<div class="blockHeader c-panel__header">
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if $IS_HIDDEN}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
@@ -42,7 +42,7 @@
 								{/if}
 								<div class="col-sm-6">
 									<div class="form-row border-right">
-										<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel_label col-lg-6 {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label col-lg-6 {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}

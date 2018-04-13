@@ -16,7 +16,7 @@
 		</div>
 		<div class="siteBarContent pt-4">
 			{if $CALENDAR_FILTERS->isActive()}
-				<div class="c-panel__content bg-primary calendarFilters">
+				<div class="c-panel bg-primary calendarFilters">
 					<div class="c-panel__header quickWidgetHeaderc px-3">
 						<h4 class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
 							{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}
@@ -38,7 +38,7 @@
 				</div>
 			{/if}
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
-				<div class="js-toggle-panel c-panel__content border-info quickWidget" data-js="click">
+				<div class="js-toggle-panel c-panel border-info quickWidget" data-js="click">
 					<div class="c-panel__header quickWidgetHeader bg-info">
 						<div class="form-row align-items-center px-4">
 							<div class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
