@@ -18,7 +18,7 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<h5 class="modal-title"><i class="fa fa-comments"></i> {\App\Language::translate('LBL_ADDING_COMMENT', $MODULE)}</h5>
+					<h5 class="modal-title"><i class="fa fa-comments"></i> {\App\Language::translate('LBL_MASS_ADD_COMMENT', $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
