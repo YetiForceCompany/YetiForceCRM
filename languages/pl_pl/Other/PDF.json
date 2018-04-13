@@ -1,0 +1,22 @@
+{
+  "php": {
+	"LBL_INVOICE_NUMBER": "Faktura nr",
+	"LBL_TO_PAY": "Do zapłaty",
+	"LBL_TO_PAY_WORD": "Do zapłaty słownie",
+	"LBL_DEALER": "Sprzedawca",
+	"LBL_BUYER": "Nabywca",
+	"LBL_AUTHORIZED_TO_RECEIVE": "Osba upoważniona do odbioru",
+	"LBL_AUTHORIZED_TO_BE_ISSUED": "Osoba upoważniona do wystawienia",
+	"LBL_SALES_QUOTE_FOR": "Oferta dla",
+	"LBL_DATE_EXECUTION": "Data wykonania",
+	"LBL_STAGE": "Wystawił",
+	"LBL_VALID_UNTIL": "Data ważności",
+	"LBL_QUOTE_NUMBER": "Quote number",
+	"LBL_DETAILS": "Opis",
+	"LBL_COMMENTS": "Uwagi",
+	"LBL_FIRST_NAME": "Imię",
+	"LBL_LAST_NAME": "Nazwisko",
+	"LBL_PHONE": "Telefon",
+	"LBL_EMAIL": "Email"
+  }
+}

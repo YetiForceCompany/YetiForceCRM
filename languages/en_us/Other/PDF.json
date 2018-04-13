@@ -1,0 +1,22 @@
+{
+  "php": {
+	"LBL_INVOICE_NUMBER": "Vat invoice number",
+	"LBL_TO_PAY": "Total",
+	"LBL_TO_PAY_WORD": "Total (in words)",
+	"LBL_DEALER": "Seller",
+	"LBL_BUYER": "Purchaser",
+	"LBL_AUTHORIZED_TO_RECEIVE": "Person authorized to receive",
+	"LBL_AUTHORIZED_TO_BE_ISSUED": "Person authorized to issue",
+	"LBL_SALES_QUOTE_FOR": "Quote for",
+	"LBL_DATE_EXECUTION": "Date of completion",
+	"LBL_STAGE": "Issued by",
+	"LBL_VALID_UNTIL": "Data ważności",
+	"LBL_QUOTE_NUMBER": "Quote number",
+	"LBL_DETAILS": "Opis",
+	"LBL_COMMENTS": "Uwagi",
+	"LBL_FIRST_NAME": "Imię",
+	"LBL_LAST_NAME": "Nazwisko",
+	"LBL_PHONE": "Telefon",
+	"LBL_EMAIL": "Email"
+  }
+}
