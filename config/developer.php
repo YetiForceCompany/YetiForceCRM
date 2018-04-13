@@ -11,7 +11,7 @@ $DEVELOPER_CONFIG = [
     // Enable minimize JS files
     'MINIMIZE_JS' => true,
     // Enable minimize CSS files
-    'MINIMIZE_CSS' => true,
+    'MINIMIZE_CSS' => false,
     // Change of fields visibility
     'CHANGE_VISIBILITY' => false,
     // Adding/Deleting relations between modules.

@@ -10,6 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div class="listViewActions paginationDiv pl-1">
+        {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
+			{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
+        {/if}
+	</div>
 	{if $PARENT_MODULE !== 'Settings' && $VIEW_MODEL}
 		<div class="pl-1">
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
@@ -43,11 +48,6 @@
 			</div>
 		</div>
 	{/if}
-	<div class="listViewActions paginationDiv">
-        {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
-			{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
-        {/if}
-	</div>
 	<input type="hidden" id="recordsCount" value="" />
 	<input type="hidden" id="selectedIds" name="selectedIds" />
 	<input type="hidden" id="excludedIds" name="excludedIds" />
