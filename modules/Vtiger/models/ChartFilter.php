@@ -328,7 +328,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get all data colors and create gradient for background (line chart).
+	 * Gather information about data colors
+	 * Later we can build gradient or generate one color for line charts.
 	 *
 	 * @param $chartData
 	 * @param $datasetIndex
