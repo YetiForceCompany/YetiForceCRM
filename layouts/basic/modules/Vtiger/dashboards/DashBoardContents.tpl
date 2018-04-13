@@ -27,7 +27,8 @@
 				<li id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} data-row="{$WIDGET->getPositionRow($ROW)}" {else} data-row="{$WIDGET->getPositionRow($ROW)}" {/if}
 					{assign var=ROW value=$ROW+1}
 					{assign var=COLCOUNT value=($smarty.foreach.count.index % $COLUMNS)+1} data-col="{$WIDGET->getPositionCol($COLCOUNT)}" data-sizex="{$WIDGET->getWidth()}" data-sizey="{$WIDGET->getHeight()}"
-					class="dashboardWidget dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}" data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}" >
+					class="dashboardWidget dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}" data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
+					data-loader="widgetLoader">
 				</li>
 			{/foreach}
 		</ul>
