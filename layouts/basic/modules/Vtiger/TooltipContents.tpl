@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="tpl-TooltipContents" data-js="container">
-		<table class="table table-bordered">
+		<table class="table table-bordered table-sm">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$RECORD_STRUCTURE['TOOLTIP_FIELDS'] name=fieldsCount}
 				{if $smarty.foreach.fieldsCount.index < 7}
 					<tr class="small">
