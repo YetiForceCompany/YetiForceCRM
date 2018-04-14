@@ -635,17 +635,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function normalizeData()
 	{
-		$valueType = $this->extraData['valueType'];
-		foreach ($this->data as $groupValueKey => &$group) {
-			foreach ($group as $dividingValueKey => &$values) {
+		foreach ($this->data as $dividingValueKey => &$dividing) {
+			foreach ($dividing as $groupValueKey => &$values) {
 				// iterate data one more time to search other group values
-				$values[$valueType] = (float) $values[$valueType];
+				$values[$this->valueType] = (float) $values[$this->valueType];
 				foreach ($values as $valueKey => $value) {
-					foreach ($this->data as $otherGroupValueKey => &$otherGroup) {
-						if (!isset($otherGroup[$dividingValueKey])) {
-							$otherGroup[$dividingValueKey] = [];
+					foreach ($this->data as $otherDividingValueKey => &$otherDividing) {
+						if (!isset($otherDividing[$groupValueKey])) {
+							$otherGroup[$groupValueKey] = [];
 						}
-						if (!isset($otherGroup[$dividingValueKey][$valueKey])) {
+						if (!isset($otherDividing[$groupValueKey][$valueKey])) {
 							// if record doesn't have this value,
 							// doesn't have records with picklist value that other records have
 							// if we doesn't have picklist_id we can't set up color_id (picklist_id)
@@ -654,10 +653,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 							// 0 is for chart data (0 work time),
 							// null is used to find out missing color (maybe other purpose as well)
 							// null colors will be replaced in the last stage getChartData when all colors are already set
-							if ($valueKey !== $this->extraData['valueType']) {
-								$otherGroup[$dividingValueKey][$valueKey] = null;
+							if ($valueKey !== $this->valueType) {
+								$otherDividing[$groupValueKey][$valueKey] = null;
 							} else {
-								$otherGroup[$dividingValueKey][$valueKey] = 0;
+								$otherDividing[$groupValueKey][$valueKey] = 0;
 							}
 						}
 					}
@@ -773,7 +772,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		$dataReader->close();
 		$this->calculateAverage();
-		//$this->normalizeData();
+		$this->normalizeData();
 		return $this->data;
 	}
 
@@ -792,7 +791,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			foreach ($queries as $dividingValue => $query) {
 				$this->_getRows($query, $dividingValue);
 			}
-		} elseif ($this->isDividedByField()) {
 		} else {
 			$query = $this->getQuery($this->filterIds[0]);
 			$this->_getRows($query, 0);
