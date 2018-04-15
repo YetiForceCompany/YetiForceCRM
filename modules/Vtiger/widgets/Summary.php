@@ -17,6 +17,6 @@ class Vtiger_Summary_Widget extends Vtiger_Basic_Widget
 
 	public function getConfigTplName()
 	{
-		return 'GeneralInfo';
+		return 'SummaryConfig';
 	}
 }
