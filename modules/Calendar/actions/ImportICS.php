@@ -67,7 +67,7 @@ class Calendar_ImportICS_Action extends \App\Controller\Action
 			}
 
 			$ical = new Ical();
-			$icalActivities = $ical->iCalReader($ics);
+			$icalActivities = $ical->iCalReader($icsUrl);
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; ++$i) {

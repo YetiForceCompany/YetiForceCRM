@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_rfc2445.php');
@@ -77,7 +78,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 */
 	public function importResult(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \App\User::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -107,7 +108,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 			}
 
 			$ical = new Ical();
-			$icalActivities = $ical->iCalReader('IMPORT_' . $userId);
+			$icalActivities = $ical->iCalReader(Import_Utils_Helper::getImportFilePath($currentUserModel));
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; ++$i) {
