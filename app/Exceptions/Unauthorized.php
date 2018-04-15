@@ -14,7 +14,7 @@ class Unauthorized extends Security
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(string $message = '', int $code = 0, Throwable $previous = null)
+	public function __construct(string $message = '', int $code = 0, \Throwable $previous = null)
 	{
 		header('yf-action: logout');
 		\App\Session::set('UserLoginMessage', \App\Language::translate('ERR_AUTO_LOGOUT', 'Other:Exceptions'));
