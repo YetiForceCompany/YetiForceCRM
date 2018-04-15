@@ -67,8 +67,6 @@ class ModCommentsCore extends CRMEntity
 	public $def_basicsearch_col = 'commentcontent';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'commentcontent';
-	// Required Information for enabling Import feature
-	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';

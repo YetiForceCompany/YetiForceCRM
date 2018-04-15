@@ -73,8 +73,6 @@ class Contacts extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['firstname', 'lastname', 'jobtitle', 'email', 'phone', 'assigned_user_id'];
-	// This is the list of vtiger_fields that are required
-	public $required_fields = ['lastname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'lastname', 'createdtime', 'modifiedtime'];

@@ -97,11 +97,14 @@ class Calendar_Import_View extends Vtiger_Import_View
 			];
 
 			$requiredFields = [];
-			$modules = [$eventModule, $todoModule];
-			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
-
-			foreach ($modules as $module) {
-				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
+			foreach ([$eventModule, $todoModule] as $module) {
+				$moduleRequiredFields = [];
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				foreach ($moduleModel->getFields() as $field) {
+					if ($field->isActiveField() && $field->isMandatory() && !in_array($field->getUIType(), [53, 70])) {
+						$moduleRequiredFields[] = $field->getName();
+					}
+				}
 				$requiredFields[$module] = array_diff($moduleRequiredFields, $skipFields[$module]);
 				$totalCount[$module] = 0;
 				$skipCount[$module] = 0;

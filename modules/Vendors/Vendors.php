@@ -54,8 +54,6 @@ class Vendors extends CRMEntity
 		'Vendor Name' => 'vendorname',
 		'Phone' => 'phone',
 	];
-	//Specifying required fields for vendors
-	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id'];

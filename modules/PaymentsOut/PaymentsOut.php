@@ -75,8 +75,6 @@ class PaymentsOut extends Vtiger_CRMEntity
 	public $def_basicsearch_col = 'paymentsname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'paymentsname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['paymentsname' => 1];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';

@@ -243,21 +243,6 @@ class CRMEntity
 		return $value;
 	}
 
-	/** Function to initialize the required fields array for that particular module */
-	public function initRequiredFields($module)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$tabid = \App\Module::getModuleId($module);
-		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
-		$result = $adb->pquery($sql, [$tabid]);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; ++$i) {
-			$fieldName = $adb->queryResult($result, $i, 'fieldname');
-			$this->required_fields[$fieldName] = 1;
-		}
-	}
-
 	/**
 	 * Function to unlink an entity with given Id from another entity.
 	 *

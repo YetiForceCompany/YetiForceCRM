@@ -56,7 +56,6 @@ class Leads extends CRMEntity
 	public $search_fields_name = [
 		'Company' => 'company',
 	];
-	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime'];

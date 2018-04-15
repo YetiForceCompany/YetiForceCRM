@@ -10,7 +10,6 @@
 
 class ProjectTask extends CRMEntity
 {
-
 	public $table_name = 'vtiger_projecttask';
 	public $table_index = 'projecttaskid';
 	public $column_fields = [];
@@ -34,7 +33,7 @@ class ProjectTask extends CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_projecttask' => 'projecttaskid',
-		'vtiger_projecttaskcf' => 'projecttaskid',];
+		'vtiger_projecttaskcf' => 'projecttaskid', ];
 
 	/**
 	 * Mandatory for Listing (Related listview).
@@ -99,8 +98,6 @@ class ProjectTask extends CRMEntity
 	public $def_basicsearch_col = 'projecttaskname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'projecttaskname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['projecttaskname' => 1];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';

@@ -65,8 +65,6 @@ class HelpDesk extends CRMEntity
 		'Ticket No' => 'ticket_no',
 		'Title' => 'ticket_title',
 	];
-	//Specify Required fields
-	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log'];
