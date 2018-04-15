@@ -168,6 +168,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($handler->loginRequired()) {
 				$this->checkLogin($request);
 			}
+			if ($handler->isSessionExtend()) {
+				\App\Session::set('last_activity', \App\Config::$startTime);
+			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
 				header('Location:index.php?module=Home&view=DashBoard');
 			}

@@ -132,4 +132,14 @@ abstract class Base
 		header_remove('X-Powered-By');
 		header_remove('Server');
 	}
+
+	/**
+	 * Function to check if session is extend.
+	 *
+	 * @return bool
+	 */
+	public function isSessionExtend()
+	{
+		return true;
+	}
 }

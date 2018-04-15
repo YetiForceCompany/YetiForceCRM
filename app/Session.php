@@ -120,4 +120,16 @@ class Session
 	{
 		session_destroy();
 	}
+
+	/**
+	 * Function to clean session. Removed old session.
+	 *
+	 * @return string
+	 */
+	public static function clean()
+	{
+		if (!empty(static::$pool)) {
+			return static::$pool->clean();
+		}
+	}
 }
