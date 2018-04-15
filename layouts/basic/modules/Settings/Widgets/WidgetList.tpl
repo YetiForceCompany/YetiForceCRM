@@ -4,8 +4,8 @@
 		<div class="modal-content">
 			<form class="form-modalAddWidget">  
 				<div class="modal-header contentsBackground">
-					<button type="button" data-dismiss="modal" class="close" title="Zamknij">×</button>
 					<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>
+					<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-Fields">
