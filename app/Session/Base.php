@@ -112,4 +112,13 @@ class Base extends \SessionHandler
 	{
 		return parent::destroy($sessionId);
 	}
+
+	/**
+	 * Function to clean session. Removed old session.
+	 *
+	 * @return string
+	 */
+	public static function clean()
+	{
+	}
 }

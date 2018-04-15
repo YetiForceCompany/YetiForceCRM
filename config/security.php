@@ -52,6 +52,8 @@ $SECURITY_CONFIG = [
 	'HPKP_KEYS' => [],
 	// Content Security Policy
 	'CSP_ACTIVE' => true,
-    // List of allowed domains for fields with HTML support
+	// List of allowed domains for fields with HTML support
 	'PURIFIER_ALLOWED_DOMAINS' => [],
+	// Lifetime session (in seconds)
+	'MAX_LIFETIME_SESSION' => 21600,
 ];
