@@ -1187,27 +1187,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $activities;
 	}
 
-	/**
-	 * Function to get list of fields which are required while importing records.
-	 *
-	 * @param string $module
-	 *
-	 * @return <Array> list of fields
-	 */
-	public function getRequiredFields($module = '')
-	{
-		$moduleInstance = $this->getEntityInstance();
-		$requiredFields = $moduleInstance->required_fields;
-		if (empty($requiredFields)) {
-			if (empty($module)) {
-				$module = $this->getName();
-			}
-			$moduleInstance->initRequiredFields($module);
-		}
-
-		return $moduleInstance->required_fields;
-	}
-
 	public function getWidgets($module)
 	{
 		return Settings_Widgets_Module_Model::getWidgets($module);

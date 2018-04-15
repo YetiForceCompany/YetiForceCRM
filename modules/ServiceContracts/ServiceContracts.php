@@ -100,8 +100,6 @@ class ServiceContracts extends CRMEntity
 	public $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'subject';
-	// Required Information for enabling Import feature
-	public $required_fields = ['assigned_user_id' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['subject', 'assigned_user_id'];

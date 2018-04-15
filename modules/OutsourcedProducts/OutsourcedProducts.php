@@ -85,8 +85,6 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public $popup_fields = ['productname'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'productname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['productname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'productname'];

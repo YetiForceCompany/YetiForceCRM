@@ -87,8 +87,6 @@ class OSSMailView extends CRMEntity
 	public $popup_fields = ['from', 'subject', 'ossmailview_sendtype'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'subject';
-	// Required Information for enabling Import feature
-	public $required_fields = ['subject' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['subject', 'from'];

@@ -47,9 +47,6 @@ class Products extends CRMEntity
 		'Part Number' => 'productcode',
 		'Unit Price' => 'unit_price',
 	];
-	public $required_fields = [
-		'productname' => 1,
-	];
 
 	/** @var string[] List of fields in the RelationListView */
 	public $relationFields = ['productname', 'productcode', 'commissionrate', 'qty_per_unit', 'unit_price'];

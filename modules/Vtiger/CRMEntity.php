@@ -15,8 +15,6 @@ class Vtiger_CRMEntity extends CRMEntity
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
-	// Required Information for enabling Import feature
-	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
 	public $special_functions = ['set_import_assigned_user'];
 

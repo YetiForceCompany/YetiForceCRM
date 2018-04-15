@@ -81,8 +81,6 @@ class Services extends CRMEntity
 	public $def_basicsearch_col = 'servicename';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'servicename';
-	// Required Information for enabling Import feature
-	public $required_fields = ['servicename' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['servicename', 'assigned_user_id'];
