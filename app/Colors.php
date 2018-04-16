@@ -320,7 +320,7 @@ class Colors
 	/**
 	 * Get all filter colors.
 	 *
-	 * @return strig[]
+	 * @return string[]
 	 */
 	public static function getAllFilterColors($byFilterValue = false)
 	{
