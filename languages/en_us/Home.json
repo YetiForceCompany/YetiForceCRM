@@ -37,6 +37,8 @@
     "LBL_GROUP_VALUES": "Split grouping values",
     "LBL_FILTER_BY_OWNER": "Filter by owner",
     "LBL_ALL_OWNERS": "All",
+    "LBL_EMPTY": "empty",
+    "LBL_CHART_STACKED": "Combine graph elements",
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph"
   },
