@@ -37,6 +37,8 @@
     "LBL_GROUP_VALUES": "B\u00f6l\u00fcnm\u00fc\u015f gruplama de\u011ferleri",
     "LBL_FILTER_BY_OWNER": "Sahibine g\u00f6re filtrele",
     "LBL_ALL_OWNERS": "Hepsi",
+    "LBL_EMPTY": "empty",
+    "LBL_CHART_STACKED": "Combine graph elements",
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph"
   },
