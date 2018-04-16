@@ -328,7 +328,7 @@ class Colors
 		$filterColors = [];
 		$by = $byFilterValue ? 'viewname' : 'cvid';
 		foreach ($customViews as $viewData) {
-			$filterColors[$viewData[$by]] = $viewData['color'];
+			$filterColors[$viewData[$by]] = $viewData['color'] ? $viewData['color'] : static::getRandomColor($viewData[$by]);
 		}
 		return $filterColors;
 	}
