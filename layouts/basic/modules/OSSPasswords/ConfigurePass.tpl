@@ -20,9 +20,9 @@
 		</div>
 	{/if}
 
-	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-		<li class="active"><a href="#encoding" data-toggle="tab">{\App\Language::translate('Encoding', $MODULENAME)}</a></li>
-		<li><a href="#confpass" data-toggle="tab">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</a></li>
+	<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
+		<li class="nav-item"><a class="nav-link active" href="#encoding" data-toggle="tab">{\App\Language::translate('Encoding', $MODULENAME)}</a></li>
+		<li class="nav-item"><a class="nav-link" href="#confpass" data-toggle="tab">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</a></li>
 	</ul>
 	<br />
 	<div id="my-tab-content" class="tab-content">
