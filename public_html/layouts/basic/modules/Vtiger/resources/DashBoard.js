@@ -344,7 +344,7 @@ $.Class("Vtiger_DashBoard_Js", {
 						const valueTypeElement = step2.find('.valueType');
 						App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
 						App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
-						step2.find('.filterId, .valueType').on('change', function () {
+						step2.find('.filtersId, .valueType').on('change', function () {
 							if (!filtersIdElement.val() || !valueTypeElement.val())
 								return;
 							wizardContainer.find('.step3').remove();
@@ -354,7 +354,7 @@ $.Class("Vtiger_DashBoard_Js", {
 								view: 'ChartFilter',
 								step: 'step3',
 								selectedModule: moduleNameSelect2.val(),
-								filterid: filtersIdElement.val(),
+								filtersId: filtersIdElement.val(),
 								valueType: valueTypeElement.val(),
 							}).then(function (step3Response) {
 								step2.last().after(step3Response);
@@ -373,7 +373,7 @@ $.Class("Vtiger_DashBoard_Js", {
 										view: 'ChartFilter',
 										step: 'step4',
 										selectedModule: moduleNameSelect2.val(),
-										filterid: filtersIdElement.val(),
+										filtersId: filtersIdElement.val(),
 										groupField: groupField.val(),
 										chartType: chartType.val()
 									}).then(function (step4Response) {

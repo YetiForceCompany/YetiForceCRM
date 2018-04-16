@@ -50,6 +50,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getSourceChartType() {
 		return this.getContainer().find('[name="typeChart"]').val();
 	},
+	isMultiFilter() {
+		if (typeof this.filterIds !== 'undefined') {
+			return this.filterIds.length > 1;
+		}
+		return false;
+	},
 	/**
 	 * Predefined functions that will replace options function type
 	 * @type {Object}
@@ -1634,7 +1640,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const options = this.parseOptions(this.loadBasicOptions(data));
 		const plugins = this.parseOptions(this.loadPlugins(data));
 		data = this.parseOptions(data);
-		const copy = $.extend(true, {}, data);
 		const chart = this.chartInstance = new Chart(
 			this.getChartContainer().getContext("2d"), {
 				type,
@@ -1648,7 +1653,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			dataset.datasetIndex = index;
 			return this.parseOptions(dataset, true, dataset);
 		});
-
 		return chart;
 	},
 	/**
@@ -2624,6 +2628,7 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 		if (stacked) {
 			chartClassName += 'Stacked';
 		}
+		this.filterIds = container.find('[name="filterIds"]').val();
 		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
 		this.registerRecordsCount();
 	},
