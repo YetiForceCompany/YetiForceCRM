@@ -354,6 +354,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			// datasetIndex is for dividingValue
 			$dataset = &$chartData['datasets'][$datasetIndex];
+			if ($this->isMultiFilter()) {
+				$dataset['label'] = $this->getViewName($dividingValue);
+			} elseif ($this->isDividedByField()) {
+				$dataset['label'] = $dividingValue;
+			}
 			$datasetsDividings[$datasetIndex] = $dividingValue;
 			foreach ($dividing as $groupValue => &$group) {
 				if (!in_array($groupValue, $chartData['labels'])) {
@@ -1185,6 +1190,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Get view name for multi filter charts.
+	 *
+	 * @param $dividingValue
+	 *
+	 * @return false|null|string
+	 */
+	protected function getViewName($dividingValue)
+	{
+		return (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->getFilterId($dividingValue)])->scalar();
+	}
+
+	/**
 	 * Get title.
 	 *
 	 * @param string $prefix
@@ -1216,7 +1233,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getTotalCountURL()
 	{
-		if (count($this->getFilterIds())>1) {
+		if (count($this->getFilterIds()) > 1) {
 			return null;
 		} else {
 			return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId(0);
