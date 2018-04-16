@@ -652,6 +652,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $query;
 	}
 
+	/**
+	 * Get query for specified filter.
+	 *
+	 * @param $filter
+	 *
+	 * @return \App\Db\Query
+	 */
 	protected function getQuery($filter)
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
@@ -1198,6 +1205,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
 		$this->stacked = !empty($this->extraData['stacked']);
 		$this->dividingFieldName = 0;
+
 		if (!$this->isMultiFilter()) {
 			$this->dividingName = !empty($this->extraData['dividingField']) ? $this->extraData['dividingField'] : null;
 			if ($this->dividingName) {
