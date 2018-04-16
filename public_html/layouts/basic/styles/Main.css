@@ -7012,12 +7012,13 @@ hr {
 
 .modal .imageHolder {
   margin-left: 14% !important;
-  width: 27%;
+  min-width: 250px;
+  width: 30%;
   z-index: 1; }
 
 .blockProgressContainer.imageHolder {
   padding: 40px 0;
-  background: radial-gradient(#fff 25%, transparent 70%); }
+  background: radial-gradient(#fff 55%, transparent 70%); }
 
 .message {
   font-weight: bold;
@@ -8712,9 +8713,6 @@ span[name=existingImages] img {
 
 .modal-body .btn-elements > .btn {
   margin-left: 5px; }
-
-.popupContainer .popupModuleName {
-  margin-top: 0; }
 
 .ui-widget-content {
   padding: .8em; }
