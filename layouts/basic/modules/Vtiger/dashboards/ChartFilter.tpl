@@ -161,16 +161,24 @@
 					<input type="checkbox" class="form-control saveParam" name="colorsFromDividingField" value="1" checked>
 				</td>
 			</tr>
-			{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain'])}
-				<tr class="step4">
-					<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-						{\App\Language::translate('LBL_CHART_STACKED','Home')}
-					</td>
-					<td class="fieldValue">
-						<input type="checkbox" class="form-control saveParam" name="stacked" value="1">
-					</td>
-				</tr>
-			{/if}
+		{/if}
+		{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain'])}
+			<tr class="step4">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+					{\App\Language::translate('LBL_CHART_STACKED','Home')}
+				</td>
+				<td class="fieldValue">
+					<input type="checkbox" class="form-control saveParam" name="stacked" value="1">
+				</td>
+			</tr>
+		{/if}
+		{if count($FILTERS)>1}
+			<tr class="step4">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_CHART_COLORS_FROM_FILTER','Home')}</td>
+				<td class="fieldValue">
+					<input type="checkbox" class="form-control saveParam" name="colorsFromFilter" value="1" checked>
+				</td>
+			</tr>
 		{/if}
 		<tr class="step4">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTERING_BY_DATE','Home')}</td>
