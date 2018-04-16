@@ -141,7 +141,7 @@
 				</td>
 			</tr>
 		{/if}
-		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal'])}
+		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal']) && count($FILTERS)<=1}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
 				<td class="fieldValue">

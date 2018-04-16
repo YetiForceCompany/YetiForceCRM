@@ -307,6 +307,31 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Get filters ids.
+	 *
+	 * @return int[]|string
+	 */
+	public function getFilterIds($asString = false)
+	{
+		if (!$asString) {
+			return $this->filterIds;
+		}
+		return implode(',', $this->filterIds);
+	}
+
+	/**
+	 * Get filter id.
+	 *
+	 * @param $dividingValue
+	 *
+	 * @return int
+	 */
+	public function getFilterId($dividingValue)
+	{
+		return $this->filterIds[$dividingValue];
+	}
+
+	/**
 	 * Get chart data.
 	 *
 	 * @return array
@@ -893,7 +918,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if ($this->isDividedByField()) {
 				$searchParams = array_merge($searchParams, [[$this->dividingFieldName, 'e', $row[$this->dividingName]]]);
 			}
-			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
+			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
 			$this->addValue('link', $link, $groupValue, $dividingValue);
 		}
 	}
@@ -1012,7 +1037,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return array
 	 */
-	protected function getRowsFunnel()
+	protected function getRowsFunnel($dividingValue)
 	{
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$this->groupFieldName = $this->groupFieldModel->getFieldName();
@@ -1040,7 +1065,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if ($sectorId != 0) {
 				$searchParams[] = [$this->groupName, 'g', $sectors[$sectorId - 1]];
 			}
-			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
+			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
 		}
 		$dataReader->close();
 		return $groupData;
@@ -1116,7 +1141,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$this->widgetModel = $widgetModel;
 		$this->extraData = $this->widgetModel->get('data');
-		$this->filterIds = $this->setFilterIds();
+		$this->setFilterIds();
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
@@ -1171,7 +1196,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
 			$suffix = '';
-			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
+			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->getFilterId(0)])->scalar();
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 				if (!empty($this->extraData['groupField'])) {
@@ -1191,7 +1216,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getTotalCountURL()
 	{
-		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
+		if (count($this->getFilterIds())>1) {
+			return null;
+		} else {
+			return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId(0);
+		}
 	}
 
 	/**
@@ -1201,7 +1230,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getListViewURL()
 	{
-		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
+		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId(0);
 	}
 
 	public function isColor()

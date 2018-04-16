@@ -58,6 +58,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType', 1));
 				$viewer->assign('GROUP_FIELD', $request->getByType('groupField', 1));
 				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField', 1)));
+				$viewer->assign('FILTERS', $request->getByType('filtersId', 'Integer'));
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);
