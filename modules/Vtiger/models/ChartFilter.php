@@ -425,21 +425,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || $dividing['color_id'] === null) {
 			if ($group['color_id'] === null) {
-				// we have all fields colors
-				// if some record doesn't have field which have color use color from other dataset
-				$color = static::EMPTY_COLOR; // transparent color if records doesn't have wanted colors (what can i do?)
-				if ($this->areColorsFromDividingField()) {
-					if (!empty($this->fieldValueColors[$dividingValue])) {
-						$colorId = $this->fieldValueColors[$dividingValue];
-					}
-				} else {
-					if (!empty($this->fieldValueColors[$groupValue])) {
-						$colorId = $this->fieldValueColors[$groupValue];
-					}
-				}
-				if (isset($colorId)) {
-					$color = $this->colors[$colorId];
-				}
+				$color=$this->getFieldValueColor($groupValue, $dividingValue);
 				$this->singleColors[$datasetIndex][] = $color;
 				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
 			} else {
