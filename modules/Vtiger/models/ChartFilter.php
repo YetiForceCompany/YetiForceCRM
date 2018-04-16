@@ -1010,6 +1010,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 	}
 
+	/**
+	 * Add value to rows (other than $this->valueType).
+	 *
+	 * @param $valueType
+	 * @param $value
+	 * @param $groupValue
+	 * @param $dividingValue
+	 */
 	protected function addValue($valueType, $value, $groupValue, $dividingValue)
 	{
 		if (!isset($this->data[$dividingValue])) {
@@ -1139,7 +1147,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		foreach (array_unique($this->owners) as $ownerId) {
 			$owners[$ownerId] = App\Fields\Owner::getLabel($ownerId);
 		}
-
 		return $owners;
 	}
 
@@ -1191,7 +1198,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
 		$this->stacked = !empty($this->extraData['stacked']);
 		$this->dividingFieldName = 0;
-
 		if (!$this->isMultiFilter()) {
 			$this->dividingName = !empty($this->extraData['dividingField']) ? $this->extraData['dividingField'] : null;
 			if ($this->dividingName) {
