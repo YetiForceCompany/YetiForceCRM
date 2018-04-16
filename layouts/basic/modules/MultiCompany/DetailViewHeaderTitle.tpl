@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
+	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}

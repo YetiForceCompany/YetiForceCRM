@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
+	<div class="col-md-12 pr-0 row">
 		<span class="col-md-2">
 			<div style="position:relative;display:inline;">
 				<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />

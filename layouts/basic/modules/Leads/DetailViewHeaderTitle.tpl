@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
+	<div class="col-md-12 pr-0 row">
 		<input type="hidden" id="conversion_available_status" value="{\App\Purifier::encodeHtml($CONVERSION_AVAILABLE_STATUS)}" />
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
