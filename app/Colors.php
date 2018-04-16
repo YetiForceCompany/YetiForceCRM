@@ -316,4 +316,20 @@ class Colors
 
 		return $color;
 	}
+
+	/**
+	 * Get all filter colors.
+	 *
+	 * @return strig[]
+	 */
+	public static function getAllFilterColors($byFilterValue = false)
+	{
+		$customViews = (new Db\Query())->select(['cvid', 'viewname', 'color'])->from('vtiger_customview')->all();
+		$filterColors = [];
+		$by = $byFilterValue ? 'viewname' : 'cvid';
+		foreach ($customViews as $viewData) {
+			$filterColors[$viewData[$by]] = $viewData['color'];
+		}
+		return $filterColors;
+	}
 }

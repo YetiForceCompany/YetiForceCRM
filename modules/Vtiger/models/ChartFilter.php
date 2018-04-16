@@ -12,10 +12,12 @@
  */
 class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 {
+	public const FILTERS = 'filters';
 	public const PICKLIST = 'picklist';
 	public const ASSIGNED_USER_ID = 'assigned_user_id';
 	public const RECORD_ID = 'record_id';
 	public const RECORD_NUMBER = 'record_number';
+	public const ROW_FILTERS = 'color';
 	public const ROW_PICKLIST = 'picklist_id';
 	public const ROW_ASSIGNED_USER_ID = 'assigned_user_id';
 	public const ROW_RECORD_ID = 'id';
@@ -214,6 +216,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $singleColors = [];
 
 	/**
+	 * Should color be taken from filters?
+	 *
+	 * @var bool
+	 */
+	private $colorsFromFilter = false;
+
+	/**
 	 * Get instance.
 	 *
 	 * @param int $linkId
@@ -294,6 +303,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function areColorsFromDividingField()
 	{
 		return $this->colorsFromDividingField;
+	}
+
+	/**
+	 * Determine if colors should be taken from filters.
+	 *
+	 * @return bool
+	 */
+	public function areColorsFromFilter()
+	{
+		return $this->colorsFromFilter;
 	}
 
 	/**
@@ -458,6 +477,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if (!empty($this->fieldValueColors[$dividingValue])) {
 				$color = $this->colors[$this->fieldValueColors[$dividingValue]];
 			}
+		} elseif ($this->areColorsFromFilter()) {
+			$color = $this->colors[$dividingValue];
 		} else {
 			if (!empty($this->fieldValueColors[$groupValue])) {
 				$color = $this->colors[$this->fieldValueColors[$groupValue]];
@@ -525,6 +546,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Set colors from filters.
+	 */
+	protected function setColorsFromFilters()
+	{
+		$this->colorsFrom = static::FILTERS;
+		$this->colorsFromRow = static::ROW_FILTERS;
+		$colors = \App\Colors::getAllFilterColors();
+		$this->iterateAllRows(function (&$row, $groupValue, $dividingValue, $rowIndex) use ($colors) {
+			$this->colors[$dividingValue] = $colors[$this->filterIds[$dividingValue]];
+		});
+	}
+
+	/**
 	 * Set colors from assigned user.
 	 */
 	protected function setColorsFromAssignedUserId()
@@ -568,6 +602,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function setColorsFrom($from)
 	{
 		switch ($from) {
+			case static::FILTERS:
+				$this->setColorsFromFilters();
+				break;
 			case static::PICKLIST:
 				$this->setColorsFromPickList();
 				break;
@@ -801,8 +838,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$this->setValueFromRow($row, $groupValue, $dividingValue);
 		}
 		$dataReader->close();
-		$this->calculateAverage();
-		$this->normalizeData();
 		return $this->data;
 	}
 
@@ -825,6 +860,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$query = $this->getQuery($this->filterIds[0]);
 			$this->_getRows($query, 0);
 		}
+		$this->calculateAverage();
+		$this->normalizeData();
 		$this->setColorsFrom($this->findOutColorsFromRows());
 		$this->iterateAllRows(function ($row, $groupValue, $dividingValue, $rowIndex) {
 			$this->setColorFromRow($row, $groupValue, $dividingValue);
@@ -856,6 +893,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function findOutColorsFromRows()
 	{
+		if ($this->areColorsFromFilter()) {
+			return static::FILTERS;
+		}
 		$picklist = false;
 		$assignedUserId = false;
 		$recordId = false;
@@ -895,7 +935,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function setColorFromRow($row, $groupValue, $dividingValue)
 	{
 		$colorId = null;
-		if ($this->colorsFrom !== static::RECORD_NUMBER) {
+		if ($this->colorsFrom !== static::RECORD_NUMBER && $this->colorsFrom !== static::FILTERS) {
 			$colorId = $row[$this->colorsFromRow];
 		}
 		$this->addValue('color_id', $colorId, $groupValue, $dividingValue);
@@ -1163,6 +1203,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if ($this->dividingName) {
 				$this->colorsFromDividingField = !empty($this->extraData['colorsFromDividingField']);
 			}
+		} else {
+			$this->colorsFromFilter = !empty($this->extraData['colorsFromFilter']);
 		}
 	}
 

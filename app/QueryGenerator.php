@@ -604,6 +604,7 @@ class QueryGenerator
 	public function initForCustomViewById($viewId, $onlyFields = false)
 	{
 		$this->fields[] = 'id';
+		$this->fields[] = 'color';
 		$customView = CustomView::getInstance($this->moduleName, $this->user);
 		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
 		if ($this->cvColumns) {
