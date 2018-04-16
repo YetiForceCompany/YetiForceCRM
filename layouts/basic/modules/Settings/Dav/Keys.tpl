@@ -56,7 +56,7 @@
 									<td>{if $ADDRESSBOOK}{$ADDRESSBOOK}{else}0{/if}</td>
 									<td>{if $CALENDAR}{$CALENDAR}{else}0{/if}</td>
 									<td>
-										<button class="btn btn-danger js-delete-key ml-2" data-js="click"><span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-danger js-delete-key ml-2 mr-1" data-js="click"><span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
 										<button class="btn btn-primary clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}"><span class="fas fa-copy mr-1"></span>{\App\Language::translate('LBL_KEY',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
