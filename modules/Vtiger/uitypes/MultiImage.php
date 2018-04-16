@@ -54,8 +54,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$file = \App\Fields\File::loadFromInfo([
-					'path' => $path,
-					'name' => $item['name'],
+				'path' => $path,
+				'name' => $item['name'],
 			]);
 			$validFormat = $file->validate('image');
 			$validExtension = false;
@@ -116,12 +116,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get Display value for ModTracker.
-	 *
-	 * @param                      $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 *
-	 * @return mixed
+	 * {@inheritdoc}
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
@@ -134,6 +129,39 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}, $value);
 		$result = implode(', ', $value);
 		return trim($result, "\n\s\t, ");
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		$value = \App\Json::decode($value);
+		if (!$value) {
+			return '';
+		}
+		$images = $style = '';
+		if ($params) {
+			list($width, $height) = explode('|', $params, 2);
+			if ($width) {
+				$style .= "width:$width;";
+			}
+			if ($height) {
+				$style .= "height:$height;";
+			}
+		} else {
+			$width = 100 / count($value);
+			$style .= "width:$width%;";
+			$images .= '<div style="width:100%">';
+		}
+		foreach ($value as $item) {
+			$base64 = base64_encode(file_get_contents($item['path']));
+			$images .= "<img src=\"data:image/jpeg;base64,$base64\" style=\"$style\"/>";
+		}
+		if (!$params) {
+			$images .= '</div>';
+		}
+		return $images;
 	}
 
 	/**
@@ -193,6 +221,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			if (!is_array($value)) {
 				return '';
 			}
+			$len = count($value);
 			for ($i = 0; $i < $len; $i++) {
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';

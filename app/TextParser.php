@@ -357,7 +357,7 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\.\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
 			list(, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
@@ -449,7 +449,6 @@ class TextParser
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
 			return Company::$logoPath . $company->get($fieldName);
 		}
-
 		return $company->get($fieldName);
 	}
 
@@ -485,7 +484,6 @@ class TextParser
 			$value = $instance->record($fieldName);
 		}
 		Cache::save('TextParserEmployeeDetail', $userId . $fieldName, $value, Cache::LONG);
-
 		return $value;
 	}
 
@@ -510,30 +508,28 @@ class TextParser
 			case 'BaseTimeZone':
 				return Fields\DateTime::getTimeZone();
 		}
-
 		return $key;
 	}
 
 	/**
 	 * Parsing record data.
 	 *
-	 * @param string $key
+	 * @param string $params
 	 *
 	 * @return string
 	 */
-	protected function record($key, $isPermitted = true)
+	protected function record($params, $isPermitted = true)
 	{
 		if (!isset($this->recordModel) || ($isPermitted && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))) {
 			return '';
 		}
+		list($key, $params) = explode('|', $params, 2);
 		if ($this->recordModel->has($key)) {
 			$fieldModel = $this->recordModel->getModule()->getField($key);
-
 			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
 				return '';
 			}
-
-			return $this->getDisplayValueByField($fieldModel);
+			return $this->getDisplayValueByField($fieldModel, false, $params);
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL':
@@ -547,7 +543,6 @@ class TextParser
 				} elseif ($this->moduleName === 'Products') {
 					$recorIdName = 'productid';
 				}
-
 				return \AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
 			case 'ModuleName':
 				return $this->moduleName;
@@ -570,7 +565,6 @@ class TextParser
 						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
-
 				return $value;
 			case 'ChangesListValues':
 				$changes = $this->recordModel->getPreviousValue();
@@ -590,7 +584,6 @@ class TextParser
 						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
-
 				return $value;
 			default:
 				if (strpos($key, ' ') !== false) {
@@ -602,7 +595,6 @@ class TextParser
 				}
 				break;
 		}
-
 		return '';
 	}
 
@@ -671,7 +663,6 @@ class TextParser
 				$instance->$key = $this->$key;
 			}
 		}
-
 		return $instance->record($relatedField);
 	}
 
@@ -693,7 +684,6 @@ class TextParser
 				$instance->$key = $this->$key;
 			}
 		}
-
 		return $instance->record($fieldName);
 	}
 
@@ -753,7 +743,6 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
-
 		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
@@ -809,44 +798,53 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
-
 		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
 	 * Get record display value.
 	 *
-	 * @param \Vtiger_Field_Model        $fieldModel
-	 * @param |mixed\Vtiger_Record_Model $value
+	 * @param \Vtiger_Field_Model             $fieldModel
+	 * @param bool|mixed|\Vtiger_Record_Model $value
+	 * @param string                          $params
 	 *
-	 * @return bool|string
+	 * @return array|bool|mixed|string
 	 */
-	protected function getDisplayValueByField(\Vtiger_Field_Model $fieldModel, $value = false)
+	protected function getDisplayValueByField(\Vtiger_Field_Model $fieldModel, $value = false, $params = null)
 	{
 		$recordModel = $this->recordModel;
 		if ($value === false) {
-			$value = $this->recordModel->get($fieldModel->getName(), $this->recordModel->getId(), $this->recordModel, true);
+			$value = $this->recordModel->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
-				return '-';
+				return '';
 			}
 		} elseif (is_object($value)) {
 			$recordModel = $value;
-			$value = $value->get($fieldModel->getName(), $value->getId(), $value, true);
+			$value = $value->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
 				return false;
 			}
 		}
 		if ($value === '') {
-			return '-';
+			return '';
 		}
 		if ($this->withoutTranslations !== true) {
-			return $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+			return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
 		}
-
-		return $this->getDisplayValueByType($value, $recordModel, $fieldModel);
+		return $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
 	}
 
-	protected function getDisplayValueByType($value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
+	/**
+	 * Get record display value by type.
+	 *
+	 * @param mixed                $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Field_Model  $fieldModel
+	 * @param string               $params
+	 *
+	 * @return array|mixed|string
+	 */
+	protected function getDisplayValueByType($value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel, $params)
 	{
 		switch ($fieldModel->getFieldDataType()) {
 			case 'boolean':
@@ -908,9 +906,8 @@ class TextParser
 				}
 				break;
 			default:
-				return $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+				return $fieldModel->getTextParserDisplayValue($value, $recordModel, $params);
 		}
-
 		return $value;
 	}
 
