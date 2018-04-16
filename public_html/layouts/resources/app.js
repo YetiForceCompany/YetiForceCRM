@@ -14,6 +14,7 @@ app = {
 	 */
 	languageString: [],
 	cacheParams: [],
+	modalEvents: [],
 	event: new function () {
 		this.el = $({});
 		this.trigger = function () {
@@ -243,11 +244,11 @@ app = {
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
 		var thisInstance = this;
-		var id = 'modal_' + Math.random().toString(36).substr(2, 9);
+		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
-				id = data.id;
+				Window.lastModalId = data.id;
 			}
 			paramsObject = data.css;
 			cb = data.cb;
@@ -277,13 +278,12 @@ app = {
 			var sendByAjaxCb = function () {
 			}
 		}
-		Window.lastModalId = id;
-		var container = $('#' + id);
+		var container = $('#' + Window.lastModalId);
 		if (container.length) {
 			container.remove();
 		}
 		container = $('<div></div>');
-		container.attr('id', id).addClass('modalContainer');
+		container.attr('id', Window.lastModalId).addClass('modalContainer');
 		container.one('hidden.bs.modal', function () {
 			container.remove();
 			var backdrop = $('.modal-backdrop');
@@ -336,11 +336,17 @@ app = {
 		if (typeof window[modalClass] !== 'undefined') {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
+			if(app.modalEvents[Window.lastModalId]){
+				app.modalEvents[Window.lastModalId](modalContainer, instance);
+			}
 		}
 		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		if (typeof window[modalClass] !== 'undefined') {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
+			if (app.modalEvents[Window.lastModalId]) {
+				app.modalEvents[Window.lastModalId](modalContainer, instance);
+			}
 		}
 	},
 	registerModalEvents: function (container, sendByAjaxCb) {
@@ -1297,7 +1303,7 @@ app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function (params, afterShowModal) {
+	showRecordsList: function (params, cb, afterShowModal) {
 		if (!params.view) {
 			params.view = "RecordsList";
 		}
@@ -1305,6 +1311,9 @@ app = {
 			app.showModalWindow(requestData, function (data) {
 				if (typeof afterShowModal === 'function') {
 					afterShowModal(data);
+				}
+				if (typeof cb === 'function') {
+					app.modalEvents[Window.lastModalId] = cb;
 				}
 			});
 		});

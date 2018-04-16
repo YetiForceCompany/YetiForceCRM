@@ -2,7 +2,7 @@
 {strip}
 <div class="modal js-modal-data" tabindex="-1"
 	 role="dialog" {foreach from=$MODAL_DATA key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach} data-js="data">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-full" role="document">
 		<div class="modal-content">
 			{foreach item=MODEL from=$MODAL_CSS}
 				<link rel="{$MODEL->getRel()}" href="{$MODEL->getHref()}"/>

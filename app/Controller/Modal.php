@@ -37,7 +37,21 @@ abstract class Modal extends View
 		$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		$viewer->assign('MODAL_CSS', $this->getModalCss($request));
 		$this->initializeContent($request, $viewer);
-		$viewer->view($this->preProcessTplName($request), $moduleName);
+		if (!$request->getBoolean('onlyBody')) {
+			$viewer->view($this->preProcessTplName($request), $moduleName);
+		}
+	}
+
+	/**
+	 * Pre process template name.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'Modals/Header.tpl';
 	}
 
 	/**
@@ -50,7 +64,9 @@ abstract class Modal extends View
 		$viewer->assign('SHOW_END_TAGS', true);
 		$viewer->assign('HIDE_SAVE_BTN', true);
 		$viewer->assign('HIDE_CANCEL_BTN', true);
-		$viewer->view('Modals/Footer.tpl', $moduleName);
+		if (!$request->getBoolean('onlyBody')) {
+			$viewer->view('Modals/Footer.tpl', $moduleName);
+		}
 	}
 
 	/**
