@@ -22,7 +22,7 @@ class File extends Base
 		$oldSessionId = session_id();
 		$oldSessionData = $_SESSION;
 		$exclusion = ['.htaccess', 'index.html', 'sess_' . $oldSessionId];
-		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && !in_array($item->getBasename(), $exclusion)) {
 				session_decode(file_get_contents($item->getPathname()));
 				if (empty($_SESSION['last_activity']) || $time - $_SESSION['last_activity'] < $lifeTime) {
@@ -30,7 +30,10 @@ class File extends Base
 				}
 				unlink($item->getPathname());
 				if (!empty($_SESSION['authenticated_user_id'])) {
-					yield \App\Fields\Owner::getLabel(empty($_SESSION['baseUserId']) ? $_SESSION['authenticated_user_id'] : $_SESSION['baseUserId']);
+					$userName = \App\User::getUserModel(empty($_SESSION['baseUserId']) ? $_SESSION['authenticated_user_id'] : $_SESSION['baseUserId'])->getDetail('user_name');
+					if (!empty($userName)) {
+						yield $userName;
+					}
 				}
 			}
 		}
