@@ -195,14 +195,14 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			container = jQuery('.WidgetsManage');
 		}
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
-		container.find("select.js-module-list").on('change', function (e) {
+		container.find("select.js-module__list").on('change', function (e) {
 			var target = $(e.currentTarget);
 			$("input[name='tabid']").val(target.val());
 			thisInstance.reloadWidgets();
 		});
-		container.find('.js-add-widget').on('click', function (e) {
+		container.find('.js-widget__add').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
-			var module = $(".WidgetsManage select.js-module-list").val();
+			var module = $(".WidgetsManage select.js-module__list").val();
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod=" + module, function (wizardContainer) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var form = jQuery('form', wizardContainer);
@@ -214,7 +214,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 
 			});
 		});
-		container.find('.js-edit-widget').on('click', function (e) {
+		container.find('.js-widget__edit').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
@@ -249,7 +249,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 				});
 			});
 		});
-		container.find('.js-remove-widget').on('click', function (e) {
+		container.find('.js-widget__remove').on('click', function (e) {
 			var target = $(e.currentTarget);
 			var blockSortable = target.closest('.blockSortable');
 			thisInstance.registerSaveEvent('removeWidget', {

@@ -11,7 +11,7 @@
 				{\App\Language::translate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
 			</div>
 			<div class="float-right col-md-4 mt-2">
-				<select class="select2 col-md-3 form-control js-module-list" data-js="change/value" name="ModulesList">
+				<select class="select2 col-md-3 form-control js-module__list" data-js="change|value" name="ModulesList">
 					{foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
 						<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{\App\Language::translate($item['tablabel'], $item['name'])}</option>
 					{/foreach}
@@ -19,11 +19,11 @@
 			</div>
 		</div>
 		<div class="row my-2">
-			<div class="col-8">
+			<div class="col-md-8">
 				<h4>{\App\Language::translate('List of widgets for the module', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCEMODULE, $SOURCEMODULE)}</h4>
 			</div>
-			<div class="col-4 float-right">
-				<button class="btn btn-success js-add-widget float-right" data-js="click" type="button"><i class="fas fa-plus mr-1"></i><strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+			<div class="col-md-4">
+				<button class="btn btn-success js-widget__add float-md-right float-left" data-js="click" type="button"><i class="fas fa-plus mr-1"></i><strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -35,22 +35,22 @@
 							<div class="blockSortable" data-id="{$key}">
 								<div class="padding1per border1px">
 									<div class="row">
-										<div class="col-md-5">
+										<div class="col-md-4">
 											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" /> &nbsp;&nbsp;{\App\Language::translate($WIDGET['type'], $QUALIFIED_MODULE)}
 										</div>
-										<div class="col-md-5">
+										<div class="col-md-4">
 											{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
 												{\App\Language::translate(\App\Module::getModuleName($WIDGET['data']['relatedmodule']),\App\Module::getModuleName($WIDGET['data']['relatedmodule']))}
 											{else}	
 												{\App\Language::translate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
 											{/if}									
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-4">
 											<span class="float-right">
-												<button class="btn btn-sm btn-primary js-edit-widget mr-1" data-js="click">
+												<button class="btn btn-sm btn-primary js-widget__edit mr-1" data-js="click">
 													<i class="u-cursor-pointer fas fa-edit" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
 												</button>
-												<button class="btn btn-sm btn-danger js-remove-widget" data-js="click">
+												<button class="btn btn-sm btn-danger js-widget__remove" data-js="click">
 													<i class="u-cursor-pointer fas fa-times" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
 												</button>
 											</span>
