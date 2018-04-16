@@ -7,8 +7,8 @@
 				{App\Language::translate('LBL_MAILSMTP_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="listViewActionsDiv row">
-			<div class="col-md-8 btn-toolbar">
+		<div class="listViewActionsDiv d-flex justify-content-between my-2">
+			<div class="btn-toolbar">
 				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					{if $LINK->getLabel()}
 						{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
@@ -32,7 +32,7 @@
 					</button>
 				{/foreach}
 			</div>
-			<div class="col-md-4">
+			<div>
 				{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
