@@ -233,3 +233,8 @@
 .quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
   height: 0;
 }
+.tpl-Detail-HeaderFields {
+  a {
+	color: lighten($link-color, 30%);
+  }
+}
