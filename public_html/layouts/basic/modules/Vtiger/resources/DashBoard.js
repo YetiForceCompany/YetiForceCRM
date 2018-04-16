@@ -334,6 +334,7 @@ $.Class("Vtiger_DashBoard_Js", {
 						module: 'Home',
 						view: 'ChartFilter',
 						step: 'step2',
+						chartType: chartType.val(),
 						selectedModule: moduleNameSelect2.val()
 					}).then(function (step2Response) {
 						step1.after(step2Response);
@@ -354,6 +355,7 @@ $.Class("Vtiger_DashBoard_Js", {
 								view: 'ChartFilter',
 								step: 'step3',
 								selectedModule: moduleNameSelect2.val(),
+								chartType: chartType.val(),
 								filtersId: filtersIdElement.val(),
 								valueType: valueTypeElement.val(),
 							}).then(function (step3Response) {
@@ -391,7 +393,10 @@ $.Class("Vtiger_DashBoard_Js", {
 					e.preventDefault();
 					const selectedModule = moduleNameSelect2.val();
 					const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					const selectedFiltersId = form.find('.filtersId').val().join(',');
+					let selectedFiltersId = form.find('.filtersId').val();
+					if (Array.isArray(selectedFiltersId)) {
+						selectedFiltersId = selectedFiltersId.join(',');
+					}
 					const selectedFilterLabel = form.find('.filterId').find(':selected').text();
 					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 					const data = {
