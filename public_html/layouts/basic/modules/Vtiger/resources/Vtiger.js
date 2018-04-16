@@ -474,9 +474,8 @@ var Vtiger_Index_Js = {
 		// The caching is done based on the URL so we can reuse.
 		let CACHE_ENABLED = true;
 
-		function prepareAndShowTooltipView() {
+		function prepareAndShowTooltipView(el) {
 			hideAllTooltipViews();
-			const el = jQuery(this);
 			let url = el.attr('href') ? el.attr('href') : '';
 			if (url === '') {
 				return;
@@ -530,14 +529,17 @@ var Vtiger_Index_Js = {
 			}
 		}
 
-		references.each(function (index, el) {
-			jQuery(el).hoverIntent({
-				interval: 100,
-				sensitivity: 7,
-				timeout: 10,
-				over: prepareAndShowTooltipView,
-				out: hideAllTooltipViews
+		references.on("mouseenter", function (e) {
+			prepareAndShowTooltipView($(e.currentTarget));
+			$(".popover").on("mouseleave", function () {
+				hideAllTooltipViews();
 			});
+		}).on("mouseleave", function () {
+			setTimeout(function () {
+				if (!$(".popover:hover").length) {
+					hideAllTooltipViews();
+				}
+			}, 100);
 		});
 
 		function registerToolTipDestroy() {
