@@ -73,7 +73,7 @@
 		<tr class="step2">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
 			<td class="fieldValue">
-				<select class="form-control filtersId" name="filtersId" multiple>
+				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel'}name="filtersId" multiple{else}name="filtersId[]"{/if}>
 					<option></option>
 					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
