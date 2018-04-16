@@ -474,8 +474,9 @@ var Vtiger_Index_Js = {
 		// The caching is done based on the URL so we can reuse.
 		let CACHE_ENABLED = true;
 
-		function prepareAndShowTooltipView(el) {
+		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();
+			const el = jQuery(this);
 			let url = el.attr('href') ? el.attr('href') : '';
 			if (url === '') {
 				return;
@@ -494,21 +495,18 @@ var Vtiger_Index_Js = {
 				});
 			}
 		}
-
 		function get_popover_placement(el) {
 			if (window.innerWidth - jQuery(el).offset().left < 400 || checkLastElement(el)) {
 				return 'left';
 			}
 			return 'right';
 		}
-
 		//The function checks if the selected element is the last element of the table in list view.
 		function checkLastElement(el) {
 			let parent = el.closest('tr');
 			let lastElementTd = parent.find('td.listViewEntryValue:last a');
 			return el.attr('href') === lastElementTd.attr('href');
 		}
-
 		function showTooltip(el, data) {
 			el.popover({
 				//title: '', - Is derived from the Anchor Element (el).
@@ -522,26 +520,23 @@ var Vtiger_Index_Js = {
 			lastPopovers.push(el.popover('show'));
 			registerToolTipDestroy();
 		}
-
 		function hideAllTooltipViews() {
 			while (lastPopover = lastPopovers.pop()) {
 				lastPopover.popover('hide');
 			}
 		}
-
-		references.on("mouseenter", function (e) {
-			prepareAndShowTooltipView($(e.currentTarget));
+		function hidePop() {
 			$(".popover").on("mouseleave", function () {
 				hideAllTooltipViews();
 			});
-		}).on("mouseleave", function () {
-			setTimeout(function () {
-				if (!$(".popover:hover").length) {
-					hideAllTooltipViews();
-				}
-			}, 100);
-		});
-
+			$(this).on("mouseleave", function () {
+				setTimeout(function () {
+					if (!$(".popover:hover").length) {
+						hideAllTooltipViews();
+					}
+				}, 100);
+			});
+		}
 		function registerToolTipDestroy() {
 			$('button[name="vtTooltipClose"]').on('click', function (e) {
 				const lastPopover = lastPopovers.pop();
@@ -549,6 +544,13 @@ var Vtiger_Index_Js = {
 				$('.popover').css("display", "none", "important");
 			});
 		}
+		references.hoverIntent({
+			interval: 100,
+			sensitivity: 7,
+			timeout: 10,
+			over: prepareAndShowTooltipView,
+			out: hidePop
+		});
 	},
 	changeWatching: function (instance) {
 		var value, module, state, className, user, record;
