@@ -3487,24 +3487,6 @@ select.form-control {
   padding-top: 10px;
   border-top: 4px solid #404952;
 }
-.detailViewHeaderFields {
-  .detailViewHeaderFieldsName {
-	display: inline-block;
-	float: left;
-  }
-  .detailViewHeaderFieldsValue {
-	display: inline-block;
-	float: right;
-	.badge {
-	  padding: 3px 10px !important;
-	  margin: 2px 0px;
-	  white-space: normal;
-	  a {
-		color: inherit;
-	  }
-	}
-  }
-}
 .grid1x7 {
   float: left;
 }
