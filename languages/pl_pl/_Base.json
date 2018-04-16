@@ -1043,6 +1043,7 @@
     "LBL_REMINDER": "Powiadomienia kalendarza",
     "LBL_CONFREPORT": "Serwer - konfiguracja",
     "LBL_UPDATES_HISTORY": "Serwer - aktualizacje",
+	"LBL_UPDATES_HISTORY_DESCRIPTION": "Historia aktualizacji",
     "Groups": "Grupy",
     "Roles": "Role",
     "RoleAndSubordinates": "Role i podporz\u0105dkowania",
