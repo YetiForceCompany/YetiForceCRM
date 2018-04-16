@@ -30,10 +30,10 @@
 									{/foreach}
 								</select>
 							</div>
-							<div class="col-md-7 btn-toolbar">
+							<div class="col-md-7 btn-toolbar justify-content-end">
 								{*<button class="btn btn-success float-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
-								<button class="btn btn-danger float-right {if count($UNSUPPORTED_CURRENCIES) eq 0}d-none{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
-								<button class="btn btn-info float-right" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
+								<button class="btn btn-info" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
+								<button class="btn btn-danger ml-1 {if count($UNSUPPORTED_CURRENCIES) eq 0}d-none{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
 							</div>
 						</div>
 					</td>
@@ -77,7 +77,7 @@
 								</span>
 							</div>	
 							<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" />
-							<span class="input-group-btn">
+							<span class="input-group-append">
 								<button class="btn btn-success" name="download" value="download" type="submit">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>
 							</span>
 						</div>
