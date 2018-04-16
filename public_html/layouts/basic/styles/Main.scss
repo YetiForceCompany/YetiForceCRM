@@ -1,9 +1,15 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 @charset 'UTF-8';
+
+$link-color: #0058b6;
+$secondary: #5e666c;
+
 @import '../../../libraries/bootstrap/scss/bootstrap';
 @import '../../../libraries/select2-bootstrap4-theme/src/select2-bootstrap4';
-@import '_Style';
+
+
+
 //-------- base --------//
 @import 'components/_Variables';
 @import 'components/_Utilities';
@@ -21,3 +27,6 @@
 @import 'pages/_Detail';
 @import 'pages/_List';
 @import 'pages/_ListPreview';
+
+@import '_Style';
+@import '_Design';

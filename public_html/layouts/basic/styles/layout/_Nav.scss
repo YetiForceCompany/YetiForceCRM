@@ -8,7 +8,7 @@
 	z-index: -2;
 	width: 230px;
 	height: 100%;
-	background: $primary;
+	background: $YnavBarBackground;
   }
   position: fixed;
   left: 0;
@@ -17,7 +17,7 @@
   width: 230px;
   color: $light;
   z-index: 1030;
-  background: $primary;
+  background: $YnavBarBackground;
   .menuContainer .modulesList .menuIcon {
 	padding-right: 18px;
 	font-size: 24px;
@@ -57,7 +57,7 @@
 	}
 	color: $light;
 	&:hover {
-	  color: $primary;
+	  color: $YnavBarBackground;
 	}
   }
   .menuContainer {
@@ -113,10 +113,10 @@
 		padding-left: 50px;
 	  }
 	  a, .menuLabel {
-		color: $primary;
+		color: $YnavBarBackground;
 		&:hover, &:focus {
 		  color: $light;
-		  background: $primary;
+		  background: $YnavBarBackground;
 		}
 		&.hasIcon {
 		  padding: 8px 10px;
@@ -128,7 +128,7 @@
 	  button {
 		&:hover, &:focus {
 		  color: $light;
-		  background: $primary;
+		  background: $YnavBarBackground;
 		}
 	  }
 	  button .hasIcon {

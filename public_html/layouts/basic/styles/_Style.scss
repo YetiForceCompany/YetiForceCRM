@@ -2496,23 +2496,59 @@ html, body, .baseContainer {
 .actionMenuOn {
   display: block;
 }
+
+
 .searchMenu {
-  position: fixed;
-  left: 100%;
-  top: 42px;
-  width: 300px;
-  color: #000;
-  background: #fff;
-  z-index: 2000;
-  padding: 10px;
-  -webkit-transition: left ease-in-out 0.35s;
-  transition: left ease-in-out 0.35s;
-  border: 1px solid #afafaf;
-  border-radius: 3px;
+  .searchMenuBtn {
+    .close-label {
+      display: none;
+    }
+  }
+  .searchMenuPanel {
+    position: fixed;
+    left: auto;
+    right: -100%;
+    top: 50px;
+    width: 100%;
+    width: calc(100% - 50px);
+    color: #fff;
+    background-color: lighten($YnavBarBackground, 5%);
+    z-index: 2000;
+    padding: 30px;
+    -webkit-transition: right ease-in-out 0.35s;
+    transition: right ease-in-out 0.35s;
+    @media( max-width: 767px ) {
+      width: 100%;
+    }
+    .close {
+      color: inherit;
+      text-shadow: none;
+      opacity: 1;
+      &:hover,
+      &:focus {
+        color: inherit;
+        opacity: .75;
+      }
+      .label {
+        font-size: 1rem;
+        font-weight: normal;
+      }
+    }
+  }
 }
-.toogleSearchMenu {
-  left: calc(100% - 300px);
+
+.searchMenu.toogleSearchMenu {
+  .searchMenuBtn {
+    .close-label {
+      display: inline;
+    }
+  }
+  .searchMenuPanel {
+    right: 0;
+  }
 }
+
+
 .mobileLeftPanelContainer {
   padding-left: 20px;
   padding-right: 20px;
@@ -2871,9 +2907,6 @@ html, body, .baseContainer {
   .companyLogo {
 	width: 100%;
   }
-  .customFilterMainSpan .select2-container {
-	width: 300px !important;
-  }
   * {
 	zoom: 1 !important;
   }
@@ -2986,9 +3019,6 @@ html, body, .baseContainer {
   }
   .menuBar .col-md-9 li.tabs:first-child > a, .col-md-3#headerLinks li.tabs:first-child > a {
 	padding: 10px 12px 9px;
-  }
-  .customFilterMainSpan .select2-container {
-	width: 300px !important;
   }
   .quickCreateModules {
 	width: 100% !important;
@@ -3767,25 +3797,14 @@ select.form-control {
 .marginRight15 {
   margin-right: 15px;
 }
-.relatedContents .leftRecordActions .actions:hover {
-  white-space: nowrap;
-}
-.leftRecordActions .actions:hover .toolsAction, .rightRecordActions .actions:hover .toolsAction {
-  visibility: hidden;
-}
-.leftRecordActions .actions:hover .actionImages, .rightRecordActions .actions:hover .actionImages {
-  white-space: nowrap;
-  position: absolute;
-  z-index: 1;
-}
-.leftRecordActions {
-  > div, .actions:hover .actionImages {
-	display: inline-block !important;
-  }
-}
-.rightRecordActions .actions:hover .actionImages {
-  display: inline-block !important;
-  right: 7px;
+.rightRecordActions, .leftRecordActions {
+	white-space: nowrap;
+	> div, .actions {
+		display: inline-block;
+		.dropdown-menu {
+			padding: 0.2rem;
+		}
+	}
 }
 .leftRecordActions .actions {
   background: inherit;
