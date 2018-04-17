@@ -821,7 +821,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get current rows.
 	 *
-	 * @param {int} $index row index
+	 * @param int $index row index
 	 * @param $groupValue
 	 * @param $dividingValue
 	 */
@@ -891,7 +891,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @param $row
 	 *
-	 * @return {mixed}
+	 * @return mixed
 	 */
 	protected function getValueFromRow($row)
 	{
@@ -944,10 +944,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Set color for row in $this->data.
 	 *
-	 * @param {int}   $rowIndex
-	 * @param {array} $row
-	 * @param {mixed} $groupValue
-	 * @param {mixed} $dividingValue
+	 * @param int   $rowIndex
+	 * @param array $row
+	 * @param mixed $groupValue
+	 * @param mixed $dividingValue
 	 */
 	protected function setColorFromRow($row, $groupValue, $dividingValue)
 	{
@@ -967,11 +967,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Set link from row in $this->data.
 	 *
-	 * @param {array} $row
-	 * @param {mixed} $groupValue
-	 * @param {mixed} $dividingValue
+	 * @param array $row
+	 * @param mixed $groupValue
+	 * @param mixed $dividingValue
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 */
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
@@ -1012,10 +1012,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Add data to data placeholder ;).
 	 *
-	 * @param {string} $valueType
-	 * @param {mixed}  $value
-	 * @param {string} $groupValue
-	 * @param {string} $dividingValue
+	 * @param string $valueType
+	 * @param mixed  $value
+	 * @param string $groupValue
+	 * @param string $dividingValue
 	 */
 	protected function addData($value, $groupValue, $dividingValue)
 	{
@@ -1212,7 +1212,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
-			throw new \App\Exceptions\AppException('Invalid data');
+			throw new Exceptions\AppException('Invalid data');
 		}
 		$this->chartType = $this->extraData['chartType'];
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
