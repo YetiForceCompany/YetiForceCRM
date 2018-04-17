@@ -60,10 +60,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('GROUP_FIELD', $request->getByType('groupField'));
 				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField')));
-				$filters = $request->getByType('filtersId', 'Integer');
-				if (!is_array($filters)) {
-					$filters = [$filters];
-				}
+				$filters = $request->getExploded('filtersId', ',', 'Integer');
 				$viewer->assign('FILTERS', $filters);
 				break;
 		}
