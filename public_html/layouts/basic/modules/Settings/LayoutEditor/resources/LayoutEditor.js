@@ -592,11 +592,13 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerAddCustomFieldEvent: function () {
 		const thisInstance = this;
 		let contents = $('#layoutEditorContainer').find('.contents');
+		console.log(contents);
 		contents.find('.addCustomField').on('click', function (e) {
 			let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId');
+			console.log('fieldModal', contents.find('.createFieldModal').length);
 			let addFieldContainer = contents.find('.createFieldModal').clone(true, true);
+			console.log('fieldContainer',addFieldContainer.length);
 			addFieldContainer.removeClass('d-none').show();
-
 			var callBackFunction = function (data) {
 				//register all select2 Elements
 				App.Fields.Picklist.showSelect2ElementView(data.find('select'), {width: '100%'});
