@@ -494,7 +494,7 @@ pre {
     padding-left: 0; }
 
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .o-label-container, .o-btn-container, .col,
-.col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .c-panel_label, .col-sm,
+.col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .c-panel__label, .col-sm,
 .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .c-panel__body, .col-md,
 .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg,
 .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl,
@@ -696,7 +696,7 @@ pre {
     flex: 0 0 91.6666666667%;
     max-width: 91.6666666667%; }
 
-  .col-sm-12, .c-panel_label {
+  .col-sm-12, .c-panel__label {
     flex: 0 0 100%;
     max-width: 100%; }
 
@@ -4257,7 +4257,7 @@ button.bg-dark:focus {
 .border-top, .detailViewTable .fieldRow {
   border-top: 1px solid #dee2e6 !important; }
 
-.border-right, .c-panel_label {
+.border-right, .c-panel__label {
   border-right: 1px solid #dee2e6 !important; }
 
 .border-bottom {
@@ -4359,7 +4359,7 @@ button.bg-dark:focus {
 .d-table-cell {
   display: table-cell !important; }
 
-.d-flex, .c-panel_label, .o-label-container, .o-btn-container {
+.d-flex, .c-panel__label, .o-label-container, .o-btn-container {
   display: flex !important; }
 
 .d-inline-flex, .card .blockHeader, .c-panel .blockHeader, .c-detail-widget .blockHeader {
@@ -4643,7 +4643,7 @@ button.bg-dark:focus {
   .flex-sm-wrap-reverse {
     flex-wrap: wrap-reverse !important; }
 
-  .justify-content-sm-start, .c-panel_label, .o-label-container {
+  .justify-content-sm-start, .c-panel__label, .o-label-container {
     justify-content: flex-start !important; }
 
   .justify-content-sm-end, .o-btn-container {
@@ -4820,7 +4820,7 @@ button.bg-dark:focus {
   .justify-content-lg-start {
     justify-content: flex-start !important; }
 
-  .justify-content-lg-end, .c-panel_label {
+  .justify-content-lg-end, .c-panel__label {
     justify-content: flex-end !important; }
 
   .justify-content-lg-center, .o-label-container, .o-btn-container {
@@ -5221,7 +5221,7 @@ button.bg-dark:focus {
 .mx-5 {
   margin-left: 3rem !important; }
 
-.p-0, .select2-selection[aria-labelledby^="select2-theme"], .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .c-panel_label, .dataTables_wrapper .row, .daterangepicker.show-calendar {
+.p-0, .select2-selection[aria-labelledby^="select2-theme"], .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .c-panel__label, .dataTables_wrapper .row, .daterangepicker.show-calendar {
   padding: 0 !important; }
 
 .pt-0,
@@ -7517,17 +7517,6 @@ td.fieldValue input, td.fieldValue .input-group {
   /*for IE*/
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100); }
-
-.listViewBasicAction.dropdown-menu input {
-  border-radius: 2px;
-  height: 24px;
-  margin-bottom: 0;
-  margin-top: -2px;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
 
 .emptyRecordsDiv {
   width: 100%;
@@ -10523,8 +10512,14 @@ border1px {
 .u-w-fit {
   width: fit-content !important; }
 
+.u-w-max-320px {
+  max-width: 320px !important; }
+
 .u-h-600px {
   height: 600px !important; }
+
+.u-h-input-text {
+  height: 24px; }
 
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
