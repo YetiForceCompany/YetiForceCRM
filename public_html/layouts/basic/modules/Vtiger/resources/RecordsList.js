@@ -213,6 +213,12 @@ $.Class("Base_RecordsList_JS", {}, {
 			let row = $(this);
 			thisInstance.selectEvent(row.data());
 		});
+		thisInstance.container.on('change', '.js-hierarchy-records', function () {
+			thisInstance.container.find('.js-related-parent-id').val(this.value);
+			thisInstance.loadRecordList().then(function () {
+				thisInstance.updatePagination();
+			});
+		});
 	},
 	/**
 	 * Register modal basic events

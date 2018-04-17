@@ -15,34 +15,6 @@
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
-		<div class="d-flex mt-2">
-			<div class="col-md-2 form-group float-left">
-				{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}
-					<button class="select btn btn-outline-secondary">
-						<strong>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}</strong>
-					</button>
-				{/if}
-			</div>
-			{if $SWITCH && !empty($LISTVIEW_ENTRIES)}
-				<div class="col-md-4 form-group float-left">
-					<div class="btn-group">
-						<input class="switchPopup switchBtn"
-							   type="checkbox"{if $RELATED_PARENT_ID} checked{else} disabled{/if}
-							   title="{App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE_NAME)}" data-size="normal"
-							   data-label-width="5" data-on-text="{$POPUP_SWITCH_ON_TEXT}"
-							   data-off-text="{App\Language::translate('LBL_ALL',$MODULE_NAME)}"
-							   data-on-val="{$RELATED_PARENT_ID}" data-off-val="0" data-field="relatedParentId">
-					</div>
-					<div class="btn-group">
-						&nbsp;<a href="#" class="js-popover-tooltip pull-right-xs pull-right-sm float-right"
-								 data-js="popover" title="" data-placement="auto bottom"
-								 data-content="{App\Language::translate('LBL_POPUP_NARROW_DOWN_RECORDS_LIST',$MODULE_NAME)}"
-								 data-original-title="{App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE_NAME)}"><span
-									class="fas fa-info-circle"></span></a>
-					</div>
-				</div>
-			{/if}
-		</div>
 		<div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable">

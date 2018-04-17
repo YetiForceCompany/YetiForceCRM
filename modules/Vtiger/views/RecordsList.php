@@ -161,12 +161,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			}
 		}
 		if ($showSwitch) {
-			$viewer->assign('SWITCH', true);
-			$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
+			$viewer->assign('SWITCH', true)->assign('SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
 		}
-		if (!\App\Record::isExists($relatedParentId)) {
-			$relatedParentModule = '';
-			$relatedParentId = '';
+		if ($relatedParentId && !\App\Record::isExists($relatedParentId)) {
+			$relatedParentId = $relatedParentModule = '';
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
@@ -183,16 +181,13 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
 		if (!empty($orderBy)) {
-			$listViewModel->set('orderby', $orderBy);
-			$listViewModel->set('sortorder', $sortOrder);
+			$listViewModel->set('orderby', $orderBy)->set('sortorder', $sortOrder);
 		}
 		if (!empty($filterFields)) {
 			$listViewModel->set('filterFields', $filterFields);
 		}
 		if (!empty($sourceModule)) {
-			$listViewModel->set('src_module', $sourceModule);
-			$listViewModel->set('src_field', $sourceField);
-			$listViewModel->set('src_record', $sourceRecord);
+			$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
 		}
 		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
 			$listViewModel->set('search_key', $request->getByType('search_key', 1));
@@ -226,8 +221,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 		// If there are no related records with parent module then, we should show all the records
 		if (empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
-			$relatedParentModule = null;
-			$relatedParentId = null;
+			$relatedParentId = $relatedParentModule = null;
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 			$listViewModel->set('search_params', $transformedSearchParams);
 			if (!empty($orderBy)) {

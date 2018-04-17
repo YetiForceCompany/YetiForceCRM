@@ -2,7 +2,7 @@
 {strip}
 <div class="tpl-Modals-RecordsListHeader modal js-modal-data" tabindex="-1" data-js="data"
 	 role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach}>
-	<div class="modal-dialog {$MODAL_VIEW->modalSize}" role="document">
+<div class="modal-dialog {$MODAL_VIEW->modalSize}" role="document">
 	<div class="modal-content">
 	{foreach item=MODEL from=$MODAL_CSS}
 		<link rel="{$MODEL->getRel()}" href="{$MODEL->getHref()}"/>
@@ -18,6 +18,27 @@
 			{/if}
 			{App\Language::translate($MODULE_NAME, $MODULE_NAME)}
 		</h5>
+		{if $SWITCH && !empty($LISTVIEW_ENTRIES)}
+			<div class="ml-auto">
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-secondary active">
+						<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords"
+							   value="{$RELATED_PARENT_ID}" checked="">
+						{$SWITCH_ON_TEXT}
+					</label>
+					<label class="btn btn-secondary">
+						<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords"
+							   value="0">
+						{App\Language::translate('LBL_ALL',$MODULE_NAME)}
+					</label>
+				</div>
+				&nbsp;<a href="#" class="js-popover-tooltip" data-js="popover" title="" data-placement="auto"
+						 data-content="{App\Language::translate('LBL_POPUP_NARROW_DOWN_RECORDS_LIST',$MODULE_NAME)}"
+						 data-original-title="{App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE_NAME)}">
+					<span class="fas fa-info-circle"></span>
+				</a>
+			</div>
+		{/if}
 		<div class="ml-auto">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 				<div class="js-pagination-container float-right" data-js="container">
