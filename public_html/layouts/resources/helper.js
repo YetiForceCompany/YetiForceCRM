@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-jQuery.Class("Vtiger_Helper_Js", {
+$.Class("Vtiger_Helper_Js", {
 	checkServerConfigResponseCache: '',
 	langCode: '',
 	/*
@@ -140,7 +140,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 * Function to show the confirmation messagebox
 	 */
 	showConfirmationBox: function (params) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var baseParams = {
 			callback: function (result) {
 				if (result) {
@@ -154,9 +154,9 @@ jQuery.Class("Vtiger_Helper_Js", {
 		bootBoxModal.on('hidden', function (e) {
 			//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 			// modal open
-			if (jQuery('#' + Window.lastModalId).length > 0) {
+			if ($('#' + Window.lastModalId).length > 0) {
 				// Mimic bootstrap modal action body state change
-				jQuery('body').addClass('modal-open');
+				$('body').addClass('modal-open');
 			}
 		})
 		return aDeferred.promise();
@@ -202,7 +202,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 			params.data.hide = true;
 		}
 		if (typeof userParams != 'undefined') {
-			params.data = jQuery.extend(params.data, userParams);
+			params.data = $.extend(params.data, userParams);
 		}
 		PNotify.defaults.styling = "bootstrap4";
 		PNotify.defaults.icons = "fontawesome5";
@@ -213,7 +213,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 */
 	hidePnotify: function (notice) {
 		if (typeof notice == 'undefined') {
-			notice = jQuery('.ui-pnotify');
+			notice = $('.ui-pnotify');
 		}
 		notice.remove();
 	},
@@ -229,12 +229,12 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 * Function to show horizontal top scroll bar
 	 */
 	showHorizontalTopScrollBar: function () {
-		var container = jQuery('.contentsDiv');
-		var topScroll = jQuery('.contents-topscroll', container);
-		var bottomScroll = jQuery('.contents-bottomscroll', container);
-		jQuery('.bottomscroll-div', container).attr('style', '');
-		jQuery('.topscroll-div', container).css('width', jQuery('.bottomscroll-div', container).outerWidth());
-		jQuery('.bottomscroll-div', container).css('width', jQuery('.topscroll-div', container).outerWidth());
+		var container = $('.contentsDiv');
+		var topScroll = $('.contents-topscroll', container);
+		var bottomScroll = $('.contents-bottomscroll', container);
+		$('.bottomscroll-div', container).attr('style', '');
+		$('.topscroll-div', container).css('width', $('.bottomscroll-div', container).outerWidth());
+		$('.bottomscroll-div', container).css('width', $('.topscroll-div', container).outerWidth());
 		topScroll.on('scroll', function () {
 			bottomScroll.scrollLeft(topScroll.scrollLeft());
 		});
