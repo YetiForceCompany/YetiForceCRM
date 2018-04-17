@@ -69,7 +69,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 				Vtiger_Helper_Js.showPnotify(parametres);
 				return false;
 			} else {
-				if (app.getMainParams('disallowLongerThan24Hours') == '1') {
+				if (CONFIG.disallowLongerThan24Hours === true) {
 					sumeTime2 = sumeTime2 / 1000 / 60 / 60;
 					if (sumeTime2 > 24) {
 						Vtiger_Helper_Js.showPnotify({
