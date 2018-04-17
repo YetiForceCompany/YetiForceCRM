@@ -315,9 +315,9 @@ class CustomView
 	 *
 	 * @param string $cvId
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 */
-	private function _getCustomViewFromFIle($cvId)
+	private function _getCustomViewFromFile($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
@@ -326,8 +326,8 @@ class CustomView
 			$filter = new $handlerClass();
 			Cache::staticSave('getCustomViewFile', $cvId, $filter);
 		} else {
-			\App\Log::error(Language::translate('LBL_NOT_FOUND_VIEW') . "cvId: $cvId");
-			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_VIEW');
+			Log::error(Language::translate('LBL_NOT_FOUND_VIEW') . "cvId: $cvId");
+			throw new Exceptions\AppException('LBL_NOT_FOUND_VIEW');
 		}
 		return $filter;
 	}
@@ -337,7 +337,7 @@ class CustomView
 	 *
 	 * @param string $cvIds (comma separated multi cdIds)
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 */
 	public function getCustomViewFromFile($cvIds)
 	{
@@ -346,11 +346,11 @@ class CustomView
 			return Cache::staticGet('getCustomViewFile', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->_getCustomViewFromFIle($cvIds);
+			return $this->_getCustomViewFromFile($cvIds);
 		}
 		$filters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$filters[] = $this->_getCustomViewFromFIle($cvId);
+			$filters[] = $this->_getCustomViewFromFile($cvId);
 		}
 		Cache::save('getCustomViewFromFile', $cvIds, $filters);
 		return $filters;
@@ -361,7 +361,7 @@ class CustomView
 	 *
 	 * @param mixed $cvId
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 *
 	 * @return array
 	 */
@@ -387,7 +387,7 @@ class CustomView
 	 *
 	 * @param mixed $cvIds (comma separated)
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 *
 	 * @return array
 	 */
