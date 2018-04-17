@@ -55,9 +55,9 @@
 	"phpoffice/phpspreadsheet": "^1.0",
 	"yetiforce/csrf-magic": "1.0.6",
 	"ckeditor/ckeditor": "dev-full/stable",
-	"yetiforce/debugbar": "dev-yeti",
-	"yetiforce/yii2": "dev-yetiforce",
-	"yetiforce/icalendar": "dev-master"
+	"yetiforce/debugbar": "^1.13.1.1",
+	"yetiforce/yii2": "^2.0.15.2",
+	"yetiforce/icalendar": "^1.0.1"
   },
   "require-dev": {
 	"phpunit/phpunit": "7.*"

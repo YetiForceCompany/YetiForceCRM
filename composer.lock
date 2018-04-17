@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c523dfa229565fe5632a841cdaa10c96",
+    "content-hash": "bda70f1d56b3a17378603c23acf06db6",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -1360,22 +1360,78 @@
             "time": "2018-01-30T19:27:44+00:00"
         },
         {
-            "name": "symfony/var-dumper",
-            "version": "v3.4.8",
+            "name": "symfony/polyfill-php72",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "951643091b39a6fd40fce56cd16e21e12bef3feb"
+                "url": "https://github.com/symfony/polyfill-php72.git",
+                "reference": "8eca20c8a369e069d4f4c2ac9895144112867422"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/951643091b39a6fd40fce56cd16e21e12bef3feb",
-                "reference": "951643091b39a6fd40fce56cd16e21e12bef3feb",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/8eca20c8a369e069d4f4c2ac9895144112867422",
+                "reference": "8eca20c8a369e069d4f4c2ac9895144112867422",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8",
-                "symfony/polyfill-mbstring": "~1.0"
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php72\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2018-01-31T17:43:24+00:00"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "version": "v4.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "e1b4d008100f4d203cc38b0d793ad6252d8d8af0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e1b4d008100f4d203cc38b0d793ad6252d8d8af0",
+                "reference": "e1b4d008100f4d203cc38b0d793ad6252d8d8af0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/polyfill-php72": "~1.5"
             },
             "conflict": {
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
@@ -1386,13 +1442,12 @@
             },
             "suggest": {
                 "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
-                "ext-intl": "To show region name in time zone dump",
-                "ext-symfony_debug": ""
+                "ext-intl": "To show region name in time zone dump"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -1426,7 +1481,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-04-03T20:34:11+00:00"
+            "time": "2018-04-04T05:10:37+00:00"
         },
         {
             "name": "yetiforce/csrf-magic",
@@ -1475,22 +1530,22 @@
         },
         {
             "name": "yetiforce/debugbar",
-            "version": "dev-yeti",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/php-debugbar.git",
-                "reference": "52825aaba4e75338949336cf24148ffd95750667"
+                "reference": "30e7d60937ee5f1320975ca9bc7bcdd44d500f07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/php-debugbar/zipball/52825aaba4e75338949336cf24148ffd95750667",
-                "reference": "52825aaba4e75338949336cf24148ffd95750667",
+                "url": "https://api.github.com/repos/YetiForceCompany/php-debugbar/zipball/30e7d60937ee5f1320975ca9bc7bcdd44d500f07",
+                "reference": "30e7d60937ee5f1320975ca9bc7bcdd44d500f07",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
                 "psr/log": "^1.0",
-                "symfony/var-dumper": "^2.6|^3.0"
+                "symfony/var-dumper": "^2.6|^3.0|^4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.0|^5.0"
@@ -1503,7 +1558,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.14-dev"
                 }
             },
             "autoload": {
@@ -1532,20 +1587,20 @@
                 "debug",
                 "debugbar"
             ],
-            "time": "2018-03-22T14:47:30+00:00"
+            "time": "2017-12-15T11:13:46+00:00"
         },
         {
             "name": "yetiforce/icalendar",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/iCalendar.git",
-                "reference": "8a0b3f0a242df4ef71f1130ddb96060640472f7c"
+                "reference": "ffef9c341f3248a017973b06964fb7f559c12dfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/iCalendar/zipball/8a0b3f0a242df4ef71f1130ddb96060640472f7c",
-                "reference": "8a0b3f0a242df4ef71f1130ddb96060640472f7c",
+                "url": "https://api.github.com/repos/YetiForceCompany/iCalendar/zipball/ffef9c341f3248a017973b06964fb7f559c12dfa",
+                "reference": "ffef9c341f3248a017973b06964fb7f559c12dfa",
                 "shasum": ""
             },
             "type": "library",
@@ -1558,11 +1613,11 @@
             "keywords": [
                 "ical"
             ],
-            "time": "2018-04-09T10:59:36+00:00"
+            "time": "2018-04-17T06:12:21+00:00"
         },
         {
             "name": "yetiforce/yii2",
-            "version": "dev-yetiforce",
+            "version": "2.0.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/yii2-framework.git",
@@ -2327,16 +2382,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.1.2",
+            "version": "7.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6a17c170fb92845896e1b3b00fcb462cd4b3c017"
+                "reference": "a7834993ddbf4b0ed2c3b2dc1f3b1d093ef910a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6a17c170fb92845896e1b3b00fcb462cd4b3c017",
-                "reference": "6a17c170fb92845896e1b3b00fcb462cd4b3c017",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a7834993ddbf4b0ed2c3b2dc1f3b1d093ef910a9",
+                "reference": "a7834993ddbf4b0ed2c3b2dc1f3b1d093ef910a9",
                 "shasum": ""
             },
             "require": {
@@ -2354,7 +2409,7 @@
                 "phpunit/php-file-iterator": "^1.4.3",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
-                "phpunit/phpunit-mock-objects": "^6.1",
+                "phpunit/phpunit-mock-objects": "^6.1.1",
                 "sebastian/comparator": "^2.1",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^3.1",
@@ -2403,7 +2458,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-04-10T11:40:22+00:00"
+            "time": "2018-04-13T02:28:50+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -3118,10 +3173,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ckeditor/ckeditor": 20,
-        "yetiforce/debugbar": 20,
-        "yetiforce/yii2": 20,
-        "yetiforce/icalendar": 20
+        "ckeditor/ckeditor": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
