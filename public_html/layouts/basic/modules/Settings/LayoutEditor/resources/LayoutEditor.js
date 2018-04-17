@@ -590,11 +590,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register click evnet add custom field button
 	 */
 	registerAddCustomFieldEvent: function () {
-		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		const thisInstance = this;
+		let contents = jQuery('#layoutEditorContainer').find('.contents');
 		contents.find('.addCustomField').on('click', function (e) {
-			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
-			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
+			let blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
+			let addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			addFieldContainer.removeClass('d-none').show();
 
 			var callBackFunction = function (data) {
@@ -710,7 +710,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	addCustomField: function (blockId, form) {
 		var thisInstance = this;
-		var modalHeader = form.closest('#globalmodal').find('.modal-header h3');
+		var modalHeader = form.closest('#'+Window.lastModalId).find('.modal-header h3');
 		var aDeferred = jQuery.Deferred();
 
 		modalHeader.progressIndicator({

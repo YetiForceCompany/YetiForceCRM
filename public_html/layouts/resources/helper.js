@@ -154,7 +154,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 		bootBoxModal.on('hidden', function (e) {
 			//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 			// modal open
-			if (jQuery('#globalmodal').length > 0) {
+			if (jQuery('#' + Window.lastModalId).length > 0) {
 				// Mimic bootstrap modal action body state change
 				jQuery('body').addClass('modal-open');
 			}

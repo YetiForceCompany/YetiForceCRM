@@ -240,7 +240,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	 * Function which specify whether the search component and filter component both are shown
 	 */
 	isSearchAndFilterComponentsShown: function () {
-		var modalData = jQuery('#globalmodal');
+		var modalData = jQuery('#'+Window.lastModalId);
 		var filterComponent = jQuery('.filterHolder', modalData).find('#advanceSearchContainer');
 		if (filterComponent.length <= 0) {
 			return false;
