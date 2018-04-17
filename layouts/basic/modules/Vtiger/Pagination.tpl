@@ -20,8 +20,8 @@
 				{assign var=PAGIN_TO value=$START_PAGIN_FROM+4}
 				{for $PAGE_INDEX=$START_PAGIN_FROM to $PAGIN_TO}
 					{if $PAGE_INDEX eq $PAGE_COUNT || $PAGE_INDEX eq $PAGIN_TO}
-						{*{if $PAGE_COUNT > 5}*}
-							<li class="page-item {if $PAGE_COUNT eq 1}  {/if}">
+						{if $PAGE_COUNT > 5}
+							<li class="page-item {if $PAGE_COUNT eq 1} disabled{/if}">
 								<a class="page-link" id="dLabel" data-target="#" data-toggle="dropdown" role="button"
 								   href="#" aria-expanded="true">
 									...
@@ -48,7 +48,7 @@
 									</a>
 								</div>
 							</li>
-						{*{/if}*}
+						{/if}
 						{break}
 					{/if}
 					<li class="js-page--set page-item pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}"
