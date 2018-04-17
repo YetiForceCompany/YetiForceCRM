@@ -160,6 +160,25 @@ CREATE TABLE `a_yf_pdf` (
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_record_converter` */
+
+CREATE TABLE `a_yf_record_converter` (
+  `id` smallint(10) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `source_module` smallint(5) NOT NULL,
+  `destiny_module` varchar(255) NOT NULL,
+  `field_merge` varchar(50) DEFAULT NULL,
+  `field_mappging` text DEFAULT NULL,
+  `inv_field_mapping` text DEFAULT NULL,
+  `redirect_to_edit` tinyint(1) DEFAULT NULL,
+  `change_view` smallint(5) DEFAULT NULL,
+  `check_duplicate` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`,`source_module`,`destiny_module`),
+  KEY `a_yf_record_converter_fk_tab` (`source_module`),
+  CONSTRAINT `a_yf_record_converter_fk_tab` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_relatedlists_inv_fields` */
 
 CREATE TABLE `a_yf_relatedlists_inv_fields` (
