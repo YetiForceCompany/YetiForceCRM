@@ -10,6 +10,7 @@ class MultiImage {
 	constructor(element) {
 		const thisInstance = this;
 		this.elements = {};
+		this.isUploading = false;
 		this.options = {
 			zoomTitleAnimation: {
 				in: 'fadeIn',
@@ -23,6 +24,8 @@ class MultiImage {
 			this.detailView = true;
 		}
 		this.elements.component = $(element).eq(0);
+		this.elements.form = $(element).closest('form').eq(0);
+		$(this.elements.form).on('submit', this.onFormSubmit);
 		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
 		this.elements.values = this.elements.component.find('.js-multi-image__values').eq(0);
 		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
@@ -104,6 +107,22 @@ class MultiImage {
 	}
 
 	/**
+	 * Prevent form submission before file upload end
+	 * @param e
+	 */
+	onFormSubmit(e) {
+		if(App.Fields.MultiImage.currentFileUploads){
+			e.preventDefault();
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			bootbox.alert(app.vtranslate('JS_WAIT_FOR_FILE_UPLOAD'));
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
 	 * Prevent form submission
 	 *
 	 * @param {Event} e
@@ -123,6 +142,7 @@ class MultiImage {
 		data.formData = {
 			hash: data.files[0].hash
 		};
+		App.Fields.MultiImage.currentFileUploads++;
 	}
 
 	/**
@@ -163,6 +183,7 @@ class MultiImage {
 	 * @param {Object} data
 	 */
 	uploadError(e, data) {
+		App.Fields.MultiImage.currentFileUploads--;
 		app.errorLog("File upload error.");
 		const {jqXHR, files} = data;
 		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
@@ -199,6 +220,7 @@ class MultiImage {
 	uploadSuccess(e, data) {
 		const {result} = data;
 		const attach = result.result.attach;
+		App.Fields.MultiImage.currentFileUploads--;
 		attach.forEach((fileAttach) => {
 			const hash = fileAttach.hash;
 			if (!hash) {
