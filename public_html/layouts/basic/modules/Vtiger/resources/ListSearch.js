@@ -1,7 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("YetiForce_ListSearch_Js", {
-	getInstance: function (container, noEvents, reletedInstance) {
-		var module = app.getModuleName();
+	getInstance: function (container, noEvents, reletedInstance, moduleName) {
+		if(typeof moduleName === 'undefined'){
+			moduleName = app.getModuleName();
+		}
 		var moduleClassName = module + '_ListSearch_Js';
 		var basicClassName = 'YetiForce_ListSearch_Js';
 		if (typeof window[moduleClassName] != 'undefined') {
@@ -9,11 +11,14 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		} else {
 			var instance = new window[basicClassName](container, noEvents, reletedInstance);
 		}
+		instance.moduleName = moduleName;
 		return instance;
 	}
 }, {
+	moduleName: false,
 	container: false,
 	reletedInstance: false,
+	viewName: false,
 	init: function (container, noEvents, reletedInstance) {
 		if (typeof container == 'undefined') {
 			container = jQuery('.bodyContents');
@@ -29,6 +34,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	},
 	getContainer: function () {
 		return this.container;
+	},
+	setViewName: function (viewName) {
+		this.viewName = viewName;
 	},
 	/**
 	 * Function  to initialize the advance filter
@@ -142,7 +150,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
 		var thisInstance = this;
 		var params = {};
-		params['module'] = app.getModuleName();
+		params['module'] = thisInstance.moduleName;
 		params['parent'] = app.getParentModuleName()
 		params['view'] = 'Pagination';
 		params['page'] = 1;
@@ -228,9 +236,13 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		return new Array(searchParams);
 	},
 	getInstanceByView: function () {
-		var viewName = app.getViewName();
+		var viewName = this.viewName ? this.viewName : app.getViewName();
 		var instance = false;
-		if (this.reletedInstance) {
+		if (viewName === 'RecordsList') {
+			instance = this.reletedInstance;
+			instance.reloadFunctionName = 'loadRecordList';
+			instance.execute = ['updatePagination'];
+		} else if (this.reletedInstance) {
 			instance = this.reletedInstance;
 			instance.reloadFunctionName = 'loadRelatedList';
 		} else if (viewName === 'Detail') {

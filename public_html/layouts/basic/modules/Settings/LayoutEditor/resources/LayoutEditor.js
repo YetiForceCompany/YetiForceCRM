@@ -7,7 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-jQuery.Class('Settings_LayoutEditor_Js', {}, {
+$.Class('Settings_LayoutEditor_Js', {}, {
 	updatedBlockSequence: {},
 	reactiveFieldsList: [],
 	inActiveFieldsList: false,
@@ -19,7 +19,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	setInactiveFieldsList: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var json = contents.find('.inActiveFieldsArray');
 		if (0 < json.length) {
 			thisInstance.inActiveFieldsList = JSON.parse(json.val());
@@ -30,7 +30,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	makeBlocksListSortable: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.blockSortable');
 		contents.sortable({
 			'containment': contents,
@@ -48,7 +48,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	updateBlockSequence: function () {
 		var thisInstance = this;
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -80,9 +80,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	updateBlocksListByOrder: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		contents.find('.editFieldsTable.blockSortable').each(function (index, domElement) {
-			var blockTable = jQuery(domElement);
+			var blockTable = $(domElement);
 			var blockId = blockTable.data('blockId');
 			var actualBlockSequence = blockTable.data('sequence');
 			var expectedBlockSequence = (index + 1);
@@ -99,7 +99,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerRelatedListEvents: function () {
 		var thisInstance = this;
-		var relatedList = jQuery('#relatedTabOrder');
+		var relatedList = $('#relatedTabOrder');
 		var container = relatedList.find('.relatedTabModulesList');
 		var ulEle = container.find('ul.relatedModulesList');
 		var select2Element = App.Fields.Picklist.showSelectizeElementView(container.find('.select2_container'), {
@@ -116,32 +116,32 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			}
 		});
 		relatedList.on('click', '.inActiveRelationModule', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.activeRelationModule').removeClass('d-none').show();
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), false);
 		});
 		relatedList.on('click', '.activeRelationModule', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.inActiveRelationModule').removeClass('d-none').show();
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), true);
 		});
 		relatedList.on('click', '.removeRelation', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			thisInstance.removeRelation(relatedModule);
 		})
 		var relatedColumnsList = container.find('.relatedColumnsList');
 		relatedColumnsList.on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
 		});
 		relatedList.on('click', '.addToFavorites', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			thisInstance.changeStateFavorites(currentTarget);
 		});
 		relatedList.on('change', '.relatedViewType', function (e) {
@@ -155,7 +155,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			thisInstance.changeRelatedViewType(currentTarget);
 		});
 		relatedList.on('click', '.addRelation', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('#relatedTabOrder');
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
@@ -163,7 +163,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 				data.find('.relLabel').val(data.find('.target option:selected').val());
 				data.on('change', '.target', function (e) {
-					var currentTarget = jQuery(e.currentTarget);
+					var currentTarget = $(e.currentTarget);
 					data.find('.relLabel').val(currentTarget.find('option:selected').val());
 				})
 				data.on('click', '.addButton', function (e) {
@@ -197,8 +197,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var selectedFields = [];
 		target.find(':selected').each(function (e) {
 			selectedFields.push({
-				id: jQuery(this).val(),
-				name: target[0].selectize.options[jQuery(this).val()].fieldName
+				id: $(this).val(),
+				name: target[0].selectize.options[$(this).val()].fieldName
 			});
 		})
 		return selectedFields;
@@ -208,7 +208,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	makeRelatedModuleSortable: function () {
 		var thisInstance = this;
-		var relatedModulesContainer = jQuery('.relatedModulesList');
+		var relatedModulesContainer = $('.relatedModulesList');
 		var modulesList = relatedModulesContainer.find('.relatedModule');
 		relatedModulesContainer.sortable({
 			'containment': relatedModulesContainer,
@@ -264,10 +264,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			function (data) {
 				currentTarget.data('state', status);
 				currentTarget.find('[data-fa-i2svg]').each(function () {
-					if (jQuery(this).hasClass('d-none')) {
-						jQuery(this).removeClass('d-none');
+					if ($(this).hasClass('d-none')) {
+						$(this).removeClass('d-none');
 					} else {
-						jQuery(this).addClass('d-none');
+						$(this).addClass('d-none');
 					}
 				})
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_NOTIFY_OK')});
@@ -340,16 +340,16 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	updateSequenceRelatedModule: function () {
 		var thisInstance = this;
 		var modules = [];
-		var relatedModulesContainer = jQuery('.relatedModulesList');
+		var relatedModulesContainer = $('.relatedModulesList');
 		var params = {};
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
 		relatedModulesContainer.find('.relatedModule').each(function (index, domElement) {
-			var relationId = jQuery(domElement).data('relationId');
+			var relationId = $(domElement).data('relationId');
 			modules.push({relationId: relationId, index: index});
 		});
 
@@ -377,18 +377,18 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	updateSelectedFields: function (target) {
 		var thisInstance = this;
 		var params = {};
-		var relatedModule = jQuery(target).closest('.relatedModule');
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var relatedModule = $(target).closest('.relatedModule');
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-		if (jQuery(target).data('type') == 'inventory') {
+		if ($(target).data('type') == 'inventory') {
 			params['inventory'] = true;
-			var selectedFields = jQuery(target).val();
+			var selectedFields = $(target).val();
 		} else {
-			var selectedFields = thisInstance.getSelectedFields(jQuery(target));
+			var selectedFields = thisInstance.getSelectedFields($(target));
 		}
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -416,11 +416,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	makeFieldsListSortable: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
 		table.each(function () {
-			var containment = jQuery(this).closest('.moduleBlocks');
-			jQuery(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
+			var containment = $(this).closest('.moduleBlocks');
+			$(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
 				'containment': containment,
 				'revert': true,
 				'tolerance': 'pointer',
@@ -446,10 +446,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 
 	},
 	getDetailViewLayout: function () {
-		return jQuery('#detailViewLayout');
+		return $('#detailViewLayout');
 	},
 	getInventoryViewLayout: function () {
-		return jQuery('#inventoryViewLayout');
+		return $('#inventoryViewLayout');
 	},
 	/**
 	 * Function to show the save button of fieldSequence
@@ -473,7 +473,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function which will hide the saveFieldSequence button
 	 */
 	hideSaveFieldSequenceButton: function () {
-		var layout = jQuery('#detailViewLayout');
+		var layout = $('#detailViewLayout');
 		var saveButton = layout.find('.saveFieldSequence');
 		saveButton.addClass('d-none');
 	},
@@ -484,7 +484,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var thisInstance = this;
 		var block = currentField.closest('.editFieldsTable');
 		var updatedBlockId = block.data('blockId');
-		if (jQuery.inArray(updatedBlockId, thisInstance.updatedBlocksList) == -1) {
+		if ($.inArray(updatedBlockId, thisInstance.updatedBlocksList) == -1) {
 			thisInstance.updatedBlocksList.push(updatedBlockId);
 		}
 		thisInstance.reArrangeBlockFields(block);
@@ -510,7 +510,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	createUpdatedBlockFieldsList: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 
 		for (var index in  thisInstance.updatedBlocksList) {
 			var updatedBlockId = thisInstance.updatedBlocksList[index];
@@ -519,7 +519,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			var editFields = firstBlockSortFields.find('.editFields');
 			var expectedFieldSequence = 1;
 			editFields.each(function (i, domElement) {
-				var fieldEle = jQuery(domElement);
+				var fieldEle = $(domElement);
 				var fieldId = fieldEle.data('fieldId');
 				thisInstance.updatedBlockFieldsList.push({
 					'fieldid': fieldId,
@@ -532,7 +532,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			var secondEditFields = secondBlockSortFields.find('.editFields');
 			var sequenceValue = 2;
 			secondEditFields.each(function (i, domElement) {
-				var fieldEle = jQuery(domElement);
+				var fieldEle = $(domElement);
 				var fieldId = fieldEle.data('fieldId');
 				thisInstance.updatedBlockFieldsList.push({
 					'fieldid': fieldId,
@@ -548,7 +548,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerFieldSequenceSaveClick: function () {
 		var thisInstance = this;
-		var layout = jQuery('#detailViewLayout');
+		var layout = $('#detailViewLayout');
 		layout.on('click', '.saveFieldSequence', function () {
 			thisInstance.hideSaveFieldSequenceButton();
 			thisInstance.createUpdatedBlockFieldsList();
@@ -560,7 +560,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	updateFieldSequence: function () {
 		var thisInstance = this;
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -590,13 +590,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register click evnet add custom field button
 	 */
 	registerAddCustomFieldEvent: function () {
-		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		const thisInstance = this;
+		let container = $('#layoutEditorContainer');
+		let contents = container.find('.contents');
 		contents.find('.addCustomField').on('click', function (e) {
-			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
-			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
+			let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId');
+			let addFieldContainer = container.find('.createFieldModal').clone(true, true);
 			addFieldContainer.removeClass('d-none').show();
-
 			var callBackFunction = function (data) {
 				//register all select2 Elements
 				App.Fields.Picklist.showSelect2ElementView(data.find('select'), {width: '100%'});
@@ -614,17 +614,17 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				var params = app.getvalidationEngineOptions(true);
 				params.onValidationComplete = function (form, valid) {
 					if (valid) {
-						var fieldTypeValue = jQuery('[name="fieldType"]', form).val();
-						var fieldNameValue = jQuery('[name="fieldName"]', form).val();
+						var fieldTypeValue = $('[name="fieldType"]', form).val();
+						var fieldNameValue = $('[name="fieldName"]', form).val();
 
 						if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-							var pickListValueElement = jQuery('#picklistUi', form);
+							var pickListValueElement = $('#picklistUi', form);
 							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
 							var specialChars = /["]/;
 							if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
 								var message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
-								jQuery('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+								$('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 							for (var i = 0; i < pickListValuesArray.length; i++) {
@@ -635,10 +635,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 									return false;
 								}
 							}
-							var lowerCasedpickListValuesArray = jQuery.map(pickListValuesArray, function (item, index) {
+							var lowerCasedpickListValuesArray = $.map(pickListValuesArray, function (item, index) {
 								return item.toLowerCase();
 							});
-							var uniqueLowerCasedpickListValuesArray = jQuery.uniqueSort(lowerCasedpickListValuesArray);
+							var uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray);
 							var uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length;
 							var arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
 							if (arrayDiffSize > 0) {
@@ -700,7 +700,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		thisInstance.blockNamesList = [];
 		var blocksListSelect = form.find('[name="beforeBlockId"]');
 		blocksListSelect.find('option').each(function (index, ele) {
-			var option = jQuery(ele);
+			var option = $(ele);
 			var label = option.data('label');
 			thisInstance.blockNamesList.push(label);
 		})
@@ -710,8 +710,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	addCustomField: function (blockId, form) {
 		var thisInstance = this;
-		var modalHeader = form.closest('#globalmodal').find('.modal-header h3');
-		var aDeferred = jQuery.Deferred();
+		var modalHeader = form.closest('#'+Window.lastModalId).find('.modal-header h3');
+		var aDeferred = $.Deferred();
 
 		modalHeader.progressIndicator({
 			smallLoadingImage: true,
@@ -724,7 +724,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		params['action'] = 'Field';
 		params['mode'] = 'add';
 		params['blockid'] = blockId;
-		params['sourceModule'] = jQuery('#selectedModuleName').val();
+		params['sourceModule'] = $('#selectedModuleName').val();
 
 		AppConnector.request(params).then(
 			function (data) {
@@ -740,7 +740,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	},
 	registerTableTypeChangeEvent: function (form) {
 		form.find('[name="fieldTypeList"]').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			form.find('[name="fieldName"]').closest('.form-group').toggleClass('d-none');
 		})
 	},
@@ -761,7 +761,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 
 		//register the change event for field types
 		form.find('[name="fieldType"]').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var lengthInput = form.find('[name="fieldLength"]');
 			var selectedOption = currentTarget.find('option:selected');
 
@@ -817,7 +817,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	showCustomField: function (result) {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
@@ -830,7 +830,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
-		if (jQuery.inArray(result['type'], ['string', 'phone', 'currency', 'url', 'integer', 'double']) == -1) {
+		if ($.inArray(result['type'], ['string', 'phone', 'currency', 'url', 'integer', 'double']) == -1) {
 			fieldContainer.find('.maskField').remove();
 		}
 		var block = relatedBlock.find('.blockFieldsList');
@@ -851,7 +851,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerAddCustomBlockEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		contents.find('.addCustomBlock').on('click', function (e) {
 			var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
@@ -867,7 +867,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 				params.onValidationComplete = function (form, valid) {
 					if (valid) {
 						var formData = form.serializeFormData();
-						if (jQuery.inArray(formData['label'], thisInstance.blockNamesList) == -1) {
+						if ($.inArray(formData['label'], thisInstance.blockNamesList) == -1) {
 							thisInstance.saveBlockDetails(form).then(
 								function (data) {
 									var params = {};
@@ -914,8 +914,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	saveBlockDetails: function (form) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var aDeferred = $.Deferred();
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -924,7 +924,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var params = form.serializeFormData();
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
-		params['sourceModule'] = jQuery('#selectedModuleName').val();
+		params['sourceModule'] = $('#selectedModuleName').val();
 		params['action'] = 'Block';
 		params['mode'] = 'save';
 
@@ -945,12 +945,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	displayNewCustomBlock: function (result) {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var beforeBlockId = result['beforeBlockId'];
 		var beforeBlock = contents.find('.block_' + beforeBlockId);
 
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
-		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append(jQuery('<strong>' + result['label'] + '</strong>'));
+		newBlockCloneCopy.data('blockId', result['id']).find('.blockLabel').append($('<strong>' + result['label'] + '</strong>'));
 		newBlockCloneCopy.find('.blockVisibility').data('blockId', result['id']);
 		if (result['isAddCustomFieldEnabled']) {
 			newBlockCloneCopy.find('.addCustomField').removeClass('d-none');
@@ -963,8 +963,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to update the sequence for all blocks after adding new Block
 	 */
 	updateNewSequenceForBlocks: function (sequenceList) {
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
-		jQuery.each(sequenceList, function (blockId, sequence) {
+		var contents = $('#layoutEditorContainer').find('.contents');
+		$.each(sequenceList, function (blockId, sequence) {
 			contents.find('.block_' + blockId).data('sequence', sequence);
 		});
 	},
@@ -972,10 +972,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to update the block list with the new block label in the clone container
 	 */
 	appendNewBlockToBlocksList: function (result, form) {
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var hiddenAddBlockModel = contents.find('.addBlockModal');
 		var blocksListSelect = hiddenAddBlockModel.find('[name="beforeBlockId"]');
-		var option = jQuery("<option>", {
+		var option = $("<option>", {
 			value: result['id'],
 			text: result['label']
 		})
@@ -985,7 +985,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to update the block list to remove the deleted custom block label in the clone container
 	 */
 	removeBlockFromBlocksList: function (blockId) {
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var hiddenAddBlockModel = contents.find('.addBlockModal');
 		var blocksListSelect = hiddenAddBlockModel.find('[name="beforeBlockId"]');
 		blocksListSelect.find('option[value="' + blockId + '"]').remove();
@@ -995,9 +995,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerBlockVisibilityEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		contents.on('click', 'li.blockVisibility', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var oldDisplayStatus = currentTarget.data('visible');
 			if (oldDisplayStatus == '0') {
 				currentTarget.find('.fa-check').removeClass('d-none');
@@ -1015,7 +1015,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	updateBlockStatus: function (currentTarget) {
 		var thisInstance = this;
 		var blockStatus = currentTarget.data('visible');
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -1024,7 +1024,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
-		params['sourceModule'] = jQuery('#selectedModuleName').val();
+		params['sourceModule'] = $('#selectedModuleName').val();
 		params['action'] = 'Block';
 		params['mode'] = 'save';
 		params['blockid'] = currentTarget.data('blockId');
@@ -1051,13 +1051,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerInactiveFieldsEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		contents.on('click', 'li.inActiveFields', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var currentBlock = currentTarget.closest('.editFieldsTable');
 			var blockId = currentBlock.data('blockId');
 			//If there are no hidden fields, show pnotify
-			if (jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
+			if ($.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
 				var params = {};
 				params['text'] = app.vtranslate('JS_NO_HIDDEN_FIELDS_EXISTS');
 				params['type'] = 'error';
@@ -1093,8 +1093,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	showHiddenFields: function (blockId, form) {
 		var thisInstance = this;
-		jQuery.each(thisInstance.inActiveFieldsList[blockId], function (key, value) {
-			var inActiveField = jQuery('<div class="col-md-4 marginLeftZero padding-bottom1per checkbox"><label class="">\n\
+		$.each(thisInstance.inActiveFieldsList[blockId], function (key, value) {
+			var inActiveField = $('<div class="col-md-4 marginLeftZero padding-bottom1per checkbox"><label class="">\n\
 									<input type="checkbox" class="inActiveField" value="' + key + '" />&nbsp;' + value + '</label></div>');
 			form.find('.inActiveList').append(inActiveField);
 		});
@@ -1105,7 +1105,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	createReactivateFieldslist: function (blockId, form) {
 		var thisInstance = this;
 		form.find('.inActiveField').each(function (index, domElement) {
-			var element = jQuery(domElement);
+			var element = $(domElement);
 			var fieldId = element.val();
 			if (element.is(':checked')) {
 				delete thisInstance.inActiveFieldsList[blockId][fieldId];
@@ -1118,7 +1118,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	reActivateHiddenFields: function (currentBlock) {
 		var thisInstance = this;
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -1152,10 +1152,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var table = contents.find('.editFieldsTable');
 		contents.on('click', 'li.deleteCustomBlock', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
 			var blockId = table.data('blockId');
 
@@ -1175,7 +1175,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	deleteCustomBlock: function (blockId) {
 		var thisInstance = this;
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -1212,7 +1212,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to remove the deleted custom block from the ui
 	 */
 	removeDeletedBlock: function (blockId) {
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var deletedTable = contents.find('.block_' + blockId);
 		deletedTable.fadeOut('slow').remove();
 	},
@@ -1222,10 +1222,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerDeleteCustomFieldEvent: function (contents) {
 		var thisInstance = this;
 		if (typeof contents == 'undefined') {
-			contents = jQuery('#layoutEditorContainer').find('.contents');
+			contents = $('#layoutEditorContainer').find('.contents');
 		}
 		contents.find('.deleteCustomField').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var fieldId = currentTarget.data('fieldId');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
@@ -1235,7 +1235,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 							var field = currentTarget.closest('div.editFields');
 							var blockId = field.data('blockId');
 							field.parent().fadeOut('slow').remove();
-							var block = jQuery('#block_' + blockId);
+							var block = $('#block_' + blockId);
 							thisInstance.reArrangeBlockFields(block);
 							var params = {};
 							params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
@@ -1256,8 +1256,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	deleteCustomField: function (fieldId) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var aDeferred = $.Deferred();
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -1288,7 +1288,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerFieldDetailsChange: function (contents) {
 		contents.find('[name="mandatory"]').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			if (currentTarget.attr('readonly') !== 'readonly') {
 				var form = currentTarget.closest('.fieldDetailsForm');
 				var quickcreateEle = form.find('[name="quickcreate"]').filter(':checkbox').not('.optionDisabled');
@@ -1303,7 +1303,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			}
 		});
 		contents.find('[name="defaultvalue"]').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var defaultValueUi = currentTarget.closest('.checkbox').find('.defaultValueUi');
 			var defaultField = defaultValueUi.find('[name="fieldDefaultValue"]');
 			if (currentTarget.is(':checked')) {
@@ -1323,7 +1323,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	relatedModulesTabClickEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutEditorContainer').find('.contents');
+		var contents = $('#layoutEditorContainer').find('.contents');
 		var relatedContainer = contents.find('#relatedTabOrder');
 		var relatedTab = contents.find('.relatedListTab');
 		relatedTab.on('click', function () {
@@ -1342,14 +1342,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
-		params['sourceModule'] = jQuery('#selectedModuleName').val();
+		params['sourceModule'] = $('#selectedModuleName').val();
 		params['view'] = 'Index';
 		params['mode'] = 'showRelatedListLayout';
 
 		AppConnector.request(params).then(
 			function (data) {
 				relatedContainer.html(data);
-				if (jQuery(data).find('.relatedListContainer').length > 0) {
+				if ($(data).find('.relatedListContainer').length > 0) {
 					thisInstance.makeRelatedModuleSortable();
 					thisInstance.registerRelatedListEvents();
 				}
@@ -1363,8 +1363,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	getModuleLayoutEditor: function (selectedModule) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var aDeferred = $.Deferred();
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -1391,8 +1391,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	},
 	getRelModuleLayoutEditor: function (selectedModule) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var aDeferred = $.Deferred();
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -1423,13 +1423,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerModulesChangeEvent: function () {
 		var thisInstance = this;
-		var container = jQuery('#layoutEditorContainer');
+		var container = $('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
 		App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
 
 		container.on('change', '[name="layoutEditorModules"]', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var selectedModule = currentTarget.val();
 			thisInstance.getModuleLayoutEditor(selectedModule).then(
 				function (data) {
@@ -1442,13 +1442,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	},
 	registerRelModulesChangeEvent: function () {
 		var thisInstance = this;
-		var container = jQuery('#layoutEditorContainer');
+		var container = $('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
 		App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
 
 		container.on('change', '[name="layoutEditorRelModules"]', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var selectedModule = currentTarget.val();
 			thisInstance.getRelModuleLayoutEditor(selectedModule).then(
 				function (data) {
@@ -1476,10 +1476,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerEditFieldDetailsClick: function (contents) {
 		var thisInstance = this;
 		if (typeof contents === 'undefined') {
-			contents = jQuery('#layoutEditorContainer').find('.contents');
+			contents = $('#layoutEditorContainer').find('.contents');
 		}
 		contents.find('.editFieldDetails').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFields');
 			var fieldId = fieldRow.data('fieldId');
 			var block = fieldRow.closest('.editFieldsTable');
@@ -1500,7 +1500,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 					var fieldLabel = fieldRow.find('.fieldLabel');
 					if (result['presence'] === '1') {
 						fieldRow.parent().fadeOut('slow').remove();
-						if (jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
+						if ($.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
 							if (thisInstance.inActiveFieldsList.length === 0) {
 								thisInstance.inActiveFieldsList = {};
 							}
@@ -1513,7 +1513,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 					}
 					if (result['mandatory']) {
 						if (fieldLabel.find('.redColor').length === 0) {
-							fieldRow.find('.fieldLabel').append(jQuery('<span class="redColor">*</span>'));
+							fieldRow.find('.fieldLabel').append($('<span class="redColor">*</span>'));
 						}
 					} else {
 						fieldRow.find('.fieldLabel').find('.redColor').remove();
@@ -1569,7 +1569,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerFieldEvents: function (contents) {
 		var thisInstance = this;
 		if (typeof contents == 'undefined') {
-			contents = jQuery('#layoutEditorContainer').find('.contents');
+			contents = $('#layoutEditorContainer').find('.contents');
 		}
 		App.Fields.Date.register(contents);
 		app.registerEventForClockPicker(contents);
@@ -1580,13 +1580,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		thisInstance.registerEditFieldDetailsClick(contents);
 
 		contents.find(':checkbox').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			if (currentTarget.attr('readonly') == 'readonly') {
-				var status = jQuery(e.currentTarget).is(':checked');
+				var status = $(e.currentTarget).is(':checked');
 				if (!status) {
-					jQuery(e.currentTarget).prop('checked', true)
+					$(e.currentTarget).prop('checked', true)
 				} else {
-					jQuery(e.currentTarget).prop('checked', false);
+					$(e.currentTarget).prop('checked', false);
 				}
 				e.preventDefault();
 			}
@@ -1596,18 +1596,18 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register switch
 	 */
 	registerSwitch: function () {
-		var container = jQuery('#layoutEditorContainer');
+		var container = $('#layoutEditorContainer');
 		app.showBtnSwitch(container.find('.switchBtn'))
 		var inventoryNav = container.find('.inventoryNav');
 		container.find('#inventorySwitch').on('switchChange.bootstrapSwitch', function (event, state) {
-			var switchBtn = jQuery(event.currentTarget);
+			var switchBtn = $(event.currentTarget);
 			var message = app.vtranslate('JS_EXTENDED_MODULE');
 			Vtiger_Helper_Js.showConfirmationBox({
 				'message': '<span class="message-medium">' + message + '</span>',
 				className: "test"
 			}).then(
 				function (e) {
-					var progressIndicatorElement = jQuery.progressIndicator({
+					var progressIndicatorElement = $.progressIndicator({
 						'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 						'position': 'html',
 						'blockInfo': {
@@ -1639,10 +1639,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
 		container.find('.addInventoryField').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var currentTarget = $(e.currentTarget);
+			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
-			var progress = jQuery.progressIndicator();
+			var progress = $.progressIndicator();
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (modalContainer) {
 				app.showScrollBar(modalContainer.find('.well'), {
 					height: '300px'
@@ -1659,13 +1659,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
 		container.find('.editInventoryField').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var currentTarget = $(e.currentTarget);
+			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 			var editField = currentTarget.closest('.editFields');
 			var mType = editField.data('name');
 			var id = editField.data('id');
-			var progress = jQuery.progressIndicator();
+			var progress = $.progressIndicator();
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + mType + "&id=" + id, function (container) {
 				app.showPopoverElementView(container.find('.js-help-info'));
 				thisInstance.registerStep2(container, blockId);
@@ -1679,10 +1679,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerStep1: function (container, blockId) {
 		var thisInstance = this;
 		container.find('.nextButton').on('click', function (e) {
-			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var type = container.find('select.type').val();
 			app.hideModalWindow();
-			var progress = jQuery.progressIndicator({
+			var progress = $.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
@@ -1701,7 +1701,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		var thisInstance = this;
 		var containerInventory = thisInstance.getInventoryViewLayout();
 		var form = container.find('form');
-		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+		var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 		form.validationEngine(app.validationEngineOptions);
 		form.on('submit', function (e) {
 			var formData = form.serializeFormData();
@@ -1709,7 +1709,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 			if (paramsName) {
 				var params = {};
 				for (var i in formData) {
-					if (jQuery.inArray(i, paramsName) != -1) {
+					if ($.inArray(i, paramsName) != -1) {
 						var value = formData[i];
 						if (i === 'modules' && typeof value === 'string') {
 							value = [value];
@@ -1750,14 +1750,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerInventoryFieldSequenceSaveClick: function () {
 		var thisInstance = this;
 		var containerInventory = thisInstance.getInventoryViewLayout();
-		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+		var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 		containerInventory.on('click', '.saveFieldSequence', function (e) {
-			var button = jQuery(e.currentTarget);
+			var button = $(e.currentTarget);
 			var target = button.closest('.inventoryBlock');
 			var params = {};
 			var fieldId = [];
 			target.find('.editFields').each(function () {
-				fieldId.push(jQuery(this).data('id'));
+				fieldId.push($(this).data('id'));
 			})
 			params.module = selectedModule;
 			params.ids = fieldId;
@@ -1772,14 +1772,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	registerDeleteInventoryField: function () {
 		var thisInstance = this;
 		var container = thisInstance.getInventoryViewLayout();
-		var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+		var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 		container.find('.deleteInventoryField').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
+			var currentTarget = $(e.currentTarget);
 			var liElement = currentTarget.closest('li');
 			var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 				function (e) {
-					var progressIndicatorElement = jQuery.progressIndicator({
+					var progressIndicatorElement = $.progressIndicator({
 						'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 						'position': 'html',
 						'blockInfo': {
@@ -1900,7 +1900,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerContextHelp: function (container) {
 		container.on('click', '.js-context-help', function (e) {
-			var progressIndicatorElement = jQuery.progressIndicator({blockInfo: {enabled: true}});
+			var progressIndicatorElement = $.progressIndicator({blockInfo: {enabled: true}});
 			const element = $(e.currentTarget);
 			AppConnector.request({
 				module: app.getModuleName(),
@@ -1970,7 +1970,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.registerRelModulesChangeEvent();
 
-		if (1 === jQuery('#relatedTabOrder').length) {
+		if (1 === $('#relatedTabOrder').length) {
 			thisInstance.registerRelatedListEvents();
 			thisInstance.makeRelatedModuleSortable();
 		}
@@ -1986,7 +1986,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 
 });
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	var instance = new Settings_LayoutEditor_Js();
 	instance.registerEvents();
 })
@@ -2063,7 +2063,7 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_DecimalMaxLength_Validato
 			return response;
 		} else {
 			var fieldValue = this.getFieldValue();
-			var decimalFieldValue = jQuery('#createFieldForm').find('[name="decimal"]').val();
+			var decimalFieldValue = $('#createFieldForm').find('[name="decimal"]').val();
 			var fieldLength = parseInt(64) - parseInt(decimalFieldValue);
 			if (fieldValue > fieldLength && !(fieldLength < 0) && fieldLength >= 59) {
 				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' ' + fieldLength;

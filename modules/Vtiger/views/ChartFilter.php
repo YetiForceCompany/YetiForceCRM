@@ -42,12 +42,14 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($request->getByType('selectedModule', 2)));
 				break;
 			case 'step3':
 				$selectedModuleName = $request->getByType('selectedModule', 2);
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
-				$viewer->assign('VALUE_TYPE', $request->getByType('valueType', 1));
+				$viewer->assign('VALUE_TYPE', $request->getByType('valueType'));
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;
 			case 'step4':
@@ -55,9 +57,11 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
-				$viewer->assign('CHART_TYPE', $request->getByType('chartType', 1));
-				$viewer->assign('GROUP_FIELD', $request->getByType('groupField', 1));
-				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField', 1)));
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
+				$viewer->assign('GROUP_FIELD', $request->getByType('groupField'));
+				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField')));
+				$filters = $request->getArray('filtersId', 'Integer');
+				$viewer->assign('FILTERS', $filters);
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);

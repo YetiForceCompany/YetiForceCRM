@@ -12,6 +12,18 @@ namespace App\Controller;
 abstract class Modal extends View
 {
 	/**
+	 * Modal size.
+	 *
+	 * @var string
+	 */
+	public $modalSize = 'modal-lg';
+	/**
+	 * Modal icon.
+	 *
+	 * @var string
+	 */
+	public $modalIcon = '';
+	/**
 	 * Modal data.
 	 *
 	 * @var string[]
@@ -33,10 +45,9 @@ abstract class Modal extends View
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
-		$viewer->assign('MODAL_DATA', $this->modalData);
+		$viewer->assign('MODAL_VIEW', $this);
 		$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		$viewer->assign('MODAL_CSS', $this->getModalCss($request));
-		$this->initializeContent($request, $viewer);
 		if (!$request->getBoolean('onlyBody')) {
 			$viewer->view($this->preProcessTplName($request), $moduleName);
 		}
@@ -61,9 +72,6 @@ abstract class Modal extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule($request);
-		$viewer->assign('SHOW_END_TAGS', true);
-		$viewer->assign('HIDE_SAVE_BTN', true);
-		$viewer->assign('HIDE_CANCEL_BTN', true);
 		if (!$request->getBoolean('onlyBody')) {
 			$viewer->view('Modals/Footer.tpl', $moduleName);
 		}

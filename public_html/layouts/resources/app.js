@@ -243,7 +243,7 @@ app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
-		var thisInstance = this;
+		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof $)) {
@@ -278,7 +278,8 @@ app = {
 			var sendByAjaxCb = function () {
 			}
 		}
-		var container = $('#' + Window.lastModalId);
+		// prevent duplicate hash generation
+		let container = $('#' + Window.lastModalId);
 		if (container.length) {
 			container.remove();
 		}
@@ -336,7 +337,7 @@ app = {
 		if (typeof window[modalClass] !== 'undefined') {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
-			if(app.modalEvents[Window.lastModalId]){
+			if (app.modalEvents[Window.lastModalId]) {
 				app.modalEvents[Window.lastModalId](modalContainer, instance);
 			}
 		}

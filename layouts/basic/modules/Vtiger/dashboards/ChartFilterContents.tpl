@@ -3,6 +3,8 @@
 	<input type="hidden" name="typeChart" value="{$CHART_TYPE}">
 	<input type="hidden" name="stacked" value="{$CHART_STACKED}">
 	<input type="hidden" name="colorsFromDividingField" value="{$CHART_COLORS_FROM_DIVIDING_FIELD}">
+	<input type="hidden" name="colorsFromFilters" value="{$CHART_COLORS_FROM_FILTERS}">
+	<input type="hidden" name="filterIds" value="{\App\Purifier::encodeHtml(App\Json::encode($FILTERS))}">
 	{if $CHART_OWNERS}
 		<input class="widgetOwners" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_OWNERS))}" />
 	{/if}

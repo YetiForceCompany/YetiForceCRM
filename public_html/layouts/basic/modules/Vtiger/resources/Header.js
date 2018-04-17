@@ -296,7 +296,7 @@ $.Class("Vtiger_Header_Js", {
 				if (invalidFields.length > 0) {
 					//If validation fails, form should submit again
 					form.removeData('submit');
-					form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
+					form.closest('#' + Window.lastModalId).find('.modal-header h3').progressIndicator({
 						'mode': 'hide'
 					});
 					e.preventDefault();
@@ -304,7 +304,7 @@ $.Class("Vtiger_Header_Js", {
 				} else {
 					//Once the form is submiting add data attribute to that form element
 					form.data('submit', 'true');
-					form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
+					form.closest('#' + Window.lastModalId).find('.modal-header h3').progressIndicator({
 						smallLoadingImage: true,
 						imageContainerCss: {
 							display: 'inline',
@@ -347,7 +347,7 @@ $.Class("Vtiger_Header_Js", {
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
 					form.removeData('submit');
-					form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
+					form.closest('#' + Window.lastModalId).find('.modal-header h3').progressIndicator({
 						'mode': 'hide'
 					});
 				}

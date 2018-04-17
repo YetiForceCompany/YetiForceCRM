@@ -4,12 +4,14 @@
 		{assign var=VIEWNAME value='list'}
 	{/if}
 	<nav class="Pagination" aria-label="Page navigation">
-		<ul class="pagination m-0" data-total-count="{$LISTVIEW_COUNT}">
-			<li class="page-item {if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
+		<ul class="js-pagination-list pagination m-0" data-total-count="{$LISTVIEW_COUNT}" data-js="data">
+			<li class="js-set-page page-item {if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1"
+				data-js="data">
 				<a class="page-link" href="#">{\App\Language::translate('LBL_FIRST')}</a>
 			</li>
-			<li  class="page-item">
-				<a class="page-link {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="{$VIEWNAME}ViewPreviousPageButton" href="#">
+			<li class="page-item">
+				<a class="js-previous-page page-link {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1}disabled{/if}"
+				   id="{$VIEWNAME}ViewPreviousPageButton" data-js="click" href="#">
 					<span aria-hidden="true">&laquo;</span>
 					<span class="sr-only">Previous</span>
 				</a>
@@ -20,20 +22,28 @@
 					{if $PAGE_INDEX eq $PAGE_COUNT || $PAGE_INDEX eq $PAGIN_TO}
 						{if $PAGE_COUNT > 5}
 							<li class="page-item {if $PAGE_COUNT eq 1} disabled {/if}">
-								<a class="page-link" id="dLabel" data-target="#" data-toggle="dropdown" role="button" href="#" aria-expanded="true">
+								<a class="page-link" id="dLabel" data-target="#" data-toggle="dropdown" role="button"
+								   href="#" aria-expanded="true">
 									...
 								</a>
-								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
+								<ul class="js-page-jump-drop-down dropdown-menu listViewBasicAction" data-js="click"
+									aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
 									<li class="dropdown-item">
 										<div>
-											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{\App\Language::translate('LBL_PAGE')}</span></div>
+											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per">
+												<span>{\App\Language::translate('LBL_PAGE')}</span></div>
 											<div class="col-md-3 recentComments">
-												<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter form-control" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}" />
+												<input type="text" id="pageToJump"
+													   class="js-page-jump listViewPagingInput textAlignCenter form-control"
+													   title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}"
+													   value="{$PAGE_NUMBER}"
+													   data-js="keypress"/>
 											</div>
 											<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 												{\App\Language::translate('LBL_OF')}
 											</div>
-											<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT}</div>
+											<div class="js-total-page col-md-2 recentComments pushUpandDown2per textAlignCenter"
+												 id="totalPageCount" data-js="text">{$PAGE_COUNT}</div>
 										</div>
 									</li>
 								</ul>
@@ -41,29 +51,33 @@
 						{/if}
 						{break}
 					{/if}
-					<li class="page-item pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}" data-id="{$PAGE_INDEX}">
+					<li class="js-set-page page-item pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}"
+						data-id="{$PAGE_INDEX}" data-js="click">
 						<a class="page-link" href="#">{$PAGE_INDEX}</a>
 					</li>
 				{/for}
 			{/if}
 			{if $PAGE_INDEX <= $PAGE_COUNT}
-				<li class="pageNumber{if $PAGE_NUMBER eq $PAGE_COUNT} active disabled{/if}" data-id="{$PAGE_COUNT}">
+				<li class="js-set-page pageNumber{if $PAGE_NUMBER eq $PAGE_COUNT} active disabled{/if}" data-js="click" data-id="{$PAGE_COUNT}">
 					<a class="page-link" href="#">{$PAGE_COUNT}</a>
 				</li>
 			{/if}
-			<li class="page-item {if (!$PAGING_MODEL->isNextPageExists())} disabled {/if}" id="{$VIEWNAME}ViewNextPageButton">
+			<li class="js-next-page page-item {if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}"
+				id="{$VIEWNAME}ViewNextPageButton" data-js="click">
 				<a class="page-link" href="#" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 					<span class="sr-only">Next</span>
 				</a>
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
-				<li class="page-item js-popover-tooltip" data-js="popover" id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
+				<li class="js-count-number-records page-item js-popover-tooltip" data-js="popover|click"
+					id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
 					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}
 			{if $LISTVIEW_COUNT}
-				<li class="page-item {if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
+				<li class="js-set-page page-item {if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage"
+					data-id="{$PAGE_COUNT}" data-js="click">
 					<a class="page-link" href="#">{\App\Language::translate('LBL_LAST')}</a>
 				</li>
 			{/if}

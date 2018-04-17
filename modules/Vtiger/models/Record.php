@@ -381,15 +381,15 @@ class Vtiger_Record_Model extends \App\Base
 	 * Function to get the display value in ListView.
 	 *
 	 * @param string $fieldName
+	 * @param bool   $rawText
 	 *
-	 * @return string
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
 	 */
-	public function getListViewDisplayValue($fieldName)
+	public function getListViewDisplayValue($fieldName, $rawText = false)
 	{
-		$recordId = $this->getId();
-		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-
-		return $fieldModel->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $this->getModule()->getFieldByName($fieldName)->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $this->getId(), $this, $rawText);
 	}
 
 	/**
@@ -1368,48 +1368,48 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->getModule()->isSummaryViewSupported()) {
 				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
 				$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-						'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
-						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-						'linkicon' => 'far fa-caret-square-right',
-						'linkclass' => 'btn-xs btn-default',
-						'modalView' => true,
+					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+					'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
+					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+					'linkicon' => 'far fa-caret-square-right',
+					'linkclass' => 'btn-xs btn-default',
+					'modalView' => true,
 				]);
 			}
 			$links['LBL_SHOW_COMPLETE_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
-					'linkurl' => $this->getFullDetailViewUrl(),
-					'linkhref' => true,
-					'linkicon' => 'fas fa-th-list',
-					'linkclass' => 'btn-xs btn-default',
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkurl' => $this->getFullDetailViewUrl(),
+				'linkhref' => true,
+				'linkicon' => 'fas fa-th-list',
+				'linkclass' => 'btn-xs btn-default',
 			]);
 		}
 		$relationModel = $viewModel->getRelationModel();
 		if ($relationModel->isEditable() && $this->isEditable()) {
 			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_EDIT',
-					'linkhref' => true,
-					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'fas fa-edit',
-					'linkclass' => 'btn-xs btn-default',
+				'linklabel' => 'LBL_EDIT',
+				'linkhref' => true,
+				'linkurl' => $this->getEditViewUrl(),
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn-xs btn-default',
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
 			$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'BTN_WATCHING_RECORD',
-					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-					'linkclass' => 'btn-xs ' . ($watching ? 'btn-info' : 'btn-default'),
-					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				'linklabel' => 'BTN_WATCHING_RECORD',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
+				'linkclass' => 'btn-xs ' . ($watching ? 'btn-info' : 'btn-default'),
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
 			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_DELETE',
-					'linkicon' => 'fas fa-trash-alt',
-					'linkclass' => 'btn-xs btn-default relationDelete entityStateBtn',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linklabel' => 'LBL_DELETE',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn-xs btn-default relationDelete entityStateBtn',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
 
@@ -1530,7 +1530,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getImage()
 	{
 		$image = [];
-		if (!$this->isEmpty('imagename') && $this->get('imagename') !== '[]' &&  $this->get('imagename') !== '""') {
+		if (!$this->isEmpty('imagename') && $this->get('imagename') !== '[]' && $this->get('imagename') !== '""') {
 			$image = array_shift(\App\Json::decode($this->get('imagename')));
 			$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
