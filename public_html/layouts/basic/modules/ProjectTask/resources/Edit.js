@@ -1,14 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 Vtiger_Edit_Js("ProjectTask_Edit_Js", {}, {
-
 	/**
 	 * Function to get popup params
 	 */
-	getPopUpParams: function (container) {
-		var params = this._super(container);
-		var sourceFieldElement = jQuery('input[class="sourceField"]', container);
-		var form, parentIdElement, closestContainer;
+	getRecordsListParams: function (container) {
+		let params = this._super(container);
+		let sourceFieldElement = jQuery('input[class="sourceField"]', container);
+		let form, parentIdElement, closestContainer;
 		if (sourceFieldElement.attr('name') == 'projectmilestoneid') {
 			form = this.getForm();
 			parentIdElement = form.find('[name="projectid"]');
@@ -28,10 +27,6 @@ Vtiger_Edit_Js("ProjectTask_Edit_Js", {}, {
 			}
 		}
 		return params;
-	},
-
-	registerEvents: function () {
-		this._super();
 	}
 });
 

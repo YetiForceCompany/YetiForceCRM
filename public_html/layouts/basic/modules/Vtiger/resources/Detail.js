@@ -2198,7 +2198,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		detailContentsHolder.on('click', '.relatedPopup', function (e) {
 			var editViewObj = new Vtiger_Edit_Js();
-			editViewObj.openPopUp(e);
+			editViewObj.showRecordsList(e);
 			return false;
 		});
 		detailContentsHolder.on('click', '.viewThread', function (e) {
