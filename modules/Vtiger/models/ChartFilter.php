@@ -1136,6 +1136,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->iterateAllRows(function ($row, $groupValue, $dividingValue, $rowIndex) {
 			$value = (float) $row[$this->valueName];
 			$sectorId = $this->getSectorForValue($value);
+			$sectorIndex = array_search($sectorId, $this->sectors);
+			$previousSectorValue = $this->sectors[$sectorIndex - 1];
 			if (!isset($this->sectorNumRows[$sectorId])) {
 				$this->sectorNumRows[$sectorId] = 0;
 			}
@@ -1150,8 +1152,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					break;
 			}
 			$searchParams = array_merge($this->searchParams, [[$this->valueName, 'm', $sectorId]]);
-			if ($sectorId != 0) {
-				$searchParams[] = [$this->valueName, 'g', $this->sectorValues[$sectorId - 1]];
+			if ($previousSectorValue!==null) {
+				$searchParams[] = [$this->valueName, 'g', $previousSectorValue];
 			}
 			$this->sectorValues[$sectorId]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
 			$this->sectorValues[$sectorId]['color_id'] = $sectorId;
