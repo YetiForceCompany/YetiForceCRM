@@ -59,6 +59,9 @@
 .u-h-600px {
 	height: 600px !important;
 }
+.u-h-input-text {
+  height: $input-text-height;
+}
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {

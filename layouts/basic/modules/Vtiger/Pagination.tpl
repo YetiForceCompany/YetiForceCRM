@@ -20,35 +20,35 @@
 				{assign var=PAGIN_TO value=$START_PAGIN_FROM+4}
 				{for $PAGE_INDEX=$START_PAGIN_FROM to $PAGIN_TO}
 					{if $PAGE_INDEX eq $PAGE_COUNT || $PAGE_INDEX eq $PAGIN_TO}
-						{if $PAGE_COUNT > 5}
-							<li class="page-item {if $PAGE_COUNT eq 1} disabled {/if}">
+						{*{if $PAGE_COUNT > 5}*}
+							<li class="page-item {if $PAGE_COUNT eq 1}  {/if}">
 								<a class="page-link" id="dLabel" data-target="#" data-toggle="dropdown" role="button"
 								   href="#" aria-expanded="true">
 									...
 								</a>
-								<ul class="js-page-jump-drop-down dropdown-menu listViewBasicAction" data-js="click"
+								<div class="js-page-jump-drop-down dropdown-menu listViewBasicAction" data-js="click"
 									aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
-									<li class="dropdown-item">
-										<div>
-											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per">
+									<a class="dropdown-item">
+										<div class="row">
+											<div class="col-md-3 p-0 textAlignCenter pushUpandDown2per">
 												<span>{\App\Language::translate('LBL_PAGE')}</span></div>
-											<div class="col-md-3 recentComments">
+											<div class="col-md-3 p-0">
 												<input type="text" id="pageToJump"
-													   class="js-page-jump listViewPagingInput textAlignCenter form-control"
+													   class="js-page-jump listViewPagingInput u-h-input-text textAlignCenter form-control"
 													   title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}"
 													   value="{$PAGE_NUMBER}"
 													   data-js="keypress"/>
 											</div>
-											<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
+											<div class="col-md-2 p-0 textAlignCenter pushUpandDown2per">
 												{\App\Language::translate('LBL_OF')}
 											</div>
-											<div class="js-total-page col-md-2 recentComments pushUpandDown2per textAlignCenter"
+											<div class="js-total-page col-md-2 p-0 pushUpandDown2per textAlignCenter"
 												 id="totalPageCount" data-js="text">{$PAGE_COUNT}</div>
 										</div>
-									</li>
-								</ul>
+									</a>
+								</div>
 							</li>
-						{/if}
+						{*{/if}*}
 						{break}
 					{/if}
 					<li class="js-set-page page-item pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}"
