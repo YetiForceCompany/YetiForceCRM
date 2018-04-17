@@ -1094,6 +1094,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 						yAxes: [{
 							display: true,
 							beginAtZero: true,
+							ticks: {
+								callback: 'function:scales.formatAxesLabels'
+							}
 						}],
 					},
 				},
