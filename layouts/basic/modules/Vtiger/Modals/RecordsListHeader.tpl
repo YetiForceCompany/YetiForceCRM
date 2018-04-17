@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<div class="modal js-modal-data" tabindex="-1" data-js="data"
+<div class="tpl-Modals-RecordsListHeader modal js-modal-data" tabindex="-1" data-js="data"
 	 role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach}>
 	<div class="modal-dialog {$MODAL_VIEW->modalSize}" role="document">
 	<div class="modal-content">
