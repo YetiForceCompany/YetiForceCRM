@@ -328,7 +328,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		var errorMessage, params;
 		var form = jQuery('#currencyContainer');
 		var editViewForm = thisInstance.getForm();
-		var modalContainer = jQuery('#globalmodal');
+		var modalContainer = jQuery('#'+Window.lastModalId);
 		var enabledBaseCurrency = modalContainer.find('.enableCurrency').filter(':checked');
 		if (enabledBaseCurrency.length < 1) {
 			errorMessage = app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT');
