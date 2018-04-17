@@ -1917,7 +1917,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 							{name: 'clipboard', groups: ['clipboard', 'undo']}
 						]
 					};
-					let editor = new App.Fields.Text.Editor(modalContainer, customConfig);
+					new App.Fields.Text.Editor(modalContainer, customConfig);
 					app.showPopoverElementView(modalContainer.find('.js-help-info'));
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					modalContainer.find('.js-lang').on('change', function (e) {
@@ -1930,7 +1930,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {}, {
 						textArea.prop('disabled', false);
 						textArea.closest('.js-context-block').removeClass('d-none');
 						modalContainer.find('.js-help-info').attr('data-content', textArea.val());
-						let editor = new App.Fields.Text.Editor(textArea, customConfig);
+						new App.Fields.Text.Editor(textArea, customConfig);
 					});
 					modalContainer.find('form').on('submit', function (e) {
 						e.preventDefault();

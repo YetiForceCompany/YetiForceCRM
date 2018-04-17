@@ -236,7 +236,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	loadEditorElement: function () {
-		let editor = new App.Fields.Text.Editor($('.js-editor'), {});
+		new App.Fields.Text.Editor($('.js-editor'), {});
 	},
 	registerSaveIssues: function () {
 		var container = $('.addIssuesModal');
