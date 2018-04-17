@@ -223,6 +223,27 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $colorsFromFilter = false;
 
 	/**
+	 * Do we have sectors?
+	 *
+	 * @var string[]
+	 */
+	private $sectors = [];
+
+	/**
+	 * Sector values.
+	 *
+	 * @var array
+	 */
+	private $sectorValues = [];
+
+	/**
+	 * Num rows for the sectors.
+	 *
+	 * @var array
+	 */
+	private $sectorNumRows = [];
+
+	/**
 	 * Get instance.
 	 *
 	 * @param int $linkId
@@ -326,6 +347,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Do we have sectors?
+	 *
+	 * @return bool
+	 */
+	public function withSectors()
+	{
+		return count($this->sectors) > 0;
+	}
+
+	/**
 	 * Get filters ids.
 	 *
 	 * @return int[]|string
@@ -425,7 +456,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || $dividing['color_id'] === null) {
 			if ($group['color_id'] === null) {
-				$color=$this->getFieldValueColor($groupValue, $dividingValue);
+				$color = $this->getFieldValueColor($groupValue, $dividingValue);
 				$this->singleColors[$datasetIndex][] = $color;
 				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
 			} else {
@@ -822,7 +853,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		while ($row = $dataReader->read()) {
 			[$groupValue, $dividingValue] = $this->getFieldValuesFromRow($row, $dividingValue);
 			$this->addRow($row, $groupValue, $dividingValue);
-			if (!empty($row[$this->groupFieldName])) {
+			if (!empty($row[$this->groupName])) {
 				$this->incNumRows($groupValue, $dividingValue);
 			}
 			if (!empty($this->extraData['showOwnerFilter'])) {
@@ -844,6 +875,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->setUpModelFields();
 		// dividing value could be int (query index) or if divided by field - field value
 		// could be also 0 for simple charts
+		if ($this->withSectors()) {
+			$query = $this->getQuery($this->filterIds[0]);
+			$this->_getRows($query, 0);
+			return $this->generateSectorsData();
+		}
 		if ($this->isMultiFilter()) {
 			$queries = $this->getQueries();
 			foreach ($queries as $dividingValue => $query) {
@@ -872,7 +908,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getValueFromRow($row)
 	{
 		$value = empty($row[$this->valueName]) ? 0 : 1;
-		$value = is_numeric($row[$this->valueName]) ? $row[$this->valueName] : $value;
+		$value = is_numeric($row[$this->valueName]) ? (float) $row[$this->valueName] : $value;
 		if ($this->valueType === 'count') {
 			$value = 1; // only counting records
 		}
@@ -1046,39 +1082,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get chart value by group for row.
-	 *
-	 * @param array $sectorValues
-	 * @param mixed $value
-	 *
-	 * @return array
-	 */
-	protected function getValueForSector($sectorValues, $value)
-	{
-		$sectorId = $this->getSector($value);
-		if ($sectorId !== false) {
-			switch ($this->extraData['valueType']) {
-				case 'count':
-					if (!isset($sectorValues[$sectorId])) {
-						$sectorValues[$sectorId] = 1;
-					} else {
-						++$sectorValues[$sectorId];
-					}
-					break;
-				case 'sum':
-				case 'avg':
-					if (!isset($sectorValues[$sectorId])) {
-						$sectorValues[$sectorId] = (int) $value;
-					} else {
-						$sectorValues[$sectorId] += (int) $value;
-					}
-					break;
-			}
-		}
-		return $sectorValues;
-	}
-
-	/**
 	 * Get rows for funnel chart.
 	 *
 	 * @return array
@@ -1124,16 +1127,82 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return int
 	 */
-	protected function getSector($value)
+	protected function getSectorForValue($value)
 	{
 		$sectorId = false;
-		foreach ($this->extraData['sectorField'] as $key => $sector) {
-			if ($value <= $sector) {
-				$sectorId = $key;
+		foreach ($this->sectors as $sectorValue) {
+			if ((float) $value <= (float) $sectorValue) {
+				$sectorId = $sectorValue;
 				break;
 			}
 		}
 		return $sectorId;
+	}
+
+	/**
+	 * Get concrete value from data.
+	 *
+	 * @param $valueType
+	 * @param $groupValue
+	 * @param $dividingValue
+	 *
+	 * @return int
+	 */
+	protected function getValue($valueType, $groupValue, $dividingValue)
+	{
+		return isset($this->data[$dividingValue][$groupValue][$valueType]) ? $this->data[$dividingValue][$groupValue][$valueType] : 0;
+	}
+
+	/**
+	 * Convert collected sectors to data (funnel chart).
+	 */
+	protected function convertSectorsToData()
+	{
+		$this->data = [];
+		$this->data[0] = [];
+		foreach ($this->sectorValues as $sectorId => $value) {
+			$this->data[0][$sectorId] = $value;
+		}
+		return $this->data;
+	}
+
+	/**
+	 * Generate sectors data.
+	 */
+	protected function generateSectorsData()
+	{
+		// in funnel chart there is only one dividingValue 0 so it will iterate only once like flat array
+		$this->iterateAllRows(function ($row, $groupValue, $dividingValue, $rowIndex) {
+			$value = (float) $row[$this->valueName];
+			$sectorId = $this->getSectorForValue($value);
+			if (!isset($this->sectorNumRows[$sectorId])) {
+				$this->sectorNumRows[$sectorId] = 0;
+			}
+			$this->sectorNumRows[$sectorId]++;
+			switch ($this->valueType) {
+				case 'count':
+					$this->sectorValues[$sectorId][$this->valueType]++;
+					break;
+				case 'sum':
+				case 'avg':
+					$this->sectorValues[$sectorId][$this->valueType] += $value;
+					break;
+			}
+			$searchParams = array_merge($this->searchParams, [[$this->valueName, 'm', $sectorId]]);
+			if ($sectorId != 0) {
+				$searchParams[] = [$this->valueName, 'g', $this->sectorValues[$sectorId - 1]];
+			}
+			$this->sectorValues[$sectorId]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
+			$this->sectorValues[$sectorId]['color_id'] = $sectorId;
+			$this->colors[$sectorId] = \App\Colors::getRandomColor('generated_' . $sectorId);
+		});
+		if ($this->valueType === 'avg') {
+			foreach ($this->sectorValues as $sectorId => $value) {
+				$this->sectorValues[$sectorId][$this->valueType] = $this->sectorValues[$sectorId][$this->valueType] / $this->sectorNumRows[$sectorId];
+			}
+		}
+		// switch $this->sectorValues to $this->data
+		return $this->convertSectorsToData();
 	}
 
 	/**
@@ -1197,6 +1266,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->chartType = $this->extraData['chartType'];
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
 		$this->stacked = !empty($this->extraData['stacked']);
+		$this->sectors = empty($this->extraData['sectorField']) ? [] : $this->extraData['sectorField'];
 		$this->dividingFieldName = 0;
 		if (!$this->isMultiFilter()) {
 			$this->dividingName = !empty($this->extraData['dividingField']) ? $this->extraData['dividingField'] : null;
