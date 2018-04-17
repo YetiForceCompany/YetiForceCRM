@@ -1,7 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-//-------- sizes --------//
+//-------- override bootstrap variables --------//
+$link-color: #006cdf;
+$secondary: #5e666c;
 
+//-------- sizes --------//
 $iconButtonWidth: 42px;
 
 $footerHeight: 33px;
@@ -13,6 +16,9 @@ $mainViewportHeight: calc(100vh - #{$footerHeight + $headerHeight});
 
 $select2InputFont: 0.875rem;
 $fontSmall: 0.8rem;
-//-------- colors --------//
 
-$primary: #4A5364;
+//-------- colors --------//
+$YnavbarBackground: #4A5364;
+
+$YmenuBackground: $YnavbarBackground;
+$YmenuFontColor: #f8f9fa;
