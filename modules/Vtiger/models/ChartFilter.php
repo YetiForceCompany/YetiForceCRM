@@ -1082,45 +1082,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get rows for funnel chart.
-	 *
-	 * @return array
-	 */
-	protected function getRowsFunnel($dividingValue)
-	{
-		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-		$this->groupFieldName = $this->groupFieldModel->getFieldName();
-		$count = $groupData = [];
-		$sectors = $this->extraData['sectorField'];
-		$dataReader = $this->getQuery()->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$sectorId = $this->getSector($sectors, $row[$this->groupName]);
-			if (!empty($this->extraData['showOwnerFilter'])) {
-				$this->owners[] = $row['assigned_user_id'];
-			}
-			if ($sectorId !== false) {
-				if (!isset($count[$sectorId])) {
-					$count[$sectorId] = 1;
-				} else {
-					++$count[$sectorId];
-				}
-			}
-		}
-		foreach ($sectors as $sectorId => &$sectorValue) {
-			$displayValue = $this->groupFieldModel->getDisplayValue($sectorValue);
-			$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
-			$groupData[$displayValue]['count'] = (int) $sectorValue;
-			$searchParams = array_merge($this->searchParams, [[$this->groupName, 'm', $sectorValue]]);
-			if ($sectorId != 0) {
-				$searchParams[] = [$this->groupName, 'g', $sectors[$sectorId - 1]];
-			}
-			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
-		}
-		$dataReader->close();
-		return $groupData;
-	}
-
-	/**
 	 * Get sector.
 	 *
 	 * @param int $value
@@ -1132,7 +1093,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$sectorId = false;
 		foreach ($this->sectors as $sectorValue) {
 			if ((float) $value <= (float) $sectorValue) {
-				$sectorId = $sectorValue;
+				$sectorId = (float) $sectorValue;
 				break;
 			}
 		}

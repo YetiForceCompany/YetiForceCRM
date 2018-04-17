@@ -346,8 +346,6 @@ $.Class("Vtiger_DashBoard_Js", {
 						App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
 						App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
 						step2.find('.filtersId, .valueType').on('change', function () {
-							if (!filtersIdElement.val() || !valueTypeElement.val())
-								return;
 							wizardContainer.find('.step3').remove();
 							wizardContainer.find('.step4').remove();
 							AppConnector.request({
