@@ -8,9 +8,9 @@ use App\Log;
  * File class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class File
 {
@@ -731,18 +731,18 @@ class File
 			$filepath .= $suffix . DIRECTORY_SEPARATOR;
 		}
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0755);
+			mkdir($filepath, 0755, true);
 		}
 		$year = date('Y');
 		$month = date('F');
 		$day = date('j');
 		$filepath .= $year;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0755);
+			mkdir($filepath, 0755, true);
 		}
 		$filepath .= DIRECTORY_SEPARATOR . $month;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0755);
+			mkdir($filepath, 0755, true);
 		}
 		if ($day > 0 && $day <= 7) {
 			$week = 'week1';
@@ -757,7 +757,7 @@ class File
 		}
 		$filepath .= DIRECTORY_SEPARATOR . $week;
 		if (!is_dir($filepath)) { //create new folder
-			mkdir($filepath, 0755);
+			mkdir($filepath, 0755, true);
 		}
 		return $filepath . DIRECTORY_SEPARATOR;
 	}
