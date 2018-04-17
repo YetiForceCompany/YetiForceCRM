@@ -135,7 +135,7 @@
 													{if $count % 3 == 0}
 														<div class="row">
 														{/if}
-														<div class="col-4">
+														<div class="col-md-4">
 															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
 																<span class="modCT_{$NAME} userIcon-{$NAME}"></span>&nbsp;<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 															</a>

@@ -2755,9 +2755,6 @@ html, body, .baseContainer {
   font-size: 11px;
   top: -3px;
 }
-.quickCreateContainer .modal-dialog {
-  width: 75%;
-}
 .currencyTable .fieldLabel {
   width: 20%;
   min-width: 150px;
@@ -3205,10 +3202,6 @@ html, body, .baseContainer {
   }
   .breadcrumbsLinks {
 	font-size: 14px;
-  }
-  .quickCreateContainer .modal-dialog {
-	width: 100%;
-	padding-right: 20px;
   }
 }
 @media only screen and (max-width: 480px) {
