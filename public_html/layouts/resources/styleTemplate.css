@@ -4,13 +4,6 @@
 .dispaly-inline {
 	display: inline;
 }
-.modal-full {
-	width: 95% !important;
-	max-width: 1250px;
-}
-.modal-blg {
-	width: 90%;
-}
 .danger-color {
 	color: #d9534f !important;
 }

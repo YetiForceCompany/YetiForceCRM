@@ -1,6 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.modal-full {
-  max-width: 72%;
+@include media-breakpoint-up(md) {
+  .modal-full {
+    max-width: 72%;
+  }
 }
 .modal-fullscreen {
   top: 21px;
@@ -10,4 +12,7 @@
   width: calc(100% - 50px);
   margin-left: 50px;
   margin-right: 0;
+}
+.modal-blg {
+  width: 90%;
 }
