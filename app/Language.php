@@ -76,7 +76,6 @@ class Language
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
-
 		return static::$language = empty($language) ? \AppConfig::main('default_language') : strtolower($language);
 	}
 
