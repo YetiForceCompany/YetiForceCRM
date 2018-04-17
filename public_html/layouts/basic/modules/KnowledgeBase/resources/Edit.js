@@ -8,7 +8,7 @@ Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
 			customConfig.extraAllowedContent = true;
 			customConfig.removeFormatAttributes = '';
 			customConfig.removeFormatTags = '';
-			let editor = new App.Fields.Text.Editor(noteContentElement, customConfig);
+			new App.Fields.Text.Editor(noteContentElement, customConfig);
 			CKEDITOR.on('dialogDefinition', function (ev) {
 				var dialogName = ev.data.name;
 				var dialogDefinition = ev.data.definition;

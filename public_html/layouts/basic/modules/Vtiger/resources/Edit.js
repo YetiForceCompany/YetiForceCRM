@@ -1022,7 +1022,7 @@ $.Class("Vtiger_Edit_Js", {
 			if (noteContentElement.hasClass("js-editor__small")) {
 				customConfig.height = '5em';
 			}
-			let editor = new App.Fields.Text.Editor(noteContentElement, customConfig);
+			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		}
 	},
 	registerHelpInfo: function () {

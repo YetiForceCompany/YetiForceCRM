@@ -28,7 +28,7 @@ $.Class('Settings_Mail_Config_Js', {}, {
 	},
 	registerSignature() {
 		const container = $('#signature');
-		let editor = new App.Fields.Text.Editor(container.find('.js-editor'), {
+		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
 		container.find('button').on('click', function () {
