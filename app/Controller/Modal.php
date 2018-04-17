@@ -36,7 +36,6 @@ abstract class Modal extends View
 		$viewer->assign('MODAL_DATA', $this->modalData);
 		$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		$viewer->assign('MODAL_CSS', $this->getModalCss($request));
-		$this->initializeContent($request, $viewer);
 		if (!$request->getBoolean('onlyBody')) {
 			$viewer->view($this->preProcessTplName($request), $moduleName);
 		}

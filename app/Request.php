@@ -151,7 +151,6 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			return $this->purifiedValuesByType[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
 		}
-
 		return false;
 	}
 
@@ -169,7 +168,6 @@ class Request
 		if (is_bool($value)) {
 			return $value;
 		}
-
 		return strcasecmp('true', (string) $value) === 0 || (string) $value === '1';
 	}
 
