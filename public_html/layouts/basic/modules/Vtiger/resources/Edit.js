@@ -162,6 +162,22 @@ $.Class("Vtiger_Edit_Js", {
 			sourceFieldElement.trigger(Vtiger_Edit_Js.postReferenceSelectionEvent, {data: responseData});
 		});
 	},
+	/**
+	 * Show records list modal
+	 * @param {jQuery.Event} e
+	 */
+	showRecordsList: function (e) {
+		var parentElem = $(e.target).closest('.fieldValue');
+		if (parentElem.length <= 0) {
+			parentElem = $(e.target).closest('td');
+		}
+		var params = this.getPopUpParams(parentElem);
+		app.showRecordsList(params, (modal, instance) => {
+			instance.setSelectEvent((data) => {
+				this.setReferenceFieldValue(parentElem, data);
+			});
+		});
+	},
 	setReferenceFieldValue: function (container, params) {
 		var thisInstance = this;
 		var sourceFieldElement = container.find('input.sourceField');
@@ -361,7 +377,8 @@ $.Class("Vtiger_Edit_Js", {
 	},
 	referenceModulePopupRegisterEvent: function (container) {
 		container.on("click", '.relatedPopup', (e) => {
-			this.openPopUp(e);
+			//this.openPopUp(e);
+			this.showRecordsList(e);
 		});
 		let moduleList = container.find('.referenceModulesList');
 		App.Fields.Picklist.showSelect2ElementView(moduleList);
