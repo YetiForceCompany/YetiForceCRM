@@ -20,7 +20,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 */
 	getUnitPrice: function () {
 		if (this.unitPrice == false) {
-			this.unitPrice = jQuery('input.unitPrice', this.getForm());
+			this.unitPrice = $('input.unitPrice', this.getForm());
 		}
 		return this.unitPrice;
 	},
@@ -29,7 +29,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 */
 	getMoreCurrenciesContainer: function () {
 		if (this.multiCurrencyContainer == false) {
-			this.multiCurrencyContainer = jQuery('.multiCurrencyEditUI');
+			this.multiCurrencyContainer = $('.multiCurrencyEditUI');
 		}
 		return this.multiCurrencyContainer;
 	},
@@ -37,7 +37,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 * Function which aligns data just below global search element
 	 */
 	alignBelowUnitPrice: function (dataToAlign) {
-		var parentElem = jQuery('input[name="unit_price"]', this.getForm());
+		var parentElem = $('input[name="unit_price"]', this.getForm());
 		dataToAlign.position({
 			'of': parentElem,
 			'my': "left top",
@@ -50,7 +50,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 * Function to get current Element
 	 */
 	getCurrentElem: function (e) {
-		return jQuery(e.currentTarget);
+		return $(e.currentTarget);
 	},
 	/**
 	 *Function to register events for taxes
@@ -58,13 +58,13 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	registerEventForTaxes: function () {
 		var thisInstance = this;
 		var formElem = this.getForm();
-		jQuery('.taxes').on('change', function (e) {
+		$('.taxes').on('change', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var taxBox = elem.data('taxName');
 			if (elem.is(':checked')) {
-				jQuery('input[name=' + taxBox + ']', formElem).removeAttr('readonly');
+				$('input[name=' + taxBox + ']', formElem).removeAttr('readonly');
 			} else {
-				jQuery('input[name=' + taxBox + ']', formElem).attr('readonly', 'readonly');
+				$('input[name=' + taxBox + ']', formElem).attr('readonly', 'readonly');
 			}
 
 		});
@@ -76,11 +76,11 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	registerEventForEnableBaseCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('change', '.baseCurrency', function (e) {
+		$(container).on('change', '.baseCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var parentElem = elem.closest('tr');
 			if (elem.is(':checked')) {
-				var convertedPrice = jQuery('.convertedPrice', parentElem).val();
+				var convertedPrice = $('.convertedPrice', parentElem).val();
 				thisInstance.baseCurrencyName = parentElem.data('currencyId');
 				thisInstance.baseCurrency = convertedPrice;
 			}
@@ -93,14 +93,14 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	registerEventForResetCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('click', '.currencyReset', function (e) {
+		$(container).on('click', '.currencyReset', function (e) {
 			var parentElem = thisInstance.getCurrentElem(e).closest('tr');
 			var unitPriceFieldData = thisInstance.getUnitPrice().data();
 			var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
-			var conversionRate = jQuery('.conversionRate', parentElem).val();
+			var conversionRate = $('.conversionRate', parentElem).val();
 			var price = parseFloat(unitPrice) * parseFloat(conversionRate);
 			var calculatedPrice = app.parseNumberToShow(price);
-			jQuery('.convertedPrice', parentElem).val(calculatedPrice);
+			$('.convertedPrice', parentElem).val(calculatedPrice);
 		});
 		return this;
 	},
@@ -123,7 +123,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		var baseCurrencyRatePrevValue = baseCurrencyConvestationRate.val();
 
 		container.find('.conversionRate').each(function (key, domElement) {
-			var element = jQuery(domElement);
+			var element = $(domElement);
 			if (!element.is(baseCurrencyConvestationRate)) {
 				var prevValue = element.val();
 				element.val((prevValue / baseCurrencyRatePrevValue));
@@ -138,24 +138,24 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	registerEventForEnableCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('change', '.enableCurrency', function (e) {
+		$(container).on('change', '.enableCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var parentRow = elem.closest('tr');
 
 			if (elem.is(':checked')) {
 				elem.attr('checked', "checked");
-				var conversionRate = jQuery('.conversionRate', parentRow).val();
+				var conversionRate = $('.conversionRate', parentRow).val();
 				var unitPriceFieldData = thisInstance.getUnitPrice().data();
 				var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
 				var price = parseFloat(unitPrice) * parseFloat(conversionRate);
-				jQuery('input', parentRow).attr('disabled', true).removeAttr('disabled');
-				jQuery('button.currencyReset', parentRow).attr('disabled', true).removeAttr('disabled');
+				$('input', parentRow).attr('disabled', true).removeAttr('disabled');
+				$('button.currencyReset', parentRow).attr('disabled', true).removeAttr('disabled');
 				var calculatedPrice = app.parseNumberToShow(price);
-				jQuery('input.convertedPrice', parentRow).val(calculatedPrice);
+				$('input.convertedPrice', parentRow).val(calculatedPrice);
 			} else {
-				var baseCurrency = jQuery('.baseCurrency', parentRow);
+				var baseCurrency = $('.baseCurrency', parentRow);
 				if (baseCurrency.is(':checked')) {
-					var currencyName = jQuery('.currencyName', parentRow).text();
+					var currencyName = $('.currencyName', parentRow).text();
 					var params = {
 						'type': 'error',
 						'title': app.vtranslate('JS_ERROR'),
@@ -165,9 +165,9 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 					elem.prop('checked', true);
 					return;
 				}
-				jQuery('input', parentRow).attr('disabled', true);
-				jQuery('input.enableCurrency', parentRow).removeAttr('disabled');
-				jQuery('button.currencyReset', parentRow).attr('disabled', 'disabled');
+				$('input', parentRow).attr('disabled', true);
+				$('input.enableCurrency', parentRow).removeAttr('disabled');
+				$('button.currencyReset', parentRow).attr('disabled', 'disabled');
 			}
 		});
 		return this;
@@ -176,11 +176,11 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 * Function to get more currencies UI
 	 */
 	getMoreCurrenciesUI: function () {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var moduleName = app.getModuleName();
-		var baseCurrency = jQuery('input[name="base_currency"]').val();
-		var recordId = jQuery('input[name="record"]').val();
-		var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer');
+		var baseCurrency = $('input[name="base_currency"]').val();
+		var recordId = $('input[name="record"]').val();
+		var moreCurrenciesContainer = $('#moreCurrenciesContainer');
 		moreCurrenciesUi = moreCurrenciesContainer.find('.multiCurrencyEditUI');
 		var moreCurrenciesUi;
 
@@ -212,11 +212,11 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	registerEventForMoreCurrencies: function () {
 		var thisInstance = this;
 		var form = this.getForm();
-		jQuery('#moreCurrencies').on('click', function (e) {
-			var progressInstance = jQuery.progressIndicator();
+		$('#moreCurrencies').on('click', function (e) {
+			var progressInstance = $.progressIndicator();
 			thisInstance.getMoreCurrenciesUI().then(function (data) {
 				var moreCurrenciesUi;
-				moreCurrenciesUi = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
+				moreCurrenciesUi = $('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
 				if (moreCurrenciesUi.length > 0) {
 					moreCurrenciesUi = moreCurrenciesUi.clone(true, true);
 					progressInstance.hide();
@@ -233,7 +233,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 						form.validationEngine(params);
 						app.showScrollBar(data.find('.currencyContent'), {'height': '400px'});
 						thisInstance.baseCurrency = thisInstance.getUnitPrice().val();
-						var multiCurrencyEditUI = jQuery('.multiCurrencyEditUI');
+						var multiCurrencyEditUI = $('.multiCurrencyEditUI');
 						thisInstance.multiCurrencyContainer = multiCurrencyEditUI;
 						thisInstance.calculateConversionRate();
 						thisInstance.registerEventForEnableCurrency();
@@ -241,15 +241,15 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 						thisInstance.registerEventForResetCurrency();
 						thisInstance.triggerForBaseCurrencyCalc();
 					};
-					var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
+					var moreCurrenciesContainer = $('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
 					var contentInsideForm = moreCurrenciesUi.find('.multiCurrencyContainer').html();
 					moreCurrenciesUi.find('.multiCurrencyContainer').remove();
 					var form = '<form id="currencyContainer"></form>';
-					jQuery(form).insertAfter(moreCurrenciesUi.find('.modal-header'));
+					$(form).insertAfter(moreCurrenciesUi.find('.modal-header'));
 					moreCurrenciesUi.find('form').html(contentInsideForm);
 					moreCurrenciesContainer.find('input[name^=curname]').each(function (index, element) {
-						var dataValue = jQuery(element).val();
-						var dataId = jQuery(element).attr('id');
+						var dataValue = $(element).val();
+						var dataId = $(element).attr('id');
 						moreCurrenciesUi.find('#' + dataId).val(dataValue);
 					});
 					var modalWindowParams = {
@@ -269,14 +269,14 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	triggerForBaseCurrencyCalc: function () {
 		var multiCurrencyEditUI = this.getMoreCurrenciesContainer();
 		var baseCurrency = multiCurrencyEditUI.find('.enableCurrency');
-		jQuery.each(baseCurrency, function (key, val) {
-			if (jQuery(val).is(':checked')) {
-				var baseCurrencyRow = jQuery(val).closest('tr');
+		$.each(baseCurrency, function (key, val) {
+			if ($(val).is(':checked')) {
+				var baseCurrencyRow = $(val).closest('tr');
 				if (parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0) {
 					baseCurrencyRow.find('.currencyReset').trigger('click');
 				}
 			} else {
-				jQuery(val).closest('tr').find('.convertedPrice').val('');
+				$(val).closest('tr').find('.convertedPrice').val('');
 			}
 		});
 	},
@@ -297,7 +297,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		}
 
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			var multiCurrencyContent = jQuery('#moreCurrenciesContainer').find('.currencyContent');
+			var multiCurrencyContent = $('#moreCurrenciesContainer').find('.currencyContent');
 			var unitPrice = thisInstance.getUnitPrice();
 			if ((multiCurrencyContent.length < 1) && (unitPrice.length > 0)) {
 				e.preventDefault();
@@ -326,9 +326,9 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	saveCurrencies: function () {
 		var thisInstance = this;
 		var errorMessage, params;
-		var form = jQuery('#currencyContainer');
+		var form = $('#currencyContainer');
 		var editViewForm = thisInstance.getForm();
-		var modalContainer = jQuery('#'+Window.lastModalId);
+		var modalContainer = $('#'+Window.lastModalId);
 		var enabledBaseCurrency = modalContainer.find('.enableCurrency').filter(':checked');
 		if (enabledBaseCurrency.length < 1) {
 			errorMessage = app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT');
@@ -356,19 +356,19 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		selectedBaseCurrency.attr('checked', "checked");
 		modalContainer.find('.baseCurrency').filter(":not(:checked)").removeAttr('checked');
 		var parentElem = selectedBaseCurrency.closest('tr');
-		var convertedPrice = jQuery('.convertedPrice', parentElem).val();
+		var convertedPrice = $('.convertedPrice', parentElem).val();
 		thisInstance.baseCurrencyName = parentElem.data('currencyId');
 		thisInstance.baseCurrency = convertedPrice;
 
 		thisInstance.getUnitPrice().val(thisInstance.baseCurrency);
-		jQuery('input[name="base_currency"]', editViewForm).val(thisInstance.baseCurrencyName);
+		$('input[name="base_currency"]', editViewForm).val(thisInstance.baseCurrencyName);
 
 		var savedValuesOfMultiCurrency = modalContainer.find('.currencyContent').html();
-		var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer');
+		var moreCurrenciesContainer = $('#moreCurrenciesContainer');
 		moreCurrenciesContainer.find('.currencyContent').html(savedValuesOfMultiCurrency);
 		modalContainer.find('input[name^=curname]').each(function (index, element) {
-			var dataValue = jQuery(element).val();
-			var dataId = jQuery(element).attr('id');
+			var dataValue = $(element).val();
+			var dataId = $(element).attr('id');
 			moreCurrenciesContainer.find('.currencyContent').find('#' + dataId).val(dataValue);
 		});
 		app.hideModalWindow();
@@ -380,12 +380,12 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 			if (typeof editViewForm.data('submit') != "undefined") {
 				return false;
 			} else {
-				var module = jQuery(e.currentTarget).find('[name="module"]').val();
+				var module = $(e.currentTarget).find('[name="module"]').val();
 				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element
 					editViewForm.data('submit', 'true');
 					//on submit form trigger the recordPreSave event
-					var recordPreSaveEvent = jQuery.Event(Vtiger_Edit_Js.recordPreSave);
+					var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
 					editViewForm.trigger(recordPreSaveEvent, {'value': 'edit'});
 					if (recordPreSaveEvent.isDefaultPrevented()) {
 						//If duplicate record validation fails, form should submit again
