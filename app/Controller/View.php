@@ -107,7 +107,6 @@ abstract class View extends Base
 		} else {
 			$pageTitle = $this->getBreadcrumbTitle($request);
 		}
-
 		return $prefix . $pageTitle;
 	}
 
@@ -126,7 +125,6 @@ abstract class View extends Base
 		if (isset($this->pageTitle)) {
 			return \App\Language::translate($this->pageTitle, $request->getModule(false));
 		}
-
 		return '';
 	}
 
