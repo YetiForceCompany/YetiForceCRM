@@ -6414,7 +6414,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `data` text DEFAULT NULL,
   `size` varchar(50) DEFAULT NULL,
   `limit` tinyint(2) DEFAULT NULL,
-  `position` varchar(50) DEFAULT NULL,
+  `position` text DEFAULT NULL,
   `isdefault` tinyint(1) DEFAULT 0,
   `active` tinyint(1) DEFAULT 0,
   `owners` varchar(100) DEFAULT NULL,
