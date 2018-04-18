@@ -97,11 +97,15 @@ $.Class("Vtiger_DashBoard_Js", {
 	loadWidgets: function () {
 		const thisInstance = this;
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
+			threshold: 0,
 			appendScroll: $('.mainBody'),
 			widgetLoader(element) {
 				thisInstance.loadWidget(element);
 			},
 		});
+		// jquery lazy hack to load all dashboard widget on tab click
+		const scrollTop = $('.mainBody').scrollTop();
+		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
