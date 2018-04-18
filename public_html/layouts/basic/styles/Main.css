@@ -9313,9 +9313,6 @@ html, body, .baseContainer {
   font-size: 11px;
   top: -3px; }
 
-.quickCreateContainer .modal-dialog {
-  width: 75%; }
-
 .currencyTable .fieldLabel {
   width: 20%;
   min-width: 150px; }
@@ -9707,11 +9704,7 @@ html, body, .baseContainer {
     float: left; }
 
   .breadcrumbsLinks {
-    font-size: 14px; }
-
-  .quickCreateContainer .modal-dialog {
-    width: 100%;
-    padding-right: 20px; } }
+    font-size: 14px; } }
 @media only screen and (max-width: 480px) {
   .modalRightSiteBar {
     width: 100%; }
@@ -10554,6 +10547,9 @@ border1px {
   cursor: pointer;
   text-decoration: none !important; }
 
+.u-cursor-auto {
+  cursor: auto; }
+
 .u-overflow-auto {
   overflow: auto !important; }
 
@@ -11022,9 +11018,9 @@ ul.ui-autocomplete {
       font-size: 0.6em;
       padding: 0.1rem 0.2rem; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.modal-full {
-  max-width: 72%; }
-
+@media (min-width: 768px) {
+  .modal-full {
+    max-width: 72%; } }
 .modal-fullscreen {
   top: 21px;
   right: 32px;
@@ -11033,6 +11029,9 @@ ul.ui-autocomplete {
   width: calc(100% - 50px);
   margin-left: 50px;
   margin-right: 0; }
+
+.modal-blg {
+  width: 90%; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
