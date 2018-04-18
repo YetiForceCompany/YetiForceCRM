@@ -10,7 +10,6 @@ class MultiImage {
 	constructor(element) {
 		const thisInstance = this;
 		this.elements = {};
-		this.isUploading = false;
 		this.options = {
 			zoomTitleAnimation: {
 				in: 'fadeIn',
@@ -695,7 +694,7 @@ class MultiImage {
 		this.files = this.files.map((file) => {
 			file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
 			return file;
-		}).slice(0, this.options.limit - 1);
+		}).slice(0, this.options.limit);
 		this.generatePreviewElements(this.files, (element) => {
 			this.elements.result.append(element);
 		});
