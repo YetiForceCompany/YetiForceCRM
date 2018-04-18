@@ -1,6 +1,15 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .leftPanel {
+
+	.userDetailsContainer {
+		height: 50px;
+		padding-right: 0;
+		padding-left: 0;
+		background-color: #406a95;
+	}
+
+
   &:after {
 	content: "";
 	position: fixed;
@@ -8,16 +17,16 @@
 	z-index: -2;
 	width: 230px;
 	height: 100%;
-	background: $primary;
+	background: $y-menu-background;
   }
   position: fixed;
   left: 0;
   top: 0;
   bottom: 33px;
   width: 230px;
-  color: $light;
+  color: $y-menu-font-color;
   z-index: 1030;
-  background: $primary;
+  background: $y-menu-background;
   .menuContainer .modulesList .menuIcon {
 	padding-right: 18px;
 	font-size: 24px;
@@ -55,9 +64,9 @@
 	&:active, &:focus {
 	  outline: 0;
 	}
-	color: $light;
+	color: $y-menu-font-color;
 	&:hover {
-	  color: $primary;
+	  color: $y-menu-background;
 	}
   }
   .menuContainer {
@@ -68,7 +77,7 @@
 	  word-wrap: break-word;
 	  font-size: 16px;
 	  &:hover, &:focus {
-		background: $light;
+		background: $y-menu-font-color;
 	  }
 	  &.hasIcon {
 		padding: 5px 12px;
@@ -91,7 +100,7 @@
 		z-index: -1;
 		width: 300px;
 		min-height: 830px;
-		background: $light;
+		background: $y-menu-font-color;
 		border-right: 1px solid #dddddd;
 	  }
 	  li {
@@ -113,10 +122,10 @@
 		padding-left: 50px;
 	  }
 	  a, .menuLabel {
-		color: $primary;
+		color: $y-menu-background;
 		&:hover, &:focus {
-		  color: $light;
-		  background: $primary;
+		  color: $y-menu-font-color;
+		  background: $y-menu-background;
 		}
 		&.hasIcon {
 		  padding: 8px 10px;
@@ -127,8 +136,8 @@
 	  }
 	  button {
 		&:hover, &:focus {
-		  color: $light;
-		  background: $primary;
+		  color: $y-menu-font-color;
+		  background: $y-menu-background;
 		}
 	  }
 	  button .hasIcon {
