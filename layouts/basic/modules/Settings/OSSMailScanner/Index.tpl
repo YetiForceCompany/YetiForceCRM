@@ -25,11 +25,11 @@
 	</div>	
 {/if}
 <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-    <li class="active"><a href="#tab_accounts" data-toggle="tab">{\App\Language::translate('E-mail Accounts', 'OSSMailScanner')} </a></li>
-    <li><a href="#tab_actions" data-toggle="tab">{\App\Language::translate('Actions', 'OSSMailScanner')}</a></li>
-    <li><a href="#tab_email_search" data-toggle="tab">{\App\Language::translate('General Configuration', 'OSSMailScanner')}</a></li>  
-    <li><a href="#tab_record_numbering" data-toggle="tab">{\App\Language::translate('Record Numbering', 'OSSMailScanner')}</a></li>
-	<li><a href="#exceptions" data-toggle="tab">{\App\Language::translate('LBL_EXCEPTIONS', 'OSSMailScanner')}</a></li>
+    <li class="nav-item"><a class="nav-link active" href="#tab_accounts" data-toggle="tab">{\App\Language::translate('E-mail Accounts', 'OSSMailScanner')} </a></li>
+    <li class="nav-item"><a class="nav-link" href="#tab_actions" data-toggle="tab">{\App\Language::translate('Actions', 'OSSMailScanner')}</a></li>
+    <li class="nav-item"><a class="nav-link" href="#tab_email_search" data-toggle="tab">{\App\Language::translate('General Configuration', 'OSSMailScanner')}</a></li>  
+    <li class="nav-item"><a class="nav-link" href="#tab_record_numbering" data-toggle="tab">{\App\Language::translate('Record Numbering', 'OSSMailScanner')}</a></li>
+	<li class="nav-item"><a class="nav-link" href="#exceptions" data-toggle="tab">{\App\Language::translate('LBL_EXCEPTIONS', 'OSSMailScanner')}</a></li>
 </ul>
 <div id="my-tab-content" class="tab-content marginTop20">
     <div class='editViewContainer tab-pane active' id="tab_accounts">
