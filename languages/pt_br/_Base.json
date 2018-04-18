@@ -1601,6 +1601,7 @@
     "JS_DOWNLOAD": "Download",
     "JS_INVALID_FILE_TYPE": "Invalid file type",
     "JS_AVAILABLE_FILE_TYPES": "Available file types",
-    "JS_FILE_LIMIT": "Maximum number of files was exceeded"
+    "JS_FILE_LIMIT": "Maximum number of files was exceeded",
+    "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded"
   }
 }

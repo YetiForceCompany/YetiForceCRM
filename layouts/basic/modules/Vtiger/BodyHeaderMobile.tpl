@@ -4,10 +4,10 @@
 		{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 			<div class="row">
 				<div class="dropdown quickAction historyBtn">
-					<div class="pull-left">
+					<div class="float-left">
 						{\App\Language::translate('LBL_PAGES_HISTORY')}
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
 							<span class="fas fa-history"></span>
 						</a>
@@ -170,39 +170,5 @@
 			{/if}
 		{/foreach}
 	</div>
-	{if AppConfig::performance('GLOBAL_SEARCH')}
-		<div class="searchMenu globalSearchInput">
-			<div class="input-group mb-1">
-				<div class ="select2WithButtonWidth">
-					<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
-						<option value="-" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
-						{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
-							{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
-								<option value="{$MODULE_NAME}" selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
-							{else}
-								<option value="{$MODULE_NAME}" >{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
-							{/if}
-						{/foreach}
-					</select>
-				</div>
-				<div class="input-group-append">
-					<div class="">
-						<button class="btn btn-outline-dark globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-							<span class="fas fa-th-large"></span>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="input-group">
-				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
-				<div class="input-group-btn">
-					<div class="pull-right">
-						<button class="btn btn-outline-dark searchIcon" type="button">
-							<span class="fas fa-search"></span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	{/if}
+	
 {/strip}

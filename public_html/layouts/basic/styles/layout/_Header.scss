@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .bodyHeader {
-  background-color: $primary;
+  background-color: $y-navbar-background;
   height: $headerHeight;
   top: 0;
   right: 0;
@@ -31,7 +31,8 @@
 	left: 230px;
   }
   .rightHeader {
-	position: relative;
+    position: relative;
+  }
 	.headerButton {
 	  @extend .ml-2;
 	  @extend .px-1;
@@ -44,7 +45,6 @@
 		}
 	  }
 	}
-  }
   .headerLinksMails {
 	height: fit-content;
 	> .btn + .dropdown-toggle {
@@ -66,7 +66,7 @@
   padding: 10px 0;
 }
 .widget_header {
-  background: $gray-200;
+  background: $gray-100;
 }
 .summaryWidgetContainer .widget_header {
   background: #fff;
@@ -115,4 +115,96 @@
 .dropdown-menu.historyList {
   left: auto;
   right: 9px;
+}
+
+//navbar search
+.navbar {
+  //search input
+  .globalSearchValue {
+    border-top: none;
+    border-bottom: none;
+  }
+  //search mobile btn
+  .searchMenuBtn .btn {
+    height: $menuItemsHeight;
+    font-size: 17px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    [data-fa-i2svg] {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.searchMenu.globalSearchInput,
+.navbar .globalSearchInput {
+  .select2-selection {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+.select2WithButtonWidth {
+  padding: 0;
+  border: none;
+}
+
+//navbar search mobile
+.searchMenu {
+  .searchMenuBtn {
+    .close-label {
+      display: none;
+    }
+  }
+  .searchMenuPanel {
+    position: fixed;
+    left: auto;
+    right: -100%;
+    top: 50px;
+    width: 100%;
+    width: calc(100% - 50px);
+    color: #fff;
+    background-color: lighten($y-navbar-background, 5%);
+  z-index: 2000;
+    padding: 30px;
+    -webkit-transition: right ease-in-out 0.35s;
+    transition: right ease-in-out 0.35s;
+    @media( max-width: 767px ) {
+      width: 100%;
+    }
+    .close {
+      color: inherit;
+      text-shadow: none;
+      opacity: 1;
+      &:hover,
+      &:focus {
+        color: inherit;
+        opacity: .75;
+      }
+      .label {
+        font-size: 1rem;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.searchMenu.toogleSearchMenu {
+  .searchMenuBtn {
+    .close-label {
+      display: inline;
+    }
+  }
+  .searchMenuPanel {
+    right: 0;
+  }
+}
+
+//breadcrumbs
+.widget_header {
+  .breadcrumb {
+    background: none;
+  }
+  .breadcrumb-item.active {
+    color: darken($breadcrumb-active-color, 10%);
+  }
 }
