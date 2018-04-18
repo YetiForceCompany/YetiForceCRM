@@ -86,15 +86,14 @@ $.Class("Vtiger_DashBoard_Js", {
 				row: widget.attr('data-row'), col: widget.attr('data-col')
 			});
 		}
-		this.lazyLoadingHack();
+		this.lazyLoadingViewportUpdate();
 		AppConnector.request({
 			module: app.getModuleName(),
 			action: 'SaveWidgetPositions',
 			'positionsmap': widgetRowColPositions
 		});
 	},
-	lazyLoadingHack() {
-		// jquery lazy hack to load all dashboard widget on tab click
+	lazyLoadingViewportUpdate() {
 		const scrollTop = $('.mainBody').scrollTop();
 		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
@@ -107,7 +106,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				thisInstance.loadWidget(element);
 			},
 		});
-		this.lazyLoadingHack();
+		this.lazyLoadingViewportUpdate();
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
@@ -204,7 +203,7 @@ $.Class("Vtiger_DashBoard_Js", {
 									} else {
 										$('.widgetsList').append(data);
 									}
-									thisInstance.lazyLoadingHack();
+									thisInstance.lazyLoadingViewportUpdate();
 								}
 							}
 						}
@@ -688,7 +687,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				Vtiger_Helper_Js.showMessage(params);
 				var parent = currentTarget.closest('li');
 				$(parent).remove();
-				thisInstance.lazyLoadingHack();
+				thisInstance.lazyLoadingViewportUpdate();
 			});
 		});
 	},
