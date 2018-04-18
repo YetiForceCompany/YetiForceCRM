@@ -1281,7 +1281,12 @@
     "LBL_FULLTEXT_BEGIN": "S\u0142owo zaczyna si\u0119 od",
     "LBL_FULLTEXT_WORD": "S\u0142owo",
     "LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
-    "_Base": "System"
+    "_Base": "System",
+    "LBL_RECORD_CONVERTER": "Konwerter rekord\u00f3w",
+    "LBL_CREATED_RECORDS_AMOUNT": "Liczba utworzonych rekord\u00f3w",
+    "LBL_DESTINY_MODULE": "Modu\u0142 docelowy:",
+    "LBL_CONVERT_GROUP_BY": "Rekordy grupowane po polu:",
+    "LBL_SELECT_CONVERT_TYPE": "Typ konwertowania"
   },
   "js": {
     "JS_SUMMARY": "Podsumowanie",

@@ -305,6 +305,15 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-check-circle'
 			];
 		}
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::checkIfModuleCanConverted($moduleModel->getName(), 'List')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_RECORD_CONVERTER',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=List"],
+				'linkicon' => 'fas fa-exchange-alt',
+				'linkclass' => 'u-cursor-pointer js-mass-action'
+			];
+		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}

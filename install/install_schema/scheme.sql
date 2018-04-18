@@ -168,6 +168,7 @@ CREATE TABLE `a_yf_record_converter` (
   `status` tinyint(1) DEFAULT NULL,
   `source_module` smallint(5) NOT NULL,
   `destiny_module` varchar(255) NOT NULL,
+  `view` varchar(50) DEFAULT NULL,
   `field_merge` varchar(50) DEFAULT NULL,
   `field_mappging` text DEFAULT NULL,
   `inv_field_mapping` text DEFAULT NULL,
