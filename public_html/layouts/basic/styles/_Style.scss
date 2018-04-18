@@ -2479,89 +2479,6 @@ html, body, .baseContainer {
   display: block;
 }
 
-.mobileLeftPanelContainer {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.mobileLeftPanel {
-  position: fixed;
-  left: 100%;
-  top: 50px;
-  bottom: 16px;
-  width: 85%;
-  color: #fff;
-  z-index: 1050;
-  background: #3f3f3f;
-  overflow: scroll;
-  -webkit-transition: left ease-in-out 0.35s;
-  transition: left ease-in-out 0.35s;
-  font-size: 14px;
-  .mobileLeftPanelContainer {
-	a {
-	  color: #ddd;
-	}
-	li {
-	  .hasIcon {
-		padding: 0px;
-	  }
-	  a span {
-		padding-left: 10px;
-	  }
-	}
-	.menuLabel {
-	  padding-top: 20px;
-	  padding-bottom: 5px;
-	  border-bottom: 2px solid #4f4f4f;
-	  padding-left: 0px;
-	  padding-top: 5px;
-	  font-weight: 900;
-	  .hasIcon {
-		padding-left: 10px;
-		display: inline-flex;
-		img {
-		  padding-right: 10px;
-		}
-	  }
-	  a {
-		color: $light;
-		font-size: 14px;
-	  }
-	}
-	.menuPanel button {
-	  color: $light;
-	  background: #3f3f3f;
-	  text-align: left;
-	  padding-left: 85px;
-	  font-size: 14px;
-	  border-width: 0;
-	}
-	.menuModule {
-	  padding-left: 50px;
-	  padding-top: 5px;
-	  padding-bottom: 5px;
-	  color: #fff;
-	}
-	.menuShortcut {
-	  padding-left: 35px;
-	  padding-top: 3px;
-	  padding-bottom: 3px;
-	  color: #fff;
-	}
-  }
-  .userDetailsContainer {
-	padding-left: 15px;
-	padding-right: 20px;
-	a {
-	  color: #fff;
-	}
-  }
-  .mobileLeftPanelContainer > ul > li {
-	list-style: none;
-  }
-}
-.mobileMenuOn {
-  left: 15%;
-}
 .mainBody {
   position: absolute;
   top: 50px;
@@ -3055,12 +2972,6 @@ html, body, .baseContainer {
   }
   .bodyHeader {
 	left: 50px;
-  }
-  .leftPanel {
-	display: block;
-  }
-  .mobileLeftPanel {
-	display: none;
   }
   .commonActionsContainer .row {
 	.col-md-5 {
