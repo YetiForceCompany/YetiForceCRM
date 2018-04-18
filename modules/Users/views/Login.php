@@ -88,4 +88,14 @@ class Users_Login_View extends \App\Controller\View
 
 		return $headerCssInstances;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderScripts(\App\Request $request)
+	{
+		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/device-uuid/lib/device-uuid.js'
+		]));
+	}
 }
