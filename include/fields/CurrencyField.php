@@ -130,7 +130,7 @@ class CurrencyField
 	/**
 	 * Returns the Formatted Currency value for the User.
 	 *
-	 * @global Users $current_user
+	 * @global Users    $current_user
 	 *
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
@@ -146,8 +146,8 @@ class CurrencyField
 			$value = substr($value, 1);
 		}
 		$self = new self($value);
+		$self->initialize();
 		$value = $self->getDisplayValue($user, $skipConversion, $skipFormatting);
-
 		return ($negative) ? '-' . $value : $value;
 	}
 
@@ -160,12 +160,12 @@ class CurrencyField
 			$value = substr($value, 1);
 		}
 		$self = new self($value);
+		$self->initialize();
 		$formattedValue = $self->getDisplayValue(null, $skipConversion, $skipFormatting);
 		if ($currencySymbol === false) {
 			$currencySymbol = $self->currencySymbol;
 		}
 		$value = self::appendCurrencySymbol($formattedValue, $currencySymbol, $self->currencySymbolPlacement);
-
 		return ($negative) ? '-' . $value : $value;
 	}
 
@@ -193,7 +193,6 @@ class CurrencyField
 		if ($skipFormatting === false) {
 			$value = $this->formatCurrencyValue($value);
 		}
-
 		return $this->currencyDecimalFormat($value, $user);
 	}
 
@@ -208,7 +207,6 @@ class CurrencyField
 	public function getDisplayValueWithSymbol($user = null, $skipConversion = false)
 	{
 		$formattedValue = $this->getDisplayValue($user, $skipConversion);
-
 		return self::appendCurrencySymbol($formattedValue, $this->currencySymbol, $this->currencySymbolPlacement);
 	}
 
@@ -223,16 +221,17 @@ class CurrencyField
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')
 	{
-		if ($currencySymbolPlacement) {
+		if (!$currencySymbolPlacement) {
 			$currencySymbolPlacement = \App\User::getCurrentUserModel()->getDetail('currency_symbol_placement');
 		}
 		switch ($currencySymbolPlacement) {
-			case '1.0$': $returnValue = $currencyValue . ' ' . $currencySymbol;
+			case '1.0$':
+				$returnValue = $currencyValue . ' ' . $currencySymbol;
 				break;
 			case '$1.0':
-			default: $returnValue = $currencySymbol . ' ' . $currencyValue;
+			default:
+				$returnValue = $currencySymbol . ' ' . $currencyValue;
 		}
-
 		return $returnValue;
 	}
 
@@ -392,10 +391,8 @@ class CurrencyField
 
 			// Re-create the currency value combining the whole number and the decimal part using Decimal separator
 			$number = implode($decimalSeparator, $numericParts);
-
 			return $sign . $number;
 		}
-
 		return $value;
 	}
 
