@@ -4,21 +4,16 @@
 	<li class="hovernav menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS == 'true'}aria-haspopup="{$HASCHILDS}"{/if}>
 		<a class="{if (isset($MENU['active']) && $MENU['active']) || $PARENT_MODULE == $MENU['id']}active {/if}{if $ICON}hasIcon{/if}" {if $HASCHILDS == 'true'}role="button"{/if} href="#">
 			{if $ICON}
-				<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
-					<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>{$ICON}</div>
+				<div class="iconContainer">
+					<div class="iconImage">{$ICON}</div>
 				</div>
 			{/if}
-			<div {if $DEVICE == 'Desktop'}class='labelConstainer pl-2'{/if}>
-				<div {if $DEVICE == 'Desktop'}class="labelValue" {/if}>
+			<div class="labelConstainer pl-2">
+				<div class="labelValue">
 					<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 				</div>
 			</div>
 		</a>
-		{if $DEVICE == 'Desktop'}
-			{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
-		{/if}
+		{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE)}
 	</li>
-	{if $DEVICE == 'Mobile'}
-		{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
-	{/if}
 {/strip}

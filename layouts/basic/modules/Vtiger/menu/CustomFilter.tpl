@@ -5,8 +5,8 @@
 		<li class="menuCustomFilter .modCT_{$MENU.mod}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" aria-haspopup="{$HASCHILDS}">
 			<a class="{if isset($MENU['hotkey'])}hotKey{/if} {if $ICON}hasIcon{/if}" {if isset($MENU['hotkey'])}data-hotkeys="{$MENU['hotkey']}"{/if} href="{$MENU['dataurl']}" {if $MENU['newwindow'] eq 1}target="_blank" {/if}>
 				{if $ICON}
-					<div  {if $DEVICE == 'Desktop'}class='iconContainer'{/if}>
-						<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>{$ICON}</div>
+					<div class='iconContainer'>
+						<div class="iconImage">{$ICON}</div>
 					</div>
 				{/if}
 				<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>

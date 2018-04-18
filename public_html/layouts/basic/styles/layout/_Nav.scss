@@ -10,15 +10,7 @@
 	}
 
 
-  &:after {
-	content: "";
-	position: fixed;
-	bottom: 33px;
-	z-index: -2;
-	width: 230px;
-	height: 100%;
-	background: $y-menu-background;
-  }
+  
   position: fixed;
   left: 0;
   top: 0;
@@ -36,23 +28,11 @@
 	padding: 0;
 	margin: 0;
   }
-  .tm-sidebar-nav:not(.uk-open) .uk-dropdown {
-	-webkit-transition: left ease-in-out 0.35s;
-	transition: left ease-in-out 0.35s;
-	&:before {
-	  -webkit-transition: left ease-in-out 0.35s;
-	  transition: left ease-in-out 0.35s;
-	}
-  }
   .nav li {
 	position: static;
 	&:hover {
 	  > .subMenu {
 		display: block;
-		position: fixed;
-		left: 230px;
-		top: 50px;
-		height: calc(100% - 50px);
 	  }
 	}
   }
@@ -91,26 +71,15 @@
 	  }
 	}
 	.subMenu {
-	  &:after {
-		content: "";
-		display: block;
-		position: absolute;
-		bottom: 33px;
-		top: 0;
-		z-index: -1;
-		width: 300px;
-		min-height: 830px;
-		background: $y-menu-font-color;
-		border-right: 1px solid #dddddd;
-	  }
+	  display: none;
+	  background: $y-menu-font-color;
+	  color: $y-menu-background;
 	  li {
-		width: 300px;
 		&.menuLabel > a {
 		  font-weight: 600;
 		  text-transform: uppercase;
 		}
 	  }
-	  display: none;
 	  a {
 		font-size: 16px;
 	  }
