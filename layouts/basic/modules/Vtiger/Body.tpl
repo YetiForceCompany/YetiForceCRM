@@ -8,9 +8,6 @@
 		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
 			{include file=\App\Layout::getTemplatePath('BodyHeaderMobile.tpl', $MODULE)}
-			<div class="mobileLeftPanel noSpaces">
-				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Mobile}
-			</div>
 			<div class="leftPanel noSpaces">
 				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Desktop}
 			</div>
