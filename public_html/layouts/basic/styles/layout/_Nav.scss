@@ -17,16 +17,16 @@
 	z-index: -2;
 	width: 230px;
 	height: 100%;
-	background: $YmenuBackground;
+	background: $y-menu-background;
   }
   position: fixed;
   left: 0;
   top: 0;
   bottom: 33px;
   width: 230px;
-  color: $YmenuFontColor;
+  color: $y-menu-font-color;
   z-index: 1030;
-  background: $YmenuBackground;
+  background: $y-menu-background;
   .menuContainer .modulesList .menuIcon {
 	padding-right: 18px;
 	font-size: 24px;
@@ -64,9 +64,9 @@
 	&:active, &:focus {
 	  outline: 0;
 	}
-	color: $YmenuFontColor;
+	color: $y-menu-font-color;
 	&:hover {
-	  color: $YmenuBackground;
+	  color: $y-menu-background;
 	}
   }
   .menuContainer {
@@ -77,7 +77,7 @@
 	  word-wrap: break-word;
 	  font-size: 16px;
 	  &:hover, &:focus {
-		background: $YmenuFontColor;
+		background: $y-menu-font-color;
 	  }
 	  &.hasIcon {
 		padding: 5px 12px;
@@ -100,7 +100,7 @@
 		z-index: -1;
 		width: 300px;
 		min-height: 830px;
-		background: $YmenuFontColor;
+		background: $y-menu-font-color;
 		border-right: 1px solid #dddddd;
 	  }
 	  li {
@@ -122,10 +122,10 @@
 		padding-left: 50px;
 	  }
 	  a, .menuLabel {
-		color: $YmenuBackground;
+		color: $y-menu-background;
 		&:hover, &:focus {
-		  color: $YmenuFontColor;
-		  background: $YmenuBackground;
+		  color: $y-menu-font-color;
+		  background: $y-menu-background;
 		}
 		&.hasIcon {
 		  padding: 8px 10px;
@@ -136,8 +136,8 @@
 	  }
 	  button {
 		&:hover, &:focus {
-		  color: $YmenuFontColor;
-		  background: $YmenuBackground;
+		  color: $y-menu-font-color;
+		  background: $y-menu-background;
 		}
 	  }
 	  button .hasIcon {

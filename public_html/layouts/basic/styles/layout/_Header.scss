@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .bodyHeader {
-  background-color: $YnavbarBackground;
+  background-color: $y-navbar-background;
   height: $headerHeight;
   top: 0;
   right: 0;
@@ -163,7 +163,7 @@
     width: 100%;
     width: calc(100% - 50px);
     color: #fff;
-    background-color: lighten($YnavbarBackground, 5%);
+    background-color: lighten($y-navbar-background, 5%);
   z-index: 2000;
     padding: 30px;
     -webkit-transition: right ease-in-out 0.35s;
