@@ -86,13 +86,17 @@ $.Class("Vtiger_DashBoard_Js", {
 				row: widget.attr('data-row'), col: widget.attr('data-col')
 			});
 		}
-
+		this.lazyLoadingHack();
 		AppConnector.request({
 			module: app.getModuleName(),
 			action: 'SaveWidgetPositions',
 			'positionsmap': widgetRowColPositions
-		}).then(function (data) {
 		});
+	},
+	lazyLoadingHack() {
+		// jquery lazy hack to load all dashboard widget on tab click
+		const scrollTop = $('.mainBody').scrollTop();
+		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
@@ -103,9 +107,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				thisInstance.loadWidget(element);
 			},
 		});
-		// jquery lazy hack to load all dashboard widget on tab click
-		const scrollTop = $('.mainBody').scrollTop();
-		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
+		this.lazyLoadingHack();
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
@@ -152,6 +154,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	removeWidget: function () {
+		const thisInstance = this;
 		this.getContainer().on('click', 'li a[name="dclose"]', function (e) {
 			var element = $(e.currentTarget);
 			var listItem = $(element).parents('li');
@@ -201,6 +204,7 @@ $.Class("Vtiger_DashBoard_Js", {
 									} else {
 										$('.widgetsList').append(data);
 									}
+									thisInstance.lazyLoadingHack();
 								}
 							}
 						}
@@ -612,6 +616,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		);
 	},
 	saveWidget: function (form, mode, sourceModule, linkid) {
+		const thisInstance = this;
 		var aDeferred = $.Deferred();
 		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
@@ -666,6 +671,7 @@ $.Class("Vtiger_DashBoard_Js", {
 	 * Remove widget from list
 	 */
 	removeWidgetFromList: function () {
+		const thisInstance = this;
 		$('.dashboardHeading').on('click', '.removeWidgetFromList', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var id = currentTarget.data('widget-id');
@@ -683,7 +689,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				Vtiger_Helper_Js.showMessage(params);
 				var parent = currentTarget.closest('li');
 				$(parent).remove();
-
+				thisInstance.lazyLoadingHack();
 			});
 		});
 	},
