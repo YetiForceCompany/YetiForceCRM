@@ -146,7 +146,6 @@ class CurrencyField
 			$value = substr($value, 1);
 		}
 		$self = new self($value);
-		$self->initialize();
 		$value = $self->getDisplayValue($user, $skipConversion, $skipFormatting);
 		return ($negative) ? '-' . $value : $value;
 	}
@@ -160,7 +159,6 @@ class CurrencyField
 			$value = substr($value, 1);
 		}
 		$self = new self($value);
-		$self->initialize();
 		$formattedValue = $self->getDisplayValue(null, $skipConversion, $skipFormatting);
 		if ($currencySymbol === false) {
 			$currencySymbol = $self->currencySymbol;
