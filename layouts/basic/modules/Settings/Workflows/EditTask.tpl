@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class='modelContainer modal fade' id="addTaskContainer" tabindex="-1">
-		<div class="modal-dialog modal-blg">
+		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<h5 class="modal-title">{\App\Language::translate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}: {\App\Language::translate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h5>
