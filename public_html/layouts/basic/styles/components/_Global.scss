@@ -117,3 +117,17 @@
   $offset-border-width: calc(#{$border-radius-lg} - #{$popover-border-width});
   @include border-bottom-radius($offset-border-width);
 }
+// bootstrap carousel
+.c-carousel {
+  .c-carousel__prevnext-btn {
+	top: 42%;
+	bottom: auto;
+	background: rgba(0, 0, 0, 0.25);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	opacity:0.75;
+	height: 60px;
+	width: 60px;
+	border-radius: 100%;
+	margin:0px 20px;
+  }
+}

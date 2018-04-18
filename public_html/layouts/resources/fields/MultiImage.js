@@ -10,7 +10,6 @@ class MultiImage {
 	constructor(element) {
 		const thisInstance = this;
 		this.elements = {};
-		this.isUploading = false;
 		this.options = {
 			zoomTitleAnimation: {
 				in: 'fadeIn',
@@ -111,7 +110,7 @@ class MultiImage {
 	 * @param e
 	 */
 	onFormSubmit(e) {
-		if(App.Fields.MultiImage.currentFileUploads){
+		if (App.Fields.MultiImage.currentFileUploads) {
 			e.preventDefault();
 			e.stopPropagation();
 			e.stopImmediatePropagation();
@@ -695,7 +694,7 @@ class MultiImage {
 		this.files = this.files.map((file) => {
 			file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
 			return file;
-		}).slice(0, this.options.limit - 1);
+		}).slice(0, this.options.limit);
 		this.generatePreviewElements(this.files, (element) => {
 			this.elements.result.append(element);
 		});
@@ -712,22 +711,22 @@ class MultiImage {
 			const fileInfo = this.getFileInfo(hash);
 			return `<img class="d-block w-100" src="${fileInfo.imageSrc}">`;
 		}
-		let template = `<div id="carousel-${hash}" class="carousel slide" data-ride="carousel">
+		let template = `<div id="carousel-${hash}" class="carousel slide c-carousel" data-ride="carousel" data-js="container">
 		  <div class="carousel-inner">`;
 		this.files.forEach((file) => {
-			template += `<div class="carousel-item`;
+			template += `<div class="carousel-item c-carousel__item`;
 			if (file.hash === hash) {
 				template += ` active`;
 			}
 			template += `" data-hash="${file.hash}">
-		      <img class="d-block w-100" src="${file.imageSrc}">
+		      <img class="d-block w-100 c-carousel__image" src="${file.imageSrc}">
 		    </div>`;
 		});
-		template += `<a class="carousel-control-prev" href="#carousel-${hash}" role="button" data-slide="prev">
-		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		template += `<a class="carousel-control-prev c-carousel__prevnext-btn c-carousel__prev-btn" href="#carousel-${hash}" role="button" data-slide="prev" data-js="click">
+		    <span class="fas fa-caret-left fa-2x c-carousel__prev-icon" data-fa-transform="left-1" aria-hidden="true"></span>
 		  </a>
-		  <a class="carousel-control-next" href="#carousel-${hash}" role="button" data-slide="next">
-		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		  <a class="carousel-control-next c-carousel__prevnext-btn c-carousel__next-btn" href="#carousel-${hash}" role="button" data-slide="next" data-js="click">
+		    <span class="fas fa-caret-right fa-2x c-carousel__next-icon" data-fa-transform="right-1" aria-hidden="true"></span>
 		  </a>
 		</div>`;
 		return template;
