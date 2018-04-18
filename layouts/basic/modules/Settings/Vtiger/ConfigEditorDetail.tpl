@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="float-right">
-					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success editButton mt-2" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>
