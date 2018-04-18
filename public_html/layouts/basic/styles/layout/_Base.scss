@@ -32,7 +32,8 @@
 	  height: 100%;
 	}
   }
-  &:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader {
+  &:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader,
+  &:not(.leftPanelOpen) .leftPanel:focus + .bodyHeader {
 	left: 230px;
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;

@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<nav class="tpl-Menu">
+	<nav class="tpl-Menu js-menu">
 		<ul class="nav flex-column modulesList" role="menubar">
 			{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 			{assign var=TABINDEX value=0}

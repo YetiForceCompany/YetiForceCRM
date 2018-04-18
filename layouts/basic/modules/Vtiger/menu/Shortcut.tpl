@@ -8,12 +8,7 @@
 				{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}
 			</span>
 		</a>
-		{if $DEVICE == 'Desktop'}
-			{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
-		{/if}
+		{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE)}
 	</li>
-	{if $DEVICE == 'Desktop'}
-		{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
-	{/if}
 {/strip}
 
