@@ -10,7 +10,7 @@
 		<div>
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
-					<li class="active"><a data-toggle="tab" href="#ldap"><strong>{\App\Language::translate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
+					<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#ldap"><strong>{\App\Language::translate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
 				<div class="tab-content layoutContent" style="padding-top: 10px;">
 					{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
@@ -48,8 +48,8 @@
 							<div class="col-md-8">
 								<div class="input-group">
 									<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
-									<span class="input-group-addon js-popover-tooltip" data-js="popover" data-content="@testlab.local (DC=testlab,DC=local)">
-										<span class="fas fa-info-circle"></span>
+									<span class="input-group-append js-popover-tooltip" data-js="popover" data-content="@testlab.local (DC=testlab,DC=local)">
+										<div class="input-group-text"><span class="fas fa-info-circle"></span></div>
 									</span>
 								</div>
 							</div>
