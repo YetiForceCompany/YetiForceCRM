@@ -616,7 +616,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		);
 	},
 	saveWidget: function (form, mode, sourceModule, linkid) {
-		const thisInstance = this;
 		var aDeferred = $.Deferred();
 		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
