@@ -1223,6 +1223,51 @@ app = {
 			}
 		});
 	},
+	registerMenu: function () {
+		let btn 	= $('.js-menu-btn').first(),
+			side 	= $('.js-sidebar').first();
+		let focusable = side.find('a[href], [tabindex]');
+		let items	= side.find('a[aria-haspopup="true"]');
+		focusable.on('focus', function(){
+			side.addClass('open-menu');
+		}).on('blur', function(){
+			side.removeClass('open-menu');
+		});
+		side.on('mouseenter', function(){
+			side.addClass('open-menu');
+		}).on('mouseleave', function(){
+			side.removeClass('open-menu');
+			items.each(function(j){
+				closeSub(j);
+			});
+		});
+		let closeSub = function(i) {
+			$(items[i]).removeClass('active');
+			items[i].sub.removeClass('expand');
+			items[i].sub.attr('aria-expanded', false);
+			items[i].sub.attr('aria-hidden', true);
+		};
+		let openSub = function(i) {
+			$(items[i]).addClass('active');
+			items[i].sub.addClass('expand');
+			items[i].sub.attr('aria-expanded', true);
+			items[i].sub.attr('aria-hidden', false);
+		};
+		items.each(function(i){
+			let item = $(this);
+			items[i].sub = item.next('[role="menu"]');
+			item.on('click', function(e){
+				if(item.hasClass('active')) { // close submenu
+					closeSub(i);
+				} else { // open submenu
+					items.each(function(j){
+						closeSub(j);
+					});
+					openSub(i);
+				}
+			});
+		});
+	},
 	getScreenHeight: function (percantage) {
 		if (typeof percantage == 'undefined') {
 			percantage = 100;
@@ -1327,6 +1372,7 @@ $(document).ready(function () {
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
+	app.registerMenu();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
