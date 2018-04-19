@@ -147,14 +147,13 @@ class Vtiger_DetailView_Model extends \App\Base
 				'modalView' => true,
 			];
 		}
-		//TODO check permisions
 		if ($userPrivilegesModel->hasModulePermission('RecordConventer') && \App\RecordConverter::checkIfModuleCanConverted($moduleModel->getName(), 'DetailView')) {
 			$detailViewLinks[] = [
 					'linktype' => 'LIST_VIEW_HEADER',
 					'linklabel' => 'LBL_RECORD_CONVERTER',
 					'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
 					'linkicon' => 'fas fa-exchange-alt',
-				'modalView' => true,
+					'modalView' => true,
 			];
 		}
 		foreach ($detailViewLinks as $detailViewLink) {

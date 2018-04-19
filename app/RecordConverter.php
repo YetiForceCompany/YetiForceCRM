@@ -11,26 +11,62 @@ namespace App;
  */
 class RecordConverter extends Base
 {
+	/**
+	 * Source module name.
+	 *
+	 * @var string
+	 */
 	public $sourceModule = '';
+	/**
+	 * Source module model.
+	 *
+	 * @var \Vtiger_Module_Model
+	 */
 	public $sourceModuleModel;
+	/**
+	 * Destiny module name.
+	 *
+	 * @var string
+	 */
 	public $destinyModule = '';
+	/**
+	 * Destiny module model.
+	 *
+	 * @var \Vtiger_Module_Model
+	 */
 	public $destinyModuleModel;
+	/**
+	 * Record modesl of created records.
+	 *
+	 * @var Vtiger_Record_Model[]
+	 */
 	public $cleanRecordModels = [];
+	/**
+	 * Source record models.
+	 *
+	 * @var Vtiger_Record_Model[]
+	 */
 	public $recordModels = [];
+	/**
+	 * Convert field mapping.
+	 *
+	 * @var array|string
+	 */
 	public $fieldMapping;
-	public $destinyModuleTabId;
+	/**
+	 * Convert inventory mapping.
+	 *
+	 * @var array|string
+	 */
 	public $inventoryMapping;
 
 	/**
-	 * Function to get the instance of the Record Converter model.
+	 * Function to get the instance of the record converter model.
 	 *
 	 * @return \self
 	 */
 	public static function getInstanceById($id, $moduleName = '')
 	{
-		if (Cache::has('RecordConverter', $id)) {
-			//	return Cache::get('RecordConverter', $id);
-		}
 		if ($id) {
 			$query = (new \App\Db\Query())->from('a_#__record_converter')->where(['id' => $id]);
 		}
@@ -44,43 +80,7 @@ class RecordConverter extends Base
 		} else {
 			\App\Log::error("Could not find record converter id: $id module name: $moduleName");
 		}
-		//dane do cachu nie obiekty
-		//	Cache::save('RecordConverter', $id, $self, o::LONG);
 		return $self;
-	}
-
-	/**
-	 * Function return source module.
-	 *
-	 * @return bool|string
-	 */
-	public function getSourceModule()
-	{
-		return \App\Module::getModuleName($this->get('source_module'));
-	}
-
-	/**
-	 * Function return field mapping.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return mixed|string
-	 */
-	public function getFieldMapping()
-	{
-		return $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : '';
-	}
-
-	/**
-	 * Function return inventory mapping.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return mixed|string
-	 */
-	public function getInventoryMapping()
-	{
-		return $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : '';
 	}
 
 	/**
@@ -151,22 +151,26 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function init.
+	 * Function variable initializing.
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
 	public function init()
 	{
-		$this->sourceModule = $this->getSourceModule();
-		$this->destinyModuleTabId = \App\Module::getModuleId($this->destinyModule);
+		$this->sourceModule = \App\Module::getModuleName($this->get('source_module'));
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
 		$this->destinyModuleModel = \Vtiger_Module_Model::getInstance($this->destinyModule);
-		$this->fieldMapping = $this->getFieldMapping();
-		$this->inventoryMapping = $this->getInventoryMapping();
+		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : '';
+		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : '';
 	}
 
 	/**
-	 * Function process.
+	 * Main function of class.
+	 *
+	 * @param array  $records
+	 * @param string $destinyModule
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function process($records, $destinyModule)
 	{
@@ -179,7 +183,7 @@ class RecordConverter extends Base
 		} else {
 			$this->getRecordModelsWithoutMerge($records);
 		}
-		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleTabId] && (!$isFieldMergeExists || $recordsAmount === 1)) {
+		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$isFieldMergeExists || $recordsAmount === 1)) {
 			$this->processFieldMapping();
 		}
 		if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
@@ -189,7 +193,12 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function process for edit.
+	 * Function to edit process.
+	 *
+	 * @param int    $record
+	 * @param string $destinyModule
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function processToEdit($record, $destinyModule)
 	{
@@ -197,7 +206,7 @@ class RecordConverter extends Base
 		$this->init();
 		$this->getRecordModelsWithoutMerge([$record]);
 		$isFieldMergeExists = $this->checkFieldMerge();
-		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleTabId] && $isFieldMergeExists) {
+		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && $isFieldMergeExists) {
 			$this->processFieldMapping();
 		}
 		if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
@@ -244,8 +253,8 @@ class RecordConverter extends Base
 	{
 		$this->checkFieldMappingFields();
 		foreach ($this->recordModels as $key => $recordModel) {
-			$textParser = \App\TextParser::getInstanceById($recordModel->getId(), $this->sourceModule);
-			foreach ($this->fieldMapping['mapping'][$this->destinyModuleTabId] as $destinyField => $sourceField) {
+			$textParser = \App\TextParser::getInstanceByModel($recordModel);
+			foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
 				$textParser->setContent($sourceField);
 				$this->cleanRecordModels[$key]->set($destinyField, $textParser->parse()->getContent());
 			}
@@ -267,13 +276,14 @@ class RecordConverter extends Base
 	 */
 	public function processInventoryMapping()
 	{
-		if ($this->inventoryMapping[$this->destinyModuleTabId]) {
+		if ($this->inventoryMapping) {
 			$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->sourceModule);
 			$sourceInvFields = $inventoryField->getFields(true);
 			$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->destinyModule);
 			$destinyInvFields = $inventoryField->getFields(true);
 			$invData = [];
 			$counter = 1;
+			$inventoryDataForEdit = [];
 
 			if ($this->inventoryMapping[0] === 'auto') {
 				$inventoryFields = array_merge($sourceInvFields[1], $destinyInvFields[1]);
@@ -282,49 +292,59 @@ class RecordConverter extends Base
 						foreach ($recordModel as $recordModelGroupBy) {
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
 								foreach ($inventoryFields as $field) {
-									$invData[$field->get('columnname') . $counter] = $inventoryRow[$field->get('columnname')];
+									$inventoryData[$groupBy][$counter][$field->get('columnname')] = $inventoryRow[$field->get('columnname')];
+									$invData[$groupBy][$field->get('columnname') . $counter] = $inventoryRow[$field->get('columnname')];
 								}
-								$invData['inventoryItemsNo'] = $counter;
+								$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
+								$invData[$groupBy]['seq' . $counter] = $counter;
+								$invData[$groupBy]['inventoryItemsNo'] = $counter;
 								$counter++;
 							}
-							$this->cleanRecordModels[$groupBy]->setInventoryRawData(new \App\Request($invData, false));
 						}
 					} else {
 						foreach ($recordModel->getInventoryData() as $inventoryRow) {
 							foreach ($inventoryFields as $field) {
+								$inventoryDataForEdit[$groupBy][$counter][$field->get('columnname')] = $inventoryRow[$field->get('columnname')];
 								$invData[$field->get('columnname') . $counter] = $inventoryRow[$field->get('columnname')];
 							}
+							$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
+							$invData['seq' . $counter] = $counter;
 							$invData['inventoryItemsNo'] = $counter;
 							$counter++;
 						}
-						$this->cleanRecordModels[$groupBy]->setInventoryRawData(new \App\Request($invData, false));
 					}
+					$this->cleanRecordModels[$groupBy]->setInventoryData($inventoryDataForEdit[$groupBy]);
+					$this->cleanRecordModels[$groupBy]->setInventoryRawData(new \App\Request($invData[$groupBy], false));
 				}
 			} else {
 				foreach ($this->recordModels as $groupBy => $recordModel) {
 					if (is_array($recordModel)) {
 						foreach ($recordModel as $recordModelGroupBy) {
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
-								foreach ($this->inventoryMapping[$this->destinyModuleTabId] as $destinyField => $sourceField) {
+								foreach ($this->inventoryMapping[$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
 									$invData[$destinyField . $counter] = $inventoryRow[$sourceField];
+									$inventoryDataForEdit[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
 								}
+								$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
 								$invData['name' . $counter] = $inventoryRow['id'];
 								$invData['seq' . $counter] = $counter;
 								$invData['inventoryItemsNo'] = $counter++;
 							}
-							$this->cleanRecordModels[$groupBy]->setInventoryRawData(new \App\Request($invData, false));
 						}
 					} else {
 						foreach ($recordModel->getInventoryData() as $inventoryRow) {
-							foreach ($this->inventoryMapping[$this->destinyModuleTabId] as $destinyField => $sourceField) {
+							foreach ($this->inventoryMapping[$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
 								$invData[$destinyField . $counter] = $inventoryRow[$sourceField];
+								$inventoryDataForEdit[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
 							}
+							$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
 							$invData['name' . $counter] = $inventoryRow['id'];
 							$invData['seq' . $counter] = $counter;
 							$invData['inventoryItemsNo'] = $counter++;
 						}
-						$this->cleanRecordModels[$groupBy]->setInventoryRawData(new \App\Request($invData, false));
 					}
+					$this->cleanRecordModels[$groupBy]->setInventoryData($inventoryDataForEdit[$groupBy]);
+					$this->cleanRecordModels[$groupBy]->setInventoryRawData(new \App\Request($invData[$groupBy], false));
 				}
 			}
 		}
@@ -336,10 +356,10 @@ class RecordConverter extends Base
 	public function checkFieldMappingFields()
 	{
 		//TODO sprawdzanie sourceField
-		if ($this->fieldMapping['mapping'][$this->destinyModuleTabId]) {
-			foreach ($this->fieldMapping['mapping'][$this->destinyModuleTabId] as $destinyField => $sourceField) {
+		if (isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) {
+			foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
 				if (!$this->destinyModuleModel->getField($destinyField)) {
-					unset($this->fieldMapping['mapping'][$this->destinyModuleTabId][$destinyField]);
+					unset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()][$destinyField]);
 				}
 			}
 		}
@@ -354,10 +374,9 @@ class RecordConverter extends Base
 	{
 		$destinyReferenceFields = $this->destinyModuleModel->getFieldsByReference();
 		$sourceReferenceFields = $this->sourceModuleModel->getFieldsByReference();
-		$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleTabId];
+		$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
 		if ($referenceDestinyField) {
-			if (!$this->destinyModuleModel->getField($referenceDestinyField)
-				|| !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField]) || !isset($sourceReferenceFields[$referenceDestinyField])) {
+			if (!$this->destinyModuleModel->getField($referenceDestinyField) || !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField]) || !isset($sourceReferenceFields[$referenceDestinyField])) {
 				return false;
 			} else {
 				return true;

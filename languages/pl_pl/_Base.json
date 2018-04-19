@@ -1286,7 +1286,9 @@
     "LBL_CREATED_RECORDS_AMOUNT": "Liczba utworzonych rekord\u00f3w",
     "LBL_DESTINY_MODULE": "Modu\u0142 docelowy:",
     "LBL_CONVERT_GROUP_BY": "Rekordy grupowane po polu:",
-    "LBL_SELECT_CONVERT_TYPE": "Typ konwertowania"
+    "LBL_SELECT_CONVERT_TYPE": "Typ konwertowania",
+    "LBL_MODULES_WITHOUT_PERMISSION_TO_CREATE": "Lista modu\u0142\u00f3w bez uprawnie\u0144 do tworzenia rekordu",
+    "LBL_CREATED_CONVERT_RECORDS": "Wykonano akcj\u0119 konwertowania rekord\u00f3w. Utworzono: %d wpis\u00f3w"
   },
   "js": {
     "JS_SUMMARY": "Podsumowanie",

@@ -1,13 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 $.Class("Base_RecordConverter_JS", {}, {
-	moduleName: false,
 	container: false,
-	setSelectEvent: function (cb) {
-		this.selectEvent = cb;
-	},
 	/**
-	 * Function get params
-	 * @returns {{module: *, view: *, convertType: *, fieldMerge: *, onlyBody: boolean, destinyModule: *}}
+	 *
+	 * @returns {{module: string, view: string, convertType: integer, fieldMerge: string, onlyBody: boolean, destinyModule: string, inView: string}}
 	 */
 	getParams: function () {
 		var params = {
@@ -17,25 +13,22 @@ $.Class("Base_RecordConverter_JS", {}, {
 			fieldMerge: this.container.find('.js-convert-type option:selected').attr('data-field-merge'),
 			onlyBody: true,
 			destinyModule: this.container.find('.js-convert-type option:selected').attr('data-destiny-module'),
-			inView: app.getViewName(),
+			inView: app.getViewName()
 		};
 		if (app.getViewName() === 'List') {
 			let listInstance = Vtiger_List_Js.getInstance();
 			params.selected_ids = listInstance.readSelectedIds(true);
 			params.excluded_ids = listInstance.readExcludedIds(true);
 			params.cvId = listInstance.getCurrentCvId();
-			/*
-			 if (listViewInstance.getListSearchInstance()) {
-			 var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-			 postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-			 if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			 postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
-			 postData['search_value'] = searchValue;
-			 postData['operator'] = 's';
-			 }
-			 }
-			 */
-
+			if (listInstance.getListSearchInstance()) {
+				var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+				params.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
+				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+					params.search_key = listInstance.getListSearchInstance().getAlphabetSearchField();
+					params.search_value = searchValue;
+					params.operator = 's';
+				}
+			}
 		} else {
 			params.selected_ids = app.getRecordId()
 		}
@@ -79,49 +72,55 @@ $.Class("Base_RecordConverter_JS", {}, {
 	registerSubmitForm: function () {
 		var thisInstance = this;
 		thisInstance.container.on('click', "[name='saveButton']", function (e) {
-			var redirectToEdit = thisInstance.container.find('.js-convert-type option:selected').attr('data-redirect-to-edit');
 			var destinyModule = thisInstance.container.find('.js-convert-type option:selected').attr('data-destiny-module');
 			var convertType = thisInstance.container.find('.js-convert-type option:selected').val();
-			if (redirectToEdit) {
-				window.location.href = 'index.php?module=' + destinyModule + '&view=Edit&recordConverter=' + convertType + '&sourceId=' + app.getRecordId() + '&sourceModule=' + app.getModuleName();
-				return false;
-			}
-			let formData = thisInstance.container.find('form').serializeFormData();
-			if (app.getViewName() === 'List') {
-				let listInstance = Vtiger_List_Js.getInstance();
-				let validationResult = listInstance.checkListRecordSelected();
-				if (validationResult != true) {
-					var postData = listInstance.getDefaultParams();
-					postData.convertType = convertType;
-					postData.destinyModule = destinyModule;
-					postData.selected_ids = listInstance.readSelectedIds(true);
-					postData.excluded_ids = listInstance.readExcludedIds(true);
-					postData.cvid = listInstance.getCurrentCvId();
+			if (convertType) {
+				let formData = thisInstance.container.find('form').serializeFormData();
+				if (app.getViewName() === 'List') {
+					let listInstance = Vtiger_List_Js.getInstance();
+					let validationResult = listInstance.checkListRecordSelected();
+					if (validationResult != true) {
+						var postData = listInstance.getDefaultParams();
+						postData.selected_ids = listInstance.readSelectedIds(true);
+						postData.excluded_ids = listInstance.readExcludedIds(true);
+						postData.cvid = listInstance.getCurrentCvId();
 
+					}
+				} else {
+					var postData = {
+						selected_ids: app.getRecordId(),
+					}
+				}
+				postData.convertType = convertType;
+				postData.destinyModule = destinyModule;
+				postData.viewInfo = app.getViewName();
+				var aDeferred = $.Deferred();
+				var progressIndicatorElement = $.progressIndicator({
+					blockInfo: {
+						enabled: true,
+						elementToBlock: thisInstance.container.find('.modal-body')
+					}
+				});
+				AppConnector.request($.extend(formData, postData)).then(function (responseData) {
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					var parseResult = JSON.parse(responseData);
+					console.log(responseData.createdRecords, responseData['createdRecords'], parseResult, parseResult.result.createdRecords)
+					//TODO Z Mariuszem przegadać przy przekierowujemy czy link w powiadomieniu
+					/*
+					if(responseData.result.redirect){
+						window.location.href = responseData.result.redirect;
+					}*/
+					if(parseResult.result.createdRecords){
 
-				}
-			} else {
-				var postData = {
-					selected_ids: app.getRecordId(),
-					convertType: convertType,
-					destinyModule: destinyModule
-				}
+					}
+					app.hideModalWindow();
+					aDeferred.resolve(responseData);
+				}, function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+				});
+				return aDeferred.promise();
 			}
-			var aDeferred = $.Deferred();
-			var progressIndicatorElement = $.progressIndicator({
-				blockInfo: {
-					enabled: true,
-					elementToBlock: thisInstance.container.find('.modal-body')
-				}
-			});
-			AppConnector.request($.extend(formData, postData)).then(function (responseData) {
-				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				aDeferred.resolve(responseData);
-			}, function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-				progressIndicatorElement.progressIndicator({mode: 'hide'});
-			});
-			return aDeferred.promise();
 		});
 	},
 	/**
