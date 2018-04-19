@@ -2,7 +2,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="" id="widgetsManagementEditorContainer">
 	<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-	<div class="widget_header row">
+	<div class="widget_header row align-items-lg-center">
 		<div class="col-md-9">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
@@ -22,9 +22,9 @@
 			<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
 				<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-toggle="tab">
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
-					<button class="btn btn-primary btn-sm fas fa-edit ml-2 editDashboard"></button>
+					<button class="btn btn-primary btn-sm ml-2 editDashboard"><span class="fas fa-edit"></span></button>
 					{if $DASHBOARD['system'] neq 1}
-						<button class="btn btn-danger btn-sm fas fa-trash-alt ml-2 deleteDashboard"></button>
+						<button class="btn btn-danger btn-sm ml-2 deleteDashboard"><span class="fas fa-trash-alt"></span></button>
 					{/if}
 				</a>
 			</li>
