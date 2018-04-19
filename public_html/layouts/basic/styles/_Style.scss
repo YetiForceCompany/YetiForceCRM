@@ -2432,53 +2432,9 @@ html, body, .baseContainer {
   margin: 1px;
   height: 27px;
 }
-.actionMenu {
-  position: fixed;
-  right: 2px;
-  top: 52px;
-  background: #fff;
-  border: 1px solid #afafaf;
-  border-radius: 5px;
-  padding: 5px;
-  z-index: 20001;
-  display: none;
-  color: #000;
-  font-size: 14px;
-  a {
-	margin-left: 15px;
-  }
-}
 .marginLeft15 {
   margin-left: 15px;
 }
-.actionMenu {
-  .row {
-	margin: 0;
-  }
-  img {
-	max-width: 18px;
-  }
-  .commonActionsButtonDropDown {
-	position: fixed;
-	top: 50px;
-	right: 5px;
-	left: 5px;
-	bottom: 33px;
-	overflow: scroll;
-  }
-  .historyList {
-	position: fixed;
-	top: 50px;
-	width: 100%;
-	left: 0;
-	bottom: 33px;
-	overflow: scroll;
-  }
-}
-.actionMenuOn {
-  display: block;
-}
-
 .mainBody {
   position: absolute;
   top: 50px;
@@ -2526,10 +2482,7 @@ html, body, .baseContainer {
 	padding-left: 0 !important;
   }
 }
-.actionMenu .rows .list-group-item {
-  padding: 2px 2px;
-  border: 0 solid #fff;
-}
+
 .sortTableUl {
   list-style-type: none;
   float: left;
@@ -2842,9 +2795,6 @@ html, body, .baseContainer {
 	padding-right: 0px;
 	width: 100% !important;
   }
-  .actionMenuBtn {
-	display: block;
-  }
   .bodyContents {
 	margin: 0 !important;
   }
@@ -2917,9 +2867,6 @@ html, body, .baseContainer {
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
 	z-index: 100;
-  }
-  .actionMenuBtn {
-	display: none;
   }
   .move-action {
 	right: -309px !important;

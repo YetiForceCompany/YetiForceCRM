@@ -11,7 +11,6 @@
 					<span class="caret"></span>
 				{/if}
 				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
-				{include file=\App\Layout::getTemplatePath('BodyHeaderMobile.tpl', $MODULE)}
 				<div class="leftPanel noSpaces">
 					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Desktop}
 				</div>
