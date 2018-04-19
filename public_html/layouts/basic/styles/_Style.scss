@@ -2556,27 +2556,6 @@ html, body, .baseContainer {
 .form-horizontal .form-group .description-field {
   text-align: right;
 }
-.iconContainer {
-  padding-top: 2px;
-  height: 33px;
-  min-width: 40px;
-  display: table;
-  float: left;
-  .iconImage {
-	display: table-cell;
-	vertical-align: middle;
-  }
-}
-.labelConstainer {
-  height: 33px;
-  display: table;
-  width: 145px;
-  .labelValue {
-	display: table-cell;
-	vertical-align: middle;
-	line-height: 18px;
-  }
-}
 .div-bordered {
   border: 1px solid #ddd;
 }
