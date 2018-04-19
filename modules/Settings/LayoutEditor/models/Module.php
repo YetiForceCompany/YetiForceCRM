@@ -393,7 +393,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				break;
 			case 'Image':
-				$uitype = 312;
+				$uitype = 69;
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
