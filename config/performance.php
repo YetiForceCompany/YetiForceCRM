@@ -79,4 +79,7 @@ $PERFORMANCE_CONFIG = [
 	'BROWSING_HISTORY_DELETE_AFTER' => 7,
 	//Session handler name, handler dir: app/Session/
 	'SESSION_DRIVER' => 'File',
+	//Charts multi filter limit
+	'CHART_MULTI_FILTER_LIMIT' => 5,
+	'CHART_MULTI_FILTER_STR_LEN' => 50,
 ];
