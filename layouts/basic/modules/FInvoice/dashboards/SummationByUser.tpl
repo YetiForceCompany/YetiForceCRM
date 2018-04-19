@@ -17,7 +17,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}">
+			<div class="dashboardTitle" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
 				<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
 			</div>
 		</div>

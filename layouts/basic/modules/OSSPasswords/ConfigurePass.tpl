@@ -44,14 +44,14 @@
 								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Change Password Key', $MODULENAME)}</span>
 							</div>
 
-							<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
-								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+							<div class="card">
+								<div class="blockHeader card-header">
 									<h5>&nbsp;{\App\Language::translate('Edit Encryption Key', $MODULENAME)}</h5>
 								</div>
-								<div class="col-md-12 paddingLRZero panel-body blockContent">									
-									<div class="fieldRow col-md-8 col-12">
+								<div class="row p-2 card-body blockContent">									
+									<div class="fieldRow col-md-8 col-12 row align-items-center">
 										<div class="fieldLabel col-5 col-sm-2">
-											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
+											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-7 col-sm-10" >
 											<div class="row">
@@ -59,9 +59,9 @@
 											</div>
 										</div>
 									</div>
-									<div class="fieldRow col-md-8 col-12">
+									<div class="fieldRow col-md-8 col-12 row align-items-center">
 										<div class="fieldLabel col-5 col-sm-2">
-											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
+											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-7 col-sm-10" >
 											<div class="row">
@@ -86,14 +86,14 @@
 							<div class="contentHeader row">
 								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Cancel Encrypting Passwords', $MODULENAME)}</span>
 							</div>
-							<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
-								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+							<div class="card">
+								<div class="blockHeader card-header">
 									<h5>&nbsp;{\App\Language::translate('Enter Your Old Password', $MODULENAME)}</h5>
 								</div>
-								<div class="col-md-12 paddingLRZero panel-body blockContent">									
-									<div class="fieldRow col-md-8 col-12">
+								<div class="row p-2 card-body blockContent">									
+									<div class="fieldRow col-md-8 col-12 row align-items-center">
 										<div class="fieldLabel col-5 col-sm-2">
-											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
+											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-7 col-sm-10" >
 											<div class="row">
@@ -119,14 +119,14 @@
 						<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Encrypt Passwords', $MODULENAME)}</span>
 					</div>
 
-					<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
-						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+					<div class="card">
+						<div class="blockHeader card-header">
 							<h5>&nbsp;{\App\Language::translate('Enter encryption password', $MODULENAME)}</h5>
 						</div>
-						<div class="col-md-12 paddingLRZero panel-body blockContent">
-							<div class="fieldRow col-md-8 col-12">
+						<div class="row p-2 card-body blockContent">
+							<div class="fieldRow col-md-8 col-12 row align-items-center">
 								<div class="fieldLabel col-5 col-sm-2">
-									<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption password', $MODULENAME)}:</label>
+									<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Encryption password', $MODULENAME)}:</label>
 								</div>
 								<div class="fieldValue col-7 col-sm-10">
 									<div class="row">
@@ -153,14 +153,14 @@
 					<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
 
-				<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
-					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+				<div class="card">
+					<div class="blockHeader card-header">
 						<h5>&nbsp;{\App\Language::translate('Password Length', $MODULENAME)}</h5>
 					</div>
-					<div class="col-md-12 paddingLRZero panel-body blockContent">
-						<div class="fieldRow col-md-8 col-12">
-							<div class="fieldLabel col-5 col-sm-2">
-								<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Minimum Length', $MODULENAME)}:</label>
+					<div class="row p-2 card-body blockContent">
+						<div class="fieldRow col-md-8 col-12 row align-items-center mb-1">
+							<div class="fieldLabel col-5 col-sm-2 text-right">
+								<label class="muted"> <span class="redColor">*</span> {\App\Language::translate('Minimum Length', $MODULENAME)}:</label>
 							</div>
 							<div class="fieldValue col-7 col-sm-10">
 								<div class="row">
@@ -168,9 +168,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="fieldRow col-md-8 col-12">
-							<div class="fieldLabel col-5 col-sm-2">
-								<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Maximum Length', $MODULENAME)}:</label>
+						<div class="fieldRow col-md-8 col-12 row align-items-center">
+							<div class="fieldLabel col-5 col-sm-2 text-right">
+								<label class="muted"> <span class="redColor">*</span> {\App\Language::translate('Maximum Length', $MODULENAME)}:</label>
 							</div>
 							<div class="fieldValue col-7 col-sm-10">
 								<div class="row">
@@ -180,30 +180,28 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
-					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+				<div class="card">
+					<div class="blockHeader card-header">
 						<h5>&nbsp;{\App\Language::translate('Allowed Characters', $MODULENAME)}</h5>
 					</div>
-					<div class="col-md-12 paddingLRZero panel-body blockContent">
-						<div class="fieldRow col-md-8 col-12">
+					<div class="row p-2 card-body blockContent">
+						<div class="fieldRow col-md-8 col-12 row align-items-center pr-0">
 							<div class="fieldLabel"> </div>
 							<div align="center" class="fieldValue col-12">
-								<div class="row">
-									<textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea>
-								</div>
+								<textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default row marginLeftZero marginRightZero js-toggle-panel" data-js="click">
-					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+				<div class="card">
+					<div class="blockHeader card-header">
 						<h5>&nbsp;{\App\Language::translate('LBL_REGISTER_CHANGES', $MODULENAME)}</h5>
 					</div>
-					<div class="col-md-12 paddingLRZero panel-body blockContent">
-						<div class="fieldRow col-md-8 col-12">
+					<div class="row p-2 card-body blockContent">
+						<div class="fieldRow col-md-8 col-12 row align-items-center">
 							<div class="fieldLabel"> </div>
 							<div align="center" class="fieldValue col-7 col-sm-10">
-								<div class="row float-left">
+								<div class="float-left">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
 									{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
 								</div>
@@ -241,7 +239,7 @@
 		</div>
 	</div>
 {else}
-    <div class="alert alert-warning" style="margin:10px 15px;">
+    <div class="alert alert-warning mx-2 my-3">
         <strong>{\App\Language::translate('Error', $MODULENAME)}</strong> {\App\Language::translate('Access denied!', $MODULENAME)}
     </div>
 {/if}

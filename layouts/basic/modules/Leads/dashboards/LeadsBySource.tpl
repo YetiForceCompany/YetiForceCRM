@@ -13,7 +13,7 @@
 	{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box float-right">

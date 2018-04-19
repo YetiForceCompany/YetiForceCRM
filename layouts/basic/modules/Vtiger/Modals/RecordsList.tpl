@@ -15,6 +15,15 @@
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		{*<div class="d-flex mt-2">*}
+			{*<div class="col-md-2 form-group float-left">*}
+				{*{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}*}
+					{*<button class="select btn btn-outline-secondary">*}
+						{*<strong>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}</strong>*}
+					{*</button>*}
+				{*{/if}*}
+			{*</div>*}
+		{*</div>*}
 		<div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable">

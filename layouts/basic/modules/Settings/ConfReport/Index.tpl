@@ -15,9 +15,9 @@
 			-->*}
 		</div>
 	</div>
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#Configuration">{App\Language::translate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
-        <li><a data-toggle="tab" href="#Permissions">{App\Language::translate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
+    <ul class="nav nav-tabs mt-2">
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Configuration">{App\Language::translate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Permissions">{App\Language::translate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">

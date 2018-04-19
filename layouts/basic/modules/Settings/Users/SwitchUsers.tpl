@@ -15,9 +15,9 @@
 			<table class="switchUsersTable table table-bordered">
 				<thead>
 					<tr class="listViewHeaders">
-						<th class="col-md-3">{\App\Language::translate('LBL_SU_BASE_ACCESS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-8">{\App\Language::translate('LBL_SU_AVAILABLE_ACCESS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-1">{\App\Language::translate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
+						<th class="u-w-37per">{\App\Language::translate('LBL_SU_BASE_ACCESS', $QUALIFIED_MODULE)}</th>
+						<th class="w-50">{\App\Language::translate('LBL_SU_AVAILABLE_ACCESS', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				<tbody>

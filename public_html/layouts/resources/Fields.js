@@ -286,6 +286,7 @@ App.Fields = {
 					this.loadEditor(elements, params);
 				}
 			}
+
 			/*
 			 *Function to set the textArea element
 			 */
@@ -293,24 +294,28 @@ App.Fields = {
 				this.element = $(element);
 				return this;
 			}
+
 			/*
 			 *Function to get the textArea element
 			 */
 			getElement() {
 				return this.element;
 			}
+
 			/*
 			 * Function to return Element's id atrribute value
 			 */
 			getElementId() {
 				return this.getElement().attr('id');
 			}
+
 			/*
 			 * Function to get the instance of ckeditor
 			 */
 			getEditorInstanceFromName() {
 				return CKEDITOR.instances[this.getElementId()];
 			}
+
 			/*
 			 * Function to load CkEditor
 			 * @param {HTMLElement|jQuery} element on which CkEditor has to be loaded
@@ -738,6 +743,8 @@ App.Fields = {
 		},
 	},
 	MultiImage: {
+		currentFileUploads: 0,
+
 		register(container) {
 			$('.js-multi-image', container).toArray().forEach((fileUploadInput) => {
 				new MultiImage(fileUploadInput);

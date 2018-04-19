@@ -133,7 +133,7 @@ $.Class("Base_RecordsList_JS", {}, {
 				});
 			}
 		});
-		this.container.find('.js-previous-page').on('click', function () {
+		this.container.find('.js-page--previous').on('click', function () {
 			let pageNumber = thisInstance.container.find('.js-page-number');
 			if (pageNumber.val() > 1) {
 				let nextPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
@@ -143,7 +143,7 @@ $.Class("Base_RecordsList_JS", {}, {
 				});
 			}
 		});
-		this.container.find('.js-set-page').on('click', function () {
+		this.container.find('.js-page--set').on('click', function () {
 			if ($(this).hasClass('disabled')) {
 				return;
 			}
@@ -161,7 +161,7 @@ $.Class("Base_RecordsList_JS", {}, {
 			});
 			thisInstance.updatePagination(true);
 		});
-		this.container.find('.js-page-jump-drop-down').on('click', 'li', function (e) {
+		this.container.find('.js-page--jump-drop-down').on('click', 'li', function (e) {
 			e.stopImmediatePropagation();
 		}).on('keypress', '.js-page-jump', function (e) {
 			if (e.which == 13) {
@@ -175,7 +175,7 @@ $.Class("Base_RecordsList_JS", {}, {
 					let pageNumber = thisInstance.container.find('.js-page-number');
 					let currentPageNumber = pageNumber.val();
 					let newPageNumber = parseInt($(this).val());
-					var totalPages = parseInt(thisInstance.container.find('.js-total-page').text());
+					var totalPages = parseInt(thisInstance.container.find('.js-page--total').text());
 					if (newPageNumber > totalPages) {
 						var error = app.vtranslate('JS_PAGE_NOT_EXIST');
 						element.validationEngine('showPrompt', error, '', "topLeft", true);

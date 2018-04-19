@@ -76,6 +76,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		 * Functions for datalabels
 		 */
 		datalabels: {
+			display(context) {
+				const meta = context.chart.getDatasetMeta(context.datasetIndex);
+				return meta.hidden !== true;
+			},
 			formatter: function datalabelsFormatter(value, context) {
 				if (
 					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
@@ -137,7 +141,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				} else {
 					labels = Chart.defaults.global.legend.labels.generateLabels(chart);
 				}
-				if (this.areColorsFromDividingField()) {
+				if (this.areColorsFromDividingField() || this.isMultiFilter()) {
 					chart.config.options.legend.labels.boxWidth = 12;
 					labels.forEach((label, index) => {
 						label.fillStyle = 'rgba(0,0,0,0)';
@@ -145,6 +149,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 					});
 				}
 				return labels;
+			},
+			display() {
+				if (this.isMultiFilter() || this.areColorsFromDividingField()) {
+					return true;
+				}
+				return false;
 			}
 		},
 
@@ -176,7 +186,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 				let datasets = chart.data.datasets;
 				for (let i = 0, len = datasets.length; i < len; i++) {
 					const dataset = datasets[i];
-					const metaData = datasetsMeta[i].data;
+					const meta = datasetsMeta[i];
+					if (meta.hidden) {
+						continue;
+					}
+					const metaData = meta.data;
 					if (typeof dataset._models === 'undefined') {
 						dataset._models = {};
 					}
@@ -233,7 +247,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 				let datasets = chart.data.datasets;
 				for (let i = 0, len = datasets.length; i < len; i++) {
 					const dataset = datasets[i];
-					const metaData = datasetsMeta[i].data;
+					const meta = datasetsMeta[i];
+					if (meta.hidden) {
+						continue;
+					}
+					const metaData = meta.data;
 					if (typeof dataset._models === 'undefined') {
 						dataset._models = {};
 					}
@@ -421,6 +439,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Function}
 	 */
 	getFunctionFromReplacementString: function getFunctionFromReplacementString(replacementStr) {
+		let assignResult = false;
+		if (replacementStr.substr(replacementStr.length - 2) === '()') {
+			replacementStr = replacementStr.substr(0, replacementStr.length - 2);
+			assignResult = true;
+		}
 		const splitted = replacementStr.split(':');
 		if (splitted.length !== 2) {
 			app.errorLog(new Error("Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'"));
@@ -431,7 +454,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof finalFunction !== 'function') {
 			app.errorLog(new Error("Global function does not exists: " + splitted[1]));
 		}
-		return finalFunction.bind(this);
+		if (!assignResult) {
+			return finalFunction.bind(this);
+		}
+		return finalFunction.call(this);
 	},
 	/**
 	 * Should options property be replaced by function?
@@ -543,7 +569,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -583,6 +609,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'center',
 						align: 'center',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -598,7 +625,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -640,6 +667,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'center',
 						align: 'center',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -655,7 +683,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -695,6 +723,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'center',
 						align: 'center',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -710,7 +739,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -752,6 +781,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'center',
 						align: 'center',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -767,7 +797,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -809,6 +839,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'bottom',
 						align: 'bottom',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -822,7 +853,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -865,6 +896,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'bottom',
 						align: 'bottom',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -878,7 +910,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -921,6 +953,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'bottom',
 						align: 'bottom',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -934,7 +967,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						display: false
 					},
 					legend: {
-						display: false
+						display: 'function:legend.display()'
 					},
 					tooltips: {
 						mode: 'point',
@@ -978,6 +1011,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'bottom',
 						align: 'bottom',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [{
@@ -1024,6 +1058,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'end',
 						align: 'center',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [],
@@ -1069,6 +1104,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 						anchor: 'end',
 						align: 'center',
 						formatter: 'function:datalabels.formatter',
+						display: 'function:datalabels.display',
 					},
 				},
 				plugins: [],
@@ -2631,8 +2667,13 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 		if (stacked) {
 			chartClassName += 'Stacked';
 		}
-		this.filterIds = container.find('[name="filterIds"]').val();
 		this.chartfilterInstance = YetiForce_Widget_Js.getInstance(container, chartClassName);
+		if (this.chartfilterInstance) {
+			const filterIdsStr = container.find('[name="filterIds"]').val();
+			if (filterIdsStr) {
+				this.chartfilterInstance.filterIds = JSON.parse(filterIdsStr);
+			}
+		}
 		this.registerRecordsCount();
 	},
 });

@@ -52,9 +52,15 @@
 .u-w-fit {
   width: fit-content !important;
 }
+.u-w-max-320px {
+  max-width: 320px !important;
+}
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;
+}
+.u-h-input-text {
+  height: $input-text-height;
 }
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {
@@ -112,6 +118,9 @@
 .u-cursor-pointer {
   cursor: pointer;
   text-decoration: none !important;
+}
+.u-cursor-auto {
+  cursor: auto;
 }
 .u-overflow-auto {
 	overflow: auto !important;

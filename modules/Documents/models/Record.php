@@ -267,7 +267,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];
 		$db = \App\Db::getInstance();
 		$date = date('Y-m-d H:i:s');
-		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
+		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($moduleName);
 		$params = [
 			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
 			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('assigned_user_id'),
@@ -278,7 +278,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$params['setype'] = $moduleName . ' Attachment';
 		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		if ($fileInstance->moveFile($uploadFilePath . $currentId)) {
+		if ($fileInstance->moveFile(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $uploadFilePath . $currentId)) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,
 				'name' => ltrim(App\Purifier::purify($fileName)),

@@ -78,7 +78,6 @@ class Base
 		} else {
 			$value = settype($this->value[$key], 'array');
 		}
-
 		return $value;
 	}
 
@@ -93,7 +92,6 @@ class Base
 	public function set($key, $value)
 	{
 		$this->value[$key] = $value;
-
 		return $this;
 	}
 

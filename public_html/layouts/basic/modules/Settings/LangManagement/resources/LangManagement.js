@@ -147,14 +147,14 @@ var Settings_Index_Js = {
 			title: app.vtranslate('LBL_AreYouSure'),
 			trigger: 'manual',
 			placement: 'left',
-			html: 'true',
+			html: true,
 			content: '<div class="popover_block"><button class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
 		var makeSureOptions = {
 			title: app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
 			trigger: 'manual',
 			placement: 'left',
-			html: 'true',
+			html: true,
 			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
 		element.find('#deleteItemC').on('click', function (e) {

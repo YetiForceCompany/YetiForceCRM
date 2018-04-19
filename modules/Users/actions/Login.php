@@ -107,6 +107,7 @@ class Users_Login_Action extends \App\Controller\Action
 		App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 		App\Session::set('user_name', $this->userRecordModel->get('user_name'));
 		App\Session::set('full_user_name', $this->userModel->getName());
+		App\Session::set('fingerprint', $request->get('fingerprint'));
 		if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
 			App\Session::set('language', $request->getByType('loginLanguage'));
 		}

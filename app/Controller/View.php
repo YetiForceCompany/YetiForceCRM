@@ -107,7 +107,6 @@ abstract class View extends Base
 		} else {
 			$pageTitle = $this->getBreadcrumbTitle($request);
 		}
-
 		return $prefix . $pageTitle;
 	}
 
@@ -126,7 +125,6 @@ abstract class View extends Base
 		if (isset($this->pageTitle)) {
 			return \App\Language::translate($this->pageTitle, $request->getModule(false));
 		}
-
 		return '';
 	}
 
@@ -375,11 +373,16 @@ abstract class View extends Base
 				} else {
 					$jsFile = $jsFileName;
 				}
-
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$jsScript->set('base', $fallBackFilePath);
 					$filePath = $jsFile;
 					if (empty($preLayoutPath)) {
@@ -395,9 +398,15 @@ abstract class View extends Base
 					continue;
 				}
 				// Checking if file exists in default layout
-				$layoutPath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$jsScript->set('base', $fallBackFilePath);
 					$filePath = $jsFile;
 					if (empty($preLayoutPath)) {
@@ -467,9 +476,15 @@ abstract class View extends Base
 					$cssFile = $cssFileName;
 				}
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$cssScriptModel->set('base', $fallBackFilePath);
 					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
@@ -484,9 +499,15 @@ abstract class View extends Base
 					continue;
 				}
 				// Checking if file exists in default layout
-				$layoutPath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$cssScriptModel->set('base', $fallBackFilePath);
 					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $cssFile) . '.css';

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bda70f1d56b3a17378603c23acf06db6",
+    "content-hash": "cb1bae735287768619d7f1f0b9519330",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -261,16 +261,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.9.3",
+            "version": "8.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "ace655b505f58cc75481e0df54e93418bfa4736d"
+                "reference": "dcdd1257eff60f3f3c72ba3e2d5a3b73efe317e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ace655b505f58cc75481e0df54e93418bfa4736d",
-                "reference": "ace655b505f58cc75481e0df54e93418bfa4736d",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/dcdd1257eff60f3f3c72ba3e2d5a3b73efe317e9",
+                "reference": "dcdd1257eff60f3f3c72ba3e2d5a3b73efe317e9",
                 "shasum": ""
             },
             "require": {
@@ -325,7 +325,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2018-04-05T07:34:49+00:00"
+            "time": "2018-04-17T10:23:54+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1485,16 +1485,16 @@
         },
         {
             "name": "yetiforce/csrf-magic",
-            "version": "1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/csrf-magic.git",
-                "reference": "8834d25bb7c48eaf7b098c0de079b188a6e88ba3"
+                "reference": "abd5b1464424586f2494936b2404fd2e32e19434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/8834d25bb7c48eaf7b098c0de079b188a6e88ba3",
-                "reference": "8834d25bb7c48eaf7b098c0de079b188a6e88ba3",
+                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/abd5b1464424586f2494936b2404fd2e32e19434",
+                "reference": "abd5b1464424586f2494936b2404fd2e32e19434",
                 "shasum": ""
             },
             "type": "library",
@@ -1526,7 +1526,7 @@
                 "php",
                 "security"
             ],
-            "time": "2018-03-21T14:17:44+00:00"
+            "time": "2018-03-28T07:11:48+00:00"
         },
         {
             "name": "yetiforce/debugbar",

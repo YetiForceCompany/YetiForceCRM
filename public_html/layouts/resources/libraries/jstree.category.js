@@ -66,7 +66,13 @@
 		};
 
 		this.select_node = function (obj, supress_event, prevent_open, e) {
-			if (e.target.className.indexOf("noAction") < 0 && this.get_node(obj).original.type == 'category') {
+			var condition;
+			if (e.target.className.baseVal === undefined) {
+				condition = e.target.className.indexOf("noAction");
+			} else {
+				condition = e.target.className.baseVal.indexOf("noAction");
+			}
+			if ((condition < 0) && this.get_node(obj).original.type == 'category') {
 				obj = this.get_node(obj);
 				if (obj.category.checked) {
 					this.uncheckNode(obj, e);
@@ -167,7 +173,6 @@
 					});
 				}
 			}
-
 		};
 		this.uncheckNode = function (obj, e) {
 			if (obj.category.checked) {

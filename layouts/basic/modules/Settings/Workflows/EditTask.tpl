@@ -11,11 +11,13 @@
 -->*}
 {strip}
 	<div class='modelContainer modal fade' id="addTaskContainer" tabindex="-1">
-		<div class="modal-dialog modal-blg">
+		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}: {\App\Language::translate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h3>
+					<h5 class="modal-title">{\App\Language::translate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}: {\App\Language::translate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal" id="saveTask" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -28,7 +30,7 @@
 					<div id="scrollContainer">
 						<div class="modal-body tabbable">
 							<div class="row padding-bottom1per">
-								<div class="col-md-7">
+								<div class="col-md-7 form-row">
 									<div class="float-left col-form-label">{\App\Language::translate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
 									<div class="col-md-9"><input name="summary" class="form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
 								</div>
@@ -74,7 +76,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="taskTypeUi well">
+							<div class="taskTypeUi well bg-light">
 								{include file="{$TASK_TEMPLATE_PATH}" }
 							</div>
 						</div>

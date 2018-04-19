@@ -4,14 +4,11 @@
 
 //-------- global variables --------//
 @import '_Variables';
-
 //-------- bootstrap --------//
 @import '../../../libraries/bootstrap/scss/bootstrap';
 @import '../../../libraries/select2-bootstrap4-theme/src/select2-bootstrap4';
-
 //-------- base --------//
 @import '_Style';
-
 //-------- components --------//
 @import 'components/_Utilities';
 @import 'components/_Global';

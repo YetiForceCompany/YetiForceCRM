@@ -68,6 +68,7 @@
 								</button>
 							</div>
 						</div>
+						<input name="fingerprint" type="hidden" id="fingerPrint" value="">
 					</form>
 					{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 						<div class="form-group">
@@ -130,6 +131,7 @@
 	</div>
 	<script>
 		jQuery(document).ready(function () {
+			jQuery("#fingerPrint").val(new DeviceUUID().get());
 			jQuery("button.close").on('click', function () {
 				jQuery(".visible-phone").css('visibility', 'hidden');
 			});

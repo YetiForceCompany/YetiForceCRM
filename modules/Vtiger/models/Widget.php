@@ -46,7 +46,9 @@ class Vtiger_Widget_Model extends \App\Base
 		$position = $this->get('position');
 		if ($position) {
 			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-
+			if (isset($position[App\Session::get('fingerprint')])) {
+				return (int) $position[App\Session::get('fingerprint')]['col'];
+			}
 			return (int) ($position['col']);
 		}
 
@@ -58,7 +60,9 @@ class Vtiger_Widget_Model extends \App\Base
 		$position = $this->get('position');
 		if ($position) {
 			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-
+			if (isset($position[App\Session::get('fingerprint')])) {
+				return (int) $position[App\Session::get('fingerprint')]['row'];
+			}
 			return (int) ($position['row']);
 		}
 
@@ -145,7 +149,9 @@ class Vtiger_Widget_Model extends \App\Base
 		} elseif ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		\App\Db::getInstance()->createCommand()->update(('vtiger_module_dashboard_widgets'), ['position' => $position], $where)->execute();
+		$currentPosition = App\Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$currentPosition[App\Session::get('fingerprint')] = App\Json::decode($position);
+		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)->execute();
 	}
 
 	/**
