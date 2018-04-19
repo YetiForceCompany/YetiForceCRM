@@ -133,8 +133,13 @@
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="dividingField" size="2" >
 						<option>{\App\Language::translate('--None--')}</option>
-						{foreach from=$SELECTED_MODULE_MODEL->getFields() item=FIELD key=FIELD_NAME}
-							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+						{foreach from=$SELECTED_MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
+							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
+								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
+									<option value="{$FIELD_NAME}"
+											data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+								{/foreach}
+							</optgroup>
 						{/foreach}
 					</select>
 				</td>
