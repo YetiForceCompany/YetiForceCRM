@@ -28,7 +28,7 @@
 		line-height: $menuItemsHeight;
 	}
 	.o-navbar__left {
-		.headerButton {
+		.quickAction .headerButton {
 			@extend .mr-2;
 		}
 	}
