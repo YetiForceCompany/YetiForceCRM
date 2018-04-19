@@ -361,11 +361,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$filters = $data['filtersId'];
 			}
 			if (count($filters) > 5) {
-				$data['filtersId'] = implode(',', array_slice($filters, 0, 5));
+				throw new App\Exceptions\NoPermitted('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
 			}
-			// if filters total length will be longer than database column do not save it
+			// if filters total length will be longer than database column
 			if (strlen($data['filtersId'])>50) {
-				$data['filtersId']='';
+				throw new App\Exceptions\NoPermitted('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
 			}
 		}
 		$data['data'] = \App\Purifier::decodeHtml($data['data']);
