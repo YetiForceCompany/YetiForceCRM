@@ -11,7 +11,7 @@
 					<span class="caret"></span>
 				{/if}
 				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
-				<div class="leftPanel noSpaces">
+				<div class="js-sidebar leftPanel noSpaces" data-js="class: .open-menu">
 					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Desktop}
 				</div>
 				{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}

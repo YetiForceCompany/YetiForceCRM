@@ -5,6 +5,7 @@
 			<div class="col-md-2 noSpaces">
 				<a class="companyLogoContainer" href="index.php">
 					<img class="img-fluid logo" src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}" />
+					<span class="sr-only">{$COMPANY_DETAILS->get('name')}</span>
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">
@@ -21,7 +22,7 @@
 		</div>
 	</div>
 	<div class="menuContainer">
-		{include file=\App\Layout::getTemplatePath('Menu.tpl', $MODULE) DEVICE=$DEVICE}
+		{include file=\App\Layout::getTemplatePath('Menu.tpl', $MODULE)}
 	</div>
 {/strip}
 

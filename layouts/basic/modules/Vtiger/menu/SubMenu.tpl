@@ -7,8 +7,8 @@
 		{else}
 			{assign var=EXPAND value='false'}
 		{/if}
-		<ul class="tpl-menu-SubMenu nav subMenu {if $EXPAND}expand{/if}" role="menu" 
-			{if $EXPAND}aria-expanded="true" aria-hidden="false"{else}aria-expanded="false" aria-hidden="true"{/if}>
+		<ul class="tpl-menu-SubMenu nav subMenu {if $EXPAND=='true'}expand{/if}" role="menu" 
+			{if $EXPAND=='true'}aria-expanded="true" aria-hidden="false"{else}aria-expanded="false" aria-hidden="true"{/if}>
 			{foreach key=KEY item=MENU from=$MENUS}
 				{assign var=MENU_MODULE value='Menu'}
 				{if isset($MENU['moduleName'])}
