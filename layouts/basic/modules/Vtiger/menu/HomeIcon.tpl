@@ -1,8 +1,9 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	{if $MOREMENU neq true && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalReadPermission() || $PRIVILEGESMODEL->hasModulePermission($MENU.tabid)) }
-		<li class="menuHomeIcon {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
-			<a class="{if $MODULE eq 'Home'} selected {/if} hasIcon" href="{$HOME_MODULE_MODEL->getDefaultUrl()}">
+		<li class="menuHomeIcon {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="presentation">
+			<a class="{if $MODULE eq 'Home'} selected {/if} hasIcon" href="{$HOME_MODULE_MODEL->getDefaultUrl()}"
+				role="menuitem" aria-haspopup="{$HASCHILDS}">
 				<div class="iconContainer">
 					<div class="iconImage">
 						<span class="menuIcon userIcon-Home" aria-hidden="true"></span>
