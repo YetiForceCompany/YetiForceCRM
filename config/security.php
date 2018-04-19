@@ -56,7 +56,4 @@ $SECURITY_CONFIG = [
 	'PURIFIER_ALLOWED_DOMAINS' => [],
 	// Lifetime session (in seconds)
 	'MAX_LIFETIME_SESSION' => 21600,
-	//Charts multi filter limit
-	'CHART_MULTI_FILTER_LIMIT' => 5,
-	'CHART_MULTI_FILTER_STR_LEN' => 50,
 ];

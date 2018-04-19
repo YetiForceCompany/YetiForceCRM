@@ -354,18 +354,18 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
-		if (isset($data['filtersId']) && $moduleName==='Home') {
+		if (isset($data['filtersId']) && $moduleName === 'Home') {
 			if (is_string($data['filtersId'])) {
 				$filters = explode(',', $data['filtersId']);
 			} elseif (is_array($data['filtersId'])) {
 				$filters = $data['filtersId'];
 			}
-			if (count($filters) > \AppConfig::security('CHART_MULTI_FILTER_LIMIT')) {
-				throw new App\Exceptions\NoPermitted('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
+			if (count($filters) > \AppConfig::performance('CHART_MULTI_FILTER_LIMIT')) {
+				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
 			}
 			// if filters total length will be longer than database column
-			if (strlen($data['filtersId'])> \AppConfig::security('CHART_MULTI_FILTER_STR_LEN')) {
-				throw new App\Exceptions\NoPermitted('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
+			if (strlen($data['filtersId']) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
+				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
 			}
 		}
 		$data['data'] = \App\Purifier::decodeHtml($data['data']);
