@@ -81,5 +81,6 @@ $PERFORMANCE_CONFIG = [
 	'SESSION_DRIVER' => 'File',
 	//Charts multi filter limit
 	'CHART_MULTI_FILTER_LIMIT' => 5,
+	//Charts multi filter maximum db value length
 	'CHART_MULTI_FILTER_STR_LEN' => 50,
 ];
