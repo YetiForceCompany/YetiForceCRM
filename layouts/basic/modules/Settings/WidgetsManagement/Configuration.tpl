@@ -8,7 +8,7 @@
 			{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-3">
-			<div class="float-right col-6 col-md-6 paddingLRZero">
+			<div class="float-right col-6 col-md-6 px-0">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
 						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
@@ -22,9 +22,9 @@
 			<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
 				<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-toggle="tab">
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
-					<button class="btn btn-primary btn-sm fas fa-edit marginLeft10 editDashboard"></button>
+					<button class="btn btn-primary btn-sm fas fa-edit ml-2 editDashboard"></button>
 					{if $DASHBOARD['system'] neq 1}
-						<button class="btn btn-danger btn-sm fas fa-trash-alt marginLeft10 deleteDashboard"></button>
+						<button class="btn btn-danger btn-sm fas fa-trash-alt ml-2 deleteDashboard"></button>
 					{/if}
 				</a>
 			</li>
@@ -35,10 +35,10 @@
 	</ul>
 	<div class="contents tabbable">
 
-		<div class="tab-content paddingNoTop10 themeTableColor overflowVisible">
+		<div class="tab-content themeTableColor overflowVisible">
 
 			<div class="tab-pane active" id="layoutDashBoards">
-				<div class="btn-toolbar marginBottom10px">
+				<div class="btn-toolbar mb-2">
 					<button type="button" class="btn btn-success addBlockDashBoard btn-sm"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 				</div>
 
@@ -48,15 +48,15 @@
 					<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 						{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
-						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
-							<div class="row layoutBlockHeader no-margin">
-								<div class="blockLabel col-sm-5 padding10 ">
-									<span class="marginLeft20">
+						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} mb-2 border1px blockSortable bg-white" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;">
+							<div class="row layoutBlockHeader m-0">
+								<div class="blockLabel col-sm-5 p-2 ">
+									<span class="ml-3">
 										<strong>{\App\Language::translate($AUTHORIZATION_NAME, $SELECTED_MODULE_NAME)}</strong>
 									</span>
 								</div>
-								<div class="col-sm-7 marginLeftZero float-right">
-									<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
+								<div class="col-sm-7 ml-0 float-right">
+									<div class="float-right btn-toolbar blockActions m-1">
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addCustomField" type="button"><span class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
@@ -103,8 +103,8 @@
 								</div>
 
 							</div>
-							<div class="blockFieldsList blockFieldsSortable row" style="padding:5px;min-height: 27px">
-								<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; min-height: 1px;padding:2px;">
+							<div class="blockFieldsList blockFieldsSortable row p-1" style="min-height: 27px">
+								<ul name="sortable1" class="connectedSortable col-md-6 p-1" style="list-style-type: none; min-height: 1px;">
 									{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO.$AUTHORIZATION_KEY}
 									{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 										{if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -112,7 +112,7 @@
 										{/if}
 									{/foreach}
 								</ul>
-								<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; min-height: 1px;padding:2px;">
+								<ul name="sortable2" class="connectedSortable col-md-6 m-0 p-1" style="list-style-type: none; min-height: 1px;">
 									{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist1}
 										{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 											{include file=\App\Layout::getTemplatePath('WidgetConfig.tpl', $QUALIFIED_MODULE)}
@@ -140,7 +140,7 @@
 											<span class="redColor">*</span>
 										</div>
 										<div class="col-sm-6 controls">
-											<select class="authorized form-control validateForm" name="authorized" style="margin-bottom:0px;" data-validation-engine="validate[required]">
+											<select class="authorized form-control validateForm mb-0" name="authorized" data-validation-engine="validate[required]">
 												{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
 													<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{\App\Language::translate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
 												{/foreach}
@@ -154,16 +154,16 @@
 					</div>
 				</div>
 
-				<div class="newCustomBlockCopy d-none marginBottom10px border1px blockSortable " data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;background: white">
-					<div class="row layoutBlockHeader no-margin">
-						<div class="blockLabel col-md-5 padding10 ">
-							<span class="marginLeft20">
+				<div class="newCustomBlockCopy d-none mb-2 border1px blockSortable bg-white" data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;">
+					<div class="row layoutBlockHeader m-0">
+						<div class="blockLabel col-md-5 p-2 ">
+							<span class="ml-3">
 
 							</span>
 						</div>
-						<div class="col-md-6 marginLeftZero" style="float:right !important;">
+						<div class="col-md-6 ml-0 float-right">
 
-							<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
+							<div class="float-right btn-toolbar blockActions m-1">
 								<div class="btn-group">
 									<button class="btn btn-success btn-sm addCustomField d-none" type="button"><span class="fas fa-plus"></span>&nbsp;
 										<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
@@ -209,9 +209,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="blockFieldsList row blockFieldsSortable" style="padding:5px;min-height: 27px">
-						<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-						<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+					<div class="blockFieldsList row blockFieldsSortable p-1" style="min-height: 27px">
+						<ul class="connectedSortable col-md-6 ui-sortable float-left p-1" style="list-style-type: none; min-height:1px;" name="sortable1"></ul>
+						<ul class="connectedSortable col-md-6 ui-sortable m-0 float-left p-1" style="list-style-type: none; min-height:1px;" name="sortable2"></ul>
 					</div>
 				</div>
 
@@ -313,12 +313,12 @@
 				</div>
 
 				<li class="newCustomFieldCopy d-none col-md-12">
-					<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
-						<div class="row padding1per">
+					<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence="">
+						<div class="row p-2">
 							<div class="float-left" style="word-wrap: break-word;">
-								<span class="fieldLabel marginLeft20"></span>
+								<span class="fieldLabel ml-3"></span>
 							</div>
-							<span class="btn-group float-right marginRight20 actions">
+							<span class="btn-group float-right mr-3 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
@@ -343,7 +343,7 @@
 													&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
 												</label>
 											</div>
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-3 text-center">
 													<select class="width col-md-1 float-left form-control" name="width" >
 														{foreach from=$SIZE.width item=item}
@@ -355,7 +355,7 @@
 													&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 												</label>
 											</div>
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-3 text-center">
 													<select class="height col-md-1 float-left form-control" name="height">
 														{foreach from=$SIZE.height item=item}
@@ -367,7 +367,7 @@
 													&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 												</label>	
 											</div>
-											<div class="row limit padding1per">
+											<div class="row limit p-2">
 												<div class="col-md-3 text-center" >
 													<input type="text" name="limit" class="col-md-1 form-control" value="10" >
 												</div>
@@ -377,7 +377,7 @@
 											</div>
 										</div>
 										<div class="widgetFilterAll d-none">
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-5">
 													<select class="widgetFilter form-control" id="owner" name="default_owner">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
@@ -389,7 +389,7 @@
 													{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 												</label>
 											</div>	
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-8">
 													<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
