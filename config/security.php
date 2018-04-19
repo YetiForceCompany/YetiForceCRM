@@ -3,7 +3,7 @@
  * Security config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $SECURITY_CONFIG = [
 	// Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.
@@ -56,4 +56,7 @@ $SECURITY_CONFIG = [
 	'PURIFIER_ALLOWED_DOMAINS' => [],
 	// Lifetime session (in seconds)
 	'MAX_LIFETIME_SESSION' => 21600,
+	//Charts multi filter limit
+	'CHART_MULTI_FILTER_LIMIT' => 5,
+	'CHART_MULTI_FILTER_STR_LEN' => 50,
 ];
