@@ -127,18 +127,6 @@
 				</td>
 			</tr>
 		{/if}
-		{if in_array($CHART_TYPE,['Area','Axis'])}
-			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIMELINE_BY_DATE','Home')}</td>
-				<td class="fieldValue">
-					<select class="form-control saveParam" name="timeLine" size="2" >
-						{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
-							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
-						{/foreach}
-					</select>
-				</td>
-			</tr>
-		{/if}
 		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal']) && count($FILTERS)<=1}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
@@ -179,22 +167,13 @@
 			</tr>
 		{/if}
 		<tr class="step4">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTERING_BY_DATE','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control saveParam" name="timeRange" size="2" >
 					<option value="-">{\App\Language::translate('--None--')}</option>
 					{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
 						<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 					{/foreach}
-				</select>
-			</td>
-		</tr>
-		<tr class="step4">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTER_BY_OWNER','Home')}</td>
-			<td class="fieldValue">
-				<select class="form-control saveParam" name="showOwnerFilter" size="2" >
-					<option value="0">{\App\Language::translate('LBL_NO')}</option>
-					<option value="1">{\App\Language::translate('LBL_YES')}</option>
 				</select>
 			</td>
 		</tr>
