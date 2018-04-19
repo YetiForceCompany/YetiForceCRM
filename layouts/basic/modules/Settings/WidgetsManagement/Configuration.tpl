@@ -17,10 +17,10 @@
 			</div>
 		</div>
 	</div>
-	<ul class="nav nav-tabs massEditTabs selectDashboard marginBottom10px">
+	<ul class="nav nav-tabs massEditTabs selectDashboard mb-2">
 		{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-				<a data-toggle="tab">
+			<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
+				<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-toggle="tab">
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
 					<button class="btn btn-primary btn-sm fas fa-edit marginLeft10 editDashboard"></button>
 					{if $DASHBOARD['system'] neq 1}
@@ -29,8 +29,8 @@
 				</a>
 			</li>
 		{/foreach}
-		<li class="addDashboard">
-			<a><strong><span class="fas fa-plus"></span></strong></a>
+		<li class="nav-item addDashboard">
+			<a class="nav-link"><strong><span class="fas fa-plus"></span></strong></a>
 		</li>
 	</ul>
 	<div class="contents tabbable">
@@ -64,7 +64,7 @@
 										</div>
 										{if $SPECIAL_WIDGETS['Rss']}
 											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 												</button>
@@ -72,7 +72,7 @@
 										{/if}
 										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 												</button>
@@ -80,7 +80,7 @@
 										{/if}
 										{if $SPECIAL_WIDGETS['ChartFilter']}
 											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>&nbsp;
 													<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 												</button>
@@ -88,13 +88,13 @@
 										{/if}
 										{if $SPECIAL_WIDGETS['Notebook']}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
 										{/if}
-										<div class="btn-group actions">
+										<div class="btn-group actions ml-1">
 											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger" >
 												<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 											</a>
