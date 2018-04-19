@@ -10,8 +10,7 @@
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
 				{/if}
-				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
-				{include file=\App\Layout::getTemplatePath('BodyHeaderMobile.tpl', $MODULE)}
+				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 				<div class="mobileLeftPanel noSpaces">
 					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Mobile}
 				</div>

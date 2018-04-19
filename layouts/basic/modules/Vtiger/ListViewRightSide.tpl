@@ -12,7 +12,7 @@
 			<div class="dropleft">
 				<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="fas fa-wrench" aria-hidden></span>
-					<span class="sr-only>"{\App\Language::translate('LBL_ACTIONS')}</span>
+					<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="{\App\Language::translate('LBL_ACTIONS')}">
 					{foreach from=$LINKS item=LINK}

@@ -577,6 +577,15 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
+			if ( $(this).hasClass('active') ) {
+				$(this).removeClass('active');
+				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
+				$('.actionMenu .headerButton').popover();
+			} else {
+				$(this).addClass('active');
+				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'true');
+				$('.actionMenu .headerButton').popover('disable');
+			}
 			$('.quickCreateModules').on('click', function () {
 				thisInstance.hideActionMenu();
 			});
@@ -587,6 +596,13 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
+			if ( $(this).hasClass('active') ) {
+				$(this).removeClass('active');
+				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
+			} else {
+				$(this).addClass('active');
+				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'true');
+			}
 		});
 	},
 	hideMobileMenu: function () {

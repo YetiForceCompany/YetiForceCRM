@@ -50,22 +50,24 @@
 .select2Wrapper {
   width: 100%;
 }
+
 header {
 	.globalSearchInput .select2-selection.select2-selection--single {
-	font-size: $font-size-sm !important;
-	height: $menuItemsHeight !important;
-	@extend .pt-2;
-  }
-  .select2WithButtonWidth {
-	width: calc(100% - #{$iconButtonWidth});
-  }
-  .headerLinksMails .select2-selection:hover {
-	background: $dark !important;
-	.select2-selection__rendered {
-	  color: $white !important;
+		font-size: $font-size-sm !important;
+		height: $menuItemsHeight !important;
+		@extend .pt-2;
 	}
-  }
+	.select2WithButtonWidth {
+		width: calc(100% - #{$iconButtonWidth});
+	}
+	.headerLinksMails .select2-selection:hover {
+		background: $dark !important;
+		.select2-selection__rendered {
+			color: $white !important;
+		}
+	}
 }
+
 .select2HeaderWidth {
 	.select2-selection {
 		height: 2.5rem !important;
