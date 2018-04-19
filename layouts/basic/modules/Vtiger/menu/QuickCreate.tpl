@@ -6,15 +6,16 @@
 	{assign var='NAME' value=$MODULEMODEL->getName()}
 	{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE))}
 	{if $QUICKCREATEMODULE == '1' && \App\Module::isModuleActive($NAME) && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalWritePermission() || $PRIVILEGESMODEL->hasModuleActionPermission($MENU.tabid, 'CreateView') ) }
-		<li class="quickCreateModules quickCreate {if !$HASCHILDS}hasParentMenu{/if} " data-id="{$MENU.id}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
-			<a class="quickCreateModule {if $ICON}hasIcon{/if} {if isset($MENU['hotkey'])}hotKey{/if}" {if isset($MENU['hotkey'])}data-hotkeys="{$MENU['hotkey']}"{/if} data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)">
+		<li class="quickCreateModules quickCreate {if !$HASCHILDS}hasParentMenu{/if} " data-id="{$MENU.id}" role="presentation">
+			<a class="quickCreateModule {if $ICON}hasIcon{/if} {if isset($MENU['hotkey'])}hotKey{/if}" {if isset($MENU['hotkey'])}data-hotkeys="{$MENU['hotkey']}"{/if} data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" 
+				{if $HASCHILDS == 'true'}role="button"{/if} href="#" aria-haspopup="{$HASCHILDS}">
 				{if $ICON}
-					<div  {if $DEVICE == 'Desktop'}class="iconContainer"{/if}>
-						<div {if $DEVICE == 'Desktop'}class="iconImage" {/if}>{$ICON}</div>
+					<div class="iconContainer">
+						<div class="iconImage">{$ICON}</div>
 					</div>
 				{/if}
-				<div {if $DEVICE == 'Desktop'}class="labelConstainer"{/if}>
-					<div {if $DEVICE == 'Desktop'}class="labelValue" {/if}>
+				<div class="labelConstainer">
+					<div class="labelValue">
 						<span class="menuName">
 							{if $MENU.name != ''}
 								{\App\Language::translate($MENU.name,'Menu')}
@@ -25,12 +26,7 @@
 					</div>
 				</div>
 			</a>
-			{if $DEVICE == 'Desktop'}
-				{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
-			{/if}
+			{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE)}
 		</li>
-		{if $DEVICE == 'Mobile'}
-			{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
-		{/if}
 	{/if}
 {/strip}

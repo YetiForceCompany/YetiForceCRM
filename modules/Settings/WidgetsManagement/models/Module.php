@@ -4,7 +4,7 @@
  * Settings OSSMailView index view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -354,14 +354,28 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
+		if (isset($data['filtersId'])) {
+			if (is_string($data['filtersId'])) {
+				$filters = explode(',', $data['filtersId']);
+			} elseif (is_array($data['filtersId'])) {
+				$filters = $data['filtersId'];
+			}
+			if (count($filters) > \AppConfig::performance('CHART_MULTI_FILTER_LIMIT')) {
+				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
+			}
+			// if filters total length will be longer than database column
+			if (strlen($data['filtersId']) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
+				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
+			}
+		}
 		$data['data'] = \App\Purifier::decodeHtml($data['data']);
 		$size = \App\Json::encode([
-				'width' => $data['width'],
-				'height' => $data['height'],
+			'width' => $data['width'],
+			'height' => $data['height'],
 		]);
 		$owners = \App\Json::encode([
-				'default' => $data['default_owner'],
-				'available' => $data['owners_all'],
+			'default' => $data['default_owner'],
+			'available' => $data['owners_all'],
 		]);
 		$db->createCommand()->insert('vtiger_module_dashboard', [
 			'linkid' => $data['linkid'],
@@ -477,15 +491,15 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
 		$dataReader = (new \App\Db\Query())->select([
-					'mdw.blockid', 'mdw.data', 'mdw.title', 'mdw.filterid', 'mdw.id',
-					'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
-					'vtiger_links.*', 'mdb.authorized',
-				])
-				->from('vtiger_module_dashboard AS mdw')
-				->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
-				->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
-				->where(['vtiger_links.tabid' => $tabId])
-				->createCommand()->query();
+			'mdw.blockid', 'mdw.data', 'mdw.title', 'mdw.filterid', 'mdw.id',
+			'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
+			'vtiger_links.*', 'mdb.authorized',
+		])
+		->from('vtiger_module_dashboard AS mdw')
+		->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
+		->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
+		->where(['vtiger_links.tabid' => $tabId])
+		->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
