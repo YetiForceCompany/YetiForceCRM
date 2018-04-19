@@ -354,7 +354,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
-		if (isset($data['filtersId']) && $moduleName === 'Home') {
+		if (isset($data['filtersId'])) {
 			if (is_string($data['filtersId'])) {
 				$filters = explode(',', $data['filtersId']);
 			} elseif (is_array($data['filtersId'])) {
