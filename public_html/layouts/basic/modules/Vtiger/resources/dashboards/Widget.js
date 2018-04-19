@@ -151,7 +151,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				return labels;
 			},
 			display() {
-				if (typeof this.filterIds !== 'undefined' && this.filterIds.length > 1) {
+				if (this.isMultiFilter() || this.areColorsFromDividingField()) {
 					return true;
 				}
 				return false;
