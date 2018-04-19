@@ -159,15 +159,12 @@
 		};
 
 		this.checkNode = function (obj, e) {
-
 			if (!obj.category.checked) {
 				var dom = this.get_node(obj, true);
 				obj.category.checked = true;
 				this._data.category.selected.push(obj.id);
-
 				if (dom && dom.length) {
 					dom.children('.jstree-anchor').find('.jstree-category').addClass(options.checkClass).removeClass(options.uncheckClass);
-
 					this.trigger('changed', {
 						action: 'select_node',
 						node: obj,
@@ -176,7 +173,6 @@
 					});
 				}
 			}
-
 		};
 		this.uncheckNode = function (obj, e) {
 			if (obj.category.checked) {
