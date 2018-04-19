@@ -61,7 +61,7 @@
 	&.gutter-horizontal {
 		cursor: ew-resize;
 		background-image: url('../images/vertical.png');
-		height: calc(100vh - 33px);
+		//height: calc(100vh - 33px);
 		float: left;
 	}
 	&.js-gutter-corr-left {
@@ -80,7 +80,7 @@
 .c-side-block {
 	display: none;
 	cursor: pointer;
-	height: calc(100vh - 33px);
+	//height: calc(100vh - 33px);
 	width: 20px;
 	position: absolute;
 	background: $light;
