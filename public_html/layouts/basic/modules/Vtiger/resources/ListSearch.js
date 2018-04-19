@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("YetiForce_ListSearch_Js", {
 	getInstance: function (container, noEvents, reletedInstance, moduleName) {
-		if(typeof moduleName === 'undefined'){
+		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
 		var moduleClassName = module + '_ListSearch_Js';
@@ -109,7 +109,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
 	registerDateListSearch: function (container) {
-		App.Fields.DateTime.register(this.getContainer().find('.dateRangeField'));
+		App.Fields.Date.registerRange(this.getContainer().find('.dateRangeField'));
 	},
 	registerTimeListSearch: function () {
 		app.registerEventForClockPicker();
