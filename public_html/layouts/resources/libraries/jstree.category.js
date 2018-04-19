@@ -66,7 +66,13 @@
 		};
 
 		this.select_node = function (obj, supress_event, prevent_open, e) {
-			if (e.target.className.indexOf("noAction") < 0 && this.get_node(obj).original.type == 'category') {
+			var condition;
+			if (e.target.className.baseVal === undefined) {
+				condition = e.target.className.indexOf("noAction");
+			} else {
+				condition = e.target.className.baseVal.indexOf("noAction");
+			}
+			if ((condition < 0) && this.get_node(obj).original.type == 'category') {
 				obj = this.get_node(obj);
 				if (obj.category.checked) {
 					this.uncheckNode(obj, e);
@@ -153,12 +159,15 @@
 		};
 
 		this.checkNode = function (obj, e) {
+
 			if (!obj.category.checked) {
 				var dom = this.get_node(obj, true);
 				obj.category.checked = true;
 				this._data.category.selected.push(obj.id);
+
 				if (dom && dom.length) {
 					dom.children('.jstree-anchor').find('.jstree-category').addClass(options.checkClass).removeClass(options.uncheckClass);
+
 					this.trigger('changed', {
 						action: 'select_node',
 						node: obj,
