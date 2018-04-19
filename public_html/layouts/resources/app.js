@@ -225,6 +225,10 @@ app = {
 			if ($('.modal-backdrop').length > 1) {
 				$('.modal-backdrop:not(:first)').remove();
 			}
+			if ($('body', window.parent.document) !== $('body')) {
+				modalBackdrop = $('.modal-backdrop').detach();
+				$('body', window.parent.document).append(modalBackdrop);
+			}
 			cb(modalContainer);
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
@@ -236,8 +240,7 @@ app = {
 			});
 		});
 		modalContainer.modal(params);
-
-		$('body').append(container);
+		$('body', window.parent.document).append(container);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
