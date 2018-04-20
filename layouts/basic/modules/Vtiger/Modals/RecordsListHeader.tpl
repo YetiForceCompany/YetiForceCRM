@@ -18,7 +18,7 @@
 			{/if}
 			{App\Language::translate($MODULE_NAME, $MODULE_NAME)}
 		</h5>
-		{if $SWITCH && !empty($LISTVIEW_ENTRIES)}
+		{if $SWITCH}
 			<div class="ml-auto">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-secondary active">
@@ -37,6 +37,13 @@
 						 data-original-title="{App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE_NAME)}">
 					<span class="fas fa-info-circle"></span>
 				</a>
+			</div>
+		{/if}
+		{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}
+			<div class="ml-auto">
+				<button class="js-selected-rows btn btn-outline-secondary" data-js="click">
+					<strong><span class="fas fa-check mr-2"></span>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}</strong>
+				</button>
 			</div>
 		{/if}
 		<div class="ml-auto">

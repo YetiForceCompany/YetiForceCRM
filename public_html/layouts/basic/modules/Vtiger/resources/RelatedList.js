@@ -224,28 +224,31 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			elements.attr('class', widthType);
 		}
 	},
-	showSelectRelationPopup: function (extendParams) {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var mainParams = this.getPopupParams();
-		$.extend(mainParams, extendParams);
-		popupInstance.show(mainParams, function (responseString) {
-			var responseData = JSON.parse(responseString);
-			thisInstance.addRelations(Object.keys(responseData)).then(function (data) {
-				var detail = Vtiger_Detail_Js.getInstance();
-				thisInstance.loadRelatedList().then(function (data) {
-					aDeferred.resolve(data);
-					detail.registerRelatedModulesRecordCount();
+	showSelectRelation: function (extendParams) {
+		let params = $.extend(this.getRecordsListParams(), extendParams);
+		app.showRecordsList(params, (modal, instance) => {
+			instance.setSelectEvent((responseData) => {
+				this.addRelations(Object.keys(responseData)).then( () =>{
+					app.event.trigger("RelatedListView.AfterSelectRelation", responseData, this, instance, params);
+					let detail = Vtiger_Detail_Js.getInstance();
+					this.loadRelatedList().then(function () {
+						detail.registerRelatedModulesRecordCount();
+					});
+					if (this.getSelectedTabElement().data('link-key') === 'LBL_RECORD_SUMMARY') {
+						detail.loadWidgets();
+						detail.registerRelatedModulesRecordCount();
+					}
 				});
-				var selectedTab = thisInstance.getSelectedTabElement();
-				if (selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY') {
-					detail.loadWidgets();
-					detail.registerRelatedModulesRecordCount();
-				}
 			});
 		});
-		return aDeferred.promise();
+	},
+	getRecordsListParams: function () {
+		return {
+			module: this.moduleName,
+			src_module: this.parentModuleName,
+			src_record: this.parentRecordId,
+			multi_select: true
+		};
 	},
 	addRelations: function (idList) {
 		var aDeferred = jQuery.Deferred();
@@ -262,14 +265,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
-	},
-	getPopupParams: function () {
-		return {
-			module: this.moduleName,
-			src_module: this.parentModuleName,
-			src_record: this.parentRecordId,
-			multi_select: true
-		};
 	},
 	deleteRelation: function (relatedIdList) {
 		var aDeferred = jQuery.Deferred();
@@ -780,15 +775,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			thisInstance.addRelatedRecord(element);
 		})
 		this.content.on('click', 'button.selectRelation', function (e) {
-			var restrictionsField = $(this).data('rf');
-			var params = {};
+			let restrictionsField = $(this).data('rf');
+			let params = {};
 			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 				params = {
 					search_key: restrictionsField.key,
 					search_value: restrictionsField.name
 				};
 			}
-			thisInstance.showSelectRelationPopup(params);
+			thisInstance.showSelectRelation(params);
 		});
 		this.content.on('click', 'button.relationDelete', function (e) {
 			e.stopImmediatePropagation();

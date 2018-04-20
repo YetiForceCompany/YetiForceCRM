@@ -160,9 +160,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$relatedParentId = $linkRecord;
 			}
 		}
-		if ($showSwitch) {
-			$viewer->assign('SWITCH', true)->assign('SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
-		}
 		if ($relatedParentId && !\App\Record::isExists($relatedParentId)) {
 			$relatedParentId = $relatedParentModule = '';
 		}
@@ -212,7 +209,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$listViewHeaders = $listViewModel->getHeaders();
 			$listViewEntries = $listViewModel->getEntries($pagingModel);
-			if (count($listViewHeaders) > 0) {
+			if (count($listViewEntries) > 0) {
 				$parentRelatedRecords = true;
 			}
 		} else {
@@ -222,22 +219,21 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		// If there are no related records with parent module then, we should show all the records
 		if (empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentId = $relatedParentModule = null;
+			$showSwitch = false;
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 			$listViewModel->set('search_params', $transformedSearchParams);
 			if (!empty($orderBy)) {
-				$listViewModel->set('orderby', $orderBy);
-				$listViewModel->set('sortorder', $sortOrder);
+				$listViewModel->set('orderby', $orderBy)->set('sortorder', $sortOrder);
+			}
+			if (!empty($filterFields)) {
+				$listViewModel->set('filterFields', $filterFields);
 			}
 			if (!empty($sourceModule)) {
-				$listViewModel->set('src_module', $sourceModule);
-				$listViewModel->set('src_field', $sourceField);
-				$listViewModel->set('src_record', $sourceRecord);
+				$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
 			}
 			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
 				$listViewModel->set('search_key', $request->getByType('search_key', 1));
 				$listViewModel->set('search_value', $request->get('search_value'));
-				$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-				$viewer->assign('SEARCH_VALUE', $request->get('search_value'));
 			}
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
@@ -265,6 +261,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
+		if ($showSwitch) {
+			$viewer->assign('SWITCH', true)->assign('SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
+		}
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());
@@ -288,7 +287,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('LISTVIEW_HEADERS', $listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $listViewEntries);
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
 }

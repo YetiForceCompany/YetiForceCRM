@@ -15,24 +15,15 @@
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
-		{*<div class="d-flex mt-2">*}
-			{*<div class="col-md-2 form-group float-left">*}
-				{*{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}*}
-					{*<button class="select btn btn-outline-secondary">*}
-						{*<strong>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}</strong>*}
-					{*</button>*}
-				{*{/if}*}
-			{*</div>*}
-		{*</div>*}
 		<div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
 				<tr class="listViewHeaders">
-					<th class="{$WIDTHTYPE}">
+					<th class="{$WIDTHTYPE} text-center">
 						{if $MULTI_SELECT}
 							<input type="checkbox" title="{App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}"
-								   class="selectAllInCurrentPage"/>
+								   class="js-select-checkbox u-cursor-pointer" data-type="all" data-js="click"/>
 						{/if}
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -65,13 +56,13 @@
 					{/foreach}
 				</tr>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-					<tr class="u-cursor-pointer js-select-row" data-id="{$LISTVIEW_ENTRY->getId()}"
+					<tr class="u-cursor-pointer js-select-row" data-id="{$LISTVIEW_ENTRY->getId()}" data-js="click"
 						data-name='{$LISTVIEW_ENTRY->getName()}'
 						data-info='{App\Json::encode($LISTVIEW_ENTRY->getRawData())}'>
-						<td class="{$WIDTHTYPE}">
+						<td class="{$WIDTHTYPE} u-cursor-auto text-center">
 							{if $MULTI_SELECT}
-								<input class="entryCheckBox" title="{App\Language::translate('LBL_SELECT_RECORD')}"
-									   type="checkbox"/>
+								<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}"
+									   type="checkbox" data-type="row" data-js="click"/>
 							{/if}
 						</td>
 						{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADERNAME from=$LISTVIEW_HEADERS}
