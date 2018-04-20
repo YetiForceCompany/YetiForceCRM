@@ -8,6 +8,9 @@
 	{if $CHART_OWNERS}
 		<input class="widgetOwners" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_OWNERS))}" />
 	{/if}
+	{foreach from=$ADDITIONAL_FILTERS_FIELDS item=FIELD}
+		<input class="js-chartFilter__additional-filter-fields-{$FIELD->getName()}" name="{$FIELD->getName()}[]" type="hidden" value="" data-js="container">
+	{/foreach}
 	<input class="widgetData" name="data" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}" />
 	{if $CHART_DATA['show_chart'] }
 		<div class="widgetChartContainer chartcontent"><canvas></canvas></div>
