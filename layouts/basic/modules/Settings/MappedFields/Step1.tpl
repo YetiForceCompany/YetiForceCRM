@@ -13,14 +13,14 @@
 				<input type="hidden" name="tabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('tabid')}" />
 				<input type="hidden" name="reltabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('reltabid')}" />
 			{/if}
-			<div class="col-md-12 paddingLRZero">
-				<div class="panel panel-default">
-					<div class="panel-heading">
+			<div class="col-md-12 px-0">
+				<div class="card">
+					<div class="card-header">
 						<label>
 							<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
 						</label>
 					</div>
-					<div class="panel-body">
+					<div class="card-body">
 						<div class="form-group">
 							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
@@ -67,10 +67,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-footer clearfix">
+					<div class="card-footer clearfix">
 						<div class="btn-toolbar float-right">
-							<button class="btn btn-success" type="submit" >{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-success" type="submit" >
+								<span class="fas fa-caret-right mr-1"></span>
+								{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+							</button>
+							<button class="btn btn-warning cancelLink" type="reset">
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</button>
 						</div>
 					</div>
 				</div>
