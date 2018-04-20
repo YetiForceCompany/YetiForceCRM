@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row widget_header">
+	<div class="row align-items-center widget_header">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
-		<div class="col-md-4 btn-toolbar marginLeftZero">
-			<div class="float-right">
+		<div class="col-md-4 btn-toolbar ml-0 justify-content-end">
+			<div>
 				{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
 					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
 				{/foreach}
