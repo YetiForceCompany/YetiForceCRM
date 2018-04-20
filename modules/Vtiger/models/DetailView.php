@@ -114,7 +114,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
-			$class = 'btn-default';
+			$class = 'btn-light';
 			if ($watchdog->isWatchingRecord()) {
 				$class = 'btn-info';
 			}
@@ -125,7 +125,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkicon' => 'fas fa-eye',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
+				'linkdata' => ['off' => 'btn-light', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

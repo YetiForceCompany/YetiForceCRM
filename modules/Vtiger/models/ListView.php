@@ -93,7 +93,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$moduleModel = $this->getModule();
 		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
-			$class = 'btn-default';
+			$class = 'btn-light';
 			if ($watchdog->isWatchingModule()) {
 				$class = 'btn-info';
 			}
@@ -103,7 +103,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkclass' => $class,
 				'linkicon' => 'fas fa-eye',
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
+				'linkdata' => ['off' => 'btn-light', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 				'active' => !$watchdog->isLock()
 			];
 		}

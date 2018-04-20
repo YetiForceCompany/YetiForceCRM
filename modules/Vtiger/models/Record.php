@@ -1372,7 +1372,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
 					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
 					'linkicon' => 'far fa-caret-square-right',
-					'linkclass' => 'btn-xs btn-default',
+					'linkclass' => 'btn-sm btn-default',
 					'modalView' => true,
 				]);
 			}
@@ -1381,7 +1381,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkurl' => $this->getFullDetailViewUrl(),
 				'linkhref' => true,
 				'linkicon' => 'fas fa-th-list',
-				'linkclass' => 'btn-xs btn-default',
+				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
 		$relationModel = $viewModel->getRelationModel();
@@ -1391,7 +1391,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkhref' => true,
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
-				'linkclass' => 'btn-xs btn-default',
+				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
@@ -1400,7 +1400,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'BTN_WATCHING_RECORD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-				'linkclass' => 'btn-xs ' . ($watching ? 'btn-info' : 'btn-default'),
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
@@ -1408,7 +1408,7 @@ class Vtiger_Record_Model extends \App\Base
 			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_DELETE',
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-xs btn-default relationDelete entityStateBtn',
+				'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
