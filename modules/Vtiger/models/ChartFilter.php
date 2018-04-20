@@ -721,6 +721,33 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', "{$time[0]} , {$time[1]}"];
 			}
 		}
+		if ($this->has('additionalFiltersFieldsSearch')) {
+			foreach ($this->get('additionalFiltersFieldsSearch') as $searchFieldName => $searchFieldValue) {
+				if (!empty($searchFieldValue)) {
+					// TODO: poszukać w innych modułach np (listview) jak parsować search
+					$fieldIndex = array_search($searchFieldName, $this->additionalFiltersFieldsNames);
+					$fieldModel = $this->additionalFiltersFields[$fieldIndex];
+					if ($fieldModel) {
+						$uiTypeModel = $fieldModel->getUITypeModel();
+						$fieldDataType = $fieldModel->getFieldDataType();
+						switch ($fieldDataType) {
+							case 'date':
+							case 'datetime':
+								$value = explode(',', $searchFieldValue);
+								$dbvalue=[];
+								$dbvalue[]= \DateTimeField::convertToDBFormat($value[0]);
+								$dbvalue[]= \DateTimeField::convertToDBFormat($value[1]);
+								$queryGenerator->addCondition($fieldModel->getName(), "{$dbvalue[0]} 00:00:00 , {$dbvalue[1]} 23:59:59", 'bw');
+								$this->searchParams[] = [$fieldModel->getFieldName(), 'bw', "{$value[0]} , {$value[1]}"];
+								break;
+							default:
+								$queryGenerator->addCondition($fieldModel->getName(), $searchFieldValue, 'e');
+								$queryGenerator->setField('assigned_user_id');
+						}
+					}
+				}
+			}
+		}
 		$query = $queryGenerator->createQuery();
 		// we want colors from picklists if available
 		$query = $this->addPicklistsToQuery($query);
@@ -1255,7 +1282,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
-			throw new Exceptions\AppException('Invalid data');
+			throw new App\Exceptions\AppException('Invalid data');
 		}
 		$this->getTargetModuleModel();
 		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : $this->extraData['additionalFiltersFields'];
