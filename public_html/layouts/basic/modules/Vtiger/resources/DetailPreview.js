@@ -18,7 +18,6 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	 * Redirects to the current iframe parent.
 	 */
 	updateParentFrame: function () {
-		console.log($(".mainContainer").height());
 		parent.app.getPageController().updateWindowHeight($(".mainContainer").height(), $(window.frameElement));
 	},
 	/**
@@ -35,13 +34,9 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			currentHeight = fixedListHeight;
 		}
 		if ($(window).width() < 993) {
-			console.log('updatesensor0')
-			// relatedContents.find('.js-list-preview').height(200);
-			// relatedContents.find(".js-detail-preview").height(currentHeight);
 			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
 
 		} else {
-			console.log('updatesensor')
 			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
 		}
 		relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
@@ -56,7 +51,6 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	registerSizeEvent: function () {
 		var thisInstance = this;
 		new ResizeSensor($('.mainContainer'), function () {
-			console.log('sensor')
 			thisInstance.updateParentFrame();
 		});
 	},
