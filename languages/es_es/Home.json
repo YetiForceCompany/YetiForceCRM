@@ -40,6 +40,7 @@
     "LBL_ALL_OWNERS": "Todos",
     "LBL_EMPTY": "empty",
     "LBL_CHART_STACKED": "Combine graph elements",
+    "LBL_CHART_COLORS_FROM_FILTER": "Colors from filter",
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph"
   },
