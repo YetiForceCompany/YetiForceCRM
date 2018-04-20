@@ -34,6 +34,7 @@
 		"bootstrap-datepicker": "^1.7.1",
 		"bootstrap-daterangepicker": "^2.1.30",
 		"bootstrap-switch": "^3.3.4",
+		"bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
 		"chart.js": "^2.7.2",
 		"chartjs-plugin-datalabels": "^0.3.0",
 		"chartjs-plugin-funnel": "^1.1.2",
