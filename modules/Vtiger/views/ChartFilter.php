@@ -57,7 +57,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
-				$viewer->assign('SELECTED_MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
+				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('GROUP_FIELD', $request->getByType('groupField'));
 				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField')));
