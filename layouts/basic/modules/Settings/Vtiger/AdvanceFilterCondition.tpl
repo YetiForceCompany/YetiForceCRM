@@ -13,9 +13,9 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
-	<div class="conditionRow">
+	<div class="conditionRow form-row">
 		<div class="col-md-4 conditionField">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
 				<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
@@ -115,7 +115,7 @@
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
 			{/if}
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
 				<option value="none">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
