@@ -9,7 +9,7 @@
 					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{/foreach}
 			{else}
-			<div class="dropleft">
+			<div class="dropleft u-remove-dropdown-icon">
 				<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="fas fa-wrench" aria-hidden="true"></span>
 					<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>

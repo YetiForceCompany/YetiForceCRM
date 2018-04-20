@@ -41,6 +41,7 @@
 			<thead>
 				<tr class="listViewHeaders">
 					<th class="p-2">
+						<label class="sr-only" for="listViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
 						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
