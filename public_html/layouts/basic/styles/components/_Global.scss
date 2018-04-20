@@ -131,3 +131,38 @@
 	margin:0px 20px;
   }
 }
+
+//action dropdowns
+.actions {
+  display: inline-block;
+  vertical-align: top;
+  .dropdown-menu {
+    padding: 0.2rem;
+    margin-top: -0.2rem;
+    .btn-group {
+      vertical-align: top;
+    }
+    .btn-xs {
+      @extend .btn-sm;
+    }
+  }
+}
+
+.rightRecordActions,
+.leftRecordActions {
+  white-space: nowrap;
+}
+.leftRecordActions {
+  .dropdown-toggle {
+    &:after {
+      margin-left: 0.5rem;
+    }
+  }
+}
+.rightRecordActions {
+  .dropdown-toggle {
+    &:after {
+      margin-right: 0.5rem;
+    }
+  }
+}

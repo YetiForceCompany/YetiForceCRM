@@ -16,18 +16,25 @@
 		{assign var=LINKS value=$RELATED_RECORD->getRecordRelatedListViewLinksLeftSide($VIEW_MODEL)}
 		{if count($LINKS) > 0}
 			{assign var=ONLY_ONE value=count($LINKS) eq 1}
-		<div class="actions">
-			<div class=" {if $ONLY_ONE}float-right{else}d-none actionImages{/if}">
-				{foreach from=$LINKS item=LINK}
-					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
-				{/foreach}
+			<div class="actions">
+				{if $ONLY_ONE}
+					{foreach from=$LINKS item=LINK}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+					{/foreach}
+				{else}
+				<div class="dropright">
+					<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="fas fa-wrench" aria-hidden="true"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
+					</button>
+					<div class="dropdown-menu" aria-labelledby="{\App\Language::translate('LBL_ACTIONS')}">
+						{foreach from=$LINKS item=LINK}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+						{/foreach}
+					</div>
+				</div>
+				{/if}
 			</div>
-			{if !$ONLY_ONE}
-				<button type="button" class="btn btn-sm btn-light toolsAction">
-					<span class="fas fa-wrench"></span>
-				</button>
-			{/if}
-		</div>
 	{/if}
 	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
 		<div>

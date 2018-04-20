@@ -22,8 +22,9 @@
 	}
 
 	.headerButton {
-		@extend .px-1;
 		@extend .py-0;
+		padding-left: 0.3rem;
+		padding-right: 0.3rem;
 		font-size: 17px;
 		line-height: $menuItemsHeight;
 	}
@@ -37,7 +38,6 @@
 			@extend .ml-2;
 		}
 	}
-
 	.headerLinksMails {
 		height: fit-content;
 		> .btn + .dropdown-toggle {
