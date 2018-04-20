@@ -8,13 +8,13 @@
 				{\App\Language::translate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="contents marginTop20 form-horizontal">
-			<div class="form-group">
+		<div class="contents mt-3 form-horizontal">
+			<div class="form-group form-row">
 				{assign var=LABEL_CHECKBOX value='LBL_YES'}
 				{if !$CONFIG.active}
 					{assign var=LABEL_CHECKBOX value='LBL_NO'}
 				{/if}
-				<label class="col-md-3 col-form-label form-control-plaintext">{\App\Language::translate('LBL_ARE_ACTIVE', $QUALIFIED_MODULE)}</label>
+				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">{\App\Language::translate('LBL_ARE_ACTIVE', $QUALIFIED_MODULE)}</label>
 				<div class="col-md-6 btn-group-toggle" data-toggle="buttons">
 					<label class="btn {if $CONFIG.active}btn-success active{else}btn-light{/if}">
 						<input autocomplete="off" type="checkbox" name="active" {if $CONFIG.active}checked{/if}><span class="text">&nbsp;&nbsp;{\App\Language::translate($LABEL_CHECKBOX, $QUALIFIED_MODULE)}</span>
@@ -22,8 +22,8 @@
 					</label>	
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-md-3 col-form-label form-control-plaintext">{\App\Language::translate('LBL_SUMMATION_TYPE', $QUALIFIED_MODULE)}</label>
+			<div class="form-group form-row">
+				<label class="col-md-3 u-text-small-bold col-form-label text-md-right form-control-plaintext">{\App\Language::translate('LBL_SUMMATION_TYPE', $QUALIFIED_MODULE)}</label>
 				<div class="col-md-6">
 					<select class="select2" name="aggregation">
 						{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues('aggregation')}
@@ -32,14 +32,14 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group form-row">
 				{if $VIEW eq 'DiscountConfiguration'}
 					{assign var=FIELD value='discounts'}
 				{else}
 					{assign var=FIELD value='taxs'}	
 				{/if}
 				{assign var=FIELD_VALUE value=explode(',',$CONFIG[$FIELD])}
-				<label class="col-md-3 col-form-label form-control-plaintext">{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}</label>
+				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}</label>
 				<div class="col-md-6">
 					<select class="select2" multiple name="{$FIELD}">
 						{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues($FIELD)}
