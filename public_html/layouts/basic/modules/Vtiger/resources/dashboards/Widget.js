@@ -1428,77 +1428,37 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var url = element.data('url');
 		var contentContainer = parent.find('.dashboardWidgetContent');
 		var params = url;
-		var widgetFilters = parent.find('.widgetFilter');
+		var widgetFilters = parent.find('.js-chartFilter__additional-filter-field');
 		if (widgetFilters.length > 0) {
 			params = {};
 			params.url = url;
 			params.data = {};
 			widgetFilters.each(function (index, domElement) {
 				var widgetFilter = jQuery(domElement);
-				var filterType = widgetFilter.attr('type');
 				var filterName = widgetFilter.attr('name');
-				if ('checkbox' == filterType) {
-					var filterValue = widgetFilter.is(':checked');
-					params.data[filterName] = filterValue;
-				} else {
-					var filterValue = widgetFilter.val();
-					params.data[filterName] = filterValue;
-				}
-			});
-		}
-		var widgetFilterByField = parent.find('.widgetFilterByField');
-		if (widgetFilterByField.length) {
-			var searchParams = [];
-			widgetFilterByField.find('.listSearchContributor').each(function (index, domElement) {
-				var searchInfo = [];
-				var searchContributorElement = jQuery(domElement);
-				var fieldInfo = searchContributorElement.data('fieldinfo');
-				var fieldName = searchContributorElement.attr('name');
-				var searchValue = searchContributorElement.val();
-				if (typeof searchValue == "object") {
-					if (searchValue == null) {
-						searchValue = "";
-					} else {
-						searchValue = searchValue.join(',');
+				let arr = false;
+				if (filterName.substr(-2) === '[]') {
+					arr = true;
+					filterName = filterName.substr(0, filterName.length - 2);
+					if(!Array.isArray(params.data[filterName])){
+						params.data[filterName] = [];
 					}
 				}
-				searchValue = searchValue.trim();
-				if (searchValue.length <= 0) {
-					return true;
-				}
-				var searchOperator = 'a';
-				if (fieldInfo.hasOwnProperty("searchOperator")) {
-					searchOperator = fieldInfo.searchOperator;
-				} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'multiReferenceValue']) >= 0) {
-					searchOperator = 'e';
-				} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
-					searchOperator = 'bw';
-				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
-					searchOperator = 'c';
-				}
-				searchInfo.push(fieldName);
-				searchInfo.push(searchOperator);
-				searchInfo.push(searchValue);
-				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
-					var searchInSubcategories = parent.find('.searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
-					searchInfo.push(searchInSubcategories);
-				}
-				searchParams.push(searchInfo);
-			});
-			if (searchParams.length) {
-				params.data.search_params = new Array(searchParams);
-			}
-		}
+				if ('checkbox' === widgetFilter.attr('type')) {
+					if (arr) {
+						params.data[filterName].push(widgetFilter.is(':checked'));
+					} else {
+						params.data[filterName] = widgetFilter.is(':checked');
+					}
+				} else {
+					if (arr) {
+						params.data[filterName].push(widgetFilter.val());
+					} else {
+						params.data[filterName] = widgetFilter.val();
+					}
 
-		var filterData = this.getFilterData();
-		if (!jQuery.isEmptyObject(filterData)) {
-			if (typeof params == 'string') {
-				url = params;
-				params = {};
-				params.url = url;
-				params.data = {};
-			}
-			params.data = jQuery.extend(params.data, this.getFilterData());
+				}
+			});
 		}
 		var refreshContainer = parent.find('.dashboardWidgetContent');
 		var refreshContainerFooter = parent.find('.dashboardWidgetFooter');
@@ -1532,39 +1492,38 @@ jQuery.Class('Vtiger_Widget_Js', {
 		);
 	},
 	registerFilter: function registerFilter() {
-		var thisInstance = this;
-		var container = this.getContainer();
-		container.find('.listSearchContributor').css('width','100%');
-		container.find('.listSearchContributor').parent().addClass('w-100');
+		const thisInstance = this;
+		const container = this.getContainer();
+		const search = container.find('.listSearchContributor');
+		search.css('width', '100%');
+		search.parent().addClass('w-100');
 		App.Fields.Picklist.changeSelectElementView(container);
 		App.Fields.Date.register(container);
 		App.Fields.Date.registerRange(container);
-		/*
-		var dateRangeElement = container.find('input.dateRangeField');
-		if (dateRangeElement.length <= 0) {
-			return;
-		}
-		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
-		App.Fields.Date.registerRange(dateRangeElement, {
-			opens: "auto"
-		});
-		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
+		search.on('change apply.daterangepicker', (e) => {
+			const target = $(e.target);
+			const value = target.val();
+			const name = target.prop('name');
+			let sendInput = container.find(`input[name="additional_filter_field[${name}]"]`);
+			if(sendInput.length===0){
+				sendInput = container.find(`input[name="additional_filter_field[${name}][]"]`);
+			}
+			const parent = sendInput.parent();
+			if (Array.isArray(value)) {
+				value.forEach((val) => {
+					const input = $(`<input type="hidden" name="additional_filter_field[${name}][]" class="js-chartFilter__additional-filter-field">`).val(val);
+					parent.prepend(input);
+				});
+			} else {
+				const input = $(`<input type="hidden" name="additional_filter_field[${name}]" class="js-chartFilter__additional-filter-field">`).val(value);
+				parent.prepend(input);
+			}
+			sendInput.remove();
 			container.find('a[name="drefresh"]').trigger('click');
-		});*/
+		});
+
 	},
 	registerFilterChangeEvent: function registerFilterChangeEvent() {
-		var container = this.getContainer();
-		container.on('change', '.widgetFilter', function (e) {
-			var widgetContainer = jQuery(e.currentTarget).closest('li');
-			widgetContainer.find('a[name="drefresh"]').trigger('click');
-		});
-		if (container.find('.widgetFilterByField').length) {
-			App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
-			this.getContainer().on('change', '.widgetFilterByField .form-control', function (e) {
-				var widgetContainer = jQuery(e.currentTarget).closest('li');
-				widgetContainer.find('a[name="drefresh"]').trigger('click');
-			});
-		}
 	},
 	registerWidgetPostLoadEvent: function registerWidgetPostLoadEvent(container) {
 		var thisInstance = this;
