@@ -12,7 +12,7 @@
 				{/if}
 				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
 				<div class="js-sidebar leftPanel noSpaces" data-js="class: .open-menu">
-					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Desktop}
+					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE)}
 				</div>
 				{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}
 				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">

@@ -284,7 +284,7 @@ app = {
 			container.remove();
 		}
 		container = $('<div></div>');
-		container.attr('id', Window.lastModalId).addClass('modalContainer');
+		container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
 		container.one('hidden.bs.modal', function () {
 			container.remove();
 			var backdrop = $('.modal-backdrop');
@@ -310,10 +310,13 @@ app = {
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
 	hideModalWindow: function (callback, id) {
-		if (id == undefined) {
-			var container = $('.modalContainer');
+		let container;
+		if (typeof callback === 'object') {
+			container = callback;
+		} else if (id == undefined) {
+			container= $('.modalContainer');
 		} else {
-			var container = $('#' + id);
+			container = $('#' + id);
 		}
 		if (container.length <= 0) {
 			return;
@@ -322,11 +325,10 @@ app = {
 			callback = function () {
 			};
 		}
-		var modalContainer = container.find('.modal');
+		let modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = $('.modal-backdrop:last');
-		var modalContainers = $('.modalContainer');
-		if (modalContainers.length == 0 && backdrop.length) {
+		let backdrop = $('.modal-backdrop:last');
+		if ($('.modalContainer').length == 0 && backdrop.length) {
 			backdrop.remove();
 		}
 		modalContainer.one('hidden.bs.modal', callback);
