@@ -1860,9 +1860,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerRelatedModulesRecordCount: function (tabContainer) {
 		var thisInstance = this;
-		if (!jQuery.isFunction(thisInstance.refreshRelatedList)) {
-			thisInstance = new Vtiger_Detail_Js();
-		}
 		var counter = [];
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
@@ -1883,7 +1880,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (response.success) {
 						item.find('.count').text(response.result.numberOfRecords);
 						moreList.find('[data-reference="' + item.data('reference') + '"] .count').text(response.result.numberOfRecords);
-						thisInstance.refreshRelatedList();
 					}
 				});
 			}
@@ -2466,52 +2462,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		switchBtn.bootstrapSwitch('destroy');
 		switchBtn.bootstrapSwitch();
 	},
-	refreshRelatedList: function () {
-		var container = jQuery('.related');
-		var moreBtn = container.find('.dropdown');
-		var moreList = container.find('.nav .dropdown-menu');
-		var margin = 3;
-		var widthScroll = 15;
-		var totalWidth = container.width();
-		var mainNavWidth = 0;
-		var freeSpace = 0;
-		moreBtn.removeClass('d-none');
-		var widthMoreBtn = moreBtn.width() + margin;
-		moreBtn.addClass('d-none');
-		freeSpace = totalWidth - widthMoreBtn - widthScroll;
-		container.find('.nav > .mainNav').each(function (e) {
-			jQuery(this).removeClass('d-none');
-			if (freeSpace > jQuery(this).width()) {
-				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('d-none');
-				freeSpace -= Math.ceil(jQuery(this).width()) + margin;
-			} else {
-				jQuery(this).addClass('d-none');
-				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('d-none');
-				freeSpace = 0;
-			}
-		});
-		if (freeSpace === 0) {
-			moreList.find('.relatedNav').removeClass('d-none');
-			container.find('.spaceRelatedList').addClass('d-none');
-			moreBtn.removeClass('d-none');
-		} else {
-			freeSpace -= container.find('.spaceRelatedList').removeClass('d-none').width() + margin;
-			container.find('.nav > .relatedNav').each(function () {
-				jQuery(this).removeClass('d-none');
-				if (freeSpace > jQuery(this).width()) {
-					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('d-none');
-					freeSpace -= Math.ceil(jQuery(this).width()) + margin;
-				} else {
-					freeSpace = 0;
-					jQuery(this).addClass('d-none');
-					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('d-none');
-				}
-			});
-			if (freeSpace === 0) {
-				moreBtn.removeClass('d-none');
-			}
-		}
-	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
 		var commentContainer = $('.commentsBody');
@@ -2570,7 +2520,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 	registerEvents: function () {
 		const thisInstance = this;
-		thisInstance.refreshRelatedList();
 		//thisInstance.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();

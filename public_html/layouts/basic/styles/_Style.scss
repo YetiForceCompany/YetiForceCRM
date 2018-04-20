@@ -460,16 +460,6 @@ li.ui-timepicker-selected {
 	padding-bottom: 10px;
 	padding-top: 10px;
   }
-  .related .nav-pills .active > a {
-	background: #404952;
-	border-radius: 1px;
-	margin-top: 0;
-	&:hover {
-	  background: #404952;
-	  border-radius: 1px;
-	  margin-top: 0;
-	}
-  }
 }
 .commentContainer {
   border-radius: 2px;
@@ -3086,36 +3076,6 @@ html, body, .baseContainer {
 }
 .marginTop20 {
   margin-top: 20px !important;
-}
-.related {
-  .nav {
-	.relatedNav {
-	  background: #f1f1f1;
-	}
-	.dropdown {
-	  .mainNav {
-		background: #f1f1f1;
-	  }
-	  background: #f1f1f1;
-	}
-	> li > a {
-	  min-height: 38px;
-	}
-	li {
-	  position: relative !important;
-	  margin-left: 2px !important;
-	}
-  }
-  .nav-pills {
-	border-bottom: 3px solid #404952;
-  }
-  ul .dropdown-menu {
-	min-width: 300px;
-	z-index: 1025;
-  }
-  .iconModule {
-	font-size: 17px;
-  }
 }
 .detailViewIcon {
   font-size: 48px;
