@@ -1052,8 +1052,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			let iframe = $(top.document).find('.js-detail-preview');
 			mainWindowHeightCss = {height: mainBody - this.list.offset().top - iframe.offset().top + 50};
 		}
-		console.log(this.gutter.height())
-		console.log(this.list.parents('.blockContent').length);
 		if (!this.list.parents('.blockContent').length) {
 			this.gutter.css(mainWindowHeightCss);
 			this.list.css(mainWindowHeightCss);
@@ -1062,16 +1060,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				width: this.sideBlockLeft.height(),
 				height: this.sideBlockLeft.height()
 			});
-		} else if (this.list.parents('.blockContent').length) {
-			// mainWindowHeightCss = {height: '100%'};
-			// console.log(mainWindowHeightCss);
-			// this.gutter.css(mainWindowHeightCss);
-			// this.list.css(mainWindowHeightCss);
-			// this.sideBlocks.css(mainWindowHeightCss);
-			// this.rotatedText.css({
-			// 	width: mainWindowHeightCss,
-			// 	height: mainWindowHeightCss
-			// });
 		}
 		this.registerSplitEvents(container, split);
 		return split;
