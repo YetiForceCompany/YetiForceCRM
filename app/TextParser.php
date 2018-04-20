@@ -199,7 +199,6 @@ class TextParser
 		$instance->record = $record;
 		$instance->moduleName = $moduleName;
 		$instance->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
-
 		return $instance;
 	}
 
@@ -217,7 +216,6 @@ class TextParser
 		$instance->record = $recordModel->getId();
 		$instance->moduleName = $recordModel->getModuleName();
 		$instance->recordModel = $recordModel;
-
 		return $instance;
 	}
 
@@ -235,7 +233,6 @@ class TextParser
 		if ($moduleName) {
 			$instance->moduleName = $moduleName;
 		}
-
 		return $instance;
 	}
 
@@ -249,7 +246,6 @@ class TextParser
 	public function withoutTranslations($type = true)
 	{
 		$this->withoutTranslations = $type;
-
 		return $this;
 	}
 
@@ -263,7 +259,6 @@ class TextParser
 	public function setLanguage($name = true)
 	{
 		$this->language = $name;
-
 		return $this;
 	}
 
@@ -277,7 +272,6 @@ class TextParser
 	public function setType($type)
 	{
 		$this->type = $type;
-
 		return $this;
 	}
 
@@ -291,7 +285,6 @@ class TextParser
 	public function setParams($params)
 	{
 		$this->params = $params;
-
 		return $this;
 	}
 
@@ -318,7 +311,6 @@ class TextParser
 	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
 	{
 		$this->sourceRecordModel = $recordModel ? $recordModel : \Vtiger_Record_Model::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
-
 		return $this;
 	}
 
@@ -332,7 +324,6 @@ class TextParser
 	public function setContent($content)
 	{
 		$this->rawContent = $this->content = str_replace('%20%3A%20', ' : ', $content);
-
 		return $this;
 	}
 
