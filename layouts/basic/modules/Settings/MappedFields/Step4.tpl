@@ -12,7 +12,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
-							<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
 						</label>
 					</div>
 					<div class="panel-body">
