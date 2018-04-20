@@ -508,6 +508,10 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	quickCreateModule: function (moduleName, params) {
+		if (window !== window.parent) {
+			window.parent.Vtiger_Header_Js.getInstance().quickCreateModule(moduleName, params);
+			return;
+		}
 		var thisInstance = this;
 		if (typeof params == 'undefined') {
 			params = {};

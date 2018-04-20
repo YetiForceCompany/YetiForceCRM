@@ -242,10 +242,6 @@ app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
-		if (window !== window.parent) {
-			window.parent.app.showModalWindow(data, url, cb, paramsObject);
-			return;
-		}
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
