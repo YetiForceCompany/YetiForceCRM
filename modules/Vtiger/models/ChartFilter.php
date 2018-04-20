@@ -232,6 +232,27 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $sectorNumRows = [];
 
 	/**
+	 * All fields for the module.
+	 *
+	 * @var array
+	 */
+	private $fields = [];
+
+	/**
+	 * Names of the additional filters fileds.
+	 *
+	 * @var array
+	 */
+	private $additionalFiltersFieldsNames = [];
+
+	/**
+	 * Additional filters for chart.
+	 *
+	 * @var array
+	 */
+	private $additionalFiltersFields = [];
+
+	/**
 	 * Get instance.
 	 *
 	 * @param int $linkId
@@ -367,6 +388,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getFilterId($dividingValue)
 	{
 		return $this->filterIds[$dividingValue];
+	}
+
+	/**
+	 * Get additional filters fields.
+	 *
+	 * @return array
+	 */
+	public function getAdditionalFiltersFields()
+	{
+		return $this->additionalFiltersFields;
 	}
 
 	/**
@@ -821,9 +852,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get current rows.
 	 *
-	 * @param int $index row index
-	 * @param $groupValue
-	 * @param $dividingValue
+	 * @param int $index         row index
+	 * @param     $groupValue
+	 * @param     $dividingValue
 	 */
 	protected function getCurrentRows($groupValue, $dividingValue)
 	{
@@ -1140,7 +1171,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					break;
 			}
 			$searchParams = array_merge($this->searchParams, [[$this->valueName, 'm', $sectorId]]);
-			if ($previousSectorValue!==null) {
+			if ($previousSectorValue !== null) {
 				$searchParams[] = [$this->valueName, 'g', $previousSectorValue];
 			}
 			$this->sectorValues[$sectorId]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
@@ -1196,6 +1227,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Get headers from list view that are used in chart.
+	 *
+	 * @return array
+	 */
+	private function setChartHeaders()
+	{
+		foreach ($this->additionalFiltersFieldsNames as $fieldName) {
+			$this->additionalFiltersFields[] = $this->targetModuleModel->getFieldByName($fieldName);
+		}
+	}
+
+	/**
 	 * Set widget model.
 	 *
 	 * @param \Vtiger_Widget_Model $widgetModel
@@ -1214,6 +1257,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->extraData === null) {
 			throw new Exceptions\AppException('Invalid data');
 		}
+		$this->getTargetModuleModel();
+		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : $this->extraData['additionalFiltersFields'];
+		$this->setChartHeaders();
 		$this->chartType = $this->extraData['chartType'];
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
 		$this->stacked = !empty($this->extraData['stacked']);
@@ -1316,5 +1362,28 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function isColor()
 	{
 		return false;
+	}
+
+	/**
+	 * Get all available fields for additional filter.
+	 *
+	 * @return array
+	 */
+	public function getFields()
+	{
+		if (!$this->fields) {
+			$moduleBlockFields = Vtiger_Field_Model::getAllForModule($this->targetModuleModel);
+			$this->fields = [];
+			foreach ($moduleBlockFields as $moduleFields) {
+				foreach ($moduleFields as $moduleField) {
+					$block = $moduleField->get('block');
+					if (empty($block)) {
+						continue;
+					}
+					$this->fields[$moduleField->get('name')] = $moduleField;
+				}
+			}
+		}
+		return $this->fields;
 	}
 }

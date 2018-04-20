@@ -26,22 +26,25 @@
 			</div>
 		</div>
 		{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
-		{if $WIDGET_DATA['timeRange'] || $WIDGET_DATA['showOwnerFilter']}
+		{if !empty($WIDGET_DATA['additionalFiltersFields'])}
 			<hr class="widgetHr" />
 		{/if}
 		<div class="row">
-			{if $WIDGET_DATA['timeRange']}
+			{foreach item=FIELD from=$ADDITIONAL_FITERS_FIELDS}
+					{assign var=FIELD_UI_TYPE_MODEL value=$FIELD->getUITypeModel()}
+					{assign var=FIELD_NAME value=$FIELD->getName()}
+					{if isset($SEARCH_DETAILS[$FIELD_NAME])}
+						{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$FIELD_NAME]}
+					{else}
+						{assign var=SEARCH_INFO value=[]}
+					{/if}
 				<div class="col-md-6">
-					<div class="input-group input-group-sm">
-						<div class="input-group-prepend">
-							<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
-								<span class="far fa-clock"></span>
-							</span>
-						</div>
-						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+					<div class="input-group input-group-sm flex-nowrap">
+						{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
+						FIELD_MODEL=$FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 					</div>
 				</div>
-			{/if}
+			{/foreach}
 			{if $WIDGET_DATA['showOwnerFilter']}
 				<div class="col-md-6 ownersFilter">
 					<div class="input-group input-group-sm flex-nowrap">

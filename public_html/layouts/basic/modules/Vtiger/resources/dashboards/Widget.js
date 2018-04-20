@@ -1292,7 +1292,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
-		this.registerUserList();
 		this.registerHeaderButtons();
 	},
 	postRefreshWidget: function postRefreshWidget() {
@@ -1327,22 +1326,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var faIcon = currentElement.find('[data-fa-i2svg]');
 			faIcon.removeClass().addClass('[data-fa-i2svg]').addClass(icon);
 			drefresh.data('url', url);
-		}
-	},
-	registerUserList: function registerUserList() {
-		var container = this.getContainer();
-		var header = container.find('.dashboardWidgetHeader');
-		var ownersFilter = header.find('.ownersFilter')
-		if (ownersFilter.length) {
-			var owners = container.find('.widgetOwners').val();
-			if (owners) {
-				var select = ownersFilter.find('select');
-				$.each(JSON.parse(owners), function (key, value) {
-					select.append($('<option>', {
-						value: key
-					}).text(value));
-				});
-			}
 		}
 	},
 	getChartImage() {
@@ -1551,6 +1534,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	registerFilter: function registerFilter() {
 		var thisInstance = this;
 		var container = this.getContainer();
+		container.find('.select2').css('width','100%');
+		container.find('.select2').parent().addClass('w-100');
+		App.Fields.Picklist.changeSelectElementView(container);
+		/*
 		var dateRangeElement = container.find('input.dateRangeField');
 		if (dateRangeElement.length <= 0) {
 			return;
@@ -1561,7 +1548,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
 			container.find('a[name="drefresh"]').trigger('click');
-		});
+		});*/
 	},
 	registerFilterChangeEvent: function registerFilterChangeEvent() {
 		var container = this.getContainer();
