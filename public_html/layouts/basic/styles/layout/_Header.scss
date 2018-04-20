@@ -176,6 +176,10 @@
 	.actionMenuBtn {
 		display: none;
 	}
+	.o-action-menu__item {
+		display: inline-block;
+		vertical-align: top;
+	}
 }
 //mobile
 @media(max-width: 767px) {
@@ -222,6 +226,9 @@
 				float: none;
 				margin-bottom: 5px;
 			}
+		}
+		.o-action-menu__item {
+			display: block;
 		}
 		&.actionMenuOn {
 			.o-action-menu__container {

@@ -133,24 +133,26 @@
 }
 
 //action dropdowns
-.actions {
-  display: inline-block;
-  vertical-align: top;
-  .dropdown-menu {
-    padding: 0.2rem;
-    margin-top: -0.2rem;
-    .btn-group {
-      vertical-align: top;
-    }
-    .btn-xs {
-      @extend .btn-sm;
-    }
-  }
-}
-
 .rightRecordActions,
 .leftRecordActions {
   white-space: nowrap;
+  > div {
+    display: inline-block;
+  }
+  .actions {
+    display: inline-block;
+    margin: 0 0.25rem;
+    .dropdown-menu {
+      padding: 0.2rem;
+      margin-top: -0.2rem;
+      .btn-group {
+        vertical-align: top;
+      }
+      .btn-xs {
+        @extend .btn-sm;
+      }
+    }
+  }
 }
 .leftRecordActions {
   .dropdown-toggle {
