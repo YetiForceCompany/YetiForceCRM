@@ -1534,9 +1534,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	registerFilter: function registerFilter() {
 		var thisInstance = this;
 		var container = this.getContainer();
-		container.find('.select2').css('width','100%');
-		container.find('.select2').parent().addClass('w-100');
+		container.find('.listSearchContributor').css('width','100%');
+		container.find('.listSearchContributor').parent().addClass('w-100');
 		App.Fields.Picklist.changeSelectElementView(container);
+		App.Fields.Date.register(container);
+		App.Fields.Date.registerRange(container);
 		/*
 		var dateRangeElement = container.find('input.dateRangeField');
 		if (dateRangeElement.length <= 0) {
