@@ -898,6 +898,18 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			mainViewPortHeightCss = {height: mainBody.height()};
 			mainViewPortWidthCss = {width: mainBody.height()};
 		}
+		this.list.on('click', '.listViewEntries', () => {
+			if (this.split.getSizes()[1] < 10) {
+				const defaultGutterPosition = this.getDefaultSplitSizes();
+				this.split.setSizes(defaultGutterPosition);
+				listPreview.show();
+				this.sideBlockRight.removeClass('d-block');
+				app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
+			}
+		});
+		if (this.list.parents('.blockContent').length) {
+			return;
+		}
 		mainBody.on('scroll', () => {
 			if (mainBody.scrollTop() >= listOffsetTop) {
 				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
@@ -912,15 +924,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					width: initialH + mainBody.scrollTop(),
 					height: initialH + mainBody.scrollTop(),
 				});
-			}
-		});
-		this.list.on('click', '.listViewEntries', () => {
-			if (this.split.getSizes()[1] < 10) {
-				const defaultGutterPosition = this.getDefaultSplitSizes();
-				this.split.setSizes(defaultGutterPosition);
-				listPreview.show();
-				this.sideBlockRight.removeClass('d-block');
-				app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
 			}
 		});
 	},
@@ -1049,13 +1052,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			let iframe = $(top.document).find('.js-detail-preview');
 			mainWindowHeightCss = {height: mainBody - this.list.offset().top - iframe.offset().top + 50};
 		}
-		this.gutter.css(mainWindowHeightCss);
-		this.list.css(mainWindowHeightCss);
-		this.sideBlocks.css(mainWindowHeightCss);
-		this.rotatedText.css({
-			width: this.sideBlockLeft.height(),
-			height: this.sideBlockLeft.height()
-		});
+		if (!this.list.parents('.blockContent').length) {
+			this.gutter.css(mainWindowHeightCss);
+			this.list.css(mainWindowHeightCss);
+			this.sideBlocks.css(mainWindowHeightCss);
+			this.rotatedText.css({
+				width: this.sideBlockLeft.height(),
+				height: this.sideBlockLeft.height()
+			});
+		}
 		this.registerSplitEvents(container, split);
 		return split;
 	},

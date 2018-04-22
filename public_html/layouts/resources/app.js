@@ -236,7 +236,6 @@ app = {
 			});
 		});
 		modalContainer.modal(params);
-
 		$('body').append(container);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
@@ -1270,6 +1269,26 @@ app = {
 			});
 		});
 	},
+	registerTabdrop: function () {
+		let tabs = $('.js-tabdrop');
+		let tab  = tabs.find('> li');
+		tab.each(function() {
+			$(this).removeClass('d-none');
+		});
+		tabs.tabdrop({
+			text: app.vtranslate('JS_MORE'),
+		});
+		//change position to the last element (wcag keyboard navigation)
+		let dropdown = tabs.find('> li.dropdown');
+		dropdown.appendTo(tabs);
+		//fix for toggle button text not changing
+		tab.on('click', function(e){
+			setTimeout(function(){
+				$(window).trigger('resize');
+			}, 500);
+		});
+
+	},
 	getScreenHeight: function (percantage) {
 		if (typeof percantage == 'undefined') {
 			percantage = 100;
@@ -1375,6 +1394,7 @@ $(document).ready(function () {
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	app.registerMenu();
+	app.registerTabdrop();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
