@@ -237,7 +237,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$this->getEntryExtend($recordModel);
 			$relatedRecordList[$row['id']] = $recordModel;
 		}
-
 		return $relatedRecordList;
 	}
 

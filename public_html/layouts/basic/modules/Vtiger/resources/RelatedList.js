@@ -606,9 +606,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.content.find('.listViewEntries').on('click', function (e) {
 				if ($(e.target).is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
-						top.document.location.href = target.closest('tr').data('recordurl');
+						top.document.location.href = $(e.target).closest('tr').data('recordurl');
 					} else {
-						document.location.href = target.closest('tr').data('recordurl');
+						document.location.href = $(e.target).closest('tr').data('recordurl');
 					}
 				}
 			});

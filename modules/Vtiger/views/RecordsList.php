@@ -108,7 +108,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$sourceModule = $request->getByType('src_module', 2);
 		$sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
 		$sourceField = $request->isEmpty('src_field', true) ? '' : $request->getByType('src_field', 2);
-		$currencyId = $request->getInteger('currency_id');
+		$currencyId = $request->isEmpty('currency_id', true) ? '' : $request->getInteger('currency_id');
 		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
 		$filterFields = $request->getArray('filterFields', 'Alnum');
@@ -205,6 +205,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
+		}
+		if ($currencyId) {
+			$listViewModel->set('currency_id', $currencyId);
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$listViewHeaders = $listViewModel->getHeaders();

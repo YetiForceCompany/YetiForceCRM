@@ -90,12 +90,13 @@
 							</a>
 						{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 							{if $HEADER_FIELD->get('isEditable')}
-								<input name="{$RELATED_HEADERNAME}" class="form-control"
+								<input name="{$RELATED_HEADERNAME}" class="form-control form-control-sm js-edit-{$RELATED_HEADERNAME} {$HEADER_FIELD->get('class')}"
 									   title="{App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE_NAME)}"
 									   value="{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}"
+									   data-js="change"
 								/>
 							{else}
-								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}11
+								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 							{/if}
 						{else}
 							{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}

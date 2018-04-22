@@ -14,7 +14,6 @@ class PriceBooks_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_RELATION', $request->getBoolean('relationOperation'));
-
 		parent::process($request);
 	}
 }

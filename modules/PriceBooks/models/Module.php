@@ -26,11 +26,6 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 				$subQuery = (new App\Db\Query())->select(['pricebookid'])
 					->from('vtiger_pricebookproductrel')->where(['productid' => $record]);
 				$condition = ['and', ['vtiger_pricebook.pricebookid' => $subQuery], ['vtiger_pricebook.currency_id' => $queryGenerator->currencyId], ['vtiger_pricebook.active' => 1]];
-			} elseif ($field === 'productsRelatedList') {
-				$subQuery = (new App\Db\Query())->select(['pricebookid'])
-					->from('vtiger_pricebookproductrel')
-					->where(['productid' => $record]);
-				$condition = ['and', ['not in', 'vtiger_pricebook.pricebookid', $subQuery], ['vtiger_pricebook.active' => 1]];
 			}
 			$queryGenerator->addNativeCondition($condition);
 		}
@@ -62,7 +57,6 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 				$popupFields['currency_id'] = 'currency_id';
 			}
 		}
-
 		return $popupFields;
 	}
 }

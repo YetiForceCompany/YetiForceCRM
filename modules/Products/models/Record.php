@@ -71,7 +71,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 		$priceDetails = $this->getPriceDetailsForProduct($this->getId(), $this->get('unit_price'), 'available', $this->getModuleName());
 		$this->set('priceDetails', $priceDetails);
-
 		return $priceDetails;
 	}
 
@@ -207,11 +206,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
 		if ($isExists) {
-			App\Db::getInstance()->createCommand()
+			$status =App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
 				->execute();
 		} else {
-			App\Db::getInstance()->createCommand()
+			$status =App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $relatedRecordId,
 					'productid' => $this->getId(),
@@ -219,6 +218,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					'usedcurrency' => $currencyId,
 				])->execute();
 		}
+		return $status;
 	}
 
 	public function getPriceDetailsForProduct($productId, $unitPrice, $available = 'available', $itemType = 'Products')
@@ -312,7 +312,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 
 		\App\Log::trace('Exit from function getPriceDetailsForProduct(' . $productId . ')');
-
 		return $priceDetails;
 	}
 

@@ -430,7 +430,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$recordInstance->setFullForm(false);
-
 		return $recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
 	}
 

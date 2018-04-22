@@ -71,7 +71,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$relationModuleModel = Vtiger_Record_Model::getInstanceById($destinationRecordId, $relatedModuleName);
 
 		$productModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
-		$productModel->updateListPrice($destinationRecordId, $listPrice, $relationModuleModel->get('currency_id'));
+		return $productModel->updateListPrice($destinationRecordId, $listPrice, $relationModuleModel->get('currency_id'));
 	}
 
 	/**

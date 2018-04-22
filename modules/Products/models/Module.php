@@ -64,7 +64,6 @@ class Products_Module_Model extends Vtiger_Module_Model
 
 			return $specificQuery;
 		}
-
 		return parent::getSpecificRelationQuery($relatedModule);
 	}
 
@@ -79,14 +78,14 @@ class Products_Module_Model extends Vtiger_Module_Model
 	public function getPricesForProducts($currencyId, $productIdsList)
 	{
 		$priceList = [];
-		if (count($productIds) > 0) {
-			if ($this->getName() == 'Services') {
+		if (count($productIdsList) > 0) {
+			if ($this->getName() === 'Services') {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
 							'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
 							->from('vtiger_service')
 							->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
 							->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-							->where(['vtiger_service.serviceid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
+							->where(['vtiger_service.serviceid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
 							->createCommand()->query();
 			} else {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
@@ -94,14 +93,14 @@ class Products_Module_Model extends Vtiger_Module_Model
 							->from('vtiger_products')
 							->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
 							->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-							->where(['vtiger_products.productid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
+							->where(['vtiger_products.productid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
 							->createCommand()->query();
 			}
 			while ($row = $dataReader->read()) {
 				$productId = $row['productid'];
 				if (\App\Field::getFieldPermission($this->getName(), 'unit_price')) {
 					$actualPrice = (float) $row['actual_price'];
-					if ($actualPrice === null || $actualPrice == '') {
+					if ($actualPrice === null || $actualPrice === '') {
 						$actualPrice = $row['unit_price'] * $row['conversion_rate'] * Products_Record_Model::getBaseConversionRateForProduct($productId, 'edit', $this->getName());
 					}
 					$priceList[$productId] = $actualPrice;
@@ -111,7 +110,6 @@ class Products_Module_Model extends Vtiger_Module_Model
 			}
 			$dataReader->close();
 		}
-
 		return $priceList;
 	}
 

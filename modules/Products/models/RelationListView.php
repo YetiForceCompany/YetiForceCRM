@@ -42,12 +42,10 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	{
 		$relationModel = $this->getRelationModel();
 		$parentModel = $this->getParentRecordModel();
-
 		$isSubProduct = false;
 		if ($parentModel->getModule()->getName() == $relationModel->getRelationModuleModel()->getName()) {
 			$isSubProduct = $relationModel->isSubProduct($parentModel->getId());
 		}
-
 		if (!$isSubProduct) {
 			return parent::getLinks();
 		}
@@ -59,7 +57,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
-		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
+		if ($this->getRelationModel()->get('modulename') === 'IStorages' && $this->getRelationModel()->get('name') === 'getManyToMany') {
 			$qtyInStockField = new Vtiger_Field_Model();
 			$qtyInStockField->setModule(Vtiger_Module_Model::getInstance('IStorages'));
 			$qtyInStockField->set('name', 'qtyinstock');
@@ -68,7 +66,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 			$qtyInStockField->set('fromOutsideList', true);
 			$headerFields['qtyinstock'] = $qtyInStockField;
 		}
-		if ($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
+		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
 			//Added to support Unit Price
 			$moduleModel = Vtiger_Module_Model::getInstance('PriceBooks');
 			$unitPriceField = new Vtiger_Field_Model();
@@ -77,9 +75,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 			$unitPriceField->set('column', 'unit_price');
 			$unitPriceField->set('label', 'Unit Price');
 			$unitPriceField->set('fromOutsideList', true);
-
 			$headerFields['unit_price'] = $unitPriceField;
-
 			//Added to support List Price
 			$field = new Vtiger_Field_Model();
 			$field->setModule($moduleModel);
@@ -87,11 +83,11 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 			$field->set('column', 'listprice');
 			$field->set('label', 'List Price');
 			$field->set('typeofdata', 'N~O');
+			$field->set('isEditable', true);
 			$field->set('fromOutsideList', true);
-
+			$field->set('class', 'validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]');
 			$headerFields['listprice'] = $field;
 		}
-
 		return $headerFields;
 	}
 }

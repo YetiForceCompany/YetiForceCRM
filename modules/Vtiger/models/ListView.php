@@ -463,6 +463,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$sourceModule = $this->get('src_module');
 		if ($sourceModule) {
 			$moduleModel = $this->getModule();
+
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
 				$moduleModel->getQueryByModuleField($sourceModule, $this->get('src_field'), $this->get('src_record'), $queryGenerator);
 			}
