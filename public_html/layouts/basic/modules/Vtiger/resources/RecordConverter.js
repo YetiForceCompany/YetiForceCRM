@@ -6,7 +6,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 	 * @returns {{module: string, view: string, convertType: integer, fieldMerge: string, onlyBody: boolean, destinyModule: string, inView: string}}
 	 */
 	getParams: function () {
-		var params = {
+		let params = {
 			module: this.container.data('module'),
 			view: this.container.data('view'),
 			convertType: this.container.find('.js-convert-type option:selected').val(),
@@ -36,7 +36,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 	},
 	/**
 	 * Function load modal window
-	 * @returns {*}
+	 * @returns {object}
 	 */
 	loadModalWindow: function () {
 		let body = this.container.find('.modal-body')
@@ -50,6 +50,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 		AppConnector.request(this.getParams()).then(function (responseData) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			body.html(responseData);
+			App.Fields.Picklist.showSelect2ElementView(body.find('.select2'));
 			aDeferred.resolve(responseData);
 		}, function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
@@ -68,14 +69,15 @@ $.Class("Base_RecordConverter_JS", {}, {
 	},
 	/**
 	 * Function listener to send a form
+	 * * @returns {object}
 	 */
 	registerSubmitForm: function () {
 		var thisInstance = this;
 		thisInstance.container.on('click', "[name='saveButton']", function (e) {
-			var destinyModule = thisInstance.container.find('.js-convert-type option:selected').attr('data-destiny-module');
-			var convertType = thisInstance.container.find('.js-convert-type option:selected').val();
+			let destinyModule = thisInstance.container.find('.js-convert-type option:selected').attr('data-destiny-module');
+			let convertType = thisInstance.container.find('.js-convert-type option:selected').val();
 			if (convertType) {
-				let formData = thisInstance.container.find('form').serializeFormData();
+				var formData = thisInstance.container.find('form').serializeFormData();
 				if (app.getViewName() === 'List') {
 					let listInstance = Vtiger_List_Js.getInstance();
 					let validationResult = listInstance.checkListRecordSelected();
@@ -103,15 +105,22 @@ $.Class("Base_RecordConverter_JS", {}, {
 				});
 				AppConnector.request($.extend(formData, postData)).then(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
-					var parseResult = JSON.parse(responseData);
-					console.log(responseData.createdRecords, responseData['createdRecords'], parseResult, parseResult.result.createdRecords)
-					//TODO Z Mariuszem przegadać przy przekierowujemy czy link w powiadomieniu
+					let parseResult = JSON.parse(responseData);
 					/*
 					if(responseData.result.redirect){
 						window.location.href = responseData.result.redirect;
 					}*/
 					if(parseResult.result.createdRecords){
-
+						Vtiger_Helper_Js.showMessage({
+							text: app.vtranslate(parseResult.result.createdRecords),
+							type: 'success',
+						});
+					}
+					if (parseResult.result.error) {
+						Vtiger_Helper_Js.showMessage({
+							text: app.vtranslate(parseResult.result.error),
+							type: 'error',
+						});
 					}
 					app.hideModalWindow();
 					aDeferred.resolve(responseData);

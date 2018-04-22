@@ -41,15 +41,11 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 		$redirect = '';
 		if (count($records) === 1 && $convertInstance->get('redirect_to_edit')) {
 			$redirect = 'index.php?module=' . $request->getByType('destinyModule') . '&view=Edit&recordConverter=' . $request->getInteger('convertId') . '&sourceId=' . $records[0] . '&sourceModule=' . $moduleName;
-		} elseif ($convertInstance->get('change_view') && $request->getByType('viewInfo') === 'Detail') {
-			$convertRecordModel = $convertInstance->processToEdit($records[0], $destinyModule);
-			$convertRecordModel[0]->save();
-			$redirect = "index.php?module=$destinyModule&view=Detail&record={$convertRecordModel[0]->getId()}";
 		} else {
 			$convertInstance->process($records, $request->getByType('destinyModule'));
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['redirect' => $redirect, 'createdRecords' => sprintf(\App\Language::translate('LBL_CREATED_CONVERT_RECORDS', $moduleName), count($convertInstance->cleanRecordModels))]);
+		$response->setResult(['redirect' => $redirect, 'createdRecords' => sprintf(\App\Language::translate('LBL_CREATED_CONVERT_RECORDS', $moduleName), $convertInstance->createdRecords), 'error' => $convertInstance->error]);
 		$response->emit();
 	}
 }
