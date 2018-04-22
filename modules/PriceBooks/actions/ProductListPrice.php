@@ -17,23 +17,19 @@ class PriceBooks_ProductListPrice_Action extends \App\Controller\Action
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
+		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		$moduleModel = $request->getModule();
-		$priceBookModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-		$listPrice = $priceBookModel->getProductsListPrice($request->getInteger('itemId'));
+		$priceBookModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$response = new Vtiger_Response();
-		$response->setResult([$listPrice]);
+		$response->setResult($priceBookModel->getProductsListPrice($request->getInteger('src_record')));
 		$response->emit();
 	}
 }
