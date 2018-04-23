@@ -467,7 +467,7 @@ App.Fields = {
 			}
 			params.language = {};
 			params.theme = "bootstrap";
-			params.containerCssClass='form-control';
+			params.containerCssClass = 'form-control';
 			params.language.noResults = function (msn) {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
