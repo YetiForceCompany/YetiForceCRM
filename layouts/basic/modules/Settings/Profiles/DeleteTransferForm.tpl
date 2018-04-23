@@ -14,8 +14,13 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
-					<button class="btn btn-warning" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">
+						<span class="fas fa-trash-alt mr-1"></span>
+						{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -41,10 +46,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class="float-right cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
-						</div>
-						<button class="btn btn-success float-right" type="submit"><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
+						<button class="btn btn-success" type="submit"><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
+						<button class="cancelLink btn btn-danger" data-dismiss="modal" type="reset"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>
 				</form>
 			</div>				
