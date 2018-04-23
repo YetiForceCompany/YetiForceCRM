@@ -159,3 +159,6 @@
 .btn-default {
 	@include button-variant(#ddd, #ddd);
 }
+.settingsIndexPage pre{
+  white-space: pre-line;
+}
