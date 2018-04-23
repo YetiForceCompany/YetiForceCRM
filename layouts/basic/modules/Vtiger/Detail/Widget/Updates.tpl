@@ -15,11 +15,11 @@
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch" type="radio" name="options" id="option1"
-									   value="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off"
+									   data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off"
 									   checked> {$WIDGET['switchHeaderLables']['on']}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2" value="{$WIDGET['switchHeader']['off']}"
+								<input class="js-switch" type="radio" name="options" id="option2" data-off-val="{$WIDGET['switchHeader']['off']}"
 									   data-urlparams="whereCondition" autocomplete="off"> {$WIDGET['switchHeaderLables']['off']}
 							</label>
 						</div>
