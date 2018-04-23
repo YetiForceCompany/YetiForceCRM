@@ -1492,34 +1492,59 @@ jQuery.Class('Vtiger_Widget_Js', {
 		);
 	},
 	registerFilter: function registerFilter() {
-		const thisInstance = this;
 		const container = this.getContainer();
 		const search = container.find('.listSearchContributor');
+		const refreshBtn = container.find('a[name="drefresh"]');
+		const originalUrl = refreshBtn.data('url');
 		search.css('width', '100%');
 		search.parent().addClass('w-100');
 		App.Fields.Picklist.changeSelectElementView(container);
 		App.Fields.Date.register(container);
 		App.Fields.Date.registerRange(container);
 		search.on('change apply.daterangepicker', (e) => {
-			const target = $(e.target);
-			const value = target.val();
-			const name = target.prop('name');
-			let sendInput = container.find(`input[name="additional_filter_field[${name}]"]`);
-			if(sendInput.length===0){
-				sendInput = container.find(`input[name="additional_filter_field[${name}][]"]`);
-			}
-			const parent = sendInput.parent();
-			if (Array.isArray(value)) {
-				value.forEach((val) => {
-					const input = $(`<input type="hidden" name="additional_filter_field[${name}][]" class="js-chartFilter__additional-filter-field">`).val(val);
-					parent.prepend(input);
-				});
-			} else {
-				const input = $(`<input type="hidden" name="additional_filter_field[${name}]" class="js-chartFilter__additional-filter-field">`).val(value);
-				parent.prepend(input);
-			}
-			sendInput.remove();
-			container.find('a[name="drefresh"]').trigger('click');
+			const searchParams = [];
+			container.find('.listSearchContributor').each(function (index, domElement) {
+				var searchInfo = [];
+				var searchContributorElement = $(domElement);
+				var fieldInfo = searchContributorElement.data('fieldinfo');
+				var fieldName = searchContributorElement.attr('name');
+				var searchValue = searchContributorElement.val();
+
+				if (typeof searchValue == "object") {
+					if (searchValue == null) {
+						searchValue = "";
+					} else {
+						searchValue = searchValue.join('##');
+					}
+				}
+				searchValue = searchValue.trim();
+				if (searchValue.length <= 0) {
+					//continue
+					return true;
+				}
+
+				var searchOperator = 'a';
+				if (fieldInfo.hasOwnProperty("searchOperator")) {
+					searchOperator = fieldInfo.searchOperator;
+				} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'multiReferenceValue']) >= 0) {
+					searchOperator = 'e';
+				} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+					searchOperator = 'bw';
+				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
+					searchOperator = 'c';
+				}
+				searchInfo.push(fieldName);
+				searchInfo.push(searchOperator);
+				searchInfo.push(searchValue);
+				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
+					var searchInSubcategories = jQuery('.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
+					searchInfo.push(searchInSubcategories);
+				}
+				searchParams.push(searchInfo);
+			});
+			let url = originalUrl+ '&search_params=' + JSON.stringify(searchParams);
+			refreshBtn.data('url',url);
+			refreshBtn.trigger('click');
 		});
 
 	},

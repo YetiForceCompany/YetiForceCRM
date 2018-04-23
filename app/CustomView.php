@@ -549,7 +549,7 @@ class CustomView
 		if (!$this->module) {
 			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
 		}
-		if (empty($cvIds) || static::isMultiViewId($cvIds)) {
+		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
 			return $this->_getAdvFilterByCvid($cvIds);
 		}
 		$advftCriteria = [];
