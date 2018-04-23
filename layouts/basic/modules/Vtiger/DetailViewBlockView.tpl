@@ -23,7 +23,7 @@
 					<div class="blockHeader c-panel__header">
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if $IS_HIDDEN}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
-						<h4>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h4>
+						<h5>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
 					</div>
 					<div class="c-panel__body blockContent {if $IS_HIDDEN}d-none{/if}">
 						{assign var=COUNTER value=0}

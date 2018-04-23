@@ -13,7 +13,7 @@
 	{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', 'Vtiger')}
     <input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
 	<div class="js-toggle-panel c-panel c-panel--edit row mx-1 mb-3" data-js="click" data-label="{$BLOCK_LABEL}">
-		<div class="blockHeader c-panel__header align-items-center u-cursor-pointer">
+		<div class="blockHeader c-panel__header align-items-center">
 			<div class="col-md-8 form-row pl-1">
 				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide"></span>
 				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show"></span>
