@@ -8,7 +8,7 @@
 					{\App\Language::translate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>
-			<div class="row">
+			<div class="row align-items-center my-1">
 				<div class="col-md-4 btn-toolbar">
 					<button class="btn btn-light addButton" id="addButton" data-url="{$MODULE_MODEL->getCreateRecordUrl()}">
 						<span class="fas fa-plus"></span>&nbsp;
@@ -29,7 +29,7 @@
 						{/foreach}
 					</select>
 				</div>
-				<div class="col-md-4 btn-toolbar">
+				<div class="col-md-4 btn-toolbar justify-content-end">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>
