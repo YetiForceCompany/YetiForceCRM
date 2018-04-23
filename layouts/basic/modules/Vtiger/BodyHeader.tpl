@@ -5,7 +5,7 @@
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
-					<a class="btn btn-light headerButton ml-0 " href="#">
+					<a class="btn btn-light headerButton ml-0 js-sidebar-btn" role="button" href="#" data-js="click" aria-haspopup="true" aria-expanded="false">
 						<span class="fas fa-bars fa-fw"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_MENU')}</span>
 					</a>

@@ -18,6 +18,12 @@
 	z-index: 1030;
 	background: $y-menu-background;
 	
+	.menuContainer {
+		height: calc(100% - 50px);
+		width: 100%;
+		position: relative;
+	}
+	
 	.menuContainer .modulesList .menuIcon {
 		padding-right: 18px;
 		font-size: 1.6em;
@@ -35,22 +41,22 @@
 			cursor: pointer;
 		}
 	}
-	.menuContainer {
+	.tpl-Menu {
 		a {
+			display: inline-flex;
+			width: 100%;
 			border-radius: 0;
 			vertical-align: text-top;
-			padding: 6px 15px 6px 55px;
+			padding: 8px 30px 8px 55px;
 			word-wrap: break-word;
 			font-size: 16px;
 			background: $y-menu-background;
-			&:hover, &:focus {
+			&:hover {
 				color: $y-menu-background;
 				background: $y-menu-font-color;
 			}
 			&.hasIcon {
-				padding: 8px 12px;
-				display: inline-flex;
-				width: 100%;
+				padding: 8px 30px 8px 12px;
 			}
 			.menuName {
 				top: -1px;
@@ -70,17 +76,44 @@
 				position: relative;
 				top: 2px;
 			}
-		}
-		.subMenu {
-			display: none;
-			&.expand {
-				display: block;
+			position: relative;
+			.toggler {
+				position: absolute;
+				right: 12px;
+				font-size: 10px;
+				line-height: 24px;
+				
 			}
+			&.collapsed .toggler {
+				.fa-minus-circle {
+					display: none;
+				}
+			}
+			&:not(.collapsed) .toggler {
+				.fa-plus-circle {
+					display: none;
+				}
+			}
+		}
+		.tpl-menu-SubMenu {
 			background: $y-menu-font-color;
 			color: $y-menu-background;
-			li.menuLabel > a {
+			a {
+				font-size: 14px;
+				color: $y-menu-background;
+				background: $y-menu-font-color;
+				&:hover {
+					color: $y-menu-font-color;
+					background: $y-menu-background;
+				}
+				&.hasIcon {
+					padding: 6px 12px;
+				}
+			}
+			.menuLabel > a {
 				font-weight: 600;
 				text-transform: uppercase;
+				padding: 6px 12px;
 			}
 			button {
 				border-width: 0;
@@ -88,32 +121,18 @@
 				background: #f0f1f1;
 				text-align: left;
 				padding-left: 50px;
-				&:hover, &:focus {
+				&:hover {
 					color: $y-menu-font-color;
 					background: $y-menu-background;
 				}
 				&.hasIcon {
 					padding: 6px 12px;
-				}
-			}
-			a, .menuLabel {
-				font-size: 14px;
-				color: $y-menu-background;
-				background: $y-menu-font-color;
-				&:hover, &:focus {
-					color: $y-menu-font-color;
-					background: $y-menu-background;
-				}
-				&.hasIcon {
-					padding: 6px 12px;
-				}
-				a {
-					padding: 0 !important;
 				}
 			}
 		}
 	}
 }
+
 .related {
 	.nav-pills {
 		border-bottom: 3px solid $y-rtabs-border-color;
@@ -181,9 +200,6 @@
 	@extend .dropdown-item;
 }
 @media only screen and (max-width: 768px) {
-	.baseContainer:not(.leftPanelOpen) {
-		margin-left: 0px;
-	}
 	.dropdown-menu {
 		max-height: 500px;
 		overflow-y: auto;

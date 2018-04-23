@@ -2319,7 +2319,7 @@ html, body, .baseContainer {
   margin: 0;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-  ::i-block-chrome, .baseContainer .leftPanel .menuContainer .subMenu a .menuName, ::i-block-chrome, .baseContainer .leftPanel .menuContainer .subMenu button .menuName {
+  ::i-block-chrome, ::i-block-chrome {
 	top: -4px;
   }
 }
@@ -2366,13 +2366,6 @@ html, body, .baseContainer {
   .headerLink > li > ul > li > a {
 	color: #000;
   }
-}
-.menuContainer {
-  overflow-y: auto;
-  overflow-x: hidden !important;
-  height: calc(100% - 50px);
-  width: 100%;
-  position: relative;
 }
 .vakata-context {
   z-index: 1031;
