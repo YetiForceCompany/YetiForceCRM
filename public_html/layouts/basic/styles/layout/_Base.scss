@@ -32,7 +32,8 @@
 	  height: 100%;
 	}
   }
-  &:not(.leftPanelOpen) .leftPanel.open-menu + .bodyHeader {
+  &:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader,
+  &:not(.leftPanelOpen) .leftPanel.js-expand + .bodyHeader {
 	left: 230px;
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
@@ -51,4 +52,15 @@
   left: 210px;
   -webkit-transition: left ease-in-out 0.3s;
   transition: left ease-in-out 0.3s;
+}
+@media only screen and (max-width: 768px) {
+	.baseContainer:not(.leftPanelOpen) {
+		margin-left: 0px;
+		.leftPanel:hover + .bodyHeader,
+		.leftPanel.js-expand + .bodyHeader {
+			+ .basePanel {
+			  left: 230px;
+			}
+		}
+	}
 }

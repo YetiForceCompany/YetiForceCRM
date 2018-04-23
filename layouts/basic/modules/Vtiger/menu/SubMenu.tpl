@@ -7,8 +7,8 @@
 		{else}
 			{assign var=EXPAND value='false'}
 		{/if}
-		<ul class="tpl-menu-SubMenu nav subMenu {if $EXPAND=='true'}expand{/if}" role="menu" 
-			{if $EXPAND=='true'}aria-expanded="true" aria-hidden="false"{else}aria-expanded="false" aria-hidden="true"{/if}>
+		<div class="tpl-menu-SubMenu js-submenu collapse{if $EXPAND=='true'} show{/if}" id="submenu-{$MENU['id']}" data-js="bootstrap:collapse" data-parent="#js-menu">
+		<ul class="nav flex-column">
 			{foreach key=KEY item=MENU from=$MENUS}
 				{assign var=MENU_MODULE value='Menu'}
 				{if isset($MENU['moduleName'])}
@@ -22,5 +22,6 @@
 				{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE)}
 			{/foreach}
 		</ul>
+		</div>
 	{/if}
 {/strip}

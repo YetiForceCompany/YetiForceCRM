@@ -1225,48 +1225,60 @@ app = {
 		});
 	},
 	registerMenu: function () {
-		let btn 	= $('.js-menu-btn').first(),
+		const key	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
+		let btn 	= $('.js-sidebar-btn').first(),
 			side 	= $('.js-sidebar').first();
-		let focusable = side.find('a[href], [tabindex]');
-		let items	= side.find('a[aria-haspopup="true"]');
-		focusable.on('focus', function(){
-			side.addClass('open-menu');
+		let openSide	= function(){
+			side.addClass('js-expand');
+			btn.attr('aria-expanded', true);
+		};
+		let closeSide	= function(){
+			side.removeClass('js-expand');
+			side.find('.js-submenu').collapse('hide');
+			btn.attr('aria-expanded', false);
+			side.find('.js-menu').parent().scrollTop(0);
+		};
+		btn.on('click', function() {
+			if(side.hasClass('js-expand')) {
+				closeSide();
+			} else {
+				openSide();
+				side.find('.js-menu :tabbable').first().focus();
+			}
+		});
+		side.find('a[href],[tabindex]').on('focus', function(){
+			openSide();
 		}).on('blur', function(){
-			side.removeClass('open-menu');
+			setTimeout(function(){
+				if(!side.find(':focus').length) {
+					closeSide();
+				}
+			}, 200);
 		});
 		side.on('mouseenter', function(){
-			side.addClass('open-menu');
+			openSide();
 		}).on('mouseleave', function(){
-			side.removeClass('open-menu');
-			items.each(function(j){
-				closeSub(j);
-			});
+			closeSide();
 		});
-		let closeSub = function(i) {
-			$(items[i]).removeClass('active');
-			items[i].sub.removeClass('expand');
-			items[i].sub.attr('aria-expanded', false);
-			items[i].sub.attr('aria-hidden', true);
-		};
-		let openSub = function(i) {
-			$(items[i]).addClass('active');
-			items[i].sub.addClass('expand');
-			items[i].sub.attr('aria-expanded', true);
-			items[i].sub.attr('aria-hidden', false);
-		};
-		items.each(function(i){
-			let item = $(this);
-			items[i].sub = item.next('[role="menu"]');
-			item.on('click', function(e){
-				if(item.hasClass('active')) { // close submenu
-					closeSub(i);
-				} else { // open submenu
-					items.each(function(j){
-						closeSub(j);
-					});
-					openSub(i);
-				}
-			});
+		side.find('.js-menu').on('keydown', function(e){
+			let target = $(e.target);
+			if((target.hasClass('js-submenu-toggler') && (e.which == key.RIGHT || e.which == key.SPACE) && target.hasClass('collapsed'))
+			|| (target.hasClass('js-submenu-toggler') && (e.which == key.LEFT || e.which == key.SPACE) && !target.hasClass('collapsed'))) {
+				target.click(); return false;
+			} else if(e.which == key.UP) {
+				side.find('.js-menu :tabbable').eq(parseInt(side.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
+			} else if(e.which == key.DOWN) {
+				side.find('.js-menu :tabbable').eq(parseInt(side.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
+			}
+		});
+		side.on('keydown', function(e){
+			if(e.which == key.ESCAPE) {
+				closeSide();
+				if(btn.is(':tabbable')) btn.focus();
+			}
+		});
+		side.find('.js-submenu').on('shown.bs.collapse', function(){
+			$(this).find(':tabbable').first().focus();
 		});
 	},
 	registerTabdrop: function () {
