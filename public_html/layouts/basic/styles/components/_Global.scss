@@ -11,6 +11,7 @@
 
   &__header {
 	@extend .card-header;
+	@extend .u-cursor-pointer;
 	@extend .px-0;
 	@extend .py-1;
   }

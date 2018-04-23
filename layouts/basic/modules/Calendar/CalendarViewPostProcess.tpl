@@ -18,9 +18,9 @@
 			{if $CALENDAR_FILTERS->isActive()}
 				<div class="c-panel bg-primary calendarFilters">
 					<div class="c-panel__header quickWidgetHeaderc px-3">
-						<h4 class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
+						<h5 class="card-title h6 text-white o-label-container col-xl-5" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
 							{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}
-						</h4>
+						</h5>
 					</div>
 					<div class="panel-collapse">
 						<div class="card-body">
