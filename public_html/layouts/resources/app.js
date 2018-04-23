@@ -1246,7 +1246,6 @@ app = {
 			}
 		});
 		self.sidebar.find('.js-submenu').on('shown.bs.collapse', (e) => {
-			console.log(e);
 			$(e.target).find(':tabbable').first().focus();
 		});
 	},
