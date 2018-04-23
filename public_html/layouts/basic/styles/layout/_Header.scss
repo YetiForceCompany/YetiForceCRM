@@ -62,7 +62,9 @@
 	background: #fff;
 	margin-bottom: 0px;
 }
-.remindersNoticeContainer, .remindersNotificationContainer {
+
+.remindersNoticeContainer,
+.remindersNotificationContainer {
 	position: fixed;
 	right: -380px;
 	top: $headerHeight;
@@ -73,17 +75,20 @@
 	background: rgba(0, 0, 0, 0.4);
 	border-left: 1px solid #797979;
 	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
 	overflow-y: auto;
-}
-.remindersNoticeContainer.toggled, .remindersNotificationContainer.toggled {
-	right: 0px;
+	max-width: 100%;
+	&.toggled {
+		right: 0;
+	}
 }
 .remindersContent {
 	margin: 5px 8px 0 8px;
+	.card-header a {
+		color: inherit;
+	}
 }
+
 .remindersNoticeContainer .panel-heading {
 	padding: 5px 10px;
 	background: #F1F1F1;

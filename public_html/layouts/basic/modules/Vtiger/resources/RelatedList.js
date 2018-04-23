@@ -581,10 +581,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.a > 0) {
-					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
+					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a).parent().removeClass('d-none');
 				}
 				if (value.m > 0) {
-					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+					relatedContent.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m).parent().removeClass('d-none');
 				}
 			});
 		});

@@ -17,7 +17,7 @@
 					<span class="fas fa-wrench" aria-hidden="true"></span>
 					<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 				</button>
-				<div class="dropdown-menu" aria-labelledby="{\App\Language::translate('LBL_ACTIONS')}">
+				<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
 					{foreach from=$LINKS item=LINK}
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 					{/foreach}
@@ -31,9 +31,9 @@
 			<a  data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="c-badge__icon fa-fw timeLineIconList d-none"></a>
 		{/if}
 		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
-			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
-				<span class="badge badge-danger c-badge-md all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
-				<span class="badge badge-primary c-badge-md mail" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
+			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed d-none" aria-label="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+				<span class="badge badge-danger c-badge-md all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}" aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
+				<span class="badge badge-primary c-badge-md mail" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}" aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
 			</a>
 		{/if}
 	</div>
