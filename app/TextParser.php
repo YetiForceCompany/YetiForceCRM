@@ -1095,7 +1095,7 @@ class TextParser
 					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
 						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
 						'var_label' => "$(translate : Other.TextParser|$key)$",
-						'label' => $parentFieldNameLabel . ': ' . Language::translate($name, 'Other.TextParser'),
+						'label' => Language::translate($name, 'Other.TextParser'),
 					];
 				}
 			}
@@ -1109,7 +1109,7 @@ class TextParser
 							$variables[$parentFieldName][$labelGroup][] = [
 								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",
 								'var_label' => "$(translate : $relatedModule|{$fieldModel->getFieldLabel()})$",
-								'label' => "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($fieldModel->getFieldLabel(), $relatedModule),
+								'label' => Language::translate($fieldModel->getFieldLabel(), $relatedModule),
 							];
 						}
 					}
