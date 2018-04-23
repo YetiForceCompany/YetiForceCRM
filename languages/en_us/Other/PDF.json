@@ -2,6 +2,10 @@
   "php": {
 	"LBL_INVOICE": "Invoice",
 	"LBL_INVOICE_NUMBER": "Vat invoice number",
+	"LBL_INVOICE_PROFORMA": "Pro-forma invoice",
+	"LBL_RECIPIENT": "Recipient",
+	"LBL_ORDER": "Order",
+	"LBL_SUBMIT_ORDER": "Person authorized to submit order",
 	"LBL_TO_PAY": "Total",
 	"LBL_TO_PAY_WORD": "Total (in words)",
 	"LBL_DEALER": "Seller",
