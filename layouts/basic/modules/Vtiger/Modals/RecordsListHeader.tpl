@@ -21,12 +21,12 @@
 		{if $SWITCH}
 			<div class="ml-auto">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-secondary active">
+					<label class="btn btn-outline-primary active">
 						<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords"
 							   value="{$RELATED_PARENT_ID}" checked="">
 						{$SWITCH_ON_TEXT}
 					</label>
-					<label class="btn btn-secondary">
+					<label class="btn btn-outline-primary">
 						<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords"
 							   value="0">
 						{App\Language::translate('LBL_ALL',$MODULE_NAME)}
