@@ -10,8 +10,8 @@
 		<div class="contents tabbable">
 			<div class="tab-content themeTableColor overflowVisible">
 				<div class="tab-pane active" id="layoutDashBoards">
-					<div class="btn-toolbar mb-2">
-						<button type="button" class="btn btn-success addDateWindow"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
+					<div class="btn-toolbar my-2">
+						<button type="button" class="btn btn-success addDateWindow font-weight-bold"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 					</div>
 					<div id="moduleBlocks">
 						<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 mb-3 border">
