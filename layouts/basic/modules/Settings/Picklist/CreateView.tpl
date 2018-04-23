@@ -14,8 +14,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_ADD_ITEM_TO', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}</h3>
+					<h5 class="modal-title">{\App\Language::translate('LBL_ADD_ITEM_TO', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form name="addItemForm" class="form-horizontal" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -26,13 +28,13 @@
 					<input type="hidden" name="picklistName" value="{$SELECTED_PICKLIST_FIELDMODEL->get('name')}" />
 					<input type="hidden" name="pickListValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}' />
 					<div class="modal-body tabbable">
-						<div class="form-group">
-							<div class="col-md-3 col-form-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls"><input class="form-control" type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 						</div>
 						{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-							<div class="form-group">	
-								<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
+							<div class="form-group row align-items-center">	
+								<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-9 controls">
 									<select class="rolesList form-control" name="rolesSelected[]" multiple data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 										<option value="all" selected>{\App\Language::translate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
