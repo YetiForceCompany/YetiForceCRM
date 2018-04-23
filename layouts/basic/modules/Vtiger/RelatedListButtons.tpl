@@ -5,7 +5,7 @@
 			<div class="">
 				<ul class="nav nav-pills js-tabdrop">
 					{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
-						<li class="nav-item baseLink mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference='{$RELATED_LINK->get('related')}' {if $RELATED_LINK->get('countRelated')}data-count="{$RELATED_LINK->get('countRelated')|intval}"{/if}>
+						<li class="nav-item baseLink mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL || ($ITERATION===0 && $SELECTED_TAB_LABEL==='LBL_RECORD_PREVIEW')} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference='{$RELATED_LINK->get('related')}' {if $RELATED_LINK->get('countRelated')}data-count="{$RELATED_LINK->get('countRelated')|intval}"{/if}>
 							<a href="javascript:void(0);" class="nav-link u-text-ellipsis u-w-auto" title="{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
 								{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}
 								{if $RELATED_LINK->get('countRelated')}

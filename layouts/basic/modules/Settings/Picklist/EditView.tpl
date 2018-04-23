@@ -14,8 +14,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}</h3>
+					<h5 class="modal-title">{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form id="renameItemForm" class="form-horizontal" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -26,8 +28,8 @@
 					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}" />
 					<input type="hidden" name="pickListValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
 					<div class="modal-body tabbable">
-						<div class="form-group">
-							<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
 								{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
 								<select class="chzn-select form-control" name="oldValue">
@@ -39,13 +41,13 @@
 								</select>	
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-md-3 col-form-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 						</div>
 						{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
-							<div class="form-group">
-								<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
+							<div class="form-group row align-items-center">
+								<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-9 controls nonEditableValuesDiv">
 									<ul class="nonEditablePicklistValues list-unstyled">
 										{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}

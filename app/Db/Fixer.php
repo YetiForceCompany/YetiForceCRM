@@ -71,7 +71,7 @@ class Fixer
 			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = $row['permission'];
 		}
 		$profileIds = \vtlib\Profile::getAllIds();
-		$moduleIds = array_keys(\vtlib\Functions::getAllModules());
+		$moduleIds = (new \App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->createCommand()->queryAllByGroup();
 		$baseActionIds = array_map('App\Module::getActionId', \Settings_ModuleManager_Module_Model::$baseModuleTools);
 		$exceptions = \Settings_ModuleManager_Module_Model::getBaseModuleToolsExceptions();
 		foreach ($profileIds as $profileId) {
@@ -106,7 +106,7 @@ class Fixer
 		foreach ((new \App\Db\Query())->from('vtiger_profile2standardpermissions')->all() as $row) {
 			$curentProfile[$row['profileid']][$row['tabid']][$row['operation']] = $row['permissions'];
 		}
-		$moduleIds = array_keys(\vtlib\Functions::getAllModules());
+		$moduleIds = (new \App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->createCommand()->queryAllByGroup();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach (\vtlib\Profile::getAllIds() as $profileId) {
 			foreach ($moduleIds as $moduleId) {

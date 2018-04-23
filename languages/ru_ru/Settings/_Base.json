@@ -358,7 +358,19 @@
     "PLU_MODULES_1": "\u041c\u043e\u0434\u0443\u043b\u0438",
     "PLU_SECURITY_0": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438",
     "PLU_SECURITY_1": "\u041e\u0448\u0438\u0431\u043a\u0438 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438",
-    "LBL_ENCRYPTION": "Encryption"
+    "LBL_ENCRYPTION": "Encryption",
+    "LBL_LIBRARY_HOMEPAGE": "Open library's website",
+    "LBL_LICENSE_ERROR": "License error",
+    "LBL_SHOW_MORE": "Show more",
+    "LBL_MISSING_PACKAGE_FILE": "Missing library files",
+    "LBL_MORE_LIBRARY_INFO": "Library details",
+    "LBL_MISSING_FILE": "Missing file",
+    "LBL_LIBRARY_NAME": "Name",
+    "LBL_VERSION": "Version",
+    "LBL_LICENSE": "License",
+    "LBL_MISSING_LICENSE_FILE": "Missing license file",
+    "LBL_VTIGER_DESCRIPTION": "Approximately 30% of Vtiger's orginal code is left. The remaining code has been rewritten and expanded.",
+    "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce."
   },
   "js": {
     "LangManagement": "\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u044f\u0437\u044b\u043a\u043e\u0432",
