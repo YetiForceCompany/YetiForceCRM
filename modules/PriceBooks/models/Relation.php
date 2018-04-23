@@ -21,9 +21,8 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice)
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
-
 		$priceBookModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
-		$priceBookModel->updateListPrice($destinationRecordId, $listPrice);
+		return $priceBookModel->updateListPrice($destinationRecordId, $listPrice);
 	}
 
 	/**

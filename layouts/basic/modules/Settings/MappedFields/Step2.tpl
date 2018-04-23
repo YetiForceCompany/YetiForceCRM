@@ -9,21 +9,21 @@
 			<input type="hidden" class="step" value="2" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			{assign var="PARAMS" value=$MAPPEDFIELDS_MODULE_MODEL->get('params')}
-			<div class="col-md-12 paddingLRZero">
-				<div class="panel panel-default">
-					<div class="panel-heading">
+			<div class="col-md-12 px-0">
+				<div class="card">
+					<div class="card-header">
 						<label>
-							<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {\App\Language::translate('LBL_MAPPING_SETTINGS_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {\App\Language::translate('LBL_MAPPING_SETTINGS_DETAILS',$QUALIFIED_MODULE)}</strong>
 						</label>
 					</div>
-					<div class="panel-body">
+					<div class="card-body">
 						<div class="btn-toolbar">
-							<button id="addMapping" class="btn btn-light addButton marginBottom10px" type="button">
+							<button id="addMapping" class="btn btn-light addButton mb-2" type="button">
 								<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
 							</button>
-							<div class="checkbox col-md-8">
-								<label>
-									<input type="checkbox" name="autofill" {if $PARAMS.autofill} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)} &nbsp;
+							<div class="checkbox col-md-8 align-self-center">
+								<label class="mr-1">
+									<input class="mr-1" type="checkbox" name="autofill" {if $PARAMS.autofill} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)}
 								</label>
 								<span class="js-popover-tooltip delay0" data-js="popover"  data-placement="top"
 									  data-content="{\App\Language::translate('LBL_AUTOFILL_INFO',$QUALIFIED_MODULE)}">
@@ -130,11 +130,24 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-footer clearfix">
+					<div class="card-footer clearfix">
 						<div class="btn-toolbar float-right">
-							<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
-							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-danger backStep mr-1" type="button">
+								<strong>
+									<span class="fas fa-caret-left mr-1"></span>
+									{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+								</strong>
+							</button>
+							<button class="btn btn-success" type="submit">
+								<strong>
+									<span class="fas fa-caret-right mr-1"></span>
+									{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+								</strong>
+							</button>
+							<button class="btn btn-warning cancelLink" type="reset">
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</button>
 						</div>
 					</div>
 				</div>

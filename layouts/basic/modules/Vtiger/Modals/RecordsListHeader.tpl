@@ -18,7 +18,7 @@
 			{/if}
 			{App\Language::translate($MODULE_NAME, $MODULE_NAME)}
 		</h5>
-		{if $SWITCH && !empty($LISTVIEW_ENTRIES)}
+		{if $SWITCH}
 			<div class="ml-auto">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-secondary active">
@@ -39,12 +39,18 @@
 				</a>
 			</div>
 		{/if}
+		{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}
+			<div class="ml-auto">
+				<button class="js-selected-rows btn btn-outline-secondary" data-js="click">
+					<strong><span class="fas fa-check mr-2"></span>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}
+					</strong>
+				</button>
+			</div>
+		{/if}
 		<div class="ml-auto">
-			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
-				<div class="js-pagination-container float-right" data-js="container">
-					{include file=App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='recordsList'}
-				</div>
-			{/if}
+			<div class="js-pagination-container float-right" data-js="container">
+				{include file=App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='recordsList'}
+			</div>
 		</div>
 		<button type="button" class="close" data-dismiss="modal" aria-label="{App\Language::translate('LBL_CANCEL')}">
 			<span aria-hidden="true">&times;</span>

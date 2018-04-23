@@ -730,27 +730,27 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
-		var response = this._super();
+		let response = this._super();
 		if (response != true) {
 			return response;
 		}
-		var field = this.getElement();
-		var fieldValue = this.getFieldValue();
-		var fieldData = field.data();
+		let fieldData = this.getElement().data();
+		let decimalSeparator = fieldData.decimalSeparator ? fieldData.decimalSeparator : CONFIG.currencyDecimalSeparator;
+		let groupSeparator = fieldData.groupSeparator ? fieldData.groupSeparator : CONFIG.currencyGroupingSeparator;
 
-		var strippedValue = fieldValue.replace(fieldData.decimalSeparator, '');
-		var spacePattern = /\s/;
-		if (spacePattern.test(fieldData.decimalSeparator) || spacePattern.test(fieldData.groupSeparator))
+		let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
+		let spacePattern = /\s/;
+		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
 			strippedValue = strippedValue.replace(/ /g, '');
-		var errorInfo;
+		let errorInfo;
 
-		if (fieldData.groupSeparator === "$") {
-			fieldData.groupSeparator = "\\$";
+		if (groupSeparator === "$") {
+			groupSeparator = "\\$";
 		}
-		if (fieldData.groupSeparator === ".") {
-			fieldData.groupSeparator = "\\.";
+		if (groupSeparator === ".") {
+			groupSeparator = "\\.";
 		}
-		var regex = new RegExp(fieldData.groupSeparator, 'g');
+		let regex = new RegExp(groupSeparator, 'g');
 		strippedValue = strippedValue.replace(regex, '');
 		//Note: Need to review if we should allow only positive values in currencies
 		/*if(strippedValue < 0){

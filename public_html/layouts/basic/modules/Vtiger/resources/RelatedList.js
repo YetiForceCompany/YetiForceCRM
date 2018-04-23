@@ -224,28 +224,31 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			elements.attr('class', widthType);
 		}
 	},
-	showSelectRelationPopup: function (extendParams) {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var mainParams = this.getPopupParams();
-		$.extend(mainParams, extendParams);
-		popupInstance.show(mainParams, function (responseString) {
-			var responseData = JSON.parse(responseString);
-			thisInstance.addRelations(Object.keys(responseData)).then(function (data) {
-				var detail = Vtiger_Detail_Js.getInstance();
-				thisInstance.loadRelatedList().then(function (data) {
-					aDeferred.resolve(data);
-					detail.registerRelatedModulesRecordCount();
+	showSelectRelation: function (extendParams) {
+		let params = $.extend(this.getRecordsListParams(), extendParams);
+		app.showRecordsList(params, (modal, instance) => {
+			instance.setSelectEvent((responseData) => {
+				this.addRelations(Object.keys(responseData)).then( () =>{
+					app.event.trigger("RelatedListView.AfterSelectRelation", responseData, this, instance, params);
+					let detail = Vtiger_Detail_Js.getInstance();
+					this.loadRelatedList().then(function () {
+						detail.registerRelatedModulesRecordCount();
+					});
+					if (this.getSelectedTabElement().data('link-key') === 'LBL_RECORD_SUMMARY') {
+						detail.loadWidgets();
+						detail.registerRelatedModulesRecordCount();
+					}
 				});
-				var selectedTab = thisInstance.getSelectedTabElement();
-				if (selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY') {
-					detail.loadWidgets();
-					detail.registerRelatedModulesRecordCount();
-				}
 			});
 		});
-		return aDeferred.promise();
+	},
+	getRecordsListParams: function () {
+		return {
+			module: this.moduleName,
+			src_module: this.parentModuleName,
+			src_record: this.parentRecordId,
+			multi_select: true
+		};
 	},
 	addRelations: function (idList) {
 		var aDeferred = jQuery.Deferred();
@@ -262,14 +265,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
-	},
-	getPopupParams: function () {
-		return {
-			module: this.moduleName,
-			src_module: this.parentModuleName,
-			src_record: this.parentRecordId,
-			multi_select: true
-		};
 	},
 	deleteRelation: function (relatedIdList) {
 		var aDeferred = jQuery.Deferred();
@@ -611,9 +606,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.content.find('.listViewEntries').on('click', function (e) {
 				if ($(e.target).is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
-						top.document.location.href = target.closest('tr').data('recordurl');
+						top.document.location.href = $(e.target).closest('tr').data('recordurl');
 					} else {
-						document.location.href = target.closest('tr').data('recordurl');
+						document.location.href = $(e.target).closest('tr').data('recordurl');
 					}
 				}
 			});
@@ -780,15 +775,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			thisInstance.addRelatedRecord(element);
 		})
 		this.content.on('click', 'button.selectRelation', function (e) {
-			var restrictionsField = $(this).data('rf');
-			var params = {};
+			let restrictionsField = $(this).data('rf');
+			let params = {};
 			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 				params = {
 					search_key: restrictionsField.key,
 					search_value: restrictionsField.name
 				};
 			}
-			thisInstance.showSelectRelationPopup(params);
+			thisInstance.showSelectRelation(params);
 		});
 		this.content.on('click', 'button.relationDelete', function (e) {
 			e.stopImmediatePropagation();
@@ -903,6 +898,18 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			mainViewPortHeightCss = {height: mainBody.height()};
 			mainViewPortWidthCss = {width: mainBody.height()};
 		}
+		this.list.on('click', '.listViewEntries', () => {
+			if (this.split.getSizes()[1] < 10) {
+				const defaultGutterPosition = this.getDefaultSplitSizes();
+				this.split.setSizes(defaultGutterPosition);
+				listPreview.show();
+				this.sideBlockRight.removeClass('d-block');
+				app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
+			}
+		});
+		if (this.list.parents('.blockContent').length) {
+			return;
+		}
 		mainBody.on('scroll', () => {
 			if (mainBody.scrollTop() >= listOffsetTop) {
 				fixedElements.css({top: mainBody.scrollTop() - listOffsetTop});
@@ -917,15 +924,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					width: initialH + mainBody.scrollTop(),
 					height: initialH + mainBody.scrollTop(),
 				});
-			}
-		});
-		this.list.on('click', '.listViewEntries', () => {
-			if (this.split.getSizes()[1] < 10) {
-				const defaultGutterPosition = this.getDefaultSplitSizes();
-				this.split.setSizes(defaultGutterPosition);
-				listPreview.show();
-				this.sideBlockRight.removeClass('d-block');
-				app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
 			}
 		});
 	},
@@ -1054,13 +1052,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			let iframe = $(top.document).find('.js-detail-preview');
 			mainWindowHeightCss = {height: mainBody - this.list.offset().top - iframe.offset().top + 50};
 		}
-		this.gutter.css(mainWindowHeightCss);
-		this.list.css(mainWindowHeightCss);
-		this.sideBlocks.css(mainWindowHeightCss);
-		this.rotatedText.css({
-			width: this.sideBlockLeft.height(),
-			height: this.sideBlockLeft.height()
-		});
+		if (!this.list.parents('.blockContent').length) {
+			this.gutter.css(mainWindowHeightCss);
+			this.list.css(mainWindowHeightCss);
+			this.sideBlocks.css(mainWindowHeightCss);
+			this.rotatedText.css({
+				width: this.sideBlockLeft.height(),
+				height: this.sideBlockLeft.height()
+			});
+		}
 		this.registerSplitEvents(container, split);
 		return split;
 	},

@@ -100,7 +100,6 @@ $.Class("Base_RecordsList_JS", {}, {
 	 * @param {boolean} countNumberRecords
 	 */
 	updatePagination: function (countNumberRecords) {
-		const thisInstance = this;
 		let params = this.getParams();
 		params['mode'] = 'getPagination';
 		if (countNumberRecords) {
@@ -112,7 +111,7 @@ $.Class("Base_RecordsList_JS", {}, {
 			if (totalCount) {
 				this.container.find('.js-total-count').val(totalCount);
 			}
-			thisInstance.registerPaginationEvents();
+			this.registerPaginationEvents();
 		});
 	},
 	/**
@@ -207,18 +206,62 @@ $.Class("Base_RecordsList_JS", {}, {
 	 * Register list events
 	 */
 	registerListEvents: function () {
-		var thisInstance = this;
-		thisInstance.container.on('click', '.js-select-row', function (e) {
+		const thisInstance = this;
+		thisInstance.container.on('click', ".js-select-row", function (e) {
+			if ($(e.target).hasClass('js-select-checkbox') || $(e.target).hasClass('u-cursor-auto')) {
+				return true;
+			}
+			let data = $(this).data();
+			if(thisInstance.container.find('.js-multi-select').val() === 'true'){
+				let selected = {};
+				selected[data.id] = data.name;
+				thisInstance.selectEvent(selected);
+			}else{
+				thisInstance.selectEvent(data);
+			}
 			app.hideModalWindow(false, thisInstance.container.parent().attr('id'));
-			let row = $(this);
-			thisInstance.selectEvent(row.data());
+
+		});
+		thisInstance.container.on('click', '.js-selected-rows', function (e) {
+			let selected = {};
+			thisInstance.container.find('table .js-select-checkbox').each(function (index, element) {
+				element = jQuery(element)
+				if (!element.is(":checked")) {
+					return true;
+				}
+				let data = element.closest('tr').data();
+				selected[data.id] = data.name;
+			});
+			if (Object.keys(selected).length <= 0) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'),
+				});
+			} else {
+				thisInstance.selectEvent(selected);
+				app.hideModalWindow($(e.target).closest('.js-modal-container'));
+			}
 		});
 		thisInstance.container.on('change', '.js-hierarchy-records', function () {
 			thisInstance.container.find('.js-related-parent-id').val(this.value);
+			thisInstance.container.find('.js-total-count').val('');
+			thisInstance.container.find('.js-page-number').val(1);
 			thisInstance.loadRecordList().then(function () {
 				thisInstance.updatePagination();
 			});
 		});
+		thisInstance.container.on('click', '.js-select-checkbox', function (e) {
+			let parentElem, element;
+			parentElem = element = $(this);
+			if (element.data('type') === 'all') {
+				parentElem = element.closest('table').find('.js-select-checkbox[data-type="row"]');
+			}
+			if (element.is(':checked')) {
+				parentElem.prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+			} else {
+				parentElem.prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+			}
+		});
+
 	},
 	/**
 	 * Register modal basic events

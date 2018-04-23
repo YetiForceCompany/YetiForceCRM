@@ -23,23 +23,22 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	/**
 	 * Function adds PriceBooks-Products Relation.
 	 *
-	 * @param type $request
+	 * @param \App\Request $request
 	 */
 	public function addListPrice(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relInfos = $request->get('relinfo');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('related_module'));
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('related_module', 2));
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		foreach ($relInfos as $relInfo) {
-			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
-			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
-		}
+		$status = $relationModel->addListPrice($sourceRecordId, $request->getInteger('record'), $request->getByType('price', 'NumberInUserFormat'));
+		$response = new Vtiger_Response();
+		$response->setResult((bool) $status);
+		$response->emit();
 	}
 
 	/*
@@ -55,7 +54,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
-		$relatedRecordIdList = $request->get('related_record_list');
+		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}

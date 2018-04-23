@@ -14,21 +14,6 @@
 class PriceBooks_Record_Model extends Vtiger_Record_Model
 {
 	/**
-	 * Function return the url to fetch List Price of the Product for the current PriceBook.
-	 *
-	 * @return string
-	 */
-	public function getProductUnitPriceURL()
-	{
-		$url = 'module=PriceBooks&action=ProductListPrice&record=' . $this->getId();
-		if (!$this->isEmpty('src_record')) {
-			$url .= '&itemId=' . $this->get('src_record');
-		}
-
-		return $url;
-	}
-
-	/**
 	 * Function returns the List Price for PriceBook-Product/Service relation.
 	 *
 	 * @param <Integer> $relatedRecordId - Product/Service Id
@@ -53,11 +38,11 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])->exists();
 		if ($isExists) {
-			App\Db::getInstance()->createCommand()
+			$status = App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 		} else {
-			App\Db::getInstance()->createCommand()
+			$status = App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $this->getId(),
 					'productid' => $relatedRecordId,
@@ -65,6 +50,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 					'usedcurrency' => $this->get('currency_id'),
 				])->execute();
 		}
+		return $status;
 	}
 
 	/**
@@ -102,23 +88,5 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 		}
 		$dataReader->close();
 		\App\Log::trace('Exiting function updateListPrices...');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
-	{
-		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
-		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
-			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_EDIT',
-					'linkicon' => 'fas fa-edit',
-					'linkclass' => 'btn-xs btn-default editListPrice u-cursor-pointer',
-					'linkdata' => ['url' => 'index.php?module=PriceBooks&view=ListPriceUpdate&record=' . $viewModel->getParentRecordModel()->getId() . '&relid=' . $this->getId() . '&currentPrice=' . $this->get('listprice'), 'related-recordid' => $this->getId(), 'list-price' => $this->get('listprice')],
-			]);
-		}
-
-		return $links;
 	}
 }

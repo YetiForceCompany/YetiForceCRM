@@ -1,7 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<h5 class="modal-title">{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h5>
+		<h5 class="modal-title">
+			<span class="fas fa-download mr-1"></span>
+			{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}
+		</h5>
 		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -24,8 +27,16 @@
 		</div>
 		<div class="modal-footer">
 			<div class="float-right">
-				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
+				<button class="btn btn-success mr-1" type="submit">
+					<strong>
+						<span class="fas fa-download mr-1"></span>
+						{\App\Language::translate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}
+					</strong>
+				</button>
+				<button type="button" class="btn btn-danger dismiss" data-dismiss="modal">
+					<span class="fas fa-times mr-1"></span>
+					{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}
+				</button>
 			</div>
 		</div>
 	</form>		

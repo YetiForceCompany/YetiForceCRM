@@ -271,7 +271,6 @@ class QueryGenerator
 		} else {
 			$this->customColumns[] = $columns;
 		}
-
 		return $this;
 	}
 

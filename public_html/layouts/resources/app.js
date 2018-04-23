@@ -236,7 +236,6 @@ app = {
 			});
 		});
 		modalContainer.modal(params);
-
 		$('body').append(container);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
@@ -284,7 +283,7 @@ app = {
 			container.remove();
 		}
 		container = $('<div></div>');
-		container.attr('id', Window.lastModalId).addClass('modalContainer');
+		container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
 		container.one('hidden.bs.modal', function () {
 			container.remove();
 			var backdrop = $('.modal-backdrop');
@@ -310,10 +309,13 @@ app = {
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
 	hideModalWindow: function (callback, id) {
-		if (id == undefined) {
-			var container = $('.modalContainer');
+		let container;
+		if (typeof callback === 'object') {
+			container = callback;
+		} else if (id == undefined) {
+			container= $('.modalContainer');
 		} else {
-			var container = $('#' + id);
+			container = $('#' + id);
 		}
 		if (container.length <= 0) {
 			return;
@@ -322,11 +324,10 @@ app = {
 			callback = function () {
 			};
 		}
-		var modalContainer = container.find('.modal');
+		let modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = $('.modal-backdrop:last');
-		var modalContainers = $('.modalContainer');
-		if (modalContainers.length == 0 && backdrop.length) {
+		let backdrop = $('.modal-backdrop:last');
+		if ($('.modalContainer').length == 0 && backdrop.length) {
 			backdrop.remove();
 		}
 		modalContainer.one('hidden.bs.modal', callback);
@@ -1268,6 +1269,26 @@ app = {
 			});
 		});
 	},
+	registerTabdrop: function () {
+		let tabs = $('.js-tabdrop');
+		let tab  = tabs.find('> li');
+		tab.each(function() {
+			$(this).removeClass('d-none');
+		});
+		tabs.tabdrop({
+			text: app.vtranslate('JS_MORE'),
+		});
+		//change position to the last element (wcag keyboard navigation)
+		let dropdown = tabs.find('> li.dropdown');
+		dropdown.appendTo(tabs);
+		//fix for toggle button text not changing
+		tab.on('click', function(e){
+			setTimeout(function(){
+				$(window).trigger('resize');
+			}, 500);
+		});
+
+	},
 	getScreenHeight: function (percantage) {
 		if (typeof percantage == 'undefined') {
 			percantage = 100;
@@ -1373,6 +1394,7 @@ $(document).ready(function () {
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
 	app.registerMenu();
+	app.registerTabdrop();
 	//Updating row height
 	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
