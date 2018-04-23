@@ -466,7 +466,8 @@ App.Fields = {
 				params = $.extend(data, params);
 			}
 			params.language = {};
-			params.theme = "bootstrap4";
+			params.theme = "bootstrap";
+			params.containerCssClass='form-control';
 			params.language.noResults = function (msn) {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
