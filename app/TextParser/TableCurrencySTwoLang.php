@@ -1,17 +1,16 @@
 <?php
-//
+
 namespace App\TextParser;
 
 /**
- * Table currency two lang class
- * @package YetiForce.TextParser
+ * Table currency two lang class.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 class TableCurrencySTwoLang extends Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_TABLE_CURRENCY_S_TWO_LANG';
 
@@ -19,7 +18,8 @@ class TableCurrencySTwoLang extends Base
 	public $type = 'pdf';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -34,7 +34,7 @@ class TableCurrencySTwoLang extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		if (in_array('currency', $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != null) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
 				$currency = $baseCurrency['id'];

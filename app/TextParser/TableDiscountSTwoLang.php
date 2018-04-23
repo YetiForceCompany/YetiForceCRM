@@ -1,16 +1,16 @@
 <?php
+
 namespace App\TextParser;
 
 /**
- * Table discount two lang class
- * @package YetiForce.TextParser
+ * Table discount two lang class.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 class TableDiscountSTwoLang extends Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_TABLE_DISCOUNT_S_TWO_LANG';
 
@@ -18,7 +18,8 @@ class TableDiscountSTwoLang extends Base
 	public $type = 'pdf';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -40,7 +41,7 @@ class TableDiscountSTwoLang extends Base
 			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		}
 		if (in_array('currency', $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != null) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
