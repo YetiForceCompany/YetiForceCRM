@@ -224,8 +224,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
+					<h5 class="modal-title">{\App\Language::translate('LBL_REGISTER_WARN1', $MODULENAME)}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_REGISTER_WARN1', $MODULENAME)}</h3>
 				</div>
 				<div class="modal-body">
 					<p>{\App\Language::translate('LBL_REGISTER_WARN2', $MODULENAME)}</p>

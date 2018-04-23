@@ -130,3 +130,8 @@
 	display: none;
   }
 }
+//--- TABLE ---//
+.u-width-td-30{
+  width: 30%;
+  @extend .px-2;
+}

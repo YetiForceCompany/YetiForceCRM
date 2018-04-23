@@ -105,60 +105,51 @@
 					<span class="medium">{\App\Language::translate('LBL_REAPEAT_IN', $MODULE)}</span>
 				</span>
 					<span class="col-md-8 text-center mb-2">
-
-
-					{*<div class="btn-group-toggle" data-toggle="buttons">*}
-						{*<label class="btn btn-secondary active">*}
-							 {*<input type="checkbox" checked autocomplete="off"> Checked*}
-						{*</label>*}
-					{*</div>*}
-
-
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label title="{\App\Language::translate('LBL_DAY0', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SU') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SU') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SU') !== false}checked{/if}
 								   value="SU">
 							{\App\Language::translate('LBL_SM_SUN', $MODULE)}
 						</label>
 						<label title="{\App\Language::translate('LBL_DAY1', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'MO') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'MO') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'MO') !== false}checked{/if}
 								   value="MO">
 							{\App\Language::translate('LBL_SM_MON', $MODULE)}
 						</label>
 						<label title="{\App\Language::translate('LBL_DAY2', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TU') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TU') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TU') !== false}checked{/if}
 								   value="TU">
 							{\App\Language::translate('LBL_SM_TUE', $MODULE)}
 						</label>
 						<label title="{\App\Language::translate('LBL_DAY3', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'WE') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'WE') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'WE') !== false}checked{/if}
 								   value="WE">
 							{\App\Language::translate('LBL_SM_WED', $MODULE)}
 						</label>
 						<label title="{\App\Language::translate('LBL_DAY4', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TH') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TH') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TH') !== false}checked{/if}
 								   value="TH">
 							{\App\Language::translate('LBL_SM_THU', $MODULE)}
 						</label>
 						<label title="{\App\Language::translate('LBL_DAY5', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'FR') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'FR') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'FR') !== false}checked{/if}
 								   value="FR">
 							{\App\Language::translate('LBL_SM_FRI', $MODULE)}
 						</label>
 						<label title="{\App\Language::translate('LBL_DAY6', $MODULE)}"
-							   class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SA') !== false}active{/if}">
+							   class="btn btn-outline-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SA') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"
 								   {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SA') !== false}checked{/if}
 								   value="SA">

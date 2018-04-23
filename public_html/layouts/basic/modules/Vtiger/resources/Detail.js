@@ -1324,19 +1324,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
-		summaryWidgetContainer.find('.js-detail-widget-header .filterField').each(function (n, item) {
+		summaryWidgetContainer.find('.js-detail-widget-header .js-switch').each(function (n, item) {
 			var value = '';
 			var element = jQuery(item);
 			var name = element.data('urlparams');
-			if (element.attr('type') == 'checkbox') {
+			if (element.attr('type') == 'radio') {
 				if (element.prop('checked')) {
-					value = element.data('on-val');
-				} else {
-					value = element.data('off-val');
-				}
-			} else if (element.attr('type') == 'radio') {
-				if (element.is(':checked')) {
-					urlNewParams[element.attr('name')] = element.val();
+					value = typeof element.data('on-val') !== 'undefined' ? element.data('on-val') : element.data('off-val')
 				}
 			} else {
 				var selectedFilter = element.find('option:selected').val();
@@ -1364,11 +1358,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerChangeFilterForWidget: function () {
 		var thisInstance = this;
-		jQuery('.js-detail-widget-header .filterField').on('change', function (e, state) {
+		jQuery('.js-switch').on('change', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
-		}).on('switchChange.bootstrapSwitch', function (e, state) {
-			thisInstance.getFiltersDataAndLoad(e);
-		});
+		})
 	},
 	registerChangeSwitchForWidget: function (summaryViewContainer) {
 		var thisInstance = this;
