@@ -14,7 +14,7 @@
 					<span class="fas fa-wrench" aria-hidden="true"></span>
 					<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 				</button>
-				<div class="dropdown-menu" aria-labelledby="{\App\Language::translate('LBL_ACTIONS')}">
+				<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
 					{foreach from=$LINKS item=LINK}
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 					{/foreach}

@@ -28,7 +28,8 @@
 						</button>
 					{else}
 						<button class=" btn btn-light alphabetBtn" type="button">
-							<span class="fas fa-font"></span>
+							<span class="fas fa-font" aria-hidden="true"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_ALPHABETIC_FILTERING')}</span>
 						</button>
 					{/if}
 

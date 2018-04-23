@@ -3,11 +3,11 @@
 	<div class="dropdown-menu historyList" role="menu">
 		{foreach item=HISTORY from=$BROWSING_HISTORY}
 			{if isset($HISTORY['viewToday'])}
-				<a class="dropdown-item item selectorHistory">{\App\Language::translate('LBL_TODAY')}</a>
+				<div class="dropdown-header selectorHistory">{\App\Language::translate('LBL_TODAY')}</div>
 			{elseif isset($HISTORY['viewYesterday'])}
-				<a class="dropdown-item item selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</a>
+				<div class="dropdown-header selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</div>
 			{elseif isset($HISTORY['viewOlder'])}
-				<a class="dropdown-item item selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</a>
+				<div class="dropdown-header selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</div>
 			{/if}
 			<a class="item dropdown-item" href="{$HISTORY['url']|escape}">
 				{if $HISTORY['hour']}
@@ -19,7 +19,7 @@
 				{$HISTORY['title']}
 			</a>
 		{/foreach}
-		<a class="dropdown-item dropdown-divider"></a>
+		<div class="dropdown-divider"></div>
 		<a class="dropdown-item clearHistory" href="#" onclick="app.clearBrowsingHistory();">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a>
 	</div>
 {/strip}
