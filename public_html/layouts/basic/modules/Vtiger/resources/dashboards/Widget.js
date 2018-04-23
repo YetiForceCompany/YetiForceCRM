@@ -1501,7 +1501,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		search.each((index,element)=>{
 			const fieldInfo = $(element).data('fieldinfo');
 			const label = fieldInfo.label;
-			$(element).attr('placeholder',label);
+			$(element).attr('placeholder',label).data('placeholder',label);
 		});
 		App.Fields.Picklist.changeSelectElementView(container, undefined, {containerCssClass: 'form-control'});
 		App.Fields.Date.register(container);
