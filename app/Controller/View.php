@@ -246,6 +246,7 @@ abstract class View extends Base
 			'~layouts/resources/colors/modules.css',
 			'~layouts/resources/colors/picklists.css',
 			'~layouts/resources/styleTemplate.css',
+			'~libraries/bootstrap-tabdrop/css/tabdrop.css',
 			'~' . \Vtiger_Theme::getBaseStylePath(),
 		]);
 	}
@@ -315,6 +316,7 @@ abstract class View extends Base
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
+			'~libraries/bootstrap-tabdrop/js/bootstrap-tabdrop.js',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
