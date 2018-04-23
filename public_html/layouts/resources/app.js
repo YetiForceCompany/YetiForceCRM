@@ -1225,61 +1225,63 @@ app = {
 		});
 	},
 	registerMenu: function () {
-		const key	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
-		let btn 	= $('.js-sidebar-btn').first(),
-			side 	= $('.js-sidebar').first();
-		let openSide	= function(){
-			side.addClass('js-expand');
-			btn.attr('aria-expanded', true);
-		};
-		let closeSide	= function(){
-			side.removeClass('js-expand');
-			side.find('.js-submenu').collapse('hide');
-			btn.attr('aria-expanded', false);
-			side.find('.js-menu').parent().scrollTop(0);
-		};
-		btn.on('click', function() {
-			if(side.hasClass('js-expand')) {
-				closeSide();
-			} else {
-				openSide();
-				side.find('.js-menu :tabbable').first().focus();
+		const self = this;
+		self.keyboard 	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
+		self.sidebarBtn	= $('.js-sidebar-btn').first();
+		self.sidebar	= $('.js-sidebar').first();
+		self.sidebarBtn.on('click', self.toggleSidebar);
+		$(':focusable').on('focus', (e) => {
+			if(self.sidebar.find(':focus').length && !self.sidebar.hasClass('js-expand')) {
+				self.openSidebar();
+			} else if(self.sidebar.hasClass('js-expand')) {
+				self.closeSidebar();
 			}
 		});
-		side.find('a[href],[tabindex]').on('focus', function(){
-			openSide();
-		}).on('blur', function(){
-			setTimeout(function(){
-				if(!side.find(':focus').length) {
-					closeSide();
-				}
-			}, 200);
-		});
-		side.on('mouseenter', function(){
-			openSide();
-		}).on('mouseleave', function(){
-			closeSide();
-		});
-		side.find('.js-menu').on('keydown', function(e){
-			let target = $(e.target);
-			if((target.hasClass('js-submenu-toggler') && (e.which == key.RIGHT || e.which == key.SPACE) && target.hasClass('collapsed'))
-			|| (target.hasClass('js-submenu-toggler') && (e.which == key.LEFT || e.which == key.SPACE) && !target.hasClass('collapsed'))) {
-				target.click(); return false;
-			} else if(e.which == key.UP) {
-				side.find('.js-menu :tabbable').eq(parseInt(side.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
-			} else if(e.which == key.DOWN) {
-				side.find('.js-menu :tabbable').eq(parseInt(side.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
+		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+		self.sidebar.find('.js-menu').on('keydown', self.sidebarKeyboard.bind(self));
+		self.sidebar.on('keydown', (e) => {
+			if(e.which == self.keyboard.ESCAPE) {
+				self.closeSidebar();
+				if(self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
 			}
 		});
-		side.on('keydown', function(e){
-			if(e.which == key.ESCAPE) {
-				closeSide();
-				if(btn.is(':tabbable')) btn.focus();
-			}
+		self.sidebar.find('.js-submenu').on('shown.bs.collapse', (e) => {
+			console.log(e);
+			$(e.target).find(':tabbable').first().focus();
 		});
-		side.find('.js-submenu').on('shown.bs.collapse', function(){
-			$(this).find(':tabbable').first().focus();
-		});
+	},
+	openSidebar: function() {
+		const self = this;
+		self.sidebar.addClass('js-expand');
+		self.sidebarBtn.attr('aria-expanded', true);
+	},
+	closeSidebar: function() {
+		const self = this;
+		self.sidebar.removeClass('js-expand');
+		self.sidebar.find('.js-submenu').collapse('hide');
+		self.sidebarBtn.attr('aria-expanded', false);
+		self.sidebar.find('.js-menu').parent().scrollTop(0);
+	},
+	toggleSidebar: function() {
+		const self = this;
+		if(self.sidebar.hasClass('js-expand')) {
+			self.closeSidebar();
+		} else {
+			self.openSidebar();
+			self.sidebar.find('.js-menu :tabbable').first().focus();
+		}
+	},
+	sidebarKeyboard: function(e){
+		const self = this;
+		let target = $(e.target);
+		if((target.hasClass('js-submenu-toggler') && (e.which == self.keyboard.RIGHT || e.which == self.keyboard.SPACE) && target.hasClass('collapsed'))
+		|| (target.hasClass('js-submenu-toggler') && (e.which == self.keyboard.LEFT || e.which == self.keyboard.SPACE) && !target.hasClass('collapsed'))) {
+			target.click(); return false;
+		} else if(e.which == self.keyboard.UP) {
+			self.sidebar.find('.js-menu :tabbable').eq(parseInt(self.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
+		} else if(e.which == self.keyboard.DOWN) {
+			self.sidebar.find('.js-menu :tabbable').eq(parseInt(self.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
+		}
 	},
 	registerTabdrop: function () {
 		let tabs = $('.js-tabdrop');
