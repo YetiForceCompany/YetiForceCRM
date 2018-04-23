@@ -14,7 +14,7 @@
 			<div class="medium col-md-9 fieldValue">
 				<div class="row">
 					<div class="input-group">
-						<select class="select2" id="recordVariable">
+						<select class="select2 form-control" id="recordVariable">
 							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
 								<optgroup label="{$BLOCK_NAME}">
 									{foreach item=ITEM from=$FIELDS}
@@ -44,7 +44,7 @@
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
 						<div class="input-group"> 
-							<select class="select2" id="relatedVariable">
+							<select class="select2 form-control" id="relatedVariable">
 								{foreach item=FIELDS from=$RELATED_VARIABLE}
 									{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 										<optgroup label="{$BLOCK_NAME}">
@@ -119,7 +119,7 @@
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
 						<div class="input-group">
-							<select class="select2" id="relatedLists">
+							<select class="select2 form-control" id="relatedLists">
 								{foreach item=MODULE_LIST from=$RELATED_LISTS}
 									<option value="{$MODULE_LIST['key']}">{$MODULE_LIST['label']}</option>
 								{/foreach}
@@ -166,7 +166,7 @@
 		<div class="medium col-md-9 fieldValue">
 			<div class="row">
 				<div class="input-group">
-					<select class="select2" id="generalVariable">
+					<select class="select2 form-control" id="generalVariable" data-container-class-css="form-control">
 						{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
 							<optgroup label="{\App\Language::translate($BLOCK_NAME, 'Other.TextParser')}">
 								{foreach item=LABEL key=VARIABLE from=$FIELDS}
