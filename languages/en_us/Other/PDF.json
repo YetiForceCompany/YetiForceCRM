@@ -10,13 +10,13 @@
 	"LBL_SALES_QUOTE_FOR": "Quote for",
 	"LBL_DATE_EXECUTION": "Date of completion",
 	"LBL_STAGE": "Issued by",
-	"LBL_VALID_UNTIL": "Data ważności",
+	"LBL_VALID_UNTIL": "Valid until",
 	"LBL_QUOTE_NUMBER": "Quote number",
-	"LBL_DETAILS": "Opis",
-	"LBL_COMMENTS": "Uwagi",
-	"LBL_FIRST_NAME": "Imię",
-	"LBL_LAST_NAME": "Nazwisko",
-	"LBL_PHONE": "Telefon",
+	"LBL_DETAILS": "Details",
+	"LBL_COMMENTS": "Comments",
+	"LBL_FIRST_NAME": "First name",
+	"LBL_LAST_NAME": "Last name",
+	"LBL_PHONE": "Phone",
 	"LBL_EMAIL": "Email"
   }
 }
