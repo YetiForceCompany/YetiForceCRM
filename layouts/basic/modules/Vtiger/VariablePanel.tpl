@@ -14,7 +14,7 @@
 			<div class="medium col-md-9 fieldValue">
 				<div class="row">
 					<div class="input-group">
-						<select class="select2 form-control" id="recordVariable">
+						<select class="select2" id="recordVariable">
 							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
 								<optgroup label="{$BLOCK_NAME}">
 									{foreach item=ITEM from=$FIELDS}

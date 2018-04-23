@@ -467,7 +467,6 @@ App.Fields = {
 			}
 			params.language = {};
 			params.theme = "bootstrap4";
-			params.width = "100%";
 			params.language.noResults = function (msn) {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
