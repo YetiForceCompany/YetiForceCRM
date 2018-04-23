@@ -90,7 +90,8 @@
     "LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS": "Gr\u00e1fico do tempo de trabalho por Usu\u00e1rio",
     "LBL_TIME_CONTROL_LIST": "Time Control List",
     "LBL_TIME_CONTROL_DETAILED_LIST": "Time Control Detailed List",
-    "LBL_TIME_CONTROL_USER_GROUP": "Time Control List with additional information about users"
+    "LBL_TIME_CONTROL_USER_GROUP": "Time Control List with additional information about users",
+    "LBL_TYPE": "Activity type"
   },
   "js": {
     "MSG_ERROR_NUMBER": "Caracteres permitidos: [0-9]",
