@@ -1440,7 +1440,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				if (filterName.substr(-2) === '[]') {
 					arr = true;
 					filterName = filterName.substr(0, filterName.length - 2);
-					if(!Array.isArray(params.data[filterName])){
+					if (!Array.isArray(params.data[filterName])) {
 						params.data[filterName] = [];
 					}
 				}
@@ -1498,18 +1498,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const originalUrl = refreshBtn.data('url');
 		search.css('width', '100%');
 		search.parent().addClass('w-100');
-		App.Fields.Picklist.changeSelectElementView(container);
+		search.each((index,element)=>{
+			const fieldInfo = $(element).data('fieldinfo');
+			const label = fieldInfo.label;
+			$(element).attr('placeholder',label);
+		});
+		App.Fields.Picklist.changeSelectElementView(container, undefined, {containerCssClass: 'form-control'});
 		App.Fields.Date.register(container);
 		App.Fields.Date.registerRange(container);
 		search.on('change apply.daterangepicker', (e) => {
 			const searchParams = [];
 			container.find('.listSearchContributor').each(function (index, domElement) {
-				var searchInfo = [];
-				var searchContributorElement = $(domElement);
-				var fieldInfo = searchContributorElement.data('fieldinfo');
-				var fieldName = searchContributorElement.attr('name');
-				var searchValue = searchContributorElement.val();
-
+				const searchInfo = [];
+				const searchContributorElement = $(domElement);
+				const fieldInfo = searchContributorElement.data('fieldinfo');
+				const fieldName = searchContributorElement.attr('name');
+				let searchValue = searchContributorElement.val();
 				if (typeof searchValue == "object") {
 					if (searchValue == null) {
 						searchValue = "";
@@ -1522,8 +1526,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					//continue
 					return true;
 				}
-
-				var searchOperator = 'a';
+				let searchOperator = 'a';
 				if (fieldInfo.hasOwnProperty("searchOperator")) {
 					searchOperator = fieldInfo.searchOperator;
 				} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'multiReferenceValue']) >= 0) {
@@ -1542,8 +1545,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				searchParams.push(searchInfo);
 			});
-			let url = originalUrl+ '&search_params=' + JSON.stringify(searchParams);
-			refreshBtn.data('url',url);
+			let url = originalUrl + '&search_params=' + JSON.stringify(searchParams);
+			refreshBtn.data('url', url);
 			refreshBtn.trigger('click');
 		});
 

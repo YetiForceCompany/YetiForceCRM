@@ -354,7 +354,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
-		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data']));
 		if (!empty($data['filtersId'])) {
 			if (is_string($data['filtersId'])) {
 				$filters = explode(',', $data['filtersId']);
@@ -369,6 +368,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
 			}
 		}
+		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data']));
 		if (!empty($data['additionalFiltersFields']) && count($data['additionalFiltersFields']) > App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
 			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['additionalFiltersFields']), 406);
 		}
