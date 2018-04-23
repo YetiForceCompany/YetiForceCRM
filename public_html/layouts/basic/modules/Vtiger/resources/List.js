@@ -1898,10 +1898,10 @@ jQuery.Class("Vtiger_List_Js", {
 			var data = appData.result;
 			$.each(data, function (id, value) {
 				if (value.a > 0) {
-					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a).parent().removeClass('d-none');
 				}
 				if (value.m > 0) {
-					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m).parent().removeClass('d-none');
 				}
 			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();

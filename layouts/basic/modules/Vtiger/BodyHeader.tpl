@@ -165,11 +165,11 @@
 								<span class="fas fa-plus fa-fw"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_QUICK_CREATE')}</span>
 							</a>
-							<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog" aria-labelledby="c-quick-create__title" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5>
+											<h5 class="modal-tile" id="c-quick-create__title">
 												<span class="fas fa-plus fa-fw mr-1"></span>
 												{\App\Language::translate('LBL_QUICK_CREATE')}
 											</h5>
@@ -190,7 +190,7 @@
 														{/if}
 														<div class="col-md-4">
 															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-																<span class="modCT_{$NAME} userIcon-{$NAME}"></span>&nbsp;<span>{\App\Language::translate($singularLabel,$NAME)}</span>
+																<span class="modCT_{$NAME} userIcon-{$NAME}"></span> <span>{\App\Language::translate($singularLabel,$NAME)}</span>
 															</a>
 														</div>
 														{if $count % 3 == 2}
@@ -205,7 +205,7 @@
 										</div>
 										<div class="modal-footer">
 											<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">
-												<span class="fas fa-times mr-1"></span>
+												<span class="fas fa-times mr-1" aria-hidden="true"></span>
 												<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 											</button>
 										</div>
@@ -217,7 +217,7 @@
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
 							<a class="headerButton btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-js="popover" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
-								<span class="fas fa-bell fa-fw"></span>
+								<span class="fas fa-bell fa-fw" aria-hidden="true"></span>
 								<span hidden class="badge">0</span>
 								<span class="sr-only">{\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 							</a>
@@ -226,14 +226,14 @@
 					{if isset($CHAT_ENTRIES)}
 						<div class="o-action-menu__item">
 							<a class="headerButton btn btn-light btn headerLinkChat js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-								<span class="fas fa-comments fa-fw"></span>
+								<span class="fas fa-comments fa-fw" aria-hidden="true"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_CHAT')}</span>
 							</a>
-							<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
+							<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="c-chat-modal__title" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 								<div class="modal-dialog modalRightSiteBar" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="myModalLabel">
+											<h5 class="modal-title" id="c-chat-modal__title">
 												<span class="fas fa-comments fa-fw"></span>
 												{\App\Language::translate('LBL_CHAT')}
 											</h5>
@@ -245,7 +245,8 @@
 											{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
 										</div>
 										<div class="modal-footer pinToDown row mx-0 d-block">
-											<input type="text" class="form-control message" />
+											<label for="c-chat-modal__message">{\App\Language::translate('LBL_MESSAGE', 'Notification')}</label>
+											<input class="form-control message" id="c-chat-modal__message" type="text"  />
 											<button type="button" class="btn btn-primary addMsg float-right mt-2">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
 										</div>
 									</div>
@@ -256,7 +257,7 @@
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">
 							<a class="headerButton btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-js="popover" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
-								<span class="fas fa-calendar fa-fw"></span>
+								<span class="fas fa-calendar fa-fw" aria-hidden="true"></span>
 								<span hidden class="badge bgDanger">0</span>
 								<span class="sr-only">{\App\Language::translate('LBL_REMINDER')}</span>
 							</a>
@@ -265,7 +266,7 @@
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<div class="o-action-menu__item">
 							<a class="headerButton btn btn-light btn showHistoryBtn js-popover-tooltip dropdownMenu" data-js="popover" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-								<span class="fas fa-history fa-fw"></span>
+								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
