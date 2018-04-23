@@ -1329,8 +1329,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var element = jQuery(item);
 			var name = element.data('urlparams');
 			if (element.attr('type') == 'radio') {
-				if (element.is(':checked')) {
-					value = element.val();
+				if (element.prop('checked')) {
+					value = typeof element.data('on-val') !== 'undefined' ? element.data('on-val') : element.data('off-val')
 				}
 			} else {
 				var selectedFilter = element.find('option:selected').val();
