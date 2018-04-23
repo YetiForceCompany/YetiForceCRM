@@ -9,7 +9,7 @@
 		{assign var=SEARCH_VALUE value=''}
 	{/if}
 	<div class="tpl-List-Field-Reference picklistSearchField">
-		<select class="select2noactive listSearchContributor {$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}" multiple data-fieldinfo='{$FIELD_INFO|escape}' data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getReference&fieldName={$FIELD_MODEL->getName()}" data-minimum-input="3">
+		<select class="select2noactive select2 listSearchContributor {$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}" multiple data-fieldinfo='{$FIELD_INFO|escape}' data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getReference&fieldName={$FIELD_MODEL->getName()}" data-minimum-input="3">
 			{foreach from=$SEARCH_VALUES item=ID}
 				<option value="{$ID}" selected="selected">{\App\Purifier::encodeHtml(\App\Record::getLabel($ID))}</option>
 			{/foreach}

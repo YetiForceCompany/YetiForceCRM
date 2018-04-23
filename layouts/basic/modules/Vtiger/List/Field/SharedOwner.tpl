@@ -13,7 +13,7 @@
 			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
-		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
+		<select id="{$ASSIGNED_USER_ID}" class="select2noactive select2 listSearchContributor {$ASSIGNED_USER_ID}"
 				name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
