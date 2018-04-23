@@ -11,16 +11,16 @@
 -->*}
 {strip}
 	{if $SELECTED_PICKLIST_FIELDMODEL}
-		<ul class="nav nav-tabs massEditTabs" style="margin-bottom: 0;border-bottom: 0">
-			<li class="active"><a href="#allValuesLayout" data-toggle="tab"><strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
-			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}<li id="assignedToRoleTab"><a href="#AssignedToRoleLayout" data-toggle="tab"><strong>{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>{/if}
+		<ul class="nav nav-tabs massEditTabs">
+			<li class="nav-item"><a class="nav-link active" href="#allValuesLayout" data-toggle="tab"><strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
+			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}<li class="nav-item" id="assignedToRoleTab"><a class="nav-link" href="#AssignedToRoleLayout" data-toggle="tab"><strong>{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>{/if}
 		</ul>
-		<div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
+		<div class="tab-content layoutContent py-3 themeTableColor overflowVisible">
 			<br />
 			<div class="tab-pane active" id="allValuesLayout">	
 				<div class="row">
-					<div class="col-md-5 marginLeftZero u-text-ellipsis">
-						<table id="pickListValuesTable" class="table table-bordered" style="table-layout: fixed">
+					<div class="col-md-5 ml-0 u-text-ellipsis">
+						<table id="pickListValuesTable" class="table table-bordered">
 							<thead>
 								<tr class="listViewHeaders"><th>{\App\Language::translate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}&nbsp;{\App\Language::translate('LBL_ITEMS',$QUALIFIED_MODULE)}</th></tr>
 							</thead>
