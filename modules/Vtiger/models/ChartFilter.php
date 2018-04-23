@@ -697,6 +697,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getQuery($filter)
 	{
+		$request = \App\Request::init();
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filter);
 		$this->queryGeneratorModuleName = $queryGenerator->getModuleModel()->getName();
@@ -709,7 +710,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!empty($this->valueName)) {
 			$queryGenerator->setField($this->valueName);
 		}
-		$request = \App\Request::init();
 		if ($searchParams = $request->get('search_params')) {
 			$this->searchParams = $searchParams;
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$searchParams]);
