@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div style="padding-left: 15px;">
+    <div class="pl-3">
         <form id="exportForm" class="form-horizontal row" method="post" action="index.php">
             <input type="hidden" name="module" value="{$MODULE}" />
             <input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
@@ -24,15 +24,18 @@
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
             <input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 
-            <div class="">
+            <div class="w-100">
                 <div class="span">&nbsp;</div>
                 <div class="col-md-10">
-                    <h4>{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}</h4>
+                    <h4>
+						<span class="fas fa-upload mr-1"></span>
+						{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}
+					</h4>
 					<div class="alert alert-warning">
 						<a href="#" class="close" data-dismiss="alert">&times;</a>
 						{\App\Language::translate('LBL_INFO_USER_EXPORT_RECORDS',$MODULE)}
 					</div>
-                    <div class="well exportContents marginLeftZero">
+                    <div class="well bg-light border ml-0">
                         <fieldset>
                             <legend class="d-none">{\App\Language::translate('LBL_EXPORT_RECORDS',$MODULE)}</legend>
 							<div class="row">
@@ -56,9 +59,16 @@
                     </div>
                     <br />
                     <div class="textAlignCenter">
-                        <button class="btn btn-success" type="submit"><strong>{\App\Language::translate($MODULE, $MODULE)}&nbsp;{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
-						&nbsp;&nbsp;
-                        <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+                        <button class="btn btn-success mr-1" type="submit">
+							<strong>
+								<span class="fas fa-upload mr-1"></span>
+								{\App\Language::translate($MODULE, $MODULE)}&nbsp;{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}
+							</strong>
+						</button>
+                        <button class="btn btn-danger" type="reset" onclick='window.history.back()'>
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $MODULE)}
+						</button>
                     </div>
                 </div>
             </div>
