@@ -655,15 +655,15 @@ td.fieldValue {
 }
 .listViewEntriesTable {
   .listViewEntries {
-    .unreviewed .badge {
-      margin-left: 4px;
-    }
+	.unreviewed .badge {
+	  margin-left: 4px;
+	}
   }
   td.listViewEntryValue {
-	  vertical-align: middle;
+	vertical-align: middle;
 	cursor: pointer;
-    overflow: visible;
-    padding: 5px;
+	overflow: visible;
+	padding: 5px;
   }
 }
 .listViewEntries td {
@@ -1417,7 +1417,7 @@ td.fieldValue {
 .calendarPopover.popover {
   max-width: 30%;
   label {
-	  margin: 0;
+	margin: 0;
   }
 }
 .btn:focus {
@@ -2167,7 +2167,7 @@ span[name=existingImages] img {
 }
 .container-fluid > .row {
   &:first-child {
-	height: 50px;
+	margin-bottom: 10px;
 	padding-right: 5px;
   }
   margin-left: 0px;
@@ -2333,7 +2333,6 @@ html, body, .baseContainer {
   padding-top: 0px;
   padding-bottom: 15px;
 }
-
 .companyLogoContainer {
   display: block;
   width: 48px;
@@ -2373,7 +2372,6 @@ html, body, .baseContainer {
 	z-index: 1031;
   }
 }
-
 .breadcrumbsLinks {
   margin-top: 7px;
   margin-left: 0px;
@@ -2415,11 +2413,9 @@ html, body, .baseContainer {
   margin: 1px;
   height: 27px;
 }
-
 .marginLeft15 {
   margin-left: 15px;
 }
-
 .mainBody {
   position: absolute;
   top: 50px;
@@ -2467,7 +2463,6 @@ html, body, .baseContainer {
 	padding-left: 0 !important;
   }
 }
-
 .sortTableUl {
   list-style-type: none;
   float: left;
@@ -2711,7 +2706,7 @@ html, body, .baseContainer {
 	padding-right: 0;
 	padding-left: 0;
   }
- 
+
 }
 @media screen and (max-width: 992px) {
   .detailViewTable .fieldsLabelValue {
@@ -3491,14 +3486,12 @@ select.form-control {
 .marginRight15 {
   margin-right: 15px;
 }
-
 .listViewEntries {
   background: #fff;
   &:hover {
 	background: #dddddd20;
   }
 }
-
 .widthMin {
   width: 1%;
 }
