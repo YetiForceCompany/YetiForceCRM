@@ -1,13 +1,31 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="row marginBottom10px">
-		<div class="col-md-12 btn-toolbar"">
-			<div class="float-right btn-group">
-				<input class="switchBtn switchBtnReload recentActivitiesSwitch" type="checkbox" {if $TYPE eq 'changes'}checked=""{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_UPDATES', $MODULE_BASE_NAME)}" data-off-text="{\App\Language::translate('LBL_REVIEW_HISTORY', $MODULE_BASE_NAME)}" data-urlparams="whereCondition" data-on-val="changes" data-off-val="review">
+	<div class="tpl-RecentActivitiesHeader row marginBottom10px">
+		<div class="col-md-12 btn-toolbar">
+			<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				<label class="btn btn-sm btn-outline-primary active">
+					<input class="js-switch--recentActivities" type="radio" name="options" id="option1"
+						   data-on-text="{App\Language::translate('LBL_CURRENT')}"
+						   data-on-val="changes"
+						   data-basic-text="{App\Language::translate('LBL_CURRENT')}"
+						   data-urlparams="whereCondition"
+						   autocomplete="off"
+					> {\App\Language::translate('LBL_UPDATES', $MODULE_BASE_NAME)}
+				</label>
+				<label class="btn btn-sm btn-outline-primary">
+					<input class="js-switch--recentActivities" type="radio" name="options" id="option2"
+						   data-basic-text="{App\Language::translate('LBL_HISTORY')}"
+						   data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
+						   data-off-val="review"
+						   data-urlparams="whereCondition"
+						   autocomplete="off"
+					> {\App\Language::translate('LBL_REVIEW_HISTORY', $MODULE_BASE_NAME)}
+				</label>
 			</div>
 			{if $USER_MODEL->getId() eq $USER_MODEL->getRealId() && $MODULE_MODEL->isPermitted('ReviewingUpdates') && ModTracker_Record_Model::isNewChange($PARENT_RACORD_ID, $USER_MODEL->getRealId())}
 				<div class="float-right btn-group">
-					<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $MODULE_BASE_NAME)}">
+					<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn"
+							title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $MODULE_BASE_NAME)}">
 						<span class="far fa-check-circle"></span>
 					</button>
 				</div>
