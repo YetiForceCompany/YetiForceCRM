@@ -3,7 +3,7 @@
 	<div class="tpl-RecentActivitiesHeader row marginBottom10px">
 		<div class="col-md-12 btn-toolbar">
 			<div class="btn-group btn-group-toggle" data-toggle="buttons">
-				<label class="btn btn-sm btn-outline-primary active">
+				<label class="btn btn-sm btn-outline-primary {if $TYPE eq 'changes'}active{/if}">
 					<input class="js-switch--recentActivities" type="radio" name="options" id="option1"
 						   data-on-text="{App\Language::translate('LBL_CURRENT')}"
 						   data-on-val="changes"
@@ -12,7 +12,7 @@
 						   autocomplete="off"
 					> {\App\Language::translate('LBL_UPDATES', $MODULE_BASE_NAME)}
 				</label>
-				<label class="btn btn-sm btn-outline-primary">
+				<label class="btn btn-sm btn-outline-primary {if $TYPE neq 'changes'}active{/if}">
 					<input class="js-switch--recentActivities" type="radio" name="options" id="option2"
 						   data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 						   data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
