@@ -91,13 +91,6 @@
 .u-bg-modern {
   background-color: #0d9605 !important;
 }
-.u-alphabet-sorting {
-  a {
-	@extend .h5;
-	@extend .font-weight-bold;
-  }
-  @extend .text-center;
-}
 .u-rotate-90 {
   transform: rotate(0.75turn);
   position: absolute;
