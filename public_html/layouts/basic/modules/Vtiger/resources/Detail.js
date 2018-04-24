@@ -2419,17 +2419,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e, state) {
-			var currentTarget = jQuery(e.currentTarget);
-			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
-			var url = tabElement.data('url');
-			var variableName = currentTarget.data('urlparams');
-			var valueOn = "changes";
-			var valueOff = "review";
+		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e) {
+			const currentTarget = jQuery(e.currentTarget),
+				tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel),
+				variableName = currentTarget.data('urlparams'),
+				valueOn = $(this).data('on-val'),
+				valueOff = $(this).data('off-val');
+			let url = tabElement.data('url');
 			url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
 			if (typeof currentTarget.data('on-val') !== 'undefined') {
 				url += '&' + variableName + '=' + valueOn;
-			} else if (typeof currentTarget.data('off-val') !== 'undefined'){
+			} else if (typeof currentTarget.data('off-val') !== 'undefined') {
 				url += '&' + variableName + '=' + valueOff;
 			}
 			tabElement.data('url', url);
