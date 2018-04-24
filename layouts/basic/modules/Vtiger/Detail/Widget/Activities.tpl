@@ -31,7 +31,6 @@
 							   autocomplete="off"> {App\Language::translate('LBL_HISTORY')}
 					</label>
 				</div>
-
 				<div class="col float-right">
 					<button class="btn btn-sm btn-light float-right addButton createActivity" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true" type="button"
 							title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">

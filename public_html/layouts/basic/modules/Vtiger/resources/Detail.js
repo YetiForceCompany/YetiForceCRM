@@ -2420,17 +2420,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
+		detailContentsHolder.on('change', '.js-switch--recentActivities', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
 			var url = tabElement.data('url');
 			var variableName = currentTarget.data('urlparams');
-			var valueOn = currentTarget.data('on-val');
-			var valueOff = currentTarget.data('off-val');
+			var valueOn = "changes";
+			var valueOff = "review";
 			url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
-			if (state) {
+			if (typeof currentTarget.data('on-val') !== 'undefined') {
 				url += '&' + variableName + '=' + valueOn;
-			} else {
+			} else if (typeof currentTarget.data('off-val') !== 'undefined'){
 				url += '&' + variableName + '=' + valueOff;
 			}
 			tabElement.data('url', url);
