@@ -1231,7 +1231,7 @@ app = {
 		self.sidebar	= $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar);
 		$(':focusable').on('focus', (e) => {
-			if(self.sidebar.find(':focus').length && !self.sidebar.hasClass('js-expand')) {
+			if(self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if(self.sidebar.hasClass('js-expand')) {
 				self.closeSidebar();
@@ -1243,6 +1243,7 @@ app = {
 			if(e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
 				if(self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
+				else $(':tabbable').eq(parseInt($(':tabbable').index(self.sidebar.find(':tabbable').last())) + 1).focus();
 			}
 		});
 		self.sidebar.find('.js-submenu').on('shown.bs.collapse', (e) => {
@@ -1250,40 +1251,37 @@ app = {
 		});
 	},
 	openSidebar: function() {
-		const self = this;
-		self.sidebar.addClass('js-expand');
-		self.sidebarBtn.attr('aria-expanded', true);
+		this.sidebar.addClass('js-expand');
+		this.sidebarBtn.attr('aria-expanded', true);
 	},
 	closeSidebar: function() {
-		const self = this;
-		self.sidebar.removeClass('js-expand');
-		self.sidebar.find('.js-submenu').collapse('hide');
-		self.sidebarBtn.attr('aria-expanded', false);
-		self.sidebar.find('.js-menu').parent().scrollTop(0);
+		this.sidebar.removeClass('js-expand');
+		this.sidebar.find('.js-submenu').collapse('hide');
+		this.sidebarBtn.attr('aria-expanded', false);
+		this.sidebar.find('.js-menu').parent().scrollTop(0);
 	},
 	toggleSidebar: function() {
-		const self = this;
-		if(self.sidebar.hasClass('js-expand')) {
-			self.closeSidebar();
+		if(this.sidebar.hasClass('js-expand')) {
+			this.closeSidebar();
 		} else {
-			self.openSidebar();
-			self.sidebar.find('.js-menu :tabbable').first().focus();
+			this.openSidebar();
+			this.sidebar.find('.js-menu :tabbable').first().focus();
 		}
 	},
 	sidebarKeyboard: function(e){
-		const self = this;
 		let target = $(e.target);
-		if((target.hasClass('js-submenu-toggler') && (e.which == self.keyboard.RIGHT || e.which == self.keyboard.SPACE) && target.hasClass('collapsed'))
-		|| (target.hasClass('js-submenu-toggler') && (e.which == self.keyboard.LEFT || e.which == self.keyboard.SPACE) && !target.hasClass('collapsed'))) {
+		if((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT || e.which == this.keyboard.SPACE) && target.hasClass('collapsed'))
+		|| (target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.LEFT || e.which == this.keyboard.SPACE) && !target.hasClass('collapsed'))) {
 			target.click(); return false;
-		} else if(e.which == self.keyboard.UP) {
-			self.sidebar.find('.js-menu :tabbable').eq(parseInt(self.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
-		} else if(e.which == self.keyboard.DOWN) {
-			self.sidebar.find('.js-menu :tabbable').eq(parseInt(self.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
+		} else if(e.which == this.keyboard.UP) {
+			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
+		} else if(e.which == this.keyboard.DOWN) {
+			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
 		}
 	},
 	registerTabdrop: function () {
 		let tabs = $('.js-tabdrop');
+		if(!tabs.length) return;
 		let tab  = tabs.find('> li');
 		tab.each(function() {
 			$(this).removeClass('d-none');
