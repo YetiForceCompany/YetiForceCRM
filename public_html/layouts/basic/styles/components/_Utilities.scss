@@ -28,8 +28,8 @@
 .u-mr-0px {
   margin-right: 0 !important;
 }
-.u-ml-0px{
-	margin-left: 0 !important;
+.u-ml-0px {
+  margin-left: 0 !important;
 }
 .u-mr-5px {
   margin-right: 5px;
@@ -39,15 +39,15 @@
 	margin: 0;
   }
 }
-.u-mb-13px{
-	margin-bottom: 0.8rem !important;
+.u-mb-13px {
+  margin-bottom: 0.8rem !important;
 }
 //--- WIDTH ---//
 .u-w-auto {
   width: auto !important;
 }
 .u-w-37per {
-	width: 37% !important;
+  width: 37% !important;
 }
 .u-w-fit {
   width: fit-content !important;
@@ -57,7 +57,7 @@
 }
 //--- HEIGHT ---//
 .u-h-600px {
-	height: 600px !important;
+  height: 600px !important;
 }
 .u-h-input-text {
   height: $input-text-height;
@@ -115,6 +115,9 @@
 .u-white-space-n {
   white-space: normal !important;
 }
+.u-white-space-pre-line {
+  white-space: pre-line !important;
+}
 .u-cursor-pointer {
   cursor: pointer;
   text-decoration: none !important;
@@ -123,7 +126,7 @@
   cursor: auto;
 }
 .u-overflow-auto {
-	overflow: auto !important;
+  overflow: auto !important;
 }
 .u-remove-dropdown-icon {
   .dropdown-toggle::after {
@@ -131,7 +134,7 @@
   }
 }
 //--- TABLE ---//
-.u-width-td-30{
+.u-width-td-30 {
   width: 30%;
   @extend .px-2;
 }
