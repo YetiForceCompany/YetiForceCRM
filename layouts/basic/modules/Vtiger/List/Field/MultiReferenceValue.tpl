@@ -10,7 +10,7 @@
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="RELATED_FIELD_MODEL" value=Vtiger_Field_Model::getInstanceFromFieldId($PARAMS['field'])}
 	<div class="tpl-List-Field-MultiReferenceValue picklistSearchField">
-		<select class="select2noactive select2 listSearchContributor" name="{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple data-fieldinfo="{$FIELD_INFO|escape}">
+		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple data-fieldinfo="{$FIELD_INFO|escape}">
 			{foreach item=VALUE from=$PICKLIST_VALUES}
 				<option value="{$VALUE}" {if in_array($VALUE,$SEARCH_VALUES) && ($VALUE neq "")}selected{/if}>
 					{$RELATED_FIELD_MODEL->getUITypeModel()->getDisplayValue($VALUE)}
