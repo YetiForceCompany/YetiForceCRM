@@ -996,7 +996,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (fieldElement.validationEngine('validate')) {
 					if (fieldElement.attr('data-inputmask')) {
 						fieldElement.inputmask();
-						}
+					}
 					return;
 				}
 
@@ -2352,7 +2352,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
 			if (relatedModuleName === 'Calendar') {
 				var container = widgetContent.closest('.activityWidgetContainer');
-				console.log('DetailView.Widget.AfterLoad')
 				thisInstance.reloadWidgetActivitesStats(container);
 			}
 			if (relatedModuleName === 'ModComments') {
@@ -2445,15 +2444,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return false;
 		}
 		var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
-		var switchBtn = container.find('.js-switch:checked');
+		var switchBtn = container.find('.active .js-switch');
+		var switchBtnParent = switchBtn.parent();
 		var text = switchBtn.data('basic-text') + stats;
-		switchBtn
-			.parent()
-			.contents()
-			.filter(function () {
-				return this.nodeType == 3; //Node.TEXT_NODE
-			}).remove();
-		switchBtn.parent().append(text);
+		switchBtnParent.removeTextNode();
+		switchBtnParent.append(text);
 	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
