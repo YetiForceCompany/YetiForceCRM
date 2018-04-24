@@ -19,7 +19,7 @@
 							title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
 						<span class="fas fa-print"></span>
 					</button>&nbsp;
-					{if count($FILTERS)<=1}
+					{if count($CHART_MODEL->getFilterIds())<=1}
 						<button class="btn btn-sm btn-light recordCount"
 								data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}"
 								title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">

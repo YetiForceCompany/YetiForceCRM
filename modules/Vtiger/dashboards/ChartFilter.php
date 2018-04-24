@@ -27,10 +27,6 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CHART_MODEL', $chartFilterWidgetModel);
 		$viewer->assign('ADDITIONAL_FILTERS_FIELDS', $additionalFilterFields);
-		$viewer->assign('COLOR', $chartFilterWidgetModel->isColor());
-		$viewer->assign('BASE_MODULE', $chartFilterWidgetModel->getTargetModule());
-		$viewer->assign('CHART_TYPE', $chartFilterWidgetModel->getType());
-		$viewer->assign('FILTERS', $chartFilterWidgetModel->getFilterIds());
 		$viewer->assign('CHART_STACKED', $chartFilterWidgetModel->isStacked() ? 1 : 0);
 		$viewer->assign('CHART_COLORS_FROM_DIVIDING_FIELD', $chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0);
 		$viewer->assign('CHART_COLORS_FROM_FILTERS', $chartFilterWidgetModel->areColorsFromFilter() ? 1 : 0);
