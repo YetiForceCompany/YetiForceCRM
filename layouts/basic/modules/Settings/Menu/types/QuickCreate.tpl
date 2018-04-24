@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
-<div class="form-group">
+<div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<input name="label" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('label')}{/if}" />
 	</div>
 </div>
-<div class="form-group">
+<div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<select name="module" class="select2 form-control type">
@@ -17,7 +17,7 @@
 	</div>
 </div>
 {include file=\App\Layout::getTemplatePath('fields/Hotkey.tpl', $QUALIFIED_MODULE)}
-<div class="form-group">
+<div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<div class="input-group">

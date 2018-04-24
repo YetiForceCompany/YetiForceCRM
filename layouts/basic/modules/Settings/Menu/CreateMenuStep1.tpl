@@ -14,7 +14,7 @@
 				<div class="row">
 					<div class="col-md-5 mx-0">{\App\Language::translate('LBL_SELECT_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
 					<div class="col-md-7">
-						<select name="type" class="select2 form-control type">
+						<select name="type" class="select2 type">
 							{foreach from=$MENU_TYPES item=ITEM key=KEY}
 								<option value="{$KEY}">{\App\Language::translate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</option>
 							{/foreach}

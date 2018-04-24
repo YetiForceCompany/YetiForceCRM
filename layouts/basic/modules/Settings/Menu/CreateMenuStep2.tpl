@@ -3,15 +3,17 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">{\App\Language::translate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
 				{assign var=MENU_TYPE value=$MENU_TYPES[$TYPE]}
 				<form class="form-horizontal">
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
-					<div class="form-group">
+					<div class="form-group row">
 						<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
 						<div class="col-md-7 form-control-plaintext">{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
 					</div>
