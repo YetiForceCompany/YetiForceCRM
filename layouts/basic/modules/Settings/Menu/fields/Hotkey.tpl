@@ -1,14 +1,18 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
-<div class="form-group">
+<div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_HOTKEY', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<div class="input-group">
 			<input name="hotkey" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('hotkey')}{/if}" />
-			<a class="input-group-addon testBtn">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
-			<a class="input-group-addon js-popover-tooltip" data-js="popover" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover"
+			<div class="input-group-append">
+				<a class="btn btn-default testBtn">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
+			</div>
+			<a class="input-group-append js-popover-tooltip" data-js="popover" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover"
 			   data-content="{\App\Language::translate('LBL_MORE_INFO', $QUALIFIED_MODULE)}">
-				<i class="fas fa-info-circle"></i>
+				<div class="input-group-text">
+					<i class="fas fa-info-circle"></i>
+				</div>
 			</a>
 		</div>
 	</div>
