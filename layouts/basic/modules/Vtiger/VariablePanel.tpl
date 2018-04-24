@@ -7,14 +7,14 @@
 		{assign var=TEXT_PARSER value=$TEXT_PARSER->setType($PARSER_TYPE)}
 	{/if}
 	{if $SELECTED_MODULE && App\Module::getEntityInfo($SELECTED_MODULE)}
-		<div class="col-md-6 fieldRow form-row">
+		<div class="col-md-6 fieldRow form-group row">
 			<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 				<label class="muted">{\App\Language::translate('LBL_MODULE_FIELDS','Other.TextParser')}</label>
 			</div>
 			<div class="medium col-md-9 fieldValue">
 				<div class="row">
 					<div class="input-group">
-						<select class="select2 form-control" id="recordVariable">
+						<select class="select2 form-control" id="recordVariable" data-width="style" style="width:auto">
 							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
 								<optgroup label="{$BLOCK_NAME}">
 									{foreach item=ITEM from=$FIELDS}
@@ -37,14 +37,14 @@
 		</div>
 		{assign var=RELATED_VARIABLE value=$TEXT_PARSER->getRelatedVariable()}
 		{if $RELATED_VARIABLE}
-			<div class="col-md-6 fieldRow form-row">
+			<div class="col-md-6 fieldRow form-group row">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 					<label class="muted">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS','Other.TextParser')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
 						<div class="input-group"> 
-							<select class="select2 form-control" id="relatedVariable">
+							<select class="select2 form-control" id="relatedVariable" data-width="style" style="width:auto">
 								{foreach item=FIELDS from=$RELATED_VARIABLE}
 									{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 										<optgroup label="{$BLOCK_NAME}">
@@ -70,14 +70,14 @@
 		{/if}
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
-			<div class="col-md-6 fieldRow form-row">
+			<div class="col-md-6 fieldRow form-group row">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 					<label class="muted">{\App\Language::translate('LBL_SOURCE_MODULE_FIELDS','Other.TextParser')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
 						<div class="input-group">
-							<select class="select2" id="sourceVariable">
+							<select class="select2" id="sourceVariable" data-width="style" style="width:auto">
 								{foreach item=BLOCKS key=SOURCE_MODULE from=$SOURCE_VARIABLE}
 									{if $SOURCE_MODULE == 'LBL_ENTITY_VARIABLES'}
 										<optgroup label="{\App\Language::translate($SOURCE_MODULE, 'Other.TextParser')}">
@@ -112,14 +112,14 @@
 		{/if}
 		{assign var=RELATED_LISTS value=$TEXT_PARSER->getRelatedListVariable()}
 		{if $RELATED_LISTS}
-			<div class="col-md-6 fieldRow form-row">
+			<div class="col-md-6 fieldRow form-group row">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 					<label class="muted">{\App\Language::translate('LBL_RELATED_RECORDS_LIST','Other.TextParser')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
 						<div class="input-group">
-							<select class="select2 form-control" id="relatedLists">
+							<select class="select2 form-control" id="relatedLists" data-width="style" style="width:auto">
 								{foreach item=MODULE_LIST from=$RELATED_LISTS}
 									<option value="{$MODULE_LIST['key']}">{$MODULE_LIST['label']}</option>
 								{/foreach}
@@ -137,14 +137,14 @@
 	{/if}
 	{assign var=BASE_LISTS value=$TEXT_PARSER->getBaseListVariable()}
 	{if $BASE_LISTS}
-		<div class="col-md-6 fieldRow form-row">
+		<div class="col-md-6 fieldRow form-group row">
 			<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 				<label class="muted">{\App\Language::translate('LBL_RECORDS_LIST')}</label>
 			</div>
 			<div class="medium col-md-9 fieldValue">
 				<div class="row">
 					<div class="input-group">
-						<select class="select2" id="recordList">
+						<select class="select2" id="recordList" data-width="style" style="width:auto">
 							{foreach item=MODULE_LIST from=$BASE_LISTS}
 								<option value="{$MODULE_LIST['key']}">{$MODULE_LIST['label']}</option>
 							{/foreach}
@@ -159,14 +159,14 @@
 			</div>
 		</div>
 	{/if}
-	<div class="col-md-6 fieldRow form-row">
+	<div class="col-md-6 fieldRow form-group row">
 		<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 			<label class="muted">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES','Other.TextParser')}</label>
 		</div>
 		<div class="medium col-md-9 fieldValue">
 			<div class="row">
 				<div class="input-group">
-					<select class="select2 form-control" id="generalVariable" data-container-class-css="form-control">
+					<select class="select2 form-control" id="generalVariable" data-container-class-css="form-control" data-width="style" style="width:auto">
 						{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
 							<optgroup label="{\App\Language::translate($BLOCK_NAME, 'Other.TextParser')}">
 								{foreach item=LABEL key=VARIABLE from=$FIELDS}
