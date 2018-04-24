@@ -1496,14 +1496,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const search = container.find('.listSearchContributor');
 		const refreshBtn = container.find('a[name="drefresh"]');
 		const originalUrl = refreshBtn.data('url');
+		const selects = container.find('.select2noactive');
 		search.css('width', '100%');
 		search.parent().addClass('w-100');
-		search.each((index,element)=>{
+		search.each((index,element) => {
 			const fieldInfo = $(element).data('fieldinfo');
-			const label = fieldInfo.label;
-			$(element).attr('placeholder',label).data('placeholder',label);
+			$(element).attr('placeholder', fieldInfo.label).data('placeholder', fieldInfo.label);
 		});
-		App.Fields.Picklist.changeSelectElementView(container, undefined, {containerCssClass: 'form-control'});
+		App.Fields.Picklist.changeSelectElementView(selects, 'select2', {containerCssClass: 'form-control'});
 		App.Fields.Date.register(container);
 		App.Fields.Date.registerRange(container);
 		search.on('change apply.daterangepicker', (e) => {
