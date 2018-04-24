@@ -2306,8 +2306,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
 				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 				if (url.indexOf('&whereCondition') == -1) {
-					var switchBtn = jQuery('.recentActivitiesSwitch');
-					url += '&whereCondition=' + (switchBtn.prop('checked') ? switchBtn.data('on-val') : switchBtn.data('off-val'));
+					var switchBtn = jQuery('.active .js-switch--recentActivities');
+					url += '&whereCondition=' + (typeof switchBtn.data('on-val') === 'undefined' ? switchBtn.data('off-val') : switchBtn.data('on-val'));
 				}
 			}
 			AppConnector.request(url).then(function (data) {
@@ -2379,7 +2379,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					container.find('.countActivities').remove();
 					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
-					console.log('morerecent')
 					thisInstance.reloadWidgetActivitesStats(container);
 					app.showPopoverElementView(container.find('.js-popover-tooltip'));
 				}
@@ -2420,7 +2419,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('change', '.js-switch--recentActivities', function (e, state) {
+		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
 			var url = tabElement.data('url');

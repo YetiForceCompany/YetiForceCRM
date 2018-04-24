@@ -1,7 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-RecentActivitiesHeader row marginBottom10px">
-		<div class="col-md-12 btn-toolbar">
+		<div class="col-md-12 btn-toolbar justify-content-end">
+			{if $USER_MODEL->getId() eq $USER_MODEL->getRealId() && $MODULE_MODEL->isPermitted('ReviewingUpdates') && ModTracker_Record_Model::isNewChange($PARENT_RACORD_ID, $USER_MODEL->getRealId())}
+					<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn mr-1"
+							title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $MODULE_BASE_NAME)}">
+						<span class="far fa-check-circle"></span>
+					</button>
+			{/if}
 			<div class="btn-group btn-group-toggle" data-toggle="buttons">
 				<label class="btn btn-sm btn-outline-primary {if $TYPE eq 'changes'}active{/if}">
 					<input class="js-switch--recentActivities" type="radio" name="options" id="option1"
@@ -22,14 +28,6 @@
 					> {\App\Language::translate('LBL_REVIEW_HISTORY', $MODULE_BASE_NAME)}
 				</label>
 			</div>
-			{if $USER_MODEL->getId() eq $USER_MODEL->getRealId() && $MODULE_MODEL->isPermitted('ReviewingUpdates') && ModTracker_Record_Model::isNewChange($PARENT_RACORD_ID, $USER_MODEL->getRealId())}
-				<div class="float-right btn-group">
-					<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn"
-							title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $MODULE_BASE_NAME)}">
-						<span class="far fa-check-circle"></span>
-					</button>
-				</div>
-			{/if}
 		</div>
 	</div>
 {/strip}
