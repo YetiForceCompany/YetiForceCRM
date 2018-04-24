@@ -287,6 +287,7 @@
     "LBL_ICON_NAME": "Nazwa ikony",
     "LBL_ICON_EXAMPLE": "Przyk\u0142ad ikony",
     "RecordAllocation": "Przydzia\u0142 rekord\u00f3w",
+    "LBL_RECORDALLOCATION_DESCRIPTION": " ",
     "ERR_NO_REQUIRED_LIBRARY": "Nie znaleziono wymaganej biblioteki %s. Cz\u0119\u015b\u0107 funkcjonalno\u015bci zosta\u0142a zablokowana. Aby pobra\u0107 nale\u017cy przej\u015b\u0107 do <a href=\"index.php?module=ModuleManager&parent=Settings&view=List\">Modu\u0142y - instalacja<\/a>",
     "LBL_SYSTEM_WARNINGS": "Ostrze\u017cenia systemowe",
     "LBL_WARNINGS_FOLDERS": "Kategorie ostrze\u017ce\u0144",
