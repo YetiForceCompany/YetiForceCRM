@@ -83,6 +83,9 @@ header {
 .select2-selection[aria-labelledby^="select2-theme"] {
 	@extend .p-0;
 }
+.select2-search__field {
+  width: 100% !important;
+}
 //--- modal ---//
 .leaflet-popup-content {
   width: 62px;
