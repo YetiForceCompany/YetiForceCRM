@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="listViewActions paginationDiv pl-1">
+	<div class="listViewActions paginationDiv pl-1 d-flex justify-content-end">
         {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
         {/if}

@@ -7,7 +7,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
-		<div class="widget_header row">
+		<div class="form-row my-3 widget_header py-2 align-items-center">
 			<div class="col-md-2 float-left">
 				<select class="chzn-select form-control" id="usersFilter" >
 					<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
