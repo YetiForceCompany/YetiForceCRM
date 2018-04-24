@@ -1364,18 +1364,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerChangeSwitchForWidget: function (summaryViewContainer) {
 		var thisInstance = this;
-		summaryViewContainer.find('.activityWidgetContainer').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
+		summaryViewContainer.find('.activityWidgetContainer').on('change', '.js-switch', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
 			var url = widget.data('url');
 			url = url.replace('&type=current', '').replace('&type=history', '');
 			url += '&type=';
-			if (state) {
+			if (typeof currentElement.data('on-val') !== 'undefined') {
 				summaryWidgetContainer.find('.ativitiesPagination').removeClass('d-none');
 				url += 'current';
 				url = url.replace('&sortorder=DESC', '&sortorder=ASC');
-			} else {
+			} else if (typeof currentElement.data('off-val') !== 'undefined') {
 				summaryWidgetContainer.find('.ativitiesPagination').addClass('d-none');
 				url += 'history';
 				url = url.replace('&sortorder=ASC', '&sortorder=DESC');
@@ -2443,16 +2443,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return false;
 		}
 		var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
-		var switchBtn = container.find('.switchBtn');
+		var switchBtn = container.find('.js-switch');
+		console.log('stats')
 		if (switchBtn.prop('checked')) {
+			console.log('switchtext')
 			var text = switchBtn.data('basic-texton') + stats;
 			switchBtn.data('on-text', text);
-		} else {
-			var text = switchBtn.data('basic-textoff') + stats;
-			switchBtn.data('off-text', text);
 		}
-		switchBtn.bootstrapSwitch('destroy');
-		switchBtn.bootstrapSwitch();
+		// else {
+		// 	var text = switchBtn.data('basic-textoff') + stats;
+		// 	switchBtn.data('off-text', text);
+		// }
+		// switchBtn.bootstrapSwitch('destroy');
+		// switchBtn.bootstrapSwitch();
 	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
