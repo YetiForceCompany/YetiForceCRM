@@ -34,6 +34,14 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'Modals/RecordConverterHeader.tpl';
+	}
+
+	/**
 	 * Process function.
 	 *
 	 * @param \App\Request $request
@@ -47,10 +55,9 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 		$modulesWithoutPermission = [];
 		$viewer->assign('CREATED_RECORDS', $recordsAmount);
 		if (!$request->isEmpty('convertType')) {
-			$fieldMerge = $request->isEmpty('fieldMerge') ? '' : $request->getByType('fieldMerge');
+			$converter = \App\RecordConverter::getInstanceById($request->getInteger('convertType'));
 			$viewer->assign('SELECTED_CONVERT_TYPE', $request->getInteger('convertType'));
-			$viewer->assign('SELECTED_MODULE', $request->getByType('destinyModule'));
-			$viewer->assign('CREATED_RECORDS', \App\RecordConverter::countCreatedRecords($moduleName, $records, $fieldMerge));
+			$viewer->assign('CREATED_RECORDS', $converter->countCreatedRecords($moduleName, $records));
 		}
 		$moduleConverters = \App\RecordConverter::getModuleConverters(\App\Module::getModuleId($moduleName), $request->get('inView'));
 		foreach ($moduleConverters as $key => $converter) {
@@ -71,7 +78,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 		$viewer->assign('ALL_RECORDS', $recordsAmount);
 		$viewer->assign('CONVERTERS', $moduleConverters);
 		$viewer->assign('MODULE_WITHOUT_PERMISSIONS', $modulesWithoutPermission);
-		$viewer->view('RecordConverter.tpl', $moduleName);
+		$viewer->view('Modals/RecordConverter.tpl', $moduleName);
 	}
 
 	/**

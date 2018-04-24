@@ -18,8 +18,15 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->getModule(), 'RecordConventer') || !\App\Privilege::isPermitted($request->getByType('destinyModule'), 'CreateView')) {
+		$moduleName = $request->getModule();
+		if (!\App\Privilege::isPermitted($moduleName, 'RecordConventer')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('convertId'), $moduleName);
+		foreach (explode(',', $convertInstance->get('destiny_modules')) as $destinyModuleId) {
+			if (!\App\Privilege::isPermitted(\App\Module::getModuleName($destinyModuleId), 'CreateView')) {
+				\App\Log::warning("No permitted to action CreateView in module $destinyModuleId in view RecordConventer");
+			}
 		}
 	}
 
@@ -36,13 +43,11 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->getModule();
 		$records = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		$destinyModule = $request->getByType('destinyModule');
 		$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('convertId'), $moduleName);
 		$redirect = '';
+		$convertInstance->process($records);
 		if (count($records) === 1 && $convertInstance->get('redirect_to_edit')) {
 			$redirect = 'index.php?module=' . $request->getByType('destinyModule') . '&view=Edit&recordConverter=' . $request->getInteger('convertId') . '&sourceId=' . $records[0] . '&sourceModule=' . $moduleName;
-		} else {
-			$convertInstance->process($records, $request->getByType('destinyModule'));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['redirect' => $redirect, 'createdRecords' => sprintf(\App\Language::translate('LBL_CREATED_CONVERT_RECORDS', $moduleName), $convertInstance->createdRecords), 'error' => $convertInstance->error]);

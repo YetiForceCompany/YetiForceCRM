@@ -10,9 +10,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 			module: this.container.data('module'),
 			view: this.container.data('view'),
 			convertType: this.container.find('.js-convert-type option:selected').val(),
-			fieldMerge: this.container.find('.js-convert-type option:selected').attr('data-field-merge'),
 			onlyBody: true,
-			destinyModule: this.container.find('.js-convert-type option:selected').attr('data-destiny-module'),
 			inView: app.getViewName()
 		};
 		if (app.getViewName() === 'List') {
@@ -21,7 +19,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 			params.excluded_ids = listInstance.readExcludedIds(true);
 			params.cvId = listInstance.getCurrentCvId();
 			if (listInstance.getListSearchInstance()) {
-				var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+				let searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
 				params.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
 					params.search_key = listInstance.getListSearchInstance().getAlphabetSearchField();
@@ -39,7 +37,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 	 * @returns {object}
 	 */
 	loadModalWindow: function () {
-		let body = this.container.find('.modal-body')
+		let body = this.container.find('.js-modal-body')
 		var aDeferred = $.Deferred();
 		var progressIndicatorElement = $.progressIndicator({
 			blockInfo: {
@@ -74,27 +72,22 @@ $.Class("Base_RecordConverter_JS", {}, {
 	registerSubmitForm: function () {
 		var thisInstance = this;
 		thisInstance.container.on('click', "[name='saveButton']", function (e) {
-			let destinyModule = thisInstance.container.find('.js-convert-type option:selected').attr('data-destiny-module');
 			let convertType = thisInstance.container.find('.js-convert-type option:selected').val();
 			if (convertType) {
 				var formData = thisInstance.container.find('form').serializeFormData();
 				if (app.getViewName() === 'List') {
 					let listInstance = Vtiger_List_Js.getInstance();
-					let validationResult = listInstance.checkListRecordSelected();
-					if (validationResult != true) {
-						var postData = listInstance.getDefaultParams();
-						postData.selected_ids = listInstance.readSelectedIds(true);
-						postData.excluded_ids = listInstance.readExcludedIds(true);
-						postData.cvid = listInstance.getCurrentCvId();
+					var postData = listInstance.getDefaultParams();
+					postData.selected_ids = listInstance.readSelectedIds(true);
+					postData.excluded_ids = listInstance.readExcludedIds(true);
+					postData.cvid = listInstance.getCurrentCvId();
 
-					}
 				} else {
 					var postData = {
-						selected_ids: app.getRecordId(),
+						selected_ids: app.getRecordId()
 					}
 				}
 				postData.convertType = convertType;
-				postData.destinyModule = destinyModule;
 				postData.viewInfo = app.getViewName();
 				var aDeferred = $.Deferred();
 				var progressIndicatorElement = $.progressIndicator({
@@ -106,11 +99,10 @@ $.Class("Base_RecordConverter_JS", {}, {
 				AppConnector.request($.extend(formData, postData)).then(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					let parseResult = JSON.parse(responseData);
-					/*
 					if(responseData.result.redirect){
 						window.location.href = responseData.result.redirect;
-					}*/
-					if(parseResult.result.createdRecords){
+					}
+					if (parseResult.result.createdRecords) {
 						Vtiger_Helper_Js.showMessage({
 							text: app.vtranslate(parseResult.result.createdRecords),
 							type: 'success',

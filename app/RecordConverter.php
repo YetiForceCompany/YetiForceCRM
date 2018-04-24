@@ -115,6 +115,13 @@ class RecordConverter extends Base
 	public $error = '';
 
 	/**
+	 * Variable determines the type of group records.
+	 *
+	 * @var bool
+	 */
+	public $groupRecordConvert = false;
+
+	/**
 	 * Variable determines if merge field exist.
 	 *
 	 * @var bool
@@ -206,18 +213,24 @@ class RecordConverter extends Base
 	 *
 	 * @param string $moduleName
 	 * @param array  $records
-	 * @param strign $fieldMerge
 	 *
 	 * @return int
 	 */
-	public static function countCreatedRecords($moduleName, $records, $fieldMerge)
+	public function countCreatedRecords($moduleName, $records)
 	{
-		if ($fieldMerge) {
-			$fieldModel = \Vtiger_Field_Model::getInstance($fieldMerge, \Vtiger_Module_Model::getInstance($moduleName));
+		$modulesAmount = 0;
+		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
+			$destinyModuleName = \App\Module::getModuleName($destinyModuleId);
+			if (\App\Privilege::isPermitted($destinyModuleName, 'CreateView')) {
+				$modulesAmount++;
+			}
+		}
+		if ($this->get('field_merge')) {
+			$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), \Vtiger_Module_Model::getInstance($moduleName));
 			$focus = \CRMEntity::getInstance($moduleName);
-			return count((new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$fieldMerge}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->table_index => $records])->createCommand()->queryAllByGroup(2));
+			return count((new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$this->get('field_merge')}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->table_index => $records])->createCommand()->queryAllByGroup(2)) * $modulesAmount;
 		} else {
-			return count($records);
+			return count($records) * $modulesAmount;
 		}
 	}
 
@@ -230,40 +243,50 @@ class RecordConverter extends Base
 	{
 		$this->sourceModule = \App\Module::getModuleName($this->get('source_module'));
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
-		$this->destinyModuleModel = \Vtiger_Module_Model::getInstance($this->destinyModule);
 		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : '';
 		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : '';
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->sourceModule);
 		$this->sourceInvFields = $inventoryField->getFields(true);
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->destinyModule);
-		$this->destinyInvFields = $inventoryField->getFields(true);
 	}
 
 	/**
 	 * Main function of class.
 	 *
-	 * @param array  $records
-	 * @param string $destinyModule
+	 * @param array $records
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function process($records, $destinyModule)
+	public function process($records)
 	{
-		$this->destinyModule = $destinyModule;
 		$this->init();
-		$recordsAmount = count($records);
-		$this->isFieldMergeExists = $this->checkFieldMerge();
+		if ($this->get('destiny_module')) {
+			$recordsAmount = count($records);
+			foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
+				$destinyModuleName = \App\Module::getModuleName($destinyModuleId);
+				if (!\App\Privilege::isPermitted($destinyModuleName, 'CreateView')) {
+					\App\Log::warning("No permitted to action CreateView in module $destinyModuleName in view RecordConventer");
+					continue;
+				}
+				$this->destinyModule = $destinyModuleName;
+				$this->destinyModuleModel = \Vtiger_Module_Model::getInstance($destinyModuleName);
+				$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->destinyModule);
+				$this->destinyInvFields = $inventoryField->getFields(true);
+				$this->isFieldMergeExists = $this->checkFieldMerge();
 
-		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$this->isFieldMergeExists || $recordsAmount === 1)) {
-			$this->fieldMappingExecute = true;
-		}
-		if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
-			$this->inventoryMappingExecute = true;
-		}
-		if ($this->isFieldMergeExists && $recordsAmount > 1) {
-			$this->getRecordsGroupBy($records);
-		} else {
-			$this->getRecordModelsWithoutMerge($records);
+				if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$this->isFieldMergeExists || $recordsAmount === 1)) {
+					$this->fieldMappingExecute = true;
+				}
+				if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
+					$this->inventoryMappingExecute = true;
+				}
+
+				if ($this->isFieldMergeExists && $recordsAmount > 1) {
+					$this->groupRecordConvert = true;
+					$this->getRecordsGroupBy($records);
+				} else {
+					$this->getRecordModelsWithoutMerge($records);
+				}
+			}
 		}
 	}
 
@@ -280,8 +303,8 @@ class RecordConverter extends Base
 		$this->destinyModule = $destinyModule;
 		$this->init();
 		$this->getRecordModelsWithoutMerge([$record]);
-		$isFieldMergeExists = $this->checkFieldMerge();
-		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && $isFieldMergeExists) {
+		$this->isFieldMergeExists = $this->checkFieldMerge();
+		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && $this->isFieldMergeExists) {
 			$this->processFieldMapping();
 		}
 		if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
@@ -291,25 +314,44 @@ class RecordConverter extends Base
 	}
 
 	/**
+	 * Function get query to group records.
+	 *
+	 * @param array $records
+	 *
+	 * @return array
+	 */
+	public function getGroupRecords($records)
+	{
+		$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), $this->sourceModuleModel);
+		$focus = \CRMEntity::getInstance($this->sourceModule);
+		$result = (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$this->get('field_merge')}", $focus->tab_name_index[$fieldModel->getTableName()]])
+			->from($fieldModel->getTableName())->where([$focus->table_index => $records])->createCommand()->queryAllByGroup(2);
+		return $result;
+	}
+
+	/**
 	 * Function prepare records model group by field merge.
 	 *
 	 * @param array $records
 	 */
 	public function getRecordsGroupBy($records)
 	{
-		$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), $this->sourceModuleModel);
-		$focus = \CRMEntity::getInstance($this->sourceModule);
-		$groupRecords = (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$this->get('field_merge')}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->table_index => $records])->createCommand()->queryAllByGroup(2);
+		$groupRecords= $this->getGroupRecords($records);
 		foreach ($groupRecords as $groupBy => $recordsId) {
 			$this->cleanRecordModels[$groupBy] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
 			foreach ($recordsId as $recordId) {
-				$this->recordModels[$groupBy][] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
-			}
-			if ($this->fieldMappingExecute) {
-				$this->processFieldMapping();
+				if (!isset($this->recordModels[$groupBy][$recordId])) {
+					$this->recordModels[$groupBy][$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
+				}
 			}
 			if ($this->inventoryMappingExecute) {
 				$this->processInventoryMapping();
+			}
+			if ($this->isFieldMergeExists) {
+				$this->cleanRecordModels[$groupBy]->set($this->get('field_merge'), $groupBy);
+			}
+			if ($this->get('check_duplicate')) {
+				$this->checkDuplicate();
 			}
 			$this->saveChanges();
 		}
@@ -323,13 +365,18 @@ class RecordConverter extends Base
 	public function getRecordModelsWithoutMerge($records)
 	{
 		foreach ($records as $recordId) {
-			$this->cleanRecordModels[] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
-			$this->recordModels[] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
+			$this->cleanRecordModels[$recordId] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
+			if (!isset($this->recordModels[$recordId])) {
+				$this->recordModels[$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
+			}
 			if ($this->fieldMappingExecute) {
 				$this->processFieldMapping();
 			}
 			if ($this->inventoryMappingExecute) {
 				$this->processInventoryMapping();
+			}
+			if ($this->get('check_duplicate')) {
+				$this->checkDuplicate();
 			}
 			$this->saveChanges();
 		}
@@ -341,15 +388,17 @@ class RecordConverter extends Base
 	public function processFieldMapping()
 	{
 		$this->checkFieldMappingFields();
-		foreach ($this->recordModels as $key => $recordModel) {
-			$referenceRecordModel = &$this->cleanRecordModels[$key];
-			$textParser = \App\TextParser::getInstanceByModel($recordModel);
-			foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
-				if (!isset($this->textParserValues[$sourceField])) {
-					$textParser->setContent($sourceField);
-					$this->textParserValues[$sourceField] = $textParser->parse()->getContent();
+		if (isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) {
+			foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
+				$referenceRecordModel = &$this->cleanRecordModels[$key];
+				$textParser = \App\TextParser::getInstanceByModel($this->recordModels[$key]);
+				foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
+					if (!isset($this->textParserValues[$key][$sourceField])) {
+						$textParser->setContent($sourceField);
+						$this->textParserValues[$key][$sourceField] = $textParser->parse()->getContent();
+					}
+					$referenceRecordModel->set($destinyField, $this->textParserValues[$key][$sourceField]);
 				}
-				$referenceRecordModel->set($destinyField, $this->textParserValues[$sourceField]);
 			}
 		}
 	}
@@ -363,7 +412,7 @@ class RecordConverter extends Base
 			try {
 				$recordModel->save();
 				$this->createdRecords++;
-				unset($this->cleanRecordModels, $this->recordModels);
+				unset($this->cleanRecordModels);
 			} catch (\Error $ex) {
 				$this->createdRecords--;
 				$this->error = $ex->getMessage();
@@ -382,49 +431,61 @@ class RecordConverter extends Base
 			$inventoryDataForEdit = [];
 			if ($this->inventoryMapping[0] === 'auto') {
 				$inventoryFields = array_merge($this->sourceInvFields[1], $this->destinyInvFields[1]);
-				foreach ($this->recordModels as $groupBy => $recordModel) {
-					if (!is_array($recordModel)) {
-						$recordModel = [$recordModel];
+				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
+					if (!is_array($this->recordModels[$groupBy])) {
+						$sourceRecordModels = [$this->recordModels[$groupBy]];
+					} else {
+						$sourceRecordModels = $this->recordModels[$groupBy];
 					}
-					$referenceRecordModel = &$this->cleanRecordModels[$groupBy];
-					foreach ($recordModel as $recordModelGroupBy) {
-						foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
-							foreach ($inventoryFields as $field) {
-								$inventoryData[$groupBy][$counter][$field->get('columnname')] = $inventoryRow[$field->get('columnname')];
-								$invData[$groupBy][$field->get('columnname') . $counter] = $inventoryRow[$field->get('columnname')];
-							}
-							$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
-							$invData[$groupBy]['seq' . $counter] = $counter;
-							$invData[$groupBy]['inventoryItemsNo'] = $counter;
-							$counter++;
+					foreach ($sourceRecordModels as $recordModel) {
+						if (!is_array($recordModel)) {
+							$recordModel = [$recordModel];
 						}
-					}
-					$referenceRecordModel->setInventoryData($inventoryDataForEdit[$groupBy]);
-					$referenceRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
-				}
-			} else {
-				foreach ($this->recordModels as $groupBy => $recordModel) {
-					if (!is_array($recordModel)) {
-						$recordModel = [$recordModel];
-					}
-					$referenceRecordModel = &$this->cleanRecordModels[$groupBy];
-					foreach ($recordModel as $recordModelGroupBy) {
-						foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
-							if (isset($this->inventoryMapping[$this->destinyModuleModel->getId()])) {
-								foreach ($this->inventoryMapping[$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
-									$invData[$groupBy][$destinyField . $counter] = $inventoryRow[$sourceField];
-									$inventoryDataForEdit[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
+						foreach ($recordModel as $recordModelGroupBy) {
+							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
+								foreach ($inventoryFields as $field) {
+									$inventoryData[$groupBy][$counter][$field->get('columnname')] = $inventoryRow[$field->get('columnname')];
+									$invData[$groupBy][$field->get('columnname') . $counter] = $inventoryRow[$field->get('columnname')];
 								}
 								$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
-								$invData[$groupBy]['name' . $counter] = $inventoryRow['id'];
 								$invData[$groupBy]['seq' . $counter] = $counter;
-								$invData[$groupBy]['inventoryItemsNo'] = $counter++;
+								$invData[$groupBy]['inventoryItemsNo'] = $counter;
+								$counter++;
 							}
 						}
 					}
-					$referenceRecordModel->setInventoryData($inventoryDataForEdit[$groupBy]);
-					$referenceRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
 				}
+				$newRecordModel->setInventoryData($inventoryDataForEdit[$groupBy]);
+				$newRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
+			} else {
+				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
+					if (!is_array($this->recordModels[$groupBy])) {
+						$sourceRecordModels = [$this->recordModels[$groupBy]];
+					} else {
+						$sourceRecordModels = $this->recordModels[$groupBy];
+					}
+					foreach ($sourceRecordModels as $recordModel) {
+						if (!is_array($recordModel)) {
+							$recordModel = [$recordModel];
+						}
+						foreach ($recordModel as $recordModelGroupBy) {
+							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
+								if (isset($this->inventoryMapping[$this->destinyModuleModel->getId()])) {
+									foreach ($this->inventoryMapping[$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
+										$invData[$groupBy][$destinyField . $counter] = $inventoryRow[$sourceField];
+										$inventoryDataForEdit[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
+									}
+									$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
+									$invData[$groupBy]['name' . $counter] = $inventoryRow['id'];
+									$invData[$groupBy]['seq' . $counter] = $counter;
+									$invData[$groupBy]['inventoryItemsNo'] = $counter++;
+								}
+							}
+						}
+					}
+				}
+				$newRecordModel->setInventoryData($inventoryDataForEdit[$groupBy]);
+				$newRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
 			}
 		}
 	}
@@ -464,9 +525,43 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function check if exist duplicate records.
+	 * Function get query for searching duplicates.
+	 *
+	 * @return \App\Db\Query
+	 */
+	public function getQueryForDuplicate()
+	{
+		$focus = \CRMEntity::getInstance($this->destinyModule);
+		return  (new \App\Db\Query())->from($focus->table_name)->innerJoin($focus->customFieldTable[0], $focus->table_name . '.' . $focus->table_index . '=' . $focus->customFieldTable[0] . '.' . $focus->customFieldTable[1])
+			->innerJoin('vtiger_crmentity', $focus->table_name . '.' . $focus->table_index . '= vtiger_crmentity.crmid');
+	}
+
+	/**
+	 * Function check if exist duplicate of records.
 	 */
 	public function checkDuplicate()
 	{
+		$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
+		if ($referenceDestinyField) {
+			$query = $this->getQueryForDuplicate();
+			foreach ($this->cleanRecordModels as $groupBy => $recordModel) {
+				$columnsToCheck = [];
+				if ($this->isFieldMergeExists) {
+					if ($this->groupRecordConvert) {
+						$columnsToCheck[$referenceDestinyField] = $groupBy;
+					} else {
+						$sourceRecordModel = \Vtiger_Record_Model::getInstanceById($groupBy, $this->sourceModule);
+						$columnsToCheck[$referenceDestinyField] = $sourceRecordModel->get($this->get('field_merge'));
+					}
+				} else {
+					foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
+						$columnsToCheck[$destinyField] = $this->textParserValues[$groupBy][$sourceField];
+					}
+				}
+				if ($query->where($columnsToCheck)->exists()) {
+					unset($this->cleanRecordModels[$groupBy]);
+				}
+			}
+		}
 	}
 }
