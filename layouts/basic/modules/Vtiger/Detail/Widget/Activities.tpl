@@ -21,7 +21,7 @@
 							   data-on-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}"
 							   data-basic-text="{App\Language::translate('LBL_CURRENT')}"
 							   autocomplete="off"
-							   checked> {App\Language::translate('LBL_CURRENT')}
+							   > {App\Language::translate('LBL_CURRENT')}
 					</label>
 					<label class="btn btn-sm btn-outline-primary">
 						<input class="js-switch" type="radio" name="options" id="option2"

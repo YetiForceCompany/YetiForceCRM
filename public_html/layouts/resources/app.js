@@ -1397,7 +1397,7 @@ app = {
 				}
 			});
 		});
-	}
+	},
 }
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
@@ -1474,6 +1474,11 @@ $(document).ready(function () {
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
 		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+	}
+	$.fn.removeTextNode = function () {
+		$(this).contents().filter(function () {
+			return this.nodeType == 3; //Node.TEXT_NODE
+		}).remove();
 	}
 	bootbox.setLocale(CONFIG.langKey);
 })($);
