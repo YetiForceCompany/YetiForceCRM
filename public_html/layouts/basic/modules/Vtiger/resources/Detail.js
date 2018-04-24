@@ -2420,6 +2420,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
+		console.log(thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url').split('=').pop());
+		const urlEnd = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url').split('=').pop();
+		if (urlEnd === 'review') {
+			$('.js-switch--recentActivities[data-off-val]').parent().addClass('active');
+			$('.js-switch--recentActivities[data-off-val]').parent().siblings().removeClass('active');
+		}
 		detailContentsHolder.on('change', '.js-switch--recentActivities', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
