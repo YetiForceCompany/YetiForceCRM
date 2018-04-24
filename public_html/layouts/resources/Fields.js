@@ -458,8 +458,14 @@ App.Fields = {
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
 		showSelect2ElementView: function (selectElement, params) {
+			selectElement = $(selectElement);
 			if (typeof params === 'undefined') {
 				params = {};
+			}
+			if ($(selectElement).length > 1) {
+				return $(selectElement).each((index, element) => {
+					this.showSelect2ElementView(element, params);
+				});
 			}
 			let data = selectElement.data();
 			if (data != null) {
