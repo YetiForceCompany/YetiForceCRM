@@ -1397,7 +1397,7 @@ app = {
 				}
 			});
 		});
-	},
+	}
 }
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
