@@ -4,18 +4,18 @@
 	<div class="widget_header row">
 		<div class="col-10">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-			{App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
 		</div>
-		<div class="col-2">
-			{*<!--
-			<button class="btn btn-primary testSpeed pull-right">
-			<span class="fab fa-cloudscale"></span>&nbsp;&nbsp;
-			{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
-			</button>
-			-->*}
+		<div class="col-2 align-items-center d-flex justify-content-end">
+			{*<button class="btn btn-primary testSpeed float-right">*}
+			{*<span class="fab fa-cloudscale"></span>*}
+			{*{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}*}
+			{*</button>*}
 		</div>
 	</div>
-    <ul class="nav nav-tabs mt-2">
+	<div class="badge badge-info my-2">
+		<a> {App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}</a>
+	</div>
+    <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Configuration">{App\Language::translate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Permissions">{App\Language::translate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
     </ul>
@@ -51,7 +51,7 @@
 											{else}
 												{App\Language::translate('LBL_OPTIONAL', $MODULE)}
 											{/if}
-										</label class="u-text-small-bold"></td>
+										</label></td>
 								</tr>
 							{/foreach}
 						</tbody>
