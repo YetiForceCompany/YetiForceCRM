@@ -2352,6 +2352,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
 			if (relatedModuleName === 'Calendar') {
 				var container = widgetContent.closest('.activityWidgetContainer');
+				console.log('DetailView.Widget.AfterLoad')
 				thisInstance.reloadWidgetActivitesStats(container);
 			}
 			if (relatedModuleName === 'ModComments') {
@@ -2379,6 +2380,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					container.find('.countActivities').remove();
 					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
+					console.log('morerecent')
 					thisInstance.reloadWidgetActivitesStats(container);
 					app.showPopoverElementView(container.find('.js-popover-tooltip'));
 				}
@@ -2443,19 +2445,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return false;
 		}
 		var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
-		var switchBtn = container.find('.js-switch');
-		console.log('stats')
-		if (switchBtn.prop('checked')) {
-			console.log('switchtext')
-			var text = switchBtn.data('basic-texton') + stats;
-			switchBtn.data('on-text', text);
-		}
-		// else {
-		// 	var text = switchBtn.data('basic-textoff') + stats;
-		// 	switchBtn.data('off-text', text);
-		// }
-		// switchBtn.bootstrapSwitch('destroy');
-		// switchBtn.bootstrapSwitch();
+		var switchBtn = container.find('.js-switch:checked');
+		var text = switchBtn.data('basic-text') + stats;
+		switchBtn
+			.parent()
+			.contents()
+			.filter(function () {
+				return this.nodeType == 3; //Node.TEXT_NODE
+			}).remove();
+		switchBtn.parent().append(text);
 	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="c-detail-widget u-mb-13px js-detail-widget activityWidgetContainer" data-js=”container”>
+	<div  class="c-detail-widget u-mb-13px js-detail-widget activityWidgetContainer" data-js=”container”>
 		<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 			<div class="form-row align-items-center py-1">
 				<div class="col-9 col-md-5 col-sm-6">
@@ -18,25 +18,22 @@
 					<label class="btn btn-sm btn-outline-primary active">
 						<input class="js-switch" type="radio" name="options" id="option1"
 							   data-on-text="{App\Language::translate('LBL_CURRENT')}"
-							   data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}'
-							   data-basic-texton="{App\Language::translate('LBL_CURRENT')}"
-							   data-urlparams="search_params"
+							   data-on-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}"
+							   data-basic-text="{App\Language::translate('LBL_CURRENT')}"
 							   autocomplete="off"
 							   checked> {App\Language::translate('LBL_CURRENT')}
 					</label>
 					<label class="btn btn-sm btn-outline-primary">
 						<input class="js-switch" type="radio" name="options" id="option2"
-							   data-basic-textoff="{App\Language::translate('LBL_HISTORY')}"
+							   data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 							   data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
-							   data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'
-							   data-urlparams="search_params"
+							   data-off-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}"
 							   autocomplete="off"> {App\Language::translate('LBL_HISTORY')}
 					</label>
 				</div>
+
 				<div class="col float-right">
-					<button class="btn btn-sm btn-light float-right addButton createActivity"
-							data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
-							type="button"
+					<button class="btn btn-sm btn-light float-right addButton createActivity" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true" type="button"
 							title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
 						<span class="fas fa-plus"></span>
 					</button>
@@ -44,8 +41,7 @@
 			</div>
 			<hr class="widgetHr">
 		</div>
-		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"
-			 data-name="{$WIDGET['label']}">
+		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 			<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”>
 			</div>
 		</div>
