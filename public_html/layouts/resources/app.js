@@ -1230,6 +1230,10 @@ app = {
 		self.sidebarBtn	= $('.js-sidebar-btn').first();
 		self.sidebar	= $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar);
+		$('.js-submenu-state').on('click', function () {
+			$('.js-submenu-state a').removeClass('active');
+			$(this).addClass('active');
+		});
 		$(':focusable').on('focus', (e) => {
 			if(self.sidebar.find(':focus').length) {
 				self.openSidebar();
@@ -1256,7 +1260,6 @@ app = {
 	},
 	closeSidebar: function() {
 		this.sidebar.removeClass('js-expand');
-		this.sidebar.find('.js-submenu').collapse('hide');
 		this.sidebarBtn.attr('aria-expanded', false);
 		this.sidebar.find('.js-menu').parent().scrollTop(0);
 	},
