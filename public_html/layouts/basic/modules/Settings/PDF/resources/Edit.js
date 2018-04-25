@@ -155,7 +155,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	},
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
-		App.Fields.Password.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard(form);
 		this.registerFormSubmitEvent(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);

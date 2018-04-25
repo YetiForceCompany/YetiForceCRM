@@ -87,6 +87,6 @@ jQuery.Class('Settings_Dav_Keys_Js', {}, {
 		var container = thisInstance.getContainer();
 		container.find('.js-add-key').on('click', thisInstance.addKey);
 		container.find('.js-delete-key').on('click', thisInstance.deleteKey);
-		App.Fields.Password.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard(container);
 	}
 });

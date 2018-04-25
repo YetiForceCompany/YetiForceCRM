@@ -1,11 +1,19 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
+$.Class('Settings_WebserviceApps_Index_Js', {}, {
+	/**
+	 * Get container
+	 *
+	 * @returns {HTMLElement|jQuery}
+	 */
+	getContainer() {
+		return this.container;
+	},
 	/**
 	 * Register actions for record
 	 */
 	registerTableEvents: function () {
 		var thisInstance = this;
-		var container = $('.configContainer');
+		const container = this.container = $('.configContainer');
 		container.find('.edit').on('click', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var trRow = currentTarget.closest('tr');
@@ -80,7 +88,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 				prevButton.on('mouseout', function (e) {
 					password.attr('type', 'password');
 				});
-				const clipboard = App.Fields.Password.registerCopyClipboard('.copyPassword');
+				const clipboard = App.Fields.Password.registerCopyClipboard(container, '.copyPassword');
 				container.one('hidden.bs.modal', function () {
 					clipboard.destroy();
 				});
@@ -127,6 +135,6 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 	registerEvents: function () {
 		this.registerAddButton();
 		this.registerTableEvents();
-		App.Fields.Password.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard(this.getContainer());
 	}
 })
