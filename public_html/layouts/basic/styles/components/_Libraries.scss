@@ -9,21 +9,12 @@
   @extend .text-left;
 }
 .select2-container--bootstrap4 {
-  .select2-selection--single {
-	padding: 0.375rem 1.125rem 0.375rem 0.75rem;
-  }
-  .select2-selection__rendered {
-	line-height: 1.5;
-  }
-}
-.dashboardWidgetHeader {
-  .input-group-sm {
-	.select2-container--bootstrap4 {
-	  .select2-selection--single {
-		padding: 0.275rem 1.125rem 0.375rem 0.75rem !important;
-	  }
+	.select2-selection--single {
+		padding: 0.375rem 1.125rem 0.375rem 0.75rem;
 	}
-  }
+	.select2-selection__rendered {
+		line-height: 1.5;
+	}
 }
 .select2-selection__arrow {
   @extend .mt-1;
@@ -50,49 +41,51 @@
 .select2Wrapper {
   width: 100%;
 }
+
 header {
-  .globalSearchInput .select2-selection.select2-selection--single {
-	font-size: $font-size-sm !important;
-	height: $menuItemsHeight !important;
-	@extend .pt-2;
-  }
-  .select2WithButtonWidth {
-	width: calc(100% - #{$iconButtonWidth});
-  }
-  .headerLinksMails .select2-selection:hover {
-	background: $dark !important;
-	.select2-selection__rendered {
-	  color: $white !important;
+	.globalSearchInput .select2-selection.select2-selection--single {
+		font-size: $font-size-sm !important;
+		height: $menuItemsHeight !important;
+		@extend .pt-2;
 	}
-  }
+	.select2WithButtonWidth {
+		width: calc(100% - #{$iconButtonWidth});
+	}
+	.headerLinksMails .select2-selection:hover {
+		background: $dark !important;
+		.select2-selection__rendered {
+			color: $white !important;
+		}
+	}
 }
+
 .select2HeaderWidth {
-  .select2-selection {
-	height: 2.5rem !important;
-  }
-  .select2-selection__rendered {
-	line-height: 1;
-  }
+	.select2-selection {
+		height: 2.5rem !important;
+	}
+	.select2-selection__rendered {
+		line-height: 1;
+	}
 }
 .fieldUiHolder {
-  width: 25%;
-  .select2-container--bootstrap4 {
-	width: 100% !important;
-  }
+	width: 25%;
+	.select2-container--bootstrap4 {
+		width: 100% !important;
+	}
 }
 //theme selection
 .select2-selection__rendered.u-hover-bold {
-  padding: 6px !important;
-  border-radius: 0.25rem
+	padding: 6px !important;
+	border-radius: 0.25rem
 }
 .select2-selection__rendered[title=Twilight] {
-  @extend .u-bg-twilight;
+	@extend .u-bg-twilight;
 }
 .select2-selection__rendered[title=Modern] {
-  @extend .u-bg-modern;
+	@extend .u-bg-modern;
 }
 .select2-selection[aria-labelledby^="select2-theme"] {
-  @extend .p-0;
+	@extend .p-0;
 }
 //--- modal ---//
 .leaflet-popup-content {
@@ -178,8 +171,8 @@ ul.ui-autocomplete {
 
 .dashboardWidgetCalendar {
   .fc-widget-content {
-	.fc-scroller.fc-day-grid-container {
-	  height: 18.6rem !important;
+    .fc-scroller.fc-day-grid-container {
+  	  height: 18.6rem !important;
 	}
   }
   .fc-day-grid {
