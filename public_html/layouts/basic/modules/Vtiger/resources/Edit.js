@@ -132,16 +132,17 @@ $.Class("Vtiger_Edit_Js", {
 		});
 	},
 	setReferenceFieldValue: function (container, params) {
-		var thisInstance = this;
-		var sourceFieldElement = container.find('input.sourceField');
-		var sourceField = sourceFieldElement.attr('name');
-		var fieldElement = container.find('input[name="' + sourceField + '"]');
-		var sourceFieldDisplay = sourceField + "_display";
-		var fieldDisplayElement = container.find('input[name="' + sourceFieldDisplay + '"]');
-		var popupReferenceModule = container.find('input[name="popupReferenceModule"]').val();
+		const thisInstance = this;
+		let sourceFieldElement = container.find('input.sourceField');
+		let sourceField = sourceFieldElement.attr('name');
+		let fieldElement = container.find('input[name="' + sourceField + '"]');
+		let sourceFieldDisplay = sourceField + "_display";
+		let fieldDisplayElement = container.find('input[name="' + sourceFieldDisplay + '"]');
+		let popupReferenceModule = container.find('input[name="popupReferenceModule"]').val();
+		let selectedName = params.name;
+		let id = params.id;
 
-		var selectedName = params.name;
-		var id = params.id;
+		container.find('.clearReferenceSelection').trigger('click');
 
 		fieldElement.val(id)
 		fieldDisplayElement.val(selectedName).attr('readonly', true);
@@ -154,10 +155,10 @@ $.Class("Vtiger_Edit_Js", {
 		if (sourceFieldElement.data('type') == 'inventory') {
 			return params;
 		}
-		var formElement = container.closest('form');
-		var mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
+		let formElement = container.closest('form');
+		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
 		if (typeof mappingRelatedField != undefined) {
-			var params = {
+			let params = {
 				source_module: popupReferenceModule,
 				record: id
 			};
