@@ -21,7 +21,7 @@
 			{if $SYMBOL_PLACEMENT neq '1.0$'}
 				<span class="input-group-append"><span class="input-group-text"> {$USER_MODEL->get('currency_symbol')}</span></span>
 			{/if}
-			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
+			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}" {if !$FIELD_MODEL->isEditableReadOnly()}data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"{/if} name="{$FIELD_MODEL->getFieldName()}"
 				   data-fieldinfo='{$FIELD_INFO}' value="{$FIELD_VALUE}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} 
 				   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 			{if $SYMBOL_PLACEMENT eq '1.0$'}
