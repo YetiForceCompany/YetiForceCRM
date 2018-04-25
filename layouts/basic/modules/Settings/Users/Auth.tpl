@@ -33,7 +33,7 @@
 							</div>
 						</div>
 						<hr />
-						<div class="form-row">
+						<div class="form-row pt-2">
 							<div class="col-md-12 col-lg-3">
 								<label class="u-text-small-bold" for="showMailIcon">{\App\Language::translate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
 							</div>
