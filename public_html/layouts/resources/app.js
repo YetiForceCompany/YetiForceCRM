@@ -1258,7 +1258,6 @@ app = {
 	closeSidebar: function() {
 		this.sidebar.removeClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', false);
-		this.sidebar.find('.js-menu').parent().scrollTop(0);
 	},
 	toggleSidebar: function() {
 		if(this.sidebar.hasClass('js-expand')) {
