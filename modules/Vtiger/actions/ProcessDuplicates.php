@@ -44,11 +44,14 @@ class Vtiger_ProcessDuplicates_Action extends \App\Controller\Action
 		$records = $request->getArray('records');
 		$primaryRecord = $request->getInteger('primaryRecord');
 		$primaryRecordModel = Vtiger_Record_Model::getInstanceById($primaryRecord, $moduleName);
-
 		$fields = $moduleModel->getFields();
 		foreach ($fields as $field) {
 			$fieldValue = $request->get($field->getName());
 			if ($field->isEditable()) {
+				$dataType = $field->getFieldDataType();
+				if ($dataType === 'image' || $dataType === 'multiImage') {
+					$fieldValue = \App\Json::encode($fieldValue);
+				}
 				$primaryRecordModel->set($field->getName(), $fieldValue);
 			}
 		}
