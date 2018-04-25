@@ -56,8 +56,9 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 		$viewer->assign('CREATED_RECORDS', $recordsAmount);
 		if (!$request->isEmpty('convertType')) {
 			$converter = \App\RecordConverter::getInstanceById($request->getInteger('convertType'));
+			$converter->init();
 			$viewer->assign('SELECTED_CONVERT_TYPE', $request->getInteger('convertType'));
-			$viewer->assign('CREATED_RECORDS', $converter->countCreatedRecords($moduleName, $records));
+			$viewer->assign('CREATED_RECORDS', $converter->countCreatedRecords($records));
 		}
 		$moduleConverters = \App\RecordConverter::getModuleConverters(\App\Module::getModuleId($moduleName), $request->get('inView'));
 		foreach ($moduleConverters as $key => $converter) {

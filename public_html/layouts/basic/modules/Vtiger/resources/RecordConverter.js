@@ -47,7 +47,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 		});
 		AppConnector.request(this.getParams()).then(function (responseData) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
-			body.html(responseData);
+			body.html($(responseData).html());
 			App.Fields.Picklist.showSelect2ElementView(body.find('.select2'));
 			aDeferred.resolve(responseData);
 		}, function (textStatus, errorThrown) {
@@ -99,7 +99,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 				AppConnector.request($.extend(formData, postData)).then(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					let parseResult = JSON.parse(responseData);
-					if(responseData.result.redirect){
+					if(parseResult.result.redirect){
 						window.location.href = responseData.result.redirect;
 					}
 					if (parseResult.result.createdRecords) {

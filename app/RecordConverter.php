@@ -211,12 +211,11 @@ class RecordConverter extends Base
 	/**
 	 * Function get number of created records.
 	 *
-	 * @param string $moduleName
-	 * @param array  $records
+	 * @param array $records
 	 *
 	 * @return int
 	 */
-	public function countCreatedRecords($moduleName, $records)
+	public function countCreatedRecords($records)
 	{
 		$modulesAmount = 0;
 		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
@@ -226,9 +225,7 @@ class RecordConverter extends Base
 			}
 		}
 		if ($this->get('field_merge')) {
-			$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), \Vtiger_Module_Model::getInstance($moduleName));
-			$focus = \CRMEntity::getInstance($moduleName);
-			return count((new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$this->get('field_merge')}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->table_index => $records])->createCommand()->queryAllByGroup(2)) * $modulesAmount;
+			return count($this->getGroupRecords($records)) * $modulesAmount;
 		} else {
 			return count($records) * $modulesAmount;
 		}
@@ -324,8 +321,8 @@ class RecordConverter extends Base
 	{
 		$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), $this->sourceModuleModel);
 		$focus = \CRMEntity::getInstance($this->sourceModule);
-		$result = (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$this->get('field_merge')}", $focus->tab_name_index[$fieldModel->getTableName()]])
-			->from($fieldModel->getTableName())->where([$focus->table_index => $records])->createCommand()->queryAllByGroup(2);
+		$result = (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$fieldModel->getColumnName()}", $focus->tab_name_index[$fieldModel->getTableName()]])
+			->from($fieldModel->getTableName())->where([$focus->tab_name_index[$fieldModel->getTableName()] => $records])->createCommand()->queryAllByGroup(2);
 		return $result;
 	}
 
