@@ -40,6 +40,7 @@
 			text-decoration: none;
 			cursor: pointer;
 		}
+		transition: background-color 0.2s ease;
 	}
 	.tpl-Menu {
 		a {
@@ -52,8 +53,10 @@
 			font-size: 16px;
 			background: $y-menu-background;
 			&:hover {
-				color: $y-menu-background;
-				background: $y-menu-font-color;
+				background: lighten($y-menu-background, 5%);
+			}
+			&.active {
+				background: darken($y-menu-background, 10%);
 			}
 			&.hasIcon {
 				padding: 8px 30px 8px 12px;
@@ -95,7 +98,8 @@
 				}
 			}
 		}
-		.tpl-menu-SubMenu {
+		.tpl-menu-SubMenu,
+		.tpl-menu-Profile_submenu {
 			background: $y-menu-font-color;
 			color: $y-menu-background;
 			a {
@@ -103,10 +107,10 @@
 				color: $y-menu-background;
 				background: $y-menu-font-color;
 				&:hover {
-					background: darken($y-menu-font-color, 5%);
+					background: lighten($y-menu-font-color, 5%);
 				}
 			    &.active {
-				  background: darken($y-menu-font-color, 20%);
+					background: darken($y-menu-font-color, 5%);
 				}
 				&.hasIcon {
 					padding: 6px 12px;
@@ -118,12 +122,8 @@
 				padding: 6px 12px;
 			}
 			button {
-				border-width: 0;
-				border-radius: 0;
-				background: #f0f1f1;
-				text-align: left;
-				padding-left: 50px;
-				&:hover {
+				background: darken($y-menu-font-color, 10%);
+				&:hover, &:focus {
 					color: $y-menu-font-color;
 					background: $y-menu-background;
 				}
