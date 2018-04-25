@@ -236,11 +236,15 @@ App.Fields = {
 	Password: {
 		/**
 		 * Register clip
+		 * @param {HTMLElement|jQuery} container
 		 * @param {string} key
-		 * @returns {ClipboardJS}
+		 * @returns {ClipboardJS|undefined}
 		 */
 		registerCopyClipboard: function (container, key = '.clipboard') {
-			const elements = $(container).find(key);
+			const elements = $(container).find(key).toArray();
+			if (elements.length === 0) {
+				return;
+			}
 			return new ClipboardJS(elements, {
 				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
