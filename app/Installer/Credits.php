@@ -41,7 +41,9 @@ class Credits
 	 *
 	 * @var array
 	 */
-	public static $libraries = ['Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'], 'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
+	public static $libraries = ['YetiForce' => ['name' => 'Yetiforce', 'version' => '4.3', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/', 'notPackageFile' => true, 'showLicenseModal' => true],
+		'Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'],
+		'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
 
 	/**
 	 * Function gets libraries from vendor.
@@ -105,6 +107,9 @@ class Credits
 					$name = $isPrefix ? '@' : '';
 					$name .= array_shift(explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion));
 					$libraries[$name] = self::getLibraryValues($name, $libraryDir);
+					if (empty($libraries[$name]['homepage'])) {
+						$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+					}
 				}
 			}
 		}
@@ -193,6 +198,11 @@ class Credits
 					} elseif ($returnLicense) {
 						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 						break;
+					}
+				} else {
+					if (isset(static::$licenses[$libraryName])) {
+						$returnLicense = static::$licenses[$libraryName];
+						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 					}
 				}
 			}
