@@ -163,8 +163,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$entityInstance->column_fields['user_name'] = $this->get('user_name');
 		if (!$this->isNew() && empty($this->getPreviousValue())) {
 			App\Log::info('ERR_NO_DATA');
-
 			return false;
+		}
+		if ($this->getPreviousValue('user_password')) {
+			$this->set('date_password_change', date('Y-m-d H:i:s'));
 		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);

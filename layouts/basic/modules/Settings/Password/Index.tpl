@@ -74,7 +74,7 @@
 										<input class="form-control" type="text" name="change_time" id="change_time"  title="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}" value="{$DETAIL['change_time']}" />
 									</div>
 									<div class="col-7">
-										<p class="form-control-plaintext"><span class="fas fa-info-circle js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME_DESC', $QUALIFIED_MODULE)}" data-placement="top"></span></p>
+										<p class="form-control-plaintext"><span class="text-danger fas fa-info-circle js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME_DESC', $QUALIFIED_MODULE)}<br>{\App\Language::translate('LBL_PASSWORD_SETTING_WARNING', $QUALIFIED_MODULE)}" data-placement="top"></span></p>
 									</div>
 								</div>
 							</td>
@@ -89,7 +89,7 @@
 										<input class="form-control" type="text" name="lock_time" id="lock_time"  title="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}" value="{$DETAIL['lock_time']}" />
 									</div>
 									<div class="col-7">
-										<p class="form-control-plaintext"><span class="fas fa-info-circle js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD_DESC', $QUALIFIED_MODULE)}" data-placement="top"></span></p>
+										<p class="form-control-plaintext"><span class="text-danger fas fa-info-circle js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD_DESC', $QUALIFIED_MODULE)}" data-placement="top"></span></p>
 									</div>
 								</div>
 							</td>
