@@ -4,10 +4,12 @@
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				&nbsp;{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
+		<div class="badge badge-info my-2">
+			<a>{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}</a>
+		</div>
+		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 			<li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
 			<li class="nav-item"><a class="nav-link" href="#blocedIds" data-toggle="tab">{\App\Language::translate('LBL_BLOCKED_IP', $QUALIFIED_MODULE)}</a></li>
 		</ul>

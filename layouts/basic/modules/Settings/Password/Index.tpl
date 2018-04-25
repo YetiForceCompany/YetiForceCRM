@@ -6,7 +6,10 @@
 				<div class="widget_header form-row">
 					<div class="col-md-12">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-						&nbsp;{\App\Language::translate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+					</div>
+				</div>
+				<div class="badge badge-info my-2">
+						<a>{\App\Language::translate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</a>
 				</div>
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
