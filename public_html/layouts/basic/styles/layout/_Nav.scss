@@ -8,7 +8,7 @@
 		padding-left: 0;
 		background-color: #406a95;
 	}
-	
+
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -17,13 +17,13 @@
 	color: $y-menu-font-color;
 	z-index: 1030;
 	background: $y-menu-background;
-	
+
 	.menuContainer {
 		height: calc(100% - 50px);
 		width: 100%;
 		position: relative;
 	}
-	
+
 	.menuContainer .modulesList .menuIcon {
 		padding-right: 18px;
 		font-size: 1.6em;
@@ -82,7 +82,7 @@
 				right: 12px;
 				font-size: 10px;
 				line-height: 24px;
-				
+
 			}
 			&.collapsed .toggler {
 				.fa-minus-circle {
@@ -103,8 +103,10 @@
 				color: $y-menu-background;
 				background: $y-menu-font-color;
 				&:hover {
-					color: $y-menu-font-color;
-					background: $y-menu-background;
+					background: darken($y-menu-font-color, 5%);
+				}
+			    &.active {
+				  background: darken($y-menu-font-color, 20%);
 				}
 				&.hasIcon {
 					padding: 6px 12px;
@@ -144,6 +146,7 @@
 			}
 		}
 		> .nav-item > .nav-link {
+		  	color: $y-rtabs-active-background;
 			float: left;
 			font-weight: bold;
 			span {
@@ -162,6 +165,7 @@
 				font-weight: bold;
 				text-transform: capitalize;
 				padding: 0.5rem 1rem;
+			  	color: $y-rtabs-active-background;
 				background: $y-rtabs-background;
 				&:hover {
 					text-decoration: none;
