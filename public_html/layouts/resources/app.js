@@ -1230,8 +1230,8 @@ app = {
 		self.sidebarBtn	= $('.js-sidebar-btn').first();
 		self.sidebar	= $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$(':focusable').on('focus', (e) => {
-			if(e.target == self.sidebarBtn[0]) return;
+		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
+			if(self.sidebarBtn.find($(e.target).length)) return;
 			if(self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if(self.sidebar.hasClass('js-expand')) {
