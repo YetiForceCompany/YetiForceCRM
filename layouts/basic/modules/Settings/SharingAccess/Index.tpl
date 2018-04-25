@@ -8,7 +8,7 @@
 				<input type="hidden" name="parent" value="Settings" />
 				<input type="hidden" class="dependentModules" value='{\App\Json::encode($DEPENDENT_MODULES)}' />
 
-				<div class="widget_header row">
+				<div class="widget_header row align-items-center">
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>

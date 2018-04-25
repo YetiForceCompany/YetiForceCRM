@@ -431,13 +431,13 @@ App.Fields = {
 				const selectizeElements = $('select.selectize', parent).toArray();
 				const choosenElements = $('.chzn-select', parent).toArray();
 				select2Elements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'select2');
+					this.changeSelectElementView($(elem), 'select2', viewParams);
 				});
 				selectizeElements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'selectize');
+					this.changeSelectElementView($(elem), 'selectize', viewParams);
 				});
 				choosenElements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'choosen');
+					this.changeSelectElementView($(elem), 'choosen', viewParams);
 				});
 				return;
 			}
@@ -462,8 +462,8 @@ App.Fields = {
 			if (typeof params === 'undefined') {
 				params = {};
 			}
-			if (selectElement.length > 1) {
-				return selectElement.each((index, element) => {
+			if ($(selectElement).length > 1) {
+				return $(selectElement).each((index, element) => {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}

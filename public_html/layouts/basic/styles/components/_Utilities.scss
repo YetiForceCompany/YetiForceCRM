@@ -91,13 +91,6 @@
 .u-bg-modern {
   background-color: #0d9605 !important;
 }
-.u-alphabet-sorting {
-  a {
-	@extend .h5;
-	@extend .font-weight-bold;
-  }
-  @extend .text-center;
-}
 .u-rotate-90 {
   transform: rotate(0.75turn);
   position: absolute;
@@ -131,7 +124,12 @@
   }
 }
 //--- TABLE ---//
-.u-width-td-30{
+.u-w-30per{
   width: 30%;
-  @extend .px-2;
+}
+.u-w-8per {
+  width: 8%;
+}
+.u-w-5per {
+  width: 5%;
 }

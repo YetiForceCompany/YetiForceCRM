@@ -2,6 +2,10 @@
   "php": {
 	"LBL_INVOICE": "Faktura",
 	"LBL_INVOICE_NUMBER": "Faktura nr",
+	"LBL_INVOICE_PROFORMA": "Faktura proforma",
+	"LBL_RECIPIENT": "Odbiorca",
+	"LBL_ORDER": "Zamówienie",
+	"LBL_SUBMIT_ORDER": "Osoba upoważniona do złożenia zamówienia",
 	"LBL_TO_PAY": "Do zapłaty",
 	"LBL_TO_PAY_WORD": "Do zapłaty słownie",
 	"LBL_DEALER": "Sprzedawca",

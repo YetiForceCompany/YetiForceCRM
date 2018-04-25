@@ -1,5 +1,4 @@
 <?php
-
 namespace App\TextParser;
 
 /**
@@ -34,7 +33,11 @@ class TableTaxSummary extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		if (in_array('currency', $columns)) {
-			$currency = count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null ? $inventoryRows[0]['currency'] : $baseCurrency['id'];
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
+				$currency = $inventoryRows[0]['currency'];
+			} else {
+				$currency = $baseCurrency['id'];
+			}
 			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
 		}
 		$html .= '<style>' .
@@ -76,35 +79,8 @@ class TableTaxSummary extends Base
 							</tbody>
 						</table>
 					</div>';
-
-				if (in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
-					$RATE = $baseCurrency['conversion_rate'] / $currencySymbolRate['rate'];
-					$html .= '<br /><table class="pTable colapseBorder">
-								<thead>
-									<tr>
-										<th colspan="2" class="tBorder noBottomBorder tHeader">
-											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
-										</th>
-									</tr>
-								</thead>
-								<tbody>';
-					foreach ($taxes as $key => &$tax) {
-						$currencyAmount += $tax;
-						$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
-								</tr>';
-					}
-					$html .= '<tr>
-								<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
-							</tr>
-						</tbody>
-					</table>';
-				}
 			}
 		}
-
 		return $html;
 	}
 }
