@@ -248,7 +248,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$value = \App\Json::decode($value);
-		$id = $recordModel->getId();
+		$id = false;
+		if ($recordModel) {
+			$id = $recordModel->getId();
+		}
 		if (!$id && \App\Request::_has('record')) {
 			$id = \App\Request::_get('record');
 		}
