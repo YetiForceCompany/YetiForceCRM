@@ -248,10 +248,10 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		container.find('.testBtn').on('click', function (e) {
 			var testBtn = $(this);
 			var key = container.find('[name="hotkey"]').val();
-			Mousetrap.on(key, function () {
+			Mousetrap.bind(key, function () {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_TEST_HOTKEY_OK')});
 				testBtn.addClass('btn-success');
-				Mousetrap.off(key);
+				Mousetrap.unbind(key);
 			});
 		});
 	},

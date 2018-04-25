@@ -501,7 +501,7 @@ $.Class("Vtiger_Header_Js", {
 			var thisObject = this;
 			var key = $(thisObject).data('hotkeys');
 			if (key != '') {
-				Mousetrap.on(key, function () {
+				Mousetrap.bind(key, function () {
 					thisObject.click();
 				});
 			}
