@@ -1229,12 +1229,9 @@ app = {
 		self.keyboard 	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
 		self.sidebarBtn	= $('.js-sidebar-btn').first();
 		self.sidebar	= $('.js-sidebar').first();
-		self.sidebarBtn.on('click', self.toggleSidebar);
-		$('.js-submenu-state').on('click', function () {
-			$('.js-submenu-state a').removeClass('active');
-			$(this).addClass('active');
-		});
+		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
 		$(':focusable').on('focus', (e) => {
+			if(e.target == self.sidebarBtn[0]) return;
 			if(self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if(self.sidebar.hasClass('js-expand')) {
