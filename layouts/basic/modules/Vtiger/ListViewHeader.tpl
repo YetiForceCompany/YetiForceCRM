@@ -75,11 +75,11 @@
 				</span>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
-				<ul class="nav nav-tabs pt-2 font-weight-bold" role="tablist">
+				<ul class="nav nav-tabs pt-2" role="tablist">
 					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 						{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 							{if $CUSTOM_VIEW->isFeatured()}
-								<li class="nav-item featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">
+								<li class="nav-item featuredLabel c-tab--small font-weight-bold" data-cvid="{$CUSTOM_VIEW->getId()}">
 									<a class="nav-link" href="#" {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if} data-toggle="tab" role="tab" aria-selected="false">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}
