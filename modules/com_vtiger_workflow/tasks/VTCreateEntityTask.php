@@ -83,6 +83,7 @@ class VTCreateEntityTask extends VTTask
 			}
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
+			$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$newRecordModel->save();
 			vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {

@@ -31,13 +31,14 @@ class Vtiger_Workflow_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
+		$moduleName = $eventHandler->getModuleName();
 		$recordId = $recordModel->getId();
 		$isNew = $recordModel->isNew();
-		if (!isset($this->workflows)) {
+		if (!isset($this->workflows[$moduleName])) {
 			$wfs = new VTWorkflowManager();
-			$this->workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName());
+			$this->workflows[$moduleName] = $wfs->getWorkflowsForModule($moduleName);
 		}
-		foreach ($this->workflows as &$workflow) {
+		foreach ($this->workflows[$moduleName] as &$workflow) {
 			switch ($workflow->executionCondition) {
 				case VTWorkflowManager::$ON_FIRST_SAVE:
 					if ($isNew) {
