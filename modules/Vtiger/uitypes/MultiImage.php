@@ -38,7 +38,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (!$isUserFormat) {
+		if (!$isUserFormat && is_string($value)) {
 			$value = \App\Json::decode($value);
 		}
 		$fieldInfo = $this->getFieldModel()->getFieldInfo();
