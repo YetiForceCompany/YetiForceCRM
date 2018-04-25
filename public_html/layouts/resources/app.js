@@ -1250,6 +1250,11 @@ app = {
 		self.sidebar.find('.js-submenu').on('shown.bs.collapse', (e) => {
 			$(e.target).find(':tabbable').first().focus();
 		});
+		$('.js-submenu-toggler').on('click', (e) => {
+			if(!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
+				window.location = $(e.currentTarget).attr('href');
+			}
+		});
 	},
 	openSidebar: function() {
 		this.sidebar.addClass('js-expand');
