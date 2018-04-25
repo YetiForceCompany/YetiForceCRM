@@ -1712,8 +1712,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.formatTooltipLabels(chartData);
 		return this.mergeOptions(
 			this.getBasicOptions(chartData),
-			this.getDefaultBasicOptions(this.getSubType(), chartData),
-		);
+			this.getDefaultBasicOptions(this.getSubType(), chartData));
 	},
 	/**
 	 * Apply default dataset options (usually datalabels configuration)
