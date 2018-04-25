@@ -153,7 +153,10 @@
 	"LBL_EDIT_CUSTOM_FIELD": "Edit field",
 	"LBL_EDIT_VIEW": "Create & Edit",
 	"LBL_DETAIL_VIEW": "Detail view & Summary view",
-	"LBL_QUICK_CREATE_VIEW": "Quick create"
+	"LBL_QUICK_CREATE_VIEW": "Quick create",
+	"Image": "Image file",
+    	"MultiImage": "Multi image files",
+    	"DateTime": "Date and time file"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "Block Name already exists",
