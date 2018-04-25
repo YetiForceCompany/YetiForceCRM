@@ -479,7 +479,7 @@ App.Fields = {
 			}else{
 				params.width = '100%';
 			}
-			params.containerCssClass = 'form-control';
+			params.containerCssClass = 'form-control w-100';
 			const containerCssClass = selectElement.data('containerCssClass');
 			if (typeof containerCssClass !== 'undefined') {
 				params.containerCssClass += " " + containerCssClass;
