@@ -241,19 +241,24 @@ App.Fields = {
 		 * @returns {ClipboardJS|undefined}
 		 */
 		registerCopyClipboard: function (container, key = '.clipboard') {
-			const elements = $(container).find(key).toArray();
+			if (!container) {
+				return;
+			}
+			container = $(container).get(0);
+			let elements = container.querySelectorAll(key);
 			if (elements.length === 0) {
 				return;
 			}
 			return new ClipboardJS(elements, {
+				container: container,
 				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
 					trigger = $(trigger);
-					var element = $(trigger.data('copyTarget'));
-					var val;
+					const element = $(trigger.data('copyTarget'), container);
+					let val;
 					if (typeof trigger.data('copyType') !== 'undefined') {
 						if (element.is("select")) {
 							val = element.find('option:selected').data(trigger.data('copyType'));

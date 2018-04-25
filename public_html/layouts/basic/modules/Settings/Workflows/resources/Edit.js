@@ -197,6 +197,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				}
 				App.Fields.Picklist.changeSelectElementView(data);
 				App.Fields.Date.register(data);
+				App.Fields.Password.registerCopyClipboard(data);
 				app.registerEventForClockPicker(data);
 				thisInstance.postShowModalAction(data, valueType);
 				thisInstance.registerChangeFieldEvent(data);
