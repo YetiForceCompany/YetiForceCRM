@@ -6,29 +6,31 @@
 			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}" />
 			<div class="modal-header">
 				{if $RECORD_MODEL}
-					<h4><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h4>
+					<h5><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h5>
 				{else}
-					<h4><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h4>
+					<h5><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h5>
 				{/if}
 				<div class="float-right">
-					<button class="btn btn-warning" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+					<button class="btn btn-warning" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">
+						<span class="fas fa-times"></span>
+					</button>
 				</div>
 			</div>
-			<div class="modal-body row">
-				<div class="form-group row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_APP_NAME', $QUALIFIED_MODULE)}</label>
+			<div class="modal-body form-row">
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold"><span class="redColor">*</span>{\App\Language::translate('LBL_APP_NAME', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<input type="text" name="name" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{$RECORD_MODEL->getName()}{/if}" class="form-control">
 					</div>
 				</div>
-				<div class="form-group row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADDRESS_URL', $QUALIFIED_MODULE)}</label>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('LBL_ADDRESS_URL', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<input type="text" name="addressUrl" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('acceptable_url')}{/if}" class="form-control">
 					</div>
 				</div>
-				<div class="form-group row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_PASS', $QUALIFIED_MODULE)}</label>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold"><span class="redColor">*</span>{\App\Language::translate('LBL_PASS', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<div class="input-group">
 							<input type="password" name="pass" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{\App\Purifier::encodeHtml(\App\Encryption::getInstance()->decrypt($RECORD_MODEL->get('pass')))}{/if}" class="form-control">
@@ -43,14 +45,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('Status', $QUALIFIED_MODULE)}</label>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('Status', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<input type="checkbox" {if $RECORD_MODEL && $RECORD_MODEL->get('status') eq 1}checked{/if} name="status">
 					</div>
 				</div>
-				<div class="form-group row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</label>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<select class="select2 typeServer" {if $RECORD_MODEL} disabled {/if}>
 							{foreach from=$TYPES_SERVERS item=TYPE}
@@ -61,8 +63,8 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('SINGLE_Accounts', $QUALIFIED_MODULE)}</label>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('SINGLE_Accounts', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10 fieldValue">
 						<input name="popupReferenceModule" type="hidden" 
 							   data-multi-reference="0" title="{\App\Language::translate('Accounts', $QUALIFIED_MODULE)}" 
@@ -72,7 +74,7 @@
 							   data-displayvalue="">
 						<div class="input-group referenceGroup">
 							<input id="accountsid_display" name="accountsid_display" type="text" title=""
-								   class="marginLeftZero form-control autoComplete ui-autocomplete-input"
+								   class="ml-0 form-control autoComplete ui-autocomplete-input"
 								   value="{if $RECORD_MODEL && $RECORD_MODEL->get('accountsModel')}{$RECORD_MODEL->get('accountsModel')->getName()}{/if}"
 								   {if $RECORD_MODEL} readonly {/if}
 								   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
