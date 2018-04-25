@@ -47,7 +47,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerEditTaskEvent: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
-		App.Fields.Password.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard(container);
 		container.on('click', '[data-url]', function (e) {
 			var currentElement = $(e.currentTarget);
 			var params = currentElement.data('url');

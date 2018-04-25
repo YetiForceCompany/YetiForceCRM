@@ -710,7 +710,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	addCustomField: function (blockId, form) {
 		var thisInstance = this;
-		var modalHeader = form.closest('#'+Window.lastModalId).find('.modal-header h3');
+		var modalHeader = form.closest('#' + Window.lastModalId).find('.modal-header h3');
 		var aDeferred = $.Deferred();
 
 		modalHeader.progressIndicator({

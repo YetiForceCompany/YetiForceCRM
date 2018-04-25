@@ -239,11 +239,9 @@ App.Fields = {
 		 * @param {string} key
 		 * @returns {ClipboardJS}
 		 */
-		registerCopyClipboard: function (key) {
-			if (key == undefined) {
-				key = '.clipboard';
-			}
-			return new ClipboardJS(key, {
+		registerCopyClipboard: function (container, key = '.clipboard') {
+			const elements = $(container).find(key);
+			return new ClipboardJS(elements, {
 				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
@@ -476,7 +474,7 @@ App.Fields = {
 			const width = $(selectElement).data('width');
 			if (typeof width !== 'undefined') {
 				params.width = width;
-			}else{
+			} else {
 				params.width = '100%';
 			}
 			params.containerCssClass = 'form-control w-100';
