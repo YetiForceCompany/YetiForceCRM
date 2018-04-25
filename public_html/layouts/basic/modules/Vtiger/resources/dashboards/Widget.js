@@ -1277,7 +1277,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function postLoadWidget() {
-		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart(this.options);
 		} else {
@@ -1293,6 +1292,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerChangeSorting();
 		this.registerLoadMore();
 		this.registerHeaderButtons();
+		this.loadScrollbar();
 	},
 	postRefreshWidget: function postRefreshWidget() {
 		this.loadScrollbar();
