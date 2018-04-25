@@ -105,8 +105,8 @@
 				&:hover {
 					background: darken($y-menu-font-color, 5%);
 				}
-			    &.active {
-				  background: darken($y-menu-font-color, 20%);
+				&.active {
+					background: darken($y-menu-font-color, 20%);
 				}
 				&.hasIcon {
 					padding: 6px 12px;
@@ -134,7 +134,6 @@
 		}
 	}
 }
-
 .related {
 	.nav-pills {
 		border-bottom: 3px solid $y-rtabs-border-color;
@@ -146,8 +145,7 @@
 			}
 		}
 		> .nav-item > .nav-link {
-		  	color: $y-rtabs-active-background;
-			float: left;
+			color: $y-rtabs-active-background;
 			font-weight: bold;
 			span {
 				vertical-align: middle;
@@ -165,7 +163,7 @@
 				font-weight: bold;
 				text-transform: capitalize;
 				padding: 0.5rem 1rem;
-			  	color: $y-rtabs-active-background;
+				color: $y-rtabs-active-background;
 				background: $y-rtabs-background;
 				&:hover {
 					text-decoration: none;
@@ -177,13 +175,16 @@
 				color: $y-rtabs-active-font-color;
 			}
 		}
-		.active > .nav-link {
+		.relatedNav {
+			background: $y-rtabs-background;
+		}
+		.active {
 			background: $y-rtabs-active-background;
 			color: $y-rtabs-active-font-color;
 			border-radius: 0;
-		}
-		.relatedNav {
-			background: $y-rtabs-background;
+			.nav-link {
+				color: $y-rtabs-background;
+			}
 		}
 		.dropdown-menu {
 			min-width: 300px;
@@ -208,5 +209,15 @@
 		max-height: 500px;
 		overflow-y: auto;
 		overflow-x: hidden;
+	}
+}
+.c-tab--small {
+	display: flex;
+	align-items: center;
+	@extend .small;
+}
+.detailViewInfo {
+	.dropdown.tabdrop {
+		@extend .c-tab--small;
 	}
 }

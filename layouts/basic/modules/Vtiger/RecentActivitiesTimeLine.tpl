@@ -229,7 +229,7 @@
 			<div class="summaryWidgetContainer"><p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECENT_UPDATES')}</p></div>
 			{/if}
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
-		<div class="d-flex py-1 px-1" id="moreLink">
+		<div class="d-flex py-1 px-1 js-more-link">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto"><button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button></div>
 			{/if}
