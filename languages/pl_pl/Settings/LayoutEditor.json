@@ -162,7 +162,10 @@
     "LBL_CHOOSE_LANGUAGE": "J\u0119zyk",
     "LBL_EDIT_VIEW": "Tworzenie i edycja",
     "LBL_DETAIL_VIEW": "Podgl\u0105d",
-    "LBL_QUICK_CREATE_VIEW": "Szybkie tworzenie"
+    "LBL_QUICK_CREATE_VIEW": "Szybkie tworzenie",
+    "Image": "Plik graficzny",
+    "MultiImage": "Pliki graficzne (wiele)",
+    "DateTime": "Pole daty i czasu"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Nazwa bloku ju\u017c istnieje",
