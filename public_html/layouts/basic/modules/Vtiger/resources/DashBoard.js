@@ -113,11 +113,11 @@ $.Class("Vtiger_DashBoard_Js", {
 		var urlParams = widgetContainer.data('url');
 		var mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
-		if (mode == 'open') {
+		if (mode === 'open') {
 			var name = widgetContainer.data('name');
 			var cache = widgetContainer.data('cache');
 			var userId = CONFIG.userId;
-			if (cache == 1) {
+			if (cache === 1) {
 				var cecheUrl = app.cacheGet(name + userId, false);
 				urlParams = cecheUrl ? cecheUrl : urlParams;
 			}
@@ -126,16 +126,15 @@ $.Class("Vtiger_DashBoard_Js", {
 				App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
 				thisInstance.getWidgetInstance(widgetContainer);
 				widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
-				var headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
-				var adjustedHeight = widgetContainer.height() - headerHeight;
+				const headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
+				let adjustedHeight = widgetContainer.height() - headerHeight;
 				if (widgetContainer.find('.dashboardWidgetFooter').length) {
 					adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
 				}
-				var widgetContent = widgetContainer.find('.dashboardWidgetContent');
+				const widgetContent = widgetContainer.find('.dashboardWidgetContent');
 				widgetContent.css('max-height', adjustedHeight + 'px');
 				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
 			});
-		} else {
 		}
 	},
 	gridsterStop: function () {
