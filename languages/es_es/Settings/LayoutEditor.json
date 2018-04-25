@@ -163,7 +163,10 @@
     "LBL_CHOOSE_LANGUAGE": "Language",
     "LBL_EDIT_VIEW": "Crear y Editar",
     "LBL_DETAIL_VIEW": "Vista de detalle y vista de resumen",
-    "LBL_QUICK_CREATE_VIEW": "Creaci\u00f3n r\u00e1pida"
+    "LBL_QUICK_CREATE_VIEW": "Creaci\u00f3n r\u00e1pida",
+    "Image": "Image file",
+    "MultiImage": "Multi image files",
+    "DateTime": "Date and time file"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "El nombre del bloque ya existe",
