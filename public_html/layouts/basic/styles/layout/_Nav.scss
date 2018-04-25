@@ -175,9 +175,6 @@
 				color: $y-rtabs-active-font-color;
 			}
 		}
-		.relatedNav {
-			background: $y-rtabs-background;
-		}
 		.active {
 			background: $y-rtabs-active-background;
 			color: $y-rtabs-active-font-color;
@@ -211,10 +208,18 @@
 		overflow-x: hidden;
 	}
 }
-.c-tab--small {
-	display: flex;
-	align-items: center;
-	@extend .small;
+.c-tab {
+	&--small {
+		display: flex;
+		align-items: center;
+		@extend .small;
+	}
+	&--gray {
+		background: $y-rtabs-background;
+	}
+	&--hover:hover {
+		background: darken($y-rtabs-background, 10%);
+	}
 }
 .detailViewInfo {
 	.dropdown.tabdrop {
