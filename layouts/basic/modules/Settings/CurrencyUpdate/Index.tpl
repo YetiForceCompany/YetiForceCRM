@@ -4,8 +4,10 @@
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
+		</div>
+		<div class="badge badge-info my-2">
+			{\App\Language::translate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		{if $CURRNUM lt 2}
 			<div class="alert alert-danger" style="margin:10px 15px;">
