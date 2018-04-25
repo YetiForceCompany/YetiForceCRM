@@ -464,7 +464,7 @@ App.Fields = {
 			}
 			if ($(selectElement).length > 1) {
 				return $(selectElement).each((index, element) => {
-					this.showSelect2ElementView(element, params);
+					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
 			let data = selectElement.data();
@@ -473,7 +473,17 @@ App.Fields = {
 			}
 			params.language = {};
 			params.theme = "bootstrap";
+			const width = $(selectElement).data('width');
+			if (typeof width !== 'undefined') {
+				params.width = width;
+			}else{
+				params.width = '100%';
+			}
 			params.containerCssClass = 'form-control';
+			const containerCssClass = selectElement.data('containerCssClass');
+			if (typeof containerCssClass !== 'undefined') {
+				params.containerCssClass += " " + containerCssClass;
+			}
 			params.language.noResults = function (msn) {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
