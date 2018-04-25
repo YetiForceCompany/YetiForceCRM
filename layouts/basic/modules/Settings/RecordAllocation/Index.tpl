@@ -6,7 +6,7 @@
 	<div class="mt-2">
 		<div class="alert alert-danger fade show">
 			<a href="#" class="close" data-dismiss="alert">&times;</a>
-			{\App\Language::translate('LBL_SORTING_SETTINGS_WORNING', $QUALIFIED_MODULE)|unescape:"html"} (
+			{\App\Language::translate('LBL_SORTING_SETTINGS_WORNING', $QUALIFIED_MODULE)} (
 			<a href="index.php?module=Roles&parent=Settings&view=Index">{\App\Language::translate('LBL_GO_TO_PANEL', $QUALIFIED_MODULE)}</a>)
 		</div>
 	</div>
