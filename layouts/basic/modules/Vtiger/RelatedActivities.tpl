@@ -172,10 +172,13 @@
 		</div>
 	{/if}
 	{if $PAGING_MODEL->isNextPageExists()}
-		<div class="row">
-			<div class="float-right">
-				<button type="button" class="btn btn-primary btn-sm moreRecentActivities mt-2 mr-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
-			</div>
+		<div class="d-flex py-1">
+				<div class="ml-auto">
+					<button type="button"
+							class="btn btn-primary btn-sm moreRecentActivities mt-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+						..
+					</button>
+				</div>
 		</div>
 	{/if}
 </div>

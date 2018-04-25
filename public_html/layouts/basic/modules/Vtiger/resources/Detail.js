@@ -2299,7 +2299,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
 					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
-					container.find('#moreLink').html(dataContainer.find('#moreLink').html());
+					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
 					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 					app.registerMoreContent(container.find('button.moreBtn'));
 					app.event.trigger("DetailView.UpdatesWidget.AddMore", data, thisInstance);

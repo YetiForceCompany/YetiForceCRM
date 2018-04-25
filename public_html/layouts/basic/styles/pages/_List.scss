@@ -15,7 +15,7 @@
 }
 .paginationDiv .pageInfo {
   border: 1px solid #ddd;
-  color: #337AB7;
+  color: $blue;
   float: right;
   margin-left: 5px;
   margin-bottom: 0;
@@ -24,6 +24,11 @@
 }
 .paginationDiv .pageNumbersText {
   white-space: nowrap;
+}
+.pageNumber.active.disabled a {
+  background-color: $blue;
+  border-color: $blue;
+  color: #FFF;
 }
 .listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
   margin: 0;

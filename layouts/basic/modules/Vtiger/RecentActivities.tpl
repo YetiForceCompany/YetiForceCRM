@@ -124,9 +124,9 @@
 										</div>
 									</li>
 
-								{else}	
+								{else}
 									<li>
-										<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 
+										<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong>
 									</li>
 								{/if}
 							{/if}
@@ -139,14 +139,16 @@
 				</div>
 			{/if}
 		</div>
-		<div id="moreLink">
+		<div class="d-flex py-1 js-more-link">
 			{if $PAGING_MODEL->isNextPageExists()}
-				<div class="float-right">
-					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+				<div class="ml-auto">
+					<button type="button"
+							class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+						..
+					</button>
 				</div>
 			{/if}
 		</div>
 	</div>
-	<span class="clearfix"></span>
 </div>
 {/strip}

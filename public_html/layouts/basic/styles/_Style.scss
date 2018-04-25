@@ -2510,11 +2510,6 @@ html, body, .baseContainer {
 .modalEditStatus .form-horizontal .form-group .control-label, #modalEditStatus .form-horizontal .form-group .control-label {
   padding-top: 0;
 }
-.pageNumber.active.disabled a {
-  background-color: #337AB7;
-  border-color: #337AB7;
-  color: #FFF;
-}
 .listViewEntriesCheckBox, #listViewEntriesMainCheckBox {
   cursor: pointer;
 }
@@ -3311,7 +3306,7 @@ select.form-control {
 	padding: 7px 7px 0px 7px;
 	hr + a {
 	  font-weight: bold;
-	  color: #337ab7 !important;
+	  color: $blue !important;
 	}
   }
   .noticeIcon {
