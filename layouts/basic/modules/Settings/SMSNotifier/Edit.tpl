@@ -11,12 +11,12 @@
 			<h3 class="modal-title">{\App\Language::translate($TITLE, $QUALIFIED_MODULE)}</h3>
 			<button class="btn btn-warning float-right" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
 		</div>
-		<div class="modal-body">
+		<div class="modal-body text-center">
 			<div class="fieldsContainer">
 				{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=fields}
 					{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
-					<div class="form-group row">
-						<label class="col-form-label col-md-4">
+					<div class="form-group form-row">
+						<label class="col-form-label col-md-4 u-text-small-bold text-right">
 							{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
 							{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 						</label>
@@ -29,8 +29,8 @@
 					{assign var="PROVIDER" value=$RECORD_MODEL->getProviderInstance()}
 					{foreach from=$PROVIDER->getSettingsEditFieldsModel() item=FIELD_MODEL name=fields}
 						{assign var="FIELD_MODEL" value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
-						<div class="form-group row" data-provider="{$PROVIDER->getName()}">
-							<label class="col-form-label col-md-4">
+						<div class="form-group form-row" data-provider="{$PROVIDER->getName()}">
+							<label class="col-form-label col-md-4 u-text-small-bold text-right">
 								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 								{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 							</label>
@@ -50,8 +50,8 @@
 	<div class="providersFields d-none">
 		{foreach from=$PROVIDERS item=PROVIDER}
 			{foreach from=$PROVIDER->getSettingsEditFieldsModel() item=FIELD_MODEL name=fields}
-				<div class="form-group row" data-provider="{$PROVIDER->getName()}">
-					<label class="col-form-label col-md-4">
+				<div class="form-group form-row text-right" data-provider="{$PROVIDER->getName()}">
+					<label class="col-form-label col-md-4 u-text-small-bold">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 					</label>
