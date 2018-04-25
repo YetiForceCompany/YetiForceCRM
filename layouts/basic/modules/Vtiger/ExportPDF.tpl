@@ -47,11 +47,13 @@
 							{\App\Language::translate('LBL_GENERATE_SINGLE', $MODULE_NAME)}
 						</a>
 					</li>
-					<li>
-						<a class="dropdown-item" href="#" id="email_pdf">
-							{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
-						</a>
-					</li>
+					{if \App\Privilege::isPermitted('OSSMail')}
+						<li>
+							<a class="dropdown-item" href="#" id="email_pdf">
+								{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
+							</a>
+						</li>
+					{/if}
 				</ul>
 			</div>
 			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
