@@ -463,7 +463,6 @@ App.Fields = {
 				params = {};
 			}
 			if (selectElement.length > 1) {
-				console.log('array',selectElement);
 				return selectElement.each((index, element) => {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
