@@ -8,9 +8,6 @@
 	&:nth-child(2) {
 	  @extend .pl-1;
 	}
-	&:only-child {
-	  @extend .px-3;
-	}
   }
 }
 .contentsDiv .gridster {
