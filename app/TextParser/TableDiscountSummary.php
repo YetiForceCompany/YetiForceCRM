@@ -1,4 +1,5 @@
 <?php
+
 namespace App\TextParser;
 
 /**
@@ -40,7 +41,7 @@ class TableDiscountSummary extends Base
 			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		}
 		if (in_array('currency', $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != null) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
 				$currency = $baseCurrency['id'];

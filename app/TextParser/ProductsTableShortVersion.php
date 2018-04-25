@@ -1,16 +1,16 @@
 <?php
+
 namespace App\TextParser;
 
 /**
- * Products table short version class
- * @package YetiForce.TextParser
+ * Products table short version class.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 class ProductsTableShortVersion extends Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_PRODUCTS_TABLE_SHORT_VERSION';
 
@@ -18,7 +18,8 @@ class ProductsTableShortVersion extends Base
 	public $type = 'pdf';
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @return string
 	 */
 	public function process()
@@ -34,7 +35,7 @@ class ProductsTableShortVersion extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 
 		if (in_array('currency', $currencyColumns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != null) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -75,10 +76,10 @@ class ProductsTableShortVersion extends Base
 					}
 					if ($field->getName() == 'ItemNumber') {
 						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
-					} else if ($field->get('columnname') == 'ean') {
+					} elseif ($field->get('columnname') == 'ean') {
 						$code = $inventoryRow[$field->get('columnname')];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
-					} else if ($field->isVisible()) {
+					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
 
 						$html .= '<td class="' . (in_array($field->getName(), $fieldsColumnQuotes) ? 'textAlignRight ' : '') . 'tBorder">';
@@ -90,7 +91,6 @@ class ProductsTableShortVersion extends Base
 									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
 								}
 								break;
-
 							case 'DetailViewBase.tpl':
 								if ($field->getName() === 'GrossPrice' || $field->getName() === 'UnitPrice' || $field->getName() === 'TotalPrice') {
 									$html .= $field->getDisplayValue($itemValue) . ' ' . $currencySymbol;
