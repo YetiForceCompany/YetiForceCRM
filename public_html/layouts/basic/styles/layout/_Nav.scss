@@ -225,4 +225,7 @@
 	.dropdown.tabdrop {
 		@extend .c-tab--small;
 	}
+	.dropdown.tabdrop.hide {
+		display: none;
+	}
 }
