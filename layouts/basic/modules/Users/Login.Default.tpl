@@ -98,7 +98,7 @@
 				<div class="d-none" id="forgotPasswordDiv">
 					<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
 						<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
-							<div class='marginLeft0  marginRight0 row col-sm-10'>	
+							<div class="login-form marginLeft0  marginRight0 row col-sm-10">	
 								<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
 								<div class="input-group form-group first-group">
 									<input type="text" class="form-control form-control-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
@@ -137,11 +137,11 @@
 			});
 			jQuery("a#forgotpass").on('click', function () {
 				jQuery("#loginDiv").hide();
-				jQuery("#forgotPasswordDiv").removeClass('hide');
+				jQuery("#forgotPasswordDiv").removeClass('d-none');
 				jQuery("#forgotPasswordDiv").show();
 			});
 			jQuery("a#backButton").on('click', function () {
-				jQuery("#loginDiv").removeClass('hide');
+				jQuery("#loginDiv").removeClass('d-none');
 				jQuery("#loginDiv").show();
 				jQuery("#forgotPasswordDiv").hide();
 			});

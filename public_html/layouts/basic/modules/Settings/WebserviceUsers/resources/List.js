@@ -88,6 +88,6 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		this.getContainer().find('li.tabApi').on('click', function (e) {
 			thisInstance.reloadTab({typeApi: jQuery(this).data('typeapi')});
 		});
-		App.Fields.Password.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard(this.getContainer());
 	}
 })

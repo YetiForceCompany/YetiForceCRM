@@ -236,22 +236,29 @@ App.Fields = {
 	Password: {
 		/**
 		 * Register clip
+		 * @param {HTMLElement|jQuery} container
 		 * @param {string} key
-		 * @returns {ClipboardJS}
+		 * @returns {ClipboardJS|undefined}
 		 */
-		registerCopyClipboard: function (key) {
-			if (key == undefined) {
-				key = '.clipboard';
+		registerCopyClipboard: function (container, key = '.clipboard') {
+			if (!container) {
+				return;
 			}
-			return new ClipboardJS(key, {
+			container = $(container).get(0);
+			let elements = container.querySelectorAll(key);
+			if (elements.length === 0) {
+				return;
+			}
+			return new ClipboardJS(elements, {
+				container: container,
 				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
 					trigger = $(trigger);
-					var element = $(trigger.data('copyTarget'));
-					var val;
+					const element = $(trigger.data('copyTarget'), container);
+					let val;
 					if (typeof trigger.data('copyType') !== 'undefined') {
 						if (element.is("select")) {
 							val = element.find('option:selected').data(trigger.data('copyType'));
@@ -476,7 +483,7 @@ App.Fields = {
 			const width = $(selectElement).data('width');
 			if (typeof width !== 'undefined') {
 				params.width = width;
-			}else{
+			} else {
 				params.width = '100%';
 			}
 			params.containerCssClass = 'form-control w-100';

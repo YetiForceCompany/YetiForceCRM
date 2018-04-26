@@ -1,12 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 @import "../../../libraries/bootstrap/scss/functions";
-@import '../../../libraries/bootstrap/scss/variables';
 @import '../../../libraries/bootstrap/scss/mixins';
 
 //-------- override bootstrap variables --------//
 $link-color: #006cdf;
 $secondary: #5e666c;
+$blue: #337AB7;
 $pagination-color: $link-color;
 
 //-------- sizes --------//

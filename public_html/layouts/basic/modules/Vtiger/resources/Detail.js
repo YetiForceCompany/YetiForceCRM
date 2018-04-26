@@ -1383,21 +1383,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			widget.data('url', url);
 			thisInstance.loadWidget($(widget));
 		});
-		$('.calculationsWidgetContainer .calculationsSwitch').on('switchChange.bootstrapSwitch', function (e, state) {
-			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-			var widget = summaryWidgetContainer.find('.widgetContentBlock');
-			var url = widget.data('url');
-			url = url.replace('&showtype=open', '');
-			url = url.replace('&showtype=archive', '');
-			url += '&showtype=';
-			if (state)
-				url += 'open';
-			else
-				url += 'archive';
-			widget.data('url', url);
-			thisInstance.loadWidget($(widget));
-		});
 	},
 	/**
 	 * Function to register all the events related to summary view widgets
@@ -2314,7 +2299,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
 					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
-					container.find('#moreLink').html(dataContainer.find('#moreLink').html());
+					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
 					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 					app.registerMoreContent(container.find('button.moreBtn'));
 					app.event.trigger("DetailView.UpdatesWidget.AddMore", data, thisInstance);

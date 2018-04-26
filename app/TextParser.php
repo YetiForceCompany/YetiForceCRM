@@ -348,12 +348,11 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/u', function ($matches) {
 			list(, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
 			}
-
 			return '';
 		}, $this->content);
 		Language::clearTemporaryLanguage();

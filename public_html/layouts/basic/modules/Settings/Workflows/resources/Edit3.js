@@ -47,7 +47,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerEditTaskEvent: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
-		App.Fields.Password.registerCopyClipboard();
+		App.Fields.Password.registerCopyClipboard(container);
 		container.on('click', '[data-url]', function (e) {
 			var currentElement = $(e.currentTarget);
 			var params = currentElement.data('url');
@@ -58,7 +58,10 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				}
 			});
 			app.showModalWindow(null, params, function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'})
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if(data) {
+					App.Fields.Password.registerCopyClipboard(data);
+				}
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = $('#taskType').val();
 				var functionName = 'register' + taskType + 'Events';
@@ -424,7 +427,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			$('#save_fieldvaluemapping').append(newAddFieldContainer);
 			//change in to chosen elements
 			App.Fields.Picklist.changeSelectElementView(newAddFieldContainer);
-			App.Fields.Picklist.showSelect2ElementView(newAddFieldContainer.find('.select2'));
 		});
 	},
 	registerDeleteConditionEvent: function () {

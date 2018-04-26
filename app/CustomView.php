@@ -644,6 +644,9 @@ class CustomView
 				}
 			} else {
 				$viewId = (int) $viewId;
+				if (!$this->isPermittedCustomView($viewId)) {
+					throw new Exceptions\NoPermitted('ERR_NO_PERMITTED_TO_VIEW');
+				}
 			}
 		}
 		$this->defaultViewId = $viewId;
