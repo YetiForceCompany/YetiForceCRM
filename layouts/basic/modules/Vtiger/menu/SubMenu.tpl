@@ -7,7 +7,7 @@
 		{else}
 			{assign var=EXPAND value='false'}
 		{/if}
-		<div class="tpl-menu-SubMenu js-submenu collapse{if $EXPAND=='true'} show{/if}" id="submenu-{$MENU['id']}" data-js="bootstrap:collapse" data-parent="#js-menu">
+		<div class="tpl-menu-SubMenu js-submenu collapse{if $EXPAND=='true'} show{/if}" id="submenu-{$MENU['id']}" data-js="bootstrap:collapse" data-parent="#submenu-{$MENU['parent']}">
 		<ul class="nav flex-column">
 			{foreach key=KEY item=MENU from=$MENUS}
 				{assign var=MENU_MODULE value='Menu'}

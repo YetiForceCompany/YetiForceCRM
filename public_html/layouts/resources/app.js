@@ -1229,12 +1229,9 @@ app = {
 		self.keyboard 	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
 		self.sidebarBtn	= $('.js-sidebar-btn').first();
 		self.sidebar	= $('.js-sidebar').first();
-		self.sidebarBtn.on('click', self.toggleSidebar);
-		$('.js-submenu-state').on('click', function () {
-			$('.js-submenu-state a').removeClass('active');
-			$(this).addClass('active');
-		});
-		$(':focusable').on('focus', (e) => {
+		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
+		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
+			if(self.sidebarBtn.find($(e.target).length)) return;
 			if(self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if(self.sidebar.hasClass('js-expand')) {
@@ -1253,6 +1250,11 @@ app = {
 		self.sidebar.find('.js-submenu').on('shown.bs.collapse', (e) => {
 			$(e.target).find(':tabbable').first().focus();
 		});
+		$('.js-submenu-toggler').on('click', (e) => {
+			if(!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
+				window.location = $(e.currentTarget).attr('href');
+			}
+		});
 	},
 	openSidebar: function() {
 		this.sidebar.addClass('js-expand');
@@ -1261,7 +1263,6 @@ app = {
 	closeSidebar: function() {
 		this.sidebar.removeClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', false);
-		this.sidebar.find('.js-menu').parent().scrollTop(0);
 	},
 	toggleSidebar: function() {
 		if(this.sidebar.hasClass('js-expand')) {
