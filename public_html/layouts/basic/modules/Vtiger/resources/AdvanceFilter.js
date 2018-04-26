@@ -316,7 +316,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			fieldSpecificUi.find('input[type="text"]').addClass('form-control');
 		} else {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
-			fieldSpecificUi.find('[name="' + fieldName + '"]').addClass('row form');
 		}
 
 		fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-value', 'value').removeAttr('data-validation-engine');
@@ -339,7 +338,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.has('input.dateRangeField').length > 0) {
 			App.Fields.Date.registerRange(fieldSpecificUi, {ranges: false});
-		} else if (fieldSpecificUi.has('input.timepicker-default').length > 0) {
+		} else if (fieldSpecificUi.has('input.clockPicker').length > 0) {
 			app.registerEventForClockPicker(fieldSpecificUi);
 		}
 		this.addValidationToFieldIfNeeded(fieldSelect);
