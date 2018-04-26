@@ -195,7 +195,7 @@ class Vtiger_Menu_Model
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
-			$title = self::vtranslateMenu($menu['label']);
+			$title = self::vtranslateMenu($menu['label'], $menu['mod']);
 		}
 		if (is_string($menu)) {
 			$iconName = \Vtiger_Theme::getImagePath($menu);
