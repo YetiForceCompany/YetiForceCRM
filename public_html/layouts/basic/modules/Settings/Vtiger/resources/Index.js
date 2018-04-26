@@ -49,7 +49,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 						var type = $(data.element).data('type');
 						var option;
 						if (type === 'icon') {
-							option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
+							option = $('<span class="' + data.element.value + '" aria-hidden="true"></span><span> - ' + $(data.element).data('class') + '</span>');
 						} else if (type === 'image') {
 							option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
 						}
