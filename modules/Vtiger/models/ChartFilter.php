@@ -118,6 +118,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $dividingFieldModel;
 
 	/**
+	 * Custom view names.
+	 *
+	 * @var array
+	 */
+	private $viewNames = [];
+
+	/**
 	 * Chart has stacked scales ?
 	 *
 	 * @var bool
@@ -381,13 +388,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get filter id.
 	 *
-	 * @param $dividingValue
+	 * @param string|int $dividingValue
 	 *
 	 * @return int
 	 */
-	public function getFilterId($dividingValue)
+	public function getFilterId($dividingValue = 0)
 	{
-		return $this->filterIds[$dividingValue];
+		if ($this->isMultiFilter()) {
+			// if chart is divided by filters we have couple of id
+			return $this->filterIds[$dividingValue];
+		}
+		// if chart is divided by field or not divided at all it has only one filter
+		return $this->filterIds[0];
 	}
 
 	/**
@@ -424,7 +436,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			// datasetIndex is for dividingValue
 			$dataset = &$chartData['datasets'][$datasetIndex];
 			if ($this->isMultiFilter()) {
-				$dataset['label'] = $this->getViewName($dividingValue);
+				$dataset['label'] = $this->getViewNameFromId($this->getFilterId($dividingValue));
 			} elseif ($this->isDividedByField()) {
 				$dataset['label'] = $dividingValue;
 			}
@@ -827,10 +839,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Add row to.
+	 * Add row.
 	 *
-	 * @param $groupValue
-	 * @param $dividingValue
+	 * @param array      $row
+	 * @param string|int $groupValue
+	 * @param string|int $dividingValue
 	 */
 	protected function addRow($row, $groupValue, $dividingValue)
 	{
@@ -846,9 +859,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get current rows.
 	 *
-	 * @param int $index         row index
-	 * @param     $groupValue
-	 * @param     $dividingValue
+	 * @param int        $index         row index
+	 * @param string|int $groupValue
+	 * @param string|int $dividingValue
 	 */
 	protected function getCurrentRows($groupValue, $dividingValue)
 	{
@@ -857,6 +870,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Get rows for dividing field chart.
+	 *
+	 * @param \App\QueryGenerator $query
+	 * @param string|int          $dividingValue
 	 *
 	 * @return array
 	 */
@@ -879,7 +895,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get queries from filters.
+	 * Get rows.
 	 *
 	 * @return array
 	 */
@@ -914,7 +930,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get value from db record.
 	 *
-	 * @param $row
+	 * @param array $row
 	 *
 	 * @return mixed
 	 */
@@ -969,7 +985,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Set color for row in $this->data.
 	 *
-	 * @param int   $rowIndex
 	 * @param array $row
 	 * @param mixed $groupValue
 	 * @param mixed $dividingValue
@@ -1014,8 +1029,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 * Get field values from row.
 	 * We are operating on groupValue and dividingValue regularly so this fn will return this values from row.
 	 *
-	 * @param $row
-	 * @param $dividingValue
+	 * @param array      $row
+	 * @param string|int $dividingValue
 	 *
 	 * @return array
 	 */
@@ -1037,10 +1052,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Add data to data placeholder ;).
 	 *
-	 * @param string $valueType
-	 * @param mixed  $value
-	 * @param string $groupValue
-	 * @param string $dividingValue
+	 * @param mixed      $value
+	 * @param string|int $groupValue
+	 * @param string|int $dividingValue
 	 */
 	protected function addData($value, $groupValue, $dividingValue)
 	{
@@ -1062,10 +1076,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Add value to rows (other than $this->valueType).
 	 *
-	 * @param $valueType
-	 * @param $value
-	 * @param $groupValue
-	 * @param $dividingValue
+	 * @param string     $valueType
+	 * @param mixed      $value
+	 * @param string|int $groupValue
+	 * @param string|int $dividingValue
 	 */
 	protected function addValue($valueType, $value, $groupValue, $dividingValue)
 	{
@@ -1081,9 +1095,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get chart value for row (dividing chart).
 	 *
-	 * @param array $row
-	 * @param       $groupValue
-	 * @param       $dividingValue
+	 * @param array      $row
+	 * @param string|int $groupValue
+	 * @param string|int $dividingValue
 	 *
 	 * @return array
 	 */
@@ -1116,9 +1130,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get concrete value from data.
 	 *
-	 * @param $valueType
-	 * @param $groupValue
-	 * @param $dividingValue
+	 * @param string     $valueType
+	 * @param string|int $groupValue
+	 * @param string|int $dividingValue
 	 *
 	 * @return int
 	 */
@@ -1129,6 +1143,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Convert collected sectors to data (funnel chart).
+	 *
+	 * @return array
 	 */
 	protected function convertSectorsToData()
 	{
@@ -1142,6 +1158,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Generate sectors data.
+	 *
+	 * @return array
 	 */
 	protected function generateSectorsData()
 	{
@@ -1184,7 +1202,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get owners list from result data.
 	 *
-	 * @return type
+	 * @return array
 	 */
 	public function getRowsOwners()
 	{
@@ -1216,14 +1234,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
 			$this->filterIds[] = (int) $id;
+			$this->setViewName($id);
 		}
 		return $this->filterIds;
 	}
 
 	/**
 	 * Get headers from list view that are used in chart.
-	 *
-	 * @return array
 	 */
 	private function setChartHeaders()
 	{
@@ -1295,13 +1312,38 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get view name for multi filter charts.
 	 *
-	 * @param $dividingValue
-	 *
-	 * @return false|null|string
+	 * @param int $cvid
 	 */
-	protected function getViewName($dividingValue)
+	protected function setViewName($cvid)
 	{
-		return (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->getFilterId($dividingValue)])->scalar();
+		$this->viewNames[$cvid] = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $cvid])->scalar();
+	}
+
+	/**
+	 * Get view name.
+	 *
+	 * @param int $cvid
+	 */
+	protected function getViewNameFromId($cvid)
+	{
+		return $this->viewNames[$cvid];
+	}
+
+	/**
+	 * Get view id from view name.
+	 *
+	 * @param string $viewName
+	 *
+	 * @return int|null|string
+	 */
+	protected function getViewIdFromName($viewName)
+	{
+		foreach ($this->viewNames as $cvid => $vName) {
+			if ($viewName === $vName) {
+				return $cvid;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1348,9 +1390,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @return string
 	 */
-	public function getListViewURL()
+	public function getListViewURL($dividingValue = 0)
 	{
-		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId(0);
+		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId($dividingValue);
 	}
 
 	public function isColor()
