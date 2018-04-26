@@ -339,7 +339,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.has('input.dateRangeField').length > 0) {
 			App.Fields.Date.registerRange(fieldSpecificUi, {ranges: false});
-		} else if (fieldSpecificUi.has('input.timepicker-default').length > 0) {
+		} else if (fieldSpecificUi.has('input.clockPicker').length > 0) {
 			app.registerEventForClockPicker(fieldSpecificUi);
 		}
 		this.addValidationToFieldIfNeeded(fieldSelect);

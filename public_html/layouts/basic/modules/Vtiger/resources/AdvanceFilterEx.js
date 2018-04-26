@@ -253,7 +253,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				} else {
 					value = '';
 				}
-				var clonedTimeElement = '<input type="text" class="timepicker-default fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >';
+				var clonedTimeElement = '<input type="text" class="clockPicker fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedTimeElement);
 			} else if (fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');

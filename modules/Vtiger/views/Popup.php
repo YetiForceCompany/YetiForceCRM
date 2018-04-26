@@ -84,7 +84,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'~libraries/js/timepicker/jquery.timepicker.js',
 			'~libraries/clockpicker/dist/jquery-clockpicker.js',
 			'libraries.js.jquery_windowmsg',
 			'~layouts/resources/BaseList.js',
