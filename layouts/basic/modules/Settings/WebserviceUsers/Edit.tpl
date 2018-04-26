@@ -9,7 +9,9 @@
 			{else}
 				<h5 class="modal-title"><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
 			{/if}
-			<button class="btn btn-warning" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+			<button class="btn btn-warning" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body">
 			{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=fields}
