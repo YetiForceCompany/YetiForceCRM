@@ -8989,7 +8989,6 @@ CREATE TABLE `vtiger_widgets` (
   `label` varchar(100) DEFAULT NULL,
   `wcol` tinyint(1) DEFAULT 1,
   `sequence` tinyint(2) DEFAULT NULL,
-  `nomargin` tinyint(1) DEFAULT 0,
   `data` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),

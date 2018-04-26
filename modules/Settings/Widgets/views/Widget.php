@@ -52,7 +52,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('WID', '');
 		$viewer->assign('WIDGETINFO', ['data' => [
 				'limit' => 5, 'relatedmodule' => '', 'columns' => '', 'action' => '', 'switchHeader' => '', 'filter' => '', 'checkbox' => '',
-			], 'nomargin' => '', 'label' => '',
+			], 'label' => '',
 		]);
 		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($tabId));
 		$viewer->assign('MODULE', $moduleName);
