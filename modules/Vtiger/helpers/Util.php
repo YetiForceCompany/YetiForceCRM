@@ -141,7 +141,6 @@ class Vtiger_Util_Helper
 			}
 			$formatedDate = $userDate . " ($dayInfo)";
 		}
-
 		return $formatedDate;
 	}
 
@@ -164,7 +163,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function getBaseCurrency()
 	{
-		return(new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
+		return (new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
 	}
 
 	/**
@@ -175,7 +174,6 @@ class Vtiger_Util_Helper
 	public static function getMaxUploadSize()
 	{
 		$upload_maxsize = \AppConfig::main('upload_maxsize');
-
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
@@ -199,7 +197,6 @@ class Vtiger_Util_Helper
 		date_default_timezone_set($adminTimeZone);
 		$date = date('Y-m-d H:i:s');
 		date_default_timezone_set($default_timezone);
-
 		return $date;
 	}
 
@@ -276,13 +273,15 @@ class Vtiger_Util_Helper
 			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			++$groupIterator;
 		}
-
 		return $advFilterConditionFormat;
 	}
 
 	public static function getAllSkins()
 	{
-		return ['twilight' => '#404952', 'modern' => '#0d9605'];
+		return [
+			'twilight' => '#404952',
+			//'modern' => '#0d9605'
+		];
 	}
 
 	public static function isUserDeleted($userid)
@@ -293,7 +292,6 @@ class Vtiger_Util_Helper
 		if ($count > 0) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -306,7 +304,6 @@ class Vtiger_Util_Helper
 
 	public function getDefaultMandatoryValue($dataType)
 	{
-		$value;
 		switch ($dataType) {
 			case 'date':
 				$dateObject = new DateTime();
@@ -337,7 +334,6 @@ class Vtiger_Util_Helper
 				$value = '?????';
 				break;
 		}
-
 		return $value;
 	}
 }
