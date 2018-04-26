@@ -4,9 +4,14 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<button type="button" class="btn btn-primary addChannel float-right marginRight10">{\App\Language::translate('LBL_ADD_CHANNEL', $MODULE)}</button>
-					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_ADD_RSS', $MODULE)}</h3>
+					<h5 class="modal-title">
+						<span class="fas fa-plus mr-1"></span>
+						{\App\Language::translate('LBL_ADD_RSS', $MODULE)}
+					</h5>
+					<button type="button" class="btn btn-primary addChannel ml-auto">{\App\Language::translate('LBL_ADD_CHANNEL', $MODULE)}</button>
+					<button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal validateForm" >
 					<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -17,14 +22,14 @@
 					<input type="hidden" name="width" value="4" />
 					<input type="hidden" name="height" value="4" />
 					<div class="formContainer">
-						<div class="form-group margin0px padding1per">
-							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_TITLE_WIDGET', $MODULE)}<span class="redColor">*</span> </label>
+						<div class="form-group row m-0 p-1">
+							<label class="col-sm-4 col-form-label text-right">{\App\Language::translate('LBL_TITLE_WIDGET', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<input type="text" name="title" class="form-control" data-validation-engine="validate[required]" />
 							</div>
 						</div>
-						<div class="form-group margin0px padding1per">
-							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
+						<div class="form-group row m-0 p-1">
+							<label class="col-sm-4 col-form-label text-right">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<div class="input-group">
 									<input type="text" class="form-control channelRss" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]'  />
@@ -34,8 +39,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group margin0px padding1per newChannel d-none">
-							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
+						<div class="form-group row m-0 p-1 newChannel d-none">
+							<label class="col-sm-4 col-form-label text-right">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<div class="input-group">
 									<input type="text" disabled="disabled" class="form-control channelRss" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]' />
