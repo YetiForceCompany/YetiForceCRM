@@ -10709,7 +10709,8 @@ ul.ui-autocomplete {
     padding: 0;
     margin: 0; }
   .leftPanel a {
-    color: #f8f9fa; }
+    color: #f8f9fa;
+    transition: background-color 0.2s ease; }
     .leftPanel a:hover {
       text-decoration: none;
       cursor: pointer; }
@@ -10724,8 +10725,9 @@ ul.ui-autocomplete {
     background: #4A5364;
     position: relative; }
     .leftPanel .tpl-Menu a:hover {
-      color: #4A5364;
-      background: #f8f9fa; }
+      background: #555f73; }
+    .leftPanel .tpl-Menu a.active {
+      background: #343b47; }
     .leftPanel .tpl-Menu a.hasIcon {
       padding: 8px 30px 8px 12px; }
     .leftPanel .tpl-Menu a .menuName {
@@ -10751,33 +10753,39 @@ ul.ui-autocomplete {
       display: none; }
     .leftPanel .tpl-Menu a:not(.collapsed) .toggler .fa-plus-circle {
       display: none; }
-  .leftPanel .tpl-Menu .tpl-menu-SubMenu {
+  .leftPanel .tpl-Menu .tpl-menu-SubMenu,
+  .leftPanel .tpl-Menu .tpl-menu-Profile_submenu {
     background: #f8f9fa;
     color: #4A5364; }
-    .leftPanel .tpl-Menu .tpl-menu-SubMenu a {
+    .leftPanel .tpl-Menu .tpl-menu-SubMenu a,
+    .leftPanel .tpl-Menu .tpl-menu-Profile_submenu a {
       font-size: 14px;
       color: #4A5364;
       background: #f8f9fa; }
-      .leftPanel .tpl-Menu .tpl-menu-SubMenu a:hover {
+      .leftPanel .tpl-Menu .tpl-menu-SubMenu a:hover,
+      .leftPanel .tpl-Menu .tpl-menu-Profile_submenu a:hover {
+        background: white; }
+      .leftPanel .tpl-Menu .tpl-menu-SubMenu a.active,
+      .leftPanel .tpl-Menu .tpl-menu-Profile_submenu a.active {
         background: #e9ecef; }
-      .leftPanel .tpl-Menu .tpl-menu-SubMenu a.active {
-        background: #bdc6d0; }
-      .leftPanel .tpl-Menu .tpl-menu-SubMenu a.hasIcon {
+      .leftPanel .tpl-Menu .tpl-menu-SubMenu a.hasIcon,
+      .leftPanel .tpl-Menu .tpl-menu-Profile_submenu a.hasIcon {
         padding: 6px 12px; }
-    .leftPanel .tpl-Menu .tpl-menu-SubMenu .menuLabel > a {
+    .leftPanel .tpl-Menu .tpl-menu-SubMenu .menuLabel > a,
+    .leftPanel .tpl-Menu .tpl-menu-Profile_submenu .menuLabel > a {
       font-weight: 600;
       text-transform: uppercase;
       padding: 6px 12px; }
-    .leftPanel .tpl-Menu .tpl-menu-SubMenu button {
-      border-width: 0;
-      border-radius: 0;
-      background: #f0f1f1;
-      text-align: left;
-      padding-left: 50px; }
-      .leftPanel .tpl-Menu .tpl-menu-SubMenu button:hover {
+    .leftPanel .tpl-Menu .tpl-menu-SubMenu button,
+    .leftPanel .tpl-Menu .tpl-menu-Profile_submenu button {
+      background: #dae0e5; }
+      .leftPanel .tpl-Menu .tpl-menu-SubMenu button:hover, .leftPanel .tpl-Menu .tpl-menu-SubMenu button:focus,
+      .leftPanel .tpl-Menu .tpl-menu-Profile_submenu button:hover,
+      .leftPanel .tpl-Menu .tpl-menu-Profile_submenu button:focus {
         color: #f8f9fa;
         background: #4A5364; }
-      .leftPanel .tpl-Menu .tpl-menu-SubMenu button.hasIcon {
+      .leftPanel .tpl-Menu .tpl-menu-SubMenu button.hasIcon,
+      .leftPanel .tpl-Menu .tpl-menu-Profile_submenu button.hasIcon {
         padding: 6px 12px; }
 
 .related .nav-pills {
