@@ -22,7 +22,7 @@
 		<input type="hidden" id="relationType" value="{$RELATION_TYPE}" />
 		<input type="hidden" id="relatedModule" value="{$MODULE}" />
 		<input type="hidden" name="tree" id="treePopupValues" value="{\App\Purifier::encodeHtml($TREE)}" />
-		{if count($TREE) != 0}
+		{if $TREE}
 			<div class="col-md-12 mb-2">
 				<div class="col-md-12" id="treePopupContents"></div>
 			</div>
