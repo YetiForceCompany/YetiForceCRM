@@ -6,8 +6,8 @@
 	{else}
 		{assign var=ACTIVE value='false'}
 	{/if}
-	<li class="tpl-menu-Label menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}">
-		<a class="{if $ACTIVE=='true'}active{else}collapsed{/if}{if $ICON} hasIcon{/if}{if $HASCHILDS == 'true'} js-submenu-toggler{/if}"
+	<li class="tpl-menu-Label nav-item menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}">
+		<a class="nav-link {if $ACTIVE=='true'}active{else}collapsed{/if}{if $ICON} hasIcon{/if}{if $HASCHILDS == 'true'} js-submenu-toggler{/if}"
 			{if $HASCHILDS == 'true'} data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" href="#" aria-haspopup="true" aria-expanded="{$ACTIVE}" aria-controls="submenu-{$MENU['id']}"{/if}>
 			{$ICON}
 			<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
