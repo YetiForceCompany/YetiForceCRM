@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="statsContainer">
 	<div class="form-horizontal">
-		<div class="form-group">
+		<div class="form-group form-row">
 			<label for="langs_list" class="col-form-label col-md-2" >{\App\Language::translate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select class="form-control selectize" name="langs_basic">
@@ -42,9 +42,9 @@
 		</div>
 		<br />
 		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="statsData"></div>
-			<div class="col-md-2"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-10 statsData"></div>
+			<div class="col-md-1"></div>
 		</div>
 	</div>
 </div>
