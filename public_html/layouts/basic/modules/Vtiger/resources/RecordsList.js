@@ -42,6 +42,7 @@ $.Class("Base_RecordsList_JS", {}, {
 			multi_select: this.container.find('.js-multi-select').val(),
 			totalCount: this.container.find('.js-total-count').val(),
 			noOfEntries: this.container.find('.js-no-entries').val(),
+			filterFields: JSON.parse(this.container.find('.js-filter-fields').val()),
 			onlyBody: true
 		}
 		let searchValue = this.listSearchInstance.getAlphabetSearchValue();
