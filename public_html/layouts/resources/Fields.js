@@ -245,6 +245,9 @@ App.Fields = {
 				return;
 			}
 			container = $(container).get(0);
+			if (typeof container !== 'object') {
+				return;
+			}
 			let elements = container.querySelectorAll(key);
 			if (elements.length === 0) {
 				return;
