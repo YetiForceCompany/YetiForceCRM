@@ -118,6 +118,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $dividingFieldModel;
 
 	/**
+	 * Custom view instance.
+	 *
+	 * @var \App\CustomView
+	 */
+	private $customView;
+
+	/**
 	 * Custom view names.
 	 *
 	 * @var array
@@ -1232,9 +1239,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	private function setFilterIds()
 	{
+		$this->customView = \App\CustomView::getInstance($this->getTargetModule());
+
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
 			$this->filterIds[] = (int) $id;
-			$this->setViewName($id);
+			$this->viewNames[$id] = $this->customView->getInfoFilter((int) $id)['viewname'];
 		}
 		return $this->filterIds;
 	}
@@ -1259,7 +1268,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function setWidgetModel($widgetModel)
 	{
 		$this->widgetModel = $widgetModel;
-		$this->extraData = $this->widgetModel->get('data');
+		$this->extraData = App\Json::decode($this->widgetModel->get('data'));
+		$this->getTargetModuleModel();
 		$this->setFilterIds();
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
@@ -1268,7 +1278,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->extraData === null) {
 			throw new App\Exceptions\AppException('Invalid data');
 		}
-		$this->getTargetModuleModel();
 		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : $this->extraData['additionalFiltersFields'];
 		$this->setChartHeaders();
 		$this->chartType = $this->extraData['chartType'];
@@ -1307,16 +1316,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
-	}
-
-	/**
-	 * Get view name for multi filter charts.
-	 *
-	 * @param int $cvid
-	 */
-	protected function setViewName($cvid)
-	{
-		$this->viewNames[$cvid] = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $cvid])->scalar();
 	}
 
 	/**
