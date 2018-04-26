@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<h1>POPUP</h1>
 	<div class="col-md-2 form-group float-left">
 		{if $MULTI_SELECT}
 			{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-outline-secondary"><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong></button>&nbsp;{/if}
