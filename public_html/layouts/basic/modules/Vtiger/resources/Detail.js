@@ -1255,23 +1255,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
-		// jQuery('button.selectRelation').on('click', function (e) {
-		// 	var currentElement = jQuery(e.currentTarget);
-		// 	var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-		// 	var referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
-		// 	var popupInstance = Vtiger_Popup_Js.getInstance();
-		// 	popupInstance.show({
-		// 		module: referenceModuleName,
-		// 		src_module: app.getModuleName(),
-		// 		src_record: thisInstance.getRecordId(),
-		// 		multi_select: true
-		// 	}, function (responseString) {
-		// 		var responseData = JSON.parse(responseString);
-		// 		thisInstance.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData)).then(function (data) {
-		// 			thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
-		// 		});
-		// 	});
-		// });
+		$('button.selectRelation').on('click', function (e) {
+			let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
+			let referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
+			let restrictionsField = $(this).data('rf');
+			let params = {
+				module: referenceModuleName,
+				src_module: app.getModuleName(),
+				src_record: thisInstance.getRecordId(),
+				multi_select: true
+			};
+			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
+				params['search_key'] = restrictionsField.key;
+				params['search_value'] = restrictionsField.name;
+			}
+			app.showRecordsList(params, (modal, instance) => {
+				instance.setSelectEvent((responseData) => {
+					thisInstance.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData)).then(function (data) {
+						thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+					});
+				});
+			});
+		});
 	},
 	registerAddingInventoryRecords: function () {
 		var thisInstance = this;

@@ -773,7 +773,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				return;
 			}
 			thisInstance.addRelatedRecord(element);
-		})
+		});
 		this.content.on('click', 'button.selectRelation', function (e) {
 			let restrictionsField = $(this).data('rf');
 			let params = {};
