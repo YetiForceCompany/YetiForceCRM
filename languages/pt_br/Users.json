@@ -296,6 +296,7 @@
     "LBL_SWITCH": "Mudar",
     "LBL_SWITCH_USER": "Mudar Usu\u00e1rio",
     "LBL_SWITCH_TO_YOURSELF": "Mudar para voc\u00ea mesmo",
+	"LBL_CHANGE_ACCESS_KEY": "Change Access Key",
     "LBL_FAILED_TO_UPDATE_ACCESS_KEY": "Failed to update access key",
     "LBL_USER_MAIL_EXIST": "User with this email address already exists",
     "LBL_INVALID_USERNAME": "Invalid username",
