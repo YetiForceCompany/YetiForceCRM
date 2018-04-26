@@ -68,12 +68,6 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini row">
-								<label class="col-md-4 col-form-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>:</label>
-								<div class="col-md-7 py-1">
-									<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
-								</div>
-							</div>
-							<div class="form-group form-group-sm form-switch-mini row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Add button', $QUALIFIED_MODULE)}<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Add button', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7">
 									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
