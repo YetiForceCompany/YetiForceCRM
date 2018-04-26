@@ -252,7 +252,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		} else if (endValue === 'until') {
 			var date = form.find('.calendarUntil').val();
 			date = app.getDateInDBInsertFormat(CONFIG.dateFormat, date);
-			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T000000';
+			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T235959';
 		}
 		if (freq === 'WEEKLY') {
 			var checkedElements = [];
