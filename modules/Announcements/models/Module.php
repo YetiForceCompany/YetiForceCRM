@@ -116,7 +116,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function checkStatus($record)
 	{
 		$archive = true;
-		$users = $this->getUsers(true);
+		$users = $this->getUsers();
 		foreach ($users as $userId => $name) {
 			$result = (new App\Db\Query())->from('u_#__announcement_mark')->where(['announcementid' => $record, 'userid' => $userId, 'status' => 1])->count();
 			if (!$result) {
@@ -130,16 +130,10 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function getUsers($showAll = true)
+	public function getUsers()
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
-		if ($showAll) {
-			$users = \App\Fields\Owner::getInstance()->getAccessibleUsers('Public');
-		} else {
-			$users = $userModel->getRoleBasedSubordinateUsers();
-		}
-
-		return $users;
+		return $userModel->getRoleBasedSubordinateUsers();
 	}
 
 	/**
