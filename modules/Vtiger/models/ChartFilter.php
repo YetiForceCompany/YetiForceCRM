@@ -821,7 +821,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			foreach ($this->data as $dividingValue => &$dividing) {
 				foreach ($dividing as $groupValue => &$group) {
 					if ($group['avg']) {
-						$group['avg'] = (float) $group['avg'] / $this->numRows[$groupValue][$dividingValue];
+						$group['avg'] = (float) $group['avg'] / $this->numRows[$dividingValue][$groupValue];
 					}
 				}
 			}
