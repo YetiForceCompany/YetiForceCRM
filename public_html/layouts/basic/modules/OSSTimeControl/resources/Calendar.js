@@ -285,17 +285,21 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			headerInstance.handleQuickCreateData(data, {
 				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
-
 				}
 			});
 			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
+		let usersList = $("#calendarUserList").val();
+		if(usersList.length===0){
+			usersList = [CONFIG.userId.toString()];
+		}
+		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0) {
 			return;
 		}
-		if ($.inArray(calendarDetails.timecontrol_type.value, $("#timecontrolTypes").val()) < 0) {
+		const types = $("#timecontrolTypes").val();
+		if ($.inArray(calendarDetails.timecontrol_type.value, types) < 0 && types.length > 0) {
 			return;
 		}
 		var calendar = this.getCalendarView();
@@ -304,8 +308,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.name.display_value,
-			start: startDate.toString(),
-			end: endDate.toString(),
+			start: startDate.format(),
+			end: endDate.format(),
 			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
 			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
 			title: calendarDetails.name.display_value,
