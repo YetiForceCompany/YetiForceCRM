@@ -20,16 +20,6 @@
 								<div class="col-md-3 marginLeftZero"><label class="">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 								<div class="col-md-3 marginLeftZero">
-									<label class="">
-										{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}:
-										<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>
-									</label>
-								</div>
-								<div class="col-md-7">
-									<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-								</div>
-								<div class="clearfix"></div>
-								<div class="col-md-3 marginLeftZero">
 									<label>
 										{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}:
 										<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>

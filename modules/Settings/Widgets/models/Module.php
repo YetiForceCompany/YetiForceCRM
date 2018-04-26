@@ -239,14 +239,11 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		unset($data['filter_selected'], $data['wid']);
 
-		$nomargin = $data['nomargin'] ?? 0;
-		unset($data['nomargin']);
 		$serializeData = \App\Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$db->createCommand()->update('vtiger_widgets', [
 				'label' => $label,
-				'nomargin' => $nomargin,
 				'data' => $serializeData,
 				], ['id' => $wid])->execute();
 		} else {
@@ -254,7 +251,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				'tabid' => $tabid,
 				'type' => $type,
 				'label' => $label,
-				'nomargin' => $nomargin,
 				'sequence' => $sequence,
 				'data' => $serializeData,
 			])->execute();
