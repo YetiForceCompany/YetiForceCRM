@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
+		<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_ICON', $QUALIFIED_MODULE)}</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 class="modal-title">{\App\Language::translate('LBL_SELECT_ICON', $QUALIFIED_MODULE)}</h3>
 	</div>
 	<div class="modal-body col-md-12">
-		<input type="hidden" id="iconType" value="-" />
-		<input type="hidden" id="iconName" value="-" />
+		<input type="hidden" id="iconType" value="-"/>
+		<input type="hidden" id="iconName" value="-"/>
 		<div>
 			<select class="form-control" id="iconsList" name="type">
 				<option value="">-</option>
@@ -23,11 +23,12 @@
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 				{foreach from=Settings_Vtiger_Icons_Model::getImageIcon() key=NAME item=URL}
-					<option value="{\Vtiger_Theme::getImagePath($URL)}" data-type="image" title="{$NAME}">{$NAME}</option>
+					<option value="{\Vtiger_Theme::getImagePath($URL)}" data-type="image"
+							title="{$NAME}">{$NAME}</option>
 				{/foreach}
 			</select>
 		</div>
-		<br />
+		<br/>
 		<div>
 			<div class="row">
 				<div class="col-md-3">
@@ -48,11 +49,11 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-success" type="submit" name="saveButton">
-			<strong>{\App\Language::translate('LBL_SELECT_OPTION', $MODULE)}</strong>
+		<button class="btn btn-success" type="submit" name="saveButton" data-dismiss="modal">
+			<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SELECT_OPTION', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-warning" type="reset" data-dismiss="modal">
-			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+		<button class="btn btn-danger" type="reset" data-dismiss="modal">
+			<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong>
 		</button>
 	</div>
 {/strip}

@@ -184,13 +184,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			var currentValue = element.val();
 			var prevValue = element.data('prevValue');
 			if (currentValue != prevValue || data.forceChange) {
-				var list = element.data('timepicker-list');
-				if (!list) {
-					//To generate the list
-					element.timepicker('show');
-					element.timepicker('hide');
-					list = element.data('timepicker-list');
-				}
 				e = jQuery.Event("keydown");
 				e.which = 13;
 				e.keyCode = 13;

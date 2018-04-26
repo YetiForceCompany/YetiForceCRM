@@ -620,23 +620,6 @@ app = {
 		return table.DataTable();
 	},
 	/**
-	 * Function to destroy time fields
-	 */
-	destroyTimeFields: function (container) {
-
-		if (typeof cotainer == 'undefined') {
-			container = $('body');
-		}
-
-		if (container.hasClass('timepicker-default')) {
-			var element = container;
-		} else {
-			var element = container.find('.timepicker-default');
-		}
-		element.data('timepicker-list', null);
-		return container;
-	},
-	/**
 	 * Function to get the chosen element from the raw select element
 	 * @params: select element
 	 * @return : chosenElement - corresponding chosen element
