@@ -1403,35 +1403,34 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get popup view fields.
+	 * Function to get modal records list view fields.
 	 *
-	 * @param string|bool $sourceModule
-	 *
-	 * @return string[]
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param string|bool         $sourceModule
 	 */
-	public function getPopupViewFieldsList($sourceModule = false)
+	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
 		if (App\Cache::staticHas('PopupViewFieldsList', $this->getName())) {
-			return App\Cache::staticGet('PopupViewFieldsList', $this->getName());
-		}
-		$parentRecordModel = self::getInstance($sourceModule);
-		if (!empty($sourceModule) && $parentRecordModel) {
-			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
-		}
-		$popupFields = [];
-		if ($relationModel) {
-			foreach (App\Field::getFieldsFromRelation($relationModel->getId()) as &$fieldName) {
-				$popupFields[$fieldName] = $fieldName;
+			$popupFields = App\Cache::staticGet('PopupViewFieldsList', $this->getName());
+		} else {
+			$popupFields = [];
+			if (!empty($sourceModule) && ($parentModuleModel = self::getInstance($sourceModule))) {
+				$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $this);
+				if ($relationModel) {
+					foreach (App\Field::getFieldsFromRelation($relationModel->getId()) as $fieldName) {
+						$popupFields[$fieldName] = $fieldName;
+					}
+				}
 			}
-		}
-		if (!$popupFields) {
-			foreach ($this->getPopupFields() as &$fieldName) {
-				$popupFields[$fieldName] = $fieldName;
+			if (!$popupFields) {
+				foreach ($this->getPopupFields() as $fieldName) {
+					$popupFields[$fieldName] = $fieldName;
+				}
 			}
+			$popupFields[] = 'id';
+			App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
 		}
-		App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
-
-		return $popupFields;
+		$queryGenerator->setFields($popupFields);
 	}
 
 	/**

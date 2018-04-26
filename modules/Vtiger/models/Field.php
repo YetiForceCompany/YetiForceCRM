@@ -341,7 +341,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 			$this->fieldDataType = $fieldDataType;
 		}
-
 		return $this->fieldDataType;
 	}
 
@@ -413,7 +412,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->isReadOnly)) {
 			return $this->isReadOnly;
 		}
-
 		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
@@ -427,7 +425,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$this->get('uitypeModel')) {
 			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
 		}
-
 		return $this->get('uitypeModel');
 	}
 
@@ -436,7 +433,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->get('uitype') === 15 || $this->get('uitype') === 33 || ($this->get('uitype') === 55 && $this->getFieldName() === 'salutationtype')) {
 			return true;
 		}
-
 		return false;
 	}
 
