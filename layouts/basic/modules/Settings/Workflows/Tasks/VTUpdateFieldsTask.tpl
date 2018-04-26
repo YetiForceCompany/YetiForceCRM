@@ -4,7 +4,7 @@
 		<div class="col-md-2"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
 	</div><br />
 	<div>
-		<button type="button" class="btn btn-light" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+		<button type="button" class="btn btn-outline-secondary" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 	</div><br />
 	<div class="row conditionsContainer" id="save_fieldvaluemapping">
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
@@ -41,7 +41,7 @@
 		{/foreach}
 		{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl', $QUALIFIED_MODULE)}
 	</div><br />
-	<div class="row basicAddFieldContainer d-none padding-bottom1per">
+	<div class="row basicAddFieldContainer d-none padding-bottom1per w-100">
 		<span class="col-md-4">
 			<select name="fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" class="form-control">
 				<option></option>
@@ -65,7 +65,7 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</span>
-		<p class="cursorPointer form-control-plaintext">
+		<p class="cursorPointer form-control-plaintext w-auto">
 			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</p>
 	</div>
