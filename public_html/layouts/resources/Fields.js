@@ -241,16 +241,35 @@ App.Fields = {
 		 * @returns {ClipboardJS|undefined}
 		 */
 		registerCopyClipboard: function (container, key = '.clipboard') {
-			if (!container) {
-				return;
-			}
-			container = $(container).get(0);
 			if (typeof container !== 'object') {
 				return;
 			}
+			container = $(container).get(0);
 			let elements = container.querySelectorAll(key);
 			if (elements.length === 0) {
-				return;
+				return new ClipboardJS(key, {
+					text: function (trigger) {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+							type: 'success'
+						});
+						trigger = $(trigger);
+						const element = $(trigger.data('copyTarget'));
+						let val;
+						if (typeof trigger.data('copyType') !== 'undefined') {
+							if (element.is("select")) {
+								val = element.find('option:selected').data(trigger.data('copyType'));
+							} else {
+								val = element.data(trigger.data('copyType'));
+							}
+						} else if (typeof trigger.data('copy-attribute') !== 'undefined') {
+							val = trigger.data(trigger.data('copy-attribute'));
+						} else {
+							val = element.val();
+						}
+						return val;
+					}
+				});
 			}
 			return new ClipboardJS(elements, {
 				container: container,

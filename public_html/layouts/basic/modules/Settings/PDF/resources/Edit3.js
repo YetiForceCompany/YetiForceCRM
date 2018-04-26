@@ -106,6 +106,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
+		App.Fields.Password.registerCopyClipboard(form);
 		this.registerCancelStepClickEvent(container);
 		this.registerNewEditor();
 	}
