@@ -316,7 +316,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			fieldSpecificUi.find('input[type="text"]').addClass('form-control');
 		} else {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
-			fieldSpecificUi.find('[name="' + fieldName + '"]').addClass('row form');
 		}
 
 		fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-value', 'value').removeAttr('data-validation-engine');
