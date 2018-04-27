@@ -87,12 +87,12 @@ $.Class("Vtiger_Header_Js", {
 		var aDeferred = $.Deferred();
 		var quickCreateSaveUrl = form.serializeFormData();
 		AppConnector.request(quickCreateSaveUrl).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -296,22 +296,13 @@ $.Class("Vtiger_Header_Js", {
 				if (invalidFields.length > 0) {
 					//If validation fails, form should submit again
 					form.removeData('submit');
-					form.closest('#' + Window.lastModalId).find('.modal-header h3').progressIndicator({
-						'mode': 'hide'
-					});
+					$.progressIndicator({'mode': 'hide'});
 					e.preventDefault();
 					return;
 				} else {
 					//Once the form is submiting add data attribute to that form element
 					form.data('submit', 'true');
-					form.closest('#' + Window.lastModalId).find('.modal-header h3').progressIndicator({
-						smallLoadingImage: true,
-						imageContainerCss: {
-							display: 'inline',
-							'margin-left': '18%',
-							position: 'absolute'
-						}
-					});
+					$.progressIndicator({'mode':'hide'});
 				}
 
 				var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
@@ -343,13 +334,12 @@ $.Class("Vtiger_Header_Js", {
 							});
 						}
 						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
+						$.progressIndicator({'mode': 'hide'});
 					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
 					form.removeData('submit');
-					form.closest('#' + Window.lastModalId).find('.modal-header h3').progressIndicator({
-						'mode': 'hide'
-					});
+					$.progressIndicator({'mode': 'hide'});
 				}
 				e.preventDefault();
 			}
@@ -437,9 +427,9 @@ $.Class("Vtiger_Header_Js", {
 				_renderItem: function (ul, item) {
 					var url = 'index.php?module=' + item.module + '&view=Detail&record=' + item.id;
 					return $("<li>")
-							.data("item.autocomplete", item)
-							.append($("<a href='" + url + "'></a>").html(item.label))
-							.appendTo(ul);
+						.data("item.autocomplete", item)
+						.append($("<a href='" + url + "'></a>").html(item.label))
+						.appendTo(ul);
 				},
 			});
 			$('.globalSearchValue').gsAutocomplete({
@@ -581,7 +571,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
-			if ( $(this).hasClass('active') ) {
+			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
 				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
 				$('.actionMenu .headerButton').popover();
@@ -600,7 +590,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
-			if ( $(this).hasClass('active') ) {
+			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
 				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
 			} else {
