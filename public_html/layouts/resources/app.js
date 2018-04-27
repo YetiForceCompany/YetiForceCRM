@@ -97,14 +97,14 @@ app = {
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
 			params = {
-				trigger: 'manual',
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
+		params.trigger = 'hover';
 		params.container = 'body';
-		params.delay = 800;
+		params.delay = {"show": 300, "hide": 100};
 		var sparams;
 		selectElement.each(function (index, domElement) {
 			sparams = params;
@@ -123,20 +123,6 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			element.on("mouseenter focus", function () {
-				var _this = this;
-				$(this).popover("show");
-				$(".popover").on("mouseleave", function () {
-					$(_this).popover('hide');
-				});
-			}).on("mouseleave blur", function () {
-				var _this = this;
-				setTimeout(function () {
-					if (!$(".popover:hover").length) {
-						$(_this).popover("hide");
-					}
-				}, 100);
-			});
 		});
 		return selectElement;
 	},
