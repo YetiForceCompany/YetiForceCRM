@@ -5,14 +5,14 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 	 */
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form == 'undefined') {
+		if (typeof form === 'undefined') {
 			form = this.getForm();
 		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 			var password = form.find('[name="password"]').val();
 			var id = form.find('[name="record"]').val();
 			var params = {};
-			if (password == '**********') {
+			if (password === '**********') {
 				params = {};
 				params.data = {
 					module: "OSSPasswords",
@@ -36,13 +36,13 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 
 				// validate password
 				passwordStrength('', '');
-
 			}
 			password = form.find('[name="password"]').val();
 			params = {};
 			params.data = {module: 'OSSPasswords', action: 'CheckPass', 'password': password, 'id': id};
 			params.async = false;
 			params.dataType = 'json';
+			let send;
 			AppConnector.request(params).then(
 				function (data) {
 					if (data.result.success == false) {
@@ -64,7 +64,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 				}
 			);
 
-			if (send == false)
+			if (!send)
 				return false;
 		});
 	},
