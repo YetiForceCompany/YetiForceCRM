@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-$.Class("Vtiger_Helper_Js", {
+$.Class('Vtiger_Helper_Js', {
 	checkServerConfigResponseCache: '',
 	langCode: '',
 	/*
@@ -83,45 +83,45 @@ $.Class("Vtiger_Helper_Js", {
 	 */
 
 	getDateInstance: function (dateTime, dateFormat) {
-		var dateTimeComponents = dateTime.split(" ");
+		var dateTimeComponents = dateTime.split(' ');
 		var dateComponent = dateTimeComponents[0];
 		var timeComponent = dateTimeComponents[1];
 		var seconds = '00';
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf('-') !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf('.') !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf('/') !== -1) {
 			dotMode = '/';
 		}
 
 		var splittedDate = dateComponent.split(dotMode);
 		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
-		var month = splittedDate[splittedDateFormat.indexOf("mm")];
-		var date = splittedDate[splittedDateFormat.indexOf("dd")];
+		var year = splittedDate[splittedDateFormat.indexOf('yyyy')];
+		var month = splittedDate[splittedDateFormat.indexOf('mm')];
+		var date = splittedDate[splittedDateFormat.indexOf('dd')];
 		var dateInstance = Date.parse(year + dotMode + month + dotMode + date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
-			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			var errorMsg = app.vtranslate('JS_INVALID_DATE');
 			throw errorMsg;
 		}
 
 		//Before creating date object time is set to 00
 		//because as while calculating date object it depends system timezone
-		if (typeof timeComponent == "undefined") {
+		if (typeof timeComponent === 'undefined') {
 			timeComponent = '00:00:00';
 		}
 
 		var timeSections = timeComponent.split(':');
-		if (typeof timeSections[2] != 'undefined') {
+		if (typeof timeSections[2] !== 'undefined') {
 			seconds = timeSections[2];
 		}
 
 		//Am/Pm component exits
-		if (typeof dateTimeComponents[2] != 'undefined') {
+		if (typeof dateTimeComponents[2] !== 'undefined') {
 			timeComponent += ' ' + dateTimeComponents[2];
 			if (dateTimeComponents[2].toLowerCase() == 'pm' && timeSections[0] != '12') {
 				timeSections[0] = parseInt(timeSections[0], 10) + 12;
@@ -162,10 +162,10 @@ $.Class("Vtiger_Helper_Js", {
 		return aDeferred.promise();
 	},
 	showMessage: function (params) {
-		if (typeof params.type == "undefined") {
+		if (typeof params.type === 'undefined') {
 			params.type = 'info';
 		}
-		if (typeof params.title == "undefined") {
+		if (typeof params.title === 'undefined') {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
 		Vtiger_Helper_Js.showPnotify(params);
@@ -175,7 +175,7 @@ $.Class("Vtiger_Helper_Js", {
 	 */
 	showPnotify: function (customParams) {
 		let userParams = customParams;
-		if (typeof customParams == 'string') {
+		if (typeof customParams === 'string') {
 			userParams = {};
 			userParams.text = customParams;
 		}
@@ -198,21 +198,21 @@ $.Class("Vtiger_Helper_Js", {
 				}
 			}
 		}
-		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
+		if (typeof customParams.type !== 'undefined' && customParams.type != 'error') {
 			params.data.hide = true;
 		}
-		if (typeof userParams != 'undefined') {
+		if (typeof userParams !== 'undefined') {
 			params.data = $.extend(params.data, userParams);
 		}
-		PNotify.defaults.styling = "bootstrap4";
-		PNotify.defaults.icons = "fontawesome5";
+		PNotify.defaults.styling = 'bootstrap4';
+		PNotify.defaults.icons = 'fontawesome5';
 		return new PNotify(params);
 	},
 	/*
 	 * Function to remove pnotify message
 	 */
 	hidePnotify: function (notice) {
-		if (typeof notice == 'undefined') {
+		if (typeof notice === 'undefined') {
 			notice = $('.ui-pnotify');
 		}
 		notice.remove();
@@ -244,24 +244,24 @@ $.Class("Vtiger_Helper_Js", {
 	},
 	convertToDateString: function (stringDate, dateFormat, modDay, type) {
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf('-') !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf('.') !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf('/') !== -1) {
 			dotMode = '/';
 		}
 
 		var splittedDate = stringDate.split(dotMode);
 		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
-		var month = splittedDate[splittedDateFormat.indexOf("mm")];
-		var date = splittedDate[splittedDateFormat.indexOf("dd")];
+		var year = splittedDate[splittedDateFormat.indexOf('yyyy')];
+		var month = splittedDate[splittedDateFormat.indexOf('mm')];
+		var date = splittedDate[splittedDateFormat.indexOf('dd')];
 		var dateInstance = new Date(year, month - 1, date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
-			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			var errorMsg = app.vtranslate('JS_INVALID_DATE');
 			throw errorMsg;
 		}
 		var newDate = dateInstance;
@@ -287,14 +287,14 @@ $.Class("Vtiger_Helper_Js", {
 		element.find('option').each(function (index, option) {
 			option = $(option);
 			if (value != option.data(attr)) {
-				option.addClass("d-none");
-				option.attr("disabled", "disabled");
+				option.addClass('d-none');
+				option.attr('disabled', 'disabled');
 			} else {
 				if (opval == '') {
 					opval = option.val();
 				}
 				option.removeClass('d-none');
-				option.removeAttr("disabled");
+				option.removeAttr('disabled');
 			}
 		});
 		element.val(opval);

@@ -43,7 +43,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				return;
 			var elem = $(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
-			if (typeof recordUrl == 'undefined') {
+			if (typeof recordUrl === 'undefined') {
 				return;
 			}
 			$('.listViewEntriesTable .listViewEntries').removeClass('active');

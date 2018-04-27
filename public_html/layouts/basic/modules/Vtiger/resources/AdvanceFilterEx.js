@@ -17,7 +17,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	// comparators which do not have any field Specific UI.
 	comparatorsWithNoValueBoxMap: ['has changed', 'is empty', 'is not empty', 'is added'],
 	init: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === 'undefined') {
 			container = jQuery('#advanceFilterContainer');
 		}
 
@@ -69,7 +69,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		//for none in field name
-		if (typeof conditionList == 'undefined') {
+		if (typeof conditionList === 'undefined') {
 			conditionList = {};
 			conditionList['none'] = 'None';
 		}
@@ -142,7 +142,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 							var valuesArr = commaSeperatedValues.split(',');
 							var newvaluesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
-								if (typeof pickListValues[valuesArr[i]] != 'undefined') {
+								if (typeof pickListValues[valuesArr[i]] !== 'undefined') {
 									newvaluesArr.push(pickListValues[valuesArr[i]]);
 								} else {
 									newvaluesArr.push(valuesArr[i]);
@@ -219,7 +219,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	},
 	getPopUp: function (container) {
 		var thisInstance = this;
-		if (typeof container == 'undefined') {
+		if (typeof container === 'undefined') {
 			container = thisInstance.getFilterContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {

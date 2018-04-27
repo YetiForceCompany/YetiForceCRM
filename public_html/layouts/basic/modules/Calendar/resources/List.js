@@ -37,7 +37,7 @@ Vtiger_List_Js("Calendar_List_Js", {
 		if (listViewInstance.getListSearchInstance()) {
 			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 			exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== 'undefined') && (searchValue.length > 0)) {
 				exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
 				exportActionUrl += '&search_value=' + searchValue;
 				exportActionUrl += '&operator=s';

@@ -95,13 +95,13 @@ app = {
 		return $('.bodyContents');
 	},
 	hidePopover: function (element) {
-		if (typeof element == 'undefined') {
+		if (typeof element === 'undefined') {
 			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
 	showPopoverElementView: function (selectElement, params) {
-		if (typeof params == 'undefined') {
+		if (typeof params === 'undefined') {
 			params = {
 				trigger: 'manual',
 				placement: 'auto',
@@ -153,7 +153,7 @@ app = {
 	 */
 
 	registerChangeEventForMultiSelect: function (selectElement, params) {
-		if (typeof selectElement == 'undefined') {
+		if (typeof selectElement === 'undefined') {
 			return;
 		}
 		var instance = selectElement.data('select2');
@@ -173,7 +173,7 @@ app = {
 	 * @return <object> - encoded string or value map
 	 */
 	getSerializedData: function (parentElement, returnFormat) {
-		if (typeof returnFormat == 'undefined') {
+		if (typeof returnFormat === 'undefined') {
 			returnFormat = 'string';
 		}
 
@@ -245,35 +245,35 @@ app = {
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
-		if (typeof data == 'object' && data != null && !(data instanceof $)) {
+		if (typeof data === 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
 				Window.lastModalId = data.id;
 			}
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			if (data.sendByAjaxCb != 'undefined') {
+			if (data.sendByAjaxCb !== 'undefined') {
 				var sendByAjaxCb = data.sendByAjaxCb;
 			}
 			data = data.data;
 		}
-		if (typeof url == 'function') {
-			if (typeof cb == 'object') {
+		if (typeof url === 'function') {
+			if (typeof cb === 'object') {
 				paramsObject = cb;
 			}
 			cb = url;
 			url = false;
-		} else if (typeof url == 'object') {
+		} else if (typeof url === 'object') {
 			cb = function () {
 			};
 			paramsObject = url;
 			url = false;
 		}
-		if (typeof cb != 'function') {
+		if (typeof cb !== 'function') {
 			cb = function () {
 			}
 		}
-		if (typeof sendByAjaxCb != 'function') {
+		if (typeof sendByAjaxCb !== 'function') {
 			var sendByAjaxCb = function () {
 			}
 		}
@@ -478,13 +478,13 @@ app = {
 	convertTojQueryDatePickerFormat: function (dateFormat) {
 		var i = 0;
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf('-') !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf('.') !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf('/') !== -1) {
 			dotMode = '/';
 		}
 		var splitDateFormat = dateFormat.split(dotMode);
@@ -505,13 +505,13 @@ app = {
 	getDateInDBInsertFormat: function (dateFormat, dateString) {
 		var i = 0;
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf('-') !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf('-') !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf('/') !== -1) {
 			dotMode = '/';
 		}
 
@@ -542,7 +542,7 @@ app = {
 		return year + '-' + month + '-' + day;
 	},
 	registerEventForDateFields: function (parentElement) {
-		if (typeof parentElement == 'undefined') {
+		if (typeof parentElement === 'undefined') {
 			parentElement = $('body');
 		}
 
@@ -626,7 +626,7 @@ app = {
 	 */
 	getChosenElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
-		var chosenEleId = selectId + "_chosen";
+		var chosenEleId = selectId + '_chosen';
 		return $('#' + chosenEleId);
 	},
 	/**
@@ -873,24 +873,24 @@ app = {
 		var parentModule = app.getParentModuleName();
 
 		var moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === 'undefined') {
 			moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === 'undefined') {
 			moduleClassName = moduleName + "_" + view + "_Js";
 		}
 		var extendModules = $('#extendModules').val();
-		if (typeof window[moduleClassName] == 'undefined' && extendModules != undefined) {
+		if (typeof window[moduleClassName] === 'undefined' && extendModules != undefined) {
 			moduleClassName = extendModules + "_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === 'undefined') {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] != 'undefined') {
-			if (typeof window[moduleClassName] == 'function') {
+		if (typeof window[moduleClassName] !== 'undefined') {
+			if (typeof window[moduleClassName] === 'function') {
 				return new window[moduleClassName]();
 			}
-			if (typeof window[moduleClassName] == 'object') {
+			if (typeof window[moduleClassName] === 'object') {
 				return window[moduleClassName];
 			}
 		}
@@ -933,15 +933,15 @@ app = {
 	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(" " + c_name + "=");
-		if (c_start == -1) {
+		if (c_start === -1) {
 			c_start = c_value.indexOf(c_name + "=");
 		}
-		if (c_start == -1) {
+		if (c_start === -1) {
 			c_value = null;
 		} else {
 			c_start = c_value.indexOf("=", c_start) + 1;
 			var c_end = c_value.indexOf(";", c_start);
-			if (c_end == -1) {
+			if (c_end === -1) {
 				c_end = c_value.length;
 			}
 			c_value = unescape(c_value.substring(c_start, c_end));
@@ -1018,7 +1018,7 @@ app = {
 		return aDeferred.promise();
 	},
 	showBtnSwitch: function (selectElement, params) {
-		if (typeof params == 'undefined') {
+		if (typeof params === 'undefined') {
 			params = {};
 		}
 		selectElement.bootstrapSwitch(params);
@@ -1085,10 +1085,10 @@ app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		if (typeof error == 'object' && error.responseText) {
+		if (typeof error === 'object' && error.responseText) {
 			error = error.responseText;
 		}
-		if (typeof error == 'object' && error.statusText) {
+		if (typeof error === 'object' && error.statusText) {
 			error = error.statusText;
 		}
 		if (error) {
@@ -1102,7 +1102,7 @@ app = {
 		}
 	},
 	registerModal: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === 'undefined') {
 			container = $('body');
 		}
 		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
@@ -1110,7 +1110,7 @@ app = {
 			var currentElement = $(e.currentTarget);
 			var url = currentElement.data('url');
 
-			if (typeof url != 'undefined') {
+			if (typeof url !== 'undefined') {
 				if (currentElement.hasClass('js-popover-tooltip')) {
 					currentElement.popover('hide');
 				}
@@ -1122,7 +1122,7 @@ app = {
 					cb: function (container) {
 						var call = currentElement.data('cb');
 						if (typeof call !== 'undefined') {
-							if (call.indexOf('.') != -1) {
+							if (call.indexOf('.') !== -1) {
 								var callerArray = call.split('.');
 								if (typeof window[callerArray[0]] === 'object') {
 									window[callerArray[0]][callerArray[1]](container);
@@ -1288,7 +1288,7 @@ app = {
 
 	},
 	getScreenHeight: function (percantage) {
-		if (typeof percantage == 'undefined') {
+		if (typeof percantage === 'undefined') {
 			percantage = 100;
 		}
 		return $(window).height() * percantage / 100;
@@ -1432,7 +1432,7 @@ $(document).ready(function () {
 		var data = {};
 		if (values) {
 			$(values).each(function (k, v) {
-				if (v.name in data && (typeof data[v.name] != 'object')) {
+				if (v.name in data && (typeof data[v.name] !== 'object')) {
 					var element = form.find('[name="' + v.name + '"]');
 					//Only for muti select element we need to send array of values
 					if (element.is('select') && element.attr('multiple') != undefined) {
@@ -1441,7 +1441,7 @@ $(document).ready(function () {
 						data[v.name].push(prevValue)
 					}
 				}
-				if (typeof data[v.name] == 'object') {
+				if (typeof data[v.name] === 'object') {
 					data[v.name].push(v.value);
 				} else {
 					data[v.name] = v.value;
@@ -1458,7 +1458,7 @@ $(document).ready(function () {
 	}
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
-		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1;
 	}
 	$.fn.removeTextNode = function () {
 		$(this).contents().filter(function () {

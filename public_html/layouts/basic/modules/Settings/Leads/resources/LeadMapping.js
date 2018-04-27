@@ -217,7 +217,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 	registerOnChangeEventOfTargetModule: function () {
 		var form = jQuery('#leadsMapping');
 		form.on('change', 'select.accountsFields.select2,select.contactFields.select2', function (e, executeChange) {
-			if (typeof executeChange == "undefined") {
+			if (typeof executeChange === 'undefined') {
 				executeChange = true;
 			}
 			var selectElement = jQuery(e.currentTarget);

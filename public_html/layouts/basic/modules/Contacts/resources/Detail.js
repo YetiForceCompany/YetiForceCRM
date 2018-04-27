@@ -15,7 +15,7 @@ Vtiger_Detail_Js("Contacts_Detail_Js", {}, {
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
 		var primaryEmailField = jQuery('[name="email"]');
-		if (typeof form == 'undefined') {
+		if (typeof form === 'undefined') {
 			form = this.getForm();
 		}
 

@@ -3,7 +3,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 
 	loadVariablePanel: function (form) {
 		var thisInstance = this;
-		if (typeof form == 'undefined') {
+		if (typeof form === 'undefined') {
 			form = this.getForm();
 		}
 		var panel = form.find('#variablePanel');
@@ -26,7 +26,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	},
 	registerVariablePanelEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form == 'undefined') {
+		if (typeof form === 'undefined') {
 			form = this.getForm();
 		}
 		form.find('.js-toggle-panel[data-label="LBL_CONTENT_MAIL"] .blockContent').prepend('<div id="variablePanel" class="col-md-12 paddingLRZero borderBottom bc-gray-lighter"></div>');

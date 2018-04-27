@@ -47,14 +47,14 @@
 		this.showOnTop = false;
 
 		this.init = function (element, options) {
-			if (typeof options == 'undefined') {
+			if (typeof options === 'undefined') {
 				options = {};
 			}
 
 			thisInstance.options = $.extend(true, this.defaults, options);
 			thisInstance.container = element;
 			thisInstance.position = options.position;
-			if (typeof options.imageContainerCss != 'undefined') {
+			if (typeof options.imageContainerCss !== 'undefined') {
 				thisInstance.imageContainerCss = $.extend(true, this.imageContainerCss, options.imageContainerCss);
 			}
 			if (this.isBlockMode()) {
@@ -72,14 +72,14 @@
 		}
 
 		this.isPageBlockMode = function () {
-			if ((typeof this.elementToBlock != 'undefined') && this.elementToBlock.is('body')) {
+			if ((typeof this.elementToBlock !== 'undefined') && this.elementToBlock.is('body')) {
 				return true;
 			}
 			return false;
 		}
 
 		this.isBlockMode = function () {
-			if ((typeof this.options.blockInfo != 'undefined') && (this.options.blockInfo.enabled == true)) {
+			if ((typeof this.options.blockInfo !== 'undefined') && (this.options.blockInfo.enabled == true)) {
 				return true;
 			}
 			return false;
@@ -151,7 +151,7 @@
 
 		this.hide = function () {
 			$('.imageHolder', this.container).remove();
-			if (typeof this.blockedElement != 'undefined') {
+			if (typeof this.blockedElement !== 'undefined') {
 				if (this.isPageBlockMode()) {
 					$.unblockUI();
 				} else {
@@ -170,7 +170,7 @@
 		}
 		return element.each(function (index, element) {
 			var jQueryObject = $(element);
-			if (typeof jQueryObject.data('progressIndicator') != 'undefined') {
+			if (typeof jQueryObject.data('progressIndicator') !== 'undefined') {
 				var progressIndicatorInstance = jQueryObject.data('progressIndicator');
 
 			} else {

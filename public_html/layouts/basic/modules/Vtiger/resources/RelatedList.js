@@ -12,7 +12,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		var moduleClassName = app.getModuleName() + "_RelatedList_Js";
 		var fallbackClassName = Vtiger_RelatedList_Js;
-		if (typeof window[moduleClassName] != 'undefined') {
+		if (typeof window[moduleClassName] !== 'undefined') {
 			var instance = new window[moduleClassName]();
 		} else {
 			var instance = new fallbackClassName();
@@ -44,7 +44,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			if (listViewInstance.getListSearchInstance()) {
 				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				if ((typeof searchValue !== 'undefined') && (searchValue.length > 0)) {
 					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
 					postData['search_value'] = searchValue;
 					postData['operator'] = 's';
@@ -167,7 +167,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
 		}
-		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+		if ((typeof searchValue !== 'undefined') && (searchValue.length > 0)) {
 			params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
 			params['search_value'] = searchValue;
 			params['operator'] = 's';
@@ -183,7 +183,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	loadRelatedList: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		if (typeof thisInstance.moduleName == "undefined" || thisInstance.moduleName.length <= 0) {
+		if (typeof thisInstance.moduleName === 'undefined' || thisInstance.moduleName.length <= 0) {
 			var currentInstance = Vtiger_Detail_Js.getInstance();
 			currentInstance.loadWidgets();
 			return aDeferred.promise();
@@ -370,7 +370,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (e.which == 13) {
 			var element = jQuery(e.currentTarget);
 			var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-			if (typeof response != "undefined") {
+			if (typeof response !== 'undefined') {
 				element.validationEngine('showPrompt', response, '', "topLeft", true);
 				e.preventDefault();
 			} else {
@@ -430,7 +430,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
-			if (typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?') !== -1) {
+			if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
 				var queryParameters = queryString.split('&');
@@ -446,7 +446,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
 			jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
-			if (typeof relatedField != "undefined") {
+			if (typeof relatedField !== 'undefined') {
 				var field = data.find('[name="' + relatedField + '"]');
 				//If their is no element with the relatedField name,we are adding hidden element with
 				//name as relatedField name,for saving of record with relation to parent record
@@ -473,7 +473,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 
 		//If url contains params then seperate them and make them as relatedParams
-		if (typeof fullFormUrl != 'undefined' && fullFormUrl.indexOf('?') !== -1) {
+		if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
 			var urlSplit = fullFormUrl.split('?');
 			var queryString = urlSplit[1];
 			var queryParameters = queryString.split('&');

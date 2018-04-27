@@ -2258,7 +2258,7 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 				return;
 			}
 			var url = jQuery(this).data('url');
-			if (typeof url != 'undefined') {
+			if (typeof url !== 'undefined') {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};
@@ -2310,7 +2310,7 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 				return;
 			}
 			var url = jQuery(this).data('url');
-			if (typeof url != 'undefined') {
+			if (typeof url !== 'undefined') {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};

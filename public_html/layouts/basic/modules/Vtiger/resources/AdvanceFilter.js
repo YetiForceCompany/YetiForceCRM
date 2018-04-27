@@ -16,11 +16,11 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var moduleClassName3 = "Vtiger_AdvanceFilterEx_Js";
 		var moduleClassName4 = "Vtiger_AdvanceFilter_Js";
 		var instance;
-		if (typeof window[moduleClassName1] != 'undefined') {
+		if (typeof window[moduleClassName1] !== 'undefined') {
 			instance = new window[moduleClassName1](container);
-		} else if (typeof window[moduleClassName2] != 'undefined') {
+		} else if (typeof window[moduleClassName2] !== 'undefined') {
 			instance = new window[moduleClassName2](container);
-		} else if (typeof window[moduleClassName3] != 'undefined') {
+		} else if (typeof window[moduleClassName3] !== 'undefined') {
 			instance = new window[moduleClassName3](container);
 		} else {
 			instance = new window[moduleClassName4](container);
@@ -44,7 +44,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	//used to eliminate mutiple times validation registrations
 	validationForControlsRegistered: false,
 	init: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === 'undefined') {
 			container = jQuery('.filterContainer');
 		}
 
@@ -195,7 +195,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var fieldName = fieldSelected.data('field-name');
 		var fieldInfo = fieldSelected.data('fieldinfo');
 		//for none in field name
-		if (typeof conditionList == 'undefined') {
+		if (typeof conditionList === 'undefined') {
 			conditionList = {};
 			conditionList['none'] = 'None';
 		}
@@ -285,7 +285,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var fieldInfo = selectedOption.data('fieldinfo');
 
 		var fieldType = 'string';
-		if (typeof fieldInfo != 'undefined') {
+		if (typeof fieldInfo !== 'undefined') {
 			fieldType = fieldInfo.type;
 		}
 
@@ -385,7 +385,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			fieldSpecificElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
-			if (typeof validator != 'undefined') {
+			if (typeof validator !== 'undefined') {
 				fieldSpecificElement.attr('data-validator', validator);
 			}
 		} else {
@@ -480,7 +480,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							var valuesArr = commaSeperatedValues.split(',');
 							var newvaluesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
-								if (typeof pickListValues[valuesArr[i]] != 'undefined') {
+								if (typeof pickListValues[valuesArr[i]] !== 'undefined') {
 									newvaluesArr.push(pickListValues[valuesArr[i]]);
 								} else {
 									newvaluesArr.push(valuesArr[i]);
@@ -549,7 +549,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var thisInstance = this;
 		filterContainer.on('change', 'select[name="columnname"]', function (e, data) {
 			var currentElement = jQuery(e.currentTarget);
-			if (typeof data == 'undefined' || data._intialize != true) {
+			if (typeof data === 'undefined' || data._intialize != true) {
 				var row = currentElement.closest('div.conditionRow');
 				var conditionSelectElement = row.find('select[name="comparator"]');
 				conditionSelectElement.empty();

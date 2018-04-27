@@ -220,7 +220,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		if (copyOfDefaultValue.is(':checkbox') && defaultValue) {
 			copyOfDefaultValue.prop('checked', true);
 		} else if (defaultValue) {
-			defaultValue = typeof copyOfDefaultValue.attr('multiple') != 'undefined' ? defaultValue.split(',') : defaultValue;
+			defaultValue = typeof copyOfDefaultValue.attr('multiple') !== 'undefined' ? defaultValue.split(',') : defaultValue;
 			copyOfDefaultValue.val(defaultValue);
 		}
 		copyOfDefaultValue.appendTo(dafeultTd);

@@ -10,14 +10,14 @@ jQuery(document).ready(function ($) {
 	// Hide modal if "Okay" is pressed
 	$('#myModal .okay-button').on('click', function () {
 		var disabled = $('#confirm').attr('disabled');
-		if (typeof disabled == 'undefined') {
+		if (typeof disabled === 'undefined') {
 			$('#myModal').modal('hide');
 			$('#delete #EditView').submit();
 		}
 	});
 	$('#myRegisterModal .okay-button').on('click', function () {
 		var disabled = $('#confirmRegistration').attr('disabled');
-		if (typeof disabled == 'undefined') {
+		if (typeof disabled === 'undefined') {
 			$('#myRegisterModal').modal('hide');
 		}
 	});

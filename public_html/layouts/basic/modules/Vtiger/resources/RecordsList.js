@@ -47,7 +47,7 @@ $.Class("Base_RecordsList_JS", {}, {
 		}
 		let searchValue = this.listSearchInstance.getAlphabetSearchValue();
 		params['search_params'] = JSON.stringify(this.listSearchInstance.getListSearchParams(true));
-		if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
+		if ((typeof searchValue !== 'undefined') && (searchValue.length > 0)) {
 			params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
 			params['search_value'] = searchValue;
 			params['operator'] = 's';
@@ -168,7 +168,7 @@ $.Class("Base_RecordsList_JS", {}, {
 				e.stopImmediatePropagation();
 				const element = $(this);
 				const response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-				if (typeof response != "undefined") {
+				if (typeof response !== 'undefined') {
 					element.validationEngine('showPrompt', response, '', "topLeft", true);
 				} else {
 					element.validationEngine('hideAll');

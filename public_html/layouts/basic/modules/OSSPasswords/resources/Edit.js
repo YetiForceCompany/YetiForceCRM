@@ -5,7 +5,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 	 */
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form == 'undefined') {
+		if (typeof form === 'undefined') {
 			form = this.getForm();
 		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
