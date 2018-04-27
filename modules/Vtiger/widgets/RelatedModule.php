@@ -49,9 +49,6 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 					$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
 				}
 			}
-			if (isset($this->Data['showAll'])) {
-				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
-			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
 				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
 				if ($switchHeaderData) {
