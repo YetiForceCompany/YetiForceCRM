@@ -780,7 +780,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				var decimalInput = decimalFieldUi.find('[name="decimal"]');
 				var maxFloatingDigits = selectedOption.data('maxfloatingdigits');
 
-				if (typeof maxFloatingDigits != "undefined") {
+				if (typeof maxFloatingDigits !== 'undefined') {
 					decimalInput.data('validator', decimalValidator);
 					lengthInput.data('validator', lengthValidator);
 				}
@@ -1221,7 +1221,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerDeleteCustomFieldEvent: function (contents) {
 		var thisInstance = this;
-		if (typeof contents == 'undefined') {
+		if (typeof contents === 'undefined') {
 			contents = $('#layoutEditorContainer').find('.contents');
 		}
 		contents.find('.deleteCustomField').on('click', function (e) {
@@ -1568,7 +1568,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerFieldEvents: function (contents) {
 		var thisInstance = this;
-		if (typeof contents == 'undefined') {
+		if (typeof contents === 'undefined') {
 			contents = $('#layoutEditorContainer').find('.contents');
 		}
 		App.Fields.Date.register(contents);
@@ -1811,7 +1811,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * get inventory params
 	 */
 	getParamsInventory: function () {
-		if (typeof app.getMainParams('params') != 'undefined') {
+		if (typeof app.getMainParams('params') !== 'undefined') {
 			return JSON.parse(app.getMainParams('params'));
 		}
 	},

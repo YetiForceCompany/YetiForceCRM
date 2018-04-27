@@ -218,7 +218,7 @@ var Settings_Profiles_Js = {
 	},
 	checkSelectAll: function (checkBoxElement, mainCheckBoxElement) {
 		var state = true;
-		if (typeof checkBoxElement == 'undefined' || typeof mainCheckBoxElement == 'undefined') {
+		if (typeof checkBoxElement === 'undefined' || typeof mainCheckBoxElement === 'undefined') {
 			return false;
 		}
 		checkBoxElement.each(function (index, element) {

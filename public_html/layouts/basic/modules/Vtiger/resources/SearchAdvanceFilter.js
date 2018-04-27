@@ -21,7 +21,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_SearchAdvanceFilter_Js', {}, {
 	 */
 	getValues: function (cleanGroupConditions) {
 
-		if (typeof cleanGroupConditions == 'undefined') {
+		if (typeof cleanGroupConditions === 'undefined') {
 			cleanGroupConditions = true;
 		}
 
@@ -36,7 +36,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_SearchAdvanceFilter_Js', {}, {
 			var nextConditionGroupInfo = values[parseInt(key) + 1]
 
 			//there is not next condition group so no need to perform the caliculation
-			if (typeof nextConditionGroupInfo == 'undefined') {
+			if (typeof nextConditionGroupInfo === 'undefined') {
 				continue;
 			}
 			var nextConditionColumns = nextConditionGroupInfo['columns'];

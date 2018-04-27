@@ -56,12 +56,12 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		var params = form.serializeFormData();
 		var saveButton = form.find('[type="submit"]');
 		saveButton.prop('disabled', true);
-		if (typeof params == 'undefined') {
+		if (typeof params === 'undefined') {
 			params = {};
 		}
 		thisInstance.validateName(params).then(
 			function (data) {
-				if (typeof data == 'undefined') {
+				if (typeof data === 'undefined') {
 					saveButton.prop('disabled', false);
 					return false;
 				}

@@ -281,7 +281,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		var recordId = this.getRecordId();
 
 		var data = {};
-		if (typeof fieldDetailList != 'undefined') {
+		if (typeof fieldDetailList !== 'undefined') {
 			data = fieldDetailList;
 		}
 

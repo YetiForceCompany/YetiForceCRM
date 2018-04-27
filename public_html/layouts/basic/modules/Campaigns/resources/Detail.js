@@ -35,7 +35,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 					}
 				});
 				var url = tabElement.data('url');
-				if (typeof urlAttributes != 'undefined') {
+				if (typeof urlAttributes !== 'undefined') {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}

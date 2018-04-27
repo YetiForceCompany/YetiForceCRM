@@ -15,20 +15,20 @@ jQuery.Class("Vtiger_Field_Js", {
 	 * @return Instance of field class
 	 */
 	getInstance: function (data, moduleName) {
-		if (typeof moduleName == 'undefined') {
+		if (typeof moduleName === 'undefined') {
 			moduleName = app.getModuleName();
 		}
 		var moduleField = moduleName + "_Field_Js";
 		var moduleFieldObj = window[moduleField];
 		var fieldClass = '';
-		if (typeof moduleFieldObj != 'undefined') {
+		if (typeof moduleFieldObj !== 'undefined') {
 			fieldClass = moduleFieldObj;
 		} else {
 			fieldClass = Vtiger_Field_Js;
 		}
 		var fieldObj = new fieldClass();
 
-		if (typeof data == 'undefined') {
+		if (typeof data === 'undefined') {
 			data = {};
 		}
 		fieldObj.setData(data);
@@ -109,9 +109,9 @@ jQuery.Class("Vtiger_Field_Js", {
 		var typeClassName = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 		var moduleUiTypeClassName = window[currentModule + "_" + typeClassName + "_Field_Js"];
 		var BasicUiTypeClassName = window["Vtiger_" + typeClassName + "_Field_Js"];
-		if (typeof moduleUiTypeClassName != 'undefined') {
+		if (typeof moduleUiTypeClassName !== 'undefined') {
 			return (new moduleUiTypeClassName()).setData(this.getData());
-		} else if (typeof BasicUiTypeClassName != 'undefined') {
+		} else if (typeof BasicUiTypeClassName !== 'undefined') {
 			return (new BasicUiTypeClassName()).setData(this.getData());
 		}
 		return this;

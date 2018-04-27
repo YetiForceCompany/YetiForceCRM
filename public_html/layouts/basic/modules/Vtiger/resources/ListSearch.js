@@ -6,7 +6,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		}
 		var moduleClassName = module + '_ListSearch_Js';
 		var basicClassName = 'YetiForce_ListSearch_Js';
-		if (typeof window[moduleClassName] != 'undefined') {
+		if (typeof window[moduleClassName] !== 'undefined') {
 			var instance = new window[moduleClassName](container, noEvents, reletedInstance);
 		} else {
 			var instance = new window[basicClassName](container, noEvents, reletedInstance);
@@ -20,7 +20,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	reletedInstance: false,
 	viewName: false,
 	init: function (container, noEvents, reletedInstance) {
-		if (typeof container == 'undefined') {
+		if (typeof container === 'undefined') {
 			container = jQuery('.bodyContents');
 		}
 		this.setContainer(container);

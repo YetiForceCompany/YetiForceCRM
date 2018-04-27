@@ -522,7 +522,7 @@ App.Fields = {
 			};
 
 			// Sort DOM nodes alphabetically in select box.
-			if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
+			if (typeof params['customSortOptGroup'] !== 'undefined' && params['customSortOptGroup']) {
 				$('optgroup', selectElement).each(function () {
 					var optgroup = $(this);
 					var options = optgroup.children().toArray().sort(function (a, b) {
@@ -539,7 +539,7 @@ App.Fields = {
 
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
-			if (typeof params.maximumSelectionLength != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
+			if (typeof params.maximumSelectionLength !== 'undefined' && typeof params.formatSelectionTooBig === 'undefined') {
 				var limit = params.maximumSelectionLength;
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function (limit) {
@@ -547,7 +547,7 @@ App.Fields = {
 				}
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
-			if (typeof selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
+			if (typeof selectElement.attr('multiple') !== 'undefined' && !params.placeholder) {
 				params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 			} else if (!params.placeholder) {
 				params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
@@ -557,7 +557,7 @@ App.Fields = {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
-					if (typeof data.name == 'undefined') {
+					if (typeof data.name === 'undefined') {
 						return data.text;
 					}
 					if (data.type == 'optgroup') {
@@ -627,12 +627,12 @@ App.Fields = {
 						return markup;
 				};
 				var minimumInputLength = 3;
-				if (selectElement.data('minimumInput') != 'undefined') {
+				if (selectElement.data('minimumInput') !== 'undefined') {
 					minimumInputLength = selectElement.data('minimumInput');
 				}
 				params.minimumInputLength = minimumInputLength;
 				params.templateResult = function (data) {
-					if (typeof data.name == 'undefined') {
+					if (typeof data.name === 'undefined') {
 						return data.text;
 					}
 					if (data.type == 'optgroup') {
