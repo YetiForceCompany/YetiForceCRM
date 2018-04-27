@@ -29,10 +29,13 @@
 					<input type="hidden" name="taskType" id="taskType" value="{$TASK_TYPE_MODEL->get('tasktypename')}" />
 					<div id="scrollContainer">
 						<div class="modal-body tabbable">
-							<div class="row padding-bottom1per">
-								<div class="col-md-7 form-row">
+							<div class="form-row pb-3">
+								<div class="col-md-2">
 									<div class="float-left col-form-label">{\App\Language::translate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
-									<div class="col-md-9"><input name="summary" class="form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
+
+								</div>
+								<div class="col-md-5">
+									<input name="summary" class="form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}"/>
 								</div>
 								<div class="col-md-4 form-control-plaintext">
 									<div class="float-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
@@ -53,22 +56,26 @@
 									{assign var=direction value='after'}
 								{/if}
 							{/if}
-							<div class="row padding-bottom1per">
-								<div class="col-md-2 checkbox"><label><input type="checkbox" class="alignTop" name="check_select_date" {if $trigger neq null}checked{/if}/>&nbsp;{\App\Language::translate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}</label></div>
-								<div class="col-md-10 {if $trigger neq null}show {else} d-none {/if}" id="checkSelectDateContainer">
+							<div class="form-row pb-3">
+								<div class="col-md-2 checkbox d-flex align-items-center">
+									<div class="mr-2 mb-0">
+										{\App\Language::translate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}
+									</div>
+									<input type="checkbox" class="alignTop" name="check_select_date" {if $trigger neq null}checked{/if}/>
+								</div>
+								<div class="col-md-10 form-row {if $trigger neq null}show {else} d-none {/if}" id="checkSelectDateContainer">
 									<div class="col-md-2">
 										<input class="form-control" type="text" name="select_date_days" value="{$days}" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" >
-
 									</div>
 									<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
-									<div class="col-md-2 marginLeftZero">
-										<select class="chzn-select form-control" name="select_date_direction">
+									<div class="col-md-2 ml-0">
+										<select class="select2 form-control" name="select_date_direction">
 											<option {if $direction eq 'after'} selected="" {/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 											<option {if $direction eq 'before'} selected="" {/if} value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 										</select>
 									</div>
-									<div class="col-md-6 marginLeftZero">
-										<select class="chzn-select" name="select_date_field">
+									<div class="col-md-6 ml-0">
+										<select class="select2" name="select_date_field">
 											{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 												<option {if $trigger['field'] eq $DATETIME_FIELD->get('name')} selected="" {/if} value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
 											{/foreach}
@@ -81,7 +88,7 @@
 							</div>
 						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}aaaaaaaaa
 				</form>
 			</div>
 		</div>
