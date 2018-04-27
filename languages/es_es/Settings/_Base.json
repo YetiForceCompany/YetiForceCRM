@@ -159,7 +159,7 @@
     "CustomView": "Vistas personalizadas",
     "Widgets": "Widgets de resumen del m\u00f3dulo",
     "Search Setup": "Configuraci\u00f3n de b\u00fasqueda",
-    "License": "Licenses",
+    "License": "Licencias",
     "Mail Scanner": "Esc\u00e1ner de correo",
     "Mail View": "Correos",
     "Mail": "Correo \u2013 RoundCube",
@@ -352,7 +352,8 @@
     "LBL_LICENSE": "License",
     "LBL_MISSING_LICENSE_FILE": "Missing license file",
     "LBL_VTIGER_DESCRIPTION": "Approximately 30% of Vtiger's orginal code is left. The remaining code has been rewritten and expanded.",
-    "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce."
+    "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce.",
+    "LBL_SHOP_YETIFORCE": "Shop"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Autorizaci\u00f3n satisfactoria",

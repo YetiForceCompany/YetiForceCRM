@@ -1421,16 +1421,31 @@ class Vtiger_Module_Model extends \vtlib\Module
 						$popupFields[$fieldName] = $fieldName;
 					}
 				}
-			}
-			if (!$popupFields) {
-				foreach ($this->getPopupFields() as $fieldName) {
-					$popupFields[$fieldName] = $fieldName;
+				if (!$popupFields) {
+					foreach ($this->getPopupFields() as $fieldName) {
+						$popupFields[$fieldName] = $fieldName;
+					}
+					$popupFields = $parentModuleModel->getModalRecordsListSourceFields($queryGenerator, $this, $popupFields);
 				}
 			}
 			$popupFields[] = 'id';
 			App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
 		}
 		$queryGenerator->setFields($popupFields);
+	}
+
+	/**
+	 * Function to get modal records list view fields by source.
+	 *
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param Vtiger_Module_Model $baseModule
+	 * @param string[]            $popupFields
+	 *
+	 * @return string[]
+	 */
+	public function getModalRecordsListSourceFields(\App\QueryGenerator $queryGenerator, self $baseModule, $popupFields)
+	{
+		return $popupFields;
 	}
 
 	/**

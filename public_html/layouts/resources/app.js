@@ -70,12 +70,6 @@ app = {
 		return $('body').data('language');
 	},
 	/**
-	 * Function to get path to layout
-	 */
-	getLayoutPath: function () {
-		return $('body').data('layoutpath');
-	},
-	/**
 	 * Function to get page title
 	 */
 	getPageTitle: function () {
@@ -103,14 +97,14 @@ app = {
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params === "undefined") {
 			params = {
-				trigger: 'manual',
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
+		params.trigger = 'hover';
 		params.container = 'body';
-		params.delay = 800;
+		params.delay = {"show": 300, "hide": 100};
 		var sparams;
 		selectElement.each(function (index, domElement) {
 			sparams = params;
@@ -129,20 +123,6 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			element.on("mouseenter focus", function () {
-				var _this = this;
-				$(this).popover("show");
-				$(".popover").on("mouseleave", function () {
-					$(_this).popover('hide');
-				});
-			}).on("mouseleave blur", function () {
-				var _this = this;
-				setTimeout(function () {
-					if (!$(".popover:hover").length) {
-						$(_this).popover("hide");
-					}
-				}, 100);
-			});
 		});
 		return selectElement;
 	},
@@ -737,14 +717,6 @@ app = {
 		}
 		return key;
 	},
-	/**
-	 * Function will return the current users layout + skin path
-	 * @param <string> img - image name
-	 * @return <string>
-	 */
-	vimage_path: function (img) {
-		return app.getLayoutPath() + '/images/' + img;
-	},
 	/*
 	 * Cache API on client-side
 	 */
@@ -1149,9 +1121,8 @@ app = {
 	},
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
-		soundsConfig = JSON.parse(soundsConfig);
 		if (soundsConfig['IS_ENABLED']) {
-			var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
+			var audio = new Audio(app.getMainParams('soundFilesPath') + soundsConfig[action]);
 			audio.play();
 		}
 	},

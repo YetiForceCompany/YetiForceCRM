@@ -13,10 +13,12 @@
 			<div class='widget_header row '>
 				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-					{if isset($SELECTED_PAGE)}
-						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-					{/if}
 				</div>
+			</div>
+			<div class="badge badge-info my-2">
+				{if isset($SELECTED_PAGE)}
+					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 			<div class="row">
 				<label class="col-md-3"><strong><span class="redColor">*</span>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
@@ -74,7 +76,7 @@
 				</div>
 				<div class="col-md-8 d-flex">
 					<input type="text" class="fieldValue col-md-4 addNewElement form-control">
-					<button class="btn btn-light addNewElementBtn ml-1"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-light addNewElementBtn ml-1" type="button"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 			<hr class="mt-1">

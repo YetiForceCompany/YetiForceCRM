@@ -208,17 +208,30 @@ $.Class("Base_RecordsList_JS", {}, {
 	 */
 	registerListEvents: function () {
 		const thisInstance = this;
+		let additional = this.container.find('.js-additional-informations').val() == 1;
 		thisInstance.container.on('click', ".js-select-row", function (e) {
 			if ($(e.target).hasClass('js-select-checkbox') || $(e.target).hasClass('u-cursor-auto')) {
 				return true;
 			}
 			let data = $(this).data();
-			if(thisInstance.container.find('.js-multi-select').val() === 'true'){
+			if (thisInstance.container.find('.js-multi-select').val() === 'true') {
 				let selected = {};
-				selected[data.id] = data.name;
-				thisInstance.selectEvent(selected);
-			}else{
-				thisInstance.selectEvent(data);
+				if (additional) {
+					selected[data.id] = [];
+					$(this).closest('tr').find('td[data-field]').each(function (index, field) {
+						field = $(field);
+						selected[data.id].push({
+							value: field.text(),
+							field: field.data('field'),
+							type: field.data('type')
+						});
+					});
+				} else {
+					selected[data.id] = data.name;
+				}
+				thisInstance.selectEvent(selected, e);
+			} else {
+				thisInstance.selectEvent(data, e);
 			}
 			app.hideModalWindow(false, thisInstance.container.parent().attr('id'));
 
@@ -226,19 +239,31 @@ $.Class("Base_RecordsList_JS", {}, {
 		thisInstance.container.on('click', '.js-selected-rows', function (e) {
 			let selected = {};
 			thisInstance.container.find('table .js-select-checkbox').each(function (index, element) {
-				element = jQuery(element)
+				element = $(element)
 				if (!element.is(":checked")) {
 					return true;
 				}
 				let data = element.closest('tr').data();
-				selected[data.id] = data.name;
+				if (additional) {
+					selected[data.id] = [];
+					element.closest('tr').find('td[data-field]').each(function (index, field) {
+						field = $(field);
+						selected[data.id].push({
+							value: field.text(),
+							field: field.data('field'),
+							type: field.data('type')
+						});
+					});
+				} else {
+					selected[data.id] = data.name;
+				}
 			});
 			if (Object.keys(selected).length <= 0) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'),
 				});
 			} else {
-				thisInstance.selectEvent(selected);
+				thisInstance.selectEvent(selected, e);
 				app.hideModalWindow($(e.target).closest('.js-modal-container'));
 			}
 		});

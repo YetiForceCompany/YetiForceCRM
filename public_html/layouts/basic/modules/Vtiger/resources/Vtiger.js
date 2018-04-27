@@ -377,7 +377,7 @@ var Vtiger_Index_Js = {
 	},
 	refreshReminderCount: function (content, element, tag) {
 		var badge = element.find('.badge');
-		var count = content.find('.panel:visible').length;
+		var count = content.find('.js-toggle-panel').length;
 		badge.text(count);
 		badge.removeClass('d-none');
 		if (count > 0 && element.hasClass('autoRefreshing')) {
