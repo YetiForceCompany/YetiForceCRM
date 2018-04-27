@@ -86,8 +86,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
 			"modules.$moduleName.resources.Edit",
-			'modules.Vtiger.resources.Popup',
-			"modules.$moduleName.resources.Popup",
 			'~layouts/resources/Field.js',
 			"modules.$moduleName.resources.Field",
 			'~layouts/resources/validator/BaseValidator.js',

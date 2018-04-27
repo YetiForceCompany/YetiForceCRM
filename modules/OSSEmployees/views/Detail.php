@@ -23,23 +23,15 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-
 		$moduleName = $request->getModule();
-
 		//Added to remove the module specific js, as they depend on inventory files
-		$modulePopUpFile = 'modules.' . $moduleName . '.resources.Popup';
 		$moduleEditFile = 'modules.' . $moduleName . '.resources.Edit';
 		$moduleDetailFile = 'modules.' . $moduleName . '.resources.Detail';
-		unset($headerScriptInstances[$modulePopUpFile], $headerScriptInstances[$moduleEditFile], $headerScriptInstances[$moduleDetailFile]);
-
+		unset($headerScriptInstances[$moduleEditFile], $headerScriptInstances[$moduleDetailFile]);
 		$jsFileNames = [
 			"modules.$moduleName.resources.Detail",
 		];
 		$jsFileNames[] = $moduleEditFile;
-		$jsFileNames[] = $modulePopUpFile;
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }
