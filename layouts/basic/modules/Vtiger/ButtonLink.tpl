@@ -63,7 +63,7 @@
 														{/if}
 														{if $LABEL neq '' && $LINK->get('showLabel') == 1}
 															{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
-															<strong>{\App\Language::translate($LABEL, $BTN_MODULE)}</strong>
+															{\App\Language::translate($LABEL, $BTN_MODULE)}
 														{else}
 														<span class="sr-only">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 														{/if}
