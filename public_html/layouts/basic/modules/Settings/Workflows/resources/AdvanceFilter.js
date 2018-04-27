@@ -63,7 +63,7 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected)
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		//for none in field name
-		if (typeof conditionList === 'undefined') {
+		if (typeof conditionList === "undefined") {
 			conditionList = {};
 			conditionList['none'] = 'None';
 		}
@@ -137,7 +137,7 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 							var valuesArr = commaSeperatedValues.split(',');
 							var newvaluesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
-								if (typeof pickListValues[valuesArr[i]] !== 'undefined') {
+								if (typeof pickListValues[valuesArr[i]] !== "undefined") {
 									newvaluesArr.push(pickListValues[valuesArr[i]]);
 								} else {
 									newvaluesArr.push(valuesArr[i]);

@@ -77,7 +77,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 				enabled: true
 			}
 		});
-		if (typeof data === 'undefined') {
+		if (typeof data === "undefined") {
 			data = {};
 		}
 		AppConnector.request(data).then(function (data) {
@@ -96,7 +96,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	saveCustomRule: function (form, e) {
 		var thisInstance = this;
 		var data = form.serializeFormData();
-		if (typeof data === 'undefined') {
+		if (typeof data === "undefined") {
 			data = {};
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({

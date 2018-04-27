@@ -56,7 +56,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	 * Function to initiate the step 1 instance
 	 */
 	initiate: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.workFlowContents');
 		}
 		if (container.is('.workFlowContents')) {
@@ -134,7 +134,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	},
 	getPopUp: function (container) {
 		var thisInstance = this;
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = thisInstance.getContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {

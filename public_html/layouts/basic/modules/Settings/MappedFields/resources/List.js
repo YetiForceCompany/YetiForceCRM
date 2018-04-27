@@ -62,7 +62,7 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 		jQuery('#importButton', container).on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');
-			if (typeof url !== 'undefined') {
+			if (typeof url !== "undefined") {
 				app.showModalWindow(null, url,
 					function (data) {
 						var form = data.find('form');
@@ -101,7 +101,7 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 	importSave: function (form) {
 		var aDeferred = jQuery.Deferred();
 		var formData = new FormData(form[0]);
-		if (typeof file !== 'undefined') {
+		if (typeof file !== "undefined") {
 			formData.append("imported_xml", file);
 			delete file;
 		}

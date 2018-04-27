@@ -310,7 +310,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								paramsForm['isdefault'] = 1;
 							if (form.find('[name="cache"]').prop("checked"))
 								paramsForm['cache'] = 1;
-							if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === 'undefined') {
+							if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
 								var result = app.vtranslate('JS_FIELD_EMPTY');
 								form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
 								saveButton.removeAttr('disabled');
@@ -377,7 +377,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		}
 		if (!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
-		if (typeof result['default_owner'] !== 'undefined')
+		if (typeof result['default_owner'] !== "undefined")
 			fieldContainer.find('.widgetFilterAll').removeClass('d-none').show();
 
 		var block = relatedBlock.find('.blockFieldsList');
@@ -462,7 +462,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					var id = form.find('.saveFieldDetails').data('field-id');
 					paramsForm['action'] = 'saveDetails';
 					paramsForm['id'] = id;
-					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === 'undefined') {
+					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
 						var params = {};
 						params['type'] = 'error';
 						params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
@@ -546,7 +546,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		form.find('select').each(function () {
 			var selectedvalue = jQuery(this).val();
 			jQuery(this).find('option').removeAttr('selected');
-			if (typeof (jQuery(this).attr('multiple')) === 'undefined') {
+			if (typeof (jQuery(this).attr('multiple')) === "undefined") {
 				var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
 				jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 			} else {
@@ -988,7 +988,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 */
 	registerDeleteCustomFieldEvent: function (contents) {
 		var thisInstance = this;
-		if (typeof contents === 'undefined') {
+		if (typeof contents === "undefined") {
 			contents = jQuery('#layoutDashBoards');
 		}
 		contents.find('a.deleteCustomField').on('click', function (e) {

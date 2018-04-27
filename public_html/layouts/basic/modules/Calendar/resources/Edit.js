@@ -173,11 +173,11 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		});
 
 		container.find('input[name="time_start"]').on('blur', function (e, data) {
-			if (typeof data === 'undefined') {
+			if (typeof data === "undefined") {
 				data = {};
 			}
 
-			if (typeof data.forceChange === 'undefined') {
+			if (typeof data.forceChange === "undefined") {
 				data.forceChange = false;
 			}
 			var element = jQuery(e.currentTarget);
@@ -499,7 +499,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				var selected = ui.item;
 
 				//To stop selection if no results is selected
-				if (typeof selected.type !== 'undefined' && selected.type == "no results") {
+				if (typeof selected.type !== "undefined" && selected.type == "no results") {
 					return false;
 				}
 				var recordExist = true;

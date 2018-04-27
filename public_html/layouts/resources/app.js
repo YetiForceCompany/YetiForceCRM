@@ -458,13 +458,13 @@ app = {
 	convertTojQueryDatePickerFormat: function (dateFormat) {
 		var i = 0;
 		var dotMode = '-';
-		if (dateFormat.indexOf('-') !== -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf('.') !== -1) {
+		if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf('/') !== -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 		var splitDateFormat = dateFormat.split(dotMode);
@@ -485,13 +485,13 @@ app = {
 	getDateInDBInsertFormat: function (dateFormat, dateString) {
 		var i = 0;
 		var dotMode = '-';
-		if (dateFormat.indexOf('-') !== -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf('-') !== -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf('/') !== -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 
@@ -1096,7 +1096,7 @@ app = {
 					cb: function (container) {
 						var call = currentElement.data('cb');
 						if (typeof call !== 'undefined') {
-							if (call.indexOf('.') !== -1) {
+							if (call.indexOf(".") !== -1) {
 								var callerArray = call.split('.');
 								if (typeof window[callerArray[0]] === 'object') {
 									window[callerArray[0]][callerArray[1]](container);

@@ -13,7 +13,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			type: 'success',
 			title: app.vtranslate('JS_MESSAGE')
 		};
-		if (typeof customParams !== 'undefined') {
+		if (typeof customParams !== "undefined") {
 			params = $.extend(params, customParams);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
@@ -77,7 +77,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
-		if (typeof shortCutBlock === 'undefined') {
+		if (typeof shortCutBlock === "undefined") {
 			var shortCutBlock = $('div#settingsShortCutsContainer')
 		}
 		shortCutBlock.on('click', '.unpin', function (e) {

@@ -23,7 +23,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#pdf_step1');
 		}
 		if (container.is('#pdf_step1')) {

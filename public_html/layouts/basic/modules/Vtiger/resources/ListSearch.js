@@ -1,12 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("YetiForce_ListSearch_Js", {
 	getInstance: function (container, noEvents, reletedInstance, moduleName) {
-		if (typeof moduleName === 'undefined') {
+		if (typeof moduleName === "undefined") {
 			moduleName = app.getModuleName();
 		}
 		var moduleClassName = module + '_ListSearch_Js';
 		var basicClassName = 'YetiForce_ListSearch_Js';
-		if (typeof window[moduleClassName] !== 'undefined') {
+		if (typeof window[moduleClassName] !== "undefined") {
 			var instance = new window[moduleClassName](container, noEvents, reletedInstance);
 		} else {
 			var instance = new window[basicClassName](container, noEvents, reletedInstance);
@@ -20,7 +20,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	reletedInstance: false,
 	viewName: false,
 	init: function (container, noEvents, reletedInstance) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.bodyContents');
 		}
 		this.setContainer(container);

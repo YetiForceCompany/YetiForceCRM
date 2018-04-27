@@ -16,7 +16,7 @@
 			'mode': 'show'
 		}
 
-		if (typeof options === 'undefined') {
+		if (typeof options === "undefined") {
 			options = {};
 		}
 

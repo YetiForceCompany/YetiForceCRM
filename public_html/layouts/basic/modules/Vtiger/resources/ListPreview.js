@@ -43,7 +43,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				return;
 			var elem = $(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
-			if (typeof recordUrl === 'undefined') {
+			if (typeof recordUrl === "undefined") {
 				return;
 			}
 			$('.listViewEntriesTable .listViewEntries').removeClass('active');
@@ -312,7 +312,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					splitsArray.push(this.split);
 				}
 				var currentSplit = splitsArray[splitsArray.length - 1];
-				if (typeof currentSplit === 'undefined')
+				if (typeof currentSplit === "undefined")
 					return;
 				if (currentSplit.getSizes()[0] < this.windowMinWidth + 5) {
 					currentSplit.setSizes([this.windowMinWidth, this.windowMaxWidth]);

@@ -292,7 +292,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	},
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form === 'undefined') {
+		if (typeof form === "undefined") {
 			form = this.getForm();
 		}
 
@@ -377,7 +377,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		var editViewForm = this.getForm();
 		editViewForm.on('submit', function (e) {
 			//Form should submit only once for multiple clicks also
-			if (typeof editViewForm.data('submit') !== 'undefined') {
+			if (typeof editViewForm.data('submit') !== "undefined") {
 				return false;
 			} else {
 				var module = $(e.currentTarget).find('[name="module"]').val();

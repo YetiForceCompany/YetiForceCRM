@@ -170,7 +170,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 		var recordId = this.getRecordId();
 
 		var data = {};
-		if (typeof fieldDetailList !== 'undefined') {
+		if (typeof fieldDetailList !== "undefined") {
 			data = fieldDetailList;
 			if (data['field'] == 'email1') {
 				thisInstance.usersEditInstance.checkEmail(data['value']).then(

@@ -30,7 +30,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var container = this.container;
 		var map = this.mapInstance;
 
-		if (typeof response.result.coordinates !== 'undefined') {
+		if (typeof response.result.coordinates !== "undefined") {
 			var markers = L.markerClusterGroup({
 				maxClusterRadius: 10
 			});
@@ -60,8 +60,8 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		if (typeof this.polygonLayer !== 'boolean') {
 			map.removeLayer(this.polygonLayer);
 		}
-		if (typeof response.result.coordinatesCeneter !== 'undefined') {
-			if (typeof response.result.coordinatesCeneter.error === 'undefined') {
+		if (typeof response.result.coordinatesCeneter !== "undefined") {
+			if (typeof response.result.coordinatesCeneter.error === "undefined") {
 				var radius = container.find('.radius').val();
 				markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
 				var popup = '<span class="description">' + container.find('.searchValue').val() + '</span><br /><input type=hidden class="coordinates" data-lon="' + response.result.coordinatesCeneter.lon + '" data-lat="' + response.result.coordinatesCeneter.lat + '">';
@@ -94,10 +94,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				Vtiger_Helper_Js.showMessage(params);
 			}
 		}
-		if (typeof response.result.cache !== 'undefined') {
+		if (typeof response.result.cache !== "undefined") {
 			var cache = response.result.cache;
 			Object.keys(cache).forEach(function (key) {
-				if (typeof thisInstance.cacheLayerMarkers[key] !== 'undefined') {
+				if (typeof thisInstance.cacheLayerMarkers[key] !== "undefined") {
 					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
 				}
 				var markersCache = L.markerClusterGroup({
@@ -125,7 +125,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		}
 
 		var footer = this.container.find('.modal-footer');
-		if (typeof response.result.legend !== 'undefined') {
+		if (typeof response.result.legend !== "undefined") {
 			var html = '';
 			var legend = response.result.legend;
 			legend.forEach(function (e) {
@@ -531,7 +531,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			indirect.removeClass('d-none');
 			var coordinates = containerPopup.find('.coordinates');
 			description = description.replace(/\<br\>/gi, ", ");
-			if (typeof thisInstance.indirectPointLayer[description] !== 'undefined') {
+			if (typeof thisInstance.indirectPointLayer[description] !== "undefined") {
 				map.removeLayer(thisInstance.indirectPointLayer[description]);
 			}
 			var indirectField = indirect.find('.indirect');
@@ -642,7 +642,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var inputInstance = currentTarget.closest('.input-group').find('.end,.start');
 			var lat = inputInstance.data('lat');
 			var lon = inputInstance.data('lon');
-			if (!(typeof lat === 'undefined' && typeof lon === 'undefined')) {
+			if (!(typeof lat === "undefined" && typeof lon === "undefined")) {
 				map.setView(new L.LatLng(lat, lon), 14);
 			}
 		});

@@ -68,7 +68,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		var thisInstance = this;
 		var params = form.serializeFormData();
 
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 		thisInstance.validateTaxName(params).then(

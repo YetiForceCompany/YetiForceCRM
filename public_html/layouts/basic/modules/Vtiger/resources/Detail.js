@@ -15,7 +15,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var view = app.getViewName();
 			var moduleClassName = module + "_" + view + "_Js";
 			var fallbackClassName = Vtiger_Detail_Js;
-			if (typeof window[moduleClassName] !== 'undefined') {
+			if (typeof window[moduleClassName] !== "undefined") {
 				var instance = new window[moduleClassName]();
 			} else {
 				var instance = new fallbackClassName();
@@ -392,7 +392,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		var detailContentsHolder = this.getContentHolder();
 		var params = url;
-		if (typeof data !== 'undefined') {
+		if (typeof data !== "undefined") {
 			params = {};
 			params.url = url;
 			params.data = data;
@@ -511,7 +511,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var recordId = this.getRecordId();
 
 		var data = {};
-		if (typeof fieldDetailList !== 'undefined') {
+		if (typeof fieldDetailList !== "undefined") {
 			data = fieldDetailList;
 		}
 		data['record'] = recordId;
@@ -805,7 +805,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				return;
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
-			if (typeof recordUrl !== 'undefined') {
+			if (typeof recordUrl !== "undefined") {
 				window.location.href = recordUrl;
 			}
 		});
@@ -1123,7 +1123,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
-			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== 'undefined') {
+			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== "undefined" && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== "undefined") {
 				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
 			}
@@ -1235,10 +1235,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 					thisInstance.loadModuleSummary();
 				}
 			}
-			if (typeof relatedField !== 'undefined') {
+			if (typeof relatedField !== "undefined") {
 				relatedParams[relatedField] = parentId;
 			}
-			if (typeof autoCompleteFields !== 'undefined') {
+			if (typeof autoCompleteFields !== "undefined") {
 				$.each(autoCompleteFields, function (index, value) {
 					relatedParams[index] = value;
 				});
@@ -1285,7 +1285,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var createUrl = currentElement.data('url');
 			var autoCompleteFields = currentElement.data('acf');
 			var addidtionalParams = ''
-			if (typeof autoCompleteFields !== 'undefined') {
+			if (typeof autoCompleteFields !== "undefined") {
 				$.each(autoCompleteFields, function (index, value) {
 					addidtionalParams = '&' + index + '=' + value;
 					createUrl = createUrl.concat(addidtionalParams);
@@ -1335,7 +1335,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var name = element.data('urlparams');
 			if (element.attr('type') == 'radio') {
 				if (element.prop('checked')) {
-					value = typeof element.data('on-val') !== 'undefined' ? element.data('on-val') : element.data('off-val')
+					value = typeof element.data('on-val') !== "undefined" ? element.data('on-val') : element.data('off-val')
 				}
 			} else {
 				var selectedFilter = element.find('option:selected').val();
@@ -1376,11 +1376,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var url = widget.data('url');
 			url = url.replace('&type=current', '').replace('&type=history', '');
 			url += '&type=';
-			if (typeof currentElement.data('on-val') !== 'undefined') {
+			if (typeof currentElement.data('on-val') !== "undefined") {
 				summaryWidgetContainer.find('.ativitiesPagination').removeClass('d-none');
 				url += 'current';
 				url = url.replace('&sortorder=DESC', '&sortorder=ASC');
-			} else if (typeof currentElement.data('off-val') !== 'undefined') {
+			} else if (typeof currentElement.data('off-val') !== "undefined") {
 				summaryWidgetContainer.find('.ativitiesPagination').addClass('d-none');
 				url += 'history';
 				url = url.replace('&sortorder=ASC', '&sortorder=DESC');
@@ -1426,7 +1426,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
 			var url = currentTarget.data('url');
-			if (url && typeof url !== 'undefined') {
+			if (url && typeof url !== "undefined") {
 				app.showModalWindow(null, url);
 			}
 		});
@@ -1516,7 +1516,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
-			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== 'undefined') {
+			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== "undefined" && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== "undefined") {
 				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[fieldName] = recordId;
 			}
@@ -1604,7 +1604,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 				});
 				var url = tabElement.data('url');
-				if (typeof urlAttributes !== 'undefined') {
+				if (typeof urlAttributes !== "undefined") {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
@@ -1665,12 +1665,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var targetObjectForSelectedSourceValue = configuredDependencyObject[selectedValue];
 			var picklistmap = configuredDependencyObject["__DEFAULT__"];
 
-			if (typeof targetObjectForSelectedSourceValue === 'undefined') {
+			if (typeof targetObjectForSelectedSourceValue === "undefined") {
 				targetObjectForSelectedSourceValue = picklistmap;
 			}
 			jQuery.each(picklistmap, function (targetPickListName, targetPickListValues) {
 				var targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
-				if (typeof targetPickListMap === 'undefined') {
+				if (typeof targetPickListMap === "undefined") {
 					targetPickListMap = targetPickListValues;
 				}
 				var targetPickList = jQuery('[name="' + targetPickListName + '"]', container);
@@ -1689,7 +1689,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 
 				var listOfAvailableOptions = targetPickList.data('availableOptions');
-				if (typeof listOfAvailableOptions === 'undefined') {
+				if (typeof listOfAvailableOptions === "undefined") {
 					listOfAvailableOptions = jQuery('option', targetPickList);
 					targetPickList.data('available-options', listOfAvailableOptions);
 				}
@@ -1845,7 +1845,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var counter = [];
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
-		if (!relationContainer || (typeof relationContainer.length === 'undefined')) {
+		if (!relationContainer || (typeof relationContainer.length === "undefined")) {
 			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink');
 		}
 		relationContainer.each(function (n, item) {
@@ -2297,7 +2297,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 				if (url.indexOf('&whereCondition') == -1) {
 					var switchBtn = jQuery('.active .js-switch--recentActivities');
-					url += '&whereCondition=' + (typeof switchBtn.data('on-val') === 'undefined' ? switchBtn.data('off-val') : switchBtn.data('on-val'));
+					url += '&whereCondition=' + (typeof switchBtn.data('on-val') === "undefined" ? switchBtn.data('off-val') : switchBtn.data('on-val'));
 				}
 			}
 			AppConnector.request(url).then(function (data) {
@@ -2417,9 +2417,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				valueOff = $(this).data('off-val');
 			let url = tabElement.data('url');
 			url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
-			if (typeof currentTarget.data('on-val') !== 'undefined') {
+			if (typeof currentTarget.data('on-val') !== "undefined") {
 				url += '&' + variableName + '=' + valueOn;
-			} else if (typeof currentTarget.data('off-val') !== 'undefined') {
+			} else if (typeof currentTarget.data('off-val') !== "undefined") {
 				url += '&' + variableName + '=' + valueOff;
 			}
 			tabElement.data('url', url);

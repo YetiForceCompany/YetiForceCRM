@@ -187,7 +187,7 @@ var Vtiger_Index_Js = {
 		AppConnector.request(listViewWidgetParams).then(
 			function (data) {
 
-				if (typeof open === 'undefined')
+				if (typeof open === "undefined")
 					open = true;
 				if (open) {
 					widgetContainer.progressIndicator({'mode': 'hide'});
