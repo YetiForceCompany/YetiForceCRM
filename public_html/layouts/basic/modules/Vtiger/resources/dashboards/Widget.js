@@ -11,7 +11,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
 	getInstance: function getInstance(container, widgetClassName, moduleName) {
-		if (typeof moduleName === 'undefined') {
+		if (typeof moduleName === "undefined") {
 			moduleName = app.getModuleName();
 		}
 		const moduleClass = window[moduleName + "_" + widgetClassName + "_Widget_Js"];
@@ -19,11 +19,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		const basicClass = YetiForce_Widget_Js;
 		let instance;
-		if (typeof moduleClass !== 'undefined') {
+		if (typeof moduleClass !== "undefined") {
 			instance = new moduleClass(container, false, widgetClassName);
-		} else if (typeof fallbackClass !== 'undefined') {
+		} else if (typeof fallbackClass !== "undefined") {
 			instance = new fallbackClass(container, false, widgetClassName);
-		} else if (typeof yetiClass !== 'undefined') {
+		} else if (typeof yetiClass !== "undefined") {
 			instance = new yetiClass(container, false, widgetClassName);
 		} else {
 			instance = new basicClass(container, false, widgetClassName);
@@ -51,7 +51,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this.getContainer().find('[name="typeChart"]').val();
 	},
 	isMultiFilter() {
-		if (typeof this.filterIds !== 'undefined') {
+		if (typeof this.filterIds !== "undefined") {
 			return this.filterIds.length > 1;
 		}
 		return false;
@@ -82,8 +82,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			},
 			formatter: function datalabelsFormatter(value, context) {
 				if (
-					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
-					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== "undefined" &&
+					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== "undefined"
 				) {
 					// data presented in different format usually exists in alternative dataFormatted array
 					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
@@ -100,7 +100,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		tooltips: {
 			label: function tooltipLabelCallback(tooltipItem, data) {
 				// get already formatted data if exists
-				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== 'undefined') {
+				if (typeof data.datasets[tooltipItem.datasetIndex].dataFormatted !== "undefined" && data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index] !== "undefined") {
 					return data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
 				}
 				// if there is no formatted data so try to format it
@@ -113,7 +113,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			title: function tooltipTitleCallback(tooltipItems, data) {
 				const tooltipItem = tooltipItems[0];
 				// get already formatted title if exists
-				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined') {
+				if (typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== "undefined" && data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== "undefined") {
 					return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
 				}
 				// if there is no formatted title so try to format it
@@ -128,7 +128,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		legend: {
 			onClick(e, legendItem) {
 				let type = this.chartInstance.config.type;
-				if (typeof Chart.defaults[type] !== 'undefined') {
+				if (typeof Chart.defaults[type] !== "undefined") {
 					return Chart.defaults[type].legend.onClick.apply(this.chartInstance, [e, legendItem]);
 				}
 				return Chart.defaults.global.legend.onClick.apply(this.chartInstance, [e, legendItem]);
@@ -136,7 +136,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			generateLabels(chart) {
 				let type = chart.config.type;
 				let labels;
-				if (typeof Chart.defaults[type] !== 'undefined') {
+				if (typeof Chart.defaults[type] !== "undefined") {
 					labels = Chart.defaults[type].legend.labels.generateLabels(chart);
 				} else {
 					labels = Chart.defaults.global.legend.labels.generateLabels(chart);
@@ -171,10 +171,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 				let getDatasetsMeta = function (chart) {
 					const datasets = [];
 					const data = chart.data;
-					if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+					if (typeof data !== "undefined" && typeof data.datasets !== "undefined" && Array.isArray(data.datasets)) {
 						for (let i = 0, len = data.datasets.length; i < len; i++) {
 							const meta = chart.getDatasetMeta(i);
-							if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+							if (typeof meta.data !== "undefined" && Array.isArray(meta.data)) {
 								datasets.push(meta);
 							}
 						}
@@ -191,22 +191,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 						continue;
 					}
 					const metaData = meta.data;
-					if (typeof dataset._models === 'undefined') {
+					if (typeof dataset._models === "undefined") {
 						dataset._models = {};
 					}
-					if (typeof dataset.datalabels === 'undefined') {
+					if (typeof dataset.datalabels === "undefined") {
 						dataset.datalabels = {};
 					}
-					if (typeof dataset.datalabels.display === 'undefined') {
+					if (typeof dataset.datalabels.display === "undefined") {
 						dataset.datalabels.display = true;
 					}
 					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 						const dataItem = metaData[iItem];
-						if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+						if (typeof dataItem.$datalabels !== "undefined" && typeof dataItem.$datalabels._model !== "undefined") {
 							let model = dataItem.$datalabels._model;
-							if (model !== null && typeof model !== 'undefined') {
+							if (model !== null && typeof model !== "undefined") {
 								dataset._models[iItem] = model;
-							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== "undefined") {
 								model = dataset._models[iItem];
 							} else {
 								return false;
@@ -232,10 +232,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 				let getDatasetsMeta = function (chart) {
 					const datasets = [];
 					const data = chart.data;
-					if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+					if (typeof data !== "undefined" && typeof data.datasets !== "undefined" && Array.isArray(data.datasets)) {
 						for (let i = 0, len = data.datasets.length; i < len; i++) {
 							const meta = chart.getDatasetMeta(i);
-							if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
+							if (typeof meta.data !== "undefined" && Array.isArray(meta.data)) {
 								datasets.push(meta);
 							}
 						}
@@ -252,22 +252,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 						continue;
 					}
 					const metaData = meta.data;
-					if (typeof dataset._models === 'undefined') {
+					if (typeof dataset._models === "undefined") {
 						dataset._models = {};
 					}
-					if (typeof dataset.datalabels === 'undefined') {
+					if (typeof dataset.datalabels === "undefined") {
 						dataset.datalabels = {};
 					}
-					if (typeof dataset.datalabels.display === 'undefined') {
+					if (typeof dataset.datalabels.display === "undefined") {
 						dataset.datalabels.display = true;
 					}
 					for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 						const dataItem = metaData[iItem];
-						if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+						if (typeof dataItem.$datalabels !== "undefined" && typeof dataItem.$datalabels._model !== "undefined") {
 							let model = dataItem.$datalabels._model;
-							if (model !== null && typeof model !== 'undefined') {
+							if (model !== null && typeof model !== "undefined") {
 								dataset._models[iItem] = model;
-							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+							} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== "undefined") {
 								model = dataset._models[iItem];
 							} else {
 								return false;
@@ -291,14 +291,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			 */
 			fixXAxisLabels: function fixXAxisLabels(chart) {
 				let shortenXTicks = function shortenXTicks(data, options) {
-					if (typeof options.scales === 'undefined') {
+					if (typeof options.scales === "undefined") {
 						options.scales = {};
 					}
-					if (typeof options.scales.xAxes === 'undefined') {
+					if (typeof options.scales.xAxes === "undefined") {
 						options.scales.xAxes = [{}];
 					}
 					options.scales.xAxes.forEach((axis) => {
-						if (typeof axis.ticks === 'undefined') {
+						if (typeof axis.ticks === "undefined") {
 							axis.ticks = {};
 						}
 						axis.ticks.callback = function xAxisTickCallback(value, index, values) {
@@ -311,14 +311,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 					return options;
 				};
 				let rotateXLabels90 = function rotateXLabels90(data, options) {
-					if (typeof options.scales === 'undefined') {
+					if (typeof options.scales === "undefined") {
 						options.scales = {};
 					}
-					if (typeof options.scales.xAxes === 'undefined') {
+					if (typeof options.scales.xAxes === "undefined") {
 						options.scales.xAxes = [{}];
 					}
 					options.scales.xAxes.forEach((axis) => {
-						if (typeof axis.ticks === 'undefined') {
+						if (typeof axis.ticks === "undefined") {
 							axis.ticks = {};
 						}
 						axis.ticks.minRotation = 90;
@@ -337,7 +337,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 								const label = metaDataItem._xScale.ticks[i];
 								const ctx = metaDataItem._xScale.ctx;
 								let categoryWidth = metaDataItem._xScale.width / dataset._meta[prop].data.length;
-								if (typeof metaDataItem._xScale.options.categoryPercentage !== 'undefined') {
+								if (typeof metaDataItem._xScale.options.categoryPercentage !== "undefined") {
 									// if it is bar chart there is category percentage option that we should use
 									categoryWidth *= metaDataItem._xScale.options.categoryPercentage;
 								}
@@ -378,14 +378,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			 */
 			fixYAxisLabels: function fixYAxisLabels(chart) {
 				let shortenYTicks = function shortenYTicks(data, options) {
-					if (typeof options.scales === 'undefined') {
+					if (typeof options.scales === "undefined") {
 						options.scales = {};
 					}
-					if (typeof options.scales.yAxes === 'undefined') {
+					if (typeof options.scales.yAxes === "undefined") {
 						options.scales.yAxes = [{}];
 					}
 					options.scales.yAxes.forEach((axis) => {
-						if (typeof axis.ticks === 'undefined') {
+						if (typeof axis.ticks === "undefined") {
 							axis.ticks = {};
 						}
 						axis.ticks.callback = function yAxisTickCallback(value, index, values) {
@@ -415,7 +415,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 										// recalculate positions for smooth animation (for all datasets)
 										chart.data.datasets.forEach((dataset, index) => {
 											dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-												if (typeof metaDataItem._xScale !== 'undefined') {
+												if (typeof metaDataItem._xScale !== "undefined") {
 													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
 													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
 													metaDataItem._view.width = (metaDataItem._xScale.width / dataset._meta[prop].data.length) * metaDataItem._xScale.options.categoryPercentage * metaDataItem._xScale.options.barPercentage;
@@ -1146,12 +1146,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}],
 			},
 		};
-		if (typeof options[chartSubType] !== 'undefined') {
+		if (typeof options[chartSubType] !== "undefined") {
 			return options[chartSubType];
 		}
 		// if divided and standard chart types are equal
 		const notStackedChartSubType = this.removeStackedFromName(chartSubType);
-		if (typeof options[notStackedChartSubType] !== 'undefined') {
+		if (typeof options[notStackedChartSubType] !== "undefined") {
 			return options[notStackedChartSubType];
 		}
 		app.errorLog(new Error(chartSubType + ' chart does not exists!'));
@@ -1200,7 +1200,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return jQuery('#userDateFormat').val();
 	},
 	getChartContainer: function getChartContainer(useCache) {
-		if (typeof useCache === 'undefined') {
+		if (typeof useCache === "undefined") {
 			useCache = false;
 		}
 		if (this.plotContainer === false || !useCache) {
@@ -1222,7 +1222,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	loadScrollbar: function loadScrollbar() {
 		const container = this.getChartContainer(false);
-		if (typeof container === 'undefined') { // if there is no data
+		if (typeof container === "undefined") { // if there is no data
 			return false;
 		}
 		const widget = $(container.closest('.dashboardWidget'));
@@ -1259,7 +1259,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	generateData: function generateData() {
 		var thisInstance = this;
 		var jData = thisInstance.getContainer().find('.widgetData').val();
-		if (typeof jData === 'undefined') {
+		if (typeof jData === "undefined") {
 			return thisInstance.chartData = jData;
 		}
 		thisInstance.chartData = JSON.parse(jData);
@@ -1570,11 +1570,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const thisInstance = this;
 		let pointer = false;
 		$(thisInstance.chartInstance.canvas).on('click', function (e) {
-			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== "undefined") {
 				window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
 			}
 		}).on('mousemove', function (e) {
-			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
+			if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== "undefined") {
 				if (!pointer) {
 					$(this).css('cursor', 'pointer');
 					pointer = true;
@@ -1646,7 +1646,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Chart} chartInstance
 	 */
 	loadChart: function loadChart() {
-		if (typeof this.chartData === 'undefined' || typeof this.getChartContainer() === 'undefined') {
+		if (typeof this.chartData === "undefined" || typeof this.getChartContainer() === "undefined") {
 			return false;
 		}
 		const type = this.getType();
@@ -1691,9 +1691,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			label: chart.data.labels[dataIndex],
 			value: chart.data.datasets[0].data[dataIndex],
 		};
-		if (typeof additionalFields !== 'undefined' && Array.isArray(additionalFields)) {
+		if (typeof additionalFields !== "undefined" && Array.isArray(additionalFields)) {
 			additionalFields.forEach((fieldName) => {
-				if (typeof chart.data.datasets[datasetIndex][fieldName] !== 'undefined' && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== 'undefined') {
+				if (typeof chart.data.datasets[datasetIndex][fieldName] !== "undefined" && typeof chart.data.datasets[datasetIndex][fieldName][dataIndex] !== "undefined") {
 					eventData[fieldName] = chart.data.datasets[datasetIndex][fieldName][dataIndex];
 				}
 			});
@@ -1751,14 +1751,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	formatTooltipTitles: function formatTooltipTitles(data) {
 		data.datasets.forEach((dataset) => {
-			if (typeof dataset.titlesFormatted === 'undefined') {
+			if (typeof dataset.titlesFormatted === "undefined") {
 				dataset.titlesFormatted = [];
 				dataset.data.forEach((dataItem, index) => {
 					let defaultLabel = data.labels[index];
 					if (String(defaultLabel).length > 0 && !isNaN(Number(defaultLabel))) {
 						defaultLabel = app.parseNumberToShow(defaultLabel);
 					}
-					if (typeof dataset.label !== 'undefined') {
+					if (typeof dataset.label !== "undefined") {
 						let label = dataset.label;
 						if (String(label).length > 0 && !isNaN(Number(label))) {
 							label = app.parseNumberToShow(label);
@@ -1780,7 +1780,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	formatTooltipLabels: function formatTooltipTitles(data) {
 		data.datasets.forEach((dataset) => {
-			if (typeof dataset.dataFormatted === 'undefined') {
+			if (typeof dataset.dataFormatted === "undefined") {
 				dataset.dataFormatted = [];
 				dataset.data.forEach((dataItem, index) => {
 					let dataFormatted = dataItem;
@@ -1799,7 +1799,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Array}
 	 */
 	mergeOptionsArray: function mergeOptionsArray(to, fromArray) {
-		if (typeof to !== 'undefined') {
+		if (typeof to !== "undefined") {
 			return to;
 		}
 		to = [];
@@ -1807,11 +1807,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (Array.isArray(from) && !to.hasOwnProperty(key)) {
 				return this.mergeOptionsArray(to[index], from);
 			}
-			if (typeof from === 'object' && from !== null && (typeof to[index] === 'undefined' || (typeof to[index] === 'object' && to[index] !== null))) {
+			if (typeof from === 'object' && from !== null && (typeof to[index] === "undefined" || (typeof to[index] === 'object' && to[index] !== null))) {
 				return this.mergeOptionsObject(to[index], from);
 			}
 			return to[index];
-		}).filter((item) => typeof item !== 'undefined');
+		}).filter((item) => typeof item !== "undefined");
 		return result;
 	},
 	/**
@@ -1821,7 +1821,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @return {Object}      mixed properties
 	 */
 	mergeOptionsObject: function mergeOptionsObject(to, from) {
-		if (typeof to === 'undefined') {
+		if (typeof to === "undefined") {
 			to = {};
 		}
 		for (let key in from) {
@@ -2258,7 +2258,7 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 				return;
 			}
 			var url = jQuery(this).data('url');
-			if (typeof url !== 'undefined') {
+			if (typeof url !== "undefined") {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};
@@ -2310,7 +2310,7 @@ YetiForce_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 				return;
 			}
 			var url = jQuery(this).data('url');
-			if (typeof url !== 'undefined') {
+			if (typeof url !== "undefined") {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};

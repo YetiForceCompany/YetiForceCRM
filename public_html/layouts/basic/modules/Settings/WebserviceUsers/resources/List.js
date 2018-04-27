@@ -21,7 +21,7 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 	getListViewRecords: function (urlParams) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-		if (typeof urlParams === 'undefined') {
+		if (typeof urlParams === "undefined") {
 			urlParams = {};
 		}
 		this.reloadTab(urlParams).then(
@@ -34,7 +34,7 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		return aDeferred.promise();
 	},
 	updatePagination: function (pageNumber) {
-		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
 		var thisInstance = this;
 		var params = this.getDefaultParams();
 		params.view = 'Pagination';

@@ -23,7 +23,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#mf_step1');
 		}
 		if (container.is('#mf_step1')) {

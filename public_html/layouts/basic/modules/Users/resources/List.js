@@ -273,7 +273,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		});
 	},
 	updatePagination: function (pageNumber) {
-		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
 		var thisInstance = this;
 		var params = {};
 		params['module'] = app.getModuleName();

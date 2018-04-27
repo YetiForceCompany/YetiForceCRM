@@ -146,7 +146,7 @@ var Settings_Picklist_Js = {
 			}
 			var params = jQuery(e.currentTarget).serializeFormData();
 			AppConnector.request(params).then(function (data) {
-				if (typeof data.result !== 'undefined') {
+				if (typeof data.result !== "undefined") {
 					app.hideModalWindow();
 					Settings_Vtiger_Index_Js.showMessage({
 						text: app.vtranslate('JS_VALUE_ASSIGNED_SUCCESSFULLY'),
@@ -204,7 +204,7 @@ var Settings_Picklist_Js = {
 				rolesSelected: jQuery('#rolesList').val()
 			}
 			AppConnector.request(params).then(function (data) {
-				if (typeof data.result !== 'undefined') {
+				if (typeof data.result !== "undefined") {
 					jQuery(e.currentTarget).attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					Settings_Vtiger_Index_Js.showMessage({
@@ -313,7 +313,7 @@ var Settings_Picklist_Js = {
 
 		function result(value) {
 			var replaceValueElement = jQuery('#replaceValue');
-			if (typeof value.added !== 'undefined') {
+			if (typeof value.added !== "undefined") {
 				var id = value.added.id;
 				jQuery('#replaceValue option[value="' + id + '"]').remove();
 				replaceValueElement.trigger('chosen:updated');
@@ -425,7 +425,7 @@ var Settings_Picklist_Js = {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
 				}
 				AppConnector.request(params).then(function (data) {
-					if (typeof data.result !== 'undefined') {
+					if (typeof data.result !== "undefined") {
 						app.hideModalWindow();
 						var encodedOldValue = oldValue.replace(/"/g, '\\"');
 						var dragImagePath = jQuery('#dragImagePath').val();
@@ -488,7 +488,7 @@ var Settings_Picklist_Js = {
 					var deleteValues = jQuery('[name="delete_value[]"]').val();
 					var params = form.serializeFormData();
 					AppConnector.request(params).then(function (data) {
-						if (typeof data.result !== 'undefined') {
+						if (typeof data.result !== "undefined") {
 							app.hideModalWindow();
 							//delete the item in the hidden picklist values array
 							var pickListValuesEle = jQuery('[name="pickListValues"]');
@@ -573,7 +573,7 @@ var Settings_Picklist_Js = {
 				picklistName: jQuery('[name="picklistName"]').val()
 			}
 			AppConnector.request(params).then(function (data) {
-				if (typeof data.result !== 'undefined') {
+				if (typeof data.result !== "undefined") {
 					jQuery('#saveSequence').attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					Settings_Vtiger_Index_Js.showMessage({

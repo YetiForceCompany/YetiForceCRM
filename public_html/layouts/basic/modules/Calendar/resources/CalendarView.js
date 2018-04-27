@@ -13,7 +13,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var jsFileName = view + 'View';
 		var moduleClassName = view + "_" + jsFileName + "_Js";
 		var instance;
-		if (typeof window[moduleClassName] !== 'undefined') {
+		if (typeof window[moduleClassName] !== "undefined") {
 			instance = new window[moduleClassName]();
 		} else {
 			instance = new Calendar_CalendarView_Js();

@@ -5,7 +5,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 	 */
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form === 'undefined') {
+		if (typeof form === "undefined") {
 			form = this.getForm();
 		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
@@ -77,14 +77,14 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 		var password = '';   // variable holding new password
 		// array of allowed characters that will consist of password
 		// if there there is something wrong build the password from only exclamation marks
-		if (typeof (allowedChars) === 'undefined')
+		if (typeof (allowedChars) === "undefined")
 			allowedChars = '!';
 		var chArray = allowedChars.split(',');
 		// min length of a password
-		if (typeof (min) === 'undefined')
+		if (typeof (min) === "undefined")
 			min = 10;   // default 10
 		// max length of a password
-		if (typeof (max) === 'undefined')
+		if (typeof (max) === "undefined")
 			max = 15;   // default 15
 		// get the password length
 		var passlength = parseInt(Math.random() * (max - min) + min);

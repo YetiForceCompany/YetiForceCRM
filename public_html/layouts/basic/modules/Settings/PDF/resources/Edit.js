@@ -48,7 +48,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * Function to initiate the step 1 instance
 	 */
 	initiate: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.pdfTemplateContents');
 		}
 		if (container.is('.pdfTemplateContents')) {

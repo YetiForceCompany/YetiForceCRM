@@ -66,7 +66,7 @@ Settings_Vtiger_List_Js("Settings_CronTasks_List_Js", {
 				}
 				var params = form.serializeFormData();
 				AppConnector.request(params).then(function (data) {
-					if (typeof data.result !== 'undefined' && data.result[0] == true) {
+					if (typeof data.result !== "undefined" && data.result[0] == true) {
 						app.hideModalWindow();
 						thisInstance.getListViewRecords();
 					}

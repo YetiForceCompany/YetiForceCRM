@@ -55,7 +55,7 @@ jQuery.Class('Settings_Dav_Keys_Js', {}, {
 			action: 'SaveAjax',
 			mode: mode
 		};
-		if (typeof data !== 'undefined') {
+		if (typeof data !== "undefined") {
 			for (var i in data) {
 				params.data[i] = data[i];
 			}

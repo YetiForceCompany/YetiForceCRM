@@ -121,7 +121,7 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 			var totalPageNumber = element.text();
 			if (totalPageNumber == "") {
 				var totalRecordCount = jQuery('#totalCount').val();
-				if (totalRecordCount !== 'undefined') {
+				if (totalRecordCount !== "undefined") {
 					var recordPerPage = jQuery('#noOfEntries').val();
 					if (recordPerPage == '0')
 						recordPerPage = 1;
@@ -151,7 +151,7 @@ Vtiger_List_Js('Vtiger_FindDuplicates_Js', {
 				e.stopImmediatePropagation();
 				var element = jQuery(e.currentTarget);
 				var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-				if (typeof response !== 'undefined') {
+				if (typeof response !== "undefined") {
 					element.validationEngine('showPrompt', response, '', "topLeft", true);
 				} else {
 					element.validationEngine('hideAll');

@@ -34,7 +34,7 @@ Vtiger_Edit_Js("Contacts_Edit_Js", {}, {
 	 */
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form === 'undefined') {
+		if (typeof form === "undefined") {
 			form = this.getForm();
 		}
 

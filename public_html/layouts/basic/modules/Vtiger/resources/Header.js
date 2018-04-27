@@ -48,23 +48,23 @@ $.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		var aDeferred = $.Deferred();
 		var requestParams;
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
-		if ((!params.noCache) || (typeof (params.noCache) === 'undefined')) {
-			if (typeof Vtiger_Header_Js.quickCreateModuleCache[moduleName] !== 'undefined') {
+		if ((!params.noCache) || (typeof (params.noCache) === "undefined")) {
+			if (typeof Vtiger_Header_Js.quickCreateModuleCache[moduleName] !== "undefined") {
 				aDeferred.resolve(Vtiger_Header_Js.quickCreateModuleCache[moduleName]);
 				return aDeferred.promise();
 			}
 		}
 		requestParams = url;
-		if (typeof params.data !== 'undefined') {
+		if (typeof params.data !== "undefined") {
 			var requestParams = {};
 			requestParams['data'] = params.data;
 			requestParams['url'] = url;
 		}
 		AppConnector.request(requestParams).then(function (data) {
-			if ((!params.noCache) || (typeof (params.noCache) === 'undefined')) {
+			if ((!params.noCache) || (typeof (params.noCache) === "undefined")) {
 				Vtiger_Header_Js.quickCreateModuleCache[moduleName] = data;
 			}
 			aDeferred.resolve(data);
@@ -167,13 +167,13 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	registerHelpInfo: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = $('form[name="QuickCreate"]');
 		}
 		app.showPopoverElementView(container.find('.js-help-info'));
 	},
 	handleQuickCreateData: function (data, params) {
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 		var thisInstance = this;
@@ -184,7 +184,7 @@ $.Class("Vtiger_Header_Js", {
 			editViewInstance.registerBasicEvents(quickCreateForm);
 			thisInstance.registerChangeNearCalendarEvent(quickCreateForm, moduleName);
 			quickCreateForm.validationEngine(app.validationEngineOptions);
-			if (typeof params.callbackPostShown !== 'undefined') {
+			if (typeof params.callbackPostShown !== "undefined") {
 				params.callbackPostShown(quickCreateForm);
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
@@ -201,7 +201,7 @@ $.Class("Vtiger_Header_Js", {
 	getNearCalendarEvent: function (container, module) {
 		var thisInstance = this;
 		var dateStartVal = container.find('[name="date_start"]').val();
-		if (typeof dateStartVal === 'undefined' || dateStartVal === '') {
+		if (typeof dateStartVal === "undefined" || dateStartVal === '') {
 			return;
 		}
 		var params = {
@@ -225,7 +225,7 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
 		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module === 'undefined' || !data.find('.eventsTable').length) {
+		if (!data || module != 'Calendar' || typeof module === "undefined" || !data.find('.eventsTable').length) {
 			return;
 		}
 		var user = data.find('[name="assigned_user_id"]');
@@ -277,7 +277,7 @@ $.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		var submitSuccessCallbackFunction = params.callbackFunction;
 		var goToFullFormCallBack = params.goToFullFormcallback;
-		if (typeof submitSuccessCallbackFunction === 'undefined') {
+		if (typeof submitSuccessCallbackFunction === "undefined") {
 			submitSuccessCallbackFunction = function () {
 			};
 		}
@@ -289,7 +289,7 @@ $.Class("Vtiger_Header_Js", {
 			}
 			var module = form.find('[name="module"]').val();
 			//Form should submit only once for multiple clicks also
-			if (typeof form.data('submit') !== 'undefined') {
+			if (typeof form.data('submit') !== "undefined") {
 				return false;
 			} else {
 				var invalidFields = form.data('jqv').InvalidFields;
@@ -348,7 +348,7 @@ $.Class("Vtiger_Header_Js", {
 		form.find('#goToFullForm').on('click', function (e) {
 			var form = $(e.currentTarget).closest('form');
 			var editViewUrl = $(e.currentTarget).data('editViewUrl');
-			if (typeof goToFullFormCallBack !== 'undefined') {
+			if (typeof goToFullFormCallBack !== "undefined") {
 				goToFullFormCallBack(form);
 			}
 			thisInstance.quickCreateGoToFullForm(form, editViewUrl);
@@ -503,10 +503,10 @@ $.Class("Vtiger_Header_Js", {
 			return;
 		}
 		var thisInstance = this;
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
-		if (typeof params.callbackFunction === 'undefined') {
+		if (typeof params.callbackFunction === "undefined") {
 			params.callbackFunction = function () {
 			};
 		}

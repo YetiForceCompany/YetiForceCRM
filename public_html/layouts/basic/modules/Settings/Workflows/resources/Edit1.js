@@ -33,7 +33,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#workflow_step1');
 		}
 		if (container.is('#workflow_step1')) {

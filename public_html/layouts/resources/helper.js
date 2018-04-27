@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-$.Class('Vtiger_Helper_Js', {
+$.Class("Vtiger_Helper_Js", {
 	checkServerConfigResponseCache: '',
 	langCode: '',
 	/*
@@ -83,26 +83,26 @@ $.Class('Vtiger_Helper_Js', {
 	 */
 
 	getDateInstance: function (dateTime, dateFormat) {
-		var dateTimeComponents = dateTime.split(' ');
+		var dateTimeComponents = dateTime.split(" ");
 		var dateComponent = dateTimeComponents[0];
 		var timeComponent = dateTimeComponents[1];
 		var seconds = '00';
 		var dotMode = '-';
-		if (dateFormat.indexOf('-') !== -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf('.') !== -1) {
+		if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf('/') !== -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 
 		var splittedDate = dateComponent.split(dotMode);
 		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf('yyyy')];
-		var month = splittedDate[splittedDateFormat.indexOf('mm')];
-		var date = splittedDate[splittedDateFormat.indexOf('dd')];
+		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
+		var month = splittedDate[splittedDateFormat.indexOf("mm")];
+		var date = splittedDate[splittedDateFormat.indexOf("dd")];
 		var dateInstance = Date.parse(year + dotMode + month + dotMode + date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
 			var errorMsg = app.vtranslate('JS_INVALID_DATE');
@@ -244,21 +244,21 @@ $.Class('Vtiger_Helper_Js', {
 	},
 	convertToDateString: function (stringDate, dateFormat, modDay, type) {
 		var dotMode = '-';
-		if (dateFormat.indexOf('-') !== -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf('.') !== -1) {
+		if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf('/') !== -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 
 		var splittedDate = stringDate.split(dotMode);
 		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf('yyyy')];
-		var month = splittedDate[splittedDateFormat.indexOf('mm')];
-		var date = splittedDate[splittedDateFormat.indexOf('dd')];
+		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
+		var month = splittedDate[splittedDateFormat.indexOf("mm")];
+		var date = splittedDate[splittedDateFormat.indexOf("dd")];
 		var dateInstance = new Date(year, month - 1, date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
 			var errorMsg = app.vtranslate('JS_INVALID_DATE');
