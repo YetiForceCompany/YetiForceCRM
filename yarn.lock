@@ -265,7 +265,7 @@ inputmask@^3.3.11:
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
-  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#fc9391f5cf6b6ce876c0ac0cf7b3639abcd0239e"
+  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#04e426be92aed34f4e2f887031b558ed39460dc3"
 
 jquery-hoverintent@^1.9.0:
   version "1.9.0"

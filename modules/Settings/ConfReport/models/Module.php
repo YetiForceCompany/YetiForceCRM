@@ -33,7 +33,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Vtlib test HTML directory' => 'cache/vtlib/HTML',
 		'Cron modules directory' => 'cron/modules/',
 		'Modules directory' => 'modules/',
-		'Libraries directory' => 'libraries/',
+		'Libraries directory' => 'public_html/libraries/',
 		'Storage directory' => 'storage/',
 		'Product image directory' => 'storage/Products/',
 		'User image directory' => 'storage/Users/',

@@ -27,7 +27,7 @@
 				</div>
 				<hr>
 				<div class="float-right">
-					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank" rel="noreferrer">
+					<a class="helpBtn" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation" target="_blank" rel="noreferrer">
 						<span class="fas fa-info-circle"></span>
 					</a>
 				</div>

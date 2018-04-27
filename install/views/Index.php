@@ -107,7 +107,7 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
 		App\Language::setTemporaryLanguage($defaultLanguage);
-
+		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
