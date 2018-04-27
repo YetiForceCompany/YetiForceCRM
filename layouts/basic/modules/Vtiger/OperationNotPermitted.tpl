@@ -18,7 +18,7 @@
 			<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/bootstrap/dist/css/bootstrap.css')}" type="text/css" media="screen">
-			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/js/jquery.js')}"></script>
+			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/dist/jquery.min.js')}"></script>
 		</head>
 		<body>
 			<div style="margin-top: 10px;" class="alert alert-danger shadow">

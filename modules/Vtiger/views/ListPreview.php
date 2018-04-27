@@ -53,14 +53,4 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 				"modules.$moduleName.resources.ListPreview",
 		]));
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/js/splitjs/split.css',
-		]));
-	}
 }
