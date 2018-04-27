@@ -496,9 +496,11 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			const modalParent = $(selectElement).closest('.modal');
-			if (modalParent.length) {
-				params.dropdownParent = modalParent;
+			if(typeof params.dropdownParent === 'undefined') {
+				const modalParent = $(selectElement).closest('.modal');
+				if (modalParent.length) {
+					params.dropdownParent = modalParent;
+				}
 			}
 			let data = selectElement.data();
 			if (data != null) {
