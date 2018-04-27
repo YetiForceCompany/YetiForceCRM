@@ -15,20 +15,20 @@ var Vtiger_BaseList_Js = {
 	getPageRecords: function (params) {
 		var aDeferred = jQuery.Deferred();
 
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 
-		if (typeof params.module === 'undefined') {
+		if (typeof params.module === "undefined") {
 			params.module = app.getModuleName();
 		}
 
-		if (typeof params.view === 'undefined') {
+		if (typeof params.view === "undefined") {
 			//Default we will take list ajax
 			params.view = 'ListAjax';
 		}
 
-		if (typeof params.page === 'undefined') {
+		if (typeof params.page === "undefined") {
 			params.page = Vtiger_BaseList_Js.getCurrentPageNum();
 		}
 

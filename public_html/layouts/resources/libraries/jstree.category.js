@@ -191,7 +191,7 @@
 			}
 		};
 		this.getCategory = function (fullData) {
-			var fullData = typeof fullData !== 'undefined' ? true : false;
+			var fullData = typeof fullData !== "undefined" ? true : false;
 			var i, j, selected = [];
 			for (i = 0, j = this._data.category.selected.length; i < j; i++) {
 				if (fullData) {
