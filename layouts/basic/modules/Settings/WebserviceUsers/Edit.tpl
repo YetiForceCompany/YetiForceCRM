@@ -27,6 +27,6 @@
 				</div>
 			{/foreach}
 		</div>
-		{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl')}
+		{include file=App\Layout::getTemplatePath('Modals/Footer.tpl') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
 {/strip}

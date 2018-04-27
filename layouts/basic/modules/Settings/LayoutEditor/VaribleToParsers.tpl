@@ -14,7 +14,7 @@
 					<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if $DEFAULT_VALUE eq $PICKLIST_VALUE} selected=""{/if}>{App\Language::translate($PICKLIST_NAME, $QUALIFIED_MODULE)}</option>
 				{/foreach}
 			</select>
-			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE)}
+			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 		</div>
 	</div>
 {/strip}
