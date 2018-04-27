@@ -206,7 +206,7 @@ app = {
 				$('.modal-backdrop:not(:first)').remove();
 			}
 			cb(modalContainer);
-			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
+			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer.find('.modal-dialog').eq(0)});
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
@@ -293,7 +293,7 @@ app = {
 		if (typeof callback === 'object') {
 			container = callback;
 		} else if (id == undefined) {
-			container= $('.modalContainer');
+			container = $('.modalContainer');
 		} else {
 			container = $('#' + id);
 		}
@@ -876,33 +876,33 @@ app = {
 	updateRowHeight: function () {
 		var rowType = CONFIG.rowHeight;
 		if (typeof rowType !== "undefined") {
-      if (rowType.length <= 0) {
-        //Need to update the row height
-        var widthType = app.cacheGet('widthType', 'mediumWidthType');
-        var serverWidth = widthType;
-        switch (serverWidth) {
-          case 'narrowWidthType' :
-            serverWidth = 'narrow';
-            break;
-          case 'wideWidthType' :
-            serverWidth = 'wide';
-            break;
-          default :
-            serverWidth = 'medium';
-        }
-        var userid = CONFIG.userId;
-        var params = {
-          'module': 'Users',
-          'action': 'SaveAjax',
-          'record': userid,
-          'value': serverWidth,
-          'field': 'rowheight'
-        };
-        AppConnector.request(params).then(function () {
-          $(rowType).val(serverWidth);
-        });
-      }
-    }
+			if (rowType.length <= 0) {
+				//Need to update the row height
+				var widthType = app.cacheGet('widthType', 'mediumWidthType');
+				var serverWidth = widthType;
+				switch (serverWidth) {
+					case 'narrowWidthType' :
+						serverWidth = 'narrow';
+						break;
+					case 'wideWidthType' :
+						serverWidth = 'wide';
+						break;
+					default :
+						serverWidth = 'medium';
+				}
+				var userid = CONFIG.userId;
+				var params = {
+					'module': 'Users',
+					'action': 'SaveAjax',
+					'record': userid,
+					'value': serverWidth,
+					'field': 'rowheight'
+				};
+				AppConnector.request(params).then(function () {
+					$(rowType).val(serverWidth);
+				});
+			}
+		}
 	},
 	getCookie: function (c_name) {
 		var c_value = document.cookie;
@@ -1182,24 +1182,24 @@ app = {
 	},
 	registerMenu: function () {
 		const self = this;
-		self.keyboard 	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
-		self.sidebarBtn	= $('.js-sidebar-btn').first();
-		self.sidebar	= $('.js-sidebar').first();
+		self.keyboard = {DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
+		self.sidebarBtn = $('.js-sidebar-btn').first();
+		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
 		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
-			if(self.sidebarBtn.find($(e.target).length)) return;
-			if(self.sidebar.find(':focus').length) {
+			if (self.sidebarBtn.find($(e.target).length)) return;
+			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
-			} else if(self.sidebar.hasClass('js-expand')) {
+			} else if (self.sidebar.hasClass('js-expand')) {
 				self.closeSidebar();
 			}
 		});
 		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 		self.sidebar.find('.js-menu').on('keydown', self.sidebarKeyboard.bind(self));
 		self.sidebar.on('keydown', (e) => {
-			if(e.which == self.keyboard.ESCAPE) {
+			if (e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
-				if(self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
+				if (self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
 				else $(':tabbable').eq(parseInt($(':tabbable').index(self.sidebar.find(':tabbable').last())) + 1).focus();
 			}
 		});
@@ -1207,43 +1207,46 @@ app = {
 			$(e.target).find(':tabbable').first().focus();
 		});
 		$('.js-submenu-toggler').on('click', (e) => {
-			if(!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
+			if (!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
 				window.location = $(e.currentTarget).attr('href');
 			}
 		});
 	},
-	openSidebar: function() {
+	openSidebar: function () {
 		this.sidebar.addClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', true);
 	},
-	closeSidebar: function() {
+	closeSidebar: function () {
 		this.sidebar.removeClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', false);
 	},
-	toggleSidebar: function() {
-		if(this.sidebar.hasClass('js-expand')) {
+	toggleSidebar: function () {
+		if (this.sidebar.hasClass('js-expand')) {
 			this.closeSidebar();
 		} else {
 			this.openSidebar();
 			this.sidebar.find('.js-menu :tabbable').first().focus();
 		}
 	},
-	sidebarKeyboard: function(e){
+	sidebarKeyboard: function (e) {
 		let target = $(e.target);
-		if((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT || e.which == this.keyboard.SPACE) && target.hasClass('collapsed'))
-		|| (target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.LEFT || e.which == this.keyboard.SPACE) && !target.hasClass('collapsed'))) {
-			target.click(); return false;
-		} else if(e.which == this.keyboard.UP) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
-		} else if(e.which == this.keyboard.DOWN) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
+		if ((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT || e.which == this.keyboard.SPACE) && target.hasClass('collapsed'))
+			|| (target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.LEFT || e.which == this.keyboard.SPACE) && !target.hasClass('collapsed'))) {
+			target.click();
+			return false;
+		} else if (e.which == this.keyboard.UP) {
+			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus();
+			return false;
+		} else if (e.which == this.keyboard.DOWN) {
+			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus();
+			return false;
 		}
 	},
 	registerTabdrop: function () {
 		let tabs = $('.js-tabdrop');
-		if(!tabs.length) return;
-		let tab  = tabs.find('> li');
-		tab.each(function() {
+		if (!tabs.length) return;
+		let tab = tabs.find('> li');
+		tab.each(function () {
 			$(this).removeClass('d-none');
 		});
 		tabs.tabdrop({
@@ -1253,8 +1256,8 @@ app = {
 		let dropdown = tabs.find('> li.dropdown');
 		dropdown.appendTo(tabs);
 		//fix for toggle button text not changing
-		tab.on('click', function(e){
-			setTimeout(function(){
+		tab.on('click', function (e) {
+			setTimeout(function () {
 				$(window).trigger('resize');
 			}, 500);
 		});

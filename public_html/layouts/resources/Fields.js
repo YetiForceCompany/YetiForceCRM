@@ -496,10 +496,6 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			const modalParent = $(selectElement).closest('.modal');
-			if (modalParent.length) {
-				params.dropdownParent = modalParent;
-			}
 			let data = selectElement.data();
 			if (data != null) {
 				params = $.extend(data, params);
