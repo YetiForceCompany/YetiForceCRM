@@ -206,7 +206,7 @@ app = {
 				$('.modal-backdrop:not(:first)').remove();
 			}
 			cb(modalContainer);
-			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer.find('.modal-dialog').eq(0)});
+			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
