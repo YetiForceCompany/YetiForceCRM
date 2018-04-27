@@ -133,10 +133,10 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	{
 		$info = self::getRecurringInfo($value);
 		$text = '';
-		if (!$info) {
+		if ($info) {
 			$moduleName = 'Events';
 			$text = App\Language::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
-				. App\Language::translate($info['freqLabel'], $moduleName) . ' '
+				. App\Language::translate($info['freqLabel'], $moduleName) . ', '
 				. App\Language::translate('LBL_UNTIL', $moduleName) . ' ';
 			if (isset($info['COUNT'], $info['UNTIL'])) {
 				$text .= App\Language::translate('LBL_NEVER', $moduleName);
