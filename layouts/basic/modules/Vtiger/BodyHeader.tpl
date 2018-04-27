@@ -218,7 +218,7 @@
 						<div class="o-action-menu__item">
 							<a class="headerButton btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-js="popover" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
 								<span class="fas fa-bell fa-fw" aria-hidden="true"></span>
-								<span hidden class="badge">0</span>
+								<span class="badge badge-dark d-none">0</span>
 								<span class="sr-only">{\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 							</a>
 						</div>
@@ -258,7 +258,7 @@
 						<div class="o-action-menu__item">
 							<a class="headerButton btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-js="popover" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 								<span class="fas fa-calendar fa-fw" aria-hidden="true"></span>
-								<span hidden class="badge bgDanger">0</span>
+								<span class="badge badge-danger d-none">0</span>
 								<span class="sr-only">{\App\Language::translate('LBL_REMINDER')}</span>
 							</a>
 						</div>
