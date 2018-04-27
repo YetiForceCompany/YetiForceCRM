@@ -15,14 +15,15 @@ class Settings_Roles_DeleteAjax_View extends Settings_Roles_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$recordId = $request->get('record');
+		$recordId = $request->getByType('record', 2);
 
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
-
+		$allRoles = Settings_Roles_Record_Model::getAll();
+		unset($allRoles[$recordId]);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-
+		$viewer->assign('ALL_ROLES', $allRoles);
 		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);
 	}
 }
