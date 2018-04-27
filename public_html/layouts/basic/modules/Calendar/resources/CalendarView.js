@@ -374,19 +374,23 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
-		var thisInstance = this;
-		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0) {
+		const thisInstance = this;
+		let usersList = $("#calendarUserList").val();
+		if (usersList.length === 0) {
+			usersList = [CONFIG.userId.toString()];
+		}
+		let groupList = $("#calendarGroupList").val();
+		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0 && ($.inArray(calendarDetails.assigned_user_id.value, groupList) < 0 || groupList.length === 0)) {
 			return;
 		}
-		var types = [];
-		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
-		if (types.length != 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
+		let types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
+		if (types.length !== 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
 			return;
 		}
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var calendar = this.getCalendarView();
 		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
-		if (state == true && taskstatus >= 0 || state != true && taskstatus == -1) {
+		if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
 			return false;
 		}
 		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
@@ -394,8 +398,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.subject.display_value,
-			start: startDate.toString(),
-			end: endDate.toString(),
+			start: startDate.format(),
+			end: endDate.format(),
 			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
 			activitytype: calendarDetails.activitytype.value,
 			allDay: calendarDetails.allday.value == 'on',
