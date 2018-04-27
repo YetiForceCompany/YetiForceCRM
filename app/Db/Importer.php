@@ -168,6 +168,9 @@ class Importer
 		switch ($importer->db->getDriverName()) {
 			case 'mysql':
 				$options = "ENGINE={$table['engine']} DEFAULT CHARSET={$table['charset']}";
+				if (isset($table['collate'])) {
+					$options .= " COLLATE={$table['collate']}";
+				}
 				break;
 		}
 
