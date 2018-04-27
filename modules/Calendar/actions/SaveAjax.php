@@ -43,7 +43,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
-				$result[$fieldName]['display_value'] = $fieldValue;
+				$result[$fieldName]['display_value'] = $dateComponent;
 			} elseif ($fieldName === 'due_date') {
 				$timeEnd = $recordModel->get('time_end');
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
@@ -54,7 +54,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
-				$result[$fieldName]['display_value'] = $fieldValue;
+				$result[$fieldName]['display_value'] = $dateComponent;
 			} elseif ($fieldName === 'time_end') {
 				$dueDate = $recordModel->get('due_date');
 				$dateTimeFieldInstance = new DateTimeField($dueDate . ' ' . $fieldValue);
