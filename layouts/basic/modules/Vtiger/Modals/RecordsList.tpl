@@ -13,6 +13,7 @@
 		<input type="hidden" class="js-total-count" data-js="value" value="{$LISTVIEW_COUNT}"/>
 		<input type='hidden' class="js-page-limit" data-js="value" value="{$PAGING_MODEL->getPageLimit()}"/>
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
+		<input type="hidden" class="js-additional-informations" data-js="value" value="{$ADDITIONAL_INFORMATIONS}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
@@ -67,7 +68,8 @@
 							{/if}
 						</td>
 						{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADERNAME from=$LISTVIEW_HEADERS}
-							<td class="{$WIDTHTYPE}">
+							<td class="{$WIDTHTYPE}" data-field="{$LISTVIEW_HEADERNAME}"
+								data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 								{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
 									{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 								{else}

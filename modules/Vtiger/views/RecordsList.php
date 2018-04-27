@@ -286,6 +286,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('CURRENCY_ID', $currencyId);
 		$viewer->assign('FILTER_FIELDS', $filterFields);
+		$viewer->assign('ADDITIONAL_INFORMATIONS', $request->getBoolean('additionalInformations'));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('LISTVIEW_HEADERS', $listViewHeaders);
