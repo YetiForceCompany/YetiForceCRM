@@ -89,13 +89,13 @@ app = {
 		return $('.bodyContents');
 	},
 	hidePopover: function (element) {
-		if (typeof element === 'undefined') {
+		if (typeof element === "undefined") {
 			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
 	showPopoverElementView: function (selectElement, params) {
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {
 				placement: 'auto',
 				html: true,
@@ -133,7 +133,7 @@ app = {
 	 */
 
 	registerChangeEventForMultiSelect: function (selectElement, params) {
-		if (typeof selectElement === 'undefined') {
+		if (typeof selectElement === "undefined") {
 			return;
 		}
 		var instance = selectElement.data('select2');
@@ -153,7 +153,7 @@ app = {
 	 * @return <object> - encoded string or value map
 	 */
 	getSerializedData: function (parentElement, returnFormat) {
-		if (typeof returnFormat === 'undefined') {
+		if (typeof returnFormat === "undefined") {
 			returnFormat = 'string';
 		}
 
@@ -232,7 +232,7 @@ app = {
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			if (data.sendByAjaxCb !== 'undefined') {
+			if (data.sendByAjaxCb !== "undefined") {
 				var sendByAjaxCb = data.sendByAjaxCb;
 			}
 			data = data.data;
@@ -315,7 +315,7 @@ app = {
 	registerModalController: function () {
 		let modalContainer = $('#' + Window.lastModalId + ' .js-modal-data');
 		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
-		if (typeof window[modalClass] !== 'undefined') {
+		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
 			if (app.modalEvents[Window.lastModalId]) {
@@ -323,7 +323,7 @@ app = {
 			}
 		}
 		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
-		if (typeof window[modalClass] !== 'undefined') {
+		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
 			if (app.modalEvents[Window.lastModalId]) {
@@ -522,7 +522,7 @@ app = {
 		return year + '-' + month + '-' + day;
 	},
 	registerEventForDateFields: function (parentElement) {
-		if (typeof parentElement === 'undefined') {
+		if (typeof parentElement === "undefined") {
 			parentElement = $('body');
 		}
 
@@ -542,7 +542,7 @@ app = {
 	},
 	registerEventForClockPicker: function (object) {
 		let elementClockBtn, formatTime;
-		if (typeof object === 'undefined') {
+		if (typeof object === "undefined") {
 			elementClockBtn = $('.clockPicker');
 			formatTime = CONFIG.hourFormat;
 		} else {
@@ -642,15 +642,15 @@ app = {
 		});
 	},
 	showNewScrollbar: function (element, options) {
-		if (typeof element === 'undefined' || !element.length)
+		if (typeof element === "undefined" || !element.length)
 			return;
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
 
 		return new PerfectScrollbar(element[0], options);
 	},
 	showNewBottomTopScrollbar: function (element) {
-		if (typeof element === 'undefined' || !element.length)
+		if (typeof element === "undefined" || !element.length)
 			return;
 		var scrollbarTopInit = new PerfectScrollbar(element[0], {
 			wheelPropagation: true,
@@ -671,9 +671,9 @@ app = {
 		});
 	},
 	showNewLeftScrollbar: function (element, options) {
-		if (typeof element === 'undefined' || !element.length)
+		if (typeof element === "undefined" || !element.length)
 			return;
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
 		options.wheelPropagation = true;
 		var scrollbarLeftInit = new PerfectScrollbar(element[0], options);
@@ -688,14 +688,14 @@ app = {
 		});
 	},
 	showScrollBar: function (element, options) {
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
-		if (typeof options.height === 'undefined')
+		if (typeof options.height === "undefined")
 			options.height = element.css('height');
 		return element.slimScroll(options);
 	},
 	showHorizontalScrollBar: function (element, options) {
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
 		var params = {
 			horizontalScroll: true,
@@ -704,7 +704,7 @@ app = {
 				autoExpandHorizontalScroll: true
 			}
 		}
-		if (typeof options !== 'undefined')
+		if (typeof options !== "undefined")
 			var params = $.extend(params, options);
 		return element.mCustomScrollbar(params);
 	},
@@ -845,20 +845,20 @@ app = {
 		var parentModule = app.getParentModuleName();
 
 		var moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
-		if (typeof window[moduleClassName] === 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] === 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = moduleName + "_" + view + "_Js";
 		}
 		var extendModules = $('#extendModules').val();
-		if (typeof window[moduleClassName] === 'undefined' && extendModules != undefined) {
+		if (typeof window[moduleClassName] === "undefined" && extendModules != undefined) {
 			moduleClassName = extendModules + "_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] === 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] !== 'undefined') {
+		if (typeof window[moduleClassName] !== "undefined") {
 			if (typeof window[moduleClassName] === 'function') {
 				return new window[moduleClassName]();
 			}
@@ -875,7 +875,7 @@ app = {
 	},
 	updateRowHeight: function () {
 		var rowType = CONFIG.rowHeight;
-		if (typeof rowType !== 'undefined') {
+		if (typeof rowType !== "undefined") {
       if (rowType.length <= 0) {
         //Need to update the row height
         var widthType = app.cacheGet('widthType', 'mediumWidthType');
@@ -992,7 +992,7 @@ app = {
 		return aDeferred.promise();
 	},
 	showBtnSwitch: function (selectElement, params) {
-		if (typeof params === 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 		selectElement.bootstrapSwitch(params);
@@ -1076,7 +1076,7 @@ app = {
 		}
 	},
 	registerModal: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = $('body');
 		}
 		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
@@ -1084,7 +1084,7 @@ app = {
 			var currentElement = $(e.currentTarget);
 			var url = currentElement.data('url');
 
-			if (typeof url !== 'undefined') {
+			if (typeof url !== "undefined") {
 				if (currentElement.hasClass('js-popover-tooltip')) {
 					currentElement.popover('hide');
 				}
@@ -1095,7 +1095,7 @@ app = {
 					url: url,
 					cb: function (container) {
 						var call = currentElement.data('cb');
-						if (typeof call !== 'undefined') {
+						if (typeof call !== "undefined") {
 							if (call.indexOf(".") !== -1) {
 								var callerArray = call.split('.');
 								if (typeof window[callerArray[0]] === 'object') {
@@ -1261,7 +1261,7 @@ app = {
 
 	},
 	getScreenHeight: function (percantage) {
-		if (typeof percantage === 'undefined') {
+		if (typeof percantage === "undefined") {
 			percantage = 100;
 		}
 		return $(window).height() * percantage / 100;

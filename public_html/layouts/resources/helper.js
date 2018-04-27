@@ -111,17 +111,17 @@ $.Class("Vtiger_Helper_Js", {
 
 		//Before creating date object time is set to 00
 		//because as while calculating date object it depends system timezone
-		if (typeof timeComponent === 'undefined') {
+		if (typeof timeComponent === "undefined") {
 			timeComponent = '00:00:00';
 		}
 
 		var timeSections = timeComponent.split(':');
-		if (typeof timeSections[2] !== 'undefined') {
+		if (typeof timeSections[2] !== "undefined") {
 			seconds = timeSections[2];
 		}
 
 		//Am/Pm component exits
-		if (typeof dateTimeComponents[2] !== 'undefined') {
+		if (typeof dateTimeComponents[2] !== "undefined") {
 			timeComponent += ' ' + dateTimeComponents[2];
 			if (dateTimeComponents[2].toLowerCase() == 'pm' && timeSections[0] != '12') {
 				timeSections[0] = parseInt(timeSections[0], 10) + 12;
@@ -162,10 +162,10 @@ $.Class("Vtiger_Helper_Js", {
 		return aDeferred.promise();
 	},
 	showMessage: function (params) {
-		if (typeof params.type === 'undefined') {
+		if (typeof params.type === "undefined") {
 			params.type = 'info';
 		}
-		if (typeof params.title === 'undefined') {
+		if (typeof params.title === "undefined") {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
 		Vtiger_Helper_Js.showPnotify(params);
@@ -198,10 +198,10 @@ $.Class("Vtiger_Helper_Js", {
 				}
 			}
 		}
-		if (typeof customParams.type !== 'undefined' && customParams.type != 'error') {
+		if (typeof customParams.type !== "undefined" && customParams.type != 'error') {
 			params.data.hide = true;
 		}
-		if (typeof userParams !== 'undefined') {
+		if (typeof userParams !== "undefined") {
 			params.data = $.extend(params.data, userParams);
 		}
 		PNotify.defaults.styling = 'bootstrap4';
@@ -212,7 +212,7 @@ $.Class("Vtiger_Helper_Js", {
 	 * Function to remove pnotify message
 	 */
 	hidePnotify: function (notice) {
-		if (typeof notice === 'undefined') {
+		if (typeof notice === "undefined") {
 			notice = $('.ui-pnotify');
 		}
 		notice.remove();
