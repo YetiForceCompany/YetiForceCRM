@@ -230,16 +230,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Popup Window Url for the current role.
-	 *
-	 * @return string
-	 */
-	public function getPopupWindowUrl()
-	{
-		return 'module=Roles&parent=Settings&view=Popup&src_record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get all the profiles associated with the current role.
 	 *
 	 * @return <Array> Settings_Profiles_Record_Model instances
