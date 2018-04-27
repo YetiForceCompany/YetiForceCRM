@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 px-0 row">
+	<div class="col-md-12 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div>
 				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
@@ -20,7 +20,7 @@
 							<img class="pushDown" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
 							<br/>
 						{else}
-							<span class="detailViewIcon userIcon-{$MODULE}"></span>
+							<span class="pl-0 detailViewIcon userIcon-{$MODULE}"></span>
 						{/if}
 					</span>
 				</div>
