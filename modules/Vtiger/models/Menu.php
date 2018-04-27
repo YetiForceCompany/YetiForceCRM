@@ -170,12 +170,15 @@ class Vtiger_Menu_Model
 	}
 
 	/**
-	 * @param type $url
+	 * @param string $url
 	 *
 	 * @return type modulename
 	 */
 	public static function getModuleNameFromUrl($url)
 	{
+		if ($url === 'https://yetiforce.shop/') {
+			return 'Settings:Vtiger';
+		}
 		$params = vtlib\Functions::getQueryParams($url);
 		if ($params['parent']) {
 			return $params['parent'] . ':' . $params['module'];
