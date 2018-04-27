@@ -91,7 +91,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.js.jquery_windowmsg',
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',

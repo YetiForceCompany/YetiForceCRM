@@ -12,8 +12,8 @@ class Vtiger_MergeRecord_View extends \App\Controller\View
 {
 	public function checkPermission(\App\Request $request)
 	{
-
 	}
+
 	/**
 	 * Process.
 	 *

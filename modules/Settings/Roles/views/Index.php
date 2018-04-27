@@ -39,9 +39,6 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View
 		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Index',
 			"modules.Settings.$moduleName.resources.Index",
-			'modules.Settings.Vtiger.resources.Popup',
-			"modules.Settings.$moduleName.resources.Popup",
-			'libraries.js.jquery_windowmsg',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
