@@ -10,7 +10,7 @@
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}" />
 		<ul class="nav nav-tabs" id="myTab">
 			{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=tabs}
-				<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$FIELD_NAME}">{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</a></li>
+				<li class="nav-item"><a class="nav-link{if $smarty.foreach.tabs.first} active{/if}" data-toggle="tab" href="#{$FIELD_NAME}">{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</a></li>
 				{/foreach}
 		</ul>
 		<div class="tab-content">
