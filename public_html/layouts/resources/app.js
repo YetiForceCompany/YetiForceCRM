@@ -1231,7 +1231,7 @@ app = {
 		self.sidebar	= $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
 		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
-			if(self.sidebarBtn.find($(e.target)).length) return;
+			if(self.sidebarBtn[0] == e.target) return;
 			if(self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if(self.sidebar.hasClass('js-expand')) {
