@@ -28,12 +28,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 							el.value = response['password'];
 							el.onchange();
 						}
-					},
-					function (data, err) {
-
-					}
-				);
-
+					});
 				// validate password
 				passwordStrength('', '');
 			}
@@ -42,10 +37,9 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 			params.data = {module: 'OSSPasswords', action: 'CheckPass', 'password': password, 'id': id};
 			params.async = false;
 			params.dataType = 'json';
-			let send;
 			AppConnector.request(params).then(
 				function (data) {
-					if (data.result.success == false) {
+					if (data.result.success === false) {
 						var params = {
 							text: data.result.message,
 							sticker: false,
@@ -53,19 +47,13 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 							type: 'error'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
-						send = false;
-					} else {
-						send = true;
+						this.sending = false;
+					} else if (typeof this.sending === 'undefined' || !this.sending) {
+						this.sending = true;
 						form.submit();
 					}
-				},
-				function (data, err) {
-					send = false;
 				}
 			);
-
-			if (!send)
-				return false;
 		});
 	},
 	generatePassword: function (e) {
