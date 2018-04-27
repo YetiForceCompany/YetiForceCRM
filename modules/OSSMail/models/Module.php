@@ -279,4 +279,15 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 		return $url;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getModalRecordsListSourceFields(\App\QueryGenerator $queryGenerator, Vtiger_Module_Model $baseModule, $popupFields)
+	{
+		foreach ($baseModule->getFieldsByType('email') as $item) {
+			$popupFields[$item->getName()] = $item->getName();
+		}
+		return $popupFields;
+	}
 }
