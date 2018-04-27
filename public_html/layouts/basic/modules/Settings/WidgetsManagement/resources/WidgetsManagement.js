@@ -166,6 +166,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 										params['type'] = 'error';
 									}
 									Settings_Vtiger_Index_Js.showMessage(params);
+									window.location.reload();
 								}
 						);
 					}
