@@ -45,22 +45,26 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		}
 	},
 	registerEditTaskEvent: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		App.Fields.Password.registerCopyClipboard(container);
+		let thisInstance = this,
+			container = this.getContainer(),
+			clipboardArray = [];
 		container.on('click', '[data-url]', function (e) {
-			var currentElement = $(e.currentTarget);
-			var params = currentElement.data('url');
-			var progressIndicatorElement = $.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					enabled: true
-				}
-			});
+			let currentElement = $(e.currentTarget),
+				params = currentElement.data('url'),
+				progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
 			app.showModalWindow(null, params, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				if(data) {
-					App.Fields.Password.registerCopyClipboard(data);
+				if (data) {
+					if (clipboardArray.length) {
+						clipboardArray.pop().destroy();
+					}
+					let clipboardInstance = App.Fields.Password.registerCopyClipboard(data);
+					clipboardArray.push(clipboardInstance);
 				}
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = $('#taskType').val();
