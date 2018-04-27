@@ -223,8 +223,8 @@ $.Class("Vtiger_Edit_Js", {
 	},
 	treePopupRegisterEvent: function (container) {
 		var thisInstance = this;
-		container.on("click", '.treePopup', function (e) {
-			thisInstance.openTreePopUp(e);
+		container.on("click", '.js-tree-modal', function (e) {
+			thisInstance.openTreeModal($(e.target));
 		});
 	},
 	/**
@@ -238,34 +238,26 @@ $.Class("Vtiger_Edit_Js", {
 			e.preventDefault();
 		})
 	},
-	openTreePopUp: function (e) {
-		var thisInstance = this;
-		var parentElem = $(e.target).closest('.fieldValue');
-		var form = $(e.target).closest('form');
-		var params = {};
-		var moduleName = $('input[name="module"]', form).val();
-		var sourceFieldElement = $('input[class="sourceField"]', parentElem);
-		var sourceFieldDisplay = sourceFieldElement.attr('name') + "_display";
-		var fieldDisplayElement = $('input[name="' + sourceFieldDisplay + '"]', parentElem);
-		var sourceRecordElement = $('input[name="record"]');
-		var sourceRecordId = '';
-		if (sourceRecordElement.length > 0) {
-			sourceRecordId = sourceRecordElement.val();
-		}
-		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId + '&multiple=' + sourceFieldElement.data('multiple') + '&value=' + sourceFieldElement.val();
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		popupInstance.show(urlOrParams, function (data) {
-			var responseData = JSON.parse(data);
-			var ids = '';
-			if (responseData.id) {
-				ids = responseData.id.split(',');
-				$.each(ids, function (index, value) {
-					ids[index] = 'T' + value;
-				});
-				ids.join();
-			}
-			sourceFieldElement.val(ids);
-			fieldDisplayElement.val(responseData.name).attr('readonly', true);
+	openTreeModal: function (element) {
+		let parentElem = element.closest('.fieldValue');
+		let sourceFieldElement = $('input[class="sourceField"]', parentElem);
+		let fieldDisplayElement = $('input[name="' + sourceFieldElement.attr('name') + '_display"]', parentElem);
+		AppConnector.request({
+			module: $('input[name="module"]', element.closest('form')).val(),
+			view: 'TreeModal',
+			template: sourceFieldElement.data('treetemplate'),
+			fieldName: sourceFieldElement.attr('name'),
+			multiple: sourceFieldElement.data('multiple'),
+			value: sourceFieldElement.val()
+		}).then(function (requestData) {
+			app.showModalWindow(requestData, function (data) {
+				app.modalEvents[Window.lastModalId] = function (modal, instance) {
+					instance.setSelectEvent((responseData) => {
+						sourceFieldElement.val(responseData.id);
+						fieldDisplayElement.val(responseData.name).attr('readonly', true);
+					});
+				};
+			});
 		});
 	},
 	/**

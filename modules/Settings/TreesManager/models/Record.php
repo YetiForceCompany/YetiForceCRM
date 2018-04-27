@@ -5,6 +5,7 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -169,6 +170,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		if (is_numeric($module)) {
 			$module = App\Module::getModuleName($module);
 		}
+		$treeValue = $treeValue ? explode(',', $treeValue) : [];
 		while ($row = $dataReader->read()) {
 			$treeID = (int) str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
@@ -196,7 +198,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			];
 			if ($category) {
 				$parameters['type'] = $category;
-				if ($treeValue && strpos($treeValue, ",{$row['tree']},") !== false) {
+				if ($treeValue && in_array($row['tree'], $treeValue)) {
 					$parameters[$category] = ['checked' => true];
 				}
 			}
