@@ -25,7 +25,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#pdf_step4');
 		}
 		if (container.is('#pdf_step4')) {
@@ -86,7 +86,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 	 * Registers updated version of CkEditor on textarea fields
 	 * spellcheck disabled
 	 */
-	registerNewCkEditor: function () {
+	registerNewEditor: function () {
 		CKEDITOR.replace('body_content', {
 				disableNativeSpellChecker: true,
 				scayt_autoStartup: false,
@@ -106,7 +106,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
+		App.Fields.Password.registerCopyClipboard(form);
 		this.registerCancelStepClickEvent(container);
-		this.registerNewCkEditor();
+		this.registerNewEditor();
 	}
 });

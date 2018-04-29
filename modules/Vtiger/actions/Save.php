@@ -87,13 +87,6 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				$relationModel->addRelation($request->getInteger('sourceRecord'), $relatedRecordId);
 			}
 		}
-		if ($request->getBoolean('imgDeleted')) {
-			$imageIds = $request->getArray('imageid');
-			foreach ($imageIds as $imageId) {
-				$recordModel->deleteImage((int) $imageId);
-			}
-		}
-
 		return $recordModel;
 	}
 

@@ -15,7 +15,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var view = app.getViewName();
 			var moduleClassName = module + "_" + view + "_Js";
 			var fallbackClassName = Vtiger_Detail_Js;
-			if (typeof window[moduleClassName] != 'undefined') {
+			if (typeof window[moduleClassName] !== "undefined") {
 				var instance = new window[moduleClassName]();
 			} else {
 				var instance = new fallbackClassName();
@@ -272,7 +272,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	loadWidget: function (widgetContainer, params) {
 		var thisInstance = this;
-		var contentContainer = jQuery('.widget_contents', widgetContainer);
+		var contentContainer = jQuery('.js-detail-widget-content', widgetContainer);
 		if (widgetContainer.find('[name="relatedModule"]').length) {
 			var relatedModuleName = widgetContainer.find('[name="relatedModule"]').val();
 		} else {
@@ -392,7 +392,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		var detailContentsHolder = this.getContentHolder();
 		var params = url;
-		if (typeof data != 'undefined') {
+		if (typeof data !== "undefined") {
 			params = {};
 			params.url = url;
 			params.data = data;
@@ -511,7 +511,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var recordId = this.getRecordId();
 
 		var data = {};
-		if (typeof fieldDetailList != 'undefined') {
+		if (typeof fieldDetailList !== "undefined") {
 			data = fieldDetailList;
 		}
 		data['record'] = recordId;
@@ -805,7 +805,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				return;
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
-			if (typeof recordUrl != "undefined") {
+			if (typeof recordUrl !== "undefined") {
 				window.location.href = recordUrl;
 			}
 		});
@@ -957,6 +957,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			actionElement.addClass('d-none');
 			editElement.removeClass('d-none').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 			var saveHandler = function (e) {
+				thisInstance.registerNameAjaxEditEvent();
 				var element = jQuery(e.target);
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
@@ -992,7 +993,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldElement = fieldElement.filter('[type="checkbox"]');
 				}
 				//If validation fails
-				if (!fieldElement.validationEngine('validate')) {
+				if (fieldElement.validationEngine('validate')) {
 					if (fieldElement.attr('data-inputmask')) {
 						fieldElement.inputmask();
 					}
@@ -1122,7 +1123,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
-			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined') {
+			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== "undefined" && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== "undefined") {
 				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
 			}
@@ -1140,7 +1141,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 
 			var callbackFunction = function () {
-				var widgetContainer = element.closest('.summaryWidgetContainer');
+				var widgetContainer = element.closest('.js-detail-widget');
 				var widgetContentBlock = widgetContainer.find('.widgetContentBlock');
 				var urlParams = widgetContentBlock.data('url');
 				var params = {
@@ -1149,7 +1150,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					'data': urlParams
 				};
 				AppConnector.request(params).then(function (data) {
-						var activitiesWidget = widgetContainer.find('.widget_contents');
+						var activitiesWidget = widgetContainer.find('.js-detail-widget-content');
 						activitiesWidget.html(data);
 						App.Fields.Picklist.changeSelectElementView(activitiesWidget);
 						thisInstance.registerEventForActivityWidget();
@@ -1218,15 +1219,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		jQuery('.createRecordFromFilter').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widgetDataContainer = summaryWidgetContainer.find('.widget_contents');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			var widgetDataContainer = summaryWidgetContainer.find('.js-detail-widget-content');
 			var referenceModuleName = widgetDataContainer.find('[name="relatedModule"]').val();
 			var quickcreateUrl = currentElement.data('url');
 			var parentId = thisInstance.getRecordId();
 			var quickCreateParams = {};
 			var relatedField = currentElement.data('prf');
 			var autoCompleteFields = currentElement.data('acf');
-			var moduleName = currentElement.closest('.widget_header').find('[name="relatedModule"]').val();
+			var moduleName = currentElement.closest('.js-detail-widget-header').find('[name="relatedModule"]').val();
 			var relatedParams = {};
 			var postQuickCreateSave = function (data) {
 				thisInstance.postSummaryWidgetAddRecord(data, currentElement);
@@ -1234,10 +1235,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 					thisInstance.loadModuleSummary();
 				}
 			}
-			if (typeof relatedField != "undefined") {
+			if (typeof relatedField !== "undefined") {
 				relatedParams[relatedField] = parentId;
 			}
-			if (typeof autoCompleteFields != "undefined") {
+			if (typeof autoCompleteFields !== "undefined") {
 				$.each(autoCompleteFields, function (index, value) {
 					relatedParams[index] = value;
 				});
@@ -1254,20 +1255,25 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
-		jQuery('button.selectRelation').on('click', function (e) {
-			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var referenceModuleName = summaryWidgetContainer.find('.widget_contents [name="relatedModule"]').val();
-			var popupInstance = Vtiger_Popup_Js.getInstance();
-			popupInstance.show({
+		$('button.selectRelation').on('click', function (e) {
+			let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
+			let referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
+			let restrictionsField = $(this).data('rf');
+			let params = {
 				module: referenceModuleName,
 				src_module: app.getModuleName(),
 				src_record: thisInstance.getRecordId(),
 				multi_select: true
-			}, function (responseString) {
-				var responseData = JSON.parse(responseString);
-				thisInstance.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData)).then(function (data) {
-					thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+			};
+			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
+				params['search_key'] = restrictionsField.key;
+				params['search_value'] = restrictionsField.name;
+			}
+			app.showRecordsList(params, (modal, instance) => {
+				instance.setSelectEvent((responseData) => {
+					thisInstance.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData)).then(function (data) {
+						thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+					});
 				});
 			});
 		});
@@ -1279,7 +1285,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var createUrl = currentElement.data('url');
 			var autoCompleteFields = currentElement.data('acf');
 			var addidtionalParams = ''
-			if (typeof autoCompleteFields != "undefined") {
+			if (typeof autoCompleteFields !== "undefined") {
 				$.each(autoCompleteFields, function (index, value) {
 					addidtionalParams = '&' + index + '=' + value;
 					createUrl = createUrl.concat(addidtionalParams);
@@ -1315,7 +1321,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		} else {
 			currentElement = e;
 		}
-		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+		var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 		var widget = summaryWidgetContainer.find('.widgetContentBlock');
 		var url = '&' + widget.data('url');
 		var urlParams = {};
@@ -1323,19 +1329,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
-		summaryWidgetContainer.find('.widget_header .filterField').each(function (n, item) {
+		summaryWidgetContainer.find('.js-detail-widget-header .js-switch').each(function (n, item) {
 			var value = '';
 			var element = jQuery(item);
 			var name = element.data('urlparams');
-			if (element.attr('type') == 'checkbox') {
+			if (element.attr('type') == 'radio') {
 				if (element.prop('checked')) {
-					value = element.data('on-val');
-				} else {
-					value = element.data('off-val');
-				}
-			} else if (element.attr('type') == 'radio') {
-				if (element.is(':checked')) {
-					urlNewParams[element.attr('name')] = element.val();
+					value = typeof element.data('on-val') !== "undefined" ? element.data('on-val') : element.data('off-val')
 				}
 			} else {
 				var selectedFilter = element.find('option:selected').val();
@@ -1363,45 +1363,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerChangeFilterForWidget: function () {
 		var thisInstance = this;
-		jQuery('.widget_header .filterField').on('change', function (e, state) {
+		jQuery('.js-switch').on('change', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
-		}).on('switchChange.bootstrapSwitch', function (e, state) {
-			thisInstance.getFiltersDataAndLoad(e);
-		});
+		})
 	},
 	registerChangeSwitchForWidget: function (summaryViewContainer) {
 		var thisInstance = this;
-		summaryViewContainer.find('.activityWidgetContainer').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
+		summaryViewContainer.find('.activityWidgetContainer').on('change', '.js-switch', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
 			var url = widget.data('url');
 			url = url.replace('&type=current', '').replace('&type=history', '');
 			url += '&type=';
-			if (state) {
+			if (typeof currentElement.data('on-val') !== "undefined") {
 				summaryWidgetContainer.find('.ativitiesPagination').removeClass('d-none');
 				url += 'current';
 				url = url.replace('&sortorder=DESC', '&sortorder=ASC');
-			} else {
+			} else if (typeof currentElement.data('off-val') !== "undefined") {
 				summaryWidgetContainer.find('.ativitiesPagination').addClass('d-none');
 				url += 'history';
 				url = url.replace('&sortorder=ASC', '&sortorder=DESC');
 			}
-			widget.data('url', url);
-			thisInstance.loadWidget($(widget));
-		});
-		$('.calculationsWidgetContainer .calculationsSwitch').on('switchChange.bootstrapSwitch', function (e, state) {
-			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widget = summaryWidgetContainer.find('.widgetContentBlock');
-			var url = widget.data('url');
-			url = url.replace('&showtype=open', '');
-			url = url.replace('&showtype=archive', '');
-			url += '&showtype=';
-			if (state)
-				url += 'open';
-			else
-				url += 'archive';
 			widget.data('url', url);
 			thisInstance.loadWidget($(widget));
 		});
@@ -1443,7 +1426,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
 			var url = currentTarget.data('url');
-			if (url && typeof url != 'undefined') {
+			if (url && typeof url !== "undefined") {
 				app.showModalWindow(null, url);
 			}
 		});
@@ -1525,15 +1508,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 */
 		jQuery('.createRecord').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
+			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			var widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
 			var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
-			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined') {
+			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== "undefined" && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== "undefined") {
 				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[fieldName] = recordId;
 			}
@@ -1583,8 +1566,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	postSummaryWidgetAddRecord: function (data, currentElement) {
 		var thisInstance = this;
-		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-		var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
+		var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+		var widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
 		var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 		var idList = [];
 		idList.push(data.result._recordId);
@@ -1621,7 +1604,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 				});
 				var url = tabElement.data('url');
-				if (typeof urlAttributes != 'undefined') {
+				if (typeof urlAttributes !== "undefined") {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
@@ -1682,12 +1665,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var targetObjectForSelectedSourceValue = configuredDependencyObject[selectedValue];
 			var picklistmap = configuredDependencyObject["__DEFAULT__"];
 
-			if (typeof targetObjectForSelectedSourceValue == 'undefined') {
+			if (typeof targetObjectForSelectedSourceValue === "undefined") {
 				targetObjectForSelectedSourceValue = picklistmap;
 			}
 			jQuery.each(picklistmap, function (targetPickListName, targetPickListValues) {
 				var targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
-				if (typeof targetPickListMap == "undefined") {
+				if (typeof targetPickListMap === "undefined") {
 					targetPickListMap = targetPickListValues;
 				}
 				var targetPickList = jQuery('[name="' + targetPickListName + '"]', container);
@@ -1706,7 +1689,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 
 				var listOfAvailableOptions = targetPickList.data('availableOptions');
-				if (typeof listOfAvailableOptions == "undefined") {
+				if (typeof listOfAvailableOptions === "undefined") {
 					listOfAvailableOptions = jQuery('option', targetPickList);
 					targetPickList.data('available-options', listOfAvailableOptions);
 				}
@@ -1859,13 +1842,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerRelatedModulesRecordCount: function (tabContainer) {
 		var thisInstance = this;
-		if (!jQuery.isFunction(thisInstance.refreshRelatedList)) {
-			thisInstance = new Vtiger_Detail_Js();
-		}
 		var counter = [];
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
-		if (!relationContainer || (typeof relationContainer.length == 'undefined')) {
+		if (!relationContainer || (typeof relationContainer.length === "undefined")) {
 			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink');
 		}
 		relationContainer.each(function (n, item) {
@@ -1882,7 +1862,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (response.success) {
 						item.find('.count').text(response.result.numberOfRecords);
 						moreList.find('[data-reference="' + item.data('reference') + '"] .count').text(response.result.numberOfRecords);
-						thisInstance.refreshRelatedList();
 					}
 				});
 			}
@@ -2057,7 +2036,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				record: app.getRecordId(),
 			}).then(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var widgetDataContainer = widgetContainer.find('.widget_contents');
+				var widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
 				widgetDataContainer.html(data);
 				App.Fields.Picklist.showSelect2ElementView(widgetDataContainer.find('.select2'));
 			});
@@ -2113,7 +2092,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	loadMailPreviewWidget: function (widgetContent) {
 		var thisInstance = this;
-		var widgetDataContainer = widgetContent.find('.widget_contents');
+		var widgetDataContainer = widgetContent.find('.js-detail-widget-content');
 		var recordId = $('#recordId').val();
 		var progress = widgetDataContainer.progressIndicator();
 		var params = {};
@@ -2197,7 +2176,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		detailContentsHolder.on('click', '.relatedPopup', function (e) {
 			var editViewObj = new Vtiger_Edit_Js();
-			editViewObj.openPopUp(e);
+			editViewObj.showRecordsList(e);
 			return false;
 		});
 		detailContentsHolder.on('click', '.viewThread', function (e) {
@@ -2306,7 +2285,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var newChange = newChangeInput.val();
 			var currentPage = container.find('#updatesCurrentPage').val();
 			var nextPage = parseInt(currentPage) + 1;
-			if (container.closest('.summaryWidgetContainer').length) {
+			if (container.closest('.js-detail-widget').length) {
 				var data = thisInstance.getFiltersData(e, {
 					'page': nextPage,
 					'tab_label': 'LBL_UPDATES',
@@ -2317,15 +2296,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
 				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 				if (url.indexOf('&whereCondition') == -1) {
-					var switchBtn = jQuery('.recentActivitiesSwitch');
-					url += '&whereCondition=' + (switchBtn.prop('checked') ? switchBtn.data('on-val') : switchBtn.data('off-val'));
+					var switchBtn = jQuery('.active .js-switch--recentActivities');
+					url += '&whereCondition=' + (typeof switchBtn.data('on-val') === "undefined" ? switchBtn.data('off-val') : switchBtn.data('on-val'));
 				}
 			}
 			AppConnector.request(url).then(function (data) {
 					var dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
 					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
-					container.find('#moreLink').html(dataContainer.find('#moreLink').html());
+					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
 					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 					app.registerMoreContent(container.find('button.moreBtn'));
 					app.event.trigger("DetailView.UpdatesWidget.AddMore", data, thisInstance);
@@ -2388,7 +2367,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var currentPage = container.find('.currentPage').val();
 					container.find('.currentPage').remove();
 					container.find('.countActivities').remove();
-					container.find('.widget_contents').append(data);
+					container.find('.js-detail-widget-content').append(data);
 					container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
 					thisInstance.reloadWidgetActivitesStats(container);
 					app.showPopoverElementView(container.find('.js-popover-tooltip'));
@@ -2430,17 +2409,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
-			var currentTarget = jQuery(e.currentTarget);
-			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
-			var url = tabElement.data('url');
-			var variableName = currentTarget.data('urlparams');
-			var valueOn = currentTarget.data('on-val');
-			var valueOff = currentTarget.data('off-val');
+		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e) {
+			const currentTarget = jQuery(e.currentTarget),
+				tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel),
+				variableName = currentTarget.data('urlparams'),
+				valueOn = $(this).data('on-val'),
+				valueOff = $(this).data('off-val');
+			let url = tabElement.data('url');
 			url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
-			if (state) {
+			if (typeof currentTarget.data('on-val') !== "undefined") {
 				url += '&' + variableName + '=' + valueOn;
-			} else {
+			} else if (typeof currentTarget.data('off-val') !== "undefined") {
 				url += '&' + variableName + '=' + valueOff;
 			}
 			tabElement.data('url', url);
@@ -2454,62 +2433,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return false;
 		}
 		var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
-		var switchBtn = container.find('.switchBtn');
-		if (switchBtn.prop('checked')) {
-			var text = switchBtn.data('basic-texton') + stats;
-			switchBtn.data('on-text', text);
-		} else {
-			var text = switchBtn.data('basic-textoff') + stats;
-			switchBtn.data('off-text', text);
-		}
-		switchBtn.bootstrapSwitch('destroy');
-		switchBtn.bootstrapSwitch();
-	},
-	refreshRelatedList: function () {
-		var container = jQuery('.related');
-		var moreBtn = container.find('.dropdown');
-		var moreList = container.find('.nav .dropdown-menu');
-		var margin = 3;
-		var widthScroll = 15;
-		var totalWidth = container.width();
-		var mainNavWidth = 0;
-		var freeSpace = 0;
-		moreBtn.removeClass('d-none');
-		var widthMoreBtn = moreBtn.width() + margin;
-		moreBtn.addClass('d-none');
-		freeSpace = totalWidth - widthMoreBtn - widthScroll;
-		container.find('.nav > .mainNav').each(function (e) {
-			jQuery(this).removeClass('d-none');
-			if (freeSpace > jQuery(this).width()) {
-				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('d-none');
-				freeSpace -= Math.ceil(jQuery(this).width()) + margin;
-			} else {
-				jQuery(this).addClass('d-none');
-				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('d-none');
-				freeSpace = 0;
-			}
-		});
-		if (freeSpace === 0) {
-			moreList.find('.relatedNav').removeClass('d-none');
-			container.find('.spaceRelatedList').addClass('d-none');
-			moreBtn.removeClass('d-none');
-		} else {
-			freeSpace -= container.find('.spaceRelatedList').removeClass('d-none').width() + margin;
-			container.find('.nav > .relatedNav').each(function () {
-				jQuery(this).removeClass('d-none');
-				if (freeSpace > jQuery(this).width()) {
-					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('d-none');
-					freeSpace -= Math.ceil(jQuery(this).width()) + margin;
-				} else {
-					freeSpace = 0;
-					jQuery(this).addClass('d-none');
-					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('d-none');
-				}
-			});
-			if (freeSpace === 0) {
-				moreBtn.removeClass('d-none');
-			}
-		}
+		var switchBtn = container.find('.active .js-switch');
+		var switchBtnParent = switchBtn.parent();
+		var text = switchBtn.data('basic-text') + stats;
+		switchBtnParent.removeTextNode();
+		switchBtnParent.append(text);
 	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
@@ -2569,7 +2497,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 	registerEvents: function () {
 		const thisInstance = this;
-		thisInstance.refreshRelatedList();
 		//thisInstance.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();

@@ -11,7 +11,10 @@ namespace App\Exceptions;
  */
 class NoPermittedToApi extends Security
 {
-	public function __construct($message = '', $code = 0, Exception $previous = null)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct($message = '', $code = 0, \Throwable $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
 		\App\Session::init();

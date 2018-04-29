@@ -81,8 +81,6 @@ class Assets extends CRMEntity
 	public $popup_fields = ['assetname', 'account', 'product'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'assetname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['assetname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assetname', 'product', 'assigned_user_id'];

@@ -29,4 +29,12 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 		$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries($request->getInteger('cid')));
 		$viewer->view('Items.tpl', 'Chat');
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSessionExtend()
+	{
+		return false;
+	}
 }

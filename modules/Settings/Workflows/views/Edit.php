@@ -170,8 +170,8 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-			'~libraries/ckeditor/ckeditor.js',
-			'modules.Vtiger.resources.CkEditor',
+			'~vendor/ckeditor/ckeditor/ckeditor.js',
+			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

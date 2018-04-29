@@ -1,23 +1,31 @@
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- *************************************************************************************/
-
-PriceBooks_RelatedList_Js("Products_RelatedList_Js", {}, {
-
-	/**
-	 * Function to get params for show event invocation
-	 */
-	getPopupParams: function () {
-		var params = this._super();
-		if (this.moduleName === 'PriceBooks') {
-			params['view'] = "ProductPriceBookPopup";
-			params['src_field'] = 'productsRelatedList';
-		}
-		return params;
-	}
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+Vtiger_RelatedList_Js("Products_RelatedList_Js", {}, {
+	registerEditListPrice: function () {
+		let thisInstance = this;
+		let element = this.content.find('.js-edit-listprice');
+		element.validationEngine(app.validationEngineOptions);
+		element.on('change', function (e) {
+			e.stopPropagation();
+			let element = $(this);
+			if (!element.validationEngine('validate')) {
+				AppConnector.request({
+					module: thisInstance.parentModuleName,
+					record: element.closest('.js-list__row').data('id'),
+					action: 'RelationAjax',
+					mode: 'addListPrice',
+					src_record: thisInstance.parentRecordId,
+					related_module: thisInstance.moduleName,
+					price: element.val()
+				}).then(function (responseData) {
+					if (responseData.result) {
+						Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
+					}
+				});
+			}
+		});
+	},
+	registerPostLoadEvents: function () {
+		this._super();
+		this.registerEditListPrice();
+	},
 });

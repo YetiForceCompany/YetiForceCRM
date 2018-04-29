@@ -9,16 +9,25 @@
 			<input type="hidden" class="step" value="3" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="conditions" id="advanced_filter" value='' />
-			<div class="col-md-12 paddingLRZero">
+			<div class="col-md-12 px-0">
 				<div class="panel panel-default">
-					<div class="panel-body padding0">
+					<div class="panel-body p-0">
 						{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar float-right">
-							<button class="btn btn-danger backStep" type="button">{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-danger backStep mr-1" type="button">
+								<span class="fas fa-caret-left mr-1"></span>
+								{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+							</button>
+							<button class="btn btn-success" type="submit">
+								<span class="fas fa-caret-right mr-1"></span>
+								{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+							</button>
+							<button class="btn btn-warning cancelLink" type="reset">
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</button>
 						</div>
 					</div>
 				</div>

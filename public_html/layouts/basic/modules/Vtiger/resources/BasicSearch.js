@@ -26,7 +26,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (this.searchModule === false) {
 			//default gives current module
 			var module = app.getModuleName();
-			if (typeof this.getCurrentSearchModule() != 'undefined') {
+			if (typeof this.getCurrentSearchModule() !== "undefined") {
 				module = this.getCurrentSearchModule();
 			}
 
@@ -62,7 +62,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	 */
 	_search: function (params) {
 		var aDeferred = jQuery.Deferred();
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 		params.module = app.getModuleName();
@@ -90,7 +90,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		var searchModule = this.getCurrentSearchModule();
 		var params = {};
 		params.value = value;
-		if (typeof searchModule != 'undefined') {
+		if (typeof searchModule !== "undefined") {
 			params.searchModule = searchModule;
 		}
 		return this._search(params);

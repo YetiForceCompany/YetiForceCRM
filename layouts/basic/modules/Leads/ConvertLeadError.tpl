@@ -17,8 +17,7 @@
 		<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="libraries/bootstrap/dist/css/bootstrap.css" type="text/css" media="screen">
-		<script type="text/javascript" src="libraries/js/jquery.min.js"></script>
-		<script type="text/javascript" src="libraries/js/jquery-migrate.js"></script>
+		<script type="text/javascript" src="libraries/jquery/dist/jquery.min.js"></script>
 		<style>
 			.shadow{
 				-webkit-box-shadow: 3px 3px 14px 0px rgba(50, 50, 50, 0.75);

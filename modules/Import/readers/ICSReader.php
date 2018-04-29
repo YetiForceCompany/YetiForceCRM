@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
 
 class Import_ICSReader_Reader extends Ical
 {

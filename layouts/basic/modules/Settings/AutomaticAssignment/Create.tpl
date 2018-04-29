@@ -3,10 +3,13 @@
 	{if isset($WIZARD_BASE)}
 		<form class="form-horizontal" action="{$MODULE_MODEL->getEditViewUrl()}" id="createForm">
 			<div class="modal-header">
-				<div class="float-left">
-					<h3 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h3>
-				</div>
-				<div class="clearfix"></div>
+				<h5 class="modal-title">
+					<span class="fas fa-plus mr-1"></span>
+					{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<div class="">
@@ -26,8 +29,14 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-success d-none submitButton">{\App\Language::translate('BTN_NEXT', $QUALIFIED_MODULE)}</button>
-				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('BTN_CLOSE', $QUALIFIED_MODULE)}</button>
+				<button type="submit" class="btn btn-success d-none submitButton">
+					<span class="fas fa-caret-right mr-1"></span>
+					{\App\Language::translate('BTN_NEXT', $QUALIFIED_MODULE)}
+				</button>
+				<button type="button" class="btn btn-danger dismiss" data-dismiss="modal">
+					<span class="fas fa-times mr-1"></span>
+					{\App\Language::translate('BTN_CLOSE', $QUALIFIED_MODULE)}
+				</button>
 			</div>
 		</form>
 	{else}

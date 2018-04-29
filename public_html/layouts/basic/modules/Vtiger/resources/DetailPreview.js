@@ -34,11 +34,13 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			currentHeight = fixedListHeight;
 		}
 		if ($(window).width() < 993) {
-			relatedContents.find('.js-list-preview').height(200);
-			relatedContents.find(".js-detail-preview").height(currentHeight);
+			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
+
 		} else {
-			relatedContents.find(".js-list-preview, .js-detail-preview").height(currentHeight);
+			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
 		}
+		relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
+
 		if (window.frameElement) {
 			thisInstance.updateParentFrame();
 		}

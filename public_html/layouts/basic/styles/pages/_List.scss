@@ -15,12 +15,20 @@
 }
 .paginationDiv .pageInfo {
   border: 1px solid #ddd;
-  color: #337AB7;
+  color: $blue;
   float: right;
   margin-left: 5px;
   margin-bottom: 0;
   list-style: none;
   padding: 8px 5px;
+}
+.paginationDiv .pageNumbersText {
+  white-space: nowrap;
+}
+.pageNumber.active.disabled a {
+  background-color: $blue;
+  border-color: $blue;
+  color: #FFF;
 }
 .listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox {
   margin: 0;
@@ -30,11 +38,30 @@
 }
 .listViewTopMenuDiv {
   .listViewActionsDiv {
+    margin-bottom: -($spacer * .5) !important;
+    > [class*="col"] > * {
+      @extend .mb-2;
+    }
+    > [class*="col"] > .btn-group {
+      @extend .d-inline-block;
+      @extend .align-baseline;
+    }
 	.paginationDiv .pagination {
 	  @extend .mb-0;
 	}
   }
 }
+.customFilterMainSpan  .select2-container {
+  width: 100% !important;
+}
+@include media-breakpoint-up(lg) {
+  .customFilterMainSpan {
+    max-width: 400px;
+  }
+}
 .nav-tabs .active {
   @extend .bg-light;
+}
+.listViewAll .leftRecordActions {
+  border-left: 5px solid #ddd;
 }

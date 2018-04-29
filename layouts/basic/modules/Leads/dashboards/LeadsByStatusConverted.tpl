@@ -10,7 +10,7 @@
 ************************************************************************************/
 -->*}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_Leadsbystatusconverted_Widget_Js',{},{});
+	YetiForce_Bar_Widget_Js('YetiForce_LeadsByStatusConverted_Widget_Js',{},{});
 </script>
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
@@ -21,7 +21,7 @@
 	{/foreach}
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box float-right">

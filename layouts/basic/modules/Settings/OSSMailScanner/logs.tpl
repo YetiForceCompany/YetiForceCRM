@@ -13,7 +13,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
-	<table class="">
+	<table class="mt-2">
 		<tr>
 			<td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
 		</tr>
@@ -28,8 +28,8 @@
 			<div class="col-sm-7"><input type="text" name="time_to_notify" title="{\App\Language::translate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 		</div>
 	</div>
-	<div class="float-right">
-		<select class="col-md-1 form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
+	<div class="d-flex justify-content-end">
+		<select class="u-w-auto form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 			{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}
 				<option vlaue="{$i}">{$i}</option>

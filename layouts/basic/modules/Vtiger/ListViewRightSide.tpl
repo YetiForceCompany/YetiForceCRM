@@ -4,15 +4,22 @@
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
 		<div class="actions">
-			<div class=" {if $ONLY_ONE}float-right{else}d-none actionImages{/if}">
+			{if $ONLY_ONE}
 				{foreach from=$LINKS item=LINK}
 					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{/foreach}
-			</div>
-			{if !$ONLY_ONE}
-				<button type="button" class="btn btn-sm btn-light toolsAction">
-					<span class="fas fa-wrench"></span>
+			{else}
+			<div class="dropleft u-remove-dropdown-icon">
+				<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fas fa-wrench" aria-hidden="true"></span>
+					<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 				</button>
+				<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
+					{foreach from=$LINKS item=LINK}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+					{/foreach}
+				</div>
+			</div>
 			{/if}
 		</div>
 	{/if}

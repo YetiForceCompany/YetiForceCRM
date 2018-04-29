@@ -23,7 +23,6 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
@@ -39,6 +38,7 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 							if ($recordExists) {
 								$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 							}
+							$fieldModel->set('typeofdata', str_replace('~M', '~O', $fieldModel->get('typeofdata')));
 							$values[$blockLabel][$fieldName] = $fieldModel;
 						}
 					}
@@ -46,7 +46,6 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 			}
 		}
 		$this->structuredValues = $values;
-
 		return $values;
 	}
 

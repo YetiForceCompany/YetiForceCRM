@@ -80,8 +80,6 @@ class OSSPasswords extends CRMEntity
 	public $popup_fields = ['username'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'passwordname';
-	// Required Information for enabling Import feature
-	public $required_fields = ['passwordname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['passwordname'];

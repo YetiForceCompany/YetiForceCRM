@@ -7,12 +7,12 @@
 				{\App\Language::translate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div>
+		<div class="mt-2">
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
-					<li class="active"><a data-toggle="tab" href="#ldap"><strong>{\App\Language::translate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
+					<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#ldap"><strong>{\App\Language::translate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
-				<div class="tab-content layoutContent" style="padding-top: 10px;">
+				<div class="tab-content layoutContent py-3">
 					{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 					<div class="tab-pane active" id="ldap">
 						<div class="alert alert-info alert-dismissible" role="alert">
@@ -24,49 +24,49 @@
 							</p>
 						</div>
 						<div class="clearfix"></div>
-						<div class="row">
+						<div class="form-row">
 							<div class="col-md-1 col-sm-1 col-2 pagination-centered">
 								<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 							</div>
 							<div class="col-md-11 col-sm-11 col-10">
-								<label for="ldapActive">{\App\Language::translate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
+								<label class="u-text-small-bold" for="ldapActive">{\App\Language::translate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 							</div>
 						</div>
 						<hr />
-						<div class="row m">
-							<div class="col-md-2">
-								<label for="showMailIcon">{\App\Language::translate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
+						<div class="form-row pt-2">
+							<div class="col-md-12 col-lg-3">
+								<label class="u-text-small-bold" for="showMailIcon">{\App\Language::translate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-12 col-lg-8">
 								<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
 							</div>
 						</div>
-						<div class="row paddingTop20">
-							<div class="col-md-2">
-								<label for="showMailIcon">{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
+						<div class="form-row pt-3">
+							<div class="col-md-12 col-lg-3">
+								<label class="u-text-small-bold" for="showMailIcon">{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-12 col-lg-8">
 								<div class="input-group">
 									<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
-									<span class="input-group-addon js-popover-tooltip" data-js="popover" data-content="@testlab.local (DC=testlab,DC=local)">
-										<span class="fas fa-info-circle"></span>
+									<span class="input-group-append js-popover-tooltip" data-js="popover" data-content="@testlab.local (DC=testlab,DC=local)">
+										<div class="input-group-text"><span class="fas fa-info-circle"></span></div>
 									</span>
 								</div>
 							</div>
 						</div>
-						<div class="row paddingTop20">
-							<div class="col-md-2">
-								<label for="showMailIcon">{\App\Language::translate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
+						<div class="form-row pt-3">
+							<div class="col-md-12 col-lg-3">
+								<label class="u-text-small-bold" for="showMailIcon">{\App\Language::translate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-12 col-lg-8">
 								<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
 							</div>
 						</div>
-						<div class="row paddingTop20">
-							<div class="col-md-2">
-								<label for="showMailIcon">{\App\Language::translate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
+						<div class="form-row pt-3">
+							<div class="col-md-12 col-lg-3">
+								<label class="u-text-small-bold" for="showMailIcon">{\App\Language::translate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-12 col-lg-8">
 								<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
 									{foreach key=KEY item=USER from=App\Fields\Owner::getAllUsers()}
 										<option value="{$USER['id']}" {if in_array($USER['id'], $CONFIG['users'])} selected {/if}>{$USER['fullName']}</option>

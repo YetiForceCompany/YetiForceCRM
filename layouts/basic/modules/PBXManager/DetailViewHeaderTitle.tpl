@@ -10,26 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
+	<div class="col-md-12 pr-0 row">
 		<span class="col-md-2">
 			<div style="position:relative;display:inline;">
-				{if $RECORD->get('customer') and $RECORD->get('customertype') eq 'Contacts'}
-					{assign var=MODULE_INSTANCE value=Vtiger_Record_Model::getInstanceById($RECORD->get('customer'),$RECORD->get('customertype'))}
-					{assign var=IMAGE_DETAILS value=$MODULE_INSTANCE->getImageDetails()}
-					{if $IMAGE_DETAILS}
-						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-							{if !empty($IMAGE_INFO.path)}
-								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}"alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
-							{else}
-								<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
-							{/if}
-						{/foreach}
-					{else}
-						<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
-					{/if}
-				{else}
-					<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
-				{/if}
+				<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 				{if $RECORD->get('direction') eq 'inbound'}
 					<img src="modules/PBXManager/resources/images/Incoming.png" style="position:absolute;bottom:4px;right:0;">
 				</div>
@@ -103,7 +87,7 @@
 				</span>
 			</span>
 		</span>
-		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}
 

@@ -66,7 +66,13 @@
 		};
 
 		this.select_node = function (obj, supress_event, prevent_open, e) {
-			if (e.target.className.indexOf("noAction") < 0 && this.get_node(obj).original.type == 'category') {
+			var condition;
+			if (e.target.className.baseVal === undefined) {
+				condition = e.target.className.indexOf("noAction");
+			} else {
+				condition = e.target.className.baseVal.indexOf("noAction");
+			}
+			if ((condition < 0) && this.get_node(obj).original.type == 'category') {
 				obj = this.get_node(obj);
 				if (obj.category.checked) {
 					this.uncheckNode(obj, e);
@@ -167,7 +173,6 @@
 					});
 				}
 			}
-
 		};
 		this.uncheckNode = function (obj, e) {
 			if (obj.category.checked) {
@@ -186,7 +191,7 @@
 			}
 		};
 		this.getCategory = function (fullData) {
-			var fullData = typeof fullData !== 'undefined' ? true : false;
+			var fullData = typeof fullData !== "undefined" ? true : false;
 			var i, j, selected = [];
 			for (i = 0, j = this._data.category.selected.length; i < j; i++) {
 				if (fullData) {

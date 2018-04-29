@@ -5,17 +5,19 @@
 	<form class="form-horizontal validateForm" id="editForm">
 		<div class="modal-header">
 			{if !$RECORD_MODEL->getId()}
-				<h3 class="modal-title"><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h3>
+				<h5 class="modal-title"><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
 			{else}
-				<h3 class="modal-title"><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h3>
+				<h5 class="modal-title"><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
 			{/if}
-			<button class="btn btn-warning" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+			<button class="btn btn-warning" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body">
 			{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=fields}
 				{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 				<div class="form-group row">
-					<label class="col-form-label col-md-3">
+					<label class="col-form-label col-md-3 u-text-small-bold text-right">
 						{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}:
 					</label>
@@ -25,6 +27,6 @@
 				</div>
 			{/foreach}
 		</div>
-		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl')}
+		{include file=App\Layout::getTemplatePath('Modals/Footer.tpl') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
 {/strip}

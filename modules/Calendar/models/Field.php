@@ -52,7 +52,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		} elseif ($this->get('uitype') == '30') {
 			return 'reminder';
 		}
-
 		return parent::getFieldDataType();
 	}
 
@@ -76,7 +75,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 				return $startDate . ' ' . $startTime . ' ' . $meridiem;
 			}
 		}
-
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
@@ -90,11 +88,9 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$fieldName = $this->getName();
-
 		if ($fieldName == 'time_start' || $fieldName == 'time_end') {
 			return $this->getUITypeModel()->getDisplayTimeDifferenceValue($fieldName, $value);
 		}
-
 		//Set the start date and end date
 		if (empty($value)) {
 			if ($fieldName === 'date_start') {
@@ -106,7 +102,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
-
 		return parent::getEditViewDisplayValue($value, $recordModel);
 	}
 
@@ -119,7 +114,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	{
 		$filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
 		$filterOpsByFieldType['O'] = ['e', 'n'];
-
 		return $filterOpsByFieldType;
 	}
 

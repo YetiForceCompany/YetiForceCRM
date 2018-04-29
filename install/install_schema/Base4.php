@@ -453,21 +453,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_salesmanattachmentsrel' => [
-				'columns' => [
-					'smid' => $this->integer(10)->notNull()->defaultValue(0),
-					'attachmentsid' => $this->integer(10)->notNull()->defaultValue(0),
-				],
-				'index' => [
-					['salesmanattachmentsrel_smid_idx', 'smid'],
-					['salesmanattachmentsrel_attachmentsid_idx', 'attachmentsid'],
-				],
-				'primaryKeys' => [
-					['salesmanattachmentsrel_pk', ['smid', 'attachmentsid']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_salesmanticketrel' => [
 				'columns' => [
 					'smid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2144,7 +2129,6 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_2_vtiger_role2picklist', 'vtiger_role2picklist', 'picklistid', 'vtiger_picklist', 'picklistid', 'CASCADE', 'RESTRICT'],
 			['vtiger_role2profile_ibfk_1', 'vtiger_role2profile', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
 			['vtiger_role2profile_ibfk_2', 'vtiger_role2profile', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-			['fk_2_vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel', 'attachmentsid', 'vtiger_attachments', 'attachmentsid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_salesmanticketrel', 'vtiger_salesmanticketrel', 'smid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
 			['vtiger_scheduled_reports_ibfk_1', 'vtiger_scheduled_reports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
 			['vtiger_schedulereports_ibfk_1', 'vtiger_schedulereports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],

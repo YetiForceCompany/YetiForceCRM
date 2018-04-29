@@ -13,7 +13,7 @@ jQuery.Class("Vtiger_TreeRecords_Js", {}, {
 		this.mainContainer = container;
 	},
 	getTreeListValues: function (container) {
-		if (this.treeData == false && container != 'undefined') {
+		if (this.treeData == false && container !== "undefined") {
 			var treeValues = container.find('#treeListValues').val();
 			if (treeValues != '') {
 				this.treeData = JSON.parse(treeValues);

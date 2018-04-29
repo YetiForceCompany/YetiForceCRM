@@ -10,19 +10,18 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
+	<div class="col-md-12 px-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div>
 				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 					<span class="moduleIcon">
-						{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
-						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-							{if !empty($IMAGE_INFO.path)}
-								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" width="65" height="80" align="left"><br />
-							{/if}
-						{foreachelse}
+						{assign var=IMAGE value=$RECORD->getImage()}
+						{if $IMAGE}
+							<img class="pushDown" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
+							<br/>
+						{else}
 							<span class="detailViewIcon userIcon-{$MODULE}"></span>
-						{/foreach}
+						{/if}
 					</span>
 				</div>
 				<h4 class="recordLabel pushDown marginbottomZero u-text-ellipsis" title="{$RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true)}&nbsp;{$RECORD->getName()}">
@@ -57,6 +56,6 @@
 				</div>
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

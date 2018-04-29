@@ -22,7 +22,7 @@ Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 			}
 		});
 
-		if (typeof data == 'undefined') {
+		if (typeof data === "undefined") {
 			data = {};
 		}
 		data.module = app.getModuleName();

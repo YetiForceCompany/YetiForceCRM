@@ -14,8 +14,13 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)} {\App\Language::translate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
-					<button class="btn btn-warning float-right" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+					<h5 class="modal-title">
+						<span class="fas fa-trash-alt mr-1"></span>
+						{\App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)} {\App\Language::translate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -23,7 +28,7 @@
 					<input type="hidden" name="action" value="DeleteAjax" />
 					<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 					<div class="modal-body">
-						<div class="form-group row">
+						<div class="form-group row align-items-center">
 							<div class="col-md-4">
 								<strong>
 									{\App\Language::translate('LBL_TRANSFORM_OWNERSHIP', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}<span class="redColor">*</span>
@@ -47,7 +52,7 @@
 							</div>
 						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>
 		</div>

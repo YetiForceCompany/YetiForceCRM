@@ -17,14 +17,14 @@
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}">
 							<div class="row">
-								<div class="value u-text-ellipsis col-10" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
+								<div class="value col-10" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 								</div>
-								{if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->getUIType() neq 69}
+								{if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true'}
 									<div class="d-none edit col-12">
 										{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 										{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
-											<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}' />		
+											<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}' />
 										{else}
 											{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 											{if $FIELD_VALUE|is_array}
@@ -47,8 +47,8 @@
 		</tbody>
 	</table>
 	<hr>
-	<div class="row">
-		<div class="col-md-4 toggleViewByMode">
+	<div class="d-flex flex-wrap justify-content-between">
+		<div class="toggleViewByMode">
 			{if !$IS_READ_ONLY}
 				{assign var="CURRENT_VIEW" value="full"}
 				{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
@@ -57,20 +57,16 @@
 				<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}" />
 			{/if}
 		</div>
-		<div class="col-md-8">
-			<div class="float-right">
-				<div>
-					<p>
-						<small>
-							{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}
-						</small>
-						<br />
-						<small>
-							{\App\Language::translate('LBL_MODIFIED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('modifiedtime'))}
-						</small>
-					</p>
-				</div>
-			</div>
+		<div>
+			<p>
+				<small>
+					{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}
+				</small>
+				<br />
+				<small>
+					{\App\Language::translate('LBL_MODIFIED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('modifiedtime'))}
+				</small>
+			</p>
 		</div>
 	</div>
 </div>

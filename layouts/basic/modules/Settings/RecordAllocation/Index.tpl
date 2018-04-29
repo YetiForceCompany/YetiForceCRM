@@ -29,8 +29,10 @@
             <div class="modal-content">
 				<form>
 					<div class="modal-header">
-						<h4 class="modal-title">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<div class="modal-body">
 						<select class="js-modules-list form-control" name="modules" data-validation-engine="validate[required]" data-js="value">
@@ -40,8 +42,14 @@
 						</select>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-success saveButton">{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</button>
-						<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
+						<button type="submit" class="btn btn-success saveButton">
+							<span class="fas fa-check mr-1"></span>
+							{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+						</button>
+						<button type="button" class="btn btn-danger dismiss" data-dismiss="modal">
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}
+						</button>
 					</div>
 				</form>
             </div>

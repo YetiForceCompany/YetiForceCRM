@@ -4,7 +4,7 @@
  * OSSTimeControl calendar model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Calendar_Model extends App\Base
 {
@@ -96,6 +96,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['start'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
+			$item['start_display'] = $userDateTimeString;
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -103,6 +104,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
+			$item['end_display'] = $userDateTimeString;
 			$item['className'] = ' ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_OSSTimeControl_timecontrol_type_' . $record['timecontrol_type'];
 			$result[] = $item;
 		}

@@ -443,7 +443,6 @@ class Vtiger_PDF_Model extends \App\Base
 		} else {
 			$format .= '-P';
 		}
-
 		return $format;
 	}
 
@@ -465,7 +464,6 @@ class Vtiger_PDF_Model extends \App\Base
 		if ($this->get('language')) {
 			$textParser->setLanguage($this->get('language'));
 		}
-
 		return $textParser->setContent($this->get('header_content'))->parse()->getContent();
 	}
 
@@ -487,7 +485,6 @@ class Vtiger_PDF_Model extends \App\Base
 		if ($this->get('language')) {
 			$textParser->setLanguage($this->get('language'));
 		}
-
 		return $textParser->setContent($this->get('footer_content'))->parse()->getContent();
 	}
 
@@ -509,7 +506,6 @@ class Vtiger_PDF_Model extends \App\Base
 		if ($this->get('language')) {
 			$textParser->setLanguage($this->get('language'));
 		}
-
 		return $textParser->setContent($this->get('body_content'))->parse()->getContent();
 	}
 

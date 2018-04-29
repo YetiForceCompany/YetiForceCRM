@@ -69,7 +69,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 				Vtiger_Helper_Js.showPnotify(parametres);
 				return false;
 			} else {
-				if (app.getMainParams('disallowLongerThan24Hours') == '1') {
+				if (CONFIG.disallowLongerThan24Hours === true) {
 					sumeTime2 = sumeTime2 / 1000 / 60 / 60;
 					if (sumeTime2 > 24) {
 						Vtiger_Helper_Js.showPnotify({
@@ -87,7 +87,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 		var thisInstance = this;
 		var sourceDesk = jQuery('input[name="sourceRecord"]').val();
 		var moduleName = jQuery('input[name="sourceModule"]').val();
-		if (typeof sourceDesk != 'undefined') {
+		if (typeof sourceDesk !== "undefined") {
 
 			var params = {};
 			params.data = {module: 'OSSTimeControl', action: 'GetTCInfo', id: sourceDesk, sourceModule: moduleName};

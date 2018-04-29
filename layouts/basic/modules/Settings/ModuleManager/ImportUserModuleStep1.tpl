@@ -14,10 +14,12 @@
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-				{/if}
 			</div>
+		</div>
+		<div class="badge badge-info my-2">
+			{if isset($SELECTED_PAGE)}
+				<a> {\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}</a>
+			{/if}
 		</div>
 		{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 		{if $MAXUPLOADSIZE < 5242880}
@@ -35,7 +37,7 @@
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="view" value="ModuleImport" />
 					<input type="hidden" name="mode" value="importUserModuleStep2" />
-					<div name='uploadUserModule'>
+					<div name="uploadUserModule">
 						<div class="modal-body tabbable">
 							<div class="tab-content massEditContent">
 								<table class="massEditTable table table-bordered">
@@ -53,10 +55,10 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class="col-md-1 float-right cancelLinkContainer">
+						<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>
+						<div class="float-right cancelLinkContainer">
 							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
-						<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</form>
 			</div>

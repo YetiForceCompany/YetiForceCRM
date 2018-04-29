@@ -5,6 +5,6 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
-		<pre>{$LICENSE}</pre>
+		<pre class="u-white-space-pre-line">{$LICENSE}</pre>
 	</div>
 {/strip}

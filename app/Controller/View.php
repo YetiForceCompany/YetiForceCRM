@@ -72,19 +72,17 @@ abstract class View extends Base
 	public function getViewer(\App\Request $request)
 	{
 		if (!isset($this->viewer)) {
-			$viewer = \Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
-			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
-			$viewer->assign('MODULE_NAME', $request->getModule());
+			$this->viewer = \Vtiger_Viewer::getInstance();
+			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
+			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
+			$this->viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
-				$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
-					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
-			$this->viewer = $viewer;
 		}
-
 		return $this->viewer;
 	}
 
@@ -109,7 +107,6 @@ abstract class View extends Base
 		} else {
 			$pageTitle = $this->getBreadcrumbTitle($request);
 		}
-
 		return $prefix . $pageTitle;
 	}
 
@@ -128,7 +125,6 @@ abstract class View extends Base
 		if (isset($this->pageTitle)) {
 			return \App\Language::translate($this->pageTitle, $request->getModule(false));
 		}
-
 		return '';
 	}
 
@@ -238,10 +234,10 @@ abstract class View extends Base
 			'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
 			'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
+			'~libraries/bootstrap-tabdrop/css/tabdrop.css',
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
-			'~libraries/js/timepicker/jquery.timepicker.css',
 			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
 			'~libraries/animate.css/animate.css',
 			'~layouts/resources/colors/calendar.css',
@@ -264,7 +260,10 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery',
-			'~libraries/Font-Awesome/svg-with-js/js/fontawesome-all.js',
+			'~libraries/@fortawesome/fontawesome/index.js',
+			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
+			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
+			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
 		]);
 	}
 
@@ -282,7 +281,7 @@ abstract class View extends Base
 			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
-			'~libraries/js/jquery.class.js',
+			'~libraries/jquery.class.js/jquery.class.js',
 			'~libraries/jstorage/jstorage.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
@@ -295,6 +294,7 @@ abstract class View extends Base
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
+			'~libraries/bootstrap-tabdrop/js/bootstrap-tabdrop.js',
 			'~libraries/bootbox/bootbox.js',
 			'~libraries/microplugin/src/microplugin.js',
 			'~libraries/sifter/sifter.js',
@@ -374,11 +374,16 @@ abstract class View extends Base
 				} else {
 					$jsFile = $jsFileName;
 				}
-
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$jsScript->set('base', $fallBackFilePath);
 					$filePath = $jsFile;
 					if (empty($preLayoutPath)) {
@@ -394,9 +399,15 @@ abstract class View extends Base
 					continue;
 				}
 				// Checking if file exists in default layout
-				$layoutPath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$jsScript->set('base', $fallBackFilePath);
 					$filePath = $jsFile;
 					if (empty($preLayoutPath)) {
@@ -466,9 +477,15 @@ abstract class View extends Base
 					$cssFile = $cssFileName;
 				}
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$cssScriptModel->set('base', $fallBackFilePath);
 					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
@@ -483,9 +500,15 @@ abstract class View extends Base
 					continue;
 				}
 				// Checking if file exists in default layout
-				$layoutPath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName();
+				$isFileExists = false;
+				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (is_file($fallBackFilePath)) {
+				if (!($isFileExists = is_file($fallBackFilePath))) {
+					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
+					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+					$isFileExists = is_file($fallBackFilePath);
+				}
+				if ($isFileExists) {
 					$cssScriptModel->set('base', $fallBackFilePath);
 					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
@@ -562,6 +585,7 @@ abstract class View extends Base
 					 'sounds' => \AppConfig::sounds(),
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
+					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}

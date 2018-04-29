@@ -30,8 +30,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$tabId = $this->getModuleId();
 		$deleteColumnName = $tablename . ':' . $columnName . ':' . $fieldname . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel) . ':' . $fieldtype[0];
 		$columnCvstdfilter = $tablename . ':' . $columnName . ':' . $fieldname . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel);
-		$selectColumnname = $tablename . ':' . $columnName . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel) . ':' . $fieldname . ':' . $fieldtype[0];
-		$reportsummaryColumn = $tablename . ':' . $columnName . ':' . str_replace(' ', '_', $oldfieldlabel);
 		if ($tablename !== 'vtiger_crmentity') {
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
@@ -39,11 +37,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['columnname' => $deleteColumnName])->execute();
 		$db->createCommand()->delete('vtiger_cvstdfilter', ['columnname' => $columnCvstdfilter])->execute();
 		$db->createCommand()->delete('vtiger_cvadvfilter', ['columnname' => $deleteColumnName])->execute();
-		$db->createCommand()->delete('vtiger_selectcolumn', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_relcriteria', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_reportsortcol', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_reportdatefilter', ['datecolumnname' => $columnCvstdfilter])->execute();
-		$db->createCommand()->delete('vtiger_reportsummary', ['like', 'columnname', $reportsummaryColumn])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
 		if ($fldModule === 'Leads') {
 			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
@@ -171,10 +164,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function isQuickCreateOptionDisabled()
 	{
 		$moduleModel = $this->getModule();
-		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported() || $this->get('uitype') == 69) {
+		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported()) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -185,10 +177,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isMassEditOptionDisabled()
 	{
-		if ($this->get('masseditable') == 0 || $this->get('displaytype') != 1 || $this->get('masseditable') == 3 || $this->get('uitype') == 69) {
+		if ($this->get('masseditable') == 0 || $this->get('displaytype') != 1 || $this->get('masseditable') == 3) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -199,10 +190,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isDefaultValueOptionDisabled()
 	{
-		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->get('uitype') == 69) {
+		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->getFieldDataType() === 'image' || $this->getFieldDataType() === 'multiImage') {
 			return true;
 		}
-
 		return false;
 	}
 

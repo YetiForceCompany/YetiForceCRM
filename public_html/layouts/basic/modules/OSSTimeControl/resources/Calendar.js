@@ -112,8 +112,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 					html: true,
 					placement: 'auto',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
+					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
 					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
 					'<div><span class="fas fa-bars"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
 					'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
@@ -180,8 +180,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var start_date = view.start.format();
-		var end_date = view.end.format();
+		const formatDate = CONFIG.dateFormat.toUpperCase();
 		var user;
 		if (jQuery('#calendarUserList').length == 0) {
 			user = CONFIG.userId;
@@ -199,8 +198,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 				module: 'OSSTimeControl',
 				action: 'Calendar',
 				mode: 'getEvent',
-				start: start_date,
-				end: end_date,
+				start: view.start.format(formatDate),
+				end: view.end.format(formatDate),
 				user: user,
 				types: types
 			};
@@ -281,32 +280,36 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			data.find('[name="due_date"]').val(endDateString);
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
-
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {
 				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
-
 				}
 			});
 			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
+		let usersList = $("#calendarUserList").val();
+		if(usersList.length===0){
+			usersList = [CONFIG.userId.toString()];
+		}
+		if ($.inArray(calendarDetails.assigned_user_id.value, usersList) < 0) {
 			return;
 		}
-		if ($.inArray(calendarDetails.timecontrol_type.value, $("#timecontrolTypes").val()) < 0) {
+		const types = $("#timecontrolTypes").val();
+		if ($.inArray(calendarDetails.timecontrol_type.value, types) < 0 && types.length > 0) {
 			return;
 		}
 		var calendar = this.getCalendarView();
 		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
 		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		let formatDate = CONFIG.dateFormat.toUpperCase();
 		var eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.name.display_value,
-			start: startDate.toString(),
-			end: endDate.toString(),
+			start: startDate.format(formatDate),
+			end: endDate.format(formatDate),
 			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
 			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
 			title: calendarDetails.name.display_value,

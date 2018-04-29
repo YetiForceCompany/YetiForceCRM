@@ -87,6 +87,15 @@ abstract class Base
 	}
 
 	/**
+	 * Post process ajax function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
+	}
+
+	/**
 	 * Set HTTP Headers.
 	 */
 	public function setHeaders()
@@ -122,5 +131,15 @@ abstract class Base
 		}
 		header_remove('X-Powered-By');
 		header_remove('Server');
+	}
+
+	/**
+	 * Function to check if session is extend.
+	 *
+	 * @return bool
+	 */
+	public function isSessionExtend()
+	{
+		return true;
 	}
 }

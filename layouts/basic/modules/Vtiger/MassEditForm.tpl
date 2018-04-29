@@ -68,7 +68,7 @@
 										<div class="p-3">
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 												{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
-													<div class="form-row mb-2">
+													<div class="form-row mb-2 js-form-row-container" data-js="container">
 														<div class="col-sm-6 col-lg-4">
 															<div class="btn-group-toggle mt-1 w-100" data-toggle="buttons">
 																<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
@@ -101,8 +101,7 @@
 							{/foreach}
 						</div>
 					</div>
-
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}
 				</form>
 
 			</div>

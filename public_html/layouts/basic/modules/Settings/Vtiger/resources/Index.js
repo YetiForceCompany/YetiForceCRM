@@ -13,7 +13,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			type: 'success',
 			title: app.vtranslate('JS_MESSAGE')
 		};
-		if (typeof customParams != 'undefined') {
+		if (typeof customParams !== "undefined") {
 			params = $.extend(params, customParams);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
@@ -49,7 +49,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 						var type = $(data.element).data('type');
 						var option;
 						if (type === 'icon') {
-							option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
+							option = $('<span class="' + data.element.value + '" aria-hidden="true"></span><span> - ' + $(data.element).data('class') + '</span>');
 						} else if (type === 'image') {
 							option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
 						}
@@ -77,7 +77,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
-		if (typeof shortCutBlock == 'undefined') {
+		if (typeof shortCutBlock === "undefined") {
 			var shortCutBlock = $('div#settingsShortCutsContainer')
 		}
 		shortCutBlock.on('click', '.unpin', function (e) {
@@ -235,8 +235,8 @@ $.Class("Settings_Vtiger_Index_Js", {
 			$('#settingsShortCutsContainer').html(data);
 		});
 	},
-	loadCkEditorElement: function () {
-		new Vtiger_CkEditor_Js($('.js-ckeditor'), {});
+	loadEditorElement: function () {
+		new App.Fields.Text.Editor($('.js-editor'), {});
 	},
 	registerSaveIssues: function () {
 		var container = $('.addIssuesModal');
@@ -363,7 +363,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			AppConnector.request(params).then(function (data) {
 				container.progressIndicator({mode: 'hide'});
 				app.showModalWindow(data, function () {
-					thisInstance.loadCkEditorElement();
+					thisInstance.loadEditorElement();
 					thisInstance.registerSaveIssues();
 				});
 			});

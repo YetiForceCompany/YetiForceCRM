@@ -57,7 +57,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$saveFilterPermitted = false;
 		}
 		//See if it is an excluded module, If so search in home module
-		if (in_array($moduleName, ['Vtiger', 'Reports'])) {
+		if ($moduleName === 'Vtiger') {
 			$moduleName = 'Home';
 		}
 		$module = $request->getModule();

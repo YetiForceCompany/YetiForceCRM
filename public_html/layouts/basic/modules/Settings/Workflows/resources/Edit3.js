@@ -35,7 +35,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = $('#workflow_step3');
 		}
 		if (container.is('#workflow_step3')) {
@@ -45,24 +45,31 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		}
 	},
 	registerEditTaskEvent: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		App.Fields.Password.registerCopyClipboard();
+		let thisInstance = this,
+			container = this.getContainer(),
+			clipboardArray = [];
 		container.on('click', '[data-url]', function (e) {
-			var currentElement = $(e.currentTarget);
-			var params = currentElement.data('url');
-			var progressIndicatorElement = $.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					enabled: true
-				}
-			});
+			let currentElement = $(e.currentTarget),
+				params = currentElement.data('url'),
+				progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
 			app.showModalWindow(null, params, function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'})
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (data) {
+					if (clipboardArray.length) {
+						clipboardArray.pop().destroy();
+					}
+					let clipboardInstance = App.Fields.Password.registerCopyClipboard(data);
+					clipboardArray.push(clipboardInstance);
+				}
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = $('#taskType').val();
 				var functionName = 'register' + taskType + 'Events';
-				if (typeof thisInstance[functionName] != 'undefined') {
+				if (typeof thisInstance[functionName] !== "undefined") {
 					thisInstance[functionName].apply(thisInstance);
 				}
 				thisInstance.registerSaveTaskSubmitEvent(taskType);
@@ -98,7 +105,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var validationResult = form.validationEngine('validate');
 			if (validationResult == true) {
 				var customValidationFunctionName = taskType + 'CustomValidation';
-				if (typeof thisInstance[customValidationFunctionName] != 'undefined') {
+				if (typeof thisInstance[customValidationFunctionName] !== "undefined") {
 					var result = thisInstance[customValidationFunctionName].apply(thisInstance);
 					if (result != true) {
 						var params = {
@@ -112,7 +119,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					}
 				}
 				var preSaveActionFunctionName = 'preSave' + taskType;
-				if (typeof thisInstance[preSaveActionFunctionName] != 'undefined') {
+				if (typeof thisInstance[preSaveActionFunctionName] !== "undefined") {
 					thisInstance[preSaveActionFunctionName].apply(thisInstance, [taskType]);
 				}
 				var params = form.serializeFormData();
@@ -190,7 +197,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		var thisInstance = this;
 		var conditionsContainer = $('#save_fieldvaluemapping');
 		var fieldListFunctionName = 'get' + tasktype + 'FieldList';
-		if (typeof thisInstance[fieldListFunctionName] != 'undefined') {
+		if (typeof thisInstance[fieldListFunctionName] !== "undefined") {
 			var fieldList = thisInstance[fieldListFunctionName].apply()
 		}
 
@@ -225,7 +232,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 						var valuesArr = commaSeperatedValues.split(',');
 						var newvaluesArr = [];
 						for (i = 0; i < valuesArr.length; i++) {
-							if (typeof pickListValues[valuesArr[i]] != 'undefined') {
+							if (typeof pickListValues[valuesArr[i]] !== "undefined") {
 								newvaluesArr.push(pickListValues[valuesArr[i]]);
 							} else {
 								newvaluesArr.push(valuesArr[i]);
@@ -289,7 +296,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	 */
 	getckEditorInstance: function () {
 		if (this.ckEditorInstance === false) {
-			this.ckEditorInstance = new Vtiger_CkEditor_Js();
+			this.ckEditorInstance = new App.Fields.Text.Editor();
 		}
 		return this.ckEditorInstance;
 	},
@@ -379,7 +386,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerVTEmailTaskEvents: function () {
 		var textAreaElement = $('#content');
 		var ckEditorInstance = this.getckEditorInstance();
-		ckEditorInstance.loadCkEditor(textAreaElement);
+		ckEditorInstance.loadEditor(textAreaElement);
 		this.registerFillMailContentEvent();
 		this.registerFillTaskFromEmailFieldEvent();
 		this.registerCcAndBccEvents();
@@ -424,7 +431,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			$('#save_fieldvaluemapping').append(newAddFieldContainer);
 			//change in to chosen elements
 			App.Fields.Picklist.changeSelectElementView(newAddFieldContainer);
-			App.Fields.Picklist.showSelect2ElementView(newAddFieldContainer.find('.select2'));
 		});
 	},
 	registerDeleteConditionEvent: function () {
@@ -487,9 +493,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		var fieldInfo = selectedOption.data('fieldinfo');
 		var fieldValueMapping = this.getFieldValueMapping();
 		var selectField = '';
-		if (fieldValueMapping && typeof fieldValueMapping[fieldInfo.name] != 'undefined') {
+		if (fieldValueMapping && typeof fieldValueMapping[fieldInfo.name] !== "undefined") {
 			selectField = fieldValueMapping[fieldInfo.name];
-		} else if (fieldValueMapping && typeof fieldValueMapping[fieldSelect.val()] != 'undefined') {
+		} else if (fieldValueMapping && typeof fieldValueMapping[fieldSelect.val()] !== "undefined") {
 			selectField = fieldValueMapping[fieldSelect.val()];
 		}
 		if (selectField) {
@@ -515,7 +521,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		fieldSpecificUi.find('[name="valuetype"]').removeAttr('data-validation-engine');
 		//If the workflowValueType is rawtext then only validation should happen
 		var workflowValueType = fieldSpecificUi.filter('[name="valuetype"]').val();
-		if (workflowValueType != 'rawtext' && typeof workflowValueType != 'undefined') {
+		if (workflowValueType != 'rawtext' && typeof workflowValueType !== "undefined") {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 			fieldSpecificUi.find('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 		}

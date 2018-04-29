@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {assign var=CONF_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
-YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
+YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js',{}, {
 	getBasicOptions: function getBasicOptions(chartData){
 		return {
 			legend: {
@@ -45,7 +45,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}">
+			<div class="dashboardTitle" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
 				<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
 			</div>
 		</div>

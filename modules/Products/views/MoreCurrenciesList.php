@@ -42,14 +42,12 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
-
 			foreach ($priceDetails as $key => $currencyDetails) {
 				if ($currencyDetails['curname'] === $currencyName) {
 					$baseCurrencyConversionRate = $currencyDetails['conversionrate'];
 					break;
 				}
 			}
-
 			foreach ($priceDetails as $key => $currencyDetails) {
 				if ($currencyDetails['curname'] === $currencyName) {
 					$currencyDetails['conversionrate'] = 1;
@@ -61,13 +59,10 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 				$priceDetails[$key] = $currencyDetails;
 			}
 		}
-
 		$viewer = $this->getViewer($request);
-
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PRICE_DETAILS', $priceDetails);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}
 }

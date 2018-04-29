@@ -430,7 +430,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$recordInstance->setFullForm(false);
-
 		return $recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
 	}
 
@@ -1187,27 +1186,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $activities;
 	}
 
-	/**
-	 * Function to get list of fields which are required while importing records.
-	 *
-	 * @param string $module
-	 *
-	 * @return <Array> list of fields
-	 */
-	public function getRequiredFields($module = '')
-	{
-		$moduleInstance = $this->getEntityInstance();
-		$requiredFields = $moduleInstance->required_fields;
-		if (empty($requiredFields)) {
-			if (empty($module)) {
-				$module = $this->getName();
-			}
-			$moduleInstance->initRequiredFields($module);
-		}
-
-		return $moduleInstance->required_fields;
-	}
-
 	public function getWidgets($module)
 	{
 		return Settings_Widgets_Module_Model::getWidgets($module);
@@ -1425,34 +1403,48 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get popup view fields.
+	 * Function to get modal records list view fields.
 	 *
-	 * @param string|bool $sourceModule
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param string|bool         $sourceModule
+	 */
+	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
+	{
+		if (App\Cache::staticHas('PopupViewFieldsList', $this->getName())) {
+			$popupFields = App\Cache::staticGet('PopupViewFieldsList', $this->getName());
+		} else {
+			$popupFields = [];
+			if (!empty($sourceModule) && ($parentModuleModel = self::getInstance($sourceModule))) {
+				$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $this);
+				if ($relationModel) {
+					foreach (App\Field::getFieldsFromRelation($relationModel->getId()) as $fieldName) {
+						$popupFields[$fieldName] = $fieldName;
+					}
+				}
+				if (!$popupFields) {
+					foreach ($this->getPopupFields() as $fieldName) {
+						$popupFields[$fieldName] = $fieldName;
+					}
+					$popupFields = $parentModuleModel->getModalRecordsListSourceFields($queryGenerator, $this, $popupFields);
+				}
+			}
+			$popupFields[] = 'id';
+			App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
+		}
+		$queryGenerator->setFields($popupFields);
+	}
+
+	/**
+	 * Function to get modal records list view fields by source.
+	 *
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param Vtiger_Module_Model $baseModule
+	 * @param string[]            $popupFields
 	 *
 	 * @return string[]
 	 */
-	public function getPopupViewFieldsList($sourceModule = false)
+	public function getModalRecordsListSourceFields(\App\QueryGenerator $queryGenerator, self $baseModule, $popupFields)
 	{
-		if (App\Cache::staticHas('PopupViewFieldsList', $this->getName())) {
-			return App\Cache::staticGet('PopupViewFieldsList', $this->getName());
-		}
-		$parentRecordModel = self::getInstance($sourceModule);
-		if (!empty($sourceModule) && $parentRecordModel) {
-			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
-		}
-		$popupFields = [];
-		if ($relationModel) {
-			foreach (App\Field::getFieldsFromRelation($relationModel->getId()) as &$fieldName) {
-				$popupFields[$fieldName] = $fieldName;
-			}
-		}
-		if (!$popupFields) {
-			foreach ($this->getPopupFields() as &$fieldName) {
-				$popupFields[$fieldName] = $fieldName;
-			}
-		}
-		App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
-
 		return $popupFields;
 	}
 

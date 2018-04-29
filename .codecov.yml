@@ -7,7 +7,7 @@ coverage:
         target: 100%
         paths: "tests/"
       app:
-        target: 14%
+        target: 11%
         paths: "!tests/"
 ignore:
  - tests/copy/.*

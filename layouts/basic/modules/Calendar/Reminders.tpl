@@ -7,26 +7,27 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
-			<div class="js-toggle-panel c-panel__content picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-js="click" data-record="{$RECORD_ID}">
+			<div class="js-toggle-panel c-panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-js="click" data-record="{$RECORD_ID}">
 				<div class="card-header p-2 d-flex justify-content-between picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
 					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
-					<div>
-						{if $ACTIVITY_TYPE eq 'Task'}
-							<span class="far fa-check-square fa-lg"></span>
-						{elseif $ACTIVITY_TYPE eq 'Call'}
-							<span class="fas fa-phone fa-lg" data-fa-transform="rotate--260"></span>
-						{else}
-							<span class="fas fa-user fa-lg"></span>
-						{/if}
-						<a class="ml-1" target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
-							{$RECORD->getDisplayValue('subject')}
-						</a>
-					</div>
-					<div>
-						<button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-							<span class="fas fa-check"></span>
-						</button>
-					</div>
+						<div class="float-left">
+							<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
+								{if $ACTIVITY_TYPE eq 'Task'}
+									<span class="far fa-check-square fa-lg" aria-hidden="true"></span>
+								{elseif $ACTIVITY_TYPE eq 'Call'}
+									<span class="fas fa-phone fa-lg" data-fa-transform="rotate--260" aria-hidden="true"></span>
+								{else}
+									<span class="fas fa-user fa-lg" aria-hidden="true"></span>
+								{/if}
+								<span class="ml-2">{$RECORD->getDisplayValue('subject')}</span>
+							</a>
+						</div>
+						<div class="float-right ml-1">
+							<button class="btn btn-success btn-sm  showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+								<span class="fas fa-check" aria-hidden="true"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_SET_RECORD_STATUS')}</span>
+							</button>
+						</div>
 				</div>
 				<div class="card-body small p-2">
 					<div>
@@ -47,13 +48,15 @@
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="fas fa-envelope fa-fw"></span>
+										<span class="fas fa-envelope fa-fw" aria-hidden="true"></span>
+										<span class="sr-only">{\App\Language::translate('LBL_SEND_EMAIL')}</span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
 										<a class="float-right" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="fas fa-envelope fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="sr-only">{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}</span>
 										</a>
 									{/if}
 								{/if}
@@ -72,13 +75,15 @@
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="fas fa-envelope fa-fw"></span>
+										<span class="fas fa-envelope fa-fw" aria-hidden="true"></span>
+										<span class="sr-only">{\App\Language::translate('LBL_SEND_EMAIL')}</span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
 										<a class="float-right" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="fas fa-envelope fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="sr-only">{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}</span>
 										</a>
 									{/if}
 								{/if}
@@ -98,20 +103,24 @@
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
 								<a class="float-right" href="#" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
-									<span class="fas fa-map-marker-alt fa-fw"></span>
+									<span class="fas fa-map-marker-alt fa-fw" aria-hidden="true"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_MAP')}</span>
 								</a>
 							{/if}
 						</div>
 					{/if}
 					<hr />
 					<div class="actionRow text-center">
-						<a class="btn btn-success text-white btn-sm showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="fas fa-check"></span></a>
-						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="15m">15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="30m">30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="1h">1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="2h">2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="6h">6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-dark text-white btn-sm reminderPostpone" data-time="1d">1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
+						<a class="btn btn-success btn-sm showModal" href="#" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+							<span class="fas fa-check" aria-hidden="true"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_SET_RECORD_STATUS')}</span>
+						</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" href="#" data-time="15m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" href="#" data-time="30m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" href="#" data-time="1h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" href="#" data-time="2h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" href="#" data-time="6h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" href="#" data-time="1d"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_DAYS', 'Events')}</span>1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
 					</div>
 				</div>
 			</div>

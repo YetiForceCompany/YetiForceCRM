@@ -5,9 +5,9 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-md-5 row">
-			<div class="col-6 paddingLRZero">
-				<button class="btn btn-light addMenu float-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
+		<div class="col-md-5 row mt-2">
+			<div class="col-6 px-0">
+				<button class="btn btn-outline-secondary addMenu float-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<div class="col-6 float-right">
 				<select class="select2 form-control" name="roleMenu">

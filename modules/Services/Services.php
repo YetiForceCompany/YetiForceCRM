@@ -81,8 +81,6 @@ class Services extends CRMEntity
 	public $def_basicsearch_col = 'servicename';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'servicename';
-	// Required Information for enabling Import feature
-	public $required_fields = ['servicename' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['servicename', 'assigned_user_id'];
@@ -138,123 +136,12 @@ class Services extends CRMEntity
 		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 
-	/*
-	 * Function to get the primary query part of a report
-	 * @param - $module primary module name
-	 * @param ReportRunQueryPlanner $queryPlanner
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
-
-	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
-	{
-		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_seproductsrel', ['vtiger_crmentityRelServices', 'vtiger_accountRelServices', 'vtiger_leaddetailsRelServices', 'vtiger_servicecf']);
-		$query = 'from vtiger_service
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_service.serviceid';
-		if ($queryPlanner->requireTable('vtiger_servicecf')) {
-			$query .= ' left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid';
-		}
-		if ($queryPlanner->requireTable('vtiger_usersServices')) {
-			$query .= ' left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentity.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_groupsServices')) {
-			$query .= ' left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentity.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_seproductsrel')) {
-			$query .= ' left join vtiger_seproductsrel on vtiger_seproductsrel.productid= vtiger_service.serviceid';
-		}
-		if ($queryPlanner->requireTable('vtiger_crmentityRelServices')) {
-			$query .= ' left join vtiger_crmentity as vtiger_crmentityRelServices on vtiger_crmentityRelServices.crmid = vtiger_seproductsrel.crmid and vtiger_crmentityRelServices.deleted = 0';
-		}
-		if ($queryPlanner->requireTable('vtiger_accountRelServices')) {
-			$query .= ' left join vtiger_account as vtiger_accountRelServices on vtiger_accountRelServices.accountid=vtiger_seproductsrel.crmid';
-		}
-		if ($queryPlanner->requireTable('vtiger_leaddetailsRelServices')) {
-			$query .= ' left join vtiger_leaddetails as vtiger_leaddetailsRelServices on vtiger_leaddetailsRelServices.leadid = vtiger_seproductsrel.crmid';
-		}
-		if ($queryPlanner->requireTable('vtiger_lastModifiedByServices')) {
-			$query .= ' left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentity.modifiedby';
-		}
-		if ($queryplanner->requireTable('u_yf_crmentity_showners')) {
-			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
-		}
-		if ($queryplanner->requireTable("vtiger_shOwners$module")) {
-			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
-		}
-		if ($queryPlanner->requireTable('innerService')) {
-			$query .= ' LEFT JOIN (
-					SELECT vtiger_service.serviceid,
-							(CASE WHEN (vtiger_service.currency_id = 1 ) THEN vtiger_service.unit_price
-								ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) END
-							) AS actual_unit_price
-					FROM vtiger_service
-					LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
-					LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-					AND vtiger_productcurrencyrel.currencyid = ' . \App\User::getCurrentUserModel()->getDetail('currency_id') . '
-				) AS innerService ON innerService.serviceid = vtiger_service.serviceid';
-		}
-
-		return $query;
-	}
-
 	/**
-	 * Function to get the secondary query part of a report.
+	 * Function to get the relation tables for related modules.
 	 *
-	 * @param string                $module
-	 * @param string                $secmodule
-	 * @param ReportRunQueryPlanner $queryPlanner
-	 *
-	 * @return string
-	 */
-	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
-	{
-		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_service', ['actual_unit_price', 'vtiger_currency_info', 'vtiger_productcurrencyrel', 'vtiger_servicecf', 'vtiger_crmentityServices']);
-		$matrix->setDependency('vtiger_crmentityServices', ['vtiger_usersServices', 'vtiger_groupsServices', 'vtiger_lastModifiedByServices']);
-		if (!$queryPlanner->requireTable('vtiger_service', $matrix)) {
-			return '';
-		}
-		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_service', 'serviceid', $queryPlanner);
-		if ($queryPlanner->requireTable('innerService')) {
-			$query .= ' LEFT JOIN (
-			SELECT vtiger_service.serviceid,
-			(CASE WHEN (vtiger_service.currency_id = ' . \App\User::getCurrentUserModel()->getDetail('currency_id') . ' ) THEN vtiger_service.unit_price
-			WHEN (vtiger_productcurrencyrel.actual_price IS NOT NULL) THEN vtiger_productcurrencyrel.actual_price
-			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * ' . \App\User::getCurrentUserModel()->getDetail('conv_rate') . ' END
-			) AS actual_unit_price FROM vtiger_service
-            LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
-            LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-			AND vtiger_productcurrencyrel.currencyid = ' . \App\User::getCurrentUserModel()->getDetail('currency_id') . ')
-            AS innerService ON innerService.serviceid = vtiger_service.serviceid';
-		}
-		if ($queryPlanner->requireTable('vtiger_crmentityServices', $matrix)) {
-			$query .= ' left join vtiger_crmentity as vtiger_crmentityServices on vtiger_crmentityServices.crmid=vtiger_service.serviceid and vtiger_crmentityServices.deleted=0';
-		}
-		if ($queryPlanner->requireTable('vtiger_servicecf')) {
-			$query .= ' left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid';
-		}
-		if ($queryPlanner->requireTable('vtiger_usersServices')) {
-			$query .= ' left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentityServices.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_groupsServices')) {
-			$query .= ' left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentityServices.smownerid';
-		}
-		if ($queryPlanner->requireTable('vtiger_lastModifiedByServices')) {
-			$query .= ' left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentityServices.modifiedby ';
-		}
-		if ($queryPlanner->requireTable('vtiger_createdbyServices')) {
-			$query .= ' left join vtiger_users as vtiger_createdbyServices on vtiger_createdbyServices.id = vtiger_crmentityServices.smcreatorid ';
-		}
-
-		return $query;
-	}
-
-	/*
-	 * Function to get the relation tables for related modules
 	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
+	 *                     returns the array with table names and fieldnames storing relations between module and this module
 	 */
-
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [

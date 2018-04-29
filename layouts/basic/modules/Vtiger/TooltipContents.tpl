@@ -11,14 +11,14 @@
 -->*}
 {strip}
 	<div class="tpl-TooltipContents" data-js="container">
-		<table class="table table-bordered">
+		<table class="table table-bordered table-sm">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$RECORD_STRUCTURE['TOOLTIP_FIELDS'] name=fieldsCount}
 				{if $smarty.foreach.fieldsCount.index < 7}
 					<tr class="small">
 						<td>
 							<label>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE)}</label>
 						</td>
-						<td>
+						<td class="u-word-break-all">
 							<span>
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 							</span>

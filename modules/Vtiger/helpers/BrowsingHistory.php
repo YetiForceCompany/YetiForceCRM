@@ -68,18 +68,14 @@ class Vtiger_BrowsingHistory_Helper
 		if (empty(App\User::getCurrentUserId())) {
 			return false;
 		}
-
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
-		parse_str(parse_url($url, PHP_URL_QUERY), $urlQuery);
-
+		parse_str(parse_url(\App\Purifier::decodeHtml($url), PHP_URL_QUERY), $urlQuery);
 		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
-
 		if (!empty($urlQuery['module']) && !empty($urlQuery['view'])) {
 			if (in_array($urlQuery['view'], $validViews)) {
 				if (!empty($urlQuery['record'])) {
 					$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
 				}
-
 				\App\Db::getInstance()->createCommand()
 					->insert('u_#__browsinghistory', [
 						'userid' => App\User::getCurrentUserId(),

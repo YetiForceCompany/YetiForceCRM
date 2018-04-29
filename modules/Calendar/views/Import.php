@@ -6,13 +6,14 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_rfc2445.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_components.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_properties.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_parameters.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_rfc2445.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_properties.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_parameters.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
 Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_Import_View extends Vtiger_Import_View
@@ -77,7 +78,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 */
 	public function importResult(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \App\User::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -96,18 +97,21 @@ class Calendar_Import_View extends Vtiger_Import_View
 			];
 
 			$requiredFields = [];
-			$modules = [$eventModule, $todoModule];
-			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
-
-			foreach ($modules as $module) {
-				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
+			foreach ([$eventModule, $todoModule] as $module) {
+				$moduleRequiredFields = [];
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				foreach ($moduleModel->getFields() as $field) {
+					if ($field->isActiveField() && $field->isMandatory() && !in_array($field->getUIType(), [53, 70])) {
+						$moduleRequiredFields[] = $field->getName();
+					}
+				}
 				$requiredFields[$module] = array_diff($moduleRequiredFields, $skipFields[$module]);
 				$totalCount[$module] = 0;
 				$skipCount[$module] = 0;
 			}
 
 			$ical = new Ical();
-			$icalActivities = $ical->iCalReader('IMPORT_' . $userId);
+			$icalActivities = $ical->iCalReader(Import_Utils_Helper::getImportFilePath($currentUserModel));
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; ++$i) {

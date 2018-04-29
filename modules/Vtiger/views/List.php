@@ -182,7 +182,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Vtiger.resources.CkEditor',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
 		];

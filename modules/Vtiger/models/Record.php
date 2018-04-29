@@ -381,15 +381,15 @@ class Vtiger_Record_Model extends \App\Base
 	 * Function to get the display value in ListView.
 	 *
 	 * @param string $fieldName
+	 * @param bool   $rawText
 	 *
-	 * @return string
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
 	 */
-	public function getListViewDisplayValue($fieldName)
+	public function getListViewDisplayValue($fieldName, $rawText = false)
 	{
-		$recordId = $this->getId();
-		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-
-		return $fieldModel->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $this->getModule()->getFieldByName($fieldName)->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $this->getId(), $this, $rawText);
 	}
 
 	/**
@@ -595,6 +595,7 @@ class Vtiger_Record_Model extends \App\Base
 			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
 			$dbCommand->delete('vtiger_crmentity', ['crmid' => $this->getId()])->execute();
 			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
+			Vtiger_MultiImage_UIType::deleteRecord($this);
 			$eventHandler->trigger('EntityAfterDelete');
 			$transaction->commit();
 		} catch (\Exception $e) {
@@ -893,27 +894,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getRelatedListDisplayValue($fieldName)
 	{
 		$fieldModel = $this->getModule()->getField($fieldName);
-
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
-	}
-
-	/**
-	 * Function to delete corresponding image.
-	 *
-	 * @param int $imageId
-	 */
-	public function deleteImage($imageId)
-	{
-		$crmId = (new App\Db\Query())->select(['crmid'])->from('vtiger_seattachmentsrel')->where(['attachmentsid' => $imageId])->scalar();
-		if ($this->getId() == $crmId) {
-			$dbCommand = \App\Db::getInstance()->createCommand();
-			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $imageId])->execute();
-			$dbCommand->delete('vtiger_seattachmentsrel', ['attachmentsid' => $imageId])->execute();
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -1222,78 +1203,6 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * This function is used to upload the attachment in the server and save that attachment information in db.
-	 *
-	 * @param array $fileDetails - array which contains the file information(name, type, size, tmp_name and error)
-	 *
-	 * @return bool
-	 */
-	public function uploadAndSaveFile($fileDetails)
-	{
-		$id = $this->getId();
-		$moduleName = $this->getModuleName();
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
-		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
-		if (!$fileInstance->validate()) {
-			\App\Log::trace('Skip the save attachment process.');
-			return false;
-		}
-		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];
-		$db = \App\Db::getInstance();
-		$date = date('Y-m-d H:i:s');
-		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
-		$params = [
-			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
-			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('assigned_user_id'),
-			'setype' => $moduleName . ' Image',
-			'createdtime' => $this->isEmpty('createdtime') ? $date : $this->get('createdtime'),
-			'modifiedtime' => $this->isEmpty('modifiedtime') ? $date : $this->get('modifiedtime'),
-		];
-		$params['setype'] = ($moduleName === 'Contacts' || $moduleName === 'Products') ? $moduleName . ' Image' : $moduleName . ' Attachment';
-		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
-		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		if ($fileInstance->moveFile($uploadFilePath . $currentId)) {
-			$db->createCommand()->insert('vtiger_attachments', [
-				'attachmentsid' => $currentId,
-				'name' => ltrim(App\Purifier::purify($fileName)),
-				'type' => $fileDetails['type'],
-				'path' => $uploadFilePath,
-			])->execute();
-			if (\App\Request::_get('mode') === 'edit') {
-				if (!empty($id) && !empty(\App\Request::_get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
-				}
-			}
-			if ($moduleName === 'Documents') {
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
-			}
-			if ($moduleName === 'Contacts') {
-				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
-					->from('vtiger_seattachmentsrel')
-					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $id])
-					->scalar();
-				if (!empty($attachmentsId)) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $attachmentsId])->execute();
-					$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $attachmentsId])->execute();
-					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-				} else {
-					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-				}
-			} else {
-				$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-			}
-			$this->ext['attachmentsId'] = $currentId;
-
-			return true;
-		} else {
-			\App\Log::trace('Skip the save attachment process.');
-
-			return false;
-		}
-	}
-
-	/**
 	 * Set handler exceptions.
 	 *
 	 * @param array $exceptions
@@ -1457,49 +1366,50 @@ class Vtiger_Record_Model extends \App\Base
 		$links = [];
 		if ($this->isViewable()) {
 			if ($this->getModule()->isSummaryViewSupported()) {
+				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
 				$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-						'linkhref' => true,
-						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-						'linkicon' => 'far fa-caret-square-right',
-						'linkclass' => 'btn-xs btn-default',
-						'modalView' => true,
+					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+					'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
+					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+					'linkicon' => 'far fa-caret-square-right',
+					'linkclass' => 'btn-sm btn-default',
+					'modalView' => true,
 				]);
 			}
 			$links['LBL_SHOW_COMPLETE_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
-					'linkurl' => $this->getFullDetailViewUrl(),
-					'linkhref' => true,
-					'linkicon' => 'fas fa-th-list',
-					'linkclass' => 'btn-xs btn-default',
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkurl' => $this->getFullDetailViewUrl(),
+				'linkhref' => true,
+				'linkicon' => 'fas fa-th-list',
+				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
 		$relationModel = $viewModel->getRelationModel();
 		if ($relationModel->isEditable() && $this->isEditable()) {
 			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_EDIT',
-					'linkhref' => true,
-					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'fas fa-edit',
-					'linkclass' => 'btn-xs btn-default',
+				'linklabel' => 'LBL_EDIT',
+				'linkhref' => true,
+				'linkurl' => $this->getEditViewUrl(),
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
 			$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'BTN_WATCHING_RECORD',
-					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-					'linkclass' => 'btn-xs ' . ($watching ? 'btn-info' : 'btn-default'),
-					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				'linklabel' => 'BTN_WATCHING_RECORD',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
 			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_DELETE',
-					'linkicon' => 'fas fa-trash-alt',
-					'linkclass' => 'btn-xs btn-default relationDelete entityStateBtn',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linklabel' => 'LBL_DELETE',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
 
@@ -1610,5 +1520,30 @@ class Vtiger_Record_Model extends \App\Base
 		}
 
 		return $colors;
+	}
+
+	/**
+	 * Function to get record image.
+	 *
+	 * @return array
+	 */
+	public function getImage()
+	{
+		$image = [];
+		if (!$this->isEmpty('imagename') && $this->get('imagename') !== '[]' && $this->get('imagename') !== '""') {
+			$image = array_shift(\App\Json::decode($this->get('imagename')));
+			$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
+			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
+		} else {
+			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
+				if (!$this->isEmpty($fieldModel->getName()) && $this->get($fieldModel->getName()) !== '[]' && $this->get($fieldModel->getName()) !== '""') {
+					$image = array_shift(\App\Json::decode($this->get($fieldModel->getName())));
+					$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
+					$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field={$fieldModel->getName()}&record={$this->getId()}&key={$image['key']}";
+					break;
+				}
+			}
+		}
+		return $image;
 	}
 }

@@ -4,12 +4,17 @@
 		<div class="modal-content">
 			<form class="form-modalAddWidget">  
 				<div class="modal-header contentsBackground">
-					<button type="button" data-dismiss="modal" class="close" title="Zamknij">×</button>
-					<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>
+					<h5 class="modal-title">
+						<span class="fas fa-plus mr-1"></span>
+						{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-Fields">
-						<div class="row">
+						<div class="row align-items-center">
 							<div class="col-md-4">{\App\Language::translate('LBL_WIDGET_TYPE', $QUALIFIED_MODULE)}:</div>
 							<div class="col-md-8">
 								<select name="type" class="select2 col-md-3 marginLeftZero form-control">
@@ -22,8 +27,18 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</strong></button>
-					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success" type="submit" name="saveButton">
+						<strong>
+							<span class="fas fa-check mr-1"></span>
+							{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}
+						</strong>
+					</button>
+					<button class="btn btn-danger" type="reset" data-dismiss="modal">
+						<strong>
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+						</strong>
+					</button>
 				</div>
 			</form>
 		</div>

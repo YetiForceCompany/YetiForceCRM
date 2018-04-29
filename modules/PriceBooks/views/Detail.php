@@ -149,7 +149,6 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
-
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

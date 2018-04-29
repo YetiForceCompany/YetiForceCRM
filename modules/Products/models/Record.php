@@ -71,7 +71,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 		$priceDetails = $this->getPriceDetailsForProduct($this->getId(), $this->get('unit_price'), 'available', $this->getModuleName());
 		$this->set('priceDetails', $priceDetails);
-
 		return $priceDetails;
 	}
 
@@ -100,52 +99,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$this->set('baseCurrencyDetails', $baseCurrencyDetails);
 
 		return $baseCurrencyDetails;
-	}
-
-	/**
-	 * Function to get Image Details.
-	 *
-	 * @return array Image Details List
-	 */
-	public function getImageDetails()
-	{
-		$imageDetails = [];
-		$recordId = $this->getId();
-
-		if ($recordId) {
-			$query = (new \App\Db\Query())
-				->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.setype' => 'Products Image', 'vtiger_seattachmentsrel.crmid' => $recordId]);
-
-			$dataReader = $query->createCommand()->query();
-			$imageOriginalNamesList = [];
-
-			while ($row = $dataReader->read()) {
-				$imageIdsList[] = $row['attachmentsid'];
-				$imagePathList[] = $row['path'];
-				$imageName = $row['name'];
-
-				//App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
-				$imageOriginalNamesList[] = App\Purifier::decodeHtml($imageName);
-
-				//urlencode - added to handle special characters like #, %, etc.,
-				$imageNamesList[] = $imageName;
-			}
-			$dataReader->close();
-
-			if (is_array($imageOriginalNamesList)) {
-				$countOfImages = count($imageOriginalNamesList);
-				for ($j = 0; $j < $countOfImages; ++$j) {
-					$imageDetails[] = [
-						'id' => $imageIdsList[$j],
-						'orgname' => $imageOriginalNamesList[$j],
-						'path' => $imagePathList[$j] . $imageIdsList[$j],
-						'name' => $imageNamesList[$j],
-					];
-				}
-			}
-		}
-
-		return $imageDetails;
 	}
 
 	/**
@@ -253,11 +206,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
 		if ($isExists) {
-			App\Db::getInstance()->createCommand()
+			$status =App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
 				->execute();
 		} else {
-			App\Db::getInstance()->createCommand()
+			$status =App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $relatedRecordId,
 					'productid' => $this->getId(),
@@ -265,6 +218,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					'usedcurrency' => $currencyId,
 				])->execute();
 		}
+		return $status;
 	}
 
 	public function getPriceDetailsForProduct($productId, $unitPrice, $available = 'available', $itemType = 'Products')
@@ -358,7 +312,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 
 		\App\Log::trace('Exit from function getPriceDetailsForProduct(' . $productId . ')');
-
 		return $priceDetails;
 	}
 
@@ -417,10 +370,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
-		//Inserting into attachments
-		if (\App\Request::_get('module') === 'Products') {
-			$this->insertAttachment();
-		}
 	}
 
 	/**
@@ -480,59 +429,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 				->execute();
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
-	}
-
-	/**
-	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 */
-	public function insertAttachment()
-	{
-		$db = App\Db::getInstance();
-		$id = $this->getId();
-		$module = \App\Request::_get('module');
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-		foreach ($_FILES as $fileindex => $files) {
-			if (empty($files['tmp_name'])) {
-				continue;
-			}
-			$fileInstance = \App\Fields\File::loadFromRequest($files);
-			if ($fileInstance->validate('image')) {
-				if (\App\Request::_get($fileindex . '_hidden') != '') {
-					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
-				} else {
-					$files['original_name'] = stripslashes($files['name']);
-				}
-				$files['original_name'] = str_replace('"', '', $files['original_name']);
-				$this->uploadAndSaveFile($files);
-			}
-		}
-		//Updating image information in main table of products
-		$dataReader = (new App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
-			->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->leftJoin('vtiger_products', 'vtiger_products.productid = vtiger_seattachmentsrel.crmid')
-			->where(['vtiger_seattachmentsrel.crmid' => $id])
-			->createCommand()->query();
-		$productImageMap = [];
-		while ($imageName = $dataReader->readColumn(0)) {
-			$productImageMap[] = App\Purifier::decodeHtml($imageName);
-		}
-		$dataReader->close();
-		$db->createCommand()->update('vtiger_products', ['imagename' => implode(',', $productImageMap)], ['productid' => $id])
-			->execute();
-		//Remove the deleted vtiger_attachments from db - Products
-		if ($module === 'Products' && \App\Request::_get('del_file_list') != '') {
-			$deleteFileList = explode('###', trim(\App\Request::_get('del_file_list'), '###'));
-			foreach ($deleteFileList as $fileName) {
-				$attachmentId = (new App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
-					->from('vtiger_attachments')
-					->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-					->where(['crmid' => $id, 'name' => $fileName])
-					->scalar();
-				$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $attachmentId])->execute();
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $attachmentId])->execute();
-			}
-		}
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**

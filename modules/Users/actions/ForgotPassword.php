@@ -48,6 +48,8 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 			$userRecordModel = Users_Record_Model::getInstanceByName($userName);
 			\App\User::setCurrentUserId($userRecordModel->getId());
 
+			$userRecordModel->set('changeUserPassword', true);
+			$userRecordModel->set('force_password_change', 0);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->save();
 			\App\Mailer::sendFromTemplate([

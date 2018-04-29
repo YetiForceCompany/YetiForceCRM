@@ -2,13 +2,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="" id="widgetsManagementEditorContainer">
 	<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-	<div class="widget_header row">
+	<div class="widget_header row align-items-lg-center">
 		<div class="col-md-9">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-3">
-			<div class="float-right col-6 col-md-6 paddingLRZero">
+			<div class="float-right col-6 col-md-6 px-0">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
 						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
@@ -17,28 +17,28 @@
 			</div>
 		</div>
 	</div>
-	<ul class="nav nav-tabs massEditTabs selectDashboard marginBottom10px">
+	<ul class="nav nav-tabs massEditTabs selectDashboard mb-2">
 		{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-				<a data-toggle="tab">
+			<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
+				<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-toggle="tab">
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
-					<button class="btn btn-primary btn-sm fas fa-edit marginLeft10 editDashboard"></button>
+					<button class="btn btn-primary btn-sm ml-2 editDashboard"><span class="fas fa-edit"></span></button>
 					{if $DASHBOARD['system'] neq 1}
-						<button class="btn btn-danger btn-sm fas fa-trash-alt marginLeft10 deleteDashboard"></button>
+						<button class="btn btn-danger btn-sm ml-2 deleteDashboard"><span class="fas fa-trash-alt"></span></button>
 					{/if}
 				</a>
 			</li>
 		{/foreach}
-		<li class="addDashboard">
-			<a><strong><span class="fas fa-plus"></span></strong></a>
+		<li class="nav-item addDashboard">
+			<a class="nav-link"><strong><span class="fas fa-plus"></span></strong></a>
 		</li>
 	</ul>
 	<div class="contents tabbable">
 
-		<div class="tab-content paddingNoTop10 themeTableColor overflowVisible">
+		<div class="tab-content themeTableColor overflowVisible">
 
 			<div class="tab-pane active" id="layoutDashBoards">
-				<div class="btn-toolbar marginBottom10px">
+				<div class="btn-toolbar mb-2">
 					<button type="button" class="btn btn-success addBlockDashBoard btn-sm"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 				</div>
 
@@ -48,15 +48,15 @@
 					<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 						{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
-						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
-							<div class="row layoutBlockHeader no-margin">
-								<div class="blockLabel col-sm-5 padding10 ">
-									<span class="marginLeft20">
+						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} mb-2 border1px blockSortable bg-white" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;">
+							<div class="row layoutBlockHeader m-0">
+								<div class="blockLabel col-sm-5 p-2 ">
+									<span class="ml-3">
 										<strong>{\App\Language::translate($AUTHORIZATION_NAME, $SELECTED_MODULE_NAME)}</strong>
 									</span>
 								</div>
-								<div class="col-sm-7 marginLeftZero float-right">
-									<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
+								<div class="col-sm-7 ml-0 float-right">
+									<div class="float-right btn-toolbar blockActions m-1">
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addCustomField" type="button"><span class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
@@ -64,7 +64,7 @@
 										</div>
 										{if $SPECIAL_WIDGETS['Rss']}
 											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 												</button>
@@ -72,7 +72,7 @@
 										{/if}
 										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 												</button>
@@ -80,7 +80,7 @@
 										{/if}
 										{if $SPECIAL_WIDGETS['ChartFilter']}
 											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>&nbsp;
 													<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 												</button>
@@ -88,21 +88,13 @@
 										{/if}
 										{if $SPECIAL_WIDGETS['Notebook']}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
-											<div class="btn-group">
+											<div class="btn-group ml-1">
 												<button class="btn btn-success btn-sm addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
 										{/if}
-										{if $SPECIAL_WIDGETS['Chart']}
-											{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
-											<div class="btn-group">
-												<button class="btn btn-success btn-sm addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
-													<strong>{\App\Language::translate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
-												</button>
-											</div>
-										{/if}
-										<div class="btn-group actions">
+										<div class="btn-group actions ml-1">
 											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger" >
 												<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 											</a>
@@ -111,8 +103,8 @@
 								</div>
 
 							</div>
-							<div class="blockFieldsList blockFieldsSortable row" style="padding:5px;min-height: 27px">
-								<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; min-height: 1px;padding:2px;">
+							<div class="blockFieldsList blockFieldsSortable row p-1" style="min-height: 27px">
+								<ul name="sortable1" class="connectedSortable col-md-6 p-1" style="list-style-type: none; min-height: 1px;">
 									{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO.$AUTHORIZATION_KEY}
 									{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 										{if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -120,7 +112,7 @@
 										{/if}
 									{/foreach}
 								</ul>
-								<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; min-height: 1px;padding:2px;">
+								<ul name="sortable2" class="connectedSortable col-md-6 m-0 p-1" style="list-style-type: none; min-height: 1px;">
 									{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist1}
 										{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 											{include file=\App\Layout::getTemplatePath('WidgetConfig.tpl', $QUALIFIED_MODULE)}
@@ -133,22 +125,27 @@
 				</div>
 				{* copy elements hide *}	
 				<div class="modal addBlockDashBoardModal fade">
-					<div class="modal-dialog">
+					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
-							<div class="modal-header contentsBackground">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h3 class="modal-title">{\App\Language::translate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}</h3>
+							<div class="modal-header">
+								<h5 class="modal-title">
+									<span class="fas fa-plus mr-1"></span>
+									{\App\Language::translate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}
+								</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
 							</div>
 							<form class="form-horizontal addBlockDashBoardForm">
 								<input type="hidden" name="dashboardId" value="{$CURRENT_DASHBOARD}">
 								<div class="modal-body">
-									<div class="form-group">
-										<div class="col-sm-4 col-form-label">
+									<div class="form-group row">
+										<div class="col-sm-4 col-form-label text-right">
 											<span>{\App\Language::translate('LBL_CHOISE_AUTHORIZED', $QUALIFIED_MODULE)}</span>
 											<span class="redColor">*</span>
 										</div>
 										<div class="col-sm-6 controls">
-											<select class="authorized form-control validateForm" name="authorized" style="margin-bottom:0px;" data-validation-engine="validate[required]">
+											<select class="authorized form-control validateForm mb-0" name="authorized" data-validation-engine="validate[required]">
 												{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
 													<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{\App\Language::translate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
 												{/foreach}
@@ -156,22 +153,22 @@
 										</div>
 									</div>
 								</div>
-								{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+								{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 							</form>
 						</div>
 					</div>
 				</div>
 
-				<div class="newCustomBlockCopy d-none marginBottom10px border1px blockSortable " data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;background: white">
-					<div class="row layoutBlockHeader no-margin">
-						<div class="blockLabel col-md-5 padding10 ">
-							<span class="marginLeft20">
+				<div class="newCustomBlockCopy d-none mb-2 border1px blockSortable bg-white" data-block-id="" data-sequence="" style="border-radius: 4px 4px 0px 0px;">
+					<div class="row layoutBlockHeader m-0">
+						<div class="blockLabel col-md-5 p-2 ">
+							<span class="ml-3">
 
 							</span>
 						</div>
-						<div class="col-md-6 marginLeftZero" style="float:right !important;">
+						<div class="col-md-6 ml-0 float-right">
 
-							<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
+							<div class="float-right btn-toolbar blockActions m-1">
 								<div class="btn-group">
 									<button class="btn btn-success btn-sm addCustomField d-none" type="button"><span class="fas fa-plus"></span>&nbsp;
 										<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
@@ -209,14 +206,6 @@
 										</button>
 									</div>
 								{/if}
-								{if $SPECIAL_WIDGETS['Chart']}
-									{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
-									<div class="btn-group">
-										<button class="btn btn-success btn-sm addCharts specialWidget" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
-											<strong>{\App\Language::translate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
-										</button>
-									</div>
-								{/if}
 								<div class="btn-group actions">
 									<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger" >
 										<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
@@ -225,9 +214,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="blockFieldsList row blockFieldsSortable" style="padding:5px;min-height: 27px">
-						<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-						<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+					<div class="blockFieldsList row blockFieldsSortable p-1" style="min-height: 27px">
+						<ul class="connectedSortable col-md-6 ui-sortable float-left p-1" style="list-style-type: none; min-height:1px;" name="sortable1"></ul>
+						<ul class="connectedSortable col-md-6 ui-sortable m-0 float-left p-1" style="list-style-type: none; min-height:1px;" name="sortable2"></ul>
 					</div>
 				</div>
 
@@ -322,19 +311,19 @@
 										</div>	
 									</div>
 								</div>
-								{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+								{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 							</form>
 						</div>
 					</div>
 				</div>
 
 				<li class="newCustomFieldCopy d-none col-md-12">
-					<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
-						<div class="row padding1per">
+					<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence="">
+						<div class="row p-2">
 							<div class="float-left" style="word-wrap: break-word;">
-								<span class="fieldLabel marginLeft20"></span>
+								<span class="fieldLabel ml-3"></span>
 							</div>
-							<span class="btn-group float-right marginRight20 actions">
+							<span class="btn-group float-right mr-3 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
@@ -359,7 +348,7 @@
 													&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
 												</label>
 											</div>
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-3 text-center">
 													<select class="width col-md-1 float-left form-control" name="width" >
 														{foreach from=$SIZE.width item=item}
@@ -371,7 +360,7 @@
 													&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 												</label>
 											</div>
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-3 text-center">
 													<select class="height col-md-1 float-left form-control" name="height">
 														{foreach from=$SIZE.height item=item}
@@ -383,7 +372,7 @@
 													&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 												</label>	
 											</div>
-											<div class="row limit padding1per">
+											<div class="row limit p-2">
 												<div class="col-md-3 text-center" >
 													<input type="text" name="limit" class="col-md-1 form-control" value="10" >
 												</div>
@@ -393,7 +382,7 @@
 											</div>
 										</div>
 										<div class="widgetFilterAll d-none">
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-5">
 													<select class="widgetFilter form-control" id="owner" name="default_owner">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
@@ -405,7 +394,7 @@
 													{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 												</label>
 											</div>	
-											<div class="row padding1per">
+											<div class="row p-2">
 												<div class="col-md-8">
 													<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}

@@ -23,9 +23,10 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');
 		$field->set('typeofdata', 'N~O');
+		$field->set('isEditable', true);
 		$field->set('fromOutsideList', true);
+		$field->set('class', 'validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]');
 		$headerFields['listprice'] = $field;
-
 		return $headerFields;
 	}
 }

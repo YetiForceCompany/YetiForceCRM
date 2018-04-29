@@ -341,7 +341,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 			$this->fieldDataType = $fieldDataType;
 		}
-
 		return $this->fieldDataType;
 	}
 
@@ -413,7 +412,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->isReadOnly)) {
 			return $this->isReadOnly;
 		}
-
 		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
@@ -427,7 +425,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$this->get('uitypeModel')) {
 			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
 		}
-
 		return $this->get('uitypeModel');
 	}
 
@@ -436,7 +433,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->get('uitype') === 15 || $this->get('uitype') === 33 || ($this->get('uitype') === 55 && $this->getFieldName() === 'salutationtype')) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -522,7 +518,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isMandatory()
 	{
 		$typeOfData = explode('~', $this->get('typeofdata'));
-
 		return (isset($typeOfData[1]) && $typeOfData[1] === 'M') ? true : false;
 	}
 
@@ -571,7 +566,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$this->isViewEnabled() || !$this->isActiveReference() || (($this->get('uitype') === 306 || $this->get('uitype') === 307 || $this->get('uitype') === 311 || $this->get('uitype') === 312) && $this->getDisplayType() === 2)) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -665,13 +659,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$moduleModel = $this->getModule();
 		$quickCreate = $this->get('quickcreate');
-		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory()) && $this->get('uitype') != 69 && $this->get('uitype') != 311) {
+		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory())) {
 			//isQuickCreateSupported will not be there for settings
 			if (method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -773,40 +766,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to get the Report column name transformation of the field.
-	 *
-	 * @return string - tablename:columnname:module_fieldlabel:fieldname:fieldtype
-	 */
-	public function getReportFilterColumnName()
-	{
-		$moduleName = $this->getModuleName();
-		$tableName = $this->get('table');
-		$columnName = $this->get('column');
-		$fieldName = $this->get('name');
-		$fieldLabel = $this->get('label');
-		$typeOfData = $this->get('typeofdata');
-
-		$fieldTypeOfData = explode('~', $typeOfData);
-		$fieldType = $fieldTypeOfData[0];
-		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
-		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
-		}
-		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
-		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
-
-		if ($tableName === 'vtiger_crmentity' && $columnName != 'smownerid') {
-			$tableName = 'vtiger_crmentity' . $moduleName;
-		} elseif ($columnName === 'smownerid') {
-			$tableName = 'vtiger_users' . $moduleName;
-			$columnName = 'user_name';
-		}
-
-		return $tableName . ':' . $columnName . ':' . $moduleFieldLabel . ':' . $fieldName . ':' . $fieldType;
-	}
-
-	/**
 	 * This is set from Workflow Record Structure, since workflow expects the field name
 	 * in a different format in its filter. Eg: for module field its fieldname and for reference
 	 * fields its reference_field_name : (reference_module_name) field - salesorder_id: (SalesOrder) subject.
@@ -871,7 +830,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
@@ -1209,7 +1168,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams'),
-		], ['fieldid' => $this->get('id')])->execute();
+			], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 		}

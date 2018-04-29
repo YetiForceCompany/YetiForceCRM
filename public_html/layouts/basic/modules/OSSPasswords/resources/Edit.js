@@ -5,14 +5,14 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 	 */
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if (typeof form == 'undefined') {
+		if (typeof form === "undefined") {
 			form = this.getForm();
 		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 			var password = form.find('[name="password"]').val();
 			var id = form.find('[name="record"]').val();
 			var params = {};
-			if (password == '**********') {
+			if (password === '**********') {
 				params = {};
 				params.data = {
 					module: "OSSPasswords",
@@ -28,44 +28,38 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 							el.value = response['password'];
 							el.onchange();
 						}
-					},
-					function (data, err) {
-
-					}
-				);
-
+					});
 				// validate password
 				passwordStrength('', '');
-
 			}
 			password = form.find('[name="password"]').val();
 			params = {};
 			params.data = {module: 'OSSPasswords', action: 'CheckPass', 'password': password, 'id': id};
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-				function (data) {
-					if (data.result.success == false) {
-						var params = {
-							text: data.result.message,
-							sticker: false,
-							sticker_hover: false,
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						send = false;
-					} else {
-						send = true;
-						form.submit();
-					}
-				},
-				function (data, err) {
-					send = false;
-				}
-			);
-
-			if (send == false)
-				return false;
+			// if we doesn't have passwordError property it means that we are submitting first time
+			// if we submitting first time we don't want to submit - we are only checking password
+			// if password is ok then we are firing submit again with passwordError set
+			if (typeof thisInstance.passwordError === 'undefined' || thisInstance.passwordError) {
+				e.preventDefault();
+			}
+			AppConnector.request(params).then(function (data) {
+				if (data.result.success === false) {
+					var params = {
+						text: data.result.message,
+						sticker: false,
+						sticker_hover: false,
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+					thisInstance.sending = false;
+					thisInstance.passwordError = true;
+				} else if (data.result.success === true && (typeof thisInstance.sending === 'undefined' || !thisInstance.sending)) {
+					thisInstance.sending = true;
+					thisInstance.passwordError = false;
+					form.submit();
+				} // else just send final request
+			});
 		});
 	},
 	generatePassword: function (e) {
@@ -77,14 +71,14 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 		var password = '';   // variable holding new password
 		// array of allowed characters that will consist of password
 		// if there there is something wrong build the password from only exclamation marks
-		if (typeof (allowedChars) === 'undefined')
+		if (typeof (allowedChars) === "undefined")
 			allowedChars = '!';
 		var chArray = allowedChars.split(',');
 		// min length of a password
-		if (typeof (min) === 'undefined')
+		if (typeof (min) === "undefined")
 			min = 10;   // default 10
 		// max length of a password
-		if (typeof (max) === 'undefined')
+		if (typeof (max) === "undefined")
 			max = 15;   // default 15
 		// get the password length
 		var passlength = parseInt(Math.random() * (max - min) + min);

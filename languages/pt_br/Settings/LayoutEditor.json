@@ -160,7 +160,10 @@
 	"LBL_CHOOSE_LANGUAGE": "Language",
 	"LBL_EDIT_VIEW": "Criar & Editar",
 	"LBL_DETAIL_VIEW": "Ver Detalhes & Ver Resumos",
-	"LBL_QUICK_CREATE_VIEW": "Cria\u00e7\u00e3o R\u00e1pida"
+	"LBL_QUICK_CREATE_VIEW": "Cria\u00e7\u00e3o R\u00e1pida",
+	"Image": "Image file",
+    	"MultiImage": "Multi image files",
+    	"DateTime": "Date and time file"
   },
   "js": {
 	"JS_BLOCK_NAME_EXISTS": "Nome do Bloco j\u00e1 existe",

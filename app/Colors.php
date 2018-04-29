@@ -3,8 +3,8 @@
  * Colors stylesheet generator class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Sławomir Kłos <s.klos@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 namespace App;
@@ -14,6 +14,8 @@ namespace App;
  */
 class Colors
 {
+	public const EMPTY_COLOR = 'rgba(0,0,0,0.1)';
+
 	/**
 	 * Generate stylesheet file.
 	 *
@@ -315,5 +317,25 @@ class Colors
 		self::generate('module');
 
 		return $color;
+	}
+
+	/**
+	 * Get all filter colors.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllFilterColors($byFilterValue = false)
+	{
+		if (Cache::has('getAllFilterColors', $byFilterValue)) {
+			return Cache::get('getAllFilterColors', $byFilterValue);
+		}
+		$customViews = (new Db\Query())->select(['cvid', 'viewname', 'color'])->from('vtiger_customview')->all();
+		$filterColors = [];
+		$by = $byFilterValue ? 'viewname' : 'cvid';
+		foreach ($customViews as $viewData) {
+			$filterColors[$viewData[$by]] = $viewData['color'] ? $viewData['color'] : static::getRandomColor($viewData[$by]);
+		}
+		Cache::save('getAllFilterColors', $byFilterValue, $filterColors);
+		return $filterColors;
 	}
 }

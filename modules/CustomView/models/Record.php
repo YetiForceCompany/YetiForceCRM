@@ -944,8 +944,8 @@ class CustomView_Record_Model extends \App\Base
 	public static function getAllByGroup($moduleName = '', $menuId = false)
 	{
 		$customViews = self::getAll($moduleName);
-		$filters = $groupedCustomViews = [];
-		$menuFilter = false;
+		$filters = array_keys($customViews);
+		$groupedCustomViews = [];
 		if ($menuId) {
 			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
@@ -958,14 +958,15 @@ class CustomView_Record_Model extends \App\Base
 				require 'user_privileges/menu_0.php';
 			}
 			if (array_key_exists($menuId, $filterList)) {
-				$filters = explode(',', $filterList[$menuId]['filters']);
-				$menuFilter = true;
+				$filtersMenu = explode(',', $filterList[$menuId]['filters']);
+				$filters = array_intersect($filtersMenu, $filters);
+				if (empty($filters)) {
+					$filters = [App\CustomView::getInstance($moduleName)->getDefaultCvId()];
+				}
 			}
 		}
-		foreach ($customViews as $index => $customView) {
-			if ($menuFilter && !in_array($customView->getId(), $filters)) {
-				continue;
-			}
+		foreach ($filters as $id) {
+			$customView = $customViews[$id];
 			if ($customView->isSystem()) {
 				$groupedCustomViews['System'][] = $customView;
 			} elseif ($customView->isMine()) {
@@ -976,7 +977,6 @@ class CustomView_Record_Model extends \App\Base
 				$groupedCustomViews['Others'][] = $customView;
 			}
 		}
-
 		return $groupedCustomViews;
 	}
 

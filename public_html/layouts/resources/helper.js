@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-jQuery.Class("Vtiger_Helper_Js", {
+$.Class("Vtiger_Helper_Js", {
 	checkServerConfigResponseCache: '',
 	langCode: '',
 	/*
@@ -88,13 +88,13 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var timeComponent = dateTimeComponents[1];
 		var seconds = '00';
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 
@@ -105,23 +105,23 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var date = splittedDate[splittedDateFormat.indexOf("dd")];
 		var dateInstance = Date.parse(year + dotMode + month + dotMode + date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
-			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			var errorMsg = app.vtranslate('JS_INVALID_DATE');
 			throw errorMsg;
 		}
 
 		//Before creating date object time is set to 00
 		//because as while calculating date object it depends system timezone
-		if (typeof timeComponent == "undefined") {
+		if (typeof timeComponent === "undefined") {
 			timeComponent = '00:00:00';
 		}
 
 		var timeSections = timeComponent.split(':');
-		if (typeof timeSections[2] != 'undefined') {
+		if (typeof timeSections[2] !== "undefined") {
 			seconds = timeSections[2];
 		}
 
 		//Am/Pm component exits
-		if (typeof dateTimeComponents[2] != 'undefined') {
+		if (typeof dateTimeComponents[2] !== "undefined") {
 			timeComponent += ' ' + dateTimeComponents[2];
 			if (dateTimeComponents[2].toLowerCase() == 'pm' && timeSections[0] != '12') {
 				timeSections[0] = parseInt(timeSections[0], 10) + 12;
@@ -140,7 +140,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 * Function to show the confirmation messagebox
 	 */
 	showConfirmationBox: function (params) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var baseParams = {
 			callback: function (result) {
 				if (result) {
@@ -154,18 +154,18 @@ jQuery.Class("Vtiger_Helper_Js", {
 		bootBoxModal.on('hidden', function (e) {
 			//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 			// modal open
-			if (jQuery('#globalmodal').length > 0) {
+			if ($('#' + Window.lastModalId).length > 0) {
 				// Mimic bootstrap modal action body state change
-				jQuery('body').addClass('modal-open');
+				$('body').addClass('modal-open');
 			}
 		})
 		return aDeferred.promise();
 	},
 	showMessage: function (params) {
-		if (typeof params.type == "undefined") {
+		if (typeof params.type === "undefined") {
 			params.type = 'info';
 		}
-		if (typeof params.title == "undefined") {
+		if (typeof params.title === "undefined") {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
 		Vtiger_Helper_Js.showPnotify(params);
@@ -175,7 +175,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 */
 	showPnotify: function (customParams) {
 		let userParams = customParams;
-		if (typeof customParams == 'string') {
+		if (typeof customParams === 'string') {
 			userParams = {};
 			userParams.text = customParams;
 		}
@@ -198,22 +198,22 @@ jQuery.Class("Vtiger_Helper_Js", {
 				}
 			}
 		}
-		if (typeof customParams.type != 'undefined' && customParams.type != 'error') {
+		if (typeof customParams.type !== "undefined" && customParams.type != 'error') {
 			params.data.hide = true;
 		}
-		if (typeof userParams != 'undefined') {
-			params.data = jQuery.extend(params.data, userParams);
+		if (typeof userParams !== "undefined") {
+			params.data = $.extend(params.data, userParams);
 		}
-		PNotify.defaults.styling = "bootstrap4";
-		PNotify.defaults.icons = "fontawesome5";
+		PNotify.defaults.styling = 'bootstrap4';
+		PNotify.defaults.icons = 'fontawesome5';
 		return new PNotify(params);
 	},
 	/*
 	 * Function to remove pnotify message
 	 */
 	hidePnotify: function (notice) {
-		if (typeof notice == 'undefined') {
-			notice = jQuery('.ui-pnotify');
+		if (typeof notice === "undefined") {
+			notice = $('.ui-pnotify');
 		}
 		notice.remove();
 	},
@@ -229,12 +229,12 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 * Function to show horizontal top scroll bar
 	 */
 	showHorizontalTopScrollBar: function () {
-		var container = jQuery('.contentsDiv');
-		var topScroll = jQuery('.contents-topscroll', container);
-		var bottomScroll = jQuery('.contents-bottomscroll', container);
-		jQuery('.bottomscroll-div', container).attr('style', '');
-		jQuery('.topscroll-div', container).css('width', jQuery('.bottomscroll-div', container).outerWidth());
-		jQuery('.bottomscroll-div', container).css('width', jQuery('.topscroll-div', container).outerWidth());
+		var container = $('.contentsDiv');
+		var topScroll = $('.contents-topscroll', container);
+		var bottomScroll = $('.contents-bottomscroll', container);
+		$('.bottomscroll-div', container).attr('style', '');
+		$('.topscroll-div', container).css('width', $('.bottomscroll-div', container).outerWidth());
+		$('.bottomscroll-div', container).css('width', $('.topscroll-div', container).outerWidth());
 		topScroll.on('scroll', function () {
 			bottomScroll.scrollLeft(topScroll.scrollLeft());
 		});
@@ -244,13 +244,13 @@ jQuery.Class("Vtiger_Helper_Js", {
 	},
 	convertToDateString: function (stringDate, dateFormat, modDay, type) {
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 
@@ -261,7 +261,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var date = splittedDate[splittedDateFormat.indexOf("dd")];
 		var dateInstance = new Date(year, month - 1, date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
-			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			var errorMsg = app.vtranslate('JS_INVALID_DATE');
 			throw errorMsg;
 		}
 		var newDate = dateInstance;
@@ -287,14 +287,14 @@ jQuery.Class("Vtiger_Helper_Js", {
 		element.find('option').each(function (index, option) {
 			option = $(option);
 			if (value != option.data(attr)) {
-				option.addClass("d-none");
-				option.attr("disabled", "disabled");
+				option.addClass('d-none');
+				option.attr('disabled', 'disabled');
 			} else {
 				if (opval == '') {
 					opval = option.val();
 				}
 				option.removeClass('d-none');
-				option.removeAttr("disabled");
+				option.removeAttr('disabled');
 			}
 		});
 		element.val(opval);

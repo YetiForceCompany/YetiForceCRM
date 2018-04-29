@@ -7,19 +7,20 @@
 				{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="float-left btn-toolbar">
-			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-				<button class="btn addButton btn-success" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-						{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
-								<i class="fas fa-plus"></i>&nbsp;
-								<strong>{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
-							</button>
-							{/foreach}
+		<div class="d-flex justify-content-between my-1">
+			<div class="btn-toolbar">
+				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+					<button class="btn addButton btn-success" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+							{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
+									<i class="fas fa-plus"></i>&nbsp;
+									<strong>{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
+								</button>
+								{/foreach}
+								</div>
+								<div class="btn-toolbar">
+									{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
+								</div>
 							</div>
-							<div class="float-right btn-toolbar">
-								{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="listViewContentDiv" id="listViewContents">
-							{/strip}
+					</div>
+					<div class="listViewContentDiv" id="listViewContents">
+						{/strip}

@@ -8,11 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_rfc2445.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_components.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_properties.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_parameters.php');
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_rfc2445.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_properties.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_parameters.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
 Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_ImportICS_Action extends \App\Controller\Action
@@ -56,18 +56,21 @@ class Calendar_ImportICS_Action extends \App\Controller\Action
 			];
 
 			$requiredFields = [];
-			$modules = [$eventModule, $todoModule];
-			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
-
-			foreach ($modules as $module) {
-				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
+			foreach ([$eventModule, $todoModule] as $module) {
+				$moduleRequiredFields = [];
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				foreach ($moduleModel->getFields() as $field) {
+					if ($field->isActiveField() && $field->isMandatory() && !in_array($field->getUIType(), [53, 70])) {
+						$moduleRequiredFields[] = $field->getName();
+					}
+				}
 				$requiredFields[$module] = array_diff($moduleRequiredFields, $skipFields[$module]);
 				$totalCount[$module] = 0;
 				$skipCount[$module] = 0;
 			}
 
 			$ical = new Ical();
-			$icalActivities = $ical->iCalReader($ics);
+			$icalActivities = $ical->iCalReader($icsUrl);
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; ++$i) {

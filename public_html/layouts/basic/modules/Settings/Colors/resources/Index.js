@@ -44,7 +44,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			container: true,
 			color: colorObject.data('color')
 		};
-		if (typeof customParams != 'undefined') {
+		if (typeof customParams !== "undefined") {
 			params = jQuery.extend(params, customParams);
 		}
 		data.find('.calendarColorPicker').colorpicker(params)

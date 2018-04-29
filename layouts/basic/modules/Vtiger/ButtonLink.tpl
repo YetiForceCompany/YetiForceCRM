@@ -9,7 +9,7 @@
 		{/if}
 		{assign var="LINK_URL" value=$LINK->getUrl()}
 		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
-	{if $LINK->get('linkhref')}<a{else}<button type="button"{/if}{/strip} {strip}
+	{if $LINK->get('linkhref')}<a role="button"{else}<button type="button"{/if}{/strip} {strip}
 					{if !$LINK->isActive()} disabled {/if}{/strip} {strip}
 						class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-light {/if}{$LINK->getClassName()}{else}btn-light{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}" data-js="popover"
 						{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
@@ -20,7 +20,7 @@
 											{/if}
 												{/strip} {strip}
 														{if $LABEL neq '' && $LINK->get('showLabel') != 1}
-															data-placement="bottom"{/strip} {strip}
+															data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{/strip} {strip}
 															data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 														{/if}
 													{/strip} {strip}
@@ -63,7 +63,9 @@
 														{/if}
 														{if $LABEL neq '' && $LINK->get('showLabel') == 1}
 															{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
-															<strong>{\App\Language::translate($LABEL, $BTN_MODULE)}</strong>
+															{\App\Language::translate($LABEL, $BTN_MODULE)}
+														{else}
+														<span class="sr-only">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 														{/if}
 														{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 										</div>

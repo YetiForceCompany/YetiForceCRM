@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 
-if (typeof (ImportJs) == 'undefined') {
+if (typeof (ImportJs) === "undefined") {
 	/*
 	 * Namespaced javascript class for Import
 	 */
@@ -147,14 +147,14 @@ if (typeof (ImportJs) == 'undefined') {
 		convertOptionsToJSONArray: function (objName, targetObjName) {
 			var obj = jQuery(objName);
 			var arr = [];
-			if (typeof (obj) != 'undefined' && obj[0] != '') {
+			if (typeof (obj) !== "undefined" && obj[0] != '') {
 				for (i = 0; i < obj[0].length; ++i) {
 					arr.push(obj[0].options[i].value);
 				}
 			}
-			if (targetObjName != 'undefined') {
+			if (targetObjName !== "undefined") {
 				var targetObj = $(targetObjName);
-				if (typeof (targetObj) != 'undefined')
+				if (typeof (targetObj) !== "undefined")
 					targetObj.val(JSON.stringify(arr));
 			}
 			return arr;
@@ -164,7 +164,7 @@ if (typeof (ImportJs) == 'undefined') {
 			var srcObj = jQuery(source);
 			var destObj = jQuery(destination);
 
-			if (typeof (srcObj) == 'undefined' || typeof (destObj) == 'undefined')
+			if (typeof (srcObj) === "undefined" || typeof (destObj) === "undefined")
 				return;
 
 			for (i = 0; i < srcObj[0].length; i++) {
@@ -195,7 +195,7 @@ if (typeof (ImportJs) == 'undefined') {
 		},
 		removeSelectedOptions: function (objName) {
 			var obj = jQuery(objName);
-			if (obj == null || typeof (obj) == 'undefined')
+			if (obj == null || typeof (obj) === "undefined")
 				return;
 
 			for (i = obj[0].options.length - 1; i >= 0; i--) {
@@ -385,7 +385,7 @@ if (typeof (ImportJs) == 'undefined') {
 		},
 		loadDefaultValueWidget: function (rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);
-			if (typeof affectedRow == 'undefined' || affectedRow == null)
+			if (typeof affectedRow === "undefined" || affectedRow == null)
 				return;
 			var selectedFieldElement = jQuery('[name=mapped_fields]', affectedRow).get(0);
 			var selectedFieldName = jQuery(selectedFieldElement).val();

@@ -3,6 +3,7 @@
 namespace App\Dav;
 
 use Sabre\DAV;
+use Sabre\HTTP\URLUtil;
 
 /**
  * File class.

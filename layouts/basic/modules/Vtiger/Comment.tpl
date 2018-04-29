@@ -15,21 +15,27 @@
 		<div class="singleComment">
 			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="float-left">
-					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-					{if $IMAGE_PATH}
-						<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
-					{else}	
+					{assign var=IMAGE value=$COMMENT->getImage()}
+					{if $IMAGE}
+						<img class="userImage float-left" alt="" src="{$IMAGE.url}">
+						<br/>
+					{else}
 						<span class="fas fa-user userImage float-left"></span>
 					{/if}
 				</div>
-				<div class="commentTitle ml-5 d-flex justify-content-between" id="{$COMMENT->getId()}">
+				<div class="commentTitle ml-5 mb-0 d-flex justify-content-between" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="commentorInfo">
+					<div class="commentorInfo w-100">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-						<span class="commentorName float-left">
-							<strong>{$COMMENTOR->getName()}</strong>
-						</span><br />
+						<div class="d-flex justify-content-between">
+							<span class="commentorName">
+								<strong>{$COMMENTOR->getName()}</strong>
+							</span>
+							<span class="pr-2">
+								<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
+							</span>
+						</div>
 						{if $HIERARCHY}
 							{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"  />
@@ -43,28 +49,23 @@
 							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
 					</div>
-					<div>
-						<span class="float-right pr-2">
-							<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
-						</span>
-					</div>
 				</div>
 			</div>
-			<div class="commentActionsContainer row m-0">
+			<div class="commentActionsContainer d-flex flex-wrap justify-content-between align-items-center m-0">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="col editedStatus d-none d-xl-block"  name="editStatus">
+				<div class="editedStatus" name="editStatus">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
-						<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
+						<p>
+							<small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span></small>
+							{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+								<span class="d-block text-muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></span>
+							{/if}
+						</p>
 					</span>
 				</div>
-				{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-					<div class="{if !empty($REASON_TO_EDIT)} col-2{/if} d-none d-xl-block">
-						<span class="text-muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></span>
-					</div>
-				{/if}
-				<div class="commentActionsDiv col p-0">
+				<div class="commentActionsDiv p-0">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<div class="float-right commentActions">
+					<div class="commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}

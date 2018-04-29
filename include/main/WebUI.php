@@ -52,7 +52,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$returnUrl = $request->getServer('QUERY_STRING');
 			if ($returnUrl && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
-				$returnUrl = urlencode($returnUrl);
 				App\Session::set('return_params', $returnUrl);
 			}
 			if (!$request->isAjax()) {
@@ -169,6 +168,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($handler->loginRequired()) {
 				$this->checkLogin($request);
 			}
+			if ($handler->isSessionExtend()) {
+				\App\Session::set('last_activity', \App\Config::$startTime);
+			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
 				header('Location:index.php?module=Home&view=DashBoard');
 			}
@@ -254,7 +256,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
-
 			return true;
 		}
 		$handler->preProcess($request);
@@ -271,6 +272,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function triggerPostProcess(\App\Controller\Base $handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
+			$handler->postProcessAjax($request);
 			return true;
 		}
 		$handler->postProcess($request);

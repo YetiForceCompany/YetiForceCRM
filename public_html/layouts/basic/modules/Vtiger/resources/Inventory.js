@@ -624,38 +624,35 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	},
 	/**
 	 * Function which will be used to handle price book popup
-	 * @params :  popupImageElement - popup image element
+	 * @params :  element - popup image element
 	 */
-	pricebooksPopupHandler: function (popupImageElement) {
-		var thisInstance = this;
-		var lineItemRow = popupImageElement.closest(this.rowClass);
-		var rowName = lineItemRow.find('.rowName');
-		var params = {};
-		params.module = 'PriceBooks';
-		params.src_module = $('[name="popupReferenceModule"]', rowName).val();
-		params.src_record = $('.sourceField', rowName).val();
-		params.src_field = $('[name="popupReferenceModule"]', rowName).data('field');
-		params.get_url = 'getProductUnitPriceURL';
-		params.currency_id = thisInstance.getCurrency();
-		this.showPopup(params).then(function (data) {
-			var responseData = JSON.parse(data);
-			for (var id in responseData) {
-				if (responseData[id]) {
-					thisInstance.setUnitPrice(lineItemRow, responseData[id]);
-				} else {
-					app.errorLog('Incorrect data', responseData);
-				}
-			}
-			thisInstance.quantityChangeActions(thisInstance.getClosestRow(rowName));
+	pricebooksModalHandler: function (element) {
+		const thisInstance = this;
+		let lineItemRow = element.closest(this.rowClass);
+		let rowName = lineItemRow.find('.rowName');
+		app.showRecordsList({
+			module: 'PriceBooks',
+			src_module: $('[name="popupReferenceModule"]', rowName).val(),
+			src_record: $('.sourceField', rowName).val(),
+			src_field: $('[name="popupReferenceModule"]', rowName).data('field'),
+			currency_id: thisInstance.getCurrency(),
+		}, (modal, instance) => {
+			instance.setSelectEvent((responseData) => {
+				AppConnector.request({
+					module: 'PriceBooks',
+					action: 'ProductListPrice',
+					record: responseData.id,
+					src_record: $('.sourceField', rowName).val(),
+				}).then(function (data) {
+					if(data.result){
+						thisInstance.setUnitPrice(lineItemRow, data.result);
+						thisInstance.quantityChangeActions(lineItemRow);
+					} else {
+						app.errorLog('Incorrect data', responseData);
+					}
+				});
+			});
 		});
-	},
-	showPopup: function (params) {
-		var aDeferred = $.Deferred();
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		popupInstance.show(params, function (data) {
-			aDeferred.resolve(data);
-		});
-		return aDeferred.promise();
 	},
 	subProductsCashe: [],
 	loadSubProducts: function (parentRow, indicator) {
@@ -736,7 +733,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			}
 
 			var currencyId = thisInstance.getCurrency();
-			if (typeof unitPriceValues[currencyId] !== 'undefined') {
+			if (typeof unitPriceValues[currencyId] !== "undefined") {
 				unitPrice = unitPriceValues[currencyId];
 			} else {
 				unitPrice = recordData.price;
@@ -751,7 +748,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			} else {
 				commentElement.val(description);
 			}
-			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
+			if (typeof recordData['autoFields']['unit'] !== "undefined") {
 				switch (recordData['autoFields']['unit']) {
 					default:
 						$('.qtyParamInfo', parentRow).addClass('hidden');
@@ -835,8 +832,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		inventoryRowExpanded.removeClass('d-none');
 
 		var listInstance = Vtiger_Edit_Js.getInstance();
-		$.each(inventoryRowExpanded.find('.js-ckeditor'), function (key, data) {
-			listInstance.loadCkEditorElement($(data));
+		$.each(inventoryRowExpanded.find('.js-editor'), function (key, data) {
+			listInstance.loadEditorElement($(data));
 		});
 	},
 	hideExpandedRow: function (row) {
@@ -848,7 +845,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		element.find('[data-fa-i2svg]').removeClass('fa-angle-up');
 		element.find('[data-fa-i2svg]').addClass('fa-angle-down');
 		inventoryRowExpanded.addClass('d-none');
-		$.each(inventoryRowExpanded.find('.js-ckeditor'), function (key, data) {
+		$.each(inventoryRowExpanded.find('.js-editor'), function (key, data) {
 			var editorInstance = CKEDITOR.instances[$(data).attr('id')];
 			if (editorInstance) {
 				editorInstance.destroy();
@@ -983,7 +980,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			var currencyParam = JSON.parse(block.find('.currencyparam').val());
 
 			if (currencyParam != false) {
-				if (typeof currencyParam[option.val()] == 'undefined') {
+				if (typeof currencyParam[option.val()] === "undefined") {
 					var defaultCurrencyParams = [];
 					defaultCurrencyParams['value'] = 1;
 					defaultCurrencyParams['date'] = '';
@@ -1088,7 +1085,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				ui.item.startPos = ui.item.index();
 			},
 			stop: function (event, ui) {
-				var numrow = $(ui.item.context).attr('numrow');
+				var numrow = $(ui.item).attr('numrow');
 				var child = items.find('.numRow' + numrow).remove().clone();
 				items.find('[numrow="' + numrow + '"]').after(child);
 				if (ui.item.startPos < ui.item.index()) {
@@ -1111,15 +1108,15 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			}
 		});
 	},
-	registerPriceBookPopUp: function (container) {
+	registerPriceBookModal: function (container) {
 		var thisInstance = this;
-		container.on('click', '.priceBookPopup', function (e) {
+		container.on('click', '.js-price-book-modal', function (e) {
 			var element = $(e.currentTarget);
 			var response = thisInstance.isRecordSelected(element);
 			if (response == true) {
 				return;
 			}
-			thisInstance.pricebooksPopupHandler(element);
+			thisInstance.pricebooksModalHandler(element);
 		});
 	},
 	registerRowChangeEvent: function (container) {
@@ -1401,11 +1398,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	},
 	initItem: function (container) {
 		var thisInstance = this;
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = thisInstance.getInventoryItemsContainer();
 		}
 		thisInstance.registerDeleteLineItemEvent(container);
-		thisInstance.registerPriceBookPopUp(container);
+		thisInstance.registerPriceBookModal(container);
 		thisInstance.registerRowChangeEvent(container);
 		thisInstance.registerRowAutoComplete(container);
 		thisInstance.checkDeleteIcon();
@@ -1432,10 +1429,10 @@ $.Class("Vtiger_Inventory_Js", {}, {
 $(document).ready(function () {
 	var moduleName = app.getModuleName();
 	var moduleClassName = moduleName + "_Inventory_Js";
-	if (typeof window[moduleClassName] == 'undefined') {
+	if (typeof window[moduleClassName] === "undefined") {
 		moduleClassName = "Vtiger_Inventory_Js";
 	}
-	if (typeof window[moduleClassName] != 'undefined') {
+	if (typeof window[moduleClassName] !== "undefined") {
 		var inventoryController = new window[moduleClassName]();
 		inventoryController.registerEvents(Vtiger_Edit_Js.getInstance().getForm());
 	}

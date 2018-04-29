@@ -5,12 +5,14 @@
 			<div class="widget_header row">
 				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-					{if isset($SELECTED_PAGE)}
-						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-					{/if}
 				</div>
 			</div>
-			<div class="row">
+			<div class="badge badge-info my-2">
+				{if isset($SELECTED_PAGE)}
+					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
+			</div>
+			<div class="form-row align-items-center mb-2">
 				<div class="col-md-4 btn-toolbar">
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						<button class="btn addButton btn-success" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
@@ -20,8 +22,8 @@
 									</button>
 									{/foreach}
 									</div>
-									<div class="col-md-4 btn-toolbar marginLeftZero" >
-										<select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;">
+									<div class="col-md-4 btn-toolbar ml-0" >
+										<select class="chzn-select form-control ml-1" id="moduleFilter">
 											<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 											{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 												<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
@@ -35,7 +37,7 @@
 										</select>
 
 									</div>
-									<div class="col-md-4 ">
+									<div class="col-md-4 d-flex justify-content-end">
 										{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 									</div>
 								</div>

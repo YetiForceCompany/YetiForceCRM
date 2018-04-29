@@ -28,12 +28,12 @@ $.Class('Settings_Mail_Config_Js', {}, {
 	},
 	registerSignature() {
 		const container = $('#signature');
-		new Vtiger_CkEditor_Js(container.find('.js-ckeditor'), {
+		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
 		container.find('button').on('click', function () {
 			const progressIndicator = $.progressIndicator();
-			const editor = CKEDITOR.instances.signatureCkEditor;
+			const editor = CKEDITOR.instances.signatureEditor;
 			const params = {};
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();

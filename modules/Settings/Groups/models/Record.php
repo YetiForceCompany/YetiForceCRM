@@ -343,7 +343,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()->delete('vtiger_group2role', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_group2rs', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_users2group', ['groupid' => $groupId])->execute();
-		$db->createCommand()->delete('vtiger_reportsharing', ['shareid' => $groupId, 'setype' => 'groups'])->execute();
 		$db->createCommand()->delete('vtiger_group2modules', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_groups', ['groupid' => $groupId])->execute();
 		\App\Cache::clear();

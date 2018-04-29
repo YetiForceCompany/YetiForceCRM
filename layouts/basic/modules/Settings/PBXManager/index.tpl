@@ -10,13 +10,13 @@
 -->*}
 {strip}
 	<div id="AsteriskServerDetails">
-		<div class="widget_header row">
+		<div class="widget_header row align-items-center">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
-			<div class="col-md-4">
-				<div class="float-right pushDown">
+			<div class="col-md-4 pr-3">
+				<div class="float-right">
 					<button class="btn btn-info editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}">
 						<strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
 					</button>
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class='clearfix'></div>
-		<div class="contents">
+		<div class="contents mt-2">
 			<table class="table table-bordered table-sm themeTableColor">
 				<thead>
 					<tr class="blockHeader">
@@ -36,8 +36,8 @@
 				<tbody>
 					{assign var=FIELDS value=PBXManager_PBXManager_Connector::getSettingsParameters()}
 					{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
-						<tr><td width="25%"><label class="muted float-right marginRight10px">{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
-							<td style="border-left: none;"><span>{$RECORD_MODEL->get($FIELD_NAME)}</span></td></tr>
+						<tr><td class="u-w-30per align-middle pr-2"><label class="muted float-right u-text-small-bold align-middle mb-0">{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
+							<td class="border-left-0"><span>{$RECORD_MODEL->get($FIELD_NAME)}</span></td></tr>
 								{/foreach}
 				<input type="hidden" name="module" value="PBXManager" />
 				<input type="hidden" name="action" value="SaveAjax" />
@@ -47,7 +47,7 @@
 			</table>
 		</div>
 		<br />
-		<div class="col-md-8 alert alert-danger container">
+		<div class="col-md-8 alert alert-danger container form-row m-0">
 			{\App\Language::translate('LBL_NOTE', $QUALIFIED_MODULE)}<br />
 			{\App\Language::translate('LBL_PBXMANAGER_INFO', $QUALIFIED_MODULE)}
 		</div>	

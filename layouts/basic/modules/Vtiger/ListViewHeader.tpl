@@ -13,7 +13,7 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint mb-2">
 			<div class="listViewActionsDiv row">
-				<div class="col-md-4 col-sm-6 col-12">
+				<div class="col-lg-5 col-12">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
 					{assign var=LINKS value=[]}
 					{if $LISTVIEW_MASSACTIONS}
@@ -27,7 +27,7 @@
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
-				<div class="col-md-3 col-sm-5 col-12">
+				<div class="col-lg-7 col-12 d-flex flex-wrap flex-sm-nowrap flex-md-nowrap flex-lg-nowrap justify-content-center justify-content-md-end justify-content-lg-end">
 					<div class="customFilterMainSpan">
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
@@ -64,8 +64,6 @@
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
 					</div>
-				</div>
-				<div class="col-12 col-md-5 d-flex flex-row-reverse">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 				<span class="d-none filterActionImages float-right">
@@ -77,11 +75,11 @@
 				</span>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
-				<ul class="nav nav-tabs pt-2 font-weight-bold" role="tablist">
+				<ul class="nav nav-tabs pt-2" role="tablist">
 					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 						{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 							{if $CUSTOM_VIEW->isFeatured()}
-								<li class="nav-item featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">
+								<li class="nav-item featuredLabel c-tab--small font-weight-bold" data-cvid="{$CUSTOM_VIEW->getId()}">
 									<a class="nav-link" href="#" {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if} data-toggle="tab" role="tab" aria-selected="false">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}

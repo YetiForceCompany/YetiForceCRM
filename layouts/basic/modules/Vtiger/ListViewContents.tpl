@@ -41,6 +41,7 @@
 			<thead>
 				<tr class="listViewHeaders">
 					<th class="p-2">
+						<label class="sr-only" for="listViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
 						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -66,9 +67,13 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-								<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
-								<a class="btn btn-light float-right listRemoveBtn" href="index.php?view={$VIEW}&module={$MODULE}" >
-									<span class="fas fa-times"></span>
+								<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);">
+									<span class="fas fa-search" aria-hidden="true"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
+								</a>
+								<a class="btn btn-light float-right listRemoveBtn" href="index.php?view={$VIEW}&module={$MODULE}">
+									<span class="fas fa-times" aria-hidden="true"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_RESET')}</span>
 								</a>
 							</div>
 						</td>
@@ -93,7 +98,7 @@
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 					{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-						<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left: 5px solid {$RECORD_COLORS['leftBorder']};"{/if}>
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 							{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
@@ -121,7 +126,8 @@
 						<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}" >
 							{if !empty($LISTVIEW_HEADER->isCalculateField())}
 								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-									<span class="fas fa-signal"></span>
+									<span class="fas fa-signal" aria-hidden="true"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}</span>
 								</button>
 								<span class="calculateValue"></span>
 							{/if}

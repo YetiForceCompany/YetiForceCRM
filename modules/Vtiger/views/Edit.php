@@ -74,7 +74,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$viewer->assign('MODE', '');
+			$viewer->assign('MODE', 'duplicate');
 			$viewer->assign('RECORD_ID', '');
 			$this->getDuplicate();
 		} elseif (!empty($record)) {

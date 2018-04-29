@@ -3,8 +3,8 @@
  * View to create chart with a filter.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
@@ -30,11 +30,10 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 					'Pie' => 'LBL_PIE_CHART',
 					'Donut' => 'LBL_DONUT_CHART',
 					'Axis' => 'LBL_AXIS_CHART',
-					'Bardivided' => 'LBL_BAR_DIVIDED_CHART',
-					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
+					'Bar' => 'LBL_VERTICAL_BAR_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
 					'Line' => 'LBL_LINE_CHART',
-					'Lineplain' => 'LBL_LINE_CHART_PLAIN',
+					'LinePlain' => 'LBL_LINE_CHART_PLAIN',
 					'Funnel' => 'LBL_FUNNEL_CHART',
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);
@@ -43,15 +42,14 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
-				$selectedModule = $request->getByType('selectedModule', 2);
-				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
-				$viewer->assign('ALLFILTERS', $filters);
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
+				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($request->getByType('selectedModule', 2)));
 				break;
 			case 'step3':
 				$selectedModuleName = $request->getByType('selectedModule', 2);
-				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
-				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFieldsByBlocks());
-				$viewer->assign('VALUE_TYPE', $request->getByType('valueType', 1));
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
+				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
+				$viewer->assign('VALUE_TYPE', $request->getByType('valueType'));
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;
 			case 'step4':
@@ -59,9 +57,12 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
-				$viewer->assign('CHART_TYPE', $request->getByType('chartType', 1));
-				$viewer->assign('GROUP_FIELD', $request->getByType('groupField', 1));
-				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField', 1)));
+				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
+				$viewer->assign('GROUP_FIELD', $request->getByType('groupField'));
+				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField')));
+				$filters = $request->getArray('filtersId', 'Integer');
+				$viewer->assign('FILTERS', $filters);
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);

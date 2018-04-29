@@ -16,15 +16,6 @@
 		line-height: 1.5;
 	}
 }
-.dashboardWidgetHeader{
-	.input-group-sm{
-		.select2-container--bootstrap4 {
-			.select2-selection--single {
-				padding: 0.275rem 1.125rem 0.375rem 0.75rem !important;
-			}
-		}
-	}
-}
 .select2-selection__arrow {
   @extend .mt-1;
 }
@@ -50,31 +41,27 @@
 .select2Wrapper {
   width: 100%;
 }
-.dashboardViewContainer, header {
-  .select2-selection.select2-selection--single {
-	font-size: $font-size-sm !important;
-	height: $menuItemsHeight !important;
-	@extend .pt-2;
-  }
-}
+
 header {
-  .select2WithButtonWidth {
-	width: calc(100% - #{$iconButtonWidth});
-  }
-  .headerLinksMails .select2-selection:hover {
-	background: $dark !important;
-	.select2-selection__rendered {
-	  color: $white !important;
+	.globalSearchInput .select2-selection.select2-selection--single {
+		font-size: $font-size-sm !important;
+		height: $menuItemsHeight !important;
 	}
-  }
+	.select2WithButtonWidth {
+		width: calc(100% - #{$iconButtonWidth});
+	}
+	.headerLinksMails .select2-selection:hover {
+		background: $dark !important;
+		.select2-selection__rendered {
+			color: $white !important;
+		}
+	}
 }
+
 .select2HeaderWidth {
-	.select2-selection {
-		height: 2.5rem !important;
-	}
-	.select2-selection__rendered {
-		line-height: 1;
-	}
+  .select2-selection {
+	height: 2.5rem !important;
+  }
 }
 .fieldUiHolder {
 	width: 25%;
@@ -95,6 +82,9 @@ header {
 }
 .select2-selection[aria-labelledby^="select2-theme"] {
 	@extend .p-0;
+}
+.select2-search__field {
+  width: 100% !important;
 }
 //--- modal ---//
 .leaflet-popup-content {
@@ -177,26 +167,27 @@ ul.ui-autocomplete {
   }
 }
 //--- fullcalendar ---//
-.fc-day-grid {
-  .fc-row.fc-week {
-	min-height: 3.1rem !important;
-	height: 3.1rem !important;
-  }
-}
+
 .dashboardWidgetCalendar {
   .fc-widget-content {
     .fc-scroller.fc-day-grid-container {
   	  height: 18.6rem !important;
 	}
   }
+  .fc-day-grid {
+	.fc-row.fc-week {
+	  min-height: 3.1rem !important;
+	  height: 3.1rem !important;
+	}
+  }
+  .fc-head-container.fc-widget-header {
+	@extend .border-0;
+  }
+  .fc-body > tr > .fc-widget-content {
+	@extend .border-right-0;
+	@extend .border-left-0;
+  }
 }
-.fc-head-container.fc-widget-header {
-  @extend .border-0;
-}
-.fc-body > tr > .fc-widget-content {
-  @extend .border-right-0;
-  @extend .border-left-0;
-}
-.o-calendar-container .fc-basic-view .fc-body .fc-row {
-  min-height: 9em !important;
+.cke_screen_reader_only {
+  height: 0 !important;
 }

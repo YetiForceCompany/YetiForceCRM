@@ -47,26 +47,20 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get popup view fields.
-	 *
-	 * @param string|bool $sourceModule
-	 *
-	 * @return string[]
+	 * {@inheritdoc}
 	 */
-	public function getPopupViewFieldsList($sourceModule = false)
+	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
-		$popupFields = parent::getPopupViewFieldsList($sourceModule);
-		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
-		foreach ($reqPopUpFields as &$fieldName) {
-			if (!isset($popupFields[$fieldName])) {
+		parent::getModalRecordsListFields($queryGenerator, $sourceModule);
+		$headerFields = $queryGenerator->getListViewFields();
+		foreach (['filestatus', 'filesize', 'filelocationtype'] as $fieldName) {
+			if (!isset($headerFields[$fieldName])) {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
 				if ($fieldModel->getPermissions()) {
-					$popupFields[$fieldName] = $fieldName;
+					$queryGenerator->setField($fieldName);
 				}
 			}
 		}
-
-		return $popupFields;
 	}
 
 	/**

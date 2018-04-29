@@ -65,7 +65,7 @@
 				{if $USER_MODEL->isAdminUser()}
 					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 					{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
-					{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
+					{assign var=FOOTOSP value= '<u><a href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></u>'}
 					<p class="text-center">
 						<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}<br />{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}</span>
 						<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
@@ -84,7 +84,7 @@
 				</div>
 				<div class="modal-body">
 					<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;" /></p>
-					<p>Copyright � YetiForce.com All rights reserved.</p>
+					<p>Copyright © YetiForce.com All rights reserved.</p>
 					<p>The Program is provided AS IS, without warranty. Licensed under <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a>.</p>
 					<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>
 					<p><span class="badge badge-secondary">License:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a></p>
@@ -92,6 +92,10 @@
 					<p><span class="badge badge-success">Code:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank" rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a></p>
 					<p><span class="badge badge-info">Documentation:</span> <a href="https://yetiforce.com/en/knowledge-base/documentation" target="_blank" rel="noreferrer"><strong>https://yetiforce.com/en/documentation.html</strong></a></p>
 					<p><span class="badge badge-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
+					<p><span class="badge badge-primary">Shop:</span> <a
+								href="https://yetiforce.shop/" target="_blank"
+								rel="noreferrer"><strong>https://yetiforce.shop/</strong></a>
+					</p>
 					<p class="text-center">
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.linkedin.com/groups/8177576">
 							<span class="fab fa-linkedin" title="LinkendIn"></span>

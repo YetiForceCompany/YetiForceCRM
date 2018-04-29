@@ -18,7 +18,7 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<h5 class="modal-title"><i class="fa fa-comments"></i> {\App\Language::translate('LBL_ADDING_COMMENT', $MODULE)}</h5>
+					<h5 class="modal-title"><i class="fa fa-comments"></i> {\App\Language::translate('LBL_MASS_ADD_COMMENT', $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -38,7 +38,7 @@
 					<div class="modal-body">
 						<textarea class="form-control-lg form-control" name="commentcontent" id="commentcontent" title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."></textarea>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}
 				</form>
 			</div>
 		</div>

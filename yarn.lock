@@ -2,9 +2,33 @@
 # yarn lockfile v1
 
 
-"Font-Awesome@https://github.com/FortAwesome/Font-Awesome":
-  version "0.0.0"
-  resolved "https://github.com/FortAwesome/Font-Awesome#864e2422319243c59f45752623d1e2490557eb67"
+"@fortawesome/fontawesome-common-types@^0.1.3", "@fortawesome/fontawesome-common-types@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.4.tgz#1fbc66f0223646f23c5550c2c12e341078e2c262"
+
+"@fortawesome/fontawesome-free-brands@^5.0.9":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.10.tgz#37f007a2f548682c8bfb7086b7e03dc65758580a"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.4"
+
+"@fortawesome/fontawesome-free-regular@^5.0.9":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.10.tgz#f81dfeaa24896bfac8fb50c58c6c02f87a2a0c80"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.4"
+
+"@fortawesome/fontawesome-free-solid@^5.0.9":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.10.tgz#b54c87d3ce4ffd0546b60d12e898e87b59776c30"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.4"
+
+"@fortawesome/fontawesome@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.5.tgz#c7cfafdd3364245626293cc670357f9fb8487170"
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.1.3"
 
 add@^2.0.6:
   version "2.0.6"
@@ -85,9 +109,13 @@ bootstrap-switch@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/bootstrap-switch/-/bootstrap-switch-3.3.4.tgz#70e0aeb2a877c0dc766991de108e2170fc29a2ff"
 
+"bootstrap-tabdrop@https://github.com/jmschabdach/bootstrap-tabdrop":
+  version "0.0.0"
+  resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
+
 bootstrap@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0.tgz#ceb03842c145fcc1b9b4e15da2a05656ba68469a"
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.0.tgz#110b05c31a236d56dbc9adcda6dd16f53738a28a"
 
 cardinal@^1.0.0:
   version "1.0.0"
@@ -134,12 +162,8 @@ chartjs-plugin-zoom@^0.6.3:
     hammerjs "^2.0.8"
 
 chosen-js@^1.8.2:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.8.3.tgz#1f953aef905d9760c14b5facc839a5f47eb356ec"
-
-ckeditor@^4.8.0:
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.9.1.tgz#d73adb42f7235f4030ab837e8aee9882d9107e89"
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.8.5.tgz#5863f8ba590afa317e77e1745e0348a7290c32f3"
 
 clipboard@>=2.0.0:
   version "2.0.0"
@@ -166,8 +190,8 @@ css-element-queries@^1.0.2:
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.2.tgz#a32edfee4a5023688ef4d45f402077306d51d44c"
 
 csv-parse@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.1.0.tgz#75293aa334e7f8dd1ef956c5551adf0db6a79c81"
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.2.0.tgz#478097dc731a0b665bc761344cad18507a359893"
 
 datatables.net-bs4@^1.10.16:
   version "1.10.16"
@@ -185,6 +209,10 @@ datatables.net@1.10.16, datatables.net@^1.10.16:
 delegate@^3.1.2:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
+
+device-uuid@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/device-uuid/-/device-uuid-1.0.4.tgz#f6973e58f19b92a237aeca7b16a395ae7195a883"
 
 dompurify@^1.0.3:
   version "1.0.3"
@@ -235,21 +263,21 @@ inputmask@^3.3.11:
   version "3.3.11"
   resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-3.3.11.tgz#1421c94ae28c3dcd1b4d26337b508bb34998e2d8"
 
-"jQuery-Validation-Engine@https://github.com/posabsolute/jQuery-Validation-Engine":
+"jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
-  resolved "https://github.com/posabsolute/jQuery-Validation-Engine#5b5603183b43b29f97785e98f1a9c5ef5ec34813"
-
-jquery-cycle@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/jquery-cycle/-/jquery-cycle-3.0.3.tgz#47fd5654aa93763f972cabda0b8de293e61dacca"
-  dependencies:
-    jquery ">=1.7"
+  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#04e426be92aed34f4e2f887031b558ed39460dc3"
 
 jquery-hoverintent@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.9.0.tgz#4d92c1ae07b71b9f0d9721b9b412d672abd387c8"
   dependencies:
     jquery ">=1.7.0"
+
+jquery-lazy@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.7.tgz#926101bccb7ba1ffdff562d6fe337a4dae3724f9"
+  dependencies:
+    jquery ">=1.7.2"
 
 jquery-mousewheel@>=3.0.6, jquery-mousewheel@~3.1.13:
   version "3.1.13"
@@ -269,7 +297,11 @@ jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
 
-"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.x, jquery@>=1.9.1:
+jquery.class.js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
+
+"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -306,8 +338,8 @@ leaflet@^1.3.1:
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.1.tgz#86f336d2fb0e2d0ff446677049a5dc34cf0ea60e"
 
 lodash@^4.14.0:
-  version "4.17.5"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
 malihu-custom-scrollbar-plugin@^3.1.5:
   version "3.1.5"
@@ -323,13 +355,9 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-moment@^2.10.2, moment@^2.20.1, moment@^2.9.0:
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
-
-moment@~2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
+moment@^2.10.2, moment@^2.20.1, moment@^2.21.0, moment@^2.9.0:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
 mousetrap@^1.6.1:
   version "1.6.1"
@@ -347,12 +375,12 @@ perfect-scrollbar@^1.3.0:
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.3.0.tgz#61da56f94b58870d8e0a617bce649cee17d1e3b2"
 
 pnotify@^4.0.0-alpha.2:
-  version "4.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.2.tgz#3f4b7bd0d36298b1ec0fe8ba568b3ec4c0c6918d"
+  version "4.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.3.tgz#a7b6ae8abb6425058182b0e0264f1cd32965707d"
 
 popper.js@^1.12.9:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.2.tgz#066e8e1613e65e69ba050f4b78e7bd4c8d54e443"
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.3.tgz#1438f98d046acf7b4d78cd502bf418ac64d4f095"
 
 redeyed@~1.0.0:
   version "1.0.1"
@@ -364,9 +392,9 @@ respond.js@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
 
-select2-bootstrap4-theme@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/select2-bootstrap4-theme/-/select2-bootstrap4-theme-1.0.0.tgz#d637ff18e7fdade8d723ad4c567ef2ba48b73094"
+"select2-bootstrap-theme@https://github.com/angel-vladov/select2-bootstrap-theme.git":
+  version "0.1.0-beta.10"
+  resolved "https://github.com/angel-vladov/select2-bootstrap-theme.git#4fb604838e79150161fc636dbeb3b3022c034cda"
 
 select2@^4.0.6-rc.1:
   version "4.0.6-rc.1"

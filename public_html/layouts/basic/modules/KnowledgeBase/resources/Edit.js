@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
-	loadCkEditorElement: function (noteContentElement) {
+	loadEditorElement: function (noteContentElement) {
 		const customConfig = {};
 		if (noteContentElement.is(':visible')) {
 			noteContentElement.removeAttr('data-validation-engine');
@@ -8,7 +8,7 @@ Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
 			customConfig.extraAllowedContent = true;
 			customConfig.removeFormatAttributes = '';
 			customConfig.removeFormatTags = '';
-			new Vtiger_CkEditor_Js(noteContentElement, customConfig);
+			new App.Fields.Text.Editor(noteContentElement, customConfig);
 			CKEDITOR.on('dialogDefinition', function (ev) {
 				var dialogName = ev.data.name;
 				var dialogDefinition = ev.data.definition;

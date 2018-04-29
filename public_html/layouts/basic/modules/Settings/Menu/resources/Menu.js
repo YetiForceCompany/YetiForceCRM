@@ -244,14 +244,14 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		});
 	},
 	registerHotkeys: function (container) {
-		var thisInstance = this;
 		container.find('.testBtn').on('click', function (e) {
 			var testBtn = $(this);
 			var key = container.find('[name="hotkey"]').val();
-			Mousetrap.on(key, function () {
+			testBtn.addClass('active').removeClass('btn-default').addClass('btn-warning');
+			Mousetrap.bind(key, function () {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_TEST_HOTKEY_OK')});
-				testBtn.addClass('btn-success');
-				Mousetrap.off(key);
+				testBtn.removeClass('btn-warning').addClass('btn-success').removeClass('active');
+				Mousetrap.unbind(key);
 			});
 		});
 	},
@@ -279,7 +279,6 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 	loadFilters: function (container, module) {
 		var thisInstance = this;
-		container.find('[name="filters"]').select2('destroy');
 		container.find('[name="filters"]').html(thisInstance.cacheFilters.html());
 		container.find('[name="filters"] option').each(function (index) {
 			if ($(this).data('tabid') != module.val()) {

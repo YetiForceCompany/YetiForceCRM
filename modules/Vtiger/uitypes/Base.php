@@ -169,7 +169,7 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Function to get Display value for ModTracker.
+	 * Function to get display value for ModTracker.
 	 *
 	 * @param                      $value
 	 * @param \Vtiger_Record_Model $recordModel
@@ -179,6 +179,20 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
 		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel);
+	}
+
+	/**
+	 * Function to get display value for TextParser.
+	 *
+	 * @param mixed                $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $params
+	 *
+	 * @return mixed
+	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 	}
 
 	/**

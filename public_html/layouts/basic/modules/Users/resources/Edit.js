@@ -86,7 +86,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 			var endHourElement = jQuery('select[name="end_hour"]', form);
 			var conditionStartSelected = startHourElement.val();
 			var conditionEndSelected = endHourElement.val();
-			if (typeof thisInstance.hourFormatConditionMapping == 'undefined') {
+			if (typeof thisInstance.hourFormatConditionMapping === "undefined") {
 				return false;
 			}
 			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];

@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="">
-	<div class="clearfix treeView">
+	<div class="clearfix">
 		<div class="widget_header row">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
-		<form>
+		<form class="js-form" data-js="validationEngine">
 			<table>
 				<tr>
 					<td><label class="col-form-label">{\App\Language::translate('Widget list limit', 'OSSMailView')}</label></td>
@@ -28,7 +28,7 @@
 {literal}
 	<script>
 		jQuery(function () {
-			$(".treeView form").validationEngine(app.validationEngineOptions);
+			$(".js-form").validationEngine(app.validationEngineOptions);
 			var saveWidgetConfig = function (name, value, type) {
 				var params = {
 					'module': 'OSSMailScanner',
@@ -37,7 +37,7 @@
 					'name': name,
 					'value': value
 				}
-				if ($(".treeView form").validationEngine('validate')) {
+				if ($(".js-form").validationEngine('validate')) {
 					AppConnector.request(params).then(
 							function (data) {
 								var response = data['result'];

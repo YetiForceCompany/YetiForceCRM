@@ -4,39 +4,41 @@
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				&nbsp;{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
+		<div class="badge badge-info my-2">
+			<a>{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}</a>
+		</div>
 		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-			<li class="active"><a href="#settings" data-toggle="tab">{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
-			<li><a href="#blocedIds" data-toggle="tab">{\App\Language::translate('LBL_BLOCKED_IP', $QUALIFIED_MODULE)}</a></li>
+			<li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
+			<li class="nav-item"><a class="nav-link" href="#blocedIds" data-toggle="tab">{\App\Language::translate('LBL_BLOCKED_IP', $QUALIFIED_MODULE)}</a></li>
 		</ul>
 		<div id="my-tab-content" class="tab-content padding10" >
 			<div class="tab-pane active row" id="settings">
 				<div class="col-sm-10 col-md-8">
-					<div class="panel panel-default">
-						<div class="panel-body">
+					<div class="card">
+						<div class="card-body">
 							<form id="brutalForceTabForm1" class="form-horizontal" name="brutalForceTabForm1" data-mode="saveConfig">
-								<div class="form-group">
-									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}</label>
+								<div class="form-group row align-items-center">
+									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-8 col-md-9">
 										<input type="checkbox" id="active" name="active" class="switchBtn" title="{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}" {if $CONFIG.active} checked {/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</label>
+								<div class="form-group row align-items-center">
+									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-2">
 										<input type="text" class="form-control" name="attempsnumber" title="{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}" id="attempsNumber" value="{$CONFIG.attempsnumber}" data-validation-engine="validate[required,custom[number],min[2],max[100]]">
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}</label>
+								<div class="form-group row align-items-center">
+									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-2">
 										<input type="text" class="form-control" name="timelock" id="timeLock" title="{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}" value="{$CONFIG.timelock}" data-validation-engine="validate[required,custom[integer]]">
 									</div>
 								</div>
-								<div class="form-group marginbottomZero">
-									<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
+								<div class="form-group row align-items-center mb-0">
+									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-9">
 										<input type="checkbox" id="sent" name="sent" class="switchBtn" {if $CONFIG.sent} checked {/if} title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}" data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
 										<div class="selectedUsersForm{if !$CONFIG.sent} d-none{/if}">
@@ -50,7 +52,7 @@
 									</div>
 								</div>
 						</div>
-						<div class="panel-footer clearfix">
+						<div class="card-footer clearfix">
 							<div class="float-left">
 								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
 							</form>

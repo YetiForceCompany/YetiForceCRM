@@ -23,6 +23,8 @@ class MultiImage {
 			this.detailView = true;
 		}
 		this.elements.component = $(element).eq(0);
+		this.elements.form = $(element).closest('form').eq(0);
+		$(this.elements.form).on('submit', this.onFormSubmit);
 		this.elements.addButton = this.elements.component.find('.js-multi-image__file-btn').eq(0);
 		this.elements.values = this.elements.component.find('.js-multi-image__values').eq(0);
 		this.elements.progressBar = this.elements.component.find('.js-multi-image__progress-bar').eq(0);
@@ -76,7 +78,7 @@ class MultiImage {
 			});
 		}
 		this.loadExistingFiles();
-		if (typeof $.fn.animateCss === 'undefined') {
+		if (typeof $.fn.animateCss === "undefined") {
 			$.fn.extend({
 				animateCss: function (animationName, callback) {
 					var animationEnd = (function (el) {
@@ -104,6 +106,22 @@ class MultiImage {
 	}
 
 	/**
+	 * Prevent form submission before file upload end
+	 * @param e
+	 */
+	onFormSubmit(e) {
+		if (App.Fields.MultiImage.currentFileUploads) {
+			e.preventDefault();
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			bootbox.alert(app.vtranslate('JS_WAIT_FOR_FILE_UPLOAD'));
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
 	 * Prevent form submission
 	 *
 	 * @param {Event} e
@@ -123,6 +141,7 @@ class MultiImage {
 		data.formData = {
 			hash: data.files[0].hash
 		};
+		App.Fields.MultiImage.currentFileUploads++;
 	}
 
 	/**
@@ -163,14 +182,15 @@ class MultiImage {
 	 * @param {Object} data
 	 */
 	uploadError(e, data) {
+		App.Fields.MultiImage.currentFileUploads--;
 		app.errorLog("File upload error.");
 		const {jqXHR, files} = data;
-		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
+		if (typeof jqXHR.responseJSON === "undefined" || jqXHR.responseJSON === null) {
 			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
 		}
 		const response = jqXHR.responseJSON;
 		// first try to show error for concrete file
-		if (typeof response.result !== 'undefined' && typeof response.result.attach !== 'undefined' && Array.isArray(response.result.attach)) {
+		if (typeof response.result !== "undefined" && typeof response.result.attach !== "undefined" && Array.isArray(response.result.attach)) {
 			response.result.attach.forEach((fileAttach) => {
 				this.deleteFile(fileAttach.hash, false);
 				if (typeof fileAttach.error === 'string') {
@@ -199,12 +219,13 @@ class MultiImage {
 	uploadSuccess(e, data) {
 		const {result} = data;
 		const attach = result.result.attach;
+		App.Fields.MultiImage.currentFileUploads--;
 		attach.forEach((fileAttach) => {
 			const hash = fileAttach.hash;
 			if (!hash) {
 				return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
 			}
-			if (typeof fileAttach.key === 'undefined') {
+			if (typeof fileAttach.key === "undefined") {
 				return this.uploadError(e, data);
 			}
 			const fileInfo = this.getFileInfo(hash);
@@ -279,7 +300,7 @@ class MultiImage {
 		const addedFiles = [];
 		for (let i = 0, len = files.length; i < len; i++) {
 			const file = files[i];
-			if (typeof file.hash === 'undefined') {
+			if (typeof file.hash === "undefined") {
 				if (this.files.length < this.options.limit) {
 					file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
 					this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
@@ -518,7 +539,7 @@ class MultiImage {
 		const thisInstance = this;
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
-		if (typeof fileInfo.size !== 'undefined') {
+		if (typeof fileInfo.size !== "undefined") {
 			fileSize = `<div class="p-1 bg-white border rounded small position-absolute">${fileInfo.size}</div>`;
 		}
 		let deleteBtn = '';
@@ -553,7 +574,7 @@ class MultiImage {
 	 */
 	removePreviewPopover(hash) {
 		const fileInfo = this.getFileInfo(hash);
-		if (typeof fileInfo.previewElement !== 'undefined') {
+		if (typeof fileInfo.previewElement !== "undefined") {
 			fileInfo.previewElement.popover('dispose');
 		}
 	}
@@ -673,7 +694,7 @@ class MultiImage {
 		this.files = this.files.map((file) => {
 			file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
 			return file;
-		}).slice(0, this.options.limit - 1);
+		}).slice(0, this.options.limit);
 		this.generatePreviewElements(this.files, (element) => {
 			this.elements.result.append(element);
 		});
@@ -690,22 +711,22 @@ class MultiImage {
 			const fileInfo = this.getFileInfo(hash);
 			return `<img class="d-block w-100" src="${fileInfo.imageSrc}">`;
 		}
-		let template = `<div id="carousel-${hash}" class="carousel slide" data-ride="carousel">
+		let template = `<div id="carousel-${hash}" class="carousel slide c-carousel" data-ride="carousel" data-js="container">
 		  <div class="carousel-inner">`;
 		this.files.forEach((file) => {
-			template += `<div class="carousel-item`;
+			template += `<div class="carousel-item c-carousel__item`;
 			if (file.hash === hash) {
 				template += ` active`;
 			}
 			template += `" data-hash="${file.hash}">
-		      <img class="d-block w-100" src="${file.imageSrc}">
+		      <img class="d-block w-100 c-carousel__image" src="${file.imageSrc}">
 		    </div>`;
 		});
-		template += `<a class="carousel-control-prev" href="#carousel-${hash}" role="button" data-slide="prev">
-		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		template += `<a class="carousel-control-prev c-carousel__prevnext-btn c-carousel__prev-btn" href="#carousel-${hash}" role="button" data-slide="prev" data-js="click">
+		    <span class="fas fa-caret-left fa-2x c-carousel__prev-icon" data-fa-transform="left-1" aria-hidden="true"></span>
 		  </a>
-		  <a class="carousel-control-next" href="#carousel-${hash}" role="button" data-slide="next">
-		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		  <a class="carousel-control-next c-carousel__prevnext-btn c-carousel__next-btn" href="#carousel-${hash}" role="button" data-slide="next" data-js="click">
+		    <span class="fas fa-caret-right fa-2x c-carousel__next-icon" data-fa-transform="right-1" aria-hidden="true"></span>
 		  </a>
 		</div>`;
 		return template;

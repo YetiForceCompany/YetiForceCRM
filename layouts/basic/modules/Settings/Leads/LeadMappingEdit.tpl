@@ -12,14 +12,22 @@
 {strip}
 	<div class="">
 		<form id="leadsMapping" method="POST">
-			<div class="row widget_header settingsHeader marginBottom5">
+			<div class="row widget_header settingsHeader mb-1 align-items-center">
 				<span class="col-sm-12 col-12 col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				</span>
 				<span class="col-12 col-sm-12 col-md-4 ">
 					<span class="float-right">
-						<button type="submit" class="btn btn-success"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button type="submit" class="btn btn-success">
+							<strong>
+								<span class="fas fa-check mr-1"></span>
+								{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+							</strong>
+						</button>
+						<button class="cancelLink btn btn-danger" type="reset" onclick="javascript:window.history.back();">
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+						</button>
 					</span>
 				</span>
 			</div>
@@ -108,8 +116,16 @@
 				</span>
 				<span class="col-md-8">
 					<span class="float-right">
-						<button type="submit" class="btn btn-success"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button type="submit" class="btn btn-success">
+							<strong>
+								<span class="fas fa-check mr-1"></span>
+								{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+							</strong>
+						</button>
+						<button class="cancelLink btn btn-danger" type="reset" onclick="javascript:window.history.back();">
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+						</button>
 					</span>
 				</span>
 			</div>

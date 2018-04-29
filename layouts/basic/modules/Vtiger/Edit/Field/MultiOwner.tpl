@@ -18,7 +18,7 @@
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	<div class="tpl-Edit-Field-MultiOwner"></div>
+	<div class="tpl-Edit-Field-MultiOwner">
 		<select class="chzn-select form-control {$ASSIGNED_USER_ID}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} multiple>
 			<optgroup label="{\App\Language::translate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}

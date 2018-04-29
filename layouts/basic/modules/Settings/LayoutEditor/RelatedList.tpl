@@ -13,25 +13,25 @@
     <div id="relatedTabOrder">
 		<div class="" id="layoutEditorContainer">
 			<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-			<div class="widget_header row">
+			<div class="widget_header row align-items-lg-center">
 				<div class="col-md-7">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 				<div class="col-md-5">
-					<div class="btn-toolbar">
-						<div class="btn-group col-5 float-right paddingLRZero">
-							<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
-								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
-								{/foreach}
-							</select>
-						</div>
+					<div class="btn-toolbar justify-content-end form-row">
 						{if AppConfig::developer('CHANGE_RELATIONS')}
 							<button class="btn btn-primary float-right addRelation" type="button">
 								<span class="fas fa-plus"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
 							</button>
 						{/if}	
+						<div class="btn-group col-5 float-right px-0">
+							<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
+								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
+								{/foreach}
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>

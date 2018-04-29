@@ -13,7 +13,7 @@
 {strip}
     <div class="" id="quickCreateEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row">
+        <div class="widget_header row align-items-center">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
@@ -37,18 +37,14 @@
         </div>
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
-                <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{\App\Language::translate('LBL_SEQUENCE', $QUALIFIED_MODULE)}</strong></a></li>
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#detailViewLayout"><strong>{\App\Language::translate('LBL_SEQUENCE', $QUALIFIED_MODULE)}</strong></a></li>
             </ul>
             <div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
-					<div class="btn-toolbar">
-						<span class="float-right">
-							<button class="btn btn-success saveFieldSequence visibility"  type="button">
-								<strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
-							</button>
-						</span>
-						<div class="clearfix">
-						</div>
+					<div class="btn-toolbar justify-content-end">
+						<button class="btn btn-success saveFieldSequence visibility"  type="button">
+							<strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+						</button>
 					</div>
                     <div id="moduleBlocks">
 						{foreach  key=MODULE item=RECORD_STRUCTURE from=$RECORDS_STRUCTURE }

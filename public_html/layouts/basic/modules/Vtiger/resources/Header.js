@@ -48,23 +48,23 @@ $.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		var aDeferred = $.Deferred();
 		var requestParams;
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
-		if ((!params.noCache) || (typeof (params.noCache) == "undefined")) {
-			if (typeof Vtiger_Header_Js.quickCreateModuleCache[moduleName] != 'undefined') {
+		if ((!params.noCache) || (typeof (params.noCache) === "undefined")) {
+			if (typeof Vtiger_Header_Js.quickCreateModuleCache[moduleName] !== "undefined") {
 				aDeferred.resolve(Vtiger_Header_Js.quickCreateModuleCache[moduleName]);
 				return aDeferred.promise();
 			}
 		}
 		requestParams = url;
-		if (typeof params.data != "undefined") {
+		if (typeof params.data !== "undefined") {
 			var requestParams = {};
 			requestParams['data'] = params.data;
 			requestParams['url'] = url;
 		}
 		AppConnector.request(requestParams).then(function (data) {
-			if ((!params.noCache) || (typeof (params.noCache) == "undefined")) {
+			if ((!params.noCache) || (typeof (params.noCache) === "undefined")) {
 				Vtiger_Header_Js.quickCreateModuleCache[moduleName] = data;
 			}
 			aDeferred.resolve(data);
@@ -87,12 +87,12 @@ $.Class("Vtiger_Header_Js", {
 		var aDeferred = $.Deferred();
 		var quickCreateSaveUrl = form.serializeFormData();
 		AppConnector.request(quickCreateSaveUrl).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -167,13 +167,13 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	registerHelpInfo: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = $('form[name="QuickCreate"]');
 		}
 		app.showPopoverElementView(container.find('.js-help-info'));
 	},
 	handleQuickCreateData: function (data, params) {
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 		var thisInstance = this;
@@ -184,18 +184,11 @@ $.Class("Vtiger_Header_Js", {
 			editViewInstance.registerBasicEvents(quickCreateForm);
 			thisInstance.registerChangeNearCalendarEvent(quickCreateForm, moduleName);
 			quickCreateForm.validationEngine(app.validationEngineOptions);
-			if (typeof params.callbackPostShown != "undefined") {
+			if (typeof params.callbackPostShown !== "undefined") {
 				params.callbackPostShown(quickCreateForm);
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
 			thisInstance.registerHelpInfo(quickCreateForm);
-			const customConfig = {
-				height: '5em',
-				toolbar: 'Min'
-			};
-			$.each(data.find('.js-ckeditor'), function (key, element) {
-				new Vtiger_CkEditor_Js($(element), customConfig);
-			});
 		});
 	},
 	isFreeDay: function (dayOfWeek) {
@@ -208,7 +201,7 @@ $.Class("Vtiger_Header_Js", {
 	getNearCalendarEvent: function (container, module) {
 		var thisInstance = this;
 		var dateStartVal = container.find('[name="date_start"]').val();
-		if (typeof dateStartVal == 'undefined' || dateStartVal === '') {
+		if (typeof dateStartVal === "undefined" || dateStartVal === '') {
 			return;
 		}
 		var params = {
@@ -232,7 +225,7 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
 		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module == 'undefined' || !data.find('.eventsTable').length) {
+		if (!data || module != 'Calendar' || typeof module === "undefined" || !data.find('.eventsTable').length) {
 			return;
 		}
 		var user = data.find('[name="assigned_user_id"]');
@@ -284,7 +277,7 @@ $.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		var submitSuccessCallbackFunction = params.callbackFunction;
 		var goToFullFormCallBack = params.goToFullFormcallback;
-		if (typeof submitSuccessCallbackFunction == 'undefined') {
+		if (typeof submitSuccessCallbackFunction === "undefined") {
 			submitSuccessCallbackFunction = function () {
 			};
 		}
@@ -296,29 +289,20 @@ $.Class("Vtiger_Header_Js", {
 			}
 			var module = form.find('[name="module"]').val();
 			//Form should submit only once for multiple clicks also
-			if (typeof form.data('submit') != "undefined") {
+			if (typeof form.data('submit') !== "undefined") {
 				return false;
 			} else {
 				var invalidFields = form.data('jqv').InvalidFields;
 				if (invalidFields.length > 0) {
 					//If validation fails, form should submit again
 					form.removeData('submit');
-					form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
-						'mode': 'hide'
-					});
+					$.progressIndicator({'mode': 'hide'});
 					e.preventDefault();
 					return;
 				} else {
 					//Once the form is submiting add data attribute to that form element
 					form.data('submit', 'true');
-					form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
-						smallLoadingImage: true,
-						imageContainerCss: {
-							display: 'inline',
-							'margin-left': '18%',
-							position: 'absolute'
-						}
-					});
+					$.progressIndicator({'mode':'hide'});
 				}
 
 				var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
@@ -350,13 +334,12 @@ $.Class("Vtiger_Header_Js", {
 							});
 						}
 						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
+						$.progressIndicator({'mode': 'hide'});
 					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
 					form.removeData('submit');
-					form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
-						'mode': 'hide'
-					});
+					$.progressIndicator({'mode': 'hide'});
 				}
 				e.preventDefault();
 			}
@@ -365,7 +348,7 @@ $.Class("Vtiger_Header_Js", {
 		form.find('#goToFullForm').on('click', function (e) {
 			var form = $(e.currentTarget).closest('form');
 			var editViewUrl = $(e.currentTarget).data('editViewUrl');
-			if (typeof goToFullFormCallBack != "undefined") {
+			if (typeof goToFullFormCallBack !== "undefined") {
 				goToFullFormCallBack(form);
 			}
 			thisInstance.quickCreateGoToFullForm(form, editViewUrl);
@@ -444,9 +427,9 @@ $.Class("Vtiger_Header_Js", {
 				_renderItem: function (ul, item) {
 					var url = 'index.php?module=' + item.module + '&view=Detail&record=' + item.id;
 					return $("<li>")
-							.data("item.autocomplete", item)
-							.append($("<a href='" + url + "'></a>").html(item.label))
-							.appendTo(ul);
+						.data("item.autocomplete", item)
+						.append($("<a href='" + url + "'></a>").html(item.label))
+						.appendTo(ul);
 				},
 			});
 			$('.globalSearchValue').gsAutocomplete({
@@ -508,18 +491,22 @@ $.Class("Vtiger_Header_Js", {
 			var thisObject = this;
 			var key = $(thisObject).data('hotkeys');
 			if (key != '') {
-				Mousetrap.on(key, function () {
+				Mousetrap.bind(key, function () {
 					thisObject.click();
 				});
 			}
 		});
 	},
 	quickCreateModule: function (moduleName, params) {
+		if (window !== window.parent) {
+			window.parent.Vtiger_Header_Js.getInstance().quickCreateModule(moduleName, params);
+			return;
+		}
 		var thisInstance = this;
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
-		if (typeof params.callbackFunction == 'undefined') {
+		if (typeof params.callbackFunction === "undefined") {
 			params.callbackFunction = function () {
 			};
 		}
@@ -584,6 +571,15 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
+				$('.actionMenu .headerButton').popover();
+			} else {
+				$(this).addClass('active');
+				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'true');
+				$('.actionMenu .headerButton').popover('disable');
+			}
 			$('.quickCreateModules').on('click', function () {
 				thisInstance.hideActionMenu();
 			});
@@ -594,6 +590,13 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
+			} else {
+				$(this).addClass('active');
+				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'true');
+			}
 		});
 	},
 	hideMobileMenu: function () {
@@ -712,8 +715,9 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerEvents: function () {
 		var thisInstance = this;
-		const container = thisInstance.getContentsContainer();
-		const menuContainer = container.find('.leftPanel .menuContainer');
+		const container = thisInstance.getContentsContainer(),
+			menuContainer = container.find('.leftPanel .menuContainer'),
+			quickCreateModal = container.find('.quickCreateModules');
 		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
@@ -746,13 +750,13 @@ $.Class("Vtiger_Header_Js", {
 				value.focus();
 			}, 100);
 		});
-
 		thisInstance.basicSearch();
 		$('.bodyHeader .dropdownMenu').on("click", function (e) {
 			$(this).next('.dropdown-menu').toggle();
 		});
-		$('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
+		quickCreateModal.on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = $(e.currentTarget).data('name');
+			quickCreateModal.modal('hide');
 			thisInstance.quickCreateModule(moduleName);
 		});
 

@@ -6,9 +6,9 @@ namespace App;
  * Query generator class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class QueryGenerator
 {
@@ -271,7 +271,6 @@ class QueryGenerator
 		} else {
 			$this->customColumns[] = $columns;
 		}
-
 		return $this;
 	}
 
@@ -580,6 +579,22 @@ class QueryGenerator
 	}
 
 	/**
+	 * Add custom view fields from column.
+	 *
+	 * @param $cvColumn
+	 */
+	private function addCustomViewFields($cvColumn)
+	{
+		list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $cvColumn);
+		if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
+			$this->customViewFields[] = 'id';
+		} else {
+			$this->fields[] = $fieldName;
+			$this->customViewFields[] = $fieldName;
+		}
+	}
+
+	/**
 	 * Get custom view by id.
 	 *
 	 * @param mixed $viewId
@@ -592,13 +607,7 @@ class QueryGenerator
 		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
 		if ($this->cvColumns) {
 			foreach ($this->cvColumns as &$cvColumn) {
-				list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $cvColumn);
-				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
-					$this->customViewFields[] = 'id';
-				} else {
-					$this->fields[] = $fieldName;
-					$this->customViewFields[] = $fieldName;
-				}
+				$this->addCustomViewFields($cvColumn);
 			}
 		}
 		if ($this->moduleName === 'Calendar' && !in_array('activitytype', $this->fields)) {

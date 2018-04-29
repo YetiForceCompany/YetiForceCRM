@@ -208,7 +208,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				$icon = [
 					'type' => 'image',
 					'title' => $userModel->getName(),
-					'src' => $userModel->getImagePath(),
+					'src' => $userModel->getImage()['path'],
 					'class' => 'userImage',
 				];
 				break;

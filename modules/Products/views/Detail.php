@@ -24,8 +24,6 @@ class Products_Detail_View extends Vtiger_Detail_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
-
 		return parent::showModuleDetailView($request);
 	}
 
@@ -49,16 +47,13 @@ class Products_Detail_View extends Vtiger_Detail_View
 		unset($headerScriptInstances[$moduleDetailFile], $headerScriptInstances[$moduleRelatedListFile]);
 
 		$jsFileNames = [
-			'~libraries/jquery-cycle/index.js',
 			'modules.PriceBooks.resources.RelatedList',
 		];
-
 		$jsFileNames[] = $moduleDetailFile;
 		$jsFileNames[] = $moduleRelatedListFile;
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
 		return $headerScriptInstances;
 	}
 }

@@ -15,6 +15,9 @@
 	overflow: initial;
   }
 }
+.u-word-break-all {
+  word-break: break-all !important;
+}
 //--- MARGIN ---//
 .u-ml-0 {
   margin-left: 0 !important;
@@ -36,12 +39,28 @@
 	margin: 0;
   }
 }
+.u-mb-13px{
+	margin-bottom: 0.8rem !important;
+}
 //--- WIDTH ---//
 .u-w-auto {
   width: auto !important;
 }
-.u-w-37-percent{
+.u-w-37per {
 	width: 37% !important;
+}
+.u-w-fit {
+  width: fit-content !important;
+}
+.u-w-max-320px {
+  max-width: 320px !important;
+}
+//--- HEIGHT ---//
+.u-h-600px {
+	height: 600px !important;
+}
+.u-h-input-text {
+  height: $input-text-height;
 }
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {
@@ -72,13 +91,6 @@
 .u-bg-modern {
   background-color: #0d9605 !important;
 }
-.u-alphabet-sorting {
-  a {
-	@extend .h5;
-	@extend .font-weight-bold;
-  }
-  @extend .text-center;
-}
 .u-rotate-90 {
   transform: rotate(0.75turn);
   position: absolute;
@@ -100,6 +112,9 @@
   cursor: pointer;
   text-decoration: none !important;
 }
+.u-cursor-auto {
+  cursor: auto;
+}
 .u-overflow-auto {
 	overflow: auto !important;
 }
@@ -107,4 +122,14 @@
   .dropdown-toggle::after {
 	display: none;
   }
+}
+//--- TABLE ---//
+.u-w-30per{
+  width: 30%;
+}
+.u-w-8per {
+  width: 8%;
+}
+.u-w-5per {
+  width: 5%;
 }

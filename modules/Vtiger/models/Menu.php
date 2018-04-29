@@ -170,12 +170,15 @@ class Vtiger_Menu_Model
 	}
 
 	/**
-	 * @param type $url
+	 * @param string $url
 	 *
 	 * @return type modulename
 	 */
 	public static function getModuleNameFromUrl($url)
 	{
+		if ($url === 'https://yetiforce.shop/') {
+			return 'Settings:Vtiger';
+		}
 		$params = vtlib\Functions::getQueryParams($url);
 		if ($params['parent']) {
 			return $params['parent'] . ':' . $params['module'];
@@ -195,7 +198,7 @@ class Vtiger_Menu_Model
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
-			$title = self::vtranslateMenu($menu['label']);
+			$title = self::vtranslateMenu($menu['label'], $menu['mod']);
 		}
 		if (is_string($menu)) {
 			$iconName = \Vtiger_Theme::getImagePath($menu);
@@ -205,7 +208,7 @@ class Vtiger_Menu_Model
 		}
 		if (!empty($menu['icon'])) {
 			if (strpos($menu['icon'], 'fa-') !== false) {
-				return '<span class="fa-2x ' . $menu['icon'] . '"></span>';
+				return '<span class="fa-lg fa-fw mr-3 ' . $menu['icon'] . '"></span>';
 			} elseif (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false || strpos($menu['icon'], 'AdditionalIcon-') !== false) {
 				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}

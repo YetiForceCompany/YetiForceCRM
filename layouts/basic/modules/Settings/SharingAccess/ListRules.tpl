@@ -9,12 +9,15 @@
 	</div>
 	<div class="col-md-6">
 		<button class="btn btn-success js-add-custom-rule float-right" data-js="click" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
-			<strong>{\App\Language::translate('LBL_ADD_CUSTOM_RULE', $QUALIFIED_MODULE)}</strong>
+			<strong>
+				<span class="fas fa-plus mr-1"></span>
+				{\App\Language::translate('LBL_ADD_CUSTOM_RULE', $QUALIFIED_MODULE)}
+			</strong>
 		</button>
 	</div>
 </div>
 <hr>	
-<div class="contents padding1per">
+<div class="contents p-3">
 	{if $RULE_MODEL_LIST}
 		<table class="table table-bordered table-sm js-custom-rule-table" data-js="container">
 			<thead>

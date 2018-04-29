@@ -28,4 +28,12 @@ class Notification_Reminders_View extends Vtiger_IndexAjax_View
 		$viewer->assign('COLORS', $colors);
 		$viewer->view('Reminders.tpl', $moduleName);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSessionExtend()
+	{
+		return false;
+	}
 }

@@ -10,6 +10,7 @@ use App\Db\Importers\Base;
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Importer
 {
@@ -167,6 +168,9 @@ class Importer
 		switch ($importer->db->getDriverName()) {
 			case 'mysql':
 				$options = "ENGINE={$table['engine']} DEFAULT CHARSET={$table['charset']}";
+				if (isset($table['collate'])) {
+					$options .= " COLLATE={$table['collate']}";
+				}
 				break;
 		}
 
@@ -376,6 +380,34 @@ class Importer
 			}
 		}
 		$this->logs .= "# end drop tables\n";
+	}
+
+	/**
+	 * Drop indexes.
+	 *
+	 * @param array $tables [$table=>[$index,...],...]
+	 */
+	public function dropIndex(array $tables)
+	{
+		$this->logs .= "> start drop indexes\n";
+		$db = \App\Db::getInstance();
+		foreach ($tables as $tableName => $indexes) {
+			$dbIndexes = $db->getTableKeys($tableName);
+			foreach ($indexes as $index) {
+				$this->logs .= "  > drop index, $tableName:$index ... ";
+				if (isset($dbIndexes[$index])) {
+					try {
+						$db->createCommand()->dropIndex($index, $tableName)->execute();
+						$this->logs .= "done\n";
+					} catch (\Throwable $e) {
+						$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					}
+				} else {
+					$this->logs .= "error index does not exist\n";
+				}
+			}
+		}
+		$this->logs .= "# end drop keys\n";
 	}
 
 	/**

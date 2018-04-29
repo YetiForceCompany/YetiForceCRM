@@ -62,7 +62,7 @@ Settings_Vtiger_List_Js("Settings_LoginHistory_List_Js", {}, {
 	},
 
 	updatePagination: function (pageNumber) {
-		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
 		var thisInstance = this;
 		var cvId = thisInstance.getCurrentCvId();
 		var params = {};

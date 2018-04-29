@@ -74,7 +74,7 @@
 								</tbody>
 							</table>
 						</div>
-						{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}
 					</form>
 				</div>
 			</div>
@@ -94,13 +94,13 @@
 		<div>
 			<select class="form-control" name="fields" size="2" multiple="true">
 				<option></option>
-				{foreach from=$QUERY_GENERATOR->getListViewFields() item=FIELD key=FIELD_NAME}
+				{foreach from=$LIST_VIEW_FIELDS item=FIELD key=FIELD_NAME}
 					<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 				{/foreach}
 			</select>
 			<select class="form-control" name="filter_fields">
 				<option></option>
-				{foreach from=$QUERY_GENERATOR->getModuleModel()->getFieldsByBlocks() item=FIELDS key=BLOCK_NAME}
+				{foreach from=$FIELDS_BY_BLOCK item=FIELDS key=BLOCK_NAME}
 					<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 						{foreach from=$FIELDS item=FIELD}
 							{if $FIELD->isActiveSearchView()}

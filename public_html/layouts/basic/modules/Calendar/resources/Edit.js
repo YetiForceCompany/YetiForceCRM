@@ -173,24 +173,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		});
 
 		container.find('input[name="time_start"]').on('blur', function (e, data) {
-			if (typeof data == 'undefined') {
+			if (typeof data === "undefined") {
 				data = {};
 			}
 
-			if (typeof data.forceChange == 'undefined') {
+			if (typeof data.forceChange === "undefined") {
 				data.forceChange = false;
 			}
 			var element = jQuery(e.currentTarget);
 			var currentValue = element.val();
 			var prevValue = element.data('prevValue');
 			if (currentValue != prevValue || data.forceChange) {
-				var list = element.data('timepicker-list');
-				if (!list) {
-					//To generate the list
-					element.timepicker('show');
-					element.timepicker('hide');
-					list = element.data('timepicker-list');
-				}
 				e = jQuery.Event("keydown");
 				e.which = 13;
 				e.keyCode = 13;
@@ -252,7 +245,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		} else if (endValue === 'until') {
 			var date = form.find('.calendarUntil').val();
 			date = app.getDateInDBInsertFormat(CONFIG.dateFormat, date);
-			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T000000';
+			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T235959';
 		}
 		if (freq === 'WEEKLY') {
 			var checkedElements = [];
@@ -506,7 +499,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				var selected = ui.item;
 
 				//To stop selection if no results is selected
-				if (typeof selected.type != 'undefined' && selected.type == "no results") {
+				if (typeof selected.type !== "undefined" && selected.type == "no results") {
 					return false;
 				}
 				var recordExist = true;
