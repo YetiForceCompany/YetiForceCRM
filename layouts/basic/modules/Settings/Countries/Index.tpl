@@ -52,17 +52,17 @@
 								</span>
 
 								<span class="float-right actions">
-									<button class="uitype btn {if !$ROW['uitype']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-uitype="{$ROW['uitype']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_COUNTRY', $QUALIFIED_MODULE))}">
+									<button class="mr-1 uitype btn {if !$ROW['uitype']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-uitype="{$ROW['uitype']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_COUNTRY', $QUALIFIED_MODULE))}">
 										<span class="far fa-image"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
-									<button class="phone btn {if !$ROW['phone']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-phone="{$ROW['phone']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_PHONE', $QUALIFIED_MODULE))}">
+									<button class="mr-1 phone btn {if !$ROW['phone']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-phone="{$ROW['phone']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_PHONE', $QUALIFIED_MODULE))}">
 										<span class="fas fa-mobile-alt"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
-									<button class="status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_STATUS', $QUALIFIED_MODULE))}">
+									<button class="mr-1 status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-sm js-popover-tooltip" data-js="popover" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_STATUS', $QUALIFIED_MODULE))}">
 										<span class="far fa-check-square"></span>
 									</button>
 								</span>
