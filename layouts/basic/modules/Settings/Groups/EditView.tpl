@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<div class="editViewContainer">
+	<div class="tpl-Settings-Groups-EditView editViewContainer">
 		<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Groups">
 			<input type="hidden" name="action" value="Save" />
@@ -85,7 +85,7 @@
 			</div>
 			<div class="text-right">
 				<button class="btn btn-success" type="submit"><span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-				<button class="btn btn-danger ml-2" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-warning ml-2" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 			</div>
 		</form>
 	</div>
