@@ -97,7 +97,7 @@
 			<div class="row">
 				<div class="col-md-5 float-right">
 					<span class="float-right">
-						<button class="btn btn-success" type="submit"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE_AND_CONDITIONS', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit"><strong><span class="fa fa-caret-right u-mr-5px"></span>{\App\Language::translate('LBL_SAVE_AND_CONDITIONS', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span 									class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>
