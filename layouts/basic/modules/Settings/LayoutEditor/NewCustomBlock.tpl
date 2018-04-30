@@ -19,7 +19,7 @@
 				<div class="float-right btn-toolbar blockActions m-1">
 					<div class="btn-group">
 						<button class="btn btn-success addCustomField d-none" type="button">
-							<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+							<span class="fa fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</div>
 					<div class="btn-group">
