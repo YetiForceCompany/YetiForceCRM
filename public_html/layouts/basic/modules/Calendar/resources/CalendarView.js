@@ -502,45 +502,59 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			});
 		});
 	},
-	createAddSwitch: function () {
-		var thisInstance = this;
-		var calendarview = this.getCalendarView();
-		var checked = '';
+	switchTpl(on, off, state) {
+		return `<div class="btn-group btn-group-toggle js-switch" data-toggle="buttons">
+					<label class="btn btn-sm btn-outline-primary ${state ? '' : 'active'}">
+						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${history ? '' : 'checked'}">
+						${on}
+					</label>
+					<label class="btn btn-sm btn-outline-primary ${state ? 'active' : ''}">
+						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${history ? 'checked' : ''}"">
+						${off}
+					</label>
+				</div>`;
+	},
+	createAddSwitch () {
+		const calendarview = this.getCalendarView();
+		let switchHistory, switchAllDays;
 		if (app.getMainParams('showType') == 'current' && app.moduleCacheGet('defaultShowType') != 'history') {
-			checked = ' checked ';
+			switchHistory = false;
+		} else {
+			switchHistory = true;
 		}
-		var switchBtn = jQuery('<span class=""><input class="switchBtn showType" id="defaultShowType" type="checkbox" title="' + app.vtranslate('JS_CHANGE_ACTIVITY_TIME') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
+		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory))
 			.prependTo(calendarview.find('.fc-toolbar .fc-right'))
-			.on('switchChange.bootstrapSwitch', function (e, state) {
-				if (state) {
+			.on('change', 'input', (e) => {
+				const currentTarget = $(e.currentTarget);
+				if (typeof currentTarget.data('on-text') !== 'undefined') {
 					app.setMainParams('showType', 'current');
 					app.moduleCacheSet('defaultShowType', 'current');
-				} else {
+				} else if (typeof currentTarget.data('off-text') !== 'undefined') {
 					app.setMainParams('showType', 'history');
 					app.moduleCacheSet('defaultShowType', 'history');
 				}
-				thisInstance.loadCalendarData();
+				this.loadCalendarData();
 			});
-		app.showBtnSwitch(switchBtn.find('.switchBtn'));
-		checked = '';
-		if (app.getMainParams('switchingDays') == 'workDays' && app.moduleCacheGet('defaultSwitchingDays') != 'all') {
-			checked = ' checked ';
+		if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
+			switchAllDays = false;
+		} else {
+			switchAllDays = true;
 		}
 		if (app.getMainParams('hiddenDays', true) !== false) {
-			switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays))
 				.prependTo(calendarview.find('.fc-toolbar .fc-right'))
-				.on('switchChange.bootstrapSwitch', function (e, state) {
-					if (state) {
+				.on('change', 'input', (e) => {
+					const currentTarget = $(e.currentTarget);
+					if (typeof currentTarget.data('on-text') !== 'undefined') {
 						app.setMainParams('switchingDays', 'workDays');
 						app.moduleCacheSet('defaultSwitchingDays', 'workDays');
-					} else {
+					} else if (typeof currentTarget.data('off-text') !== 'undefined') {
 						app.setMainParams('switchingDays', 'all');
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
-					thisInstance.renderCalendar();
-					thisInstance.loadCalendarData();
+					this.renderCalendar();
+					this.loadCalendarData();
 				});
-			app.showBtnSwitch(switchBtn.find('.switchBtn'));
 		}
 	},
 	registerSelect2Event: function () {
