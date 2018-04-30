@@ -20,31 +20,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		return instance;
 	},
-	registerSwitches: function () {
-		var widgetContainer = jQuery('#rightPanel .quickWidget');
-		var switchesContainer = widgetContainer.find('.widgetContainer input.switchBtn');
-		app.showBtnSwitch(switchesContainer);
-		widgetContainer.find('.widgetContainer').each(function () {
-			var h = jQuery(this).height();
-			if (h > 250) {
-				jQuery(this).find('div:first').slimScroll({
-					height: '250px'
-				});
-			}
-		});
-	},
-	registerWidget: function () {
-		var thisInstance = this.getInstanceByView();
-		var widgetContainer = jQuery('#rightPanel .quickWidget');
-		widgetContainer.find('.switchsParent').on('switchChange.bootstrapSwitch', function (event, state) {
-			var element = jQuery(this).closest('.quickWidget');
-			if (state) {
-				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', true);
-			} else {
-				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
-			}
-		});
-	},
 	registerColorField: function (field, fieldClass) {
 		var params = {};
 		params.dropdownCss = {'z-index': 0};
@@ -657,5 +632,4 @@ jQuery(document).ready(function () {
 	var instance = Calendar_CalendarView_Js.getInstanceByView();
 	instance.registerEvents();
 	Calendar_CalendarView_Js.currentInstance = instance;
-	Calendar_CalendarView_Js.registerWidget();
 });

@@ -77,9 +77,26 @@
 							</div>
 						{/if}
 					{/foreach}
-					&nbsp;
-					<div class="btn-group">
-						<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_CURRENT')}" data-off-text="{\App\Language::translate('LBL_HISTORY')}" />
+					{*<div class="btn-group">*}
+						{*<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_CURRENT')}" data-off-text="{\App\Language::translate('LBL_HISTORY')}" />*}
+					{*</div>*}
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn btn-outline-primary {if $TIME eq 'current'}active{/if}">
+							<input class="js-switch" type="radio" name="options" id="option1"
+								   title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}"
+								   data-on-text="{App\Language::translate('LBL_CURRENT')}"
+								   autocomplete="off"
+								   {if $TIME eq 'current'}checked{/if}
+							> {\App\Language::translate('LBL_CURRENT')}
+						</label>
+						<label class="btn btn btn-outline-primary {if $TIME neq 'current'}active{/if}">
+							<input class="js-switch" type="radio" name="options" id="option2"
+								   title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}"
+								   data-off-text="{App\Language::translate('LBL_HISTORY')}"
+								   autocomplete="off"
+								   {if $TIME neq 'current'}checked{/if}
+							> {\App\Language::translate('LBL_HISTORY')}
+						</label>
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-6">

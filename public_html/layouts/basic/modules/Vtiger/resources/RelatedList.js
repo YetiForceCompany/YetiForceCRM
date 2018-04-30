@@ -157,12 +157,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (container.find('.entityState').length) {
 			params['entityState'] = container.find('.entityState').val();
 		}
-		if (this.moduleName == 'Calendar') {
-			if (this.content.find('.switchBtn').is(':checked'))
-				params['time'] = 'current';
-			else
-				params['time'] = 'history';
-		}
 		if (this.listSearchInstance) {
 			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
@@ -173,9 +167,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			params['operator'] = 's';
 		}
 		if (this.moduleName == 'Calendar') {
-			var switchBtn = container.find('.switchBtn');
+			var switchBtn = container.find('.js-switch');
 			if (switchBtn.length) {
-				params.time = switchBtn.prop('checked') ? 'current' : 'history';
+				params.time = switchBtn.first().prop('checked') ? 'current' : 'history';
 			}
 		}
 		return params;
@@ -810,7 +804,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				});
 			});
 		});
-		this.content.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
+		this.content.on('change', '.js-switch', function (e) {
 			thisInstance.loadRelatedList();
 		});
 		this.content.on('click', '.relatedViewGroup a', function (e) {
@@ -822,7 +816,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPostLoadEvents: function () {
 		var thisInstance = this;
-		app.showBtnSwitch(this.content.find('.switchBtn'));
 		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
 		if (this.relatedView === 'ListPreview') {
