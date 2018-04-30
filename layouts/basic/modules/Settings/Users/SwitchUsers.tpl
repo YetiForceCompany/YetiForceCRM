@@ -3,7 +3,7 @@
 	<input type="hidden" id="suCount" value="{count($SWITCH_USERS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
-	<div class="widget_header row">
+	<div class="tpl-Settings-Users-SwitchUsers widget_header row">
 		<div class="col-md-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
@@ -29,8 +29,8 @@
 		</div>
 		<br />
 		<div class="row">
-			<button class="btn btn-info addItem"><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn btn-success saveItems"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-info addItem"><span class="fa fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn btn-success saveItems"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<br />
 		<table class="table table-bordered cloneItem d-none">
