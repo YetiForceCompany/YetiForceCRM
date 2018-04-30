@@ -1286,7 +1286,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
-		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
 		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
@@ -2112,14 +2111,14 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			};
 			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
-		var switchBtn = container.find('.switchBtn');
-		app.showBtnSwitch(switchBtn);
-		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
-			if (state)
+		var switchBtn = container.find('.js-switch--calendar');
+		switchBtn.on('change', (e) => {
+			const currentTarget = $(e.currentTarget);
+			if (typeof currentTarget.data('on-text') !== 'undefined')
 				container.find('.widgetFilterSwitch').val('current');
-			else
+			else if (typeof currentTarget.data('off-text') !== 'undefined')
 				container.find('.widgetFilterSwitch').val('history');
-			thisInstance.refreshWidget();
+			this.refreshWidget();
 		})
 	},
 	loadCalendarData: function (allEvents) {

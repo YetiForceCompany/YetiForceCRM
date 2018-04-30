@@ -167,7 +167,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			params['operator'] = 's';
 		}
 		if (this.moduleName == 'Calendar') {
-			var switchBtn = container.find('.js-switch');
+			var switchBtn = container.find('.js-switch--calendar');
 			if (switchBtn.length) {
 				params.time = switchBtn.first().prop('checked') ? 'current' : 'history';
 			}
@@ -804,7 +804,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				});
 			});
 		});
-		this.content.on('change', '.js-switch', function (e) {
+		this.content.on('change', '.js-switch--calendar', function (e) {
 			thisInstance.loadRelatedList();
 		});
 		this.content.on('click', '.relatedViewGroup a', function (e) {

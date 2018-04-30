@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="relatedContainer">
+	<div class="tpl-RelatedList relatedContainer">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
@@ -77,20 +77,17 @@
 							</div>
 						{/if}
 					{/foreach}
-					{*<div class="btn-group">*}
-						{*<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_CURRENT')}" data-off-text="{\App\Language::translate('LBL_HISTORY')}" />*}
-					{*</div>*}
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
-						<label class="btn btn btn-outline-primary {if $TIME eq 'current'}active{/if}">
-							<input class="js-switch" type="radio" name="options" id="option1"
+						<label class="btn btn-outline-primary {if $TIME eq 'current'}active{/if}">
+							<input class="js-switch--calendar" type="radio" name="options" id="option1"
 								   title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}"
 								   data-on-text="{App\Language::translate('LBL_CURRENT')}"
 								   autocomplete="off"
 								   {if $TIME eq 'current'}checked{/if}
 							> {\App\Language::translate('LBL_CURRENT')}
 						</label>
-						<label class="btn btn btn-outline-primary {if $TIME neq 'current'}active{/if}">
-							<input class="js-switch" type="radio" name="options" id="option2"
+						<label class="btn btn-outline-primary {if $TIME neq 'current'}active{/if}">
+							<input class="js-switch--calendar" type="radio" name="options" id="option2"
 								   title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}"
 								   data-off-text="{App\Language::translate('LBL_HISTORY')}"
 								   autocomplete="off"
