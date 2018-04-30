@@ -12,7 +12,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="listViewEntriesDiv overflowXAuto">
+	<div class="tpl-Settings-PDF-ListViewContents listViewEntriesDiv overflowXAuto mt-2">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
@@ -44,16 +44,18 @@
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 												{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
+													<button type="button" class="btn btn-sm btn-danger">
 													<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+													</button>
 												{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
-													<a href="{$RECORD_LINK_URL}"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
+													<a href="{$RECORD_LINK_URL}" class="btn btn-primary btn-sm"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
 													{else}
 													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
 																										 {$RECORD_LINK_URL|substr:strlen("javascript:")};
 															if (event.stopPropagation){ldelim}
 																		event.stopPropagation();{rdelim} else{ldelim}
 																					event.cancelBubble = true;{rdelim}
-																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
+																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')} btn btn-info btn-sm">
 														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
 												{/if}
