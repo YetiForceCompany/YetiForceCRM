@@ -290,6 +290,7 @@ abstract class View extends Base
 			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
 			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
 			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
+			'~libraries/nonblockjs/NonBlock.es5.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
