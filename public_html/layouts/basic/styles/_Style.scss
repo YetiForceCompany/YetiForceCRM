@@ -1249,163 +1249,6 @@ td.fieldValue {
   word-wrap: break-word;
   min-height: 400px;
 }
-.fc-state-default .fc-button-effect {
-  top: 100% !important;
-}
-.fc-event-style1 {
-  background: #17309a;
-  border-color: #17309a;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #17309a;
-	border-color: #17309a;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-.fc-event-style2 {
-  background: #3a87ad;
-  border-color: #3a87ad;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #3a87ad;
-	border-color: #3a87ad;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-.fc-event-style3 {
-  background: #aa6705;
-  border-color: #aa6705;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #aa6705;
-	border-color: #aa6705;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-.fc-event-style4 {
-  background: #953b39;
-  border-color: #953b39;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #953b39;
-	border-color: #953b39;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-.fc-event-style5 {
-  background: #545252;
-  border-color: #545252;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #545252;
-	border-color: #545252;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-.fc-event-style6 {
-  background: #87865d;
-  border-color: #87865d;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #87865d;
-	border-color: #87865d;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-.fc-event-style7 {
-  background: #c71585;
-  border-color: #c71585;
-  font-weight: normal;
-  text-shadow: none;
-}
-.fc-event-style8 {
-  background: #006400;
-  border-color: #006400;
-  font-weight: normal;
-  text-shadow: none;
-  .fc-event-skin {
-	background: #006400;
-	border-color: #006400;
-	font-weight: normal;
-	text-shadow: none;
-  }
-}
-#calendarview th {
-  color: #000000;
-}
-.fc-button {
-  /* FullCalendar buttons */
-  display: inline-block;
-  padding: 6px 0.4em !important;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  &:active .fc-button-inner {
-	background: transparent;
-	.fc-button-content {
-	  color: #ffffff;
-	}
-  }
-  &.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
-	color: #000000 !important;
-	background: transparent;
-	background-image: none;
-  }
-}
-.fc-header-title h2 {
-  font-size: 15px;
-  line-height: 20px;
-}
-.fc-widget-header {
-  th {
-	padding: 4px 0px !important;
-  }
-  color: #666;
-  background: $light;
-  border-color: #ccc;
-}
-.fc-content {
-  background: #fff;
-  margin-left: 10px;
-}
-.fc-event-container .fc-event.fc-draggable {
-  margin: 0 0px 2px 0px;
-  border-radius: 0;
-}
-.fc-content {
-  .fc-title {
-	padding-left: 2px;
-  }
-  td:hover {
-	background: #f3f3f3;
-  }
-}
 .calendarPopover.popover {
   max-width: 30%;
   label {
@@ -1696,9 +1539,6 @@ textarea.col-md-11 {
 form {
   margin: 0;
 }
-.fc-state-default .fc-button-effect span {
-  background: none;
-}
 .dateField {
   width: 183px;
 }
@@ -1890,13 +1730,6 @@ table.dataTable .form-control {
 	top: -4px;
   }
 }
-.fc button {
-  /* FullCalendar buttons */
-  height: auto !important;
-}
-.fc-toolbar {
-  margin-bottom: 0 !important;
-}
 .calendarRightPanel, .paddingLR5 {
   padding-left: 5px;
   padding-right: 5px;
@@ -1997,13 +1830,6 @@ span[name=existingImages] img {
 }
 .image-in-button {
   width: 18px;
-}
-.fc-time-grid .fc-time-grid-event.fc-event {
-  min-height: 27px;
-  min-width: 100px;
-}
-.fc-time-grid-event.fc-short .fc-title {
-  font-size: 1em;
 }
 .paddingTBZero {
   padding-top: 0;
@@ -3002,12 +2828,6 @@ html, body, .baseContainer {
   .alphabet_26 {
 	width: 295px;
   }
-  .fc-toolbar {
-	.fc-left, .fc-right {
-	  float: none !important;
-	  display: inline-block;
-	}
-  }
 }
 .jstree-proton .jstree-search {
   color: #fff !important;
@@ -3756,9 +3576,6 @@ border1px {
   .listRemoveBtn, .removeSearchConditions {
 	margin-left: 8px;
   }
-}
-.fc-event {
-  color: #353c44 !important;
 }
 #popupPageContainer {
   overflow-y: auto;
