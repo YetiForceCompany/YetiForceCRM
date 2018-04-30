@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Roles-EditView">
 		<div class="row widget_header">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -169,8 +169,9 @@
 				</div>
 			</div>
 			<div class="float-right marginRight10px paddingTop20">
-				<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$MODULE)}</button>
-				<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
+				<button class="btn btn-success" type="submit"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE',$MODULE)}</button>
+				<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">
+					<span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>
 			{if count($ROLE_USERS) > 0 }
 				<hr/>
