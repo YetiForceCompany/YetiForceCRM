@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="relatedTabOrder">
+    <div id="tpl-Settings-LayoutEditor-RelatedList relatedTabOrder">
 		<div class="" id="layoutEditorContainer">
 			<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 			<div class="widget_header row align-items-lg-center">
@@ -62,8 +62,8 @@
 									{assign var=STATUS value='0'}
 								{/if}
 								{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
-								<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
-									<div class="mainBlockTableHeader panel-heading">
+								<div class="relatedModule mainBlockTable card" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
+									<div class="mainBlockTableHeader card-header">
 										<div class="btn-toolbar btn-group-xs float-right">
 											{if AppConfig::developer('CHANGE_RELATIONS')}
 												<button type="button" class="btn btn-danger removeRelation float-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
@@ -78,7 +78,7 @@
 											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} d-none{/if}"><span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
 											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} d-none{/if}"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 										</div>
-										<h4 class="panel-title">
+										<h4 class="card-title">
 											<div class="relatedModuleLabel mainBlockTableLabel">
 												<a><img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
 												&nbsp;&nbsp;
@@ -86,7 +86,7 @@
 											</div>
 										</h4>
 									</div>
-									<div class="relatedModuleFieldsList mainBlockTableContent panel-body">
+									<div class="relatedModuleFieldsList mainBlockTableContent card-body">
 										<div class="form-horizontal">
 											<div class="form-group">
 												<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_RELATED_VIEW_TYPE',$QUALIFIED_MODULE)}:</label>
