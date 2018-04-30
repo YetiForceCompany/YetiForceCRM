@@ -65,26 +65,32 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
+		$user = Users_Record_Model::getCurrentUserModel();
+		$allDay = $request->get('allday');
+		if ($allDay) {
+			$request->set('time_start', $user->get('start_hour'));
+			$request->set('time_end', $user->get('end_hour'));
+		}
 		//Start Date and Time values
-		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
 		$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
+		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
 		if ($startTime) {
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($startTime);
-			$startDateTime = App\Fields\DateTime::formatToDb($request->get('date_start') . ' ' . $startTime);
+			$startDateTime = App\Fields\DateTime::formatToDb($startDate . ' ' . $startTime);
 			list($startDate, $startTime) = explode(' ', $startDateTime);
 		}
 		$recordModel->set('date_start', $startDate);
 		$recordModel->set('time_start', $startTime);
 		//End Date and Time values
-		$endTime = $request->get('time_end');
 		$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
+		$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_end'));
 		if ($endTime) {
 			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-			$endDateTime = App\Fields\DateTime::formatToDb($request->get('due_date') . ' ' . $endTime);
+			$endDateTime = App\Fields\DateTime::formatToDb($endDate . ' ' . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
-		$recordModel->set('time_end', $endTime);
 		$recordModel->set('due_date', $endDate);
+		$recordModel->set('time_end', $endTime);
 		$activityType = $request->getByType('activitytype');
 		if (empty($activityType)) {
 			$recordModel->set('activitytype', 'Task');
