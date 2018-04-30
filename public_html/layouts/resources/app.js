@@ -97,12 +97,12 @@ app = {
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params === "undefined") {
 			params = {
+				trigger: 'manual',
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
-		params.trigger = 'hover';
 		params.container = 'body';
 		params.delay = {"show": 300, "hide": 100};
 		var sparams;
@@ -123,6 +123,21 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
+			element.hoverIntent({
+				timeout: 150,
+				over: function () {
+					const self = this;
+					$(this).popover("show");
+					$(".popover").on("mouseleave", function () {
+						$(self).popover('hide');
+					});
+				},
+				out: function () {
+					if (!$(".popover:hover").length) {
+						$(this).popover('hide');
+					}
+				}
+			});
 		});
 		return selectElement;
 	},
