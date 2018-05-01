@@ -93,12 +93,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-sm btn-info',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteUrl() . "');",
 				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-sm btn-danger text-white',
 			],
 		];
 		foreach ($recordLinks as $recordLink) {
