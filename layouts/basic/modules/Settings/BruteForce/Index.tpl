@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div>
+	<div class="tpl-Settings-BruteForce-Index">
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -54,7 +54,8 @@
 						</div>
 						<div class="card-footer clearfix">
 							<div class="float-left">
-								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
+								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><span class="fa fa-check u-mr-5px"></span>
+									<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
 							</form>
 						</div>
 					</div>
