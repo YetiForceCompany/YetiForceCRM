@@ -11,9 +11,9 @@ var Settings_Index_Js = {
 	replacement: function (e) {
 		var target = $(e.currentTarget);
 		if (parseInt(target.val())) {
-			target.val(0).html(app.vtranslate('JS_TURN_ON'));
+			target.val(0).html('<span class="fas fa-power-off u-mr-5px"></span>' +app.vtranslate('JS_TURN_ON'));
 		} else {
-			target.val(1).html(app.vtranslate('JS_TURN_OFF'));
+			target.val(1).html('<span class="fas fa-power-off u-mr-5px"></span>' +app.vtranslate('JS_TURN_OFF'));
 		}
 		target.toggleClass("btn-success btn-danger");
 		Settings_Index_Js.save(e);
