@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="authModal modal fade" tabindex="-1">
-		<div  class="authModalContent validationEngineContainer ">
+	<div class="tpl-Settings-Github-Github authModal modal fade" tabindex="-1">
+		<div class="authModalContent validationEngineContainer ">
 			<div class="modal-dialog ">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -14,7 +14,8 @@
 									<span class="fas fa-check mr-1"></span>
 									{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 								</button>
-								<button class="btn btn-sm btn-danger ml-1" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">
+								<button class="btn btn-sm btn-danger ml-1" type="button" data-dismiss="modal"
+										aria-label="Close" aria-hidden="true">
 									<span class="fas fa-times"></span>
 								</button>
 							</div>
@@ -35,12 +36,14 @@
 						<div class="col-12 mb-2">
 							<span class="redColor">*</span>
 							{\App\Language::translate('LBL_USER_NAME', $QUALIFIED_MODULE)}
-							<input class="form-control" name="username" data-validation-engine="validate[required]" value="" type="text">
+							<input class="form-control" name="username" data-validation-engine="validate[required]"
+								   value="" type="text">
 						</div>
 						<div class="col-12">
 							<span class="redColor">*</span>
 							{\App\Language::translate('LBL_TOKEN', $QUALIFIED_MODULE)}
-							<input class="form-control" data-validation-engine="validate[required]" name="token" value="" type="text">
+							<input class="form-control" data-validation-engine="validate[required]" name="token"
+								   value="" type="text">
 						</div>
 					</div>
 				</div>
@@ -48,7 +51,7 @@
 		</div>
 	</div>
 	{if !$GITHUB_CLIENT_MODEL->isAuthorized()}
-		<div class="alert alert-danger" role="alert">
+		<div class="alert alert-danger mb-2" role="alert">
 			{\App\Language::translate('LBL_NOT_AUTHORIZED', $QUALIFIED_MODULE)}
 			<button class="btn btn-danger showModal ml-2">
 				{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}
@@ -67,17 +70,40 @@
 				</button>
 			</div>
 		{/if}
-		<div class="listViewActions float-right paginationDiv pl-1">
+
+		<div class="listViewActions float-right paginationDiv pl-1 pb-2">
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl')}
 		</div>
-		<div class="col-sm-4 float-right">
+		<div class="col-sm-4 float-right pb-2">
 			{if $GITHUB_CLIENT_MODEL->isAuthorized()}
 				<div class="bootstrap-switch-container float-right ml-2">
-					<input class="switchBtn switchAuthor" {if $IS_AUTHOR} checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}" data-on-text="{\App\Language::translate('LBL_ME', $QUALIFIED_MODULE)}">
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-outline-primary {if $IS_AUTHOR}active{/if}">
+							<input class="js-switch--author" type="radio" name="author" id="author1"
+								   autocomplete="off" {if $IS_AUTHOR}checked{/if}
+							> {\App\Language::translate('LBL_ME', $QUALIFIED_MODULE)}
+						</label>
+						<label class="btn btn-outline-primary {if !$IS_AUTHOR}active{/if}">
+							<input class="js-switch--author" type="radio" name="author" id="author2"
+								   autocomplete="off" {if !$IS_AUTHOR}checked{/if}
+							> {\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}
+						</label>
+					</div>
 				</div>
 			{/if}
 			<div class="bootstrap-switch-container float-right">
-				<input class="switchBtn switchState" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{\App\Language::translate('LBL_OPEN', $QUALIFIED_MODULE)}" data-on-text="{\App\Language::translate('LBL_CLOSED', $QUALIFIED_MODULE)}">
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-outline-primary {if $ISSUES_STATE neq 'closed'}active{/if}">
+						<input class="js-switch--state" type="radio" name="state" id="state1"
+							   autocomplete="off" {if $ISSUES_STATE neq 'closed'}checked{/if}
+						> {\App\Language::translate('LBL_OPEN', $QUALIFIED_MODULE)}
+					</label>
+					<label class="btn btn-outline-primary {if $ISSUES_STATE eq 'closed'}active{/if}">
+						<input class="js-switch--state" type="radio" name="state" id="state2"
+							   autocomplete="off" {if $ISSUES_STATE eq 'closed'}checked{/if}
+						> {\App\Language::translate('LBL_CLOSED', $QUALIFIED_MODULE)}
+					</label>
+				</div>
 			</div>
 		</div>
 		<table class="table listViewEntriesTable">
@@ -86,8 +112,8 @@
 			<th>{\App\Language::translate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>
 			<th>{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</th>
 			<th></th>
-		</thead>
-		<tbody>
+			</thead>
+			<tbody>
 			{foreach from=$GITHUB_ISSUES item=ISSUE}
 				<tr class="">
 					<td>
@@ -112,19 +138,19 @@
 							</span>
 						</div>
 					</td>
-				</tr>	
-			{foreachelse}
+				</tr>
+				{foreachelse}
 				<tr>
 					<td>
 						{\App\Language::translate('LBL_NO_ISSUES', $QUALIFIED_MODULE)}
 					</td>
 				</tr>
 			{/foreach}
-		</tbody>
-	</table>
-{else}
-	<div class="alert alert-danger mt-2">
-		{\App\Language::translate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE)}
-	</div>
-{/if}
+			</tbody>
+		</table>
+	{else}
+		<div class="alert alert-danger mt-2">
+			{\App\Language::translate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE)}
+		</div>
+	{/if}
 {/strip}

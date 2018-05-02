@@ -362,7 +362,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (types.length !== 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
 			return;
 		}
-		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
+		var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
 		var calendar = this.getCalendarView();
 		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 		if (state === true && taskstatus >= 0 || state != true && taskstatus == -1) {
@@ -479,12 +479,12 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	switchTpl(on, off, state) {
 		return `<div class="btn-group btn-group-toggle js-switch" data-toggle="buttons">
-					<label class="btn btn-outline-primary ${state ? '' : 'active'}">
-						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${history ? '' : 'checked'}">
+					<label class="btn btn-outline-primary js-switch--label-on ${state ? '' : 'active'}">
+						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>
 						${on}
 					</label>
 					<label class="btn btn-outline-primary ${state ? 'active' : ''}">
-						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${history ? 'checked' : ''}"">
+						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>
 						${off}
 					</label>
 				</div>`;
