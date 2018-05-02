@@ -1004,13 +1004,6 @@ app = {
 		);
 		return aDeferred.promise();
 	},
-	showBtnSwitch: function (selectElement, params) {
-		if (typeof params === "undefined") {
-			params = {};
-		}
-		selectElement.bootstrapSwitch(params);
-		return selectElement;
-	},
 	getMainParams: function (param, json) {
 		if (param in CONFIG) {
 			return CONFIG[param];
@@ -1376,7 +1369,6 @@ app = {
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
-	app.showBtnSwitch($('body').find('.switchBtn'));
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
