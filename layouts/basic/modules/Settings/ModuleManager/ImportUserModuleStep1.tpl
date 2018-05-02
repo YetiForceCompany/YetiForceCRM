@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="" id="importModules">
+	<div class="tpl-Settings-ModuleManager-ImportUserModuleStep1" id="importModules">
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -55,9 +55,11 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit" name="saveButton"><strong><span
+										class="fas fa-upload u-mr-5px"></span>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>
 						<div class="float-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List"><span
+										class="fa fa-times u-mr-5px"></span><strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></a>
 						</div>
 					</div>
 				</form>
