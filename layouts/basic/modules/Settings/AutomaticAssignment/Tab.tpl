@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="row padding20">
+	<div class="tpl-Settings-AutomaticAssingment-Tab row padding20">
 		{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
 		{if isset($FIELD_MODEL)}	
 			{assign var=SOURCE_MODULE value=$FIELD_MODEL->getModuleName()}
 		{/if}
-		<div class="alert alert-info fade in">
+		<div class="alert alert-info fade show">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
