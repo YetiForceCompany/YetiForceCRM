@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="targetFieldsTableContainer">
+	<div class="tpl-Settings-HideBlocks-Conditions targetFieldsTableContainer">
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -13,7 +13,8 @@
 			</div>
 			<br />	
 			<div class="float-right">
-				<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_BACK', $MODULE)}</a>
+				<button class="btn btn-warning text-white" type="reset" onclick="javascript:window.history.back();"><span
+							class="fa fa-caret-left u-mr-5px"></span>{\App\Language::translate('LBL_BACK', $MODULE)}</button>
 			</div>
 			<div class="clearfix"></div>
 		{else}
@@ -34,8 +35,9 @@
 				<br />	
 				<div class="">
 					<div class="float-right">
-						<a class="saveLink btn btn-success" ><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></a>
-						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_BACK', $MODULE)}</a>
+						<button class="saveLink btn btn-success text-white" ><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning text-white" type="reset" onclick="javascript:window.history.back();">
+							<span class="fa fa-caret-left u-mr-5px"></span>{\App\Language::translate('LBL_BACK', $MODULE)}</button>
 					</div>
 					<div class="clearfix"></div>
 				</div>
