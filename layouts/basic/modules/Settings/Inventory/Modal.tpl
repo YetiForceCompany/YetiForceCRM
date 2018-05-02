@@ -8,14 +8,14 @@
 	{if $TYPE != 'CreditLimits'}
 		{assign var=PERCENTAGE value=true}
 	{/if}
-	<div class='modelContainer modal fade' id="addInventory" tabindex="-1">
+	<div class='tpl-Settings-Inventory-Modal modelContainer modal fade' id="addInventory" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					{if $EDIT_VIEW}
-						<h5 class="modal-title">{\App\Language::translate('LBL_EDITING', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
+						<h5 class="modal-title"><span class="fa fa-edit u-mr-5px"></span>{\App\Language::translate('LBL_EDITING', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
 					{else}
-						<h5 class="modal-title">{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
+						<h5 class="modal-title"><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
 					{/if}
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
