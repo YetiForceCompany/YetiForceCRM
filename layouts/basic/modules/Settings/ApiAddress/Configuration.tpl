@@ -9,7 +9,7 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
-<div id="menuEditorContainer">
+<div id="tpl-Settings-ApiAddress-Configuration menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -52,7 +52,7 @@
 				</div>
 				<div class="col-12 form-row mb-2">
 					<div>
-						<button type="button" class="btn btn-success saveGlobal">{\App\Language::translate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
+						<button type="button" class="btn btn-success saveGlobal"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
 					</div>
 				</div>
 				<div class="col-12">
