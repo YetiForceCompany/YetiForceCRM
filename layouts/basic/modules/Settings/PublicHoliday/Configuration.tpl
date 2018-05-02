@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="" id="widgetsManagementEditorContainer">
+	<div class="tpl-Settings-PublicHoliday-Configuration" id="widgetsManagementEditorContainer">
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -14,7 +14,7 @@
 						<button type="button" class="btn btn-success addDateWindow font-weight-bold"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 					</div>
 					<div id="moduleBlocks">
-						<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 mb-3 border">
+						<div class="editFieldsTable block_1 mb-3 border">
 							<div class="form-row m-0">
 								<table class="table table-bordered layoutBlockHeader">
 									<tr>
@@ -79,11 +79,11 @@
 							</table>
 						</div>
 					</div>
-					{* copy elements hide *}
 					<div class="modal addDateWindowModal fade publicHolidayModal" tabindex="-1">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header contentsBackground">
+									<span class="fa fa-plus mt-2 u-mr-5px"></span>
 									<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 								</div>
