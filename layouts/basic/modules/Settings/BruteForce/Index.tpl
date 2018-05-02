@@ -29,13 +29,13 @@
 									<div class="col-sm-8 col-md-9">
 										<div class="btn-group btn-group-toggle" data-toggle="buttons">
 											<label class="btn btn-outline-primary {if $CONFIG.active} active{/if}">
-												<input class="js-switch" type="radio" name="active"
+												<input class="js-switch" type="radio" name="active" data-js="change"
 													   id="active1" autocomplete="off" value="1"
 													   {if $CONFIG.active}checked{/if}
 												> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-outline-primary {if !$CONFIG.active} active{/if}">
-												<input class="js-switch" type="radio" name="active"
+												<input class="js-switch" type="radio" name="active" data-js="change"
 													   id="active2" autocomplete="off" value="0"
 													   {if !$CONFIG.active}checked{/if}
 												> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
@@ -66,13 +66,13 @@
 									<div class="col-sm-9">
 										<div class="btn-group btn-group-toggle" data-toggle="buttons">
 											<label class="btn btn-outline-primary {if $CONFIG.sent} active{/if}">
-												<input class="js-switch--sent" type="radio" name="sent"
+												<input class="js-switch--sent" type="radio" name="sent" data-js="change"
 													   id="sent1" autocomplete="off" value="1"
 													   {if $CONFIG.sent}checked{/if}
 												> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-outline-primary {if !$CONFIG.sent} active{/if}">
-												<input class="js-switch--sent" type="radio" name="sent"
+												<input class="js-switch--sent" type="radio" name="sent" data-js="change"
 													   id="sent2" autocomplete="off" value="0"
 													   {if !$CONFIG.sent}checked{/if}
 												> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}

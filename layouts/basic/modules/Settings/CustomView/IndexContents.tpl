@@ -49,12 +49,14 @@
 								 data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary {if $item['privileges']} active{/if}">
 									<input class="js-switch js-update-field" type="radio" name="privileges"
+										   data-js="change"
 										   id="privileges1" autocomplete="off" value="1"
 										   {if $item['privileges']}checked{/if}
 									> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary {if !$item['privileges']} active {/if}">
 									<input class="js-switch js-update-field" type="radio" name="privileges"
+										   data-js="change"
 										   id="privileges2" autocomplete="off" value="0"
 										   {if !$item['privileges']}checked{/if}
 									> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}

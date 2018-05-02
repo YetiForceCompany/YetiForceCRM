@@ -79,12 +79,12 @@
 				<div class="bootstrap-switch-container float-right ml-2">
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label class="btn btn-outline-primary {if $IS_AUTHOR}active{/if}">
-							<input class="js-switch--author" type="radio" name="author" id="author1"
+							<input class="js-switch--author" type="radio" name="author" id="author1" data-js="change"
 								   autocomplete="off" {if $IS_AUTHOR}checked{/if}
 							> {\App\Language::translate('LBL_ME', $QUALIFIED_MODULE)}
 						</label>
 						<label class="btn btn-outline-primary {if !$IS_AUTHOR}active{/if}">
-							<input class="js-switch--author" type="radio" name="author" id="author2"
+							<input class="js-switch--author" type="radio" name="author" id="author2" data-js="change"
 								   autocomplete="off" {if !$IS_AUTHOR}checked{/if}
 							> {\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}
 						</label>
@@ -94,12 +94,12 @@
 			<div class="bootstrap-switch-container float-right">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-outline-primary {if $ISSUES_STATE neq 'closed'}active{/if}">
-						<input class="js-switch--state" type="radio" name="state" id="state1"
+						<input class="js-switch--state" type="radio" name="state" id="state1" data-js="change"
 							   autocomplete="off" {if $ISSUES_STATE neq 'closed'}checked{/if}
 						> {\App\Language::translate('LBL_OPEN', $QUALIFIED_MODULE)}
 					</label>
 					<label class="btn btn-outline-primary {if $ISSUES_STATE eq 'closed'}active{/if}">
-						<input class="js-switch--state" type="radio" name="state" id="state2"
+						<input class="js-switch--state" type="radio" name="state" id="state2" data-js="change"
 							   autocomplete="off" {if $ISSUES_STATE eq 'closed'}checked{/if}
 						> {\App\Language::translate('LBL_CLOSED', $QUALIFIED_MODULE)}
 					</label>

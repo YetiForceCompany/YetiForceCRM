@@ -81,6 +81,7 @@
 						<label class="btn btn-outline-primary {if $TIME eq 'current'}active{/if}">
 							<input class="js-switch--calendar" type="radio" name="options" id="option1"
 								   title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}"
+								   data-js="change"
 								   data-on-text="{App\Language::translate('LBL_CURRENT')}"
 								   autocomplete="off"
 								   {if $TIME eq 'current'}checked{/if}
@@ -89,6 +90,7 @@
 						<label class="btn btn-outline-primary {if $TIME neq 'current'}active{/if}">
 							<input class="js-switch--calendar" type="radio" name="options" id="option2"
 								   title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}"
+								   data-js="change"
 								   data-off-text="{App\Language::translate('LBL_HISTORY')}"
 								   autocomplete="off"
 								   {if $TIME neq 'current'}checked{/if}

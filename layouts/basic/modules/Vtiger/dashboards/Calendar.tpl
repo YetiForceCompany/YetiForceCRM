@@ -54,12 +54,14 @@
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch--calendar" type="radio" name="options" id="option1"
+									   data-js="change"
 									   data-on-text="{\App\Language::translate('LBL_TO_REALIZE')}" autocomplete="
 							   off" checked
 								> {\App\Language::translate('LBL_TO_REALIZE')}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
 								<input class="js-switch--calendar" type="radio" name="options" id="option2"
+									   data-js="change"
 									   data-off-text="{\App\Language::translate('History')}" autocomplete="
 							   off"
 								> {\App\Language::translate('History')}

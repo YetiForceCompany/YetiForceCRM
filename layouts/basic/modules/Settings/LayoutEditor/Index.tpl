@@ -31,12 +31,14 @@
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label class="btn btn-outline-primary {if !$IS_INVENTORY}active{/if}">
 							<input class="js-switch--inventory" type="radio" name="options" id="option1"
+								   data-js="change"
 								   data-value="basic" autocomplete="off"
 								   {if !$IS_INVENTORY}checked{/if}
 							> {App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
 						</label>
 						<label class="btn btn-outline-primary {if $IS_INVENTORY}active{/if}">
 							<input class="js-switch--inventory" type="radio" name="options" id="option2"
+								   data-js="change"
 								   data-value="advanced" autocomplete="off"
 								   {if $IS_INVENTORY}checked{/if}
 							> {App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}

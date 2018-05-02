@@ -45,13 +45,13 @@
 					<div class="col-12">
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-outline-primary {if $RECORD_MODEL->get($FIELD_NAME)} active{/if}">
-								<input class="js-switch noField" type="radio" name="{$FIELD_NAME}"
+								<input class="js-switch noField" type="radio" name="{$FIELD_NAME}" data-js="change"
 									   id="defaultUser1" autocomplete="off" value="1"
 									   {if $RECORD_MODEL->get($FIELD_NAME)}checked{/if}
 								> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 							</label>
 							<label class="btn btn-outline-primary {if !$RECORD_MODEL->get($FIELD_NAME)} active{/if}">
-								<input class="js-switch noField" type="radio" name="{$FIELD_NAME}"
+								<input class="js-switch noField" type="radio" name="{$FIELD_NAME}" data-js="change"
 									   id="defaultUser2" autocomplete="off" value="0"
 									   {if !$RECORD_MODEL->get($FIELD_NAME)}checked{/if}
 								> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
@@ -78,47 +78,47 @@
 				</div>
 			</form>
 		{elseif $FIELD_NAME eq 'conditions'}
-				<div class="form-group col-md-6 row">
-						<label class="col-sm-6 col-form-label">{\App\Language::translate('LBL_INCLUDE_USERS_RECORD_LIMIT', $QUALIFIED_MODULE)}</label>
-					<div class="col-sm-6">
-							<div class="btn-group btn-group-toggle" data-toggle="buttons">
-								<label class="btn btn-outline-primary {if $RECORD_MODEL->get('user_limit')} active{/if}">
-									<input class="js-switch" type="radio" name="user_limit"
-										   id="user_limit1" autocomplete="off" value="1"
-										   {if $RECORD_MODEL->get('user_limit')}checked{/if}
-									> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
-								</label>
-								<label class="btn btn-outline-primary {if !$RECORD_MODEL->get('user_limit')} active{/if}">
-									<input class="js-switch" type="radio" name="user_limit"
-										   id="user_limit2" autocomplete="off" value="0"
-										   {if !$RECORD_MODEL->get('user_limit')}checked{/if}
-									> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
-								</label>
-							</div>
+			<div class="form-group col-md-6 row">
+				<label class="col-sm-6 col-form-label">{\App\Language::translate('LBL_INCLUDE_USERS_RECORD_LIMIT', $QUALIFIED_MODULE)}</label>
+				<div class="col-sm-6">
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-outline-primary {if $RECORD_MODEL->get('user_limit')} active{/if}">
+							<input class="js-switch" type="radio" name="user_limit" data-js="change"
+								   id="user_limit1" autocomplete="off" value="1"
+								   {if $RECORD_MODEL->get('user_limit')}checked{/if}
+							> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+						</label>
+						<label class="btn btn-outline-primary {if !$RECORD_MODEL->get('user_limit')} active{/if}">
+							<input class="js-switch" type="radio" name="user_limit" data-js="change"
+								   id="user_limit2" autocomplete="off" value="0"
+								   {if !$RECORD_MODEL->get('user_limit')}checked{/if}
+							> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+						</label>
 					</div>
 				</div>
-				<div class="fieldContainer col-md-10 col-lg-8" data-dbname="{$FIELD_NAME}">
-					<div class="card card-default">
-						<div class="card-header">
-							<h5 class="no-margin">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
-						</div>
-						<div class="card-body paddingBottomZero">
-							<div class="filterConditionsDiv">
-								<div class="row">
+			</div>
+			<div class="fieldContainer col-md-10 col-lg-8" data-dbname="{$FIELD_NAME}">
+				<div class="card card-default">
+					<div class="card-header">
+						<h5 class="no-margin">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
+					</div>
+					<div class="card-body paddingBottomZero">
+						<div class="filterConditionsDiv">
+							<div class="row">
 									<span class="col-md-12">
 										{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
 									</span>
-								</div>
-							</div>
-						</div>
-						<div class="card-footer clearfix">
-							<div class="btn-toolbar float-right">
-								<button class="btn btn-success saveValue"
-										type="button">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
 							</div>
 						</div>
 					</div>
+					<div class="card-footer clearfix">
+						<div class="btn-toolbar float-right">
+							<button class="btn btn-success saveValue"
+									type="button">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
+						</div>
+					</div>
 				</div>
+			</div>
 		{else}
 			<div class="table-responsive col-sm-10 col-12">
 				<table class="table table-bordered table-sm dataTable" data-mode="base">
