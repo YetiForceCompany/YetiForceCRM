@@ -80,7 +80,7 @@
 										</div>
 										<div class="selectedUsersForm{if !$CONFIG.sent} d-none{/if}">
 											<label class="col-form-label">{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
-											<select class="chzn-select form-control" name="selectedUsers" multiple
+											<select class="select2 form-control" name="selectedUsers" multiple
 													id="selectedUsers"
 													title="{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}">
 												{foreach key=KEY item=USER from=$ADMIN_USERS}

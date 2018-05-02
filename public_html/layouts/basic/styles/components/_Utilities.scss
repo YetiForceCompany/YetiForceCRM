@@ -133,3 +133,7 @@
 .u-w-5per {
   width: 5%;
 }
+.u-disabled {
+	pointer-events: none;
+	opacity: .65;
+}
