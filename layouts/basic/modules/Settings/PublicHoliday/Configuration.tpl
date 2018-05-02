@@ -65,12 +65,11 @@
 											</td>
 											<td>
 												<div class='float-right'>
-													<a data-holiday-id="{$HOLIDAY['id']}"  class="editHoliday mr-1 text-dark" href="javascript:void(0)">
-														<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-edit alignMiddle"></span>
-													</a>
-													<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday text-dark" href="javascript:void(0)">
+													<button data-holiday-id="{$HOLIDAY['id']}"  class="editHoliday mr-1 text-white btn btn-sm btn-info"> <span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-edit alignMiddle"></span>
+													</button>
+													<button data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday text-white btn btn-sm btn-danger">
 														<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span>
-													</a>
+													</button>
 												</div>
 											</td>
 										</tr>
@@ -108,7 +107,7 @@
 												<select name="holidayType" class="form-control" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
 													<option value="national">{\App\Language::translate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
 													<option value="ecclesiastical">{\App\Language::translate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
-												</select> 
+												</select>
 											</div>
 										</div>
 										<div class="form-group form-row">
