@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="mfTemplateContents">
+	<div class="tpl-Settings-MappedFields-Step2 mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step2" class="form-horizontal">
 			<input type="hidden" name="module" value="MappedFields">
 			<input type="hidden" name="view" value="Edit">
@@ -81,8 +81,8 @@
 													{/if}
 												</td>
 												<td class="textAlignCenter">
-													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light deleteMapping">
-														<i class="fas fa-trash-alt"></i>
+													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-danger deleteMapping">
+														<span class="fas fa-trash-alt"></span>
 													</button>
 												</td>
 											</tr>
@@ -120,8 +120,8 @@
 											<td class="">
 											</td>
 											<td class="textAlignCenter">
-												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light deleteMapping">
-													<i class="fas fa-trash-alt"></i>
+												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-danger deleteMapping">
+													<span class="fas fa-trash-alt"></span>
 												</button>
 											</td>
 										</tr>
