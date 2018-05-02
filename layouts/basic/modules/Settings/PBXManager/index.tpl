@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="AsteriskServerDetails">
+	<div class="tpl-Settings-PBXManager-index" id="AsteriskServerDetails">
 		<div class="widget_header row align-items-center">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -18,7 +18,7 @@
 			<div class="col-md-4 pr-3">
 				<div class="float-right">
 					<button class="btn btn-info editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}">
-						<strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
+						<span class="fa fa-edit u-mr-5px"></span><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</div>
 			</div>
