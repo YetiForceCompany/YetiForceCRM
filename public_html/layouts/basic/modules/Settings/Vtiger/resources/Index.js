@@ -484,8 +484,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 				}
 			}
 		});
-		var element = app.showBtnSwitch(container.find('.switchBtn'));
-		element.on('switchChange.bootstrapSwitch', function (e, state) {
+		container.find('.js-switch--warnings').on('change', () => {
 			thisInstance.getWarningsList();
 		});
 	},
@@ -497,7 +496,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			message: app.vtranslate('JS_LOADING_OF_RECORDS'),
 			blockInfo: {enabled: true}
 		});
-		var active = $('.warningsIndexPage input.switchBtn').bootstrapSwitch('state');
+		var active = $('.warningsIndexPage .js-switch--warnings').first().is(':checked');
 		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
