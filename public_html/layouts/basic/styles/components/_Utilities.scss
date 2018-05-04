@@ -13,6 +13,11 @@
   white-space: nowrap;
   &:hover {
 	overflow: initial;
+	  > * {
+		  background: $white;
+		  z-index: 1000000;
+		  position: absolute;
+	  }
   }
 }
 .u-word-break-all {
