@@ -42,7 +42,7 @@
 								<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{App\Language::translate($key,$MODULE)}</label>
-										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="fas fa-info-circle"></i></a>{/if}
+										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
 									</td>
 									<td><label class="u-text-small-bold">{App\Language::translate($item.status, $MODULE)}</label></td>
 									<td><label class="u-text-small-bold">
@@ -81,7 +81,7 @@
 								<tr {if $item['status']}class="danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{App\Language::translate($key, $MODULE)}</label>
-										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><i class="fas fa-info-circle"></i></a>{/if}
+										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
 									</td>
 									{if $item['recommended'] === false}
 										<td colspan="2"><label class="u-text-small-bold">{$item['current']}</label></td>
@@ -119,7 +119,7 @@
 								<tr {if $item.status}class="danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{$key}</label>
-										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><i class="fas fa-info-circle"></i></a>{/if}
+										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
 									</td>
 									<td><label class="u-text-small-bold">{App\Language::translate($item.recommended, $MODULE)}</label></td>
 									<td><label class="u-text-small-bold">{App\Language::translate($item.current, $MODULE)}</label></td>
@@ -190,7 +190,7 @@
 								<tr {if $item['incorrect']}class="danger"{/if}>
 									<td class="u-w-5per">
 										<label class="u-text-small-bold">{$key}</label>
-										{if isset($item['help']) && $item['incorrect']}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item['help'], $MODULE)}"><i class="fas fa-info-circle"></i></a>{/if}
+										{if isset($item['help']) && $item['incorrect']}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item['help'], $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
 									</td>
 									{if $item['recommended'] === false}
 										<td colspan="2" class="u-w-30per"><label class="u-text-small-bold">{$item['current']}</label></td>
@@ -225,7 +225,7 @@
 								<tr {if $item.status}class="danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{$key}</label>
-										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><i class="fas fa-info-circle"></i></a>{/if}
+										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
 									</td>
 									<td>
 										<label class="u-text-small-bold">
