@@ -7,7 +7,9 @@
 					<div class="modal-header">
 						<div class="d-flex w-100 m-0">
 							<div>
-								<h5 class="modal-title">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
+								<span class="fas fa-user-secret u-mr-5px mt-2 float-left"></span>
+						<h5 class="modal-title float-left ml-1">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
+
 							</div>
 							<div class="ml-auto">
 								<button class="btn btn-sm btn-success saveKeys" type="button" aria-hidden="true">
@@ -15,7 +17,7 @@
 									{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 								</button>
 								<button class="btn btn-sm btn-danger ml-1" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">
-									<span class="fas fa-times"></span>
+									<span class="fas fa-times"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 								</button>
 							</div>
 						</div>
@@ -51,7 +53,7 @@
 		<div class="alert alert-danger" role="alert">
 			{\App\Language::translate('LBL_NOT_AUTHORIZED', $QUALIFIED_MODULE)}
 			<button class="btn btn-danger showModal ml-2">
-				{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}
+				<span class="fas fa-user-secret u-mr-5px"></span>{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}
 			</button>
 		</div>
 	{else}
