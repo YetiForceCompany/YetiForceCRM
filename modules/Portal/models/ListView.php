@@ -72,7 +72,8 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		$page = $pagingModel->get('page');
 
 		$startSequence = ($page - 1) * $pageLimit + 1;
-		$endSequence = $startSequence + count($record) - 1;
+
+		$endSequence = $startSequence + count((array) $record) - 1;
 		$recordCount = self::getRecordCount();
 
 		$pageCount = (int) ($recordCount / $pageLimit);
