@@ -328,15 +328,15 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerPreviewEvent: function () {
 		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
+		const container = this.getListViewContentContainer();
+		this.getDomParams(container);
+		this.toggleSplit(container);
+		if ($(window).width() > 993) {
+			this.registerListEvents(container);
+		}
 		iframe.on('load', () => {
-			const container = this.getListViewContentContainer();
 			this.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height(iframe.contents().find(".bodyContents").height() - 20);
-			this.getDomParams(container);
-			this.toggleSplit(container);
-			if ($(window).width() > 993) {
-				this.registerListEvents(container);
-			}
 		});
 		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
 	},
