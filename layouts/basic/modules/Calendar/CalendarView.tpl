@@ -13,7 +13,7 @@
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 	<input type="hidden" id="hiddenDays" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" />
-	<div class="calendarViewContainer rowContent col-md-12 col-12 p-0">
+	<div class="calendarViewContainer rowContent">
 		<div class="widget_header d-flex align-items-center js-breadcrumb" data-js="height">
 			<div class="px-2">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
@@ -27,7 +27,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="alert alert-info d-none mt-2" id="moduleCacheAlert" role="alert">
+		<div class="alert alert-info d-none mt-2 mb-0" id="moduleCacheAlert" role="alert">
 			<div class="d-flex">
 				<div class="mr-auto align-self-center">
 					{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}

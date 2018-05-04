@@ -675,7 +675,7 @@ $.Class("Vtiger_Header_Js", {
 		buttonImage = toogleButton.find('[data-fa-i2svg]');
 
 		siteBarRight.addClass('hideSiteBar');
-		content.removeClass('col-md-9').addClass('col-md-12');
+		content.removeClass('js-sitebar--active');
 		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
 		toogleButton.addClass('hideToggleSiteBarRightButton');
 	},
@@ -686,7 +686,7 @@ $.Class("Vtiger_Header_Js", {
 		buttonImage = toogleButton.find('[data-fa-i2svg]');
 
 		siteBarRight.removeClass('hideSiteBar');
-		content.removeClass('col-md-12').addClass('col-md-9');
+		content.addClass('js-sitebar--active');
 		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
