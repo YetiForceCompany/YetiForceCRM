@@ -82,7 +82,7 @@
 				<input class="switchBtn switchState" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{\App\Language::translate('LBL_OPEN', $QUALIFIED_MODULE)}" data-on-text="{\App\Language::translate('LBL_CLOSED', $QUALIFIED_MODULE)}">
 			</div>
 		</div>
-		<table class="table listViewEntriesTable">
+		<table class="table listViewEntriesTable mt-1">
 			<thead>
 			<th>{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}</th>
 			<th>{\App\Language::translate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>
