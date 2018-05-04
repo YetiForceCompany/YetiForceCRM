@@ -125,10 +125,10 @@ function showDetailsPassword(record) {
 		);
 
 		// change buttons label
-		$('#show-btn').text(hidePassText);
+		$('#show-btn').html('<span class="fas fa-eye-slash u-mr-5px"></span>' + hidePassText);
 	} else {
 		document.getElementById("detailPassword").innerHTML = '**********';
-		$('#show-btn').text(showPassText);
+		$('#show-btn').html('<span class="fas fa-eye u-mr-5px"></span>' + showPassText);
 		$('#copy-button').hide();
 	}
 }
