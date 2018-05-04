@@ -79,7 +79,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('RECORD_COUNT', count((array) $listviewEntries));
+		$viewer->assign('RECORD_COUNT', count($listviewEntries));
 		$viewer->assign('CURRENT_PAGE', $pageNumber);
 		$viewer->assign('PAGING_INFO', $pagingInfo);
 	}
