@@ -15,23 +15,22 @@ class HelpDeskWorkflow
 	 *
 	 * @return array
 	 */
-	private static function getContactsMailsFromTicket($id)
+	private static function getContactsMailsFromTicket(int $id)
 	{
-		if (empty($id)) {
-			return [];
-		}
 		$mails = [];
-		$query = (new \App\Db\Query())->select(['relcrmid as contactid'])->from('vtiger_crmentityrel')->where(['module' => 'HelpDesk', 'relmodule' => 'Contacts', 'crmid' => $id])->createCommand()->query();
-		while ($contactId = $query->readColumn(0)) {
-			if (App\Record::isExists($contactId)) {
-				$contactRecord = Vtiger_Record_Model::getInstanceById($contactId, 'Contacts');
-				$primaryEmail = $contactRecord->get('email');
-				if (($contactRecord->get('emailoptout') == 1 || !AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
-					$mails[] = $primaryEmail;
-				}
+		$record = Vtiger_Record_Model::getInstanceById($id, 'HelpDesk');
+		if (($accountField = App\Field::getRelatedFieldForModule('HelpDesk', 'Accounts')) &&
+			($relId = $record->get($accountField['fieldname'])) && \App\Record::isExists($relId) && \App\Privilege::isPermitted('Contacts')) {
+			$queryGenerator = new \App\QueryGenerator('Contacts');
+			$queryGenerator->permissions = false;
+			$queryGenerator->setFields(['email']);
+			$queryGenerator->addNativeCondition(['parentid' => $relId]);
+			$queryGenerator->addCondition('email', '', 'ny');
+			if (AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) {
+				$queryGenerator->addCondition('emailoptout', 1, 'e');
 			}
+			$mails = $queryGenerator->createQuery()->column();
 		}
-
 		return $mails;
 	}
 
@@ -110,8 +109,7 @@ class HelpDeskWorkflow
 	public static function helpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 	{
 		\App\Log::trace('Entering helpDeskNewCommentContacts');
-		$mails = static::getContactsMailsFromTicket($recordModel->get('related_to'));
-		if (count($mails) > 0) {
+		if (($relId = $recordModel->get('related_to')) && \App\Record::getType($relId) === 'HelpDesk' && ($mails = static::getContactsMailsFromTicket($relId))) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'NewCommentAddedToTicketContact',
 				'moduleName' => 'ModComments',
