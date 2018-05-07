@@ -49,7 +49,7 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		var field = this.getElement();
 		var fieldData = field.data();
 		var fieldInfo = fieldData.fieldinfo;
-		if (fieldInfo && fieldInfo.restrictedDomains && fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) != -1) {
+		if (fieldInfo && fieldInfo.restrictedDomains && fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) !== -1) {
 			this.setError(app.vtranslate('JS_EMAIL_RESTRICTED_DOMAINS'));
 			return false;
 		}
@@ -543,7 +543,7 @@ Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js", {
 		var field = this.getElement();
 		var fieldInfo = field.data('fieldinfo');
 		var fieldLabel;
-		if (typeof fieldInfo == "undefined") {
+		if (typeof fieldInfo === "undefined") {
 			fieldLabel = jQuery(field).attr('name');
 		} else {
 			fieldLabel = fieldInfo.label;
@@ -603,11 +603,11 @@ Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_
 			var dependentField = dependentFieldList[i];
 			var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 			if (dependentFieldInContext.length > 0) {
-				if (typeof dependentFieldInContext.data('dateFormat') == 'undefined' && fieldDateTime) {
+				if (typeof dependentFieldInContext.data('dateFormat') === "undefined" && fieldDateTime) {
 					fieldDateTime += ' ' + dependentFieldInContext.val();
 					fieldDateTimeInstance[j] = Vtiger_Helper_Js.getDateInstance(fieldDateTime, dateFormat);
 					j++;
-				} else if (typeof dependentFieldInContext.data('dateFormat') != 'undefined') {
+				} else if (typeof dependentFieldInContext.data('dateFormat') !== "undefined") {
 					var dateFormat = dependentFieldInContext.data('dateFormat');
 					fieldDateTime = dependentFieldInContext.val();
 				}

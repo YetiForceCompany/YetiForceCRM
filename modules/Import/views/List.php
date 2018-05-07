@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_List_View extends Vtiger_Popup_View
+class Import_List_View extends \App\Controller\View
 {
 	use \App\Controller\ExposeMethod;
 

@@ -370,7 +370,8 @@
     "LBL_LICENSE": "License",
     "LBL_MISSING_LICENSE_FILE": "Missing license file",
     "LBL_VTIGER_DESCRIPTION": "Approximately 30% of Vtiger's orginal code is left. The remaining code has been rewritten and expanded.",
-    "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce."
+    "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce.",
+    "LBL_SHOP_YETIFORCE": "Shop"
   },
   "js": {
     "LangManagement": "\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u044f\u0437\u044b\u043a\u043e\u0432",

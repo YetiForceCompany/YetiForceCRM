@@ -238,7 +238,6 @@ abstract class View extends Base
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
-			'~libraries/js/timepicker/jquery.timepicker.css',
 			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
 			'~libraries/animate.css/animate.css',
 			'~layouts/resources/colors/calendar.css',
@@ -586,6 +585,7 @@ abstract class View extends Base
 					 'sounds' => \AppConfig::sounds(),
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
+					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}

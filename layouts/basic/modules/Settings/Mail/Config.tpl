@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="configContainer">
+	<div class="configContainer tpl-Settings-Mail-Config">
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -55,7 +55,8 @@
 				<br />
 				<div class="row">
 					<div class="col-md-12">
-						<button class="btn btn-success float-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success float-right">
+							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
 			</div>

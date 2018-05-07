@@ -112,7 +112,7 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 			"viewname": cvId
 		}
 		var sourceModule = jQuery('#moduleFilter').val();
-		if (typeof sourceModule != 'undefined') {
+		if (typeof sourceModule !== "undefined") {
 			pageCountParams['sourceModule'] = sourceModule;
 		}
 		return pageCountParams;

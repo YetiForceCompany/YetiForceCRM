@@ -29,7 +29,7 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 			var length = mapLengthVector[methodElement.val()];
 			var validator = '';
 			var passwordElement = container.find('[name="password"]');
-			if (typeof length === 'undefined' || length === 0) {
+			if (typeof length === "undefined" || length === 0) {
 				passwordElement.val('');
 				passwordElement.attr('disabled', 'disabled');
 			} else {

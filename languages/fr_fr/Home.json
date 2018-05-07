@@ -1,8 +1,6 @@
 {
   "php": {
     "Notifications": "Notifications",
-    "LBL_FILTERING_BY_DATE": "Filtrer par date du champ",
-    "LBL_TIMELINE_BY_DATE": "Timeline par date",
     "LBL_VALUE_TYPE": "Type de valeur",
     "LBL_VALUE_FIELD": "Type de champ",
     "LBL_NUMBER_OF_RECORDS": "Nombre d'enregistrement",

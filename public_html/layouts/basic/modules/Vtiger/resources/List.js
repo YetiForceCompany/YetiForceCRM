@@ -17,18 +17,18 @@ jQuery.Class("Vtiger_List_Js", {
 			var parentModule = app.getParentModuleName();
 			if (parentModule == 'Settings') {
 				var moduleClassName = parentModule + "_" + module + "_List_Js";
-				if (typeof window[moduleClassName] == 'undefined') {
+				if (typeof window[moduleClassName] === "undefined") {
 					moduleClassName = module + "_List_Js";
 				}
 				var fallbackClassName = parentModule + "_Vtiger_List_Js";
-				if (typeof window[fallbackClassName] == 'undefined') {
+				if (typeof window[fallbackClassName] === "undefined") {
 					fallbackClassName = "Vtiger_List_Js";
 				}
 			} else {
 				moduleClassName = module + "_List_Js";
 				fallbackClassName = "Vtiger_List_Js";
 			}
-			if (typeof window[moduleClassName] != 'undefined') {
+			if (typeof window[moduleClassName] !== "undefined") {
 				var instance = new window[moduleClassName]();
 			} else {
 				var instance = new window[fallbackClassName]();
@@ -157,7 +157,7 @@ jQuery.Class("Vtiger_List_Js", {
 			};
 			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
 			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
 				postData['operator'] = 's';
@@ -174,7 +174,7 @@ jQuery.Class("Vtiger_List_Js", {
 			form.append($('<input />', {name: "module", value: module}));
 			form.append($('<input />', {name: "action", value: "QuickExport"}));
 			form.append($('<input />', {name: "mode", value: "exportToExcel"}));
-			if (typeof csrfMagicName !== 'undefined') {
+			if (typeof csrfMagicName !== "undefined") {
 				form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
 			}
 			$.each(actionParams.data, function (k, v) {
@@ -232,7 +232,7 @@ jQuery.Class("Vtiger_List_Js", {
 		return this.getRelatedModulesContainer;
 	},
 	triggerMassAction: function (massActionUrl, callBackFunction, beforeShowCb, css) {
-		if (typeof beforeShowCb == 'undefined') {
+		if (typeof beforeShowCb === "undefined") {
 			beforeShowCb = function () {
 				return true;
 			};
@@ -260,7 +260,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (listViewInstance.getListSearchInstance()) {
 				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
 					postData['search_value'] = searchValue;
 					postData['operator'] = 's';
@@ -272,7 +272,7 @@ jQuery.Class("Vtiger_List_Js", {
 				"dataType": "html",
 				"data": postData
 			};
-			if (typeof css == 'undefined') {
+			if (typeof css === "undefined") {
 				css = {};
 			}
 			var css = jQuery.extend({'text-align': 'left'}, css);
@@ -360,7 +360,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (listViewInstance.getListSearchInstance()) {
 			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 			exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
 				exportActionUrl += '&search_value=' + searchValue;
 				exportActionUrl += '&operator=s';
@@ -416,7 +416,7 @@ jQuery.Class("Vtiger_List_Js", {
 
 			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
 			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
 				postData['operator'] = 's';
@@ -471,7 +471,7 @@ jQuery.Class("Vtiger_List_Js", {
 						if (listInstance.getListSearchInstance()) {
 							var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
 							url += "&search_params=" + JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
-							if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+							if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 								url += '&search_key=' + listInstance.getListSearchInstance().getAlphabetSearchField();
 								url += '&search_value=' + searchValue;
 								url += '&operator=s';
@@ -586,7 +586,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (listSearchInstance !== false) {
 			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams(true));
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
 				params['search_value'] = searchValue;
 				params['operator'] = 's';
@@ -599,7 +599,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	getListViewRecords: function (urlParams) {
 		var aDeferred = $.Deferred();
-		if (typeof urlParams == 'undefined') {
+		if (typeof urlParams === "undefined") {
 			urlParams = {};
 		}
 		var thisInstance = this;
@@ -713,7 +713,7 @@ jQuery.Class("Vtiger_List_Js", {
 		return alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
 	},
 	massActionSave: function (form, isMassEdit) {
-		if (typeof isMassEdit == 'undefined') {
+		if (typeof isMassEdit === "undefined") {
 			isMassEdit = false;
 		}
 		var aDeferred = jQuery.Deferred();
@@ -1058,7 +1058,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 		jQuery('#listViewPageJump').on('click', function (e) {
-			if (typeof Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(jQuery('#pageToJump')) != 'undefined') {
+			if (typeof Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(jQuery('#pageToJump')) !== "undefined") {
 				var pageNo = jQuery('#pageNumber').val();
 				jQuery("#pageToJump").val(pageNo);
 			}
@@ -1099,7 +1099,7 @@ jQuery.Class("Vtiger_List_Js", {
 				e.stopImmediatePropagation();
 				var element = jQuery(e.currentTarget);
 				var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-				if (typeof response != "undefined") {
+				if (typeof response !== "undefined") {
 					element.validationEngine('showPrompt', response, '', "topLeft", true);
 				} else {
 					element.validationEngine('hideAll');
@@ -1171,7 +1171,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to update Pagining status
 	 */
 	updatePagination: function (pageNumber) {
-		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
 		var thisInstance = this;
 		var cvId = thisInstance.getCurrentCvId();
 		var params = {};
@@ -1188,7 +1188,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (searchInstance !== false) {
 			var searchValue = searchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
 				params['search_value'] = searchValue;
 				params['operator'] = 's';
@@ -1371,7 +1371,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewPageDiv.on('click', '.listViewHeaderValues', function (e) {
 			var fieldName = jQuery(e.currentTarget).data('columnname');
 			var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
-			if (typeof sortOrderVal === 'undefined')
+			if (typeof sortOrderVal === "undefined")
 				return;
 			var cvId = thisInstance.getCurrentCvId();
 			var urlParams = {
@@ -1449,7 +1449,7 @@ jQuery.Class("Vtiger_List_Js", {
 							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 							var deleteUrl = currentOptionElement.data('deleteurl');
 							var newEle = '<form action=' + deleteUrl + ' method="POST">';
-							if (typeof csrfMagicName !== 'undefined') {
+							if (typeof csrfMagicName !== "undefined") {
 								newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 							}
 							newEle += '</form>';
@@ -1478,7 +1478,7 @@ jQuery.Class("Vtiger_List_Js", {
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var approveUrl = currentOptionElement.data('approveurl');
 				var newEle = '<form action=' + approveUrl + ' method="POST">';
-				if (typeof csrfMagicName !== 'undefined') {
+				if (typeof csrfMagicName !== "undefined") {
 					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}
 				newEle += '</form>';
@@ -1502,7 +1502,7 @@ jQuery.Class("Vtiger_List_Js", {
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var denyUrl = currentOptionElement.data('denyurl');
 				var form = '<form action=' + denyUrl + ' method="POST">';
-				if (typeof csrfMagicName !== 'undefined') {
+				if (typeof csrfMagicName !== "undefined") {
 					form += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}
 				form += '</form>';
@@ -1585,7 +1585,7 @@ jQuery.Class("Vtiger_List_Js", {
 				return;
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
-			if (typeof recordUrl == 'undefined') {
+			if (typeof recordUrl === "undefined") {
 				return;
 			}
 			window.location.href = recordUrl;
@@ -1678,7 +1678,7 @@ jQuery.Class("Vtiger_List_Js", {
 					if (listViewInstance.getListSearchInstance()) {
 						var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 						postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-						if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+						if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 							postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
 							postData['search_value'] = searchValue;
 							postData['operator'] = 's';
@@ -2008,7 +2008,7 @@ jQuery.Class("Vtiger_List_Js", {
 			e.preventDefault();
 			var currentElement = $(this);
 			var url = currentElement.data('url');
-			if (typeof url != 'undefined') {
+			if (typeof url !== "undefined") {
 				if (thisInstance.checkListRecordSelected() != true) {
 					Vtiger_List_Js.triggerMassAction(url);
 				} else {

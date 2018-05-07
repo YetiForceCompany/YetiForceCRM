@@ -132,7 +132,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		if (value.length > 0) {
 			var form = this.getFilterForm();
 			var labelFieldList = this.getNameFields();
-			if (typeof labelFieldList == 'undefined' || labelFieldList == null || labelFieldList.length == 0) {
+			if (typeof labelFieldList === "undefined" || labelFieldList == null || labelFieldList.length == 0) {
 				return;
 			}
 			var anyConditionContainer = form.find('.anyConditionContainer');

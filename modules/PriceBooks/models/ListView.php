@@ -11,15 +11,30 @@
 class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 {
 	/**
-	 * Function to get the list view entries.
-	 *
-	 * @param Vtiger_Paging_Model $pagingModel
-	 *
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
+	 * {@inheritdoc}
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
 		$this->getQueryGenerator()->currencyId = $this->get('currency_id');
 		return parent::getListViewEntries($pagingModel);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListViewHeaders()
+	{
+		$headerFields = parent::getListViewHeaders();
+		if ($this->get('currency_id')) {
+			$field = new Vtiger_Field_Model();
+			$field->set('name', 'listprice');
+			$field->set('column', 'listprice');
+			$field->set('label', 'List Price');
+			$field->set('typeofdata', 'N~O');
+			$field->set('fromOutsideList', true);
+			$field->fieldDataType = 'currency';
+			$headerFields['listprice'] = $field;
+		}
+		return $headerFields;
 	}
 }

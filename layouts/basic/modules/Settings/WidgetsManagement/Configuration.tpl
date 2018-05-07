@@ -125,17 +125,22 @@
 				</div>
 				{* copy elements hide *}	
 				<div class="modal addBlockDashBoardModal fade">
-					<div class="modal-dialog">
+					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
-							<div class="modal-header contentsBackground">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h3 class="modal-title">{\App\Language::translate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}</h3>
+							<div class="modal-header">
+								<h5 class="modal-title">
+									<span class="fas fa-plus mr-1"></span>
+									{\App\Language::translate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}
+								</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
 							</div>
 							<form class="form-horizontal addBlockDashBoardForm">
 								<input type="hidden" name="dashboardId" value="{$CURRENT_DASHBOARD}">
 								<div class="modal-body">
-									<div class="form-group">
-										<div class="col-sm-4 col-form-label">
+									<div class="form-group row">
+										<div class="col-sm-4 col-form-label text-right">
 											<span>{\App\Language::translate('LBL_CHOISE_AUTHORIZED', $QUALIFIED_MODULE)}</span>
 											<span class="redColor">*</span>
 										</div>
@@ -148,7 +153,7 @@
 										</div>
 									</div>
 								</div>
-								{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger')}
+								{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 							</form>
 						</div>
 					</div>
@@ -306,7 +311,7 @@
 										</div>	
 									</div>
 								</div>
-								{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger')}
+								{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 							</form>
 						</div>
 					</div>

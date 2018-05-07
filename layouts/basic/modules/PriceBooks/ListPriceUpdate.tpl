@@ -30,7 +30,7 @@
 						   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' />
 				</div>
 			</div>
-			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 		</form>	
 	</div>
 {/strip}	

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<tr>
+	<tr class="tpl-Settings-Users-SwitchUsersItem">
 		<td>
 			<select class="form-control sufrom {if $SELECT}select2{/if}">
 				<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
@@ -38,7 +38,7 @@
 			</select>
 		</td>
 		<td class="textAlignCenter">
-			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light delate">
+			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-sm btn-danger delate">
 				<i class="fas fa-trash-alt"></i>
 			</button>
 		</td>

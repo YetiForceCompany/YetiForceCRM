@@ -29,6 +29,18 @@ abstract class Modal extends View
 	 * @var string[]
 	 */
 	public $modalData = [];
+	/**
+	 * The name of the success button.
+	 *
+	 * @var string
+	 */
+	public $successBtn = 'LBL_SAVE';
+	/**
+	 * The name of the danger button.
+	 *
+	 * @var string
+	 */
+	public $dangerBtn = 'LBL_CANCEL';
 
 	/**
 	 * {@inheritdoc}
@@ -73,6 +85,8 @@ abstract class Modal extends View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule($request);
 		if (!$request->getBoolean('onlyBody')) {
+			$viewer->assign('BTN_SUCCESS', $this->successBtn);
+			$viewer->assign('BTN_DANGER', $this->dangerBtn);
 			$viewer->view('Modals/Footer.tpl', $moduleName);
 		}
 	}
@@ -107,5 +121,19 @@ abstract class Modal extends View
 			"modules.Vtiger.$viewName",
 			"modules.{$request->getModule()}.$viewName"
 		]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		if (isset($this->pageTitle)) {
+			$pageTitle = \App\Language::translate($this->pageTitle, $moduleName);
+		} else {
+			$pageTitle = \App\Language::translate($moduleName, $moduleName);
+		}
+		return $pageTitle;
 	}
 }

@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div class="menuConfigContainer">
+<div class="tpl-Settings-Menu-Index menuConfigContainer">
 	<div class="widget_header row">
 		<div class="col-md-7">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-md-5 row mt-2">
 			<div class="col-6 px-0">
-				<button class="btn btn-outline-secondary addMenu float-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
+				<button class="btn btn-outline-secondary addMenu float-right"><strong><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<div class="col-6 float-right">
 				<select class="select2 form-control" name="roleMenu">

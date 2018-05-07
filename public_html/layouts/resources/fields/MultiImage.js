@@ -78,7 +78,7 @@ class MultiImage {
 			});
 		}
 		this.loadExistingFiles();
-		if (typeof $.fn.animateCss === 'undefined') {
+		if (typeof $.fn.animateCss === "undefined") {
 			$.fn.extend({
 				animateCss: function (animationName, callback) {
 					var animationEnd = (function (el) {
@@ -185,12 +185,12 @@ class MultiImage {
 		App.Fields.MultiImage.currentFileUploads--;
 		app.errorLog("File upload error.");
 		const {jqXHR, files} = data;
-		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
+		if (typeof jqXHR.responseJSON === "undefined" || jqXHR.responseJSON === null) {
 			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
 		}
 		const response = jqXHR.responseJSON;
 		// first try to show error for concrete file
-		if (typeof response.result !== 'undefined' && typeof response.result.attach !== 'undefined' && Array.isArray(response.result.attach)) {
+		if (typeof response.result !== "undefined" && typeof response.result.attach !== "undefined" && Array.isArray(response.result.attach)) {
 			response.result.attach.forEach((fileAttach) => {
 				this.deleteFile(fileAttach.hash, false);
 				if (typeof fileAttach.error === 'string') {
@@ -225,7 +225,7 @@ class MultiImage {
 			if (!hash) {
 				return app.errorLog(new Error(app.vtranslate("JS_INVALID_FILE_HASH") + ` [${hash}]`));
 			}
-			if (typeof fileAttach.key === 'undefined') {
+			if (typeof fileAttach.key === "undefined") {
 				return this.uploadError(e, data);
 			}
 			const fileInfo = this.getFileInfo(hash);
@@ -300,7 +300,7 @@ class MultiImage {
 		const addedFiles = [];
 		for (let i = 0, len = files.length; i < len; i++) {
 			const file = files[i];
-			if (typeof file.hash === 'undefined') {
+			if (typeof file.hash === "undefined") {
 				if (this.files.length < this.options.limit) {
 					file.hash = App.Fields.Text.generateRandomHash(CONFIG.userId);
 					this.files.push({hash: file.hash, imageSrc: file.imageSrc, name: file.name, file});
@@ -539,7 +539,7 @@ class MultiImage {
 		const thisInstance = this;
 		let fileSize = '';
 		const fileInfo = this.getFileInfo(file.hash);
-		if (typeof fileInfo.size !== 'undefined') {
+		if (typeof fileInfo.size !== "undefined") {
 			fileSize = `<div class="p-1 bg-white border rounded small position-absolute">${fileInfo.size}</div>`;
 		}
 		let deleteBtn = '';
@@ -574,7 +574,7 @@ class MultiImage {
 	 */
 	removePreviewPopover(hash) {
 		const fileInfo = this.getFileInfo(hash);
-		if (typeof fileInfo.previewElement !== 'undefined') {
+		if (typeof fileInfo.previewElement !== "undefined") {
 			fileInfo.previewElement.popover('dispose');
 		}
 	}

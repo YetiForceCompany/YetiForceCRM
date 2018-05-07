@@ -8,8 +8,12 @@
  * All Rights Reserved.
  * ************************************************************************************ */
 
-class Vtiger_MergeRecord_View extends Vtiger_Popup_View
+class Vtiger_MergeRecord_View extends \App\Controller\View
 {
+	public function checkPermission(\App\Request $request)
+	{
+	}
+
 	/**
 	 * Process.
 	 *

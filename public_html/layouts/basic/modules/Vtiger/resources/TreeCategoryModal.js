@@ -10,7 +10,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		return this.modalContainer;
 	},
 	getRecords: function (container) {
-		if (this.treeData == false && container != 'undefined') {
+		if (this.treeData == false && container !== "undefined") {
 			var treeValues = container.find('#treePopupValues').val();
 			this.treeData = JSON.parse(treeValues);
 		}

@@ -191,7 +191,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 	registerEvents: function (container) {
 		var thisInstance = this;
 		this.loadWidgets();
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.WidgetsManage');
 		}
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));

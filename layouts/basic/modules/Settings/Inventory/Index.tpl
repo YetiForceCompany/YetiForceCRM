@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="view" value="{$VIEW}" />
-	<div class="" id="inventory">
+	<div class="tpl-Settings-Inventory-Index" id="inventory">
 		<div class="widget_header form-row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -37,8 +37,8 @@
 								<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()} {if !$CURRENCY_BOOL}%{else}{$CURRENCY.currency_symbol}{/if}</span></td>
 								<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if !$RECORD->getStatus()}checked{/if} />
 									<div class="float-right actions">
-										<a class="editInventory u-cursor-pointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignBottom"></span></a>&nbsp;
-										<a class="removeInventory u-cursor-pointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignBottom"></span></a>&nbsp;
+										<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignBottom"></span></button>&nbsp;
+										<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignBottom"></span></button>&nbsp;
 									</div>
 								</td>
 							</tr>

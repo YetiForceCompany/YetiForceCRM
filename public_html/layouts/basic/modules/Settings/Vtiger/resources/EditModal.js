@@ -22,7 +22,7 @@ Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						var moduleClassName = "Settings_" + app.getModuleName() + "_List_Js";
-						if (typeof window[moduleClassName] == 'undefined') {
+						if (typeof window[moduleClassName] === "undefined") {
 							moduleClassName = "Settings_Vtiger_List_Js";
 						}
 						var instance = new window[moduleClassName]();
@@ -41,7 +41,7 @@ Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 jQuery(document).ready(function (e) {
 	setTimeout(function () {
 		var moduleClassName = "Settings_" + app.getModuleName() + "_EditModal_Js";
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = "Settings_Vtiger_EditModal_Js";
 		}
 		var instance = new window[moduleClassName]();

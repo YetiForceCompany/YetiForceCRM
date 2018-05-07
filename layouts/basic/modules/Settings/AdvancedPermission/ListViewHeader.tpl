@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div>
+	<div class="tpl-Settings-AdvancedPermission-ListViewHeader">
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -23,7 +23,7 @@
 			<div class="col-md-8 btn-toolbar">
 				{if \AppConfig::security('CACHING_PERMISSION_TO_RECORD')}
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						<button class="btn btn-success addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+						<button class="btn btn-success addButton mr-1" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 								{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
 										<span class="fas fa-plus"></span>&nbsp;
 										<strong>{\App\Language::translate($LISTVIEW_BASICACTION->getLabel(), $QUALIFIED_MODULE)}</strong>

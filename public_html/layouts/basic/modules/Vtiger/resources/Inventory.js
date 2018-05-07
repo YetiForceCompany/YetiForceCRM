@@ -733,7 +733,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			}
 
 			var currencyId = thisInstance.getCurrency();
-			if (typeof unitPriceValues[currencyId] !== 'undefined') {
+			if (typeof unitPriceValues[currencyId] !== "undefined") {
 				unitPrice = unitPriceValues[currencyId];
 			} else {
 				unitPrice = recordData.price;
@@ -748,7 +748,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			} else {
 				commentElement.val(description);
 			}
-			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
+			if (typeof recordData['autoFields']['unit'] !== "undefined") {
 				switch (recordData['autoFields']['unit']) {
 					default:
 						$('.qtyParamInfo', parentRow).addClass('hidden');
@@ -980,7 +980,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			var currencyParam = JSON.parse(block.find('.currencyparam').val());
 
 			if (currencyParam != false) {
-				if (typeof currencyParam[option.val()] == 'undefined') {
+				if (typeof currencyParam[option.val()] === "undefined") {
 					var defaultCurrencyParams = [];
 					defaultCurrencyParams['value'] = 1;
 					defaultCurrencyParams['date'] = '';
@@ -1398,7 +1398,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	},
 	initItem: function (container) {
 		var thisInstance = this;
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = thisInstance.getInventoryItemsContainer();
 		}
 		thisInstance.registerDeleteLineItemEvent(container);
@@ -1429,10 +1429,10 @@ $.Class("Vtiger_Inventory_Js", {}, {
 $(document).ready(function () {
 	var moduleName = app.getModuleName();
 	var moduleClassName = moduleName + "_Inventory_Js";
-	if (typeof window[moduleClassName] == 'undefined') {
+	if (typeof window[moduleClassName] === "undefined") {
 		moduleClassName = "Vtiger_Inventory_Js";
 	}
-	if (typeof window[moduleClassName] != 'undefined') {
+	if (typeof window[moduleClassName] !== "undefined") {
 		var inventoryController = new window[moduleClassName]();
 		inventoryController.registerEvents(Vtiger_Edit_Js.getInstance().getForm());
 	}

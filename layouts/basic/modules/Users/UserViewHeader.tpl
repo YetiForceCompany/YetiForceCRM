@@ -12,17 +12,19 @@
 {strip}
     {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
     <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
-    <div class="detailViewContainer">
+    <div class="tpl-Users-UserViewHeader detailViewContainer">
         <div class="detailViewTitle" id="userPageHeader">
             <div class="widget_header row">
                 <div class="col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
                 </div>
-                <div class="col-md-4">
-                    <div class="float-right detailViewButtoncontainer">
+                <div class="col-md-4 mt-2">
+                    <div class="float-right detailViewButtoncontainer mb-2">
 						<div class="btn-toolbar float-right">		
 							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
+								<div class="mr-1">
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
+								</div>
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 								<span class="btn-group">
@@ -34,12 +36,12 @@
 											{if $DETAIL_VIEW_LINK->getLabel() eq 'Delete'}
 												{if $USER_MODEL->isAdminUser() && $USER_MODEL->getId() neq $RECORD->getId()}
 													<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-														<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+														<a class="dropdown-item" href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 													</li>
 												{/if}
 											{else}	
 												<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-													<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+													<a class="dropdown-item" href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 												</li>
 											{/if}
 										{/foreach}

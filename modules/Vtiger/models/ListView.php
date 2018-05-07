@@ -71,10 +71,7 @@ class Vtiger_ListView_Model extends \App\Base
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
-		$listFields = $moduleModel->getPopupViewFieldsList($sourceModule);
-		$listFields[] = 'id';
-		$queryGenerator->setFields($listFields);
-
+		$moduleModel->getModalRecordsListFields($queryGenerator, $sourceModule);
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
@@ -410,7 +407,6 @@ class Vtiger_ListView_Model extends \App\Base
 			}
 			$headerFieldModels[$fieldName] = $fieldsModel;
 		}
-
 		return $headerFieldModels;
 	}
 
@@ -504,7 +500,6 @@ class Vtiger_ListView_Model extends \App\Base
 			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
 		}
 		unset($rows);
-
 		return $listViewRecordModels;
 	}
 
@@ -518,14 +513,6 @@ class Vtiger_ListView_Model extends \App\Base
 	public function getListViewCount()
 	{
 		$this->loadListViewCondition();
-
 		return $this->getQueryGenerator()->createQuery()->count();
-	}
-
-	public function extendPopupFields($fieldsList)
-	{
-		$moduleModel = $this->get('module');
-		$listFields = $moduleModel->getPopupViewFieldsList();
-		$this->getQueryGenerator()->setFields($listFields);
 	}
 }

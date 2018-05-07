@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="verticalScroll">
+	<div class="tpl-Settings-Password-Encryption verticalScroll">
 		<div class="widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -62,7 +62,7 @@
 					</div>
 				</div>
 				<div class="formActionsPanel">
-					<button type="submit" class="btn btn-xs btn-success"><span class="fas fa-check"></span>&nbsp;&nbsp;{App\Language::translate('LBL_SAVE')}</button>
+					<button type="submit" class="btn btn-xs btn-success"><span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{App\Language::translate('LBL_SAVE')}</strong></button>
 				</div>
 			</form>
 		</div>

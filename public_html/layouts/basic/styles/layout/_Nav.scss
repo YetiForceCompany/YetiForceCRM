@@ -187,7 +187,7 @@
 			background: $y-rtabs-active-background;
 			color: $y-rtabs-active-font-color;
 			border-radius: 0;
-			.nav-link {
+			> .nav-link {
 				color: $y-rtabs-background;
 			}
 		}

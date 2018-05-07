@@ -17,7 +17,7 @@ var Settings_Index_Js = {
 	LoadEditLang: function (e) {
 		var element = jQuery(e);
 		var position = element.attr('href');
-		if (typeof position == 'undefined') {
+		if (typeof position === "undefined") {
 			position = '#' + element.attr('id');
 		}
 		var progress = $.progressIndicator({
@@ -95,7 +95,7 @@ var Settings_Index_Js = {
 	changeTranslation: function (e, position, mod) {
 
 		var target = $(e.currentTarget);
-		if (typeof e.currentTarget == 'undefined')
+		if (typeof e.currentTarget === "undefined")
 			target = jQuery(e);
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
@@ -121,7 +121,7 @@ var Settings_Index_Js = {
 	},
 	deleteTranslation: function (e, position) {
 		var target = $(e.currentTarget);
-		if (typeof e.currentTarget == 'undefined') {
+		if (typeof e.currentTarget === "undefined") {
 			target = e;
 		}
 		var closestTrElement = target.closest('tr');
@@ -298,7 +298,7 @@ var Settings_Index_Js = {
 	},
 	showStats: function (data, modules) {
 		var thisInstance = this;
-		var html = '<div class="col-md-8"><div class="panel panel-default"><div class="panel-body">';
+		var html = '<div class="col-md-12"><div class="panel panel-default"><div class="panel-body">';
 		var langStats = 0;
 		var shortages = [];
 		for (var i in modules) {
@@ -308,9 +308,9 @@ var Settings_Index_Js = {
 				var max = data[k][0];
 				langStats += max;
 				delete data[k][0];
-				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-plaintext col-form-label marginTop2">' + modules[i][k] + ': </label><div class="form-control-plaintext col-md-9">'
+				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-plaintext col-form-label mt-2">' + modules[i][k] + ': </label><div class="form-control-plaintext col-md-9">'
 				for (var q in data[k]) {
-					if (typeof shortages[q] == 'undefined') {
+					if (typeof shortages[q] === "undefined") {
 						shortages[q] = 0;
 					}
 					shortages[q] += data[k][q].length;

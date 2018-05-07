@@ -325,7 +325,8 @@
     "PLL_COMPLETED": "Compl\u00e9t\u00e9",
     "LBL_SWITCH": "Echanger",
     "LBL_SWITCH_USER": "Echanger utilisateur",
-    "LBL_SWITCH_TO_YOURSELF": "Echanger vers vous-m\u00eame"
+    "LBL_SWITCH_TO_YOURSELF": "Echanger vers vous-m\u00eame",
+    "LBL_CHANGE_ACCESS_KEY": "Change Access Key"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "S\u00e9parateur d\u00e9cimal et s\u00e9parateur de millier ne peuvent pas \u00eatre les m\u00eames.",

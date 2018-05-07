@@ -20,7 +20,7 @@
 						<h2>{App\Language::translate('LBL_INSTALL_PREREQUISITES', 'Install')}</h2>
 					</div>
 					<div class="col-1">
-						<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
+						<a class="helpBtn" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements" target="_blank" rel="noreferrer">
 							<span class="fas fa-info-circle"></span>
 						</a>
 					</div>

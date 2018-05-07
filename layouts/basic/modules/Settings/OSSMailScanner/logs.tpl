@@ -15,7 +15,8 @@
 	</div>
 	<table class="mt-2">
 		<tr>
-			<td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
+			<td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>
+					<span class="fa fa-caret-right u-mr-5px"></span>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
 		</tr>
 	</table><br />
 	<div class="row col-12">

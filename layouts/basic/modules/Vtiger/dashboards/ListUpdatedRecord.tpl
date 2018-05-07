@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="dashboardWidgetHeader">
+	<div class="tpl-Vtiger-dashboards-ListUpdatedRecord dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
 				<div class="dashboardTitle" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<hr class="widgetHr" />
-		<div class="row justify-content-end" >
+		<div class="row justify-content-end m-0">
 			<div class="col-md-6 input-group input-group-sm">
 				<div class="input-group-prepend">
 					<span class="input-group-text">

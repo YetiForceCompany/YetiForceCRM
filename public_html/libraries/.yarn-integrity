@@ -122,7 +122,7 @@
     "html5shiv@^3.7.3": "https://registry.yarnpkg.com/html5shiv/-/html5shiv-3.7.3.tgz#d78a84a367bcb9a710100d57802c387b084631d2",
     "humanize@^0.0.9": "https://registry.yarnpkg.com/humanize/-/humanize-0.0.9.tgz#1994ffaecdfe9c441ed2bdac7452b7bb4c9e41a4",
     "inputmask@^3.3.11": "https://registry.yarnpkg.com/inputmask/-/inputmask-3.3.11.tgz#1421c94ae28c3dcd1b4d26337b508bb34998e2d8",
-    "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#fc9391f5cf6b6ce876c0ac0cf7b3639abcd0239e",
+    "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#04e426be92aed34f4e2f887031b558ed39460dc3",
     "jquery-hoverintent@^1.9.0": "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.9.0.tgz#4d92c1ae07b71b9f0d9721b9b412d672abd387c8",
     "jquery-lazy@^1.7.7": "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.7.tgz#926101bccb7ba1ffdff562d6fe337a4dae3724f9",
     "jquery-mousewheel@>=3.0.6": "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5",

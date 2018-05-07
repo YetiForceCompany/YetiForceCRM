@@ -50,18 +50,20 @@
 						<span class="fas fa-desktop" data-check="fas fa-desktop" data-unchecked="fas fa-desktop"></span>
 					</label>
 				</div>
-				<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-				<button class="btn btn-danger" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+				<button class="btn btn-success" id="customViewSubmit" type="submit"><span
+							class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+				<button class="btn btn-danger" type="reset" onClick="window.location.reload()"><span
+							class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 			</div>
 		</div>
 		{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 		<div class="childrenMarginTopX">
 			<div class="js-toggle-panel c-panel" data-js="click">
-				<div class="blockHeader card-header">
-					<span class="u-cursor-pointer iconToggle fas fa-chevron-down m-1" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
-					<h4 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h4>
+				<div class="blockHeader  c-panel__header">
+					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h5>
 				</div>
-				<div class="card-body">
+				<div class="c-panel__body py-1">
 					<div class="form-group">
 						<div class="row col-md-5">
 							<label class="float-left col-form-label "><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
@@ -129,20 +131,20 @@
 				</div>
 			</div>
 			<div class="js-toggle-panel c-panel" data-js="click">
-				<div class="blockHeader card-header">
-					<span class="u-cursor-pointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
-					<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4>
+				<div class="blockHeader c-panel__header">
+					<span class="iconToggle fas fa-chevron-right small m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h5>
 				</div>
-				<div class="card-body d-none">
+				<div class="c-panel__body py-1 d-none">
 					<textarea name="description" id="description" class="js-editor" data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 				</div>
 			</div>
 			<div class="js-toggle-panel c-panel" data-js="click">
-				<div class="blockHeader card-header">
-					<span class="u-cursor-pointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
-					<h4 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4>
+				<div class="blockHeader c-panel__header">
+					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+					<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h5>
 				</div>
-				<div class="card-body">
+				<div class="c-panel__body py-1">
 					<div class="filterConditionsDiv">
 						<div class="row">
 							<span class="col-md-12">
@@ -154,8 +156,10 @@
 			</div>
 		</div>
 		<div class="filterActions pt-2">
-			<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+			<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()"><span
+						class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+			<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit"><strong><span
+							class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 		</div>
 	</form>
 {/strip}

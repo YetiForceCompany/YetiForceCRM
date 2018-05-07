@@ -368,14 +368,6 @@ hr {
   background: #404952;
   border-radius: 0;
 }
-li.ui-timepicker-selected {
-  background: #404952;
-}
-.ui-timepicker-list {
-  li:hover, &:hover .ui-timepicker-selected:hover {
-	background: #404952;
-  }
-}
 /*Do not shrink select2 input box in layout editor*/
 #relatedTabOrder .select2-input {
   min-width: 200px;
@@ -1714,10 +1706,6 @@ form {
   [class^="icon-"], [class*=" icon-"] {
 	vertical-align: baseline;
   }
-}
-.timePicker {
-  width: 8.5em !important;
-  z-index: 1000029 !important;
 }
 .datepicker {
   z-index: 1000029 !important;
@@ -3770,7 +3758,4 @@ border1px {
 }
 .popupEntriesDiv .listSearchTd {
   width: 57px;
-}
-.ps__rail-x, .ps__rail-y, .ps__thumb-x {
-  z-index: 10000;
 }

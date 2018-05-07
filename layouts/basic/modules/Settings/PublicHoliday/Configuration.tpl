@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="" id="widgetsManagementEditorContainer">
+	<div class="tpl-Settings-PublicHoliday-Configuration" id="widgetsManagementEditorContainer">
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -14,7 +14,7 @@
 						<button type="button" class="btn btn-success addDateWindow font-weight-bold"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 					</div>
 					<div id="moduleBlocks">
-						<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 mb-3 border">
+						<div class="editFieldsTable block_1 mb-3 border">
 							<div class="form-row m-0">
 								<table class="table table-bordered layoutBlockHeader">
 									<tr>
@@ -65,12 +65,11 @@
 											</td>
 											<td>
 												<div class='float-right'>
-													<a data-holiday-id="{$HOLIDAY['id']}"  class="editHoliday mr-1 text-dark" href="javascript:void(0)">
-														<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-edit alignMiddle"></span>
-													</a>
-													<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday text-dark" href="javascript:void(0)">
+													<button data-holiday-id="{$HOLIDAY['id']}"  class="editHoliday mr-1 text-white btn btn-sm btn-info"> <span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-edit alignMiddle"></span>
+													</button>
+													<button data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday text-white btn btn-sm btn-danger">
 														<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span>
-													</a>
+													</button>
 												</div>
 											</td>
 										</tr>
@@ -79,11 +78,11 @@
 							</table>
 						</div>
 					</div>
-					{* copy elements hide *}
 					<div class="modal addDateWindowModal fade publicHolidayModal" tabindex="-1">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header contentsBackground">
+									<span class="fa fa-plus mt-2 u-mr-5px"></span>
 									<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 								</div>
@@ -108,7 +107,7 @@
 												<select name="holidayType" class="form-control" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
 													<option value="national">{\App\Language::translate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
 													<option value="ecclesiastical">{\App\Language::translate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
-												</select> 
+												</select>
 											</div>
 										</div>
 										<div class="form-group form-row">
@@ -121,7 +120,7 @@
 											</div>
 										</div>
 									</div>
-									{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger')}
+									{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 								</form>
 							</div>
 						</div>

@@ -24,13 +24,6 @@
 									<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 								</div>
 								<div class="form-group row">
-									<div class="col-md-4"><label class="col-form-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}:</label></div>
-									<div class="col-md-7">
-										<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-										<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>
-									</div>
-								</div>
-								<div class="form-group row">
 									<div class="col-md-4"><label class="col-form-label">{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}:</label></div>
 									<div class="col-md-7">
 										<select name="field_name" class="select2 form-control">
@@ -43,7 +36,7 @@
 							</div>
 						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>
 		</div>

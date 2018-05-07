@@ -7139,12 +7139,6 @@ hr {
   background: #404952;
   border-radius: 0; }
 
-li.ui-timepicker-selected {
-  background: #404952; }
-
-.ui-timepicker-list li:hover, .ui-timepicker-list:hover .ui-timepicker-selected:hover {
-  background: #404952; }
-
 /*Do not shrink select2 input box in layout editor*/
 #relatedTabOrder .select2-input {
   min-width: 200px; }
@@ -8300,10 +8294,6 @@ form {
 
 .form-horizontal [class^="icon-"], .form-horizontal [class*=" icon-"] {
   vertical-align: baseline; }
-
-.timePicker {
-  width: 8.5em !important;
-  z-index: 1000029 !important; }
 
 .datepicker {
   z-index: 1000029 !important; }
@@ -10124,9 +10114,6 @@ border1px {
 
 .popupEntriesDiv .listSearchTd {
   width: 57px; }
-
-.ps__rail-x, .ps__rail-y, .ps__thumb-x {
-  z-index: 10000; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .u-text-ellipsis, ul.ui-autocomplete div.ui-menu-item-wrapper {

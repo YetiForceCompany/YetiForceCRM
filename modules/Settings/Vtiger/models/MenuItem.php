@@ -120,7 +120,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}
-		if (!empty($this->menu)) {
+		if (!empty($this->menu) && $this->get('name') !== 'LBL_SHOP_YETIFORCE') {
 			$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
 		}
 

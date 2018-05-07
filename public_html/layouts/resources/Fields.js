@@ -18,12 +18,12 @@ App.Fields = {
 		 * @param {object} customParams
 		 */
 		register(parentElement, registerForAddon, customParams) {
-			if (typeof parentElement === 'undefined') {
+			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
 				parentElement = $(parentElement);
 			}
-			if (typeof registerForAddon === 'undefined') {
+			if (typeof registerForAddon === "undefined") {
 				registerForAddon = true;
 			}
 			let elements = $('.dateField', parentElement);
@@ -43,10 +43,10 @@ App.Fields = {
 			}
 			let format = CONFIG.dateFormat;
 			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
+			if (typeof elementDateFormat !== "undefined") {
 				format = elementDateFormat;
 			}
-			if (typeof $.fn.datepicker.dates[CONFIG.langKey] === 'undefined') {
+			if (typeof $.fn.datepicker.dates[CONFIG.langKey] === "undefined") {
 				$.fn.datepicker.dates[CONFIG.langKey] = {
 					days: App.Fields.Date.fullDaysTranslated,
 					daysShort: App.Fields.Date.daysTranslated,
@@ -68,7 +68,7 @@ App.Fields = {
 				autoclose: true,
 				todayHighlight: true,
 			};
-			if (typeof customParams !== 'undefined') {
+			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
 			elements.datepicker(params);
@@ -80,7 +80,7 @@ App.Fields = {
 		 * @param {object} customParams
 		 */
 		registerRange(parentElement, customParams) {
-			if (typeof parentElement === 'undefined') {
+			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
 				parentElement = $(parentElement);
@@ -94,7 +94,7 @@ App.Fields = {
 			}
 			let format = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
+			if (typeof elementDateFormat !== "undefined") {
 				format = elementDateFormat.toUpperCase();
 			}
 			let ranges = {};
@@ -124,7 +124,7 @@ App.Fields = {
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
-			if (typeof customParams !== 'undefined') {
+			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
 			$('.js-date__btn').off().on('click', (e) => {
@@ -142,7 +142,7 @@ App.Fields = {
 		 * @param {object} customParams
 		 */
 		register: function (parentElement, customParams) {
-			if (typeof parentElement === 'undefined') {
+			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
 				parentElement = $(parentElement);
@@ -159,12 +159,12 @@ App.Fields = {
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
+			if (typeof elementDateFormat !== "undefined") {
 				dateFormat = elementDateFormat.toUpperCase();
 			}
 			let hourFormat = CONFIG.hourFormat;
 			const elementHourFormat = elements.data('hourFormat');
-			if (typeof elementHourFormat !== 'undefined') {
+			if (typeof elementHourFormat !== "undefined") {
 				hourFormat = elementHourFormat;
 			}
 			let timePicker24Hour = true;
@@ -198,7 +198,7 @@ App.Fields = {
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
-			if (typeof customParams !== 'undefined') {
+			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
 			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
@@ -233,7 +233,7 @@ App.Fields = {
 			return colors;
 		},
 	},
-	Password: {
+	Text: {
 		/**
 		 * Register clip
 		 * @param {HTMLElement|jQuery} container
@@ -241,13 +241,14 @@ App.Fields = {
 		 * @returns {ClipboardJS|undefined}
 		 */
 		registerCopyClipboard: function (container, key = '.clipboard') {
-			if (!container) {
+			if (typeof container !== 'object') {
 				return;
 			}
 			container = $(container).get(0);
 			let elements = container.querySelectorAll(key);
 			if (elements.length === 0) {
-				return;
+				elements = key;
+				container = '';
 			}
 			return new ClipboardJS(elements, {
 				container: container,
@@ -259,13 +260,13 @@ App.Fields = {
 					trigger = $(trigger);
 					const element = $(trigger.data('copyTarget'), container);
 					let val;
-					if (typeof trigger.data('copyType') !== 'undefined') {
+					if (typeof trigger.data('copyType') !== "undefined") {
 						if (element.is("select")) {
 							val = element.find('option:selected').data(trigger.data('copyType'));
 						} else {
 							val = element.data(trigger.data('copyType'));
 						}
-					} else if (typeof trigger.data('copy-attribute') !== 'undefined') {
+					} else if (typeof trigger.data('copy-attribute') !== "undefined") {
 						val = trigger.data(trigger.data('copy-attribute'));
 					} else {
 						val = element.val();
@@ -274,12 +275,10 @@ App.Fields = {
 				}
 			});
 		},
-	},
-	Text: {
 		Editor: class {
 			constructor(parentElement, params) {
 				let elements;
-				if (typeof parentElement === 'undefined') {
+				if (typeof parentElement === "undefined") {
 					parentElement = $('body');
 				} else {
 					parentElement = $(parentElement);
@@ -289,7 +288,7 @@ App.Fields = {
 				} else {
 					elements = $('.js-editor:not([disabled])', parentElement);
 				}
-				if (elements.length !== 0 || typeof elements !== 'undefined') {
+				if (elements.length !== 0 || typeof elements !== "undefined") {
 					this.loadEditor(elements, params);
 				}
 			}
@@ -384,7 +383,7 @@ App.Fields = {
 						{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
 					]
 				};
-				if (typeof customConfig !== 'undefined') {
+				if (typeof customConfig !== "undefined") {
 					config = $.extend(config, customConfig);
 				}
 				if (instance) {
@@ -398,7 +397,7 @@ App.Fields = {
 		 * @param {jQuery} element
 		 */
 		destroyEditor(element) {
-			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
+			if (typeof CKEDITOR !== "undefined" && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
 		},
@@ -430,10 +429,10 @@ App.Fields = {
 		 * @returns jquery object list which represents changed select elements
 		 */
 		changeSelectElementView: function (parent, view, viewParams) {
-			if (typeof parent === 'undefined') {
+			if (typeof parent === "undefined") {
 				parent = $('body');
 			}
-			if (typeof view === 'undefined') {
+			if (typeof view === "undefined") {
 				const select2Elements = $('select.select2', parent).toArray();
 				const selectizeElements = $('select.selectize', parent).toArray();
 				const choosenElements = $('.chzn-select', parent).toArray();
@@ -466,13 +465,19 @@ App.Fields = {
 		 */
 		showSelect2ElementView: function (selectElement, params) {
 			selectElement = $(selectElement);
-			if (typeof params === 'undefined') {
+			if (typeof params === "undefined") {
 				params = {};
 			}
 			if ($(selectElement).length > 1) {
 				return $(selectElement).each((index, element) => {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
+			}
+			if(typeof params.dropdownParent === 'undefined') {
+				const modalParent = $(selectElement).closest('.modal-body');
+				if (modalParent.length) {
+					params.dropdownParent = modalParent;
+				}
 			}
 			let data = selectElement.data();
 			if (data != null) {
@@ -481,14 +486,14 @@ App.Fields = {
 			params.language = {};
 			params.theme = "bootstrap";
 			const width = $(selectElement).data('width');
-			if (typeof width !== 'undefined') {
+			if (typeof width !== "undefined") {
 				params.width = width;
 			} else {
 				params.width = '100%';
 			}
 			params.containerCssClass = 'form-control w-100';
 			const containerCssClass = selectElement.data('containerCssClass');
-			if (typeof containerCssClass !== 'undefined') {
+			if (typeof containerCssClass !== "undefined") {
 				params.containerCssClass += " " + containerCssClass;
 			}
 			params.language.noResults = function (msn) {
@@ -496,7 +501,7 @@ App.Fields = {
 			};
 
 			// Sort DOM nodes alphabetically in select box.
-			if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
+			if (typeof params['customSortOptGroup'] !== "undefined" && params['customSortOptGroup']) {
 				$('optgroup', selectElement).each(function () {
 					var optgroup = $(this);
 					var options = optgroup.children().toArray().sort(function (a, b) {
@@ -513,7 +518,7 @@ App.Fields = {
 
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
-			if (typeof params.maximumSelectionLength != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
+			if (typeof params.maximumSelectionLength !== "undefined" && typeof params.formatSelectionTooBig === "undefined") {
 				var limit = params.maximumSelectionLength;
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function (limit) {
@@ -521,17 +526,17 @@ App.Fields = {
 				}
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
-			if (typeof selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
+			if (typeof selectElement.attr('multiple') !== "undefined" && !params.placeholder) {
 				params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 			} else if (!params.placeholder) {
 				params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 			}
-			if (typeof params.templateResult === 'undefined') {
+			if (typeof params.templateResult === "undefined") {
 				params.templateResult = function (data, container) {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
-					if (typeof data.name == 'undefined') {
+					if (typeof data.name === "undefined") {
 						return data.text;
 					}
 					if (data.type == 'optgroup') {
@@ -541,7 +546,7 @@ App.Fields = {
 					}
 				};
 			}
-			if (typeof params.templateSelection === 'undefined') {
+			if (typeof params.templateSelection === "undefined") {
 				params.templateSelection = function (data, container) {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
@@ -597,16 +602,16 @@ App.Fields = {
 					cache: false
 				};
 				params.escapeMarkup = function (markup) {
-					if (markup !== 'undefined')
+					if (markup !== "undefined")
 						return markup;
 				};
 				var minimumInputLength = 3;
-				if (selectElement.data('minimumInput') != 'undefined') {
+				if (selectElement.data('minimumInput') !== "undefined") {
 					minimumInputLength = selectElement.data('minimumInput');
 				}
 				params.minimumInputLength = minimumInputLength;
 				params.templateResult = function (data) {
-					if (typeof data.name == 'undefined') {
+					if (typeof data.name === "undefined") {
 						return data.text;
 					}
 					if (data.type == 'optgroup') {
@@ -727,7 +732,7 @@ App.Fields = {
 		 * Function to destroy the chosen element and get back the basic select Element
 		 */
 		destroyChosenElement: function (parent) {
-			if (typeof parent === 'undefined') {
+			if (typeof parent === "undefined") {
 				parent = $('body');
 			}
 			let selectElement = $('.chzn-select', parent);
@@ -742,7 +747,7 @@ App.Fields = {
 		 * Function which will show the selectize element for select boxes . This will use selectize library
 		 */
 		showSelectizeElementView: function (selectElement, params) {
-			if (typeof params === 'undefined') {
+			if (typeof params === "undefined") {
 				params = {plugins: ['remove_button']};
 			}
 			selectElement.selectize(params);
@@ -752,7 +757,7 @@ App.Fields = {
 		 * Function to destroy the selectize element
 		 */
 		destroySelectizeElement: function (parent) {
-			if (typeof parent === 'undefined') {
+			if (typeof parent === "undefined") {
 				parent = $('body');
 			}
 			let selectElements = $('.selectized', parent);

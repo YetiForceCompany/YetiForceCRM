@@ -49,7 +49,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.js.jstree.jstree',
+			'~libraries/jstree/dist/jstree.js',
 			"modules.Settings.$moduleName.resources.Edit",
 		];
 
@@ -63,7 +63,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'libraries.js.jstree.themes.proton.style',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 

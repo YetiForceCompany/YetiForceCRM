@@ -70,12 +70,6 @@ app = {
 		return $('body').data('language');
 	},
 	/**
-	 * Function to get path to layout
-	 */
-	getLayoutPath: function () {
-		return $('body').data('layoutpath');
-	},
-	/**
 	 * Function to get page title
 	 */
 	getPageTitle: function () {
@@ -95,22 +89,22 @@ app = {
 		return $('.bodyContents');
 	},
 	hidePopover: function (element) {
-		if (typeof element == 'undefined') {
+		if (typeof element === "undefined") {
 			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
 	showPopoverElementView: function (selectElement, params) {
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {
-				trigger: 'manual',
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
+		params.trigger = 'hover';
 		params.container = 'body';
-		params.delay = 800;
+		params.delay = {"show": 300, "hide": 100};
 		var sparams;
 		selectElement.each(function (index, domElement) {
 			sparams = params;
@@ -129,20 +123,6 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			element.on("mouseenter focus", function () {
-				var _this = this;
-				$(this).popover("show");
-				$(".popover").on("mouseleave", function () {
-					$(_this).popover('hide');
-				});
-			}).on("mouseleave blur", function () {
-				var _this = this;
-				setTimeout(function () {
-					if (!$(".popover:hover").length) {
-						$(_this).popover("hide");
-					}
-				}, 100);
-			});
 		});
 		return selectElement;
 	},
@@ -153,7 +133,7 @@ app = {
 	 */
 
 	registerChangeEventForMultiSelect: function (selectElement, params) {
-		if (typeof selectElement == 'undefined') {
+		if (typeof selectElement === "undefined") {
 			return;
 		}
 		var instance = selectElement.data('select2');
@@ -173,7 +153,7 @@ app = {
 	 * @return <object> - encoded string or value map
 	 */
 	getSerializedData: function (parentElement, returnFormat) {
-		if (typeof returnFormat == 'undefined') {
+		if (typeof returnFormat === "undefined") {
 			returnFormat = 'string';
 		}
 
@@ -226,7 +206,7 @@ app = {
 				$('.modal-backdrop:not(:first)').remove();
 			}
 			cb(modalContainer);
-			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: modalContainer});
+			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
@@ -245,35 +225,35 @@ app = {
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
-		if (typeof data == 'object' && data != null && !(data instanceof $)) {
+		if (typeof data === 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
 				Window.lastModalId = data.id;
 			}
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			if (data.sendByAjaxCb != 'undefined') {
+			if (data.sendByAjaxCb !== "undefined") {
 				var sendByAjaxCb = data.sendByAjaxCb;
 			}
 			data = data.data;
 		}
-		if (typeof url == 'function') {
-			if (typeof cb == 'object') {
+		if (typeof url === 'function') {
+			if (typeof cb === 'object') {
 				paramsObject = cb;
 			}
 			cb = url;
 			url = false;
-		} else if (typeof url == 'object') {
+		} else if (typeof url === 'object') {
 			cb = function () {
 			};
 			paramsObject = url;
 			url = false;
 		}
-		if (typeof cb != 'function') {
+		if (typeof cb !== 'function') {
 			cb = function () {
 			}
 		}
-		if (typeof sendByAjaxCb != 'function') {
+		if (typeof sendByAjaxCb !== 'function') {
 			var sendByAjaxCb = function () {
 			}
 		}
@@ -313,7 +293,7 @@ app = {
 		if (typeof callback === 'object') {
 			container = callback;
 		} else if (id == undefined) {
-			container= $('.modalContainer');
+			container = $('.modalContainer');
 		} else {
 			container = $('#' + id);
 		}
@@ -335,7 +315,7 @@ app = {
 	registerModalController: function () {
 		let modalContainer = $('#' + Window.lastModalId + ' .js-modal-data');
 		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
-		if (typeof window[modalClass] !== 'undefined') {
+		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
 			if (app.modalEvents[Window.lastModalId]) {
@@ -343,7 +323,7 @@ app = {
 			}
 		}
 		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
-		if (typeof window[modalClass] !== 'undefined') {
+		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
 			instance.registerEvents(modalContainer);
 			if (app.modalEvents[Window.lastModalId]) {
@@ -478,13 +458,13 @@ app = {
 	convertTojQueryDatePickerFormat: function (dateFormat) {
 		var i = 0;
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 		var splitDateFormat = dateFormat.split(dotMode);
@@ -505,13 +485,13 @@ app = {
 	getDateInDBInsertFormat: function (dateFormat, dateString) {
 		var i = 0;
 		var dotMode = '-';
-		if (dateFormat.indexOf("-") != -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
-		if (dateFormat.indexOf(".") != -1) {
+		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '.';
 		}
-		if (dateFormat.indexOf("/") != -1) {
+		if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
 
@@ -542,7 +522,7 @@ app = {
 		return year + '-' + month + '-' + day;
 	},
 	registerEventForDateFields: function (parentElement) {
-		if (typeof parentElement == 'undefined') {
+		if (typeof parentElement === "undefined") {
 			parentElement = $('body');
 		}
 
@@ -562,7 +542,7 @@ app = {
 	},
 	registerEventForClockPicker: function (object) {
 		let elementClockBtn, formatTime;
-		if (typeof object === 'undefined') {
+		if (typeof object === "undefined") {
 			elementClockBtn = $('.clockPicker');
 			formatTime = CONFIG.hourFormat;
 		} else {
@@ -620,30 +600,13 @@ app = {
 		return table.DataTable();
 	},
 	/**
-	 * Function to destroy time fields
-	 */
-	destroyTimeFields: function (container) {
-
-		if (typeof cotainer == 'undefined') {
-			container = $('body');
-		}
-
-		if (container.hasClass('timepicker-default')) {
-			var element = container;
-		} else {
-			var element = container.find('.timepicker-default');
-		}
-		element.data('timepicker-list', null);
-		return container;
-	},
-	/**
 	 * Function to get the chosen element from the raw select element
 	 * @params: select element
 	 * @return : chosenElement - corresponding chosen element
 	 */
 	getChosenElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
-		var chosenEleId = selectId + "_chosen";
+		var chosenEleId = selectId + '_chosen';
 		return $('#' + chosenEleId);
 	},
 	/**
@@ -679,15 +642,15 @@ app = {
 		});
 	},
 	showNewScrollbar: function (element, options) {
-		if (typeof element === 'undefined' || !element.length)
+		if (typeof element === "undefined" || !element.length)
 			return;
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
 
 		return new PerfectScrollbar(element[0], options);
 	},
 	showNewBottomTopScrollbar: function (element) {
-		if (typeof element === 'undefined' || !element.length)
+		if (typeof element === "undefined" || !element.length)
 			return;
 		var scrollbarTopInit = new PerfectScrollbar(element[0], {
 			wheelPropagation: true,
@@ -708,9 +671,9 @@ app = {
 		});
 	},
 	showNewLeftScrollbar: function (element, options) {
-		if (typeof element === 'undefined' || !element.length)
+		if (typeof element === "undefined" || !element.length)
 			return;
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
 		options.wheelPropagation = true;
 		var scrollbarLeftInit = new PerfectScrollbar(element[0], options);
@@ -725,14 +688,14 @@ app = {
 		});
 	},
 	showScrollBar: function (element, options) {
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
-		if (typeof options.height === 'undefined')
+		if (typeof options.height === "undefined")
 			options.height = element.css('height');
 		return element.slimScroll(options);
 	},
 	showHorizontalScrollBar: function (element, options) {
-		if (typeof options === 'undefined')
+		if (typeof options === "undefined")
 			options = {};
 		var params = {
 			horizontalScroll: true,
@@ -741,7 +704,7 @@ app = {
 				autoExpandHorizontalScroll: true
 			}
 		}
-		if (typeof options !== 'undefined')
+		if (typeof options !== "undefined")
 			var params = $.extend(params, options);
 		return element.mCustomScrollbar(params);
 	},
@@ -753,14 +716,6 @@ app = {
 			return LANG[key];
 		}
 		return key;
-	},
-	/**
-	 * Function will return the current users layout + skin path
-	 * @param <string> img - image name
-	 * @return <string>
-	 */
-	vimage_path: function (img) {
-		return app.getLayoutPath() + '/images/' + img;
 	},
 	/*
 	 * Cache API on client-side
@@ -890,24 +845,24 @@ app = {
 		var parentModule = app.getParentModuleName();
 
 		var moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = moduleName + "_" + view + "_Js";
 		}
 		var extendModules = $('#extendModules').val();
-		if (typeof window[moduleClassName] == 'undefined' && extendModules != undefined) {
+		if (typeof window[moduleClassName] === "undefined" && extendModules != undefined) {
 			moduleClassName = extendModules + "_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] == 'undefined') {
+		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
-		if (typeof window[moduleClassName] != 'undefined') {
-			if (typeof window[moduleClassName] == 'function') {
+		if (typeof window[moduleClassName] !== "undefined") {
+			if (typeof window[moduleClassName] === 'function') {
 				return new window[moduleClassName]();
 			}
-			if (typeof window[moduleClassName] == 'object') {
+			if (typeof window[moduleClassName] === 'object') {
 				return window[moduleClassName];
 			}
 		}
@@ -920,7 +875,7 @@ app = {
 	},
 	updateRowHeight: function () {
 		var rowType = CONFIG.rowHeight;
-		if (rowType.length <= 0) {
+		if (rowType !== null) {
 			//Need to update the row height
 			var widthType = app.cacheGet('widthType', 'mediumWidthType');
 			var serverWidth = widthType;
@@ -950,15 +905,15 @@ app = {
 	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(" " + c_name + "=");
-		if (c_start == -1) {
+		if (c_start === -1) {
 			c_start = c_value.indexOf(c_name + "=");
 		}
-		if (c_start == -1) {
+		if (c_start === -1) {
 			c_value = null;
 		} else {
 			c_start = c_value.indexOf("=", c_start) + 1;
 			var c_end = c_value.indexOf(";", c_start);
-			if (c_end == -1) {
+			if (c_end === -1) {
 				c_end = c_value.length;
 			}
 			c_value = unescape(c_value.substring(c_start, c_end));
@@ -1035,7 +990,7 @@ app = {
 		return aDeferred.promise();
 	},
 	showBtnSwitch: function (selectElement, params) {
-		if (typeof params == 'undefined') {
+		if (typeof params === "undefined") {
 			params = {};
 		}
 		selectElement.bootstrapSwitch(params);
@@ -1102,10 +1057,10 @@ app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		if (typeof error == 'object' && error.responseText) {
+		if (typeof error === 'object' && error.responseText) {
 			error = error.responseText;
 		}
-		if (typeof error == 'object' && error.statusText) {
+		if (typeof error === 'object' && error.statusText) {
 			error = error.statusText;
 		}
 		if (error) {
@@ -1119,7 +1074,7 @@ app = {
 		}
 	},
 	registerModal: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = $('body');
 		}
 		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
@@ -1127,7 +1082,7 @@ app = {
 			var currentElement = $(e.currentTarget);
 			var url = currentElement.data('url');
 
-			if (typeof url != 'undefined') {
+			if (typeof url !== "undefined") {
 				if (currentElement.hasClass('js-popover-tooltip')) {
 					currentElement.popover('hide');
 				}
@@ -1138,8 +1093,8 @@ app = {
 					url: url,
 					cb: function (container) {
 						var call = currentElement.data('cb');
-						if (typeof call !== 'undefined') {
-							if (call.indexOf('.') != -1) {
+						if (typeof call !== "undefined") {
+							if (call.indexOf(".") !== -1) {
 								var callerArray = call.split('.');
 								if (typeof window[callerArray[0]] === 'object') {
 									window[callerArray[0]][callerArray[1]](container);
@@ -1164,9 +1119,8 @@ app = {
 	},
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
-		soundsConfig = JSON.parse(soundsConfig);
 		if (soundsConfig['IS_ENABLED']) {
-			var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
+			var audio = new Audio(app.getMainParams('soundFilesPath') + soundsConfig[action]);
 			audio.play();
 		}
 	},
@@ -1226,24 +1180,24 @@ app = {
 	},
 	registerMenu: function () {
 		const self = this;
-		self.keyboard 	= { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
-		self.sidebarBtn	= $('.js-sidebar-btn').first();
-		self.sidebar	= $('.js-sidebar').first();
+		self.keyboard = {DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38};
+		self.sidebarBtn = $('.js-sidebar-btn').first();
+		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
 		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
 			if(self.sidebarBtn[0] == e.target) return;
-			if(self.sidebar.find(':focus').length) {
+			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
-			} else if(self.sidebar.hasClass('js-expand')) {
+			} else if (self.sidebar.hasClass('js-expand')) {
 				self.closeSidebar();
 			}
 		});
 		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 		self.sidebar.find('.js-menu').on('keydown', self.sidebarKeyboard.bind(self));
 		self.sidebar.on('keydown', (e) => {
-			if(e.which == self.keyboard.ESCAPE) {
+			if (e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
-				if(self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
+				if (self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
 				else $(':tabbable').eq(parseInt($(':tabbable').index(self.sidebar.find(':tabbable').last())) + 1).focus();
 			}
 		});
@@ -1251,28 +1205,28 @@ app = {
 			$(e.target).find(':tabbable').first().focus();
 		});
 		$('.js-submenu-toggler').on('click', (e) => {
-			if(!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
+			if (!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
 				window.location = $(e.currentTarget).attr('href');
 			}
 		});
 	},
-	openSidebar: function() {
+	openSidebar: function () {
 		this.sidebar.addClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', true);
 	},
-	closeSidebar: function() {
+	closeSidebar: function () {
 		this.sidebar.removeClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', false);
 	},
-	toggleSidebar: function() {
-		if(this.sidebar.hasClass('js-expand')) {
+	toggleSidebar: function () {
+		if (this.sidebar.hasClass('js-expand')) {
 			this.closeSidebar();
 		} else {
 			this.openSidebar();
 			this.sidebar.find('.js-menu :tabbable').first().focus();
 		}
 	},
-	sidebarKeyboard: function(e){
+	sidebarKeyboard: function (e) {
 		let target = $(e.target);
 		let toggler = $(e.target).closest('.js-submenu-toggler');
 		if(e.which == this.keyboard.LEFT) {
@@ -1286,18 +1240,21 @@ app = {
 			}
 		} else if((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT) && target.hasClass('collapsed'))
 			|| (target.hasClass('js-submenu-toggler') && e.which == this.keyboard.SPACE)) {
-			target.click(); return false;
-		} else if(e.which == this.keyboard.UP) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus(); return false;
-		} else if(e.which == this.keyboard.DOWN) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus(); return false;
+			target.click(); 
+      return false;
+		} else if (e.which == this.keyboard.UP) {
+			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus();
+			return false;
+		} else if (e.which == this.keyboard.DOWN) {
+			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus();
+			return false;
 		}
 	},
 	registerTabdrop: function () {
 		let tabs = $('.js-tabdrop');
-		if(!tabs.length) return;
-		let tab  = tabs.find('> li');
-		tab.each(function() {
+		if (!tabs.length) return;
+		let tab = tabs.find('> li');
+		tab.each(function () {
 			$(this).removeClass('d-none');
 		});
 		tabs.tabdrop({
@@ -1307,15 +1264,15 @@ app = {
 		let dropdown = tabs.find('> li.dropdown');
 		dropdown.appendTo(tabs);
 		//fix for toggle button text not changing
-		tab.on('click', function(e){
-			setTimeout(function(){
+		tab.on('click', function (e) {
+			setTimeout(function () {
 				$(window).trigger('resize');
 			}, 500);
 		});
 
 	},
 	getScreenHeight: function (percantage) {
-		if (typeof percantage == 'undefined') {
+		if (typeof percantage === "undefined") {
 			percantage = 100;
 		}
 		return $(window).height() * percantage / 100;
@@ -1459,7 +1416,7 @@ $(document).ready(function () {
 		var data = {};
 		if (values) {
 			$(values).each(function (k, v) {
-				if (v.name in data && (typeof data[v.name] != 'object')) {
+				if (v.name in data && (typeof data[v.name] !== 'object')) {
 					var element = form.find('[name="' + v.name + '"]');
 					//Only for muti select element we need to send array of values
 					if (element.is('select') && element.attr('multiple') != undefined) {
@@ -1468,7 +1425,7 @@ $(document).ready(function () {
 						data[v.name].push(prevValue)
 					}
 				}
-				if (typeof data[v.name] == 'object') {
+				if (typeof data[v.name] === 'object') {
 					data[v.name].push(v.value);
 				} else {
 					data[v.name] = v.value;
@@ -1485,7 +1442,7 @@ $(document).ready(function () {
 	}
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
-		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1;
 	}
 	$.fn.removeTextNode = function () {
 		$(this).contents().filter(function () {

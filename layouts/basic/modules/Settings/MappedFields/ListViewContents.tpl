@@ -12,7 +12,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="listViewEntriesDiv overflowXAuto">
+	<div class="tpl-Settings-MappedFields-ListViewContents listViewEntriesDiv overflowXAuto">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
@@ -49,11 +49,13 @@
 															if (event.stopPropagation){ldelim}
 																		event.stopPropagation();{rdelim} else{ldelim}
 																					event.cancelBubble = true;{rdelim}
-																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
+																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->getClassName()}">
 														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
 												{else}
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle {$RECORD_LINK->get('class')}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												<button class="{$RECORD_LINK->getClassName()}">
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												</button>
 												{/if}
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;

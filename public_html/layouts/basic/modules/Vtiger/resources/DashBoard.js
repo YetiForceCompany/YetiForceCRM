@@ -621,7 +621,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				'enabled': true
 			}
 		});
-		if (typeof sourceModule == 'undefined') {
+		if (typeof sourceModule === "undefined") {
 			sourceModule = app.getModuleName();
 		}
 		var params = {

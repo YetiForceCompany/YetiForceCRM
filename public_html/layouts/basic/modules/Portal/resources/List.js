@@ -76,7 +76,7 @@ Vtiger_List_Js("Portal_List_Js", {
 					deleteURL += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
 					var searchValue = listInstance.getAlphabetSearchValue();
 
-					if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+					if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 						deleteURL += '&search_value=' + searchValue;
 					}
 					AppConnector.request(deleteURL).then(function (data) {
@@ -263,7 +263,7 @@ Vtiger_List_Js("Portal_List_Js", {
 				return;
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
-			if (typeof recordUrl == 'undefined') {
+			if (typeof recordUrl === "undefined") {
 				return;
 			}
 			window.location.href = recordUrl;
