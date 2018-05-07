@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="tpl-Settings-LayoutEditor-RelatedList relatedTabOrder">
+    <div id="relatedTabOrder" class="tpl-Settings-LayoutEditor-RelatedList">
 		<div class="" id="layoutEditorContainer">
 			<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 			<div class="widget_header row align-items-lg-center">
