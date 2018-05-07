@@ -52,6 +52,7 @@
 		"html5shiv": "^3.7.3",
 		"inputmask": "^3.3.11",
 		"jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#master",
+		"jQueryGantt": "https://github.com/robicch/jQueryGantt#master",
 		"jquery": ">3.0.0",
 		"jquery-hoverintent": "^1.9.0",
 		"jquery-lazy": "^1.7.7",
