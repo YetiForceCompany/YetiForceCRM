@@ -2,33 +2,33 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-common-types@^0.1.3", "@fortawesome/fontawesome-common-types@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.4.tgz#1fbc66f0223646f23c5550c2c12e341078e2c262"
+"@fortawesome/fontawesome-common-types@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.6.tgz#3cefd6cd88a2256e1daa69b6fc9a6ab5e3c33e4a"
 
 "@fortawesome/fontawesome-free-brands@^5.0.9":
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.10.tgz#37f007a2f548682c8bfb7086b7e03dc65758580a"
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.12.tgz#2e8dfc4d92d95a9ed7aa27f93bccec08317ddcaa"
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.4"
+    "@fortawesome/fontawesome-common-types" "^0.1.6"
 
 "@fortawesome/fontawesome-free-regular@^5.0.9":
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.10.tgz#f81dfeaa24896bfac8fb50c58c6c02f87a2a0c80"
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.12.tgz#d874d65470a0f9b28419d2ce355c67a96fd9d70a"
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.4"
+    "@fortawesome/fontawesome-common-types" "^0.1.6"
 
 "@fortawesome/fontawesome-free-solid@^5.0.9":
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.10.tgz#b54c87d3ce4ffd0546b60d12e898e87b59776c30"
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.12.tgz#5cfa458336554139d16a9bce8df7c60b9aee1dc3"
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.4"
+    "@fortawesome/fontawesome-common-types" "^0.1.6"
 
 "@fortawesome/fontawesome@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.5.tgz#c7cfafdd3364245626293cc670357f9fb8487170"
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.7.tgz#15a6508cd6ab465b6a5bd1fb83f4c962a8c7df7a"
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.1.3"
+    "@fortawesome/fontawesome-common-types" "^0.1.6"
 
 add@^2.0.6:
   version "2.0.6"
@@ -105,17 +105,13 @@ bootstrap-daterangepicker@^2.1.30:
     jquery ">=1.10"
     moment "^2.9.0"
 
-bootstrap-switch@^3.3.4:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/bootstrap-switch/-/bootstrap-switch-3.3.4.tgz#70e0aeb2a877c0dc766991de108e2170fc29a2ff"
-
 "bootstrap-tabdrop@https://github.com/jmschabdach/bootstrap-tabdrop":
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
 bootstrap@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.0.tgz#110b05c31a236d56dbc9adcda6dd16f53738a28a"
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
 
 cardinal@^1.0.0:
   version "1.0.0"
@@ -166,8 +162,8 @@ chosen-js@^1.8.2:
   resolved "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.8.5.tgz#5863f8ba590afa317e77e1745e0348a7290c32f3"
 
 clipboard@>=2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.0.tgz#4661dc972fb72a4c4770b8db78aa9b1caef52b50"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.1.tgz#a12481e1c13d8a50f5f036b0560fe5d16d74e46a"
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -190,8 +186,8 @@ css-element-queries@^1.0.2:
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.2.tgz#a32edfee4a5023688ef4d45f402077306d51d44c"
 
 csv-parse@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.2.0.tgz#478097dc731a0b665bc761344cad18507a359893"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.4.0.tgz#d4c72a1533734b2c2a65f486d13091264cacc115"
 
 datatables.net-bs4@^1.10.16:
   version "1.10.16"
@@ -215,8 +211,8 @@ device-uuid@^1.0.4:
   resolved "https://registry.yarnpkg.com/device-uuid/-/device-uuid-1.0.4.tgz#f6973e58f19b92a237aeca7b16a395ae7195a883"
 
 dompurify@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.3.tgz#3f2f6ecb6ecd27599a506b410ff47d6eb90fd05d"
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.4.tgz#b0655d07856c1ef76fd27ae18e8ab1174ed18819"
 
 esprima@~3.0.0:
   version "3.0.0"
@@ -274,8 +270,8 @@ jquery-hoverintent@^1.9.0:
     jquery ">=1.7.0"
 
 jquery-lazy@^1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.7.tgz#926101bccb7ba1ffdff562d6fe337a4dae3724f9"
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.8.tgz#b73c263112b538a9a4bbb81367ecb1aef59aaefc"
   dependencies:
     jquery ">=1.7.2"
 
