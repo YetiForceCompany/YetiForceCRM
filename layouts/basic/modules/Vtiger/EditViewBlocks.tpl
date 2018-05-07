@@ -88,17 +88,24 @@
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<div class="col-md-12 adressAction">
+								<div class="adressAction row py-2 justify-content-center">
 									{if $APIADDRESFIELD}
-										<div class="col-md-4">
-											<input value=""
-												   title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}"
-												   type="text"
-												   class="api_address_autocomplete form-control float-right input "
-												   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"/>
+										<div class="col-md-3">
+											<div class="input-group">
+												<input value=""
+													   title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}"
+													   type="text"
+													   class="api_address_autocomplete form-control form-control-sm"
+													   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"/>
+												<div class="input-group-append">
+													<span class="input-group-text">
+														<span class="fas fa-search fa-fw"></span><span class="sr-only">Szukaj</span>
+													</span>
+												</div>
+											</div>
 										</div>
 									{/if}
-									<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center mb-2">
+									<div class="{if $APIADDRESFIELD}col-md-4{else}col-md-12{/if} text-center">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
 								</div>
