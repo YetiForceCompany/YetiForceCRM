@@ -65,18 +65,32 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	registerGridster: function () {
 		var thisInstance = this;
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridster({
-			widget_margins: [7, 7],
-			widget_base_dimensions: [((thisInstance.getContainer().width() / 12) - 14), 100],
-			min_cols: 6,
-			min_rows: 20,
-			max_size_x: 12,
-			draggable: {
-				'stop': function () {
-					thisInstance.savePositions($('.dashboardWidget'));
+		$(document).ready(() => {
+			let baseWidth = thisInstance.getContainer().width();
+			const options = {
+				widget_margins: [7, 7],
+				widget_base_dimensions: [((baseWidth / 12) - 14), 100],
+				min_cols: 6,
+				min_rows: 20,
+				max_size_x: 12,
+				draggable: {
+					'stop': function () {
+						thisInstance.savePositions($('.dashboardWidget'));
+					}
 				}
+			};
+			Vtiger_DashBoard_Js.gridster = this.getContainer().gridster(options).data('gridster');
+			// load widgets after gridster initialization to prevent too early lazy loading - visible viewport changes
+			this.loadWidgets();
+			// recalculate positions with scrollbars
+			if (this.getContainer().width() !== this.getContainer().parent().width()) {
+				const parentWidth = thisInstance.getContainer().parent().width();
+				this.getContainer().css('width', parentWidth + 'px');
+				options.widget_base_dimensions = [((parentWidth / 12) - 14), 100];
+				Vtiger_DashBoard_Js.gridster.options = $.extend(true, Vtiger_DashBoard_Js.gridster.options, options);
+				Vtiger_DashBoard_Js.gridster.generate_grid_and_stylesheet();
 			}
-		}).data('gridster');
+		});
 	},
 	savePositions: function (widgets) {
 		var widgetRowColPositions = {};
