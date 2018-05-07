@@ -12,9 +12,7 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	&:hover {
-		background: $white;
-		z-index: 1000000;
-		position: absolute;
+		overflow: initial;
 	}
 }
 .u-word-break-all {
