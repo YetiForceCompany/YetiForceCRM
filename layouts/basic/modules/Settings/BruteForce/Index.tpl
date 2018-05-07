@@ -93,10 +93,8 @@
 						</div>
 						<div class="card-footer clearfix">
 							<div class="float-left">
-								<button class="btn btn-success saveButton" type="submit" id="saveConfig"
-										title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
-									<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-							</div>
+								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><span class="fa fa-check u-mr-5px"></span>
+									<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
 							</form>
 						</div>
 					</div>

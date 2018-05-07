@@ -7,7 +7,9 @@
 					<div class="modal-header">
 						<div class="d-flex w-100 m-0">
 							<div>
-								<h5 class="modal-title">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
+								<span class="fas fa-user-secret u-mr-5px mt-2 float-left"></span>
+						<h5 class="modal-title float-left ml-1">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
+
 							</div>
 							<div class="ml-auto">
 								<button class="btn btn-sm btn-success saveKeys" type="button" aria-hidden="true">
@@ -54,7 +56,7 @@
 		<div class="alert alert-danger mb-2" role="alert">
 			{\App\Language::translate('LBL_NOT_AUTHORIZED', $QUALIFIED_MODULE)}
 			<button class="btn btn-danger showModal ml-2">
-				{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}
+				<span class="fas fa-user-secret u-mr-5px"></span>{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}
 			</button>
 		</div>
 	{else}
@@ -106,7 +108,7 @@
 				</div>
 			</div>
 		</div>
-		<table class="table listViewEntriesTable">
+		<table class="table listViewEntriesTable mt-1">
 			<thead>
 			<th>{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}</th>
 			<th>{\App\Language::translate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>

@@ -33,7 +33,7 @@
 			</form>
 		{elseif $FIELD_NAME eq 'assign' || $FIELD_NAME eq 'roleid'}
 			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
-			<form id="formValue" class="col-sm-12">
+			<form id="formValue" class="col-sm-12 p-0">
 				<div class="form-group">
 					<label class="col-12">
 						{if $FIELD_NAME eq 'roleid'}
@@ -110,11 +110,11 @@
 									</span>
 							</div>
 						</div>
-					</div>
-					<div class="card-footer clearfix">
-						<div class="btn-toolbar float-right">
-							<button class="btn btn-success saveValue"
-									type="button">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
+						<div class="card-footer clearfix">
+							<div class="btn-toolbar float-right">
+								<button class="btn btn-success saveValue"
+										type="button"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
+							</div>
 						</div>
 					</div>
 				</div>

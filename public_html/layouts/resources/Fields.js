@@ -233,7 +233,7 @@ App.Fields = {
 			return colors;
 		},
 	},
-	Password: {
+	Text: {
 		/**
 		 * Register clip
 		 * @param {HTMLElement|jQuery} container
@@ -247,29 +247,8 @@ App.Fields = {
 			container = $(container).get(0);
 			let elements = container.querySelectorAll(key);
 			if (elements.length === 0) {
-				return new ClipboardJS(key, {
-					text: function (trigger) {
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-							type: 'success'
-						});
-						trigger = $(trigger);
-						const element = $(trigger.data('copyTarget'));
-						let val;
-						if (typeof trigger.data('copyType') !== "undefined") {
-							if (element.is("select")) {
-								val = element.find('option:selected').data(trigger.data('copyType'));
-							} else {
-								val = element.data(trigger.data('copyType'));
-							}
-						} else if (typeof trigger.data('copy-attribute') !== "undefined") {
-							val = trigger.data(trigger.data('copy-attribute'));
-						} else {
-							val = element.val();
-						}
-						return val;
-					}
-				});
+				elements = key;
+				container = '';
 			}
 			return new ClipboardJS(elements, {
 				container: container,
@@ -296,8 +275,6 @@ App.Fields = {
 				}
 			});
 		},
-	},
-	Text: {
 		Editor: class {
 			constructor(parentElement, params) {
 				let elements;
@@ -496,9 +473,11 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			const modalParent = $(selectElement).closest('.modal');
-			if (modalParent.length) {
-				params.dropdownParent = modalParent;
+			if(typeof params.dropdownParent === 'undefined') {
+				const modalParent = $(selectElement).closest('.modal-body');
+				if (modalParent.length) {
+					params.dropdownParent = modalParent;
+				}
 			}
 			let data = selectElement.data();
 			if (data != null) {

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class=" UserColors">
+	<div class="tpl-Settings-Calendar-UsersColors UserColors">
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -8,13 +8,13 @@
 			</div>
 		</div>
 		<hr>
-		<div class="">
+		<div>
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
 					<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#calendarConfig"><strong>{\App\Language::translate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#workingDays"><strong>{\App\Language::translate('LBL_NOTWORKING_DAYS', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
-				<div class="tab-content layoutContent" style="padding-top: 10px;">
+				<div class="tab-content layoutContent pt-2">
 					<div class="tab-pane paddingTop20 active" id="calendarConfig">
 						<table class="table table-sm border listViewEntriesTable">
 							<tbody>
@@ -75,7 +75,7 @@
 							</div>
 						</form>
 					</div>
-					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}
+					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</div>
 			</div>
 		</div>

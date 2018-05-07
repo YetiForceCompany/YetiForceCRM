@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Vtiger-CustomRecordNumbering">
 		<form id="EditView" method="POST">
 			<div class="widget_header row">
 				<div class="col-12">
@@ -33,7 +33,7 @@
 								</th>
 								<th width="70%" class="{$WIDTHTYPE}" style="border-left: none">
 									<span class="float-right">
-										<button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><b>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
+										<button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><strong><span 														class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</strong></button>
 									</span>
 								</th>
 							</tr>
@@ -132,8 +132,9 @@
 			<div class="row">
 				<div class="col-md-12 float-right">
 					<div class="float-right">
-						<button class="btn btn-success saveButton" type="submit" disabled="disabled"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success saveButton" type="submit" disabled="disabled"><strong><span 										class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+							<span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>

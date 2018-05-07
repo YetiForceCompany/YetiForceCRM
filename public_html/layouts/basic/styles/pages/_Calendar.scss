@@ -5,6 +5,9 @@
 	margin-right: -20px;
 	margin-left: -25px;
   }
+  &.js-sitebar--active {
+    @extend .w-75, .pr-3;
+  }
 }
 .o-calendar-container {
   @extend .pt-2;

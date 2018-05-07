@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<div class="tpl-Settings-CustomView-IndexContents">
 	<input id="js-add-filter-url" type="hidden" data-js="value" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}" />
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-sm listViewEntriesTable">
@@ -84,14 +85,17 @@
 						</td>
 						<td>{\App\Fields\Owner::getLabel($item['userid'])}</td>
 						<td>
-							<button class="btn btn-primary btn-sm js-update" data-js="click" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->getUrlToEdit($item['entitytype'],$key)}">{\App\Language::translate('Edit',$QUALIFIED_MODULE)}</button>
+							<button class="btn btn-primary btn-sm js-update mr-1" data-js="click" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->getUrlToEdit($item['entitytype'],$key)}">
+								<span class="fa fa-edit u-mr-5px"></span>{\App\Language::translate('Edit',$QUALIFIED_MODULE)}</button>
 							{if $item['presence'] eq 1}
-								<button class="btn btn-danger btn-sm mr-2 js-delete-filter" data-js="click" data-cvid="{$key}">{\App\Language::translate('Delete',$QUALIFIED_MODULE)}</button>
+								<button class="btn btn-danger btn-sm mr-2 js-delete-filter" data-js="click" data-cvid="{$key}">
+									<span class="fa fa-trash u-mr-5px"></span>{\App\Language::translate('Delete',$QUALIFIED_MODULE)}</button>
 							{/if}
 						</td>
 					</tr>
 				{/foreach}
 			</tbody>
 		</table>
+	</div>
 	</div>
 {/strip}

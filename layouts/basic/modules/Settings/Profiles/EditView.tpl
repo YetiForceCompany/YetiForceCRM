@@ -10,15 +10,16 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Profiles-EditView">
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
 			<div class="widget_header row"> 
 				<div class="col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div> 
 				<div class="col-md-4 text-right mt-1">
-					<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
-					<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
+					<button class="btn btn-success" type="submit"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
+					<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="button" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">
+						<span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 				</div> 
 			</div>
 			<input type="hidden" name="module" value="Profiles" />

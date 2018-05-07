@@ -14,11 +14,10 @@
         <div class="btn-group">
             <a class="btn dropdown-toggle btn-light addButton" data-toggle="dropdown" href="#">
                 <strong>{\App\Language::translate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
-                <span><img class="imageElement" src="{\App\Layout::getImagePath('downArrowWhite.png')}" /></span>
             </a>
             <ul class="dropdown-menu">
                 {foreach from=$TASK_TYPES item=TASK_TYPE}
-                    <li><a class="u-cursor-pointer" data-url="{$TASK_TYPE->getEditViewUrl()}&for_workflow={$RECORD}">{\App\Language::translate($TASK_TYPE->get('label'),$QUALIFIED_MODULE)}</a></li>
+                    <li><a class="u-cursor-pointer dropdown-item" data-url="{$TASK_TYPE->getEditViewUrl()}&for_workflow={$RECORD}">{\App\Language::translate($TASK_TYPE->get('label'),$QUALIFIED_MODULE)}</a></li>
 					{/foreach}
             </ul>
         </div>

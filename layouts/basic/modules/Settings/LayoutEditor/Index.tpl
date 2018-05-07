@@ -97,69 +97,56 @@
 									</div>
 									<div class="col-md-6 col-sm-6 ml-0">
 										<div class="float-right btn-toolbar blockActions m-1">
-											{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
-												<div class="btn-group">
-													<button class="btn btn-success addCustomField" type="button">
-														<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
-													</button>
-												</div>
-											{/if}
-											{if $BLOCK_MODEL->isActionsAllowed()}
-												<div class="btn-group ml-1">
-													<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-														<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
-														<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu float-right">
-														<li class="blockVisibility"
-															data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}"
-															data-block-id="{$BLOCK_MODEL->get('id')}">
-															<a class="dropdown-item" href="javascript:void(0)">
-																<span class="fas fa-check {if $BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
-																{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
-															</a>
-														</li>
-														<li class="inActiveFields">
-															<a class="dropdown-item"
-															   href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
-														</li>
-														{if $BLOCK_MODEL->isCustomized()}
-															<li class="deleteCustomBlock">
-																<a class="dropdown-item"
-																   href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
-															</li>
-														{/if}
-													</ul>
-												</div>
-											{/if}
-										</div>
-									</div>
-								</div>
-								<div class="blockFieldsList blockFieldsSortable row m-0 p-1">
-									<ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}"
-										class="sortTableUl connectedSortable col-md-6">
-										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
-											{if $smarty.foreach.fieldlist.index % 2 eq 0}
-												<li>
-													<div class="opacity editFields ml-0 border1px"
-														 data-block-id="{$BLOCK_ID}"
-														 data-field-id="{$FIELD_MODEL->get('id')}"
-														 data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="row p-2">
-															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-2 col-sm-2">&nbsp;
-																{if $FIELD_MODEL->isEditable()}
-																	<a>
-																		<img src="{\App\Layout::getImagePath('drag.png')}"
-																			 border="0"
-																			 alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
-																	</a>
-																{/if}
-															</div>
-															<div class="col-10 col-sm-10 ml-0 fieldContainer"
-																 style="word-wrap: break-word;">
-                                                                <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	&nbsp;[{$FIELD_MODEL->getName()}]
+                                            {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
+                                                <div class="btn-group">
+                                                    <button class="btn btn-success addCustomField" type="button">
+														<span class="fa fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+                                                    </button>
+                                                </div>
+                                            {/if}
+                                            {if $BLOCK_MODEL->isActionsAllowed()}
+                                                <div class="btn-group ml-1"><button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                                        <strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu float-right">
+                                                        <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
+                                                            <a class="dropdown-item" href="javascript:void(0)">
+                                                                <span class="fas fa-check {if $BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
+                                                                {App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+                                                            </a>
+                                                        </li>
+                                                        <li class="inActiveFields">
+                                                            <a class="dropdown-item" href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
+                                                        </li>
+                                                        {if $BLOCK_MODEL->isCustomized()}
+                                                            <li class="deleteCustomBlock">
+                                                                <a class="dropdown-item" href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
+                                                            </li>
+                                                        {/if}
+                                                    </ul>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="blockFieldsList blockFieldsSortable row m-0 p-1">
+                                    <ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}" class="sortTableUl connectedSortable col-md-6">
+                                        {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
+                                            {if $smarty.foreach.fieldlist.index % 2 eq 0}
+                                                <li>
+                                                    <div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
+                                                        <div class="row p-2">
+                                                            {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
+                                                            <div class="col-2 col-sm-2">&nbsp;
+                                                                {if $FIELD_MODEL->isEditable()}
+                                                                    <a>
+                                                                        <img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+                                                                    </a>
+                                                                {/if}
+                                                            </div>
+                                                            <div class="col-10 col-sm-10 ml-0 fieldContainer" style="word-wrap: break-word;">
+                                                                <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
