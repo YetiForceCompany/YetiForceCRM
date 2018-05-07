@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
     {assign var='count' value=0}
-	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header bodyHeader{if $LEFTPANELHIDE} menuOpen{/if}" data-js="height">
+	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header bodyHeader" data-js="height">
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">

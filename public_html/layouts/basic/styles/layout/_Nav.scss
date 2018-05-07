@@ -50,10 +50,14 @@
 			vertical-align: text-top;
 			padding: 8px 30px 8px 55px;
 			word-wrap: break-word;
-			font-size: 16px;
+			font-size: 15px;
+			line-height: 1.2;
 			background: $y-menu-background;
-			&:hover {
+			&:hover, &:focus {
 				background: lighten($y-menu-background, 5%);
+				.menuName {
+					white-space: normal;
+				}
 			}
 			&.active {
 				background: darken($y-menu-background, 10%);
@@ -62,9 +66,13 @@
 				padding: 8px 30px 8px 12px;
 			}
 			.menuName {
-				top: -1px;
+				padding: 2px 0;
 				position: relative;
 				word-wrap: break-word;
+				white-space: nowrap;
+    			overflow: hidden;
+    			text-overflow: ellipsis;
+    			text-rendering: optimizeLegibility;
 			}
 			&.hasIcon img {
 				height: 20px;
@@ -106,10 +114,10 @@
 				font-size: 14px;
 				color: $y-menu-background;
 				background: $y-menu-font-color;
-				&:hover {
+				&:hover, &:focus {
 					background: lighten($y-menu-font-color, 5%);
 				}
-			  &.active {
+			  	&.active {
 					background: darken($y-menu-font-color, 5%);
 				}
 				&.hasIcon {

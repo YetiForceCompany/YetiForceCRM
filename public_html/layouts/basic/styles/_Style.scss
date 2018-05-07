@@ -2654,13 +2654,6 @@ html, body, .baseContainer {
   .grid1x7 {
 	width: 14.28%;
   }
-  .basePanel.menuOpen {
-	left: 180px;
-	width: calc(100% - 180px);
-  }
-  .bodyHeader.menuOpen {
-	left: 230px;
-  }
   .quickCreateContent {
 	.fieldsLabelValue::before {
 	  content: "";
@@ -2685,9 +2678,6 @@ html, body, .baseContainer {
   }
   .rightHeaderBtnMenu {
 	display: none;
-  }
-  .bodyHeader {
-	left: 50px;
   }
   .commonActionsContainer .row {
 	.col-md-5 {
@@ -2776,9 +2766,6 @@ html, body, .baseContainer {
 
   .rightHeaderBtnMenu {
 	display: block;
-  }
-  .bodyHeader {
-	left: 0px;
   }
   .commonActionsContainer .row {
 	.col-md-5 {

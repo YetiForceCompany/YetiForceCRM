@@ -18,6 +18,6 @@
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
     <div class="tpl-List-Field-Date picklistSearchField">
-        <input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range" data-fieldinfo='{$FIELD_INFO|escape}'/>
+        <input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}" type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range" data-fieldinfo='{$FIELD_INFO|escape}'/>
     </div>
 {/strip}

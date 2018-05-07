@@ -21,7 +21,7 @@
 		</div>
 	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
-		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts marginBottom10px" role="alert">
+		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts w-100 mt-1 mb-2 mx-3" role="alert">
 			{if $SERVICE_CONTRACTS}
 				<ul class="nav nav-pills float-right relative top10" role="tablist">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
