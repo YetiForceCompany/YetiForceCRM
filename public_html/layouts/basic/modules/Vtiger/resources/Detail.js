@@ -1611,7 +1611,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				thisInstance.loadContents(url, urlAttributes).then(function (data) {
 					thisInstance.deSelectAllrelatedTabs();
 					thisInstance.markTabAsSelected(tabElement);
-					app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
 					element.progressIndicator({'mode': 'hide'});
 					thisInstance.registerHelpInfo();

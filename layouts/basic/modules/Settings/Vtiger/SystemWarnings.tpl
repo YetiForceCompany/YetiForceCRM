@@ -1,17 +1,29 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="warningsIndexPage">
+	<div class="tpl-SystemWarnings warningsIndexPage">
 		<div class="row">
-			<div class="col-md-9 marginRight10">
-				<div class="marginRight10" id="warningsContent">
+			<div class="col-md-9 mr-2">
+				<div class="mr-2" id="warningsContent">
 
 				</div>
 			</div>
 			<div class="col-md-3 siteBarRight">
 				<h4>{\App\Language::translate('LBL_WARNINGS_FOLDERS', $MODULE)}</h4>
 				<hr>
-				<div class="text-center marginBottom5">
-					<input class="switchBtn" type="checkbox" title="{\App\Language::translate('LBL_WARNINGS_SWITCH',$MODULE)}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_ACTIVE',$MODULE)}" data-off-text="{\App\Language::translate('LBL_ALL')}">
+				<div class="text-center mb-2">
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-outline-primary">
+							<input class="js-switch--warnings" type="radio" name="options" id="option1" data-js="change"
+								   autocomplete="off"
+							> {\App\Language::translate('LBL_ACTIVE',$MODULE)}
+						</label>
+						<label class="btn btn-outline-primary active">
+							<input class="js-switch--warnings" type="radio" name="options" id="option2" data-js="change"
+								   autocomplete="off" checked
+							> {\App\Language::translate('LBL_ALL')}
+						</label>
+					</div>
+
 				</div>
 				<hr>
 				<input type="hidden" id="treeValues" value="{\App\Purifier::encodeHtml($FOLDERS)}">

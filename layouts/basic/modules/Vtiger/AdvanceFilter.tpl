@@ -25,7 +25,7 @@
 			{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {\App\Language::translate($ADVANCE_FILTER_OPTION, $MODULE)}|escape}
 		{/foreach}
 		<input type="hidden" name="advanceFilterOptions" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS)}' />
-		<div class="allConditionContainer conditionGroup contentsBackground well">
+		<div class="allConditionContainer mb-3 conditionGroup contentsBackground well">
 			<div class="header">
 				<span><strong>{\App\Language::translate('LBL_ALL_CONDITIONS',$MODULE)}</strong></span>
 				&nbsp;
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="anyConditionContainer conditionGroup contentsBackground well">
+		<div class="anyConditionContainer conditionGroup contentsBackground mb-3 well">
 			<div class="header">
 				<span><strong>{\App\Language::translate('LBL_ANY_CONDITIONS',$MODULE)}</strong></span>
 				&nbsp;

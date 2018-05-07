@@ -166,28 +166,6 @@ ul.ui-autocomplete {
 	@extend .u-text-ellipsis;
   }
 }
-//--- fullcalendar ---//
-
-.dashboardWidgetCalendar {
-  .fc-widget-content {
-    .fc-scroller.fc-day-grid-container {
-  	  height: 18.6rem !important;
-	}
-  }
-  .fc-day-grid {
-	.fc-row.fc-week {
-	  min-height: 3.1rem !important;
-	  height: 3.1rem !important;
-	}
-  }
-  .fc-head-container.fc-widget-header {
-	@extend .border-0;
-  }
-  .fc-body > tr > .fc-widget-content {
-	@extend .border-right-0;
-	@extend .border-left-0;
-  }
-}
 .cke_screen_reader_only {
   height: 0 !important;
 }

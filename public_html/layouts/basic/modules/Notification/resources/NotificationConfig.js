@@ -3,7 +3,6 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 	registerEventForModal: function (container) {
 		var thisInstance = this;
 		var table = app.registerDataTables(container.find('.modalDataTable'));
-		app.showBtnSwitch(container.find('.switchBtn'));
 		app.showPopoverElementView(container.find('.infoPopover'));
 		container.on('switchChange.bootstrapSwitch', '.sendNotificationsSwitch', function (e, state) {
 			if (state) {

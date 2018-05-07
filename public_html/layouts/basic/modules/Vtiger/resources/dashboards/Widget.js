@@ -1286,7 +1286,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
-		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
 		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
@@ -1375,10 +1374,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerWidgetSwitch: function registerWidgetSwitch() {
 		var thisInstance = this;
-		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .js-calcuations-switch');
+		var switchButtons = this.getContainer().find('.dashboardWidgetHeader .js-switch--calculations');
 		thisInstance.setUrlSwitch(switchButtons);
-		switchButtons.on('switchChange.bootstrapSwitch', function (e, state) {
-			var currentElement = jQuery(e.currentTarget);
+		switchButtons.on('change', (e) => {
+			var currentElement = $(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
 			thisInstance.setUrlSwitch(currentElement).then(function (data) {
@@ -1396,16 +1395,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
 			var url = drefresh.data('url');
 			var urlparams = currentElement.data('urlparams');
-			if (urlparams != '') {
-				var onval = currentElement.data('on-val');
-				var offval = currentElement.data('off-val');
-				url = url.replace('&' + urlparams + '=' + onval, '');
-				url = url.replace('&' + urlparams + '=' + offval, '');
-				url += '&' + urlparams + '=';
-				if (currentElement.prop('checked'))
-					url += onval;
-				else
-					url += offval;
+			if (urlparams !== '') {
+				var switchUrl = currentElement.data('url-value');
+				url = url.replace('&' + urlparams + '=' + switchUrl, '');
+				url += '&' + urlparams + '=' + switchUrl;
 				drefresh.data('url', url);
 				aDeferred.resolve(true);
 			} else {
@@ -2112,14 +2105,14 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			};
 			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
 		});
-		var switchBtn = container.find('.switchBtn');
-		app.showBtnSwitch(switchBtn);
-		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
-			if (state)
+		var switchBtn = container.find('.js-switch--calendar');
+		switchBtn.on('change', (e) => {
+			const currentTarget = $(e.currentTarget);
+			if (typeof currentTarget.data('on-text') !== 'undefined')
 				container.find('.widgetFilterSwitch').val('current');
-			else
+			else if (typeof currentTarget.data('off-text') !== 'undefined')
 				container.find('.widgetFilterSwitch').val('history');
-			thisInstance.refreshWidget();
+			this.refreshWidget();
 		})
 	},
 	loadCalendarData: function (allEvents) {

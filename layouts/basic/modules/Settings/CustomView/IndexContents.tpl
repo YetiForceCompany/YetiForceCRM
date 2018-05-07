@@ -28,16 +28,56 @@
 							<td>{$item['viewname']}</td>
 						{/if}
 						<td>
-							<input class="switchBtn js-update-field" data-js="click" type="checkbox" name="setdefault" {if $item['setdefault']}checked disabled="disabled"{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES')}" data-off-text="{\App\Language::translate('LBL_NO')}" value="1">
-							&nbsp;&nbsp;
+							<div class="btn-group btn-group-toggle {if $item['setdefault']} u-disabled{/if}" data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary {if $item['setdefault']} active{/if}">
+									<input class="js-update-field" type="radio" name="setdefault"
+										   id="setdefault1" autocomplete="off" value="1"
+										   {if $item['setdefault']}checked{/if}
+									> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+								</label>
+								<label class="btn btn-sm btn-outline-primary {if !$item['setdefault']} active {/if}">
+									<input class="js-update-field" type="radio" name="setdefault"
+										   id="setdefault2" autocomplete="off" value="0"
+										   {if !$item['setdefault']}checked{/if}
+									> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+								</label>
+							</div>
 							<button type="button" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getUrlDefaultUsers($SOURCE_MODULE_ID,$key, $item['setdefault'])}"><span class="fas fa-user"></span></button>
 						</td>
 						<td>
-							<input class="switchBtn js-update-field" data-js="click" type="checkbox" name="privileges" {if $item['privileges']}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES')}" data-off-text="{\App\Language::translate('LBL_NO')}" value="1">
+							<div class="btn-group btn-group-toggle"
+								 data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary {if $item['privileges']} active{/if}">
+									<input class="js-switch js-update-field" type="radio" name="privileges"
+										   data-js="change"
+										   id="privileges1" autocomplete="off" value="1"
+										   {if $item['privileges']}checked{/if}
+									> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+								</label>
+								<label class="btn btn-sm btn-outline-primary {if !$item['privileges']} active {/if}">
+									<input class="js-switch js-update-field" type="radio" name="privileges"
+										   data-js="change"
+										   id="privileges2" autocomplete="off" value="0"
+										   {if !$item['privileges']}checked{/if}
+									> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+								</label>
+							</div>
 						</td>
 						<td>
-							<input class="switchBtn js-update-field" data-js="click" type="checkbox" name="featured" {if $item['featured']}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES')}" data-off-text="{\App\Language::translate('LBL_NO')}" value="1">
-							&nbsp;&nbsp;
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary {if $item['featured']} active{/if}">
+									<input class="js-update-field" data-js="change" type="radio" name="featured"
+										   id="featured1" autocomplete="off" value="1"
+										   {if $item['featured']}checked{/if}
+									> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+								</label>
+								<label class="btn btn-sm btn-outline-primary {if !$item['featured']} active {/if}">
+									<input class="js-update-field" data-js="change" type="radio" name="featured"
+										   id="featured2" autocomplete="off" value="0"
+										   {if !$item['featured']}checked{/if}
+									> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+								</label>
+							</div>
 							<button type="button" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="fas fa-user"></span></button>
 						</td>
 						<td>
