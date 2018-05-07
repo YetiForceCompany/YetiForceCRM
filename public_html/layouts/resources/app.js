@@ -1376,8 +1376,7 @@ app = {
 				}
 			});
 		});
-	}
-}
+	},
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
