@@ -128,7 +128,7 @@
 						</tbody>
 					</table>
 					<br />
-					<table class="table table-bordered table-sm themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable u-word-break-all">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
