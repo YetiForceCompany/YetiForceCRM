@@ -1185,7 +1185,7 @@ app = {
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
 		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
-			if (self.sidebarBtn.find($(e.target).length)) return;
+			if(self.sidebarBtn[0] == e.target) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if (self.sidebar.hasClass('js-expand')) {
@@ -1228,10 +1228,20 @@ app = {
 	},
 	sidebarKeyboard: function (e) {
 		let target = $(e.target);
-		if ((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT || e.which == this.keyboard.SPACE) && target.hasClass('collapsed'))
-			|| (target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.LEFT || e.which == this.keyboard.SPACE) && !target.hasClass('collapsed'))) {
-			target.click();
-			return false;
+		let toggler = $(e.target).closest('.js-submenu-toggler');
+		if(e.which == this.keyboard.LEFT) {
+			if(target.hasClass('js-submenu-toggler') && !target.hasClass('collapsed')) {
+				target.click(); return false;
+			} else {
+				let toggler = $(e.target).closest('.js-submenu').prev('.js-submenu-toggler');
+				if(toggler.length && !toggler.hasClass('collapsed')) {
+					toggler.click().focus(); return false;
+				}
+			}
+		} else if((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT) && target.hasClass('collapsed'))
+			|| (target.hasClass('js-submenu-toggler') && e.which == this.keyboard.SPACE)) {
+			target.click(); 
+      return false;
 		} else if (e.which == this.keyboard.UP) {
 			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus();
 			return false;
