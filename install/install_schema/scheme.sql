@@ -1310,7 +1310,7 @@ CREATE TABLE `u_yf_dashboard_type` (
 /*Table structure for table `u_yf_datasetregister` */
 
 CREATE TABLE `u_yf_datasetregister` (
-  `datasetregisterid` int(11) NOT NULL,
+  `datasetregisterid` int(10) NOT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `number` varchar(32) DEFAULT NULL,
   `datasetregister_status` varchar(255) DEFAULT '',
@@ -1332,7 +1332,7 @@ CREATE TABLE `u_yf_datasetregister` (
 /*Table structure for table `u_yf_datasetregistercf` */
 
 CREATE TABLE `u_yf_datasetregistercf` (
-  `datasetregisterid` int(11) NOT NULL,
+  `datasetregisterid` int(10) NOT NULL,
   PRIMARY KEY (`datasetregisterid`),
   CONSTRAINT `fk_1_u_yf_datasetregistercfdatasetregisterid` FOREIGN KEY (`datasetregisterid`) REFERENCES `u_yf_datasetregister` (`datasetregisterid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
