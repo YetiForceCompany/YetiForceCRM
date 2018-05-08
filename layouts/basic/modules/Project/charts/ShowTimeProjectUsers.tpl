@@ -13,6 +13,15 @@
 					if (jdata.datasets.length === 0 || jdata.datasets[0].data.length === 0) {
 						return false;
 					}
+					jdata.datasets[0].datalabels = {
+						font: {
+							weight: 'bold'
+						},
+						color: 'white',
+						backgroundColor:'rgba(0,0,0,0.2)',
+						anchor: 'end',
+						align: 'start',
+					};
 					new Chart($(this.chart).find("canvas")[0].getContext("2d"), {
 						type: 'bar',
 						data: jdata,
