@@ -9959,9 +9959,7 @@ border1px {
   text-overflow: ellipsis;
   white-space: nowrap; }
   .u-text-ellipsis:hover, ul.ui-autocomplete div.ui-menu-item-wrapper:hover {
-    background: #fff;
-    z-index: 1000000;
-    position: absolute; }
+    overflow: initial; }
 
 .u-word-break-all {
   word-break: break-all !important; }
@@ -10273,9 +10271,6 @@ header .headerLinksMails .select2-selection:hover {
   width: inherit !important; }
   .ui-autocomplete a.ui-menu-item-wrapper, .ui-autocomplete a.ui-menu-item-wrapper:hover {
     font-weight: inherit !important; }
-
-ul.ui-autocomplete {
-  max-width: 25rem !important; }
 
 .cke_screen_reader_only {
   height: 0 !important; }
