@@ -2607,7 +2607,7 @@ CREATE TABLE `u_yf_locationregister` (
   `description` text DEFAULT NULL,
   `comments` text DEFAULT NULL,
   PRIMARY KEY (`locationregisterid`),
-  KEY `u_yf_locationregister_parent_locationregisterid_idx` (`parent_locationregisterid`),
+  KEY `u_yf_locationregister_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_locationregisterlocationregisterid` FOREIGN KEY (`locationregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
