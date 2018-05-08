@@ -130,11 +130,4 @@ class LocationRegister extends Vtiger_CRMEntity
 	 * @var string
 	 */
 	public $default_sort_order = 'ASC';
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string Module name
-	 * @param string Event Type
-	 */
 }
