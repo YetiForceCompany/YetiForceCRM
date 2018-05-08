@@ -2,35 +2,33 @@
 {strip}
 {assign var='INVENTORY_BLOKS' value=$INVENTORY_MODEL->getFields(1,[],'Settings')}
 <div class="moduleBlocks inventoryBlock" data-block-id="0">
-	<div class="editFieldsTable block panel panel-default">
-		<div class="panel-heading">
-			<div class="btn-toolbar btn-group-xs float-right">
-				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
+	<div class="editFieldsTable block card card-default mb-2">
+		<div class="card-header py-1 px-2">
+			<div class="float-right">
+				<button class="btn btn-sm btn-success pr-1 saveFieldSequence invisible inventorySequence" type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-light addInventoryField" type="button">
-					<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+				<button class="btn btn-sm btn-success addInventoryField" type="button">
+					<strong><span class="fas fa-plus fa-fw"></span> {App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
-			<div class="panel-title" >
 				{App\Language::translate('LBL_HEADLINE', $QUALIFIED_MODULE)}
-			</div>
 		</div>
-		<div class="blockFieldsList panel-body">
-			<ul name="sortable1" class="connectedSortable list-unstyled">
+		<div class="blockFieldsList card-body">
+			<ul name="sortable1" class="connectedSortable m-0 list-unstyled">
 				{foreach item=FIELD_MODEL key=NAME from=$INVENTORY_BLOKS[0]}
 					<li>
-						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
+						<div class="opacity editFields border mb-1 u-cursor-grab"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
-								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+								<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
-							<span class="btn-group float-right actions">
-								<a href="#" class="editInventoryField">
-									<span class="fas fa-edit alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+							<div class="float-right actions">
+								<a href="#" class="editInventoryField mr-1">
+									<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
-							</span>
+								<a class="deleteInventoryField mr-1" href="#"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt"></span></a>
+							</div>
 						</div>
 					</li>
 				{/foreach}
@@ -39,34 +37,32 @@
 	</div>
 </div>
 <div class="moduleBlocks inventoryBlock" data-block-id="1">
-	<div class="editFieldsTable block panel panel-default">
-		<div class="panel-heading">
-			<div class="btn-toolbar btn-group-xs float-right">
-				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
+	<div class="editFieldsTable block card card-default mb-2">
+		<div class="card-header py-1 px-2">
+			<div class="float-right">
+				<button class="btn btn-sm btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-light addInventoryField" type="button">
-					<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+				<button class="btn btn-sm btn-success addInventoryField" type="button">
+					<strong><span class="fas fa-plus fa-fw"></span>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
-			<div class="panel-title" >
 				{App\Language::translate('LBL_BASIC_VERSE', $QUALIFIED_MODULE)}
-			</div>
 		</div>
-		<div class="blockFieldsList panel-body">
-			<ul name="sortable1" class="connectedSortable list-unstyled">
+		<div class="blockFieldsList card-body">
+			<ul name="sortable1" class="connectedSortable m-0 list-unstyled">
 				{foreach item=FIELD_MODEL key=NAME from=$INVENTORY_BLOKS[1]}
 					<li>
-						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
+						<div class="opacity editFields border mb-1"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
-								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+								<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group float-right actions">
-								<a href="#" class="editInventoryField">
-									<span class="fas fa-edit alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+								<a href="#" class="editInventoryField mr-1">
+									<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
+								<a class="deleteInventoryField mr-1" href="#"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt"></span></a>
 							</span>
 						</div>
 					</li>
@@ -76,34 +72,32 @@
 	</div>
 </div>
 <div class="moduleBlocks inventoryBlock" data-block-id="2">
-	<div class="editFieldsTable block panel panel-default">
-		<div class="panel-heading">
-			<div class="btn-toolbar btn-group-xs float-right">
-				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
+	<div class="editFieldsTable block card card-default mb-2">
+		<div class="card-header py-1 px-2">
+			<div class="float-right">
+				<button class="btn btn-sm btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-light addInventoryField" type="button">
-					<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+				<button class="btn btn-sm btn-success addInventoryField" type="button">
+					<strong><span class="fas fa-plus fa-fw"></span>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
-			<div class="panel-title" >
 				{App\Language::translate('LBL_ADDITIONAL_VERSE', $QUALIFIED_MODULE)}
-			</div>
 		</div>
-		<div class="blockFieldsList panel-body">
-			<ul name="sortable1" class="connectedSortable list-unstyled">
+		<div class="blockFieldsList card-body">
+			<ul name="sortable1" class="connectedSortable m-0 list-unstyled">
 				{foreach item=FIELD_MODEL key=NAME from=$INVENTORY_BLOKS[2]}
 					<li>
-						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
+						<div class="opacity editFields border mb-1"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
-								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+								<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group float-right actions">
-								<a href="#" class="editInventoryField">
-									<span class="fas fa-edit alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+								<a href="#" class="editInventoryField mr-1">
+									<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
+								<a class="deleteInventoryField mr-1" href="#"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt"></span></a>
 							</span>
 						</div>
 					</li>
@@ -113,16 +107,16 @@
 	</div>
 </div>
 <li class="d-none newLiElement">
-	<div class="opacity editFields border1px" data-column="" data-id="" data-sequence="" data-name="">
+	<div class="opacity editFields border mb-1" data-column="" data-id="" data-sequence="" data-name="">
 		<a>
-			<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+			<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 		</a>&nbsp;&nbsp;
 		<span class="fieldLabel"></span>
 		<span class="btn-group float-right actions">
-			<a href="#" class="editInventoryField">
-				<span class="fas fa-edit alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+			<a href="#" class="editInventoryField mr-1">
+				<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 			</a>
-			<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
+			<a class="deleteInventoryField mr-1" href="#"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt"></span></a>
 		</span>
 	</div>
 </li>
