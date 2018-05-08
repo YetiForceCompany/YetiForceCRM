@@ -37,7 +37,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	chartData: [],
 	paramCache: false,
 	init: function init(container, reload, widgetClassName) {
-		this.setContainer(jQuery(container));
+		container = $(container);
+		this.setContainer(container);
 		this.registerWidgetPostLoadEvent(container);
 		if (!reload) {
 			this.registerWidgetPostRefreshEvent(container);
@@ -1194,7 +1195,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this;
 	},
 	isEmptyData: function isEmptyData() {
-		return this.getContainer().find('.noDataMsg').length > 0;
+		return this.getContainer().find('.widgetData').length === 0 || this.getContainer().find('.noDataMsg').length > 0;
 	},
 	getUserDateFormat: function getUserDateFormat() {
 		return jQuery('#userDateFormat').val();
