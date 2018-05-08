@@ -9,7 +9,7 @@
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
 				<button class="btn btn-sm btn-success addInventoryField" type="button">
-					<strong><span class="fas fa-plus fa-fw"></span> {App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+					<strong><span class="fas fa-plus fa-fw"></span>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
 				{App\Language::translate('LBL_HEADLINE', $QUALIFIED_MODULE)}
