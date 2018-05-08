@@ -25,27 +25,24 @@
 			   data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
 
 		   {if $FIELD_NAME eq 'password' && ($VIEW eq 'Edit'  || $VIEW eq 'QuickCreateAjax')} 
-			   &nbsp;
 			   {if $RECORD->getId() neq ''}
-				   <button class="btn btn-warning btn-sm" 
+				   <button class="btn btn-warning btn-sm ml-1" 
 						   onclick="showPassword('{$RECORD->getId()}');
 								   return false;" id="show-btn">
 					   {\App\Language::translate('LBL_ShowPassword', $MODULE)}
 				   </button>
-				   &nbsp;
 				   {* button for copying password to clipboard *}
-				   <button type="button" class="btn btn-success btn-sm d-none" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
+				   <button type="button" class="btn btn-success btn-sm d-none ml-1" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
 					   <span class="fas fa-download"></span>
 				   </button>
 			   {/if}
-			   <p>
 				   {if $FIELD_VALUE eq ''}
 				   <div id="passwordDescription">{\App\Language::translate('Enter the password', $MODULE)}</div>
 			   {else}
 				   <div id="passwordDescription">{\App\Language::translate('Password is hidden', $MODULE)}</div>
 			   {/if}
-			   <div id="passwordStrength" class="strength0 col-12"></div>
-		   </p>
+			   <div class="strength0 col-12" id="passwordStrength"></div>
+			   <br>
 	{/if}
 	</div>
 	{/strip}
