@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div class="tpl-Settings-Picklist-ModulePickListDetail">
     {if !empty($NO_PICKLIST_FIELDS) }
         <label style="padding-top: 40px;"> <b>
                 {\App\Language::translate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)} {\App\Language::translate('NO_PICKLIST_FIELDS',$QUALIFIED_NAME)}. &nbsp; 
@@ -22,7 +23,7 @@
 		<div class="row">
 			<label class="fieldLabel col-md-3"><strong>{\App\Language::translate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
 			<div class="col-md-4 fieldValue">
-				<select class="chzn-select form-control" id="modulePickList">
+				<select class="select2 form-control" id="modulePickList">
 					<optgroup>
 						{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
 							<option value="{$FIELD_MODEL->getId()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SELECTED_MODULE_NAME)}</option>
@@ -32,4 +33,5 @@
 			</div>
 		</div><br />
     {/if}
+	</div>
 {/strip}	
