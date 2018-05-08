@@ -161,6 +161,7 @@ header {
 }
 //-------- jQuery UI --------//
 .ui-autocomplete {
+  padding: 0 !important;
   width: inherit !important;
   a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
 	font-weight: inherit !important;
