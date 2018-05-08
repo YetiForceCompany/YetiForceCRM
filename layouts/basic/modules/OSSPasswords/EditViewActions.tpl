@@ -1,15 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="formActionsPanel">
-		<button class="btn btn-success js-generatePass" name="save" type="button">
+		<button class="btn btn-success js-generatePass mr-1" name="save" type="button">
+			<span class="fas fa-key mr-1"></span>
 			<strong>{\App\Language::translate($GENERATEPASS, $MODULE)}</strong>
-		</button>&nbsp;
+		</button>
 		<button class="btn btn-success" type="submit">
-			<span class="fas fa-check"></span>&nbsp;&nbsp;
+			<span class="fas fa-check mr-1"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
-		</button>&nbsp;&nbsp;
-		<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-			<span class="fas fa-times"></span>&nbsp;&nbsp;
+		</button>
+		<button class="cancelLink btn btn-danger" type="reset" onclick="javascript:window.history.back();">
+			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
 		</button>
 		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
