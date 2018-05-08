@@ -1063,6 +1063,7 @@ CREATE TABLE `u_yf_activityregister` (
   `description` text DEFAULT NULL,
   `comments` text DEFAULT NULL,
   `activity_type` text DEFAULT NULL,
+  `parent_activityregisterid` int(10) DEFAULT NULL,
   PRIMARY KEY (`activityregisterid`),
   KEY `u_yf_activityregister_activityregisterid_idx` (`activityregisterid`),
   KEY `u_yf_activityregister_datasetregisterid_idx` (`datasetregisterid`),
@@ -1351,6 +1352,7 @@ CREATE TABLE `u_yf_datasetregister` (
   `removed_from_register` date DEFAULT NULL,
   `desciption` text DEFAULT NULL,
   `comments` text DEFAULT NULL,
+  `parent_datasetregisterid` int(10) NOT NULL,
   PRIMARY KEY (`datasetregisterid`),
   KEY `u_yf_datasetregister_datasetregisterid_idx` (`datasetregisterid`),
   CONSTRAINT `fk_1_u_yf_datasetregisterdatasetregisterid` FOREIGN KEY (`datasetregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -2580,6 +2582,41 @@ CREATE TABLE `u_yf_knowledgebasecf` (
   `knowledgebaseid` int(10) NOT NULL,
   PRIMARY KEY (`knowledgebaseid`),
   CONSTRAINT `fk_1_vtiger_knowledgebasecf` FOREIGN KEY (`knowledgebaseid`) REFERENCES `u_yf_knowledgebase` (`knowledgebaseid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_locationregister` */
+
+CREATE TABLE `u_yf_locationregister` (
+  `locationregisterid` int(10) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `parent_locationregisterid` int(11) unsigned DEFAULT 0,
+  `locationregister_status` varchar(255) DEFAULT '',
+  `security_type` text DEFAULT NULL,
+  `building_number` varchar(10) DEFAULT '',
+  `street` varchar(255) DEFAULT '',
+  `district` varchar(255) DEFAULT '',
+  `township` varchar(255) DEFAULT '',
+  `state` varchar(255) DEFAULT '',
+  `pobox` varchar(100) DEFAULT '',
+  `local_number` varchar(20) DEFAULT '',
+  `post_code` varchar(20) DEFAULT '',
+  `city` varchar(150) DEFAULT '',
+  `county` varchar(150) DEFAULT '',
+  `country` varchar(150) DEFAULT '',
+  `description` text DEFAULT NULL,
+  `comments` text DEFAULT NULL,
+  PRIMARY KEY (`locationregisterid`),
+  KEY `u_yf_locationregister_parent_locationregisterid_idx` (`parent_locationregisterid`),
+  CONSTRAINT `fk_1_u_yf_locationregisterlocationregisterid` FOREIGN KEY (`locationregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_locationregistercf` */
+
+CREATE TABLE `u_yf_locationregistercf` (
+  `locationregisterid` int(10) NOT NULL,
+  PRIMARY KEY (`locationregisterid`),
+  CONSTRAINT `fk_1_u_yf_locationregistercflocationregisterid` FOREIGN KEY (`locationregisterid`) REFERENCES `u_yf_locationregister` (`locationregisterid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_mail_address_book` */
@@ -3953,7 +3990,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=425 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -4526,7 +4563,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   KEY `customview_userid_idx` (`userid`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
@@ -4886,7 +4923,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5270,7 +5307,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2710 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2732 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6237,6 +6274,16 @@ CREATE TABLE `vtiger_links` (
   KEY `linktype` (`linktype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=317 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_locationregister_status` */
+
+CREATE TABLE `vtiger_locationregister_status` (
+  `locationregister_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `locationregister_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`locationregister_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_loginhistory` */
 
 CREATE TABLE `vtiger_loginhistory` (
@@ -6400,7 +6447,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -7764,7 +7811,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=553 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=554 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -8703,7 +8750,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 

@@ -2,8 +2,6 @@
   "php": {
     "ActivityRegister": "Rejestr czynno\u015bci",
     "SINGLE_ActivityRegister": "Rejestr czynno\u015bci",
-    "LBL_ACTIVITY_REGISTER": "Rejestr czynno\u015bci",
-    "LBL_CUSTOM_INFORMATION": "Custom Information",
     "LBL_BASIC_INFORMATION": "Informacje podstawowe",
     "FL_SUBJECT": "Temat",
     "FL_PARENT_ACTIVITY": "Czynno\u015b\u0107 nadrz\u0119dna",
