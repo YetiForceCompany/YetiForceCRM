@@ -37,6 +37,6 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$insertData[$column] = CurrencyField::convertToDBFormat($request->getByType($column . $i, 'NumberInUserFormat'), null, true);
+		$insertData[$column] = $request->getByType($column . $i, 'NumberInUserFormat');
 	}
 }
