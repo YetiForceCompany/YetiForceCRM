@@ -86,7 +86,20 @@ header {
 .select2-search__field {
   width: 100% !important;
 }
-//--- modal ---//
+.customFilterMainSpan {
+	width: 100%;
+	cursor: pointer;
+	.select2-container {
+		width: 95% !important;
+	}
+}
+.conditionRow .select2-container--bootstrap4 {
+	display: inline-block;
+	vertical-align: middle;
+	@extend .w-25;
+	@extend .mr-sm-2;
+}
+//-------- leaflet --------//
 .leaflet-popup-content {
   width: 62px;
 }
@@ -95,20 +108,9 @@ header {
 	margin-top: 11px;
   }
 }
-.conditionRow .select2-container--bootstrap4 {
-  display: inline-block;
-  vertical-align: middle;
-  @extend .w-25;
-  @extend .mr-sm-2;
-}
+
 //--- list ---//
-.customFilterMainSpan {
-  width: 100%;
-  cursor: pointer;
-  .select2-container {
-	width: 95% !important;
-  }
-}
+
 .openStreetMapModalBody {
   @extend %input-groupSelect2;
 }
@@ -118,7 +120,9 @@ header {
 .filterActionImgs {
   margin-top: 3px;
 }
-//--- dataTable ---//
+
+//-------- dataTable --------//
+
 .dataTables_wrapper {
   @extend .p-0;
   .col-sm-12, .row {
@@ -128,7 +132,9 @@ header {
 	margin: 0 !important;
   }
 }
-//--- daterangepicker ---//
+
+//-------- daterangepicker --------//
+
 .daterangepicker {
   &.show-calendar {
 	@extend .p-0;
@@ -153,7 +159,7 @@ header {
 	}
   }
 }
-//--- autocomplete ---//
+//-------- jQuery UI --------//
 .ui-autocomplete {
   width: inherit !important;
   a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
@@ -165,6 +171,32 @@ ul.ui-autocomplete {
 	@extend .u-text-ellipsis;
   }
 }
+
+//-------- ckeditor --------//
+
 .cke_screen_reader_only {
   height: 0 !important;
+}
+
+//-------- gridster--------//
+
+@include media-breakpoint-down(sm) {
+	.gridster {
+		> * {
+			padding: 0;
+			padding-right: 0;
+			width: 100% !important;
+		}
+		.gs-w {
+			padding-bottom: 10px;
+			list-style: none;
+			position: static !important;
+			float: left;
+			margin-bottom: 20px;
+		}
+		.gs-w[data-sizex] {
+			width: 100% !important;
+			left: 0;
+		}
+	}
 }
