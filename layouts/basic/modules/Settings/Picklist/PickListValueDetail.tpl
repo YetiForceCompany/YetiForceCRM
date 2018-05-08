@@ -10,14 +10,22 @@
 ********************************************************************************/
 -->*}
 {strip}
+<div class="tpl-Settings-Picklist-PicklistValueDetail">
 	{if $SELECTED_PICKLIST_FIELDMODEL}
-		<ul class="nav nav-tabs massEditTabs">
-			<li class="nav-item"><a class="nav-link active" href="#allValuesLayout" data-toggle="tab"><strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
-			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}<li class="nav-item" id="assignedToRoleTab"><a class="nav-link" href="#AssignedToRoleLayout" data-toggle="tab"><strong>{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>{/if}
+		<ul class="nav nav-tabs massEditTabs" role="tablist">
+			<li class="nav-item"><a class="nav-link active" href="#allValuesLayout" data-toggle="tab" role="tab"
+									aria-controls="{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}"
+									aria-selected="true">
+					<strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
+			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}<li class="nav-item" id="assignedToRoleTab">
+				<a class="nav-link" href="#AssignedToRoleLayout" data-toggle="tab" role="tab"
+				   aria-controls="{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}"
+				   aria-selected="false">
+					<strong>{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a></li>{/if}
 		</ul>
 		<div class="tab-content layoutContent py-3 themeTableColor overflowVisible">
 			<br />
-			<div class="tab-pane active" id="allValuesLayout">	
+			<div class="tab-pane fade show active" id="allValuesLayout" role="tabpanel" aria-labelledby="{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}-tab">
 				<div class="row">
 					<div class="col-md-5 ml-0 u-text-ellipsis">
 						<table id="pickListValuesTable" class="table table-bordered">
@@ -58,7 +66,7 @@
 				</div>
 			</div>
 			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-				<div class="tab-pane" id="AssignedToRoleLayout">
+				<div class="tab-pane fade" id="AssignedToRoleLayout" role="tabpanel" aria-labelledby="{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}-tab">
 					<div class="row">
 						<div class="col-md-2 textAlignRight">{\App\Language::translate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
 						<div class="col-md-4">
@@ -75,4 +83,5 @@
 			{/if}
 		</div>	
 	{/if}
+</div>
 {/strip}
