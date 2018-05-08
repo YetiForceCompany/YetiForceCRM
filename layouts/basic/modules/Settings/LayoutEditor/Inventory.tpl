@@ -1,4 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{strip}
 {assign var='INVENTORY_BLOKS' value=$INVENTORY_MODEL->getFields(1,[],'Settings')}
 <div class="moduleBlocks inventoryBlock" data-block-id="0">
 	<div class="editFieldsTable block panel panel-default">
@@ -125,3 +126,4 @@
 		</span>
 	</div>
 </li>
+{/strip}
