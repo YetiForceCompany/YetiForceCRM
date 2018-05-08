@@ -1,5 +1,5 @@
 {strip}
-	<label class="col-sm-3 text-md-right u-text-small-bold pt-1">
+	<label class="col-sm-3 col-md-2 text-md-right u-text-small-bold pt-1">
 		<span class="copyAddressLabel col-form-label mr-2 mb-1">{\App\Language::translate('COPY_ADRESS_FROM')}</span>
 	</label>
 		<button class="btn btn-sm btn-primary copyAddressFromAccount mr-2 mb-1 mb-sm-0" type="button"
