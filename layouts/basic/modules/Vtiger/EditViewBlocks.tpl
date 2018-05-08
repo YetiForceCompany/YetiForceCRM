@@ -89,7 +89,7 @@
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="adressAction row py-2">
-									<div class="{if !$APIADDRESFIELD} text-center{/if} col-md-12 d-flex flex-wrap flex-sm-nowrap">
+									<div class="{if !$APIADDRESFIELD} text-center{/if} col-md-12 d-flex d-flex justify-content-center flex-wrap flex-sm-nowrap">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
 								</div>
