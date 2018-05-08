@@ -283,7 +283,7 @@
 					{include file=\App\Layout::getTemplatePath('InactiveFieldModal.tpl', $QUALIFIED_MODULE)}
 				</div>
 				{if $IS_INVENTORY}
-					<div class="tab-pane" id="inventoryViewLayout" role="tabpanel"
+					<div class="tab-pane mt-0" id="inventoryViewLayout" role="tabpanel"
 						 aria-labelledby="inventoryViewLayout">
 						{include file=\App\Layout::getTemplatePath('Inventory.tpl', $QUALIFIED_MODULE)}
 					</div>
