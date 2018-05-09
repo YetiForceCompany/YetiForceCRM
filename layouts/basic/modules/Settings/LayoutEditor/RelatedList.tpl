@@ -20,7 +20,7 @@
 				<div class="col-md-5">
 					<div class="btn-toolbar justify-content-end form-row">
 						{if AppConfig::developer('CHANGE_RELATIONS')}
-							<button class="btn btn-primary float-right addRelation" type="button">
+							<button class="btn btn-primary float-right addRelation mr-2" type="button">
 								<span class="fas fa-plus"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
 							</button>
