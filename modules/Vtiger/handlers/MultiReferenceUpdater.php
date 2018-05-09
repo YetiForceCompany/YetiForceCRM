@@ -45,6 +45,40 @@ class Vtiger_MultiReferenceUpdater_Handler
 	}
 
 	/**
+	 * EntityAfterTransferLink handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterTransferLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
+		foreach ($fields as &$field) {
+			$fieldModel = new Vtiger_Field_Model();
+			$fieldModel->initialize($field);
+			$uitypeModel = $fieldModel->getUITypeModel();
+			$uitypeModel->reloadValue($params['sourceModule'], $params['sourceRecordId']);
+		}
+	}
+
+	/**
+	 * EntityAfterTransferUnLink handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterTransferUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
+		foreach ($fields as &$field) {
+			$fieldModel = new Vtiger_Field_Model();
+			$fieldModel->initialize($field);
+			$uitypeModel = $fieldModel->getUITypeModel();
+			$uitypeModel->reloadValue($params['sourceModule'], $params['sourceRecordId']);
+		}
+	}
+
+	/**
 	 * EntityAfterSave function.
 	 *
 	 * @param App\EventHandler $eventHandler

@@ -178,15 +178,6 @@ class Vtiger_ListView_Model extends \App\Base
 				];
 			}
 		}
-		if ($moduleModel->isPermitted('DuplicatesHandling')) {
-			$advancedLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_FIND_DUPLICATES',
-				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
-				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
-				'linkicon' => 'fas fa-clone'
-			];
-		}
 		if ($moduleModel->isPermitted('QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -300,6 +291,15 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_REVIEW_CHANGES',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
 				'linkicon' => 'fas fa-check-circle'
+			];
+		}
+		if (\App\Privilege::isPermitted($moduleModel->getName(), 'Merge')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MERGING',
+				'linkicon' => 'fa fa-code',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=MergeRecords"],
+				'linkclass' => 'js-mass-action',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

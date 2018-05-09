@@ -19,6 +19,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	const UNLINK = 5;
 	const CONVERTTOACCOUNT = 6;
 	const DISPLAYED = 7;
+	const TRANSFER_EDIT = 10;
+	const TRANSFER_DELETE = 11;
+	const TRANSFER_UNLINK = 12;
+	const TRANSFER_LINK = 13;
 
 	/**
 	 * Status labels.
@@ -35,6 +39,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		7 => 'LBL_DISPLAYED',
 		3 => 'LBL_ACTIVE',
 		8 => 'LBL_ARCHIVED',
+		10 => 'LBL_TRANSFER_EDIT',
+		11 => 'LBL_TRANSFER_DELETE',
+		12 => 'LBL_TRANSFER_UNLINK',
+		13 => 'LBL_TRANSFER_LINK',
 	];
 
 	/**
@@ -275,6 +283,16 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransfer()
+	{
+		return in_array($this->get('status'), [static::TRANSFER_DELETE, static::TRANSFER_EDIT, static::TRANSFER_LINK, static::TRANSFER_UNLINK]);
+	}
+
+	/**
 	 * Has changed state.
 	 *
 	 * @return bool
@@ -336,7 +354,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getFieldInstances()
 	{
 		$fieldInstances = [];
-		if ($this->isCreate() || $this->isUpdate()) {
+		if ($this->isCreate() || $this->isUpdate() || $this->get('status') === static::TRANSFER_EDIT) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_modtracker_detail')->where(['id' => $this->get('id')])->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row = array_map('html_entity_decode', $row);

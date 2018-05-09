@@ -1275,6 +1275,7 @@
     "LBL_FULLTEXT_BEGIN": "S\u0142owo zaczyna si\u0119 od",
     "LBL_FULLTEXT_WORD": "S\u0142owo",
     "LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
+    "LBL_MERGING": "\u0141\u0105czenie rekord\u00f3w",
     "_Base": "System"
   },
   "js": {

@@ -219,6 +219,62 @@
 											</div>
 										</div>
 									</div>
+								{else if $RECENT_ACTIVITY->isTransfer()}
+									<div class="row">
+										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
+										</span>
+										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
+											<div class="float-left imageContainer">
+												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
+												{if $IMAGE}
+													<img class="userImage" src="{$IMAGE['url']}">
+												{else}
+													<span class="fas fa-user userImage"></span>
+												{/if}
+											</div>
+											<div class="timeline-body small">
+												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
+												<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
+												<div>
+													{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
+														{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
+															<div class='font-x-small updateInfoContainer'>
+																<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
+																{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
+																	&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp;
+																	<strong class="moreContent">
+																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
+																		{if $FIELDMODEL->has('fullPreValue')}
+																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPreValue')}</span>
+																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																		{/if}
+																	</strong>
+																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+																	&nbsp;
+																	<strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong>
+																	( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
+																{else}
+																	&nbsp;{\App\Language::translate('LBL_CHANGED')}
+																{/if}
+																{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+																	&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;
+																	<strong class="moreContent">
+																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
+																		{if $FIELDMODEL->has('fullPostValue')}
+																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
+																			<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																		{/if}
+																	</strong>
+																{/if}
+															</div>
+														{/if}
+													{/foreach}
+												</div>
+											</div>
+										</div>
+									</div>
 								{/if}
 							</li>
 						{/if}

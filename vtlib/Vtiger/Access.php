@@ -114,7 +114,7 @@ class Access
 	 * Enable tool for module.
 	 *
 	 * @param ModuleBasic $moduleInstance
-	 * @param string Tool (action name) like Import, Export, Merge
+	 * @param string Tool (action name) like Import, Export
 	 * @param bool true to enable tool, false to disable
 	 * @param int (optional) profile id to use, false applies to all profile
 	 */

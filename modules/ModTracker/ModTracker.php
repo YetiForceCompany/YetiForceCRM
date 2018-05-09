@@ -24,6 +24,10 @@ class ModTracker
 	public static $DISPLAYED = 7;
 	public static $ARCHIVED = 8;
 	public static $DELETED = 9;
+	public static $TRANSFER_EDIT = 10;
+	public static $TRANSFER_DELETE = 11;
+	public static $TRANSFER_UNLINK = 12;
+	public static $TRANSFER_LINK = 13;
 
 	/**
 	 * Icon actions.
@@ -41,6 +45,10 @@ class ModTracker
 		7 => 'fas fa-th-list',
 		8 => 'fas fa-archive',
 		9 => 'fas fa-eraser',
+		10 => 'fas fa-edit',
+		11 => 'fas fa-trash-alt',
+		12 => 'fas fa-unlink',
+		13 => 'fas fa-link',
 	];
 
 	/**
@@ -74,6 +82,10 @@ class ModTracker
 			static::$DISPLAYED => 'LBL_AT_DISPLAY',
 			static::$ARCHIVED => 'LBL_AT_ARCHIVED',
 			static::$DELETED => 'LBL_AT_DELETE',
+			static::$TRANSFER_EDIT => 'LBL_AT_TRANSFER_EDIT',
+			static::$TRANSFER_DELETE => 'LBL_AT_TRANSFER_DELETE',
+			static::$TRANSFER_UNLINK => 'LBL_AT_TRANSFER_UNLINK',
+			static::$TRANSFER_LINK => 'LBL_AT_TRANSFER_LINK',
 		];
 	}
 
@@ -242,7 +254,7 @@ class ModTracker
 			'whodid' => $currentUser->getRealId(),
 			'changedon' => $currentTime,
 			'status' => $type,
-			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#',
+			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
@@ -290,6 +302,23 @@ class ModTracker
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
+		if (in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
+		}
+	}
+
+	/**
+	 * Transfer relation.
+	 *
+	 * @param string $sourceModule
+	 * @param int    $sourceId
+	 * @param string $targetModule
+	 * @param int    $targetId
+	 * @param int    $process
+	 */
+	public static function transferRelation(string $sourceModule, int $sourceId, string $targetModule, int $targetId, int $process)
+	{
+		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $process);
 		if (in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
 		}
