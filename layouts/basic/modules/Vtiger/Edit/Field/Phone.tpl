@@ -19,9 +19,9 @@
 		{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 		{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
 		{assign var="ACTIVE_EXTRA_FIELD" value=$FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
-		<div class="row">
+		<div class="form-row">
 			<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
-				<div class="input-group phoneGroup">
+				<div class="input-group phoneGroup mb-1">
 					<div class="input-group-append m-0 p-0">
 						<select name="{$FIELD_MODEL->getFieldName()}_country" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" required="required">
 							{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
