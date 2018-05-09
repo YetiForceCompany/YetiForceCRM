@@ -2,6 +2,8 @@
   "php": {
     "SQuotes": "Oferty",
     "SINGLE_SQuotes": "Oferta",
+	"SINGLE_Leads": "Lead",
+	"SINGLE_Vendors": "Dostawca",
     "LBL_SQUOTES_INFORMATION": "Informacje podstawowe",
     "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
     "LBL_DESCRIPTION_INFORMATION": "Informacje Opisowe",
