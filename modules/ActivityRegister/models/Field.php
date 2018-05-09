@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * ActivityRegister field model class.
  *
@@ -30,7 +28,6 @@ class ActivityRegister_Field_Model extends Vtiger_Field_Model
 				$validator = parent::getValidator();
 				break;
 		}
-
 		return $validator;
 	}
 }
