@@ -871,7 +871,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				$.each(array, function (index, arrayValue) {
 					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
 					if (param == 'aggregationType') {
-						value.closest('.js-panel__body').removeClass('d-none');
+						value.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
 						value.closest('.js-panel').addClass('js-active');
 					}
 				});
