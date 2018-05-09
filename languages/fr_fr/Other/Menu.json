@@ -21,7 +21,8 @@
     "MEN_SALE_PROCESSES": "Processus Vente",
     "MEN_LOGISTICS": "Logistique",
     "LBL_CHANGE_LOGIN_PASSWORD": "Changez le mot de passe de login",
-    "LBL_CHANGE": "Changez"
+    "LBL_CHANGE": "Changez",
+    "MEN_GDPR": "GDPR"
   },
   "js": []
 }
