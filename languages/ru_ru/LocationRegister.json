@@ -25,6 +25,10 @@
     "FL_POST_CODE": "Post code",
     "FL_CITY": "City",
     "FL_COUNTY": "County",
-    "FL_COUNTRY": "Country"
+    "FL_COUNTRY": "Country",
+    "LBL_DESCRIPTION": "Description",
+    "FL_DESCRIPTION": "Description",
+    "FL_COMMENTS": "Comments",
+    "LBL_COMMENTS": "Comments"
   }
 }
