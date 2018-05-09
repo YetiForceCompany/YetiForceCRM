@@ -16,8 +16,7 @@ $dataReader = (new \App\Db\Query())->select([
 			['>=', 'vtiger_activity.date_start', date('Y-m-d')],
 			['vtiger_activity.status' => 'PLL_PLANNED'],
 			['vtiger_activity_reminder.reminder_sent' => 0],
-		])->groupBy(['vtiger_activity.activityid'])
-			->createCommand()->query();
+		])->createCommand()->query();
 if ($dataReader->count() >= 1) {
 	//To fetch reminder frequency from cron tasks
 	$reminderFrequency = (new \App\Db\Query())->select(['frequency'])->from('vtiger_cron_task')->where(['name' => 'LBL_SEND_REMINDER'])->scalar();

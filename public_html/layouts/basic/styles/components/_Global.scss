@@ -195,5 +195,10 @@
 }
 //additinal btn colors
 .btn-default {
-	@include button-variant(#ddd, #ddd);
+  @include button-variant(#ddd, #ddd);
+}
+@include media-breakpoint-down(sm) {
+  .c-btn-block-sm {
+	width: 100% !important;
+  }
 }

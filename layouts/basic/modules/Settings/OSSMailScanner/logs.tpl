@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="d-flex justify-content-end">
-		<select class="u-w-auto form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
+		<select class="w-auto form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 			{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}
 				<option vlaue="{$i}">{$i}</option>
