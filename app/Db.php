@@ -21,14 +21,14 @@ class Db extends \yii\db\Connection
 	public $emulatePrepare = false;
 
 	/**
-	 * @var Table of connections with database
+	 * @var \App\Db Table of connections with database
 	 */
 	private static $cache = [];
 
 	/**
-	 * @var Configuration with database
+	 * @var array Configuration with database
 	 */
-	private static $config;
+	private static $config = [];
 
 	/**
 	 * @var bool Enable caching database instance
@@ -36,22 +36,22 @@ class Db extends \yii\db\Connection
 	public static $connectCache = false;
 
 	/**
-	 * @var Database Name
+	 * @var string Database Name
 	 */
 	public $dbName;
 
 	/**
-	 * @var Database section
+	 * @var string Database section
 	 */
 	public $dbType;
 
 	/**
-	 * @var Host database server
+	 * @var string Host database server
 	 */
 	public $host;
 
 	/**
-	 * @var Port database server
+	 * @var int Port database server
 	 */
 	public $port;
 
@@ -86,11 +86,11 @@ class Db extends \yii\db\Connection
 	public $schemaCache = false;
 
 	/**
-	 * Creates the \yii\db\Connection instance.
+	 * Creates the Db connection instance.
 	 *
 	 * @param string $type Name of database connection
 	 *
-	 * @return \yii\db\Connection instance
+	 * @return \App\Db
 	 */
 	public static function getInstance($type = 'base')
 	{
@@ -100,7 +100,6 @@ class Db extends \yii\db\Connection
 		$db = new self(static::getConfig($type));
 		$db->dbType = $type;
 		static::$cache[$type] = $db;
-
 		return $db;
 	}
 
@@ -119,7 +118,6 @@ class Db extends \yii\db\Connection
 		if (isset(static::$config[$type])) {
 			return static::$config[$type];
 		}
-
 		return static::$config['base'];
 	}
 
@@ -180,7 +178,6 @@ class Db extends \yii\db\Connection
 
 			return $pdo;
 		}
-
 		return parent::createPdoInstance();
 	}
 
@@ -208,7 +205,6 @@ class Db extends \yii\db\Connection
 				->max($columnName, $this);
 			++$id;
 		}
-
 		return $id;
 	}
 
@@ -266,7 +262,6 @@ class Db extends \yii\db\Connection
 				break;
 		}
 		Cache::save('getTableKeys', $tableName, $keys, Cache::LONG);
-
 		return $keys;
 	}
 
@@ -291,7 +286,6 @@ class Db extends \yii\db\Connection
 				break;
 		}
 		Cache::save('getPrimaryKey', $tableName, $key, Cache::LONG);
-
 		return $key;
 	}
 }

@@ -22,7 +22,7 @@
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active show">
 			<div class="form-row">
-				<div class="col-md-12">
+				<div class="col-md-4">
 					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
@@ -94,7 +94,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-4">
 					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
@@ -128,7 +128,7 @@
 						</tbody>
 					</table>
 					<br />
-					<table class="table table-bordered table-sm themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable u-word-break-all">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -162,7 +162,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-4">
 					<table class="table table-bordered table-sm themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">

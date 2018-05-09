@@ -1230,7 +1230,6 @@ $.Class("Vtiger_Edit_Js", {
 					).then(function (og, gm) {
 
 						var result = thisInstance.addressDataOG.concat(thisInstance.addressDataGM);
-
 						response(result.slice(0, apiData['max_num']));
 
 					}).fail(function (e) {
@@ -1247,6 +1246,7 @@ $.Class("Vtiger_Edit_Js", {
 							element.val(element.find('option[data-code="' + ui.item.components[key].toUpperCase() + '"]').val()).trigger('chosen:updated');
 						}
 					}
+					ui.item.value = ui.item.label;
 				}
 			}).data("ui-autocomplete")._renderItem = function (ul, item) {
 				return $("<li>")

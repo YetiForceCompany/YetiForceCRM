@@ -78,7 +78,7 @@
 							</div>
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<td>
+							<td class="pl-1">
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}

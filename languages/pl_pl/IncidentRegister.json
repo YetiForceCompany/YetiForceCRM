@@ -1,0 +1,33 @@
+{
+  "php": {
+    "IncidentRegister": "Rejestr incydent\u00f3w",
+    "SINGLE_IncidentRegister": "Rejestr incydent\u00f3w",
+    "LBL_BASIC_INFORMATION": "Podstawowe informacje",
+    "FL_NAME": "Nazwa",
+    "FL_LOCATION_REGISTER": "Rejestr lokalizacji",
+    "FL_DATASETREGISTER": "Rejestr zbior\u00f3w",
+    "PLL_DRAFT": "Wersja robocza",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Oczekuje na akceptacje",
+    "PLL_IN_REALIZATION": "W realizacji",
+    "PLL_COMPLETED": "Zako\u0144czona",
+    "PLL_CANCELLED": "Anulowana",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Rodzaj",
+    "PLL_INTERNAL": "Wewn\u0119trzny",
+    "PLL_EXTERNAL": "Zewn\u0119trzny",
+    "LBL_INCIDENT_DATES": "Daty incydentu",
+    "FL_INCIDENT_DATE": "Data wyst\u0105pienia incydentu",
+    "FL_INCIDENT_DISCOVERY": "Data odkrycia incydentu",
+    "FL_INCIDENT_REPORT_DATE": "Data zgłoszenia incydentu",
+    "FL_INCIDENT_PUBLICATION_DATE": "Data publikacji incydentu",
+    "FL_PEOPLE_NUMBER": "Liczba os\u00f3b",
+    "LBL_BREACH_CIRCUMSTANCES":"Okoliczno\u015bci naruszenia",
+    "FL_BREACH_CIRCUMSTANCES": "Okoliczno\u015bci naruszenia",
+    "LBL_NATURE_OF_BREACH":"Charakter naruszenia",
+    "FL_NATURE_OF_BREACH": "Charakter naruszenia",
+    "LBL_POSSIBLE_CONSEQUENCES": "Mo\u017cliwe konsekwencje",
+    "FL_POSSIBLE_CONSEQUENCES": "Mo\u017cliwe konsekwencje",
+    "LBL_SECURITY_MEASURES": "\u015arodki bezpiecze\u0144stwa zastosowane",
+    "FL_SECURITY_MEASURES": "\u015arodki bezpiecze\u0144stwa zastosowane"
+  }
+}
