@@ -17,7 +17,6 @@ class ActivityRegister_Field_Model extends Vtiger_Field_Model
 	{
 		$validator = [];
 		$fieldName = $this->getName();
-
 		switch ($fieldName) {
 			case 'end_date':
 				$funcName = ['name' => 'greaterThanDependentField',

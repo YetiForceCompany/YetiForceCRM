@@ -17,7 +17,6 @@ class DataSetRegister_Field_Model extends Vtiger_Field_Model
 	{
 		$validator = [];
 		$fieldName = $this->getName();
-
 		switch ($fieldName) {
 			case 'removed_from_register':
 				$funcName = ['name' => 'greaterThanDependentField',
