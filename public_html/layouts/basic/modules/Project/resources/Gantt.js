@@ -1,5 +1,5 @@
 $(document).ready(() => {
-	const ge = new GanttMaster();
+	const gantt = new GanttMaster();
 
 
 	// bind events to buttons
@@ -285,6 +285,6 @@ $(document).ready(() => {
 	}
 
 	const container = $("#j-gantt");
-	ge.init(container, window.ganttTemplateFunctions); // from GanttContents.tpl
-	ge.loadProject(getDemoProject());
+	gantt.init(container, window.ganttTemplateFunctions); // from GanttContents.tpl
+	gantt.loadProject(getDemoProject());
 });
