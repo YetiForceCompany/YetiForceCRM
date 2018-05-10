@@ -47,6 +47,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	 */
 	public function process(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->view('MergeRecords.tpl', $moduleName);
 	}
@@ -56,10 +57,9 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	 */
 	public function initializeContent(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
+		$count = 0;
 		$fields = [];
 		$recordModels = [];
-		$count = 0;
 		$queryGenerator = Vtiger_Mass_Action::getQuery($request);
 		if ($queryGenerator) {
 			$moduleModel = $queryGenerator->getModuleModel();
@@ -91,7 +91,9 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule($request);
-		$viewer->assign('BTN_SUCCESS', 'LBL_MERGE');
+		if (($var = $viewer->getTemplateVars('RECORD_MODELS')) && count($var) > 1) {
+			$viewer->assign('BTN_SUCCESS', 'LBL_MERGE');
+		}
 		$viewer->assign('BTN_DANGER', $this->dangerBtn);
 		$viewer->view('Modals/Footer.tpl', $moduleName);
 	}

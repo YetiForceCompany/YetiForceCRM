@@ -1,23 +1,25 @@
 <?php
 /**
- * Transfer records
- * @package YetiForce.App
+ * Transfer records.
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
 namespace App;
 
 /**
- * Transfer records class
+ * Transfer records class.
  */
 class RecordTransfer
 {
-
 	/**
-	 * Transfer
-	 * @param int $recordId
+	 * Transfer.
+	 *
+	 * @param int   $recordId
 	 * @param array $migrate
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \Throwable
 	 */
@@ -35,16 +37,17 @@ class RecordTransfer
 				$transaction->commit();
 			} catch (\Throwable $ex) {
 				$transaction->rollBack();
-				echo $ex->getMessage();
 				throw $ex;
 			}
 		}
 	}
 
 	/**
-	 * Update rekord data
+	 * Update rekord data.
+	 *
 	 * @param \Vtiger_Record_Model $recordModel
-	 * @param array $migrate [$recordId => [$source => $target, ...], ...]
+	 * @param array                $migrate     [$recordId => [$source => $target, ...], ...]
+	 *
 	 * @throws Exceptions\NoPermittedToRecord
 	 * @throws Exceptions\FieldException
 	 */
@@ -67,9 +70,11 @@ class RecordTransfer
 	}
 
 	/**
-	 * Transfer relations
-	 * @param int $sourceId
+	 * Transfer relations.
+	 *
+	 * @param int   $sourceId
 	 * @param array $records
+	 *
 	 * @throws Exceptions\NoPermittedToRecord
 	 */
 	public static function relations(int $sourceId, array $records)

@@ -164,6 +164,15 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-upload'
 			];
 		}
+		if ($moduleModel->isPermitted('Merge')) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEW',
+				'linklabel' => 'LBL_MERGING',
+				'linkicon' => 'fa fa-code',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=MergeRecords"],
+				'linkclass' => 'js-mass-action',
+			];
+		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
@@ -291,15 +300,6 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_REVIEW_CHANGES',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
 				'linkicon' => 'fas fa-check-circle'
-			];
-		}
-		if (\App\Privilege::isPermitted($moduleModel->getName(), 'Merge')) {
-			$massActionLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MERGING',
-				'linkicon' => 'fa fa-code',
-				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=MergeRecords"],
-				'linkclass' => 'js-mass-action',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

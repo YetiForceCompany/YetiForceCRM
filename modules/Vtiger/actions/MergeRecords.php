@@ -50,7 +50,7 @@ class Vtiger_MergeRecords_Action extends Vtiger_Mass_Action
 			}
 		}
 		try {
-			\App\RecordTransfer::transfer($primaryRecord, $migrate, \App\User::getCurrentUserId());
+			\App\RecordTransfer::transfer($primaryRecord, $migrate);
 			foreach (array_keys($migrate) as $recordId) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 				$recordModel->ext['modificationType'] = ModTracker_Record_Model::TRANSFER_DELETE;

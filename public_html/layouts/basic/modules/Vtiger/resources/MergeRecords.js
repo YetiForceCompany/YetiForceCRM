@@ -9,13 +9,14 @@ $.Class("Base_MergeRecords_JS", {}, {
 	 */
 	registerListEvents: function () {
 		this.container.find('[name="record"]').on('change', (e) => {
-			var id = $(e.currentTarget).val();
-			this.container.find('input[value=' + id + ']').trigger('click');
+			this.container.find('input[value=' + $(e.currentTarget).val() + ']').trigger('click');
 		});
 		this.container.find('[type="submit"]').on('click', (e) => {
 			e.preventDefault;
+			const progressIndicatorElement = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
 			AppConnector.request(this.container.find('form').serializeFormData()).then(
 					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						if (data.result === false) {
 							Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_ERROR')});
 						}

@@ -287,9 +287,39 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return bool
 	 */
-	public function isTransfer()
+	public function isTransferEdit()
 	{
-		return in_array($this->get('status'), [static::TRANSFER_DELETE, static::TRANSFER_EDIT, static::TRANSFER_LINK, static::TRANSFER_UNLINK]);
+		return $this->checkStatus(static::TRANSFER_EDIT);
+	}
+
+	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferLink()
+	{
+		return $this->checkStatus(static::TRANSFER_LINK);
+	}
+
+	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferUnLink()
+	{
+		return $this->checkStatus(static::TRANSFER_UNLINK);
+	}
+
+	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferDelete()
+	{
+		return $this->checkStatus(static::TRANSFER_DELETE);
 	}
 
 	/**
@@ -354,7 +384,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getFieldInstances()
 	{
 		$fieldInstances = [];
-		if ($this->isCreate() || $this->isUpdate() || $this->get('status') === static::TRANSFER_EDIT) {
+		if ($this->isCreate() || $this->isUpdate() || $this->isTransferEdit()) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_modtracker_detail')->where(['id' => $this->get('id')])->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row = array_map('html_entity_decode', $row);
@@ -384,7 +414,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getRelationInstance()
 	{
-		if ($this->isRelationLink() || $this->isRelationUnLink()) {
+		if ($this->isRelationLink() || $this->isRelationUnLink() || $this->isTransferLink() || $this->isTransferUnLink()) {
 			$row = (new \App\Db\Query())->from('vtiger_modtracker_relations')->where(['id' => $this->get('id')])->one();
 			$relationInstance = new ModTracker_Relation_Model();
 			$relationInstance->setData($row)->setParent($this);
