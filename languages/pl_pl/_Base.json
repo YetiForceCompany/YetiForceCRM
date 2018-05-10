@@ -997,7 +997,7 @@
     "LBL_TAX_SUMMARY": "Podsumowanie podatku",
     "LBL_CURRENCIES_SUMMARY": "Podsumowanie walut",
     "LBL_CHANGE_CURRENCY": "Zmiana waluty",
-    "LBL_CHANGE_CURRENCY_INFO": "Zmiana waluty spowoduje przeliczenie wszystkich warto\u015bci.<br \/>Czy jeste\u015b pewien czy chcesz to zrobi\u0107?",
+    "LBL_CHANGE_CURRENCY_INFO": "Zmiana waluty spowoduje przeliczenie wszystkich warto\u015bci.\nCzy jeste\u015b pewien czy chcesz to zrobi\u0107?",
     "LBL_AMOUNT": "Suma",
     "LBL_SET_GLOBAL_TAX": "Ustaw",
     "LBL_SET_GLOBAL_DISCOUNT": "Ustaw",
