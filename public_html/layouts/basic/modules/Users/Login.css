@@ -28,6 +28,11 @@
 		margin-top: 70px;
 	}
 }
+@media only screen and (max-width: 575px) {
+	.heightButtonPhone {
+		height: 55px !important;
+	}
+}
 .forgotpass {
 	margin-top: 10px;
 }
@@ -57,9 +62,6 @@ html, body {
 .fieldContainer .form-group {
 	padding-bottom: 10px;
 }
-.noPadding {
-	padding: 0 !important;
-}
 #forgotpass, .login-text a {
 	color: #adb0b5;
 }
@@ -76,14 +78,6 @@ html, body {
 	color: #fff !important;
 	padding: 0 !important;
 }
-.marginLeft0 {
-	margin-left: 0 !important;
-	padding-left: 0 !important;
-}
-.marginRight0 {
-	margin-right: 0 !important;
-	padding-right: 0 !important;
-}
 @media (min-width: 768px) {
 	.visible-phone {
 		visibility: hidden;
@@ -98,13 +92,19 @@ html, body {
 	height: 102px;
 }
 .heightDiv_3 {
-	height: 158px;
+	height: 163px;
 }
 .heightDiv_4 {
 	height: 214px;
+}
+.heightDiv_5 {
+	height: 105px;
 }
 select.form-control {
 	padding-right: 0;
 	padding-top: 0;
 	padding-bottom: 0;
+}
+.fontSizeIcon{
+	font-size: 60px !important;
 }
