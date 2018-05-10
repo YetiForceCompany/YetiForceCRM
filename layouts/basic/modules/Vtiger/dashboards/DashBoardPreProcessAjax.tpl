@@ -17,5 +17,4 @@
 				{/foreach}
 		</ul>
 	{/if}
-	<div class="p-0">
 	{/strip}
