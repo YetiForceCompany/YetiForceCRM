@@ -285,6 +285,6 @@ $(document).ready(() => {
 	}
 
 	const container = $("#j-gantt");
-	ge.init(container);
+	ge.init(container, window.ganttTemplateFunctions); // from GanttContents.tpl
 	ge.loadProject(getDemoProject());
 });
