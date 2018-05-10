@@ -65,11 +65,10 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
-		$user = Users_Record_Model::getCurrentUserModel();
-		$allDay = $request->get('allday');
-		if ($allDay) {
-			$request->set('time_start', $user->get('start_hour'));
-			$request->set('time_end', $user->get('end_hour'));
+		$user = \App\User::getCurrentUserModel();
+		if ($request->getBoolean('allday')) {
+			$request->set('time_start', $user->getDetail('start_hour'));
+			$request->set('time_end', $user->getDetail('end_hour'));
 		}
 		//Start Date and Time values
 		$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
