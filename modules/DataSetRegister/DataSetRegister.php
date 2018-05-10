@@ -60,6 +60,7 @@ class DataSetRegister extends Vtiger_CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_STATUS' => ['datasetregister', 'datasetregister_status'],
 		'FL_ADDED_TO_REGISTER' => ['datasetregister', 'added_to_register'],
+		'FL_REMOVED_FROM_REGISTER' => ['datasetregister', 'removed_from_register'],
 		'FL_DATA_SUBMITTED' => ['datasetregister', 'data_submitted']
 	];
 
@@ -74,6 +75,7 @@ class DataSetRegister extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_STATUS' =>'datasetregister_status',
 		'FL_ADDED_TO_REGISTER' => 'added_to_register',
+		'FL_REMOVED_FROM_REGISTER' => 'removed_from_register',
 		'FL_DATA_SUBMITTED' => 'data_submitted'
 	];
 	/**
@@ -92,6 +94,10 @@ class DataSetRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => ['datasetregister', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+		'FL_STATUS' => ['datasetregister', 'datasetregister_status'],
+		'FL_ADDED_TO_REGISTER' => ['datasetregister', 'added_to_register'],
+		'FL_REMOVED_FROM_REGISTER' => ['datasetregister', 'removed_from_register'],
+		'FL_DATA_SUBMITTED' => ['datasetregister', 'data_submitted']
 	];
 	/**
 	 * Search fields name.
@@ -102,13 +108,17 @@ class DataSetRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'datasetregister_status',
+		'FL_ADDED_TO_REGISTER' => 'added_to_register',
+		'FL_REMOVED_FROM_REGISTER' => 'removed_from_register',
+		'FL_DATA_SUBMITTED' => 'data_submitted'
 	];
 	/**
 	 * For Popup window record selection.
 	 *
 	 * @var array
 	 */
-	public $popup_fields = ['subject'];
+	public $popup_fields = ['subject', 'datasetregister_status', 'added_to_register', 'removed_from_register', 'data_submitted'];
 	/**
 	 * For Alphabetical search.
 	 *
