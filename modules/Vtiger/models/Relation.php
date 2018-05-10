@@ -673,7 +673,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$params['destinationRecordId'] = $relId;
 			$params['fromRecordId'] = $fromId;
 			$eventHandler->setParams($params);
-			$eventHandler->trigger('EntityBeforeTransferLink');
+			$eventHandler->trigger('EntityBeforeTransferUnLink');
 			if ($relationModel->transferDb($params)) {
 				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()
