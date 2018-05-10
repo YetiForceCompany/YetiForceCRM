@@ -1,8 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{literal}
+<style>
 
+</style>
+{/literal}
 <div id="j-gantt" data-js="container"></div>
 {literal}
 <script>
+
+	window.ganttData = {/literal}{$DATA}{literal};
+	console.log(ganttData);
+
 	window.ganttTemplateFunctions = [];
 
 	window.ganttTemplateFunctions.push({
@@ -40,19 +48,10 @@
 				<thead>
 				<tr style="height:40px">
 					<th class="gdfColHeader" style="width:35px; border-right: none"></th>
-					<th class="gdfColHeader" style="width:25px;"></th>
-					<th class="gdfColHeader gdfResizable" style="width:100px;">code/short name</th>
-					<th class="gdfColHeader gdfResizable" style="width:300px;">name</th>
-					<th class="gdfColHeader" align="center" style="width:17px;" title="Start date is a milestone."><span class="teamworkIcon" style="font-size: 8px;">^</span></th>
-					<th class="gdfColHeader gdfResizable" style="width:80px;">start</th>
-					<th class="gdfColHeader" align="center" style="width:17px;" title="End date is a milestone."><span class="teamworkIcon" style="font-size: 8px;">^</span></th>
-					<th class="gdfColHeader gdfResizable" style="width:80px;">End</th>
-					<th class="gdfColHeader gdfResizable" style="width:50px;">dur.</th>
-					<th class="gdfColHeader gdfResizable" style="width:20px;">%</th>
-					<th class="gdfColHeader gdfResizable requireCanSeeDep" style="width:50px;">depe.</th>
-					<th class="gdfColHeader gdfResizable" style="width:1000px; text-align: left; padding-left: 10px;">
-						assignees
-					</th>
+      				<th class="gdfColHeader" style="width:25px;"></th>
+					<th class="gdfColHeader gdfResizable" style="width:300px">name</th>
+					<th class="gdfColHeader gdfResizable" style="width:100px">dur.</th>
+					<th class="gdfColHeader gdfResizable" style="width:100px">%</th>
 				</tr>
 				</thead>
 			</table>`;
@@ -63,26 +62,14 @@
 		type: "TASKROW",
 		render(obj){
 			return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent()?'isParent':''} ${obj.collapsed?'collapsed':''}" level="${obj.level}">
-				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">${obj.getRow()+1}</span>
-					<span class="teamworkIcon" style="font-size:12px;">e</span></th>
-				<td class="gdfCell noClip" align="center">
-					<div class="taskStatus cvcColorSquare" status="${obj.status}"></div>
-				</td>
-				<td class="gdfCell"><input type="text" name="code" value="${obj.code?obj.code:''}"
-										   placeholder="code/short name"></td>
+				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">(#=obj.getRow()+1#)</span> <span class="teamworkIcon" style="font-size:12px;" >e</span></th>
+    			<td class="gdfCell noClip" align="center"><div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div></td>
 				<td class="gdfCell indentCell" style="padding-left:${obj.level*10+18}px;">
 					<div class="exp-controller" align="center"></div>
 					<input type="text" name="name" value="${obj.name}" placeholder="name">
 				</td>
-				<td class="gdfCell" align="center"><input type="checkbox" name="startIsMilestone"></td>
-				<td class="gdfCell"><input type="text" name="start" value="" class="date"></td>
-				<td class="gdfCell" align="center"><input type="checkbox" name="endIsMilestone"></td>
-				<td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
-				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}">
-				</td>
+				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
 				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress?obj.progress:''}" ${obj.progressByWorklog?"readOnly":""}></td>
-				<td class="gdfCell requireCanSeeDep"><input type="text" name="depends" autocomplete="off" value="${obj.depends}" ${obj.hasExternalDep?"readonly":""}></td>
-				<td class="gdfCell taskAssigs">${obj.getAssigsString()}</td>
 			</tr>`;
 		}
 	});
@@ -96,13 +83,6 @@
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
-				<td class="gdfCell"></td>
-				<td class="gdfCell"></td>
-				<td class="gdfCell"></td>
-				<td class="gdfCell"></td>
-				<td class="gdfCell"></td>
-				<td class="gdfCell requireCanSeeDep"></td>
-				<td class="gdfCell"></td>
 			</tr>`;
 		}
 	});
@@ -112,11 +92,9 @@
 		render(obj){
 			return `<div class="taskBox taskBoxDiv" taskId="${obj.id}">
 				<div class="layout ${obj.hasExternalDep ? 'extDep' : ''}">
-					<div class="taskStatus" status="${obj.status}"></div>
 					<div class="taskProgress"
 						 style="width:${obj.progress > 100 ? 100 : obj.progress}%; background-color:${obj.progress > 100 ? 'red' : 'rgb(153,255,51);'};"></div>
 					<div class="milestone ${obj.startIsMilestone ? 'active' : ''}"></div>
-
 					<div class="taskLabel"></div>
 					<div class="milestone end ${obj.endIsMilestone ? 'active' : ''}"></div>
 				</div>
