@@ -334,8 +334,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'max_allowed_packet' => ['recommended' => '10 MB', 'help' => 'LBL_MAX_ALLOWED_PACKET_HELP_TEXT'],
 				'log_error' => ['recommended' => false],
 				'max_connections' => ['recommended' => false],
-				'thread_cache_size' => ['recommended' => false],
+				'bulk_insert_buffer_size' => ['recommended' => false],
 				'key_buffer_size' => ['recommended' => false],
+				'thread_cache_size' => ['recommended' => false],
 				'query_cache_size' => ['recommended' => false],
 				'tmp_table_size' => ['recommended' => false],
 				'max_heap_table_size' => ['recommended' => false],
@@ -349,6 +350,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
 			$directiveValues['innodb_log_file_size']['current'] = vtlib\Functions::showBytes($conf['innodb_log_file_size']);
+			$directiveValues['bulk_insert_buffer_size']['current'] = vtlib\Functions::showBytes($conf['bulk_insert_buffer_size']);
 			$directiveValues['key_buffer_size']['current'] = vtlib\Functions::showBytes($conf['key_buffer_size']);
 			$directiveValues['query_cache_size']['current'] = vtlib\Functions::showBytes($conf['query_cache_size']);
 			$directiveValues['tmp_table_size']['current'] = vtlib\Functions::showBytes($conf['tmp_table_size']);
