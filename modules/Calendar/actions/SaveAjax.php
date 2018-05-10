@@ -13,10 +13,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 	public function process(\App\Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \App\User::getCurrentUserModel();
 		if ($request->getBoolean('allday')) {
-			$request->set('time_start', $user->get('start_hour'));
-			$request->set('time_end', $user->get('end_hour'));
+			$request->set('time_start', $user->getDetail('start_hour'));
+			$request->set('time_end', $user->getDetail('end_hour'));
 		}
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
