@@ -2186,9 +2186,9 @@ Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js", {
 		return this.validateValue(fieldValue);
 	},
 	validateValue: function (fieldValue) {
-		var specialChars = /[<\>\"\,#]/;
+		var specialChars = /[<\>\"\|#]/;
 		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < >" + app.vtranslate('JS_NOT_ALLOWED');
+			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > #" + app.vtranslate('JS_NOT_ALLOWED');
 			this.setError(errorInfo);
 			return false;
 		}
