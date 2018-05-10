@@ -1126,7 +1126,7 @@
     "LBL_TAX_SUMMARY": "R\u00e9sum\u00e9 taxes",
     "LBL_CURRENCIES_SUMMARY": "R\u00e9sum\u00e9 devises",
     "LBL_CHANGE_CURRENCY": "Modifier devise",
-    "LBL_CHANGE_CURRENCY_INFO": "Modifier la devise va convertir l'ensemble des valeurs.<br \/>Etes-vous sur de vouloir continuer?",
+    "LBL_CHANGE_CURRENCY_INFO": "Modifier la devise va convertir l'ensemble des valeurs.\nEtes-vous sur de vouloir continuer?",
     "LBL_AMOUNT": "Montant",
     "LBL_SET_GLOBAL_TAX": "Activer",
     "LBL_SET_GLOBAL_DISCOUNT": "Activer",
