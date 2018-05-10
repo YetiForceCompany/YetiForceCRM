@@ -2,11 +2,14 @@
 
 <div id="j-gantt" data-js="container"></div>
 {literal}
-	<div id="gantEditorTemplates" style="display:none;">
+<script>
+	window.ganttTemplateFunctions = [];
 
-		<div class="__template__" type="GANTBUTTONS">
-			<div class="ganttButtonBar noprint">
-				<div class="buttons" data-noeval="##noeval##">
+	window.ganttTemplateFunctions.push({
+		type: "GANTBUTTONS",
+		render(obj){
+			return `<div class="ganttButtonBar noprint">
+				<div class="buttons">
 					<button id="j-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
 					<button id="j-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
 					<span class="ganttButtonSeparator"></span>
@@ -26,12 +29,14 @@
 					<span class="ganttButtonSeparator"></span>
 					<button id="j-gantt__fullscreen-btn" class="button textual icon" title="FULLSCREEN"><span class="teamworkIcon">@</span></button>
 				</div>
-			</div>
-		</div>
+			</div>`;
+		}
+	});
 
-
-		<div class="__template__" type="TASKSEDITHEAD">
-			<table class="gdfTable" cellspacing="0" cellpadding="0" data-noeval="##noeaval##">
+	window.ganttTemplateFunctions.push({
+		type: "TASKSEDITHEAD",
+		render(obj){
+			return `<table class="gdfTable" cellspacing="0" cellpadding="0">
 				<thead>
 				<tr style="height:40px">
 					<th class="gdfColHeader" style="width:35px; border-right: none"></th>
@@ -50,36 +55,42 @@
 					</th>
 				</tr>
 				</thead>
-			</table>
-		</div>
+			</table>`;
+		}
+	});
 
-		<div class="__template__" type="TASKROW">
-			<tr id="tid_(#=obj.id#)" taskId="(#=obj.id#)" class="taskEditRow (#=obj.isParent()?'isParent':''#) (#=obj.collapsed?'collapsed':''#)" level="(#=level#)">
-				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">(#=obj.getRow()+1#)</span>
+	window.ganttTemplateFunctions.push({
+		type: "TASKROW",
+		render(obj){
+			return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent()?'isParent':''} ${obj.collapsed?'collapsed':''}" level="${obj.level}">
+				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">${obj.getRow()+1}</span>
 					<span class="teamworkIcon" style="font-size:12px;">e</span></th>
 				<td class="gdfCell noClip" align="center">
-					<div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div>
+					<div class="taskStatus cvcColorSquare" status="${obj.status}"></div>
 				</td>
-				<td class="gdfCell"><input type="text" name="code" value="(#=obj.code?obj.code:''#)"
+				<td class="gdfCell"><input type="text" name="code" value="${obj.code?obj.code:''}"
 										   placeholder="code/short name"></td>
-				<td class="gdfCell indentCell" style="padding-left:(#=obj.level*10+18#)px;">
+				<td class="gdfCell indentCell" style="padding-left:${obj.level*10+18}px;">
 					<div class="exp-controller" align="center"></div>
-					<input type="text" name="name" value="(#=obj.name#)" placeholder="name">
+					<input type="text" name="name" value="${obj.name}" placeholder="name">
 				</td>
 				<td class="gdfCell" align="center"><input type="checkbox" name="startIsMilestone"></td>
 				<td class="gdfCell"><input type="text" name="start" value="" class="date"></td>
 				<td class="gdfCell" align="center"><input type="checkbox" name="endIsMilestone"></td>
 				<td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
-				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="(#=obj.duration#)">
+				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}">
 				</td>
-				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="(#=obj.progress?obj.progress:''#)" (#=obj.progressByWorklog?"readOnly":""#)></td>
-				<td class="gdfCell requireCanSeeDep"><input type="text" name="depends" autocomplete="off" value="(#=obj.depends#)" (#=obj.hasExternalDep?"readonly":""#)></td>
-				<td class="gdfCell taskAssigs">(#=obj.getAssigsString()#)</td>
-			</tr>
-		</div>
+				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress?obj.progress:''}" ${obj.progressByWorklog?"readOnly":""}></td>
+				<td class="gdfCell requireCanSeeDep"><input type="text" name="depends" autocomplete="off" value="${obj.depends}" ${obj.hasExternalDep?"readonly":""}></td>
+				<td class="gdfCell taskAssigs">${obj.getAssigsString()}</td>
+			</tr>`;
+		}
+	});
 
-		<div class="__template__" type="TASKEMPTYROW">
-			<tr class="taskEditRow emptyRow">
+	window.ganttTemplateFunctions.push({
+		type: "TASKEMPTYROW",
+		render(obj){
+			return `<tr class="taskEditRow emptyRow">
 				<th class="gdfCell" align="right"></th>
 				<td class="gdfCell noClip" align="center"></td>
 				<td class="gdfCell"></td>
@@ -92,38 +103,46 @@
 				<td class="gdfCell"></td>
 				<td class="gdfCell requireCanSeeDep"></td>
 				<td class="gdfCell"></td>
-			</tr>
-		</div>
+			</tr>`;
+		}
+	});
 
-		<div class="__template__" type="TASKBAR">
-			<div class="taskBox taskBoxDiv" taskId="(#=obj.id#)">
-				<div class="layout (#=obj.hasExternalDep?'extDep':''#)">
-					<div class="taskStatus" status="(#=obj.status#)"></div>
+	window.ganttTemplateFunctions.push({
+		type: "TASKBAR",
+		render(obj){
+			return `<div class="taskBox taskBoxDiv" taskId="${obj.id}">
+				<div class="layout ${obj.hasExternalDep ? 'extDep' : ''}">
+					<div class="taskStatus" status="${obj.status}"></div>
 					<div class="taskProgress"
-						 style="width:(#=obj.progress>100?100:obj.progress#)%; background-color:(#=obj.progress>100?'red':'rgb(153,255,51);'#);"></div>
-					<div class="milestone (#=obj.startIsMilestone?'active':''#)"></div>
+						 style="width:${obj.progress > 100 ? 100 : obj.progress}%; background-color:${obj.progress > 100 ? 'red' : 'rgb(153,255,51);'};"></div>
+					<div class="milestone ${obj.startIsMilestone ? 'active' : ''}"></div>
 
 					<div class="taskLabel"></div>
-					<div class="milestone end (#=obj.endIsMilestone?'active':''#)"></div>
+					<div class="milestone end ${obj.endIsMilestone ? 'active' : ''}"></div>
 				</div>
-			</div>
-		</div>
+			</div>`;
+		}
+	});
 
 
-		<div class="__template__" type="CHANGE_STATUS">
-			<div class="taskStatusBox">
+	window.ganttTemplateFunctions.push({
+		type: "CHANGE_STATUS",
+		render(obj){
+			return `<div class="taskStatusBox">
 				<div class="taskStatus cvcColorSquare" status="STATUS_ACTIVE" title="Active"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_DONE" title="Completed"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_FAILED" title="Failed"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_SUSPENDED" title="Suspended"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_WAITING" title="Waiting" style="display: none;"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_UNDEFINED" title="Undefined"></div>
-			</div>
-		</div>
+			</div>`;
+		}
+	});
 
-
-		<div class="__template__" type="TASK_EDITOR">
-			<div class="ganttTaskEditor">
+	window.ganttTemplateFunctions.push({
+		type: "TASK_EDITOR",
+		render(obj){
+			return `<div class="ganttTaskEditor">
 				<h2 class="taskData">Task editor</h2>
 				<table cellspacing="1" cellpadding="5" width="100%" class="taskData table" border="0">
 					<tr>
@@ -147,7 +166,7 @@
 						<td nowrap="">
 							<label for="end">End</label>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="checkbox" id="endIsMilestone" name="endIsMilestone" value="yes"> &nbsp;<label for="endIsMilestone">is milestone</label>&nbsp;
-							<br><input type="text" name="end" id="end" size="8" class="formElements dateField validated date" autocomplete="off" maxlength="255" `value="" oldvalue="1" entrytype="DATE">
+							<br><input type="text" name="end" id="end" size="8" class="formElements dateField validated date" autocomplete="off" maxlength="255" \`value="" oldvalue="1" entrytype="DATE">
 							<span title="calendar" id="ends_inputDate" class="teamworkIcon openCalendar" onclick="$(this).dateField({inputField:$(this).prevAll(':input:first'),isSearchField:false});">m</span>
 						</td>
 						<td nowrap="">
@@ -159,7 +178,7 @@
 					<tr>
 						<td colspan="2">
 							<label for="status" class=" ">status</label><br>
-							<select id="status" name="status" class="taskStatus" status="(#=obj.status#)" onchange="$(this).attr('STATUS',$(this).val());">
+							<select id="status" name="status" class="taskStatus" status="${obj.status}" onchange="$(this).attr('STATUS',$(this).val());">
 								<option value="STATUS_ACTIVE" class="taskStatus" status="STATUS_ACTIVE">active</option>
 								<option value="STATUS_WAITING" class="taskStatus" status="STATUS_WAITING">suspended
 								</option>
@@ -204,23 +223,26 @@
 					<span id="saveButton" class="button first" onClick="$(this).trigger('saveFullEditor.gantt');">Save</span>
 				</div>
 
-			</div>
-		</div>
+			</div>`;
+		}
+	});
 
-
-		<div class="__template__" type="ASSIGNMENT_ROW">
-			<tr taskId="(#=obj.task.id#)" assId="(#=obj.assig.id#)" class="assigEditRow">
-				<td><select name="resourceId" class="formElements" (#=obj.assig.id.indexOf("tmp_")==0?"":"disabled"#)></select></td>
+	window.ganttTemplateFunctions.push({
+		type: "ASSIGNMENT_ROW",
+		render(obj){
+			return `<tr taskId="${obj.task.id}" assId="${obj.assig.id}" class="assigEditRow">
+				<td><select name="resourceId" class="formElements" ${obj.assig.id.indexOf("tmp_") == 0 ? "" : "disabled"}></select></td>
 				<td><select type="select" name="roleId" class="formElements"></select></td>
-				<td><input type="text" name="effort" value="(#=getMillisInHoursMinutes(obj.assig.effort)#)" size="5" class="formElements"></td>
+				<td><input type="text" name="effort" value="${getMillisInHoursMinutes(obj.assig.effort)}" size="5" class="formElements"></td>
 				<td align="center"><span class="teamworkIcon delAssig del" style="cursor: pointer">d</span></td>
-			</tr>
-		</div>
+			</tr>`;
+		}
+	});
 
-
-		<div class="__template__" type="RESOURCE_EDITOR">
-			<div class="resourceEditor" style="padding: 5px;">
-
+	window.ganttTemplateFunctions.push({
+		type: "RESOURCE_EDITOR",
+		render(obj){
+			return `<div class="resourceEditor" style="padding: 5px;">
 				<h2>Project team</h2>
 				<table cellspacing="1" cellpadding="0" width="100%" id="resourcesTable">
 					<tr>
@@ -233,19 +255,21 @@
 				<div style="text-align: right; padding-top: 20px">
 					<button id="resSaveButton" class="button big">Save</button>
 				</div>
-			</div>
-		</div>
+			</div>`;
+		}
+	});
 
-
-		<div class="__template__" type="RESOURCE_ROW">
-			<tr resId="(#=obj.id#)" class="resRow">
-				<td><input type="text" name="name" value="(#=obj.name#)" style="width:100%;" class="formElements"></td>
+	window.ganttTemplateFunctions.push({
+		type: "RESOURCE_ROW",
+		render(obj){
+			return `<tr resId="${obj.id}" class="resRow">
+				<td><input type="text" name="name" value="${obj.name}" style="width:100%;" class="formElements"></td>
 				<td align="center"><span class="teamworkIcon delRes del" style="cursor: pointer">d</span></td>
-			</tr>
-		</div>
+			</tr>`;
+		}
+	});
 
-
-	</div>
+</script>
 {/literal}
 
 {*
