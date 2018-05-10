@@ -83,24 +83,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
-		$icon = $this->getDisplayIcon($value);
-		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view="
-			. $referenceModule->getDetailViewName()
-			. "&record=$value' title='"
-			. ($icon ? $icon . ' ' : '')
-			. App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
+		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
 
 		return $linkValue;
-	}
-	
-	private function getDisplayIcon($value)
-	{
-		switch ($value) {
-			case 153:
-				return '<span class="menuIcon userIcon-Vendors" aria-hidden="true"></span>';
-			default:
-				return '';
-		}
 	}
 
 	/**
