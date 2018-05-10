@@ -21,6 +21,7 @@
     "Menu": "Menu",
     "MEN_LOGISTICS": "Logistica",
     "LBL_CHANGE_LOGIN_PASSWORD": "Cambio password login",
-    "LBL_CHANGE": "Cambio"
+    "LBL_CHANGE": "Cambio",
+    "MEN_GDPR": "GDPR"
   }
 }

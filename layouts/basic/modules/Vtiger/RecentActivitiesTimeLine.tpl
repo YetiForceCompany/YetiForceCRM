@@ -26,12 +26,12 @@
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
-									<div class="row">
-										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+									<div class="d-flex">
+										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle text-success" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
-										<div class="col-11 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -66,12 +66,12 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
-									<div class="row">
-										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+									<div class="d-flex">
+										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
-										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -122,12 +122,12 @@
 										</div>
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
-									<div class="row">
-										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+									<div class="d-flex">
+										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
-										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -157,12 +157,12 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
-									<div class="row">
-										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+									<div class="d-flex">
+										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
-										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
 											<div class="imageContainer float-left">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -178,12 +178,12 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
-									<div class="row">
-										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+									<div class="d-flex">
+										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
-										<div class="col-11 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -199,12 +199,12 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
-									<div class="row">
-										<span class="fa-layers fa-fw fa-2x u-ml-10px">
+									<div class="d-flex">
+										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>
-										<div class="col-11 ml-1 p-1 timeline-item isDisplayed">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
 											<div class="float-left imageContainer">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}

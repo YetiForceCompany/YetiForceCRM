@@ -20,7 +20,7 @@
 				<div class="col-md-5">
 					<div class="btn-toolbar justify-content-end form-row">
 						{if AppConfig::developer('CHANGE_RELATIONS')}
-							<button class="btn btn-primary float-right addRelation" type="button">
+							<button class="btn btn-primary float-right addRelation mr-2" type="button">
 								<span class="fas fa-plus"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
 							</button>
@@ -170,6 +170,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
+						<span class="fas fa-plus mt-2"></span>&nbsp;&nbsp;
 						<h5 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</h5>
 						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true">&times;</span>
@@ -228,8 +229,11 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" >{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true">{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+
+						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" ><span
+									class="fas fa-check u-mr-5px"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true"><span
+									class="fas fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>	
 			</div>	

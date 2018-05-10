@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="modal addBlockModal fade">
+	<div class="modal addBlockModal fade tpl-Settings-LayoutEditor-AddBlockModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">

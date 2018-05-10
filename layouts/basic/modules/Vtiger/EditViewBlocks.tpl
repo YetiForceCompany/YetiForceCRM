@@ -89,7 +89,7 @@
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="adressAction row py-2">
-									<div class="{if !$APIADDRESFIELD} text-center{/if} col-md-12 d-flex flex-wrap flex-sm-nowrap">
+									<div class="{if !$APIADDRESFIELD} text-center{/if} col-md-12">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
 								</div>
@@ -117,17 +117,14 @@
 								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-									<label class="my-0 col-md-3 fieldLabel text-md-right u-text-small-bold">
+									<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 										{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="js-help-info float-right" title="" data-placement="top"
-											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
-											   data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span
-														class="fas fa-info-circle"></span></a>
+											<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>
 										{/if}
 										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 									</label>
-									<div class="{$WIDTHTYPE} w-100 {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="{$WIDTHTYPE} w-100 {if $FIELD_MODEL->getUIType() neq "300"} col-lg-12 col-xl-9 {/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{if $FIELD_MODEL->getUIType() eq "300"}
 											<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>

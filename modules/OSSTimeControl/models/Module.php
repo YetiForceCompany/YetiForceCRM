@@ -4,7 +4,7 @@
  * OSSTimeControl module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 {
@@ -20,29 +20,29 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_CALENDAR_VIEW',
-				'linkurl' => $this->getCalendarViewUrl(),
-				'linkicon' => 'fas fa-calendar-alt',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_CALENDAR_VIEW',
+			'linkurl' => $this->getCalendarViewUrl(),
+			'linkicon' => 'fas fa-calendar-alt',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'fas fa-list',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_RECORDS_LIST',
+			'linkurl' => $this->getListViewUrl(),
+			'linkicon' => 'fas fa-list',
 		]);
 		if ($linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARWIDGET',
-					'linklabel' => 'LBL_USERS',
-					'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
-					'linkicon' => '',
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
+				'linkicon' => '',
 			]);
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARWIDGET',
-					'linklabel' => 'LBL_TYPE',
-					'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
-					'linkicon' => '',
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_TYPE',
+				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
+				'linkicon' => '',
 			]);
 		}
 
@@ -104,37 +104,46 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		return ['totalTime' => $totalTime, 'userTime' => $userTime];
 	}
 
+	/**
+	 * Get working time of users.
+	 *
+	 * @param $id
+	 * @param $moduleName
+	 *
+	 * @return bool
+	 */
 	public function getTimeUsers($id, $moduleName)
 	{
 		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if (empty($id) || empty($fieldName)) {
-			$response = false;
+			$chartData = ['show_chart' => false];
 		} else {
 			$query = (new \App\Db\Query())->select([
-					'vtiger_crmentity.smownerid',
-					'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'),
-				])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::RECALCULATE_STATUS])
-					->groupBy('smownerid');
+				'vtiger_crmentity.smownerid',
+				'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'),
+			])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::RECALCULATE_STATUS])
+				->groupBy('smownerid');
 			App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
-			$data = [];
-			$ticks = [];
-			$i = 0;
+			$chartData = [
+				'labels' => [],
+				'fullLabels' => [],
+				'datasets' => [],
+				'show_chart' => false,
+			];
 			while ($row = $dataReader->read()) {
-				$name = App\Fields\Owner::getLabel($row['smownerid']);
-				$data[$i]['label'] = $name;
-				$ticks[$i][0] = $i;
-				$ticks[$i][1] = $name;
-				$data[$i]['data'][0][0] = $i;
-				$data[$i]['data'][0][1] = $row['time'];
-				++$i;
+				$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
+				$color = App\Fields\Owner::getColor($row['smownerid']);
+				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
+				$chartData['datasets'][0]['tooltips'][] = $ownerName;
+				$chartData['datasets'][0]['data'][] = (float) $row['time'];
+				$chartData['datasets'][0]['backgroundColor'][] = $color;
+				$chartData['datasets'][0]['borderColor'][] = $color;
 			}
+			$chartData['show_chart'] = count($chartData['datasets']) && count($chartData['datasets'][0]['data']);
 			$dataReader->close();
-			$response['ticks'] = $ticks;
-			$response['chart'] = $data;
 		}
-
-		return $response;
+		return $chartData;
 	}
 }
