@@ -86,6 +86,10 @@ class RecordTransfer
 			if (!$recordModel->isViewable()) {
 				throw new Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
+			if ($recordModel->getModule()->isCommentEnabled() && $sourceRecord->getModule()->isCommentEnabled()) {
+				\CRMEntity::getInstance('ModComments');
+				\ModComments::transferRecords($recordId, $sourceId);
+			}
 			$relations = \Vtiger_Relation_Model::getAllRelations($recordModel->getModule(), false, true, false);
 			foreach ($relations as $relation) {
 				if (isset($sourceRelations[$relation->get('related_tabid')]) && $relation->get('name') === $sourceRelations[$relation->get('related_tabid')]->get('name')) {

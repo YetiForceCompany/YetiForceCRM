@@ -862,9 +862,19 @@ class Vtiger_Relation_Model extends \App\Base
 		return $this->getRelationType() == self::RELATION_O2M;
 	}
 
-	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
+	/**
+	 * Getting all relations.
+	 *
+	 * @param \Vtiger_Module_Model $parentModuleModel
+	 * @param bool                 $selected
+	 * @param bool                 $onlyActive
+	 * @param bool                 $permissions
+	 *
+	 * @return \Vtiger_Relation_Model[]
+	 */
+	public static function getAllRelations(\Vtiger_Module_Model $parentModuleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true)
 	{
-		$cacheName = $parentModuleModel->getId() . $selected . $onlyActive;
+		$cacheName = "{$parentModuleModel->getId()}:$selected:$onlyActive";
 		if (\App\Cache::has('getAllRelations', $cacheName)) {
 			$relationList = \App\Cache::get('getAllRelations', $cacheName);
 		} else {
