@@ -877,6 +877,35 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_address_finder` */
+
+CREATE TABLE `s_yf_address_finder` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `level1` varchar(100) DEFAULT NULL,
+  `level2` varchar(100) DEFAULT NULL,
+  `level3` varchar(100) DEFAULT NULL,
+  `level4` varchar(100) DEFAULT NULL,
+  `level5` varchar(100) DEFAULT NULL,
+  `level6` varchar(100) DEFAULT NULL,
+  `level7` varchar(100) DEFAULT NULL,
+  `level8` varchar(100) DEFAULT NULL,
+  `source` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `source` (`source`),
+  FULLTEXT KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_address_finder_config` */
+
+CREATE TABLE `s_yf_address_finder_config` (
+  `id` smallint(4) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `val` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_automatic_assignment` */
 
 CREATE TABLE `s_yf_automatic_assignment` (
@@ -3884,16 +3913,6 @@ CREATE TABLE `vtiger_announcementstatus` (
   `sortorderid` int(10) DEFAULT 0,
   PRIMARY KEY (`announcementstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_apiaddress` */
-
-CREATE TABLE `vtiger_apiaddress` (
-  `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `val` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assets` */
 

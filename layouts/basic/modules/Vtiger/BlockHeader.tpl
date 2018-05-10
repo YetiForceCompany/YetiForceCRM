@@ -7,7 +7,8 @@
 				data-label="{$BLOCK_LABEL}">
 			<strong>{\App\Language::translate('SINGLE_Accounts', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromLead mr-2 mb-1" type="button" data-label="{$BLOCK_LABEL}">
+		<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromLead mr-2 mb-1" type="button"
+				data-label="{$BLOCK_LABEL}">
 			<strong>{\App\Language::translate('SINGLE_Leads', $MODULE)}</strong>
 		</button>
 		<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromVendor mr-2 mb-1" type="button"
@@ -39,19 +40,39 @@
 			</button>
 		{/if}
 	</div>
-	{if $APIADDRESFIELD}
-	<div class="col-md-12 d-flex justify-content-center">
-		<div class="input-group c-btn-block-sm col-md-4">
-			<input value="" title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text"
-				   class="api_address_autocomplete form-control form-control-sm"
-				   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"/>
-			<div class="input-group-append">
+	{assign var=PROVIDER value=App\AddressFinder::getProvider()}
+	{if $SEARCH_ADDRESS && $PROVIDER}
+		<div class="col-md-12 d-flex justify-content-center">
+			<div class="js-search-address input-group c-btn-block-sm col-md-4" data-js="container">
+				{if count($PROVIDER) > 1}
+					<div class="input-group-prepend">
+						<button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<div class="dropdown-menu">
+							{foreach item=ROW from=$PROVIDER}
+								<a class="dropdown-item js-select-operator" href="#" data-js="click"
+								   data-type="{$ROW}">{App\Language::translate($ROW)}</a>
+							{/foreach}
+						</div>
+					</div>
+				{/if}
+				{assign var=ADDRESS_FINDER_CONFIG value=\App\AddressFinder::getConfig()}
+				<input title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text"
+					   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"
+					   data-type="{App\AddressFinder::getDefaultProvider()}"
+					   data-min="{$ADDRESS_FINDER_CONFIG['global']['min_length']}"
+					   class="js-autoload-address form-control form-control-sm" data-js="autocomplete"
+				/>
+				<div class="input-group-append">
 					<span class="input-group-text">
-						<span class="fas fa-search fa-fw"></span><span class="sr-only">Szukaj</span>
+						<span class="fas fa-search fa-fw"></span>
+						<span class="sr-only">{App\Language::translate('LBL_SEARCH')}</span>
 					</span>
+				</div>
 			</div>
 		</div>
-	</div>
 	{/if}
 {/strip}
 
