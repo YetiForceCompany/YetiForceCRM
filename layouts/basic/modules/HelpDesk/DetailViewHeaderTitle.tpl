@@ -42,7 +42,7 @@
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="pl-1">
-				<h4 class="recordLabel m-0 u-text-ellipsis" title="{$RECORD->getName()}">
+				<h4 class="recordLabel m-0" title="{$RECORD->getName()}">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
