@@ -1,38 +1,53 @@
 $(document).ready(() => {
-	const gantt = new GanttMaster();
 
+	const gantt = new GanttMaster(ganttTemplateFunctions);
+	const container = $("#j-gantt");
+	gantt.init(container);
+	//gantt.loadProject(getDemoProject());
+	gantt.loadProject(window.ganttData);
+	console.log('gantt initialized')
 
 	// bind events to buttons
-	$('#j-gantt__expand-all-btn').on('click',function(){
-		$('#workSpace').trigger('expandAll.gantt');
+	$('#j-gantt__expand-all-btn', container).on('click', function (e) {
+		e.preventDefault();
+		container.trigger('expandAll.gantt');
 	});
-	$('#j-gantt__collapse-all-btn').on('click', function () {
-		$('#workSpace').trigger('collapseAll.gantt');
+	$('#j-gantt__collapse-all-btn', container).on('click', function (e) {
+		e.preventDefault();
+		container.trigger('collapseAll.gantt');
 	});
-	$('#j-gantt__zoom-in-btn').on('click', function () {
-		$('#workSpace').trigger('zoomPlus.gantt');
+	$('#j-gantt__zoom-in-btn', container).on('click', function (e) {
+		e.preventDefault();
+		container.trigger('zoomPlus.gantt');
 	});
-	$('#j-gantt__zoom-out-btn').on('click', function () {
-		$('#workSpace').trigger('zoomMinus.gantt');
+	$('#j-gantt__zoom-out-btn', container).on('click', function (e) {
+		e.preventDefault();
+		container.trigger('zoomMinus.gantt');
 	});
-	$('#j-gantt__print-btn').on('click', function () {
-		$('#workSpace').trigger('print.gantt');
+	$('#j-gantt__print-btn', container).on('click', function (e) {
+		e.preventDefault();
+		container.trigger('print.gantt');
 	});
-	$('#j-gantt__show-critical-path-btn').on('click', function () {
-		ge.gantt.showCriticalPath = !ge.gantt.showCriticalPath;
-		ge.redraw();
+	$('#j-gantt__show-critical-path-btn', container).on('click', function (e) {
+		e.preventDefault();
+		gantt.gantt.showCriticalPath = !gantt.gantt.showCriticalPath;
+		gantt.redraw();
 	});
-	$('#j-gantt__resize-0-btn').on('click', function () {
-		ge.splitter.resize(.1);
+	$('#j-gantt__resize-0-btn', container).on('click', function (e) {
+		e.preventDefault();
+		gantt.splitter.resize(.1);
 	});
-	$('#j-gantt__resize-50-btn').on('click', function () {
-		ge.splitter.resize(50);
+	$('#j-gantt__resize-50-btn', container).on('click', function (e) {
+		e.preventDefault();
+		gantt.splitter.resize(50);
 	});
-	$('#j-gantt__resize-100-btn').on('click', function () {
-		ge.splitter.resize(100);
+	$('#j-gantt__resize-100-btn', container).on('click', function (e) {
+		e.preventDefault();
+		gantt.splitter.resize(100);
 	});
-	$('#j-gantt__fullscreen-btn').on('click', function () {
-		$('#workSpace').trigger('fullScreen.gantt');
+	$('#j-gantt__fullscreen-btn', container).on('click', function (e) {
+		e.preventDefault();
+		container.trigger('fullScreen.gantt');
 	});
 
 	function getDemoProject() {
@@ -52,7 +67,7 @@ $(document).ready(() => {
 					"level": 0,
 					"status": "STATUS_ACTIVE",
 					"depends": "",
-					"canWrite": true,
+					"canWrite": false,
 					"start": 1396994400000,
 					"duration": 20,
 					"end": 1399586399999,
@@ -223,18 +238,6 @@ $(document).ready(() => {
 					"assigs": [],
 					"hasChild": false
 				}
-			], "selectedRow": 2, "deletedTaskIds": [],
-			"resources": [
-				{"id": "tmp_1", "name": "Resource 1"},
-				{"id": "tmp_2", "name": "Resource 2"},
-				{"id": "tmp_3", "name": "Resource 3"},
-				{"id": "tmp_4", "name": "Resource 4"}
-			],
-			"roles": [
-				{"id": "tmp_1", "name": "Project Manager"},
-				{"id": "tmp_2", "name": "Worker"},
-				{"id": "tmp_3", "name": "Stakeholder"},
-				{"id": "tmp_4", "name": "Customer"}
 			],
 			"canWrite": false, "canDelete": false, "canWriteOnParent": false, canAdd: false
 		}
@@ -248,7 +251,5 @@ $(document).ready(() => {
 		return ret;
 	}
 
-	const container = $("#j-gantt");
-	gantt.init(container, window.ganttTemplateFunctions); // from GanttContents.tpl
-	gantt.loadProject(getDemoProject());
+
 });
