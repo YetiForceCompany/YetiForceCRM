@@ -73,9 +73,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 */
 	public function postProcessAjax(\App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
-		//$viewer->view('Modals/Footer.tpl', $moduleName);
 	}
 
 	/**

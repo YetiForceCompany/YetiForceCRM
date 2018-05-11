@@ -36,7 +36,7 @@ class ApiAddress
 			//Add Assets Module to Customer Portal
 			$registerLink = true;
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-			\App\Db::getInstance()->createCommand()->insert('vtiger_apiaddress', ['nominatim' => 0, 'key' => 0, 'source' => 'https://api.opencagedata.com/geocode/v1/', 'min_length' => 3])->execute();
+			\App\Db::getInstance()->createCommand()->insert('s_yf_address_finder_config', ['nominatim' => 0, 'key' => 0, 'source' => 'https://api.opencagedata.com/geocode/v1/', 'min_length' => 3])->execute();
 		}
 		$displayLabel = 'LBL_API_ADDRESS';
 		if ($registerLink) {

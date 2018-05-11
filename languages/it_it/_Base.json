@@ -1005,7 +1005,7 @@
     "LBL_TAX_SUMMARY": "Tax summary",
     "LBL_CURRENCIES_SUMMARY": "Currency summary",
     "LBL_CHANGE_CURRENCY": "Change currency",
-    "LBL_CHANGE_CURRENCY_INFO": "Changing the currency will convert all values.<br \/>Are you sure you want to do that?",
+    "LBL_CHANGE_CURRENCY_INFO": "Changing the currency will convert all values.\nAre you sure you want to do that?",
     "LBL_AMOUNT": "Amount",
     "LBL_SET_GLOBAL_TAX": "Set",
     "LBL_SET_GLOBAL_DISCOUNT": "Set",

@@ -589,7 +589,7 @@ $.Class("Vtiger_DashBoard_Js", {
 			label: moduleNameLabel + ' - ' + filterLabel,
 			title: form.find('[name="widgetTitle"]').val(),
 			name: 'Mini List',
-			filterid: filterid,
+			filtersId: filterid,
 			isdefault: 0,
 			height: 4,
 			width: 4,

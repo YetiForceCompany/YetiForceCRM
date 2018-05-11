@@ -56,7 +56,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		if (!empty($owner)) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
-		$query->groupBy('u_#__ssalesprocesses.ssalesprocesses_status');
+		$query->groupBy(['u_#__ssalesprocesses.ssalesprocesses_status', 'vtiger_ssalesprocesses_status.ssalesprocesses_statusid']);
 		$dataReader = $query->createCommand()->query();
 		$currencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
 		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');

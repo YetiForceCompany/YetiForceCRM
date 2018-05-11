@@ -34,8 +34,18 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success saveTaxs" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+					<button class="btn btn-success saveTaxs" type="submit">
+						<strong>
+							<span class="fas fa-check mr-1"></span>
+							{\App\Language::translate('LBL_SAVE', $MODULE)}
+						</strong>
+					</button>
+					<button class="btn btn-danger" type="reset" data-dismiss="modal">
+						<strong>
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $MODULE)}
+						</strong>
+					</button>
 				</div>
 			</div>
 		</div>
