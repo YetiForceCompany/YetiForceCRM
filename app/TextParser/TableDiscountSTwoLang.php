@@ -34,10 +34,6 @@ class TableDiscountSTwoLang extends Base
 		if ($fields[0] != 0) {
 			$columns = $inventoryField->getColumns();
 			$inventoryRows = $this->textParser->recordModel->getInventoryData();
-			$mainParams = $inventoryField->getMainParams($fields[1]);
-			$countFields0 = count($fields[0]);
-			$countFields1 = count($fields[1]);
-			$countFields2 = count($fields[2]);
 			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		}
 		if (in_array('currency', $columns)) {
