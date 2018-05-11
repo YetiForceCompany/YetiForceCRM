@@ -10,8 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-</div>
-</div>
-</div>
-</div>
+	<!-- tpl-SettingsMenuEnd -->
+	</div>
+	</div>
+	</div>
+	<!-- /tpl-SettingsMenuEnd -->
 {/strip}
