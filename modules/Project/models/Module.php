@@ -119,10 +119,10 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$project['canAdd'] = false;
 			$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
 
-			$project['start_date'] = $recordModel->get('startdate');
+			$project['start_date'] = date('Y-m-d', strtotime($recordModel->get('startdate')));
 			$project['end_date'] = $recordModel->get('actualenddate');
 			if (empty($project['end_date'])) {
-				$project['end_date'] = $recordModel->get('targetenddate');
+				$project['end_date'] = date('Y-m-d', strtotime($recordModel->get('targetenddate')));
 			}
 			$project['start'] = strtotime($project['start_date']) * 1000;
 			$project['end'] = strtotime($project['end_date']) * 1000;
@@ -172,7 +172,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			if ($row['projectmilestonedate']) {
 				$startDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])));
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
-				$projectmilestone['start'] = $startDate*1000;
+				$projectmilestone['start'] = $startDate * 1000;
 				$projectmilestone['start_date'] = date('Y-m-d', $startDate);
 				$projectmilestone['end'] = $endDate * 1000;
 				$projectmilestone['end_date'] = date('Y-m-d', $endDate);
