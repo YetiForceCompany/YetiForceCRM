@@ -40,117 +40,120 @@
 		<div class="contents">
 			<table class="table table-bordered table-sm">
 				<thead>
-					<tr class="blockHeader">
-						<th>
-							<span>{\App\Language::translate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
-						</th>
-						<th>
-							<span>{\App\Language::translate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
-						</th>
-						<th>
-							<span>{\App\Language::translate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
-						</th>
-						<th>
-							<span>{\App\Language::translate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
-						</th>
-						<th>
-							<span>{\App\Language::translate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
-						</th>
-					</tr>
+				<tr class="blockHeader">
+					<th>
+						<span>{\App\Language::translate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
+					</th>
+					<th>
+						<span>{\App\Language::translate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
+					</th>
+					<th>
+						<span>{\App\Language::translate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
+					</th>
+					<th>
+						<span>{\App\Language::translate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
+					</th>
+					<th>
+						<span>{\App\Language::translate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
+					</th>
+				</tr>
 				</thead>
 				<tbody>
-					{foreach key=NAME item=LIBRARY from=Settings_ModuleManager_Library_Model::getAll()}
-						<tr>
-							<td><strong>{$NAME}</strong></td>
-							<td>{$LIBRARY['dir']}</td>
-							<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
-							<td>
-								{if $LIBRARY['status'] == 1}
-									<span class="badge badge-success bigLabel">
-										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="far fa-check-circle"></span>
-									</span>
-								{elseif $LIBRARY['status'] == 2}
-									<span class="badge badge-warning bigLabel">
-										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fas fa-info-circle"></span>
-									</span>
-								{else}
-									<span class="badge badge-danger bigLabel">
-										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fas fa-ban"></span>
-									</span>
-								{/if}
-							</td>
-							<td class="text-center">
-								<span class="btn-group">
-									{if $LIBRARY['status'] === 0}
-										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
-											<button type="submit" class="btn btn-primary btn-sm">
-												<span class="fas fa-download mr-1"></span>
-												<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
-											</button>
-										</form>
-									{else}
-										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-											<button type="submit" class="btn btn-primary btn-sm">
-												<span class="fas fa-redo-alt mr-1"></span>
-												<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
-											</button>
-										</form>
-									{/if}
+				{foreach key=NAME item=LIBRARY from=Settings_ModuleManager_Library_Model::getAll()}
+					<tr>
+						<td><strong>{$NAME}</strong></td>
+						<td>{$LIBRARY['dir']}</td>
+						<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
+						<td>
+							{if $LIBRARY['status'] == 1}
+								<span class="badge badge-success bigLabel">
+									{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+									<span class="far fa-check-circle"></span>
 								</span>
-							</td>
-						</tr>
-					{/foreach}
+							{elseif $LIBRARY['status'] == 2}
+								<span class="badge badge-warning bigLabel">
+									{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}
+									<span class="fas fa-info-circle"></span>
+								</span>
+							{else}
+								<span class="badge badge-danger bigLabel">
+									{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+									<span class="fas fa-ban"></span>
+								</span>
+							{/if}
+						</td>
+						<td class="text-center">
+							<span class="btn-group">
+								{if $LIBRARY['status'] === 0}
+									<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
+										<button type="submit" class="btn btn-primary btn-sm">
+											<span class="fas fa-download mr-1"></span>
+											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</form>
+								{else}
+									<form method="POST"
+										  action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
+									<button type="submit" class="btn btn-primary btn-sm">
+										<span class="fas fa-redo-alt mr-1"></span>
+										<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
+									</button>
+								</form>
+								{/if}
+							</span>
+						</td>
+					</tr>
+				{/foreach}
 				</tbody>
 			</table>
-			<br />
+			<br/>
 			{assign var=COUNTER value=0}
 			<table class="table table-bordered table-sm">
 				<tr>
 					{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
-						{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
-						{assign var=MODULE_ACTIVE value=$MODULE_MODEL->isActive()}
-						{if $COUNTER eq 2}
-						</tr><tr>
-							{assign var=COUNTER value=0}
-						{/if}
-						<td>
-							<div class="row px-3">
-								<div class="col-1 p-2">
-									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
-								</div>
-								<div class="col-1 p-2 {if !$MODULE_ACTIVE}dull {/if}">
-									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
-								</div>
-								<div class="col-5 p-2 {if !$MODULE_ACTIVE}dull {/if}">
-									<h5 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
-								</div>
-								<div class="col-5 p-2">
-									{if $MODULE_MODEL->get('customized')}
-										<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
-									{/if}
-									{if $MODULE_MODEL->isExportable()}
-										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
-											<button type="submit" class="btn btn-primary btn-sm float-right ml-2"><i class="far fa-arrow-alt-circle-down"></i></button>
-										</form>
-									{/if}
-									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
-									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-										<div class="btn-group {if !$MODULE_ACTIVE}d-none{/if}" role="group">
-											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
-												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
-											</button>
-											<div class="dropdown-menu float-right">
-												{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
-													<a class="dropdown-item" href="{$SETTINGS_LINK['linkurl']}">{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>
-												{/foreach}
-											</div>
+					{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
+					{assign var=MODULE_ACTIVE value=$MODULE_MODEL->isActive()}
+					{if $COUNTER eq 2}
+				</tr>
+				<tr>
+					{assign var=COUNTER value=0}
+					{/if}
+					<td>
+						<div class="form-row px-3 align-items-center">
+							<div class="col-1 p-1">
+								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
+							</div>
+							<div class="col-1 p-1 {if !$MODULE_ACTIVE}dull {/if}">
+								<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
+							</div>
+							<div class="col-5 p-1 {if !$MODULE_ACTIVE}dull {/if}">
+								<h5 class="m-0">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
+							</div>
+							<div class="col-5 p-1 form-row align-items-md-center justify-content-end">
+								{if $MODULE_MODEL->isExportable()}
+									<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
+										<button type="submit" class="btn btn-primary btn-sm float-right ml-2"><i class="far fa-arrow-alt-circle-down"></i></button>
+									</form>
+								{/if}
+								{if $MODULE_MODEL->get('customized')}
+									<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+								{/if}
+								{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
+								{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
+									<div class="btn-group d-flex justify-content-end ml-2{if !$MODULE_ACTIVE}d-none{/if}" role="group">
+										<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
+											<strong><span class="fas fa-cog"></span></strong>&nbsp;<i class="caret"></i>
+										</button>
+										<div class="dropdown-menu float-right">
+											{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
+												<a class="dropdown-item" href="{$SETTINGS_LINK['linkurl']}"><span class="  {$SETTINGS_LINK['linkicon']} mr-2"></span>{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}
+												</a>
+											{/foreach}
 										</div>
-									{/if}
-								</div>
-								{assign var=COUNTER value=$COUNTER+1}
+									</div>
+								{/if}
+							</div>
+							{assign var=COUNTER value=$COUNTER+1}
 						</td>
 					{/foreach}
 				</tr>
