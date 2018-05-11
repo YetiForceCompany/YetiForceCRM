@@ -48,13 +48,13 @@ function passwordStrength(password, translations) {
 	// password hidden
 	if (password == '') {
 		document.getElementById("passwordDescription").innerHTML = app.vtranslate('Enter the password');
-		document.getElementById("passwordStrength").className = "strength0";
+		document.getElementById("passwordStrength").className = "input-group-text strength0";
 	} else if (password == '**********') {
 		document.getElementById("passwordDescription").innerHTML = app.vtranslate('Password is hidden');
-		document.getElementById("passwordStrength").className = "strength0";
+		document.getElementById("passwordStrength").className = "input-group-text strength0";
 	} else {
 		document.getElementById("passwordDescription").innerHTML = desc[score];
-		document.getElementById("passwordStrength").className = "strength" + score;
+		document.getElementById("passwordStrength").className = "input-group-text strength" + score;
 	}
 }
 
