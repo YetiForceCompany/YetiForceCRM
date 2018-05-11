@@ -19,15 +19,6 @@
 				<input type="hidden" name="picklistDependency"
 					   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
-
-			{foreach from=$APIADDRESS item=item key=key}
-				{if !empty($item['nominatim'])}
-					<input type="hidden" name="apiAddress" value='{$item['key']}'
-						   data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}"
-						   data-url="{$item['source']}" data-length="{$APIADDRESS['global']['min_length']}"/>
-				{/if}
-			{/foreach}
-
 			{if !empty($MAPPING_RELATED_FIELD)}
 				<input type="hidden" name="mappingRelatedField"
 					   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
@@ -72,10 +63,10 @@
 					<div class="js-toggle-panel c-panel c-panel--edit row  mx-1 mb-3" data-js="click"
 						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
-							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
-								{assign var=APIADDRESFIELD value=TRUE}
+							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+								{assign var=SEARCH_ADDRESS value=TRUE}
 							{else}
-								{assign var=APIADDRESFIELD value=FALSE}
+								{assign var=SEARCH_ADDRESS value=FALSE}
 							{/if}
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" data-mode="hide"
@@ -88,11 +79,9 @@
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<div class="adressAction row py-2">
-									<div class="{if !$APIADDRESFIELD} text-center{/if} col-md-12 d-flex d-flex justify-content-center flex-wrap flex-sm-nowrap">
+									<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
-								</div>
 							{/if}
 							<div class="row">
 								{assign var=COUNTER value=0}
@@ -117,17 +106,14 @@
 								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-									<label class="my-0 col-md-3 fieldLabel text-md-right u-text-small-bold">
+									<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 										{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="js-help-info float-right" title="" data-placement="top"
-											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
-											   data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span
-														class="fas fa-info-circle"></span></a>
+											<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>
 										{/if}
 										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 									</label>
-									<div class="{$WIDTHTYPE} w-100 {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="{$WIDTHTYPE} w-100 {if $FIELD_MODEL->getUIType() neq "300"} col-lg-12 col-xl-9 {/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{if $FIELD_MODEL->getUIType() eq "300"}
 											<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>

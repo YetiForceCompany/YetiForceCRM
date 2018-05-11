@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
-		<div class="alert alert-danger marginBottom10px" role="alert">
+		<div class="alert alert-danger mb-2" role="alert">
 			<strong>{\App\Language::translate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
@@ -37,12 +37,12 @@
 		</div>
 	{/if}
 	<div class="col-md-12 pr-0 row">
-		<div class="col-12 col-sm-12 col-md-8">
+		<div class="col-12 col-sm-12 col-md-8 d-flex align-items-center">
 			<div class="moduleIcon">
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>
-			<div class="paddingLeft5px detailViewHeaderFieldInformation">
-				<h4 class="recordLabel margin0px u-text-ellipsis" title="{$RECORD->getName()}">
+			<div class="pl-1">
+				<h4 class="recordLabel m-0" title="{$RECORD->getName()}">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
@@ -59,31 +59,31 @@
 				</h4>
 				{assign var=RELATED_TO value=$RECORD->get('parent_id')}
 				{if !empty($RELATED_TO)}
-					<div class="paddingLeft5px">
+					<div class="pl-1">
 						<span class="muted"></span>
-						<h5 class="margin0px"><span class="">{$RECORD->getDisplayValue('parent_id')}</span></h5>
+						<h5 class="m-0"><span class="">{$RECORD->getDisplayValue('parent_id')}</span></h5>
 					</div>
 				{/if}
 				{assign var=PRIORITY value=$RECORD->get('ticketpriorities')}
 				{if !empty($PRIORITY)}
-					<div class="paddingLeft5px">
+					<div class="pl-1">
 						<span class="muted">{\App\Language::translate('Priority',$MODULE_NAME)} - </span>
 						{$RECORD->getDisplayValue('ticketpriorities')}
 					</div>
 				{/if}
 				{assign var=STATUS value=$RECORD->get('ticketstatus')}
 				{if !empty($STATUS)}
-					<div class="paddingLeft5px">
+					<div class="pl-1">
 						<span class="muted">{\App\Language::translate('Status',$MODULE_NAME)}: </span>
 						{$RECORD->getDisplayValue('ticketstatus')}
 					</div>
 				{/if}
-				<div class="muted paddingLeft5px">
+				<div class="muted pl-1">
 					{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-					<div class="muted paddingLeft5px">
+					<div class="muted pl-1">
 						{\App\Language::translate('Share with users',$MODULE_NAME)}: {$SHOWNERS}
 					</div>
 				{/if}

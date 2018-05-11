@@ -1,5 +1,7 @@
 <?php
 /**
+ * LocationRegister crmentity class.
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
@@ -56,6 +58,8 @@ class LocationRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'FL_NAME' => ['locationregister', 'name'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_STATUS' => ['locationregister', 'locationregister_status'],
+		'FL_CITY' => ['locationregister', 'city'],
 	];
 	/**
 	 * List fields name.
@@ -66,6 +70,8 @@ class LocationRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'FL_NAME' => 'name',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'locationregister_status',
+		'FL_CITY' => 'city'
 	];
 	/**
 	 * Make the field link to detail view.
@@ -83,6 +89,8 @@ class LocationRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'FL_NAME' => ['locationregister', 'name'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+		'FL_STATUS' => ['locationregister', 'locationregister_status'],
+		'FL_CITY' => ['locationregister', 'city'],
 	];
 	/**
 	 * Search fields name.
@@ -93,13 +101,15 @@ class LocationRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'FL_NAME' => 'name',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'locationregister_status',
+		'FL_CITY' => 'city'
 	];
 	/**
 	 * For Popup window record selection.
 	 *
 	 * @var array
 	 */
-	public $popup_fields = ['name'];
+	public $popup_fields = ['name', 'locationregister_status', 'city'];
 	/**
 	 * For Alphabetical search.
 	 *

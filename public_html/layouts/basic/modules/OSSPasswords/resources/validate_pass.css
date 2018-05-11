@@ -8,7 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 #passwordStrength {
-	height: 10px;
 	display: block;
 	float: left;
 }
@@ -17,22 +16,23 @@
 	background: #cccccc;
 }
 .strength1 {
-	width: 50px;
-	background: #ff0000;
+	width: 80px;
+	background: #f06a63;
 }
 .strength2 {
 	width: 100px;
-	background: #ff5f5f;
+	background: #fdd661;
 }
 .strength3 {
 	width: 150px;
-	background: #56e500;
+	background: #ddeeb8;
 }
 .strength4 {
-	background: #4dcd00;
+	background: #a6bf57;
 	width: 200px;
 }
 .strength5 {
-	background: #399800;
+	background: #327519;
 	width: 250px;
+	color: #fff;
 }
