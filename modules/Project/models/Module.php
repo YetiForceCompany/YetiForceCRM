@@ -11,6 +11,9 @@
 
 class Project_Module_Model extends Vtiger_Module_Model
 {
+	private $tasks = [];
+	private $rootNode;
+
 	/**
 	 * Get parent nodes id.
 	 *
@@ -20,7 +23,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	private function getParents($parentId, $tasks, $parents = [])
+	private function getRecordParents($parentId, $parents = [])
 	{
 		if (empty($parentId)) {
 			return $parents;
@@ -28,10 +31,10 @@ class Project_Module_Model extends Vtiger_Module_Model
 		if (!in_array($parentId, $parents)) {
 			$parents[] = $parentId;
 		}
-		foreach ($tasks as $task) {
+		foreach ($this->tasks as $task) {
 			if ($task['id'] === $parentId) {
 				if (!empty($task['parent'])) {
-					$parents = $this->getParents($task['parent'], $tasks, $parents);
+					$parents = $this->getRecordParents($task['parent'], $parents);
 				}
 				break;
 			}
@@ -46,12 +49,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	private function collectParents($tasks)
+	private function collectRecordParents()
 	{
 		$parents = [];
-		foreach ($tasks as $task) {
+		foreach ($this->tasks as $task) {
 			if (!empty($task['parent'])) {
-				$parents[$task['id']] = $this->getParents($task['parent'], $tasks);
+				$parents[$task['id']] = $this->getRecordParents($task['parent']);
 			} else {
 				$parents[$task['id']] = [];
 			}
@@ -64,13 +67,28 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param $tasks
 	 */
-	private function calculateLevels(&$tasks)
+	private function calculateLevels()
 	{
-		$parents = $this->collectParents($tasks);
-		foreach ($tasks as &$task) {
-			$task['depends'] = implode(',', $parents[$task['id']]);
+		$parents = $this->collectRecordParents();
+		foreach ($this->tasks as &$task) {
+			$task['depends'] = (string) $task['parent'] ?: '';
 			$task['level'] = count($parents[$task['id']]);
 			$task['parents'] = $parents[$task['id']];
+		}
+		$hasChild = [];
+		foreach ($parents as $childId => $parentsId) {
+			foreach ($parentsId as $parentId) {
+				if (!in_array((int) $parentId, $hasChild)) {
+					$hasChild[] = (int) $parentId;
+				}
+			}
+		}
+		foreach ($this->tasks as &$task) {
+			if (in_array((int) $task['id'], $hasChild)) {
+				$task['hasChild'] = true;
+			} else {
+				$task['hasChild'] = false;
+			}
 		}
 	}
 
@@ -88,6 +106,111 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$eDate = new DateTime($endDateStr);
 		$interval = $eDate->diff($sDate);
 		return (int) $interval->format('%d');
+	}
+
+	private function getRoots()
+	{
+		$roots = [];
+		foreach ($this->tasks as $task) {
+			if (empty($task['parent'])) {
+				$roots[] = $task;
+			}
+		}
+		return $roots;
+	}
+
+	private function getTaskRecordById($taskId)
+	{
+		foreach ($this->tasks as $task) {
+			if ((int) $task['id'] === (int) $taskId) {
+				return $task;
+			}
+		}
+	}
+
+	private function hasChild($parent)
+	{
+		foreach ($this->tasks as $task) {
+			if ($task['parent'] === $parent['id']) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private function normalizeParents()
+	{
+		foreach ($this->tasks as &$task) {
+			if (!isset($task['parent']) && $task['id'] !== 0) {
+				$task['parent'] = 0;
+			}
+		}
+	}
+
+	private function getRecordWithChildren($task)
+	{
+		foreach ($this->tasks as $child) {
+			if (isset($child['parent']) && $child['parent'] === $task['id']) {
+				if (empty($task['children'])) {
+					$task['children'] = [];
+				}
+				$child = $this->getRecordWithChildren($child);
+				$task['children'][] = $child;
+			}
+		}
+		return $task;
+	}
+
+	private function flattenRecordTasks($nodes, $flat = [])
+	{
+		foreach ($nodes as $node) {
+			$flat[] = $node;
+			if (!empty($node['children'])) {
+				$flat = $this->flattenRecordTasks($node['children'], $flat);
+			}
+		}
+		return $flat;
+	}
+
+	private function removeChildren($tasks)
+	{
+		$cleaned = [];
+		foreach ($tasks as $task) {
+			if (isset($task['children'])) {
+				unset($task['children']);
+			}
+			$cleaned[] = $task;
+		}
+		return $cleaned;
+	}
+
+	private function sortByParents()
+	{
+		$tree = $this->getRecordWithChildren($this->rootNode);
+		$this->tree = $tree;
+		$flat = $this->flattenRecordTasks($tree['children']);
+		return $this->removeChildren($flat);
+	}
+
+	private function addRootNode()
+	{
+		$this->rootNode = ['id' => 0];
+		array_unshift($this->tasks, $this->rootNode);
+	}
+
+	private function removeRootNode()
+	{
+		$tasks = [];
+		foreach ($this->tasks as $task) {
+			if ($task['id'] !== 0) {
+				if ($task['parent'] === 0) {
+					unset($task['parent']);
+					$task['depends'] = '';
+				}
+				$tasks[] = $task;
+			}
+		}
+		return $tasks;
 	}
 
 	/**
@@ -134,7 +257,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$response['data'] = array_merge($response['data'], $branches['data']);
 			$response['links'] = array_merge($response['links'], $branches['links']);
 		}
-		$this->calculateLevels($response['tasks']);
+		$this->tasks = $response['tasks'];
+		$this->calculateLevels();
+		$this->normalizeParents();
+		$this->addRootNode();
+		$this->tasks = $this->sortByParents();
+		$response['tasks'] = $this->removeRootNode();
 		$response['canWrite'] = false;
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
