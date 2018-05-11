@@ -80,7 +80,7 @@
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								<div class="adressAction row py-2">
-									<div class="{if !$SEARCH_ADDRESS} text-center{/if} col-md-12">
+									<div class="{if !$SEARCH_ADDRESS} text-center{/if} row col-12">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
 								</div>

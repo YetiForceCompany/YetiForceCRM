@@ -1,5 +1,5 @@
 {strip}
-	<div class="col-md-12 mb-2">
+	<div class="col-xl-6">
 		<label class="text-md-right u-text-small-bold pt-1">
 			<span class="copyAddressLabel col-form-label mr-2 mb-1">{\App\Language::translate('COPY_ADRESS_FROM')}</span>
 		</label>
@@ -42,8 +42,8 @@
 	</div>
 	{assign var=PROVIDER value=App\AddressFinder::getProvider()}
 	{if $SEARCH_ADDRESS && $PROVIDER}
-		<div class="col-md-12 d-flex justify-content-center">
-			<div class="js-search-address input-group c-btn-block-sm col-md-4" data-js="container">
+		<div class="col-xl-6 d-flex justify-content-center">
+			<div class="js-search-address input-group input-group-sm c-btn-block-sm" data-js="container">
 				{if count($PROVIDER) > 1}
 					<div class="input-group-prepend">
 						<button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
@@ -63,7 +63,7 @@
 					   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"
 					   data-type="{App\AddressFinder::getDefaultProvider()}"
 					   data-min="{$ADDRESS_FINDER_CONFIG['global']['min_length']}"
-					   class="js-autoload-address form-control form-control-sm" data-js="autocomplete"
+					   class="js-autoload-address form-control" data-js="autocomplete"
 				/>
 				<div class="input-group-append">
 					<span class="input-group-text">
