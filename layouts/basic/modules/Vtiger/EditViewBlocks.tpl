@@ -79,11 +79,9 @@
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<div class="adressAction row py-2">
-									<div class="{if !$SEARCH_ADDRESS} text-center{/if} row col-12">
+									<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
-								</div>
 							{/if}
 							<div class="row">
 								{assign var=COUNTER value=0}
