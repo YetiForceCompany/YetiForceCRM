@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {literal}
-<style>
+	<style>
 
-</style>
+	</style>
 {/literal}
 <div id="j-gantt" data-js="container"></div>
 {literal}
@@ -11,12 +11,14 @@
 	window.ganttData = {/literal}{$DATA}{literal};
 	console.log(ganttData);
 
-	window.ganttTemplateFunctions = [];
 
-	window.ganttTemplateFunctions.push({
-		type: "GANTBUTTONS",
-		render(obj){
-			return `<div class="ganttButtonBar noprint">
+
+		let ganttTemplateFunctions = [];
+
+		ganttTemplateFunctions.push({
+			type: "GANTBUTTONS",
+			render(obj) {
+				return `<div class="ganttButtonBar noprint">
 				<div class="buttons">
 					<button id="j-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
 					<button id="j-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
@@ -38,13 +40,13 @@
 					<button id="j-gantt__fullscreen-btn" class="button textual icon" title="FULLSCREEN"><span class="teamworkIcon">@</span></button>
 				</div>
 			</div>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "TASKSEDITHEAD",
-		render(obj){
-			return `<table class="gdfTable" cellspacing="0" cellpadding="0">
+		ganttTemplateFunctions.push({
+			type: "TASKSEDITHEAD",
+			render(obj) {
+				return `<table class="gdfTable" cellspacing="0" cellpadding="0">
 				<thead>
 				<tr style="height:40px">
 					<th class="gdfColHeader" style="width:35px; border-right: none"></th>
@@ -55,42 +57,42 @@
 				</tr>
 				</thead>
 			</table>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "TASKROW",
-		render(obj){
-			return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent()?'isParent':''} ${obj.collapsed?'collapsed':''}" level="${obj.level}">
+		ganttTemplateFunctions.push({
+			type: "TASKROW",
+			render(obj) {
+				return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent() ? 'isParent' : ''} ${obj.collapsed ? 'collapsed' : ''}" level="${obj.level}">
 				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">(#=obj.getRow()+1#)</span> <span class="teamworkIcon" style="font-size:12px;" >e</span></th>
     			<td class="gdfCell noClip" align="center"><div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div></td>
-				<td class="gdfCell indentCell" style="padding-left:${obj.level*10+18}px;">
+				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;">
 					<div class="exp-controller" align="center"></div>
-					<input type="text" name="name" value="${obj.name}" placeholder="name">
+					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
 				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
-				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress?obj.progress:''}" ${obj.progressByWorklog?"readOnly":""}></td>
+				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
 			</tr>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "TASKEMPTYROW",
-		render(obj){
-			return `<tr class="taskEditRow emptyRow">
+		ganttTemplateFunctions.push({
+			type: "TASKEMPTYROW",
+			render(obj) {
+				return `<tr class="taskEditRow emptyRow">
 				<th class="gdfCell" align="right"></th>
 				<td class="gdfCell noClip" align="center"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 			</tr>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "TASKBAR",
-		render(obj){
-			return `<div class="taskBox taskBoxDiv" taskId="${obj.id}">
+		ganttTemplateFunctions.push({
+			type: "TASKBAR",
+			render(obj) {
+				return `<div class="taskBox taskBoxDiv" taskId="${obj.id}">
 				<div class="layout ${obj.hasExternalDep ? 'extDep' : ''}">
 					<div class="taskProgress"
 						 style="width:${obj.progress > 100 ? 100 : obj.progress}%; background-color:${obj.progress > 100 ? 'red' : 'rgb(153,255,51);'};"></div>
@@ -99,14 +101,14 @@
 					<div class="milestone end ${obj.endIsMilestone ? 'active' : ''}"></div>
 				</div>
 			</div>`;
-		}
-	});
+			}
+		});
 
 
-	window.ganttTemplateFunctions.push({
-		type: "CHANGE_STATUS",
-		render(obj){
-			return `<div class="taskStatusBox">
+		ganttTemplateFunctions.push({
+			type: "CHANGE_STATUS",
+			render(obj) {
+				return `<div class="taskStatusBox">
 				<div class="taskStatus cvcColorSquare" status="STATUS_ACTIVE" title="Active"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_DONE" title="Completed"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_FAILED" title="Failed"></div>
@@ -114,13 +116,13 @@
 				<div class="taskStatus cvcColorSquare" status="STATUS_WAITING" title="Waiting" style="display: none;"></div>
 				<div class="taskStatus cvcColorSquare" status="STATUS_UNDEFINED" title="Undefined"></div>
 			</div>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "TASK_EDITOR",
-		render(obj){
-			return `<div class="ganttTaskEditor">
+		ganttTemplateFunctions.push({
+			type: "TASK_EDITOR",
+			render(obj) {
+				return `<div class="ganttTaskEditor">
 				<h2 class="taskData">Task editor</h2>
 				<table cellspacing="1" cellpadding="5" width="100%" class="taskData table" border="0">
 					<tr>
@@ -202,25 +204,25 @@
 				</div>
 
 			</div>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "ASSIGNMENT_ROW",
-		render(obj){
-			return `<tr taskId="${obj.task.id}" assId="${obj.assig.id}" class="assigEditRow">
+		ganttTemplateFunctions.push({
+			type: "ASSIGNMENT_ROW",
+			render(obj) {
+				return `<tr taskId="${obj.task.id}" assId="${obj.assig.id}" class="assigEditRow">
 				<td><select name="resourceId" class="formElements" ${obj.assig.id.indexOf("tmp_") == 0 ? "" : "disabled"}></select></td>
 				<td><select type="select" name="roleId" class="formElements"></select></td>
 				<td><input type="text" name="effort" value="${getMillisInHoursMinutes(obj.assig.effort)}" size="5" class="formElements"></td>
 				<td align="center"><span class="teamworkIcon delAssig del" style="cursor: pointer">d</span></td>
 			</tr>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "RESOURCE_EDITOR",
-		render(obj){
-			return `<div class="resourceEditor" style="padding: 5px;">
+		ganttTemplateFunctions.push({
+			type: "RESOURCE_EDITOR",
+			render(obj) {
+				return `<div class="resourceEditor" style="padding: 5px;">
 				<h2>Project team</h2>
 				<table cellspacing="1" cellpadding="0" width="100%" id="resourcesTable">
 					<tr>
@@ -234,24 +236,26 @@
 					<button id="resSaveButton" class="button big">Save</button>
 				</div>
 			</div>`;
-		}
-	});
+			}
+		});
 
-	window.ganttTemplateFunctions.push({
-		type: "RESOURCE_ROW",
-		render(obj){
-			return `<tr resId="${obj.id}" class="resRow">
+		ganttTemplateFunctions.push({
+			type: "RESOURCE_ROW",
+			render(obj) {
+				return `<tr resId="${obj.id}" class="resRow">
 				<td><input type="text" name="name" value="${obj.name}" style="width:100%;" class="formElements"></td>
 				<td align="center"><span class="teamworkIcon delRes del" style="cursor: pointer">d</span></td>
 			</tr>`;
-		}
-	});
+			}
+		});
+
+
+
 
 </script>
 {/literal}
-
 {*
-<hr />
+<hr/>
 <style>
 	td {
 		padding-left: 10px;
@@ -267,19 +271,27 @@
 	<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/gantt/dhtmlxgantt.js')}"></script>
 	<table>
 		<tr style="run-in">
-		<fieldset>
-			<legend class="d-none">{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
-			<td><strong>&nbsp;{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
-			<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{\App\Language::translate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-			<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{\App\Language::translate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-			<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{\App\Language::translate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-		</fieldset>
-		<fieldset>
-			<legend class="d-none">{\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
-			<td><strong><span>|&nbsp;&nbsp;</span> {\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
-			<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{\App\Language::translate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
-			<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{\App\Language::translate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>
-		</fieldset>
+			<fieldset>
+				<legend class="d-none">{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
+				<td><strong>&nbsp;{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}:&nbsp;</strong></td>
+				<td>
+					<input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{\App\Language::translate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label>
+				</td>
+				<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{\App\Language::translate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label>
+				</td>
+				<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{\App\Language::translate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label>
+				</td>
+			</fieldset>
+			<fieldset>
+				<legend class="d-none">{\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
+				<td><strong><span>|&nbsp;&nbsp;</span> {\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}:&nbsp;</strong>
+				</td>
+				<td>
+					<input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{\App\Language::translate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label>
+				</td>
+				<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{\App\Language::translate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label>
+				</td>
+			</fieldset>
 		</tr>
 	</table>
 </div>
@@ -310,7 +322,8 @@
 						{
 							unit: 'day',
 							step: 1,
-							date: '%j, %D'}
+							date: '%j, %D'
+						}
 					];
 					break;
 				case 'year':
@@ -361,42 +374,42 @@
 		gantt.templates.grid_file = function (item) {
 			return '<div class="gantt_tree_icon gantt_file ' + 'userIcon-' + item.module + '"></div>';
 		},
-				gantt.templates.grid_folder = function (item) {
-					return '<div class="gantt_tree_icon gantt_folder_' + (item.$open ? 'open' : 'closed') + ' ' + 'userIcon-' + item.module + '"></div>';
-				},
-				gantt.templates.rightside_text = function (start, end, task) {
-					if (task.type === gantt.config.types.milestone) {
-						return task.text;
-					}
-					return '';
-				};
+			gantt.templates.grid_folder = function (item) {
+				return '<div class="gantt_tree_icon gantt_folder_' + (item.$open ? 'open' : 'closed') + ' ' + 'userIcon-' + item.module + '"></div>';
+			},
+			gantt.templates.rightside_text = function (start, end, task) {
+				if (task.type === gantt.config.types.milestone) {
+					return task.text;
+				}
+				return '';
+			};
 
 		gantt.config.columns = [{
-				name: 'text',
-				label: app.vtranslate('JS_NAME'),
-				width: '*',
-				tree: true
-			}, {
-				name: 'progress',
-				label: app.vtranslate('JS_PROGRESS'),
-				template: function (obj) {
-					if (typeof obj.progress !== 'undefined') {
-						return Math.round(obj.progress * 100) + '%';
-					}
-					return '';
-				},
-				align: 'center',
-			}, {
-				name: 'priority',
-				label: app.vtranslate('JS_PRIORITY'),
-				template: function (obj) {
-					if (typeof obj.priority !== 'undefined') {
-						return obj.priority_label;
-					}
-					return '';
-				},
-				align: 'center',
-			}];
+			name: 'text',
+			label: app.vtranslate('JS_NAME'),
+			width: '*',
+			tree: true
+		}, {
+			name: 'progress',
+			label: app.vtranslate('JS_PROGRESS'),
+			template: function (obj) {
+				if (typeof obj.progress !== 'undefined') {
+					return Math.round(obj.progress * 100) + '%';
+				}
+				return '';
+			},
+			align: 'center',
+		}, {
+			name: 'priority',
+			label: app.vtranslate('JS_PRIORITY'),
+			template: function (obj) {
+				if (typeof obj.priority !== 'undefined') {
+					return obj.priority_label;
+				}
+				return '';
+			},
+			align: 'center',
+		}];
 
 		gantt.config.scale_unit = 'month';
 		gantt.config.date_scale = '%F, %Y';
@@ -406,7 +419,8 @@
 			{
 				unit: 'day',
 				step: 1,
-				date: '%j, %D'}
+				date: '%j, %D'
+			}
 		];
 		gantt._get_safe_type = function (type) {
 			if (type === gantt.config.types.milestone) {
@@ -423,7 +437,13 @@
 		gantt.config.drag_resize = false;
 
 		gantt.init('gantt_here');
-		gantt.parse({$DATA});
+		window.ganttData.data = window.ganttData.data.map((item) => {
+			if(typeof item.progress!=='undefined' && item.progress!==null) {
+				item.progress = item.progress / 100;
+			}
+			return item;
+		});
+		gantt.parse(window.ganttData);
 	});
 
 </script>
