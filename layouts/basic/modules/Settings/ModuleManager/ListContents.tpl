@@ -19,16 +19,16 @@
 				{/if}
 			</div>
 			<div class="col-md-5">
-				<span class="btn-toolbar float-right mt-1">
-					<span class="btn-group mr-1">
-						<button class="btn btn-success createModule" type="button">
+				<span class="btn-toolbar float-lg-right mt-1">
+					<span class="btn-group mr-sm-0 mr-lg-1 c-btn-block-md-down">
+						<button class="btn btn-success createModule c-btn-block-md-down" type="button">
 							<span class="fas fa-desktop"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
 					{if \AppConfig::main('systemMode') !== 'demo'}
-						<span class="btn-group">
-							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
+						<span class="btn-group c-btn-block-md-down mt-1 mt-lg-0">
+							<button class="btn btn-primary c-btn-block-md-down" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="fas fa-download"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 							</button>
@@ -119,29 +119,29 @@
 					{assign var=COUNTER value=0}
 					{/if}
 					<td>
-						<div class="form-row px-3 align-items-center">
-							<div class="col-1 p-1">
+						<div class="form-row px-3 align-items-center justify-content-center flex-md-row">
+							<div class="col-2 text-center text-md-left col-sm-1 float-left p-1">
 								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 							</div>
-							<div class="col-1 p-1 {if !$MODULE_ACTIVE}dull {/if}">
+							<div class="col-4 col-md-2 text-center text-md-left col-sm-3 p-1{if !$MODULE_ACTIVE}dull {/if}">
 								<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 							</div>
-							<div class="col-5 p-1 {if !$MODULE_ACTIVE}dull {/if}">
+							<div class="col-12 col-sm-7 col-md-5 text-center text-md-left p-1{if !$MODULE_ACTIVE}dull {/if}">
 								<h5 class="m-0">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
 							</div>
-							<div class="col-5 p-1 form-row align-items-md-center justify-content-end">
+							<div class="col-12 col-md-4 p-1 form-row align-items-md-center justify-content-end">
 								{if $MODULE_MODEL->isExportable()}
-									<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
-										<button type="submit" class="btn btn-primary btn-sm float-right ml-2"><i class="far fa-arrow-alt-circle-down"></i></button>
+									<form class="c-btn-block-sm-down" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
+										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-md-0"><i class="far fa-arrow-alt-circle-down"></i></button>
 									</form>
 								{/if}
 								{if $MODULE_MODEL->get('customized')}
-									<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-2" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+									<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-sm-1 mb-sm-1" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 								{/if}
 								{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 								{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-									<div class="btn-group d-flex justify-content-end ml-2{if !$MODULE_ACTIVE}d-none{/if}" role="group">
-										<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
+									<div class="btn-group d-flex justify-content-end ml-0 ml-md-2 c-btn-block-sm-down {if !$MODULE_ACTIVE}d-none{/if}" role="group">
+										<button class="btn dropdown-toggle btn-light c-btn-block-sm-down" data-toggle="dropdown">
 											<strong><span class="fas fa-cog"></span></strong>&nbsp;<i class="caret"></i>
 										</button>
 										<div class="dropdown-menu float-right">

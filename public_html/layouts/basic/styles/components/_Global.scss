@@ -198,7 +198,12 @@
   @include button-variant(#ddd, #ddd);
 }
 @include media-breakpoint-down(sm) {
-  .c-btn-block-sm {
+  .c-btn-block-sm-down {
+	width: 100% !important;
+  }
+}
+@include media-breakpoint-down(md) {
+  .c-btn-block-md-down {
 	width: 100% !important;
   }
 }
