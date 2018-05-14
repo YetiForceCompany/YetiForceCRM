@@ -34,27 +34,28 @@
 						</button>
 						{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 							<div class="btn-group">
-								<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" id="globalSearchOperator"
+										href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="fas fa-crosshairs fa-fw"></span>
 									<span class="sr-only">{\App\Language::translate('LBL_SPECIAL_OPTIONS')}</span>
-								</button>
-								<div class="dropdown-menu globalSearchOperator">
-									<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item" href="#" data-operator="FulltextBegin">
+								</a>
+								<ul class="dropdown-menu js-global-search-operator" aria-labelledby="globalSearchOperator" data-js="click">
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="FulltextBegin">
 										{\App\Language::translate('LBL_FULLTEXT_BEGIN')}
-									</a>
-									<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item" href="#" data-operator="FulltextWord">
+									</li>
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="FulltextWord">
 										{\App\Language::translate('LBL_FULLTEXT_WORD')}
-									</a>
-									<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item" href="#" data-operator="Contain">
+									</li>
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="Contain">
 										{\App\Language::translate('LBL_CONTAINS')}
-									</a>
-									<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item" href="#" data-operator="Begin">
+									</li>
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="Begin">
 										{\App\Language::translate('LBL_STARTS_WITH')}
-									</a>
-									<a class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item" href="#" data-operator="End">
+									</li>
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="End">
 										{\App\Language::translate('LBL_ENDS_WITH')}
-									</a>
-								</div>
+									</li>
+								</ul>
 							</div>
 						{/if}
 						<button class="btn btn-outline-dark border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">

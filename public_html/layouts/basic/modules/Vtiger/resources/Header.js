@@ -397,11 +397,11 @@ $.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
-		$('.globalSearchOperator').on('click', function (e) {
+		$('.js-global-search-operator').on('click', function (e) {
 			var currentTarget = $(e.target);
 			var block = currentTarget.closest('.globalSearchInput');
 			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
-			block.find('.globalSearchOperator .dropdown-item').removeClass('active');
+			block.find('.js-global-search-operator .dropdown-item').removeClass('active');
 			currentTarget.closest('.dropdown-item').addClass('active');
 		});
 		if ($('#gsAutocomplete').val() == 1) {
