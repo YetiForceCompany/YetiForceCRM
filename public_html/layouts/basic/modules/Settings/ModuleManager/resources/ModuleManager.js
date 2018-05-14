@@ -160,6 +160,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		$.extend(params, customParams);
 		Vtiger_Helper_Js.showPnotify(params);
 	},
+	frameProgress: false,
 	deleteModule: function (container) {
 		container.on('click', '.deleteModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -172,6 +173,13 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				mode: 'deleteModule',
 				forModule: forModule
 			}
+			this.frameProgress = $.progressIndicator({
+				position: 'html',
+				message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
+				blockInfo: {
+					enabled: true
+				}
+			});
 			AppConnector.request(params).then(
 				function (data) {
 					var params = {
@@ -190,7 +198,9 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		var thisInstance = this;
 		var container = jQuery('#moduleManagerContents');
 		container.find('.createModule').on('click', thisInstance.createModule);
-		thisInstance.deleteModule(container)
+		var scrollbar = container.find('.js-scrollbar');
+		app.showNewBottomTopScrollbar(scrollbar);
+		thisInstance.deleteModule(container);
 		//register click event for check box to update the module status
 		container.on('click', '[name="moduleStatus"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);

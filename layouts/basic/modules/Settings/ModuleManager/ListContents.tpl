@@ -38,74 +38,76 @@
 			</div>
 		</div>
 		<div class="contents">
-			<table class="table table-bordered table-sm">
-				<thead>
-				<tr class="blockHeader">
-					<th>
-						<span>{\App\Language::translate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
-					</th>
-					<th>
-						<span>{\App\Language::translate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
-					</th>
-					<th>
-						<span>{\App\Language::translate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
-					</th>
-					<th>
-						<span>{\App\Language::translate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
-					</th>
-					<th>
-						<span>{\App\Language::translate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
-					</th>
-				</tr>
-				</thead>
-				<tbody>
-				{foreach key=NAME item=LIBRARY from=Settings_ModuleManager_Library_Model::getAll()}
-					<tr>
-						<td><strong>{$NAME}</strong></td>
-						<td>{$LIBRARY['dir']}</td>
-						<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
-						<td>
-							{if $LIBRARY['status'] == 1}
-								<span class="badge badge-success bigLabel">
-									{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-									<span class="far fa-check-circle"></span>
-								</span>
-							{elseif $LIBRARY['status'] == 2}
-								<span class="badge badge-warning bigLabel">
-									{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}
-									<span class="fas fa-info-circle"></span>
-								</span>
-							{else}
-								<span class="badge badge-danger bigLabel">
-									{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-									<span class="fas fa-ban"></span>
-								</span>
-							{/if}
-						</td>
-						<td class="text-center">
-							<span class="btn-group">
-								{if $LIBRARY['status'] === 0}
-									<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
+			<div class="js-scrollbar position-relative" data-js="container">
+				<table class="table table-bordered table-sm position-relative">
+					<thead>
+					<tr class="blockHeader">
+						<th>
+							<span>{\App\Language::translate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{\App\Language::translate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{\App\Language::translate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{\App\Language::translate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{\App\Language::translate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					{foreach key=NAME item=LIBRARY from=Settings_ModuleManager_Library_Model::getAll()}
+						<tr>
+							<td><strong>{$NAME}</strong></td>
+							<td class="u-white-space-nowrap">{$LIBRARY['dir']}</td>
+							<td class="u-white-space-nowrap"><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
+							<td>
+								{if $LIBRARY['status'] == 1}
+									<span class="badge badge-success bigLabel">
+										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										<span class="far fa-check-circle"></span>
+									</span>
+								{elseif $LIBRARY['status'] == 2}
+									<span class="badge badge-warning bigLabel">
+										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}
+										<span class="fas fa-info-circle"></span>
+									</span>
+								{else}
+									<span class="badge badge-danger bigLabel">
+										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										<span class="fas fa-ban"></span>
+									</span>
+								{/if}
+							</td>
+							<td class="text-center">
+								<span class="btn-group">
+									{if $LIBRARY['status'] === 0}
+										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
+											<button type="submit" class="btn btn-primary btn-sm">
+												<span class="fas fa-download mr-1"></span>
+												<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+											</button>
+										</form>
+									{else}
+										<form method="POST"
+											  action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
 										<button type="submit" class="btn btn-primary btn-sm">
-											<span class="fas fa-download mr-1"></span>
-											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+											<span class="fas fa-redo-alt mr-1"></span>
+											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</form>
-								{else}
-									<form method="POST"
-										  action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-									<button type="submit" class="btn btn-primary btn-sm">
-										<span class="fas fa-redo-alt mr-1"></span>
-										<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
-									</button>
-								</form>
-								{/if}
-							</span>
-						</td>
-					</tr>
-				{/foreach}
-				</tbody>
-			</table>
+									{/if}
+								</span>
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
 			<br/>
 			{assign var=COUNTER value=0}
 			<table class="table table-bordered table-sm">
