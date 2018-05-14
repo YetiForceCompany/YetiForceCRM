@@ -15,7 +15,7 @@
 			<div class="col-md-7 d-flex align-items-center">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
-					<div class="js-popover-tooltip ml-2" data-js="popover" data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}"	><span class="fas fa-info-circle"></span></div>
+					<div class="js-popover-tooltip ml-2" data-js="popover" data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></div>
 				{/if}
 			</div>
 			<div class="col-md-5">
@@ -109,29 +109,25 @@
 				</table>
 			</div>
 			<br/>
-			{assign var=COUNTER value=0}
 			<table class="table table-bordered table-sm">
 				<tr>
 					{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
 					{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 					{assign var=MODULE_ACTIVE value=$MODULE_MODEL->isActive()}
-					{if $COUNTER eq 2}
 				</tr>
-				<tr>
-					{assign var=COUNTER value=0}
-					{/if}
-					<td>
-						<div class="form-row px-3 align-items-center justify-content-center flex-md-row">
-							<div class="col-2 text-center text-md-left col-sm-1 float-left p-1">
+				<tr class=" col-sm-12 col-lg-6 col-xl-4 float-left d-block p-0">
+					<td class="d-flex justify-content-center">
+						<div class="form-row px-3 w-100 align-items-center justify-content-left ">
+							<div class="col-1 col-md-1 text-center float-left p-1">
 								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 							</div>
-							<div class="col-4 col-md-2 text-center text-md-left col-sm-3 p-1{if !$MODULE_ACTIVE}dull {/if}">
+							<div class="col-2 col-md-2 text-center text-md-left col-sm-3 p-1{if !$MODULE_ACTIVE}dull {/if}">
 								<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 							</div>
-							<div class="col-12 col-sm-7 col-md-5 text-center text-md-left p-1{if !$MODULE_ACTIVE}dull {/if}">
-								<h5 class="m-0">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
+							<div class="col-9 col-sm-6 col-md-5 col-xl-6 text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
+								<h5 class="m-0 u-text-ellipsis text-left">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
 							</div>
-							<div class="col-12 col-md-4 p-1 form-row align-items-md-center justify-content-end">
+							<div class="col-12 col-sm-2 col-md-4 col-lg-4 col-xl-3 p-1 form-row align-items-md-center justify-content-end">
 								{if $MODULE_MODEL->isExportable()}
 									<form class="c-btn-block-sm-down" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
 										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-lg-0"><i class="far fa-arrow-alt-circle-down"></i></button>
@@ -155,7 +151,6 @@
 									</div>
 								{/if}
 							</div>
-							{assign var=COUNTER value=$COUNTER+1}
 						</td>
 					{/foreach}
 				</tr>
