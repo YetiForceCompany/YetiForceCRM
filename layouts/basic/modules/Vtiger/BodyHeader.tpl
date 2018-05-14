@@ -266,7 +266,7 @@
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<div class="o-action-menu__item">
-							<a class="headerButton btn btn-light btn showHistoryBtn js-popover-tooltip dropdownMenu" data-js="popover" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
+							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu" id="showHistoryBtn" data-js="popover" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
 								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
