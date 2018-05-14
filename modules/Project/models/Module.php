@@ -455,10 +455,9 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projectmilestone['parent'] = $row['projectid'];
 			$projectmilestone['module'] = 'ProjectMilestone';
 			if ($row['projectmilestonedate']) {
-				$startDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])));
-				$projectmilestone['start'] = $startDate * 1000;
-				$projectmilestone['start_date'] = date('Y-m-d', $startDate);
-				$projectmilestone['duration'] = 1;
+				$endDate = strtotime($row['projectmilestonedate']);
+				$projectmilestone['end'] = $endDate * 1000;
+				$projectmilestone['end_date'] = date('Y-m-d', $endDate);
 			}
 			$projectmilestone['progress'] = (int) $row['projectmilestone_progress'];
 			$projectmilestone['description'] = $row['description'];
