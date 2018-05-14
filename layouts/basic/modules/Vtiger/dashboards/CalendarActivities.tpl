@@ -22,7 +22,7 @@
 				<div class="box float-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
-								return false;" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+								return false;" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}" href="#" role="button">
 							<span class='fas fa-plus' border='0'></span>
 						</a>
 					{/if}&nbsp;
