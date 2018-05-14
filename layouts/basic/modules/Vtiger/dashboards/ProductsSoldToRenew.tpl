@@ -6,7 +6,7 @@
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
-				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle())}"><strong>{\App\Language::translate($WIDGET->getTitle())}</strong></div>
+				<h5 class="dashboardTitle h6" title="{\App\Language::translate($WIDGET->getTitle())}"><strong>{\App\Language::translate($WIDGET->getTitle())}</strong></h5>
 			</div>
 			<div class="col-md-4">
 				<div class="box float-right">

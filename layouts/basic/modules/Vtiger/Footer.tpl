@@ -56,7 +56,7 @@
 				</li>
 			</ul>
 			<div class="float-right p-1">
-				<a data-toggle="modal" data-target="#yetiforceDetails">
+				<a data-toggle="modal" data-target="#yetiforceDetails" href="#">
 					<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM" />
 				</a>
 			</div>

@@ -11,7 +11,7 @@
 					</a>
 				</div>
 			</div>
-			
+
 			{if AppConfig::performance('GLOBAL_SEARCH')}
 				<div class="globalSearchInput input-group input-group-sm d-none d-xl-flex">
 					<div class="input-group-prepend select2HeaderWidth">
@@ -266,11 +266,14 @@
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<div class="o-action-menu__item">
-							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu" id="showHistoryBtn" data-js="popover" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
+							<div class="dropdown">
+							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu" id="showHistoryBtn" data-js="popover"
+							   data-toggle="dropdown" data-boundary="window" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
 								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
+							</div>
 						</div>
 					{/if}
 					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
