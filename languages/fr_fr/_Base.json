@@ -477,6 +477,7 @@
     "LBL_Feb": "F\u00e9v",
     "LBL_FIELDS": "Champs",
     "LBL_FILTER": "Filtre",
+    "LBL_FILTER_FIELD": "Filter field",
     "LBL_FILTER_CONDITIONS": "Conditions du filtre",
     "LBL_FILTER_ON_DATE": "Filtrer sur la date",
     "LBL_FINAL_DISCOUNT_AMOUNT": "Montant final de la remise",
