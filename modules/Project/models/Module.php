@@ -71,7 +71,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 	{
 		$parents = $this->collectRecordParents();
 		foreach ($this->tasks as &$task) {
-			$task['depends'] = (string) $task['parent'] ?: '';
 			$task['level'] = count($parents[$task['id']]);
 			$task['parents'] = $parents[$task['id']];
 		}
@@ -106,36 +105,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$eDate = new DateTime($endDateStr);
 		$interval = $eDate->diff($sDate);
 		return (int) $interval->format('%d');
-	}
-
-	private function getRoots()
-	{
-		$roots = [];
-		foreach ($this->tasks as $task) {
-			if (empty($task['parent'])) {
-				$roots[] = $task;
-			}
-		}
-		return $roots;
-	}
-
-	private function getTaskRecordById($taskId)
-	{
-		foreach ($this->tasks as $task) {
-			if ((int) $task['id'] === (int) $taskId) {
-				return $task;
-			}
-		}
-	}
-
-	private function hasChild($parent)
-	{
-		foreach ($this->tasks as $task) {
-			if ($task['parent'] === $parent['id']) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private function normalizeParents()
@@ -213,6 +182,24 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return $tasks;
 	}
 
+	private function getTaskIndex($taskId)
+	{
+		foreach ($this->tasks as $index => $task) {
+			if ((int) $task['id'] === (int) $taskId) {
+				return $index;
+			}
+		}
+	}
+
+	private function setUpDepends()
+	{
+		foreach ($this->tasks as $index => &$task) {
+			if (!empty($task['parent'])) {
+				$task['depends'] = (string) $this->getTaskIndex($task['parent']);
+			}
+		}
+	}
+
 	/**
 	 * Get list of gantt projects.
 	 *
@@ -262,6 +249,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$this->normalizeParents();
 		$this->addRootNode();
 		$this->tasks = $this->sortByParents();
+		$this->setUpDepends();
 		$response['tasks'] = $this->removeRootNode();
 		$response['canWrite'] = false;
 		$response['canDelete'] = false;
@@ -385,7 +373,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projecttask['start'] = strtotime($row['startdate']) * 1000;
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 			$projecttask['end_date'] = date('d-m-Y', $endDate);
-			$projecttask['end'] = (int) $endDate * 1000;
+			$projecttask['end'] = $endDate * 1000;
 			$sDate = new DateTime($projecttask['start_date']);
 			$eDate = new DateTime($projecttask['end_date']);
 			$interval = $eDate->diff($sDate);
