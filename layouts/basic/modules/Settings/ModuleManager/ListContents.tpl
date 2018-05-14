@@ -11,11 +11,11 @@
 -->*}
 {strip}
 	<div class="" id="moduleManagerContents">
-		<div class="widget_header row">
-			<div class="col-md-7">
+		<div class="widget_header row mb-2">
+			<div class="col-md-7 d-flex align-items-center">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
-					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					<div class="js-popover-tooltip ml-2" data-js="popover" data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}"	><span class="fas fa-info-circle"></span></div>
 				{/if}
 			</div>
 			<div class="col-md-5">
@@ -132,15 +132,15 @@
 							<div class="col-12 col-md-4 p-1 form-row align-items-md-center justify-content-end">
 								{if $MODULE_MODEL->isExportable()}
 									<form class="c-btn-block-sm-down" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
-										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-md-0"><i class="far fa-arrow-alt-circle-down"></i></button>
+										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-lg-0"><i class="far fa-arrow-alt-circle-down"></i></button>
 									</form>
 								{/if}
 								{if $MODULE_MODEL->get('customized')}
-									<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-sm-1 mb-sm-1" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+									<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-lg-0" name="{$MODULE_NAME}"><span class="fas fa-trash-alt"></span> </button>
 								{/if}
 								{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 								{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-									<div class="btn-group d-flex justify-content-end ml-0 ml-md-2 c-btn-block-sm-down {if !$MODULE_ACTIVE}d-none{/if}" role="group">
+									<div class="btn-group-sm d-flex justify-content-end ml-0 ml-md-2 c-btn-block-sm-down {if !$MODULE_ACTIVE}d-none{/if}" role="group">
 										<button class="btn dropdown-toggle btn-light c-btn-block-sm-down" data-toggle="dropdown">
 											<strong><span class="fas fa-cog"></span></strong>&nbsp;<i class="caret"></i>
 										</button>
