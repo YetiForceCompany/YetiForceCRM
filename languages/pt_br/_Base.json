@@ -287,6 +287,7 @@
     "LBL_Feb": "Fev",
     "LBL_FIELDS": "Campos",
     "LBL_FILTER": "Filtro",
+    "LBL_FILTER_FIELD": "Filter field",
     "LBL_FILTER_CONDITIONS": "Condi\u00e7\u00f5es de Filtro",
     "LBL_FILTER_ON_DATE": "Filtrar data",
     "LBL_FINAL_DISCOUNT_AMOUNT": "Soma Final Desconto",

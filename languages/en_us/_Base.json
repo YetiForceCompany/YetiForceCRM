@@ -284,6 +284,7 @@
     "LBL_Feb": "Feb",
     "LBL_FIELDS": "Fields",
     "LBL_FILTER": "Filter",
+    "LBL_FILTER_FIELD": "Filter field",
     "LBL_FILTER_CONDITIONS": "Filter conditions",
     "LBL_FILTER_ON_DATE": "Filter on date",
     "LBL_FINAL_DISCOUNT_AMOUNT": "Final discount amount",
