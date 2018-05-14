@@ -50,7 +50,7 @@
 								</thead>
 								<tbody>
 									{foreach from=$LIBRARY key=key item=item}
-									<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
+									<tr {if $item.status == 'LBL_NO'}class="table-danger"{/if}>
 										<td>{App\Language::translate($key, 'Settings::ConfReport')}</td>
 										<td>{App\Language::translate($item.status, 'Settings::ConfReport')}</td>
 										<td>
@@ -76,7 +76,7 @@
 								</thead>
 								<tbody>
 									{foreach from=$STABILITY_CONF key=key item=item}
-									<tr {if $item.status}class="danger"{/if}>
+									<tr {if $item.status}class="table-danger"{/if}>
 										<td>
 											<label>{$key}</label>
 											{if isset($item.help)}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
@@ -99,7 +99,7 @@
 								</thead>
 								<tbody>
 									{foreach from=$STABILITY_CONF key=key item=item}
-									<tr {if $item.status}class="danger"{/if}>
+									<tr {if $item.status}class="table-danger"{/if}>
 										<td>
 											<label>{$key}</label>
 											{if isset($item.help)}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
@@ -127,7 +127,7 @@
 								</thead>
 								<tbody>
 									{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}
-									<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
+									<tr {if $item.permission eq 'FailedPermission'}class="table-danger"{/if}>
 										<td width="23%"><label class="marginRight5px">{App\Language::translate($key, 'Settings::ConfReport')}</label></td>
 										<td width="23%"><label class="marginRight5px">{App\Language::translate($item.path, 'Settings::ConfReport')}</label></td>
 										<td width="23%"><label class="marginRight5px">
