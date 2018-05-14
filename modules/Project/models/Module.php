@@ -142,6 +142,19 @@ class Project_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
+	private function normalizeNumbers()
+	{
+		foreach ($this->tasks as &$task) {
+			if (!empty($task['projecttask_no'])) {
+				$task['no'] = $task['projecttask_no'];
+			} elseif (!empty($task['projectmilestone_no'])) {
+				$task['no'] = $task['projectmilestone_no'];
+			} elseif (!empty($task['project_no'])) {
+				$task['no'] = $task['project_no'];
+			}
+		}
+	}
+
 	/**
 	 * Collect task all parent nodes.
 	 *
@@ -414,6 +427,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$this->tasks = $response['tasks'];
 		$this->calculateLevels();
 		$this->normalizeParents();
+		$this->normalizeNumbers();
 		$this->addRootNode();
 		$this->collectChildrens();
 		$this->calculateDates();
