@@ -45,9 +45,11 @@ class GanttField {
 				<tr style="height:40px">
 					<th class="gdfColHeader" style="width:35px; border-right: none"></th>
       				<th class="gdfColHeader" style="width:25px;"></th>
+      				<th class="gdfColHeader" style="width:30px">id</th>
 					<th class="gdfColHeader gdfResizable" style="width:300px">name</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">dur.</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">%</th>
+					<th class="gdfColHeader gdfResizable" style="width:100px">deps</th>
 				</tr>
 				</thead>
 			</table>`;
@@ -60,12 +62,14 @@ class GanttField {
 				return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent() ? 'isParent' : ''} ${obj.collapsed ? 'collapsed' : ''}" level="${obj.level}">
 				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">(#=obj.getRow()+1#)</span> <span class="teamworkIcon" style="font-size:12px;" >e</span></th>
     			<td class="gdfCell noClip" align="center"><div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div></td>
+    			<td class="gdfCell">${obj.id}</td>
 				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;">
 					<div class="exp-controller" align="center"></div>
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
 				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
 				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
+				<td class="gdfCell"><input type="text" name="depends" autocomplete="off" value="${obj.depends}"></td>
 			</tr>`;
 			}
 		});
@@ -76,6 +80,8 @@ class GanttField {
 				return `<tr class="taskEditRow emptyRow">
 				<th class="gdfCell" align="right"></th>
 				<td class="gdfCell noClip" align="center"></td>
+				<td class="gdfCell"></td>
+				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
