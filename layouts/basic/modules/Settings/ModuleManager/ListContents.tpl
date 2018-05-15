@@ -80,7 +80,7 @@
 									</span>
 								{/if}
 							</td>
-							<td class="d-flex align-items-center justify-content-center">
+							<td class="d-flex align-items-center justify-content-center p-2">
 								<span class="btn-group">
 									{if $LIBRARY['status'] === 0}
 										<form method="POST" action="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
@@ -136,7 +136,7 @@
 								{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 								{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 									<div class="btn-group-sm d-flex justify-content-end ml-0 ml-md-2 c-btn-block-sm-down u-remove-dropdown-icon {if !$MODULE_ACTIVE}d-none{/if}" role="group">
-										<button class="btn dropdown-toggle btn-light c-btn-block-sm-down" data-toggle="dropdown">
+										<button class="btn dropdown-toggle btn-outline-secondary c-btn-block-sm-down" data-toggle="dropdown">
 											<strong><span class="fas fa-cog"></span></strong>&nbsp;<i class="caret"></i>
 										</button>
 										<div class="dropdown-menu float-right">
