@@ -115,19 +115,19 @@
 					{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 					{assign var=MODULE_ACTIVE value=$MODULE_MODEL->isActive()}
 				</tr>
-				<tr class=" col-sm-12 col-lg-6 col-xl-4 float-left d-block p-0">
+				<tr class=" col-sm-12 col-lg-6 col-xl-4 float-left p-0">
 					<td class="d-flex justify-content-center">
-						<div class="form-row px-3 w-100 align-items-center justify-content-left ">
+						<div class="form-row px-3 w-100 align-items-center justify-content-center">
 							<div class="col-1 col-md-1 text-center float-left p-1">
 								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 							</div>
-							<div class="col-2 col-md-2 text-center text-md-left col-sm-3 p-1{if !$MODULE_ACTIVE}dull {/if}">
+							<div class="col-2 col-sm-2 col-md-2 text-center text-md-left col-sm-3 p-1{if !$MODULE_ACTIVE}dull {/if}">
 								<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 							</div>
-							<div class="col-9 col-sm-6 col-md-5 col-xl-6 text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
+							<div class="col-9 col-sm-6 col-md-4 text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
 								<h5 class="m-0 u-text-ellipsis text-left">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
 							</div>
-							<div class="col-12 col-sm-2 col-md-4 col-lg-4 col-xl-3 p-1 form-row align-items-md-center justify-content-end">
+							<div class="col-12 col-sm-2 col-md-5 p-1 form-row align-items-md-center justify-content-end">
 								{if $MODULE_MODEL->isExportable()}
 									<form class="c-btn-block-sm-down" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
 										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-lg-0"><i class="far fa-arrow-alt-circle-down"></i></button>
