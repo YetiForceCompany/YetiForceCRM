@@ -220,7 +220,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	private function collectChildrens()
 	{
-		$tree = $this->getRecordWithChildren($this->rootNode);
+		$tree = &$this->getRecordWithChildren($this->rootNode);
 		$this->tree = $tree;
 	}
 
@@ -407,6 +407,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$project['cantWriteOnParent'] = false;
 			$project['canAdd'] = false;
 			$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
+			$project['project_no'] = $recordModel->get('project_no');
 
 			if (!empty($recordModel->get('startdate'))) {
 				$project['start_date'] = $recordModel->get('startdate');
@@ -451,7 +452,8 @@ class Project_Module_Model extends Vtiger_Module_Model
 			'projectmilestonename' => 'projectmilestonename',
 			'projectmilestonedate' => 'projectmilestonedate',
 			'projectmilestone_progress' => 'projectmilestone_progress',
-			'description' => 'description'
+			'description' => 'description',
+			'projectmilestone_no' => 'projectmilestone_no'
 		]);
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$milestoneTime = 0;
@@ -484,6 +486,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projectmilestone['status'] = 'STATUS_ACTIVE';
 			$projectmilestone['cantWriteOnParent'] = false;
 			$projectmilestone['canAdd'] = false;
+			$projectmilestone['projectmilestone_no'] = $row['projectmilestone_no'];
 			$projecttask = $this->getGanttTask($row['id']);
 			$response['tasks'][] = $projectmilestone;
 			$response['data'][] = $projectmilestone;
@@ -518,7 +521,8 @@ class Project_Module_Model extends Vtiger_Module_Model
 			'projecttaskpriority' => 'projecttaskpriority',
 			'startdate' => 'startdate',
 			'targetenddate' => 'targetenddate',
-			'description' => 'description'
+			'description' => 'description',
+			'projecttask_no' => 'projecttask_no'
 		]);
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$response = ['tasks' => [], 'data' => [], 'links' => []];
@@ -548,6 +552,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projecttask['priority'] = $row['projecttaskpriority'];
 			$projecttask['priority_label'] = \App\Language::translate($row['projecttaskpriority'], 'ProjectTask');
 			$projecttask['description'] = App\Purifier::encodeHtml($row['description']);
+			$projecttask['projecttask_no'] = $row['projecttask_no'];
 
 			$projecttask['start_date'] = date('d-m-Y', strtotime($row['startdate']));
 			$projecttask['start'] = strtotime($row['startdate']) * 1000;
