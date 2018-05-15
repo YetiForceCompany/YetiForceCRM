@@ -79,6 +79,7 @@ class GanttField {
 	   			<td class="gdfCell">${obj.no}</td>
 				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;">
 					<div class="exp-controller" align="center"></div>
+					${obj.type==='project' ? '<i class="fas fa-briefcase"></i>' : obj.type==='milestone' ? '<i class="fas fa-folder"></i>' : '<i class="fas fa-file"></i>'}
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
 				<td class="gdfCell"><input type="text" name="priority" autocomplete="off" value="${obj.priority_label ? obj.priority_label : ''}"></td>
