@@ -42,6 +42,11 @@ class Project_Module_Model extends Vtiger_Module_Model
 	public $taskParents = [];
 
 	/**
+	 * @var array colors for statuses
+	 */
+	public $statusColors = [];
+
+	/**
 	 * Get parent nodes id as associative array [taskId]=>[parentId1,parentId2,...].
 	 *
 	 * @param string|int $parentId
@@ -151,6 +156,19 @@ class Project_Module_Model extends Vtiger_Module_Model
 				$task['no'] = $task['projectmilestone_no'];
 			} elseif (!empty($task['project_no'])) {
 				$task['no'] = $task['project_no'];
+			}
+		}
+	}
+
+	private function normalizeStatuses()
+	{
+		foreach ($this->tasks as &$task) {
+			if (!empty($task['projectstatus'])) {
+				$task['internal_status'] = App\Language::translate($task['projectstatus'], 'Project');
+			} elseif (!empty($task['projecttaskstatus'])) {
+				$task['internal_status'] = App\Language::translate($task['projecttaskstatus'], 'ProjectTask');
+			} else {
+				$task['internal_status'] = '';
 			}
 		}
 	}
@@ -379,6 +397,14 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return true;
 	}
 
+	public function getStatusColors()
+	{
+		$this->statusColors['Project'] = \App\Colors::getPicklists('Project');
+		$this->statusColors['ProjectMilestone'] = App\Colors::getPicklists('ProjectMilestone');
+		$this->statusColors['ProjectTask'] = App\Colors::getPicklists('ProjectTask');
+		return $this->statusColors;
+	}
+
 	/**
 	 * Get list of gantt projects.
 	 *
@@ -388,11 +414,13 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getGanttProject($id)
 	{
+		$this->getStatusColors();
 		$branches = $this->getGanttMileston($id);
 		$response = ['tasks' => [], 'data' => [], 'links' => []];
 		if ($branches) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
 			$project['id'] = $id;
+			$project['parent'] = $recordModel->get('parentid');
 			$project['name'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
 			$project['text'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
 			$project['priority'] = $recordModel->get('projectpriority');
@@ -408,6 +436,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$project['canAdd'] = false;
 			$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
 			$project['project_no'] = $recordModel->get('project_no');
+			$project['projectstatus'] = $recordModel->get('projectstatus');
+			$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
+			if (empty($color)) {
+				$color = App\Colors::getRandomColor($project['projectstatus'] . '_status');
+			}
+			$project['color'] = $color;
 
 			if (!empty($recordModel->get('startdate'))) {
 				$project['start_date'] = $recordModel->get('startdate');
@@ -429,11 +463,13 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$this->calculateLevels();
 		$this->normalizeParents();
 		$this->normalizeNumbers();
+		$this->normalizeStatuses();
 		$this->addRootNode();
 		$this->collectChildrens();
 		$this->calculateDates();
 		$this->calculateDurations();
 		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
+		$response['statusColors'] = $this->statusColors;
 		$response['canWrite'] = false;
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
@@ -453,7 +489,9 @@ class Project_Module_Model extends Vtiger_Module_Model
 			'projectmilestonedate' => 'projectmilestonedate',
 			'projectmilestone_progress' => 'projectmilestone_progress',
 			'description' => 'description',
-			'projectmilestone_no' => 'projectmilestone_no'
+			'projectmilestone_no' => 'projectmilestone_no',
+			'projectmilestone_priority' => 'projectmilestone_priority',
+			'parentid'=>'parentid'
 		]);
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$milestoneTime = 0;
@@ -468,7 +506,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projectmilestone['id'] = $row['id'];
 			$projectmilestone['name'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
 			$projectmilestone['text'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
-			$projectmilestone['parent'] = $row['projectid'];
+			$projectmilestone['parent'] = $row['parentid'] ? $row['parentid'] : $row['projectid'];
 			$projectmilestone['module'] = 'ProjectMilestone';
 			if ($row['projectmilestonedate']) {
 				$endDate = strtotime($row['projectmilestonedate']);
@@ -487,6 +525,11 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projectmilestone['cantWriteOnParent'] = false;
 			$projectmilestone['canAdd'] = false;
 			$projectmilestone['projectmilestone_no'] = $row['projectmilestone_no'];
+			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
+			if (empty($color)) {
+				$color = App\Colors::getRandomColor($row['projectmilestone_priority'] . '_status');
+			}
+			$projectmilestone['color'] = $color;
 			$projecttask = $this->getGanttTask($row['id']);
 			$response['tasks'][] = $projectmilestone;
 			$response['data'][] = $projectmilestone;
@@ -522,7 +565,8 @@ class Project_Module_Model extends Vtiger_Module_Model
 			'startdate' => 'startdate',
 			'targetenddate' => 'targetenddate',
 			'description' => 'description',
-			'projecttask_no' => 'projecttask_no'
+			'projecttask_no' => 'projecttask_no',
+			'projecttaskstatus' => 'projecttaskstatus'
 		]);
 		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$response = ['tasks' => [], 'data' => [], 'links' => []];
@@ -553,6 +597,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projecttask['priority_label'] = \App\Language::translate($row['projecttaskpriority'], 'ProjectTask');
 			$projecttask['description'] = App\Purifier::encodeHtml($row['description']);
 			$projecttask['projecttask_no'] = $row['projecttask_no'];
+			$projecttask['projecttaskstatus'] = $row['projecttaskstatus'];
+			$color = $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']];
+			if (empty($color)) {
+				$color = App\Colors::getRandomColor($row['projecttaskstatus'] . '_status');
+			}
+			$projecttask['color'] = $color;
 
 			$projecttask['start_date'] = date('d-m-Y', strtotime($row['startdate']));
 			$projecttask['start'] = strtotime($row['startdate']) * 1000;
