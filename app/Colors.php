@@ -123,6 +123,36 @@ class Colors
 	}
 
 	/**
+	 * Get picklists colors.
+	 */
+	public static function getPicklists($moduleName)
+	{
+		$colors = [];
+		$fields = self::getPicklistFieldsByModule($moduleName);
+		foreach ($fields as $field) {
+			$colors[$field->getName()]=[];
+			$values = \App\Fields\Picklist::getValues($field->getName());
+			if ($values) {
+				$firstRow = reset($values);
+				if (array_key_exists('color', $firstRow)) {
+					foreach ($values as $item) {
+						if (ltrim($item['color'], '#')) {
+							if (strpos($item['color'], '#') === false) {
+								$item['color'] = '#' . $item['color'];
+							}
+							if (empty($item['color'])) {
+								$item['color'] = static::getRandomColor($item['picklistValue']);
+							}
+							$colors[$field->getName()][$item['picklistValue']] = $item['color'];
+						}
+					}
+				}
+			}
+		}
+		return $colors;
+	}
+
+	/**
 	 * Sanitize value for use in css class name.
 	 *
 	 * @param string $value
