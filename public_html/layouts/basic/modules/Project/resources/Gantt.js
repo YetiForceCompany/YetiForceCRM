@@ -3,8 +3,13 @@ class GanttField {
 	constructor(container, projectData) {
 		this.container = $(container);
 		this.projectData = projectData;
+		this.registerLanguage();
 		this.registerTemplates();
 		this.loadProject();
+	}
+
+	registerLanguage(){
+		GanttMaster.messages = LANG;
 	}
 
 	registerTemplates() {
@@ -43,11 +48,10 @@ class GanttField {
 				return `<table class="gdfTable" cellspacing="0" cellpadding="0">
 				<thead>
 				<tr style="height:40px">
-					<th class="gdfColHeader" style="width:35px; border-right: none"></th>
-      				<th class="gdfColHeader" style="width:25px;"></th>
-      				<th class="gdfColHeader" style="width:30px">id</th>
-					<th class="gdfColHeader gdfResizable" style="width:300px">name</th>
-					<th class="gdfColHeader gdfResizable" style="width:100px">dur.</th>
+      				<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_NO.","Project")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:300px">${app.vtranslate("JS_NAME", "Project")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_PRIORITY", "Project")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_DURATION_SHORT", "Dni")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">%</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">deps</th>
 				</tr>
@@ -60,13 +64,12 @@ class GanttField {
 			type: "TASKROW",
 			render(obj) {
 				return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent() ? 'isParent' : ''} ${obj.collapsed ? 'collapsed' : ''}" level="${obj.level}">
-				<th class="gdfCell edit" align="right" style="cursor:pointer;"><span class="taskRowIndex">(#=obj.getRow()+1#)</span> <span class="teamworkIcon" style="font-size:12px;" >e</span></th>
-    			<td class="gdfCell noClip" align="center"><div class="taskStatus cvcColorSquare" status="(#=obj.status#)"></div></td>
-    			<td class="gdfCell">${obj.id}</td>
+	   			<td class="gdfCell">${obj.no}</td>
 				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;">
 					<div class="exp-controller" align="center"></div>
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
+				<td class="gdfCell"><input type="text" name="priority" autocomplete="off" value="${obj.priority_label? obj.priority_label: ''}"></td>
 				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
 				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
 				<td class="gdfCell"><input type="text" name="depends" autocomplete="off" value="${obj.depends}"></td>
@@ -78,8 +81,7 @@ class GanttField {
 			type: "TASKEMPTYROW",
 			render(obj) {
 				return `<tr class="taskEditRow emptyRow">
-				<th class="gdfCell" align="right"></th>
-				<td class="gdfCell noClip" align="center"></td>
+				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
