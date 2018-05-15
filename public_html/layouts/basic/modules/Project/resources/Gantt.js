@@ -8,8 +8,19 @@ class GanttField {
 		this.loadProject();
 	}
 
-	registerLanguage(){
+	registerLanguage() {
 		GanttMaster.messages = LANG;
+		GanttMaster.i18n = LANG;
+		Date.monthNames = App.Fields.Date.fullMonthsTranslated.map(month => month);
+		Date.monthAbbreviations = App.Fields.Date.monthsTranslated.map(month => month);
+		Date.dayAbbreviations = App.Fields.Date.daysTranslated.map(day => day);
+		Date.dayNames = App.Fields.Date.fullDaysTranslated.map(day => day);
+		Date.firstDayOfWeek = CONFIG.firstDayOfWeekNo;
+		Date.defaultFormat = CONFIG.dateFormat;
+		Date.today = app.vtranslate('JS_TODAY', 'Project');
+		Number.decimalSeparator = CONFIG.currencyDecimalSeparator;
+		Number.groupingSeparator = CONFIG.currencyGroupingSeparator;
+		Number.currencyFormat = "###,##0.00";
 	}
 
 	registerTemplates() {
@@ -48,7 +59,7 @@ class GanttField {
 				return `<table class="gdfTable" cellspacing="0" cellpadding="0">
 				<thead>
 				<tr style="height:40px">
-      				<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_NO.","Project")}</th>
+      				<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_NO.", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:300px">${app.vtranslate("JS_NAME", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_PRIORITY", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_DURATION_SHORT", "Dni")}</th>
@@ -69,7 +80,7 @@ class GanttField {
 					<div class="exp-controller" align="center"></div>
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
-				<td class="gdfCell"><input type="text" name="priority" autocomplete="off" value="${obj.priority_label? obj.priority_label: ''}"></td>
+				<td class="gdfCell"><input type="text" name="priority" autocomplete="off" value="${obj.priority_label ? obj.priority_label : ''}"></td>
 				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
 				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
 				<td class="gdfCell"><input type="text" name="depends" autocomplete="off" value="${obj.depends}"></td>
