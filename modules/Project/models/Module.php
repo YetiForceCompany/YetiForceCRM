@@ -405,6 +405,72 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return $this->statusColors;
 	}
 
+	private function getProject($id)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
+		$project['id'] = $id;
+		$project['parent'] = $recordModel->get('parentid'); // we must collet parents
+		$project['name'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
+		$project['text'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
+		$project['priority'] = $recordModel->get('projectpriority');
+		$project['priority_label'] = \App\Language::translate($recordModel->get('projectpriority'), $this->getName());
+		$project['status'] = 'STATUS_ACTIVE';
+		$project['type'] = 'project';
+		$project['module'] = $this->getName();
+		$project['open'] = true;
+		$project['canWrite'] = false;
+		$project['canDelete'] = false;
+		$project['cantWriteOnParent'] = false;
+		$project['canAdd'] = false;
+		$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
+		$project['project_no'] = $recordModel->get('project_no');
+		$project['projectstatus'] = $recordModel->get('projectstatus');
+		$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
+		if (empty($color)) {
+			$color = App\Colors::getRandomColor($project['projectstatus'] . '_status');
+		}
+		$project['color'] = $color;
+
+		if (!empty($recordModel->get('startdate'))) {
+			$project['start_date'] = $recordModel->get('startdate');
+			$project['start'] = strtotime($project['start_date']) * 1000;
+		}
+		$project['end_date'] = $recordModel->get('actualenddate');
+		if (empty($project['end_date']) && !empty($recordModel->get('targetenddate'))) {
+			$project['end_date'] = $recordModel->get('targetenddate');
+			$project['end'] = strtotime($project['end_date']) * 1000;
+		}
+		return $project;
+	}
+
+	private function getProjectChildren($id)
+	{
+		$childrenIds = array_map(function ($item) {
+			return $item['projectid'];
+		}, (new \App\Db\Query())
+			->select(['projectid'])
+			->from('vtiger_project')
+			->where(['parentid' => (int) $id])
+			->createCommand()->query()->readAll());
+		$children = [];
+		foreach ($childrenIds as $childrenId) {
+			$child = $this->getProject($childrenId);
+			$children[] = $child;
+			$childChildren = $this->getProjectChildren($childrenId);
+			$children = array_merge($children, $childChildren);
+		}
+		return $children;
+	}
+
+	private function getProjects($id, $projects = [])
+	{
+		$project = $this->getProject($id);
+		$projects[] = $project;
+		$children = $this->getProjectChildren($id);
+		$projects = array_merge($projects, $children);
+		return $projects;
+	}
+
 	/**
 	 * Get list of gantt projects.
 	 *
@@ -415,51 +481,14 @@ class Project_Module_Model extends Vtiger_Module_Model
 	public function getGanttProject($id)
 	{
 		$this->getStatusColors();
-		$branches = $this->getGanttMileston($id);
-		$response = ['tasks' => [], 'data' => [], 'links' => []];
-		if ($branches) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
-			$project['id'] = $id;
-			$project['parent'] = $recordModel->get('parentid');
-			$project['name'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
-			$project['text'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
-			$project['priority'] = $recordModel->get('projectpriority');
-			$project['priority_label'] = \App\Language::translate($recordModel->get('projectpriority'), $this->getName());
-			$project['status'] = 'STATUS_ACTIVE';
-			$project['type'] = 'project';
-			$project['module'] = $this->getName();
-			$project['open'] = true;
-			$project['progress'] = $branches['progress'];
-			$project['canWrite'] = false;
-			$project['canDelete'] = false;
-			$project['cantWriteOnParent'] = false;
-			$project['canAdd'] = false;
-			$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
-			$project['project_no'] = $recordModel->get('project_no');
-			$project['projectstatus'] = $recordModel->get('projectstatus');
-			$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
-			if (empty($color)) {
-				$color = App\Colors::getRandomColor($project['projectstatus'] . '_status');
-			}
-			$project['color'] = $color;
-
-			if (!empty($recordModel->get('startdate'))) {
-				$project['start_date'] = $recordModel->get('startdate');
-				$project['start'] = strtotime($project['start_date']) * 1000;
-			}
-			$project['end_date'] = $recordModel->get('actualenddate');
-			if (empty($project['end_date']) && !empty($recordModel->get('targetenddate'))) {
-				$project['end_date'] = $recordModel->get('targetenddate');
-				$project['end'] = strtotime($project['end_date']) * 1000;
-			}
-			$response['tasks'][] = $project;
-			$response['data'][] = $project;
-			$response['tasks'] = array_merge($response['tasks'], $branches['tasks']);
-			$response['data'] = array_merge($response['data'], $branches['data']);
-			$response['links'] = array_merge($response['links'], $branches['links']);
-		}
-
-		$this->tasks = $response['tasks'];
+		$response = ['tasks' => [], 'links' => []];
+		$projects = $this->getProjects($id);
+		$projectIds = array_map(function ($item) {
+			return $item['id'];
+		}, $projects);
+		$milestones = $this->getGanttMilestones($projectIds);
+		$tasks = $this->getGanttTasks($projectIds);
+		$this->tasks = array_merge($projects, $milestones, $tasks);
 		$this->calculateLevels();
 		$this->normalizeParents();
 		$this->normalizeNumbers();
@@ -478,154 +507,124 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return $response;
 	}
 
-	public function getGanttMileston($id)
+	public function getGanttMilestones($projectIds)
 	{
-		$response = ['tasks' => [], 'data' => [], 'links' => []];
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectMilestone');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'projectmilestoneid' => 'projectmilestoneid',
-			'projectid' => 'projectid',
-			'projectmilestonename' => 'projectmilestonename',
-			'projectmilestonedate' => 'projectmilestonedate',
-			'projectmilestone_progress' => 'projectmilestone_progress',
-			'description' => 'description',
-			'projectmilestone_no' => 'projectmilestone_no',
-			'projectmilestone_priority' => 'projectmilestone_priority',
-			'parentid'=>'parentid'
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$milestoneTime = 0;
 		$progressInHours = 0;
+		$dataReader = (new \App\Db\Query())
+			->select([
+				'id' => 'projectmilestoneid',
+				'projectid' => 'projectid',
+				'parentid' => 'parentid',
+				'projectmilestonename' => 'projectmilestonename',
+				'projectmilestonedate' => 'projectmilestonedate',
+				'projectmilestone_no' => 'projectmilestone_no',
+				'projectmilestone_progress' => 'projectmilestone_progress',
+			])
+			->from('vtiger_projectmilestone')
+			->where(['projectid' => $projectIds])
+			->createCommand()->query();
+		$milestones = [];
 		while ($row = $dataReader->read()) {
-			$projectmilestone = [];
-			$link = [];
-			$link['id'] = $row['id'];
-			$link['target'] = $row['id'];
-			$link['type'] = 1;
-			$link['source'] = $row['projectid'];
-			$projectmilestone['id'] = $row['id'];
-			$projectmilestone['name'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
-			$projectmilestone['text'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
-			$projectmilestone['parent'] = $row['parentid'] ? $row['parentid'] : $row['projectid'];
-			$projectmilestone['module'] = 'ProjectMilestone';
+			$milestone = [];
+			$milestone['id'] = $row['id'];
+			$milestone['name'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
+			$milestone['text'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
+			$milestone['parent'] = $row['parentid'] ? $row['parentid'] : $row['projectid'];
+			$milestone['module'] = 'ProjectMilestone';
 			if ($row['projectmilestonedate']) {
 				$endDate = strtotime($row['projectmilestonedate']);
-				$projectmilestone['end'] = $endDate * 1000;
-				$projectmilestone['end_date'] = date('Y-m-d', $endDate);
+				$milestone['end'] = $endDate * 1000;
+				$milestone['end_date'] = date('Y-m-d', $endDate);
 			}
-			$projectmilestone['progress'] = (int) $row['projectmilestone_progress'];
-			$projectmilestone['description'] = $row['description'];
-			$projectmilestone['priority'] = $row['projectmilestone_priority'];
-			$projectmilestone['priority_label'] = \App\Language::translate($row['projectmilestone_priority'], 'ProjectMilestone');
-			$projectmilestone['open'] = true;
-			$projectmilestone['type'] = 'milestone';
-			$projectmilestone['canWrite'] = false;
-			$projectmilestone['canDelete'] = false;
-			$projectmilestone['status'] = 'STATUS_ACTIVE';
-			$projectmilestone['cantWriteOnParent'] = false;
-			$projectmilestone['canAdd'] = false;
-			$projectmilestone['projectmilestone_no'] = $row['projectmilestone_no'];
+			$milestone['progress'] = (int) $row['projectmilestone_progress'];
+			$milestone['description'] = $row['description'];
+			$milestone['priority'] = $row['projectmilestone_priority'];
+			$milestone['priority_label'] = \App\Language::translate($row['projectmilestone_priority'], 'ProjectMilestone');
+			$milestone['open'] = true;
+			$milestone['type'] = 'milestone';
+			$milestone['canWrite'] = false;
+			$milestone['canDelete'] = false;
+			$milestone['status'] = 'STATUS_ACTIVE';
+			$milestone['cantWriteOnParent'] = false;
+			$milestone['canAdd'] = false;
+			$milestone['projectmilestone_no'] = $row['projectmilestone_no'];
 			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
 			if (empty($color)) {
 				$color = App\Colors::getRandomColor($row['projectmilestone_priority'] . '_status');
 			}
-			$projectmilestone['color'] = $color;
-			$projecttask = $this->getGanttTask($row['id']);
-			$response['tasks'][] = $projectmilestone;
-			$response['data'][] = $projectmilestone;
-			$response['links'][] = $link;
-			$response['tasks'] = array_merge($response['tasks'], $projecttask['tasks']);
-			$response['data'] = array_merge($response['data'], $projecttask['data']);
-			$response['links'] = array_merge($response['links'], $projecttask['links']);
-			$milestoneTime += $projecttask['task_time'];
-			$progressInHours += $projecttask['task_time'] * $projectmilestone['progress'];
-			$this->milestones[] = $projectmilestone;
+			$milestone['color'] = $color;
+			//$projecttask = $this->getGanttTask($row['id']);
+			//$milestoneTime += $projecttask['task_time'];
+			//$progressInHours += $projecttask['task_time'] * $projectmilestone['progress'];
+			$milestones[] = $milestone;
 		}
 		$dataReader->close();
-		if ($milestoneTime) {
-			$response['progress'] = round($progressInHours / $milestoneTime, 1) * 100;
-		} else {
-			$response['progress'] = 0;
-		}
-
-		return $response;
+		return $milestones;
 	}
 
-	public function getGanttTask($id)
+	public function getGanttTasks($projectIds)
 	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
-		$relatedListView->getRelationModel()->set('QueryFields', [
-			'id' => 'id',
-			'projectid' => 'projectid',
-			'projecttaskname' => 'projecttaskname',
-			'parentid' => 'parentid',
-			'projectmilestoneid' => 'projectmilestoneid',
-			'projecttaskprogress' => 'projecttaskprogress',
-			'projecttaskpriority' => 'projecttaskpriority',
-			'startdate' => 'startdate',
-			'targetenddate' => 'targetenddate',
-			'description' => 'description',
-			'projecttask_no' => 'projecttask_no',
-			'projecttaskstatus' => 'projecttaskstatus'
-		]);
-		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
-		$response = ['tasks' => [], 'data' => [], 'links' => []];
 		$taskTime = 0;
+		$dataReader = (new \App\Db\Query())
+			->select([
+				'id' => 'projecttaskid',
+				'projectid' => 'projectid',
+				'projecttaskname' => 'projecttaskname',
+				'parentid' => 'parentid',
+				'projectmilestoneid' => 'projectmilestoneid',
+				'projecttaskprogress' => 'projecttaskprogress',
+				'projecttaskpriority' => 'projecttaskpriority',
+				'startdate' => 'startdate',
+				'targetenddate' => 'targetenddate',
+				'projecttask_no' => 'projecttask_no',
+				'projecttaskstatus' => 'projecttaskstatus'
+			])
+			->from('vtiger_projecttask')
+			->where(['projectid' => $projectIds])
+			->createCommand()->query();
+		$tasks = [];
 		while ($row = $dataReader->read()) {
-			$projecttask = [];
-			$link = [];
-			$link['id'] = $row['id'];
-			$link['target'] = $row['id'];
-			$projecttask['id'] = $row['id'];
-			$projecttask['name'] = \App\Purifier::encodeHtml($row['projecttaskname']);
-			$projecttask['text'] = \App\Purifier::encodeHtml($row['projecttaskname']);
-			if ($row['parentid']) {
-				$link['type'] = 0;
-				$link['source'] = $row['parentid'];
-				$projecttask['parent'] = $row['parentid'];
-			} else {
-				$link['type'] = 2;
-				$link['source'] = $row['projectmilestoneid'];
-				$projecttask['parent'] = $row['projectmilestoneid'];
-			}
-			$projecttask['canWrite'] = false;
-			$projecttask['canDelete'] = false;
-			$projecttask['cantWriteOnParent'] = false;
-			$projecttask['canAdd'] = false;
-			$projecttask['progress'] = (int) $row['projecttaskprogress'];
-			$projecttask['priority'] = $row['projecttaskpriority'];
-			$projecttask['priority_label'] = \App\Language::translate($row['projecttaskpriority'], 'ProjectTask');
-			$projecttask['description'] = App\Purifier::encodeHtml($row['description']);
-			$projecttask['projecttask_no'] = $row['projecttask_no'];
-			$projecttask['projecttaskstatus'] = $row['projecttaskstatus'];
+			$task = [];
+			$task['id'] = 'task_' . $row['id'];
+			$task['original_id'] = $row['id'];
+			$task['name'] = \App\Purifier::encodeHtml($row['projecttaskname']);
+			$task['text'] = \App\Purifier::encodeHtml($row['projecttaskname']);
+			$task['parent'] = $row['parentid'] ? $row['parentid'] : $row['projectmilestoneid'] ? $row['projectmilestoneid'] : $row['projectid'];
+			$task['canWrite'] = false;
+			$task['canDelete'] = false;
+			$task['cantWriteOnParent'] = false;
+			$task['canAdd'] = false;
+			$task['progress'] = (int) $row['projecttaskprogress'];
+			$task['priority'] = $row['projecttaskpriority'];
+			$task['priority_label'] = \App\Language::translate($row['projecttaskpriority'], 'ProjectTask');
+			$task['description'] = App\Purifier::encodeHtml($row['description']);
+			$task['projecttask_no'] = $row['projecttask_no'];
+			$task['projecttaskstatus'] = $row['projecttaskstatus'];
 			$color = $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']];
 			if (empty($color)) {
 				$color = App\Colors::getRandomColor($row['projecttaskstatus'] . '_status');
 			}
-			$projecttask['color'] = $color;
+			$task['color'] = $color;
 
-			$projecttask['start_date'] = date('d-m-Y', strtotime($row['startdate']));
-			$projecttask['start'] = strtotime($row['startdate']) * 1000;
+			$task['start_date'] = date('d-m-Y', strtotime($row['startdate']));
+			$task['start'] = strtotime($row['startdate']) * 1000;
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
-			$projecttask['end_date'] = date('d-m-Y', $endDate);
-			$projecttask['end'] = $endDate * 1000;
-			$sDate = new DateTime($projecttask['start_date']);
-			$eDate = new DateTime($projecttask['end_date']);
+			$task['end_date'] = date('d-m-Y', $endDate);
+			$task['end'] = $endDate * 1000;
+			$sDate = new DateTime($task['start_date']);
+			$eDate = new DateTime($task['end_date']);
 			$interval = $eDate->diff($sDate);
-			$projecttask['duration'] = (int) $interval->format('%d');
+			$task['duration'] = (int) $interval->format('%d');
 
-			$projecttask['open'] = true;
-			$projecttask['type'] = 'task';
-			$projecttask['module'] = 'ProjectTask';
-			$projecttask['status'] = 'STATUS_ACTIVE';
+			$task['open'] = true;
+			$task['type'] = 'task';
+			$task['module'] = 'ProjectTask';
+			$task['status'] = 'STATUS_ACTIVE';
 			$taskTime += $row['estimated_work_time'];
-			$response['tasks'][] = $projecttask;
-			$response['data'][] = $projecttask;
-			$response['links'][] = $link;
+			$tasks[] = $task;
 		}
 		$dataReader->close();
-		$response['task_time'] = $taskTime;
-
-		return $response;
+		return $tasks;
 	}
 }
