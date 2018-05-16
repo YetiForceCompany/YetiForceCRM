@@ -11,7 +11,6 @@
 
 class Vtiger_Url_UIType extends Vtiger_Base_UIType
 {
-
 	/**
 	 * Allowed url protocols.
 	 *

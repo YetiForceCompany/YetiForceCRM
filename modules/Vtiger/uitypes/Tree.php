@@ -9,7 +9,6 @@
  */
 class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 {
-
 	/**
 	 * {@inheritdoc}
 	 */

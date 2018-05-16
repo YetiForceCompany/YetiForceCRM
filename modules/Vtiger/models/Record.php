@@ -14,7 +14,6 @@
  */
 class Vtiger_Record_Model extends \App\Base
 {
-
 	protected $module = false;
 	protected $inventoryData;
 	protected $inventoryDataExist = false;
@@ -494,8 +493,6 @@ class Vtiger_Record_Model extends \App\Base
 					$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
 				}
 			} else {
-				$sql = $db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->getRawSql();
-				file_put_contents('xxx.txt', $sql);
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
