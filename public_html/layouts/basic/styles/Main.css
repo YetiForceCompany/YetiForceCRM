@@ -8812,9 +8812,6 @@ html, body, .baseContainer {
   min-height: 1px;
   padding: 2px; }
 
-.modOn_Home {
-  display: none; }
-
 .dashboardHeading hr {
   margin-top: -2px; }
 .dashboardHeading h2 {
@@ -9405,7 +9402,8 @@ html, body, .baseContainer {
   padding-right: 0; }
 
 .inventoryItems .colName {
-  width: 25%; }
+  width: 8% !important;
+  min-width: 420px !important; }
 
 .dateTimeField .date {
   margin-right: -2px; }
@@ -9960,6 +9958,9 @@ border1px {
 .u-font-size-95per {
   font-size: 95% !important; }
 
+.u-font-size-100per {
+  font-size: 100% !important; }
+
 .u-ml-0 {
   margin-left: 0 !important; }
 
@@ -10000,11 +10001,28 @@ border1px {
 .u-w-max-320px {
   max-width: 320px !important; }
 
+.u-w-1per-45px {
+  width: 1%;
+  min-width: 45px !important; }
+
+.u-w-3per-150px {
+  width: 3%;
+  min-width: 150px !important; }
+
+.u-w-85px {
+  width: 85px; }
+
+.u-min-w-650px {
+  min-width: 650px !important; }
+
 .u-h-600px {
   height: 600px !important; }
 
 .u-h-input-text {
   height: 24px; }
+
+.u-white-space-nowrap {
+  white-space: nowrap !important; }
 
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
@@ -10077,8 +10095,14 @@ border1px {
   line-height: 30px;
   font-size: 17px; }
 
-.c-badge-md {
+.c-badge--md {
   font-size: 90%; }
+
+.c-badge--top-right {
+  position: absolute;
+  top: -5px;
+  right: 0;
+  z-index: 100; }
 
 .c-multi-image__preview-img {
   height: 2rem;
@@ -10198,7 +10222,10 @@ border1px {
       box-shadow: 0 0 0 0.2rem rgba(221, 221, 221, 0.5); }
 
 @media (max-width: 767.98px) {
-  .c-btn-block-sm {
+  .c-btn-block-sm-down {
+    width: 100% !important; } }
+@media (max-width: 991.98px) {
+  .c-btn-block-md-down {
     width: 100% !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
@@ -10304,6 +10331,9 @@ label.btn.btn-outline-primary:not(.active) {
   label.btn.btn-outline-primary:not(.active):hover {
     color: #337ab7;
     background: #e9ecef; }
+
+.dropdown-item, .related .dropdown-menu .nav-link {
+  cursor: pointer; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
