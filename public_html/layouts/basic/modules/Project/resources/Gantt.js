@@ -61,7 +61,6 @@ class GanttField {
 					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_STATUS", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_DURATION_SHORT", "Dni")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">%</th>
-					<th class="gdfColHeader gdfResizable" style="width:100px">deps</th>
 				</tr>
 				</thead>
 			</table>`;
@@ -82,7 +81,6 @@ class GanttField {
 				<td class="gdfCell"><input type="text" name="status" autocomplete="off" value="${obj.internal_status ? obj.internal_status : ''}"></td>
 				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
 				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
-				<td class="gdfCell"><input type="text" name="depends" autocomplete="off" value="${obj.depends}"></td>
 			</tr>`;
 			}
 		});
@@ -91,7 +89,6 @@ class GanttField {
 			type: "TASKEMPTYROW",
 			render(obj) {
 				return `<tr class="taskEditRow emptyRow">
-				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
 				<td class="gdfCell"></td>
