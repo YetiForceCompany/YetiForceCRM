@@ -264,10 +264,9 @@ class GanttField {
 	}
 
 	loadProject() {
-		console.log('initializing gantt...');
-		const gantt = new GanttMaster(this.ganttTemplateFunctions);
-		gantt.init(this.container);
-		gantt.loadProject(this.projectData);
+		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
+		this.gantt.init(this.container);
+		this.gantt.loadProject(this.projectData);
 		this.registerEvents();
 	}
 
@@ -295,25 +294,25 @@ class GanttField {
 		});
 		$('#j-gantt__show-critical-path-btn', container).on('click', function (e) {
 			e.preventDefault();
-			gantt.gantt.showCriticalPath = !gantt.gantt.showCriticalPath;
-			gantt.redraw();
-		});
+			this.gantt.gantt.showCriticalPath = !gantt.gantt.showCriticalPath;
+			this.gantt.redraw();
+		}.bind(this));
 		$('#j-gantt__resize-0-btn', container).on('click', function (e) {
 			e.preventDefault();
-			gantt.splitter.resize(.1);
-		});
+			this.gantt.splitter.resize(.1);
+		}.bind(this));
 		$('#j-gantt__resize-50-btn', container).on('click', function (e) {
 			e.preventDefault();
-			gantt.splitter.resize(50);
-		});
+			this.gantt.splitter.resize(50);
+		}.bind(this));
 		$('#j-gantt__resize-100-btn', container).on('click', function (e) {
 			e.preventDefault();
-			gantt.splitter.resize(100);
-		});
+			this.gantt.splitter.resize(100);
+		}.bind(this));
 		$('#j-gantt__fullscreen-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('fullScreen.gantt');
-		});
+		}.bind(this));
 	}
 
 }
