@@ -140,9 +140,25 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 */
 	private function normalizeParents()
 	{
+		// not set parents are children of root node
 		foreach ($this->tasks as &$task) {
 			if (!isset($task['parent']) && $task['id'] !== 0) {
 				$task['parent'] = 0;
+			}
+		}
+		// if parent id is set but we don't have it - it means that project is subproject so connect it to root node
+		foreach ($this->tasks as &$task) {
+			if (!empty($task['parent'])) {
+				$idExists = false;
+				foreach ($this->tasks as $parent) {
+					if ($task['parent'] === $parent['id']) {
+						$idExists = true;
+						break;
+					}
+				}
+				if (!$idExists) {
+					$task['parent'] = 0;
+				}
 			}
 		}
 	}
