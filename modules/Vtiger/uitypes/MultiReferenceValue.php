@@ -248,4 +248,12 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 		return array_unique($values);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
+	}
 }

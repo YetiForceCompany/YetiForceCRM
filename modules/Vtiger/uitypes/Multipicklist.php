@@ -93,4 +93,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	{
 		return 'List/Field/MultiPicklist.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
+	}
 }

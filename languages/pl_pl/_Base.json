@@ -1579,6 +1579,7 @@
     "JS_INVALID_FILE_TYPE": "Nieprawid\u0142wy typ pliku",
     "JS_AVAILABLE_FILE_TYPES": "Dost\u0119pne typy plików to",
     "JS_FILE_LIMIT": "Maksymalna liczba plik\u00F3w zosta\u0142a przekroczona",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w",
+	"JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem"
   }
 }

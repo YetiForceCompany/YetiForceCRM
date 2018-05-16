@@ -207,12 +207,27 @@ Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
 				var errorInfo = app.vtranslate("JS_PLEASE_ENTER_INTEGER_VALUE");
 				this.setError(errorInfo);
 				return false;
-			} else {
-				return true;
 			}
-		} else {
+		}
+		let fieldInfo = this.getElement().data().fieldinfo;
+		if(!fieldInfo || !fieldInfo.maximumlength) {
 			return true;
 		}
+		let ranges = fieldInfo.maximumlength.split(',');
+		if(ranges.length === 2) {
+			if (fieldValue > ranges[1] || fieldValue < parseInt(ranges[0])) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		} else {
+			if (fieldValue > ranges[0] || fieldValue < 0) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		}
+		return true;
 	}
 });
 
@@ -768,6 +783,11 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 			this.setError(errorInfo);
 			return false;
 		}
+		if (strippedValue > fieldData.fieldinfo.maximumlength) {
+			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+			this.setError(errorInfo);
+			return false;
+		}
 		return true;
 	}
 });
@@ -822,6 +842,11 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		strippedValue = parseFloat(strippedValue);
 		if (strippedValue != strippedValue.toString()) {
 			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+			this.setError(errorInfo);
+			return false;
+		}
+		if (strippedValue > this.getElement().data().fieldinfo.maximumlength) {
+			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 			this.setError(errorInfo);
 			return false;
 		}
