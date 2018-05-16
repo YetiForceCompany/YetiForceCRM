@@ -1864,6 +1864,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					tab_label: item.data('label-key'),
 				}).then(function (response) {
 					if (response.success) {
+						if (response.result.numberOfRecords === 0) {
+							response.result.numberOfRecords = '';
+						}
 						item.find('.count').text(response.result.numberOfRecords);
 						moreList.find('[data-reference="' + item.data('reference') + '"] .count').text(response.result.numberOfRecords);
 					}

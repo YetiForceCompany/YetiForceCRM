@@ -9,7 +9,7 @@
 							<a href="javascript:void(0);" class="nav-link u-text-ellipsis w-auto" title="{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
 								{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}
 								{if $RELATED_LINK->get('countRelated')}
-									<span class="count badge {$RELATED_LINK->get('badgeClass')}">0</span>
+									<span class="count badge c-badge--md c-badge--top-right {$RELATED_LINK->get('badgeClass')}"></span>
 								{/if}
 							</a>
 						</li>
@@ -27,7 +27,7 @@
 									{$DETAILVIEWRELATEDLINKLBL}
 								{/if}
 								{if AppConfig::relation('SHOW_RECORDS_COUNT')}
-									<span class="count badge">0</span>
+									<span class="count badge c-badge--md c-badge--top-right"></span>
 								{/if}
 							</a>
 						</li>

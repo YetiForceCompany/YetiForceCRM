@@ -39,8 +39,8 @@
 	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed d-none">
-				<span class="badge badge-danger c-badge-md all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}" aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
-				<span class="badge badge-primary c-badge-md mail" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}" aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
+				<span class="badge badge-danger c-badge--md all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}" aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
+				<span class="badge badge-primary c-badge--md mail" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}" aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
 			</a>
 		</div>
 	{/if}
