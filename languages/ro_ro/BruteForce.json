@@ -1,0 +1,25 @@
+{
+  "php": {
+    "BruteForce": "Forta Bruta",
+    "LBL_NUMBER_OF_ATTEMPTS": "Numar incercari",
+    "LBL_TIME_LOCK": "Timp blocare (minute)",
+    "LBL_SETTINGS": "Setari",
+    "LBL_BLOCKED_IP": "Adresa IP blocata",
+    "LBL_SAVE_SUCCESS": "Modificarile au fost salvate",
+    "LBL_UNBLOCK_FAIL": "Adresa IP nu a fost deblocata",
+    "LBL_UNBLOCK_SUCCESS": "Adresa IP a fost deplocata",
+    "LBL_BRUTEFORCE_DESCRIPTION": "Seteaza numarul maxim de incercari esuate si limita de timp pentru blocarea IP-ului.",
+    "LBL_IP": "Adresa IP",
+    "LBL_DATE": "Data",
+    "LBL_USERS": "Utilizatori",
+    "LBL_BROWSERS": "Browsere",
+    "LBL_UNBLOCK": "Deblocheaza",
+    "LBL_USERS_FOR_NOTIFICATIONS": "Utilizatori pentru notificari",
+    "LBL_BRUTEFORCE_ACTIVE": "Activ",
+    "LBL_VIEW_SHOW": "Forta Bruta",
+    "LBL_SENT_NOTIFICATIONS": "Trimite notificari"
+  },
+  "js": {
+    "JS_COULD_NOT_FINNISH_REACTION": "Eroare. Salvare esuata."
+  }
+}
