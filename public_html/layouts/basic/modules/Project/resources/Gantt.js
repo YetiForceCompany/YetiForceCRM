@@ -37,8 +37,6 @@ class GanttField {
 					<button id="j-gantt__zoom-in-btn" class="button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
 					<span class="ganttButtonSeparator"></span>
 					<button id="j-gantt__print-btn" class="button textual icon " title="Print"><span class="teamworkIcon">p</span></button>
-					<span class="ganttButtonSeparator"></span>
-					<button id="j-gantt_show-critical-path-btn" class="button textual icon requireCanSeeCriticalPath" title="CRITICAL_PATH"><span class="teamworkIcon">&pound;</span></button>
 					<span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
 					<button id="j-gantt__resize-0-btn" class="button textual icon"><span class="teamworkIcon">F</span>
 					</button>
@@ -46,8 +44,6 @@ class GanttField {
 					</button>
 					<button id="j-gantt__resize-100-btn" class="button textual icon"><span class="teamworkIcon">R</span>
 					</button>
-					<span class="ganttButtonSeparator"></span>
-					<button id="j-gantt__fullscreen-btn" class="button textual icon" title="FULLSCREEN"><span class="teamworkIcon">@</span></button>
 				</div>
 			</div>`;
 			}
