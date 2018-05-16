@@ -68,7 +68,6 @@ class Project_Detail_View extends Vtiger_Detail_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'~libraries/gantt/skins/dhtmlxgantt_broadway.css',
 			'~libraries/jQueryGantt/platform.css',
 			'~libraries/jQueryGantt/libs/dateField/jquery.dateField.css',
 			'~libraries/jQueryGantt/gantt.css',
@@ -89,7 +88,6 @@ class Project_Detail_View extends Vtiger_Detail_View
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
-			//'~libraries/gantt/dhtmlxgantt.js',
 			'~libraries/jQueryGantt/libs/jquery/jquery.livequery.1.1.1.min.js',
 			'~libraries/jQueryGantt/libs/jquery/jquery.timers.js',
 			'~libraries/jQueryGantt/libs/utilities.js',
