@@ -15,6 +15,7 @@ app = {
 	languageString: [],
 	cacheParams: [],
 	modalEvents: [],
+	childFrame: false,
 	event: new function () {
 		this.el = $({});
 		this.trigger = function () {
@@ -74,6 +75,17 @@ app = {
 	 */
 	getPageTitle: function () {
 		return document.title;
+	},
+	/**
+	 * Function gets current window parent
+	 * @returns {object}
+	 */
+	getWindowParent() {
+		if (typeof window.frames[0] !== "undefined" && window.frames[0].app.childFrame) {
+			return window.frames[0];
+		} else {
+			return window;
+		}
 	},
 	/**
 	 * Function to set page title
@@ -237,6 +249,10 @@ app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		if (window.parent !== window) {
+			this.childFrame = true;
+			window.parent.app.showModalWindow(data, url, cb, paramsObject);
+		}
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object

@@ -1249,7 +1249,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			quickCreateParams['noCache'] = true;
 			quickCreateParams['callbackFunction'] = postQuickCreateSave;
 			var progress = jQuery.progressIndicator();
-			var headerInstance = new Vtiger_Header_Js();
+			let headerInstance;
+			if (window !== window.parent) {
+				headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+			} else {
+				headerInstance = Vtiger_Header_Js.getInstance();
+			}
 			headerInstance.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams).then(function (data) {
 				headerInstance.handleQuickCreateData(data, quickCreateParams);
 				progress.progressIndicator({'mode': 'hide'});
@@ -1859,6 +1864,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					tab_label: item.data('label-key'),
 				}).then(function (response) {
 					if (response.success) {
+						if (response.result.numberOfRecords === 0) {
+							response.result.numberOfRecords = '';
+						}
 						item.find('.count').text(response.result.numberOfRecords);
 						moreList.find('[data-reference="' + item.data('reference') + '"] .count').text(response.result.numberOfRecords);
 					}

@@ -44,9 +44,22 @@
 			</div>
 		</div><br />
 		<div class="float-right">
-			<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn btn-warning cancelLink" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-secondary backStep mr-1" type="button">
+				<strong>
+					<span class="fas fa-caret-left mr-1"></span>
+					{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+				</strong>
+			</button>
+			<button class="btn btn-success" type="submit">
+				<strong>
+					<span class="fas fa-caret-right mr-1"></span>
+					{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+				</strong>
+			</button>
+			<button class="btn btn-danger cancelLink" type="reset" onclick="javascript:window.history.back();">
+				<span class="fas fa-times mr-1"></span>
+				{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+			</button>
 		</div>
 		<br /><br />
 

@@ -188,7 +188,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$tpl = 'OperationNotPermitted.tpl';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
-			} elseif ($e instanceof \App\Exceptions\Security || $e instanceof \App\Exceptions\Security) {
+			} elseif ($e instanceof \App\Exceptions\Security) {
 				$tpl = 'IllegalValue.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);

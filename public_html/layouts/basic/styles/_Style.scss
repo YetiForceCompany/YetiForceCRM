@@ -2810,10 +2810,6 @@ html, body, .baseContainer {
   padding: 2px;
 }
 
-.modOn_Home {
-  display: none;
-}
-
 .dashboardHeading {
   hr {
 	margin-top: -2px;
@@ -3646,7 +3642,8 @@ html, body, .baseContainer {
 .inventoryItems {
 
   .colName {
-	width: 25%;
+	width: 8% !important;
+	min-width: 420px !important;
   }
 }
 

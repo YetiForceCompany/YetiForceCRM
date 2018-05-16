@@ -14,7 +14,7 @@
 			<tbody>
 				<tr>
 					<td class="col-md-5">
-						<div class="dashboardTitle u-text-ellipsis" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}" style="width: 15em;"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+						<h5 class="dashboardTitle u-text-ellipsis h6" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}" style="width: 15em;"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></h5>
 					</td>
 					<td class="refresh col-md-2" align="right">
 						<span style="position:relative;">&nbsp;</span>

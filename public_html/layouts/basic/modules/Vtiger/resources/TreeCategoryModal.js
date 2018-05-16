@@ -3,6 +3,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	modalContainer: false,
 	treeInstance: false,
 	treeData: false,
+	windowParent: app.getWindowParent(),
 	getModalContainer: function () {
 		if (this.modalContainer == false) {
 			this.modalContainer = jQuery('#modalTreeCategoryModal');
@@ -107,14 +108,14 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				});
 			}
 			var params = {
-				module: app.getModuleName(),
+				module: thisInstance.windowParent.app.getModuleName(),
 				action: 'RelationAjax',
 				mode: 'updateRelation',
 				recordsToAdd: recordsToAdd,
 				recordsToRemove: recordsToRemove,
 				categoryToAdd: categoryToAdd,
 				categoryToRemove: categoryToRemove,
-				src_record: app.getRecordId(),
+				src_record: thisInstance.windowParent.app.getRecordId(),
 				related_module: container.find('#relatedModule').val(),
 			};
 			if (recordsToAdd.length > 4) {
@@ -144,8 +145,9 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		});
 	},
 	saveRecordsEvent: function (params) {
+		const self = this;
 		AppConnector.request(params).then(function (res) {
-			Vtiger_Detail_Js.getInstance().reloadTabContent();
+			self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
 			app.hideModalWindow();
 		})
 	},
