@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_SAVE": "Salveaza",
+    "ApiAddress": "Cauta adresa",
+    "LBL_API_ADDRESS": "Harti [Google & OSM]",
+    "LBL_API_ADDRESS_DESCRIPTION": "Modulul permite cautarea\/ autocompletarea adresei pe parcursul crearii\/modificarii datelor in sistem.",
+    "LBL_USE_OPENCAGE_GEOCODER": "Utilizeaza OpenCage Geocoder",
+    "LBL_REMOVE_CONNECTION": "Elimina conexiune",
+    "LBL_ENTER_KEY_APPLICATION": "Introdu cheia aplicatiei",
+    "LBL_MIN_LOOKUP_LENGTH": "Numarul minim de caractere pe care utilizatorul trebuie sa le scrie inainte de efectuarea unei cautari",
+    "LBL_SAVE_NOTIFY_OK": "Modificari salvate.",
+    "LBL_CHOOSE_API": "Alege API",
+    "LBL_USE_GOOGLE_GEOCODER": "Utilizeaza Google Geocoding",
+    "google_map_api": "Google Geocoding",
+    "opencage_data": "OpenCage Geocoder",
+    "LBL_GLOBAL_CONFIG": "Configurare globala",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Salveaza setarile globale",
+    "LBL_NUMBER_SEARCH_RESULTS": "Numar rezultate cautare"
+  },
+  "js": {
+    "Invalid API key": "Cheie API invalida",
+    "JS_ERROR": "Eroare",
+    "JS_LOADING_PLEASE_WAIT": "Se incarca, Va rugam asteptati.",
+    "JS_WRONG_NUMBER": "Caractere permise: cifre mai mari de 1."
+  }
+}
