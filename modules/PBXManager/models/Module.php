@@ -49,26 +49,21 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 			return [];
 		}
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
-
-		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
-
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
-				'linkicon' => $editWorkflowsImagePath,
+				'linkicon' => 'adminIcon-triggers',
 			];
 		}
-
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTINGS',
 			'linklabel' => 'LBL_SERVER_CONFIGURATION',
 			'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
-			'linkicon' => '',
+			'linkicon' => 'adminIcon-pbx-manager',
 		];
-
 		return $settingsLinks;
 	}
 

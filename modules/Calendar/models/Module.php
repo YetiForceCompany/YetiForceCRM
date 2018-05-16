@@ -306,14 +306,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_FIELDS',
 				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
-				'linkicon' => Vtiger_Theme::getImagePath('LayoutEditor.gif'),
+				'linkicon' => 'adminIcon-triggers',
 			];
 
 			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
 				'linkurl' => 'index.php?parent=Settings&module=Picklist&view=Index&source_module=' . $this->getName(),
-				'linkicon' => '',
+				'linkicon' => 'adminIcon-fields-picklists',
 			];
 		}
 
