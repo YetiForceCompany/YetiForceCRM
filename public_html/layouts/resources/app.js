@@ -15,6 +15,7 @@ app = {
 	languageString: [],
 	cacheParams: [],
 	modalEvents: [],
+	childFrame: false,
 	event: new function () {
 		this.el = $({});
 		this.trigger = function () {
@@ -74,6 +75,17 @@ app = {
 	 */
 	getPageTitle: function () {
 		return document.title;
+	},
+	/**
+	 * Function gets current window parent
+	 * @returns {object}
+	 */
+	getWindowParent() {
+		if (typeof window.frames[0] !== "undefined" && window.frames[0].app.childFrame) {
+			return window.frames[0];
+		} else {
+			return window;
+		}
 	},
 	/**
 	 * Function to set page title
@@ -1082,6 +1094,7 @@ app = {
 		}
 	},
 	registerModal: function (container) {
+		const self = this;
 		if (typeof container === "undefined") {
 			container = $('body');
 		}
@@ -1120,7 +1133,13 @@ app = {
 				if (currentElement.data('modalid')) {
 					modalWindowParams['id'] = currentElement.data('modalid');
 				}
-				app.showModalWindow(modalWindowParams);
+				if (window.parent !== window) {
+					self.childFrame = true;
+					window.parent.app.showModalWindow(modalWindowParams);
+				}
+				else {
+					app.showModalWindow(modalWindowParams);
+				}
 			}
 			e.stopPropagation();
 		});
