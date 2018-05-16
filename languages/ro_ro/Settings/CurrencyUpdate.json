@@ -1,0 +1,31 @@
+{
+  "php": {
+    "CurrencyUpdate": "Actualizare moneda",
+    "LBL_CURRENCY_UPDATE": "Actualizare moneda",
+    "LBL_CURRENCY_UPDATE_DESCRIPTION": "Optiuni pentru setarea sistemelor construite in rate de conversie valutara.",
+    "LBL_SELECT_BANK": "Selecteaza banca",
+    "MSG_ONE_CURRENCY": "Este doar o moneda principala selectata. Pentru a primi mai multe rate de schimb pentru monezi va rugam adaugati mai multe in setarile CRM-ului.",
+    "LBL_HISTORY": "Istoric rata de schimb",
+    "LBL_BANK": "Selecteaza banca de la care se vor primii informatii despre ratele de schimb",
+    "LBL_CAL_DATE": "Data cursului",
+    "LBL_MAINCURRENCY": "Moneda implicita",
+    "LBL_CODE": "Cod",
+    "LBL_SYMBOL": "Simbol",
+    "LBL_CURRENCY_NAME": "Denumire moneda",
+    "LBL_CURRENCY_SYMBOL": "Simbol moneda",
+    "LBL_COURSE": "Rata de schimb",
+    "LBL_DATE": "Data descarcarii cursului",
+    "LBL_ACTUAL_DATE_OF_COURSE": "Data cursului",
+    "LBL_SHOW": "Arata",
+    "LBL_CURRENCIES_SUPPORTED": "Lista monezi suportate de aceasta banca",
+    "LBL_CURRENCIES_UNSUPPORTED": "Lista monezi nesuportate de aceasta banca",
+    "LBL_SET_BANK_OK": "Banca activa salvata cu succes.",
+    "LBL_SET_BANK_ERROR": "Setare banca activa esuata.",
+    "LBL_INFORMATIONS": "Informatie",
+    "LBL_WARNING": "Atentie!",
+    "NBP": "Banca Nationala a Poloniei",
+    "ECB": "Banca Centrala Europeana",
+    "CBR": "Banca Centrala a Rusiei",
+    "NBR": "Banca Nationala a Romaniei"
+  }
+}
