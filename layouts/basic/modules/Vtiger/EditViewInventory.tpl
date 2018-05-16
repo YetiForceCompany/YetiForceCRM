@@ -32,16 +32,16 @@
 		<div class="table-responsive">
 			<table class="table table-bordered inventoryHeader blockContainer">
 				<thead>
-				<tr data-rownumber="0">
-					<th class="btn-toolbar d-table-cell col-6">
+				<tr data-rownumber="0" class="d-flex u-min-w-650px">
+					<th class="btn-toolbar col-3 d-flex justify-content-center">
 						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 							{if \App\Module::isModuleActive($MAIN_MODULE)}
 								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
-								<span class="btn-group-sm col-4 ml-2">
+								<span class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-2">
 										<button type="button" data-module="{$MAIN_MODULE}"
 												data-field="{$CRMENTITY->table_index}"
 												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
-												class="btn btn-light addItem border">
+												class="btn btn-light addItem border mb-1 mb-lg-0">
 											<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
 									</span>
@@ -49,7 +49,7 @@
 						{/foreach}
 					</th>
 					{foreach item=FIELD from=$FIELDS[0]}
-						<th {if !$FIELD->isEditable()}class="d-none col-6"{/if}>
+						<th {if !$FIELD->isEditable()}class="d-none"{/if} class="col-3" >
 							<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
