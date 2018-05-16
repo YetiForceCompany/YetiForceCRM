@@ -1198,7 +1198,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return this.getContainer().find('.widgetData').length === 0 || this.getContainer().find('.noDataMsg').length > 0;
 	},
 	getUserDateFormat: function getUserDateFormat() {
-		return jQuery('#userDateFormat').val();
+		return CONFIG.dateFormat;;
 	},
 	getChartContainer: function getChartContainer(useCache) {
 		if (typeof useCache === "undefined") {
