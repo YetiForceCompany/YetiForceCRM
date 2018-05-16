@@ -505,12 +505,12 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
 		$this->tasks = array_merge($projects, $milestones, $tasks);
-		$this->calculateLevels();
+		$this->addRootNode();
 		$this->normalizeParents();
+		$this->collectChildrens();
+		$this->calculateLevels();
 		$this->normalizeNumbers();
 		$this->normalizeStatuses();
-		$this->addRootNode();
-		$this->collectChildrens();
 		$this->calculateDates();
 		$this->calculateDurations();
 		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
@@ -602,11 +602,13 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$tasks = [];
 		while ($row = $dataReader->read()) {
 			$task = [];
-			$task['id'] = 'task_' . $row['id'];
-			$task['original_id'] = $row['id'];
+			$task['id'] = $row['id'];
 			$task['name'] = \App\Purifier::encodeHtml($row['projecttaskname']);
 			$task['text'] = \App\Purifier::encodeHtml($row['projecttaskname']);
-			$task['parent'] = $row['parentid'] ? $row['parentid'] : $row['projectmilestoneid'] ? $row['projectmilestoneid'] : $row['projectid'];
+			$task['parent'] = $row['parentid'] ? $row['parentid'] : null;
+			if (empty($task['parent'])) {
+				$task['parent'] = $row['projectmilestoneid'] ? $row['projectmilestoneid'] : $row['projectid'];
+			}
 			$task['canWrite'] = false;
 			$task['canDelete'] = false;
 			$task['cantWriteOnParent'] = false;
