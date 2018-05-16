@@ -3,9 +3,9 @@
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-7">
-				<div class="dashboardTitle"
+				<h5 class="dashboardTitle h6"
 					 title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
-					<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+					<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></h5>
 			</div>
 			<div class="col-md-5">
 				<div class="box float-right">
@@ -23,10 +23,10 @@
 						<button class="btn btn-sm btn-light recordCount"
 								data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}"
 								title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
-							<span class="fas fa-signal"></span>
-							<a class="float-left d-none"
+							<span class="fas fa-signal" aria-hidden="false"></span>
+							<a class="d-none" aria-hidden="true"
 							   href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
-								<span class="count badge float-left"></span>
+								<span class="count badge badge-secondary"></span>
 							</a>
 						</button>
 					{/if}

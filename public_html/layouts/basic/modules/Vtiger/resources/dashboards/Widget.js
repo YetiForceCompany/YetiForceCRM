@@ -1216,8 +1216,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var url = recordsCountBtn.data('url');
 			AppConnector.request(url).then(function (response) {
 				recordsCountBtn.find('.count').html(response.result.totalCount);
-				recordsCountBtn.find('span:not(.count)').addClass('d-none');
-				recordsCountBtn.find('a').removeClass('d-none');
+				recordsCountBtn.find('[data-fa-i2svg]').addClass('d-none')
+					.attr('aria-hidden', true);
+				recordsCountBtn.find('a').removeClass('d-none')
+					.attr('aria-hidden', false);
 			});
 		});
 	},

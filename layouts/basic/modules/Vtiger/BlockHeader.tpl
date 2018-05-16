@@ -7,13 +7,12 @@
 				data-label="{$BLOCK_LABEL}">
 			<strong>{\App\Language::translate('SINGLE_Accounts', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromLead mr-2 mb-1 mb-md-0" type="button"
-				data-label="{$BLOCK_LABEL}">
-			<strong>{\App\Language::translate('SINGLE_Leads', $MODULE)}</strong>
+		<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromLead mr-2 mb-1 mb-md-0" type="button" data-label="{$BLOCK_LABEL}">
+			<strong>{\App\Language::translate('SINGLE_Leads', 'Contacts')}</strong>
 		</button>
 		<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromVendor mr-2 mb-1 mb-md-0" type="button"
 				data-label="{$BLOCK_LABEL}">
-			<strong>{\App\Language::translate('SINGLE_Vendors', $MODULE)}</strong>
+			<strong>{\App\Language::translate('SINGLE_Vendors', 'Contacts')}</strong>
 		</button>
 		{if {$MODULE_NAME} neq 'Contacts'}
 			<button class="btn btn-sm btn-primary c-btn-block-sm copyAddressFromContact mr-2 mb-1 mb-md-0" type="button"

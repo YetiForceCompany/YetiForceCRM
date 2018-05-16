@@ -13,7 +13,7 @@
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
-				<div class="dashboardTitle u-text-ellipsis" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+				<h5 class="dashboardTitle u-text-ellipsis h6" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></h5>
 			</div>
 			<div class="col-md-4">
 				<div class="box float-right">
