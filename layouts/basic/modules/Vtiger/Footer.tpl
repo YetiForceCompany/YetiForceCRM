@@ -27,56 +27,6 @@
 			{$USER_MODEL->get('email1')}&nbsp;
 			{if !empty({$USER_MODEL->get('phone_crm_extension')})}
 				,&nbsp; {$USER_MODEL->get('phone_crm_extension')}
-			{/if}
-			)
-		</div>
-	{/if}
-	<footer class="footerContainer fixed-bottom js-footer" data-js="height">
-		<div class="container-fluid px-1">
-			<ul class="float-left pagination border-0">
-				<li class="page-item">
-					<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
-						<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
-					</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer">
-						<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
-					</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/" rel="noreferrer">
-						<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
-					</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
-						<span class="fab fa-github-square fa-2x" title="Github"></span>
-					</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" href="https://yetiforce.shop" rel="noreferrer">
-						<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
-					</a>
-				</li>
-			</ul>
-			<div class="float-right p-1">
-				<a data-toggle="modal" data-target="#yetiforceDetails">
-					<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM" />
-				</a>
-			</div>
-			<div class="mx-auto w-75">
-				{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
-				{if $USER_MODEL->isAdminUser()}
-					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
-					{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
-					{assign var=FOOTOSP value= '<u><a href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></u>'}
-					<p class="text-center">
-						<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}<br />{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}</span>
-						<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
-					</p>
-				{else}
-					<p class="text-center">Copyright &copy; YetiForce.com All rights reserved. [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]<br />{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}</p>
 				{/if}
 				)
 			</div>
@@ -103,6 +53,11 @@
 					<li class="page-item">
 						<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
 							<span class="fab fa-github-square fa-2x" title="Github"></span>
+						</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="https://yetiforce.shop" rel="noreferrer">
+							<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 						</a>
 					</li>
 				</ul>
