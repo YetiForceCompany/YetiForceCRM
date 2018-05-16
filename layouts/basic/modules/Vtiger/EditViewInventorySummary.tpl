@@ -57,7 +57,7 @@
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<div class="input-group-text percent">{\App\Language::translate('LBL_AMOUNT', $MODULE)}</div>
+									<div class="input-group-text percent u-w-85px d-flex justify-content-center">{\App\Language::translate('LBL_AMOUNT', $MODULE)}</div>
 								</div>
 								<input type="text" class="form-control text-right" readonly="readonly"/>
 								<div class="input-group-append">
@@ -72,7 +72,7 @@
 						<div class="form-group m-1">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<div class="input-group-text percent"></div>
+									<div class="input-group-text percent u-w-85px d-flex justify-content-center"></div>
 								</div>
 								<input type="text" class="form-control text-right" readonly="readonly"/>
 								<div class="input-group-append">
@@ -99,7 +99,7 @@
 						<div class="form-group m-0 p-0">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<div class="input-group-text percent">{\App\Language::translate('LBL_AMOUNT', $MODULE)}</div>
+									<div class="input-group-text percent u-w-85px d-flex justify-content-center">{\App\Language::translate('LBL_AMOUNT', $MODULE)}</div>
 								</div>
 								<input type="text" class="form-control text-right" readonly="readonly"/>
 								<div class="input-group-append">
@@ -114,7 +114,7 @@
 						<div class="form-group m-1">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<div class="input-group-text percent">
+									<div class="input-group-text percent u-w-85px d-flex justify-content-center">
 
 									</div>
 								</div>
