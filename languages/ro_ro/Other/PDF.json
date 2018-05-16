@@ -1,0 +1,31 @@
+{
+  "php": {
+	"LBL_INVOICE": "Factura",
+	"LBL_INVOICE_NUMBER": "Numar TVA factura",
+	"LBL_INVOICE_PROFORMA": "Factura proforma",
+	"LBL_RECIPIENT": "Destinatar",
+	"LBL_ORDER": "Comanda",
+	"LBL_SUBMIT_ORDER": "Persoana autorizata sa depuna o comanda",
+	"LBL_TO_PAY": "Total",
+	"LBL_TO_PAY_WORD": "Total (in cuvinte)",
+	"LBL_DEALER": "Vanzator",
+	"LBL_BUYER": "Cumparator",
+	"LBL_AUTHORIZED_TO_RECEIVE": "Persoana autorizata pentru a primi",
+	"LBL_AUTHORIZED_TO_BE_ISSUED": "Persoana autorizata sa emita",
+	"LBL_SALES_QUOTE_FOR": "Oferta pentru",
+	"LBL_DATE_EXECUTION": "Data completarii",
+	"LBL_STAGE": "Emisa de",
+	"LBL_VALID_UNTIL": "Valida pana la",
+	"LBL_QUOTE_NUMBER": "Numar oferta",
+	"LBL_DETAILS": "Detalii",
+	"LBL_COMMENTS": "Comentarii",
+	"LBL_FIRST_NAME": "Nume",
+	"LBL_LAST_NAME": "Prenume",
+	"LBL_PHONE": "Telefon",
+	"LBL_EMAIL": "Email",
+	"LBL_VATID": "Cod TVA",
+	"LBL_SALE_DATE": "Data vanzarii",
+	"LBL_PAYMENT_METHOD": "Metoda de plata",
+	"LBL_PLACE_DATE": "Loc, data"
+  }
+}
