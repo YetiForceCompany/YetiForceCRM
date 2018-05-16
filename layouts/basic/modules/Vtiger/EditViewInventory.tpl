@@ -64,9 +64,9 @@
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 					<tr>
-						<th class="text-center u-w-45px"></th>
+						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap u-w-150px">
+							<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap u-w-3per-150px">
 								{\App\Language::translate($FIELD->get('label'), $MODULE)}
 							</th>
 						{/foreach}
