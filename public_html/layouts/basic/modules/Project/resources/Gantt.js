@@ -262,6 +262,7 @@ class GanttField {
 
 	loadProject() {
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
+		this.gantt.resourceUrl='/libraries/jQueryGantt/res/';
 		this.gantt.init(this.container);
 		this.gantt.loadProject(this.projectData);
 		this.registerEvents();
