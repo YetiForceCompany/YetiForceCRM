@@ -38,12 +38,12 @@ class OpenCageGeocoder extends Base
 		try {
 			$config = \App\AddressFinder::getConfig();
 			$response = \Requests::post(static::$url, [], [
-				'format' => 'json',
-				'key' => $config['opencage_data']['key'],
-				'q' => $value,
-				'pretty' => 1,
-				'language' => \App\Language::getLanguageInIetf(),
-				'limit' => $config['global']['result_num']
+					'format' => 'json',
+					'key' => $config['opencage_data']['key'],
+					'q' => $value,
+					'pretty' => 1,
+					'language' => \App\Language::getLanguageInIetf(),
+					'limit' => $config['global']['result_num']
 			]);
 			if (!$response->success) {
 				\App\Log::warning($response->status_code . ' ' . $response->body, __NAMESPACE__);
@@ -70,7 +70,7 @@ class OpenCageGeocoder extends Base
 					];
 				}
 			}
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage());
 			return false;
 		}
