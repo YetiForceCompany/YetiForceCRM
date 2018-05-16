@@ -488,7 +488,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$values['INI_FILE'] = php_ini_loaded_file();
 		$values['INI_FILES'] = php_ini_scanned_files();
 		$values['LOG_FILE'] = $iniAll['error_log']['local_value'];
-
 		return $values;
 	}
 
@@ -502,7 +501,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (file_exists('user_privileges/cron.php')) {
 			return include 'user_privileges/cron.php';
 		}
-
 		return false;
 	}
 
@@ -535,7 +533,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$read = $i / ($readE - $readS);
 		$write = $i / ($writeE - $writeS);
 		\vtlib\Functions::recurseDelete('cache/speed');
-
 		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
 	}
 
@@ -551,7 +548,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if ((int) $row['current'] > 0 && (int) $row['current'] < $row['recommended']) {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -568,7 +564,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$row['incorrect'] = true;
 		}
 		$row['current'] = vtlib\Functions::showBytes($row['current']);
-
 		return $row;
 	}
 
@@ -591,7 +586,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$row['current'] = static::getFlag($row['current']);
 		}
-
 		return $row;
 	}
 
