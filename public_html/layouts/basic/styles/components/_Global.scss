@@ -59,8 +59,15 @@
 	font-size: 17px;
 }
 
-.c-badge-md {
+.c-badge--md {
 	font-size: 90%;
+}
+
+.c-badge--top-right {
+  position: absolute;
+  top: -5px;
+  right: 0;
+  z-index: 100;
 }
 
 .childrenMarginRight > * {
