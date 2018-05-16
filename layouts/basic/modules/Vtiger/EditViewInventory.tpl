@@ -33,7 +33,7 @@
 			<table class="table table-bordered inventoryHeader blockContainer">
 				<thead>
 				<tr data-rownumber="0" class="d-flex u-min-w-650px">
-					<th class="btn-toolbar col-3 d-flex justify-content-center">
+					<th class="btn-toolbar col-3 d-flex justify-content-center mb-0">
 						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 							{if \App\Module::isModuleActive($MAIN_MODULE)}
 								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
@@ -59,8 +59,8 @@
 				</thead>
 			</table>
 		</div>
-		<div class="table-responsive js-scrollbar position-relative">
-			<table class="table blockContainer inventoryItems position-relative" data-isoptional="{$IS_OPTIONAL_ITEMS}">
+		<div class="table-responsive">
+			<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 					<tr>
