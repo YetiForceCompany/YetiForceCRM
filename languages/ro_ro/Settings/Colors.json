@@ -1,0 +1,29 @@
+{
+  "php": {
+    "LBL_COLORS": "Culori",
+    "LBL_COLOR": "Culoare",
+    "LBL_PICKLISTS": "Liste",
+    "LBL_SELECT_PICKLIST": "Selecteaza lista",
+    "LBL_REMOVE_COLOR": "Elimina culoare",
+    "LBL_GENERATE_COLOR": "Genereaza culoare",
+    "LBL_UPDATE_COLOR": "Schimba culoare",
+    "LBL_REMOVED_COLOR": "Culoar elimminata",
+    "LBL_COLORS_DESCRIPTION": "",
+    "LBL_EDIT_COLOR": "Modifica culoare",
+    "LBL_SELECT_COLOR": "Selecteaza culoare:",
+    "LBL_CALENDAR_COLORS": "Culori calendar",
+    "LBL_CALENDAR_TYPE": "Tip activitate",
+    "LBL_SAVE_COLOR": "Culoare salvata",
+    "Call": "Apel",
+    "Task": "Sarcina",
+    "Meeting": "Intalnire",
+    "LBL_GROUPS_COLORS": "Culori grupuri",
+    "LBL_USERS_COLORS": "Culori utilizatori",
+    "LBL_PICKLIST_COLOR_COL_NOT_FOUND": "Functionalitatea culoare nu a fost activata pentru lista",
+    "LBL_UPDATE_COLOR_COLUMN": "Activeaza",
+    "LBL_WARNING": "Avertisment",
+    "LBL_ITEM": "Valoare",
+    "LBL_MODULE": "Modul",
+    "LBL_GROUP_NAME": "Grup"
+  }
+}
