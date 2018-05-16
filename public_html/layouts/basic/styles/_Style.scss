@@ -3641,9 +3641,10 @@ html, body, .baseContainer {
 
 .inventoryItems {
 
-	.colName {
-	  width: 420px !important;
-	}
+  .colName {
+	width: 8% !important;
+	min-width: 420px !important;
+  }
 }
 
 .dateTimeField {

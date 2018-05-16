@@ -81,12 +81,13 @@
 .u-w-max-320px {
 	max-width: 320px !important;
 }
-.u-w-45px{
-  width: 45px !important;
-
+.u-w-1per-45px {
+  width: 1%;
+  min-width: 45px !important;
 }
-.u-w-150px {
-  width: 150px !important;
+.u-w-3per-150px {
+  width: 3%;
+  min-width: 150px !important;
 }
 .u-w-85px{
   width: 85px;
