@@ -249,6 +249,10 @@ app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		if (window.parent !== window) {
+			this.childFrame = true;
+			window.parent.app.showModalWindow(data, url, cb, paramsObject);
+		}
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
@@ -1094,7 +1098,6 @@ app = {
 		}
 	},
 	registerModal: function (container) {
-		const self = this;
 		if (typeof container === "undefined") {
 			container = $('body');
 		}
@@ -1133,13 +1136,7 @@ app = {
 				if (currentElement.data('modalid')) {
 					modalWindowParams['id'] = currentElement.data('modalid');
 				}
-				if (window.parent !== window) {
-					self.childFrame = true;
-					window.parent.app.showModalWindow(modalWindowParams);
-				}
-				else {
-					app.showModalWindow(modalWindowParams);
-				}
+				app.showModalWindow(modalWindowParams);
 			}
 			e.stopPropagation();
 		});
