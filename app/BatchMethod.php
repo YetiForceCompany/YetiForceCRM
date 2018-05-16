@@ -86,15 +86,7 @@ class BatchMethod extends Base
 				throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION||{$this->get('method')}", 406);
 			}
 			$this->setStatus(static::STATUS_COMPLETED);
-		} catch (\Exception $ex) {
-			Log::error($ex->getMessage());
-			if ($this->previousStatus === static::STATUS_HALTED) {
-				$this->log($ex->getMessage() . $ex->getTraceAsString());
-				$this->delete();
-			} else {
-				$this->setStatus(static::STATUS_HALTED);
-			}
-		} catch (\Error $ex) {
+		} catch (\Throwable $ex) {
 			Log::error($ex->getMessage());
 			if ($this->previousStatus === static::STATUS_HALTED) {
 				$this->log($ex->getMessage() . $ex->getTraceAsString());
