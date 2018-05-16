@@ -145,7 +145,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function preProcessTplName(\App\Request $request)
 	{
-		return 'DetailViewPreProcess.tpl';
+		return 'Detail/PreProcess.tpl';
 	}
 
 	public function process(\App\Request $request)
@@ -176,7 +176,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
-		$viewer->view('DetailViewPostProcess.tpl', $moduleName);
+		$viewer->view('Detail/PostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}
 

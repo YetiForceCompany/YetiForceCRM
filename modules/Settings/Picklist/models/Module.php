@@ -54,16 +54,17 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$tableName = $this->getPickListTableName($pickListFieldName);
 		if ($db->isTableExists($tableName . '_seq')) {
 			$id = $db->getUniqueID($tableName);
 		} else {
-			$id = $db->getUniqueID($tableName, $pickListFieldName . 'id', false);
+			$id = $db->getUniqueID($tableName, $primaryKey, false);
 		}
 		$picklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 		$sequence = (new \App\Db\Query())->from($tableName)->max('sortorderid');
 		$row = [
-			($pickListFieldName . 'id') => $id,
+			$primaryKey => $id,
 			$pickListFieldName => $newValue,
 			'sortorderid' => ++$sequence,
 			'presence' => 1,

@@ -51,7 +51,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
-		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
+		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.leadstatusid', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$chartData = [
 			'labels' => [],

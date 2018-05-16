@@ -877,6 +877,35 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_address_finder` */
+
+CREATE TABLE `s_yf_address_finder` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `level1` varchar(100) DEFAULT NULL,
+  `level2` varchar(100) DEFAULT NULL,
+  `level3` varchar(100) DEFAULT NULL,
+  `level4` varchar(100) DEFAULT NULL,
+  `level5` varchar(100) DEFAULT NULL,
+  `level6` varchar(100) DEFAULT NULL,
+  `level7` varchar(100) DEFAULT NULL,
+  `level8` varchar(100) DEFAULT NULL,
+  `source` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `source` (`source`),
+  FULLTEXT KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_address_finder_config` */
+
+CREATE TABLE `s_yf_address_finder_config` (
+  `id` smallint(4) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `val` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_automatic_assignment` */
 
 CREATE TABLE `s_yf_automatic_assignment` (
@@ -1060,8 +1089,6 @@ CREATE TABLE `u_yf_activityregister` (
   `datasetregisterid` int(11) unsigned DEFAULT 0,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `comments` text DEFAULT NULL,
   `activity_type` text DEFAULT NULL,
   `parent_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`activityregisterid`),
@@ -1124,8 +1151,6 @@ CREATE TABLE `u_yf_auditregister` (
   `datasetregisterid` int(11) unsigned DEFAULT 0,
   `auditregister_status` varchar(255) DEFAULT '',
   `auditregister_type` varchar(255) DEFAULT '',
-  `description` text DEFAULT NULL,
-  `comments` text DEFAULT NULL,
   PRIMARY KEY (`auditregisterid`),
   KEY `u_yf_auditregister_locationregisterid_idx` (`locationregisterid`),
   KEY `u_yf_auditregister_datasetregisterid_idx` (`datasetregisterid`),
@@ -1376,8 +1401,6 @@ CREATE TABLE `u_yf_datasetregister` (
   `data_set_shared` tinyint(1) DEFAULT 0,
   `added_to_register` date DEFAULT NULL,
   `removed_from_register` date DEFAULT NULL,
-  `desciption` text DEFAULT NULL,
-  `comments` text DEFAULT NULL,
   `parent_id` int(10) NOT NULL,
   PRIMARY KEY (`datasetregisterid`),
   KEY `u_yf_datasetregister_datasetregisterid_idx` (`datasetregisterid`),
@@ -2663,8 +2686,6 @@ CREATE TABLE `u_yf_locationregister` (
   `city` varchar(150) DEFAULT '',
   `county` varchar(150) DEFAULT '',
   `country` varchar(150) DEFAULT '',
-  `description` text DEFAULT NULL,
-  `comments` text DEFAULT NULL,
   PRIMARY KEY (`locationregisterid`),
   KEY `u_yf_locationregister_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_locationregisterlocationregisterid` FOREIGN KEY (`locationregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -3884,16 +3905,6 @@ CREATE TABLE `vtiger_announcementstatus` (
   `sortorderid` int(10) DEFAULT 0,
   PRIMARY KEY (`announcementstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_apiaddress` */
-
-CREATE TABLE `vtiger_apiaddress` (
-  `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `val` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assets` */
 

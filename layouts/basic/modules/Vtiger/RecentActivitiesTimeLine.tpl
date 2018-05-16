@@ -27,7 +27,7 @@
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
 									<div class="d-flex">
-										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
+										<span class="flex-shrink-0 fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle text-success" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;"></span>
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} text-light" data-fa-transform="shrink-8"></span>
 										</span>

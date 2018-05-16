@@ -54,6 +54,8 @@ class AuditRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'FL_NAME' => ['auditregister', 'name'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_STATUS' => ['auditregister', 'auditregister_status'],
+		'FL_TYPE' => ['auditregister', 'auditregister_type']
 	];
 	/**
 	 * List fields name.
@@ -64,6 +66,8 @@ class AuditRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'FL_NAME' => 'name',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'auditregister_status',
+		'FL_TYPE' => 'auditregister_type',
 	];
 	/**
 	 * Make the field link to detail view.
@@ -81,6 +85,8 @@ class AuditRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'FL_NAME' => ['auditregister', 'name'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+		'FL_STATUS' => ['auditregister', 'auditregister_status'],
+		'FL_TYPE' => ['auditregister', 'auditregister_type']
 	];
 	/**
 	 * Search fields name.
@@ -91,13 +97,15 @@ class AuditRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'FL_NAME' => 'name',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'auditregister_status',
+		'FL_TYPE' => 'auditregister_type',
 	];
 	/**
 	 * For Popup window record selection.
 	 *
 	 * @var array
 	 */
-	public $popup_fields = ['name'];
+	public $popup_fields = ['name', 'auditregister_status', 'auditregister_type'];
 	/**
 	 * For Alphabetical search.
 	 *

@@ -51,7 +51,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
-		$query->groupBy(['industryvalue', 'vtiger_industry.sortorderid'])->orderBy('vtiger_industry.sortorderid');
+		$query->groupBy(['industryvalue', 'vtiger_industry.sortorderid', 'vtiger_industry.industryid'])->orderBy('vtiger_industry.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$chartData = [
 			'labels' => [],

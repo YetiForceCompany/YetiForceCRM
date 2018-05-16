@@ -35,7 +35,7 @@ class ProductsTableShortVersion extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 
 		if (in_array('currency', $currencyColumns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != null) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
 				$currency = $baseCurrency['id'];

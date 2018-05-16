@@ -55,8 +55,6 @@ $.Class("Vtiger_Edit_Js", {
 	}
 
 }, {
-	addressDataOG: [],
-	addressDataGM: [],
 	formElement: false,
 	relationOperation: '',
 	moduleName: app.getModuleName(),
@@ -1079,198 +1077,77 @@ $.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
-	getDataFromOG: function (request, apiData) {
-		var thisInstance = this;
-
-		if (apiData["opencage_data"]) {
-			return $.ajax({
-				url: apiData["opencage_data"].geoCodeURL,
-				data: {
-					format: "json",
-					q: request.term,
-					pretty: '1',
-					key: apiData["opencage_data"].geoCodeKey
-				},
-				success: function (data, textStatus, jqXHR) {
-					if (data.results.length) {
-						thisInstance.addressDataOG = $.map(data.results, function (item) {
-							return {
-								label: item.formatted,
-								source: 'opencage_geocoder',
-								source_label: 'OpenCage Geocoder',
-								value: item.components.road,
-								components: item.components
-							}
-						});
-					}
-				}
-			})
-		}
-
-		return [];
-	},
-	getDataFromGM: function (request, apiData) {
-		var thisInstance = this;
-
-		if (apiData["google_map_api"]) {
-			return $.ajax({
-				url: apiData["google_map_api"].geoCodeURL,
-				data: {
-					address: request.term,
-					key: apiData["google_map_api"].geoCodeKey
-				},
-				success: function (addressData) {
-
-					if (0 < addressData.results.length) {
-						var result = addressData.results[0].geometry.location;
-
-						$.ajax({
-							url: apiData["google_map_api"].geoCodeURL,
-							data: {
-								latlng: result.lat + "," + result.lng,
-								key: apiData["google_map_api"].geoCodeKey
-							},
-							success: function (data, textStatus, jqXHR) {
-								thisInstance.addressDataGM = $.map(data.results, function (item) {
-									return {
-										label: item.formatted_address,
-										source: 'google_geocoding',
-										source_label: 'Google Geocoding',
-										value: item.formatted_address,
-										components: thisInstance.mappingAddressDataFromGoogle(item.address_components)
-									}
-								})
-							}
-						})
-					}
-				}
-			})
-		}
-
-		return [];
-	},
-	mappingAddressDataFromGoogle: function (address) {
-
-		var data = {}
-
-		for (var key in address) {
-			var types = address[key]['types'];
-
-			if ('route' === types[0]) {
-				data.road = address[key]['long_name'];
-			}
-
-			if ('street_number' === types[0]) {
-				var numbers = address[key]['long_name'];
-				if (numbers.indexOf('/' > -1)) {
-					var tab = numbers.split('/');
-
-					data.house_number = tab[0];
-					data.local_number = tab[1];
-
-				} else {
-					data.house_number = address[key]['long_name'];
-				}
-			}
-
-			if ('country' === types[0] && 'political' === types[1]) {
-				data.country = address[key]['long_name'];
-			}
-
-			if ('administrative_area_level_1' === types[0] && 'political' === types[1]) {
-				data.state = address[key]['long_name'];
-			}
-
-			if ('administrative_area_level_2' === types[0] && 'political' === types[1]) {
-				data.powiat = address[key]['long_name'];
-			}
-
-			if ('sublocality_level_1' === types[0] && 'sublocality' === types[1] && 'political' === types[2]) {
-				data.region_city = address[key]['long_name'];
-			}
-
-			if ('postal_code' === types[0]) {
-				data.postcode = address[key]['long_name'];
-			}
-
-			if ('locality' === types[0] && 'political' === types[1]) {
-				data.city = address[key]['long_name'];
-			}
-
-		}
-
-		return data;
-	},
-	registerApiAddress: function () {
-		var thisInstance = this;
-		var apiElement = $('[name="apiAddress"]');
-		var apiData = [];
-
-		$(apiElement).each(function (index, item) {
-			var apiName = $(item).data('api-name');
-			var info = {
-				geoCodeURL: $(item).data('url'),
-				geoCodeKey: $(item).val()
-			}
-
-			apiData[apiName] = info;
-			apiData["minLookupLength"] = $(item).data('length');
-			apiData["max_num"] = $(item).data('max-num');
-		});
-
-		if (!apiData) {
-			return false;
-		}
-		$('.api_address_autocomplete').each(function () {
-			$(this).autocomplete({
+	registerAutoloadAddress: function () {
+		this.getForm().find('.js-search-address').each(function (index, item) {
+			let search = $(item);
+			let container = search.closest('.js-block-content');
+			let input = search.find('.js-autoload-address');
+			search.find('.js-select-operator').on('click', function (e) {
+				input.data('type', $(this).data('type'));
+			});
+			input.autocomplete({
 				source: function (request, response) {
-					$.when(
-						thisInstance.getDataFromOG(request, apiData),
-						thisInstance.getDataFromGM(request, apiData)
-					).then(function (og, gm) {
-
-						var result = thisInstance.addressDataOG.concat(thisInstance.addressDataGM);
-						response(result.slice(0, apiData['max_num']));
-
-					}).fail(function (e) {
-						response([{label: app.vtranslate('An error has occurred. No results.'), value: ''}]);
+					AppConnector.request({
+						module: app.getModuleName(),
+						action: 'Fields',
+						mode: 'findAddress',
+						type: input.data('type'),
+						value: request.term
+					}).then(function (requestData) {
+						if (requestData.result === false) {
+							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						} else if (requestData.result.length) {
+							response(requestData.result);
+						} else {
+							response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
+						}
+					}, function () {
+						response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 					});
 				},
-				minLength: apiData.minLookupLength,
+				minLength: input.data('min'),
 				select: function (event, ui) {
-					for (var key in ui.item.components) {
-						var addressType = thisInstance.addressFieldsMappingFromApi[key];
-						var element = $(this).parents('.js-toggle-panel').find('[name^="' + addressType + '"]');
-						element.val(ui.item.components[key]);
-						if (element.is("select")) {
-							element.val(element.find('option[data-code="' + ui.item.components[key].toUpperCase() + '"]').val()).trigger('chosen:updated');
+					$.each(ui.item.address, function (index, value) {
+						let field = container.find('.fieldValue [name^=' + index + ']');
+						if (field.length && value) {
+							if (typeof value !== 'object') {
+								value = [value];
+							}
+							$.each(value, function (index, v) {
+								let select = false, element = false;
+								if (field.prop("tagName") === 'SELECT') {
+									if (typeof v === 'object') {
+										$.each(v, function (index, x) {
+											element = field.find("option[data-" + index + "='" + x + "']");
+											if (x && element.length) {
+												select = element.val();
+											}
+										});
+									} else {
+										element = field.find('option:contains(' + v + ')');
+										if (v && element.length) {
+											select = element.val();
+										}
+										element = field.find('option[value="' + v + '"]');
+										if (v && element.length) {
+											select = element.val();
+										}
+									}
+								} else {
+									select = v;
+								}
+								if (select) {
+									field.val(select).change();
+								}
+							});
+						} else {
+							field.val('').change();
 						}
-					}
-					ui.item.value = ui.item.label;
+					});
+					ui.item.value = input.val();
 				}
-			}).data("ui-autocomplete")._renderItem = function (ul, item) {
-				return $("<li>")
-					.data("item.autocomplete", item)
-					.append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/basic/images/' +
-						item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
-					.appendTo(ul);
-			};
+			});
 		});
-	},
-	addressFieldsMappingFromApi: {
-		country_code: 'addresslevel1',
-		state: 'addresslevel2',
-		state_district: 'addresslevel3',
-		county: 'addresslevel4',
-		village: 'addresslevel5',
-		city: 'addresslevel5',
-		neighbourhood: 'addresslevel6',
-		city_district: 'addresslevel6',
-		suburb: 'addresslevel6',
-		postcode: 'addresslevel7',
-		road: 'addresslevel8',
-		house_number: 'buildingnumber',
-		local_number: 'localnumber',
 	},
 	setEnabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
@@ -1473,7 +1350,7 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerLeavePageWithoutSubmit(editViewForm);
 		this.registerValidationsFields(editViewForm);
 		this.registerReferenceCreate(editViewForm);
-		this.registerApiAddress();
+		this.registerAutoloadAddress();
 		//this.triggerDisplayTypeEvent();
 	}
 });

@@ -114,6 +114,22 @@ class Language
 	}
 
 	/**
+	 * Get IETF language tag.
+	 *
+	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
+	 *
+	 * @return string
+	 */
+	public static function getLanguageInIetf()
+	{
+		$lang = \explode('_', static::getLanguage());
+		if (isset($lang[1])) {
+			$lang[1] = \strtoupper($lang[1]);
+		}
+		return \implode('-', $lang);
+	}
+
+	/**
 	 * Functions that gets translated string.
 	 *
 	 * @param string      $key        - string which need to be translated
