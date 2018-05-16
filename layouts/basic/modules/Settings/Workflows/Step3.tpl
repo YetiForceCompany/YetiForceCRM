@@ -26,8 +26,18 @@
         </div>
         <br />
         <div class="float-right">
-            <button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-            <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn btn-secondary backStep mr-1" type="button">
+				<strong>
+					<span class="fas fa-caret-left mr-1"></span>
+					{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+				</strong>
+			</button>
+            <button class="btn btn-success" type="button" onclick="javascript:window.history.back();">
+				<strong>
+					<span class="fas fa-caret-right mr-1"></span>
+					{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+				</strong>
+			</button>
         </div>
         <div class="clearfix"></div>
     </form>
