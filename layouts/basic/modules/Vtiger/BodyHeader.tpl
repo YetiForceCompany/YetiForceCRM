@@ -1,7 +1,8 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	{assign var='count' value=0}
-	<header class="tpl-BodyHeader navbar navbar-expand-md navbar-dark fixed-top px-2 js-header bodyHeader" data-js="height">
+	<header class="tpl-BodyHeader navbar navbar-expand-md navbar-dark fixed-top px-2 js-header bodyHeader"
+			data-js="height">
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
@@ -40,25 +41,33 @@
 						</button>
 						{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 							<div class="btn-group">
-								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" id="globalSearchOperator"
-										href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right"
+								   id="globalSearchOperator"
+								   href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+								   aria-expanded="false">
 									<span class="fas fa-crosshairs fa-fw"></span>
 									<span class="sr-only">{\App\Language::translate('LBL_SPECIAL_OPTIONS')}</span>
 								</a>
-								<ul class="dropdown-menu js-global-search-operator" aria-labelledby="globalSearchOperator" data-js="click">
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="FulltextBegin">
+								<ul class="dropdown-menu js-global-search-operator"
+									aria-labelledby="globalSearchOperator" data-js="click">
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer"
+										href="#" data-operator="FulltextBegin">
 										{\App\Language::translate('LBL_FULLTEXT_BEGIN')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="FulltextWord">
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer"
+										href="#" data-operator="FulltextWord">
 										{\App\Language::translate('LBL_FULLTEXT_WORD')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="Contain">
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer"
+										href="#" data-operator="Contain">
 										{\App\Language::translate('LBL_CONTAINS')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="Begin">
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer"
+										href="#" data-operator="Begin">
 										{\App\Language::translate('LBL_STARTS_WITH')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer" href="#" data-operator="End">
+									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer"
+										href="#" data-operator="End">
 										{\App\Language::translate('LBL_ENDS_WITH')}
 									</li>
 								</ul>
@@ -142,7 +151,8 @@
 					   target="_blank">
 						<span class="far fa-life-ring"></span>
 					</a>
-					<a class="btn btn-light js-popover-tooltip" href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
+					<a class="btn btn-light js-popover-tooltip"
+					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
 					   target="_blank">
 						<span class="fas fa-bug"></span>
@@ -319,12 +329,16 @@
 				{/if}
 				{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 					<div class="o-action-menu__item">
-						<a class="headerButton btn btn-light btn showHistoryBtn js-popover-tooltip dropdownMenu"
-						   data-js="popover" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-							<span class="fas fa-history fa-fw" aria-hidden="true"></span>
-							<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
-						</a>
-						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
+						<div class="dropdown">
+							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu"
+							   id="showHistoryBtn" data-js="popover"
+							   data-toggle="dropdown" data-boundary="window"
+							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
+								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
+							</a>
+							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
+						</div>
 					</div>
 				{/if}
 				{foreach key=index item=obj from=$MENU_HEADER_LINKS}
@@ -339,29 +353,8 @@
 							{assign var="HREF" value=$LINK}
 						{/if}
 						<div class="o-action-menu__item">
-							<div class="dropdown">
-							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu" id="showHistoryBtn" data-js="popover"
-							   data-toggle="dropdown" data-boundary="window" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
-								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
-							</a>
-							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
-							</div>
-						</div>
-					{/if}
-					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
-						{if $obj->linktype == 'HEADERLINK'}
-							{assign var="HREF" value='#'}
-							{assign var="ICON_PATH" value=$obj->getIconPath()}
-							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="ICON" value=$obj->getHeaderIcon()}
-							{assign var="TITLE" value=$obj->getLabel()}
-							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
-							{if !empty($LINK)}
-								{assign var="HREF" value=$LINK}
-							{/if}
-							<div class="o-action-menu__item">
-								<a class="headerButton btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-js="popover" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							<a class="headerButton btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
+							   data-js="popover" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
 									{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 									data-{$DATA_NAME}="{$DATA_VALUE}"
