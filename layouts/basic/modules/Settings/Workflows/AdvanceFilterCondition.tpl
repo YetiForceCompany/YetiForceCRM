@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row conditionRow marginBottom10px">
+	<div class="row conditionRow marginBottom10px align-items-center">
 		<div class="col-md-4">
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 				<option value="none"></option>
@@ -68,7 +68,9 @@
 			<input type="hidden" name="column_condition" value="{$CONDITION}" />
 		</span>
 		<span class="col-md-1">
-			<i class="deleteCondition fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></i>
+			<button class="btn btn-danger deleteCondition" type="button">
+				<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+			</button>
 		</span>
 	</div>
 {/strip}

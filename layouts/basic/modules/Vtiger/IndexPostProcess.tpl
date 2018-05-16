@@ -10,7 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-</div>
-</div>
-</div>
+<!-- tpl-IndexPostProcess -->
+	</div>
+	</div>
+	</div>
+<!-- /tpl-IndexPostProcess -->
 {/strip}

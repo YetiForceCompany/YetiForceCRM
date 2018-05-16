@@ -12,9 +12,11 @@
 {strip}
 	<div class="row">
 		<nav class="widget_header col-12 px-3 d-flex align-items-center">
-			<div class="listViewMassActions px-2 modOn_{$MODULE}">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}
-			</div>
+			{if {$MODULE} neq 'Home'}
+				<div class="listViewMassActions px-2">
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}
+				</div>
+			{/if}
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
 		</nav>

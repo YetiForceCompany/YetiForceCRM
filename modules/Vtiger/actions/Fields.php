@@ -35,9 +35,11 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
-		if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+		if ($request->getMode() !== 'findAddress') {
+			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
+			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
+				throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+			}
 		}
 	}
 
@@ -48,6 +50,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('getReference');
 		$this->exposeMethod('getUserRole');
 		$this->exposeMethod('verifyPhoneNumber');
+		$this->exposeMethod('findAddress');
 	}
 
 	/**
@@ -191,6 +194,21 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			$data['message'] = \App\Language::translate('LBL_INVALID_PHONE_NUMBER');
 		}
 		$response->setResult($data);
+		$response->emit();
+	}
+
+	/**
+	 * Find address.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function findAddress(\App\Request $request)
+	{
+		$instance = \App\AddressFinder::getInstance($request->getByType('type'));
+		$response = new Vtiger_Response();
+		if ($instance) {
+			$response->setResult($instance->find($request->getByType('value', 'Text')));
+		}
 		$response->emit();
 	}
 }

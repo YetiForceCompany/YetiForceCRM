@@ -19,15 +19,6 @@
 				<input type="hidden" name="picklistDependency"
 					   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
-
-			{foreach from=$APIADDRESS item=item key=key}
-				{if !empty($item['nominatim'])}
-					<input type="hidden" name="apiAddress" value='{$item['key']}'
-						   data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}"
-						   data-url="{$item['source']}" data-length="{$APIADDRESS['global']['min_length']}"/>
-				{/if}
-			{/foreach}
-
 			{if !empty($MAPPING_RELATED_FIELD)}
 				<input type="hidden" name="mappingRelatedField"
 					   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
@@ -72,10 +63,10 @@
 					<div class="js-toggle-panel c-panel c-panel--edit row  mx-1 mb-3" data-js="click"
 						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
-							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
-								{assign var=APIADDRESFIELD value=TRUE}
+							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+								{assign var=SEARCH_ADDRESS value=TRUE}
 							{else}
-								{assign var=APIADDRESFIELD value=FALSE}
+								{assign var=SEARCH_ADDRESS value=FALSE}
 							{/if}
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" data-mode="hide"
@@ -88,11 +79,9 @@
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<div class="adressAction row py-2">
-									<div class="{if !$APIADDRESFIELD} text-center{/if} col-md-12">
+									<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
 										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 									</div>
-								</div>
 							{/if}
 							<div class="row">
 								{assign var=COUNTER value=0}

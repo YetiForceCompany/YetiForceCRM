@@ -150,7 +150,6 @@ class ModuleBasic
 	public function __delete()
 	{
 		Module::fireEvent($this->name, Module::EVENT_MODULE_PREUNINSTALL);
-
 		if ($this->isentitytype) {
 			$this->unsetEntityIdentifier();
 		}
@@ -215,8 +214,8 @@ class ModuleBasic
 		\App\Fields\Tree::deleteForModule($this->id);
 		Link::deleteAll($this->id);
 		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
-		$this->deleteDir($moduleInstance);
 		$this->__delete();
+		$this->deleteDir($moduleInstance);
 		self::syncfile();
 		\App\Cache::clear();
 	}

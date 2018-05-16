@@ -22,9 +22,11 @@
 .u-word-break-all {
 	word-break: break-all !important;
 }
-
 .u-font-size-95per {
 	font-size: 95% !important;
+}
+.u-font-size-100per {
+	font-size: 100% !important;
 }
 //--- MARGIN ---//
 .u-ml-0 {
@@ -63,6 +65,10 @@
 .u-p-1per {
 	padding: 1%;
 }
+.u-p-x-0px{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
 //--- WIDTH ---//
 .u-w-37per {
 	width: 37% !important;
@@ -95,6 +101,10 @@
 
 .u-h-input-text {
 	height: $input-text-height;
+}
+//--- WHITE SPACE ---//
+.u-white-space-nowrap{
+  white-space: nowrap !important;
 }
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {

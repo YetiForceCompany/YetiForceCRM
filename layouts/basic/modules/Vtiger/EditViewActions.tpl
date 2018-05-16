@@ -16,7 +16,7 @@
 			<span class="fas fa-check u-mr-5px"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+		<button class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">
 			<span class="fas fa-times u-mr-5px"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>

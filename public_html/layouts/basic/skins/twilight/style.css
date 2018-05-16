@@ -11,12 +11,10 @@
 input[type=checkbox] {
 	border: 1px solid rgba(0, 0, 0, 0.54);
 	width: 17px;
-	margin: 0px 0 0;
 	transition: 0.25s;
 	white-space: nowrap;
 	height: 17px;
 	min-height: 17px !important;
-	position: relative;
 	-webkit-appearance: none;
 	background: #fff;
 	border-radius: 3px;
@@ -28,8 +26,7 @@ input[type=checkbox]:checked::after,
 	box-sizing: border-box;
 	-webkit-transform: rotate(45deg);
 	transform: rotate(45deg);
-	position: absolute;
-	left: 4.5px;
+	margin:0 auto;
 	border-spacing: 0;
 	border-color: #fff;
 	top: 0px;

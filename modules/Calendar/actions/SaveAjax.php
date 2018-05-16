@@ -13,14 +13,12 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 	public function process(\App\Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$allDay = $request->get('allday');
-		if ('on' === $allDay) {
-			$request->set('time_start', $user->get('start_hour'));
-			$request->set('time_end', $user->get('end_hour'));
+		$user = \App\User::getCurrentUserModel();
+		if ($request->getBoolean('allday')) {
+			$request->set('time_start', $user->getDetail('start_hour'));
+			$request->set('time_end', $user->getDetail('end_hour'));
 		}
 		$recordModel = $this->saveRecord($request);
-
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
@@ -34,7 +32,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			}
 			$result[$fieldName] = [];
 			if ($fieldName === 'date_start') {
-				$timeStart = $recordModel->get('time_start');
+				$timeStart = Vtiger_Time_UIType::getTimeValueWithSeconds($recordModel->get('time_start'));
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
@@ -45,7 +43,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
 				$result[$fieldName]['display_value'] = $dateComponent;
 			} elseif ($fieldName === 'due_date') {
-				$timeEnd = $recordModel->get('time_end');
+				$timeEnd = Vtiger_Time_UIType::getTimeValueWithSeconds($recordModel->get('time_end'));
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();

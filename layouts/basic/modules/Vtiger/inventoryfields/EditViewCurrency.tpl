@@ -32,7 +32,13 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<h3 class="modal-title">{\App\Language::translate('LBL_CHANGE_CURRENCY', $MODULE)}</h3>
+					<h5 class="modal-title">
+						<span class="fas fa-euro-sign mr-1"></span>
+						{\App\Language::translate('LBL_CHANGE_CURRENCY', $MODULE)}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					{if $CURRENCY_PARAMS == false}
@@ -43,18 +49,28 @@
 						<div>{\App\Language::translate('LBL_EXCHANGE_DATE', $MODULE)}: <strong class="currencyDate"></strong></div>
 						<div>
 							<div class="input-group">
-								<span class="input-group-addon">{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE)}:</span>
+								<span class="input-group-prepend"><span class="input-group-text">{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE)}:</span></span>
 								<input type="text" class="form-control currencyRate" value="" aria-label="{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE)}" 
 									   {if $FIELD_PARAMS['type'] eq '1'}readonly="readonly"{/if}>
-								<span class="input-group-addon">{$BASE_CURRENCY['currency_symbol']}</span>
+								<span class="input-group-append"><span class="input-group-text">{$BASE_CURRENCY['currency_symbol']}</span></span>
 							</div>
 						</div>
 					{/if}
 					<div class="modal-footer">
 						{if $CURRENCY_PARAMS != false}
-							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-								{/if}
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+							<button class="btn btn-success" type="submit">
+								<strong>
+									<span class="fas fa-check mr-1"></span>
+									{\App\Language::translate('LBL_SAVE', $MODULE)}
+								</strong>
+							</button>
+						{/if}
+						<button class="btn btn-danger" type="reset" data-dismiss="modal">
+							<strong>
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $MODULE)}
+							</strong>
+						</button>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,7 @@
 <?php
 /**
+ * ActivityRegister crmentity class.
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
@@ -58,6 +60,7 @@ class ActivityRegister extends Vtiger_CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_STATUS' => ['activityregister', 'activityregister_status'],
 		'FL_START_DATE' => ['activityregister', 'start_date'],
+		'FL_END_DATE' => ['activityregister', 'end_date'],
 	];
 	/**
 	 * List fields name.
@@ -69,7 +72,8 @@ class ActivityRegister extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 		'FL_STATUS' => 'activityregister_status',
-		'FL_START_DATE' => 'start_date'
+		'FL_START_DATE' => 'start_date',
+		'FL_END_DATE' => 'end_date'
 	];
 	/**
 	 * Make the field link to detail view.
@@ -87,6 +91,9 @@ class ActivityRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => ['activityregister', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+		'FL_STATUS' => ['activityregister', 'activityregister_status'],
+		'FL_START_DATE' => ['activityregister', 'start_date'],
+		'FL_END_DATE' => ['activityregister', 'end_date'],
 	];
 	/**
 	 * Search fields name.
@@ -97,13 +104,16 @@ class ActivityRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'activityregister_status',
+		'FL_START_DATE' => 'start_date',
+		'FL_END_DATE' => 'end_date'
 	];
 	/**
 	 * For Popup window record selection.
 	 *
 	 * @var array
 	 */
-	public $popup_fields = ['subject'];
+	public $popup_fields = ['subject', 'assigned_user_id', 'activityregister_status', 'start_date', 'end_date'];
 	/**
 	 * For Alphabetical search.
 	 *

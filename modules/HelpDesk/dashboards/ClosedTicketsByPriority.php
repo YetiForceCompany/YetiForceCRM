@@ -47,9 +47,8 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = (new App\Db\Query())->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
-				'priority',
+				'vtiger_troubletickets.priority',
 				'vtiger_ticketpriorities.ticketpriorities_id',
-				'vtiger_ticketpriorities.color',
 			])->from('vtiger_troubletickets')
 				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 				->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
@@ -69,7 +68,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
-		$query->groupBy(['priority', 'vtiger_ticketpriorities.color']);
+		$query->groupBy(['vtiger_troubletickets.priority', 'vtiger_ticketpriorities.ticketpriorities_id']);
 		$dataReader = $query->createCommand()->query();
 		$colors = \App\Fields\Picklist::getColors('ticketpriorities');
 		$chartData = [
