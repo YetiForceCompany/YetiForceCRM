@@ -90,12 +90,12 @@ class GanttField {
 				return `<table class="gdfTable" cellspacing="0" cellpadding="0">
 				<thead>
 				<tr style="height:40px">
-      				<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_NO.", "Project")}</th>
+      				<th class="gdfColHeader gdfResizable" style="width:80px">${app.vtranslate("JS_NO.", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:300px">${app.vtranslate("JS_NAME", "Project")}</th>
-					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_PRIORITY", "Project")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:60px">${app.vtranslate("JS_PRIORITY", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_STATUS", "Project")}</th>
-					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_DURATION_SHORT", "Dni")}</th>
-					<th class="gdfColHeader gdfResizable" style="width:100px">%</th>
+					<th class="gdfColHeader gdfResizable" style="width:70px">${app.vtranslate("JS_DURATION_SHORT", "Dni")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:50px">%</th>
 				</tr>
 				</thead>
 			</table>`;
