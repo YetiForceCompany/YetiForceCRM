@@ -421,6 +421,44 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return $this->statusColors;
 	}
 
+	private function getPicklistValues()
+	{
+		$picklistsNames = [];
+		$picklists=[];
+		$picklistsNames['Project'] = App\Fields\Picklist::getModulesByName('Project');
+		$picklistsNames['ProjectMilestone'] = App\Fields\Picklist::getModulesByName('ProjectMilestone');
+		$picklistsNames['ProjectTask'] = App\Fields\Picklist::getModulesByName('ProjectTask');
+		$picklists['Project'] = [];
+		foreach ($picklistsNames['Project'] as $name) {
+			$picklists['Project'][$name]=[];
+			$picklistValues = array_values(App\Fields\Picklist::getValues($name));
+			$values = array_column($picklistValues, 'picklistValue');
+			foreach ($values as $index=>$value) {
+				$picklists['Project'][$name][]=[
+					'value'=>$value,
+					'label'=> App\Language::translate($value, 'Project'),
+				];
+			}
+		}
+		$picklists['ProjectMilestone'] = [];
+		foreach ($picklistsNames['ProjectMilestone'] as $name) {
+			$picklists['ProjectMilestone'][$name] = [];
+			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
+			foreach ($values as $value) {
+				$picklists['ProjectMilestone'][$name][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectMilestone')];
+			}
+		}
+		$picklists['ProjectTask'] = [];
+		foreach ($picklistsNames['ProjectTask'] as $name) {
+			$picklists['ProjectTask'][$name] = [];
+			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
+			foreach ($values as $value) {
+				$picklists['ProjectTask'][$name][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectTask')];
+			}
+		}
+		return $picklists;
+	}
+
 	private function getProject($id)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
@@ -523,6 +561,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
+		$response['picklists'] = $this->getPicklistValues();
 		$this->loaded = true;
 		return $response;
 	}
@@ -559,6 +598,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
+		$response['picklists'] = $this->getPicklistValues();
 		$this->loaded = true;
 		return $response;
 	}
