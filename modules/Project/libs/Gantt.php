@@ -239,8 +239,7 @@ class Project_Gantt_Lib extends App\Base
 	 */
 	private function collectChildrens()
 	{
-		$tree = &$this->getRecordWithChildren($this->rootNode);
-		$this->tree = $tree;
+		$this->tree = &$this->getRecordWithChildren($this->rootNode);
 	}
 
 	/**
