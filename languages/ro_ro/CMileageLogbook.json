@@ -1,0 +1,17 @@
+{
+  "php": {
+    "CMileageLogbook": "Cartea de bord pentru kilometri",
+    "SINGLE_CMileageLogbook": "Cartea de bord pentru kilometri",
+    "LBL_ADDITIONAL_INFORMATION": "Informatii Aditionale",
+    "LBL_BASIC_INFORMATION": "Informatii de baza",
+    "LBL_DESCRIPTION_BLOCK": "Descriere",
+    "LBL_ATTENTION_BLOCK": "Note",
+    "FL_SUBJECT": "Subiect",
+    "FL_STATUS": "Status",
+    "FL_NUMBER_KILOMETERS": "Numar kilometri",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_FOR_APPROVAL": "Pentru aprobare",
+    "PLL_ACCEPTED": "Acceptat",
+    "PLL_CANCELLED": "Anulat"
+  }
+}
