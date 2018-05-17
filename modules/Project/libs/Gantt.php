@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Project_Gantt_Model extends Vtiger_Module_Model
+class Project_Gantt_Lib extends App\Base
 {
 	/**
 	 * @var array project tasks,milesones and projects
@@ -25,11 +25,6 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 	 * @var array task nodes as tree with children
 	 */
 	private $tree = [];
-
-	/**
-	 * @var array all nodes segregated by type
-	 */
-	private $taskByType = [];
 
 	/**
 	 * @var bool is project loaded already?
@@ -163,6 +158,9 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Normalize numbers.
+	 */
 	private function normalizeNumbers()
 	{
 		foreach ($this->tasks as &$task) {
@@ -172,19 +170,6 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 				$task['no'] = $task['projectmilestone_no'];
 			} elseif (!empty($task['project_no'])) {
 				$task['no'] = $task['project_no'];
-			}
-		}
-	}
-
-	private function normalizeStatuses()
-	{
-		foreach ($this->tasks as &$task) {
-			if (!empty($task['projectstatus'])) {
-				$task['internal_status'] = App\Language::translate($task['projectstatus'], 'Project');
-			} elseif (!empty($task['projecttaskstatus'])) {
-				$task['internal_status'] = App\Language::translate($task['projecttaskstatus'], 'ProjectTask');
-			} else {
-				$task['internal_status'] = '';
 			}
 		}
 	}
@@ -293,6 +278,15 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $clean;
 	}
 
+	/**
+	 * Iterate through all tasks in tree.
+	 *
+	 * @param array    $node         starting point - might by rootNode
+	 * @param mixed    $currentValue initial result which will be evaluated if there are some child nodes like array reduce
+	 * @param callable $callback     what to do with task
+	 *
+	 * @return mixed
+	 */
 	public function iterateNodes(&$node, $currentValue, $callback)
 	{
 		if (empty($node['children'])) {
@@ -308,9 +302,11 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * search for tasks within milestone.
+	 * Iterate through children and search for start date.
 	 *
-	 * @param $milestone
+	 * @param array $node
+	 *
+	 * @return int timestamp
 	 */
 	private function findOutStartDates(&$node)
 	{
@@ -346,16 +342,17 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * search for tasks within milestone.
+	 * Iterate through children and search for end date.
 	 *
-	 * @param $milestone
+	 * @param array $node
+	 *
+	 * @return int timestamp
 	 */
 	private function findOutEndDates(&$node)
 	{
 		$lastDate = $this->iterateNodes($node, 0, function (&$child, $lastDate) {
 			if (!empty($child['start_date']) && $child['start_date'] !== '1970-01-01') {
 				$taskDate = strtotime($child['end_date']);
-				// echo "[{$child['text']}]($taskStartDate:$startDate) ";
 				if ($taskDate > $lastDate) {
 					return $taskDate;
 				}
@@ -389,6 +386,9 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		$this->findOutEndDates($this->rootNode);
 	}
 
+	/**
+	 * Calculate task duration in days.
+	 */
 	private function calculateDurations()
 	{
 		foreach ($this->tasks as &$task) {
@@ -413,6 +413,11 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return true;
 	}
 
+	/**
+	 * Collect all modules picklists colors to use in gantt bars.
+	 *
+	 * @return array
+	 */
 	public function getStatusColors()
 	{
 		$this->statusColors['Project'] = \App\Colors::getPicklists('Project');
@@ -421,6 +426,11 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $this->statusColors;
 	}
 
+	/**
+	 * Collect all modules picklists names and values that we can use in filters.
+	 *
+	 * @return array
+	 */
 	private function getPicklistValues()
 	{
 		$picklistsNames = [];
@@ -459,18 +469,25 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $picklists;
 	}
 
+	/**
+	 * Get project data.
+	 *
+	 * @param int $id project id
+	 *
+	 * @return array
+	 */
 	private function getProject($id)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
+		$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Project');
 		$project['id'] = $id;
 		$project['parent'] = $recordModel->get('parentid'); // we must collet parents
 		$project['name'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
 		$project['text'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
 		$project['priority'] = $recordModel->get('projectpriority');
-		$project['priority_label'] = \App\Language::translate($recordModel->get('projectpriority'), $this->getName());
+		$project['priority_label'] = \App\Language::translate($recordModel->get('projectpriority'), 'Project');
 		$project['status'] = 'STATUS_ACTIVE';
 		$project['type'] = 'project';
-		$project['module'] = $this->getName();
+		$project['module'] = 'Project';
 		$project['open'] = true;
 		$project['canWrite'] = false;
 		$project['canDelete'] = false;
@@ -497,6 +514,13 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $project;
 	}
 
+	/**
+	 * Recursively collect project children (sub projects).
+	 *
+	 * @param $id project id
+	 *
+	 * @return array
+	 */
 	private function getProjectChildren($id)
 	{
 		$childrenIds = array_map(function ($item) {
@@ -516,8 +540,16 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $children;
 	}
 
-	private function getProjects($id, $projects = [])
+	/**
+	 * Get flatt array of projects with children.
+	 *
+	 * @param int $id project id
+	 *
+	 * @return array
+	 */
+	private function getProjects($id)
 	{
+		$projects = [];
 		$project = $this->getProject($id);
 		$projects[] = $project;
 		$children = $this->getProjectChildren($id);
@@ -525,6 +557,11 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $projects;
 	}
 
+	/**
+	 * Get all projects from the system.
+	 *
+	 * @return array
+	 */
 	public function getAllGanttProjects()
 	{
 		$this->getStatusColors();
@@ -552,7 +589,6 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		$this->collectChildrens();
 		$this->calculateLevels();
 		$this->normalizeNumbers();
-		$this->normalizeStatuses();
 		$this->calculateDates();
 		$this->calculateDurations();
 		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
@@ -567,13 +603,13 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get list of gantt projects.
+	 * Get project data to display in view as gantt.
 	 *
 	 * @param int|string $id
 	 *
 	 * @return array
 	 */
-	public function getGanttProject($id = null)
+	public function getGanttProject($id)
 	{
 		$this->getStatusColors();
 		$response = ['tasks' => [], 'links' => []];
@@ -589,7 +625,6 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		$this->collectChildrens();
 		$this->calculateLevels();
 		$this->normalizeNumbers();
-		$this->normalizeStatuses();
 		$this->calculateDates();
 		$this->calculateDurations();
 		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
@@ -603,10 +638,15 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $response;
 	}
 
+	/**
+	 * Get project milestones.
+	 *
+	 * @param int|int[] $projectIds
+	 *
+	 * @return array
+	 */
 	public function getGanttMilestones($projectIds)
 	{
-		$milestoneTime = 0;
-		$progressInHours = 0;
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'id' => 'projectmilestoneid',
@@ -659,6 +699,13 @@ class Project_Gantt_Model extends Vtiger_Module_Model
 		return $milestones;
 	}
 
+	/**
+	 * Get project tasks.
+	 *
+	 * @param int|int[] $projectIds
+	 *
+	 * @return array
+	 */
 	public function getGanttTasks($projectIds)
 	{
 		$taskTime = 0;
