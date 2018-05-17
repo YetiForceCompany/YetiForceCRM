@@ -23,13 +23,28 @@ class GanttField {
 		Number.currencyFormat = "###,##0.00";
 	}
 
+	getStatusFilterOptions(){
+		let template = '';
+		for(let moduleName in this.projectData.picklists){
+			let picklists = this.projectData.picklists[moduleName];
+			for(let picklistName in picklists){
+				let picklist = picklists[picklistName];
+				picklist.forEach((item)=>{
+					template += `<option value="${moduleName}|${picklistName}|${item.value}">${moduleName}->${picklistName}->${item.label}</option>`;
+				});
+			}
+		}
+		return template;
+	}
+
 	registerTemplates() {
+		const self = this;
 		this.ganttTemplateFunctions = [];
 		this.ganttTemplateFunctions.push({
 			type: "GANTBUTTONS",
 			render(obj) {
 				return `<div class="ganttButtonBar noprint">
-				<div class="buttons">
+				<div class="buttons row">
 					<button id="j-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
 					<button id="j-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
 					<span class="ganttButtonSeparator"></span>
@@ -37,13 +52,14 @@ class GanttField {
 					<button id="j-gantt__zoom-in-btn" class="button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
 					<span class="ganttButtonSeparator"></span>
 					<button id="j-gantt__print-btn" class="button textual icon " title="Print"><span class="teamworkIcon">p</span></button>
-					<span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
+					<span class="ganttButtonSeparator"></span>
 					<button id="j-gantt__resize-0-btn" class="button textual icon"><span class="teamworkIcon">F</span>
 					</button>
 					<button id="j-gantt__resize-50-btn" class="button textual icon"><span class="teamworkIcon">O</span>
 					</button>
 					<button id="j-gantt__resize-100-btn" class="button textual icon"><span class="teamworkIcon">R</span>
 					</button>
+					<span class="ganttButtonSeparator"></span>
 				</div>
 			</div>`;
 			}
@@ -74,7 +90,7 @@ class GanttField {
 	   			<td class="gdfCell">${obj.no}</td>
 				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;">
 					<div class="exp-controller" align="center"></div>
-					${obj.type==='project' ? '<i class="fas fa-briefcase"></i>' : obj.type==='milestone' ? '<i class="fas fa-folder"></i>' : '<i class="fas fa-file"></i>'}
+					${obj.type === 'project' ? '<i class="fas fa-briefcase"></i>' : obj.type === 'milestone' ? '<i class="fas fa-folder"></i>' : '<i class="fas fa-file"></i>'}
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
 				<td class="gdfCell"><input type="text" name="priority" autocomplete="off" value="${obj.priority_label ? obj.priority_label : ''}"></td>
@@ -262,10 +278,20 @@ class GanttField {
 
 	loadProject() {
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
-		this.gantt.resourceUrl='/libraries/jQueryGantt/res/';
+		this.gantt.resourceUrl = '/libraries/jQueryGantt/res/';
 		this.gantt.init(this.container);
+		this.allTasks = this.projectData.tasks;
+		this.filteredTasks = this.allTasks.map(task => task);
 		this.gantt.loadProject(this.projectData);
 		this.registerEvents();
+	}
+
+	getFilters() {
+
+	}
+
+	filterTasks() {
+
 	}
 
 	registerEvents() {
@@ -312,7 +338,4 @@ class GanttField {
 			container.trigger('fullScreen.gantt');
 		}.bind(this));
 	}
-
 }
-
-App.Fields.Gantt = GanttField;
