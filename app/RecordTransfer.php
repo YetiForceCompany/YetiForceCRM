@@ -20,7 +20,7 @@ class RecordTransfer
 	 * @param int   $recordId
 	 * @param array $migrate
 	 *
-	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 * @throws \Throwable
 	 */
 	public static function transfer(int $recordId, array $migrate)
