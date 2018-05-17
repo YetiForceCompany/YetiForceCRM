@@ -25,7 +25,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
 			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $fieldId,
-			'linkicon' => Vtiger_Theme::getImagePath('LayoutEditor.gif'),
+			'linkicon' => 'adminIcon-mail-download-history',
 		];
 
 		return $settingsLinks;

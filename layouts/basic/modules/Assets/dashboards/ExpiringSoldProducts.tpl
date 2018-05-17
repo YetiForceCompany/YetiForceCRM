@@ -2,9 +2,9 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle"
+			<h5 class="dashboardTitle h6"
 				 title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b>
-			</div>
+			</h5>
 		</div>
 		<div class="col-md-4">
 			<div class="box float-right">

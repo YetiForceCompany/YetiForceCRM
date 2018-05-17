@@ -1270,6 +1270,7 @@ class TextParser
 		$encoding = \AppConfig::main('default_charset');
 		$config = \HTMLPurifier_Config::create(null);
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+		$config->set('Core.LexerImpl', 'DirectLex');
 		$lexer = \HTMLPurifier_Lexer::create($config);
 		$tokens = $lexer->tokenizeHTML($html, $config, new \HTMLPurifier_Context());
 		$truncated = $openTokens = [];

@@ -397,11 +397,11 @@ $.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
-		$('.globalSearchOperator').on('click', function (e) {
+		$('.js-global-search-operator').on('click', function (e) {
 			var currentTarget = $(e.target);
 			var block = currentTarget.closest('.globalSearchInput');
 			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
-			block.find('.globalSearchOperator .dropdown-item').removeClass('active');
+			block.find('.js-global-search-operator .dropdown-item').removeClass('active');
 			currentTarget.closest('.dropdown-item').addClass('active');
 		});
 		if ($('#gsAutocomplete').val() == 1) {
@@ -720,7 +720,6 @@ $.Class("Vtiger_Header_Js", {
 			quickCreateModal = container.find('.quickCreateModules');
 		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
-		app.showNewScrollbar(container.find('.mobileLeftPanel .menuContainer'), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));

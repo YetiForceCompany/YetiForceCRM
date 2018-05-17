@@ -17,7 +17,7 @@
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
-		<div>
+		<div class="table-responsive">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>

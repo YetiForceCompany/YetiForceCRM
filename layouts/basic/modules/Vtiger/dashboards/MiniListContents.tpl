@@ -23,7 +23,7 @@
 			{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
 				{$SPANSIZE_ARRAY[$ITERATION] = 3}
 			{/if}
-			<div class="p-0 pr-2 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+			<h6 class="p-0 pr-2 col-sm-{$SPANSIZE_ARRAY[$ITERATION]} u-font-size-100per mb-0"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></h6>
 		{/foreach}
 	</div>
 	{if $OWNER eq false}

@@ -977,12 +977,10 @@ class PackageImport extends PackageExport
 	{
 		$dirName = 'cache/updates';
 		$result = false;
-		$adb = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
-			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
-
 			$updateInstance = new \YetiForceUpdate($modulenode);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
@@ -1008,11 +1006,10 @@ class PackageImport extends PackageExport
 				ob_start();
 				$result = $updateInstance->postupdate();
 			}
-			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		} else {
 			Functions::recurseCopy($dirName . '/files', '');
 		}
-		$adb->insert('yetiforce_updates', [
+		$db->createCommand()->insert('yetiforce_updates', [
 			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
 			'name' => $modulenode->label,
 			'from_version' => $modulenode->from_version,
@@ -1021,12 +1018,11 @@ class PackageImport extends PackageExport
 			'time' => date('Y-m-d H:i:s'),
 		]);
 		if ($result) {
-			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);
+			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
 		Functions::recurseDelete($dirName);
 		Functions::recurseDelete('cache/templates_c');
 
-		\vtlib\Access::syncSharingAccess();
 		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();
 		\App\Cache::clearOpcache();

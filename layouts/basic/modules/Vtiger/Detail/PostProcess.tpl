@@ -11,13 +11,11 @@
 -->*}
 {strip}
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
-
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+	<!-- tpl-Detail-PostProcess -->
+	</div>
+	</form>
+	</div>
+	</div>
+	</div>
+	<!-- /tpl-Detail-PostProcess -->
 {/strip}

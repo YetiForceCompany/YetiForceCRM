@@ -11,10 +11,10 @@
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
-	<div class="dashboardWidgetHeader">
+	<div class="tpl-dashboards-Minilist dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
-				<div class="dashboardTitle" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+				<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></h5>
 			</div>
 			<div class="col-md-4">
 				<div class="box float-right">

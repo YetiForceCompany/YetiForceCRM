@@ -51,7 +51,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
-		$query->groupBy(['vtiger_leaddetails.leadsource']);
+		$query->groupBy(['vtiger_leaddetails.leadsource', 'vtiger_leadsource.leadsourceid']);
 		$dataReader = $query->createCommand()->query();
 		$chartData = [
 			'labels' => [],

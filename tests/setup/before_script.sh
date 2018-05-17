@@ -1,3 +1,5 @@
+sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
+sudo service mysql restart
 sudo wget https://phar.phpunit.de/phpunit-7.0.2.phar
 sudo chmod +x phpunit-7.0.2.phar
 sudo mv phpunit-7.0.2.phar /usr/local/bin/phpunit
@@ -7,7 +9,6 @@ yarn install --force --modules-folder "./public_html/libraries"
 sudo wget https://scrutinizer-ci.com/ocular.phar
 sudo chmod +x ocular.phar
 sudo mv ocular.phar /usr/local/bin/ocular
-mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
 cp tests/setup/config.inc.txt config/config.inc.php
 cp tests/setup/debug.txt config/debug.php

@@ -1,5 +1,7 @@
 <?php
 /**
+ * IncidentRegister crmentity class.
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
@@ -56,6 +58,10 @@ class IncidentRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'FL_NAME' => ['incidentregister', 'name'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_STATUS' => ['incidentregister', 'incidentregister_status'],
+		'FL_PEOPLE_NUMBER' => ['incidentregister', 'peoplne_number'],
+		'FL_TYPE' => ['incidentregister', 'incidentregister_type'],
+		'FL_INCIDENT_REPORT_DATE' => ['incidentregister', 'incident_report_date'],
 	];
 	/**
 	 * List fields name.
@@ -66,6 +72,10 @@ class IncidentRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'FL_NAME' => 'name',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'incidentregister_status',
+		'FL_PEOPLE_NUMBER' => 'peoplne_number',
+		'FL_TYPE' => 'incidentregister_type',
+		'FL_INCIDENT_REPORT_DATE' => 'incident_report_date'
 	];
 	/**
 	 * Make the field link to detail view.
@@ -83,6 +93,10 @@ class IncidentRegister extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'FL_NAME' => ['incidentregister', 'name'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+		'FL_STATUS' => ['incidentregister', 'incidentregister_status'],
+		'FL_PEOPLE_NUMBER' => ['incidentregister', 'peoplne_number'],
+		'FL_TYPE' => ['incidentregister', 'incidentregister_type'],
+		'FL_INCIDENT_REPORT_DATE' => ['incidentregister', 'incident_report_date'],
 	];
 	/**
 	 * Search fields name.
@@ -93,13 +107,17 @@ class IncidentRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'FL_NAME' => 'name',
 		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'incidentregister_status',
+		'FL_PEOPLE_NUMBER' => 'peoplne_number',
+		'FL_TYPE' => 'incidentregister_type',
+		'FL_INCIDENT_REPORT_DATE' => 'incident_report_date'
 	];
 	/**
 	 * For Popup window record selection.
 	 *
 	 * @var array
 	 */
-	public $popup_fields = ['name'];
+	public $popup_fields = ['name', 'incidentregister_status', 'peoplne_number', 'incidentregister_type', 'incident_report_date'];
 	/**
 	 * For Alphabetical search.
 	 *

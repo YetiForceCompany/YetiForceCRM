@@ -3,10 +3,14 @@
 //Switch button
 label.btn.btn-outline-primary {
 	&:not(.active) {
-	background: $white;
+		background: $white;
+
 		&:hover {
 			color: $blue;
 			background: $gray-200;
 		}
 	}
+}
+.dropdown-item {
+	cursor: pointer;
 }

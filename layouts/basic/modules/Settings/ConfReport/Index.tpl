@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
-<div class="">
+<div class="tpl-Settings-ConfReport-Index">
 	<div class="widget_header row">
 		<div class="col-10">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -39,7 +39,7 @@
 						</thead>
 						<tbody>
 							{foreach from=Settings_ConfReport_Module_Model::getLibrary() key=key item=item}
-								<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
+								<tr {if $item.status == 'LBL_NO'}class="table-danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{App\Language::translate($key,$MODULE)}</label>
 										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
@@ -78,7 +78,7 @@
 						</thead>
 						<tbody>
 							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=item}
-								<tr {if $item['status']}class="danger"{/if}>
+								<tr {if $item['status']}class="table-danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{App\Language::translate($key, $MODULE)}</label>
 										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
@@ -116,7 +116,7 @@
 						</thead>
 						<tbody>
 							{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-								<tr {if $item.status}class="danger"{/if}>
+								<tr {if $item.status}class="table-danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{$key}</label>
 										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
@@ -128,7 +128,7 @@
 						</tbody>
 					</table>
 					<br />
-					<table class="table table-bordered table-sm themeTableColor confTable">
+					<table class="table table-bordered table-sm themeTableColor confTable u-word-break-all">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -187,7 +187,7 @@
 						</thead>
 						<tbody>
 							{foreach from=Settings_ConfReport_Module_Model::getStabilityConf(false,false,true) key=key item=item}
-								<tr {if $item['incorrect']}class="danger"{/if}>
+								<tr {if $item['incorrect']}class="table-danger"{/if}>
 									<td class="u-w-5per">
 										<label class="u-text-small-bold">{$key}</label>
 										{if isset($item['help']) && $item['incorrect']}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item['help'], $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
@@ -222,7 +222,7 @@
 						</thead>
 						<tbody>
 							{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
-								<tr {if $item.status}class="danger"{/if}>
+								<tr {if $item.status}class="table-danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{$key}</label>
 										{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus" data-placement="right" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><span class="fas fa-info-circle"></span></a>{/if}
@@ -260,7 +260,7 @@
 				</thead>
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}
-						<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
+						<tr {if $item.permission eq 'FailedPermission'}class="table-danger"{/if}>
 							<td class="u-w-30per"><label class="u-text-small-bold">{App\Language::translate($key, $MODULE)}</label></td>
 							<td class="u-w-30per"><label class="u-text-small-bold">{App\Language::translate($item.path, $MODULE)}</label></td>
 							<td class="u-w-30per"><label class="u-text-small-bold">

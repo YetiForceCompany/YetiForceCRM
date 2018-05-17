@@ -334,8 +334,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'max_allowed_packet' => ['recommended' => '10 MB', 'help' => 'LBL_MAX_ALLOWED_PACKET_HELP_TEXT'],
 				'log_error' => ['recommended' => false],
 				'max_connections' => ['recommended' => false],
-				'thread_cache_size' => ['recommended' => false],
+				'bulk_insert_buffer_size' => ['recommended' => false],
 				'key_buffer_size' => ['recommended' => false],
+				'thread_cache_size' => ['recommended' => false],
 				'query_cache_size' => ['recommended' => false],
 				'tmp_table_size' => ['recommended' => false],
 				'max_heap_table_size' => ['recommended' => false],
@@ -349,6 +350,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
 			$directiveValues['innodb_log_file_size']['current'] = vtlib\Functions::showBytes($conf['innodb_log_file_size']);
+			$directiveValues['bulk_insert_buffer_size']['current'] = vtlib\Functions::showBytes($conf['bulk_insert_buffer_size']);
 			$directiveValues['key_buffer_size']['current'] = vtlib\Functions::showBytes($conf['key_buffer_size']);
 			$directiveValues['query_cache_size']['current'] = vtlib\Functions::showBytes($conf['query_cache_size']);
 			$directiveValues['tmp_table_size']['current'] = vtlib\Functions::showBytes($conf['tmp_table_size']);
@@ -384,7 +386,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if ($conf['interactive_timeout'] < 600) {
 				$directiveValues['interactive_timeout']['status'] = true;
 			}
-			if (!empty($conf['sql_mode']) && (strpos($conf['sql_mode'], 'STRICT_TRANS_TABLE') !== false || strpos($conf['sql_mode'], 'ONLY_FULL_GROUP_BY') !== false)) {
+			if (!empty($conf['sql_mode']) && strpos($conf['sql_mode'], 'STRICT_TRANS_TABLE') !== false) {
 				$directiveValues['sql_mode']['status'] = true;
 			}
 		}
@@ -486,7 +488,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$values['INI_FILE'] = php_ini_loaded_file();
 		$values['INI_FILES'] = php_ini_scanned_files();
 		$values['LOG_FILE'] = $iniAll['error_log']['local_value'];
-
 		return $values;
 	}
 
@@ -500,7 +501,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (file_exists('user_privileges/cron.php')) {
 			return include 'user_privileges/cron.php';
 		}
-
 		return false;
 	}
 
@@ -533,7 +533,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$read = $i / ($readE - $readS);
 		$write = $i / ($writeE - $writeS);
 		\vtlib\Functions::recurseDelete('cache/speed');
-
 		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
 	}
 
@@ -549,7 +548,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if ((int) $row['current'] > 0 && (int) $row['current'] < $row['recommended']) {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -566,7 +564,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$row['incorrect'] = true;
 		}
 		$row['current'] = vtlib\Functions::showBytes($row['current']);
-
 		return $row;
 	}
 
@@ -589,7 +586,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$row['current'] = static::getFlag($row['current']);
 		}
-
 		return $row;
 	}
 

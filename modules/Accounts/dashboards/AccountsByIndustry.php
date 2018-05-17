@@ -59,7 +59,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
-		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
+		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue', 'vtiger_industry.industryid'])->orderBy('vtiger_industry.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$colors = \App\Fields\Picklist::getColors('industry');
 		$chartData = [

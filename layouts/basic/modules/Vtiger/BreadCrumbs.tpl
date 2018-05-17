@@ -29,6 +29,12 @@
 						{/if}
 						{assign var="ITEM_PREV" value=$item['name']}
 					{/foreach}
+				{if isset($SELECTED_PAGE) && $QUALIFIED_MODULE eq 'Settings:ModuleManager'}
+					<div class="js-popover-tooltip ml-2" data-js="popover"
+						 data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}">
+						<span class="fas fa-info-circle"></span>
+					</div>
+				{/if}
 			</ol>
 		{/if}
 	{/if}

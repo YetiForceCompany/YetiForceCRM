@@ -290,7 +290,6 @@ class OSSMail_Mail_Model extends \App\Base
 						$enableFind = false;
 					}
 				}
-
 				if ($enableFind) {
 					foreach ($emails as $email) {
 						if (empty($email)) {
@@ -327,7 +326,6 @@ class OSSMail_Mail_Model extends \App\Base
 		if (!$returnArray) {
 			return implode(',', $return);
 		}
-
 		return $return;
 	}
 
@@ -349,8 +347,10 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($attachments = $this->get('attachments')) {
 			foreach ($attachments as $attachment) {
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
-				if ($fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if ($fileInstance && $fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
+				} else {
+					\App\Log::trace('Error downloading the file: ' . $attachment['filename']);
 				}
 			}
 		}
@@ -362,7 +362,6 @@ class OSSMail_Mail_Model extends \App\Base
 				'attachmentsid' => $file['attachmentsId'],
 			])->execute();
 		}
-
 		return $files;
 	}
 
