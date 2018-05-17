@@ -12,12 +12,10 @@ class Project_Gantt_View extends Vtiger_Index_View
 {
 	public function process(\App\Request $request)
 	{
-		//$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		//$data = $moduleModel->getGanttProject($recordId);
-		$data = [];
+		$data = $moduleModel->getAllGanttProjects();
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', \App\Json::encode($data));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
