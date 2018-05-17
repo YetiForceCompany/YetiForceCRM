@@ -26,7 +26,7 @@ class RecordTransfer
 	public static function transfer(int $recordId, array $migrate)
 	{
 		if (!Record::isExists($recordId) || (($record = \Vtiger_Record_Model::getInstanceById($recordId)) && !$record->isViewable())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		} else {
 			$transaction = Db::getInstance()->beginTransaction();
 			try {
