@@ -329,7 +329,6 @@ class Project_Gantt_Lib extends App\Base
 		$firstDate = $this->iterateNodes($node, $maxTimeStampValue, function (&$child, $firstDate) {
 			if (!empty($child['start_date']) && $child['start_date'] !== '1970-01-01') {
 				$taskStartDate = strtotime($child['start_date']);
-				// echo "[{$child['text']}]($taskStartDate:$startDate) ";
 				if ($taskStartDate < $firstDate && $taskStartDate > 0) {
 					return $taskStartDate;
 				}
@@ -340,7 +339,6 @@ class Project_Gantt_Lib extends App\Base
 			$firstDate = strtotime(date('Y-m-d'));
 			$node['duration'] = 1;
 		}
-		//echo "<br><br>firstDate '$firstDate' <br>" . date('Y-m-d', $firstDate) . '<br><br>';
 		if (empty($node['start_date'])) {
 			$node['start_date'] = date('Y-m-d', $firstDate);
 			$node['start'] = $firstDate * 1000;
@@ -707,9 +705,6 @@ class Project_Gantt_Lib extends App\Base
 				$color = App\Colors::getRandomColor($row['projectmilestone_priority'] . '_status');
 			}
 			$milestone['color'] = $color;
-			//$projecttask = $this->getGanttTask($row['id']);
-			//$milestoneTime += $projecttask['task_time'];
-			//$progressInHours += $projecttask['task_time'] * $projectmilestone['progress'];
 			$milestones[] = $milestone;
 		}
 		$dataReader->close();
