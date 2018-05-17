@@ -1,5 +1,11 @@
 class GanttField {
 
+	/**
+	 * Constructor
+	 *
+	 * @param {jQUery|HTMLElement|string} container
+	 * @param {object} projectData
+	 */
 	constructor(container, projectData) {
 		this.container = $(container);
 		this.projectData = projectData;
@@ -8,6 +14,9 @@ class GanttField {
 		this.loadProject();
 	}
 
+	/**
+	 * Register language translations globally (replace old ones)
+	 */
 	registerLanguage() {
 		GanttMaster.messages = LANG;
 		GanttMaster.i18n = LANG;
@@ -23,13 +32,18 @@ class GanttField {
 		Number.currencyFormat = "###,##0.00";
 	}
 
-	getStatusFilterOptions(){
+	/**
+	 * Get options for filters as template of html option elements
+	 *
+	 * @returns {string}
+	 */
+	getStatusFilterOptions() {
 		let template = '';
-		for(let moduleName in this.projectData.picklists){
+		for (let moduleName in this.projectData.picklists) {
 			let picklists = this.projectData.picklists[moduleName];
-			for(let picklistName in picklists){
+			for (let picklistName in picklists) {
 				let picklist = picklists[picklistName];
-				picklist.forEach((item)=>{
+				picklist.forEach((item) => {
 					template += `<option value="${moduleName}|${picklistName}|${item.value}">${moduleName}->${picklistName}->${item.label}</option>`;
 				});
 			}
@@ -37,6 +51,11 @@ class GanttField {
 		return template;
 	}
 
+	/**
+	 * Register gantt templates globally
+	 *
+	 * @returns {string}
+	 */
 	registerTemplates() {
 		const self = this;
 		this.ganttTemplateFunctions = [];
@@ -87,16 +106,16 @@ class GanttField {
 			type: "TASKROW",
 			render(obj) {
 				return `<tr id="tid_${obj.id}" taskId="${obj.id}" class="taskEditRow ${obj.isParent() ? 'isParent' : ''} ${obj.collapsed ? 'collapsed' : ''}" level="${obj.level}">
-	   			<td class="gdfCell">${obj.no}</td>
-				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;">
+	   			<td class="gdfCell text-center">${obj.no}</td>
+				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;" title="${obj.name}" data-toggle="tooltip">
 					<div class="exp-controller" align="center"></div>
 					${obj.type === 'project' ? '<i class="fas fa-briefcase"></i>' : obj.type === 'milestone' ? '<i class="fas fa-folder"></i>' : '<i class="fas fa-file"></i>'}
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
-				<td class="gdfCell"><input type="text" name="priority" autocomplete="off" value="${obj.priority_label ? obj.priority_label : ''}"></td>
-				<td class="gdfCell"><input type="text" name="status" autocomplete="off" value="${obj.internal_status ? obj.internal_status : ''}"></td>
-				<td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="${obj.duration}"></td>
-				<td class="gdfCell"><input type="text" name="progress" class="validated" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
+				<td class="gdfCell"><input type="text" name="priority" class="text-center" autocomplete="off" value="${obj.priority_label ? obj.priority_label : ''}"></td>
+				<td class="gdfCell"><input type="text" name="status" class="text-center" autocomplete="off" value="${obj.internal_status ? obj.internal_status : ''}"></td>
+				<td class="gdfCell"><input type="text" name="duration" class="text-center" autocomplete="off" value="${obj.duration}"></td>
+				<td class="gdfCell"><input type="text" name="progress" class="validated text-center" entrytype="PERCENTILE" autocomplete="off" value="${obj.progress ? obj.progress : ''}" ${obj.progressByWorklog ? "readOnly" : ""}></td>
 			</tr>`;
 			}
 		});
@@ -276,6 +295,9 @@ class GanttField {
 		});
 	}
 
+	/**
+	 * Load project
+	 */
 	loadProject() {
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
 		this.gantt.resourceUrl = '/libraries/jQueryGantt/res/';
@@ -286,14 +308,9 @@ class GanttField {
 		this.registerEvents();
 	}
 
-	getFilters() {
-
-	}
-
-	filterTasks() {
-
-	}
-
+	/**
+	 * Register events for gantt actions in current container
+	 */
 	registerEvents() {
 		const container = this.container;
 		$('#j-gantt__expand-all-btn', container).on('click', function (e) {
@@ -337,5 +354,6 @@ class GanttField {
 			e.preventDefault();
 			container.trigger('fullScreen.gantt');
 		}.bind(this));
+		$('[data-toggle="tooltip"]').tooltip();
 	}
 }
