@@ -12,7 +12,7 @@
 	{/foreach}
 	<script type="text/javascript">app.registerModalController();</script>
 	<div class="modal-header">
-		<div class="form-row w-100 pl-3">
+		<div class="form-row col-12 p-0">
 			<div class="col-12">
 				<div class="modal-title">
 					{if $MODAL_VIEW->modalIcon}
@@ -24,7 +24,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="col-12 form-row mt-2">
+			<div class="col-12 ml-2 mt-2">
 				{if $SWITCH}
 					<div class="m-auto pb-2 pb-sm-0">
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -52,7 +52,7 @@
 					</div>
 				{/if}
 				<div class="m-auto">
-					<div class="js-pagination-container float-right" data-js="container">
+					<div class="js-pagination-container d-flex justify-content-center" data-js="container">
 						{include file=App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='recordsList'}
 					</div>
 				</div>
