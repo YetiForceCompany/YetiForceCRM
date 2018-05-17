@@ -16,16 +16,15 @@
 		<div class="row detailViewTitle p-0">
 			{if $SHOW_BREAD_CRUMBS}
 				<div class="widget_header col-12 p-0 pl-3">
-					<div class="row">
-						<div class="col-lg">
+					<div class="row d-flex align-items-center pr-2">
+						<div class="col-lg-12 col-xl-6">
 							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						</div>
-						<div class="col-lg">
-							<div class="col-12 detailViewToolbar py-1 pr-2">
-								<div class="float-md-right float-sm-left float-lg-right">
-									<div class="btn-toolbar detailViewActionsBtn">
+						<div class="col-lg-12 col-xl-6">
+							<div class="col-12 detailViewToolbar d-flex justify-content-center justify-content-sm-start justify-content-lg-start justify-content-xl-end px-2">
+									<div class="btn-toolbar detailViewActionsBtn d-flex justify-content-center">
 										{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
-											<span class="btn-group ">
+											<span class="btn-group">
 												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}	
 													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewAdditional'}
 												{/foreach}
@@ -46,7 +45,6 @@
 											</span>
 										{/if}
 									</div>
-								</div>
 							</div>
 						</div>
 					</div>
