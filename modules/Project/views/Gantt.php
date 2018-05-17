@@ -14,8 +14,8 @@ class Project_Gantt_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getAllGanttProjects();
+		$gantt = new Project_Gantt_Lib();
+		$data = $gantt->getAllGanttProjects();
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', \App\Json::encode($data));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
