@@ -487,6 +487,46 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return $projects;
 	}
 
+	public function getAllGanttProjects()
+	{
+		$this->getStatusColors();
+		$response = ['tasks' => [], 'links' => []];
+		$rootProjectIds = array_map(function ($item) {
+			return $item['projectid'];
+		},
+			(new \App\Db\Query())
+				->select(['projectid'])
+				->from('vtiger_project')
+				->where(['parentid' => 0])
+				->createCommand()->query()->readAll());
+		$projects = [];
+		foreach ($rootProjectIds as $projectId) {
+			$projects = array_merge($projects, $this->getProjects($projectId));
+		}
+		$projectIds = array_map(function ($item) {
+			return $item['id'];
+		}, $projects);
+		$milestones = $this->getGanttMilestones($projectIds);
+		$tasks = $this->getGanttTasks($projectIds);
+		$this->tasks = array_merge($projects, $milestones, $tasks);
+		$this->addRootNode();
+		$this->normalizeParents();
+		$this->collectChildrens();
+		$this->calculateLevels();
+		$this->normalizeNumbers();
+		$this->normalizeStatuses();
+		$this->calculateDates();
+		$this->calculateDurations();
+		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
+		$response['statusColors'] = $this->statusColors;
+		$response['canWrite'] = false;
+		$response['canDelete'] = false;
+		$response['cantWriteOnParent'] = false;
+		$response['canAdd'] = false;
+		$this->loaded = true;
+		return $response;
+	}
+
 	/**
 	 * Get list of gantt projects.
 	 *
@@ -494,7 +534,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public function getGanttProject($id)
+	public function getGanttProject($id=null)
 	{
 		$this->getStatusColors();
 		$response = ['tasks' => [], 'links' => []];
@@ -644,5 +684,21 @@ class Project_Module_Model extends Vtiger_Module_Model
 		}
 		$dataReader->close();
 		return $tasks;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = parent::getSideBarLinks($linkParams);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_VIEW_GANTT',
+			'linkurl' => 'index.php?module=Project&view=Gantt',
+			'linkicon' => 'fas fa-briefcase',
+		]);
+
+		return $links;
 	}
 }
