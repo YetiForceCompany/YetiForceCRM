@@ -175,6 +175,22 @@ class Project_Gantt_Lib extends App\Base
 	}
 
 	/**
+	 * Normalize statuses to display in table.
+	 */
+	private function normalizeStatuses()
+	{
+		foreach ($this->tasks as &$task) {
+			if (!empty($task['projectstatus'])) {
+				$task['internal_status'] = App\Language::translate($task['projectstatus'], 'Project');
+			} elseif (!empty($task['projecttaskstatus'])) {
+				$task['internal_status'] = App\Language::translate($task['projecttaskstatus'], 'ProjectTask');
+			} else {
+				$task['internal_status'] = '';
+			}
+		}
+	}
+
+	/**
 	 * Collect task all parent nodes.
 	 *
 	 * @param array $task
@@ -588,6 +604,7 @@ class Project_Gantt_Lib extends App\Base
 		$this->collectChildrens();
 		$this->calculateLevels();
 		$this->normalizeNumbers();
+		$this->normalizeStatuses();
 		$this->calculateDates();
 		$this->calculateDurations();
 		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
@@ -624,6 +641,7 @@ class Project_Gantt_Lib extends App\Base
 		$this->collectChildrens();
 		$this->calculateLevels();
 		$this->normalizeNumbers();
+		$this->normalizeStatuses();
 		$this->calculateDates();
 		$this->calculateDurations();
 		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
