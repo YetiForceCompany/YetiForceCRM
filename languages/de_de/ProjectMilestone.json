@@ -10,7 +10,7 @@
     "Project Milestone Name": "Projekt Meilenstein Name",
     "Milestone Date": "Meilenstein Datum",
     "Project Milestone No": "Projekt Meilenstein Nummer",
-    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_PARENT_PROJECT_MILESTONE": "\u00dcbergeordneter Meilenstein",
     "FL_STATUS": "Status",
     "LBL_PRIORITY": "Priorit\u00e4t",
     "LBL_PROGRESS": "Fortschritt",
@@ -20,10 +20,10 @@
     "PLL_LOW": "niedrig",
     "PLL_NORMAL": "normal",
     "PLL_HIGH": "hoch",
-    "PLL_IN_PROGRESS": "In Progress",
-    "PLL_OPEN": "Open",
-    "PLL_COMPLETED": "Completed",
-    "PLL_DEFERRED": "Deferred",
-    "PLL_CANCELLED": "Cancelled"
+    "PLL_IN_PROGRESS": "In Bearbeitung",
+    "PLL_OPEN": "Offen",
+    "PLL_COMPLETED": "Abgeschlossen",
+    "PLL_DEFERRED": "Ausgesetzt",
+    "PLL_CANCELLED": "Gestoppt"
   }
 }
