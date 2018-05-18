@@ -1,3 +1,14 @@
+/*+***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ *************************************************************************************/
+
+
 class GanttField {
 
 	/**
@@ -303,9 +314,19 @@ class GanttField {
 		this.gantt.resourceUrl = '/libraries/jQueryGantt/res/';
 		this.gantt.init(this.container);
 		this.allTasks = this.projectData.tasks;
-		this.filteredTasks = this.allTasks.map(task => task);
-		this.gantt.loadProject(this.projectData);
-		this.registerEvents();
+		if(this.allTasks.length>0) {
+			this.filteredTasks = this.allTasks.map(task => task);
+			this.gantt.loadProject(this.projectData);
+			this.registerEvents();
+		}
+	}
+
+	/**
+	 * Load new data to gantt
+	 * @param data
+	 */
+	reloadData(data){
+		this.gantt.loadProject(data);
 	}
 
 	/**
@@ -357,3 +378,299 @@ class GanttField {
 		$('[data-toggle="tooltip"]').tooltip();
 	}
 }
+
+
+jQuery.Class("Vtiger_Gantt_Js", {
+	getInstance: function () {
+		if (Vtiger_Gantt_Js.listInstance == false) {
+			var module = app.getModuleName();
+			var parentModule = app.getParentModuleName();
+			if (parentModule == 'Settings') {
+				var moduleClassName = parentModule + "_" + module + "Gantt_Js";
+				if (typeof window[moduleClassName] === "undefined") {
+					moduleClassName = module + "Gantt_Js";
+				}
+				var fallbackClassName = parentModule + "_Vtiger_Gantt_Js";
+				if (typeof window[fallbackClassName] === "undefined") {
+					fallbackClassName = "Vtiger_Gantt_Js";
+				}
+			} else {
+				moduleClassName = module + "Gantt_Js";
+				fallbackClassName = "Vtiger_Gantt_Js";
+			}
+			if (typeof window[moduleClassName] !== "undefined") {
+				var instance = new window[moduleClassName]();
+			} else {
+				var instance = new window[fallbackClassName]();
+			}
+			Vtiger_Gantt_Js.ganttInstance = instance;
+			return instance;
+		}
+		return Vtiger_Gantt_Js.ganttInstance;
+	},
+}, {
+	//contains the List View element.
+	listViewContainer: false,
+	//Contains list view top menu element
+	listViewTopMenuContainer: false,
+	//Contains list view content element
+	listViewContentContainer: false,
+	//Contains filter Block Element
+	filterBlock: false,
+	filterSelectElement: false,
+	listSearchInstance: false,
+	noEventsListSearch: true,
+	getListSearchInstance: function (events) {
+		if (events != undefined) {
+			this.noEventsListSearch = events;
+		}
+		if (this.listSearchInstance == false && (this.getListViewContainer().find('.searchField').length || this.getListViewContainer().find('.picklistSearchField').length)) {
+			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.getListViewContainer(), this.noEventsListSearch);
+		}
+		return this.listSearchInstance;
+	},
+	getListViewContainer: function () {
+		if (this.listViewContainer == false) {
+			this.listViewContainer = jQuery('div.listViewPageDiv');
+		}
+		return this.listViewContainer;
+	},
+	getListViewTopMenuContainer: function () {
+		if (this.listViewTopMenuContainer == false) {
+			this.listViewTopMenuContainer = jQuery('.listViewTopMenuDiv');
+		}
+		return this.listViewTopMenuContainer;
+	},
+	getListViewContentContainer: function () {
+		if (this.listViewContentContainer == false) {
+			this.listViewContentContainer = jQuery('.listViewContentDiv');
+		}
+		return this.listViewContentContainer;
+	},
+	getFilterBlock: function () {
+		if (this.filterBlock == false) {
+			var filterSelectElement = this.getFilterSelectElement();
+			if (filterSelectElement.length <= 0) {
+				this.filterBlock = jQuery();
+			} else if (filterSelectElement.is('select')) {
+				this.filterBlock = filterSelectElement.data('select2').$dropdown;
+			}
+		}
+		return this.filterBlock;
+	},
+	getFilterSelectElement: function () {
+
+		if (this.filterSelectElement == false) {
+			this.filterSelectElement = jQuery('#customFilter');
+		}
+		return this.filterSelectElement;
+	},
+	getDefaultParams: function () {
+		var params = {
+			module: app.getModuleName(),
+			action: 'GanttData',
+		};
+		if (app.getParentModuleName()) {
+			params.parent = app.getParentModuleName();
+		}
+		return params;
+	},
+
+	getCurrentCvId: function () {
+		return jQuery('#customFilter').find('option:selected').data('id');
+	},
+	getGanttData(urlParams){
+		var aDeferred = $.Deferred();
+		if (typeof urlParams === "undefined") {
+			urlParams = {};
+		}
+		var thisInstance = this;
+		var progressIndicatorElement = $.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
+		var defaultParams = this.getDefaultParams();
+		var urlParams = $.extend(defaultParams, urlParams);
+		AppConnector.request(urlParams).then(function (data) {
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			aDeferred.resolve(data);
+			app.notifyPostAjaxReady();
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
+	},
+	/**
+	 * load gantt
+	 */
+	loadGantt(container = '#c-gantt__container', ganttData = false) {
+		let parent = $(container).parent();
+		let html = $(container).html();
+		$(container).remove();
+		container = $(parent).append(html);
+		if (!ganttData) {
+			let ganttDataStr = $(parent).find('#ganttData').val();
+			ganttData = JSON.parse(ganttDataStr, true);
+		}
+		this.gantt = App.Fields.Gantt.register(container, ganttData);
+	},
+	reloadData(data){
+		this.gantt.reloadData(data);
+	},
+	/*
+	 * Function to register the event for changing the custom Filter
+	 */
+	registerChangeCustomFilterEvent: function () {
+		var thisInstance = this;
+		this.getFilterSelectElement().on('change', function (event) {
+			$(`.nav-item[data-cvid='${thisInstance.getCurrentCvId()}'] .nav-link`).tab('show');
+			var currentTarget = jQuery(event.currentTarget);
+			var selectOption = currentTarget.find(':selected');
+			app.setMainParams('pageNumber', '1');
+			app.setMainParams('pageToJump', '1');
+			app.setMainParams('orderBy', selectOption.data('orderby'));
+			app.setMainParams('sortOrder', selectOption.data('sortorder'));
+			var urlParams = {
+				"viewname": jQuery(this).val(),
+			};
+			//Make the select all count as empty
+			jQuery('#recordsCount').val('');
+			//Make total number of pages as empty
+			jQuery('#totalPageCount').text("");
+			$('.pagination').data('totalCount', 0);
+			thisInstance.getGanttData(urlParams).then(function (data) {
+				thisInstance.reloadData(data.result);
+			});
+			event.stopPropagation();
+		});
+	},
+	breadCrumbsFilter: function (text) {
+		var breadCrumbs = jQuery('.breadcrumbsContainer');
+		var breadCrumbsLastSpan = breadCrumbs.last('span');
+		var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
+		if (filterExist.length && text != undefined) {
+			filterExist.text(' [' + app.vtranslate('JS_FILTER') + ': ' + text + ']');
+		} else if (filterExist.length < 1) {
+			text = (text == undefined) ? this.getFilterSelectElement().find(':selected').text() : text;
+			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
+				breadCrumbsLastSpan.text(': ' + text);
+			} else {
+				breadCrumbs.append('<small class="breadCrumbsFilter hideToHistory p-1 js-text-content" data-js="text"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</small>');
+			}
+		}
+	},
+	ListViewPostOperation: function () {
+		return true;
+	},
+
+	/*
+	 * function to register the click event event for create filter
+	 */
+	registerCreateFilterClickEvent: function (event) {
+		var thisInstance = this;
+		//to close the dropdown
+		thisInstance.getFilterSelectElement().data('select2').close();
+		var currentElement = jQuery(event.currentTarget);
+		var liElement = currentElement.find('#createFilter');
+		var createUrl = liElement.data('createurl');
+		Vtiger_CustomView_Js.loadFilterView(createUrl);
+	},
+
+	/*
+	 * Function to register the hover event for customview filter options
+	 */
+	registerCustomFilterOptionsHoverEvent: function () {
+		var thisInstance = this;
+		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
+		var filterBlock = this.getFilterBlock()
+		if (filterBlock != false) {
+			filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', function (event) {
+				var liElement = $(event.currentTarget);
+				var liFilterImages = liElement.find('.filterActionImgs');
+				if (liElement.hasClass('group-result')) {
+					return;
+				}
+
+				if (event.type === 'mouseenter') {
+					if (liFilterImages.length > 0) {
+						liFilterImages.show();
+					} else {
+						thisInstance.performFilterImageActions(liElement);
+					}
+
+				} else {
+					liFilterImages.hide();
+				}
+			});
+		}
+	},
+	performFilterImageActions: function (liElement) {
+		jQuery('.filterActionImages').clone(true, true).removeClass('filterActionImages').addClass('filterActionImgs').appendTo(liElement).removeClass('d-none');
+		var currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
+		var deletable = currentOptionElement.data('deletable');
+		if (deletable != '1') {
+			liElement.find('.deleteFilter').remove();
+		}
+		var editable = currentOptionElement.data('editable');
+		if (editable != '1') {
+			liElement.find('.editFilter').remove();
+		}
+		var pending = currentOptionElement.data('pending');
+		if (pending != '1') {
+			liElement.find('.approveFilter').remove();
+		}
+		var approve = currentOptionElement.data('public');
+		if (approve != '1') {
+			liElement.find('.denyFilter').remove();
+		}
+		if ($("#createFilter").length == 0) {
+			liElement.find('.duplicateFilter').remove();
+		}
+	},
+	getSelectOptionFromChosenOption: function (liElement) {
+		var id = liElement.attr("id");
+		var idArr = id.split("-");
+		var currentOptionId = '';
+		if (idArr.length > 0) {
+			currentOptionId = idArr[idArr.length - 1];
+		} else {
+			return false;
+		}
+		return jQuery('#filterOptionId_' + currentOptionId);
+	},
+	changeCustomFilterElementView: function () {
+		var thisInstance = this;
+		var filterSelectElement = this.getFilterSelectElement();
+		if (filterSelectElement.length > 0 && filterSelectElement.is("select")) {
+			App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
+				templateSelection: function (data) {
+					var resultContainer = jQuery('<span></span>');
+					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
+					resultContainer.append(data.text);
+					return resultContainer;
+				},
+				customSortOptGroup: true,
+				closeOnSelect: true
+			});
+
+			var select2Instance = filterSelectElement.data('select2');
+			jQuery('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('d-none').on('click', function (e) {
+				thisInstance.registerCreateFilterClickEvent(e);
+			});
+		}
+	},
+	registerEvents: function () {
+		this.breadCrumbsFilter();
+		//this.registerHeadersClickEvent();
+		this.changeCustomFilterElementView();
+		this.registerChangeCustomFilterEvent();
+		this.registerCustomFilterOptionsHoverEvent();
+		//this.triggerDisplayTypeEvent();
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		this.getListSearchInstance(false);
+		this.loadGantt();
+	},
+});
+

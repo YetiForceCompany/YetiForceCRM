@@ -70,8 +70,8 @@ class Project_Gantt_View extends Vtiger_Index_View
 		$gantt = new Project_Gantt_Model();
 		$data = $gantt->getAllGanttProjects();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', \App\Json::encode($data));
-		if ($request->has('view') && $request->get('view') ==='Gantt') {
+		$viewer->assign('DATA', $data);
+		if ($request->has('view') && $request->getByType('view', 2) ==='Gantt') {
 			$viewer->view('gantt/GanttAll.tpl', $moduleName);
 		} else {
 			$viewer->view('gantt/GanttContents.tpl', $moduleName);
@@ -84,6 +84,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
 			'~libraries/jQueryGantt/platform.css',
 			'~libraries/jQueryGantt/libs/dateField/jquery.dateField.css',
 			'~libraries/jQueryGantt/gantt.css',
@@ -99,6 +100,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'~libraries/chart.js/dist/Chart.js',
