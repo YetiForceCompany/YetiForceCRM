@@ -10,6 +10,8 @@
     "Project Milestone Name": "Nome da Etapa",
     "Milestone Date": "Data da Etapa",
     "Project Milestone No": "No. da Etapa",
+    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_STATUS": "Status",
     "LBL_PRIORITY": "Prioridade",
     "LBL_PROGRESS": "Progresso",
     "PLL_INTERNAL": "Interno",
@@ -17,6 +19,11 @@
     "PLL_SHARED": "Compartilhado",
     "PLL_LOW": "Baixo",
     "PLL_NORMAL": "Normal",
-    "PLL_HIGH": "Alto"
+    "PLL_HIGH": "Alto",
+    "PLL_IN_PROGRESS": "In Progress",
+    "PLL_OPEN": "Open",
+    "PLL_COMPLETED": "Completed",
+    "PLL_DEFERRED": "Deferred",
+    "PLL_CANCELLED": "Cancelled"
   }
 }
