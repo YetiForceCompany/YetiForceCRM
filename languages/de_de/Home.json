@@ -38,13 +38,13 @@
     "LBL_GROUP_VALUES": "Wertgruppierung Teilen",
     "LBL_FILTER_BY_OWNER": "Filter nach Besitzer",
     "LBL_ALL_OWNERS": "Alle",
-    "LBL_DIVIDING_FIELD": "Value dividing field",
-	  "LBL_COLORS_FROM_DIVIDING_FIELD": "Colors from value dividing field",
-    "LBL_EMPTY": "empty",
-    "LBL_CHART_STACKED": "Combine graph elements",
-    "LBL_CHART_COLORS_FROM_FILTER": "Colors from filter",
-    "LBL_WIDGET_DOWNLOAD": "Download graph",
-    "LBL_WIDGET_PRINT": "Print graph"
+    "LBL_DIVIDING_FIELD": "Wert geteiltes Feld",
+    "LBL_COLORS_FROM_DIVIDING_FIELD": "Farben Wert geteiltes Feld",
+    "LBL_EMPTY": "leer",
+    "LBL_CHART_STACKED": "Grafikelemente kombinieren",
+    "LBL_CHART_COLORS_FROM_FILTER": "Farben aus dem Filter",
+    "LBL_WIDGET_DOWNLOAD": "Grafik speichern",
+    "LBL_WIDGET_PRINT": "Grafik drucken"
   },
   "js": []
 }
