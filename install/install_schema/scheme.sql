@@ -5397,7 +5397,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2763 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2764 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7363,7 +7363,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -7642,6 +7642,7 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestonename` varchar(255) DEFAULT NULL,
   `projectmilestone_no` varchar(100) DEFAULT NULL,
   `projectmilestonedate` varchar(255) DEFAULT NULL,
+  `projectmilestone_status` varchar(255) DEFAULT '',
   `projectid` int(10) DEFAULT NULL,
   `projectmilestonetype` varchar(100) DEFAULT NULL,
   `projectmilestone_priority` varchar(255) DEFAULT NULL,
@@ -7670,6 +7671,17 @@ CREATE TABLE `vtiger_projectmilestone_priority` (
 CREATE TABLE `vtiger_projectmilestone_priority_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_projectmilestone_status` */
+
+CREATE TABLE `vtiger_projectmilestone_status` (
+  `projectmilestone_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `projectmilestone_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `picklist_valueid` int(10) DEFAULT 0,
+  `sortorderid` smallint(5) DEFAULT 0,
+  PRIMARY KEY (`projectmilestone_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectmilestonecf` */
 
