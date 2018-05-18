@@ -66,36 +66,35 @@
 		</div>
 	{/if}
 	<div class="settingsIndexPage">
-		<div class="row center-block">
-			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+		<div class="form-row d-flex justify-content-lg-start justify-content-xl-center">
+			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showWarnings()">
-					<h2 style="font-size: 44px" class="summaryCount">{$WARNINGS_COUNT}</h2>
-                    <p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', $QUALIFIED_MODULE, $WARNINGS_COUNT)}</p>
+					<h1 class="summaryCount">{$WARNINGS_COUNT}</h1>
+                    <p class="summaryText my-3">{\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', $QUALIFIED_MODULE, $WARNINGS_COUNT)}</p>
 				</a>
-
 			</span>
-			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()">
-					<h2 style="font-size: 44px" class="summaryCount">{$SECURITY_COUNT}</h2>
-					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_SECURITY', $QUALIFIED_MODULE, $SECURITY_COUNT)}</p>
+					<h1 class="summaryCount">{$SECURITY_COUNT}</h1>
+                    <p class="summaryText my-3">{\App\Language::translatePluralized('PLU_SECURITY', $QUALIFIED_MODULE, $SECURITY_COUNT)}</p>
 				</a>
 			</span>
-			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">
-					<h2 style="font-size: 44px" class="summaryCount">{$USERS_COUNT}</h2>
-					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_USERS', $QUALIFIED_MODULE, $USERS_COUNT)}</p>
+					<h1 class="summaryCount">{$USERS_COUNT}</h1>
+					<p class="summaryText my-3">{\App\Language::translatePluralized('PLU_USERS', $QUALIFIED_MODULE, $USERS_COUNT)}</p>
 				</a>
 			</span>
-			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="index.php?module=Workflows&parent=Settings&view=List">
-					<h2 style="font-size: 44px" class="summaryCount">{$ALL_WORKFLOWS}</h2>
-                    <p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE,$ALL_WORKFLOWS)}</p>
+					<h1 class="summaryCount">{$ALL_WORKFLOWS}</h1>
+                    <p class="summaryText my-3">{\App\Language::translatePluralized('PLU_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE,$ALL_WORKFLOWS)}</p>
 				</a>
 			</span>
-			<span class="col-5 col-sm-4 col-md-3 col-lg-2 settingsSummary">
+			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="index.php?module=ModuleManager&parent=Settings&view=List">
-					<h2 style="font-size: 44px" class="summaryCount">{$ACTIVE_MODULES}</h2>
-					<p class="summaryText" style="margin-top:20px;">{\App\Language::translatePluralized('PLU_MODULES',$QUALIFIED_MODULE,$ACTIVE_MODULES)}</p>
+					<h1 class="summaryCount">{$ACTIVE_MODULES}</h1>
+					<p class="summaryText my-3">{\App\Language::translatePluralized('PLU_MODULES',$QUALIFIED_MODULE,$ACTIVE_MODULES)}</p>
 				</a>
 			</span>
 		</div>
@@ -103,16 +102,13 @@
 		<h3>{\App\Language::translate('LBL_SETTINGS_SHORTCUTS',$QUALIFIED_MODULE)}</h3>
 		<hr>
 		{assign var=SPAN_COUNT value=1}
-		<div class="row">
-			<div class="col-md-1">&nbsp;</div>
-			<div id="settingsShortCutsContainer" class="col-md-11">
-				<div  class="row">
-					{foreach item=SETTINGS_SHORTCUT from=$SETTINGS_SHORTCUTS name=shortcuts}
-						{include file=\App\Layout::getTemplatePath('SettingsShortCut.tpl', $QUALIFIED_MODULE)}
-					{if $SPAN_COUNT==3}</div>{$SPAN_COUNT=1}{if not $smarty.foreach.shortcuts.last}<div class="row">{/if}{continue}{/if}
+		<div class="col-md-12 form-row d-flex justify-content-lg-start justify-content-xl-center m-0" id="settingsShortCutsContainer">
+			{foreach item=SETTINGS_SHORTCUT from=$SETTINGS_SHORTCUTS name=shortcuts}
+				{include file=\App\Layout::getTemplatePath('SettingsShortCut.tpl', $QUALIFIED_MODULE)}
+				{if $SPAN_COUNT==3}
+					{$SPAN_COUNT=1} {continue}
+				{/if}
 					{$SPAN_COUNT=$SPAN_COUNT+1}
-				{/foreach}
-			</div>
+			{/foreach}
 		</div>
-	</div>
 {/strip}
