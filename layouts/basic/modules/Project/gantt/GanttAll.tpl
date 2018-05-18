@@ -20,7 +20,7 @@
 			<div class="col-lg-7 col-12 d-flex flex-wrap flex-sm-nowrap flex-md-nowrap flex-lg-nowrap justify-content-center justify-content-md-end justify-content-lg-end">
 				<div class="customFilterMainSpan">
 					{if $CUSTOM_VIEWS|@count gt 0}
-					<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
+					<select id="customFilter" class="form-control select2" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 						<optgroup label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
@@ -62,11 +62,4 @@
 	</div>
 	{include file=\App\Layout::getTemplatePath('gantt/GanttContents.tpl', $MODULE)}
 </div>
-{*
-{if $CUSTOM_VIEWS|@count gt 0}
-
-{else}
-	<input type="hidden" value="0" id="customFilter"/>
-{/if}
-	*}
 {/strip}
