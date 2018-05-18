@@ -88,7 +88,8 @@
     "ActivityCancel": "Anulowanie rekord\u00f3w",
     "ActivityComplete": "Zamykanie rekord\u00f3w",
     "ActivityPostponed": "Przek\u0142adanie rekord\u00f3w",
-    "Emails": "Wysy\u0142ka maili [SMTP]"
+    "Emails": "Wysy\u0142ka maili [SMTP]",
+    "ModTracker": "Historia zmian"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil zapisano poprawnie"
