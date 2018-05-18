@@ -1,0 +1,12 @@
+{
+  "php": {
+    "HolidaysEntitlement": "Drepturile de sedere anuale",
+    "SINGLE_HolidaysEntitlement": "Dreptul de sedere anuala",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Informatii personalizate",
+    "LBL_CUSTOM_INFORMATION": "Informatii Sistem",
+    "LBL_YEAR": "An",
+    "LBL_DAYS": "Numarul de sarbatori",
+    "LBL_EMPLOYEE": "Angajatul",
+    "LBL_NUMBER": "Numar"
+  }
+}
