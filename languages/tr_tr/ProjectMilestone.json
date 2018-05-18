@@ -7,6 +7,8 @@
     "LBL_MILESTONES_LIST": "Proje Kilometre Ta\u015f\u0131lar\u0131 Listesi",
     "description": "A\u00e7\u0131klama",
     "Related to": "Proje",
+    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_STATUS": "Status",
     "Project Milestone Name": "Proje Kilometre Ta\u015f\u0131 Ad\u0131",
     "Milestone Date": "Kilometre Ta\u015f\u0131 Tarihi",
     "Project Milestone No": "Proje Kilometre Ta\u015f\u0131 Numaras\u0131",
@@ -17,6 +19,11 @@
     "PLL_SHARED": "Payla\u015f\u0131lan",
     "PLL_LOW": "D\u00fc\u015f\u00fck",
     "PLL_NORMAL": "Normal",
-    "PLL_HIGH": "Y\u00fcksek"
+    "PLL_HIGH": "Y\u00fcksek",
+    "PLL_IN_PROGRESS": "In Progress",
+    "PLL_OPEN": "Open",
+    "PLL_COMPLETED": "Completed",
+    "PLL_DEFERRED": "Deferred",
+    "PLL_CANCELLED": "Cancelled",
   }
 }
