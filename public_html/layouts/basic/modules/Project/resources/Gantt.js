@@ -63,7 +63,7 @@ class GanttField {
 			type: "GANTBUTTONS",
 			render(obj) {
 				return `<div class="ganttButtonBar noprint">
-				<div class="buttons row">
+				<div class="buttons">
 					<button id="j-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
 					<button id="j-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
 					<span class="ganttButtonSeparator"></span>
