@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Project_Gantt_Lib extends App\Base
+class Project_Gantt_Model extends App\Base
 {
 	/**
 	 * @var array project tasks,milesones and projects
