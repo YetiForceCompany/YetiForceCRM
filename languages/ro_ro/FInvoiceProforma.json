@@ -1,0 +1,20 @@
+{
+  "php": {
+    "FInvoiceProforma": "Facturi proforme",
+    "SINGLE_FInvoiceProforma": "Factura proforma",
+    "LBL_CUSTOM_INFORMATION": "Informatii Sistem",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Adresa livrare",
+    "FL_SUBJECT": "Subiect",
+    "FL_PAYMENT_DATE": "Data scadentei",
+    "FL_SALE_DATE": "Data emiterii",
+    "FL_FORM_PAYMENT": "Metoda de plata",
+    "FL_STATUS": "Status",
+    "FL_BANK_ACCOUNT": "Cont IBAN",
+    "FL_NUMBER": "Numar factura",
+    "FL_ACCOUNT": "Cont",
+    "FL_TOTAL": "Net",
+    "FL_GROSS": "Brut",
+    "PLL_TRANSFER": "transfer",
+    "PLL_CASH": "cash"
+  }
+}
