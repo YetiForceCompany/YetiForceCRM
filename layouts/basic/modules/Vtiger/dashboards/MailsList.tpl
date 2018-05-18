@@ -9,7 +9,7 @@
 		{/foreach}
 		<div class="row">
 			<div class="col-md-8">
-				<div class="dashboardTitle pb-2" title="{\App\Language::translate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),'OSSMail')}</strong></div>
+				<h5 class="dashboardTitle pb-2 h6" title="{\App\Language::translate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),'OSSMail')}</strong></h5>
 			</div>
 			<div class="col-md-4">
 				<div class="box float-right">

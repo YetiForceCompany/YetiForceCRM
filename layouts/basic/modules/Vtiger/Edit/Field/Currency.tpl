@@ -34,7 +34,7 @@
 				<span class="input-group-append row"><span class="input-group-text">{$BASE_CURRENCY_SYMBOL}</span></span>
 			{/if}
 			{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
-			<input id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text" class="col-md-6 unitPrice currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}" name="{$FIELD_MODEL->getFieldName()}" 
+			<input id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text" class="col-md-12 unitPrice currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}" name="{$FIELD_MODEL->getFieldName()}"
 				   data-fieldinfo='{$FIELD_INFO}'  value="{$DISPLAY_FIELD_VALUE}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 				   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}'
 				   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{else} data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {/if}/>

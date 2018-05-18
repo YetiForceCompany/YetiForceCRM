@@ -80,7 +80,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn btn-xs btn-danger',
+				'linkclass' => 'btn btn-xs btn-danger text-white',
 			],
 		];
 		foreach ($recordLinks as &$recordLink) {

@@ -32,21 +32,27 @@ class Field
 			$fields = Cache::get(__METHOD__ . User::getCurrentUserId(), $tabId);
 		} else {
 			$query = (new \App\Db\Query())
-				->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')
+				->select([
+					'vtiger_field.fieldid',
+					'vtiger_field.fieldname',
+					'vtiger_field.columnname',
+					'vtiger_profile2field.readonly',
+					'vtiger_profile2field.visible'
+				])
 				->from('vtiger_field')
 				->innerJoin('vtiger_profile2field', 'vtiger_profile2field.fieldid = vtiger_field.fieldid')
 				->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
 				->where([
-					'vtiger_field.tabid' => (int) $tabId,
-					'vtiger_profile2field.visible' => 0,
-					'vtiger_def_org_field.visible' => 0,
-					'vtiger_field.presence' => [0, 2], ])
-					->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
+				'vtiger_field.tabid' => (int) $tabId,
+				'vtiger_profile2field.visible' => 0,
+				'vtiger_def_org_field.visible' => 0,
+				'vtiger_field.presence' => [0, 2]
+			]);
 			$profileList = \App\User::getCurrentUserModel()->getProfiles();
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
-			$fields = $query->indexBy('fieldname')->all();
+			$fields = $query->distinct()->indexBy('fieldname')->all();
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
 

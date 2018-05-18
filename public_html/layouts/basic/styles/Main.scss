@@ -10,7 +10,10 @@
 //-------- components --------//
 @import 'components/_Utilities';
 @import 'components/_Global';
-@import 'components/_Libraries';
+//-------- libraries --------//
+@import 'libraries/_Libraries';
+@import 'libraries/_Bootstrap';
+@import 'libraries/_FullCalendar';
 //-------- layout --------//
 @import 'layout/_Base';
 @import 'layout/_Header';

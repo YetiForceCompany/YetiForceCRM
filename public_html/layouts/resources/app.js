@@ -15,6 +15,7 @@ app = {
 	languageString: [],
 	cacheParams: [],
 	modalEvents: [],
+	childFrame: false,
 	event: new function () {
 		this.el = $({});
 		this.trigger = function () {
@@ -76,6 +77,17 @@ app = {
 		return document.title;
 	},
 	/**
+	 * Function gets current window parent
+	 * @returns {object}
+	 */
+	getWindowParent() {
+		if (typeof window.frames[0] !== "undefined" && window.frames[0].app.childFrame) {
+			return window.frames[0];
+		} else {
+			return window;
+		}
+	},
+	/**
 	 * Function to set page title
 	 */
 	setPageTitle: function (title) {
@@ -97,12 +109,12 @@ app = {
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params === "undefined") {
 			params = {
+				trigger: 'manual',
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
-		params.trigger = 'hover';
 		params.container = 'body';
 		params.delay = {"show": 300, "hide": 100};
 		var sparams;
@@ -123,6 +135,21 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
+			element.hoverIntent({
+				timeout: 150,
+				over: function () {
+					const self = this;
+					$(this).popover("show");
+					$(".popover").on("mouseleave", function () {
+						$(self).popover('hide');
+					});
+				},
+				out: function () {
+					if (!$(".popover:hover").length) {
+						$(this).popover('hide');
+					}
+				}
+			});
 		});
 		return selectElement;
 	},
@@ -222,6 +249,10 @@ app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		if (window.parent !== window) {
+			this.childFrame = true;
+			window.parent.app.showModalWindow(data, url, cb, paramsObject);
+		}
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
@@ -989,13 +1020,6 @@ app = {
 		);
 		return aDeferred.promise();
 	},
-	showBtnSwitch: function (selectElement, params) {
-		if (typeof params === "undefined") {
-			params = {};
-		}
-		selectElement.bootstrapSwitch(params);
-		return selectElement;
-	},
 	getMainParams: function (param, json) {
 		if (param in CONFIG) {
 			return CONFIG[param];
@@ -1185,7 +1209,7 @@ app = {
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
 		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
-			if (self.sidebarBtn.find($(e.target).length)) return;
+			if (self.sidebarBtn[0] == e.target) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if (self.sidebar.hasClass('js-expand')) {
@@ -1228,8 +1252,20 @@ app = {
 	},
 	sidebarKeyboard: function (e) {
 		let target = $(e.target);
-		if ((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT || e.which == this.keyboard.SPACE) && target.hasClass('collapsed'))
-			|| (target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.LEFT || e.which == this.keyboard.SPACE) && !target.hasClass('collapsed'))) {
+		let toggler = $(e.target).closest('.js-submenu-toggler');
+		if (e.which == this.keyboard.LEFT) {
+			if (target.hasClass('js-submenu-toggler') && !target.hasClass('collapsed')) {
+				target.click();
+				return false;
+			} else {
+				let toggler = $(e.target).closest('.js-submenu').prev('.js-submenu-toggler');
+				if (toggler.length && !toggler.hasClass('collapsed')) {
+					toggler.click().focus();
+					return false;
+				}
+			}
+		} else if ((target.hasClass('js-submenu-toggler') && (e.which == this.keyboard.RIGHT) && target.hasClass('collapsed'))
+			|| (target.hasClass('js-submenu-toggler') && e.which == this.keyboard.SPACE)) {
 			target.click();
 			return false;
 		} else if (e.which == this.keyboard.UP) {
@@ -1284,10 +1320,10 @@ app = {
 	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({
-			module: app.getModuleName(),
+			module: 'Home',
 			action: 'BrowsingHistory',
 		}).then(function (response) {
-			$('ul.historyList').remove();
+			$('.historyList').remove();
 		});
 	},
 	showConfirmation: function (data, element) {
@@ -1356,12 +1392,11 @@ app = {
 				}
 			});
 		});
-	}
-}
+	},
+};
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
-	app.showBtnSwitch($('body').find('.switchBtn'));
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();

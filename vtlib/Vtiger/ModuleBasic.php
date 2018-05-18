@@ -150,7 +150,6 @@ class ModuleBasic
 	public function __delete()
 	{
 		Module::fireEvent($this->name, Module::EVENT_MODULE_PREUNINSTALL);
-
 		if ($this->isentitytype) {
 			$this->unsetEntityIdentifier();
 		}
@@ -215,8 +214,8 @@ class ModuleBasic
 		\App\Fields\Tree::deleteForModule($this->id);
 		Link::deleteAll($this->id);
 		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
-		$this->deleteDir($moduleInstance);
 		$this->__delete();
+		$this->deleteDir($moduleInstance);
 		self::syncfile();
 		\App\Cache::clear();
 	}
@@ -250,14 +249,14 @@ class ModuleBasic
 		$db = \App\Db::getInstance();
 		$importer = new \App\Db\Importers\Base();
 		$db->createTable($this->basetable, [
-			$this->basetableid => 'int',
+			$this->basetableid => $importer->integer(10),
 		]);
 		$db->createCommand()->addPrimaryKey("{$this->basetable}_pk", $this->basetable, $this->basetableid)->execute();
 		$db->createCommand()->addForeignKey(
 			"fk_1_{$this->basetable}{$this->basetableid}", $this->basetable, $this->basetableid, 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
 		)->execute();
 		$db->createTable($this->customtable, [
-			$this->basetableid => 'int',
+			$this->basetableid => $importer->integer(10),
 		]);
 		$db->createCommand()->addPrimaryKey("{$this->customtable}_pk", $this->customtable, $this->basetableid)->execute();
 		$db->createCommand()->addForeignKey(
@@ -278,7 +277,7 @@ class ModuleBasic
 				'colspan' => $importer->smallInteger()->unsigned()->notNull()->defaultValue(1),
 			]);
 			$db->createTable($this->basetable . '_inventory', [
-				'id' => 'int',
+				'id' => $importer->integer(10),
 			]);
 			$db->createCommand()->createIndex("{$this->basetable}_inventory_id_idx", $this->basetable . '_inventory', 'id')->execute();
 			$db->createCommand()->addForeignKey(

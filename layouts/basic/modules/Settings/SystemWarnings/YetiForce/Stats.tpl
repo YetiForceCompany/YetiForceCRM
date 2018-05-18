@@ -1,6 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<form class="form-horizontal row validateForm" method="post" action="index.php">
+	<form class="tpl-Settings-SystemWarnings-YetiForce-Stats form-horizontal row validateForm" method="post" action="index.php">
+		<div class="col-md-12">
 		<h3>
 			{App\Language::translate('LBL_STATS','Settings:SystemWarnings')}
 		</h3>
@@ -14,7 +15,7 @@
 			</div>
 			<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
 		</div><br />
-		<div class="input-group">
+		<div class="input-group flex-nowrap">
 			<div class="input-group-prepend">
 				<div class="input-group-text">
 					<input type="checkbox" checked disabled>
@@ -69,5 +70,6 @@
 			</button>
 		</div>
 		<div class="clearfix"></div>
+		</div>
 	</form>
 {/strip}

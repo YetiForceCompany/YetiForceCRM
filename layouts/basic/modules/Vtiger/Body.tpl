@@ -4,14 +4,14 @@
 	{if $ANNOUNCEMENTS->checkActive()}
 		{include file=\App\Layout::getTemplatePath('Announcement.tpl', $MODULE)}
 	{/if}
+	{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-			{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
+		<div class="baseContainer{if $LEFTPANELHIDE} leftPanelOpen{/if} {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			<div class="js-sidebar leftPanel noSpaces" data-js="class: .js-expand">
-				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Desktop}
+				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE)}
 			</div>
 			{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}
-			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if} {$MODULE}_{$VIEW}">
+			<div class="basePanel {$MODULE}_{$VIEW}">
 				<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 					{include file=\App\Layout::getTemplatePath('BodyContent.tpl', $MODULE)}
 				{/strip}

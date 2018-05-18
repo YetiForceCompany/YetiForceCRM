@@ -79,18 +79,19 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 				thisInstance.refreshTab();
 			});
 		});
-		container.find('.switchBtn').on('switchChange.bootstrapSwitch', function (event, state) {
-			var element = jQuery(this);
-			var params = [];
-			if (element.hasClass('noField')) {
-				if (state) {
-					element.closest('form').find('.fieldToShowHide').removeClass('d-none');
+		container.find('.js-switch').on('change', (e) => {
+			const currentTarget = $(e.currentTarget),
+				state = currentTarget.val();
+			let params = [];
+			if (currentTarget.hasClass('noField')) {
+				if (state === '1') {
+					currentTarget.closest('form').find('.fieldToShowHide').removeClass('d-none');
 					return false;
-				} else {
-					element.closest('form').find('.fieldToShowHide').addClass('d-none');
+				} else if (state === '0'){
+					currentTarget.closest('form').find('.fieldToShowHide').addClass('d-none');
 				}
 			}
-			params[element.attr('name')] = Number(state)
+			params[currentTarget.attr('name')] = Number(state)
 			app.saveAjax('save', jQuery.extend({}, params), {'record': app.getMainParams('record')}).then(function (respons) {
 				thisInstance.refreshTab();
 			});

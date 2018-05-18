@@ -1597,10 +1597,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerSwitch: function () {
 		var container = $('#layoutEditorContainer');
-		app.showBtnSwitch(container.find('.switchBtn'))
 		var inventoryNav = container.find('.inventoryNav');
-		container.find('#inventorySwitch').on('switchChange.bootstrapSwitch', function (event, state) {
+		container.find('.js-switch--inventory').on('change', function (event) {
 			var switchBtn = $(event.currentTarget);
+			var state = switchBtn.data('value');
 			var message = app.vtranslate('JS_EXTENDED_MODULE');
 			Vtiger_Helper_Js.showConfirmationBox({
 				'message': '<span class="message-medium">' + message + '</span>',
@@ -1616,7 +1616,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					});
 					var params = {};
 					params['module'] = container.find('[name="layoutEditorModules"]').val();
-					params['status'] = state ? 0 : 1;
+					params['status'] = state === 'basic' ? 0 : 1;
 					app.saveAjax('setInventory', params).then(function (data) {
 						if (data.result) {
 							//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
@@ -1624,9 +1624,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						}
 					});
 					//window.location.reload();
-				},
-				function (error, err) {
-					switchBtn.bootstrapSwitch('toggleState', true);
 				}
 			);
 

@@ -184,11 +184,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$response = $handler->process($request);
 			$this->triggerPostProcess($handler, $request);
 		} catch (Exception $e) {
-			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 			$tpl = 'OperationNotPermitted.tpl';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
-			} elseif ($e instanceof \App\Exceptions\Security || $e instanceof \App\Exceptions\Security) {
+			} elseif ($e instanceof \App\Exceptions\Security) {
 				$tpl = 'IllegalValue.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);

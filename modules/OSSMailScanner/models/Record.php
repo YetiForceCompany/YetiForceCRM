@@ -44,7 +44,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getIdentities($id)
 	{
-		return (new \App\Db\Query())->select('name', 'email', 'identity_id')->from('roundcube_identities')->where(['user_id' => $id])->createCommand()->queryAll();
+		return (new \App\Db\Query())->select(['name', 'email', 'identity_id'])->from('roundcube_identities')->where(['user_id' => $id])->all();
 	}
 
 	/**

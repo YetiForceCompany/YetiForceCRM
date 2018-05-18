@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div class="widget_header row">
+<div class="tpl-OSSPasswords-ConfigurePass widget_header row">
 	<div class="col-md-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</div>
@@ -105,7 +105,7 @@
 							</div>
 							<div class="contentHeader">
 								<span class="float-right">
-									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong><span 													class="fa fa-check u-mr-5px"></span>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 								</span>
 							</div>
@@ -138,8 +138,8 @@
 					</div>
 					<div class="contentHeader">
 						<span class="float-right">
-							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
-							<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
+							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong><span 											class="fa fa-check u-mr-5px"></span>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span 										class="fa fa-times u-mr-5px"></span>{\App\Language::translate('Cancel', $MODULENAME)}</button>
 						</span>
 					</div>
 				</form>
@@ -211,8 +211,10 @@
 				</div>
 				<div class="contentHeader">
 					<span class="float-right">
-						<button class="btn btn-success" name="save" value="save" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
-						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
+						<button class="btn btn-success" name="save" value="save" type="submit">
+							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span
+									class="fa fa-times u-mr-5px"></span>{\App\Language::translate('Cancel', $MODULENAME)}</button>
 					</span>
 				</div>
 			</form>

@@ -4,18 +4,18 @@
 	{if $ANNOUNCEMENTS->checkActive()}
 		{include file=\App\Layout::getTemplatePath('Announcement.tpl', $MODULE)}
 	{/if}
+	{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+		<div class="baseContainer{if $LEFTPANELHIDE} leftPanelOpen{/if} {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{if $VIEW != 'Login'}
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
 				{/if}
-				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
-				<div class="js-sidebar leftPanel noSpaces" data-js="class: .open-menu">
+				<div class="js-sidebar leftPanel noSpaces" data-js="class: .js-expand">
 					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE)}
 				</div>
 				{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}
-				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
+				<div class="basePanel">
 					<div class="mainBody">
 						{include file=\App\Layout::getTemplatePath('BodyContent.tpl', $MODULE)}
 					{/if}

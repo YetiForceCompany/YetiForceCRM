@@ -53,6 +53,9 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public static function loadFile($type)
 	{
+		if (empty(self::$types[$type])) {
+			return [];
+		}
 		if (!isset(self::$data[$type])) {
 			$file = self::$types[$type];
 			require $file;

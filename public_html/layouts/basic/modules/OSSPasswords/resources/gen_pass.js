@@ -48,13 +48,13 @@ function passwordStrength(password, translations) {
 	// password hidden
 	if (password == '') {
 		document.getElementById("passwordDescription").innerHTML = app.vtranslate('Enter the password');
-		document.getElementById("passwordStrength").className = "strength0";
+		document.getElementById("passwordStrength").className = "input-group-text strength0";
 	} else if (password == '**********') {
 		document.getElementById("passwordDescription").innerHTML = app.vtranslate('Password is hidden');
-		document.getElementById("passwordStrength").className = "strength0";
+		document.getElementById("passwordStrength").className = "input-group-text strength0";
 	} else {
 		document.getElementById("passwordDescription").innerHTML = desc[score];
-		document.getElementById("passwordStrength").className = "strength" + score;
+		document.getElementById("passwordStrength").className = "input-group-text strength" + score;
 	}
 }
 
@@ -125,10 +125,10 @@ function showDetailsPassword(record) {
 		);
 
 		// change buttons label
-		$('#show-btn').text(hidePassText);
+		$('#show-btn').html('<span class="fas fa-eye-slash u-mr-5px"></span>' + hidePassText);
 	} else {
 		document.getElementById("detailPassword").innerHTML = '**********';
-		$('#show-btn').text(showPassText);
+		$('#show-btn').html('<span class="fas fa-eye u-mr-5px"></span>' + showPassText);
 		$('#copy-button').hide();
 	}
 }

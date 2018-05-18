@@ -12,7 +12,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
 		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=" + type + "&tabId=" + tabId, function (wizardContainer) {
 			app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-			app.showBtnSwitch(wizardContainer.find('.switchBtn'));
 			if (type == 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
@@ -219,7 +218,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
 				jQuery('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
-				app.showBtnSwitch(wizardContainer.find('.switchBtn'));
 				app.showPopoverElementView(wizardContainer.find('.js-help-info'));
 				if (thisInstance.getType() == 'RelatedModule') {
 					thisInstance.loadFilters(wizardContainer);

@@ -1312,7 +1312,13 @@ class TextParser
 			}
 		}
 		$generator = new \HTMLPurifier_Generator($config, new \HTMLPurifier_Context());
-		return $generator->generateFromTokens($truncated) . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
+		$html = preg_replace_callback('/<*([A-Za-z_]\w*)\s\/>/', function ($matches) {
+			if (\in_array($matches[1], ['div'])) {
+				return "<{$matches[1]}></{$matches[1]}>";
+			}
+			return $matches[0];
+		}, $generator->generateFromTokens($truncated));
+		return $html . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
 	}
 
 	/**

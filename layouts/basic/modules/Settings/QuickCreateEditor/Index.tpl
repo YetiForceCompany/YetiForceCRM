@@ -42,8 +42,8 @@
             <div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
 					<div class="btn-toolbar justify-content-end">
-						<button class="btn btn-success saveFieldSequence visibility"  type="button">
-							<strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+						<button class="btn btn-success saveFieldSequence visibility mt-2 mb-2" type="button">
+							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</div>
                     <div id="moduleBlocks">

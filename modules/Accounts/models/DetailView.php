@@ -94,7 +94,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
 			];
 		}
-		if ($parentModuleModel->isTrackingEnabled()) {
+		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',

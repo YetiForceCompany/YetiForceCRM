@@ -88,7 +88,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 				prevButton.on('mouseout', function (e) {
 					password.attr('type', 'password');
 				});
-				const clipboard = App.Fields.Password.registerCopyClipboard(container, '.copyPassword');
+				const clipboard = App.Fields.Text.registerCopyClipboard(container, '.copyPassword');
 				container.one('hidden.bs.modal', function () {
 					clipboard.destroy();
 				});
@@ -135,6 +135,6 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 	registerEvents: function () {
 		this.registerAddButton();
 		this.registerTableEvents();
-		App.Fields.Password.registerCopyClipboard(this.getContainer());
+		App.Fields.Text.registerCopyClipboard(this.getContainer());
 	}
 })

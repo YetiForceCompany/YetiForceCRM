@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="js-table-container mt-4 mb-5" data-js="container">
-			<table class="table table-bordered dataTableWithRecords">
+			<table class="table table-sm table-bordered dataTableWithRecords">
 				<thead>
 				<th class="p-2">
 					{\App\Language::translate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}

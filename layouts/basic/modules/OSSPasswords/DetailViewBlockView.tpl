@@ -7,7 +7,7 @@
 {assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 {if $BLOCKS_HIDE}
-<div class="detailViewTable">
+<div class="tpl-OSSPasswrds-DetailViewBlock detailViewTable">
 	<div class="js-toggle-panel c-panel" data-js="click" data-label="{$BLOCK_LABEL}">
 		<div class="blockHeader card-header px-0">
 			<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
@@ -89,7 +89,7 @@
 							class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}
 				</button>&nbsp;&nbsp;
 				<button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;"
-						id="show-btn">{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
+						id="show-btn"><span class="fas fa-eye u-mr-5px"></span>{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
 			</div>
 			<div class="clearfix"></div>
 		</div>

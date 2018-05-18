@@ -1,6 +1,6 @@
 {strip} 
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="row widget_header">
+	<div class="tpl-Settings-Companies-EditView row widget_header">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
@@ -72,11 +72,11 @@
 					</div>
 				{/foreach}
 			{/if}
-			<div class="row">
-				<div class="col-md-5 float-right">
-					<span class="float-right">
-						<button class="btn btn-success" type="submit"><strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+			<div class="row text-center">
+				<div class="col-md-12">
+					<span>
+						<button class="btn btn-success" type="submit"><span class="fa fa-check u-mr-5px"></span><strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span 									class="fa fa-times u-mr-5px"></span>{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>
 			</div>

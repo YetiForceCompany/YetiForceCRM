@@ -22,6 +22,7 @@
     "Menu": "Menu",
     "MEN_LOGISTICS": "Log\u00edstica",
     "LBL_CHANGE_LOGIN_PASSWORD": "Cambiar la contrase\u00f1a de acceso",
-    "LBL_CHANGE": "Cambiar"
+    "LBL_CHANGE": "Cambiar",
+    "MEN_GDPR": "RGPD"
   }
 }

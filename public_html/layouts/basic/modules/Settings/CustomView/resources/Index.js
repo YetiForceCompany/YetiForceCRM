@@ -7,18 +7,17 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	 * @param {jQuery} container
 	 */
 	initEvents: function (container) {
-		var thisInstance = this;
-		container.on('click', '.js-delete-filter', function (e) {
-			thisInstance.deleteFilter(e);
+		container.on('click', '.js-delete-filter', (e) => {
+			this.deleteFilter(e);
 		});
-		container.on('switchChange.bootstrapSwitch', '.js-update-field', function (e, state) {
-			thisInstance.updateField(e, state);
+		container.on('change', '.js-update-field', (e) => {
+			this.updateField(e);
 		});
-		container.on('click', '.js-update,.js-create-filter', function (e) {
-			thisInstance.update(e);
+		container.on('click', '.js-update,.js-create-filter', (e) => {
+			this.update(e);
 		});
-		container.on('change', '.js-module-filter', function (e) {
-			thisInstance.registerFilterChange(e);
+		container.on('change', '.js-module-filter', (e) => {
+			this.registerFilterChange(e);
 		});
 	},
 	/**
@@ -35,20 +34,20 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	 * @param {jQuery.Event} e
 	 */
 	updateField: function (e) {
-		var thisInstance = this;
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('.js-filter-row');
+		const thisInstance = this,
+			target = $(e.currentTarget),
+			closestTrElement = target.closest('.js-filter-row');
 		$.progressIndicator({
 			message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 			blockInfo: {
 				enabled: true
 			}
 		});
-		var params = {
+		const params = {
 			cvid: closestTrElement.data('cvid'),
 			mod: closestTrElement.data('mod'),
 			name: target.attr('name'),
-			value: target.prop('checked') ? 1 : 0,
+			value: target.val(),
 		};
 		app.saveAjax('updateField', {}, params).then(function (data) {
 			thisInstance.getContainer().find('.js-module-filter').trigger('change');
@@ -141,7 +140,6 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 		}
 		AppConnector.requestPjax(params).then(function (data) {
 			var contents = thisInstance.getContents().html(data);
-			app.showBtnSwitch(contents.find('.switchBtn'));
 			thisInstance.makeFilterListSortable(contents);
 			thisInstance.getContainer().find('.js-create-filter').data('editurl', contents.find('#js-add-filter-url').val());
 			progress.progressIndicator({mode: 'hide'});

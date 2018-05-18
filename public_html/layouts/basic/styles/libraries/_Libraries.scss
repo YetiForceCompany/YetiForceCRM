@@ -1,0 +1,244 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//-------- general --------//
+
+//-------- select2 --------//
+.select2-selection {
+	padding-top: 0.2rem;
+
+	@extend .border;
+	@extend .text-left;
+}
+
+.select2-container--bootstrap4 {
+	.select2-selection--single {
+		padding: 0.375rem 1.125rem 0.375rem 0.75rem;
+	}
+
+	.select2-selection__rendered {
+		line-height: 1.5;
+	}
+}
+
+.select2-selection__arrow {
+	@extend .mt-1;
+}
+
+.select2-container--bootstrap4 {
+	ul.select2-selection__rendered {
+		@extend .py-2;
+		@extend .px-1;
+
+		li.select2-selection__choice {
+			@extend .p-1;
+			@extend .my-auto;
+		}
+	}
+
+	.select2-results__option, .select2-results__option .select2-results__option {
+		@extend .p-1;
+
+		font-size: inherit;
+	}
+
+	.select2-results__group {
+		padding-top: 0.33rem;
+		padding-bottom: 0.25rem;
+		font-size: inherit;
+	}
+}
+
+.select2-container--bootstrap {
+	.select2-results > .select2-results__options {
+		max-height: 400px;
+	}
+}
+
+.select2Wrapper {
+	width: 100%;
+}
+
+header {
+	.globalSearchInput .select2-selection.select2-selection--single {
+		font-size: $font-size-sm !important;
+		height: $menuItemsHeight !important;
+	}
+
+	.select2WithButtonWidth {
+		width: calc(100% - #{$iconButtonWidth});
+	}
+
+	.headerLinksMails .select2-selection:hover {
+		background: $dark !important;
+
+		.select2-selection__rendered {
+			color: $white !important;
+		}
+	}
+}
+
+.select2HeaderWidth {
+	.select2-selection {
+		height: 2.5rem !important;
+	}
+}
+
+.fieldUiHolder {
+	width: 25%;
+
+	.select2-container--bootstrap4 {
+		width: 100% !important;
+	}
+}
+//theme selection
+.select2-selection__rendered.u-hover-bold {
+	padding: 6px !important;
+	border-radius: 0.25rem
+}
+
+.select2-selection__rendered[title=Twilight] {
+	@extend .u-bg-twilight;
+}
+
+.select2-selection__rendered[title=Modern] {
+	@extend .u-bg-modern;
+}
+
+.select2-selection[aria-labelledby^="select2-theme"] {
+	@extend .p-0;
+}
+
+.select2-search__field {
+	width: 100% !important;
+}
+
+.customFilterMainSpan {
+	width: 100%;
+	cursor: pointer;
+
+	.select2-container {
+		width: 95% !important;
+	}
+}
+
+.conditionRow .select2-container--bootstrap4 {
+	display: inline-block;
+	vertical-align: middle;
+
+	@extend .w-25;
+	@extend .mr-sm-2;
+}
+//-------- leaflet --------//
+.leaflet-popup-content {
+	width: 62px;
+}
+
+.awesome-marker {
+	[data-fa-i2svg] {
+		margin-top: 11px;
+	}
+}
+
+//--- list ---//
+
+.openStreetMapModalBody {
+	@extend %input-groupSelect2;
+}
+
+.bootbox-close-button {
+	@extend .order-2;
+}
+
+.filterActionImgs {
+	margin-top: 3px;
+}
+
+//-------- dataTable --------//
+
+.dataTables_wrapper {
+	@extend .p-0;
+
+	.col-sm-12, .row {
+		@extend .p-0;
+	}
+
+	table.dataTable {
+		margin: 0 !important;
+	}
+}
+
+//-------- daterangepicker --------//
+
+.daterangepicker {
+	&.show-calendar {
+		@extend .p-0;
+	}
+
+	.left, .right {
+		@extend .mb-0;
+	}
+
+	.ranges {
+		li {
+			margin-bottom: 0.45rem;
+		}
+
+		li:last-child {
+			@extend .mb-0;
+		}
+	}
+}
+
+.recordEditView {
+	.daterangepicker {
+		.ranges {
+			float: none !important;
+			text-align: center !important;
+		}
+	}
+}
+//-------- jQuery UI --------//
+.ui-autocomplete {
+	padding: 0 !important;
+
+	a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
+		font-weight: inherit !important;
+	}
+}
+
+ul.ui-autocomplete {
+	div.ui-menu-item-wrapper {
+		@extend .u-text-ellipsis;
+	}
+}
+
+//-------- ckeditor --------//
+
+.cke_screen_reader_only {
+	height: 0 !important;
+}
+
+//-------- gridster--------//
+
+@include media-breakpoint-down(sm) {
+	.gridster {
+		> * {
+			padding: 0;
+			padding-right: 0;
+			width: 100% !important;
+		}
+
+		.gs-w {
+			padding-bottom: 10px;
+			list-style: none;
+			position: static !important;
+			float: left;
+			margin-bottom: 20px;
+		}
+
+		.gs-w[data-sizex] {
+			width: 100% !important;
+			left: 0;
+		}
+	}
+}

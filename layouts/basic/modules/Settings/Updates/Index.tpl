@@ -10,13 +10,14 @@
 		vertical-align:middle !important; 
 	}	
 </style>
-<div class="">
+<div class="tpl-Settings-Updates-Index">
 	<div class="widget_header row">
 		<div class="col-md-7">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 		<div class="col-md-5 align-items-center d-flex justify-content-end">
-				<a class="btn btn-success btn-sm addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
+				<a class="btn btn-success btn-sm addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><span
+							class="fa fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
 		</div>
 	</div>
 	<div class="badge badge-info mb-1 mt-2">

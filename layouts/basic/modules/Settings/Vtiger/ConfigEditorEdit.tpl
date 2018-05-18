@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Vtiger-ConfigEditorEdit">
 		<div class="contents">
 			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 				<div class="row widget_header">
@@ -17,10 +17,12 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-md-4 btn-toolbar no-margin">
+					<div class="col-md-4 btn-toolbar mt-2">
 						<div class="float-right">
-							<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-							<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
+								<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+							<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">
+								<span class="fas fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
 					</div>
 				</div>

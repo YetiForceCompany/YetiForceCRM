@@ -16,7 +16,7 @@
 		<div class="detailViewTitle marginTop5" id="prefPageHeader">
 			<div class="row">
 				<div class="ml-0 pr-1 col-md-5 row">
-					<div class="logo pl-0 col-2 col-md-2">
+					<div class="logo pl-0 col-2 col-md-2 mt-3">
 						{assign var=IMAGE value=$RECORD->getImage()}
 						{if $IMAGE}
 							<img src="{$IMAGE.url}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" height="80" align="left">
@@ -34,7 +34,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="mr-0 pl-1 col-md-7 py-3">
+				<div class="mr-0 pl-1 col-md-7 py-3 mt-2">
 					<div class="row float-right detailViewButtoncontainer">
 						<div class="btn-toolbar float-right">
 							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}

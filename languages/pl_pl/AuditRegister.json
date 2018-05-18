@@ -1,0 +1,23 @@
+{
+  "php": {
+    "AuditRegister": "Rejestr audyt\u00f3w",
+    "SINGLE_AuditRegister": "Rejestr audyt\u00f3w",
+    "LBL_BASIC_INFORMATION": "Podstawowe informacje",
+    "FL_NAME": "Nazwa",
+    "FL_LOCATION_REGISTER": "Rejestr lokalizacji",
+    "FL_DATASETREGISTER": "Rejestr zbior\u00f3w",
+    "PLL_DRAFT": "Wersja robocza",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Oczekuje na akceptacje",
+    "PLL_IN_REALIZATION": "W realizacji",
+    "PLL_COMPLETED": "Zako\u0144czona",
+    "PLL_CANCELLED": "Anulowana",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Rodzaj",
+    "PLL_INTERNAL": "Wewn\u0119trzny",
+    "PLL_EXTERNAL": "Zewn\u0119trzny",
+    "LBL_DESCRIPTION": "Opis",
+    "FL_DESCRIPTION": "Opis",
+    "FL_COMMENTS": "Uwagi",
+    "LBL_COMMENTS": "Uwagi"
+  }
+}

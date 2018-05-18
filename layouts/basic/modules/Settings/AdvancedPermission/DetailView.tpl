@@ -9,6 +9,7 @@
 		</div>
 		<div class="col-md-4">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right mt-1">
+				<span class="fa fa-edit u-mr-5px"></span>
 				<strong>{\App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 			</a>
 		</div>

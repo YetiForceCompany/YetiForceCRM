@@ -43,7 +43,6 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 					function (data) {
 						thisInstance.deSelectAllrelatedTabs();
 						thisInstance.markTabAsSelected(tabElement);
-						app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						thisInstance.registerHelpInfo();
 						app.registerModal(detailContentsHolder);

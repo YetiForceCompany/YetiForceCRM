@@ -45,17 +45,16 @@
 						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<th {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}columnSorted{/if}">
+						<th class="noWrap p-2 {if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}columnSorted{/if}" {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if}>
 							<a href="javascript:void(0);" class="listViewHeaderValues float-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}
 								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 								{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
-									{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-								<div class='float-left'>
-									<span class="float-right js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
+								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+								<div class="d-flex align-items-center">
+									<input class="searchInSubcategories mr-1" type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+									<span class="js-popover-tooltip delay0 fas fa-info-circle" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 										  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
-										<span class="fas fa-info-circle"></span>
 									</span>
-									<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="float-right searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
 								</div>
 							{/if}
 						</th>
@@ -78,7 +77,7 @@
 							</div>
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<td>
+							<td class="pl-1">
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}

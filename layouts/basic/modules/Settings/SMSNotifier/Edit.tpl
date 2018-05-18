@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<form class="form-horizontal validateForm" id="editForm">
+	<form class="tpl-Settings-SMSNotifier-Edit form-horizontal validateForm" id="editForm">
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}">
 		<div class="modal-header">
 			{if !$RECORD_MODEL->getId()}
-				{assign var="TITLE" value="LBL_ADD_CONFIGURATION"}
+				<h3 class="modal-title"><span class="fa fa-plus u-mr-5px mt-2"></span>{\App\Language::translate("LBL_ADD_CONFIGURATION", $QUALIFIED_MODULE)}</h3>
 			{else}
-				{assign var="TITLE" value="LBL_EDIT_RECORD"}
+				<h3 class="modal-title"><span class="fa fa-edit u-mr-5px mt-2"></span>{\App\Language::translate("LBL_EDIT_RECORD", $QUALIFIED_MODULE)}</h3>
 			{/if}
 			<h3 class="modal-title">{\App\Language::translate($TITLE, $QUALIFIED_MODULE)}</h3>
 			<button class="btn btn-warning float-right" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
@@ -43,8 +43,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" class="btn btn-success">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('BTN_CLOSE', $QUALIFIED_MODULE)}</button>
+			<button type="submit" class="btn btn-success"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
+			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal"><span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('BTN_CLOSE', $QUALIFIED_MODULE)}</button>
 		</div>
 	</form>
 	<div class="providersFields d-none">

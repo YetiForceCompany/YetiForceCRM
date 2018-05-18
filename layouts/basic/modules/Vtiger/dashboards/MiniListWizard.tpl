@@ -56,7 +56,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_EDIT_FIELDS')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FIELDS')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="fields" size="2" multiple="true">
 												<option></option>
@@ -64,7 +64,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FILTER')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_FILTER_FIELD')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="filter_fields">
 												<option></option>
@@ -74,7 +74,7 @@
 								</tbody>
 							</table>
 						</div>
-						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 					</form>
 				</div>
 			</div>

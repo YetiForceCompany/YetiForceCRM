@@ -1,62 +1,72 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .calendarViewContainer {
-  .widget_header {
-	margin-right: -20px;
-	margin-left: -25px;
-  }
+	.widget_header {
+		margin-right: -20px;
+		margin-left: -25px;
+	}
+
+	&.js-sitebar--active {
+		@extend .w-75, .pr-3;
+	}
 }
+
 .o-calendar-container {
-  @extend .pt-2;
+	@extend .pt-2;
 }
+
 @media(min-width: 993px) {
 	.Calendar_Calendar .mainBody {
 		overflow: hidden;
 	}
 }
+
 .o-label-container {
-  @extend .col-12;
-  @extend .col-sm-6;
-  @extend .col-lg-12;
-  @extend .mb-lg-2;
-  @extend .mb-2;
-  @extend .px-0;
-  @extend .d-flex;
-  @extend .justify-content-lg-center;
-  @extend .justify-content-center;
-  @extend .justify-content-xl-start;
-  @extend .justify-content-sm-start;
+	@extend .col-12;
+	@extend .col-sm-6;
+	@extend .col-lg-12;
+	@extend .mb-lg-2;
+	@extend .mb-2;
+	@extend .px-0;
+	@extend .d-flex;
+	@extend .justify-content-lg-center;
+	@extend .justify-content-center;
+	@extend .justify-content-xl-start;
+	@extend .justify-content-sm-start;
 }
+
 .o-btn-container {
-  @extend .col-12;
-  @extend .col-sm-6;
-  @extend .col-lg-12;
-  @extend .px-0;
-  @extend .d-flex;
-  @extend .justify-content-center;
-  @extend .justify-content-sm-end;
-  @extend .justify-content-lg-center;
-  @extend .justify-content-xl-end;
+	@extend .col-12;
+	@extend .col-sm-6;
+	@extend .col-lg-12;
+	@extend .px-0;
+	@extend .d-flex;
+	@extend .justify-content-center;
+	@extend .justify-content-sm-end;
+	@extend .justify-content-lg-center;
+	@extend .justify-content-xl-end;
 }
+
 .hideToggleSiteBarRightButton {
-  right: 0 !important;
+	right: 0 !important;
 }
+
 .toggleSiteBarRightButton {
-  background: $light;
-  font-weight: bold;
-  padding: 15px 0px !important;
-  position: fixed;
-  top: 50%;
-  right: 25%;
-  cursor: pointer;
-  width: 17px;
-  z-index: 100;
-  border: 1px solid #dddddd;
-  border-right: 0;
-  display: inline-block;
-  border-radius: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+	background: $light;
+	font-weight: bold;
+	padding: 15px 0 !important;
+	position: fixed;
+	top: 50%;
+	right: 25%;
+	cursor: pointer;
+	width: 17px;
+	z-index: 100;
+	border: 1px solid #ddd;
+	border-right: 0;
+	display: inline-block;
+	border-radius: 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }

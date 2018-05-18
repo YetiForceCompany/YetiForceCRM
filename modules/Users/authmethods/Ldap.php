@@ -37,10 +37,10 @@ class Users_Ldap_AuthMethod
 	public function process($auth, $password)
 	{
 		\App\Log::trace('Start LDAP authentication', 'UserAuthentication');
-		$users = explode(',', $auth['ldap']['users']);
+		$users = explode(',', $auth['users']);
 		if (!empty($password) && in_array($this->userRecordModel->getId(), $users)) {
-			$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
-			$ds = ldap_connect($auth['ldap']['server'], $port);
+			$port = $auth['port'] == '' ? 389 : $auth['port'];
+			$ds = ldap_connect($auth['server'], $port);
 			if (!$ds) {
 				\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.', 'UserAuthentication');
 			}
@@ -49,10 +49,10 @@ class Users_Ldap_AuthMethod
 			ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
 			ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
 			ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
-			if (parse_url($auth['ldap']['server'])['scheme'] === 'tls') {
+			if (parse_url($auth['server'])['scheme'] === 'tls') {
 				ldap_start_tls($ds);
 			}
-			$bind = ldap_bind($ds, $this->userRecordModel->get('user_name') . $auth['ldap']['domain'], $password);
+			$bind = ldap_bind($ds, $this->userRecordModel->get('user_name') . $auth['domain'], $password);
 			if (!$bind) {
 				\App\Log::error('LDAP authentication: LDAP bind failed. |' . ldap_errno($ds) . '|' . ldap_error($ds), 'UserAuthentication');
 			}

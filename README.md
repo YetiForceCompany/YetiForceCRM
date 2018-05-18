@@ -35,7 +35,7 @@ Visit our [online store](https://shop.yetiforce.com/en/) with commercial modules
 - [Sourceforge](https://sourceforge.net/projects/yetiforce/)
 - [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
 - [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
-- [Development version](https://download.yetiforce.com/developer.zip)  
+- [Development version](https://download.yetiforce.com/developer.zip) - full package (composer + yarn)
 
 1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/crm-installation)
 2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes).

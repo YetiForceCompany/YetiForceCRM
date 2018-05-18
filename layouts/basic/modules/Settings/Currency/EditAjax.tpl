@@ -15,14 +15,14 @@
     {if empty($CURRENCY_ID)}
         {assign var=CURRENCY_MODEL_EXISTS value=false}
     {/if}
-    <div class="currencyModalContainer modal fade" tabindex="-1">
+    <div class="tpl-Settings-Currency-EditAjax currencyModalContainer modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					{if $CURRENCY_MODEL_EXISTS}
-						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_CURRENCY', $QUALIFIED_MODULE)}</h5>
+						<span class="fa fa-edit mt-2 u-mr-5px"></span><h5 class="modal-title">{\App\Language::translate('LBL_EDIT_CURRENCY', $QUALIFIED_MODULE)}</h5>
 					{else}
-						<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_CURRENCY', $QUALIFIED_MODULE)}</h5>
+						<span class="fa fa-plus mt-2 u-mr-5px"></span><h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_CURRENCY', $QUALIFIED_MODULE)}</h5>
 					{/if}
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
@@ -71,7 +71,7 @@
 							</div>
 							<div class="form-group">
 								<label class="muted col-md-4 col-2 col-form-label">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
-								<div class="col-6 col-md-6 controls">
+								<div class="col-6 controls">
 									<label class="checkbox">
 										<input type="hidden" name="currency_status" value="Inactive" />
 										<input type="checkbox" name="currency_status" value="Active" class="currencyStatus alignBottom" 

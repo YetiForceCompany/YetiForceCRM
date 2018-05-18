@@ -50,8 +50,10 @@
 						<span class="fas fa-desktop" data-check="fas fa-desktop" data-unchecked="fas fa-desktop"></span>
 					</label>
 				</div>
-				<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-				<button class="btn btn-danger" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+				<button class="btn btn-success" id="customViewSubmit" type="submit"><span
+							class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+				<button class="btn btn-danger" type="reset" onClick="window.location.reload()"><span
+							class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 			</div>
 		</div>
 		{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
@@ -154,8 +156,10 @@
 			</div>
 		</div>
 		<div class="filterActions pt-2">
-			<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+			<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()"><span
+						class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+			<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit"><strong><span
+							class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 		</div>
 	</form>
 {/strip}

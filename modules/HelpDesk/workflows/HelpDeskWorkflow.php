@@ -15,24 +15,18 @@ class HelpDeskWorkflow
 	 *
 	 * @return array
 	 */
-	private static function getContactsMailsFromTicket($id)
+	private static function getContactsMailsFromTicket(int $id)
 	{
-		if (empty($id)) {
-			return [];
+		$queryGenerator = new \App\QueryGenerator('Contacts');
+		$queryGenerator->permissions = false;
+		$queryGenerator->setFields(['email']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', $queryGenerator->getColumnName('id') . '=vtiger_crmentityrel.relcrmid']);
+		$queryGenerator->addNativeCondition(['and', ['vtiger_crmentityrel.crmid' => $id], ['vtiger_crmentityrel.module' => 'HelpDesk']]);
+		$queryGenerator->addCondition('email', '', 'ny');
+		if (AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) {
+			$queryGenerator->addCondition('emailoptout', 1, 'e');
 		}
-		$mails = [];
-		$query = (new \App\Db\Query())->select(['relcrmid as contactid'])->from('vtiger_crmentityrel')->where(['module' => 'HelpDesk', 'relmodule' => 'Contacts', 'crmid' => $id])->createCommand()->query();
-		while ($contactId = $query->readColumn(0)) {
-			if (App\Record::isExists($contactId)) {
-				$contactRecord = Vtiger_Record_Model::getInstanceById($contactId, 'Contacts');
-				$primaryEmail = $contactRecord->get('email');
-				if (($contactRecord->get('emailoptout') == 1 || !AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
-					$mails[] = $primaryEmail;
-				}
-			}
-		}
-
-		return $mails;
+		return $queryGenerator->createQuery()->column();
 	}
 
 	/**
@@ -110,8 +104,7 @@ class HelpDeskWorkflow
 	public static function helpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 	{
 		\App\Log::trace('Entering helpDeskNewCommentContacts');
-		$mails = static::getContactsMailsFromTicket($recordModel->get('related_to'));
-		if (count($mails) > 0) {
+		if (($relId = $recordModel->get('related_to')) && \App\Record::getType($relId) === 'HelpDesk' && ($mails = static::getContactsMailsFromTicket($relId))) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'NewCommentAddedToTicketContact',
 				'moduleName' => 'ModComments',

@@ -6,7 +6,7 @@
 //-------- override bootstrap variables --------//
 $link-color: #006cdf;
 $secondary: #5e666c;
-$blue: #337AB7;
+$blue: #337ab7;
 $pagination-color: $link-color;
 
 //-------- sizes --------//
@@ -19,13 +19,14 @@ $menuItemsHeight: 32px;
 $btn-sm-height: 31px;
 $headerHeight: 50px;
 $mainViewportHeight: calc(100vh - #{$footerHeight + $headerHeight});
+$bs4-button-padding: 0.375rem 0.75rem;
 
 $select2InputFont: 0.875rem;
 $fontSmall: 0.8rem;
 
 //-------- colors --------//
-$y-navbar-background: #4A5364;
-$y-navbar-font-color: #ffffff;
+$y-navbar-background: #4a5364;
+$y-navbar-font-color: #fff;
 
 $y-menu-background: $y-navbar-background;
 $y-menu-font-color: #f8f9fa;
@@ -34,4 +35,4 @@ $y-menu-font-color: #f8f9fa;
 $y-rtabs-background: #f1f1f1;
 $y-rtabs-active-background: #404952;
 $y-rtabs-border-color: $y-rtabs-active-background;
-$y-rtabs-active-font-color: #ffffff;
+$y-rtabs-active-font-color: #fff;

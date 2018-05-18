@@ -36,7 +36,9 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = 'HelpDesk';
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$query = new \App\Db\Query();
-		$query->select(['priority', 'vtiger_ticketpriorities.ticketpriorities_id',
+		$query->select([
+				'vtiger_troubletickets.priority',
+				'vtiger_ticketpriorities.ticketpriorities_id',
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'statusvalue' => new \yii\db\Expression("CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = '' THEN '' ELSE vtiger_troubletickets.status END"), ])
 				->from('vtiger_troubletickets')
@@ -53,7 +55,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$this->conditions = ['condition' => ['not in', 'vtiger_troubletickets.status', $ticketStatus]];
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
-		$query->groupBy(['statusvalue', 'priority', 'vtiger_ticketpriorities.color', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
+		$query->groupBy(['statusvalue', 'vtiger_troubletickets.priority', 'vtiger_ticketpriorities.ticketpriorities_id', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$status = $priorities = $tickets = [];
 		$counter = 0;

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='modelContainer modal fade' tabindex="-1">
+	<div class='tpl-Vtiger-showDuplicateSearch modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
@@ -25,8 +25,8 @@
 						<div class="col-sm-3 col-form-label">
 							{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
 						</div>
-						<div class="col-sm-6 controls form-row">
-							<div class="col-md-10">
+						<div class="col-sm-9 controls form-row">
+							<div class="col-md-12">
 								<select id="fieldList" class="select2 form-control" multiple="true" title="{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
 										data-validation-engine="validate[required]">
 									{foreach from=$FIELDS item=FIELD}
@@ -43,12 +43,14 @@
 						</div>
 					</div>
 					<div class="modal-footer">
+						<button class="btn btn-success" type="submit" disabled="true">
+							<i class="fa fa-check"></i>
+							<strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
+						</button>
 						<div class="float-right cancelLinkContainer">
 							<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal"><i class="fa fa-times"></i> {\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 						</div>
-						<button class="btn btn-success" type="submit" disabled="true">
-							<i class="fa fa-check"></i> <strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
-						</button>
+
 					</div>
 				</form>
 			</div>

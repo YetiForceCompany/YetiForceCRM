@@ -19,7 +19,7 @@
 	{/if}
 	<div class="tpl-List-Field-Base searchField">
 		{if $MODULE_MODEL && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->getName()}
-			<div class="input-group col-12">
+			<div class="input-group col-12 px-0">
 				<input type="text" name="{$FIELD_MODEL->getName()}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 				<div  class="input-group-btn alphabetBtnContainer">
 					{if $ALPHABET_VALUE}

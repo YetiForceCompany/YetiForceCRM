@@ -346,11 +346,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 		var thisInstance = this;
 		thisInstance.registerAuthorizedEvent();
 		thisInstance.registerPagination();
-		app.showBtnSwitch(container.find('.switchBtn'));
-		container.find('.switchAuthor').on('switchChange.bootstrapSwitch', function (e, state) {
-			thisInstance.loadContent('github', 1);
-		});
-		container.find('.switchState').on('switchChange.bootstrapSwitch', function (e, state) {
+		container.find('.js-switch--state, .js-switch--author').on('change', () => {
 			thisInstance.loadContent('github', 1);
 		});
 		$('.addIssuesBtn').on('click', function () {
@@ -488,8 +484,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 				}
 			}
 		});
-		var element = app.showBtnSwitch(container.find('.switchBtn'));
-		element.on('switchChange.bootstrapSwitch', function (e, state) {
+		container.find('.js-switch--warnings').on('change', () => {
 			thisInstance.getWarningsList();
 		});
 	},
@@ -501,7 +496,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			message: app.vtranslate('JS_LOADING_OF_RECORDS'),
 			blockInfo: {enabled: true}
 		});
-		var active = $('.warningsIndexPage input.switchBtn').bootstrapSwitch('state');
+		var active = $('.warningsIndexPage .js-switch--warnings').first().is(':checked');
 		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
@@ -554,8 +549,8 @@ $.Class("Settings_Vtiger_Index_Js", {
 	loadContent: function (mode, page, modeParams) {
 		var thisInstance = this;
 		var container = $('.indexContainer');
-		var state = container.find('.switchState');
-		var author = container.find('.switchAuthor');
+		var state = container.find('.js-switch--state');
+		var author = container.find('.js-switch--author');
 		var params = {
 			mode: mode,
 			module: app.getModuleName(),
@@ -568,12 +563,12 @@ $.Class("Settings_Vtiger_Index_Js", {
 		if (modeParams) {
 			params.params = modeParams;
 		}
-		if (state.is(':checked')) {
+		if (state.last().is(':checked')) {
 			params.state = 'closed';
 		} else {
 			params.state = 'open';
 		}
-		params.author = author.is(':checked');
+		params.author = author.first().is(':checked');
 		var progressIndicatorElement = $.progressIndicator({
 			position: 'html',
 			'blockInfo': {

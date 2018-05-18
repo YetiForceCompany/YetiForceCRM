@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="" id="ConfigEditorDetails">
+	<div class="tpl-Settings-Vtiger-ConfigEditorDetail" id="ConfigEditorDetails">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
 			<div class="col-md-8">
@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="float-right">
-					<button class="btn btn-success editButton mt-2" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success editButton mt-2" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><span class="fa fa-edit u-mr-5px"></span><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>

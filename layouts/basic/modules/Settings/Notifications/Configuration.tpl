@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="widget_header row align-items-center">
+	<div class="tpl-Settings-Notifications-Configuration widget_header row align-items-center">
 		<div class="col-12 col-sm-12 col-md-9">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
@@ -21,7 +21,7 @@
 							<tr>
 								<th>
 									<strong>{\App\Language::translate('LBL_MEMBERS',$QUALIFIED_MODULE)}</strong>
-									<button class="btn btn-sm btn-success float-right addUser" type="button" data-editurl=""><span class="fas fa-plus"></span> {\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-sm btn-success float-right addUser mr-2" type="button" data-editurl=""><span class="fas fa-plus"></span> {\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
 								</th>
 							</tr>
 						</thead>
@@ -30,7 +30,7 @@
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.member}" data-lock="{$MEMBER.lock}">
 									<td><strong>{$MEMBER.name}</strong>
 										<span class="wrapperTrash">
-											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete u-cursor-pointer" data-mode="addOrRemoveMembers"></span>
+											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt fa-lg float-right marginIcon marginTop2 delete u-cursor-pointer" data-mode="addOrRemoveMembers"></span>
 										</span>
 										<span class="wrapperLock">
 											<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fas {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg float-right marginTB3 lock u-cursor-pointer" data-mode="lock"></span>

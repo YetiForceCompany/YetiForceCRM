@@ -199,9 +199,13 @@
 			<br />
 			<div class="float-right mb-4">
 				<button class="btn btn-success" type="submit" disabled="disabled">
-					<strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong>
-				</button>&nbsp;&nbsp;
-				<button class="btn btn-warning cancelLink" type="reset" onclick="javascript:window.history.back();">
+					<strong>
+						<span class="fas fa-caret-right mr-1"></span>
+						{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+					</strong>
+				</button>
+				<button class="btn btn-danger cancelLink" type="reset" onclick="javascript:window.history.back();">
+					<span class="fas fa-times mr-1"></span>
 					{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 				</button>
 			</div>

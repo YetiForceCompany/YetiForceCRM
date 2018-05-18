@@ -46,8 +46,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	registerEditTaskEvent: function () {
 		let thisInstance = this,
-			container = this.getContainer(),
-			clipboardArray = [];
+			container = this.getContainer();
 		container.on('click', '[data-url]', function (e) {
 			let currentElement = $(e.currentTarget),
 				params = currentElement.data('url'),
@@ -60,11 +59,10 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			app.showModalWindow(null, params, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				if (data) {
-					if (clipboardArray.length) {
-						clipboardArray.pop().destroy();
-					}
-					let clipboardInstance = App.Fields.Password.registerCopyClipboard(data);
-					clipboardArray.push(clipboardInstance);
+					let clipboard = App.Fields.Text.registerCopyClipboard(data);
+					container.one('hidden.bs.modal', () => {
+						clipboard.destroy();
+					});
 				}
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = $('#taskType').val();
@@ -76,7 +74,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				$('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
-				app.showBtnSwitch($(data).find('.switchBtn'));
 				app.showPopoverElementView($(data).find('.js-popover-tooltip'));
 				var contentHeight = parseInt(data.find('.modal-body').height());
 				var maxHeight = app.getScreenHeight(80);

@@ -11,7 +11,7 @@
 	********************************************************************************/
 	-->*}
 	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
-	<div class="bodyContents">
+	<div class="bodyContents tpl-Detail-PreProcess">
 		<div class="mainContainer">
 			<div class="contentsDiv">
 				{include file=\App\Layout::getTemplatePath('DetailViewHeader.tpl', $MODULE_NAME)}

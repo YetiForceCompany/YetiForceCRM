@@ -20,14 +20,14 @@
 					{if isset($WIDGET['switchHeader'])}
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch" type="radio" name="options" id="option1"
+								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									   data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}'
 									   data-urlparams="search_params"
 									   autocomplete="off"
 									   checked> {$WIDGET['switchHeaderLables']['on']}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2"
+								<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
 									   data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'
 									   data-urlparams="search_params"
 									   autocomplete="off"> {$WIDGET['switchHeaderLables']['off']}
@@ -115,14 +115,14 @@
 						{assign var=checkbox value=$WIDGET['data']['checkbox']}
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch" type="radio" name="options" id="option1"
+								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									   data-on-val='{\App\Purifier::encodeHtml($WIDGET['checkbox']['on'])}'
 									   data-urlparams="search_params"
 									   autocomplete="off"
 									   checked> {$WIDGET['checkboxLables']['on']}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2"
+								<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
 									   data-off-val='{\App\Purifier::encodeHtml($WIDGET['checkbox']['off'])}'
 									   data-urlparams="search_params"
 									   autocomplete="off"> {$WIDGET['checkboxLables']['off']}

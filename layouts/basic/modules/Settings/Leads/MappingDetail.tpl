@@ -10,14 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row align-items-center widget_header">
+	<div class="tpl-Settings-Leads-MappingDetail row align-items-center widget_header">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 		<div class="col-md-4 btn-toolbar ml-0 justify-content-end">
 			<div>
 				{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
-					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
+					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong><span 									class="fas fa-edit u-mr-5px"></span>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
 				{/foreach}
 			</div>
 		</div>
