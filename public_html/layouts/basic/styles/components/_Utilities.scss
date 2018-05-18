@@ -5,18 +5,23 @@
 	@extend .font-weight-bold;
 }
 
-.u-hover-bold:hover {
-	@extend .font-weight-bold;
-}
 
 .u-text-ellipsis {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-	&:hover {
-		overflow: initial;
-	}
+  &:hover {
+	overflow: initial;
+  }
+}
+
+.u-text-underline {
+  text-decoration: underline;
+}
+
+.u-hover-bold:hover {
+  @extend .font-weight-bold;
 }
 
 .u-word-break-all {

@@ -22,7 +22,7 @@
 			</span>
 		</span>
 		<div class="select2Wrapper">
-			<select class="widgetFilter select2 owner form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}"
+			<select class="widgetFilter select2 owner form-control" aria-label="{\App\Language::translate('LBL_OWNER')}" name="owner" title="{\App\Language::translate('LBL_OWNER')}"
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
 						{assign var=AJAX_URL value="index.php?module={$SOURCE_MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id"}
 						{if in_array('groups', $ACCESS_OPTIONS['available'])}
