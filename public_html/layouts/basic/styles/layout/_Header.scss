@@ -158,8 +158,6 @@
 }
 
 .globalSearchInput {
-	width: 500px;
-
 	.btn {
 		width: 40px;
 
@@ -211,7 +209,7 @@
 	}
 }
 //mobile
-@media(max-width: 767px) {
+@media(max-width: 782px) {
 	.actionMenu {
 		.actionMenuBtn {
 			display: block;

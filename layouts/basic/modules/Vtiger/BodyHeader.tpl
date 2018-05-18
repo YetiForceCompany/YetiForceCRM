@@ -140,7 +140,7 @@
 
 		<div class="o-navbar__right ml-auto d-inline-flex">
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-4">
+				<div class="mr-2">
 					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
 					   target="_blank">
