@@ -10,6 +10,8 @@
     "Project Milestone Name": "Nombre del Hito",
     "Milestone Date": "Fecha Hito",
     "Project Milestone No": "ID",
+    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_STATUS": "Status",
     "LBL_PRIORITY": "Prioridad",
     "LBL_PROGRESS": "Progreso",
     "PLL_INTERNAL": "Interno",
@@ -17,6 +19,11 @@
     "PLL_SHARED": "Compartido",
     "PLL_LOW": "Baja",
     "PLL_NORMAL": "Normal",
-    "PLL_HIGH": "Alta"
+    "PLL_HIGH": "Alta",
+    "PLL_IN_PROGRESS": "In Progress",
+    "PLL_OPEN": "Open",
+    "PLL_COMPLETED": "Completed",
+    "PLL_DEFERRED": "Deferred",
+    "PLL_CANCELLED": "Cancelled"
   }
 }
