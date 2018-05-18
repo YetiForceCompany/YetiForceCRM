@@ -3724,9 +3724,9 @@ CREATE TABLE `vtiger_accounttype_seq` (
 /*Table structure for table `vtiger_actionmapping` */
 
 CREATE TABLE `vtiger_actionmapping` (
-  `actionid` int(10) NOT NULL,
+  `actionid` smallint(5) unsigned NOT NULL,
   `actionname` varchar(200) NOT NULL,
-  `securitycheck` int(10) DEFAULT NULL,
+  `securitycheck` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`actionid`,`actionname`),
   KEY `actionname` (`actionname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
