@@ -197,7 +197,7 @@
 				{/if}
 			{/if}
 
-			<nav class="actionMenu">
+			<nav class="actionMenu" aria-label="{\App\Language::translate("QUICK_ACCESS_MENU")}">
 				<div class="actionMenuBtn">
 					<div class="quickAction">
 						<a class="btn btn-light headerButton" href="#" role="button" aria-expanded="false"

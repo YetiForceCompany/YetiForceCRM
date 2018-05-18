@@ -1443,6 +1443,7 @@
     "JS_RECORD_GETTING_DELETED": "Enregistrement en cours d'effacement",
     "JS_REENTER_PASSWORDS": "Resaisir les mots de passe",
     "JS_REQUIRED_FIELD": "* Ce champ est obligatoire",
+    "JS_REMINDER": "Notifications calendriers",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Le compte s\u00e9lectionn\u00e9e ne contient pas d'adresse \u00e0 copier",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Le contact s\u00e9lectionn\u00e9 ne contient pas d'adresse \u00e0 copier",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "Aucune adresse \u00e0 copier",
