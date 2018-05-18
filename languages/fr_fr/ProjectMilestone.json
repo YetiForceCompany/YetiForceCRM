@@ -24,7 +24,7 @@
     "PLL_OPEN": "Open",
     "PLL_COMPLETED": "Completed",
     "PLL_DEFERRED": "Deferred",
-    "PLL_CANCELLED": "Cancelled",
+    "PLL_CANCELLED": "Cancelled"
   },
   "js": []
 }
