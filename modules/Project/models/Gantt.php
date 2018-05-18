@@ -42,6 +42,16 @@ class Project_Gantt_Model extends App\Base
 	public $statusColors = [];
 
 	/**
+	 * @var array already loaded ids
+	 */
+	private $loadedIds = [];
+
+	/**
+	 * @var array if some task is already loaded get it from here
+	 */
+	private $tasksById = [];
+
+	/**
 	 * Get parent nodes id as associative array [taskId]=>[parentId1,parentId2,...].
 	 *
 	 * @param string|int $parentId
@@ -524,6 +534,8 @@ class Project_Gantt_Model extends App\Base
 			$project['end_date'] = $recordModel->get('targetenddate');
 			$project['end'] = strtotime($project['end_date']) * 1000;
 		}
+		$this->loadedIds[] = $id;
+		$this->tasksById[$id] = $project;
 		return $project;
 	}
 
@@ -536,13 +548,14 @@ class Project_Gantt_Model extends App\Base
 	 */
 	private function getProjectChildren($id)
 	{
-		$childrenIds = array_map(function ($item) {
-			return $item['projectid'];
-		}, (new \App\Db\Query())
+		$childrenRows = (new \App\Db\Query())
 			->select(['projectid'])
 			->from('vtiger_project')
 			->where(['parentid' => (int) $id])
-			->createCommand()->query()->readAll());
+			->createCommand()->query()->readAll();
+		$childrenIds = array_map(function ($item) {
+			return $item['projectid'];
+		}, $childrenRows);
 		$children = [];
 		foreach ($childrenIds as $childrenId) {
 			$child = $this->getProject($childrenId);
@@ -575,18 +588,23 @@ class Project_Gantt_Model extends App\Base
 	 *
 	 * @return array
 	 */
-	public function getAllGanttProjects()
+	public function getAllGanttProjects($viewName = null)
 	{
 		$this->getStatusColors();
 		$response = ['tasks' => [], 'links' => []];
+		$queryGenerator = new App\QueryGenerator('Project');
+		$queryGenerator->setField('id');
+		$queryGenerator->setField('parentid');
+		$queryGenerator->addNativeCondition(['vtiger_project.parentid'=>0]);
+		if ($viewName) {
+			$query = $queryGenerator->getCustomViewQueryById($viewName);
+		} else {
+			$query = $queryGenerator->createQuery();
+		}
+		$projectIdsRows = $query->createCommand()->queryAll();
 		$rootProjectIds = array_map(function ($item) {
-			return $item['projectid'];
-		},
-			(new \App\Db\Query())
-				->select(['projectid'])
-				->from('vtiger_project')
-				->where(['parentid' => 0])
-				->createCommand()->query()->readAll());
+			return $item['id'];
+		}, $projectIdsRows);
 		$projects = [];
 		foreach ($rootProjectIds as $projectId) {
 			$projects = array_merge($projects, $this->getProjects($projectId));
@@ -605,7 +623,9 @@ class Project_Gantt_Model extends App\Base
 		$this->normalizeStatuses();
 		$this->calculateDates();
 		$this->calculateDurations();
-		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
+		if (!empty($this->tree) && !empty($this->tree['children'])) {
+			$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
+		}
 		$response['statusColors'] = $this->statusColors;
 		$response['canWrite'] = false;
 		$response['canDelete'] = false;
@@ -642,7 +662,9 @@ class Project_Gantt_Model extends App\Base
 		$this->normalizeStatuses();
 		$this->calculateDates();
 		$this->calculateDurations();
-		$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
+		if (!empty($this->tree) && !empty($this->tree['children'])) {
+			$response['tasks'] = $this->cleanup($this->removeChildren($this->flattenRecordTasks($this->tree['children'])));
+		}
 		$response['statusColors'] = $this->statusColors;
 		$response['canWrite'] = false;
 		$response['canDelete'] = false;
