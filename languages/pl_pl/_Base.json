@@ -1380,6 +1380,7 @@
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "Pomy\u015blnie zmieniono w\u0142a\u015bciela rekord\u00f3w",
     "JS_RECORD_GETTING_DELETED": "Rekord jest usuwany",
     "JS_REENTER_PASSWORDS": "Wpisz has\u0142o ponownie",
+    "JS_REMINDER": "Powiadomienia kalendarza",
     "JS_REQUIRED_FIELD": "* To pole jest wymagane",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Wskazany Kontrahent nie posiada adresu do skopiowania",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Wskazany Kontakt nie posiada adresu do skopiowania",

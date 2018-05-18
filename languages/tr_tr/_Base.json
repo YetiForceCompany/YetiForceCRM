@@ -1368,6 +1368,7 @@
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "Records ownership has been transferred successfully",
     "JS_RECORD_GETTING_DELETED": "Record getting deleted",
     "JS_REENTER_PASSWORDS": "Reenter Passwords",
+    "JS_REMINDER": "Calendar's notifications",
     "JS_REQUIRED_FIELD": "* This field is required",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Selected Account does not contain address to copy",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Selected Contact does not contain address to copy",

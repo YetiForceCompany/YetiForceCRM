@@ -1382,6 +1382,7 @@
     "JS_RECORD_GETTING_DELETED": "Datensatz wird gel\u00f6scht",
     "JS_REENTER_PASSWORDS": "Passwort erneut eingeben",
     "JS_REQUIRED_FIELD": "* Pfichtfeld",
+    "JS_REMINDER": "Kalender Benachrichtigung",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Gew\u00e4hlte Organisation enth\u00e4lt keine Adresse zum kopieren",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Gew\u00e4hlter Kontakt enth\u00e4lt keine Adresse zum kopieren",
     "JS_DOES_NOT_HAVE_AN_ADDRESS": "Keine Adresse zum kopieren",
