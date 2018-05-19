@@ -1,0 +1,15 @@
+{
+  "php": {
+    "Ideas": "Idei",
+    "SINGLE_Ideas": "Idee",
+    "LBL_IDEAS_INFORMATION": "Informatii de baza",
+    "LBL_SUBJECT": "Subiect",
+    "LBL_STATUS": "Status",
+    "Description": "Descriere de baza",
+    "LBL_EXTENT_DESCRIPTION": "Descriere detaliata",
+    "Attention": "Comentarii",
+    "LBL_NO": "Numar",
+    "Draft": "Ciorna",
+    "Proposition": "Propunere"
+  }
+}
