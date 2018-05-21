@@ -5,17 +5,6 @@
 		<div class="listViewActionsDiv row">
 			<div class="col-lg-5 col-12">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
-				{assign var=LINKS value=[]}
-				{if $LISTVIEW_MASSACTIONS}
-					{assign var=LINKS value=$LISTVIEW_MASSACTIONS}
-				{/if}
-				{if isset($LISTVIEW_LINKS['LISTVIEW'])}
-					{assign var=LINKS value=array_merge($LINKS,$LISTVIEW_LINKS['LISTVIEW'])}
-				{/if}
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS=listViewMassActions}
-				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView'}
-				{/foreach}
 			</div>
 			<div class="col-lg-7 col-12 d-flex flex-wrap flex-sm-nowrap flex-md-nowrap flex-lg-nowrap justify-content-center justify-content-md-end justify-content-lg-end">
 				<div class="customFilterMainSpan">
