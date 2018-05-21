@@ -7,17 +7,17 @@
 		<div class="col-md-4">
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
-					<a class="btn btn-sm btn-light" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+					<a class="btn btn-sm btn-light" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
 						<span class="fas fa-plus" border="0" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_ADD_RECORD')}</span>
 					</a>
 				{/if}
-				<a class="btn btn-sm btn-light" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data" alt="{\App\Language::translate('LBL_REFRESH')}">
+				<a class="btn btn-sm btn-light" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
 					<span class="fas fa-sync-alt" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 					<span class="sr-only">{\App\Language::translate('LBL_REFRESH')}</span>
 				</a>
 				{if !$WIDGET->isDefault()}
-					<a class="btn btn-sm btn-light" role="button" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}" alt="{\App\Language::translate('LBL_CLOSE')}">
+					<a class="btn btn-sm btn-light" role="button" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
 						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_CLOSE')}</span>
 					</a>

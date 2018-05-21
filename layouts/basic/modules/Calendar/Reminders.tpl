@@ -13,18 +13,18 @@
 						<div class="float-left">
 							<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
 								{if $ACTIVITY_TYPE eq 'Task'}
-									<span class="far fa-check-square fa-lg" aria-hidden="true"></span>
+									<span class="far fa-check-square fa-lg"></span>
 								{elseif $ACTIVITY_TYPE eq 'Call'}
-									<span class="fas fa-phone fa-lg" data-fa-transform="rotate--260" aria-hidden="true"></span>
+									<span class="fas fa-phone fa-lg" data-fa-transform="rotate--260"></span>
 								{else}
-									<span class="fas fa-user fa-lg" aria-hidden="true"></span>
+									<span class="fas fa-user fa-lg"></span>
 								{/if}
 								<span class="ml-2">{$RECORD->getDisplayValue('subject')}</span>
 							</a>
 						</div>
 						<div class="float-right ml-1">
 							<button class="btn btn-success btn-sm  showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-								<span class="fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_SET_RECORD_STATUS')}</span>
 							</button>
 						</div>
@@ -48,14 +48,14 @@
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="fas fa-envelope fa-fw" aria-hidden="true"></span>
+										<span class="fas fa-envelope fa-fw"></span>
 										<span class="sr-only">{\App\Language::translate('LBL_SEND_EMAIL')}</span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
 										<a class="float-right" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 											<span class="sr-only">{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}</span>
 										</a>
 									{/if}
@@ -75,14 +75,14 @@
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}">
-										<span class="fas fa-envelope fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
+										<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
 										<span class="sr-only">{\App\Language::translate('LBL_SEND_EMAIL')}</span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
 										<a class="float-right" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 											<span class="sr-only">{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}</span>
 										</a>
 									{/if}
@@ -103,7 +103,7 @@
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
 								<a class="float-right" href="#" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
-									<span class="fas fa-map-marker-alt fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_MAP')}"></span>
+									<span class="fas fa-map-marker-alt fa-fw" title="{\App\Language::translate('LBL_MAP')}"></span>
 									<span class="sr-only">{\App\Language::translate('LBL_MAP')}</span>
 								</a>
 							{/if}
@@ -112,7 +112,7 @@
 					<hr/>
 					<div class="actionRow text-center" role="group">
 						<a class="btn btn-success btn-sm showModal" role="button" href="#"  data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-							<span class="fas fa-check" aria-hidden="true" title="{\App\Language::translate('LBL_SET_RECORD_STATUS')}"></span>
+							<span class="fas fa-check" title="{\App\Language::translate('LBL_SET_RECORD_STATUS')}"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_SET_RECORD_STATUS')}</span>
 						</a>
 						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="15m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>15{\App\Language::translate('LBL_M',$MODULE_NAME)}
