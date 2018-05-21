@@ -192,6 +192,8 @@ class Project_Gantt_Model extends App\Base
 		foreach ($this->tasks as &$task) {
 			if (!empty($task['projectstatus'])) {
 				$task['internal_status'] = App\Language::translate($task['projectstatus'], 'Project');
+			} elseif (!empty($task['projectmilestone_status'])) {
+				$task['internal_status'] = App\Language::translate($task['projectmilestone_status'], 'ProjectMilestone');
 			} elseif (!empty($task['projecttaskstatus'])) {
 				$task['internal_status'] = App\Language::translate($task['projecttaskstatus'], 'ProjectTask');
 			} else {
@@ -595,7 +597,7 @@ class Project_Gantt_Model extends App\Base
 		$queryGenerator = new App\QueryGenerator('Project');
 		$queryGenerator->setField('id');
 		$queryGenerator->setField('parentid');
-		$queryGenerator->addNativeCondition(['vtiger_project.parentid'=>0]);
+		$queryGenerator->addNativeCondition(['vtiger_project.parentid' => 0]);
 		if ($viewName) {
 			$query = $queryGenerator->getCustomViewQueryById($viewName);
 		} else {
@@ -693,6 +695,7 @@ class Project_Gantt_Model extends App\Base
 				'projectmilestonedate' => 'projectmilestonedate',
 				'projectmilestone_no' => 'projectmilestone_no',
 				'projectmilestone_progress' => 'projectmilestone_progress',
+				'projectmilestone_status' => 'projectmilestone_status',
 			])
 			->from('vtiger_projectmilestone')
 			->where(['projectid' => $projectIds])
@@ -716,6 +719,7 @@ class Project_Gantt_Model extends App\Base
 			$milestone['priority_label'] = \App\Language::translate($row['projectmilestone_priority'], 'ProjectMilestone');
 			$milestone['open'] = true;
 			$milestone['type'] = 'milestone';
+			$milestone['projectmilestone_status'] = $row['projectmilestone_status'];
 			$milestone['canWrite'] = false;
 			$milestone['canDelete'] = false;
 			$milestone['status'] = 'STATUS_ACTIVE';
