@@ -141,21 +141,21 @@
 		<div class="o-navbar__right ml-auto d-inline-flex">
 			{if $PARENT_MODULE === 'Settings'}
 				<div class="mr-4">
-					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop"
+					<a class="btn btn-light headerButton js-popover-tooltip" href="https://yetiforce.shop"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
 					   target="_blank">
-						<span class="fas fa-shopping-cart"></span>
+						<span class="fas fa-shopping-cart fa-fw"></span>
 					</a>
-					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop/#support"
+					<a class="btn btn-light headerButton js-popover-tooltip" href="https://yetiforce.shop/#support"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
 					   target="_blank">
-						<span class="far fa-life-ring"></span>
+						<span class="far fa-life-ring fa-fw"></span>
 					</a>
-					<a class="btn btn-light js-popover-tooltip"
+					<a class="btn btn-light headerButton js-popover-tooltip"
 					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
 					   target="_blank">
-						<span class="fas fa-bug"></span>
+						<span class="fas fa-bug fa-fw"></span>
 					</a>
 				</div>
 			{/if}
