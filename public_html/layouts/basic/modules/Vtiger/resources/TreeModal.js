@@ -32,15 +32,9 @@ $.Class("Base_TreeModal_JS", {}, {
 			plugins.push('category');
 			plugins.push('checkbox');
 		}
-		let data = JSON.parse(this.container.find('.js-tree-value').val());
-		for (let i = 0; i < data.length; i++) {
-			if (data[i].icon === '1') {
-				data[i].icon = '';
-			}
-		}
 		this.tree.jstree({
 			core: {
-				data: data,
+				data: JSON.parse(this.container.find('.js-tree-value').val()),
 				themes: {
 					name: 'proton',
 					responsive: true
@@ -54,7 +48,7 @@ $.Class("Base_TreeModal_JS", {}, {
 	 */
 	registerSelectEvent: function () {
 		if (this.multiple) {
-			this.container.find('[name="saveButton"]').on('click', () => {
+			this.container.find('[name="saveButton"]').on('click',  () => {
 				let id = [], name = [];
 				$.each(this.tree.jstree("getCategory", true), function (index, value) {
 					id.push('T' + value.id);
