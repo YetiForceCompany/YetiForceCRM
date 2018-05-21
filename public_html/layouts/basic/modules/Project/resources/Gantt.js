@@ -535,12 +535,8 @@ jQuery.Class("Vtiger_Gantt_Js", {
 			var urlParams = {
 				"viewname": jQuery(this).val(),
 			};
-			//Make the select all count as empty
-			jQuery('#recordsCount').val('');
-			//Make total number of pages as empty
-			jQuery('#totalPageCount').text("");
-			$('.pagination').data('totalCount', 0);
 			thisInstance.getGanttData(urlParams).then(function (data) {
+				thisInstance.breadCrumbsFilter(selectOption.text());
 				thisInstance.reloadData(data.result);
 			});
 			event.stopPropagation();
