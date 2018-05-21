@@ -232,3 +232,7 @@
 	pointer-events: none;
 	opacity: 0.65;
 }
+
+.u-box-shadow {
+	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
+}
