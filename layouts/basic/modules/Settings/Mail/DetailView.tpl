@@ -125,7 +125,7 @@
 			<div class="alert alert-block alert-info">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<strong> <p>{App\Language::translate('LBL_EMAIL_WAS_SENT', $QUALIFIED_MODULE)}</p> </strong>
-				<a class="btn btn-info" href="{$MODULE_MODEL->getDefaultUrl()}">{App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</a>
+				<a class="btn btn-info" role="button" href="{$MODULE_MODEL->getDefaultUrl()}">{App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</a>
 			</div>	
 		{/if}
 	</div>

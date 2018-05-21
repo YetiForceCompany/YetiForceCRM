@@ -6,9 +6,8 @@
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
-					<a class="btn btn-light headerButton ml-0 js-sidebar-btn" role="button" href="#" data-js="click"
-					   aria-haspopup="true" aria-expanded="false">
-						<span class="fas fa-bars fa-fw"></span>
+					<a class="btn btn-light headerButton ml-0 js-sidebar-btn" role="button" href="#" data-js="click" aria-haspopup="true" aria-expanded="false">
+						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_MENU')}</span>
 					</a>
 				</div>
@@ -41,11 +40,8 @@
 						</button>
 						{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 							<div class="btn-group">
-								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right"
-								   id="globalSearchOperator"
-								   href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-								   aria-expanded="false">
-									<span class="fas fa-crosshairs fa-fw"></span>
+								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" id="globalSearchOperator" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="fas fa-crosshairs fa-fw" title="{\App\Language::translate('LBL_SPECIAL_OPTIONS')}"></span>
 									<span class="sr-only">{\App\Language::translate('LBL_SPECIAL_OPTIONS')}</span>
 								</a>
 								<ul class="dropdown-menu js-global-search-operator"
@@ -83,9 +79,8 @@
 				<div class="searchMenu d-xl-none">
 					<div class="searchMenuBtn">
 						<div class="quickAction">
-							<a class="btn btn-light headerButton" href="#" role="button" aria-expanded="false"
-							   aria-controls="o-search-menu__container">
-								<span class="fas fa-search fa-fw"></span>
+							<a class="btn btn-light headerButton" href="#" role="button" aria-expanded="false" aria-controls="o-search-menu__container">
+								<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
 							</a>
 						</div>
@@ -127,9 +122,8 @@
 							</div>
 						</div>
 						<div class="searchMenuBtn">
-							<a class="btn btn-light headerButton float-right" href="#" role="button"
-							   aria-expanded="false" aria-controls="o-search-menu__container">
-								<span class="fas fa-times fa-fw"></span>
+							<a class="btn btn-light headerButton float-right" href="#" role="button" aria-expanded="false" aria-controls="o-search-menu__container">
+								<span class="fas fa-times fa-fw" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 								<span>{\App\Language::translate('LBL_CLOSE')}</span>
 							</a>
 						</div>
@@ -141,21 +135,17 @@
 		<div class="o-navbar__right ml-auto d-inline-flex">
 			{if $PARENT_MODULE === 'Settings'}
 				<div class="mr-4">
-					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
-					   target="_blank">
-						<span class="fas fa-shopping-cart"></span>
+					<a class="btn btn-light mr-2 js-popover-tooltip" role="button" href="https://yetiforce.shop" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}" target="_blank">
+						<span class="fas fa-shopping-cart" title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</span>
 					</a>
-					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop/#support"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
-					   target="_blank">
-						<span class="far fa-life-ring"></span>
+					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop/#support" data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}" target="_blank">
+						<span class="far fa-life-ring" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}</span>
 					</a>
-					<a class="btn btn-light js-popover-tooltip"
-					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
-					   target="_blank">
-						<span class="fas fa-bug"></span>
+					<a class="btn btn-light js-popover-tooltip" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}" target="_blank">
+						<span class="fas fa-bug" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}</span>
 					</a>
 				</div>
 			{/if}
@@ -202,7 +192,7 @@
 					<div class="quickAction">
 						<a class="btn btn-light headerButton" href="#" role="button" aria-expanded="false"
 						   aria-controls="o-action-menu__container">
-							<span class="fas fa-ellipsis-h fa-fw"></span>
+							<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_ACTION_MENU')}</span>
 						</a>
 					</div>
@@ -211,10 +201,8 @@
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">
-						<a class="headerButton btn-light btn js-popover-tooltip dropdownMenu" data-js="popover"
-						   data-toggle="modal" data-target="#quickCreateModules" data-placement="bottom"
-						   data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="fas fa-plus fa-fw"></span>
+						<a class="headerButton btn-light btn js-popover-tooltip dropdownMenu" role="button" data-js="popover" data-toggle="modal" data-target="#quickCreateModules" data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+							<span class="fas fa-plus fa-fw" title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_QUICK_CREATE')}</span>
 						</a>
 						<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog"
@@ -242,12 +230,9 @@
 													<div class="row">
 												{/if}
 												<div class="col-md-4">
-													<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule"
-													   data-name="{$NAME}"
-													   data-url="{$MODULEMODEL->getQuickCreateUrl()}"
-													   href="javascript:void(0)"
-													   title="{\App\Language::translate($singularLabel,$NAME)}">
-														<span class="modCT_{$NAME} userIcon-{$NAME}"></span>
+													<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)">
+														<span class="modCT_{$NAME} userIcon-{$NAME}" title="{\App\Language::translate($singularLabel,$NAME)}"></span>
+														<span class="sr-only">{\App\Language::translate($singularLabel,$NAME)}</span>
 														<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 													</a>
 												</div>
@@ -263,7 +248,7 @@
 								</div>
 								<div class="modal-footer">
 									<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">
-										<span class="fas fa-times mr-1" aria-hidden="true"></span>
+										<span class="fas fa-times mr-1"></span>
 										<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 									</button>
 								</div>
@@ -274,9 +259,8 @@
 				{/if}
 				{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 					<div class="o-action-menu__item">
-						<a class="headerButton btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
-						   data-js="popover" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
-							<span class="fas fa-bell fa-fw" aria-hidden="true"></span>
+						<a class="headerButton btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" role="button" data-js="popover" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
+							<span class="fas fa-bell fa-fw" title="{\App\Language::translate('LBL_NOTIFICATIONS')}"></span>
 							<span class="badge badge-dark d-none">0</span>
 							<span class="sr-only">{\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 						</a>
@@ -284,9 +268,8 @@
 				{/if}
 				{if isset($CHAT_ENTRIES)}
 					<div class="o-action-menu__item">
-						<a class="headerButton btn btn-light btn headerLinkChat js-popover-tooltip" data-js="popover"
-						   data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fas fa-comments fa-fw" aria-hidden="true"></span>
+						<a class="headerButton btn btn-light btn headerLinkChat js-popover-tooltip" role="button" data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+							<span class="fas fa-comments fa-fw" title="{\App\Language::translate('LBL_CHAT')}"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_CHAT')}</span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog"
@@ -319,9 +302,8 @@
 				{/if}
 				{if $REMINDER_ACTIVE}
 					<div class="o-action-menu__item">
-						<a class="headerButton btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
-						   data-js="popover" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
-							<span class="fas fa-calendar fa-fw" aria-hidden="true"></span>
+						<a class="headerButton btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+							<span class="fas fa-calendar fa-fw" title="{\App\Language::translate('LBL_REMINDER')}"></span>
 							<span class="badge badge-danger d-none">0</span>
 							<span class="sr-only">{\App\Language::translate('LBL_REMINDER')}</span>
 						</a>
@@ -330,11 +312,8 @@
 				{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 					<div class="o-action-menu__item">
 						<div class="dropdown">
-							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu"
-							   id="showHistoryBtn" data-js="popover"
-							   data-toggle="dropdown" data-boundary="window"
-							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
-								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
+							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu" id="showHistoryBtn" data-js="popover" data-toggle="dropdown" data-boundary="window" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
+								<span class="fas fa-history fa-fw" title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
@@ -353,19 +332,17 @@
 							{assign var="HREF" value=$LINK}
 						{/if}
 						<div class="o-action-menu__item">
-							<a class="headerButton btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
-							   data-js="popover" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							<a class="headerButton btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
 									{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 									data-{$DATA_NAME}="{$DATA_VALUE}"
 								{/foreach}
 									{/if}>
 								{if $ICON}
-									<span class="{$ICON}"></span>
+									<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
 								{/if}
 								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
-										 title="{\App\Language::translate($TITLE,$MODULE)}"/>
+									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}"/>
 								{/if}
 								<span class="sr-only">{\App\Language::translate($TITLE,$MODULE)}</span>
 							</a>

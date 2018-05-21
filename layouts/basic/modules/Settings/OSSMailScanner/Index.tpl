@@ -10,7 +10,7 @@
 		<h4 class="alert-heading">{\App\Language::translate('OSSMailScanner', 'OSSMailScanner')} - {\App\Language::translate('Alert_active_cron', 'OSSMailScanner')}</h4>
 		<p>{\App\Language::translate('Alert_active_cron_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn btn-light" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-light" role="button" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -20,7 +20,7 @@
 		<h4 class="alert-heading">{\App\Language::translate('OSSMailScanner', 'OSSMailScanner')} - {\App\Language::translate('Alert_active_crontime', 'OSSMailScanner')}</h4>
 		<p>{\App\Language::translate('Alert_active_crontime_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn btn-light" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-light" role="button" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -40,8 +40,8 @@
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_module_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_module_desc', 'OSSMailScanner')}</p>
                 <p>
-                    <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
-                    <a class="btn btn-light" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
+                    <a class="btn btn-danger" role="button" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
+                    <a class="btn btn-light" role="button" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
                 </p>
             </div>	
         {/if}
@@ -50,7 +50,7 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn btn-light" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-light" role="button" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 			<table class="table tableRWD table-bordered">
@@ -224,7 +224,7 @@
 		</form>
     </div>
     <div class='editViewContainer tab-pane marginTop20' id="tab_record_numbering">
-        <div class="alert alert-info">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{\App\Language::translate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	
+        <div class="alert alert-info">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" role="button" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{\App\Language::translate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>
         <form id="EditView">
             <table class="table table-bordered">
                 <thead>
