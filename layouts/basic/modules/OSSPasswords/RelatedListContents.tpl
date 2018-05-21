@@ -37,7 +37,10 @@
 				{if $RELATED_MODULE->isQuickSearchEnabled()}
 					<tr>
 						<td>
-							<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+							<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+								<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
+							</a>
 						</td>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<td>
