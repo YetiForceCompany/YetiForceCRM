@@ -13,16 +13,12 @@ class Project_Gantt_View extends Vtiger_Index_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-
 		$mid = false;
 		if ($request->has('mid')) {
 			$mid = $request->getInteger('mid');
 		}
-
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
