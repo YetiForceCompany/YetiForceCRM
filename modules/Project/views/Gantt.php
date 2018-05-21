@@ -36,7 +36,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 		if (isset($_SESSION['lvs'][$moduleName]['entityState'])) {
 			$this->listViewModel->set('entityState', $_SESSION['lvs'][$moduleName]['entityState']);
 		}
-		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$viewer->assign('VIEWID', $this->viewName);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		if ($display) {
