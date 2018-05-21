@@ -3,13 +3,13 @@
  * Security config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $SECURITY_CONFIG = [
 	// Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.
 	'USER_ENCRYPT_PASSWORD_COST' => 10,
 	// Possible to reset the password while logging in (true/false)
-	'RESET_LOGIN_PASSWORD' => false,
+	'RESET_LOGIN_PASSWORD' => true,
 	// Show my preferences
 	'SHOW_MY_PREFERENCES' => true,
 	// Changing the settings by the user is possible true/false
@@ -52,8 +52,5 @@ $SECURITY_CONFIG = [
 	'HPKP_KEYS' => [],
 	// Content Security Policy
 	'CSP_ACTIVE' => true,
-	// List of allowed domains for fields with HTML support
 	'PURIFIER_ALLOWED_DOMAINS' => [],
-	// Lifetime session (in seconds)
-	'MAX_LIFETIME_SESSION' => 21600,
 ];

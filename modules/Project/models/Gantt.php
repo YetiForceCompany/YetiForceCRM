@@ -454,7 +454,7 @@ class Project_Gantt_Model extends App\Base
 	 *
 	 * @return array
 	 */
-	private function getPicklistValues()
+	public static function getPicklistValues()
 	{
 		$picklistsNames = [];
 		$picklists = [];
@@ -631,7 +631,7 @@ class Project_Gantt_Model extends App\Base
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
-		$response['picklists'] = $this->getPicklistValues();
+		$response['picklists'] = static::getPicklistValues();
 		$this->loaded = true;
 		return $response;
 	}
@@ -670,7 +670,7 @@ class Project_Gantt_Model extends App\Base
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
-		$response['picklists'] = $this->getPicklistValues();
+		$response['picklists'] = static::getPicklistValues();
 		$this->loaded = true;
 		return $response;
 	}

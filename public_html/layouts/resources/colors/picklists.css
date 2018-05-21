@@ -1,31 +1,31 @@
-.picklistCBr_Leads_leadstatus_PLL_PENDING { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_PENDING { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_PENDING { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_PENDING { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_TO_REALIZE { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_TO_REALIZE { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_IN_REALIZATION { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_IN_REALIZATION { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_IN_REALIZATION { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_IN_REALIZATION { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_INCORRECT { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_INCORRECT { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_INCORRECT { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_INCORRECT { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_LEAD_UNTAPPED { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_LEAD_UNTAPPED { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_LEAD_ACQUIRED { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8 !important; }
-.picklistCT_Leads_leadstatus_PLL_LEAD_ACQUIRED { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_PENDING { border-color: #4fafe3 !important; }
+.picklistCBg_Leads_leadstatus_PLL_PENDING { background: #4fafe3 !important; }
+.picklistCT_Leads_leadstatus_PLL_PENDING { color: #4fafe3 !important; }
+.picklistLb_Leads_leadstatus_PLL_PENDING { background: #4fafe3; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_TO_REALIZE { border-color: #fc9787 !important; }
+.picklistCBg_Leads_leadstatus_PLL_TO_REALIZE { background: #fc9787 !important; }
+.picklistCT_Leads_leadstatus_PLL_TO_REALIZE { color: #fc9787 !important; }
+.picklistLb_Leads_leadstatus_PLL_TO_REALIZE { background: #fc9787; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_IN_REALIZATION { border-color: #d6bbbe !important; }
+.picklistCBg_Leads_leadstatus_PLL_IN_REALIZATION { background: #d6bbbe !important; }
+.picklistCT_Leads_leadstatus_PLL_IN_REALIZATION { color: #d6bbbe !important; }
+.picklistLb_Leads_leadstatus_PLL_IN_REALIZATION { background: #d6bbbe; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { border-color: #6bd3d3 !important; }
+.picklistCBg_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #6bd3d3 !important; }
+.picklistCT_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { color: #6bd3d3 !important; }
+.picklistLb_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #6bd3d3; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_INCORRECT { border-color: #fded60 !important; }
+.picklistCBg_Leads_leadstatus_PLL_INCORRECT { background: #fded60 !important; }
+.picklistCT_Leads_leadstatus_PLL_INCORRECT { color: #fded60 !important; }
+.picklistLb_Leads_leadstatus_PLL_INCORRECT { background: #fded60; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_LEAD_UNTAPPED { border-color: #067435 !important; }
+.picklistCBg_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #067435 !important; }
+.picklistCT_Leads_leadstatus_PLL_LEAD_UNTAPPED { color: #067435 !important; }
+.picklistLb_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #067435; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_LEAD_ACQUIRED { border-color: #5384be !important; }
+.picklistCBg_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #5384be !important; }
+.picklistCT_Leads_leadstatus_PLL_LEAD_ACQUIRED { color: #5384be !important; }
+.picklistLb_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #5384be; padding: 2px 7px 3px 7px;}
 .picklistCBr_Calendar_activitytype_Call { border-color: #80B584 !important; }
 .picklistCBg_Calendar_activitytype_Call { background: #80B584 !important; }
 .picklistCT_Calendar_activitytype_Call { color: #80B584 !important; }
@@ -86,38 +86,70 @@
 .picklistCBg_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8 !important; }
 .picklistCT_HelpDesk_ticketpriorities_Urgent { color: 	#E6FAD8 !important; }
 .picklistLb_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_prospecting { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_prospecting { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_prospecting { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_prospecting { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_initiated { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_initiated { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_initiated { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_initiated { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_in_progress { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_in_progress { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_in_progress { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_in_progress { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_waiting_for_feedback { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_waiting_for_feedback { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_waiting_for_feedback { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_waiting_for_feedback { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_on_hold { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_on_hold { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_on_hold { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_on_hold { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_completed { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_completed { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_completed { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_completed { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_delivered { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_delivered { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_delivered { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_delivered { background: #E6FAD8; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_archived { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_archived { background: #E6FAD8 !important; }
-.picklistCT_Project_projectstatus_archived { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_archived { background: #E6FAD8; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectMilestone_projectmilestone_priority_PLL_LOW { border-color: #3ac4ff !important; }
+.picklistCBg_ProjectMilestone_projectmilestone_priority_PLL_LOW { background: #3ac4ff !important; }
+.picklistCT_ProjectMilestone_projectmilestone_priority_PLL_LOW { color: #3ac4ff !important; }
+.picklistLb_ProjectMilestone_projectmilestone_priority_PLL_LOW { background: #3ac4ff; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectMilestone_projectmilestone_priority_PLL_NORMAL { border-color: #a3ad35 !important; }
+.picklistCBg_ProjectMilestone_projectmilestone_priority_PLL_NORMAL { background: #a3ad35 !important; }
+.picklistCT_ProjectMilestone_projectmilestone_priority_PLL_NORMAL { color: #a3ad35 !important; }
+.picklistLb_ProjectMilestone_projectmilestone_priority_PLL_NORMAL { background: #a3ad35; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectMilestone_projectmilestone_priority_PLL_HIGH { border-color: #db1c1c !important; }
+.picklistCBg_ProjectMilestone_projectmilestone_priority_PLL_HIGH { background: #db1c1c !important; }
+.picklistCT_ProjectMilestone_projectmilestone_priority_PLL_HIGH { color: #db1c1c !important; }
+.picklistLb_ProjectMilestone_projectmilestone_priority_PLL_HIGH { background: #db1c1c; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectTask_projecttaskstatus_Open { border-color: #4998f5 !important; }
+.picklistCBg_ProjectTask_projecttaskstatus_Open { background: #4998f5 !important; }
+.picklistCT_ProjectTask_projecttaskstatus_Open { color: #4998f5 !important; }
+.picklistLb_ProjectTask_projecttaskstatus_Open { background: #4998f5; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectTask_projecttaskstatus_In_Progress { border-color: #e1f398 !important; }
+.picklistCBg_ProjectTask_projecttaskstatus_In_Progress { background: #e1f398 !important; }
+.picklistCT_ProjectTask_projecttaskstatus_In_Progress { color: #e1f398 !important; }
+.picklistLb_ProjectTask_projecttaskstatus_In_Progress { background: #e1f398; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectTask_projecttaskstatus_Completed { border-color: #29d11a !important; }
+.picklistCBg_ProjectTask_projecttaskstatus_Completed { background: #29d11a !important; }
+.picklistCT_ProjectTask_projecttaskstatus_Completed { color: #29d11a !important; }
+.picklistLb_ProjectTask_projecttaskstatus_Completed { background: #29d11a; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectTask_projecttaskstatus_Deferred { border-color: #97c3d6 !important; }
+.picklistCBg_ProjectTask_projecttaskstatus_Deferred { background: #97c3d6 !important; }
+.picklistCT_ProjectTask_projecttaskstatus_Deferred { color: #97c3d6 !important; }
+.picklistLb_ProjectTask_projecttaskstatus_Deferred { background: #97c3d6; padding: 2px 7px 3px 7px;}
+.picklistCBr_ProjectTask_projecttaskstatus_Cancelled { border-color: #fc9c9c !important; }
+.picklistCBg_ProjectTask_projecttaskstatus_Cancelled { background: #fc9c9c !important; }
+.picklistCT_ProjectTask_projecttaskstatus_Cancelled { color: #fc9c9c !important; }
+.picklistLb_ProjectTask_projecttaskstatus_Cancelled { background: #fc9c9c; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_prospecting { border-color: #32aade !important; }
+.picklistCBg_Project_projectstatus_prospecting { background: #32aade !important; }
+.picklistCT_Project_projectstatus_prospecting { color: #32aade !important; }
+.picklistLb_Project_projectstatus_prospecting { background: #32aade; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_initiated { border-color: #0075ff !important; }
+.picklistCBg_Project_projectstatus_initiated { background: #0075ff !important; }
+.picklistCT_Project_projectstatus_initiated { color: #0075ff !important; }
+.picklistLb_Project_projectstatus_initiated { background: #0075ff; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_in_progress { border-color: #ddf006 !important; }
+.picklistCBg_Project_projectstatus_in_progress { background: #ddf006 !important; }
+.picklistCT_Project_projectstatus_in_progress { color: #ddf006 !important; }
+.picklistLb_Project_projectstatus_in_progress { background: #ddf006; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_waiting_for_feedback { border-color: #ff0000 !important; }
+.picklistCBg_Project_projectstatus_waiting_for_feedback { background: #ff0000 !important; }
+.picklistCT_Project_projectstatus_waiting_for_feedback { color: #ff0000 !important; }
+.picklistLb_Project_projectstatus_waiting_for_feedback { background: #ff0000; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_on_hold { border-color: #4df7f7 !important; }
+.picklistCBg_Project_projectstatus_on_hold { background: #4df7f7 !important; }
+.picklistCT_Project_projectstatus_on_hold { color: #4df7f7 !important; }
+.picklistLb_Project_projectstatus_on_hold { background: #4df7f7; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_completed { border-color: #73a300 !important; }
+.picklistCBg_Project_projectstatus_completed { background: #73a300 !important; }
+.picklistCT_Project_projectstatus_completed { color: #73a300 !important; }
+.picklistLb_Project_projectstatus_completed { background: #73a300; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_delivered { border-color: #1ccc79 !important; }
+.picklistCBg_Project_projectstatus_delivered { background: #1ccc79 !important; }
+.picklistCT_Project_projectstatus_delivered { color: #1ccc79 !important; }
+.picklistLb_Project_projectstatus_delivered { background: #1ccc79; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_archived { border-color: #a259a8 !important; }
+.picklistCBg_Project_projectstatus_archived { background: #a259a8 !important; }
+.picklistCT_Project_projectstatus_archived { color: #a259a8 !important; }
+.picklistLb_Project_projectstatus_archived { background: #a259a8; padding: 2px 7px 3px 7px;}
 .picklistCBr_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { border-color: #EDC240 !important; }
 .picklistCBg_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { background: #EDC240 !important; }
 .picklistCT_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { color: #EDC240 !important; }

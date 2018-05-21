@@ -263,9 +263,9 @@ inputmask@^3.3.11:
   version "0.0.0"
   resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#04e426be92aed34f4e2f887031b558ed39460dc3"
 
-"jQueryGantt@https://github.com/robicch/jQueryGantt#master":
+"jQueryGantt@https://github.com/YetiForceCompany/jQueryGantt.git":
   version "0.0.0"
-  resolved "https://github.com/robicch/jQueryGantt#5ae79327423cf29102a0cf71c6d3bbcb8dc16b6b"
+  resolved "https://github.com/YetiForceCompany/jQueryGantt.git#5dae4f89fe8a5190fdabe9b3c0014d8a0b851bf3"
 
 jquery-hoverintent@^1.9.0:
   version "1.9.0"
