@@ -74,8 +74,8 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
-									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="fas fa-envelope fa-fw" aria-hidden="true"></span>
+									<a target="_blank" class="float-right" href="{$COMPOSE_URL}">
+										<span class="fas fa-envelope fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
 										<span class="sr-only">{\App\Language::translate('LBL_SEND_EMAIL')}</span>
 									</a>
 								{else}
@@ -103,28 +103,34 @@
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
 								<a class="float-right" href="#" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
-									<span class="fas fa-map-marker-alt fa-fw" aria-hidden="true"></span>
+									<span class="fas fa-map-marker-alt fa-fw" aria-hidden="true" title="{\App\Language::translate('LBL_MAP')}"></span>
 									<span class="sr-only">{\App\Language::translate('LBL_MAP')}</span>
 								</a>
 							{/if}
 						</div>
 					{/if}
-					<hr />
+					<hr/>
 					<div class="actionRow text-center" role="group">
-						<a class="btn btn-success btn-sm showModal" href="#" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-							<span class="fas fa-check" aria-hidden="true"></span>
+						<a class="btn btn-success btn-sm showModal" role="button" href="#"  data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+							<span class="fas fa-check" aria-hidden="true" title="{\App\Language::translate('LBL_SET_RECORD_STATUS')}"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_SET_RECORD_STATUS')}</span>
 						</a>
-						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="15m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="30m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="1h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="2h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="6h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="1d"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_DAYS', 'Events')}</span>1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="15m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>15{\App\Language::translate('LBL_M',$MODULE_NAME)}
+						</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="30m"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_MINS', 'Events')}</span>30{\App\Language::translate('LBL_M',$MODULE_NAME)}
+						</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="1h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>1{\App\Language::translate('LBL_H',$MODULE_NAME)}
+						</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="2h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>2{\App\Language::translate('LBL_H',$MODULE_NAME)}
+						</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="6h"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}</span>6{\App\Language::translate('LBL_H',$MODULE_NAME)}
+						</a>
+						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="1d"><span class="sr-only">{\App\Language::translate('LBL_REMAIND_DAYS', 'Events')}</span>1{\App\Language::translate('LBL_D',$MODULE_NAME)}
+						</a>
 					</div>
 				</div>
 			</div>
-		{foreachelse}
+			{foreachelse}
 			<div class="alert alert-info">
 				{\App\Language::translate('LBL_NO_CURRENT_ACTIVITIES',$MODULE_NAME)}
 			</div>

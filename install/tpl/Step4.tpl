@@ -154,7 +154,7 @@
 						</table>
 						<div class="form-buttom-nav fixed-bottom button-container p-1">
 							<div class="text-center">
-								<a class="btn btn-md btn-danger" href="Install.php">{\App\Language::translate('LBL_BACK', 'Install')}</a>
+								<a class="btn btn-md btn-danger" role="button" href="Install.php">{\App\Language::translate('LBL_BACK', 'Install')}</a>
 								<input type="button" class="btn btn-md btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step5">
 							</div>
 						</div>

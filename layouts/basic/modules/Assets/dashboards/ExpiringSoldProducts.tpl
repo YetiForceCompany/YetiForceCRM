@@ -9,22 +9,19 @@
 		<div class="col-md-4">
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
-					<a class="btn btn-light btn-sm"
-					   onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}');
-							   return false;" title="{\App\Language::translate('LBL_ADD_RECORD')}"
-					   alt="{\App\Language::translate('LBL_ADD_RECORD')}">
-						<i class='fas fa-plus' border='0'></i>
+					<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+						<span class="fas fa-plus" border="0" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_ADD_RECORD')}</span>
 					</a>
 				{/if}
-				<a class="btn btn-light btn-sm" href="javascript:void(0);" name="drefresh"
-				   data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data"
-				   title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}">
-					<i class="fas fa-sync-alt" hspace="2" border="0" align="absmiddle"></i>
+				<a class="btn btn-light btn-sm" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data" alt="{\App\Language::translate('LBL_REFRESH')}">
+					<span class="fas fa-sync-alt" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}"></span>
+					<span class="sr-only">{\App\Language::translate('LBL_REFRESH')}</span>
 				</a>
 				{if !$WIDGET->isDefault()}
-					<a class="btn btn-light btn-sm" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}"
-					   title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}">
-						<i class="fas fa-times" hspace="2" border="0" align="absmiddle"></i>
+					<a class="btn btn-light btn-sm" role="button" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}" alt="{\App\Language::translate('LBL_CLOSE')}">
+						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}"></span>
+						<span class="sr-only">{\App\Language::translate('LBL_CLOSE')}</span>
 					</a>
 				{/if}
 			</div>
