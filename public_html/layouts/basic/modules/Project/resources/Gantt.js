@@ -90,6 +90,7 @@ class GanttField {
 					<button id="j-gantt__resize-100-btn" class="button textual icon"><span class="teamworkIcon">R</span>
 					</button>
 					<span class="ganttButtonSeparator"></span>
+					<button id="j-gantt__front-filter" class="button textual icon"><span class="teamworkIcon">f</span></button>
 				</div>
 			</div>`;
 			}
@@ -330,10 +331,85 @@ class GanttField {
 	}
 
 	/**
+	 * Load active statuses for front filter
+	 * @param callback
+	 * @returns {$.deffered|Promise}
+	 */
+	loadStatuses(callback){
+		if(typeof this.statuses === 'undefined') {
+			return AppConnector.request({
+				module: 'Project',
+				action: 'Statuses',
+			}).then((response)=>{
+				return response.result;
+			});
+		}
+		let promise = $.Deferred();
+		promise.resolve(this.statuses);
+		return promise.promise();
+	}
+
+	/**
+	 * Open modal with status filters
+	 */
+	showFiltersModal(){
+		console.log(this.statuses);
+		const self = this;
+		const box = bootbox.dialog({
+			show:'false',
+			message: `<div class="j-gantt__filter-modal form" data-js="container">
+				<div class="form-group">
+					<label>${app.vtranslate("JS_PROJECT_STATUSES",'Project')}:</label>
+					<select class="select2 form-control" multiple>
+						${self.statuses.project.map((status)=>{
+							return `<option value="${status.value}">${status.name}</option>`;			
+						})}
+					</select>
+				</div>
+				<div class="form-group">
+				<label>${app.vtranslate("JS_MILESTONE_STATUSES", 'Project')}:</label>
+					<select class="select2 form-control" multiple>
+						${self.statuses.milestone.map((status) => {
+							return `<option value="${status.value}">${status.name}</option>`;			
+						})}
+					</select>
+				</div>
+				<div class="form-group">
+				<label>${app.vtranslate("JS_TASK_STATUSES", 'Project')}:</label>
+					<select class="select2 form-control" multiple>
+						${self.statuses.task.map((status) => {
+							return `<option value="${status.value}">${status.name}</option>`;			
+						})}
+					</select>
+				</div>
+			</div>`,
+			title: '<i class="fas fa-filter"></i> ' + app.vtranslate('JS_FILTER_BY_STATUSES','Project'),
+			buttons: {
+				success: {
+					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('JS_UPDATE_GANTT','Project'),
+					className: "btn-success",
+					callback: function () {
+						console.log('save')
+					}
+				},
+				danger: {
+					label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CANCEL'),
+					className: "btn-danger",
+					callback: function () {
+					}
+				}
+			}
+		});
+		App.Fields.Picklist.showSelect2ElementView($(box).find('.select2'));
+		box.show();
+	}
+
+	/**
 	 * Register events for gantt actions in current container
 	 */
 	registerEvents() {
 		const container = this.container;
+		const self = this;
 		$('#j-gantt__expand-all-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('expandAll.gantt');
@@ -375,6 +451,12 @@ class GanttField {
 			e.preventDefault();
 			container.trigger('fullScreen.gantt');
 		}.bind(this));
+		$('#j-gantt__front-filter', container).on('click',function(){
+			self.loadStatuses().then((statuses)=> {
+				self.statuses = statuses;
+				self.showFiltersModal();
+			});
+		});
 		$('[data-toggle="tooltip"]').tooltip();
 	}
 }
