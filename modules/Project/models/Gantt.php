@@ -579,8 +579,7 @@ class Project_Gantt_Model extends App\Base
 		$this->getStatusColors();
 		$response = ['tasks' => [], 'links' => []];
 		$queryGenerator = new App\QueryGenerator('Project');
-		$queryGenerator->setField('id');
-		$queryGenerator->setField('parentid');
+		$queryGenerator->setFields(['id', 'parentid']);
 		$queryGenerator->addNativeCondition(['vtiger_project.parentid' => 0]);
 		if ($viewName) {
 			$query = $queryGenerator->getCustomViewQueryById($viewName);
@@ -671,14 +670,7 @@ class Project_Gantt_Model extends App\Base
 	public function getGanttMilestones($projectIds)
 	{
 		$queryGenerator = new App\QueryGenerator('ProjectMilestone');
-		$queryGenerator->setField('id');
-		$queryGenerator->setField('parentid');
-		$queryGenerator->setField('projectid');
-		$queryGenerator->setField('projectmilestonename');
-		$queryGenerator->setField('projectmilestonedate');
-		$queryGenerator->setField('projectmilestone_no');
-		$queryGenerator->setField('projectmilestone_progress');
-		$queryGenerator->setField('projectmilestone_status');
+		$queryGenerator->setFields(['id', 'parentid', 'projectid', 'projectmilestonename', 'projectmilestonedate', 'projectmilestone_no', 'projectmilestone_progress', 'projectmilestone_status']);
 		$queryGenerator->addNativeCondition(['vtiger_projectmilestone.projectid' => $projectIds]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 
@@ -730,17 +722,7 @@ class Project_Gantt_Model extends App\Base
 	{
 		$taskTime = 0;
 		$queryGenerator = new App\QueryGenerator('ProjectTask');
-		$queryGenerator->setField('id');
-		$queryGenerator->setField('projectid');
-		$queryGenerator->setField('projecttaskname');
-		$queryGenerator->setField('parentid');
-		$queryGenerator->setField('projectmilestoneid');
-		$queryGenerator->setField('projecttaskprogress');
-		$queryGenerator->setField('projecttaskpriority');
-		$queryGenerator->setField('startdate');
-		$queryGenerator->setField('targetenddate');
-		$queryGenerator->setField('projecttask_no');
-		$queryGenerator->setField('projecttaskstatus');
+		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus']);
 		$queryGenerator->addNativeCondition(['vtiger_projecttask.projectid' => $projectIds]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 
