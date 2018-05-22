@@ -128,8 +128,8 @@
 				<span class="col-md-7 form-row">
 					<span class="col-md-3 col-form-label">&nbsp;</span>
 					<span class="col-md-9">
-						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailcc))}d-none{/if}" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
-						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailbcc))}d-none{/if}" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
+						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailcc))}d-none{/if}" role="button" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailbcc))}d-none{/if}" role="button" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
 					</span>
 				</span>
 			</div>

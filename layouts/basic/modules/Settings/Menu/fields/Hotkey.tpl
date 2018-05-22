@@ -6,12 +6,12 @@
 		<div class="input-group">
 			<input name="hotkey" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('hotkey')}{/if}" />
 			<div class="input-group-append">
-				<a class="btn btn-default testBtn" data-toggle="button">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
+				<a class="btn btn-default testBtn" role="button" data-toggle="button">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
 			</div>
 			<a class="input-group-append js-popover-tooltip" data-js="popover" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover"
 			   data-content="{\App\Language::translate('LBL_MORE_INFO', $QUALIFIED_MODULE)}">
 				<div class="input-group-text">
-					<i class="fas fa-info-circle"></i>
+					<span class="fas fa-info-circle"></span>
 				</div>
 			</a>
 		</div>

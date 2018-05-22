@@ -176,7 +176,7 @@
 							<span class="fas fa-arrow-circle-left mr-1"></span>
 							{App\Language::translate('LBL_BACK', 'Install')}
 						</a>
-						<button type="submit" class="btn btn-md btn-primary">
+						<button type="submit" role="button" class="btn btn-md btn-primary">
 							<span class="fas fa-arrow-circle-right mr-1"></span>
 							{App\Language::translate('LBL_NEXT', 'Install')}
 						</button>
