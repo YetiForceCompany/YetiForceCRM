@@ -20,11 +20,18 @@ class GanttField {
 	constructor(container, projectData) {
 		this.container = $(container);
 		this.projectData = projectData;
+		this.statuses = this.projectData.statuses;
 		this.filter = {
 			status: {
-				'Project': [],
-				'ProjectMilestone': [],
-				'ProjectTask': [],
+				'Project': this.statuses.Project.filter((status) => {
+					return !status.closing;
+				}).map(status=>Object.assign(status)),
+				'ProjectMilestone': this.statuses.ProjectMilestone.filter((status) => {
+					return !status.closing;
+				}).map(status => Object.assign(status)),
+				'ProjectTask': this.statuses.ProjectTask.filter((status) => {
+					return !status.closing;
+				}).map(status => Object.assign(status)),
 			},
 		};
 		this.registerLanguage();
@@ -119,7 +126,6 @@ class GanttField {
 			</tr>`;
 			}
 		});
-
 
 
 		this.ganttTemplateFunctions.push({
@@ -267,7 +273,7 @@ class GanttField {
 		let children = [];
 		current.children = current.children.map(task => task);
 		for (let task of current.children) {
-			if (task.module !== moduleName || statuses.indexOf(task.statusNormalized)>-1 || statuses.length === 0) {
+			if (task.module !== moduleName || statuses.map(status=>status.value).indexOf(task.statusNormalized) > -1 || statuses.length === 0) {
 				children.push(this.getBranchesWithStatus(moduleName, statuses, task));
 			}
 		}
@@ -310,7 +316,9 @@ class GanttField {
 		let newProjectData = Object.assign({}, projectData);
 		let tree = this.makeTree(this.normalizeStatuses(newProjectData.tasks));
 		for (let moduleName in this.filter.status) {
-			tree = this.getBranchesWithStatus(moduleName, this.filter.status[moduleName], tree);
+			if(this.filter.status.hasOwnProperty(moduleName)) {
+				tree = this.getBranchesWithStatus(moduleName, this.filter.status[moduleName], tree);
+			}
 		}
 		newProjectData.tasks = this.flattenTree(tree);
 		return newProjectData;
@@ -325,7 +333,7 @@ class GanttField {
 		this.gantt.init(this.container);
 		this.allTasks = this.projectData.tasks;
 		if (this.allTasks.length > 0) {
-			this.gantt.loadProject($.extend(true, {}, this.projectData));
+			this.gantt.loadProject($.extend(true, {}, this.filterProjectData(this.projectData)));
 			this.registerEvents();
 		}
 	}
@@ -340,26 +348,6 @@ class GanttField {
 	}
 
 	/**
-	 * Load active statuses for front filter
-	 *
-	 * @param callback
-	 * @returns {$.deffered|Promise}
-	 */
-	loadStatuses(callback) {
-		if (typeof this.statuses === 'undefined') {
-			return AppConnector.request({
-				module: 'Project',
-				action: 'Statuses',
-			}).then((response) => {
-				return response.result;
-			});
-		}
-		let promise = $.Deferred();
-		promise.resolve(this.statuses);
-		return promise.promise();
-	}
-
-	/**
 	 * Save filter and reload data.
 	 *
 	 * @param {Object} filterOptions
@@ -367,6 +355,21 @@ class GanttField {
 	saveFilter(filterOptions) {
 		this.filter = filterOptions;
 		this.reloadData(this.filterProjectData(this.projectData));
+	}
+
+	/**
+	 * Get status from value (object with other props)
+	 * @param {String} value
+	 * @param {String} moduleName
+	 * @returns {Object}
+	 */
+	getStatusFromValue(value, moduleName){
+		for(let status of this.statuses[moduleName]){
+			if(status.value === value){
+				return Object.assign({},status);
+			}
+		}
+		app.errorLog(`Status not found [${value}]`);
 	}
 
 	/**
@@ -380,25 +383,25 @@ class GanttField {
 				<div class="form-group">
 					<label>${app.vtranslate("JS_PROJECT_STATUSES", 'Project')}:</label>
 					<select class="select2 form-control" id="j-gantt__filter-project" multiple>
-						${self.statuses.project.map((status) => {
-							return `<option value="${status.value}" ${this.filter.status.Project.indexOf(status.value)>=0 ? 'selected' : ''}>${status.label}</option>`;
-						})}
+						${self.statuses.Project.map((status) => {
+				return `<option value="${status.value}" ${this.filter.status.Project.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
+			})}
 					</select>
 				</div>
 				<div class="form-group">
 				<label>${app.vtranslate("JS_MILESTONE_STATUSES", 'Project')}:</label>
 					<select class="select2 form-control" id="j-gantt__filter-milestone" multiple>
-						${self.statuses.milestone.map((status) => {
-							return `<option value="${status.value}" ${this.filter.status.ProjectMilestone.indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
-						})}
+						${self.statuses.ProjectMilestone.map((status) => {
+				return `<option value="${status.value}" ${this.filter.status.ProjectMilestone.map(status=>status.value).indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
+			})}
 					</select>
 				</div>
 				<div class="form-group">
 				<label>${app.vtranslate("JS_TASK_STATUSES", 'Project')}:</label>
 					<select class="select2 form-control" id="j-gantt__filter-task" multiple>
-						${self.statuses.task.map((status) => {
-							return `<option value="${status.value}" ${this.filter.status.ProjectTask.indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
-						})}
+						${self.statuses.ProjectTask.map((status) => {
+				return `<option value="${status.value}" ${this.filter.status.ProjectTask.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
+			})}
 					</select>
 				</div>
 			</div>`,
@@ -410,9 +413,15 @@ class GanttField {
 					callback: function () {
 						self.saveFilter({
 							status: {
-								Project: $('#j-gantt__filter-project', this).val(),
-								ProjectMilestone: $('#j-gantt__filter-milestone', this).val(),
-								ProjectTask: $('#j-gantt__filter-task', this).val(),
+								Project: $('#j-gantt__filter-project', this).val().map((status)=>{
+									return self.getStatusFromValue(status,'Project');
+								}),
+								ProjectMilestone: $('#j-gantt__filter-milestone', this).val().map((status) => {
+									return self.getStatusFromValue(status,'ProjectMilestone');
+								}),
+								ProjectTask: $('#j-gantt__filter-task', this).val().map((status) => {
+									return self.getStatusFromValue(status,'ProjectTask');
+								}),
 							}
 						});
 					}
@@ -478,10 +487,7 @@ class GanttField {
 		}.bind(this));
 		$('#j-gantt__front-filter', container).on('click', function (e) {
 			e.preventDefault();
-			self.loadStatuses().then((statuses) => {
-				self.statuses = statuses;
-				self.showFiltersModal();
-			});
+			self.showFiltersModal();
 		});
 		$('[data-toggle="tooltip"]').tooltip();
 	}
