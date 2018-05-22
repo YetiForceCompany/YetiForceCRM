@@ -110,7 +110,7 @@
 						</div>
 					{/if}
 					<hr/>
-					<div class="actionRow text-center" role="group">
+					<div class="actionRow text-center" role="toolbar">
 						<a class="btn btn-success btn-sm showModal" role="button" href="#"  data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 							<span class="fas fa-check" title="{\App\Language::translate('LBL_SET_RECORD_STATUS')}"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_SET_RECORD_STATUS')}</span>

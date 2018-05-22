@@ -135,15 +135,15 @@
 		<div class="o-navbar__right ml-auto d-inline-flex">
 			{if $PARENT_MODULE === 'Settings'}
 				<div class="mr-4">
-					<a class="btn btn-light mr-2 js-popover-tooltip" role="button" href="https://yetiforce.shop" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}" target="_blank">
+					<a class="btn btn-light headerButton js-popover-tooltip" role="button" href="https://yetiforce.shop" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}" target="_blank">
 						<span class="fas fa-shopping-cart" title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</span>
 					</a>
-					<a class="btn btn-light mr-2 js-popover-tooltip" href="https://yetiforce.shop/#support" data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}" target="_blank">
+					<a class="btn btn-light headerButton js-popover-tooltip" href="https://yetiforce.shop/#support" data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}" target="_blank">
 						<span class="far fa-life-ring" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}</span>
 					</a>
-					<a class="btn btn-light js-popover-tooltip" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}" target="_blank">
+					<a class="btn btn-light headerButton js-popover-tooltip" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}" target="_blank">
 						<span class="fas fa-bug" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}</span>
 					</a>
