@@ -32,7 +32,9 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 	},
 
 	registerGantt(){
+		console.log('registering on show')
 		app.event.on('gantt.view.shown',()=> {
+			console.log('gantt shown')
 			let gantt = new Vtiger_Gantt_Js();
 			gantt.registerEvents();
 		});
