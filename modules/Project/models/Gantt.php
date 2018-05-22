@@ -706,6 +706,7 @@ class Project_Gantt_Model extends App\Base
 			$milestone['projectmilestone_no'] = $row['projectmilestone_no'];
 			$milestone['assigned_user_id'] = $row['assigned_user_id'];
 			$milestone['assigned_user_name'] = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
+			$milestone['startIsMilestone'] = true;
 			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
 			if (empty($color)) {
 				$color = App\Colors::getRandomColor($row['projectmilestone_priority'] . '_status');
