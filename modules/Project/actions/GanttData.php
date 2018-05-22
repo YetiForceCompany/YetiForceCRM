@@ -21,20 +21,6 @@ class Project_GanttData_Action extends \App\Controller\Action
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		$ids = [];
-		// If in next process throws an exception, all sensitive data can leak (do not show error in prod env)
-		$gantt = new Project_Gantt_Model();
-		$data = $gantt->getAllData($request->getByType('viewname', 2));
-		if (!empty($data['tasks'])) {
-			foreach ($data['tasks'] as $task) {
-				$ids[] = $task['id'];
-			}
-		}
-		foreach ($ids as $id) {
-			if (!\App\Privilege::isPermitted($request->getModule(), '', $id)) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
-		}
 	}
 
 	/**
