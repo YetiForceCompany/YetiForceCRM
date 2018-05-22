@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafał Pośpiech <r.pospiech@yetiforce.com>
  */
-class Project_Statuses_Action extends \App\Controller\Action
+class Project_Statuses_Action extends Vtiger_BasicAjax_Action
 {
 	/**
 	 * Function to check permission.
@@ -18,23 +18,8 @@ class Project_Statuses_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$ids = [];
-		if ($request->has('projectId')) {
-			$ids = [$request->getByType('projectId', 2)];
-		} else {
-			// If in next process throws an exception, all sensitive data can leak (do not show error in prod env)
-			$gantt = new Project_Gantt_Model();
-			$data = $gantt->getAllData($request->getByType('viewname', 2));
-			if (!empty($data) && !empty($data['tasks'])) {
-				foreach ($data['tasks'] as $task) {
-					$ids[] = $task['id'];
-				}
-			}
-		}
-		foreach ($ids as $id) {
-			if (!\App\Privilege::isPermitted($request->getModule(), 'Gantt', $id)) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 	}
 
