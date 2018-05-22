@@ -713,6 +713,68 @@ $.Class("Vtiger_Header_Js", {
 		elem.scrollTop(0);
 		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
 	},
+	registerChat: function () {
+		const self = this;
+		var modal = $('.chatModal');
+		if (modal.length === 0) {
+			return;
+		}
+		var modalBody = modal.find('.modal-body');
+		app.showNewScrollbar(modalBody, {wheelPropagation: true});
+		$('.headerLinkChat').on('click', function (e) {
+			e.stopPropagation();
+			var remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
+			if (remindersNoticeContainer.hasClass('toggled')) {
+				remindersNoticeContainer.removeClass('toggled');
+			}
+			$('.actionMenu').removeClass('actionMenuOn');
+			$('.chatModal').modal({backdrop: false});
+		});
+		this.registerChatLoadItems(modal.data('timer'));
+		modal.find('.addMsg').on('click', function (e) {
+			var message = modal.find('.message').val();
+			clearTimeout(self.chatTimer);
+			AppConnector.request({
+				dataType: 'html',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'add',
+					message: message,
+					cid: $('.chatModal .chatItem').last().data('cid')
+				}
+			}).then(function (html) {
+				$('.chatModal .modal-body').append(html);
+				self.registerChatLoadItems(modal.data('timer'));
+			});
+			modal.find('.message').val('');
+		});
+	},
+	registerChatLoadItems: function (timer) {
+		const self = this;
+		var icon = $('.chatModal .modal-title .fa-comments');
+		this.chatTimer = setTimeout(function () {
+			icon.css('color', '#00e413');
+			slef.getChatItems();
+			slef.registerChatLoadItems(timer);
+			icon.css('color', '#000');
+		}, timer);
+	},
+	getChatItems: function () {
+		const self = this;
+		AppConnector.request({
+			module: 'Chat',
+			view: 'Entries',
+			mode: 'get',
+			cid: $('.chatModal .chatItem').last().data('cid')
+		}).then(function (html) {
+			if (html) {
+				$('.chatModal .modal-body').append(html);
+			}
+		}, function (error, err) {
+			clearTimeout(self.chatTimer);
+		});
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		const container = thisInstance.getContentsContainer(),
@@ -777,8 +839,10 @@ $.Class("Vtiger_Header_Js", {
 		}
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
-	},
+		thisInstance.registerChat();
+	}
 });
+
 $(document).ready(function () {
 	$(window).on('popstate', function (event) {
 		if (event.state) {
