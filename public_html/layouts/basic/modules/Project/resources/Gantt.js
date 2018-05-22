@@ -76,8 +76,6 @@ class GanttField {
 					<button id="j-gantt__zoom-out-btn" class="button textual icon " title="zoom out"><span class="teamworkIcon">)</span></button>
 					<button id="j-gantt__zoom-in-btn" class="button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="j-gantt__print-btn" class="button textual icon " title="Print"><span class="teamworkIcon">p</span></button>
-					<span class="ganttButtonSeparator"></span>
 					<button id="j-gantt__resize-0-btn" class="button textual icon"><span class="teamworkIcon">F</span>
 					</button>
 					<button id="j-gantt__resize-50-btn" class="button textual icon"><span class="teamworkIcon">O</span>
