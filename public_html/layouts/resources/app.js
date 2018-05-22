@@ -81,7 +81,7 @@ app = {
 	 * @returns {object}
 	 */
 	getWindowParent() {
-		if (typeof window.frames[0] !== "undefined" && window.frames[0].app.childFrame) {
+		if (typeof window.frames[0] !== "undefined" && typeof window.frames[0].app !== "undefined" && window.frames[0].app.childFrame) {
 			return window.frames[0];
 		} else {
 			return window;
@@ -252,6 +252,7 @@ app = {
 		if (window.parent !== window) {
 			this.childFrame = true;
 			window.parent.app.showModalWindow(data, url, cb, paramsObject);
+			return;
 		}
 		const thisInstance = this;
 		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);

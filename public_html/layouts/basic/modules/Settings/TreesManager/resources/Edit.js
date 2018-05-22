@@ -3,30 +3,30 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	jstreeInstance: false,
 	jstreeLastID: 0,
 	registerEvents: function () {
-		var thisInstance = this;
-		var editContainer = $("#EditView");
+		const thisInstance = this,
+			editContainer = $("#EditView"),
+			jstreeInstance = thisInstance.createTree();
 		editContainer.validationEngine();
-		var jstreeInstance = thisInstance.createTree();
 		$('.addNewElementBtn').on('click', function (e) {
-			var newElement = $('input.addNewElement');
-			if (newElement.val() == '') {
-				var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
+			const newElement = $('input.addNewElement'),
+				ref = jstreeInstance.jstree(true);
+			if (newElement.val() === '') {
+				const message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
 				newElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 				return false;
 			}
-			thisInstance.jstreeLastID = thisInstance.jstreeLastID + 1;
-			var ref = jstreeInstance.jstree(true),
-				sel = ref.get_selected();
+			thisInstance.jstreeLastID += 1;
 			ref.create_node('#', {
 				id: thisInstance.jstreeLastID,
 				text: newElement.val(),
+				icon: false
 			}, 'last');
-			$('input.addNewElement').val('');
+			newElement.val('');
 		});
 		$('.saveTree').on('click', function (e) {
-			jstreeInstance.jstree('deselect_all', true)
-			var json = jstreeInstance.jstree("get_json");
-			var forSave = [];
+			jstreeInstance.jstree('deselect_all', true);
+			const json = jstreeInstance.jstree("get_json");
+			let forSave = [];
 			$.each(json, function (index, value) {
 				if (value.text == value.li_attr.text) {
 					value.text = value.li_attr.key;
