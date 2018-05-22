@@ -574,7 +574,7 @@ class Project_Gantt_Model extends App\Base
 	 *
 	 * @return array
 	 */
-	public function getAllGanttProjects($viewName = null)
+	public function getAllData($viewName = null)
 	{
 		$this->getStatusColors();
 		$response = ['tasks' => [], 'links' => []];
@@ -629,7 +629,7 @@ class Project_Gantt_Model extends App\Base
 	 *
 	 * @return array
 	 */
-	public function getGanttProject($id)
+	public function getById($id)
 	{
 		$this->getStatusColors();
 		$response = ['tasks' => [], 'links' => []];

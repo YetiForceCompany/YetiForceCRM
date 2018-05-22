@@ -22,20 +22,16 @@ class Project_GanttData_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 		$ids = [];
-		if ($request->has('projectId')) {
-			$ids = [$request->getByType('projectId', 2)];
-		} else {
-			// If in next process throws an exception, all sensitive data can leak (do not show error in prod env)
-			$gantt = new Project_Gantt_Model();
-			$data = $gantt->getAllGanttProjects($request->getByType('viewname', 2));
-			if (!empty($data) && !empty($data['tasks'])) {
-				foreach ($data['tasks'] as $task) {
-					$ids[] = $task['id'];
-				}
+		// If in next process throws an exception, all sensitive data can leak (do not show error in prod env)
+		$gantt = new Project_Gantt_Model();
+		$data = $gantt->getAllData($request->getByType('viewname', 2));
+		if (!empty($data['tasks'])) {
+			foreach ($data['tasks'] as $task) {
+				$ids[] = $task['id'];
 			}
 		}
 		foreach ($ids as $id) {
-			if (!\App\Privilege::isPermitted($request->getModule(), 'Gantt', $id)) {
+			if (!\App\Privilege::isPermitted($request->getModule(), '', $id)) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
@@ -51,9 +47,9 @@ class Project_GanttData_Action extends \App\Controller\Action
 		$gantt = new Project_Gantt_Model();
 		$data = [];
 		if (!$request->has('projectId')) {
-			$data = $gantt->getAllGanttProjects($request->getByType('viewname', 2));
+			$data = $gantt->getAllData($request->getByType('viewname', 2));
 		} else {
-			$data = $gantt->getGanttProject($request->getByType('projectId'), $request->getByType('viewname', 2));
+			$data = $gantt->getById($request->getByType('projectId'), $request->getByType('viewname', 2));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($data);
