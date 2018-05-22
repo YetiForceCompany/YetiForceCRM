@@ -44,31 +44,19 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 
 			return;
 		}
-
-		$summary = $iTipMessage->message->VEVENT->SUMMARY;
-
+		$iTipMessage->message->VEVENT->SUMMARY;
 		if (parse_url($iTipMessage->sender, PHP_URL_SCHEME) !== 'mailto') {
 			return;
 		}
-
 		if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME) !== 'mailto') {
 			return;
 		}
-
-		$sender = substr($iTipMessage->sender, 7);
-		$recipient = substr($iTipMessage->recipient, 7);
-
 		if ($iTipMessage->senderName) {
-			$sender = $iTipMessage->senderName . ' <' . $sender . '>';
+			$iTipMessage->senderName . ' <' . substr($iTipMessage->sender, 7) . '>';
 		}
 		if ($iTipMessage->recipientName) {
-			$recipient = $iTipMessage->recipientName . ' <' . $recipient . '>';
+			$iTipMessage->recipientName . ' <' . substr($iTipMessage->recipient, 7) . '>';
 		}
-		$headers = [
-			'Reply-To: ' . $sender,
-			'From: ' . $this->senderEmail,
-			'Content-Type: text/calendar; charset=UTF-8; method=' . $iTipMessage->method,
-		];
 		$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via ' . $this->getPluginName();
 	}
 

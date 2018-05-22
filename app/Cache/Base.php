@@ -50,13 +50,12 @@ class Base
 	/**
 	 * Cache save.
 	 *
-	 * @param string       $key      Cache ID
-	 * @param string|array $value    Data to store
-	 * @param int          $duration Cache TTL (in seconds)
+	 * @param string       $key   Cache ID
+	 * @param string|array $value Data to store
 	 *
 	 * @return bool
 	 */
-	public function save($key, $value = null, $duration = false)
+	public function save($key, $value = null)
 	{
 		static::$cache[$key] = $value;
 
