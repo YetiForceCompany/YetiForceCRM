@@ -8,6 +8,7 @@
     "description": "Opis etapu",
     "Related to": "Projekt",
     "FL_PARENT_PROJECT_MILESTONE": "Etap nadrz\u0119dny",
+    "FL_STATUS": "Status",
     "LBL_MILESTONES_LIST": "Lista etap\u00f3w",
     "LBL_TASKS_LIST": "Lista zada\u0144",
     "LBL_PROJECTS_LIST": "Lista projekt\u00f3w",
@@ -18,6 +19,11 @@
     "PLL_SHARED": "Wsp\u00f3lny",
     "PLL_LOW": "Niski",
     "PLL_NORMAL": "Normalny",
-    "PLL_HIGH": "Wysoki"
+    "PLL_HIGH": "Wysoki",
+    "PLL_IN_PROGRESS": "W realizacji",
+    "PLL_OPEN": "Otwarty",
+    "PLL_COMPLETED": "Zako\u0144czony",
+    "PLL_DEFERRED": "Odroczony",
+    "PLL_CANCELLED": "Anulowany"
   }
 }

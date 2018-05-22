@@ -24,9 +24,9 @@
 					</button>
 				</div>
 			</div>
-			<div class="col-12 ml-2 mt-2">
+			<div class="col-12 ml-2 ml-sm-0 mt-2 form-row d-flex">
 				{if $SWITCH}
-					<div class="m-auto pb-2 pb-sm-0">
+					<div class="col-12 col-md-6 px-0 mb-2 mb-md-0 d-flex justify-content-center justify-content-md-start">
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-outline-primary active">
 								<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords" value="{$RELATED_PARENT_ID}" checked="">
@@ -43,7 +43,7 @@
 					</div>
 				{/if}
 				{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}
-					<div class="m-auto pb-2 pb-sm-0">
+					<div class="col-12 col-md-6 px-0 mb-2 mb-md-0 d-flex justify-content-center justify-content-md-start">
 						<button class="js-selected-rows btn btn-outline-secondary" data-js="click">
 							<strong>
 								<span class="fas fa-check mr-2"></span>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}
@@ -51,8 +51,8 @@
 						</button>
 					</div>
 				{/if}
-				<div class="m-auto">
-					<div class="js-pagination-container d-flex justify-content-center" data-js="container">
+				<div class="{if $MULTI_SELECT or $SWITCH} col-12 col-md-6 px-0 {else} m-auto {/if}">
+					<div class="js-pagination-container d-flex justify-content-center justify-content-md-end" data-js="container">
 						{include file=App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='recordsList'}
 					</div>
 				</div>

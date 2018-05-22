@@ -24,4 +24,12 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	{
 		return 'List/Field/Owner.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getReferenceModule($value)
+	{
+		return Vtiger_Module_Model::getInstance('Users');
+	}
 }

@@ -1270,7 +1270,6 @@ class TextParser
 		$encoding = \AppConfig::main('default_charset');
 		$config = \HTMLPurifier_Config::create(null);
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
-		$config->set('Core.LexerImpl', 'DirectLex');
 		$lexer = \HTMLPurifier_Lexer::create($config);
 		$tokens = $lexer->tokenizeHTML($html, $config, new \HTMLPurifier_Context());
 		$truncated = $openTokens = [];
@@ -1313,7 +1312,13 @@ class TextParser
 			}
 		}
 		$generator = new \HTMLPurifier_Generator($config, new \HTMLPurifier_Context());
-		return $generator->generateFromTokens($truncated) . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
+		$html = preg_replace_callback('/<*([A-Za-z_]\w*)\s\/>/', function ($matches) {
+			if (\in_array($matches[1], ['div'])) {
+				return "<{$matches[1]}></{$matches[1]}>";
+			}
+			return $matches[0];
+		}, $generator->generateFromTokens($truncated));
+		return $html . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
 	}
 
 	/**

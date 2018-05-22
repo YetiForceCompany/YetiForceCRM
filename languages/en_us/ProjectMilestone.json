@@ -5,6 +5,8 @@
     "LBL_PROJECTS_LIST": "Projects List",
     "LBL_TASKS_LIST": "Tasks List",
     "LBL_MILESTONES_LIST": "Milestones List",
+    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_STATUS": "Status",
     "description": "Description",
     "Related to": "Project",
     "Project Milestone Name": "Project Milestone Name",
@@ -17,6 +19,11 @@
     "PLL_SHARED": "Shared",
     "PLL_LOW": "Low",
     "PLL_NORMAL": "Normal",
-    "PLL_HIGH": "High"
+    "PLL_HIGH": "High",
+    "PLL_IN_PROGRESS": "In Progress",
+    "PLL_OPEN": "Open",
+    "PLL_COMPLETED": "Completed",
+    "PLL_DEFERRED": "Deferred",
+    "PLL_CANCELLED": "Cancelled"
   }
 }
