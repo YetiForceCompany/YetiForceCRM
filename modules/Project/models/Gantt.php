@@ -617,6 +617,7 @@ class Project_Gantt_Model extends App\Base
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
 		$response['picklists'] = static::getPicklistValues();
+		$response['statuses'] = static::getStatuses();
 		$this->loaded = true;
 		return $response;
 	}
@@ -656,6 +657,7 @@ class Project_Gantt_Model extends App\Base
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
 		$response['picklists'] = static::getPicklistValues();
+		$response['statuses'] = static::getStatuses();
 		$this->loaded = true;
 		return $response;
 	}
@@ -771,5 +773,42 @@ class Project_Gantt_Model extends App\Base
 		}
 		$dataReader->close();
 		return $tasks;
+	}
+
+	/**
+	 * Get statuses.
+	 *
+	 * @return array
+	 */
+	public static function getStatuses()
+	{
+		$data = [];
+		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
+		$projectClosing = [];
+		if (!empty($closingStatuses['Project']) && !empty($closingStatuses['Project']['status'])) {
+			$projectClosing = $closingStatuses['Project']['status'];
+		}
+		$milestoneClosing = [];
+		if (!empty($closingStatuses['ProjectMilestone']) && !empty($closingStatuses['ProjectMilestone']['status'])) {
+			$milestoneClosing = $closingStatuses['ProjectMilestone']['status'];
+		}
+		$taskClosing = [];
+		if (!empty($closingStatuses['ProjectTask']) && !empty($closingStatuses['ProjectTask']['status'])) {
+			$taskClosing = $closingStatuses['ProjectTask']['status'];
+		}
+		$allStatuses = self::getPicklistValues();
+		$data['Project'] = array_values(array_map(function ($status) use ($projectClosing) {
+			$status['closing'] = in_array($status['value'], $projectClosing);
+			return $status;
+		}, $allStatuses['Project']['projectstatus']));
+		$data['ProjectMilestone'] = array_values(array_map(function ($status) use ($milestoneClosing) {
+			$status['closing'] = in_array($status['value'], $milestoneClosing);
+			return $status;
+		}, $allStatuses['ProjectMilestone']['projectmilestone_status']));
+		$data['ProjectTask'] = array_values(array_map(function ($status) use ($taskClosing) {
+			$status['closing'] = in_array($status['value'], $taskClosing);
+			return $status;
+		}, $allStatuses['ProjectTask']['projecttaskstatus']));
+		return $data;
 	}
 }
