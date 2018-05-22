@@ -18,6 +18,9 @@ class Project_GanttData_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+		}
 		$ids = [];
 		if ($request->has('projectId')) {
 			$ids = [$request->getByType('projectId', 2)];
