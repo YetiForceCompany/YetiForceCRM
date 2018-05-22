@@ -20,19 +20,34 @@
 						<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
 					</div>
 				</div>
+				<hr>
 				<div class="row">
 					<div class="span12">
-						<div class="license">
-							<div class="lic-scroll">
-								{$LICENSE}
-							</div>
-						</div>
+						<p>
+							{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
+							<a target="_blank" rel="noreferrer"
+							   href="https://yetiforce.com/en/yetiforce/license">
+								https://yetiforce.com/en/yetiforce/license
+							</a><br/><br/>
+							{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span12">
+						<p class="license">{$LICENSE}</p>
 					</div>
 				</div>
 				<div class="form-buttom-nav fixed-bottom button-container p-1">
 					<div class="text-center">
-						<input name="back" type="button" class="btn btn-md btn-danger" value="{\App\Language::translate('LBL_DISAGREE', 'Install')}">
-						<input id="agree" type="submit" class="btn btn-md btn-primary" value="{\App\Language::translate('LBL_I_AGREE', 'Install')}">
+						<a class="btn btn-md btn-danger" href="Install.php">
+							<span class="fas fa-times-circle mr-1"></span>
+							{App\Language::translate('LBL_DISAGREE', 'Install')}
+						</a>
+						<button type="submit" class="btn btn-md btn-primary">
+							<span class="fas fa-check mr-1"></span>
+							{App\Language::translate('LBL_I_AGREE', 'Install')}
+						</button>
 					</div>
 				</div>
 			</form>

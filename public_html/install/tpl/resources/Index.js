@@ -33,7 +33,6 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('#recheck').on('click', function () {
 			window.location.reload();
 		});
-
 		jQuery('input[name="step4"]').on('click', function (e) {
 			var elements = jQuery('.no');
 			if (elements.length > 0) {
@@ -84,7 +83,7 @@ jQuery.Class('Install_Index_Js', {
 				if ('SELECT' == jQuery(formField).prop('tagName')) {
 					jQuery(formField).val(config[field]);
 					jQuery(formField).select2('destroy');
-					jQuery(formField).select2();
+					App.Fields.Picklist.showSelect2ElementView(jQuery(formField));
 				} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
 					if (true == config[field]) {
 						jQuery(formField).prop('checked', true);

@@ -80,7 +80,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'max_execution_time' => ['recommended' => '600', 'help' => 'LBL_MAX_EXECUTION_TIME_HELP_TEXT', 'fn' => 'validateGreater'],
 			'max_input_time' => ['recommended' => '600', 'help' => 'LBL_MAX_INPUT_TIME_HELP_TEXT', 'fn' => 'validateGreater'],
 			'default_socket_timeout' => ['recommended' => '600', 'help' => 'LBL_DEFAULT_SOCKET_TIMEOUT_HELP_TEXT', 'fn' => 'validateGreater'],
-			'memory_limit' => ['recommended' => '512 MB', 'help' => 'LBL_MEMORY_LIMIT_HELP_TEXT', 'fn' => 'validateGreaterMb'],
+			'memory_limit' => ['recommended' => '1 GB', 'help' => 'LBL_MEMORY_LIMIT_HELP_TEXT', 'fn' => 'validateGreaterMb'],
 			'log_errors' => ['recommended' => 'On', 'help' => 'LBL_LOG_ERRORS_HELP_TEXT', 'fn' => 'validateOnOff'],
 			'file_uploads' => ['recommended' => 'On', 'help' => 'LBL_FILE_UPLOADS_HELP_TEXT', 'fn' => 'validateOnOff'],
 			'short_open_tag' => ['recommended' => 'On', 'help' => 'LBL_SHORT_OPEN_TAG_HELP_TEXT', 'fn' => 'validateOnOff'],
@@ -252,12 +252,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = static::getFlag(false);
-			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') === false) {
+			if (ini_get('session.cookie_secure') != '0' || stripos(ini_get('session.cookie_secure'), 'Off') !== false) {
 				$directiveValues['session.cookie_secure']['current'] = static::getFlag(true);
 				$directiveValues['session.cookie_secure']['recommended'] = static::getFlag(false);
 				$directiveValues['session.cookie_secure']['status'] = true;
 			}
 		}
+
 		stream_context_set_default([
 			'ssl' => [
 				'verify_peer' => false,
@@ -674,11 +675,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function validateErrorReporting($row, $isCli)
 	{
 		$errorReporting = stripos($row['current'], '_') === false ? \App\ErrorHandler::error2string($row['current']) : $row['current'];
-		if (in_array('E_NOTICE', $errorReporting) || in_array('E_ALL', $errorReporting)) {
+		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $row['current']) {
+			$row['current'] = $row['recommended'];
+		} else {
 			$row['incorrect'] = true;
+			$row['current'] = implode(' | ', $errorReporting);
 		}
-		$row['current'] = implode(' | ', $errorReporting);
-
 		return $row;
 	}
 
