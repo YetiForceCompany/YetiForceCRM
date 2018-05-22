@@ -192,6 +192,8 @@ class Project_Gantt_Model extends App\Base
 		foreach ($this->tasks as &$task) {
 			if (!empty($task['projectstatus'])) {
 				$task['internal_status'] = App\Language::translate($task['projectstatus'], 'Project');
+			} elseif (!empty($task['projectmilestone_status'])) {
+				$task['internal_status'] = App\Language::translate($task['projectmilestone_status'], 'ProjectMilestone');
 			} elseif (!empty($task['projecttaskstatus'])) {
 				$task['internal_status'] = App\Language::translate($task['projecttaskstatus'], 'ProjectTask');
 			} else {
@@ -422,21 +424,6 @@ class Project_Gantt_Model extends App\Base
 	}
 
 	/**
-	 * Check if project was loaded.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return bool
-	 */
-	private function checkIfProjectWasLoaded()
-	{
-		if (!$this->loaded) {
-			throw new \App\Exceptions\AppException('LBL_PROJECT_NOT_LOADED');
-		}
-		return true;
-	}
-
-	/**
 	 * Collect all modules picklists colors to use in gantt bars.
 	 *
 	 * @return array
@@ -454,7 +441,7 @@ class Project_Gantt_Model extends App\Base
 	 *
 	 * @return array
 	 */
-	private function getPicklistValues()
+	public static function getPicklistValues()
 	{
 		$picklistsNames = [];
 		$picklists = [];
@@ -524,7 +511,6 @@ class Project_Gantt_Model extends App\Base
 			$color = App\Colors::getRandomColor($project['projectstatus'] . '_status');
 		}
 		$project['color'] = $color;
-
 		if (!empty($recordModel->get('startdate'))) {
 			$project['start_date'] = $recordModel->get('startdate');
 			$project['start'] = strtotime($project['start_date']) * 1000;
@@ -548,13 +534,13 @@ class Project_Gantt_Model extends App\Base
 	 */
 	private function getProjectChildren($id)
 	{
-		$childrenRows = (new \App\Db\Query())
-			->select(['projectid'])
-			->from('vtiger_project')
-			->where(['parentid' => (int) $id])
-			->createCommand()->query()->readAll();
+		$queryGenerator = new App\QueryGenerator('Project');
+		$queryGenerator->setField('id');
+		$queryGenerator->setField('parentid');
+		$queryGenerator->addNativeCondition(['parentid'=>(int) $id]);
+		$childrenRows = $queryGenerator->createQuery()->createCommand()->queryAll();
 		$childrenIds = array_map(function ($item) {
-			return $item['projectid'];
+			return $item['id'];
 		}, $childrenRows);
 		$children = [];
 		foreach ($childrenIds as $childrenId) {
@@ -595,7 +581,7 @@ class Project_Gantt_Model extends App\Base
 		$queryGenerator = new App\QueryGenerator('Project');
 		$queryGenerator->setField('id');
 		$queryGenerator->setField('parentid');
-		$queryGenerator->addNativeCondition(['vtiger_project.parentid'=>0]);
+		$queryGenerator->addNativeCondition(['vtiger_project.parentid' => 0]);
 		if ($viewName) {
 			$query = $queryGenerator->getCustomViewQueryById($viewName);
 		} else {
@@ -631,7 +617,7 @@ class Project_Gantt_Model extends App\Base
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
-		$response['picklists'] = $this->getPicklistValues();
+		$response['picklists'] = static::getPicklistValues();
 		$this->loaded = true;
 		return $response;
 	}
@@ -670,7 +656,7 @@ class Project_Gantt_Model extends App\Base
 		$response['canDelete'] = false;
 		$response['cantWriteOnParent'] = false;
 		$response['canAdd'] = false;
-		$response['picklists'] = $this->getPicklistValues();
+		$response['picklists'] = static::getPicklistValues();
 		$this->loaded = true;
 		return $response;
 	}
@@ -684,19 +670,18 @@ class Project_Gantt_Model extends App\Base
 	 */
 	public function getGanttMilestones($projectIds)
 	{
-		$dataReader = (new \App\Db\Query())
-			->select([
-				'id' => 'projectmilestoneid',
-				'projectid' => 'projectid',
-				'parentid' => 'parentid',
-				'projectmilestonename' => 'projectmilestonename',
-				'projectmilestonedate' => 'projectmilestonedate',
-				'projectmilestone_no' => 'projectmilestone_no',
-				'projectmilestone_progress' => 'projectmilestone_progress',
-			])
-			->from('vtiger_projectmilestone')
-			->where(['projectid' => $projectIds])
-			->createCommand()->query();
+		$queryGenerator = new App\QueryGenerator('ProjectMilestone');
+		$queryGenerator->setField('id');
+		$queryGenerator->setField('parentid');
+		$queryGenerator->setField('projectid');
+		$queryGenerator->setField('projectmilestonename');
+		$queryGenerator->setField('projectmilestonedate');
+		$queryGenerator->setField('projectmilestone_no');
+		$queryGenerator->setField('projectmilestone_progress');
+		$queryGenerator->setField('projectmilestone_status');
+		$queryGenerator->addNativeCondition(['vtiger_projectmilestone.projectid' => $projectIds]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+
 		$milestones = [];
 		while ($row = $dataReader->read()) {
 			$milestone = [];
@@ -716,6 +701,7 @@ class Project_Gantt_Model extends App\Base
 			$milestone['priority_label'] = \App\Language::translate($row['projectmilestone_priority'], 'ProjectMilestone');
 			$milestone['open'] = true;
 			$milestone['type'] = 'milestone';
+			$milestone['projectmilestone_status'] = $row['projectmilestone_status'];
 			$milestone['canWrite'] = false;
 			$milestone['canDelete'] = false;
 			$milestone['status'] = 'STATUS_ACTIVE';
@@ -743,23 +729,21 @@ class Project_Gantt_Model extends App\Base
 	public function getGanttTasks($projectIds)
 	{
 		$taskTime = 0;
-		$dataReader = (new \App\Db\Query())
-			->select([
-				'id' => 'projecttaskid',
-				'projectid' => 'projectid',
-				'projecttaskname' => 'projecttaskname',
-				'parentid' => 'parentid',
-				'projectmilestoneid' => 'projectmilestoneid',
-				'projecttaskprogress' => 'projecttaskprogress',
-				'projecttaskpriority' => 'projecttaskpriority',
-				'startdate' => 'startdate',
-				'targetenddate' => 'targetenddate',
-				'projecttask_no' => 'projecttask_no',
-				'projecttaskstatus' => 'projecttaskstatus'
-			])
-			->from('vtiger_projecttask')
-			->where(['projectid' => $projectIds])
-			->createCommand()->query();
+		$queryGenerator = new App\QueryGenerator('ProjectTask');
+		$queryGenerator->setField('id');
+		$queryGenerator->setField('projectid');
+		$queryGenerator->setField('projecttaskname');
+		$queryGenerator->setField('parentid');
+		$queryGenerator->setField('projectmilestoneid');
+		$queryGenerator->setField('projecttaskprogress');
+		$queryGenerator->setField('projecttaskpriority');
+		$queryGenerator->setField('startdate');
+		$queryGenerator->setField('targetenddate');
+		$queryGenerator->setField('projecttask_no');
+		$queryGenerator->setField('projecttaskstatus');
+		$queryGenerator->addNativeCondition(['vtiger_projecttask.projectid' => $projectIds]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+
 		$tasks = [];
 		while ($row = $dataReader->read()) {
 			$task = [];
