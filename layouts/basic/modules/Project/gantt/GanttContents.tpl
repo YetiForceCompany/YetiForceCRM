@@ -8,7 +8,9 @@
 {literal}
 	<script>
 		$(document).ready(function(){
-			app.event.trigger('gantt.view.shown');
+			setTimeout(()=>{ // wait for all events to end and trigger next one
+				app.event.trigger('gantt.view.shown');
+			},0);
 		});
 	</script>
 {/literal}
