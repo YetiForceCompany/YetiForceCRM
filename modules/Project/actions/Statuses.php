@@ -24,7 +24,7 @@ class Project_Statuses_Action extends \App\Controller\Action
 		} else {
 			// If in next process throws an exception, all sensitive data can leak (do not show error in prod env)
 			$gantt = new Project_Gantt_Model();
-			$data = $gantt->getAllGanttProjects($request->getByType('viewname', 2));
+			$data = $gantt->getAllData($request->getByType('viewname', 2));
 			if (!empty($data) && !empty($data['tasks'])) {
 				foreach ($data['tasks'] as $task) {
 					$ids[] = $task['id'];

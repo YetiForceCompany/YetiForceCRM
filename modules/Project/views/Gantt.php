@@ -62,7 +62,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$gantt = new Project_Gantt_Model();
-		$data = $gantt->getAllGanttProjects();
+		$data = $gantt->getAllData();
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		if ($request->has('view') && $request->getByType('view', 2) ==='Gantt') {
