@@ -4,7 +4,7 @@
  * Settings RealizationProcesses module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -16,10 +16,12 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	public static function getProjectStatus()
 	{
 		\App\Log::trace('Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...');
-		$return = \App\Fields\Picklist::getValuesName('projectstatus');
+		$project = \App\Fields\Picklist::getValuesName('projectstatus');
+		$milestone = \App\Fields\Picklist::getValuesName('projectmilestone_status');
+		$task = \App\Fields\Picklist::getValuesName('projecttaskstatus');
 		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...');
 
-		return $return;
+		return ['Project' => $project, 'ProjectMilestone' => $milestone, 'ProjectTask' => $task];
 	}
 
 	/**
@@ -41,6 +43,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 				$status = [$status];
 			}
 			$return[$moduleName]['status'] = $status;
+			$return[$moduleName]['id'] = $moduleId;
 		}
 		$dataReader->close();
 
@@ -59,9 +62,8 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 		\App\Log::trace('Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...');
 		\App\Db::getInstance()->createCommand()->update('vtiger_realization_process', [
 			'status_indicate_closing' => \App\Json::encode($status),
-			], ['module_id' => $moduleId])->execute();
+		], ['module_id' => $moduleId])->execute();
 		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...');
-
 		return true;
 	}
 }
