@@ -6,11 +6,8 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
-		<ul id="tabs" class="nav nav-tabs mt-1" data-tabs="tabs">
-			<li class="nav-item"><a class="nav-link active" href="#project_configuration" data-toggle="tab">{\App\Language::translate('LBL_PROJECT', $QUALIFIED_MODULE)} </a></li>
-		</ul>
-		<div class="tab-content">
-			<div class='editViewContainer tab-pane active' id="project_configuration">
+		<div class="mt-2">
+			<div class='editViewContainers' id="project_configuration">
 				<table class="table tableRWD table-bordered table-sm themeTableColor userTable">
 					<thead>
 						<tr class="blockHeader" >
