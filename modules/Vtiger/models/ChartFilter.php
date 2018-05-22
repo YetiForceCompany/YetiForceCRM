@@ -765,8 +765,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 						if (!isset($otherDividing[$groupValueKey])) {
 							$otherGroup[$groupValueKey] = [];
 						}
-						var_dump($groupValueKey);
-						exit();
 						if (!isset($otherDividing[$groupValueKey][$valueKey])) {
 							// if record doesn't have this value,
 							// doesn't have records with picklist value that other records have
