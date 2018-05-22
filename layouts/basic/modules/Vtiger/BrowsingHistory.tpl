@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<ul class="dropdown-menu historyList" aria-labelledby="showHistoryBtn">
+	<div class="dropdown-menu historyList" aria-labelledby="showHistoryBtn role="list">
 		{foreach item=HISTORY from=$BROWSING_HISTORY}
 			{if isset($HISTORY['viewToday'])}
 				<h6 class="dropdown-header selectorHistory">{\App\Language::translate('LBL_TODAY')}</h6>
@@ -9,7 +9,7 @@
 			{elseif isset($HISTORY['viewOlder'])}
 				<h6 class="dropdown-header selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</h6>
 			{/if}
-			<li class="item dropdown-item" href="{$HISTORY['url']}">
+			<a class="item dropdown-item" href="{$HISTORY['url']}" role="listitem">
 				{if $HISTORY['hour']}
 					<span class="historyHour">{$HISTORY['date']}</span>
 				{else}
@@ -17,9 +17,9 @@
 				{/if}
 				{" | "}
 				{$HISTORY['title']}
-			</li>
+			</a>
 		{/foreach}
 		<div class="dropdown-divider"></div>
-		<li class="dropdown-item clearHistory">{\App\Language::translate('LBL_CLEAR_HISTORY')}</li>
-	</ul>
+		<a class="dropdown-item clearHistory" href="#" onclick="app.clearBrowsingHistory();" role="listitem">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a>
+	</div>
 {/strip}

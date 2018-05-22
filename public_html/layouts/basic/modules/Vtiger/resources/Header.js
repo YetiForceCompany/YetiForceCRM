@@ -750,9 +750,6 @@ $.Class("Vtiger_Header_Js", {
 			}, 100);
 		});
 		thisInstance.basicSearch();
-		$('.bodyHeader .dropdownMenu').on("click", function (e) {
-			$(this).next('.dropdown-menu').toggle();
-		});
 		quickCreateModal.on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = $(e.currentTarget).data('name');
 			quickCreateModal.modal('hide');

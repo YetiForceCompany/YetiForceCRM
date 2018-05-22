@@ -211,7 +211,7 @@
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">
-						<a class="headerButton btn-light btn js-popover-tooltip dropdownMenu" data-js="popover"
+						<a class="headerButton btn-light btn js-popover-tooltip" data-js="popover"
 						   data-toggle="modal" data-target="#quickCreateModules" data-placement="bottom"
 						   data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 							<span class="fas fa-plus fa-fw"></span>
@@ -330,11 +330,12 @@
 				{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 					<div class="o-action-menu__item">
 						<div class="dropdown">
-							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu"
+							<a class="headerButton btn btn-light btn js-popover-tooltip dropdownMenu dropdown-toggle"
 							   id="showHistoryBtn" data-js="popover"
-							   data-toggle="dropdown" data-boundary="window"
-							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
-								<span class="fas fa-history fa-fw" aria-hidden="true"></span>
+							   data-toggle="dropdown"
+							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button"
+							   aria-haspopup="true" aria-expanded="false">
+								<span class="fas fa-history fa-fw"></span>
 								<span class="sr-only">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}

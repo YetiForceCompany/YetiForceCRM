@@ -72,6 +72,7 @@
 
 .remindersNoticeContainer,
 .remindersNotificationContainer {
+	visibility: hidden;
 	position: fixed;
 	right: -380px;
 	top: $headerHeight;
@@ -87,6 +88,7 @@
 	max-width: 100%;
 
 	&.toggled {
+		visibility: visible;
 		right: 0;
 	}
 }
