@@ -506,6 +506,8 @@ class Project_Gantt_Model extends App\Base
 		$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
 		$project['project_no'] = $recordModel->get('project_no');
 		$project['projectstatus'] = $recordModel->get('projectstatus');
+		$project['assigned_user_id']=$recordModel->get('assigned_user_id');
+		$project['assigned_user_name']=\App\Fields\Owner::getUserLabel($recordModel->get('assigned_user_id'));
 		$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
 		if (empty($color)) {
 			$color = App\Colors::getRandomColor($project['projectstatus'] . '_status');
@@ -672,7 +674,7 @@ class Project_Gantt_Model extends App\Base
 	public function getGanttMilestones($projectIds)
 	{
 		$queryGenerator = new App\QueryGenerator('ProjectMilestone');
-		$queryGenerator->setFields(['id', 'parentid', 'projectid', 'projectmilestonename', 'projectmilestonedate', 'projectmilestone_no', 'projectmilestone_progress', 'projectmilestone_status']);
+		$queryGenerator->setFields(['id', 'parentid', 'projectid', 'projectmilestonename', 'projectmilestonedate', 'projectmilestone_no', 'projectmilestone_progress', 'projectmilestone_status', 'assigned_user_id']);
 		$queryGenerator->addNativeCondition(['vtiger_projectmilestone.projectid' => $projectIds]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 
@@ -702,6 +704,8 @@ class Project_Gantt_Model extends App\Base
 			$milestone['cantWriteOnParent'] = false;
 			$milestone['canAdd'] = false;
 			$milestone['projectmilestone_no'] = $row['projectmilestone_no'];
+			$milestone['assigned_user_id'] = $row['assigned_user_id'];
+			$milestone['assigned_user_name'] = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
 			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
 			if (empty($color)) {
 				$color = App\Colors::getRandomColor($row['projectmilestone_priority'] . '_status');
@@ -724,7 +728,7 @@ class Project_Gantt_Model extends App\Base
 	{
 		$taskTime = 0;
 		$queryGenerator = new App\QueryGenerator('ProjectTask');
-		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus']);
+		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus', 'assigned_user_id']);
 		$queryGenerator->addNativeCondition(['vtiger_projecttask.projectid' => $projectIds]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 
@@ -753,7 +757,6 @@ class Project_Gantt_Model extends App\Base
 				$color = App\Colors::getRandomColor($row['projecttaskstatus'] . '_status');
 			}
 			$task['color'] = $color;
-
 			$task['start_date'] = date('d-m-Y', strtotime($row['startdate']));
 			$task['start'] = strtotime($row['startdate']) * 1000;
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
@@ -763,7 +766,8 @@ class Project_Gantt_Model extends App\Base
 			$eDate = new DateTime($task['end_date']);
 			$interval = $eDate->diff($sDate);
 			$task['duration'] = (int) $interval->format('%d');
-
+			$task['assigned_user_id'] = $row['assigned_user_id'];
+			$task['assigned_user_name'] = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
 			$task['open'] = true;
 			$task['type'] = 'task';
 			$task['module'] = 'ProjectTask';
