@@ -32,7 +32,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 		];
 
 		$parentModuleModel = $this->getModule();
-		if ($parentModuleModel->isTrackingEnabled()) {
+		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',

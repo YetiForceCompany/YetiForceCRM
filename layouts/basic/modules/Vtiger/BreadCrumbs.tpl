@@ -8,8 +8,8 @@
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
-			<ol  class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0" aria-label="breadcrumb">
-				<li class="breadcrumb-item" aria-current="page">
+			<ol  class="breadcrumb breadcrumbsContainer my-0 py-auto pl-2 pr-0">
+				<li class="breadcrumb-item">
 					<a href="{AppConfig::main('site_URL')}">
 						<span class="{$HOMEICON}" aria-hidden="true"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_HOME')}</span>

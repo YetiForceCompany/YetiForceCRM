@@ -526,7 +526,7 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerReminderNotice: function () {
 		var thisInstance = this;
-		$('#page').before('<div class="remindersNoticeContainer"></div>');
+		$('#page').before(`<div class="remindersNoticeContainer" tabindex="-1" role="dialog" aria-label="${app.vtranslate('JS_REMINDER')}" aria-hidden="true"></div>`);
 		var block = $('.remindersNoticeContainer');
 		var remindersNotice = $('.remindersNotice');
 		remindersNotice.on('click', function () {
@@ -542,7 +542,7 @@ $.Class("Vtiger_Header_Js", {
 	},
 	registerReminderNotification: function () {
 		var thisInstance = this;
-		$('#page').before('<div class="remindersNotificationContainer"></div>');
+		$('#page').before('<div class="remindersNotificationContainer" tabindex="-1" role="dialog"></div>');
 		var block = $('.remindersNotificationContainer');
 		var remindersNotice = $('.notificationsNotice');
 		remindersNotice.on('click', function () {

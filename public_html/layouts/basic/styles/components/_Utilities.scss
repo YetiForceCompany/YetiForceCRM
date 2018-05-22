@@ -1,33 +1,63 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@mixin u-transition($settings) {
+	-webkit-transition: $settings;
+	-moz-transition: $settings;
+	-ms-transition: $settings;
+	-o-transition: $settings;
+	transition: $settings;
+}
+
+@mixin u-box-shadow($settings) {
+	-moz-box-shadow: $settings;
+	-webkit-box-shadow: $settings;
+	box-shadow: $settings;
+}
 //--- TEXT ---//
 .u-text-small-bold {
 	@extend .small;
 	@extend .font-weight-bold;
 }
 
-.u-hover-bold:hover {
-	@extend .font-weight-bold;
-}
-
 .u-text-ellipsis {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
 	&:hover {
 		overflow: initial;
 	}
+
+	&.u-text-ellipsis--bg-white {
+		&:hover {
+			background: $white;
+			z-index: 1000000;
+			position: absolute;
+
+			@include u-box-shadow(2px 2px 10px $gray-400);
+		}
+	}
+}
+
+.u-text-underline {
+  text-decoration: underline;
+}
+
+.u-hover-bold:hover {
+  @extend .font-weight-bold;
 }
 
 .u-word-break-all {
 	word-break: break-all !important;
 }
+
 .u-font-size-95per {
 	font-size: 95% !important;
 }
+
 .u-font-size-100per {
 	font-size: 100% !important;
 }
+
 //--- MARGIN ---//
 .u-ml-0 {
 	margin-left: 0 !important;
@@ -58,17 +88,21 @@
 .u-mb-13px {
 	margin-bottom: 0.8rem !important;
 }
+
 .u-ml-minus-5px {
-  margin-left: -5px;
+	margin-left: -5px;
 }
+
 //--- PADDING ---//
 .u-p-1per {
 	padding: 1%;
 }
-.u-p-x-0px{
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+
+.u-p-x-0px {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
 }
+
 //--- WIDTH ---//
 .u-w-37per {
 	width: 37% !important;
@@ -81,20 +115,25 @@
 .u-w-max-320px {
 	max-width: 320px !important;
 }
+
 .u-w-1per-45px {
-  width: 1%;
-  min-width: 45px !important;
+	width: 1%;
+	min-width: 45px !important;
 }
+
 .u-w-3per-150px {
-  width: 3%;
-  min-width: 150px !important;
+	width: 3%;
+	min-width: 150px !important;
 }
-.u-w-85px{
-  width: 85px;
+
+.u-w-85px {
+	width: 85px;
 }
+
 .u-min-w-650px {
-  min-width: 650px !important;
+	min-width: 650px !important;
 }
+
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;
@@ -103,10 +142,12 @@
 .u-h-input-text {
 	height: $input-text-height;
 }
+
 //--- WHITE SPACE ---//
-.u-white-space-nowrap{
-  white-space: nowrap !important;
+.u-white-space-nowrap {
+	white-space: nowrap !important;
 }
+
 //--- BORDER ---//
 @media only screen and (max-width: 990px) {
 	.u-border-bottom-label-md {
@@ -131,6 +172,7 @@
 		border-bottom: none !important;
 	}
 }
+
 //--- BACKGROUND ---//
 .u-bg-twilight {
 	background-color: #404952 !important;
@@ -148,14 +190,6 @@
 
 .u-hide-underneath {
 	z-index: -1;
-}
-
-@mixin u-transition($settings) {
-	-webkit-transition: $settings;
-	-moz-transition: $settings;
-	-ms-transition: $settings;
-	-o-transition: $settings;
-	transition: $settings;
 }
 
 .u-white-space-n {
@@ -184,6 +218,7 @@
 		display: none;
 	}
 }
+
 //--- TABLE ---//
 .u-w-30per {
 	width: 30%;
@@ -200,4 +235,8 @@
 .u-disabled {
 	pointer-events: none;
 	opacity: 0.65;
+}
+
+.u-box-shadow {
+	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
 }
