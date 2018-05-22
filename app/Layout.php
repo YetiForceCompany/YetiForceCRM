@@ -117,4 +117,16 @@ class Layout
 	{
 		return \Vtiger_Viewer::getInstance()->getTemplatePath($templateName, $moduleName);
 	}
+
+	/**
+	 * Get unique id for HTML ids.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public static function getUniqueId($name = '')
+	{
+		return $name . mt_rand(100, 99999);
+	}
 }
