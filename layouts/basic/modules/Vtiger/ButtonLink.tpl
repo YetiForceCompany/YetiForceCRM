@@ -56,10 +56,8 @@
 															{/if}
 														{/if}
 														>
-														{if $LINK->get('linkimg') neq ''}
-															<img class="image-in-button" src="{$LINK->get('linkimg')}" title="{\App\Language::translate($LABEL, $BTN_MODULE)}">
-														{elseif $LINK->get('linkicon') neq ''}
-															<span class="{$LINK->get('linkicon')}"></span>
+														{if $LINK->get('linkicon') neq ''}
+															<span class="{$LINK->get('linkicon')}" title="{\App\Language::translate($LABEL, $BTN_MODULE)}"></span>
 														{/if}
 														{if $LABEL neq '' && $LINK->get('showLabel') == 1}
 															{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
