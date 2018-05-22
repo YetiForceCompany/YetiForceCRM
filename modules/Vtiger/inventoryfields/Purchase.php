@@ -15,6 +15,7 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'purchase';
 	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $summationValue = true;
+	protected $maximumLength = '99999999999999999999';
 
 	/**
 	 * Getting value to display.
@@ -37,6 +38,18 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$insertData[$column] = $request->getByType($column . $i, 'NumberInUserFormat');
+		$value = $request->getByType($column . $i, 'NumberInUserFormat');
+		$this->validate($value, $column, true);
+		$insertData[$column] = $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+		}
 	}
 }

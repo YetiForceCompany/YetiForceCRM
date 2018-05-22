@@ -3,6 +3,7 @@
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
 		<input name="{$FIELD->getColumnName()}{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" type="text" 
+			   data-maximumlength="{$FIELD->getRangeValues()}"
 			   data-validation-engine="validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]" 
 			   class="unitPrice smallInputBox form-control form-control-sm" list-info="" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 
