@@ -63,11 +63,14 @@
 					<tr>
 						<td class="listViewSearchTd" colspan="2">
 							<div class="flexWrapper">
-								<a class="btn btn-light" href="javascript:void(0);" data-trigger="listSearch">
-									<span class="fas fa-search"></span>
+								<a class="btn btn-light" role="button" href="javascript:void(0);" data-trigger="listSearch">
+									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
 								</a>
-								<a class="btn btn-light float-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List{$VIEW}" >
-									<span class="fas fa-times"></span>
+								<a class="btn btn-light float-right listRemoveBtn" role="button" href="index.php?module={$MODULE}&parent=Settings&view=List{$VIEW}" >
+									<span class="fas fa-times" title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_CLEAR_SEARCH')}</span>
+
 								</a>
 							</div>
 						</td>
@@ -115,16 +118,31 @@
 							{if $LISTVIEW_HEADER@last}
 								<div class="float-right actions">
 									<div class="actionImages flexWrapper">
-										<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="fas fa-retweet alignMiddle"></span></a>&nbsp;
-											{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-											<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle"></span></a>&nbsp;
+										<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
+											<span class="fas fa-retweet align-middle" title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
+											<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
+										</a>&nbsp;
+										{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
+											<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>
+												<span class="fas fa-edit align-middle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+												<span class="sr-only">{\App\Language::translate('LBL_EDIT', $MODULE)}</span>
+											</a>&nbsp;
 											{/if}
 											{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
 												{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
+												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton">
+													<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+													<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
+												</a>
 												{else}
-												<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_RESTORE', $MODULE)}" class="fas fa-sync-alt alignMiddle"></span></a>&nbsp;
-												<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
+												<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);">
+													<span class="fas fa-sync-alt align-middle" title="{\App\Language::translate('LBL_RESTORE', $MODULE)}"></span>
+													<span class="sr-only">{\App\Language::translate('LBL_RESTORE', $MODULE)}</span>
+												</a>&nbsp;
+												<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);">
+													<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+													<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
+												</a>
 												{/if}
 											{/if}
 									</div>

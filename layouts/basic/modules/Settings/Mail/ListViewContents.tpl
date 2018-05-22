@@ -38,7 +38,10 @@
 			<tbody>
 				<tr>
 					<td>
-						<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+						<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+							<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
+						</a>
 					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
 					{assign var="SMTP_NAMES" value=Settings_MailSmtp_Module_Model::getSmtpNames()}
@@ -113,6 +116,7 @@
 																																					event.stopPropagation();{rdelim} else{ldelim}
 																																								event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
 																																	<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+																																	<span class="sr-only">{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}</span>
 																																</a>
 																																{if !$RECORD_LINK@last}
 																																	&nbsp;
