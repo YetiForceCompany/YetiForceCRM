@@ -60,15 +60,15 @@ class Project_Statuses_Action extends \App\Controller\Action
 			$taskClosing = $closingStatuses['ProjectTask']['status'];
 		}
 		$allStatuses = Project_Gantt_Model::getPicklistValues();
-		$data['project'] = array_filter($allStatuses['Project']['projectstatus'], function ($status) use ($projectClosing) {
+		$data['project'] = array_values(array_filter($allStatuses['Project']['projectstatus'], function ($status) use ($projectClosing) {
 			return !in_array($status['value'], $projectClosing);
-		});
-		$data['milestone'] = array_filter($allStatuses['ProjectMilestone']['projectmilestone_status'], function ($status) use ($milestoneClosing) {
+		}));
+		$data['milestone'] = array_values(array_filter($allStatuses['ProjectMilestone']['projectmilestone_status'], function ($status) use ($milestoneClosing) {
 			return !in_array($status['value'], $milestoneClosing);
-		});
-		$data['task'] = array_filter($allStatuses['ProjectTask']['projecttaskstatus'], function ($status) use ($taskClosing) {
+		}));
+		$data['task'] = array_values(array_filter($allStatuses['ProjectTask']['projecttaskstatus'], function ($status) use ($taskClosing) {
 			return !in_array($status['value'], $taskClosing);
-		});
+		}));
 		$response = new Vtiger_Response();
 		$response->setResult($data);
 		$response->emit();

@@ -5,3 +5,10 @@
 		<div id="c-gantt__container" class="j-gantt" data-js="container"></div>
 	</div>
 {/strip}
+{literal}
+	<script>
+		$(document).ready(function(){
+			app.event.trigger('gantt.view.shown');
+		});
+	</script>
+{/literal}
