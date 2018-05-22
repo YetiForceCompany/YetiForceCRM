@@ -451,7 +451,8 @@ class GanttField {
 			e.preventDefault();
 			container.trigger('fullScreen.gantt');
 		}.bind(this));
-		$('#j-gantt__front-filter', container).on('click', function () {
+		$('#j-gantt__front-filter', container).on('click', function (e) {
+			e.preventDefault();
 			self.loadStatuses().then((statuses) => {
 				self.statuses = statuses;
 				self.showFiltersModal();
@@ -562,19 +563,18 @@ jQuery.Class("Vtiger_Gantt_Js", {
 		return jQuery('#customFilter').find('option:selected').data('id');
 	},
 	getGanttData(urlParams) {
-		var aDeferred = $.Deferred();
+		let aDeferred = $.Deferred();
 		if (typeof urlParams === "undefined") {
 			urlParams = {};
 		}
-		var thisInstance = this;
-		var progressIndicatorElement = $.progressIndicator({
+		const progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-		var defaultParams = this.getDefaultParams();
-		var urlParams = $.extend(defaultParams, urlParams);
+		let defaultParams = this.getDefaultParams();
+		urlParams = $.extend(defaultParams, urlParams);
 		AppConnector.request(urlParams).then(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			aDeferred.resolve(data);
@@ -598,6 +598,10 @@ jQuery.Class("Vtiger_Gantt_Js", {
 		}
 		this.gantt = App.Fields.Gantt.register(container, ganttData);
 	},
+	/**
+	 * reload gantt with new data
+	 * @param data
+	 */
 	reloadData(data) {
 		this.gantt.reloadData(data);
 	},
