@@ -53,7 +53,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
 		$viewer->view('gantt/ListViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

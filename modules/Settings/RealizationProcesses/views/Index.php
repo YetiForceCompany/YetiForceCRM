@@ -14,10 +14,10 @@ class Settings_RealizationProcesses_Index_View extends Settings_Vtiger_Index_Vie
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		$projectStatus = Settings_RealizationProcesses_Module_Model::getProjectStatus();
+		$projectStatuses = Settings_RealizationProcesses_Module_Model::getProjectStatus();
 		$statusNotModify = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
 		$viewer->assign('STATUS_NOT_MODIFY', $statusNotModify);
-		$viewer->assign('PROJECT_STATUS', $projectStatus);
+		$viewer->assign('PROJECT_STATUS', $projectStatuses);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
 		$viewer->view('Index.tpl', $qualifiedModule);
