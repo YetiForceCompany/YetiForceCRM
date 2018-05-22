@@ -10,6 +10,7 @@ class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_I
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('save');
 	}
 
