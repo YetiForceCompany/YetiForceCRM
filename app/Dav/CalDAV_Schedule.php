@@ -44,7 +44,6 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 
 			return;
 		}
-		$iTipMessage->message->VEVENT->SUMMARY;
 		if (parse_url($iTipMessage->sender, PHP_URL_SCHEME) !== 'mailto') {
 			return;
 		}
