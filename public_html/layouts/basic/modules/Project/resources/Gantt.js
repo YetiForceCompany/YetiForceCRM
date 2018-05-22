@@ -187,6 +187,31 @@ class GanttField {
 			</tr>`;
 			}
 		});
+		// must be declared but for now not needed
+		this.ganttTemplateFunctions.push({
+			type: "TASKEDITHEAD",
+			render(obj) {
+				return ``;
+			}
+		});
+		this.ganttTemplateFunctions.push({
+			type: "TASK_EDITOR",
+			render(obj) {
+				return ``;
+			}
+		});
+		this.ganttTemplateFunctions.push({
+			type: "RESOURCE_EDITOR",
+			render(obj) {
+				return ``;
+			}
+		});
+		this.ganttTemplateFunctions.push({
+			type: "RESOURCE_EDITOR",
+			render(obj) {
+				return ``;
+			}
+		});
 	}
 
 	/**
