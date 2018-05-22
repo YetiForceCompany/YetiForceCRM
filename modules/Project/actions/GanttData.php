@@ -31,7 +31,6 @@ class Project_GanttData_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$gantt = new Project_Gantt_Model();
-		$data = [];
 		if (!$request->has('projectId')) {
 			$data = $gantt->getAllData($request->getByType('viewname', 2));
 		} else {
