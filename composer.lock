@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b1a1227e776a0fbdd216afc9677591a",
+    "content-hash": "5eb57d892ed1725a5cb1769b997a4959",
     "packages": [
         {
             "name": "ckeditor/ckeditor",
@@ -1910,16 +1910,16 @@
         },
         {
             "name": "yetiforce/csrf-magic",
-            "version": "v1.0.7",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/csrf-magic.git",
-                "reference": "abd5b1464424586f2494936b2404fd2e32e19434"
+                "reference": "3effa536766a0c159f50a0dde777264b7088cb94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/abd5b1464424586f2494936b2404fd2e32e19434",
-                "reference": "abd5b1464424586f2494936b2404fd2e32e19434",
+                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/3effa536766a0c159f50a0dde777264b7088cb94",
+                "reference": "3effa536766a0c159f50a0dde777264b7088cb94",
                 "shasum": ""
             },
             "type": "library",
@@ -1951,7 +1951,7 @@
                 "php",
                 "security"
             ],
-            "time": "2018-03-28T07:11:48+00:00"
+            "time": "2018-05-23T20:17:08+00:00"
         },
         {
             "name": "yetiforce/debugbar",
