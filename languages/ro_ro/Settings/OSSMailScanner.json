@@ -2,8 +2,8 @@
   "php": {
     "LBL_PAGE_NUMBER": "Go to page number",
     "OSSMailScanner_manual": "Mail Scanner",
-    "OSSMailScanner": "Mail Scanner",
-    "Mail Scanner": "Mail \u2013 Scanner",
+    "OSSMailScanner": "Scaner Mail",
+    "Mail Scanner": "Scaner \u2013 Mail",
     "LBL_VIEW_LOGS": "Mail protocol",
     "CRM Archive": "CRM archive",
     "CRM Archive Sent": "CRM archive sent",

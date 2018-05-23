@@ -1,6 +1,6 @@
 {
   "php": {
-    "FL_PROVIDER": "Provider",
+    "FL_PROVIDER": "Furnizor",
     "FL_STATUS": "Status",
     "FL_SMSAPI_FROM": "Message type",
     "FL_API_KEY": "Api key",

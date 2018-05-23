@@ -1,6 +1,6 @@
 {
   "php": {
-    "LBL_SALES_PROCESSES": "Sales",
+    "LBL_SALES_PROCESSES": "Vanzari",
     "LBL_SALES_PROCESSES_DESCRIPTION": " ",
     "LBL_LIMIT_PRODUCT_AND_SERVICE": "Limit the choice of products\/services only to the ones related to currently selected Opportunity. Applies to modules: Quote Enquiries, Sales requirements, Calculations, Quotes, Purchase Orders, Recurring Sales Orders.",
     "LBL_PRODUCTS_AND_SERVICES_POPUP": "Products and Services selection list",
