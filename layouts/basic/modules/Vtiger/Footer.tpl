@@ -59,7 +59,7 @@
 				<div class="float-right p-1">
 					<ul class="pagination">
 						<li class="page-item">
-							<a class="mr-2" href="https://yetiforce.shop" rel="noreferrer">
+							<a class="page-link-right mr-2" href="https://yetiforce.shop" rel="noreferrer">
 								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 							</a>
 						</li>
