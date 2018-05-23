@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SystemWarnings\SystemRequirements;
+namespace App\SystemWarnings\Security;
 
 /**
  * Https system warnings class.
