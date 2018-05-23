@@ -66,4 +66,12 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 
 		return \App\Purifier::encodeHtml($value);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
+	}
 }

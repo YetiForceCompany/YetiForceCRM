@@ -30,4 +30,12 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 	{
 		return false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return null;
+	}
 }

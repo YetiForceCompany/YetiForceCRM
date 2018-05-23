@@ -1651,6 +1651,7 @@
     "JS_INVALID_FILE_TYPE": "Tipo de archivo inv\u00e1lido",
     "JS_AVAILABLE_FILE_TYPES": "Tipo de archivo disponible",
     "JS_FILE_LIMIT": "Superado el l\u00edmite de archivos",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Espere a que se suban los archivos"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Espere a que se suban los archivos",
+	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range"
   }
 }

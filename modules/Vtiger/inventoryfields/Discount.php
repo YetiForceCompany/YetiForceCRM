@@ -18,6 +18,10 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		'discountparam' => 'string',
 	];
 	protected $summationValue = true;
+	protected $maximumLength = '99999999999999999999';
+	protected $customMaximumLength = [
+		'discountparam' => 255
+	];
 
 	/**
 	 * Getting value to display.
@@ -40,7 +44,27 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$insertData[$column] = $request->getByType($column . $i, 'NumberInUserFormat');
-		$insertData['discountparam'] = \App\Json::encode($request->getArray('discountparam' . $i));
+		$value = $request->getByType($column . $i, 'NumberInUserFormat');
+		$this->validate($value, $column, true);
+		$insertData[$column] = $value;
+		$value = \App\Json::encode($request->getArray('discountparam' . $i));
+		$this->validate($value, 'discountparam', true);
+		$insertData['discountparam'] = $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if ($columnName === $this->getColumnName()) {
+			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
+				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+		} else {
+			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+		}
 	}
 }

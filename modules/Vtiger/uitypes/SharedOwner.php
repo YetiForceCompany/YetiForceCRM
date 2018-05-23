@@ -33,9 +33,17 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (!is_array($value)) {
 			settype($value, 'array');
 		}
+		$rangeValues = null;
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength) {
+			$rangeValues = explode(',', $maximumLength);
+		}
 		foreach ($value as $shownerid) {
 			if (!is_numeric($shownerid)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $shownerid, 406);
+			}
+			if ($rangeValues && (($rangeValues[1] ?? $rangeValues[0]) < $shownerid || (isset($rangeValues[1]) ? $rangeValues[0] : 0) > $shownerid)) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $shownerid, 406);
 			}
 		}
 		$this->validate = true;
@@ -221,5 +229,13 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	public function isListviewSortable()
 	{
 		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRangeValues()
+	{
+		return '65535';
 	}
 }
