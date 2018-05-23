@@ -1267,6 +1267,7 @@
     "LBL_FULLTEXT_BEGIN": "cuvantul incepe cu",
     "LBL_FULLTEXT_WORD": "Cuvant",
     "LBL_ADVANCED_SEARCH": "Cautare avansata",
+    "LBL_MERGING": "Imbinare inregistrari",
     "BTN_PERMISSION_INSPECTOR": "Inspector permisiuni",
     "_Base": "Sistem"
   },
