@@ -29,6 +29,9 @@ class ModTracker_ModTrackerHandler_Handler
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
+		} elseif (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
+			$delta = $recordModel->getPreviousValue();
+			$status = $recordModel->ext['modificationType'];
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			$status = ModTracker::$UPDATED;
@@ -46,7 +49,7 @@ class ModTracker_ModTrackerHandler_Handler
 			'whodid' => App\User::getCurrentUserRealId(),
 			'changedon' => $recordModel->get('modifiedtime'),
 			'status' => $status,
-			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#',
+			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 		if (!$recordModel->isNew()) {
@@ -121,6 +124,36 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
+	 * EntityAfterTransferLink handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 *
+	 * @return bool
+	 */
+	public function entityAfterTransferLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		if (!ModTracker::isTrackingEnabledForModule($params['destinationModule'])) {
+			return false;
+		}
+		ModTracker::transferRelation($eventHandler->getModuleName(), $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId'], ModTracker::$TRANSFER_LINK);
+	}
+
+	/**
+	 * @param App\EventHandler $eventHandler
+	 *
+	 * @return bool
+	 */
+	public function entityAfterTransferUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		if (!ModTracker::isTrackingEnabledForModule($params['destinationModule'])) {
+			return false;
+		}
+		ModTracker::transferRelation($eventHandler->getModuleName(), $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId'], ModTracker::$TRANSFER_UNLINK);
+	}
+
+	/**
 	 * DetailViewBefore handler function.
 	 *
 	 * @param App\EventHandler $eventHandler
@@ -153,16 +186,20 @@ class ModTracker_ModTrackerHandler_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		$recordId = $recordModel->getId();
 		$status = 0;
-		switch ($recordModel->get('deleted')) {
-			case 'Active':
-				$status = ModTracker::$ACTIVE;
-				break;
-			case 'Trash':
-				$status = ModTracker::$TRASH;
-				break;
-			case 'Archived':
-				$status = ModTracker::$ARCHIVED;
-				break;
+		if (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
+			$status = $recordModel->ext['modificationType'];
+		} else {
+			switch ($recordModel->get('deleted')) {
+				case 'Active':
+					$status = ModTracker::$ACTIVE;
+					break;
+				case 'Trash':
+					$status = ModTracker::$TRASH;
+					break;
+				case 'Archived':
+					$status = ModTracker::$ARCHIVED;
+					break;
+			}
 		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
@@ -171,7 +208,7 @@ class ModTracker_ModTrackerHandler_Handler
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
 			'status' => $status,
-			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#',
+			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 		ModTracker_Record_Model::unsetReviewed($recordId, \App\User::getCurrentUserRealId(), $id);

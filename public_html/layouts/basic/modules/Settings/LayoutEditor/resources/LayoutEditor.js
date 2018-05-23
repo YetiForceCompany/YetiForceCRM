@@ -603,9 +603,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
-				var select2params = {tags: [], tokenSeparators: [","]}
-				App.Fields.Picklist.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
-
+				App.Fields.Picklist.showSelect2ElementView(form.find('[name="pickListValues"]'), {
+					tags: true,
+					tokenSeparators: [","]
+				});
 				thisInstance.registerFieldTypeChangeEvent(form);
 				thisInstance.registerTableTypeChangeEvent(form);
 				thisInstance.registerMultiReferenceFieldsChangeEvent(form);
@@ -618,7 +619,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						var fieldNameValue = $('[name="fieldName"]', form).val();
 
 						if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-							var pickListValueElement = $('#picklistUi', form);
+							var pickListValueElement = $('#pickListValues', form);
 							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
 							var specialChars = /["]/;
@@ -2167,9 +2168,9 @@ Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js", {
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation: function (field, rules, i, options) {
-		var instance = new Vtiger_PicklistFieldValues_Validator_Js();
+		let instance = new Vtiger_PicklistFieldValues_Validator_Js();
 		instance.setElement(field);
-		var response = instance.validate();
+		let response = instance.validate();
 		if (response != true) {
 			return instance.getError();
 		}
@@ -2182,16 +2183,17 @@ Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate: function () {
-		var fieldValue = this.getFieldValue();
-		return this.validateValue(fieldValue);
+		return this.validateValue(this.getElement().val());
 	},
 	validateValue: function (fieldValue) {
-		var specialChars = /[<\>\"\,#]/;
-		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < >" + app.vtranslate('JS_NOT_ALLOWED');
-			this.setError(errorInfo);
-			return false;
-		}
-		return true;
+		let specialChars = /[\<\>\"\,\#]/;
+		let r = true;
+		$.each(fieldValue, (i, val) => {
+			if (specialChars.test(val)) {
+				this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , # " + app.vtranslate('JS_NOT_ALLOWED'));
+				r = false;
+			}
+		});
+		return r;
 	}
 });

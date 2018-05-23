@@ -61,7 +61,9 @@
     "LBL_BROWSING_HISTORY": "Usuwanie historii ostatnio przegl\u0105danych stron",
     "LBK_SYSTEM_WARNINGS": "Powiadomienia z ostrze\u017ceniami systemowymi",
     "LBL_BATCH_PROCESSES": "Procesy wsadowe do obs\u0142ugi d\u0142ugo trwaj\u0105cych akcji",
-    "LBL_BATCH_METHODS": "Systemowe metody wsadowe"
+    "LBL_BATCH_METHODS": "Systemowe metody wsadowe",
+    "LBL_CLEAR_FILE_UPLOAD_TEMP": "Czyszczenie katalogu plik\u00f3w tymczasowych",
+    "LBL_SESSION_CLEANER": "Czyszczenie nieaktywnych sesji"
   },
   "js": {
     "Recommended frequency for Scheduled Import is 15 mins": "Zalecana cz\u0119stotliwo\u015b\u0107 dla Planowanego Importu to 15 minut.",

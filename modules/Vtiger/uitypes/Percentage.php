@@ -29,6 +29,13 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 		if ($value < 0) {
 			throw new \App\Exceptions\Security('ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength) {
+			$rangeValues = explode(',', $maximumLength);
+			if (($rangeValues[1] ?? $rangeValues[0]) < $value) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			}
+		}
 		$this->validate = true;
 	}
 
@@ -46,5 +53,13 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Percentage.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['decimal'];
 	}
 }

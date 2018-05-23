@@ -160,4 +160,12 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return null;
+	}
 }

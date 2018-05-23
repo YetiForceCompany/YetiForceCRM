@@ -35,7 +35,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 			return false;
 		}
 		$value = $request->getForHtml($column . $i);
-		$this->validate($value, $column . $i, true);
+		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}
 

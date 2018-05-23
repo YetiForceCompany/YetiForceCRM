@@ -11,11 +11,10 @@
 
 class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
 	 * @var string[] Base module tools.
 	 */
-	public static $baseModuleTools = ['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
+	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
 		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates'];
@@ -63,7 +62,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	{
 		return ['ModTracker', 'Portal', 'Users', 'Integration',
 			'ConfigEditor', 'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip',
-			'Home',];
+			'Home', ];
 	}
 
 	/**
@@ -153,9 +152,9 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	{
 		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'name'])
-				->from('vtiger_tab')
-				->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
-				->createCommand()->query();
+			->from('vtiger_tab')
+			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
+			->createCommand()->query();
 		$moduleModels = [];
 		while ($row = $dataReader->read()) {
 			$moduleModels[$row['name']] = self::getInstanceFromArray($row);

@@ -129,16 +129,32 @@
 																		</button>
 																		<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 																			<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-																				<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+																				<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') === 'Active'} active{/if}" href="#" data-value="Active">
+																					<span class="fas fa-undo-alt mr-1" title="{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}"></span>&nbsp;
+																					<span class="sr-only">{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</span>
+																					{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}
+																				</a>
 																			</li>
 																			<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') === 'Archived'} active{/if}" href="#" data-value="Archived">
+																					<span class="fas fa-archive mr-1" title="{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}"></span>
+																					<span class="sr-only">{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</span>
+																					{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+																				</a>
 																			</li>
 																			<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') === 'Trash'} active{/if}" href="#" data-value="Trash">
+																					<span class="fas fa-trash-alt mr-1" title="{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}"></span>
+																					<span class="sr-only">{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</span>
+																					{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+																				</a>
 																			</li>
 																			<li>
-																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+																				<a class="dropdown-item{if $VIEW_MODEL->get('entityState') === 'All'} active{/if}" href="#" data-value="All">
+																					<span class="fas fa-bars mr-1" title="{\App\Language::translate('LBL_ALL')}"></span>
+																					<span class="sr-only"></span>
+																					{\App\Language::translate('LBL_ALL')}
+																				</a>
 																			</li>
 																		</ul>
 																	</div>
@@ -195,7 +211,10 @@
 														{if $RELATED_MODULE->isQuickSearchEnabled()}
 															<tr>
 																<td>
-																	<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+																	<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+																		<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+																		<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
+																	</a>
 																</td>
 																{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 																	<td>
@@ -226,8 +245,9 @@
 																	<td class="{$WIDTHTYPE} text-center text-center font-larger">
 																		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 																		<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fas fa-star alignMiddle {if !$RECORD_IS_FAVORITE}d-none{/if}"></span>
-																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="far fa-star alignMiddle {if $RECORD_IS_FAVORITE}d-none{/if}"></span>
+																			<span class="fas fa-star align-middle {if !$RECORD_IS_FAVORITE}d-none{/if}" title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}"></span>
+																			<span class="far fa-star align-middle {if $RECORD_IS_FAVORITE}d-none{/if}" title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}"></span>
+																			<span class="sr-only">{if  $RECORD_IS_FAVORITE} {\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)} {else} {\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)} {/if}</span>
 																		</a>
 																	</td>
 																{/if}
@@ -248,7 +268,7 @@
 																	<!--
 																	<span class="currentStatus btn-group">
 																		<span class="statusValue dropdown-toggle" data-toggle="dropdown">{\App\Language::translate($RELATED_RECORD->get('status'),$MODULE)}</span>
-																		<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
+																		<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down align-middle editRelatedStatus"></span>
 																		<ul class="dropdown-menu float-right" style="left: -2px; position: relative;">
 																	{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
 																		<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
@@ -262,12 +282,21 @@
 																<td nowrap class="{$WIDTHTYPE}">
 																	<div class="float-right actions">
 																		<span class="actionImages">
-																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></span></a>&nbsp;
+																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+																				<span class="fas fa-th-list align-middle" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"></span>
+																				<span class="sr-only">{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}</span>
+																			</a>&nbsp;
 																				{if $IS_EDITABLE}
-																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle"></span></a>
+																				<a href='{$RELATED_RECORD->getEditViewUrl()}'>
+																					<span class="fas fa-edit align-middle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+																					<span class="sr-only">{\App\Language::translate('LBL_EDIT', $MODULE)}</span>
+																				</a>
 																				{/if}
 																				{if $IS_DELETABLE}
-																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
+																				<a class="relationDelete">
+																					<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+																					<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
+																				</a>
 																				{/if}
 																		</span>
 																	</div>

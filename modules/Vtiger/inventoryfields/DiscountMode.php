@@ -16,6 +16,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'smallint(1) DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
 	protected $blocks = [0];
+	protected $maximumLength = '-32768,32767';
 
 	/**
 	 * Getting value to display.
@@ -42,7 +43,9 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column)) {
 			return false;
 		}
-		$insertData[$column] = $request->getInteger($column);
+		$value = $request->getInteger($column);
+		$this->validate($value, $column, true);
+		$insertData[$column] = $value;
 	}
 
 	/**
@@ -52,6 +55,10 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+		$rangeValues = explode(',', $this->maximumLength);
+		if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 }

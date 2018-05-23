@@ -84,5 +84,7 @@ $PERFORMANCE_CONFIG = [
 	//Charts multi filter maximum db value length
 	'CHART_MULTI_FILTER_STR_LEN' => 50,
 	//Additional filters limit for ChartFilter's
-	'CHART_ADDITIONAL_FILTERS_LIMIT'=>6,
+	'CHART_ADDITIONAL_FILTERS_LIMIT' => 6,
+	// Maximum number of merged records
+	'MAX_MERGE_RECORDS' => 4,
 ];

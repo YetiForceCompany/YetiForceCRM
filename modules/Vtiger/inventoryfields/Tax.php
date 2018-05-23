@@ -18,6 +18,10 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		'taxparam' => 'string',
 	];
 	protected $summationValue = true;
+	protected $maximumLength = '99999999999999999999';
+	protected $customMaximumLength = [
+		'taxparam' => 255
+	];
 
 	/**
 	 * Getting value to display.
@@ -49,7 +53,27 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$insertData[$column] = $request->getByType($column . $i, 'NumberInUserFormat');
-		$insertData['taxparam'] = \App\Json::encode($request->getArray('taxparam' . $i));
+		$value = $request->getByType($column . $i, 'NumberInUserFormat');
+		$this->validate($value, $column, true);
+		$insertData[$column] = $value;
+		$value = \App\Json::encode($request->getArray('taxparam' . $i));
+		$this->validate($value, 'taxparam', true);
+		$insertData['taxparam'] = $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if ($columnName === $this->getColumnName()) {
+			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
+				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+		} else {
+			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+		}
 	}
 }

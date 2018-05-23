@@ -208,6 +208,7 @@
     "LBL_BETWEEN": "between",
     "LBL_BILLING_ADDRESS_FROM": "Copy billing address from",
     "LBL_BLANK": "-Blank-",
+    "LBL_BREADCRUMB": "Breadcrumb",
     "LBL_BROWSE_CRM": "Browse CRM",
     "LBL_BY": "by",
     "LBL_CALENDAR": "Calendar",
@@ -363,6 +364,7 @@
     "LBL_LOADING_LISTVIEW_CONTENTS": "Loading, please wait.",
     "LBL_LOADING_PLEASE_WAIT": "Loading, please wait.",
     "LBL_LOADING_WIDGET": "Loading widget",
+    "LBL_MAIN_MENU": "Main menu",
     "LBL_MANAGE_USERS": "Manage users",
     "LBL_Mar": "Mar",
     "LBL_MARKETING_AND_SALES": "MARKETING & SALES",
@@ -554,6 +556,7 @@
     "LBL_VIEW_EXPORT": "Export",
     "LBL_VIEW_IMPORT": "Import",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "YetiForce CRM open source",
+    "LBL_QUICK_ACCESS_MENU": "Quick access menu",
     "LBL_Wed": "Wed",
     "LBL_YEAR": "year",
     "LBL_YEARS": "years",
@@ -1595,6 +1598,7 @@
     "JS_INVALID_FILE_TYPE": "Invalid file type",
     "JS_AVAILABLE_FILE_TYPES": "Available file types",
     "JS_FILE_LIMIT": "Maximum number of files was exceeded",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded",
+	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range"
   }
 }

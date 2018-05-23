@@ -321,10 +321,18 @@ class Install_Index_View extends \App\Controller\View
 		$cssFileNames = [
 			'~install/tpl/resources/css/style.css',
 			'~install/tpl/resources/css/mkCheckbox.css',
+			'~libraries/fontawesome-web/css/fontawesome-all.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 
 		return array_merge($headerCssInstances, $cssInstances);
+	}
+
+	public function getHeaderScripts(\App\Request $request)
+	{
+		return $this->checkAndConvertJsScripts([
+			'libraries.jquery.dist.jquery'
+		]);
 	}
 
 	/**
@@ -339,12 +347,8 @@ class Install_Index_View extends \App\Controller\View
 		if ($request->getMode() === 'step7') {
 			return [];
 		}
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~install/tpl/resources/Index.js',
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-
-		return array_merge($headerScriptInstances, $jsScriptInstances);
+		]));
 	}
 }

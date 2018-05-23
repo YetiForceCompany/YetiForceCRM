@@ -144,6 +144,7 @@
     "LBL_BETWEEN": "pomi\u0119dzy",
     "LBL_BILLING_ADDRESS_FROM": "Kopiuj adres korespondencji",
     "LBL_BLANK": "-Puste-",
+    "LBL_BREADCRUMB": "Menu okruszkowe",
     "LBL_BROWSE_CRM": "Przegl\u0105daj system",
     "LBL_BY": "przez",
     "LBL_CALENDAR": "Kalendarz",
@@ -156,6 +157,7 @@
     "LBL_CHOOSE_COLUMNS": "Wybierz kolumny",
     "LBL_CHOOSE_FILTER_CONDITIONS": "Ustaw warunki dla filtru",
     "LBL_CLEAR": "Wyczy\u015b\u0107",
+    "LBL_CLEAR_SEARCH": "Wyczy\u015b\u0107 wynik wyszukiwania",
     "LBL_CLICK_ADD": "Kliknij dodaj",
     "LBL_CLOSE": "Zamknij",
     "LBL_COMMENTED": "doda\u0142 komentarz",
@@ -299,6 +301,7 @@
     "LBL_LOADING_LISTVIEW_CONTENTS": "Trwa \u0142adowanie widoku, prosz\u0119 czeka\u0107",
     "LBL_LOADING_PLEASE_WAIT": "Trwa \u0142adowanie widoku, prosz\u0119 czeka\u0107",
     "LBL_LOADING_WIDGET": "\u0141adowanie wid\u017cetu",
+    "LBL_MAIN_MENU": "Menu g\u0142\u00f3wne",
     "LBL_MANAGE_USERS": "Zarz\u0105dzaj u\u017cytkownikami",
     "LBL_Mar": "Mar",
     "LBL_MARKETING_AND_SALES": "DZIA\u0141 SPRZEDA\u017bY",
@@ -488,6 +491,7 @@
     "LBL_VIEW_EXPORT": "Eksport",
     "LBL_VIEW_IMPORT": "Import",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "YetiForce CRM Open Source",
+    "LBL_QUICK_ACCESS_MENU": "Menu szybkiego dost\u0119pu",
     "LBL_Wed": "\u015aro",
     "LBL_YEAR": "rok",
     "LBL_YEARS": "lata",
@@ -532,7 +536,7 @@
     "Po Box": "Skrytka pocztowa",
     "Postal Code": "Kod pocztowy",
     "Dashboards": "Strona g\u0142\u00f3wna",
-    "POWEREDBY": "System YetiForce (silnik Vtiger) | ",
+    "POWEREDBY": "System YetiForce | ",
     "Price": "Cena",
     "PriceBooks": "Cenniki",
     "Priority": "Priorytet",
@@ -1276,7 +1280,9 @@
     "LBL_FULLTEXT_BEGIN": "S\u0142owo zaczyna si\u0119 od",
     "LBL_FULLTEXT_WORD": "S\u0142owo",
     "LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
-    "_Base": "System"
+     "LBL_MERGING": "\u0141\u0105czenie rekord\u00f3w",
+    "_Base": "System",
+    "LBL_SHOP_YETIFORCE": "Sklep"
   },
   "js": {
     "JS_SUMMARY": "Podsumowanie",
@@ -1580,6 +1586,7 @@
     "JS_INVALID_FILE_TYPE": "Nieprawid\u0142wy typ pliku",
     "JS_AVAILABLE_FILE_TYPES": "Dost\u0119pne typy plików to",
     "JS_FILE_LIMIT": "Maksymalna liczba plik\u00F3w zosta\u0142a przekroczona",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w",
+	"JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem"
   }
 }
