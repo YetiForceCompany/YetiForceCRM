@@ -10545,11 +10545,9 @@ label.btn.btn-outline-primary:not(.active) {
   left: 0;
   z-index: 1030;
   background: #fff;
-  min-height: 100%;
-  /*@include sidebarTransition();*/ }
+  min-height: 100%; }
 .baseContainer .bodyHeader {
-  left: 230px;
-  /*@include sidebarTransition();*/ }
+  left: 230px; }
 .baseContainer:not(.leftPanelOpen) .basePanel {
   margin-left: 50px; }
 .baseContainer:not(.leftPanelOpen) .bodyHeader {
