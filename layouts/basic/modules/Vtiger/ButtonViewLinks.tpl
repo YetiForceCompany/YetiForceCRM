@@ -44,6 +44,8 @@
 													   {elseif $LINK_URL}
 														   href="#"
 														   onclick='{$LINK_URL|substr:strlen("javascript:")}'
+													   {else}
+														   href="#"
 													   {/if}
 												   {/strip} {strip}
 													   {if $LINK->get('dataUrl')}
