@@ -16,7 +16,6 @@
 						{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 							<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
 								<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_ADD_RECORD')}</span>
 							</a>
 						{/if}
 						{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
@@ -31,6 +30,7 @@
 						<span class="input-group-prepend">
 							<span class="input-group-text">
 								<span class="fas fa-filter iconMiddle margintop3"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_CALENDAR_FILTERS', 'Calendar')}</span>
 							</span>
 						</span>
 							<select class="widgetFilter form-control customFilter" name="customFilter"
@@ -78,13 +78,15 @@
 				<div class="col-sm-12">
 					<div class="headerCalendar pinUnpinShortCut row">
 						<div class="col-2">
-							<button class="btn btn-light btn-sm" data-type="fc-prev-button"><span
-										class="fas fa-chevron-left"></span></button>
+							<button class="btn btn-light btn-sm" data-type="fc-prev-button">
+								<span class="fas fa-chevron-left" title="{\App\Language::translate('LBL_PREVIOUS')}"></span>
+							</button>
 						</div>
 						<div class="col-8 month textAlignCenter paddingRightZero"></div>
 						<div class="col-2">
-							<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button"><span
-										class="fas fa-chevron-right"></span></button>
+							<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button">
+								<span class="fas fa-chevron-right" title="{\App\Language::translate('LBL_NEXT')}"></span>
+							</button>
 						</div>
 					</div>
 				</div>
