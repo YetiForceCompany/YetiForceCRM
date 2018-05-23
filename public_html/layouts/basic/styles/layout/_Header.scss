@@ -122,16 +122,16 @@
 
 .modalRightSiteBar {
 	margin: 0;
-	height: 100%;
+	height: $mainViewportHeight;
 	right: 0;
-	top: 0;
-	position: fixed;
+	top: $headerHeight;
+	position: fixed !important;
 	z-index: 1070;
 	overflow: hidden;
+	width: -webkit-fill-available;
 
 	.modal-content {
 		height: 100%;
-		overflow: auto;
 	}
 
 	button.close {
@@ -154,21 +154,37 @@
 	}
 }
 
-@media only screen and (max-width: 992px) {
-	.modalRightSiteBar {
-		width: 60%;
-	}
-}
+.chatModal {
 
-@media only screen and (min-width: 992px) {
-	.modalRightSiteBar {
-		width: 40%;
+	.modal-dialog {
+		@extend .col-12, .col-sm-8, .col-lg-3;
 	}
-}
+	.modal-body {
+		padding: 5px 0;
+	}
 
-@media only screen and (max-width: 480px) {
-	.modalRightSiteBar {
-		width: 100%;
+	.modal-footer {
+		background: #fff;
+	}
+
+	.chatItem {
+		border-bottom: 1px solid #ddd;
+		margin-bottom: 3px;
+		padding: 2px 8px 2px 8px;
+
+		&.active {
+			background: #f9f9f9;
+		}
+
+		.author {
+			padding-bottom: 3px;
+
+			span {
+				vertical-align: top;
+				margin-left: 6px;
+				font-weight: bold;
+			}
+		}
 	}
 }
 

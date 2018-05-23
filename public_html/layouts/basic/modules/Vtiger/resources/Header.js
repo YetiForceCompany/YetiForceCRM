@@ -730,6 +730,7 @@ $.Class("Vtiger_Header_Js", {
 			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
+		var modalDialog = modal.find('.modal-dialog');
 		this.registerChatLoadItems(modal.data('timer'));
 		modal.find('.addMsg').on('click', function (e) {
 			var message = modal.find('.message').val();
@@ -749,14 +750,15 @@ $.Class("Vtiger_Header_Js", {
 			});
 			modal.find('.message').val('');
 		});
+		app.animateModal(modal, 'slideInRight', 'slideOutRight');
 	},
 	registerChatLoadItems: function (timer) {
 		const self = this;
 		var icon = $('.chatModal .modal-title .fa-comments');
 		this.chatTimer = setTimeout(function () {
 			icon.css('color', '#00e413');
-			slef.getChatItems();
-			slef.registerChatLoadItems(timer);
+			self.getChatItems();
+			self.registerChatLoadItems(timer);
 			icon.css('color', '#000');
 		}, timer);
 	},

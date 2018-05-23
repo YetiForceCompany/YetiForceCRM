@@ -14,14 +14,27 @@
 	margin-left: 50px;
 	margin-right: 0;
 }
+
 @media only screen and (max-width: 768px) {
-  .modal-fullscreen {
-	margin-left: 8px !important;
-	max-width: calc(100% - 17px) !important;
-	width: calc(100% - 17px) !important;
-	top: 42px !important;
-  }
+	.modal-fullscreen {
+		margin-left: 8px !important;
+		max-width: calc(100% - 17px) !important;
+		width: calc(100% - 17px) !important;
+		top: 42px !important;
+	}
 }
+
 .modal-blg {
 	max-width: 90%;
 }
+//styles needed to overwrite default animation
+.modal.fade {
+	opacity: 1;
+}
+
+.modal.fade .modal-dialog {
+	-webkit-transform: translate(0);
+	-moz-transform: translate(0);
+	transform: translate(0);
+}
+//
