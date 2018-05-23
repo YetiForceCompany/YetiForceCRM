@@ -755,7 +755,7 @@ class Project_Gantt_Model extends App\Base
 			$task['projecttaskstatus'] = $row['projecttaskstatus'];
 			$color = $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']];
 			if (empty($color)) {
-				$color = $task['color'] = \AppConfig::module('Project', 'defaultStatusColors')['ProjectTask'][$row['projecttaskstatus']];
+				$color = \AppConfig::module('Project', 'defaultStatusColors')['ProjectTask'][$row['projecttaskstatus']];
 			}
 			$task['color'] = $color;
 			$task['start_date'] = date('d-m-Y', strtotime($row['startdate']));
