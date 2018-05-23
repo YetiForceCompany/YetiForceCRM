@@ -71,7 +71,7 @@ class Users_Login_Action extends \App\Controller\Action
 			$this->afterLogin($request);
 			$moduleModel->saveLoginHistory(strtolower($userName)); //Track the login History
 			if (isset($_SESSION['return_params'])) {
-				header('Location: index.php?' . urldecode($_SESSION['return_params']));
+				header('Location: index.php?' . $_SESSION['return_params']);
 			} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
 				header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 			} else {
