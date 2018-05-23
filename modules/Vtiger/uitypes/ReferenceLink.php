@@ -9,7 +9,6 @@
  */
 class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 {
-
 	/**
 	 * {@inheritdoc}
 	 */
