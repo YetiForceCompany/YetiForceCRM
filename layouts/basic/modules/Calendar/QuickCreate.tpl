@@ -39,7 +39,7 @@
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
 							<button class="btn btn-outline-secondary goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+							<button class="btn btn-success mr-1" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 							<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 						</div>
 					</div>
@@ -106,9 +106,17 @@
 												{/foreach}
 											</div>
 										</div>
-										<div class="float-right my-2">
-											<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button>
-											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+										<div class="float-right d-flex my-2">
+											<div class="btn-group-toggle pr-1" data-toggle="buttons">
+												<label class="btn btn-outline-primary c-btn-checkbox">
+													<strong>
+													<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
+													<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
+													<input type="checkbox" checked autocomplete="off">{\App\Language::translate('LBL_MARK_AS_HELD', $MODULE)}</strong>
+												</label>
+											</div>
+											LBL_MARK_AS_HELD
+											<button class="btn btn-success" type="submit"><strong><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
 											<div class="form-row px-0 mx-0 col-12 eventsTable"></div>
