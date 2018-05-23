@@ -16,8 +16,7 @@
 			{else}
 			<div class="dropright u-remove-dropdown-icon">
 				<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="fas fa-wrench" aria-hidden="true"></span>
-					<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
+					<span class="fas fa-wrench" title="{\App\Language::translate('LBL_ACTIONS')}"></span>
 				</button>
 				<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
 					{foreach from=$LINKS item=LINK}
