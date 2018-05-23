@@ -29,13 +29,13 @@
 		background: $white;
 		min-height: 100%;
 
-		@include sidebarTransition();
+		/*@include sidebarTransition();*/
 	}
 
 	.bodyHeader {
 		left: 230px;
 
-		@include sidebarTransition();
+		/*@include sidebarTransition();*/
 	}
 
 	&:not(.leftPanelOpen) {
