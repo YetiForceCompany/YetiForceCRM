@@ -506,11 +506,11 @@ class Project_Gantt_Model extends App\Base
 		$project['description'] = \App\Purifier::encodeHtml($recordModel->get('description'));
 		$project['project_no'] = $recordModel->get('project_no');
 		$project['projectstatus'] = $recordModel->get('projectstatus');
-		$project['assigned_user_id']=$recordModel->get('assigned_user_id');
-		$project['assigned_user_name']=\App\Fields\Owner::getUserLabel($recordModel->get('assigned_user_id'));
+		$project['assigned_user_id'] = $recordModel->get('assigned_user_id');
+		$project['assigned_user_name'] = \App\Fields\Owner::getUserLabel($recordModel->get('assigned_user_id'));
 		$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
 		if (empty($color)) {
-			$color = $task['color'] = \AppConfig::module('Project', 'defaultStatusColors')['Project'][$recordModel->get('projectstatus')];
+			$color = \AppConfig::module('Project', 'defaultStatusColors')['Project'][$recordModel->get('projectstatus')];
 		}
 		$project['color'] = $color;
 		if (!empty($recordModel->get('startdate'))) {
@@ -539,7 +539,7 @@ class Project_Gantt_Model extends App\Base
 		$queryGenerator = new App\QueryGenerator('Project');
 		$queryGenerator->setField('id');
 		$queryGenerator->setField('parentid');
-		$queryGenerator->addNativeCondition(['parentid'=>(int) $id]);
+		$queryGenerator->addNativeCondition(['parentid' => (int) $id]);
 		$childrenRows = $queryGenerator->createQuery()->createCommand()->queryAll();
 		$childrenIds = array_map(function ($item) {
 			return $item['id'];
@@ -709,7 +709,7 @@ class Project_Gantt_Model extends App\Base
 			$milestone['startIsMilestone'] = true;
 			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
 			if (empty($color)) {
-				$color = $task['color'] = \AppConfig::module('Project', 'defaultStatusColors')['ProjectMilestone'][$row['projectmilestone_status']];
+				$color = \AppConfig::module('Project', 'defaultStatusColors')['ProjectMilestone'][$row['projectmilestone_status']];
 			}
 			$milestone['color'] = $color;
 			$milestones[] = $milestone;
