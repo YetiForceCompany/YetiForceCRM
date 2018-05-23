@@ -218,6 +218,10 @@ esprima@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.0.0.tgz#53cf247acda77313e551c3aa2e73342d3fb4f7d9"
 
+fontawesome-web@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/fontawesome-web/-/fontawesome-web-5.0.2.tgz#b6cf126de8b6b89bd9d333888aeb12395325cd09"
+
 footable@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/footable/-/footable-2.0.6.tgz#24e2d0c4a61648e03fc0313817be853aa59c09d0"
@@ -274,8 +278,8 @@ jquery-hoverintent@^1.9.0:
     jquery ">=1.7.0"
 
 jquery-lazy@^1.7.7:
-  version "1.7.8"
-  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.8.tgz#b73c263112b538a9a4bbb81367ecb1aef59aaefc"
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.9.tgz#5a7c8691664b6ec4c53220298ace28c9f2927ffd"
   dependencies:
     jquery ">=1.7.2"
 
@@ -393,8 +397,8 @@ respond.js@^1.4.2:
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
 
 "select2-bootstrap-theme@https://github.com/angel-vladov/select2-bootstrap-theme.git":
-  version "0.1.0-beta.10"
-  resolved "https://github.com/angel-vladov/select2-bootstrap-theme.git#4fb604838e79150161fc636dbeb3b3022c034cda"
+  version "0.2.0-beta.2"
+  resolved "https://github.com/angel-vladov/select2-bootstrap-theme.git#5ff059ca06ce70c24a49b165cfd15f2c99535016"
 
 select2@^4.0.6-rc.1:
   version "4.0.6-rc.1"
