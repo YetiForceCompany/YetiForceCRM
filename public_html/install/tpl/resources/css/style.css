@@ -196,3 +196,7 @@ hr {
 	min-height: 50px;
 	padding: 0 15px;
 }
+.yetiforceDetailsLink{
+	margin-right: 1rem !important;
+	font-size: 60px;
+}
