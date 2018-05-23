@@ -1302,6 +1302,7 @@
     "LBL_FULLTEXT_WORD": "Palabra",
     "BTN_PERMISSION_INSPECTOR": "Inspector de permisos",
     "LBL_ADVANCED_SEARCH": "B\u00fasqueda Avanzada",
+    "LBL_MERGING": "Merging records",
     "_Base": "System"
   },
   "js": {

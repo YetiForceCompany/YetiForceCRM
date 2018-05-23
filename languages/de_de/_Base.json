@@ -1281,6 +1281,7 @@
     "LBL_FULLTEXT_WORD": "Wort",
     "BTN_PERMISSION_INSPECTOR": "Berechtigungs Inspektor",
     "LBL_ADVANCED_SEARCH": "Erweiterte Suche",
+    "LBL_MERGING": "Merging records",
     "_Base": "System"
   },
   "js": {

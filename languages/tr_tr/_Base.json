@@ -1268,6 +1268,7 @@
     "LBL_FULLTEXT_WORD": "Word",
     "LBL_ADVANCED_SEARCH": "Advanced search",
     "BTN_PERMISSION_INSPECTOR": "Permission Inspector",
+    "LBL_MERGING": "Merging records",
     "_Base": "System"
   },
   "js": {
