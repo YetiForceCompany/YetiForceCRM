@@ -375,27 +375,6 @@ jQuery.Class("Vtiger_List_Js", {
 		jQuery('#deSelectAllMsg').trigger('click');
 		jQuery("#selectAllMsgDiv").hide();
 	},
-	showDuplicateSearchForm: function (url) {
-		var progressIndicatorElement = jQuery.progressIndicator();
-		app.showModalWindow("", url, function () {
-			progressIndicatorElement.progressIndicator({mode: 'hide'});
-			Vtiger_List_Js.registerDuplicateSearchButtonEvent();
-		});
-	},
-	/**
-	 * Function that will enable Duplicate Search Find button
-	 */
-	registerDuplicateSearchButtonEvent: function () {
-		jQuery('#fieldList').on('change', function (e) {
-			var value = jQuery(e.currentTarget).val();
-			var button = jQuery('#findDuplicate').find('button[type="submit"]');
-			if (value != null) {
-				button.attr('disabled', false);
-			} else {
-				button.attr('disabled', true);
-			}
-		})
-	},
 	triggerListSearch: function () {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var listViewContainer = listInstance.getListViewContentContainer();
