@@ -63,11 +63,9 @@
 								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 							</a>
 						</li>
-						<li class="page-item">
-							<a data-toggle="modal" data-target="#yetiforceDetails" href="#">
-								<img class="logoFooter"
-									 src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}"
-									 alt="YetiForceCRM"/>
+						<li class="page-item u-cursor-pointer">
+							<a data-toggle="modal" role="button" data-target="#yetiforceDetails">
+								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 							</a>
 						</li>
 					</ul>
