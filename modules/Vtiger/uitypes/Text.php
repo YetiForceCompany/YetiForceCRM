@@ -90,4 +90,12 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/Text.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
+	}
 }

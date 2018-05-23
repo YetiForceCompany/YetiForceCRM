@@ -54,8 +54,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$file = \App\Fields\File::loadFromInfo([
-				'path' => $path,
-				'name' => $item['name'],
+					'path' => $path,
+					'name' => $item['name'],
 			]);
 			$validFormat = $file->validate('image');
 			$validExtension = false;
@@ -361,5 +361,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
 	}
 }

@@ -791,6 +791,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
 		$this->fieldInfo['header_field'] = $this->isHeaderField();
 		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
+		$this->fieldInfo['maximumlength'] = $this->get('maximumlength');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
 		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
 		$this->fieldInfo['type'] = $fieldDataType;
@@ -1321,7 +1322,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getDBColumnType($returnString = true)
 	{
 		$db = \App\Db::getInstance();
-		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName());
+		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
 		$columnSchema = $tableSchema->getColumn($this->getColumnName());
 		$data = get_object_vars($columnSchema);
 		if ($returnString) {
@@ -1338,5 +1339,58 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Function to get range of values.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return string
+	 */
+	public function getRangeValues()
+	{
+		$uiTypeModel = $this->getUITypeModel();
+		if (method_exists($uiTypeModel, 'getRangeValues')) {
+			return $uiTypeModel->getRangeValues();
+		}
+		$allowedTypes = $uiTypeModel->getAllowedColumnTypes();
+		if ($allowedTypes === null) {
+			return;
+		}
+		$data = $this->getDBColumnType(false);
+		if (!in_array($data['type'], $allowedTypes)) {
+			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+		}
+		switch ($data['type']) {
+			case 'binary':
+			case 'string':
+				return $data['size'];
+			case 'integer':
+				if ($data['unsigned']) {
+					return '4294967295';
+				} else {
+					return '-2147483648,2147483647';
+				}
+				break;
+			case 'smallint':
+				if ($data['unsigned']) {
+					return '65535';
+				} else {
+					return '-32768,32767';
+				}
+				break;
+			case 'tinyint':
+				if ($data['unsigned']) {
+					return '255';
+				} else {
+					return '-128,127';
+				}
+				break;
+			case 'decimal':
+				return pow(10, $data['size'] - $data['scale']) - 1;
+			default:
+				return null;
+		}
 	}
 }

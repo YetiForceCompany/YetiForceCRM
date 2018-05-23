@@ -1579,6 +1579,7 @@
     "JS_INVALID_FILE_TYPE": "Ung\u00fcltiger Dateityp",
     "JS_AVAILABLE_FILE_TYPES": "Verf\u00fcgbare Dateitypen",
     "JS_FILE_LIMIT": "Maximale Anzahl von Dateien wurde \u00fcberschritten",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Warten bis Dateien geladen wurden"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Warten bis Dateien geladen wurden",
+	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range"
   }
 }

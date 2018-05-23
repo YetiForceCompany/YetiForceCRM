@@ -77,7 +77,7 @@ class Login extends \Api\Core\BaseAction
 				'currency_decimal_separator' => $userModel->getDetail('currency_decimal_separator'),
 				'currency_grouping_separator' => $userModel->getDetail('currency_grouping_separator'),
 				'currency_symbol_placement' => $userModel->getDetail('currency_symbol_placement'),
-				'no_of_currency_decimals' => $userModel->getDetail('no_of_currency_decimals'),
+				'no_of_currency_decimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
 				'truncate_trailing_zeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'end_hour' => $userModel->getDetail('end_hour'),
 				'currency_name' => $userModel->getDetail('currency_name'),

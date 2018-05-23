@@ -37,7 +37,7 @@ class FieldBasic
 	public $readonly = 1;
 	public $presence = 2;
 	public $defaultvalue = '';
-	public $maximumlength = 100;
+	public $maximumlength;
 	public $sequence = false;
 	public $quickcreate = 1;
 	public $quicksequence = false;
@@ -65,6 +65,7 @@ class FieldBasic
 		$this->helpinfo = $valuemap['helpinfo'];
 		$this->masseditable = (int) $valuemap['masseditable'];
 		$this->header_field = $valuemap['header_field'];
+		$this->maximumlength = $valuemap['maximumlength'];
 		$this->maxlengthtext = (int) $valuemap['maxlengthtext'];
 		$this->maxwidthcolumn = (int) $valuemap['maxwidthcolumn'];
 		$this->displaytype = (int) $valuemap['displaytype'];
@@ -156,6 +157,16 @@ class FieldBasic
 		if (!$this->label) {
 			$this->label = $this->name;
 		}
+		if (!empty($this->columntype)) {
+			Utils::addColumn($this->table, $this->column, $this->columntype);
+			if ($this->uitype === 10) {
+				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
+			}
+		}
+		$this->createAdditionalField();
+		if (!$this->maximumlength && method_exists($this, 'getRangeValues')) {
+			$this->maximumlength = $this->getRangeValues();
+		}
 		$db->createCommand()->insert('vtiger_field', [
 			'tabid' => $this->getModuleId(),
 			'fieldid' => $this->id,
@@ -182,13 +193,6 @@ class FieldBasic
 			'masseditable' => $this->masseditable,
 		])->execute();
 		Profile::initForField($this);
-		if (!empty($this->columntype)) {
-			Utils::addColumn($this->table, $this->column, $this->columntype);
-			if ($this->uitype === 10) {
-				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
-			}
-		}
-		$this->createAdditionalField();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
 	}
 

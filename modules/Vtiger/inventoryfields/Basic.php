@@ -23,6 +23,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	protected $blocks = [1];
 	protected $fieldDataType = 'inventory';
 	protected $params = [];
+	protected $maximumLength = 255;
 
 	/**
 	 * Getting onlyOne field.
@@ -81,6 +82,11 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		}
 
 		return $this->colSpan;
+	}
+
+	public function getRangeValues()
+	{
+		return $this->maximumLength;
 	}
 
 	/**
@@ -333,7 +339,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 			return false;
 		}
 		$value = $request->get($column . $i);
-		$this->validate($value, $column . $i, true);
+		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}
 
@@ -350,6 +356,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	{
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 }
