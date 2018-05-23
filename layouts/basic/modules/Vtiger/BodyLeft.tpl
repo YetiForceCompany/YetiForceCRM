@@ -19,8 +19,7 @@
 						{/foreach}
 						<p class="companyName noSpaces u-text-ellipsis">{$COMPANY_DETAILS->get('name')}</p>
 					</div>
-					<div class="col-2 noSpaces text-center js-menu-pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}"
-						 data-show="{$USER_MODEL->get('leftpanelhide')}">
+					<div class="col-2 noSpaces text-center js-menu-pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}" data-show="{$USER_MODEL->get('leftpanelhide')} data-js="click">
 						<span class="fas fa-thumbtack u-cursor-pointer"></span>
 					</div>
 				</div>
