@@ -12,19 +12,19 @@
     "LBL_STATS": "Send statistical information",
     "LBL_STATS_DESC": "Help us improve YetiForce and our services by sending us anonymous information about your current CRM version. <br \/>Data that we collect includes: <ul><li>your instance\u2019s unique key generated only for the purpose of newsletter<\/li><li>system version<\/li><li>language<\/li><li>time zone<\/li><\/ul>We treat security matters extremely seriously and we ensure that collected data is only used for statistical purposes.<br \/>Join us and build YetiForce\\\u2019s community with us.",
     "LBL_SAVE_TO_NEWSLETTER": "Sign up for newsletter",
-    "LBL_REMIND_LATER": "Remind me later",
+    "LBL_REMIND_LATER": "Reaminteste-mi mai tarziu",
     "LBL_DATA_SAVE_OK": "Data saved correctly",
     "LBL_DATA_SAVE_FAIL": "An error occurred while saving, please check your logs",
-    "BTN_SET_IGNORE": "Ignore",
-    "BTN_REMOVE_IGNORE": "Unignore",
+    "BTN_SET_IGNORE": "Ignora",
+    "BTN_REMOVE_IGNORE": "Nu ignora",
     "LBL_MISSING_LIBRARY": "Detected missing library. Some features were disabled. In order to enable them please download the library. If the CRM has no Internet connection, you can download the files and copy them to %s folder.",
-    "BTN_DOWNLOAD_LIBRARY": "Download library",
+    "BTN_DOWNLOAD_LIBRARY": "Descarca librarie",
     "LBL_SERVER_HTTPS": "HTTPS encryption",
-    "BTN_CONFIGURE_HTTPS": "Recommended configuration",
+    "BTN_CONFIGURE_HTTPS": "Configuratie recomandata",
     "LBL_MISSING_HTTPS": "Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the \"Web server requirements\" article in the documentation.",
-    "LBL_DISK_USAGE": "Disk space available",
+    "LBL_DISK_USAGE": "Spatiu disponibil pe disc",
     "LBL_DISK_FULL": "There is not enough free space on your disk (%s of %s), so the system may stop working. Directory path: %s",
-    "SystemWarnings": "System warnings"
+    "SystemWarnings": "Atentionari sistem"
     "BTN_CONFIGURE_ENCRYPTION": "Activare criptare"
     "Security": "Securitate"
     "LBL_MECHANISM_ENCRYPTION": "Mecanism criptare"
