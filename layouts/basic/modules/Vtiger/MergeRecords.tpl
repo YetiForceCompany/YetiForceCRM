@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-body">
+	<div class="modal-body tpl-MergeRecords">
 		{if $RECORD_MODELS && count($RECORD_MODELS)>1}
 			<form class="form-horizontal" name="massMerge" method="post" action="index.php">
 				<div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -25,7 +25,7 @@
 						{foreach item=RECORD from=$RECORD_MODELS name=recordList}
 							<th>
 								<div class="form-check noWrap">
-									<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input position-fixed"  value="{$RECORD->getId()}">
+									<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input position-fixed" value="{$RECORD->getId()}" data-js="change">
 									<label class="form-check-label" for="radio{$RECORD->getId()}">#{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
 								</div>
 							</th>

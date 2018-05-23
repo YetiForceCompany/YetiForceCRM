@@ -37,6 +37,7 @@
     "LBL_CONVERTED_FROM_LEAD": "skonwertowany z leada",
     "LBL_DELETED": "usuni\u0119to rekord",
     "LBL_ACTIVE": "przywr\u00f3cono rekord",
+    "LBL_ARCHIVED": "zarchiwizowano rekord",
     "LBL_TRANSFER_EDIT": "zmieniono rekord w procesie transferu",
     "LBL_TRANSFER_DELETE": "usuni\u0119to rekord w procesie transferu",
     "LBL_TRANSFER_UNLINK": "usuni\u0119to powi\u0105zanie w procesie transferu",

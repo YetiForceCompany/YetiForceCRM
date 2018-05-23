@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Modals-Footer modal-footer">
 		{if $BTN_SUCCESS}
-			<button class="btn btn-success" type="submit" name="saveButton">
+			<button class="btn btn-success" type="submit" name="saveButton" data-js="click">
 				<span class="fas fa-check mr-1"></span><strong>{App\Language::translate($BTN_SUCCESS, $MODULE)}</strong>
 			</button>
 		{/if}

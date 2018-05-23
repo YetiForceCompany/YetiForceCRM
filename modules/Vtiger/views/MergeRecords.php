@@ -13,16 +13,12 @@
 class Vtiger_MergeRecords_View extends \App\Controller\Modal
 {
 	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'Merge')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 	}
 
@@ -36,7 +32,6 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$moduleName = $request->getModule($request);
 		$this->modalIcon = 'fa fa-code';
 		$this->initializeContent($request);
 		parent::preProcessAjax($request);
@@ -47,9 +42,8 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->view('MergeRecords.tpl', $moduleName);
+		$viewer->view('MergeRecords.tpl', $request->getModule());
 	}
 
 	/**
@@ -58,8 +52,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	public function initializeContent(\App\Request $request)
 	{
 		$count = 0;
-		$fields = [];
-		$recordModels = [];
+		$recordModels = $fields = [];
 		$queryGenerator = Vtiger_Mass_Action::getQuery($request);
 		if ($queryGenerator) {
 			$moduleModel = $queryGenerator->getModuleModel();
@@ -90,12 +83,11 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
 		if (($var = $viewer->getTemplateVars('RECORD_MODELS')) && count($var) > 1) {
 			$viewer->assign('BTN_SUCCESS', 'LBL_MERGE');
 		}
 		$viewer->assign('BTN_DANGER', $this->dangerBtn);
-		$viewer->view('Modals/Footer.tpl', $moduleName);
+		$viewer->view('Modals/Footer.tpl', $request->getModule($request));
 	}
 
 	/**

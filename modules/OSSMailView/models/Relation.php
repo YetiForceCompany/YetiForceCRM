@@ -99,9 +99,9 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$result = $dbCommand->update('vtiger_ossmailview_relation', ['crmid' => $params['sourceRecordId'], 'ossmailviewid' => $params['destinationRecordId']], ['crmid' => $params['fromRecordId'], 'ossmailviewid' => $params['destinationRecordId']])->execute();
 		if ($result && $parentId = Users_Privileges_Model::getParentRecord($params['sourceRecordId'])) {
-			$date = (new App\Db\Query())->select(['date'])->from('vtiger_ossmailview_relation')->where(['crmid' => $params['sourceRecordId'], 'ossmailviewid' => $params['destinationRecordId']])->exists();
 			$relationExists = (new App\Db\Query())->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $params['destinationRecordId'], 'crmid' => $parentId])->exists();
 			if (!$relationExists) {
+				$date = (new App\Db\Query())->select(['date'])->from('vtiger_ossmailview_relation')->where(['crmid' => $params['sourceRecordId'], 'ossmailviewid' => $params['destinationRecordId']])->scalar();
 				$dbCommand->insert('vtiger_ossmailview_relation', [
 					'ossmailviewid' => $params['destinationRecordId'],
 					'crmid' => $parentId,

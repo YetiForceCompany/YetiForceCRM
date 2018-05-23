@@ -13,33 +13,25 @@
 class Vtiger_MergeRecords_Action extends Vtiger_Mass_Action
 {
 	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'Merge')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 	}
 
 	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$records = $request->getArray('records', 'Integer');
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$primaryRecord = $request->getInteger('record');
 		$migrate = [];
 		$result = false;
-		foreach ($records as $record) {
+		foreach ($request->getArray('records', 'Integer') as $record) {
 			if ($record !== $primaryRecord) {
 				$migrate[$record] = [];
 			}

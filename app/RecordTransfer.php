@@ -55,7 +55,7 @@ class RecordTransfer
 	{
 		foreach ($migrate as $recordId => $fields) {
 			if (!Record::isExists($recordId) || (($sourceRecord = \Vtiger_Record_Model::getInstanceById($recordId)) && (!$sourceRecord->isViewable()))) {
-				throw new Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			foreach ($fields as $source => $target) {
 				$sourceFieldModel = $sourceRecord->getField($source);
@@ -63,7 +63,7 @@ class RecordTransfer
 				if ($sourceFieldModel && $sourceFieldModel->isViewEnabled() && $targetFieldModel && $targetFieldModel->isEditable()) {
 					$recordModel->set($target, $sourceRecord->get($source));
 				} else {
-					throw new Exceptions\FieldException('LBL_FIELD_NOT_FOUND');
+					throw new Exceptions\FieldException('ERR_FIELD_NOT_FOUND');
 				}
 			}
 		}
@@ -84,7 +84,7 @@ class RecordTransfer
 		foreach ($records as $recordId) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 			if (!$recordModel->isViewable()) {
-				throw new Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			if ($recordModel->getModule()->isCommentEnabled() && $sourceRecord->getModule()->isCommentEnabled()) {
 				\CRMEntity::getInstance('ModComments');
