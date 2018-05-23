@@ -35,7 +35,7 @@ class Vtiger_Action_Model extends \App\Base
 	 *
 	 * @var array
 	 */
-	public static $utilityActions = [5 => 'Import', 6 => 'Export', 9 => 'ConvertLead', 10 => 'DuplicatesHandling'];
+	public static $utilityActions = [5 => 'Import', 6 => 'Export', 9 => 'ConvertLead'];
 
 	/**
 	 * Return action id.
