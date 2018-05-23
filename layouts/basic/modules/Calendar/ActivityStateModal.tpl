@@ -17,14 +17,12 @@
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									<a target="_blank" class="btn btn-sm btn-light mr-1" role="button" href="{$COMPOSE_URL}">
 										<span class="fas fa-envelope" title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
-										<span class="sr-only">{\App\Language::translate('LBL_SEND_EMAIL')}</span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
 										<a class="btn btn-sm btn-light mr-1" role="button" href="{$URLDATA}">
 											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-											<span class="sr-only">{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}</span>
 										</a>
 									{/if}
 								{/if}
@@ -32,13 +30,11 @@
 							{if $RECORD->isEditable()}
 								<a href="{$RECORD->getEditViewUrl()}" class="btn btn-sm btn-light mr-1" role="button">
 									<span class="fas fa-edit js-detail-quick-edit" data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
-									<span class="sr-only">{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}</span>
 								</a>
 								{/if}
 								{if $RECORD->isViewable()}
 								<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-sm btn-light" role="button">
 									<span class="fas fa-th-list js-detail-quick-edit" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"></span>
-									<span class="sr-only">{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}</span>
 								</a>
 								{/if}
 								{*<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>*}

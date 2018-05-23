@@ -10,18 +10,15 @@
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
 					<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
-						<span class="fas fa-plus" border="0" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-						<span class="sr-only">{\App\Language::translate('LBL_ADD_RECORD')}</span>
+						<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
 				<a class="btn btn-light btn-sm" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-					<span class="fas fa-sync-alt" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}"></span>
-					<span class="sr-only">{\App\Language::translate('LBL_REFRESH')}</span>
+					<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-light btn-sm" role="button" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}"></span>
-						<span class="sr-only">{\App\Language::translate('LBL_CLOSE')}</span>
+						<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 					</a>
 				{/if}
 			</div>

@@ -63,7 +63,6 @@
 															{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
 															{\App\Language::translate($LABEL, $BTN_MODULE)}
 														{else}
-														<span class="sr-only">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 														{/if}
 														{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 										</div>
