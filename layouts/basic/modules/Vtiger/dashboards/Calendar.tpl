@@ -30,7 +30,6 @@
 						<span class="input-group-prepend">
 							<span class="input-group-text">
 								<span class="fas fa-filter iconMiddle margintop3"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_CALENDAR_FILTERS', 'Calendar')}</span>
 							</span>
 						</span>
 							<select class="widgetFilter form-control customFilter" name="customFilter"

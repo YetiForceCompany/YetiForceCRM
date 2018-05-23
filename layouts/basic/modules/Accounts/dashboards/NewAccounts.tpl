@@ -11,7 +11,7 @@
 						<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
-				<a class="btn btn-sm btn-light" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data" title="{\App\Language::translate('LBL_REFRESH')}">
+				<a class="btn btn-sm btn-light" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
 					<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 				</a>
 				{if !$WIDGET->isDefault()}

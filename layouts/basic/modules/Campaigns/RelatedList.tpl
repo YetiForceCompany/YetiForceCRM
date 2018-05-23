@@ -225,8 +225,8 @@
 																{/foreach}
 																<td>
 																	<button type="button" class="btn btn-light removeSearchConditions">
-																		<span class="fas fa-times"></button>
-																	</a>
+																		<span class="fas fa-times">{\App\Language::translate('LBL_CLEAR_SEARCH')}</span>
+																	</button>
 																</td>
 															</tr>
 														{/if}

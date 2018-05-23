@@ -21,8 +21,8 @@
 			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/dist/jquery.min.js')}"></script>
 		</head>
 		<body>
-			<div style="margin-top: 10px;" class="alert alert-danger shadow">
-				<div style="position: relative;" >
+			<div class="mt-3 alert alert-danger shadow">
+				<div class="position-relative">
 					<div>
 						<h2 class="alert-heading">{\App\Language::translate('LBL_ERROR')}</h2>
 						<p>{\App\Purifier::encodeHtml($MESSAGE)}</p>
