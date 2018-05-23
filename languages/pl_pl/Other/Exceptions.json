@@ -23,6 +23,7 @@
 	"ERR_FILE_PHP_CODE_INJECTION": "Plik zawiera niebezpieczny kod PHP i zosta\u0142 odrzucony",
 	"ERR_FILE_XPACKET_CODE_INJECTION": "Plik zawiera niebezpieczny kod XPACKET i zosta\u0142 odrzucony",
 	"ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Brak uprawnie\u0144 do tworzenia katalog\u00f3w",
-	"ERR_AUTO_LOGOUT": "Nast\u0105pi\u0142o automatyczne wylogowanie ze wzgl\u0119du na brak aktywno\u015bci"
+	"ERR_AUTO_LOGOUT": "Nast\u0105pi\u0142o automatyczne wylogowanie ze wzgl\u0119du na brak aktywno\u015bci",
+	"ERR_FIELD_NOT_FOUND": "Nie znaleziono pola"
   }
 }

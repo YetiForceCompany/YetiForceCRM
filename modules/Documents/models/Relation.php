@@ -75,6 +75,14 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function transferDb(array $params)
+	{
+		return \App\Db::getInstance()->createCommand()->update('vtiger_senotesrel', ['crmid' => $params['sourceRecordId'], 'notesid' => $params['destinationRecordId']], ['crmid' => $params['fromRecordId'], 'notesid' => $params['destinationRecordId']])->execute();
+	}
+
+	/**
 	 * Function to get related record with document.
 	 */
 	public function getRelatedRecord()

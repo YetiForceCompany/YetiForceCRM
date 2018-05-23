@@ -367,7 +367,7 @@ class ModuleBasic
 	/**
 	 * Enable tools for this module.
 	 *
-	 * @param mixed String or Array with value ['Import', 'Export', 'Merge']
+	 * @param mixed String or Array with value ['Import', 'Export']
 	 */
 	public function enableTools($tools)
 	{
@@ -383,7 +383,7 @@ class ModuleBasic
 	/**
 	 * Disable tools for this module.
 	 *
-	 * @param mixed String or Array with value ['Import', 'Export', 'Merge']
+	 * @param mixed String or Array with value ['Import', 'Export']
 	 */
 	public function disableTools($tools)
 	{

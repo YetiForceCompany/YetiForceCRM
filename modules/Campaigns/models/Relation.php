@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Campaigns_Relation_Model extends Vtiger_Relation_Model
@@ -77,5 +78,13 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_campaign_records', 'vtiger_campaign_records.crmid = vtiger_crmentity.crmid']);
 		$queryGenerator->addNativeCondition(['vtiger_campaign_records.campaignid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function transferDb(array $params)
+	{
+		return \App\Db::getInstance()->createCommand()->update('vtiger_campaign_records', ['crmid' => $params['sourceRecordId'], 'campaignid' => $params['destinationRecordId']], ['crmid' => $params['fromRecordId'], 'campaignid' => $params['destinationRecordId']])->execute();
 	}
 }
