@@ -202,6 +202,22 @@ app = {
 		}
 		return keyValueMap;
 	},
+	/**
+	 * Function animates bootstrap modal with animate.css
+	 * @params: jQuery object with class .modal,
+	 * @params: string with animation name,
+	 * @params: string with animation name,
+	 */
+	animateModal(modal, openAnimation, closeAnimation) {
+		modal.on('show.bs.modal', function (e) {
+			modal.removeClass(`animated ${closeAnimation}`);
+			modal.addClass(`animated ${openAnimation}`);
+		});
+		modal.on('hide.bs.modal', function (e) {
+			modal.removeClass(`animated ${openAnimation}`);
+			modal.addClass(`animated ${closeAnimation}`);
+		});
+	},
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
 		const thisInstance = this;
 		let params = {
@@ -1419,6 +1435,7 @@ $(document).ready(function () {
 		window.pageController = pageController;
 		window.pageController.registerEvents();
 	}
+	app.animateModal($('.modal'), 'fadeIn', 'fadeOut');
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
