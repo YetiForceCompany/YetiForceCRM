@@ -7,7 +7,7 @@
     "LBL_ALL_ROLES": "Adauga roluri",
     "LBL_ALL_VALUES": "Toate valorile",
     "LBL_ASSIGN_TO_ROLE": "Assign to Role",
-    "LBL_ASSIGN_VALUE": "Assign Roles",
+    "LBL_ASSIGN_VALUE": "Alocati Roluri",
     "LBL_SAVE_COLOR": "Color changed successfully",
     "LBL_REMOVED_COLOR": "Color removed successfully",
     "LBL_ASSIGN_VALUES_TO_ROLES": "Assign values to Roles",
@@ -26,7 +26,7 @@
     "LBL_RENAME_VALUE": "Rename value",
     "LBL_REPLACE_IT_WITH": "Replace it with",
     "LBL_ROLE_NAME": "Role name",
-    "LBL_SAVE_ORDER": "Save order",
+    "LBL_SAVE_ORDER": "Salvati ordine",
     "LBL_SELECT_AN_ITEM_TO_RENAME_OR_DELETE": "Select an item to rename or delete",
     "LBL_SELECTED_VALUES_MESSGAE": "will appear for the user with this Role",
     "LBL_SELECTED_VALUES": "Selected values",
@@ -34,7 +34,7 @@
     "LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY": "To delete multiple items hold ctrl key down while selecting items",
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Values assigned to a Role",
     "NO_PICKLIST_FIELDS": "do not have any picklist fields",
-    "LBL_NEW_VALUE": "New value"
+    "LBL_NEW_VALUE": "Valoare noua"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",
