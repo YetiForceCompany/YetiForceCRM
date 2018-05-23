@@ -118,7 +118,7 @@
 							1{\App\Language::translate('LBL_H',$MODULE_NAME)}
 						</a>
 						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="2h" title="{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}">
-						2{\App\Language::translate('LBL_H',$MODULE_NAME)}
+							2{\App\Language::translate('LBL_H',$MODULE_NAME)}
 						</a>
 						<a class="btn btn-dark btn-sm reminderPostpone" role="button" href="#" data-time="6h" title="{\App\Language::translate('LBL_REMAIND_HOURS', 'Events')}">
 							6{\App\Language::translate('LBL_H',$MODULE_NAME)}
