@@ -1,9 +1,9 @@
 {
   "php": {
-    "PaymentsOut": "Payments out",
-    "SINGLE_PaymentsOut": "Payment out",
-    "LBL_MAIN_INFORMATION": "Basic information",
-    "LBL_PAYMENT_INFORMATION": "Payment information",
+    "PaymentsOut": "Plati efectuate",
+    "SINGLE_PaymentsOut": "Plata efectuata",
+    "LBL_MAIN_INFORMATION": "Informatii de baza",
+    "LBL_PAYMENT_INFORMATION": "Informatii plata",
     "LBL_PAYMENTSVALUE": "Value",
     "LBL_PAYMENTSTITLE": "Payment title",
     "LBL_PAYMENTSNO": "Number",

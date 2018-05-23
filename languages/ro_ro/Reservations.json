@@ -1,13 +1,13 @@
 {
   "php": {
-    "SINGLE_Reservations": "Reservation",
-    "Reservations": "Reservations",
+    "SINGLE_Reservations": "Rezervare",
+    "Reservations": "Rezervari",
     "LBL_MAIN_INFORMATION": "Reservation details",
-    "LBL_BLOCK": "Relations",
+    "LBL_BLOCK": "Relatii",
     "LBL_TOTAL_TIME": "Total time",
     "LBL_STATUS": "Status",
     "Assigned To": "Assigned to",
-    "LBL_TITLE": "Title",
+    "LBL_TITLE": "Titlu",
     "LBL_START_DATE": "Start date",
     "LBL_END_DATE": "End date",
     "LBL_TIME_START": "Start time",

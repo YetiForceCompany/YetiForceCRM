@@ -1,7 +1,7 @@
 {
   "php": {
-    "OSSOutsourcedServices": "Outsourced Services",
-    "SINGLE_OSSOutsourcedServices": "Outsourced Service",
+    "OSSOutsourcedServices": "Servicii externalizate",
+    "SINGLE_OSSOutsourcedServices": "Serviciu externalizat",
     "LBL_INFORMATION": "Information block",
     "Assigned To": "Assigned to",
     "LBL_osservicesstatus": "Status",

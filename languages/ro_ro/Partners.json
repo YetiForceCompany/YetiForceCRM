@@ -1,7 +1,7 @@
 {
   "php": {
-    "Partners": "Partners",
-    "SINGLE_Partners": "Partner",
+    "Partners": "Parteneri",
+    "SINGLE_Partners": "Partener",
     "LBL_PARTNERS_INFORMATION": "Basic information",
     "LBL_CUSTOM_INFORMATION": "System information",
     "LBL_DESCRIPTION_INFORMATION": "Description details",

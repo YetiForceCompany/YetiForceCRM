@@ -1,7 +1,7 @@
 {
   "php": {
-    "OSSSoldServices": "Sold Services",
-    "SINGLE_OSSSoldServices": "Sold Service",
+    "OSSSoldServices": "Servicii vandute",
+    "SINGLE_OSSSoldServices": "Serviciu vandut",
     "LBL_INFORMATION": "Information block",
     "Number": "Number",
     "Assigned To": "Assigned to",

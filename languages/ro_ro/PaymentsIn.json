@@ -1,7 +1,7 @@
 {
   "php": {
-    "PaymentsIn": "Payments in",
-    "SINGLE_PaymentsIn": "Payment in",
+    "PaymentsIn": "Plati incasate",
+    "SINGLE_PaymentsIn": "Plata incasata",
     "LBL_MAIN_INFORMATION": "Basic information",
     "LBL_PAYMENT_INFORMATION": "Payment information",
     "LBL_PAYMENTSVALUE": "Value",

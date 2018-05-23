@@ -1,7 +1,7 @@
 {
   "php": {
-    "Notification": "Notification",
-    "SINGLE_Notification": "Notification",
+    "Notification": "Notificare",
+    "SINGLE_Notification": "Notificare",
     "Notification ID": "Notification ID",
     "LBL_NOTIFICATION_CONTENTS": "Notification contents",
     "FL_TITLE": "title",
