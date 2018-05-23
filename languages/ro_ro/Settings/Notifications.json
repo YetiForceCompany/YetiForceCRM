@@ -1,7 +1,7 @@
 {
   "php": {
     "LBL_EXCEPTIONS": "Exceptions",
-    "LBL_NOTIFICATIONS_CONFIGURATION": "Notifications - configuration",
+    "LBL_NOTIFICATIONS_CONFIGURATION": "Notificari - configurare",
     "LBL_ADD_MEMBERS": "Add members to notifications",
     "LBL_SELECT_MEMBERS": "Select members for notifications",
     "LBL_MEMBERS": "Members",

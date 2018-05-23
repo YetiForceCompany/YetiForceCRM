@@ -1,6 +1,6 @@
 {
   "php": {
-    "LBL_CONVERSION": "Conversion",
+    "LBL_CONVERSION": "Conversie",
     "LBL_CONVERSION_TO_ACCOUNT": "Change Assigned To",
     "LBL_CONVERSION_TO_ACCOUNT_INFO": "When this option is ticked, a user who converts a Lead to an Account becomes its Assigned To",
     "LBL_LEADS": "Leads",

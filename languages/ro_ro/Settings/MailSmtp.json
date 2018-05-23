@@ -1,12 +1,12 @@
 {
   "php": {
-    "MailSmtp": "SMTP configuration",
-    "LBL_MAIL_SMTP": "SMTP configuration ",
+    "MailSmtp": "Configurare SMTP",
+    "LBL_MAIL_SMTP": "Configurare SMTP ",
     "LBL_MAILSMTP_EDIT": "Record edit",
     "LBL_MAILSMTP_TO_SEND_DESCRIPTION": "Configure outgoing mail servers",
     "LBL_HOST": "Host",
     "LBL_PORT": "Port",
-    "LBL_USERNAME": "User name",
+    "LBL_USERNAME": "Utilizator",
     "LBL_MAILER_TYPE": "Mailer type",
     "LBL_SECURE": "Safety protocol",
     "LBL_OPTIONS": "Additional parameters",

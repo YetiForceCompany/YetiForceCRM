@@ -1,6 +1,6 @@
 {
   "php": {
-    "OSSMail": "My mailbox",
+    "OSSMail": "Mail-ul meu",
     "ERR_NO_MODULE_IS_INACTIVE": "\"My mailbox\" module is inactive, it should be enabled before configuration."
   },
   "js": []
