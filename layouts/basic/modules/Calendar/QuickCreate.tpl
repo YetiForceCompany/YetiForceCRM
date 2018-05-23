@@ -108,14 +108,13 @@
 										</div>
 										<div class="float-right d-flex my-2">
 											<div class="btn-group-toggle pr-1" data-toggle="buttons">
-												<label class="btn btn-outline-primary c-btn-checkbox">
+												<label class="btn btn-outline-primary c-btn-checkbox js-btn--mark-as-held" data-js="click">
 													<strong>
 													<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
 													<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
 													<input type="checkbox" checked autocomplete="off">{\App\Language::translate('LBL_MARK_AS_HELD', $MODULE)}</strong>
 												</label>
 											</div>
-											LBL_MARK_AS_HELD
 											<button class="btn btn-success" type="submit"><strong><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
