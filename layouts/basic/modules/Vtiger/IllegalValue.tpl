@@ -18,7 +18,7 @@
 					<h2 class="alert-heading">{\App\Language::translate('LBL_BAD_REQUEST')}</h2>
 					<p>{\App\Purifier::encodeHtml($MESSAGE)}</p>
 					<p class="Buttons">
-						<a class="btn btn-info" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
+						<a class="btn btn-info" role="button" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
 					</p>
 				</div>
 			</div>

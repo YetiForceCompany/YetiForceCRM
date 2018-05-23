@@ -17,7 +17,7 @@
 					<h2>Vtiger Index View</h2>
 					<p>Generic implementation of the index page view...</p>
 					<p>
-						<a class="btn btn-danger" href="?module=Users&action=Logout">Logout</a>
+						<a class="btn btn-danger" role="button" href="?module=Users&action=Logout">Logout</a>
 					</p>
 				</div>
 			</div>
