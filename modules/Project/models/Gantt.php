@@ -510,7 +510,7 @@ class Project_Gantt_Model extends App\Base
 		$project['assigned_user_name']=\App\Fields\Owner::getUserLabel($recordModel->get('assigned_user_id'));
 		$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
 		if (empty($color)) {
-			$color = App\Colors::getRandomColor($project['projectstatus'] . '_status');
+			$color = $task['color'] = \AppConfig::module('Project', 'defaultStatusColors')['Project'][$recordModel->get('projectstatus')];
 		}
 		$project['color'] = $color;
 		if (!empty($recordModel->get('startdate'))) {
@@ -709,7 +709,7 @@ class Project_Gantt_Model extends App\Base
 			$milestone['startIsMilestone'] = true;
 			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
 			if (empty($color)) {
-				$color = App\Colors::getRandomColor($row['projectmilestone_priority'] . '_status');
+				$color = $task['color'] = \AppConfig::module('Project', 'defaultStatusColors')['ProjectMilestone'][$row['projectmilestone_status']];
 			}
 			$milestone['color'] = $color;
 			$milestones[] = $milestone;
@@ -755,7 +755,7 @@ class Project_Gantt_Model extends App\Base
 			$task['projecttaskstatus'] = $row['projecttaskstatus'];
 			$color = $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']];
 			if (empty($color)) {
-				$color = App\Colors::getRandomColor($row['projecttaskstatus'] . '_status');
+				$color = $task['color'] = \AppConfig::module('Project', 'defaultStatusColors')['ProjectTask'][$row['projecttaskstatus']];
 			}
 			$task['color'] = $color;
 			$task['start_date'] = date('d-m-Y', strtotime($row['startdate']));
