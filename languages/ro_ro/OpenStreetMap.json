@@ -1,7 +1,7 @@
 {
   "php": {
     "OpenStreetMap": "OpenStreetMap",
-    "LBL_GROUP_BY": "Group",
+    "LBL_GROUP_BY": "Grup",
     "LBL_GROUP_NEIGHBOURS": "Group neighboring elements",
     "LBL_NOT_FOUND_PLACE": "Place not found",
     "LBL_SEARCH_VALUE_DESCRIPTION": "City, street, building number...",

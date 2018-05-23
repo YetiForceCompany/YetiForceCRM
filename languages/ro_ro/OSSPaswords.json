@@ -1,7 +1,7 @@
 {
   "php": {
-    "OSSPasswords": "Passwords",
-    "SINGLE_OSSPasswords": "Password",
+    "OSSPasswords": "Parole",
+    "SINGLE_OSSPasswords": "Parola",
     "LBL_ADD_RECORD": "Add record",
     "LBL_RECORDS_LIST": "Passwords list",
     "LBL_PASS_CONFIGURATION": "Passwords configuration",
@@ -9,8 +9,8 @@
     "LBL_OSSPASSWORD_INFORMATION": "Information",
     "OSSPassword No": "Password no.",
     "Key name": "Key name",
-    "Username": "Username",
-    "Password": "Password",
+    "Username": "Utilizator",
+    "Password": "Parola",
     "WWW page": "Website",
     "Description": "Description",
     "Generate Password": "Generate password",

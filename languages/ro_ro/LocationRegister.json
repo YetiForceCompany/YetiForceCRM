@@ -1,7 +1,7 @@
 {
   "php": {
-    "LocationRegister": "Location Register",
-    "SINGLE_LocationRegister": "Location Register",
+    "LocationRegister": "Registru Locatie",
+    "SINGLE_LocationRegister": "Registru Locatie",
     "LBL_BASIC_INFORMATION": "Basic Information",
     "FL_NAME": "Name",
     "FL_PARENT_LOCATION": "Parent location",

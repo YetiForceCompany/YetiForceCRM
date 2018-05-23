@@ -1,7 +1,7 @@
 {
   "php": {
-    "LettersOut": "Outgoing correspondence",
-    "SINGLE_LettersOut": "Outgoing correspondence",
+    "LettersOut": "Corespondenta trimisa",
+    "SINGLE_LettersOut": "Corespondenta trimisa",
     "LBL_MAIN_INFORMATION": "Correspondence information",
     "Number": "Number",
     "Title": "Subject",

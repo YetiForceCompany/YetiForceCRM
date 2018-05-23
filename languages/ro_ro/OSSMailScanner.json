@@ -1,11 +1,11 @@
 {
   "php": {
-    "OSSMailScanner": "Mail Scanner",
-    "OSSMailScanner_manual": "Mail Scanner",
+    "OSSMailScanner": "Scaner Mail",
+    "OSSMailScanner_manual": "Scaner Mail",
     "E-mail Accounts": "Email Accounts",
     "Action": "Action",
     "Desc": "Description",
-    "username": "Username",
+    "username": "Utilizator",
     "mail_host": "Server",
     "language": "Language",
     "nazwa": "Function name",

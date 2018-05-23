@@ -1,7 +1,7 @@
 {
   "php": {
-    "SINGLE_ProjectTask": "Project Task",
-    "Project Task": "Project Tasks",
+    "SINGLE_ProjectTask": "Sarcina proiect",
+    "Project Task": "Sarcini proiect",
     "Start Date": "Start Date",
     "Target End Date": "Target End Date",
     "End Date": "End Date",
@@ -20,9 +20,9 @@
     "LBL_PROJECTS_LIST": "Projects List",
     "LBL_TASKS_LIST": "Tasks List",
     "LBL_MILESTONES_LIST": "Milestones List",
-    "low": "low",
+    "low": "scauzt",
     "normal": "normal",
-    "high": "high",
+    "high": "ridicat",
     "PLL_IN_PROGRESS": "In Progress",
     "PLL_OPEN": "Open",
     "PLL_COMPLETED": "Completed",

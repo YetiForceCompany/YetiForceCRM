@@ -1,7 +1,7 @@
 {
   "php": {
-    "SVendorEnquiries": "Vendor enquiries",
-    "SQuoteEnquiries": "Sales enquiries",
+    "SVendorEnquiries": "Intrebarile furnizorilor",
+    "SQuoteEnquiries": "Intrebare furnizor",
     "SINGLE_SQuoteEnquiries": "Sales enquiry",
     "SINGLE_SVendorEnquiries": "Vendor enquiry",
     "LBL_QUOTESENQUIRES_INFORMATION": "Basic information",

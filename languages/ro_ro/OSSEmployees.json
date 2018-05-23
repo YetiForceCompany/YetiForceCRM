@@ -1,12 +1,12 @@
 {
   "php": {
-    "OSSEmployees": "Employees",
-    "SINGLE_OSSEmployees": "Employee",
+    "OSSEmployees": "Angajati",
+    "SINGLE_OSSEmployees": "Angajat",
     "LBL_INFORMATION": "Employee details",
     "LBL_CONTACTS": "Contact details",
     "LBL_PERMANENT_ADDRESS": "Address of permanent residence",
     "LBL_CORRESPONDANCE_ADDRESS": "Forwarding address",
-    "No.": "Number",
+    "No.": "Numar",
     "Assigned To": "Assigned to",
     "LBL_EMPLOYEESTATUS": "Status",
     "LBL_NAME": "First name",

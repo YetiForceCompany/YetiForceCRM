@@ -1,9 +1,9 @@
 {
   "php": {
     "LBL_SUMMARY": "Work time summary",
-    "ServiceContracts": "Service Contracts",
-    "Service Contracts": "Service Contracts",
-    "SINGLE_ServiceContracts": "Service Contract",
+    "ServiceContracts": "Contracte Service",
+    "Service Contracts": "Contracte Service",
+    "SINGLE_ServiceContracts": "Contract Service",
     "LBL_SERVICE_CONTRACT_INFORMATION": "Service Contract details",
     "Contract No": "Contract number",
     "Start Date": "Start date",
