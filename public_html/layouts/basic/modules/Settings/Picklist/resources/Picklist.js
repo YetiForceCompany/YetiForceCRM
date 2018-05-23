@@ -643,11 +643,9 @@ Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 	},
 
 	validateValue: function (fieldValue) {
-		var specialChars = /[<\>\"\,#]/;
-
+		let specialChars = /[\<\>\"\,\#]/;
 		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , # " + app.vtranslate('JS_NOT_ALLOWED');
-			this.setError(errorInfo);
+			this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , # " + app.vtranslate('JS_NOT_ALLOWED'));
 			return false;
 		}
 		return true;

@@ -22,6 +22,11 @@
 					</div>
 				</div>
 				<hr>
+				<div class="row">
+					<p class="col-12">
+						{\App\Language::translate('LBL_STEP4_DESCRIPTION', 'Install')}
+					</p>
+				</div>
 				<div class="row d-none" id="errorMessage"></div>
 				<div class="row">
 					<div class="col-md-6">
@@ -83,7 +88,7 @@
 							<tbody>
 								<tr><td>{\App\Language::translate('LBL_CURRENCIES','Install')}<span class="no">*</span></td>
 									<td>
-										<select name="currency_name" class="select2" style="width:220px;">
+										<select name="currency_name" class="select2 " style="width:220px;">
 											{foreach key=CURRENCY_NAME item=CURRENCY_INFO from=$CURRENCIES}
 											<option value="{$CURRENCY_NAME}" {if $CURRENCY_NAME eq 'Euro'} selected {/if}>{$CURRENCY_NAME} ({$CURRENCY_INFO.1})</option>
 											{/foreach}
@@ -154,7 +159,7 @@
 						</table>
 						<div class="form-buttom-nav fixed-bottom button-container p-1">
 							<div class="text-center">
-								<a class="btn btn-md btn-danger" href="Install.php">{\App\Language::translate('LBL_BACK', 'Install')}</a>
+								<a class="btn btn-md btn-danger" role="button" href="Install.php">{\App\Language::translate('LBL_BACK', 'Install')}</a>
 								<input type="button" class="btn btn-md btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step5">
 							</div>
 						</div>

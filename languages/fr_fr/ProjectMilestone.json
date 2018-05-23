@@ -11,13 +11,20 @@
     "Project Milestone Name": "Nom du jalon",
     "Milestone Date": "Date du jalon",
     "Project Milestone No": "Jalon N\u00b0",
+    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_STATUS": "Status",
     "LBL_PRIORITY": "Priorit\u00e9",
     "LBL_PROGRESS": "Progression",
     "PLL_INTERNAL": "Interne",
     "PLL_EXTERNAL": "Externe",
     "PLL_SHARED": "Partag\u00e9",
     "PLL_LOW": "Basse",
-    "PLL_HIGH": "Haute"
+    "PLL_HIGH": "Haute",
+    "PLL_IN_PROGRESS": "In Progress",
+    "PLL_OPEN": "Open",
+    "PLL_COMPLETED": "Completed",
+    "PLL_DEFERRED": "Deferred",
+    "PLL_CANCELLED": "Cancelled"
   },
   "js": []
 }

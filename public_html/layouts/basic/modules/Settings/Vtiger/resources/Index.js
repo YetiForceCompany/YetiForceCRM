@@ -416,7 +416,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 						if (aletrsContainer.find('.warning').length) {
 							aletrsContainer.find('.warning').first().removeClass('d-none');
 						} else {
-							app.hideModalWindow(modal);
+							app.hideModalWindow(aletrsContainer);
 						}
 					}
 				});

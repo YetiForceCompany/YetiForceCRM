@@ -337,8 +337,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showRecentActivities(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted('ModTracker')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
+			return false;
 		}
 		include_once 'modules/ModTracker/ModTracker.php';
 		$type = 'changes';
@@ -346,8 +350,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$limit = $request->getInteger('limit');
 		$whereCondition = $request->get('whereCondition');
-		$moduleName = $request->getModule();
-
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -393,7 +395,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!$request->getBoolean('skipHeader')) {
 			$viewer->view('RecentActivitiesHeader.tpl', $moduleName);
 		}
-
 		return $viewer->view($tplName, $moduleName, true);
 	}
 

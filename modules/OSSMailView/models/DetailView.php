@@ -28,7 +28,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
-					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkicon' => 'fas fa-reply',
 					'linkclass' => 'sendMailBtn',
 				];
 				$detailViewLinks[] = [
@@ -36,7 +36,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
-					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkicon' => 'fas fa-reply-all',
 					'linkclass' => 'sendMailBtn',
 				];
 				$detailViewLinks[] = [
@@ -54,7 +54,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'reply'),
-					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkicon' => 'fas fa-reply',
 					'linkclass' => 'sendMailBtn',
 				];
 				$detailViewLinks[] = [
@@ -63,7 +63,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'replyAll'),
-					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkicon' => 'fas fa-reply-all',
 					'linkclass' => 'sendMailBtn',
 				];
 				$detailViewLinks[] = [

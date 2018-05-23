@@ -1260,7 +1260,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
-		$('button.selectRelation').on('click', function (e) {
+		$('.js-detail-widget button.selectRelation').on('click', function (e) {
 			let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
 			let referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
 			let restrictionsField = $(this).data('rf');

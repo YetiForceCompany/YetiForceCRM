@@ -585,7 +585,7 @@ class QueryGenerator
 	 */
 	private function addCustomViewFields($cvColumn)
 	{
-		list($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $cvColumn);
+		list($tableName, $columnName, $fieldName) = explode(':', $cvColumn);
 		if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
 			$this->customViewFields[] = 'id';
 		} else {

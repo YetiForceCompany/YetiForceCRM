@@ -18,17 +18,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="libraries/bootstrap/dist/css/bootstrap.css" type="text/css" media="screen">
 		<script type="text/javascript" src="libraries/jquery/dist/jquery.min.js"></script>
-		<style>
-			.shadow{
-				-webkit-box-shadow: 3px 3px 14px 0px rgba(50, 50, 50, 0.75);
-				-moz-box-shadow:    3px 3px 14px 0px rgba(50, 50, 50, 0.75);
-				box-shadow:         3px 3px 14px 0px rgba(50, 50, 50, 0.75);
-			}
-		</style>
 	</head>
 	<body class="container">
-		<div style="margin-top: 10px;" class="col-md-12 alert alert-warning shadow">
-			<div style="position: relative;" >
+		<div class="col-md-12 alert alert-warning mt-4 u-box-shadow">
+			<div class="position-relative">
 				<div>
 					<h2 class="alert-heading">{\App\Language::translate('CANNOT_CONVERT', $MODULE)}</h2>
 					<p>
@@ -43,10 +36,10 @@
 					<p class="clearfix"></p>
 					<p class="Buttons float-right">
 						{if $CURRENT_USER->isAdminUser()}
-							<a class="btn btn-info" href='index.php?parent=Settings&module=Leads&view=MappingDetail'>{\App\Language::translate('LBL_LEADS_FIELD_MAPPING', $MODULE)}</a>
+							<a class="btn btn-info" role="button" href='index.php?parent=Settings&module=Leads&view=MappingDetail'>{\App\Language::translate('LBL_LEADS_FIELD_MAPPING', $MODULE)}</a>
 						{/if}
-						<a class="btn btn-warning" href="javascript:window.history.back();">{\App\Language::translate('LBL_GO_BACK')}</a>
-						<a class="btn btn-primary" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
+						<a class="btn btn-warning" role="button" href="javascript:window.history.back();">{\App\Language::translate('LBL_GO_BACK')}</a>
+						<a class="btn btn-primary" role="button" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
 					</p>
 				</div>
 			</div>

@@ -156,6 +156,7 @@
     "LBL_CHOOSE_COLUMNS": "Wybierz kolumny",
     "LBL_CHOOSE_FILTER_CONDITIONS": "Ustaw warunki dla filtru",
     "LBL_CLEAR": "Wyczy\u015b\u0107",
+    "LBL_CLEAR_SEARCH": "Wyczy\u015b\u0107 wynik wyszukiwania",
     "LBL_CLICK_ADD": "Kliknij dodaj",
     "LBL_CLOSE": "Zamknij",
     "LBL_COMMENTED": "doda\u0142 komentarz",
@@ -532,7 +533,7 @@
     "Po Box": "Skrytka pocztowa",
     "Postal Code": "Kod pocztowy",
     "Dashboards": "Strona g\u0142\u00f3wna",
-    "POWEREDBY": "System YetiForce (silnik Vtiger) | ",
+    "POWEREDBY": "System YetiForce | ",
     "Price": "Cena",
     "PriceBooks": "Cenniki",
     "Priority": "Priorytet",
@@ -1276,8 +1277,9 @@
     "LBL_FULLTEXT_BEGIN": "S\u0142owo zaczyna si\u0119 od",
     "LBL_FULLTEXT_WORD": "S\u0142owo",
     "LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
-    "LBL_MERGING": "\u0141\u0105czenie rekord\u00f3w",
-    "_Base": "System"
+     "LBL_MERGING": "\u0141\u0105czenie rekord\u00f3w",
+    "_Base": "System",
+    "LBL_SHOP_YETIFORCE": "Sklep"
   },
   "js": {
     "JS_SUMMARY": "Podsumowanie",
@@ -1381,6 +1383,7 @@
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "Pomy\u015blnie zmieniono w\u0142a\u015bciela rekord\u00f3w",
     "JS_RECORD_GETTING_DELETED": "Rekord jest usuwany",
     "JS_REENTER_PASSWORDS": "Wpisz has\u0142o ponownie",
+    "JS_REMINDER": "Powiadomienia kalendarza",
     "JS_REQUIRED_FIELD": "* To pole jest wymagane",
     "JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS": "Wskazany Kontrahent nie posiada adresu do skopiowania",
     "JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS": "Wskazany Kontakt nie posiada adresu do skopiowania",

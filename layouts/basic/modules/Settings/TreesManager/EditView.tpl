@@ -85,11 +85,11 @@
 			</div>
 			<br />
 			<div class="float-right">
-				<button class="btn btn-success saveTree">
-					<span class="fas fa-check"></span>&nbsp;&nbsp;
+				<button class="btn btn-success saveTree mr-1">
+					<span class="fas fa-check mr-1"></span>
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
-				</button>&nbsp;&nbsp;
-				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+				</button>
+				<button class="cancelLink btn btn-danger" type="reset" onclick="javascript:window.history.back();">
 					<span class="fas fa-times"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 				</button>
