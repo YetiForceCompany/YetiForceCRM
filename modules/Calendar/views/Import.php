@@ -47,7 +47,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		echo $this->import($request);
 	}
 
-	public function postprocess(\App\Request $request)
+	public function postprocess(\App\Request $request, $display = true)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
