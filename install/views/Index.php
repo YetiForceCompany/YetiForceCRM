@@ -306,6 +306,11 @@ class Install_Index_View extends \App\Controller\View
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');
 		\vtlib\Functions::recurseDelete('.travis.yml');
+		\vtlib\Functions::recurseDelete('.codecov.yml');
+		\vtlib\Functions::recurseDelete('.gitlab-ci.yml');
+		\vtlib\Functions::recurseDelete('.php_cs.dist');
+		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
+		\vtlib\Functions::recurseDelete('.sensiolabs.yml');
 	}
 
 	/**
