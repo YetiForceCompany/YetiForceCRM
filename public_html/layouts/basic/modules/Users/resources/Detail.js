@@ -139,7 +139,13 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 							function (respons) {
 								if( respons.result.success ){
 									app.hideModalWindow();
-									Vtiger_Helper_Js.showPnotify(app.vtranslate(respons.result.message));
+									let params = {
+										text: app.vtranslate(respons.result.message),
+										type: 'success',
+										animation: 'show'
+									};
+
+									Vtiger_Helper_Js.showPnotify(params);
 								}else{
 									let wrongCode = form.find('#wrong-code');
 									if(wrongCode.hasClass('hide') ){
