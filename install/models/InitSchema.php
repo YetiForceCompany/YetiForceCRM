@@ -83,6 +83,7 @@ class Install_InitSchema_Model
 		} catch (Throwable $e) {
 			$return = false;
 			\App\Log::error($e->__toString());
+			$_SESSION['instalation_success'] = false;
 		}
 		return ['status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query];
 	}
@@ -195,7 +196,6 @@ class Install_InitSchema_Model
 		if ($vtiger_current_version != $migrationObject->version) {
 			return ['result' => false, 'text' => 'LBL_ERROR_WRONG_VERSION'];
 		}
-
 		include_once $config_directory;
 
 		$webRoot = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];

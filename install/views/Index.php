@@ -258,7 +258,7 @@ class Install_Index_View extends \App\Controller\View
 			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
+			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
 			$this->viewer->display('Step7.tpl');
 		}
 	}

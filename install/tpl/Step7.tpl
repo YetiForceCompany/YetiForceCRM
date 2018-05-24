@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{if $_SESSION['instalation_success']}
+	{if $INSTALATION_SUCCESS}
 		<form class="" name="step7" method="post" action="../index.php?module=Users&action=Login">
 			<input type="hidden" name="mode" value="install">
 			<input type="hidden" name="username" value="{$USER_NAME}">
