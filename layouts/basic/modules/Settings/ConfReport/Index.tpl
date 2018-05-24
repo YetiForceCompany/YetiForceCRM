@@ -77,7 +77,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=item}
+							{foreach from=$DB_CONF key=key item=item}
 								<tr {if $item['status']}class="table-danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{App\Language::translate($key, $MODULE)}</label>
@@ -115,7 +115,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
+							{foreach from=$SECURITY_CONF key=key item=item}
 								<tr {if $item.status}class="table-danger"{/if}>
 									<td>
 										<label class="u-text-small-bold">{$key}</label>
@@ -148,7 +148,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getSystemInfo() key=key item=item}
+							{foreach from=$SYSTEM_INFO key=key item=item}
 								<tr>
 									<td><label class="u-text-small-bold">{App\Language::translate($key, $MODULE)}</label></td>
 									{if is_array($item)}
@@ -186,7 +186,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getStabilityConf(false,false,true) key=key item=item}
+							{foreach from=$STABILITY_CONF key=key item=item}
 								<tr {if $item['incorrect']}class="table-danger"{/if}>
 									<td class="u-w-5per">
 										<label class="u-text-small-bold">{$key}</label>
