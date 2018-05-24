@@ -233,11 +233,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['public_html']['status'] = true;
 			$directiveValues['public_html']['current'] = static::getFlag(false);
 		}
-		if (!isset($_SERVER['HTACCESS_TEST'])) {
-			$directiveValues['.htaccess']['status'] = true;
-			$directiveValues['.htaccess']['current'] = 'Off';
+		if (strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
+			if (!isset($_SERVER['HTACCESS_TEST'])) {
+				$directiveValues['.htaccess']['status'] = true;
+				$directiveValues['.htaccess']['current'] = 'Off';
+			} else {
+				$directiveValues['.htaccess']['current'] = 'On';
+			}
 		} else {
-			$directiveValues['.htaccess']['current'] = 'On';
+			unset($directiveValues['.htaccess']);
 		}
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['HTTPS']['status'] = false;
@@ -414,6 +418,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		$params = [
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE'],
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
 			'LBL_PHP_SAPI' => ['www' => $ini['SAPI'], 'cli' => $cliConf ? $cliConf['SAPI'] : ''],
