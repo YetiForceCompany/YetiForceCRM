@@ -41,6 +41,8 @@ class Install_InitSchema_Model
 		require_once 'modules/Users/Users.php';
 		require_once 'include/Webservices/Utils.php';
 		\App\UserPrivilegesFile::recalculateAll();
+		\App\Cache::clear();
+		\App\Cache::clearOpcache();
 	}
 
 	public function initializeDatabase($location, $filesName = [])
@@ -154,7 +156,6 @@ class Install_InitSchema_Model
 		for ($f = 1; $f < $countFunct; ++$f) {
 			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
-
 		return $queries;
 	}
 
@@ -171,54 +172,7 @@ class Install_InitSchema_Model
 				$schemaList[$fileName] = $migrationObject->name;
 			}
 		}
-
 		return $schemaList;
-	}
-
-	public function createConfig($source_directory, $username, $password, $system)
-	{
-		if (substr($source_directory, -1) != '/') {
-			$source_directory = $source_directory . '/';
-		}
-
-		$config_directory = $source_directory . 'config.inc.php';
-		if (!file_exists($config_directory)) {
-			return ['result' => false, 'text' => 'LBL_ERROR_NO_CONFIG'];
-		}
-
-		if (!file_exists($source_directory . 'vtigerversion.php')) {
-			return ['result' => false, 'text' => 'LBL_ERROR_NO_CONFIG'];
-		}
-
-		include_once $this->migration_schema . $system . '.php';
-		$migrationObject = new $system();
-		include_once $source_directory . 'vtigerversion.php';
-		if ($vtiger_current_version != $migrationObject->version) {
-			return ['result' => false, 'text' => 'LBL_ERROR_WRONG_VERSION'];
-		}
-		include_once $config_directory;
-
-		$webRoot = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
-		$webRoot .= $_SERVER['REQUEST_URI'];
-		$webRoot = str_replace('install/Install.php', '', $webRoot);
-		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $webRoot;
-
-		$configFileParameters = [];
-		$configFileParameters['site_URL'] = $webRoot;
-		$configFileParameters['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
-		$configFileParameters['db_username'] = $dbconfig['db_username'];
-		$configFileParameters['db_password'] = $dbconfig['db_password'];
-		$configFileParameters['db_name'] = $dbconfig['db_name'];
-		$configFileParameters['db_type'] = $dbconfig['db_type'];
-		$configFileParameters['currency_name'] = $currency_name;
-		$configFileParameters['vt_charset'] = $default_charset;
-		$configFileParameters['default_language'] = $default_language;
-		$configFileParameters['timezone'] = $default_timezone;
-
-		$configFile = new Install_ConfigFileUtils_Model($configFileParameters);
-		$configFile->createConfigFile();
-
-		return ['result' => true];
 	}
 
 	/**
