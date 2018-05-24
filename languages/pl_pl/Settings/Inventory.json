@@ -24,10 +24,10 @@
     "LBL_CANNOT_BE_COMBINED": "Nie wolno \u0142\u0105czy\u0107",
     "LBL_IN_TOTAL": "Sumarycznie",
     "LBL_CASCADE": "Kaskadowo",
-    "LBL_GLOBAL": "Globalny",
-    "LBL_GROUP": "Grupowy",
-    "LBL_INDIVIDUAL": "Indywidualny",
-    "LBL_REGIONAL": "Regionalny",
+    "LBL_GLOBAL": "Podatek z listy dost\u0119pnych podatk\u00f3w",
+    "LBL_GROUP": "Podatek z listy produkt\u00f3w\/us\u0142ug",
+    "LBL_INDIVIDUAL": "Podatek niestandardowy",
+    "LBL_REGIONAL": "Podatek kontrahenta",
     "LBL_ARE_ACTIVE": "Aktywne?",
     "LBL_SUMMATION_TYPE": "Typ sumowania",
     "LBL_AVAILABLE_TAXS": "Dost\u0119pne podatki",
@@ -39,7 +39,9 @@
     "LBL_VIEW_TAXES": "Lista podatk\u00f3w",
     "LBL_VIEW_TAXCONFIGURATION": "Konfiguracja podatk\u00f3w",
     "LBL_VIEW_DISCOUNTCONFIGURATION": "Konfiguracja rabat\u00f3w",
-    "LBL_VIEW_DISCOUNTS": "Lista rabat\u00f3w"
+    "LBL_VIEW_DISCOUNTS": "Lista rabat\u00f3w",
+    "LBL_ALERT_TAX_CONFIG_TITLE": "Typ sumowania",
+    "LBL_ALERT_TAX_CONFIG_DESC": "<b>Sumarycznie:<\/b>\r\n<i>\u0141\u0105czna suma wszystkich podatk\u00f3w liczona od warto\u015bci produktu\/us\u0142ugi.<\/i>\r\nPrzyk\u0142ad:\r\n<i>Je\u017celi wybrane s\u0105 dwa podatki: pierwszy 23%%, drugi 8%%. To system sumuje warto\u015b\u0107 obydwu podatk\u00f3w od pierwotnej kwoty netto.<\/i>\r\nW powy\u017cszym przyk\u0142adzie dla warto\u015bci netto 100z\u0142. Kwota brutto wyniesie = (100z\u0142 * 1,31) = 131,00 z\u0142\r\n\r\n<b>Kaskadowo:<\/b>\r\n<i>Kwota podatku naliczana jest ka\u017cdorazowo od warto\u015bci produktu\/us\u0142ugi.<\/i>\r\nPrzyk\u0142ad:\r\n<i>Je\u017celi wybrane s\u0105 dwa podatki: pierwszy 23%%, drugi 8%%. To system oblicza warto\u015b\u0107 dla pierwszego podatku a nast\u0119pnie ta kwota podnoszona jest o warto\u015b\u0107 drugiego podatku.<\/i>\r\nW powy\u017cszym przyk\u0142adzie dla warto\u015bci netto 100z\u0142. Kwota brutto wyniesie = (100z\u0142 * 1,23) * 1,08 = 132,84 z\u0142\r\n\r\n<h5>Opis ustawie\u0144 podatk\u00f3w<\/h5><b>Podatek z listy dost\u0119pnych podatk\u00f3w:<\/b>\r\n<i>Okre\u015blany w ustawieniach modu\u0142\u00f3w zaawansowanych.<\/i>\r\n<b>Podatek z listy produkt\u00f3w\/us\u0142ug:<\/b>\r\n<i>Ustawiany dla produktu indywidualnie w module Produkty.<\/i>\r\n<b>Podatek niestandardowy:<\/b>\r\n<i>Okre\u015blany jednorazowo dla wybranego rekordu.<\/i>\r\n<b>Podatek kontrahenta:<\/b>\r\n<i>Ustawiany indywidualnie dla wybranego klienta.<\/i>"
   },
   "js": {
     "JS_SAVE_CHANGES": "Pomy\u015blnie zapisano zmiany.",
