@@ -75,12 +75,16 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module = Users&action = SaveAjax&mode = changeAccessKey&record = $recordId')",
 				'linkicon' => '',
 			];
-			$detailViewActionLinks[] = [
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
-				'linkurl' => 'javascript:Users_Detail_Js.triggerTwoFactorAuthentication()',
-				'linkicon' => '',
-			];
+
+			if (AppConfig::security('USER_AUTHY_MODE') !== Users_Totp_AuthMethod::TOTP_OFF) {
+				$detailViewActionLinks[] = [
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
+					'linkurl' => 'javascript:Users_Detail_Js.triggerTwoFactorAuthentication()',
+					'linkicon' => '',
+				];
+			}
+
 			foreach ($detailViewActionLinks as $detailViewLink) {
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
