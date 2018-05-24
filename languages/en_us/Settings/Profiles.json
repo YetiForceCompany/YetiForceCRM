@@ -88,7 +88,8 @@
     "ActivityCancel": "Cancel records",
     "ActivityComplete": "Close records",
     "ActivityPostponed": "Postpone records",
-    "Emails": "Send emails [SMTP]"
+    "Emails": "Send emails [SMTP]",
+    "ModTracker": "Change history"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"
