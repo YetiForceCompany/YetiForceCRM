@@ -2,9 +2,10 @@
 @charset 'UTF-8';
 //-------- global variables --------//
 @import '_Variables';
-//-------- bootstrap --------//
+//-------- libraries --------//
 @import '../../../libraries/bootstrap/scss/bootstrap';
 @import '../../../libraries/select2-bootstrap-theme/dist/select2-bootstrap.css';
+@import '../../../libraries/sass-material-colors/sass/_sass-material-colors.scss';
 //-------- base --------//
 @import '_Style';
 //-------- components --------//
