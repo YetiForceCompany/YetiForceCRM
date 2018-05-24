@@ -210,12 +210,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false,
 			],
-			'session_regenerate_id' => [
-				'recommended' => 'On',
-				'help' => 'LBL_SESSION_REGENERATE_HELP_TEXT',
-				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
-				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id'),
-			],
 			'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
 			'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
 			'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'help' => 'LBL_HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
@@ -227,6 +221,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: Referrer-Policy' => ['recommended' => 'same-origin', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
 			'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'LBL_HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
 		];
+		if (!$instalMode) {
+			$directiveValues['session_regenerate_id'] = [
+				'recommended' => 'On',
+				'help' => 'LBL_SESSION_REGENERATE_HELP_TEXT',
+				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
+				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id'),
+			];
+		}
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
 		} else {
@@ -262,7 +264,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$directiveValues['session.cookie_secure']['status'] = true;
 			}
 		}
-
 		stream_context_set_default([
 			'ssl' => [
 				'verify_peer' => false,
@@ -308,7 +309,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $directiveValues;
 	}
 
@@ -402,7 +402,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $directiveValues;
 	}
 
@@ -429,7 +428,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (!empty($ini['INI_FILES']) || !empty($cliConf['INI_FILES'])) {
 			$params['LBL_PHPINIS'] = ['www' => $ini['INI_FILES'], 'cli' => $cliConf ? $cliConf['INI_FILES'] : ''];
 		}
-
 		return $params;
 	}
 
@@ -447,7 +445,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'storage/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'storage')],
 			'user_privileges/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'user_privileges')],
 		];
-
 		return $denyPublicDirState;
 	}
 
@@ -471,7 +468,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$permissions[$index]['permission'] = 'FailedPermission';
 			}
 		}
-
 		return $permissions;
 	}
 
