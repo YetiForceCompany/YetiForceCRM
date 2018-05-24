@@ -87,7 +87,8 @@
     "ActivityCancel": "Datens\u00e4tze abbrechen",
     "ActivityComplete": "Datens\u00e4tze schlie\u00dfen",
     "ActivityPostponed": "Datens\u00e4tze verschieben",
-    "Emails": "E-Mails senden [SMTP]"
+    "Emails": "E-Mails senden [SMTP]",
+    "ModTracker": "Change history"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil erfolgreich gel\u00f6scht"
