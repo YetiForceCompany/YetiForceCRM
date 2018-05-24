@@ -230,6 +230,7 @@
     "LBL_BETWEEN": "Entre",
     "LBL_BILLING_ADDRESS_FROM": "Copiar direcci\u00f3n de facturaci\u00f3n de",
     "LBL_BLANK": "-En blanco-",
+    "LBL_BREADCRUMB": "Breadcrumb",
     "LBL_BROWSE_CRM": "Buscar CRM",
     "LBL_BY": "por",
     "LBL_CALENDAR": "Calendario",
@@ -373,6 +374,7 @@
     "LBL_LOADING_LISTVIEW_CONTENTS": "Cargando, por favor espere.",
     "LBL_LOADING_PLEASE_WAIT": "Cargando, por favor espere.",
     "LBL_LOADING_WIDGET": "Cargando widget",
+    "LBL_MAIN_MENU": "Main menu",
     "LBL_MANAGE_USERS": "Administrar usuarios",
     "LBL_Mar": "Mar",
     "LBL_MARKETING_AND_SALES": "MARKETING Y VENTAS",
@@ -580,6 +582,7 @@
     "LBL_VIEW_EXPORT": "Exportar",
     "LBL_VIEW_IMPORT": "Importar",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "CRM de c\u00f3digo abierto YetiForce",
+    "LBL_QUICK_ACCESS_MENU": "Quick access menu",
     "LBL_Wed": "Mi\u00e9",
     "LBL_YEAR": "a\u00f1o",
     "LBL_YEARS": "a\u00f1os",
@@ -1651,6 +1654,7 @@
     "JS_INVALID_FILE_TYPE": "Tipo de archivo inv\u00e1lido",
     "JS_AVAILABLE_FILE_TYPES": "Tipo de archivo disponible",
     "JS_FILE_LIMIT": "Superado el l\u00edmite de archivos",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Espere a que se suban los archivos"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Espere a que se suban los archivos",
+	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range"
   }
 }

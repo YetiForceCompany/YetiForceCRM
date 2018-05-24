@@ -190,6 +190,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (!in_array($fieldType, $supportedFieldTypes)) {
 			throw new Exception(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
+		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
+			$pickListValues = $params['pickListValues'];
+			if (is_string($pickListValues)) {
+				$pickListValues = [$pickListValues];
+			}
+			foreach ($pickListValues as $value) {
+				if (preg_match('/[\<\>\"\#\,]/', $value)) {
+					throw new Exception(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
+				}
+				if (strlen($value) > 200) {
+					throw new Exception(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
+				}
+			}
+		}
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
 		if ($type == 0) {
@@ -234,10 +248,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
 		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
-			$pickListValues = $params['pickListValues'];
-			if (is_string($pickListValues)) {
-				$pickListValues = [$pickListValues];
-			}
 			$fieldModel->setPicklistValues($pickListValues);
 		}
 		if ($fieldType === 'Related1M') {

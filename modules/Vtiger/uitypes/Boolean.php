@@ -66,4 +66,12 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	{
 		return 'List/Field/Boolean.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['tinyint', 'smallint'];
+	}
 }

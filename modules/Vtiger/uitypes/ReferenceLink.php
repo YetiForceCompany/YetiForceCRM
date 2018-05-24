@@ -12,20 +12,6 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getReferenceList()
 	{
 		$modules = \App\ModuleHierarchy::getModulesByLevel();

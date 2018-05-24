@@ -193,7 +193,7 @@ class Users extends CRMEntity
 		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
 		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
 		if ($this->column_fields['no_of_currency_decimals'] === '') {
-			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = App\User::getCurrentUserId() ? App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals') : 2;
+			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = App\User::getCurrentUserId() ? (int) App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals') : 2;
 		}
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';

@@ -1,4 +1,5 @@
 <?php
+
 namespace Importers;
 
 /**
@@ -10,7 +11,6 @@ namespace Importers;
  */
 class Base2 extends \App\Db\Importers\Base
 {
-
 	public $dbType = 'base';
 
 	public function scheme()
@@ -3066,7 +3066,7 @@ class Base2 extends \App\Db\Importers\Base
 						[29, 'LBL_CLEAR_ATTACHMENTS_TABLE', 'cron/Attachments.php', 86400, null, null, 1, 'Vtiger', 27, null],
 						[30, 'LBL_SMSNOTIFIER', 'modules/SMSNotifier/cron/SMSNotifier.php', 300, null, null, 1, 'SMSNotifier', 28, null],
 						[31, 'LBK_SYSTEM_WARNINGS', 'cron/SystemWarnings.php', 86400, null, null, 1, 'Vtiger', 29, null],
-						[32, 'LBL_BATCH_METHODS', 'cron/BatchMethods.php', 900, NULL, NULL, 1, 'Vtiger', 31, NULL],
+						[32, 'LBL_BATCH_METHODS', 'cron/BatchMethods.php', 900, null, null, 1, 'Vtiger', 31, null],
 				]
 			],
 			'vtiger_currencies' => [

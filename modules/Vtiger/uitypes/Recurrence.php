@@ -154,4 +154,12 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	{
 		return false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
+	}
 }

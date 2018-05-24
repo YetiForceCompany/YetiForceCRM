@@ -20,7 +20,7 @@
     "LBL_COMPANY_LOGO": "Logo firmowe",
     "LBL_CONFIG_DESCRIPTION": "Konfiguruj g\u0142\u00f3wne ustawienia systemu",
     "LBL_CONFIG_EDITOR": "System - konfiguracja",
-    "LBL_CONFIG_EDITOR_DESCRIPTION": "Konfiguruj\u0105 parametry systemowe predefiniowane w pliku konfiguracyjnym config.inc.php",
+    "LBL_CONFIG_EDITOR_DESCRIPTION": "Konfiguruj\u0105 parametry systemowe predefiniowane w pliku konfiguracyjnym config/config.inc.php",
     "LBL_CONFIG_FILE": "config\/config.inc.php",
     "LBL_CREATING_NEW": "Tworzenie nowego",
     "LBL_CURRENCY_DESCRIPTION": "Zarz\u0105dzaj walutami, dla kt\u00f3rych mo\u017cesz okre\u015bli\u0107 warto\u015bci po kt\u00f3rych system dokona przeliczania pomi\u0119dzy walutami.",

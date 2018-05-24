@@ -921,35 +921,6 @@ app = {
 	getDecodedValue: function (value) {
 		return $('<div></div>').html(value).text();
 	},
-	updateRowHeight: function () {
-		var rowType = CONFIG.rowHeight;
-		if (rowType !== null) {
-			//Need to update the row height
-			var widthType = app.cacheGet('widthType', 'mediumWidthType');
-			var serverWidth = widthType;
-			switch (serverWidth) {
-				case 'narrowWidthType' :
-					serverWidth = 'narrow';
-					break;
-				case 'wideWidthType' :
-					serverWidth = 'wide';
-					break;
-				default :
-					serverWidth = 'medium';
-			}
-			var userid = CONFIG.userId;
-			var params = {
-				'module': 'Users',
-				'action': 'SaveAjax',
-				'record': userid,
-				'value': serverWidth,
-				'field': 'rowheight'
-			};
-			AppConnector.request(params).then(function () {
-				$(rowType).val(serverWidth);
-			});
-		}
-	},
 	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(" " + c_name + "=");
@@ -1419,8 +1390,6 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	//Updating row height
-	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()

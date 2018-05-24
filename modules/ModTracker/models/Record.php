@@ -19,6 +19,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	const UNLINK = 5;
 	const CONVERTTOACCOUNT = 6;
 	const DISPLAYED = 7;
+	const TRANSFER_EDIT = 10;
+	const TRANSFER_DELETE = 11;
+	const TRANSFER_UNLINK = 12;
+	const TRANSFER_LINK = 13;
 
 	/**
 	 * Status labels.
@@ -35,6 +39,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		7 => 'LBL_DISPLAYED',
 		3 => 'LBL_ACTIVE',
 		8 => 'LBL_ARCHIVED',
+		10 => 'LBL_TRANSFER_EDIT',
+		11 => 'LBL_TRANSFER_DELETE',
+		12 => 'LBL_TRANSFER_UNLINK',
+		13 => 'LBL_TRANSFER_LINK',
 	];
 
 	/**
@@ -275,6 +283,46 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferEdit()
+	{
+		return $this->checkStatus(static::TRANSFER_EDIT);
+	}
+
+	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferLink()
+	{
+		return $this->checkStatus(static::TRANSFER_LINK);
+	}
+
+	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferUnLink()
+	{
+		return $this->checkStatus(static::TRANSFER_UNLINK);
+	}
+
+	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isTransferDelete()
+	{
+		return $this->checkStatus(static::TRANSFER_DELETE);
+	}
+
+	/**
 	 * Has changed state.
 	 *
 	 * @return bool
@@ -336,7 +384,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getFieldInstances()
 	{
 		$fieldInstances = [];
-		if ($this->isCreate() || $this->isUpdate()) {
+		if ($this->isCreate() || $this->isUpdate() || $this->isTransferEdit()) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_modtracker_detail')->where(['id' => $this->get('id')])->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row = array_map('html_entity_decode', $row);
@@ -366,7 +414,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getRelationInstance()
 	{
-		if ($this->isRelationLink() || $this->isRelationUnLink()) {
+		if ($this->isRelationLink() || $this->isRelationUnLink() || $this->isTransferLink() || $this->isTransferUnLink()) {
 			$row = (new \App\Db\Query())->from('vtiger_modtracker_relations')->where(['id' => $this->get('id')])->one();
 			$relationInstance = new ModTracker_Relation_Model();
 			$relationInstance->setData($row)->setParent($this);

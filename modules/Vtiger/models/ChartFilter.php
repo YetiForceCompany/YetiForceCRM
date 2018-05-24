@@ -432,7 +432,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			'show_chart' => false,
 		];
 		$datasetIndex = 0;
-		$datasetsDividings = [];
 		foreach ($this->getRows() as $dividingValue => &$dividing) {
 			if (!isset($chartData['datasets'][$datasetIndex])) {
 				$chartData['datasets'][] = [
@@ -447,7 +446,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			} elseif ($this->isDividedByField()) {
 				$dataset['label'] = $dividingValue;
 			}
-			$datasetsDividings[$datasetIndex] = $dividingValue;
 			foreach ($dividing as $groupValue => &$group) {
 				if (!in_array($groupValue, $chartData['labels'])) {
 					$chartData['labels'][] = $groupValue;

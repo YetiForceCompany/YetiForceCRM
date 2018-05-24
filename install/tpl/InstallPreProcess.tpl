@@ -30,8 +30,46 @@
 				<div class="col-12 text-center py-5">
 					<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
 					<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}"
-						 alt="Install loading">
+						 alt="Install loading"><br>
 					<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
+					<br><br>
+					<h6>{\App\Language::translate('LBL_STEP7_DESCRIPTION','Install')}</h6>
+					<ul class="text-center list-inline">
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" target="_blank" href="https://yetiforce.com">
+								<span class="fas fa-link" title="yetiforce.com"></span>
+							</a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" target="_blank" href="https://www.linkedin.com/groups/8177576">
+								<span class="fab fa-linkedin" title="LinkendIn"></span>
+							</a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" target="_blank" href="https://twitter.com/YetiForceEN">
+								<span class="fab fa-twitter-square" title="Twitter"></span>
+							</a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" target="_blank" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+								<span class="fab fa-facebook-square" title="Facebook"></span></a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM">
+								<span class="fab fa-github-square" title="Github"></span>
+							</a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
+								<span class="fas fa-bug" title="Issues"></span>
+							</a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer" href="https://yetiforce.shop/">
+								<span class="fas fa-shopping-cart" title="Shop"></span>
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>

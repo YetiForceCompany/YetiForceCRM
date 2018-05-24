@@ -22,6 +22,11 @@
 					</div>
 				</div>
 				<hr>
+				<div class="row">
+					<p class="col-12">
+						{\App\Language::translate('LBL_STEP6_DESCRIPTION', 'Install')}
+					</p>
+				</div>
 				<div class="offset2">
 					<div class="row">
 						<table class="config-table input-table">
@@ -88,21 +93,18 @@
 					</div>
 					<div class="form-buttom-nav fixed-bottom button-container p-1">
 						<div class="text-center">
-							<input type="button" class="btn btn-sm btn-danger" value="{\App\Language::translate('LBL_BACK','Install')}" onclick="window.history.back()">
-							<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step7">
+							<a class="btn btn-md btn-danger" href="Install.php">
+								<span class="fas fa-arrow-circle-left mr-1"></span>
+								{App\Language::translate('LBL_BACK', 'Install')}
+							</a>
+							<button type="submit" role="button" class="btn btn-md btn-primary">
+								<span class="fas fa-arrow-circle-right mr-1"></span>
+								{App\Language::translate('LBL_NEXT', 'Install')}
+							</button>
 						</div>
 					</div>
 				</div>
 			</form>
-		</div>
-		<div id="progressIndicator" class="main-container d-none">
-			<div class="inner-container py-5">
-				<div class="col-12 text-center py-5">
-					<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-					<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}" alt="Install loading">
-					<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
-				</div>
-			</div>
 		</div>
 	</div>
 {/strip}

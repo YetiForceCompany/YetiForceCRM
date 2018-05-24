@@ -65,7 +65,7 @@
 											</div>
 										</div>
 									</div>
-								{else if $RECENT_ACTIVITY->isUpdate()}
+								{else if $RECENT_ACTIVITY->isUpdate() || $RECENT_ACTIVITY->isTransferEdit()}
 									<div class="d-flex">
 										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
@@ -121,7 +121,7 @@
 											</div>
 										</div>
 									</div>
-								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
+								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink() || $RECENT_ACTIVITY->isTransferLink() || $RECENT_ACTIVITY->isTransferUnLink())}
 									<div class="d-flex">
 										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
@@ -156,7 +156,7 @@
 											</div>
 										</div>
 									</div>
-								{else if $RECENT_ACTIVITY->isChangeState()}
+								{else if $RECENT_ACTIVITY->isChangeState() || $RECENT_ACTIVITY->isTransferDelete()}
 									<div class="d-flex">
 										<span class="fa-layers fa-fw fa-2x u-ml-minus-5px mt-2">
 											<span class="fas fa-circle" style="color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};"></span>
