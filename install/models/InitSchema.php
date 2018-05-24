@@ -45,44 +45,45 @@ class Install_InitSchema_Model
 
 	public function initializeDatabase($location, $filesName = [])
 	{
-		$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
-		if (!$filesName) {
-			echo 'No files';
-
-			return false;
-		}
-		$splitQueries = '';
-		foreach ($filesName as $name) {
-			$sql_file = $location . $name . '.sql';
-			$return = true;
-			if (!($fileBuffer = file_get_contents($sql_file))) {
-				echo 'Invalid file: ' . $sql_file;
-
-				return false;
+		try {
+			$return = false;
+			$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
+			if (!$filesName) {
+				throw new \App\Exceptions\AppException('No files', 405);
 			}
-
-			$splitQueries .= $fileBuffer;
-		}
-		$create_query = substr_count($splitQueries, 'CREATE TABLE');
-		$insert_query = substr_count($splitQueries, 'INSERT INTO');
-		$alter_query = substr_count($splitQueries, 'ALTER TABLE');
-		$executed_query = 0;
-		$queries = $this->splitQueries($splitQueries);
-		foreach ($queries as $query) {
-			// Trim any whitespace.
-			$query = trim($query);
-			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
-				try {
-					$this->db->query($query);
-					++$executed_query;
-				} catch (RuntimeException $e) {
-					echo $e->getMessage();
-					$return = false;
+			$splitQueries = '';
+			foreach ($filesName as $name) {
+				$sql_file = $location . $name . '.sql';
+				$return = true;
+				if (!($fileBuffer = file_get_contents($sql_file))) {
+					throw new \App\Exceptions\AppException('Invalid file: ' . $sql_file, 405);
+				}
+				$splitQueries .= $fileBuffer;
+			}
+			$create_query = substr_count($splitQueries, 'CREATE TABLE');
+			$insert_query = substr_count($splitQueries, 'INSERT INTO');
+			$alter_query = substr_count($splitQueries, 'ALTER TABLE');
+			$executed_query = 0;
+			$queries = $this->splitQueries($splitQueries);
+			foreach ($queries as $query) {
+				// Trim any whitespace.
+				$query = trim($query);
+				if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
+					try {
+						$this->db->query($query);
+						++$executed_query;
+					} catch (RuntimeException $e) {
+						throw $e;
+					}
 				}
 			}
+			$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
+			\App\Log::info("create_query: $create_query | insert_query: $insert_query | alter_query: $alter_query | executed_query: $executed_query");
+			$_SESSION['instalation_success'] = $create_query && $executed_query;
+		} catch (Throwable $e) {
+			$return = false;
+			\App\Log::error($e->__toString());
 		}
-		$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
-
 		return ['status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query];
 	}
 
@@ -92,14 +93,14 @@ class Install_InitSchema_Model
 	public function setDefaultUsersAccess()
 	{
 		$this->db->update('vtiger_users', [
-			'user_name' => $_SESSION['config_file_info']['user_name'],
-			'date_format' => $_SESSION['config_file_info']['dateformat'],
-			'time_zone' => $_SESSION['config_file_info']['timezone'],
-			'first_name' => $_SESSION['config_file_info']['firstname'],
-			'last_name' => $_SESSION['config_file_info']['lastname'],
-			'email1' => $_SESSION['config_file_info']['admin_email'],
-			'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
-			'language' => $_SESSION['default_language'],
+				'user_name' => $_SESSION['config_file_info']['user_name'],
+				'date_format' => $_SESSION['config_file_info']['dateformat'],
+				'time_zone' => $_SESSION['config_file_info']['timezone'],
+				'first_name' => $_SESSION['config_file_info']['firstname'],
+				'last_name' => $_SESSION['config_file_info']['lastname'],
+				'email1' => $_SESSION['config_file_info']['admin_email'],
+				'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
+				'language' => $_SESSION['default_language'],
 			]
 		);
 		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
@@ -173,34 +174,6 @@ class Install_InitSchema_Model
 		return $schemaList;
 	}
 
-	public function executeMigrationSchema($system, $userName, $source)
-	{
-		include_once $this->migration_schema . $system . '.php';
-		$migrationObject = new $system();
-		vtlib\Access::syncSharingAccess();
-		$migrationObject->preProcess($userName, $source);
-		$migrationObject->process();
-		$return = $migrationObject->postProcess();
-		vtlib\Access::syncSharingAccess();
-		\App\Module::createModuleMetaFile();
-
-		return $return;
-	}
-
-	public function addMigrationLog($text, $type = 'success')
-	{
-		$logUrl = 'install/models/logs.txt';
-		$logText = "$type - $text";
-		file_put_contents($logUrl, $logText . PHP_EOL, FILE_APPEND | LOCK_EX);
-	}
-
-	public function setProgressBar($num)
-	{
-		$logUrl = 'install/models/progressbar.php';
-		$content = "<?php $progress = $num;";
-		file_put_contents($logUrl, $content);
-	}
-
 	public function createConfig($source_directory, $username, $password, $system)
 	{
 		if (substr($source_directory, -1) != '/') {
@@ -246,58 +219,6 @@ class Install_InitSchema_Model
 		$configFile->createConfigFile();
 
 		return ['result' => true];
-	}
-
-	public function copyFiles($source, $dest)
-	{
-		mkdir($dest, 0755);
-		foreach (
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST) as $item
-		) {
-			if ($item->isDir()) {
-				mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-			} else {
-				copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-			}
-		}
-	}
-
-	public function deleteFiles($files = [])
-	{
-		if (!is_array($files)) {
-			$files = [$files];
-		}
-		foreach ($files as $file) {
-			$this->deleteDirFile($file);
-		}
-	}
-
-	public function deleteDirFile($src)
-	{
-		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
-			$src = $rootDirectory . $src;
-		}
-		if (!file_exists($src) || !$rootDirectory) {
-			return;
-		}
-		\App\Log::trace('Exiting VT620_to_YT::testest(' . $src . ') method ...');
-		if (is_dir($src)) {
-			$dir = new DirectoryIterator($src);
-			foreach ($dir as $fileinfo) {
-				if (!$fileinfo->isDot()) {
-					if ($fileinfo->isDir()) {
-						\App\Log::trace('Exiting VT620_to_YT::testest 22(' . $fileinfo->getPathname() . ') method ...');
-						$this->deleteDirFile($fileinfo->getPathname());
-						rmdir($fileinfo->getPathname());
-					} else {
-						unlink($fileinfo->getPathname());
-					}
-				}
-			}
-		} else {
-			unlink($src);
-		}
 	}
 
 	/**

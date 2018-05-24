@@ -12,8 +12,13 @@
 class Install_Index_View extends \App\Controller\View
 {
 	use \App\Controller\ExposeMethod;
-
+	/**
+	 * @var bool
+	 */
 	protected $debug = false;
+	/**
+	 * @var Vtiger_Viewer
+	 */
 	protected $viewer;
 
 	public function checkPermission(\App\Request $request)
@@ -119,15 +124,11 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('MODE', $request->getMode());
 
 		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
-		echo $this->viewer->fetch('InstallPreProcess.tpl');
+		$this->viewer->display('InstallPreProcess.tpl');
 	}
 
 	public function process(\App\Request $request)
 	{
-		$default_charset = AppConfig::main('default_charset');
-		if (empty($default_charset)) {
-			$default_charset = 'UTF-8';
-		}
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			return $this->$mode($request);
@@ -138,24 +139,21 @@ class Install_Index_View extends \App\Controller\View
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		echo $this->viewer->fetch('InstallPostProcess.tpl');
-		if ($request->getMode() === 'step7') {
-			$this->cleanInstallationFiles();
-		}
+		$this->viewer->display('InstallPostProcess.tpl');
 	}
 
 	public function step1(\App\Request $request)
 	{
 		$isMigrate = false;
-		if (is_dir('install/migrate_schema/')) {
-			$filesInDir = scandir('install/migrate_schema/');
+		if (is_dir(__DIR__ . '/install/migrate_schema/')) {
+			$filesInDir = scandir(__DIR__ . '/install/migrate_schema/');
 			if (count($filesInDir) > 2) {
 				$isMigrate = true;
 			}
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
-		echo $this->viewer->fetch('Step1.tpl');
+		$this->viewer->display('Step1.tpl');
 	}
 
 	public function step2(\App\Request $request)
@@ -166,23 +164,25 @@ class Install_Index_View extends \App\Controller\View
 			$license = file_get_contents('licenses/LicenseEN.txt');
 		}
 		$this->viewer->assign('LICENSE', nl2br($license));
-		echo $this->viewer->fetch('Step2.tpl');
+		$this->viewer->display('Step2.tpl');
 	}
 
 	public function step3(\App\Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
-		echo $this->viewer->fetch('Step3.tpl');
+		$this->viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf(true));
+		$this->viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(true));
+		$this->viewer->display('Step3.tpl');
 	}
 
 	public function step4(\App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
-		require_once 'modules/Users/UserTimeZonesArray.php';
+		require_once __DIR__ . '/modules/Users/UserTimeZonesArray.php';
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
-		$this->viewer->assign('USERNAME_BLACKLIST', require 'config/username_blacklist.php');
+		$this->viewer->assign('USERNAME_BLACKLIST', require __DIR__ . '/config/username_blacklist.php');
 		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
@@ -192,7 +192,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-		echo $this->viewer->fetch('Step4.tpl');
+		$this->viewer->display('Step4.tpl');
 	}
 
 	public function step5(\App\Request $request)
@@ -230,7 +230,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $requestData);
 		$this->viewer->assign('AUTH_KEY', $authKey);
-		echo $this->viewer->fetch('Step5.tpl');
+		$this->viewer->display('Step5.tpl');
 	}
 
 	public function step6(\App\Request $request)
@@ -239,7 +239,7 @@ class Install_Index_View extends \App\Controller\View
 		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
 		$configFile->createConfigFile();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
-		echo $this->viewer->fetch('Step6.tpl');
+		$this->viewer->display('Step6.tpl');
 	}
 
 	public function step7(\App\Request $request)
@@ -259,7 +259,7 @@ class Install_Index_View extends \App\Controller\View
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
 			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
-			echo $this->viewer->fetch('Step7.tpl');
+			$this->viewer->display('Step7.tpl');
 		}
 	}
 
@@ -273,7 +273,7 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep0.tpl');
+		$this->viewer->display('mStep0.tpl');
 	}
 
 	// Helper function as configuration file is still not loaded.
@@ -291,26 +291,6 @@ class Install_Index_View extends \App\Controller\View
 	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess(true);
-	}
-
-	public function cleanInstallationFiles()
-	{
-		foreach (glob('languages/*/Install.php') as $path) {
-			unlink($path);
-		}
-		\vtlib\Functions::recurseDelete('install');
-		\vtlib\Functions::recurseDelete('public_html/install');
-		\vtlib\Functions::recurseDelete('tests');
-		\vtlib\Functions::recurseDelete('config/config.template.php');
-		\vtlib\Functions::recurseDelete('.github');
-		\vtlib\Functions::recurseDelete('.gitattributes');
-		\vtlib\Functions::recurseDelete('.gitignore');
-		\vtlib\Functions::recurseDelete('.travis.yml');
-		\vtlib\Functions::recurseDelete('.codecov.yml');
-		\vtlib\Functions::recurseDelete('.gitlab-ci.yml');
-		\vtlib\Functions::recurseDelete('.php_cs.dist');
-		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
-		\vtlib\Functions::recurseDelete('.sensiolabs.yml');
 	}
 
 	/**
