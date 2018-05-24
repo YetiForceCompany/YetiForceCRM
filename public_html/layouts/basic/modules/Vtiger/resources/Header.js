@@ -787,6 +787,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
+		$('.js-clear-history').on('click', app.clearBrowsingHistory());
 		$('.globalSearch').on('click', function () {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();

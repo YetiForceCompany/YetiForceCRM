@@ -20,6 +20,6 @@
 			</a>
 		{/foreach}
 		<div class="dropdown-divider"></div>
-		<a class="dropdown-item clearHistory" href="#" onclick="app.clearBrowsingHistory();" role="listitem">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a>
+		<a class="dropdown-item js-clear-history" data-js="click" href="#" role="listitem">{\App\Language::translate('LBL_CLEAR_HISTORY')}</a>
 	</div>
 {/strip}
