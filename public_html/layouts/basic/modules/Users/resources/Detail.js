@@ -114,6 +114,48 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			}
 		);
 	},
+	/**
+	 * 2FA - Modal window for generating QR codes
+	 */
+	triggerTwoFactorAuthentication: function () {
+		var params = {
+			'module': app.getModuleName(),
+			'view': "TwoFactorAuthenticationModal"
+		};
+		AppConnector.request(params).then(
+			function (data) {
+				app.showModalWindow(data, function (data) {
+					var form = data.find('form');
+					form.on('submit', function (e) {
+						var progress = $.progressIndicator({
+							'message': app.vtranslate('Loading data'),
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+
+						var params = form.serializeFormData();
+						AppConnector.request(params).then(
+							function (respons) {
+								if( respons.result.success ){
+									app.hideModalWindow();
+									Vtiger_Helper_Js.showPnotify(app.vtranslate(respons.result.message));
+								}else{
+									let wrongCode = form.find('#wrong-code');
+									if(wrongCode.hasClass('hide') ){
+										wrongCode.removeClass('hide');
+									}
+								}
+								progress.progressIndicator({'mode': 'hide'});
+							}
+						);
+						e.preventDefault();
+					});
+				});
+			}
+		);
+	},
+
 	triggerChangeAccessKey: function (url) {
 		var title = app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED');
 		var message = app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION');
