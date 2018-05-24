@@ -47,18 +47,18 @@ class LayoutExport extends Package
 	 * @param string Zipfilename to use
 	 * @param bool True for sending the output as download
 	 */
-	public function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
 	{
-		$this->__initExport($layoutName);
+		$this->__initExport($moduleInstance->name);
 
 		// Call layout export function
-		$this->exportLayout($layoutName);
+		$this->exportLayout($moduleInstance->name);
 
 		$this->__finishExport();
 
 		// Export as Zip
 		if ($zipfilename == '') {
-			$zipfilename = "$layoutName-" . date('YmdHis') . '.zip';
+			$zipfilename = "$moduleInstance->name-" . date('YmdHis') . '.zip';
 		}
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
@@ -66,7 +66,7 @@ class LayoutExport extends Package
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 		// Copy module directory
-		$zip->addDirectory('layouts/' . $layoutName);
+		$zip->addDirectory('layouts/' . $moduleInstance->name);
 		if ($directDownload) {
 			$zip->download();
 		} else {
