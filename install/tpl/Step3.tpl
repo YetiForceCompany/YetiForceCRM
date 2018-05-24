@@ -71,7 +71,7 @@
 								{/foreach}
 								</tbody>
 							</table>
-							{assign var="STABILITY_CONF" value=Settings_ConfReport_Module_Model::getSecurityConf(true)}
+							{assign var="STABILITY_CONF" value=$SECURITY_CONF}
 							<br>
 							<table class="config-table table">
 								<thead>
@@ -101,7 +101,7 @@
 								{/foreach}
 								</tbody>
 							</table>
-							{assign var="STABILITY_CONF" value=Settings_ConfReport_Module_Model::getStabilityConf(true)}
+							{assign var="STABILITY_CONF" value=$STABILITY_CONF}
 							<br>
 							<table class="config-table table">
 								<thead>
