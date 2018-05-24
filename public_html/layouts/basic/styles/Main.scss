@@ -1,17 +1,17 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @charset 'UTF-8';
 //-------- global variables --------//
+@import '../../../libraries/sass-material-colors/sass/_sass-material-colors.scss';
 @import '_Variables';
 //-------- libraries --------//
 @import '../../../libraries/bootstrap/scss/bootstrap';
 @import '../../../libraries/select2-bootstrap-theme/dist/select2-bootstrap.css';
-@import '../../../libraries/sass-material-colors/sass/_sass-material-colors.scss';
 //-------- base --------//
 @import '_Style';
 //-------- components --------//
 @import 'components/_Utilities';
 @import 'components/_Global';
-@import 'components/_Button';
+@import 'components/_Buttons';
 //-------- libraries --------//
 @import 'libraries/_Libraries';
 @import 'libraries/_Bootstrap';
