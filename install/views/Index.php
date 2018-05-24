@@ -122,7 +122,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
 		$this->viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$this->viewer->assign('MODE', $request->getMode());
-
+		$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
 		$this->viewer->display('InstallPreProcess.tpl');
 	}
@@ -145,8 +145,8 @@ class Install_Index_View extends \App\Controller\View
 	public function step1(\App\Request $request)
 	{
 		$isMigrate = false;
-		if (is_dir(__DIR__ . '/install/migrate_schema/')) {
-			$filesInDir = scandir(__DIR__ . '/install/migrate_schema/');
+		if (is_dir(ROOT_DIRECTORY . '/install/migrate_schema/')) {
+			$filesInDir = scandir(ROOT_DIRECTORY . '/install/migrate_schema/');
 			if (count($filesInDir) > 2) {
 				$isMigrate = true;
 			}
@@ -178,11 +178,11 @@ class Install_Index_View extends \App\Controller\View
 	public function step4(\App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
-		require_once __DIR__ . '/modules/Users/UserTimeZonesArray.php';
+		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
-		$this->viewer->assign('USERNAME_BLACKLIST', require __DIR__ . '/config/username_blacklist.php');
+		$this->viewer->assign('USERNAME_BLACKLIST', require ROOT_DIRECTORY . '/config/username_blacklist.php');
 		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
