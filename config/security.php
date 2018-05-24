@@ -3,7 +3,7 @@
  * Security config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $SECURITY_CONFIG = [
 	// Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.
@@ -52,19 +52,22 @@ $SECURITY_CONFIG = [
 	'HPKP_KEYS' => [],
 	// Content Security Policy
 	'CSP_ACTIVE' => true,
+	// List of allowed domains for fields with HTML support
 	'PURIFIER_ALLOWED_DOMAINS' => [],
+	// Lifetime session (in seconds)
+	'MAX_LIFETIME_SESSION' => 21600,
 	/**
 	 * User authentication mode possible values:
-	 * AUTHY_TOTP_OFF - 2FA TOTP is checking off
-	 * AUTHY_TOTP_OPTIONAL - It is defined by the user
-	 * AUTHY_TOTP_OBLIGATORY - It is obligatory.
+	 * TOTP_OFF - 2FA TOTP is checking off
+	 * TOTP_OPTIONAL - It is defined by the user
+	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
-	'USER_AUTHENTICATION_MODE' => 'AUTHY_TOTP_OPTIONAL',
+	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
 	/**
 	 * Exceptions list of users (int[])
 	 * TOTP - Time-based One-time Password.
 	 */
-	'USER_AUTHENTICATION_EXCEPTIONS' => [
+	'USER_AUTHY_EXCEPTIONS' => [
 		'TOTP' => []
 	]
 ];
