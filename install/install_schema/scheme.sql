@@ -4063,14 +4063,14 @@ CREATE TABLE `vtiger_auditregister_type` (
   PRIMARY KEY (`auditregister_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_authentication_methods` */
+/*Table structure for table `vtiger_authy_methods` */
 
-CREATE TABLE `vtiger_authentication_methods` (
-  `authentication_methodsid` int(11) NOT NULL AUTO_INCREMENT,
-  `authentication_methods` varchar(255) DEFAULT NULL,
+CREATE TABLE `vtiger_authy_methods` (
+  `authy_methodsid` int(11) NOT NULL AUTO_INCREMENT,
+  `authy_methods` varchar(255) DEFAULT NULL,
   `presence` tinyint(1) DEFAULT 1,
   `sortorderid` smallint(6) DEFAULT 0,
-  PRIMARY KEY (`authentication_methodsid`)
+  PRIMARY KEY (`authy_methodsid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks` */
@@ -9050,8 +9050,8 @@ CREATE TABLE `vtiger_users` (
   `confirm_password` varchar(200) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT NULL,
   `user_preferences` text DEFAULT NULL,
-  `authentication_methods` varchar(50) DEFAULT NULL,
-  `secret_totp` varchar(255) DEFAULT NULL,
+  `authy_methods` varchar(50) DEFAULT NULL,
+  `authy_secret_totp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
