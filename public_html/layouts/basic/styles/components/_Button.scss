@@ -21,10 +21,12 @@
 	.c-btn-checkbox--checked {
 		display: none;
 	}
+
 	&.active {
 		.c-btn-checkbox--unchecked {
 			display: none;
 		}
+
 		.c-btn-checkbox--checked {
 			display: inline-block;
 		}
