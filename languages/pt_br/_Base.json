@@ -595,7 +595,7 @@
     "Po Box": "Cx Postal",
     "Postal Code": "CEP",
     "Dashboards": "Principal",
-    "POWEREDBY": "Powered by YetiForce (engine Vtiger)",
+    "POWEREDBY": "Powered by YetiForce",
     "Price": "Pre\u00e7o",
     "PriceBooks": "Listas Pre\u00e7os",
     "Priority": "Prioridade",
@@ -1029,6 +1029,7 @@
     "Sales": "Venda",
     "LBL_DEFAULT": "Padr\u00e3o",
     "BTN_GENERATE_RECORD": "registro gerado",
+    "LBL_MARK_AS_HELD": "Mark as held",
     "LBL_GENERATE_RECORD_FOR_MODULE": "Gerar registro para m\u00f3dulo",
     "LBL_REMOVE_SEARCH_OPTION_INFO": "Redefinir par\u00e2metros pesquisa",
     "LBL_REMOVE_ALPH_SEARCH_INFO": "Redefinir parametros pesquisa alfabetica",
@@ -1261,7 +1262,8 @@
     "BTN_PERMISSION_INSPECTOR": "Permission Inspector",
     "LBL_ADVANCED_SEARCH": "Advanced search",
     "LBL_MERGING": "Merging records",
-    "_Base": "System"
+    "_Base": "System",
+    "LBL_SHOP_YETIFORCE": "Store"
   },
   "js": {
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "A responsabilidade dos registros foi transferida com sucesso.",
@@ -1296,7 +1298,7 @@
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "O nome da Conta j\u00e1 existe. Deseja criar um registro duplicado?",
     "JS_EMAIL_SERVER_CONFIGURATION": "Por favor, ajuste as configura\u00e7\u00f5es do Servidor Envio Mensagens a partir do menu Configura\u00e7\u00f5es",
     "JS_END_DATE_TIME": "Data\/Hora Final",
-    "JS_ERROR": "Erro",
+    "JS_ERROR": "Error, please inform the Administrator",
     "JS_FAILED_TO_SAVE": "Falha ao salvar as mudan\u00e7as no Servidor",
     "JS_FIELD_MAPPED_MORE_THAN_ONCE": "Campo mapeado mais de um vez",
     "JS_IMPORT_FILE_CAN_NOT_BE_EMPTY": "O Arquivo a ser Importado n\u00e3o pode estar Vazio",
