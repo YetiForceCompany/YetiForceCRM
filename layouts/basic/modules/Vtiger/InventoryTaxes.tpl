@@ -21,6 +21,10 @@
 					{/foreach}
 					<hr/>
 					<div class="row">
+						<div class="col-md-6">{\App\Language::translate('LBL_TAX_VALUE', $MODULE)}:</div>
+						<div class="col-md-6 text-right"><strong><span class="taxValue">0</span> %</strong></div>
+					</div>
+					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_BEFORE_TAX', $MODULE)}:</div>
 						<div class="col-md-6 text-right"><strong><span class="valueNetPrice">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</strong></div>
 					</div>
