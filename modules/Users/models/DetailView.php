@@ -76,7 +76,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 			];
 
-			if (AppConfig::security('USER_AUTHY_MODE') !== Users_Totp_AuthMethod::TOTP_OFF) {
+			if (AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
