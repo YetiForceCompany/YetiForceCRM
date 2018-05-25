@@ -57,12 +57,12 @@
 				</div>
 				<div class="form-buttom-nav fixed-bottom button-container p-1">
 					<div class="text-center">
-						<a href="#" class="btn btn-md btn-primary bt_install">
+						<a href="#" class="btn c-btn-block-xs-down btn-primary bt_install mr-sm-1 {if $IS_MIGRATE} mb-1 {/if} mb-sm-0">
 							<span class="fas fa-arrow-circle-right mr-1"></span>
 							{\App\Language::translate('LBL_INSTALL_BUTTON','Install')}
 						</a>
 						{if $IS_MIGRATE}
-							<a style="" href="#" class="btn btn-md btn-primary bt_migrate">
+							<a style="" href="#" class="btn c-btn-block-xs-down btn-primary bt_migrate">
 								{\App\Language::translate('LBL_MIGRATION','Install')}
 							</a>
 						{/if}
