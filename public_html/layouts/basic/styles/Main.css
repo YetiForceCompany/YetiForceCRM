@@ -10217,9 +10217,6 @@ border1px {
       .leftRecordActions .actions .dropdown-menu .btn-group {
         vertical-align: top; }
 
-.c-table--word-break td {
-  word-break: break-all; }
-
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
