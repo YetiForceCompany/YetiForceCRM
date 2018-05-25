@@ -286,13 +286,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: X-Content-Type-Options']['status'] = strtolower($headers['X-CONTENT-TYPE-OPTIONS']) !== 'nosniff';
 			$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['X-CONTENT-TYPE-OPTIONS'];
 			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['X-POWERED-BY']);
-			$directiveValues['Header: X-Powered-By']['current'] = !empty($headers['X-POWERED-BY']);
+			$directiveValues['Header: X-Powered-By']['current'] = $headers['X-POWERED-BY'] ?? '';
 			$directiveValues['Header: X-Robots-Tag']['status'] = strtolower($headers['X-ROBOTS-TAG']) !== 'none';
 			$directiveValues['Header: X-Robots-Tag']['current'] = $headers['X-ROBOTS-TAG'];
 			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['status'] = strtolower($headers['X-PERMITTED-CROSS-DOMAIN-POLICIES']) !== 'none';
 			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['current'] = $headers['X-PERMITTED-CROSS-DOMAIN-POLICIES'];
-			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['X-POWERED-BY']);
-			$directiveValues['Header: X-Powered-By']['current'] = !empty($headers['X-POWERED-BY']);
 			$directiveValues['Header: Server']['status'] = !empty($headers['SERVER']);
 			$directiveValues['Header: Server']['current'] = $headers['SERVER'];
 			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'no-referrer';
