@@ -1482,7 +1482,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(function (data) {
-			let data = jQuery(data);
+			data = $(data);
 			let footer = data.filter('.widgetFooterContent');
 			refreshContainer.progressIndicator({
 				'mode': 'hide'
