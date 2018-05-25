@@ -79,7 +79,7 @@ App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {object} customParams
 		 */
-		registerRange(parentElement, customParams) {
+		registerRange(parentElement, customParams = {}) {
 			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
@@ -124,14 +124,25 @@ App.Fields = {
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
+			customParams.format = $(parentElement).data
 			if (typeof customParams !== "undefined") {
-				params = $.extend(params, customParams);
+				params = $.extend(true, params, customParams);
 			}
 			$('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
-			elements.daterangepicker(params).on('apply.daterangepicker', function (ev, picker) {
-				$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+			elements.each(function(index,element){
+				let currentParams = {...params};
+				let dataAttributes = $(element).data();
+				console.log('dataAttr',Object.keys(dataAttributes));
+				if(dataAttributes){
+
+				}
+				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
+					console.log('element',picker,this, $(element));
+					console.log(currentParams);
+					$(this).val(picker.startDate.format(currentParams.format) + ',' + picker.endDate.format(currentParams.format));
+				});
 			});
 		},
 	},
