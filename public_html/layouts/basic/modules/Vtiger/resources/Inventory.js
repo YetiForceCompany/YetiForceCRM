@@ -123,14 +123,33 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			groupTax.addClass('d-none');
 			items.find('.changeTax').removeClass('d-none');
 			newRow.find('.changeTax').removeClass('d-none');
+			thisInstance.setTax(items, 0);
+			thisInstance.setTaxParam(items, []);
+			thisInstance.rowsCalculations();
 		} else {
+			thisInstance.setDefaultGlobalTax(row);
 			groupTax.removeClass('d-none');
 			items.find('.changeTax').addClass('d-none');
 			newRow.find('.changeTax').addClass('d-none');
 		}
-		thisInstance.setTax(items, 0);
-		thisInstance.setTaxParam(items, []);
-		thisInstance.rowsCalculations();
+	},
+	setDefaultGlobalTax: function (row) {
+		let thisInstance = this;
+		let parentRow = thisInstance.getInventoryItemsContainer();
+		let taxDefaultValue = thisInstance.getInventorySummaryTaxesContainer().find('.js-default-tax').data('tax-default-value');
+		console.log(taxDefaultValue);
+		if(taxDefaultValue) {
+			let taxParam = {aggregationType: 'global'};
+			taxParam['globalTax'] = app.parseNumberToShow(taxDefaultValue);
+			taxParam['individualTax'] = '';
+			thisInstance.setTaxParam($('#blackIthemTable'), taxParam);
+			thisInstance.setTaxParam(parentRow, taxParam);
+			parentRow.closest('.inventoryItems').data('taxParam', JSON.stringify(taxParam));
+			parentRow.find(thisInstance.rowClass).each(function () {
+				thisInstance.quantityChangeActions($(this));
+			});
+		}
+
 	},
 	getDiscountModeSelectElement: function (row) {
 		var items = this.getInventoryHeadContainer();
@@ -1424,6 +1443,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		this.registerClearReferenceSelection(container);
 		this.registerShowHideExpanded(container);
 		this.registerChangeCurrency(container);
+		this.setDefaultGlobalTax(container);
 	}
 });
 $(document).ready(function () {
