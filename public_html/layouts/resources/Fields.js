@@ -71,7 +71,30 @@ App.Fields = {
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
-			elements.datepicker(params);
+			elements.each(function (index, element) {
+				// transform data- attributes to custom params like data-locale.format="YYYY"
+				let currentParams = {...params};
+				let dataAttributes = $(element).data();
+				let keys = Object.keys(dataAttributes);
+				if (keys.length) {
+					keys.forEach((key) => {
+						if (key === 'dateFormat') {
+							return;
+						}
+						let path = key.split('.');
+						path.reduce((o, currentKey) => {
+							if (typeof o[currentKey] === 'undefined') {
+								o[currentKey] = {};
+							}
+							if (currentKey === path.slice(-1).pop()) {
+								o[currentKey] = dataAttributes[key];
+							}
+							return o[currentKey];
+						}, currentParams);
+					});
+				}
+				$(element).datepicker(currentParams);
+			});
 		},
 
 		/**
@@ -126,25 +149,28 @@ App.Fields = {
 			};
 
 			if (typeof customParams !== "undefined") {
-				params = $.extend( params, customParams);
+				params = $.extend(params, customParams);
 			}
 			$('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
-			elements.each(function(index,element){
+			elements.each(function (index, element) {
 				// transform data- attributes to custom params like data-locale.format="YYYY"
 				let currentParams = {...params};
 				let dataAttributes = $(element).data();
 				let keys = Object.keys(dataAttributes);
-				if(keys.length){
-					keys.forEach((key)=>{
+				if (keys.length) {
+					keys.forEach((key) => {
+						if (key === 'dateFormat') {
+							return;
+						}
 						let path = key.split('.');
-						let value = path.reduce((o, currentKey) => {
-							if(typeof o[currentKey]==='undefined'){
-								o[currentKey]={};
+						path.reduce((o, currentKey) => {
+							if (typeof o[currentKey] === 'undefined') {
+								o[currentKey] = {};
 							}
-							if(currentKey === path.slice(-1).pop()){
-								o[currentKey]=dataAttributes[key];
+							if (currentKey === path.slice(-1).pop()) {
+								o[currentKey] = dataAttributes[key];
 							}
 							return o[currentKey];
 						}, currentParams);
@@ -494,7 +520,7 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			if(typeof params.dropdownParent === 'undefined') {
+			if (typeof params.dropdownParent === 'undefined') {
 				const modalParent = $(selectElement).closest('.modal-body');
 				if (modalParent.length) {
 					params.dropdownParent = modalParent;
