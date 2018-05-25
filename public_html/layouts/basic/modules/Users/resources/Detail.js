@@ -118,17 +118,12 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 	 * Function to handle sending the AJAX form
 	 * @param data
 	 */
-	submitFromTwoFactorAuthentication: function(data){
+	submitFromTwoFactorAuthentication: (data) =>{
 		let form = data.find('form');
-		form.on('submit', function (e) {
-			let progress = $.progressIndicator({
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-
+		form.on('submit', (e) => {
+			let progress = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request(form.serializeFormData())
-				.then(function (respons) {
+				.then((respons) => {
 					if (respons.result.success) {
 						app.hideModalWindow();
 						Vtiger_Helper_Js.showPnotify({
@@ -151,13 +146,12 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 	/**
 	 * 2FA - Modal window for generating QR codes
 	 */
-	triggerTwoFactorAuthentication: function () {
+	triggerTwoFactorAuthentication: () => {
 		AppConnector.request({
 			module: app.getModuleName(),
 			view: "TwoFactorAuthenticationModal"
-		}).then(function(data) {
-				app.showModalWindow(data, function(data) {
-					console.log('submitFromTwoFactorAuthentication');
+		}).then((data) => {
+				app.showModalWindow(data, (data) => {
 					Users_Detail_Js.submitFromTwoFactorAuthentication(data);
 				});
 			}
