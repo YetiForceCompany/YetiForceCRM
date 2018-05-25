@@ -1424,12 +1424,32 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var url = element.data('url');
 		var contentContainer = parent.find('.dashboardWidgetContent');
 		var params = url;
-		var widgetFilters = parent.find('.js-chartFilter__additional-filter-field');
+
+		let widgetFilters = parent.find('.widgetFilter');
 		if (widgetFilters.length > 0) {
 			params = {};
 			params.url = url;
 			params.data = {};
 			widgetFilters.each(function (index, domElement) {
+				var widgetFilter = jQuery(domElement);
+				var filterType = widgetFilter.attr('type');
+				var filterName = widgetFilter.attr('name');
+				if ('checkbox' == filterType) {
+					var filterValue = widgetFilter.is(':checked');
+					params.data[filterName] = filterValue;
+				} else {
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
+				}
+			});
+		}
+
+		let additionalWidgetFilters = parent.find('.js-chartFilter__additional-filter-field');
+		if (additionalWidgetFilters.length > 0) {
+			params = {};
+			params.url = url;
+			params.data = {};
+			additionalWidgetFilters.each(function (index, domElement) {
 				var widgetFilter = jQuery(domElement);
 				var filterName = widgetFilter.attr('name');
 				let arr = false;
@@ -1461,7 +1481,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainer.html('');
 		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
-		if (this.paramCache && widgetFilters.length > 0) {
+		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length)) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 		AppConnector.request(params).then(function (data) {
@@ -1548,6 +1568,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 
 	},
 	registerFilterChangeEvent: function registerFilterChangeEvent() {
+		var container = this.getContainer();
+		container.on('change', '.widgetFilter', function (e) {
+			var widgetContainer = jQuery(e.currentTarget).closest('li');
+			widgetContainer.find('a[name="drefresh"]').trigger('click');
+		});
+		if (container.find('.widgetFilterByField').length) {
+			App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
+			this.getContainer().on('change', '.widgetFilterByField .form-control', function (e) {
+				var widgetContainer = jQuery(e.currentTarget).closest('li');
+				widgetContainer.find('a[name="drefresh"]').trigger('click');
+			});
+		}
 	},
 	registerWidgetPostLoadEvent: function registerWidgetPostLoadEvent(container) {
 		var thisInstance = this;

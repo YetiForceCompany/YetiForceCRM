@@ -178,6 +178,7 @@ App.Fields = {
 				}
 				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
 					$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
+					$(this).trigger('change');
 				});
 			});
 		},
