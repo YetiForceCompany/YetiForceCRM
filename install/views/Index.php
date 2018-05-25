@@ -40,9 +40,7 @@ class Install_Index_View extends \App\Controller\View
 	public function setLanguage(\App\Request $request)
 	{
 		if (!$request->getByType('lang', 1)) {
-			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-
-			switch ($lang) {
+			switch (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) {
 				case 'pl':
 					$request->set('lang', 'pl_pl');
 					break;
@@ -71,17 +69,14 @@ class Install_Index_View extends \App\Controller\View
 					$request->set('lang', 'en_us');
 					break;
 			}
-
 			return $request;
 		}
-
 		return $request;
 	}
 
 	public function __construct()
 	{
 		parent::__construct();
-		//Install
 		$this->exposeMethod('step1');
 		$this->exposeMethod('step2');
 		$this->exposeMethod('step3');
@@ -89,16 +84,13 @@ class Install_Index_View extends \App\Controller\View
 		$this->exposeMethod('step5');
 		$this->exposeMethod('step6');
 		$this->exposeMethod('step7');
-		//Migrate
-		$this->exposeMethod('mStep0');
-		$this->exposeMethod('mStep1');
-		$this->exposeMethod('mStep2');
-		$this->exposeMethod('mStep3');
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		date_default_timezone_set('UTC'); // to overcome the pre configuration settings
+		if ($request->getMode() !== 'step5') {
+			date_default_timezone_set('UTC'); // to overcome the pre configuration settings
+		}
 		// Added to redirect to default module if already installed
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
@@ -280,7 +272,6 @@ class Install_Index_View extends \App\Controller\View
 	protected function retrieveConfiguredAppUniqueKey()
 	{
 		include_once 'config/config.php';
-
 		return $application_unique_key;
 	}
 
