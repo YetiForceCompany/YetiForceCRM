@@ -1199,7 +1199,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	getUserDateFormat: function getUserDateFormat() {
 		return CONFIG.dateFormat;
-		;
 	},
 	getChartContainer: function getChartContainer(useCache) {
 		if (typeof useCache === "undefined") {
