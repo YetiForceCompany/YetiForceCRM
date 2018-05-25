@@ -71,7 +71,6 @@
 								{/foreach}
 								</tbody>
 							</table>
-							{assign var="STABILITY_CONF" value=$SECURITY_CONF}
 							<br>
 							<table class="config-table table u-word-break-all">
 								<thead>
@@ -82,14 +81,17 @@
 								</tr>
 								</thead>
 								<tbody>
-								{foreach from=$STABILITY_CONF key=key item=item}
+								{foreach from=$SECURITY_CONF key=key item=item}
 									<tr {if $item.status}class="table-danger font-weight-bold"{/if}>
 										<td>
 											<label>{$key}</label>
-											{if isset($item.help)}<a href="#" class="js-popover-tooltip float-right"
-																	 data-js="popover" data-placement="top"
-																	 data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}">
-													<i class="fas fa-info-circle"></i></a>{/if}
+											{if isset($item.help)}
+												<a href="#" class="js-popover-tooltip float-right"
+												   data-js="popover" data-placement="top"
+												   data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}">
+													<i class="fas fa-info-circle"></i>
+												</a>
+											{/if}
 										</td>
 										<td>
 											<label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label>
@@ -113,7 +115,7 @@
 								</thead>
 								<tbody>
 								{foreach from=$STABILITY_CONF key=key item=item}
-									<tr {if $item.incorrect}class="table-danger"{/if}>
+									<tr {if $item.incorrect}class="table-danger font-weight-bold"{/if}>
 										<td>
 											<label>{$key}</label>
 											{if isset($item.help)}
@@ -134,41 +136,43 @@
 								{/foreach}
 								</tbody>
 							</table>
-							<br>
-							<table class="config-table table u-word-break-all">
-								<thead>
-								<tr>
-									<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
-									<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
-									<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
-								</tr>
-								</thead>
-								<tbody>
-								{foreach from=$DB_CONF key=key item=item}
-									<tr {if $item['status']}class="table-danger"{/if}>
-										<td>
-											<label class="u-text-small-bold">{App\Language::translate($key, 'Settings::ConfReport')}</label>
-											{if isset($item.help)}
-												<a href="#" class="js-popover-tooltip float-right"
-												   data-js="popover"
-												   data-trigger="focus"
-												   data-placement="right"
-												   data-content="{\App\Language::translateEncodeHtml($item.help, 'Settings::ConfReport')}">
-													<span class="fas fa-info-circle"></span></a>
-											{/if}
-										</td>
-										{if $item['recommended'] === false}
-											<td colspan="2">
-												<label class="u-text-small-bold">{$item['current']}</label>
-											</td>
-										{else}
-											<td><label class="u-text-small-bold">{$item['recommended']}</label></td>
-											<td><label class="u-text-small-bold">{$item['current']}</label></td>
-										{/if}
+							{if $DB_CONF}
+								<br>
+								<table class="config-table table u-word-break-all">
+									<thead>
+									<tr>
+										<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
 									</tr>
-								{/foreach}
-								</tbody>
-							</table>
+									</thead>
+									<tbody>
+									{foreach from=$DB_CONF key=key item=item}
+										<tr {if $item['status']}class="table-danger font-weight-bold"{/if}>
+											<td>
+												<label>{App\Language::translate($key, 'Settings::ConfReport')}</label>
+												{if isset($item.help)}
+													<a href="#" class="js-popover-tooltip float-right"
+													   data-js="popover"
+													   data-trigger="focus"
+													   data-placement="right"
+													   data-content="{\App\Language::translateEncodeHtml($item.help, 'Settings::ConfReport')}">
+														<span class="fas fa-info-circle"></span></a>
+												{/if}
+											</td>
+											{if $item['recommended'] === false}
+												<td colspan="2">
+													<label>{$item['current']}</label>
+												</td>
+											{else}
+												<td><label>{$item['recommended']}</label></td>
+												<td><label>{$item['current']}</label></td>
+											{/if}
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+							{/if}
 							{if $FAILED_FILE_PERMISSIONS}
 								<table class="config-table table u-word-break-all">
 									<thead>
@@ -186,20 +190,22 @@
 									</thead>
 									<tbody>
 									{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}
-										<tr {if $item.permission eq 'FailedPermission'}class="table-danger"{/if}>
-											<td width="23%"><label
-														class="marginRight5px">{App\Language::translate($key, 'Settings::ConfReport')}</label>
+										<tr {if $item.permission eq 'FailedPermission'}class="table-danger font-weight-bold"{/if}>
+											<td width="23%">
+												<label class="marginRight5px">{App\Language::translate($key, 'Settings::ConfReport')}</label>
 											</td>
-											<td width="23%"><label
-														class="marginRight5px">{App\Language::translate($item.path, 'Settings::ConfReport')}</label>
+											<td width="23%">
+												<label class="marginRight5px">{App\Language::translate($item.path, 'Settings::ConfReport')}</label>
 											</td>
-											<td width="23%"><label class="marginRight5px">
+											<td width="23%">
+												<label class="marginRight5px">
 													{if $item.permission eq 'FailedPermission'}
 														{App\Language::translate('LBL_FAILED_PERMISSION', 'Settings::ConfReport')}
 													{else}
 														{App\Language::translate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
 													{/if}
-												</label></td>
+												</label>
+											</td>
 										</tr>
 									{/foreach}
 									</tbody>
