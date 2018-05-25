@@ -169,14 +169,6 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step3(\App\Request $request)
 	{
-		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
-		$this->viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf(true));
-		$this->viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(true));
-		$this->viewer->display('Step3.tpl');
-	}
-
-	public function step4(\App\Request $request)
-	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
@@ -192,10 +184,10 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-		$this->viewer->display('Step4.tpl');
+		$this->viewer->display('Step3.tpl');
 	}
 
-	public function step5(\App\Request $request)
+	public function step4(\App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$requestData = $request->getAll();
@@ -230,6 +222,25 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $requestData);
 		$this->viewer->assign('AUTH_KEY', $authKey);
+		$this->viewer->display('Step4.tpl');
+	}
+
+	public function step5(\App\Request $request)
+	{
+//		\App\Db::setConfig([
+//			'dsn' => $dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
+//			'host' => $dbconfig['db_server'],
+//			'port' => $dbconfig['db_port'],
+//			'username' => $dbconfig['db_username'],
+//			'password' => $dbconfig['db_password'],
+//			'dbName' => $dbconfig['db_name'],
+//			'tablePrefix' => 'yf_',
+//			'charset' => 'utf8',
+//		]);
+		$this->viewer->assign('DB_CONF', Settings_ConfReport_Module_Model::getDbConf());
+		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
+		$this->viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf(true));
+		$this->viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(true));
 		$this->viewer->display('Step5.tpl');
 	}
 

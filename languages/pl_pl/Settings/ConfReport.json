@@ -49,6 +49,7 @@
     "LBL_WWW_VALUE": "www (apache)",
     "LBL_CLI_VALUE": "cron (CLI)",
     "LBL_PHPINI": "Konfiguracja PHP",
+    "LBL_PHPINIS": "Dodatkowa konfiguracja PHP",
     "LBL_LOG_FILE": "Logi b\u0142ed\u00f3w",
     "LBL_CRM_DIR": "Katalog lokalny CRM",
     "LBL_SOAP_LIBRARY": "SOAP",
