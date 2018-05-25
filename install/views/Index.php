@@ -276,19 +276,6 @@ class Install_Index_View extends \App\Controller\View
 		}
 	}
 
-	public function mStep0(\App\Request $request)
-	{
-		$initSchema = new Install_InitSchema_Model();
-		$schemaLists = $initSchema->getMigrationSchemaList();
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
-		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
-		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		$this->viewer->display('mStep0.tpl');
-	}
-
 	// Helper function as configuration file is still not loaded.
 	protected function retrieveConfiguredAppUniqueKey()
 	{
