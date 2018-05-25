@@ -11,6 +11,10 @@
 class Users_Totp_Authmethod
 {
 	/**
+	 * Clock tolerance example 2 = 2*30sec.
+	 */
+	const CLOCK_TOLERANCE = 2;
+	/**
 	 *  User authentication mode possible values.
 	 */
 	const ALLOWED_USER_AUTHY_MODE = ['TOTP_OFF', 'TOTP_OPTIONAL', 'TOTP_OBLIGATORY'];
@@ -36,6 +40,10 @@ class Users_Totp_Authmethod
 		if (!empty($issuer)) {
 			$url .= "&issuer={$issuer}";
 		}
+
+		//$period - OPTIONAL only if type is totp: The period parameter defines a period that a TOTP code will be valid for, in seconds. The default value is 30.
+		$period = 30 * static::CLOCK_TOLERANCE;
+		$url .= "&$period={$period}";
 		return $url;
 	}
 
@@ -79,5 +87,18 @@ class Users_Totp_Authmethod
 		}
 
 		throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST: ' . $type);
+	}
+
+	/**
+	 * 2FA - verification of the code from the user.
+	 *
+	 * @param string $secret
+	 * @param string $userCode
+	 *
+	 * @return bool
+	 */
+	public static function verifyCode($secret, $userCode)
+	{
+		return (new PHPGangsta_GoogleAuthenticator())->verifyCode($secret, $userCode, static::CLOCK_TOLERANCE);
 	}
 }
