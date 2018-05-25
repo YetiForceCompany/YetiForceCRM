@@ -124,24 +124,34 @@ App.Fields = {
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
-			customParams.format = $(parentElement).data
+
 			if (typeof customParams !== "undefined") {
-				params = $.extend(true, params, customParams);
+				params = $.extend( params, customParams);
 			}
 			$('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
 			elements.each(function(index,element){
+				// transform data- attributes to custom params like data-locale.format="YYYY"
 				let currentParams = {...params};
 				let dataAttributes = $(element).data();
-				console.log('dataAttr',Object.keys(dataAttributes));
-				if(dataAttributes){
-
+				let keys = Object.keys(dataAttributes);
+				if(keys.length){
+					keys.forEach((key)=>{
+						let path = key.split('.');
+						let value = path.reduce((o, currentKey) => {
+							if(typeof o[currentKey]==='undefined'){
+								o[currentKey]={};
+							}
+							if(currentKey === path.slice(-1).pop()){
+								o[currentKey]=dataAttributes[key];
+							}
+							return o[currentKey];
+						}, currentParams);
+					});
 				}
 				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
-					console.log('element',picker,this, $(element));
-					console.log(currentParams);
-					$(this).val(picker.startDate.format(currentParams.format) + ',' + picker.endDate.format(currentParams.format));
+					$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
 				});
 			});
 		},
