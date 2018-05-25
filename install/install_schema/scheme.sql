@@ -215,6 +215,7 @@ CREATE TABLE `a_yf_taxes_global` (
   `name` varchar(50) NOT NULL,
   `value` decimal(5,2) unsigned NOT NULL DEFAULT 0.00,
   `status` tinyint(1) NOT NULL DEFAULT 1,
+  `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
