@@ -10,6 +10,7 @@
     "ERR_UNABLE_CREATE_DATABASE": "Konnte keine Datenbank erstellen",
     "LBL_ADMIN_INFORMATION": "Admin Benutzerinformation",
     "LBL_ADMIN_USER_INFORMATION": "Admin Benutzerinformation",
+    "LBL_CHOOSE_LANGUAGE": "Sprache ausw\u00e4hlen",
     "LBL_CONFIRM_CONFIGURATION_SETTINGS": "Best\u00e4tigen Sie die Konfigurationseinstellungen",
     "LBL_CREATE_NEW_DB": "Neue Datenbank erstellen",
     "LBL_CURRENCIES": "W\u00e4hrungen",
