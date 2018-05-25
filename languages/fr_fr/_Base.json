@@ -1407,6 +1407,7 @@
     "JS_MORE_THAN_ONE_ITEM_SELECTED": "Plus d'un item s\u00e9lectionn\u00e9",
     "JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED": "Aucune permission pour la cr\u00e9ation ou la cre\u00e1tion rapide",
     "JS_NO_ITEM_SELECTED": "Aucun item s\u00e9lectionn\u00e9",
+    "JS_NO_RECORDS": "Aucun enregistrement",
     "JS_NO_RECORDS_RELATED_TO_THIS_FILTER": "Aucun enregistrement rattach\u00e9 \u00e0 ce filtre",
     "JS_NO_RESULTS_FOUND": "Aucun r\u00e9sultat trouv\u00e9",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "Vous n'aurez pas les permissions n\u00e9cessaires pour voir cet enregistrement apr\u00e8s l'avoir sauvegard\u00e9. Voulez-vous continuer?",

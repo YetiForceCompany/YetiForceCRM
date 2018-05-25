@@ -1346,6 +1346,7 @@
     "JS_MORE_THAN_ONE_ITEM_SELECTED": "Mehr als ein Eintrag ausgew\u00e4hlt",
     "JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED": "Keine Berechtigungen zum erstellen oder Schnellerstellen nicht aktiviert",
     "JS_NO_ITEM_SELECTED": "Kein eintrag ausgew\u00e4hlt",
+    "JS_NO_RECORDS": "Keine Datens\u00e4tze",
     "JS_NO_RECORDS_RELATED_TO_THIS_FILTER": "Keine Datens\u00e4tze in Zusammenhang mit diesem Filter",
     "JS_NO_RESULTS_FOUND": "Keine Ergebnisse gefunden",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "Sie sind nicht berechtigt, diesen Datensatz nach dem Speichern anzuzeigen. M\u00f6chten Sie fortfahren?",

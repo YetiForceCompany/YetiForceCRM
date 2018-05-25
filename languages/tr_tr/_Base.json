@@ -1333,6 +1333,7 @@
     "JS_MORE_THAN_ONE_ITEM_SELECTED": "More than one item selected",
     "JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED": "No permissions for create or quick create",
     "JS_NO_ITEM_SELECTED": "No item selected",
+    "JS_NO_RECORDS": "No records",
     "JS_NO_RECORDS_RELATED_TO_THIS_FILTER": "No records related to this filter",
     "JS_NO_RESULTS_FOUND": "No results found",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "You will not have permissions to view this record after saving. Would you like to continue?",

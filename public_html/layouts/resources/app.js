@@ -1311,7 +1311,7 @@ app = {
 			module: 'Home',
 			action: 'BrowsingHistory',
 		}).then(function (response) {
-			$('.historyList').remove();
+			$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 		});
 	},
 	showConfirmation: function (data, element) {
