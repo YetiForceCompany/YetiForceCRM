@@ -1,0 +1,9 @@
+{
+  "php": {
+    "LBL_TOTP_AUTHY_MODE": "TOTP - tryby autentykacji",
+    "LBL_TOTP_USER_AUTHY_EXCEPTIONS": "TOTP - Lista u\u017cytkownik\u00f3w wykluczonych",
+    "LBL_TOTP_OFF": "TOTP - wy\u0142\u0105czone",
+    "LBL_TOTP_OPTIONAL": "TOTP - opcjonalne, definiowane przez u\u017cytkownika",
+    "LBL_TOTP_OBLIGATORY": "TOTP - obowi\u0105zkowe, ka\u017cdy u\u017cytkownik musi mie\u0107 t\u0119 opcj\u0119 skonfigurowan\u0105."
+  }
+}
