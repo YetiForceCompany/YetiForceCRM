@@ -344,7 +344,8 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	public function getModule()
 	{
 		$urlParams = vtlib\Functions::getQueryParams($this->getUrl());
-
-		return $urlParams['module'];
+		if (isset($urlParams['module'])) {
+			return $urlParams['module'];
+		}
 	}
 }
