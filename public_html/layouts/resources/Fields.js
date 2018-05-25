@@ -154,7 +154,7 @@ App.Fields = {
 			$('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
-			elements.each(function (index, element) {
+			elements.each((index, element) => {
 				// transform data- attributes to custom params like data-locale.format="YYYY"
 				let currentParams = {...params};
 				let dataAttributes = $(element).data();
