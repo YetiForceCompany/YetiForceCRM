@@ -119,7 +119,7 @@
 					</table>
 					<div class="form-buttom-nav fixed-bottom button-container p-1">
 						<div class="text-center">
-							<a class="btn btn-md btn-danger" href="#"
+							<a class="btn btn-md btn-danger mr-1" href="#"
 									{if $DB_CONNECTION_INFO['flag'] eq true} disabled="disabled"{else} onclick="window.history.back()"{/if}>
 								<span class="fas fa-arrow-circle-left mr-1"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}
