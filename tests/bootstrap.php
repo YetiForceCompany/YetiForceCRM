@@ -25,7 +25,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 } else {
 	define('IS_WINDOWS', false);
 }
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL);
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 'On');
 ini_set('log_errors', 'On');

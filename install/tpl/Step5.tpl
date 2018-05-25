@@ -41,7 +41,7 @@
 					<div class="offset2">
 						<div>
 							{assign var="LIBRARY" value=Settings_ConfReport_Module_Model::getLibrary()}
-							<table class="config-table table">
+							<table class="config-table table u-word-break-all">
 								<thead>
 								<tr>
 									<th>
@@ -73,7 +73,7 @@
 							</table>
 							{assign var="STABILITY_CONF" value=$SECURITY_CONF}
 							<br>
-							<table class="config-table table">
+							<table class="config-table table u-word-break-all">
 								<thead>
 								<tr>
 									<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
@@ -103,7 +103,7 @@
 							</table>
 							{assign var="STABILITY_CONF" value=$STABILITY_CONF}
 							<br>
-							<table class="config-table table">
+							<table class="config-table table u-word-break-all">
 								<thead>
 								<tr>
 									<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
@@ -116,10 +116,13 @@
 									<tr {if $item.incorrect}class="table-danger"{/if}>
 										<td>
 											<label>{$key}</label>
-											{if isset($item.help)}<a href="#" class="js-popover-tooltip float-right"
-																	 data-js="popover" data-placement="top"
-																	 data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}">
-													<i class="fas fa-info-circle"></i></a>{/if}
+											{if isset($item.help)}
+												<a href="#" class="js-popover-tooltip float-right"
+												   data-js="popover" data-placement="top"
+												   data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}">
+													<i class="fas fa-info-circle"></i>
+												</a>
+											{/if}
 										</td>
 										<td>
 											<label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label>
@@ -132,7 +135,7 @@
 								</tbody>
 							</table>
 							<br>
-							<table class="config-table table">
+							<table class="config-table table u-word-break-all">
 								<thead>
 								<tr>
 									<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
@@ -144,7 +147,7 @@
 								{foreach from=$DB_CONF key=key item=item}
 									<tr {if $item['status']}class="table-danger"{/if}>
 										<td>
-											<label class="u-text-small-bold">{App\Language::translate($key, $MODULE)}</label>
+											<label class="u-text-small-bold">{App\Language::translate($key, 'Settings::ConfReport')}</label>
 											{if isset($item.help)}
 												<a href="#" class="js-popover-tooltip float-right"
 												   data-js="popover"
@@ -167,7 +170,7 @@
 								</tbody>
 							</table>
 							{if $FAILED_FILE_PERMISSIONS}
-								<table class="config-table table">
+								<table class="config-table table u-word-break-all">
 									<thead>
 									<tr class="blockHeader">
 										<th colspan="1" class="mediumWidthType">

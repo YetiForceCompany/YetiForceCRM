@@ -18,17 +18,24 @@ class Install_InitSchema_Model
 	 */
 	public function initialize()
 	{
-		$this->db = PearDatabase::getInstance();
+		$this->db = \App\Db::getInstance();
 		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
-		$this->db->pquery('UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?', [$currencyName, $currencyCode, $currencySymbol]);
-		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
-
+		$this->db->createCommand()
+			->update('vtiger_currency_info', [
+				'currency_name' => $currencyName,
+				'currency_code' => $currencyCode,
+				'currency_symbol' => $currencySymbol
+			])->execute();
+		$this->db->createCommand()
+			->update('vtiger_version', [
+				'current_version' => \App\Version::get(),
+				'old_version' => \App\Version::get()
+			])->execute();
 		// recalculate all sharing rules for users
-		require_once 'include/database/PearDatabase.php';
 		require_once 'include/utils/CommonUtils.php';
 		require_once 'include/fields/DateTimeField.php';
 		require_once 'include/fields/DateTimeRange.php';
@@ -49,7 +56,7 @@ class Install_InitSchema_Model
 	{
 		try {
 			$return = false;
-			$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
+			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 0;')->execute();
 			if (!$filesName) {
 				throw new \App\Exceptions\AppException('No files', 405);
 			}
@@ -71,15 +78,11 @@ class Install_InitSchema_Model
 				// Trim any whitespace.
 				$query = trim($query);
 				if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
-					try {
-						$this->db->query($query);
-						++$executed_query;
-					} catch (RuntimeException $e) {
-						throw $e;
-					}
+					$this->db->createCommand($query)->execute();
+					++$executed_query;
 				}
 			}
-			$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
+			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 1;')->execute();
 			\App\Log::info("create_query: $create_query | insert_query: $insert_query | alter_query: $alter_query | executed_query: $executed_query");
 			$_SESSION['instalation_success'] = $create_query && $executed_query;
 		} catch (Throwable $e) {
@@ -95,7 +98,8 @@ class Install_InitSchema_Model
 	 */
 	public function setDefaultUsersAccess()
 	{
-		$this->db->update('vtiger_users', [
+		$this->db->createCommand()
+			->update('vtiger_users', [
 				'user_name' => $_SESSION['config_file_info']['user_name'],
 				'date_format' => $_SESSION['config_file_info']['dateformat'],
 				'time_zone' => $_SESSION['config_file_info']['timezone'],
@@ -104,8 +108,7 @@ class Install_InitSchema_Model
 				'email1' => $_SESSION['config_file_info']['admin_email'],
 				'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
 				'language' => $_SESSION['default_language'],
-			]
-		);
+			])->execute();
 		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
 		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);
 		$userRecordModel->save();
@@ -159,22 +162,6 @@ class Install_InitSchema_Model
 		return $queries;
 	}
 
-	public function getMigrationSchemaList()
-	{
-		$dir = $this->migration_schema;
-		$schemaList = [];
-		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
-		foreach ($objects as $name => $object) {
-			if (strpos($object->getFilename(), '.php') !== false) {
-				include_once $this->migration_schema . $object->getFilename();
-				$fileName = str_replace('.php', '', $object->getFilename());
-				$migrationObject = new $fileName();
-				$schemaList[$fileName] = $migrationObject->name;
-			}
-		}
-		return $schemaList;
-	}
-
 	/**
 	 * Set company details.
 	 *
@@ -188,6 +175,6 @@ class Install_InitSchema_Model
 				$details[str_replace('company_', '', $key)] = $value;
 			}
 		}
-		$this->db->update('s_yf_companies', $details);
+		$this->db->createCommand()->update('s_yf_companies', $details)->execute();
 	}
 }

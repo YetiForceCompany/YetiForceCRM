@@ -227,17 +227,19 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step5(\App\Request $request)
 	{
-//		\App\Db::setConfig([
-//			'dsn' => $dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
-//			'host' => $dbconfig['db_server'],
-//			'port' => $dbconfig['db_port'],
-//			'username' => $dbconfig['db_username'],
-//			'password' => $dbconfig['db_password'],
-//			'dbName' => $dbconfig['db_name'],
-//			'tablePrefix' => 'yf_',
-//			'charset' => 'utf8',
-//		]);
-		$this->viewer->assign('DB_CONF', Settings_ConfReport_Module_Model::getDbConf());
+		if (isset($_SESSION['config_file_info']['db_hostname'])) {
+			\App\Db::setConfig([
+				'dsn' => $_SESSION['config_file_info']['db_type'] . ':host=' . $_SESSION['config_file_info']['db_hostname'] . ';dbname=' . $_SESSION['config_file_info']['db_name'] . ';port=' . $_SESSION['config_file_info']['db_port'],
+				'host' => $_SESSION['config_file_info']['db_hostname'],
+				'port' => $_SESSION['config_file_info']['db_port'],
+				'username' => $_SESSION['config_file_info']['db_username'],
+				'password' => $_SESSION['config_file_info']['db_password'],
+				'dbName' => $_SESSION['config_file_info']['db_name'],
+				'tablePrefix' => 'yf_',
+				'charset' => 'utf8',
+			]);
+			$this->viewer->assign('DB_CONF', Settings_ConfReport_Module_Model::getDbConf());
+		}
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
 		$this->viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf(true));
 		$this->viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(true));
@@ -272,19 +274,6 @@ class Install_Index_View extends \App\Controller\View
 			$this->viewer->assign('INSTALATION_SUCCESS', $_SESSION['instalation_success'] ?? false);
 			$this->viewer->display('Step7.tpl');
 		}
-	}
-
-	public function mStep0(\App\Request $request)
-	{
-		$initSchema = new Install_InitSchema_Model();
-		$schemaLists = $initSchema->getMigrationSchemaList();
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
-		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
-		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		$this->viewer->display('mStep0.tpl');
 	}
 
 	// Helper function as configuration file is still not loaded.
