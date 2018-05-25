@@ -115,48 +115,50 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 		);
 	},
 	/**
+	 * Function to handle sending the AJAX form
+	 * @param data
+	 */
+	submitFromTwoFactorAuthentication: function(data){
+		let form = data.find('form');
+		form.on('submit', function (e) {
+			let progress = $.progressIndicator({
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+
+			AppConnector.request(form.serializeFormData())
+				.then(function (respons) {
+					if (respons.result.success) {
+						app.hideModalWindow();
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate(respons.result.message),
+							type: 'success',
+							animation: 'show'
+						});
+					} else {
+						let wrongCode = form.find('.js-wrong-code');
+						if (wrongCode.hasClass('hide')) {
+							wrongCode.removeClass('hide');
+						}
+					}
+					progress.progressIndicator({'mode': 'hide'});
+				}
+			);
+			e.preventDefault();
+		});
+	},
+	/**
 	 * 2FA - Modal window for generating QR codes
 	 */
 	triggerTwoFactorAuthentication: function () {
-		var params = {
-			'module': app.getModuleName(),
-			'view': "TwoFactorAuthenticationModal"
-		};
-		AppConnector.request(params).then(
-			function (data) {
-				app.showModalWindow(data, function (data) {
-					var form = data.find('form');
-					form.on('submit', function (e) {
-						var progress = $.progressIndicator({
-							'message': app.vtranslate('Loading data'),
-							'blockInfo': {
-								'enabled': true
-							}
-						});
-
-						var params = form.serializeFormData();
-						AppConnector.request(params).then(
-							function (respons) {
-								if( respons.result.success ){
-									app.hideModalWindow();
-									let params = {
-										text: app.vtranslate(respons.result.message),
-										type: 'success',
-										animation: 'show'
-									};
-
-									Vtiger_Helper_Js.showPnotify(params);
-								}else{
-									let wrongCode = form.find('#wrong-code');
-									if(wrongCode.hasClass('hide') ){
-										wrongCode.removeClass('hide');
-									}
-								}
-								progress.progressIndicator({'mode': 'hide'});
-							}
-						);
-						e.preventDefault();
-					});
+		AppConnector.request({
+			module: app.getModuleName(),
+			view: "TwoFactorAuthenticationModal"
+		}).then(function(data) {
+				app.showModalWindow(data, function(data) {
+					console.log('submitFromTwoFactorAuthentication');
+					Users_Detail_Js.submitFromTwoFactorAuthentication(data);
 				});
 			}
 		);
