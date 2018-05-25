@@ -33,7 +33,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$fieldModel = $this->getFieldModel();
-		if ($rawText) {
+		if ($rawText && ($value !== null)) {
 			$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
 			if (is_int($length)) {
 				$text = \App\TextParser::textTruncate($text, $length);
