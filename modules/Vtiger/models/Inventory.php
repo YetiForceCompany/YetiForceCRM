@@ -123,6 +123,23 @@ class Vtiger_Inventory_Model
 	}
 
 	/**
+	 * Get default global tax .
+	 *
+	 * @return array tax list
+	 */
+	public static function getDefaultGlobalTax()
+	{
+		if (\App\Cache::has('Inventory', 'DefaultTax')) {
+			return \App\Cache::get('Inventory', 'DefaultTax');
+		}
+		$defaultTax = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])->andWhere(['default' => 1])
+			->createCommand()->queryOne();
+		\App\Cache::save('Inventory', 'DefaultTax', $defaultTax, \App\Cache::LONG);
+
+		return $defaultTax;
+	}
+
+	/**
 	 * Get discount from the account.
 	 *
 	 * @param string $moduleName Module name

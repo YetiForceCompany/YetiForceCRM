@@ -114,17 +114,20 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			var currency = JSON.parse(currency.val());
 			symbol = currency.currency_symbol;
 		}
-		var table = jQuery('.inventoryTable', container);
+		var table = $('.inventoryTable', container);
+		if (details.default === 1) {
+			var defaultCheck = ' checked';
+			table.find('.default').prop('checked', false);
+		}
 		var trElement =
 			jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
 					<td class="textAlignCenter ' + details.row_type + '"><label class="name">' + details.name + '</label></td>\n\
 					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><input class="status" checked type="checkbox">\n\
-						<div class="pull-right actions">\n\
-							<a class="editInventory u-cursor-pointer" data-url="' + details._editurl + '">\n\
-								<span class="fas fa-edit alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></span>\n\
-							</a>\n\
-							<a class="removeInventory u-cursor-pointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="fas fa-trash-alt alignBottom"></span>\n\
+					<td class="textAlignCenter ' + details.row_type + '"><input class="status js-update-field" checked type="checkbox"></td>\n\
+					<td class="textAlignCenter ' + details.row_type + '"><input class="default js-update-field"'+defaultCheck+' data-field-name="default" type="checkbox">\n\
+						<div class="float-right actions">\n\
+							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="'+details._editurl+'"><span title="Edycja" class="fas fa-edit alignBottom"></span></button>\n\
+							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="'+details._editurl+'"><span title="Usuń" class="fas fa-trash-alt alignBottom"></span></button>&nbsp;\n\
 						</div>\n\
 					</td></tr>');
 		table.append(trElement);
@@ -141,10 +144,17 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		}
 		currentTrElement.find('.name').text(data['name']);
 		currentTrElement.find('.value').text(data['value'] + ' ' + symbol);
-		if (data['status'] == '0') {
+		if (data['status'] === 0) {
 			currentTrElement.find('.status').prop('checked', true);
 		} else {
 			currentTrElement.find('.status').prop('checked', false);
+		}
+		if (data['default'] === 1) {
+			let table = $('.inventoryTable');
+			table.find('.default').prop('checked', false);
+			currentTrElement.find('.default').prop('checked', true);
+		} else {
+			currentTrElement.find('.default').prop('checked', false);
 		}
 	},
 	/*
@@ -217,21 +227,20 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		return aDeferred.promise();
 	},
 	/*
-	 * Function to update status as enabled or disabled 
+	 * Function to update status as enabled or disabled
 	 */
-	updateStatus: function (currentTarget) {
+	updateCheckbox: function (currentTarget) {
 		var aDeferred = jQuery.Deferred();
 
 		var currentTrElement = currentTarget.closest('tr');
 		var id = currentTrElement.data('id');
-		var status = currentTarget.is(':checked') ? 0 : 1;
-
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
+		var updatedCheckbox = currentTarget.data('field-name');
 
 		var params = {
 			'module': app.getModuleName(),
@@ -239,7 +248,16 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			'action': 'SaveAjax',
 			'id': id,
 			'view': app.getViewName(),
-			'status': status
+		}
+
+		if(updatedCheckbox === 'status'){
+			params.status = currentTarget.is(':checked') ? 0 : 1;
+		} else if (updatedCheckbox === 'default'){
+			params.default = currentTarget.is(':checked') ? 1 : 0;
+			let table = $('.inventoryTable');
+			if (params.default === 1) {
+				table.find('.default').not(currentTarget).prop('checked', false);
+			}
 		}
 
 		AppConnector.request(params).then(
@@ -299,10 +317,10 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		});
 
 		//register event for checkbox to change the Status
-		container.on('click', '.status[type="checkbox"]', function (e) {
+		container.on('click', '[type="checkbox"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 
-			thisInstance.updateStatus(currentTarget).then(
+			thisInstance.updateCheckbox(currentTarget).then(
 				function (data) {
 					var params = {};
 					params.text = app.vtranslate('JS_SAVE_CHANGES');

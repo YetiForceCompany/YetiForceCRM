@@ -35,6 +35,11 @@ class Settings_Inventory_Record_Model extends \App\Base
 		return $this->get('status');
 	}
 
+	public function getDefault()
+	{
+		return $this->get('default');
+	}
+
 	public function setType($type)
 	{
 		$this->type = $type;
@@ -77,11 +82,15 @@ class Settings_Inventory_Record_Model extends \App\Base
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
 		if (!empty($id) && $tablename) {
+			if ($this->get('default')) {
+				$this->disableDefaultsTax();
+			}
 			\App\Db::getInstance()->createCommand()
 				->update($tablename, [
 					'name' => $this->getName(),
 					'value' => $this->get('value'),
 					'status' => $this->get('status'),
+					'default' => $this->get('default')
 					], ['id' => $id])
 					->execute();
 		} else {
@@ -101,17 +110,37 @@ class Settings_Inventory_Record_Model extends \App\Base
 	{
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
+			if ($this->get('default')) {
+				$this->disableDefaultsTax();
+			}
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->insert($tableName, [
 					'status' => $this->get('status'),
 					'value' => $this->get('value'),
+					'default' => $this->get('default'),
 					'name' => $this->getName(),
 				])->execute();
-
 			return $db->getLastInsertID($tableName . '_id_seq');
 		}
 		throw new Error('Error occurred while adding value');
+	}
+
+	/**
+	 * Function used to remove all defaults tax settings.
+	 */
+	public function disableDefaultsTax()
+	{
+		$tablename = self::getTableNameFromType($this->getType());
+		if ($tablename) {
+			\App\Db::getInstance()->createCommand()
+				->update($tablename, [
+					'default' => 0
+				])
+				->execute();
+		}
+		$this->clearCache();
+		return true;
 	}
 
 	public function delete()
