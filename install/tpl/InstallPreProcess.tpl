@@ -11,14 +11,14 @@
 -->*}
 {strip}
 	{include file='Header.tpl'}
-	<div class="d-flex flex-nowrap align-items-center">
+	<header class="d-flex flex-nowrap align-items-center" role="banner" aria-labelledby="header-title">
 			<div class="logo">
 				<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE')} YetiForce">
 			</div>
 		<div class="pl-1 pl-sm-3">
-			<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
+			<h1 class="h3" id="header-title">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
 		</div>
-	</div>
+	</header>
 	{if $MODE === 'step7'}
 		<div id="progressIndicator" class="main-container">
 			<div class="inner-container py-5">
