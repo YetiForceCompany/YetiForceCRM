@@ -43,8 +43,8 @@
 							<h3>{\App\Language::translate('LBL_SETUP_WIZARD_BODY', 'Install')}</h3>
 							<p>
 								{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_1','Install')}&nbsp;
-								<a target="_blank" rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
-									https://github.com/YetiForceCompany/YetiForceCRM/issues
+								<a  target="_blank" rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
+									<span class="fab fa-github-square fa-lg"></span>
 								</a>
 								<br /><br/>
 								{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}

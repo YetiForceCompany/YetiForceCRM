@@ -27,8 +27,8 @@ body {
 .logo {
 	padding: 15px 0;
 }
-.head {
-	padding-top: 30px;
+.logo img {
+	height: 50px;
 }
 .inner-container {
 	padding: 15px 2%;
@@ -167,7 +167,6 @@ hr {
 	float: right;
 }
 .button-container .btn {
-	margin-left: 15px;
 	min-width: 100px;
 	font-weight: bold;
 }

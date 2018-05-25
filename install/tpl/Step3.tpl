@@ -30,7 +30,7 @@
 				</div>
 				<div class="row d-none" id="errorMessage"></div>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-6 table-responsive">
 						<table class="config-table input-table">
 							<thead>
 							<tr>
@@ -87,7 +87,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6 table-responsive">
 						<table class="config-table input-table">
 							<thead>
 							<tr>

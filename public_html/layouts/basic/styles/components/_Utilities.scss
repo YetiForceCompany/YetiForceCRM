@@ -50,6 +50,10 @@
 	word-break: break-all !important;
 }
 
+.u-word-break {
+	word-break: break-word !important;
+}
+
 .u-font-size-95per {
 	font-size: 95% !important;
 }
@@ -246,4 +250,10 @@
 
 .u-opacity-muted {
 	opacity: 0.2;
+}
+
+@include media-breakpoint-down(xs) {
+	.c-btn-block-xs-down {
+		width: 100% !important;
+	}
 }

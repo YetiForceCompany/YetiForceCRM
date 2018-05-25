@@ -11,17 +11,12 @@
 -->*}
 {strip}
 	{include file='Header.tpl'}
-	<div class="row">
-		<div class="col-md-6">
+	<div class="d-flex flex-nowrap align-items-center">
 			<div class="logo">
-				<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}"
-					 style="height: 70px;">
+				<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}">
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="head float-right">
-				<h3>{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
-			</div>
+		<div class="pl-1 pl-md-3">
+			<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
 		</div>
 	</div>
 	{if $MODE === 'step7'}
