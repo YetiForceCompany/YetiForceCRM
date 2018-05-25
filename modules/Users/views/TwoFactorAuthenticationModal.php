@@ -37,7 +37,7 @@ class Users_TwoFactorAuthenticationModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), $moduleName);
 		$secret = Users_Totp_Authmethod::createSecret();
-		$otpAuthUrl = Users_Totp_Authmethod::getOtpAuthUrl($secret, $userRecordModel->getDisplayName());
+		$otpAuthUrl = Users_Totp_Authmethod::getOtpAuthUrl($secret, $userRecordModel->get('user_name'));
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
