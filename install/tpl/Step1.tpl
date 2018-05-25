@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="main-container">
+	<section class="main-container" role="main" aria-labelledby="section-title">
 		<div class="inner-container">
 			<form class="" name="step1" method="post" action="Install.php">
 				<div class="row">
 					<div class="col-md-9">
-						<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
+						<h2 id="section-title">{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 					</div>
 					<div class="col-md-3">
 						<select name="lang" class="select2" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}" style="width: 250px;">
@@ -57,18 +57,18 @@
 				</div>
 				<div class="form-buttom-nav fixed-bottom button-container p-1">
 					<div class="text-center">
-						<a href="#" class="btn c-btn-block-xs-down btn-primary bt_install mr-sm-1 {if $IS_MIGRATE} mb-1 {/if} mb-sm-0">
+						<button href="#" class="btn c-btn-block-xs-down btn-primary bt_install mr-sm-1 {if $IS_MIGRATE} mb-1 {/if} mb-sm-0" type="submit">
 							<span class="fas fa-arrow-circle-right mr-1"></span>
 							{\App\Language::translate('LBL_INSTALL_BUTTON','Install')}
-						</a>
+						</button>
 						{if $IS_MIGRATE}
-							<a style="" href="#" class="btn c-btn-block-xs-down btn-primary bt_migrate">
+							<button style="" href="#" class="btn c-btn-block-xs-down btn-primary bt_migrate">
 								{\App\Language::translate('LBL_MIGRATION','Install')}
-							</a>
+							</button>
 						{/if}
 					</div>
 				</div>
 			</form>
 		</div>
-	</div>
+	</section>
 {/strip}
