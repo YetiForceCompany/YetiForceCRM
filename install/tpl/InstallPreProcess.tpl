@@ -15,7 +15,7 @@
 			<div class="logo">
 				<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}">
 			</div>
-		<div class="pl-1 pl-md-3">
+		<div class="pl-1 pl-sm-3">
 			<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
 		</div>
 	</div>

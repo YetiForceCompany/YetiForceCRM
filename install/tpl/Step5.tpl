@@ -26,7 +26,7 @@
 						<div class="button-container">
 							<a href="#">
 								<button type="button" class="btn btn-default" id="recheck">
-									<span class="fas fa-redo-alt mr-1"></span>
+									<span class="fas fa-redo-alt m-1"></span>
 									{App\Language::translate('LBL_RECHECK', 'Install')}
 								</button>
 							</a>
@@ -35,7 +35,7 @@
 					{\App\Language::translate('LBL_STEP3_DESCRIPTION','Install')}&nbsp;
 					<a target="_blank" rel="noreferrer"
 					   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements">
-						https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements
+						<span class="fas fa-link"></span>
 					</a>
 					<div class="clearfix"></div>
 					<div class="offset2">
@@ -216,11 +216,11 @@
 				</div>
 				<div class="form-buttom-nav fixed-bottom button-container p-1">
 					<div class="text-center">
-						<a class="btn btn-md btn-danger" href="Install.php">
+						<a class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php">
 							<span class="fas fa-arrow-circle-left mr-1"></span>
 							{App\Language::translate('LBL_BACK', 'Install')}
 						</a>
-						<button type="submit" role="button" class="btn btn-md btn-primary">
+						<button type="submit" role="button" class="btn c-btn-block-xs-down btn-primary">
 							<span class="fas fa-arrow-circle-right mr-1"></span>
 							{App\Language::translate('LBL_NEXT', 'Install')}
 						</button>

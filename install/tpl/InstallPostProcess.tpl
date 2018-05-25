@@ -12,7 +12,7 @@
 {strip}
 					<br>
 					<footer class="noprint text-center">
-						<div class="vtFooter">
+						<div class="vtFooter mb-5 pb-5 pb-sm-0">
 							<p>
 								{\App\Language::translate('POWEREDBY')} {$YETIFORCE_VERSION} &nbsp;
 								&copy; 2004 - {date('Y')}&nbsp;&nbsp;
