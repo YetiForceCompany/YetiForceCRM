@@ -4,7 +4,7 @@
  * Settings ConfReport module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -184,31 +184,31 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'recommended' => 'On',
 				'help' => 'LBL_SESSION_USE_STRICT_MODE_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_strict_mode')),
-				'status' => ini_get('session.use_strict_mode') != 1 && stripos(ini_get('session.use_strict_mode'), 'Off') !== false,
+				'status' => static::getFlag(ini_get('session.use_strict_mode')) !== 'On',
 			],
 			'session.use_trans_sid' => [
 				'recommended' => 'Off',
 				'help' => 'LBL_SESSION_USE_TRANS_SID_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_trans_sid')),
-				'status' => ini_get('session.use_trans_sid') == 1 || stripos(ini_get('session.use_trans_sid'), 'On') !== false,
+				'status' => static::getFlag(ini_get('session.use_trans_sid')) !== 'Off',
 			],
 			'session.cookie_httponly' => [
 				'recommended' => 'On',
 				'help' => 'LBL_SESSION_COOKIE_HTTPONLY_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.cookie_httponly')),
-				'status' => ini_get('session.cookie_httponly') != 1 && stripos(ini_get('session.cookie_httponly'), 'Off') !== false,
+				'status' => static::getFlag(ini_get('session.cookie_httponly')) !== 'On',
 			],
 			'session.use_only_cookies' => [
 				'recommended' => 'On',
 				'help' => 'LBL_SESSION_USE_ONLY_COOKIES_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_only_cookies')),
-				'status' => ini_get('session.use_only_cookies') != 1 && stripos(ini_get('session.use_only_cookies'), 'Off') !== false,
+				'status' => static::getFlag(ini_get('session.use_only_cookies')) !== 'On',
 			],
 			'expose_php' => [
 				'recommended' => 'Off',
 				'help' => 'LBL_EXPOSE_PHP_HELP_TEXT',
 				'current' => static::getFlag(ini_get('expose_php')),
-				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false,
+				'status' => static::getFlag(ini_get('expose_php')) !== 'Off',
 			],
 			'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
 			'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
@@ -295,7 +295,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: X-Powered-By']['current'] = $headers['X-POWERED-BY'];
 			$directiveValues['Header: Server']['status'] = !empty($headers['SERVER']);
 			$directiveValues['Header: Server']['current'] = $headers['SERVER'];
-			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'no-referrer';
+			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'same-origin';
 			$directiveValues['Header: Referrer-Policy']['current'] = $headers['REFERRER-POLICY'];
 			$directiveValues['Header: Expect-CT']['status'] = strtolower($headers['EXPECT-CT']) !== 'enforce; max-age=3600';
 			$directiveValues['Header: Expect-CT']['current'] = $headers['EXPECT-CT'];
@@ -750,7 +750,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if ($val == 'On' || $val == 1 || stripos($val, 'On') !== false) {
 			return 'On';
 		}
-
 		return 'Off';
 	}
 }
