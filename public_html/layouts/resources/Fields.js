@@ -71,7 +71,7 @@ App.Fields = {
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
-			elements.each(function (index, element) {
+			elements.each((index, element) => {
 				// transform data- attributes to custom params like data-locale.format="YYYY"
 				let currentParams = {...params};
 				let dataAttributes = $(element).data();
