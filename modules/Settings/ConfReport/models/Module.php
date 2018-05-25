@@ -351,6 +351,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'innodb_buffer_pool_size' => ['recommended' => false],
 				'innodb_log_file_size' => ['recommended' => false],
 				'innodb_io_capacity_max' => ['recommended' => false],
+				'character_set_server' => ['recommended' => 'utf8'],
+				'character_set_database' => ['recommended' => 'utf8'],
+				'character_set_client' => ['recommended' => 'utf8'],
+				'character_set_connection' => ['recommended' => 'utf8'],
+				'character_set_results' => ['recommended' => 'utf8'],
+				'character_set_system' => ['recommended' => false],
+				'character_set_filesystem' => ['recommended' => false],
 			]);
 			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
@@ -373,6 +380,28 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['innodb_io_capacity_max']['current'] = $conf['innodb_io_capacity_max'];
 			$directiveValues['innodb_file_per_table']['current'] = $conf['innodb_file_per_table'];
 			$directiveValues['innodb_stats_on_metadata']['current'] = $conf['innodb_stats_on_metadata'];
+			$directiveValues['character_set_database']['current'] = $conf['character_set_database'];
+			$directiveValues['character_set_client']['current'] = $conf['character_set_client'];
+			$directiveValues['character_set_connection']['current'] = $conf['character_set_connection'];
+			$directiveValues['character_set_filesystem']['current'] = $conf['character_set_filesystem'];
+			$directiveValues['character_set_results']['current'] = $conf['character_set_results'];
+			$directiveValues['character_set_server']['current'] = $conf['character_set_server'];
+			$directiveValues['character_set_system']['current'] = $conf['character_set_system'];
+			if ($conf['character_set_database'] !== $directiveValues['character_set_database']['recommended']) {
+				$directiveValues['character_set_database']['status'] = true;
+			}
+			if ($conf['character_set_server'] !== $directiveValues['character_set_server']['recommended']) {
+				$directiveValues['character_set_server']['status'] = true;
+			}
+			if ($conf['character_set_client'] !== $directiveValues['character_set_client']['recommended']) {
+				$directiveValues['character_set_client']['status'] = true;
+			}
+			if ($conf['character_set_connection'] !== $directiveValues['character_set_connection']['recommended']) {
+				$directiveValues['character_set_connection']['status'] = true;
+			}
+			if ($conf['character_set_results'] !== $directiveValues['character_set_results']['recommended']) {
+				$directiveValues['character_set_results']['status'] = true;
+			}
 			if (isset($conf['tx_isolation'])) {
 				$directiveValues['tx_isolation'] = ['current' => $conf['tx_isolation'], 'recommended' => false];
 			}
@@ -391,7 +420,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if ($conf['interactive_timeout'] < 600) {
 				$directiveValues['interactive_timeout']['status'] = true;
 			}
-			if (!empty($conf['sql_mode']) && strpos($conf['sql_mode'], 'STRICT_TRANS_TABLE') !== false) {
+			if (!empty($conf['sql_mode']) && (strpos($conf['sql_mode'], 'STRICT_TRANS_TABLE') !== false || strpos($conf['sql_mode'], 'STRICT_ALL_TABLES') !== false)) {
 				$directiveValues['sql_mode']['status'] = true;
 			}
 		}
